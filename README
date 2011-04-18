@@ -1,0 +1,27 @@
+This is a PHP parser written in PHP.
+
+This project is work in progress, but it basically works and was tested on a large code base.
+
+Usage:
+
+    $parser = new Parser();
+    $parser->yyparse(
+        new Lexer('<?php // some code'),
+        function($stmt) {
+            // this is the accept callback
+            // it is fired in case of a successful parse
+            // $stmts contains an array of nodes
+            // to print them do:
+            foreach ($stmts as $stmt) {
+                echo $stmt, "\n";
+            }
+        },
+        function($msg) {
+            // this is the error callback
+            // it is fired in case of an error (currently
+            // errors abort the parse)
+            echo $msg, "\n";
+        }
+    );
+
+    // see example usage in test.php

@@ -1,0 +1,342 @@
+<?php
+$meta @
+@semval($) $this->yyval
+@semval($,%t) $this->yyval
+@semval(%n) $this->yyastk[$this->yysp-(%l-%n)]
+@semval(%n,%t) $this->yyastk[$this->yysp-(%l-%n)]
+@include;
+
+/* Prototype file of classed PHP parser.
+ * Written by Moriyoshi Koizumi, based on the work by Masato Bito.
+ * This file is PUBLIC DOMAIN.
+ */
+@if -p
+class @(-p)
+@endif
+@ifnot -p
+class YYParser
+@endif
+{
+    const YYBADCH      = @(YYBADCH);
+    const YYMAXLEX     = @(YYMAXLEX);
+    const YYTERMS      = @(YYTERMS);
+    const YYNONTERMS   = @(YYNONTERMS);
+    const YYLAST       = @(YYLAST);
+    const YY2TBLSTATE  = @(YY2TBLSTATE);
+    const YYGLAST      = @(YYGLAST);
+    const YYSTATES     = @(YYSTATES);
+    const YYNLSTATES   = @(YYNLSTATES);
+    const YYINTERRTOK  = @(YYINTERRTOK);
+    const YYUNEXPECTED = @(YYUNEXPECTED);
+    const YYDEFAULT    = @(YYDEFAULT);
+
+    // {{{ Tokens
+@tokenval
+    const %s = %n;
+@endtokenval
+    // }}}
+
+    protected $yyval;
+    protected $yyastk;
+    protected $yysp;
+    protected $yyaccept;
+
+@if -t
+    /** Debug mode flag **/
+    public $yydebug = true;
+@endif
+
+@if -t
+    private static $yyterminals = array(
+        @listvar terminals
+        , "???"
+    );
+
+    private static $yyproduction = array(
+        @production-strings;
+    );
+@endif
+
+    private static $yytranslate = array(
+        @listvar yytranslate
+    );
+
+    private static $yyaction = array(
+        @listvar yyaction
+    );
+
+    private static $yycheck = array(
+        @listvar yycheck
+    );
+
+    private static $yybase = array(
+        @listvar yybase
+    );
+
+    private static $yydefault = array(
+        @listvar yydefault
+    );
+
+    private static $yygoto = array(
+        @listvar yygoto
+    );
+
+    private static $yygcheck = array(
+        @listvar yygcheck
+    );
+
+    private static $yygbase = array(
+        @listvar yygbase
+    );
+
+    private static $yygdefault = array(
+        @listvar yygdefault
+    );
+
+    private static $yylhs = array(
+        @listvar yylhs
+    );
+
+    private static $yylen = array(
+        @listvar yylen
+    );
+
+    protected function yyprintln($msg) {
+        echo $msg, "\n";
+    }
+
+    protected function error($sym) {
+        $errorCallback = $this->errorCallback;
+        $errorCallback(
+            'Parse error:'
+            . ' Unexpected token ' . self::$yyterminals[$sym]
+            . ' on line ' . $this->lex->getLine()
+        );
+    }
+
+    protected function accept() {
+        $acceptCallback = $this->acceptCallback;
+        $acceptCallback($this->yyval);
+    }
+
+    protected function yyaccept() {
+        $this->yyaccept = 1;
+    }
+
+    protected function yyabort() {
+        $this->yyaccept = 2;
+    }
+
+@if -t
+    /* Traditional Debug Mode */
+    private function YYTRACE_NEWSTATE($state, $sym) {
+        if ($this->yydebug) {
+            $this->yyprintln("% State " . $state . ", Lookahead "
+                      . ($sym < 0 ? "--none--" : self::$yyterminals[$sym]));
+        }
+    }
+
+    private function YYTRACE_READ($sym) {
+        if ($this->yydebug)
+            $this->yyprintln("% Reading " . self::$yyterminals[$sym]);
+    }
+
+    private function YYTRACE_SHIFT($sym) {
+        if ($this->yydebug)
+            $this->yyprintln("% Shift " . self::$yyterminals[$sym]);
+    }
+
+    private function YYTRACE_ACCEPT() {
+        if ($this->yydebug)
+            $this->yyprintln("% Accepted.");
+    }
+
+    private function YYTRACE_REDUCE($n) {
+        if ($this->yydebug)
+            $this->yyprintln("% Reduce by (" . $n . ") " . self::$yyproduction[$n]);
+    }
+
+    private function YYTRACE_POP($state) {
+        if ($this->yydebug)
+            $this->yyprintln("% Recovering, uncovers state " . $state);
+    }
+
+    private function YYTRACE_DISCARD($sym) {
+        if ($this->yydebug)
+            $this->yyprintln("% Discard " . self::$yyterminals[$sym]);
+    }
+@endif
+
+    /**
+     * Parser entry point
+     */
+    public function yyparse($lex, $acceptCallback, $errorCallback) {
+        $this->lex = $lex;
+        $this->acceptCallback = $acceptCallback;
+        $this->errorCallback  = $errorCallback;
+
+        $this->yyastk = array();
+        $yysstk = array();
+        $this->yysp = 0;
+
+        $yystate = 0;
+        $yychar = -1;
+
+        $yylval = null;
+        $yysstk[$this->yysp] = 0;
+        $yyerrflag = 0;
+
+        for (;;) {
+@if -t
+            $this->YYTRACE_NEWSTATE($yystate, $yychar);
+@endif
+            if (self::$yybase[$yystate] == 0) {
+                $yyn = self::$yydefault[$yystate];
+            } else {
+                if ($yychar < 0) {
+                    if (($yychar = $lex->yylex($yylval)) < 0)
+                        $yychar = 0;
+                    $yychar = $yychar < self::YYMAXLEX ?
+                        self::$yytranslate[$yychar] : self::YYBADCH;
+@if -t
+                    $this->YYTRACE_READ($yychar);
+@endif
+                }
+                if ((($yyn = self::$yybase[$yystate] + $yychar) >= 0
+                     && $yyn < self::YYLAST && self::$yycheck[$yyn] == $yychar
+                     || ($yystate < self::YY2TBLSTATE
+                        && ($yyn = self::$yybase[$yystate + self::YYNLSTATES]
+                            + $yychar) >= 0
+                        && $yyn < self::YYLAST
+                        && self::$yycheck[$yyn] == $yychar))
+                    && ($yyn = self::$yyaction[$yyn]) != self::YYDEFAULT) {
+                    /*
+                     * >= YYNLSTATE: shift and reduce
+                     * > 0: shift
+                     * = 0: accept
+                     * < 0: reduce
+                     * = -YYUNEXPECTED: error
+                     */
+                    if ($yyn > 0) {
+                        /* shift */
+@if -t
+                        $this->YYTRACE_SHIFT($yychar);
+@endif
+                        $this->yysp++;
+
+                        $yysstk[$this->yysp] = $yystate = $yyn;
+                        $this->yyastk[$this->yysp] = $yylval;
+                        $yychar = -1;
+
+                        if ($yyerrflag > 0)
+                            $yyerrflag--;
+                        if ($yyn < self::YYNLSTATES)
+                            continue;
+
+                        /* $yyn >= YYNLSTATES means shift-and-reduce */
+                        $yyn -= self::YYNLSTATES;
+                    } else {
+                        $yyn = -$yyn;
+                    }
+                } else {
+                    $yyn = self::$yydefault[$yystate];
+                }
+            }
+
+            for (;;) {
+                /* reduce/error */
+                if ($yyn == 0) {
+                    /* accept */
+@if -t
+                    $this->YYTRACE_ACCEPT();
+@endif
+                    $this->accept();
+                    return $this->yyaccept - 1;
+                } elseif ($yyn != self::YYUNEXPECTED) {
+                    /* reduce */
+                    $yyl = self::$yylen[$yyn];
+                    $n = $this->yysp-$yyl+1;
+                    $yyval = isset($this->yyastk[$n]) ? $this->yyastk[$n] : null;
+@if -t
+                    $this->YYTRACE_REDUCE($yyn);
+@endif
+                    $this->{'yyn' . $yyn}();
+                    if ($this->yyaccept) {
+                        $yyn = self::YYNLSTATES;
+                    } else {
+                        /* Goto - shift nonterminal */
+                        $this->yysp -= $yyl;
+                        $yyn = self::$yylhs[$yyn];
+                        if (($yyp = self::$yygbase[$yyn] + $yysstk[$this->yysp]) >= 0
+                             && $yyp < self::YYGLAST
+                             && self::$yygcheck[$yyp] == $yyn) {
+                            $yystate = self::$yygoto[$yyp];
+                        } else {
+                            $yystate = self::$yygdefault[$yyn];
+                        }
+
+                        $this->yysp++;
+
+                        $yysstk[$this->yysp] = $yystate;
+                        $this->yyastk[$this->yysp] = $this->yyval;
+                    }
+                } else {
+                    /* error */
+                    switch ($yyerrflag) {
+                    case 0:
+                        $this->error($yychar);
+                    case 1:
+                    case 2:
+                        $yyerrflag = 3;
+                        /* Pop until error-expecting state uncovered */
+                        while (!(($yyn = self::$yybase[$yystate] + self::YYINTERRTOK) >= 0
+                                 && $yyn < self::YYLAST
+                                 && self::$yycheck[$yyn] == self::YYINTERRTOK
+                                 || ($yystate < self::YY2TBLSTATE
+                                    && ($yyn = self::$yybase[$yystate + self::YYNLSTATES] + self::YYINTERRTOK) >= 0
+                                    && $yyn < self::YYLAST
+                                    && self::$yycheck[$yyn] == self::YYINTERRTOK))) {
+                            if ($this->yysp <= 0) {
+                                return 1;
+                            }
+                            $yystate = $yysstk[--$this->yysp];
+@if -t
+                            $this->YYTRACE_POP($yystate);
+@endif
+                        }
+                        $yyn = self::$yyaction[$yyn];
+@if -t
+                        $this->YYTRACE_SHIFT(self::YYINTERRTOK);
+@endif
+                        $yysstk[++$this->yysp] = $yystate = $yyn;
+                        break;
+
+                    case 3:
+@if -t
+                        $this->YYTRACE_DISCARD($yychar);
+@endif
+                        if ($yychar == 0) {
+                            return 1;
+                        }
+                        $yychar = -1;
+                        break;
+                    }
+                }
+
+                if ($yystate < self::YYNLSTATES)
+                    break;
+                /* >= YYNLSTATES means shift-and-reduce */
+                $yyn = $yystate - self::YYNLSTATES;
+            }
+        }
+    }
+@reduce
+
+    private function yyn%n() {
+        %b
+    }
+@noact
+    private function yyn%n() {}
+@endreduce
+}
+@tailcode;
