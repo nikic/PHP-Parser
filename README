@@ -5,23 +5,20 @@ This project is work in progress, but it basically works and was tested on a lar
 Usage:
 
     $parser = new Parser();
-    $parser->yyparse(
+    $stmts = $parser->yyparse(
         new Lexer('<?php // some code'),
-        function($stmt) {
-            // this is the accept callback
-            // it is fired in case of a successful parse
-            // $stmts contains an array of nodes
-            // to print them do:
-            foreach ($stmts as $stmt) {
-                echo $stmt, "\n";
-            }
-        },
         function($msg) {
-            // this is the error callback
-            // it is fired in case of an error (currently
-            // errors abort the parse)
+            // this is the error callback, which is fired in case of
+            // a parse error. It is passed the error message.
             echo $msg, "\n";
         }
     );
 
-    // see example usage in test.php
+    // the return value of Parser->yyparse will either be false (which
+    // signifies that an error occured) or an array of statements (Nodes)
+    if (false !== $stmts) {
+        // dump the AST
+        foreach ($stmts as $stmt) {
+            echo $stmt, "\n";
+        }
+    }

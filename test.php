@@ -10,25 +10,26 @@ $parser = new Parser();
 $parser->yydebug = false;
 
 // Output Demo
-$parser->yyparse(new Lexer(
+$stmts = $parser->yyparse(new Lexer(
     '<?php
         echo HI;
         hallo();
         blaBlub();'
     ),
-    function($stmts) {
-        foreach ($stmts as $stmt) {
-            echo htmlspecialchars($stmt), "\n";
-        }
-    },
     function($msg) {
         echo $msg, "\n";
     }
 );
+if (false !== $stmts) {
+    foreach ($stmts as $stmt) {
+        echo htmlspecialchars($stmt), "\n";
+    }
+}
 
 echo "\n\n";
 
 // Correctness Demo
+$GST = microtime(true);
 foreach (new RecursiveIteratorIterator(
              new RecursiveDirectoryIterator('.'),
              RecursiveIteratorIterator::LEAVES_ONLY)
@@ -40,16 +41,16 @@ foreach (new RecursiveIteratorIterator(
     set_time_limit(5);
 
     $startTime = microtime(true);
-    $result = $parser->yyparse(
+    $stmts = $parser->yyparse(
         new Lexer(file_get_contents($file)),
-        function($stmts) { },
         function($msg) {
             echo $msg, "\n";
         }
     );
     $endTime = microtime(true);
 
-    echo str_pad($file . ': ', 120, ' '), ($result == -1 ? 'successful' : 'ERROR'), ' (', $endTime - $startTime, ')', "\n";
+    echo str_pad($file . ': ', 120, ' '), (false !== $stmts ? 'successful' : 'ERROR'), ' (', $endTime - $startTime, ')', "\n";
 
     flush();
 }
+echo microtime(true) - $GST;

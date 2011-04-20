@@ -145,7 +145,6 @@ class Parser
     protected $yyval;
     protected $yyastk;
     protected $yysp;
-    protected $yyaccept;
 
     /** Debug mode flag **/
     public $yydebug = true;
@@ -1254,63 +1253,49 @@ class Parser
         );
     }
 
-    protected function accept() {
-        $acceptCallback = $this->acceptCallback;
-        $acceptCallback($this->yyval);
-    }
-
-    protected function yyaccept() {
-        $this->yyaccept = 1;
-    }
-
-    protected function yyabort() {
-        $this->yyaccept = 2;
-    }
-
     /* Traditional Debug Mode */
     private function YYTRACE_NEWSTATE($state, $sym) {
         if ($this->yydebug) {
-            $this->yyprintln("% State " . $state . ", Lookahead "
-                      . ($sym < 0 ? "--none--" : self::$yyterminals[$sym]));
+            $this->yyprintln('% State ' . $state . ', Lookahead '
+                      . ($sym < 0 ? '--none--' : self::$yyterminals[$sym]));
         }
     }
 
     private function YYTRACE_READ($sym) {
         if ($this->yydebug)
-            $this->yyprintln("% Reading " . self::$yyterminals[$sym]);
+            $this->yyprintln('% Reading ' . self::$yyterminals[$sym]);
     }
 
     private function YYTRACE_SHIFT($sym) {
         if ($this->yydebug)
-            $this->yyprintln("% Shift " . self::$yyterminals[$sym]);
+            $this->yyprintln('% Shift ' . self::$yyterminals[$sym]);
     }
 
     private function YYTRACE_ACCEPT() {
         if ($this->yydebug)
-            $this->yyprintln("% Accepted.");
+            $this->yyprintln('% Accepted.');
     }
 
     private function YYTRACE_REDUCE($n) {
         if ($this->yydebug)
-            $this->yyprintln("% Reduce by (" . $n . ") " . self::$yyproduction[$n]);
+            $this->yyprintln('% Reduce by (' . $n . ') ' . self::$yyproduction[$n]);
     }
 
     private function YYTRACE_POP($state) {
         if ($this->yydebug)
-            $this->yyprintln("% Recovering, uncovers state " . $state);
+            $this->yyprintln('% Recovering, uncovers state ' . $state);
     }
 
     private function YYTRACE_DISCARD($sym) {
         if ($this->yydebug)
-            $this->yyprintln("% Discard " . self::$yyterminals[$sym]);
+            $this->yyprintln('% Discard ' . self::$yyterminals[$sym]);
     }
 
     /**
      * Parser entry point
      */
-    public function yyparse($lex, $acceptCallback, $errorCallback) {
+    public function yyparse($lex, $errorCallback) {
         $this->lex = $lex;
-        $this->acceptCallback = $acceptCallback;
         $this->errorCallback  = $errorCallback;
 
         $this->yyastk = array();
@@ -1354,14 +1339,14 @@ class Parser
                     if ($yyn > 0) {
                         /* shift */
                         $this->YYTRACE_SHIFT($yychar);
-                        $this->yysp++;
+                        ++$this->yysp;
 
                         $yysstk[$this->yysp] = $yystate = $yyn;
                         $this->yyastk[$this->yysp] = $yylval;
                         $yychar = -1;
 
                         if ($yyerrflag > 0)
-                            $yyerrflag--;
+                            --$yyerrflag;
                         if ($yyn < self::YYNLSTATES)
                             continue;
 
@@ -1376,38 +1361,30 @@ class Parser
             }
 
             for (;;) {
-                /* reduce/error */
                 if ($yyn == 0) {
                     /* accept */
                     $this->YYTRACE_ACCEPT();
-                    $this->accept();
-                    return $this->yyaccept - 1;
+                    return $this->yyval;
                 } elseif ($yyn != self::YYUNEXPECTED) {
                     /* reduce */
-                    $yyl = self::$yylen[$yyn];
-                    $n = $this->yysp-$yyl+1;
-                    $yyval = isset($this->yyastk[$n]) ? $this->yyastk[$n] : null;
                     $this->YYTRACE_REDUCE($yyn);
                     $this->{'yyn' . $yyn}();
-                    if ($this->yyaccept) {
-                        $yyn = self::YYNLSTATES;
+
+                    /* Goto - shift nonterminal */
+                    $this->yysp -= self::$yylen[$yyn];
+                    $yyn = self::$yylhs[$yyn];
+                    if (($yyp = self::$yygbase[$yyn] + $yysstk[$this->yysp]) >= 0
+                         && $yyp < self::YYGLAST
+                         && self::$yygcheck[$yyp] == $yyn) {
+                        $yystate = self::$yygoto[$yyp];
                     } else {
-                        /* Goto - shift nonterminal */
-                        $this->yysp -= $yyl;
-                        $yyn = self::$yylhs[$yyn];
-                        if (($yyp = self::$yygbase[$yyn] + $yysstk[$this->yysp]) >= 0
-                             && $yyp < self::YYGLAST
-                             && self::$yygcheck[$yyp] == $yyn) {
-                            $yystate = self::$yygoto[$yyp];
-                        } else {
-                            $yystate = self::$yygdefault[$yyn];
-                        }
-
-                        $this->yysp++;
-
-                        $yysstk[$this->yysp] = $yystate;
-                        $this->yyastk[$this->yysp] = $this->yyval;
+                        $yystate = self::$yygdefault[$yyn];
                     }
+
+                    ++$this->yysp;
+
+                    $yysstk[$this->yysp] = $yystate;
+                    $this->yyastk[$this->yysp] = $this->yyval;
                 } else {
                     /* error */
                     switch ($yyerrflag) {
@@ -1425,7 +1402,7 @@ class Parser
                                     && $yyn < self::YYLAST
                                     && self::$yycheck[$yyn] == self::YYINTERRTOK))) {
                             if ($this->yysp <= 0) {
-                                return 1;
+                                return false;
                             }
                             $yystate = $yysstk[--$this->yysp];
                             $this->YYTRACE_POP($yystate);
@@ -1438,7 +1415,7 @@ class Parser
                     case 3:
                         $this->YYTRACE_DISCARD($yychar);
                         if ($yychar == 0) {
-                            return 1;
+                            return false;
                         }
                         $yychar = -1;
                         break;
@@ -1452,7 +1429,10 @@ class Parser
             }
         }
     }
-    private function yyn0() {}
+
+    private function yyn0() {
+        $this->yyval = $this->yyastk[$this->yysp];
+    }
 
     private function yyn1() {
          $this->yyval = $this->yyastk[$this->yysp-(1-1)];
