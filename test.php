@@ -20,7 +20,7 @@ $stmts = $parser->yyparse(new Lexer(
         $x->$$y[z]();'
     ),
     function($msg) {
-        echo $msg, "\n";
+        echo $msg;
     }
 );
 if (false !== $stmts) {

@@ -665,23 +665,15 @@ variable:
 ;
 
 object_access:
-      base_variable T_OBJECT_OPERATOR object_property '(' function_call_argument_list ')'
-          { $$ = Expr_MethodCall[var: $1, name: $3, args: $5]; }
-    | function_call T_OBJECT_OPERATOR object_property '(' function_call_argument_list ')'
-          { $$ = Expr_MethodCall[var: $1, name: $3, args: $5]; }
-    | object_access T_OBJECT_OPERATOR object_property '(' function_call_argument_list ')'
-          { $$ = Expr_MethodCall[var: $1, name: $3, args: $5]; }
-    | object_access_arrayable                               { $$ = $1; }
+      object_access_arrayable                               { $$ = $1; }
     | object_access_arrayable '(' function_call_argument_list ')'
           { $$ = Expr_FuncCall[func: $1, args: $3]; }
+    | variable T_OBJECT_OPERATOR object_property '(' function_call_argument_list ')'
+          { $$ = Expr_MethodCall[var: $1, name: $3, args: $5]; }
 ;
 
 object_access_arrayable:
-      base_variable T_OBJECT_OPERATOR object_property
-          { $$ = Expr_PropertyFetch[var: $1, name: $3]; }
-    | function_call T_OBJECT_OPERATOR object_property
-          { $$ = Expr_PropertyFetch[var: $1, name: $3]; }
-    | object_access T_OBJECT_OPERATOR object_property
+      variable T_OBJECT_OPERATOR object_property
           { $$ = Expr_PropertyFetch[var: $1, name: $3]; }
     | object_access_arrayable '[' dim_offset ']'            { $$ = Expr_ArrayDimFetch[var: $1, dim: $3]; }
     | object_access_arrayable '{' expr '}'                  { $$ = Expr_ArrayDimFetch[var: $1, dim: $3]; }
