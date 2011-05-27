@@ -12,7 +12,12 @@ $parser->yydebug = false;
 // Output Demo
 $stmts = $parser->yyparse(new Lexer(
     '<?php
-        x::$y[z];'
+        x::$y[z];
+        $x->y[z];
+        $x->y[z][k]->l()->m[t];
+        $x->y[z]();
+        $x->$y[z]();
+        $x->$$y[z]();'
     ),
     function($msg) {
         echo $msg, "\n";

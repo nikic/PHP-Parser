@@ -571,9 +571,17 @@ class_name_reference:
 ;
 
 dynamic_class_name_reference:
-      dynamic_class_name_reference T_OBJECT_OPERATOR object_property
-          { $$ = new Node_Expr_PropertyFetch(array('var' => $1, 'name' => $3)); }
+      object_access_for_dcnr                                { $$ = $1; }
     | base_variable                                         { $$ = $1; }
+;
+
+object_access_for_dcnr:
+    | base_variable T_OBJECT_OPERATOR object_property
+          { $$ = new Node_Expr_PropertyFetch(array('var' => $1, 'name' => $3)); }
+    | object_access_for_dcnr T_OBJECT_OPERATOR object_property
+          { $$ = new Node_Expr_PropertyFetch(array('var' => $1, 'name' => $3)); }
+    | object_access_for_dcnr '[' dim_offset ']'             { $$ = new Node_Expr_ArrayDimFetch(array('var' => $1, 'dim' => $3)); }
+    | object_access_for_dcnr '{' expr '}'                   { $$ = new Node_Expr_ArrayDimFetch(array('var' => $1, 'dim' => $3)); }
 ;
 
 exit_expr:
@@ -651,12 +659,32 @@ expr:
 ;
 
 variable:
-      variable T_OBJECT_OPERATOR object_property '(' function_call_argument_list ')'
-          { $$ = new Node_Expr_MethodCall(array('var' => $1, 'name' => $3, 'args' => $5)); }
-    | variable T_OBJECT_OPERATOR object_property
-          { $$ = new Node_Expr_PropertyFetch(array('var' => $1, 'name' => $3)); }
+      object_access                                         { $$ = $1; }
     | base_variable                                         { $$ = $1; }
     | function_call                                         { $$ = $1; }
+;
+
+object_access:
+      base_variable T_OBJECT_OPERATOR object_property '(' function_call_argument_list ')'
+          { $$ = new Node_Expr_MethodCall(array('var' => $1, 'name' => $3, 'args' => $5)); }
+    | function_call T_OBJECT_OPERATOR object_property '(' function_call_argument_list ')'
+          { $$ = new Node_Expr_MethodCall(array('var' => $1, 'name' => $3, 'args' => $5)); }
+    | object_access T_OBJECT_OPERATOR object_property '(' function_call_argument_list ')'
+          { $$ = new Node_Expr_MethodCall(array('var' => $1, 'name' => $3, 'args' => $5)); }
+    | object_access_arrayable                               { $$ = $1; }
+    | object_access_arrayable '(' function_call_argument_list ')'
+          { $$ = new Node_Expr_FuncCall(array('func' => $1, 'args' => $3)); }
+;
+
+object_access_arrayable:
+      base_variable T_OBJECT_OPERATOR object_property
+          { $$ = new Node_Expr_PropertyFetch(array('var' => $1, 'name' => $3)); }
+    | function_call T_OBJECT_OPERATOR object_property
+          { $$ = new Node_Expr_PropertyFetch(array('var' => $1, 'name' => $3)); }
+    | object_access T_OBJECT_OPERATOR object_property
+          { $$ = new Node_Expr_PropertyFetch(array('var' => $1, 'name' => $3)); }
+    | object_access_arrayable '[' dim_offset ']'            { $$ = new Node_Expr_ArrayDimFetch(array('var' => $1, 'dim' => $3)); }
+    | object_access_arrayable '{' expr '}'                  { $$ = new Node_Expr_ArrayDimFetch(array('var' => $1, 'dim' => $3)); }
 ;
 
 variable_without_objects:
@@ -695,15 +723,9 @@ dim_offset:
 ;
 
 object_property:
-      object_dim_list                                       { $$ = $1; }
-    | variable_without_objects                              { $$ = $1; }
-;
-
-object_dim_list:
-      object_dim_list '[' dim_offset ']'                    { $$ = new Node_Expr_ArrayDimFetch(array('var' => $1, 'dim' => $3)); }
-    | object_dim_list '{' expr '}'                          { $$ = new Node_Expr_ArrayDimFetch(array('var' => $1, 'dim' => $3)); }
-    | T_STRING                                              { $$ = $1; }
+      T_STRING                                              { $$ = $1; }
     | '{' expr '}'                                          { $$ = $2; }
+    | variable_without_objects                              { $$ = $1; }
 ;
 
 assignment_list:
