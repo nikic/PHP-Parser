@@ -19,7 +19,7 @@ $stmts = $parser->yyparse(new Lexer(
         $x->$y[z]();
         $x->$$y[z]();'
     ),
-    function($msg) {
+    function ($msg) {
         echo $msg;
     }
 );
@@ -28,6 +28,13 @@ if (false !== $stmts) {
         echo htmlspecialchars($stmt), "\n";
     }
 }
+
+echo "\n\n";
+
+$prettyPrinter = new PrettyPrinter_Zend;
+echo $prettyPrinter->pStmts($parser->yyparse(new Lexer(file_get_contents(__FILE__)), function ($msg) {
+    echo $msg;
+}));
 
 echo "\n\n";
 
