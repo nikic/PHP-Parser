@@ -9,11 +9,17 @@ abstract class NodeAbstract implements IteratorAggregate
     }
 
     public function __get($name) {
-        if (!isset($this->subNodes[$name])) {
-            throw new OutOfBoundsException();
+        if (!array_key_exists($name, $this->subNodes)) {
+            throw new OutOfBoundsException(
+                sprintf('"%s" has no subnode "%s"', $this->getType(), $name)
+            );
         }
 
         return $this->subNodes[$name];
+    }
+
+    public function getType() {
+        return substr(get_class($this), 5);
     }
 
     public function getIterator() {
@@ -21,7 +27,7 @@ abstract class NodeAbstract implements IteratorAggregate
     }
 
     public function __toString() {
-        $r = '[' . substr(get_class($this), 5) . ']';
+        $r = '[' . $this->getType() . ']';
 
         foreach ($this->subNodes as $key => $value) {
             $r .= "\n" . '    ' . $key . ': ';

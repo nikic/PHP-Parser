@@ -36,7 +36,7 @@ echo '<pre>';
 
 $code = file_get_contents(IN);
 
-$code = preg_replace('~[A-Z][a-zA-Z]++::~', 'Node_$0', $code);
+$code = preg_replace('~[A-Z][a-zA-Z_]++::~', 'Node_$0', $code);
 $code = resolveNodes($code);
 $code = resolveMacros($code);
 
@@ -46,7 +46,7 @@ echo $code;
 
 function resolveNodes($code) {
     return preg_replace_callback(
-        '~(?<name>[A-Z][a-zA-Z]++)' . PARAMS . '~',
+        '~(?<name>[A-Z][a-zA-Z_]++)' . PARAMS . '~',
         function($matches) {
             // recurse
             $matches['params'] = resolveNodes($matches['params']);

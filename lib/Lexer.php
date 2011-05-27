@@ -38,9 +38,9 @@ class Lexer
      * @return int
      */
     public function getLine() {
-        for ($i = $this->pos; $i > 0; --$i) {
-            if (is_array($this->tokens[$this->pos])) {
-                return $this->tokens[$this->pos][2];
+        for ($i = $this->pos - 1; $i--;) {
+            if (is_array($this->tokens[$i])) {
+                return $this->tokens[$i][2];
             }
         }
 

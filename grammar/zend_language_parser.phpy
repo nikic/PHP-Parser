@@ -126,11 +126,11 @@ top_statement:
     | function_declaration_statement                        { $$ = $1; }
     | class_declaration_statement                           { $$ = $1; }
     | T_HALT_COMPILER '(' ')' ';'                           { YYACCEPT; }
-    | T_NAMESPACE namespace_name ';'                        { $$ = new Node_NamespaceStmt(array('ns' => $2)); }
-    | T_NAMESPACE namespace_name '{' top_statement_list '}' { $$ = array(new Node_NamespaceStmt(array('ns' => $2)), $4); }
-    | T_NAMESPACE '{' top_statement_list '}'                { $$ = array(new Node_NamespaceStmt(array('ns' => null)), $3); }
-    | T_USE use_declarations ';'                            { $$ = new Node_UseStmt(array('uses' => $2)); }
-    | constant_declaration ';'                              { $$ = new Node_ConstStmt(array('consts' => $1)); }
+    | T_NAMESPACE namespace_name ';'                        { $$ = new Node_Stmt_Namespace(array('ns' => $2)); }
+    | T_NAMESPACE namespace_name '{' top_statement_list '}' { $$ = array(new Node_Stmt_Namespace(array('ns' => $2)), $4); }
+    | T_NAMESPACE '{' top_statement_list '}'                { $$ = array(new Node_Stmt_Namespace(array('ns' => null)), $3); }
+    | T_USE use_declarations ';'                            { $$ = new Node_Stmt_Use(array('uses' => $2)); }
+    | constant_declaration ';'                              { $$ = new Node_Stmt_Const(array('consts' => $1)); }
 ;
 
 use_declarations:
@@ -139,15 +139,15 @@ use_declarations:
 ;
 
 use_declaration:
-      namespace_name                                        { $$ = new Node_UseStmtUse(array('ns' => $1, 'alias' => null)); }
-    | namespace_name T_AS T_STRING                          { $$ = new Node_UseStmtUse(array('ns' => $1, 'alias' => $3)); }
-    | T_NS_SEPARATOR namespace_name                         { $$ = new Node_UseStmtUse(array('ns' => $2, 'alias' => null)); }
-    | T_NS_SEPARATOR namespace_name T_AS T_STRING           { $$ = new Node_UseStmtUse(array('ns' => $2, 'alias' => $4)); }
+      namespace_name                                        { $$ = new Node_Stmt_UseUse(array('ns' => $1, 'alias' => null)); }
+    | namespace_name T_AS T_STRING                          { $$ = new Node_Stmt_UseUse(array('ns' => $1, 'alias' => $3)); }
+    | T_NS_SEPARATOR namespace_name                         { $$ = new Node_Stmt_UseUse(array('ns' => $2, 'alias' => null)); }
+    | T_NS_SEPARATOR namespace_name T_AS T_STRING           { $$ = new Node_Stmt_UseUse(array('ns' => $2, 'alias' => $4)); }
 ;
 
 constant_declaration:
-      constant_declaration ',' T_STRING '=' static_scalar   { $1[] = new Node_ConstStmtConst(array('name' => $3, 'value' => $5)); $$ = $1; }
-    | T_CONST T_STRING '=' static_scalar                    { $$ = array(new Node_ConstStmtConst(array('name' => $2, 'value' => $4))); }
+      constant_declaration ',' T_STRING '=' static_scalar   { $1[] = new Node_Stmt_ConstConst(array('name' => $3, 'value' => $5)); $$ = $1; }
+    | T_CONST T_STRING '=' static_scalar                    { $$ = array(new Node_Stmt_ConstConst(array('name' => $2, 'value' => $4))); }
 ;
 
 inner_statement_list:
@@ -164,39 +164,39 @@ inner_statement:
 
 statement:
       '{' inner_statement_list '}'                          { $$ = $2; }
-    | T_IF '(' expr ')' statement elseif_list else_single   { $$ = new Node_IfStmt(array('cond' => $3, 'stmts' => is_array($5) ? $5 : array($5), 'elseifList' => $6, 'else' => $7)); }
+    | T_IF '(' expr ')' statement elseif_list else_single   { $$ = new Node_Stmt_If(array('cond' => $3, 'stmts' => is_array($5) ? $5 : array($5), 'elseifList' => $6, 'else' => $7)); }
     | T_IF '(' expr ')' ':' inner_statement_list new_elseif_list new_else_single T_ENDIF ';'
-          { $$ = new Node_IfStmt(array('cond' => $3, 'stmts' => $6, 'elseifList' => $7, 'else' => $8)); }
-    | T_WHILE '(' expr ')' while_statement                  { $$ = new Node_WhileStmt(array('cond' => $3, 'stmts' => is_array($5) ? $5 : array($5))); }
-    | T_DO statement T_WHILE '(' expr ')' ';'               { $$ = new Node_DoStmt(array('stmts' => is_array($2) ? $2 : array($2), 'cond' => $5)); }
+          { $$ = new Node_Stmt_If(array('cond' => $3, 'stmts' => $6, 'elseifList' => $7, 'else' => $8)); }
+    | T_WHILE '(' expr ')' while_statement                  { $$ = new Node_Stmt_While(array('cond' => $3, 'stmts' => is_array($5) ? $5 : array($5))); }
+    | T_DO statement T_WHILE '(' expr ')' ';'               { $$ = new Node_Stmt_Do(array('stmts' => is_array($2) ? $2 : array($2), 'cond' => $5)); }
     | T_FOR '(' for_expr ';'  for_expr ';' for_expr ')' for_statement
-          { $$ = new Node_ForStmt(array('init' => $3, 'cond' => $5, 'loop' => $7, 'stmts' => is_array($9) ? $9 : array($9))); }
-    | T_SWITCH '(' expr ')' switch_case_list                { $$ = new Node_SwitchStmt(array('cond' => $3, 'caseList' => $5)); }
-    | T_BREAK ';'                                           { $$ = new Node_BreakStmt(array('num' => null)); }
-    | T_BREAK expr ';'                                      { $$ = new Node_BreakStmt(array('num' => $2)); }
-    | T_CONTINUE ';'                                        { $$ = new Node_ContinueStmt(array('num' => null)); }
-    | T_CONTINUE expr ';'                                   { $$ = new Node_ContinueStmt(array('num' => $2)); }
-    | T_RETURN ';'                                          { $$ = new Node_ReturnStmt(array('expr' => null)); }
-    | T_RETURN expr_without_variable ';'                    { $$ = new Node_ReturnStmt(array('expr' => $2)); }
-    | T_RETURN variable ';'                                 { $$ = new Node_ReturnStmt(array('expr' => $2)); }
-    | T_GLOBAL global_var_list ';'                          { $$ = new Node_GlobalStmt(array('vars' => $2)); }
-    | T_STATIC static_var_list ';'                          { $$ = new Node_StaticStmt(array('vars' => $2)); }
-    | T_ECHO expr_list ';'                                  { $$ = new Node_EchoStmt(array('exprs' => $2)); }
-    | T_INLINE_HTML                                         { $$ = new Node_InlineHTMLStmt(array('value' => $1)); }
+          { $$ = new Node_Stmt_For(array('init' => $3, 'cond' => $5, 'loop' => $7, 'stmts' => is_array($9) ? $9 : array($9))); }
+    | T_SWITCH '(' expr ')' switch_case_list                { $$ = new Node_Stmt_Switch(array('cond' => $3, 'caseList' => $5)); }
+    | T_BREAK ';'                                           { $$ = new Node_Stmt_Break(array('num' => null)); }
+    | T_BREAK expr ';'                                      { $$ = new Node_Stmt_Break(array('num' => $2)); }
+    | T_CONTINUE ';'                                        { $$ = new Node_Stmt_Continue(array('num' => null)); }
+    | T_CONTINUE expr ';'                                   { $$ = new Node_Stmt_Continue(array('num' => $2)); }
+    | T_RETURN ';'                                          { $$ = new Node_Stmt_Return(array('expr' => null)); }
+    | T_RETURN expr_without_variable ';'                    { $$ = new Node_Stmt_Return(array('expr' => $2)); }
+    | T_RETURN variable ';'                                 { $$ = new Node_Stmt_Return(array('expr' => $2)); }
+    | T_GLOBAL global_var_list ';'                          { $$ = new Node_Stmt_Global(array('vars' => $2)); }
+    | T_STATIC static_var_list ';'                          { $$ = new Node_Stmt_Static(array('vars' => $2)); }
+    | T_ECHO expr_list ';'                                  { $$ = new Node_Stmt_Echo(array('exprs' => $2)); }
+    | T_INLINE_HTML                                         { $$ = new Node_Stmt_InlineHTML(array('value' => $1)); }
     | expr ';'                                              { $$ = $1; }
-    | T_UNSET '(' variables_list ')' ';'                    { $$ = new Node_UnsetStmt(array('vars' => $3)); }
+    | T_UNSET '(' variables_list ')' ';'                    { $$ = new Node_Stmt_Unset(array('vars' => $3)); }
     | T_FOREACH '(' expr T_AS variable ')' foreach_statement
-          { $$ = new Node_ForeachStmt(array('expr' => $3, 'keyVar' => null, 'byRef' => false, 'valueVar' => $5, 'stmts' => is_array($7) ? $7 : array($7))); }
+          { $$ = new Node_Stmt_Foreach(array('expr' => $3, 'keyVar' => null, 'byRef' => false, 'valueVar' => $5, 'stmts' => is_array($7) ? $7 : array($7))); }
     | T_FOREACH '(' expr T_AS '&' variable ')' foreach_statement
-          { $$ = new Node_ForeachStmt(array('expr' => $3, 'keyVar' => null, 'byRef' => true, 'valueVar' => $6, 'stmts' => is_array($8) ? $8 : array($8))); }
+          { $$ = new Node_Stmt_Foreach(array('expr' => $3, 'keyVar' => null, 'byRef' => true, 'valueVar' => $6, 'stmts' => is_array($8) ? $8 : array($8))); }
     | T_FOREACH '(' expr T_AS variable T_DOUBLE_ARROW optional_ref variable ')' foreach_statement
-          { $$ = new Node_ForeachStmt(array('expr' => $3, 'keyVar' => $5, 'byRef' => $7, 'valueVar' => $8, 'stmts' => is_array($10) ? $10 : array($10))); }
-    | T_DECLARE '(' declare_list ')' declare_statement      { $$ = new Node_DeclareStmt(array('declares' => $3, 'stmts' => is_array($5) ? $5 : array($5))); }
-    | ';'                                                   { $$ = new Node_NoopStmt(array()); }
-    | T_TRY '{' inner_statement_list '}' catches            { $$ = new Node_TryCatchStmt(array('stmts' => $3, 'catches' => $5)); }
-    | T_THROW expr ';'                                      { $$ = new Node_ThrowStmt(array('expr' => $2)); }
-    | T_GOTO T_STRING ';'                                   { $$ = new Node_GotoStmt(array('name' => $2)); }
-    | T_STRING ':'                                          { $$ = new Node_LabelStmt(array('name' => $1)); }
+          { $$ = new Node_Stmt_Foreach(array('expr' => $3, 'keyVar' => $5, 'byRef' => $7, 'valueVar' => $8, 'stmts' => is_array($10) ? $10 : array($10))); }
+    | T_DECLARE '(' declare_list ')' declare_statement      { $$ = new Node_Stmt_Declare(array('declares' => $3, 'stmts' => is_array($5) ? $5 : array($5))); }
+    | ';'                                                   { $$ = new Node_Stmt_Noop(array()); }
+    | T_TRY '{' inner_statement_list '}' catches            { $$ = new Node_Stmt_TryCatch(array('stmts' => $3, 'catches' => $5)); }
+    | T_THROW expr ';'                                      { $$ = new Node_Stmt_Throw(array('expr' => $2)); }
+    | T_GOTO T_STRING ';'                                   { $$ = new Node_Stmt_Goto(array('name' => $2)); }
+    | T_STRING ':'                                          { $$ = new Node_Stmt_Label(array('name' => $1)); }
 ;
 
 catches:
@@ -206,7 +206,7 @@ catches:
 
 catch:
     T_CATCH '(' name T_VARIABLE ')' '{' inner_statement_list '}'
-        { $$ = new Node_CatchStmt(array('type' => $3, 'var' => substr($4, 1), 'stmts' => $7)); }
+        { $$ = new Node_Stmt_Catch(array('type' => $3, 'var' => substr($4, 1), 'stmts' => $7)); }
 ;
 
 variables_list:
@@ -221,20 +221,20 @@ optional_ref:
 
 function_declaration_statement:
     T_FUNCTION optional_ref T_STRING '(' parameter_list ')' '{' inner_statement_list '}'
-        { $$ = new Node_FuncStmt(array('byRef' => $2, 'name' => $3, 'params' => $5, 'stmts' => $8)); }
+        { $$ = new Node_Stmt_Func(array('byRef' => $2, 'name' => $3, 'params' => $5, 'stmts' => $8)); }
 ;
 
 class_declaration_statement:
       class_entry_type T_STRING extends_from implements_list '{' class_statement_list '}'
-          { $$ = new Node_ClassStmt(array('type' => $1, 'name' => $2, 'extends' => $3, 'implements' => $4, 'stmts' => $6)); }
+          { $$ = new Node_Stmt_Class(array('type' => $1, 'name' => $2, 'extends' => $3, 'implements' => $4, 'stmts' => $6)); }
     | T_INTERFACE T_STRING interface_extends_list '{' class_statement_list '}'
-          { $$ = new Node_InterfaceStmt(array('name' => $2, 'extends' => $3, 'stmts' => $5)); }
+          { $$ = new Node_Stmt_Interface(array('name' => $2, 'extends' => $3, 'stmts' => $5)); }
 ;
 
 class_entry_type:
       T_CLASS                                               { $$ = 0; }
-    | T_ABSTRACT T_CLASS                                    { $$ = Node_ClassStmt::MODIFIER_ABSTRACT; }
-    | T_FINAL T_CLASS                                       { $$ = Node_ClassStmt::MODIFIER_FINAL; }
+    | T_ABSTRACT T_CLASS                                    { $$ = Node_Stmt_Class::MODIFIER_ABSTRACT; }
+    | T_FINAL T_CLASS                                       { $$ = Node_Stmt_Class::MODIFIER_FINAL; }
 ;
 
 extends_from:
@@ -273,8 +273,8 @@ declare_statement:
 ;
 
 declare_list:
-      T_STRING '=' static_scalar                            { $$ = array(new Node_DeclareStmtDeclare(array('key' => $1, 'value' => $3))); }
-    | declare_list ',' T_STRING '=' static_scalar           { $1[] = new Node_DeclareStmtDeclare(array('key' => $3, 'value' => $5)); $$ = $1; }
+      T_STRING '=' static_scalar                            { $$ = array(new Node_Stmt_DeclareDeclare(array('key' => $1, 'value' => $3))); }
+    | declare_list ',' T_STRING '=' static_scalar           { $1[] = new Node_Stmt_DeclareDeclare(array('key' => $3, 'value' => $5)); $$ = $1; }
 ;
 
 switch_case_list:
@@ -287,9 +287,9 @@ switch_case_list:
 case_list:
       /* empty */                                           { $$ = array(); }
     | case_list T_CASE expr case_separator inner_statement_list
-          { $1[] = new Node_CaseStmt(array('cond' => $3, 'stmts' => $5)); $$ = $1; }
+          { $1[] = new Node_Stmt_Case(array('cond' => $3, 'stmts' => $5)); $$ = $1; }
     | case_list T_DEFAULT case_separator inner_statement_list
-          { $1[] = new Node_CaseStmt(array('cond' => null, 'stmts' => $4)); $$ = $1; }
+          { $1[] = new Node_Stmt_Case(array('cond' => null, 'stmts' => $4)); $$ = $1; }
 ;
 
 case_separator:
@@ -304,23 +304,23 @@ while_statement:
 
 elseif_list:
       /* empty */                                           { $$ = array();}
-    | elseif_list T_ELSEIF '(' expr ')' statement           { $1[] = new Node_ElseIfStmt(array('cond' => $4, 'stmts' => is_array($6) ? $6 : array($6))); $$ = $1; }
+    | elseif_list T_ELSEIF '(' expr ')' statement           { $1[] = new Node_Stmt_ElseIf(array('cond' => $4, 'stmts' => is_array($6) ? $6 : array($6))); $$ = $1; }
 ;
 
 new_elseif_list:
       /* empty */                                           { $$ = array(); }
     | new_elseif_list T_ELSEIF '(' expr ')' ':' inner_statement_list
-          { $1[] = new Node_ElseIfStmt(array('cond' => $4, 'stmts' => $7)); $$ = $1; }
+          { $1[] = new Node_Stmt_ElseIf(array('cond' => $4, 'stmts' => $7)); $$ = $1; }
 ;
 
 else_single:
       /* empty */                                           { $$ = null; }
-    | T_ELSE statement                                      { $$ = new Node_ElseStmt(array('stmts' => is_array($2) ? $2 : array($2))); }
+    | T_ELSE statement                                      { $$ = new Node_Stmt_Else(array('stmts' => is_array($2) ? $2 : array($2))); }
 ;
 
 new_else_single:
       /* empty */                                           { $$ = null; }
-    | T_ELSE ':' inner_statement_list                       { $$ = new Node_ElseStmt(array('stmts' => $3)); }
+    | T_ELSE ':' inner_statement_list                       { $$ = new Node_Stmt_Else(array('stmts' => $3)); }
 ;
 
 parameter_list:
@@ -330,13 +330,13 @@ parameter_list:
 
 non_empty_parameter_list:
       optional_class_type optional_ref T_VARIABLE
-          { $$ = array(new Node_FuncStmtParam(array('type' => $1, 'name' => substr($3, 1), 'byRef' => $2, 'default' => null))); }
+          { $$ = array(new Node_Stmt_FuncParam(array('type' => $1, 'name' => substr($3, 1), 'byRef' => $2, 'default' => null))); }
     | optional_class_type optional_ref T_VARIABLE '=' static_scalar
-          { $$ = array(new Node_FuncStmtParam(array('type' => $1, 'name' => substr($3, 1), 'byRef' => $2, 'default' => $5))); }
+          { $$ = array(new Node_Stmt_FuncParam(array('type' => $1, 'name' => substr($3, 1), 'byRef' => $2, 'default' => $5))); }
     | non_empty_parameter_list ',' optional_class_type optional_ref T_VARIABLE
-          { $1[] = new Node_FuncStmtParam(array('type' => $3, 'name' => substr($5, 1), 'byRef' => $4, 'default' => null)); $$ = $1; }
+          { $1[] = new Node_Stmt_FuncParam(array('type' => $3, 'name' => substr($5, 1), 'byRef' => $4, 'default' => null)); $$ = $1; }
     | non_empty_parameter_list ',' optional_class_type optional_ref T_VARIABLE '=' static_scalar
-          { $1[] = new Node_FuncStmtParam(array('type' => $3, 'name' => substr($5, 1), 'byRef' => $4, 'default' => $7)); $$ = $1; }
+          { $1[] = new Node_Stmt_FuncParam(array('type' => $3, 'name' => substr($5, 1), 'byRef' => $4, 'default' => $7)); $$ = $1; }
 ;
 
 optional_class_type:
@@ -345,21 +345,21 @@ optional_class_type:
     | T_ARRAY                                               { $$ = 'array'; }
 ;
 
-function_call_parameter_list:
-      non_empty_function_call_parameter_list                { $$ = $1; }
+function_call_argument_list:
+      non_empty_function_call_argument_list                 { $$ = $1; }
     | /* empty */                                           { $$ = array(); }
 ;
 
-non_empty_function_call_parameter_list:
-      expr_without_variable                                 { $$ = array(new Node_FuncCallStmtParam(array('value' => $1, 'byRef' => false))); }
-    | variable                                              { $$ = array(new Node_FuncCallStmtParam(array('value' => $1, 'byRef' => false))); }
-    | '&' variable                                          { $$ = array(new Node_FuncCallStmtParam(array('value' => $2, 'byRef' => true))); }
-    | non_empty_function_call_parameter_list ',' expr_without_variable
-          { $1[] = new Node_FuncCallStmtParam(array('value' => $3, 'byRef' => false)); $$ = $1; }
-    | non_empty_function_call_parameter_list ',' variable
-          { $1[] = new Node_FuncCallStmtParam(array('value' => $3, 'byRef' => false)); $$ = $1; }
-    | non_empty_function_call_parameter_list ',' '&' variable
-          { $1[] = new Node_FuncCallStmtParam(array('value' => $4, 'byRef' => true)); $$ = $1; }
+non_empty_function_call_argument_list:
+      expr_without_variable                                 { $$ = array(new Node_Expr_FuncCallArg(array('value' => $1, 'byRef' => false))); }
+    | variable                                              { $$ = array(new Node_Expr_FuncCallArg(array('value' => $1, 'byRef' => false))); }
+    | '&' variable                                          { $$ = array(new Node_Expr_FuncCallArg(array('value' => $2, 'byRef' => true))); }
+    | non_empty_function_call_argument_list ',' expr_without_variable
+          { $1[] = new Node_Expr_FuncCallArg(array('value' => $3, 'byRef' => false)); $$ = $1; }
+    | non_empty_function_call_argument_list ',' variable
+          { $1[] = new Node_Expr_FuncCallArg(array('value' => $3, 'byRef' => false)); $$ = $1; }
+    | non_empty_function_call_argument_list ',' '&' variable
+          { $1[] = new Node_Expr_FuncCallArg(array('value' => $4, 'byRef' => true)); $$ = $1; }
 ;
 
 global_var_list:
@@ -374,10 +374,10 @@ global_var:
 ;
 
 static_var_list:
-      static_var_list ',' T_VARIABLE                        { $1[] = new Node_StaticStmtVar(array('name' => substr($3, 1), 'default' => null)); $$ = $1; }
-    | static_var_list ',' T_VARIABLE '=' static_scalar      { $1[] = new Node_StaticStmtVar(array('name' => substr($3, 1), 'default' => $5)); $$ = $1; }
-    | T_VARIABLE                                            { $$ = array(new Node_StaticStmtVar(array('name' => substr($1, 1), 'default' => null))); }
-    | T_VARIABLE '=' static_scalar                          { $$ = array(new Node_StaticStmtVar(array('name' => substr($1, 1), 'default' => $3))); }
+      static_var_list ',' T_VARIABLE                        { $1[] = new Node_Stmt_StaticVar(array('name' => substr($3, 1), 'default' => null)); $$ = $1; }
+    | static_var_list ',' T_VARIABLE '=' static_scalar      { $1[] = new Node_Stmt_StaticVar(array('name' => substr($3, 1), 'default' => $5)); $$ = $1; }
+    | T_VARIABLE                                            { $$ = array(new Node_Stmt_StaticVar(array('name' => substr($1, 1), 'default' => null))); }
+    | T_VARIABLE '=' static_scalar                          { $$ = array(new Node_Stmt_StaticVar(array('name' => substr($1, 1), 'default' => $3))); }
 ;
 
 class_statement_list:
@@ -386,10 +386,10 @@ class_statement_list:
 ;
 
 class_statement:
-      variable_modifiers class_variable_declaration ';'     { $$ = new Node_PropertyStmt(array('type' => $1, 'props' => $2)); }
-    | class_constant_declaration ';'                        { $$ = new Node_ClassConstStmt(array('consts' => $1)); }
+      variable_modifiers class_variable_declaration ';'     { $$ = new Node_Stmt_Property(array('type' => $1, 'props' => $2)); }
+    | class_constant_declaration ';'                        { $$ = new Node_Stmt_ClassConst(array('consts' => $1)); }
     | method_modifiers T_FUNCTION optional_ref T_STRING '(' parameter_list ')' method_body
-          { $$ = new Node_ClassMethodStmt(array('type' => $1, 'byRef' => $3, 'name' => $4, 'params' => $6, 'stmts' => $8)); }
+          { $$ = new Node_Stmt_ClassMethod(array('type' => $1, 'byRef' => $3, 'name' => $4, 'params' => $6, 'stmts' => $8)); }
 ;
 
 method_body:
@@ -399,43 +399,43 @@ method_body:
 
 variable_modifiers:
       non_empty_member_modifiers                            { $$ = $1; }
-    | T_VAR                                                 { $$ = Node_ClassStmt::MODIFIER_PUBLIC; }
+    | T_VAR                                                 { $$ = Node_Stmt_Class::MODIFIER_PUBLIC; }
 ;
 
 method_modifiers:
-      /* empty */                                           { $$ = Node_ClassStmt::MODIFIER_PUBLIC; }
+      /* empty */                                           { $$ = Node_Stmt_Class::MODIFIER_PUBLIC; }
     | non_empty_member_modifiers                            { $$ = $1; }
 ;
 
 non_empty_member_modifiers:
       member_modifier                                       { $$ = $1; }
-    | non_empty_member_modifiers member_modifier            { Node_ClassStmt::verifyModifier($1, $2); $$ = $1 | $2; }
+    | non_empty_member_modifiers member_modifier            { Node_Stmt_Class::verifyModifier($1, $2); $$ = $1 | $2; }
 ;
 
 member_modifier:
-      T_PUBLIC                                              { $$ = Node_ClassStmt::MODIFIER_PUBLIC; }
-    | T_PROTECTED                                           { $$ = Node_ClassStmt::MODIFIER_PROTECTED; }
-    | T_PRIVATE                                             { $$ = Node_ClassStmt::MODIFIER_PRIVATE; }
-    | T_STATIC                                              { $$ = Node_ClassStmt::MODIFIER_STATIC; }
-    | T_ABSTRACT                                            { $$ = Node_ClassStmt::MODIFIER_ABSTRACT; }
-    | T_FINAL                                               { $$ = Node_ClassStmt::MODIFIER_FINAL; }
+      T_PUBLIC                                              { $$ = Node_Stmt_Class::MODIFIER_PUBLIC; }
+    | T_PROTECTED                                           { $$ = Node_Stmt_Class::MODIFIER_PROTECTED; }
+    | T_PRIVATE                                             { $$ = Node_Stmt_Class::MODIFIER_PRIVATE; }
+    | T_STATIC                                              { $$ = Node_Stmt_Class::MODIFIER_STATIC; }
+    | T_ABSTRACT                                            { $$ = Node_Stmt_Class::MODIFIER_ABSTRACT; }
+    | T_FINAL                                               { $$ = Node_Stmt_Class::MODIFIER_FINAL; }
 ;
 
 class_variable_declaration:
       class_variable_declaration ',' T_VARIABLE
-          { $1[] = new Node_PropertyStmtProperty(array('name' => substr($3, 1), 'default' => null)); $$ = $1; }
+          { $1[] = new Node_Stmt_PropertyProperty(array('name' => substr($3, 1), 'default' => null)); $$ = $1; }
     | class_variable_declaration ',' T_VARIABLE '=' static_scalar
-          { $1[] = new Node_PropertyStmtProperty(array('name' => substr($3, 1), 'default' => $5)); $$ = $1; }
+          { $1[] = new Node_Stmt_PropertyProperty(array('name' => substr($3, 1), 'default' => $5)); $$ = $1; }
     | T_VARIABLE
-          { $$ = array(new Node_PropertyStmtProperty(array('name' => substr($1, 1), 'default' => null))); }
+          { $$ = array(new Node_Stmt_PropertyProperty(array('name' => substr($1, 1), 'default' => null))); }
     | T_VARIABLE '=' static_scalar
-          { $$ = array(new Node_PropertyStmtProperty(array('name' => substr($1, 1), 'default' => $3))); }
+          { $$ = array(new Node_Stmt_PropertyProperty(array('name' => substr($1, 1), 'default' => $3))); }
 ;
 
 class_constant_declaration:
       class_constant_declaration ',' T_STRING '=' static_scalar
-          { $1[] = new Node_ClassConstStmtConst(array('name' => $3, 'value' => $5)); $$ = $1; }
-    | T_CONST T_STRING '=' static_scalar                    { $$ = array(new Node_ClassConstStmtConst(array('name' => $2, 'value' => $4))); }
+          { $1[] = new Node_Stmt_ClassConstConst(array('name' => $3, 'value' => $5)); $$ = $1; }
+    | T_CONST T_STRING '=' static_scalar                    { $$ = array(new Node_Stmt_ClassConstConst(array('name' => $2, 'value' => $4))); }
 ;
 
 expr_list:
@@ -449,83 +449,83 @@ for_expr:
 ;
 
 expr_without_variable:
-      T_LIST '(' assignment_list ')' '=' expr               { $$ = new Node_ListExpr(array('assignList' => $3, 'expr' => $6)); }
-    | variable '=' expr                                     { $$ = new Node_AssignExpr(array('var' => $1, 'expr' => $3)); }
-    | variable '=' '&' variable                             { $$ = new Node_AssignRefExpr(array('var' => $1, 'refVar' => $4)); }
+      T_LIST '(' assignment_list ')' '=' expr               { $$ = new Node_Expr_List(array('assignList' => $3, 'expr' => $6)); }
+    | variable '=' expr                                     { $$ = new Node_Expr_Assign(array('var' => $1, 'expr' => $3)); }
+    | variable '=' '&' variable                             { $$ = new Node_Expr_AssignRef(array('var' => $1, 'refVar' => $4)); }
     | variable '=' '&' T_NEW class_name_reference ctor_arguments
-          { $$ = new Node_AssignExpr(array('var' => $1, 'expr' => new Node_NewExpr(array('class' => $5, 'args' => $6)))); }
+          { $$ = new Node_Expr_Assign(array('var' => $1, 'expr' => new Node_Expr_New(array('class' => $5, 'args' => $6)))); }
           /* reference dropped intentially, TODO: Throw error? */
-    | T_NEW class_name_reference ctor_arguments             { $$ = new Node_NewExpr(array('class' => $2, 'args' => $3)); }
-    | T_CLONE expr                                          { $$ = new Node_CloneExpr(array('expr' => $2)); }
-    | variable T_PLUS_EQUAL expr                            { $$ = new Node_AssignPlusExpr(array('var' => $1, 'expr' => $3)); }
-    | variable T_MINUS_EQUAL expr                           { $$ = new Node_AssignMinusExpr(array('var' => $1, 'expr' => $3)); }
-    | variable T_MUL_EQUAL expr                             { $$ = new Node_AssignMulExpr(array('var' => $1, 'expr' => $3)); }
-    | variable T_DIV_EQUAL expr                             { $$ = new Node_AssignDivExpr(array('var' => $1, 'expr' => $3)); }
-    | variable T_CONCAT_EQUAL expr                          { $$ = new Node_AssignConcatExpr(array('var' => $1, 'expr' => $3)); }
-    | variable T_MOD_EQUAL expr                             { $$ = new Node_AssignModExpr(array('var' => $1, 'expr' => $3)); }
-    | variable T_AND_EQUAL expr                             { $$ = new Node_AssignBinAndExpr(array('var' => $1, 'expr' => $3)); }
-    | variable T_OR_EQUAL expr                              { $$ = new Node_AssignBinOrExpr(array('var' => $1, 'expr' => $3)); }
-    | variable T_XOR_EQUAL expr                             { $$ = new Node_AssignBinXorExpr(array('var' => $1, 'expr' => $3)); }
-    | variable T_SL_EQUAL expr                              { $$ = new Node_AssignShiftLeftExpr(array('var' => $1, 'expr' => $3)); }
-    | variable T_SR_EQUAL expr                              { $$ = new Node_AssignShiftRightExpr(array('var' => $1, 'expr' => $3)); }
-    | variable T_INC                                        { $$ = new Node_PostIncExpr(array('var' => $1)); }
-    | T_INC variable                                        { $$ = new Node_PreIncExpr(array('var' => $2)); }
-    | variable T_DEC                                        { $$ = new Node_PostDecExpr(array('var' => $1)); }
-    | T_DEC variable                                        { $$ = new Node_PreDecExpr(array('var' => $2)); }
-    | expr T_BOOLEAN_OR expr                                { $$ = new Node_BooleanOrExpr(array('left' => $1, 'right' => $3)); }
-    | expr T_BOOLEAN_AND expr                               { $$ = new Node_BooleanAndExpr(array('left' => $1, 'right' => $3)); }
-    | expr T_LOGICAL_OR expr                                { $$ = new Node_LogicalOrExpr(array('left' => $1, 'right' => $3)); }
-    | expr T_LOGICAL_AND expr                               { $$ = new Node_LogicalAndExpr(array('left' => $1, 'right' => $3)); }
-    | expr T_LOGICAL_XOR expr                               { $$ = new Node_LogicalXorExpr(array('left' => $1, 'right' => $3)); }
-    | expr '|' expr                                         { $$ = new Node_BinaryOrExpr(array('left' => $1, 'right' => $3)); }
-    | expr '&' expr                                         { $$ = new Node_BinaryAndExpr(array('left' => $1, 'right' => $3)); }
-    | expr '^' expr                                         { $$ = new Node_BinaryXorExpr(array('left' => $1, 'right' => $3)); }
-    | expr '.' expr                                         { $$ = new Node_ConcatExpr(array('left' => $1, 'right' => $3)); }
-    | expr '+' expr                                         { $$ = new Node_PlusExpr(array('left' => $1, 'right' => $3)); }
-    | expr '-' expr                                         { $$ = new Node_MinusExpr(array('left' => $1, 'right' => $3)); }
-    | expr '*' expr                                         { $$ = new Node_MulExpr(array('left' => $1, 'right' => $3)); }
-    | expr '/' expr                                         { $$ = new Node_DivExpr(array('left' => $1, 'right' => $3)); }
-    | expr '%' expr                                         { $$ = new Node_ModExpr(array('left' => $1, 'right' => $3)); }
-    | expr T_SL expr                                        { $$ = new Node_ShiftLeftExpr(array('left' => $1, 'right' => $3)); }
-    | expr T_SR expr                                        { $$ = new Node_ShiftRightExpr(array('left' => $1, 'right' => $3)); }
-    | '+' expr %prec T_INC                                  { $$ = new Node_UnaryPlusExpr(array('expr' => $2)); }
-    | '-' expr %prec T_INC                                  { $$ = new Node_UnaryMinusExpr(array('expr' => $2)); }
-    | '!' expr                                              { $$ = new Node_BooleanNotExpr(array('expr' => $2)); }
-    | '~' expr                                              { $$ = new Node_BinaryNotExpr(array('expr' => $2)); }
-    | expr T_IS_IDENTICAL expr                              { $$ = new Node_IdenticalExpr(array('left' => $1, 'right' => $3)); }
-    | expr T_IS_NOT_IDENTICAL expr                          { $$ = new Node_NotIdenticalExpr(array('left' => $1, 'right' => $3)); }
-    | expr T_IS_EQUAL expr                                  { $$ = new Node_EqualExpr(array('left' => $1, 'right' => $3)); }
-    | expr T_IS_NOT_EQUAL expr                              { $$ = new Node_NotEqualExpr(array('left' => $1, 'right' => $3)); }
-    | expr '<' expr                                         { $$ = new Node_SmallerExpr(array('left' => $1, 'right' => $3)); }
-    | expr T_IS_SMALLER_OR_EQUAL expr                       { $$ = new Node_SmallerOrEqualExpr(array('left' => $1, 'right' => $3)); }
-    | expr '>' expr                                         { $$ = new Node_GreaterExpr(array('left' => $1, 'right' => $3)); }
-    | expr T_IS_GREATER_OR_EQUAL expr                       { $$ = new Node_GreaterOrEqualExpr(array('left' => $1, 'right' => $3)); }
-    | expr T_INSTANCEOF class_name_reference                { $$ = new Node_InstanceOfExpr(array('expr' => $1, 'class' => $3)); }
+    | T_NEW class_name_reference ctor_arguments             { $$ = new Node_Expr_New(array('class' => $2, 'args' => $3)); }
+    | T_CLONE expr                                          { $$ = new Node_Expr_Clone(array('expr' => $2)); }
+    | variable T_PLUS_EQUAL expr                            { $$ = new Node_Expr_AssignPlus(array('var' => $1, 'expr' => $3)); }
+    | variable T_MINUS_EQUAL expr                           { $$ = new Node_Expr_AssignMinus(array('var' => $1, 'expr' => $3)); }
+    | variable T_MUL_EQUAL expr                             { $$ = new Node_Expr_AssignMul(array('var' => $1, 'expr' => $3)); }
+    | variable T_DIV_EQUAL expr                             { $$ = new Node_Expr_AssignDiv(array('var' => $1, 'expr' => $3)); }
+    | variable T_CONCAT_EQUAL expr                          { $$ = new Node_Expr_AssignConcat(array('var' => $1, 'expr' => $3)); }
+    | variable T_MOD_EQUAL expr                             { $$ = new Node_Expr_AssignMod(array('var' => $1, 'expr' => $3)); }
+    | variable T_AND_EQUAL expr                             { $$ = new Node_Expr_AssignBinAnd(array('var' => $1, 'expr' => $3)); }
+    | variable T_OR_EQUAL expr                              { $$ = new Node_Expr_AssignBinOr(array('var' => $1, 'expr' => $3)); }
+    | variable T_XOR_EQUAL expr                             { $$ = new Node_Expr_AssignBinXor(array('var' => $1, 'expr' => $3)); }
+    | variable T_SL_EQUAL expr                              { $$ = new Node_Expr_AssignShiftLeft(array('var' => $1, 'expr' => $3)); }
+    | variable T_SR_EQUAL expr                              { $$ = new Node_Expr_AssignShiftRight(array('var' => $1, 'expr' => $3)); }
+    | variable T_INC                                        { $$ = new Node_Expr_PostInc(array('var' => $1)); }
+    | T_INC variable                                        { $$ = new Node_Expr_PreInc(array('var' => $2)); }
+    | variable T_DEC                                        { $$ = new Node_Expr_PostDec(array('var' => $1)); }
+    | T_DEC variable                                        { $$ = new Node_Expr_PreDec(array('var' => $2)); }
+    | expr T_BOOLEAN_OR expr                                { $$ = new Node_Expr_BooleanOr(array('left' => $1, 'right' => $3)); }
+    | expr T_BOOLEAN_AND expr                               { $$ = new Node_Expr_BooleanAnd(array('left' => $1, 'right' => $3)); }
+    | expr T_LOGICAL_OR expr                                { $$ = new Node_Expr_LogicalOr(array('left' => $1, 'right' => $3)); }
+    | expr T_LOGICAL_AND expr                               { $$ = new Node_Expr_LogicalAnd(array('left' => $1, 'right' => $3)); }
+    | expr T_LOGICAL_XOR expr                               { $$ = new Node_Expr_LogicalXor(array('left' => $1, 'right' => $3)); }
+    | expr '|' expr                                         { $$ = new Node_Expr_BinaryOr(array('left' => $1, 'right' => $3)); }
+    | expr '&' expr                                         { $$ = new Node_Expr_BinaryAnd(array('left' => $1, 'right' => $3)); }
+    | expr '^' expr                                         { $$ = new Node_Expr_BinaryXor(array('left' => $1, 'right' => $3)); }
+    | expr '.' expr                                         { $$ = new Node_Expr_Concat(array('left' => $1, 'right' => $3)); }
+    | expr '+' expr                                         { $$ = new Node_Expr_Plus(array('left' => $1, 'right' => $3)); }
+    | expr '-' expr                                         { $$ = new Node_Expr_Minus(array('left' => $1, 'right' => $3)); }
+    | expr '*' expr                                         { $$ = new Node_Expr_Mul(array('left' => $1, 'right' => $3)); }
+    | expr '/' expr                                         { $$ = new Node_Expr_Div(array('left' => $1, 'right' => $3)); }
+    | expr '%' expr                                         { $$ = new Node_Expr_Mod(array('left' => $1, 'right' => $3)); }
+    | expr T_SL expr                                        { $$ = new Node_Expr_ShiftLeft(array('left' => $1, 'right' => $3)); }
+    | expr T_SR expr                                        { $$ = new Node_Expr_ShiftRight(array('left' => $1, 'right' => $3)); }
+    | '+' expr %prec T_INC                                  { $$ = new Node_Expr_UnaryPlus(array('expr' => $2)); }
+    | '-' expr %prec T_INC                                  { $$ = new Node_Expr_UnaryMinus(array('expr' => $2)); }
+    | '!' expr                                              { $$ = new Node_Expr_BooleanNot(array('expr' => $2)); }
+    | '~' expr                                              { $$ = new Node_Expr_BinaryNot(array('expr' => $2)); }
+    | expr T_IS_IDENTICAL expr                              { $$ = new Node_Expr_Identical(array('left' => $1, 'right' => $3)); }
+    | expr T_IS_NOT_IDENTICAL expr                          { $$ = new Node_Expr_NotIdentical(array('left' => $1, 'right' => $3)); }
+    | expr T_IS_EQUAL expr                                  { $$ = new Node_Expr_Equal(array('left' => $1, 'right' => $3)); }
+    | expr T_IS_NOT_EQUAL expr                              { $$ = new Node_Expr_NotEqual(array('left' => $1, 'right' => $3)); }
+    | expr '<' expr                                         { $$ = new Node_Expr_Smaller(array('left' => $1, 'right' => $3)); }
+    | expr T_IS_SMALLER_OR_EQUAL expr                       { $$ = new Node_Expr_SmallerOrEqual(array('left' => $1, 'right' => $3)); }
+    | expr '>' expr                                         { $$ = new Node_Expr_Greater(array('left' => $1, 'right' => $3)); }
+    | expr T_IS_GREATER_OR_EQUAL expr                       { $$ = new Node_Expr_GreaterOrEqual(array('left' => $1, 'right' => $3)); }
+    | expr T_INSTANCEOF class_name_reference                { $$ = new Node_Expr_InstanceOf(array('expr' => $1, 'class' => $3)); }
     | '(' expr ')'                                          { $$ = $2; }
-    | expr '?' expr ':' expr                                { $$ = new Node_TernaryExpr(array('cond' => $1, 'if' => $3, 'else' => $5)); }
-    | expr '?' ':' expr                                     { $$ = new Node_TernaryExpr(array('cond' => $1, 'if' => null, 'else' => $4)); }
-    | T_ISSET '(' variables_list ')'                        { $$ = new Node_IssetExpr(array('vars' => $3)); }
-    | T_EMPTY '(' variable ')'                              { $$ = new Node_EmptyExpr(array('var' => $3)); }
-    | T_INCLUDE expr                                        { $$ = new Node_IncludeExpr(array('expr' => $2, 'type' => Node_IncludeExpr::TYPE_INCLUDE)); }
-    | T_INCLUDE_ONCE expr                                   { $$ = new Node_IncludeExpr(array('expr' => $2, 'type' => Node_IncludeExpr::TYPE_INCLUDE_ONCE)); }
-    | T_EVAL '(' expr ')'                                   { $$ = new Node_EvalExpr(array('expr' => $3)); }
-    | T_REQUIRE expr                                        { $$ = new Node_IncludeExpr(array('expr' => $2, 'type' => Node_IncludeExpr::TYPE_REQUIRE)); }
-    | T_REQUIRE_ONCE expr                                   { $$ = new Node_IncludeExpr(array('expr' => $2, 'type' => Node_IncludeExpr::TYPE_REQUIRE_ONCE)); }
-    | T_INT_CAST expr                                       { $$ = new Node_IntCastExpr(array('expr' => $2)); }
-    | T_DOUBLE_CAST expr                                    { $$ = new Node_DoubleCastExpr(array('expr' => $2)); }
-    | T_STRING_CAST expr                                    { $$ = new Node_StringCastExpr(array('expr' => $2)); }
-    | T_ARRAY_CAST expr                                     { $$ = new Node_ArrayCastExpr(array('expr' => $2)); }
-    | T_OBJECT_CAST expr                                    { $$ = new Node_ObjectCastExpr(array('expr' => $2)); }
-    | T_BOOL_CAST expr                                      { $$ = new Node_BoolCastExpr(array('expr' => $2)); }
-    | T_UNSET_CAST expr                                     { $$ = new Node_UnsetCastExpr(array('expr' => $2)); }
-    | T_EXIT exit_expr                                      { $$ = new Node_ExitExpr(array('expr' => $2)); }
-    | '@' expr                                              { $$ = new Node_ErrorSupressExpr(array('expr' => $2)); }
+    | expr '?' expr ':' expr                                { $$ = new Node_Expr_Ternary(array('cond' => $1, 'if' => $3, 'else' => $5)); }
+    | expr '?' ':' expr                                     { $$ = new Node_Expr_Ternary(array('cond' => $1, 'if' => null, 'else' => $4)); }
+    | T_ISSET '(' variables_list ')'                        { $$ = new Node_Expr_Isset(array('vars' => $3)); }
+    | T_EMPTY '(' variable ')'                              { $$ = new Node_Expr_Empty(array('var' => $3)); }
+    | T_INCLUDE expr                                        { $$ = new Node_Expr_Include(array('expr' => $2, 'type' => Node_Expr_Include::TYPE_INCLUDE)); }
+    | T_INCLUDE_ONCE expr                                   { $$ = new Node_Expr_Include(array('expr' => $2, 'type' => Node_Expr_Include::TYPE_INCLUDE_ONCE)); }
+    | T_EVAL '(' expr ')'                                   { $$ = new Node_Expr_Eval(array('expr' => $3)); }
+    | T_REQUIRE expr                                        { $$ = new Node_Expr_Include(array('expr' => $2, 'type' => Node_Expr_Include::TYPE_REQUIRE)); }
+    | T_REQUIRE_ONCE expr                                   { $$ = new Node_Expr_Include(array('expr' => $2, 'type' => Node_Expr_Include::TYPE_REQUIRE_ONCE)); }
+    | T_INT_CAST expr                                       { $$ = new Node_Expr_IntCast(array('expr' => $2)); }
+    | T_DOUBLE_CAST expr                                    { $$ = new Node_Expr_DoubleCast(array('expr' => $2)); }
+    | T_STRING_CAST expr                                    { $$ = new Node_Expr_StringCast(array('expr' => $2)); }
+    | T_ARRAY_CAST expr                                     { $$ = new Node_Expr_ArrayCast(array('expr' => $2)); }
+    | T_OBJECT_CAST expr                                    { $$ = new Node_Expr_ObjectCast(array('expr' => $2)); }
+    | T_BOOL_CAST expr                                      { $$ = new Node_Expr_BoolCast(array('expr' => $2)); }
+    | T_UNSET_CAST expr                                     { $$ = new Node_Expr_UnsetCast(array('expr' => $2)); }
+    | T_EXIT exit_expr                                      { $$ = new Node_Expr_Exit(array('expr' => $2)); }
+    | '@' expr                                              { $$ = new Node_Expr_ErrorSupress(array('expr' => $2)); }
     | scalar                                                { $$ = $1; }
-    | T_ARRAY '(' array_pair_list ')'                       { $$ = new Node_ArrayExpr(array('items' => $3)); }
-    | '`' backticks_expr '`'                                { $$ = new Node_ShellExecExpr(array('expr' => $2)); }
-    | T_PRINT expr                                          { $$ = new Node_PrintExpr(array('expr' => $2)); }
+    | T_ARRAY '(' array_pair_list ')'                       { $$ = new Node_Expr_Array(array('items' => $3)); }
+    | '`' backticks_expr '`'                                { $$ = new Node_Expr_ShellExec(array('expr' => $2)); }
+    | T_PRINT expr                                          { $$ = new Node_Expr_Print(array('expr' => $2)); }
     | T_FUNCTION optional_ref '(' parameter_list ')' lexical_vars '{' inner_statement_list '}'
-          { $$ = new Node_LambdaFuncExpr(array('byRef' => $2, 'params' => $4, 'useVars' => $6, 'stmts' => $8)); }
+          { $$ = new Node_Expr_LambdaFunc(array('byRef' => $2, 'params' => $4, 'useVars' => $6, 'stmts' => $8)); }
 ;
 
 lexical_vars:
@@ -535,23 +535,23 @@ lexical_vars:
 
 lexical_var_list:
       lexical_var_list ',' optional_ref T_VARIABLE
-          { $1[] = new Node_LambdaFuncExprUse(array('var' => substr($4, 1), 'byRef' => $3)); $$ = $1; }
+          { $1[] = new Node_Expr_LambdaFuncUse(array('var' => substr($4, 1), 'byRef' => $3)); $$ = $1; }
     | optional_ref T_VARIABLE
-          { $$ = array(new Node_LambdaFuncExprUse(array('var' => substr($2, 1), 'byRef' => $1))); }
+          { $$ = array(new Node_Expr_LambdaFuncUse(array('var' => substr($2, 1), 'byRef' => $1))); }
 ;
 
 function_call:
-      name '(' function_call_parameter_list ')'             { $$ = new Node_FuncCallExpr(array('func' => $1, 'args' => $3)); }
-    | class_name T_PAAMAYIM_NEKUDOTAYIM T_STRING '(' function_call_parameter_list ')'
-          { $$ = new Node_StaticCallExpr(array('class' => $1, 'func' => $3, 'args' => $5)); }
-    | class_name T_PAAMAYIM_NEKUDOTAYIM variable_without_objects '(' function_call_parameter_list ')'
-          { $$ = new Node_StaticCallExpr(array('class' => $1, 'func' => $3, 'args' => $5)); }
-    | reference_variable T_PAAMAYIM_NEKUDOTAYIM T_STRING '(' function_call_parameter_list ')'
-          { $$ = new Node_StaticCallExpr(array('class' => $1, 'func' => $3, 'args' => $5)); }
-    | reference_variable T_PAAMAYIM_NEKUDOTAYIM variable_without_objects '(' function_call_parameter_list ')'
-          { $$ = new Node_StaticCallExpr(array('class' => $1, 'func' => $3, 'args' => $5)); }
-    | variable_without_objects '(' function_call_parameter_list ')'
-          { $$ = new Node_FuncCallExpr(array('func' => $1, 'args' => $3)); }
+      name '(' function_call_argument_list ')'             { $$ = new Node_Expr_FuncCall(array('func' => $1, 'args' => $3)); }
+    | class_name T_PAAMAYIM_NEKUDOTAYIM T_STRING '(' function_call_argument_list ')'
+          { $$ = new Node_Expr_StaticCall(array('class' => $1, 'func' => $3, 'args' => $5)); }
+    | class_name T_PAAMAYIM_NEKUDOTAYIM variable_without_objects '(' function_call_argument_list ')'
+          { $$ = new Node_Expr_StaticCall(array('class' => $1, 'func' => $3, 'args' => $5)); }
+    | reference_variable T_PAAMAYIM_NEKUDOTAYIM T_STRING '(' function_call_argument_list ')'
+          { $$ = new Node_Expr_StaticCall(array('class' => $1, 'func' => $3, 'args' => $5)); }
+    | reference_variable T_PAAMAYIM_NEKUDOTAYIM variable_without_objects '(' function_call_argument_list ')'
+          { $$ = new Node_Expr_StaticCall(array('class' => $1, 'func' => $3, 'args' => $5)); }
+    | variable_without_objects '(' function_call_argument_list ')'
+          { $$ = new Node_Expr_FuncCall(array('func' => $1, 'args' => $3)); }
 ;
 
 class_name:
@@ -572,7 +572,7 @@ class_name_reference:
 
 dynamic_class_name_reference:
       dynamic_class_name_reference T_OBJECT_OPERATOR object_property
-          { $$ = new Node_PropertyFetchExpr(array('var' => $1, 'name' => $3)); }
+          { $$ = new Node_Expr_PropertyFetch(array('var' => $1, 'name' => $3)); }
     | base_variable                                         { $$ = $1; }
 ;
 
@@ -590,38 +590,38 @@ backticks_expr:
 
 ctor_arguments:
       /* empty */                                           { $$ = array(); }
-    | '(' function_call_parameter_list ')'                  { $$ = $2; }
+    | '(' function_call_argument_list ')'                   { $$ = $2; }
 ;
 
 common_scalar:
-      T_LNUMBER                                             { $$ = new Node_LNumberScalar(array('value' => (int) $1)); }
-    | T_DNUMBER                                             { $$ = new Node_DNumberScalar(array('value' => (double) $1)); }
-    | T_CONSTANT_ENCAPSED_STRING                            { $$ = new Node_StringScalar(array('value' => str_replace(array('\\\'', '\\\\'), array('\'', '\\'), substr($1, 1, -1)))); }
-    | T_LINE                                                { $$ = new Node_LineConstScalar(array()); }
-    | T_FILE                                                { $$ = new Node_FileConstScalar(array()); }
-    | T_DIR                                                 { $$ = new Node_DirConstScalar(array()); }
-    | T_CLASS_C                                             { $$ = new Node_ClassConstScalar(array()); }
-    | T_METHOD_C                                            { $$ = new Node_MethodConstScalar(array()); }
-    | T_FUNC_C                                              { $$ = new Node_FuncConstScalar(array()); }
-    | T_NS_C                                                { $$ = new Node_NSConstScalar(array()); }
+      T_LNUMBER                                             { $$ = new Node_Scalar_LNumber(array('value' => (int) $1)); }
+    | T_DNUMBER                                             { $$ = new Node_Scalar_DNumber(array('value' => (double) $1)); }
+    | T_CONSTANT_ENCAPSED_STRING                            { $$ = new Node_Scalar_String(array('value' => str_replace(array('\\\'', '\\\\'), array('\'', '\\'), substr($1, 1, -1)))); }
+    | T_LINE                                                { $$ = new Node_Scalar_LineConst(array()); }
+    | T_FILE                                                { $$ = new Node_Scalar_FileConst(array()); }
+    | T_DIR                                                 { $$ = new Node_Scalar_DirConst(array()); }
+    | T_CLASS_C                                             { $$ = new Node_Scalar_ClassConst(array()); }
+    | T_METHOD_C                                            { $$ = new Node_Scalar_MethodConst(array()); }
+    | T_FUNC_C                                              { $$ = new Node_Scalar_FuncConst(array()); }
+    | T_NS_C                                                { $$ = new Node_Scalar_NSConst(array()); }
     | T_START_HEREDOC T_ENCAPSED_AND_WHITESPACE T_END_HEREDOC
-          { $$ = new Node_StringScalar(array('value' => stripcslashes($2))); }
-    | T_START_HEREDOC T_END_HEREDOC                         { $$ = new Node_StringScalar(array('value' => '')); }
+          { $$ = new Node_Scalar_String(array('value' => stripcslashes($2))); }
+    | T_START_HEREDOC T_END_HEREDOC                         { $$ = new Node_Scalar_String(array('value' => '')); }
 ;
 
 static_scalar: /* compile-time evaluated scalars */
       common_scalar                                         { $$ = $1; }
-    | name                                                  { $$ = new Node_ConstFetchExpr(array('name' => $1)); }
-    | '+' static_scalar                                     { $$ = new Node_UnaryPlusExpr(array('expr' => $2)); }
-    | '-' static_scalar                                     { $$ = new Node_UnaryMinusExpr(array('expr' => $2)); }
-    | T_ARRAY '(' static_array_pair_list ')'                { $$ = new Node_ArrayExpr(array('items' => $3)); }
-    | class_name T_PAAMAYIM_NEKUDOTAYIM T_STRING            { $$ = new Node_ClassConstFetchExpr(array('class' => $1, 'name' => $3)); }
+    | name                                                  { $$ = new Node_Expr_ConstFetch(array('name' => $1)); }
+    | '+' static_scalar                                     { $$ = new Node_Expr_UnaryPlus(array('expr' => $2)); }
+    | '-' static_scalar                                     { $$ = new Node_Expr_UnaryMinus(array('expr' => $2)); }
+    | T_ARRAY '(' static_array_pair_list ')'                { $$ = new Node_Expr_Array(array('items' => $3)); }
+    | class_name T_PAAMAYIM_NEKUDOTAYIM T_STRING            { $$ = new Node_Expr_ClassConstFetch(array('class' => $1, 'name' => $3)); }
 ;
 
 scalar:
-      T_STRING_VARNAME                                      { $$ = new Node_StringScalar(array('value' => $1)); }
+      T_STRING_VARNAME                                      { $$ = new Node_Scalar_String(array('value' => $1)); }
     | class_constant                                        { $$ = $1; }
-    | name                                                  { $$ = new Node_ConstFetchExpr(array('name' => $1)); }
+    | name                                                  { $$ = new Node_Expr_ConstFetch(array('name' => $1)); }
     | common_scalar                                         { $$ = $1; }
     | '"' encaps_list '"'                                   { $$ = new Node_EncapsedString(array('parts' => $2)); }
     | T_START_HEREDOC encaps_list T_END_HEREDOC             { $$ = new Node_EncapsedString(array('parts' => $2)); }
@@ -639,10 +639,10 @@ optional_comma:
 
 non_empty_static_array_pair_list:
       non_empty_static_array_pair_list ',' static_scalar T_DOUBLE_ARROW static_scalar
-          { $1[] = new Node_ArrayExprItem(array('key' => $3, 'value' => $5, 'byRef' => false)); $$ = $1; }
-    | non_empty_static_array_pair_list ',' static_scalar    { $1[] = new Node_ArrayExprItem(array('key' => null, 'value' => $3, 'byRef' => false)); $$ = $1; }
-    | static_scalar T_DOUBLE_ARROW static_scalar            { $$ = array(new Node_ArrayExprItem(array('key' => $1, 'value' => $3, 'byRef' => false))); }
-    | static_scalar                                         { $$ = array(new Node_ArrayExprItem(array('key' => null, 'value' => $1, 'byRef' => false))); }
+          { $1[] = new Node_Expr_ArrayItem(array('key' => $3, 'value' => $5, 'byRef' => false)); $$ = $1; }
+    | non_empty_static_array_pair_list ',' static_scalar    { $1[] = new Node_Expr_ArrayItem(array('key' => null, 'value' => $3, 'byRef' => false)); $$ = $1; }
+    | static_scalar T_DOUBLE_ARROW static_scalar            { $$ = array(new Node_Expr_ArrayItem(array('key' => $1, 'value' => $3, 'byRef' => false))); }
+    | static_scalar                                         { $$ = array(new Node_Expr_ArrayItem(array('key' => null, 'value' => $1, 'byRef' => false))); }
 ;
 
 expr:
@@ -651,10 +651,10 @@ expr:
 ;
 
 variable:
-      variable T_OBJECT_OPERATOR object_property '(' function_call_parameter_list ')'
-          { $$ = new Node_MethodCallExpr(array('var' => $1, 'name' => $3, 'args' => $5)); }
+      variable T_OBJECT_OPERATOR object_property '(' function_call_argument_list ')'
+          { $$ = new Node_Expr_MethodCall(array('var' => $1, 'name' => $3, 'args' => $5)); }
     | variable T_OBJECT_OPERATOR object_property
-          { $$ = new Node_PropertyFetchExpr(array('var' => $1, 'name' => $3)); }
+          { $$ = new Node_Expr_PropertyFetch(array('var' => $1, 'name' => $3)); }
     | base_variable                                         { $$ = $1; }
     | function_call                                         { $$ = $1; }
 ;
@@ -666,15 +666,25 @@ variable_without_objects:
 
 base_variable:
       variable_without_objects                              { $$ = $1; }
-    | class_name T_PAAMAYIM_NEKUDOTAYIM variable_without_objects
-          { $$ = new Node_StaticPropertyFetchExpr(array('class' => $1, 'name' => $3)); }
-    | reference_variable T_PAAMAYIM_NEKUDOTAYIM variable_without_objects
-          { $$ = new Node_StaticPropertyFetchExpr(array('class' => $1, 'name' => $3)); }
+    | class_name T_PAAMAYIM_NEKUDOTAYIM '$' reference_variable
+          { $$ = new Node_Expr_StaticPropertyFetch(array('class' => $1, 'name' => new Node_Variable(array('name' => $4)))); }
+    | reference_variable T_PAAMAYIM_NEKUDOTAYIM '$' reference_variable
+          { $$ = new Node_Expr_StaticPropertyFetch(array('class' => $1, 'name' => new Node_Variable(array('name' => $4)))); }
+    | static_property_with_arrays                           { $$ = $1; }
+;
+
+static_property_with_arrays:
+      class_name T_PAAMAYIM_NEKUDOTAYIM T_VARIABLE
+          { $$ = new Node_Expr_StaticPropertyFetch(array('class' => $1, 'name' => substr($3, 1))); }
+    | reference_variable T_PAAMAYIM_NEKUDOTAYIM '$' '{' expr '}'
+          { $$ = new Node_Expr_StaticPropertyFetch(array('class' => $1, 'name' => new Node_Variable(array('name' => $5)))); }
+    | static_property_with_arrays '[' dim_offset ']'        { $$ = new Node_Expr_ArrayDimFetch(array('var' => $1, 'dim' => $3)); }
+    | static_property_with_arrays '{' expr '}'              { $$ = new Node_Expr_ArrayDimFetch(array('var' => $1, 'dim' => $3)); }
 ;
 
 reference_variable:
-      reference_variable '[' dim_offset ']'                 { $$ = new Node_ArrayDimFetchExpr(array('var' => $1, 'dim' => $3)); }
-    | reference_variable '{' expr '}'                       { $$ = new Node_ArrayDimFetchExpr(array('var' => $1, 'dim' => $3)); }
+      reference_variable '[' dim_offset ']'                 { $$ = new Node_Expr_ArrayDimFetch(array('var' => $1, 'dim' => $3)); }
+    | reference_variable '{' expr '}'                       { $$ = new Node_Expr_ArrayDimFetch(array('var' => $1, 'dim' => $3)); }
     | T_VARIABLE                                            { $$ = new Node_Variable(array('name' => substr($1, 1))); }
     | '$' '{' expr '}'                                      { $$ = new Node_Variable(array('name' => $3)); }
 ;
@@ -690,8 +700,8 @@ object_property:
 ;
 
 object_dim_list:
-      object_dim_list '[' dim_offset ']'                    { $$ = new Node_ArrayDimFetchExpr(array('var' => $1, 'dim' => $3)); }
-    | object_dim_list '{' expr '}'                          { $$ = new Node_ArrayDimFetchExpr(array('var' => $1, 'dim' => $3)); }
+      object_dim_list '[' dim_offset ']'                    { $$ = new Node_Expr_ArrayDimFetch(array('var' => $1, 'dim' => $3)); }
+    | object_dim_list '{' expr '}'                          { $$ = new Node_Expr_ArrayDimFetch(array('var' => $1, 'dim' => $3)); }
     | T_STRING                                              { $$ = $1; }
     | '{' expr '}'                                          { $$ = $2; }
 ;
@@ -714,15 +724,15 @@ array_pair_list:
 
 non_empty_array_pair_list:
       non_empty_array_pair_list ',' expr T_DOUBLE_ARROW expr
-          { $1[] = new Node_ArrayExprItem(array('key' => $3, 'value' => $5, 'byRef' => false)); $$ = $1; }
-    | non_empty_array_pair_list ',' expr                    { $1[] = new Node_ArrayExprItem(array('key' => null, 'value' => $3, 'byRef' => false)); $$ = $1; }
-    | expr T_DOUBLE_ARROW expr                              { $$ = array(new Node_ArrayExprItem(array('key' => $1, 'value' => $3, 'byRef' => false))); }
-    | expr                                                  { $$ = array(new Node_ArrayExprItem(array('key' => null, 'value' => $1, 'byRef' => false))); }
+          { $1[] = new Node_Expr_ArrayItem(array('key' => $3, 'value' => $5, 'byRef' => false)); $$ = $1; }
+    | non_empty_array_pair_list ',' expr                    { $1[] = new Node_Expr_ArrayItem(array('key' => null, 'value' => $3, 'byRef' => false)); $$ = $1; }
+    | expr T_DOUBLE_ARROW expr                              { $$ = array(new Node_Expr_ArrayItem(array('key' => $1, 'value' => $3, 'byRef' => false))); }
+    | expr                                                  { $$ = array(new Node_Expr_ArrayItem(array('key' => null, 'value' => $1, 'byRef' => false))); }
     | non_empty_array_pair_list ',' expr T_DOUBLE_ARROW '&' variable
-          { $1[] = new Node_ArrayExprItem(array('key' => $3, 'value' => $6, 'byRef' => true)); $$ = $1; }
-    | non_empty_array_pair_list ',' '&' variable            { $1[] = new Node_ArrayExprItem(array('key' => null, 'value' => $4, 'byRef' => true)); $$ = $1; }
-    | expr T_DOUBLE_ARROW '&' variable                      { $$ = array(new Node_ArrayExprItem(array('key' => $1, 'value' => $4, 'byRef' => true))); }
-    | '&' variable                                          { $$ = array(new Node_ArrayExprItem(array('key' => null, 'value' => $2, 'byRef' => true))); }
+          { $1[] = new Node_Expr_ArrayItem(array('key' => $3, 'value' => $6, 'byRef' => true)); $$ = $1; }
+    | non_empty_array_pair_list ',' '&' variable            { $1[] = new Node_Expr_ArrayItem(array('key' => null, 'value' => $4, 'byRef' => true)); $$ = $1; }
+    | expr T_DOUBLE_ARROW '&' variable                      { $$ = array(new Node_Expr_ArrayItem(array('key' => $1, 'value' => $4, 'byRef' => true))); }
+    | '&' variable                                          { $$ = array(new Node_Expr_ArrayItem(array('key' => null, 'value' => $2, 'byRef' => true))); }
 ;
 
 encaps_list:
@@ -734,23 +744,23 @@ encaps_list:
 
 encaps_var:
       T_VARIABLE                                            { $$ = new Node_Variable(array('name' => substr($1, 1))); }
-    | T_VARIABLE '[' encaps_var_offset ']'                  { $$ = new Node_ArrayDimFetchExpr(array('var' => new Node_Variable(array('name' => substr($1, 1))), 'dim' => $3)); }
-    | T_VARIABLE T_OBJECT_OPERATOR T_STRING                 { $$ = new Node_PropertyFetchExpr(array('var' => new Node_Variable(array('name' => substr($1, 1))), 'name' => $3)); }
+    | T_VARIABLE '[' encaps_var_offset ']'                  { $$ = new Node_Expr_ArrayDimFetch(array('var' => new Node_Variable(array('name' => substr($1, 1))), 'dim' => $3)); }
+    | T_VARIABLE T_OBJECT_OPERATOR T_STRING                 { $$ = new Node_Expr_PropertyFetch(array('var' => new Node_Variable(array('name' => substr($1, 1))), 'name' => $3)); }
     | T_DOLLAR_OPEN_CURLY_BRACES expr '}'                   { $$ = new Node_Variable(array('name' => $2)); }
     | T_DOLLAR_OPEN_CURLY_BRACES T_STRING_VARNAME '[' expr ']' '}'
-          { $$ = new Node_ArrayDimFetchExpr(array('var' => new Node_Variable(array('name' => $2)), 'dim' => $4)); }
+          { $$ = new Node_Expr_ArrayDimFetch(array('var' => new Node_Variable(array('name' => $2)), 'dim' => $4)); }
     | T_CURLY_OPEN variable '}'                             { $$ = $2; }
 ;
 
 encaps_var_offset:
-      T_STRING                                              { $$ = new Node_StringScalar(array('value' => $1)); }
-    | T_NUM_STRING                                          { $$ = new Node_LNumberScalar(array('value' => (int) $1)); }
+      T_STRING                                              { $$ = new Node_Scalar_String(array('value' => $1)); }
+    | T_NUM_STRING                                          { $$ = new Node_Scalar_LNumber(array('value' => (int) $1)); }
     | T_VARIABLE                                            { $$ = new Node_Variable(array('name' => substr($1, 1))); }
 ;
 
 class_constant:
-      class_name T_PAAMAYIM_NEKUDOTAYIM T_STRING            { $$ = new Node_ClassConstFetchExpr(array('class' => $1, 'name' => $3)); }
-    | reference_variable T_PAAMAYIM_NEKUDOTAYIM T_STRING    { $$ = new Node_ClassConstFetchExpr(array('class' => $1, 'name' => $3)); }
+      class_name T_PAAMAYIM_NEKUDOTAYIM T_STRING            { $$ = new Node_Expr_ClassConstFetch(array('class' => $1, 'name' => $3)); }
+    | reference_variable T_PAAMAYIM_NEKUDOTAYIM T_STRING    { $$ = new Node_Expr_ClassConstFetch(array('class' => $1, 'name' => $3)); }
 ;
 
 %%

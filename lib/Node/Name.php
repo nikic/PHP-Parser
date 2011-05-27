@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @property array $parts Parts of the name
+ */
 class Node_Name extends NodeAbstract
 {
     const ABSOLUTE = 1;

@@ -35,22 +35,6 @@ function magicSplit($regex, $string) {
     return array_filter($pieces);
 }
 
-function generateNodeFilesFromSignatures($signatures, $dir) {
-    foreach ($signatures as $nodeName => $signature) {
-        $code = <<<EOC
-<?php
-
-class Node_{$nodeName} extends NodeAbstract
-{
-}
-EOC;
-;
-        if (!file_exists($dir . '/' . $nodeName . '.php')) {
-            file_put_contents($dir . '/' . $nodeName . '.php', $code);
-        }
-    }
-}
-
 echo '<pre>';
 
 ////////////////////
@@ -81,7 +65,7 @@ foreach ($ruleBlocksMatches as $match) {
                     $usedParts[$match[1]] = true;
                 }
 
-                preg_match_all('~(?<name>[A-Z][a-zA-Z]++)' . PARAMS . '~', $part, $nodeMatches, PREG_SET_ORDER);
+                preg_match_all('~(?<name>[A-Z][a-zA-Z_]++)' . PARAMS . '~', $part, $nodeMatches, PREG_SET_ORDER);
                 foreach ($nodeMatches as $match) {
                     $signature =& $nodeSignatures[$match['name']];
                     $params = magicSplit('(?:' . PARAMS . '|' . ARGS . ')(*SKIP)(*FAIL)|,', $match['params']);
@@ -145,5 +129,3 @@ foreach ($nodeSignatures as $params) {
 }
 
 var_dump(array_keys($names));
-
-generateNodeFilesFromSignatures($nodeSignatures, './lib/Node');
