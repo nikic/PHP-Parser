@@ -21,7 +21,11 @@ class PrettyPrinter_Zend extends PrettyPrinterAbstract
     }
 
     public function pScalar_String(Node_Scalar_String $node) {
-        return '\'' . addslashes($node->value) . '\'';
+        return ($node->isBinary ? 'b' : '')
+             . (Node_Scalar_String::SINGLE_QUOTED === $node->type
+                ? '\'' . addcslashes($node->value, '\'\\') . '\''
+                : '"' . addcslashes($node->value, "\n\r\t\f\v$\"\\") . '"'
+        );
     }
 
     public function pExpr_Assign(Node_Expr_Assign $node) {

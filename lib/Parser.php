@@ -2545,7 +2545,7 @@ class Parser
     }
 
     private function yyn270() {
-         $this->yyval = new Node_Scalar_String(array('value' => str_replace(array('\\\'', '\\\\'), array('\'', '\\'), substr($this->yyastk[$this->yysp-(1-1)], 1, -1)))); 
+         $this->yyval = Node_Scalar_String::create($this->yyastk[$this->yysp-(1-1)]); 
     }
 
     private function yyn271() {

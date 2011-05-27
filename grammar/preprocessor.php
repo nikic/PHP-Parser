@@ -71,7 +71,7 @@ function resolveNodes($code) {
 
 function resolveMacros($code) {
     return preg_replace_callback(
-        '~(?<name>init|push|pushNormalizing|toArray|parse(?:Var|Encapsed|LNumber|DNumber|String))' . ARGS . '~',
+        '~(?<name>init|push|pushNormalizing|toArray|parse(?:Var|Encapsed|LNumber|DNumber))' . ARGS . '~',
         function($matches) {
             // recurse
             $matches['args'] = resolveMacros($matches['args']);
@@ -126,12 +126,6 @@ function resolveMacros($code) {
                 assertArgs(1, $args, $name);
 
                 return '(double) ' . $args[0];
-            }
-
-            if ('parseString' == $name) {
-                assertArgs(1, $args, $name);
-
-                return 'str_replace(array(\'\\\\\\\'\', \'\\\\\\\\\'), array(\'\\\'\', \'\\\\\'), substr(' . $args[0] . ', 1, -1))';
             }
         },
         $code

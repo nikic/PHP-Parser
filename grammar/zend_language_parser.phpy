@@ -604,7 +604,7 @@ ctor_arguments:
 common_scalar:
       T_LNUMBER                                             { $$ = new Node_Scalar_LNumber(array('value' => (int) $1)); }
     | T_DNUMBER                                             { $$ = new Node_Scalar_DNumber(array('value' => (double) $1)); }
-    | T_CONSTANT_ENCAPSED_STRING                            { $$ = new Node_Scalar_String(array('value' => str_replace(array('\\\'', '\\\\'), array('\'', '\\'), substr($1, 1, -1)))); }
+    | T_CONSTANT_ENCAPSED_STRING                            { $$ = Node_Scalar_String::create($1); }
     | T_LINE                                                { $$ = new Node_Scalar_LineConst(array()); }
     | T_FILE                                                { $$ = new Node_Scalar_FileConst(array()); }
     | T_DIR                                                 { $$ = new Node_Scalar_DirConst(array()); }
