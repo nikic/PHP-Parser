@@ -299,7 +299,7 @@ class PrettyPrinter_Zend extends PrettyPrinterAbstract
     }
 
     public function pExpr_StaticCall(Node_Expr_StaticCall $node) {
-        return $this->p($node->class) . '::'
+        return $this->pClassName($node->class) . '::'
              . ($node->func instanceof Node_Variable ? $this->p($node->func) : $node->func)
              . '(' . $this->pCommaSeparated($node->args) . ')';
     }
@@ -351,7 +351,7 @@ class PrettyPrinter_Zend extends PrettyPrinterAbstract
     }
 
     public function pExpr_StaticPropertyFetch(Node_Expr_StaticPropertyFetch $node) {
-        return $this->p($node->class) . '::$' . $this->pObjectProperty($node->name);
+        return $this->pClassName($node->class) . '::$' . $this->pObjectProperty($node->name);
     }
 
     public function pExpr_ShellExec(Node_Expr_ShellExec $node) {
@@ -370,7 +370,7 @@ class PrettyPrinter_Zend extends PrettyPrinterAbstract
     }
 
     public function pExpr_New(Node_Expr_New $node) {
-        return 'new ' . $this->p($node->class) . '(' . $this->pCommaSeparated($node->args) . ')';
+        return 'new ' . $this->pClassName($node->class) . '(' . $this->pCommaSeparated($node->args) . ')';
     }
 
     public function pExpr_Ternary(Node_Expr_Ternary $node) {
@@ -406,7 +406,9 @@ class PrettyPrinter_Zend extends PrettyPrinterAbstract
         return $this->pModifiers($node->type)
              . 'function ' . $node->name
              . '(' . $this->pCommaSeparated($node->params) . ')'
-             . "\n" . '{' . "\n" . $this->pIndent($this->pStmts($node->stmts)) . '}';
+             . (null !== $node->stmts
+                ? "\n" . '{' . "\n" . $this->pIndent($this->pStmts($node->stmts)) . '}'
+                : ';');
     }
 
     public function pStmt_ClassConst(Node_Stmt_ClassConst $node) {
@@ -535,12 +537,10 @@ class PrettyPrinter_Zend extends PrettyPrinterAbstract
     }
 
     public function pClassName($node) {
-        if ($node instanceof Node_Name) {
-            return $this->pName($node);
-        } elseif ($node == 'static') {
+        if ($node == 'static') {
             return 'static';
         } else {
-            throw new InvalidArgumentException();
+            return $this->p($node);
         }
     }
 

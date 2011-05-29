@@ -1,6 +1,6 @@
 <?php
 
-$DIR = '..';
+$DIR = '../../symfony2';
 
 function __autoload($class) {
     is_file($file = '../lib/' . strtr($class, '_', '/') . '.php') && require_once $file;
@@ -30,6 +30,10 @@ echo '<!DOCTYPE html>
     .failReason {
         background-color: rgba(255, 0, 0, 0.3);
     }
+
+    .failCount {
+        color: red;
+    }
 </style>
 <table>
     <tr>
@@ -37,10 +41,12 @@ echo '<!DOCTYPE html>
         <td>Parse</td>
         <td>Time</td>
         <td>PrettyPrint</td>
-        <td>Same</td>
+        <td>Compare</td>
     </tr>';
 
-$GST = microtime(true);
+$totalStartTime = microtime(true);
+$parseFail = $parseCount = $ppFail = $ppCount = $compareFail = $compareCount = 0;
+
 foreach (new RecursiveIteratorIterator(
              new RecursiveDirectoryIterator($DIR),
              RecursiveIteratorIterator::LEAVES_ONLY)
@@ -67,6 +73,7 @@ foreach (new RecursiveIteratorIterator(
 
     $time = microtime(true) - $startTime;
 
+    ++$parseCount;
     if (false !== $stmts) {
         $code = '<?php' . "\n" . $prettyPrinter->pStmts($stmts);
 
@@ -77,7 +84,9 @@ foreach (new RecursiveIteratorIterator(
             }
         );
 
+        ++$ppCount;
         if (false !== $ppStmts) {
+            ++$compareCount;
             if ($stmts == $ppStmts) {
                 echo '
         <td class="pass">PASS</td>
@@ -91,6 +100,8 @@ foreach (new RecursiveIteratorIterator(
         <td class="pass">PASS</td>
         <td class="fail">FAIL</td>
     </tr>';
+
+                ++$compareFail;
             }
         } else {
             echo '
@@ -99,6 +110,8 @@ foreach (new RecursiveIteratorIterator(
         <td class="fail">FAIL</td>
         <td></td>
     </tr>';
+
+            ++$ppFail;
         }
     } else {
         echo '
@@ -108,12 +121,21 @@ foreach (new RecursiveIteratorIterator(
         <td></td>
     </tr>
     <tr class="failReason"><td colspan="5">' . $errMsg . '</td></tr>';
+
+        ++$parseFail;
     }
 
     flush();
 }
 
 echo '
+    <tr>
+        <td>Fail / Total:</td>
+        <td><span class="failCount">' . $parseFail .   '</span> / ' . $parseCount .   '</td>
+        <td></td>
+        <td><span class="failCount">' . $ppFail .      '</span> / ' . $ppCount .      '</td>
+        <td><span class="failCount">' . $compareFail . '</span> / ' . $compareCount . '</td>
+    </tr>
 </table>';
 
-echo 'Total time: ', microtime(true) - $GST;
+echo 'Total time: ', microtime(true) - $totalStartTime;
