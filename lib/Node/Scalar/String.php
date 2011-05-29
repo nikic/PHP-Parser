@@ -33,15 +33,28 @@ class Node_Scalar_String extends Node_Scalar
         } else {
             $type = self::DOUBLE_QUOTED;
 
-            $s = str_replace(
-                array('\\\\', '\"', '\$', '\n', '\r', '\t', '\f', '\v'),
-                array(  '\\',  '"',  '$', "\n", "\r", "\t", "\f", "\v"),
-                substr($s, $isBinary + 1, -1)
-            );
-
-            // TODO: parse hex and oct escape sequences
+            $s = self::parseEscapeSequences(substr($s, $isBinary + 1, -1));
         }
 
-        return new self(array('value' => $s, 'isBinary' => $isBinary, 'type' => $type));
+        return new self(array(
+            'value' => $s, 'isBinary' => $isBinary, 'type' => $type
+        ));
+    }
+
+    /**
+     * Parses escape sequences in the content of a doubly quoted string
+     * or heredoc string.
+     *
+     * @param  string $s String without quotes
+     * @return string String with escape sequences parsed
+     */
+    public static function parseEscapeSequences($s) {
+        // TODO: parse hex and oct escape sequences
+
+        return str_replace(
+            array('\\\\', '\"', '\$', '\n', '\r', '\t', '\f', '\v'),
+            array(  '\\',  '"',  '$', "\n", "\r", "\t", "\f", "\v"),
+            $s
+        );
     }
 }

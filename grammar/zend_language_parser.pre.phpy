@@ -522,7 +522,7 @@ expr_without_variable:
     | '@' expr                                              { $$ = Expr_ErrorSupress[expr: $2]; }
     | scalar                                                { $$ = $1; }
     | T_ARRAY '(' array_pair_list ')'                       { $$ = Expr_Array[items: $3]; }
-    | '`' backticks_expr '`'                                { $$ = Expr_ShellExec[expr: $2]; }
+    | '`' backticks_expr '`'                                { $$ = Expr_ShellExec[parts: $2]; }
     | T_PRINT expr                                          { $$ = Expr_Print[expr: $2]; }
     | T_FUNCTION optional_ref '(' parameter_list ')' lexical_vars '{' inner_statement_list '}'
           { $$ = Expr_LambdaFunc[byRef: $2, params: $4, useVars: $6, stmts: $8]; }
@@ -591,8 +591,8 @@ exit_expr:
 ;
 
 backticks_expr:
-      /* empty */                                           { $$ = null; }
-    | T_ENCAPSED_AND_WHITESPACE                             { $$ = parseEncapsed($1); }
+      /* empty */                                           { $$ = array(); }
+    | T_ENCAPSED_AND_WHITESPACE                             { $$ = array(Scalar_String::parseEscapeSequences($1)); }
     | encaps_list                                           { $$ = $1; }
 ;
 
@@ -613,8 +613,9 @@ common_scalar:
     | T_FUNC_C                                              { $$ = Scalar_FuncConst[]; }
     | T_NS_C                                                { $$ = Scalar_NSConst[]; }
     | T_START_HEREDOC T_ENCAPSED_AND_WHITESPACE T_END_HEREDOC
-          { $$ = Scalar_String[value: parseEncapsed($2)]; }
-    | T_START_HEREDOC T_END_HEREDOC                         { $$ = Scalar_String[value: '']; }
+          { $$ = Scalar_String[value: Scalar_String::parseEscapeSequences($2), isBinary: false, type: '\'' === $1[3] ? String_Scalar::SINGLE_QUOTED : Scalar_String::DOUBLE_QUOTED]; }
+    | T_START_HEREDOC T_END_HEREDOC
+          { $$ = Scalar_String[value: '', isBinary: false, type: Scalar_String::SINGLE_QUOTED]; }
 ;
 
 static_scalar: /* compile-time evaluated scalars */
@@ -631,8 +632,8 @@ scalar:
     | class_constant                                        { $$ = $1; }
     | name                                                  { $$ = Expr_ConstFetch[name: $1]; }
     | common_scalar                                         { $$ = $1; }
-    | '"' encaps_list '"'                                   { $$ = EncapsedString[parts: $2]; }
-    | T_START_HEREDOC encaps_list T_END_HEREDOC             { $$ = EncapsedString[parts: $2]; }
+    | '"' encaps_list '"'                                   { $$ = Scalar_Encapsed[parts: $2]; }
+    | T_START_HEREDOC encaps_list T_END_HEREDOC             { $$ = Scalar_Encapsed[parts: $2]; }
 ;
 
 static_array_pair_list:
@@ -751,9 +752,9 @@ non_empty_array_pair_list:
 
 encaps_list:
       encaps_list encaps_var                                { push($1, $2); }
-    | encaps_list T_ENCAPSED_AND_WHITESPACE                 { push($1, parseEncapsed($2)); }
+    | encaps_list T_ENCAPSED_AND_WHITESPACE                 { push($1, Scalar_String::parseEscapeSequences($2)); }
     | encaps_var                                            { init($1); }
-    | T_ENCAPSED_AND_WHITESPACE encaps_var                  { init(parseEncapsed($1), $2); }
+    | T_ENCAPSED_AND_WHITESPACE encaps_var                  { init(Scalar_String::parseEscapeSequences($1), $2); }
 ;
 
 encaps_var:

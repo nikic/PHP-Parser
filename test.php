@@ -35,7 +35,7 @@ echo "\n\n";
 $prettyPrinter = new PrettyPrinter_Zend;
 echo htmlspecialchars($prettyPrinter->pStmts(
     $parser->yyparse(
-        new Lexer(file_get_contents('./grammar/analyzer.php')),
+        new Lexer(file_get_contents('./grammar/rebuildParser.php')),
         function ($msg) {
             echo $msg;
         }

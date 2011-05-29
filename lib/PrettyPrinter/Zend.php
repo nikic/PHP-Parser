@@ -354,6 +354,10 @@ class PrettyPrinter_Zend extends PrettyPrinterAbstract
         return $this->p($node->class) . '::$' . $this->pObjectProperty($node->name);
     }
 
+    public function pExpr_ShellExec(Node_Expr_ShellExec $node) {
+        return '`' . $this->pEncapsList($node->parts) . '`';
+    }
+
     public function pExpr_LambdaFunc(Node_Expr_LambdaFunc $node) {
         return 'function ' . ($node->byRef ? '&' : '')
              . '(' . $this->pCommaSeparated($node->params) . ')'
@@ -547,5 +551,24 @@ class PrettyPrinter_Zend extends PrettyPrinterAbstract
              . ($modifiers & Node_Stmt_Class::MODIFIER_STATIC    ? 'static '    : '')
              . ($modifiers & Node_Stmt_Class::MODIFIER_ABSTRACT  ? 'abstract '  : '')
              . ($modifiers & Node_Stmt_Class::MODIFIER_FINAL     ? 'final '     : '');
+    }
+
+    public function pEncapsList(array $encapsList) {
+        $return = '';
+        foreach ($encapsList as $element) {
+            if (is_string($element)) {
+                $return .= $element;
+            } elseif ($element instanceof Node_Variable) {
+                if (is_string($element->name)) {
+                    $return .= '$' . $element->name;
+                } else {
+                    $return .= '{' . $this->p($element->name). '}';
+                }
+            } else {
+                $return .= '{' . $this->p($element) . '}';
+            }
+        }
+
+        return $return;
     }
 }

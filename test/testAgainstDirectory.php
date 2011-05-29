@@ -84,8 +84,7 @@ foreach (new RecursiveIteratorIterator(
         <td>' . $time . 's</td>
         <td class="pass">PASS</td>
         <td class="pass">PASS</td>
-    </tr>';
-            } else {
+    </tr>';            } else {
                 echo '
         <td class="pass">PASS</td>
         <td>' . $time . 's</td>

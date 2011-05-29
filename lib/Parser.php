@@ -2397,7 +2397,7 @@ class Parser
     }
 
     private function yyn233() {
-         $this->yyval = new Node_Expr_ShellExec(array('expr' => $this->yyastk[$this->yysp-(3-2)])); 
+         $this->yyval = new Node_Expr_ShellExec(array('parts' => $this->yyastk[$this->yysp-(3-2)])); 
     }
 
     private function yyn234() {
@@ -2517,11 +2517,11 @@ class Parser
     }
 
     private function yyn263() {
-         $this->yyval = null; 
+         $this->yyval = array(); 
     }
 
     private function yyn264() {
-         $this->yyval = stripcslashes($this->yyastk[$this->yysp-(1-1)]); 
+         $this->yyval = array(Node_Scalar_String::parseEscapeSequences($this->yyastk[$this->yysp-(1-1)])); 
     }
 
     private function yyn265() {
@@ -2577,11 +2577,11 @@ class Parser
     }
 
     private function yyn278() {
-         $this->yyval = new Node_Scalar_String(array('value' => stripcslashes($this->yyastk[$this->yysp-(3-2)]))); 
+         $this->yyval = new Node_Scalar_String(array('value' => Node_Scalar_String::parseEscapeSequences($this->yyastk[$this->yysp-(3-2)]), 'isBinary' => false, 'type' => '\'' === $this->yyastk[$this->yysp-(3-1)][3] ? Node_String_Scalar::SINGLE_QUOTED : Node_Scalar_String::DOUBLE_QUOTED)); 
     }
 
     private function yyn279() {
-         $this->yyval = new Node_Scalar_String(array('value' => '')); 
+         $this->yyval = new Node_Scalar_String(array('value' => '', 'isBinary' => false, 'type' => Node_Scalar_String::SINGLE_QUOTED)); 
     }
 
     private function yyn280() {
@@ -2625,11 +2625,11 @@ class Parser
     }
 
     private function yyn290() {
-         $this->yyval = new Node_EncapsedString(array('parts' => $this->yyastk[$this->yysp-(3-2)])); 
+         $this->yyval = new Node_Scalar_Encapsed(array('parts' => $this->yyastk[$this->yysp-(3-2)])); 
     }
 
     private function yyn291() {
-         $this->yyval = new Node_EncapsedString(array('parts' => $this->yyastk[$this->yysp-(3-2)])); 
+         $this->yyval = new Node_Scalar_Encapsed(array('parts' => $this->yyastk[$this->yysp-(3-2)])); 
     }
 
     private function yyn292() {
@@ -2849,7 +2849,7 @@ class Parser
     }
 
     private function yyn346() {
-         $this->yyastk[$this->yysp-(2-1)][] = stripcslashes($this->yyastk[$this->yysp-(2-2)]); $this->yyval = $this->yyastk[$this->yysp-(2-1)]; 
+         $this->yyastk[$this->yysp-(2-1)][] = Node_Scalar_String::parseEscapeSequences($this->yyastk[$this->yysp-(2-2)]); $this->yyval = $this->yyastk[$this->yysp-(2-1)]; 
     }
 
     private function yyn347() {
@@ -2857,7 +2857,7 @@ class Parser
     }
 
     private function yyn348() {
-         $this->yyval = array(stripcslashes($this->yyastk[$this->yysp-(2-1)]), $this->yyastk[$this->yysp-(2-2)]); 
+         $this->yyval = array(Node_Scalar_String::parseEscapeSequences($this->yyastk[$this->yysp-(2-1)]), $this->yyastk[$this->yysp-(2-2)]); 
     }
 
     private function yyn349() {
