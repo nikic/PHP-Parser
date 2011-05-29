@@ -628,7 +628,7 @@ static_scalar: /* compile-time evaluated scalars */
 ;
 
 scalar:
-      T_STRING_VARNAME                                      { $$ = new Node_Scalar_String(array('value' => $1)); }
+      T_STRING_VARNAME                                      { $$ = new Node_Scalar_String(array('value' => $1, 'isBinary' => false, 'type' => Node_Scalar_String::SINGLE_QUOTED)); }
     | class_constant                                        { $$ = $1; }
     | name                                                  { $$ = new Node_Expr_ConstFetch(array('name' => $1)); }
     | common_scalar                                         { $$ = $1; }
