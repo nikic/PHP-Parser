@@ -41,17 +41,12 @@ class YYParser
     protected $yysp;
     protected $yyaccept;
 
-@if -t
-    /** Debug mode flag **/
-    public $yydebug = true;
-@endif
-
-@if -t
     private static $yyterminals = array(
         @listvar terminals
         , "???"
     );
 
+@if -t
     private static $yyproduction = array(
         @production-strings;
     );
@@ -117,40 +112,32 @@ class YYParser
 @if -t
     /* Traditional Debug Mode */
     private function YYTRACE_NEWSTATE($state, $sym) {
-        if ($this->yydebug) {
-            $this->yyprintln('% State ' . $state . ', Lookahead '
-                      . ($sym < 0 ? '--none--' : self::$yyterminals[$sym]));
-        }
+        $this->yyprintln('% State ' . $state . ', Lookahead '
+                . ($sym < 0 ? '--none--' : self::$yyterminals[$sym]));
     }
 
     private function YYTRACE_READ($sym) {
-        if ($this->yydebug)
-            $this->yyprintln('% Reading ' . self::$yyterminals[$sym]);
+        $this->yyprintln('% Reading ' . self::$yyterminals[$sym]);
     }
 
     private function YYTRACE_SHIFT($sym) {
-        if ($this->yydebug)
-            $this->yyprintln('% Shift ' . self::$yyterminals[$sym]);
+        $this->yyprintln('% Shift ' . self::$yyterminals[$sym]);
     }
 
     private function YYTRACE_ACCEPT() {
-        if ($this->yydebug)
-            $this->yyprintln('% Accepted.');
+        $this->yyprintln('% Accepted.');
     }
 
     private function YYTRACE_REDUCE($n) {
-        if ($this->yydebug)
-            $this->yyprintln('% Reduce by (' . $n . ') ' . self::$yyproduction[$n]);
+        $this->yyprintln('% Reduce by (' . $n . ') ' . self::$yyproduction[$n]);
     }
 
     private function YYTRACE_POP($state) {
-        if ($this->yydebug)
-            $this->yyprintln('% Recovering, uncovers state ' . $state);
+        $this->yyprintln('% Recovering, uncovers state ' . $state);
     }
 
     private function YYTRACE_DISCARD($sym) {
-        if ($this->yydebug)
-            $this->yyprintln('% Discard ' . self::$yyterminals[$sym]);
+        $this->yyprintln('% Discard ' . self::$yyterminals[$sym]);
     }
 @endif
 

@@ -7,7 +7,6 @@ function __autoload($class) {
 echo '<pre>';
 
 $parser = new Parser();
-$parser->yydebug = false;
 
 // Output Demo
 $stmts = $parser->yyparse(new Lexer(
