@@ -58,6 +58,10 @@ class PrettyPrinter_Zend extends PrettyPrinterAbstract
         );
     }
 
+    public function pScalar_Encapsed(Node_Scalar_Encapsed $node) {
+        return '"' . $this->pEncapsList($node->parts) . '"';
+    }
+
     public function pScalar_LNumber(Node_Scalar_LNumber $node) {
         return (string) $node->value;
     }
@@ -385,6 +389,18 @@ class PrettyPrinter_Zend extends PrettyPrinterAbstract
 
     // Declarations
 
+    public function pStmt_Namespace(Node_Stmt_Namespace $node) {
+        return 'namespace ' . $this->p($node->ns);
+    }
+
+    public function pStmt_Use(Node_Stmt_Use $node) {
+        return 'use ' . $this->pCommaSeparated($node->uses);
+    }
+
+    public function pStmt_UseUse(Node_Stmt_UseUse $node) {
+        return $this->p($node->ns) . (null !== $node->alias ? ' as ' . $node->alias : '');
+    }
+
     public function pStmt_Class(Node_Stmt_Class $node) {
         return $this->pModifiers($node->type)
              . 'class ' . $node->name
@@ -557,7 +573,7 @@ class PrettyPrinter_Zend extends PrettyPrinterAbstract
         $return = '';
         foreach ($encapsList as $element) {
             if (is_string($element)) {
-                $return .= $element;
+                $return .= addcslashes($element, "\n\r\t\f\v$\"\\");
             } elseif ($element instanceof Node_Variable) {
                 if (is_string($element->name)) {
                     $return .= '$' . $element->name;

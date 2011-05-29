@@ -1,6 +1,6 @@
 <?php
 
-$DIR = '../../symfony2';
+$DIR = '../../symfonySandbox';
 
 function __autoload($class) {
     is_file($file = '../lib/' . strtr($class, '_', '/') . '.php') && require_once $file;
