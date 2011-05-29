@@ -687,9 +687,9 @@ variable_without_objects:
 base_variable:
       variable_without_objects                              { $$ = $1; }
     | class_name T_PAAMAYIM_NEKUDOTAYIM '$' reference_variable
-          { $$ = Expr_StaticPropertyFetch[class: $1, name: Variable[name: $4]]; }
+          { $$ = Expr_StaticPropertyFetch[class: $1, name: $4]; }
     | reference_variable T_PAAMAYIM_NEKUDOTAYIM '$' reference_variable
-          { $$ = Expr_StaticPropertyFetch[class: $1, name: Variable[name: $4]]; }
+          { $$ = Expr_StaticPropertyFetch[class: $1, name: $4]; }
     | static_property_with_arrays                           { $$ = $1; }
 ;
 
@@ -697,7 +697,7 @@ static_property_with_arrays:
       class_name T_PAAMAYIM_NEKUDOTAYIM T_VARIABLE
           { $$ = Expr_StaticPropertyFetch[class: $1, name: parseVar($3)]; }
     | reference_variable T_PAAMAYIM_NEKUDOTAYIM '$' '{' expr '}'
-          { $$ = Expr_StaticPropertyFetch[class: $1, name: Variable[name: $5]]; }
+          { $$ = Expr_StaticPropertyFetch[class: $1, name: $5]; }
     | static_property_with_arrays '[' dim_offset ']'        { $$ = Expr_ArrayDimFetch[var: $1, dim: $3]; }
     | static_property_with_arrays '{' expr '}'              { $$ = Expr_ArrayDimFetch[var: $1, dim: $3]; }
 ;

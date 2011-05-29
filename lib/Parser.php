@@ -2721,11 +2721,11 @@ class Parser
     }
 
     private function yyn314() {
-         $this->yyval = new Node_Expr_StaticPropertyFetch(array('class' => $this->yyastk[$this->yysp-(4-1)], 'name' => new Node_Variable(array('name' => $this->yyastk[$this->yysp-(4-4)])))); 
+         $this->yyval = new Node_Expr_StaticPropertyFetch(array('class' => $this->yyastk[$this->yysp-(4-1)], 'name' => $this->yyastk[$this->yysp-(4-4)])); 
     }
 
     private function yyn315() {
-         $this->yyval = new Node_Expr_StaticPropertyFetch(array('class' => $this->yyastk[$this->yysp-(4-1)], 'name' => new Node_Variable(array('name' => $this->yyastk[$this->yysp-(4-4)])))); 
+         $this->yyval = new Node_Expr_StaticPropertyFetch(array('class' => $this->yyastk[$this->yysp-(4-1)], 'name' => $this->yyastk[$this->yysp-(4-4)])); 
     }
 
     private function yyn316() {
@@ -2737,7 +2737,7 @@ class Parser
     }
 
     private function yyn318() {
-         $this->yyval = new Node_Expr_StaticPropertyFetch(array('class' => $this->yyastk[$this->yysp-(6-1)], 'name' => new Node_Variable(array('name' => $this->yyastk[$this->yysp-(6-5)])))); 
+         $this->yyval = new Node_Expr_StaticPropertyFetch(array('class' => $this->yyastk[$this->yysp-(6-1)], 'name' => $this->yyastk[$this->yysp-(6-5)])); 
     }
 
     private function yyn319() {
