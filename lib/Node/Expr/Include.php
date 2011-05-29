@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @property Node_Expr $expr Expression
+ * @property int       $type Type of include
+ */
 class Node_Expr_Include extends Node_Expr
 {
     const TYPE_INCLUDE      = 1;

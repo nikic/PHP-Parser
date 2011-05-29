@@ -32,9 +32,14 @@ if (false !== $stmts) {
 echo "\n\n";
 
 $prettyPrinter = new PrettyPrinter_Zend;
-echo $prettyPrinter->pStmts($parser->yyparse(new Lexer(file_get_contents(__FILE__)), function ($msg) {
-    echo $msg;
-}));
+echo htmlspecialchars($prettyPrinter->pStmts(
+    $parser->yyparse(
+        new Lexer(file_get_contents('./lib/Parser.php')),
+        function ($msg) {
+            echo $msg;
+        }
+    )
+));
 
 echo "\n\n";
 
