@@ -1,5 +1,5 @@
 <?php
 
-class Node_Expr extends NodeAbstract
+abstract class Node_Expr extends NodeAbstract
 {
 }

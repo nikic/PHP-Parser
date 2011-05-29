@@ -23,6 +23,7 @@ $stmts = $parser->yyparse(new Lexer(
         echo $msg;
     }
 );
+
 if (false !== $stmts) {
     foreach ($stmts as $stmt) {
         echo htmlspecialchars($stmt), "\n";
@@ -34,38 +35,9 @@ echo "\n\n";
 $prettyPrinter = new PrettyPrinter_Zend;
 echo htmlspecialchars($prettyPrinter->pStmts(
     $parser->yyparse(
-        new Lexer(file_get_contents('./lib/Parser.php')),
+        new Lexer(file_get_contents('./grammar/analyzer.php')),
         function ($msg) {
             echo $msg;
         }
     )
 ));
-
-echo "\n\n";
-
-// Correctness Demo
-$GST = microtime(true);
-foreach (new RecursiveIteratorIterator(
-             new RecursiveDirectoryIterator('.'),
-             RecursiveIteratorIterator::LEAVES_ONLY)
-         as $file) {
-    if ('.php' !== substr($file, -4)) {
-        continue;
-    }
-
-    set_time_limit(5);
-
-    $startTime = microtime(true);
-    $stmts = $parser->yyparse(
-        new Lexer(file_get_contents($file)),
-        function($msg) {
-            echo $msg, "\n";
-        }
-    );
-    $endTime = microtime(true);
-
-    echo str_pad($file . ': ', 120, ' '), (false !== $stmts ? 'successful' : 'ERROR'), ' (', $endTime - $startTime, ')', "\n";
-
-    flush();
-}
-echo microtime(true) - $GST;

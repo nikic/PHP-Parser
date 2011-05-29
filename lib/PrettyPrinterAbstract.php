@@ -78,11 +78,14 @@ abstract class PrettyPrinterAbstract
         foreach ($nodes as $node) {
             $return .= $this->p($node);
 
-            if ($node instanceof Node_Stmt_Func
-             || $node instanceof Node_Stmt_Class
-             || $node instanceof Node_Stmt_ClassMethod
-             || $node instanceof Node_Stmt_Foreach
-             || $node instanceof Node_Stmt_If
+            if (   $node instanceof Node_Stmt_Func
+                || $node instanceof Node_Stmt_Class
+                || $node instanceof Node_Stmt_ClassMethod
+                || $node instanceof Node_Stmt_For
+                || $node instanceof Node_Stmt_Foreach
+                || $node instanceof Node_Stmt_If
+                || $node instanceof Node_Stmt_Switch
+                || $node instanceof Node_Stmt_While
             ) {
                 $return .= "\n";
             } else {
