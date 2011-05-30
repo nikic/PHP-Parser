@@ -79,6 +79,7 @@ abstract class PrettyPrinterAbstract
             $return .= $this->p($node);
 
             if (   $node instanceof Node_Stmt_Func
+                || $node instanceof Node_Stmt_Interface
                 || $node instanceof Node_Stmt_Class
                 || $node instanceof Node_Stmt_ClassMethod
                 || $node instanceof Node_Stmt_For
@@ -86,6 +87,7 @@ abstract class PrettyPrinterAbstract
                 || $node instanceof Node_Stmt_If
                 || $node instanceof Node_Stmt_Switch
                 || $node instanceof Node_Stmt_While
+                || $node instanceof Node_Stmt_TryCatch
             ) {
                 $return .= "\n";
             } else {

@@ -183,6 +183,14 @@ class PrettyPrinter_Zend extends PrettyPrinterAbstract
         return $this->p($node->left) . ' ^ ' . $this->p($node->right);
     }
 
+    public function pExpr_ShiftLeft(Node_Expr_ShiftLeft $node) {
+        return $this->p($node->left) . ' << ' . $this->p($node->right);
+    }
+
+    public function pExpr_ShiftRight(Node_Expr_ShiftRight $node) {
+        return $this->p($node->left) . ' >> ' . $this->p($node->right);
+    }
+
     public function pExpr_LogicalAnd(Node_Expr_LogicalAnd $node) {
         return $this->p($node->left) . ' and ' . $this->p($node->right);
     }
@@ -237,8 +245,16 @@ class PrettyPrinter_Zend extends PrettyPrinterAbstract
         return '!' . $this->p($node->expr);
     }
 
+    public function pExpr_BinaryNot(Node_Expr_BinaryNot $node) {
+        return '~' . $this->p($node->expr);
+    }
+
     public function pExpr_UnaryMinus(Node_Expr_UnaryMinus $node) {
         return '-' . $this->p($node->expr);
+    }
+
+    public function pExpr_UnaryPlus(Node_Expr_UnaryPlus $node) {
+        return '+' . $this->p($node->expr);
     }
 
     public function pExpr_PreInc(Node_Expr_PreInc $node) {
@@ -255,6 +271,10 @@ class PrettyPrinter_Zend extends PrettyPrinterAbstract
 
     public function pExpr_PostDec(Node_Expr_PostDec $node) {
         return $this->p($node->var) . '--';
+    }
+
+    public function pExpr_ErrorSupress(Node_Expr_ErrorSupress $node) {
+        return '@' . $this->p($node->expr);
     }
 
     // Casts
@@ -304,7 +324,7 @@ class PrettyPrinter_Zend extends PrettyPrinterAbstract
 
     public function pExpr_StaticCall(Node_Expr_StaticCall $node) {
         return $this->pClassName($node->class) . '::'
-             . ($node->func instanceof Node_Variable ? $this->p($node->func) : $node->func)
+             . ($node->func instanceof NodeAbstract ? $this->p($node->func) : $node->func)
              . '(' . $this->pCommaSeparated($node->args) . ')';
     }
 
@@ -314,6 +334,14 @@ class PrettyPrinter_Zend extends PrettyPrinterAbstract
 
     public function pExpr_Isset(Node_Expr_Isset $node) {
         return 'isset(' . $this->pCommaSeparated($node->vars) . ')';
+    }
+
+    public function pExpr_Print(Node_Expr_Print $node) {
+        return 'print ' . $this->p($node->expr);
+    }
+
+    public function pExpr_Eval(Node_Expr_Eval $node) {
+        return 'eval(' . $this->p($node->expr) . ')';
     }
 
     public function pExpr_Include(Node_Expr_Include $node) {
@@ -377,6 +405,10 @@ class PrettyPrinter_Zend extends PrettyPrinterAbstract
         return 'new ' . $this->pClassName($node->class) . '(' . $this->pCommaSeparated($node->args) . ')';
     }
 
+    public function pExpr_Clone(Node_Expr_Clone $node) {
+        return 'clone ' . $this->p($node->expr);
+    }
+
     public function pExpr_Ternary(Node_Expr_Ternary $node) {
         return $this->p($node->cond) . ' ?'
              . (null !== $node->if ? ' ' . $this->p($node->if) . ' ' : '')
@@ -399,6 +431,12 @@ class PrettyPrinter_Zend extends PrettyPrinterAbstract
 
     public function pStmt_UseUse(Node_Stmt_UseUse $node) {
         return $this->p($node->ns) . (null !== $node->alias ? ' as ' . $node->alias : '');
+    }
+
+    public function pStmt_Interface(Node_Stmt_Interface $node) {
+        return 'interface ' . $node->name
+             . (!empty($node->extends) ? ' extends ' . $this->pCommaSeparated($node->extends) : '')
+             . "\n" . '{' . "\n" . $this->pIndent($this->pStmts($node->stmts)) . '}';
     }
 
     public function pStmt_Class(Node_Stmt_Class $node) {
@@ -495,9 +533,24 @@ class PrettyPrinter_Zend extends PrettyPrinterAbstract
              . "\n" . $this->pIndent($this->pStmts($node->stmts)) . '}';
     }
 
+    public function pStmt_Do(Node_Stmt_Do $node) {
+        return 'do {' . "\n" . $this->pIndent($this->pStmts($node->stmts))
+             . '} while (' . $this->p($node->cond) . ')';
+    }
+
     public function pStmt_Switch(Node_Stmt_Switch $node) {
         return 'switch (' . $this->p($node->cond) . ') {'
              . "\n" . $this->pIndent($this->pImplode($node->caseList)) . '}';
+    }
+
+    public function pStmt_TryCatch(Node_Stmt_TryCatch $node) {
+        return 'try {' . "\n" . $this->pIndent($this->pStmts($node->stmts)) . '}'
+             . $this->pImplode($node->catches);
+    }
+
+    public function pStmt_Catch(Node_Stmt_Catch $node) {
+        return ' catch (' . $this->p($node->type) . ' $' . $node->var . ') {'
+             . "\n" . $this->pIndent($this->pStmts($node->stmts)) . '}';
     }
 
     public function pStmt_Case(Node_Stmt_Case $node) {
@@ -506,11 +559,11 @@ class PrettyPrinter_Zend extends PrettyPrinterAbstract
     }
 
     public function pStmt_Break(Node_Stmt_Break $node) {
-        return 'break' . ($node->num !== null ? ' ' . $node->num : '');
+        return 'break' . ($node->num !== null ? ' ' . $this->p($node->num) : '');
     }
 
     public function pStmt_Continue(Node_Stmt_Continue $node) {
-        return 'continue' . ($node->num !== null ? ' ' . $node->num : '');
+        return 'continue' . ($node->num !== null ? ' ' . $this->p($node->num) : '');
     }
 
     public function pStmt_Return(Node_Stmt_Return $node) {
@@ -535,18 +588,30 @@ class PrettyPrinter_Zend extends PrettyPrinterAbstract
         return 'static ' . $this->pCommaSeparated($node->vars);
     }
 
+    public function pStmt_Global(Node_Stmt_Global $node) {
+        return 'global ' . $this->pCommaSeparated($node->vars);
+    }
+
     public function pStmt_StaticVar(Node_Stmt_StaticVar $node) {
         return '$' . $node->name
              . (null !== $node->default ? ' = ' . $this->p($node->default) : '');
     }
 
+    public function pStmt_Unset(Node_Stmt_Unset $node) {
+        return 'unset(' . $this->pCommaSeparated($node->vars) . ')';
+    }
+
+    public function pStmt_InlineHTML(Node_Stmt_InlineHTML $node) {
+        return '?>' . $node->value . '<?php ';
+    }
+
     // Helpers
 
     public function pObjectProperty($node) {
-        if ($node instanceof Node_Expr) {
+        if ($node instanceof Node_Variable || $node instanceof Node_Expr_ArrayDimFetch) {
+            return $this->p($node);
+        } elseif ($node instanceof NodeAbstract) {
             return '{' . $this->p($node) . '}';
-        } elseif ($node instanceof Node_Variable) {
-            return $this->pVariable($node);
         } else {
             return $node;
         }

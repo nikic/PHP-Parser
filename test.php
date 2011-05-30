@@ -32,11 +32,15 @@ if (false !== $stmts) {
 echo "\n\n";
 
 $prettyPrinter = new PrettyPrinter_Zend;
-echo htmlspecialchars($prettyPrinter->pStmts(
+$code = $prettyPrinter->pStmts(
     $parser->yyparse(
-        new Lexer(file_get_contents('./grammar/rebuildParser.php')),
+        new Lexer(file_get_contents(
+            __FILE__
+        )),
         function ($msg) {
             echo $msg;
         }
     )
-));
+);
+
+echo htmlspecialchars($code);
