@@ -18,6 +18,10 @@ abstract class NodeAbstract implements IteratorAggregate
         return $this->subNodes[$name];
     }
 
+    public function __isset($name) {
+        return isset($this->subNodes[$name]);
+    }
+
     public function getType() {
         return substr(get_class($this), 5);
     }

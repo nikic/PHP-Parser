@@ -458,7 +458,7 @@ class PrettyPrinter_Zend extends PrettyPrinterAbstract
 
     public function pStmt_ClassMethod(Node_Stmt_ClassMethod $node) {
         return $this->pModifiers($node->type)
-             . 'function ' . $node->name
+             . 'function ' . ($node->byRef ? '&' : '') . $node->name
              . '(' . $this->pCommaSeparated($node->params) . ')'
              . (null !== $node->stmts
                 ? "\n" . '{' . "\n" . $this->pIndent($this->pStmts($node->stmts)) . '}'

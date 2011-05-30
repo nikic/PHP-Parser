@@ -120,7 +120,7 @@ abstract class PrettyPrinterAbstract
         if (isset($this->precedanceMap[$type])) {
             $precedence = $this->precedanceMap[$type];
 
-            if ($precedence > $this->precedenceStack[$this->precedenceStackPos]) {
+            if ($precedence >= $this->precedenceStack[$this->precedenceStackPos]) {
                 $this->precedenceStack[++$this->precedenceStackPos] = $precedence;
                 $return = '(' . $this->{'p' . $type}($node) . ')';
                 --$this->precedenceStackPos;
