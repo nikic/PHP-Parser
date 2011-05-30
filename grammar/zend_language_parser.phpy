@@ -192,7 +192,7 @@ statement:
     | T_FOREACH '(' expr T_AS variable T_DOUBLE_ARROW optional_ref variable ')' foreach_statement
           { $$ = new Node_Stmt_Foreach(array('expr' => $3, 'keyVar' => $5, 'byRef' => $7, 'valueVar' => $8, 'stmts' => is_array($10) ? $10 : array($10))); }
     | T_DECLARE '(' declare_list ')' declare_statement      { $$ = new Node_Stmt_Declare(array('declares' => $3, 'stmts' => is_array($5) ? $5 : array($5))); }
-    | ';'                                                   { $$ = new Node_Stmt_Noop(array()); }
+    | ';'                                                   { $$ = array(); /* means: no statement */ }
     | T_TRY '{' inner_statement_list '}' catches            { $$ = new Node_Stmt_TryCatch(array('stmts' => $3, 'catches' => $5)); }
     | T_THROW expr ';'                                      { $$ = new Node_Stmt_Throw(array('expr' => $2)); }
     | T_GOTO T_STRING ';'                                   { $$ = new Node_Stmt_Goto(array('name' => $2)); }

@@ -580,10 +580,6 @@ class PrettyPrinter_Zend extends PrettyPrinterAbstract
         return 'echo ' . $this->pCommaSeparated($node->exprs);
     }
 
-    public function pStmt_Noop(Node_Stmt_Noop $node) {
-        return '';
-    }
-
     public function pStmt_Static(Node_Stmt_Static $node) {
         return 'static ' . $this->pCommaSeparated($node->vars);
     }

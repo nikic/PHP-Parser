@@ -1271,7 +1271,7 @@ class Parser
     }
 
     private function yyn54() {
-         $this->yyval = new Node_Stmt_Noop(array()); 
+         $this->yyval = array(); /* means: no statement */ 
     }
 
     private function yyn55() {

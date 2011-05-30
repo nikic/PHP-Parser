@@ -192,7 +192,7 @@ statement:
     | T_FOREACH '(' expr T_AS variable T_DOUBLE_ARROW optional_ref variable ')' foreach_statement
           { $$ = Stmt_Foreach[expr: $3, keyVar: $5, byRef: $7, valueVar: $8, stmts: toArray($10)]; }
     | T_DECLARE '(' declare_list ')' declare_statement      { $$ = Stmt_Declare[declares: $3, stmts: toArray($5)]; }
-    | ';'                                                   { $$ = Stmt_Noop[]; }
+    | ';'                                                   { $$ = array(); /* means: no statement */ }
     | T_TRY '{' inner_statement_list '}' catches            { $$ = Stmt_TryCatch[stmts: $3, catches: $5]; }
     | T_THROW expr ';'                                      { $$ = Stmt_Throw[expr: $2]; }
     | T_GOTO T_STRING ';'                                   { $$ = Stmt_Goto[name: $2]; }
