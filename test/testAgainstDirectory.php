@@ -7,7 +7,6 @@ function __autoload($class) {
 }
 
 $parser = new Parser();
-$parser->yydebug = false;
 
 $prettyPrinter = new PrettyPrinter_Zend;
 

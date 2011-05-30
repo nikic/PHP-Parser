@@ -324,7 +324,7 @@ class PrettyPrinter_Zend extends PrettyPrinterAbstract
 
     public function pExpr_StaticCall(Node_Expr_StaticCall $node) {
         return $this->pClassName($node->class) . '::'
-             . ($node->func instanceof NodeAbstract ? $this->p($node->func) : $node->func)
+             . ($node->func instanceof Node_Expr ? $this->p($node->func) : $node->func)
              . '(' . $this->pCommaSeparated($node->args) . ')';
     }
 
@@ -606,7 +606,7 @@ class PrettyPrinter_Zend extends PrettyPrinterAbstract
     public function pObjectProperty($node) {
         if ($node instanceof Node_Variable || $node instanceof Node_Expr_ArrayDimFetch) {
             return $this->p($node);
-        } elseif ($node instanceof NodeAbstract) {
+        } elseif ($node instanceof Node_Expr) {
             return '{' . $this->p($node) . '}';
         } else {
             return $node;
@@ -635,12 +635,8 @@ class PrettyPrinter_Zend extends PrettyPrinterAbstract
         foreach ($encapsList as $element) {
             if (is_string($element)) {
                 $return .= addcslashes($element, "\n\r\t\f\v$\"\\");
-            } elseif ($element instanceof Node_Variable) {
-                if (is_string($element->name)) {
-                    $return .= '$' . $element->name;
-                } else {
-                    $return .= '{' . $this->p($element->name). '}';
-                }
+            } elseif ($element instanceof Node_Variable && is_string($element->name)) {
+                $return .= '$' . $element->name;
             } else {
                 $return .= '{' . $this->p($element) . '}';
             }
