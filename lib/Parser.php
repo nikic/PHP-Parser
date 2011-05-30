@@ -2167,7 +2167,7 @@ class Parser
     }
 
     private function yyn278() {
-         $this->yyval = new Node_Scalar_String(array('value' => Node_Scalar_String::parseEscapeSequences($this->yyastk[$this->yysp-(3-2)]), 'isBinary' => false, 'type' => '\'' === $this->yyastk[$this->yysp-(3-1)][3] ? Node_String_Scalar::SINGLE_QUOTED : Node_Scalar_String::DOUBLE_QUOTED)); 
+         $this->yyval = new Node_Scalar_String(array('value' => Node_Scalar_String::parseEscapeSequences($this->yyastk[$this->yysp-(3-2)]), 'isBinary' => false, 'type' => '\'' === $this->yyastk[$this->yysp-(3-1)][3] ? Node_Scalar_String::SINGLE_QUOTED : Node_Scalar_String::DOUBLE_QUOTED)); 
     }
 
     private function yyn279() {
