@@ -17,8 +17,7 @@ Usage:
     // the return value of Parser->yyparse will either be false (which
     // signifies that an error occured) or an array of statements (Nodes)
     if (false !== $stmts) {
-        // dump the AST
-        foreach ($stmts as $stmt) {
-            echo $stmt, "\n";
-        }
+        // dump nodes
+        $nodeDumper = new NodeDumper();
+        echo $nodeDumper->dump($stmts);
     }

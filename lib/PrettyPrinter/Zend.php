@@ -632,10 +632,16 @@ class PrettyPrinter_Zend extends PrettyPrinterAbstract
 
     public function pEncapsList(array $encapsList) {
         $return = '';
-        foreach ($encapsList as $element) {
+        foreach ($encapsList as $i => $element) {
             if (is_string($element)) {
                 $return .= addcslashes($element, "\n\r\t\f\v$\"\\");
-            } elseif ($element instanceof Node_Variable && is_string($element->name)) {
+            } elseif ($element instanceof Node_Variable
+                      && is_string($element->name)
+                      && (!isset($encapsList[$i + 1])
+                          || !is_string($encapsList[$i + 1])
+                          || '[' !== $encapsList[$i + 1][0]
+                      )
+            ) {
                 $return .= '$' . $element->name;
             } else {
                 $return .= '{' . $this->p($element) . '}';

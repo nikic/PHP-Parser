@@ -6,9 +6,9 @@ function __autoload($class) {
     is_file($file = '../lib/' . strtr($class, '_', '/') . '.php') && require_once $file;
 }
 
-$parser = new Parser();
-
+$parser        = new Parser;
 $prettyPrinter = new PrettyPrinter_Zend;
+$nodeDumper    = new NodeDumper;
 
 echo '<!DOCTYPE html>
 <style>
@@ -86,7 +86,7 @@ foreach (new RecursiveIteratorIterator(
         ++$ppCount;
         if (false !== $ppStmts) {
             ++$compareCount;
-            if ($stmts == $ppStmts) {
+            if ($nodeDumper->dump($stmts) == $nodeDumper->dump($ppStmts)) {
                 echo '
         <td class="pass">PASS</td>
         <td>' . $time . 's</td>

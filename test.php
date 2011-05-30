@@ -6,7 +6,9 @@ function __autoload($class) {
 
 echo '<pre>';
 
-$parser = new Parser();
+$parser        = new Parser;
+$prettyPrinter = new PrettyPrinter_Zend;
+$nodeDumper    = new NodeDumper;
 
 // Output Demo
 $stmts = $parser->yyparse(new Lexer(
@@ -24,14 +26,11 @@ $stmts = $parser->yyparse(new Lexer(
 );
 
 if (false !== $stmts) {
-    foreach ($stmts as $stmt) {
-        echo htmlspecialchars($stmt), "\n";
-    }
+    echo htmlspecialchars($nodeDumper->dump($stmts));
 }
 
 echo "\n\n";
 
-$prettyPrinter = new PrettyPrinter_Zend;
 $code = $prettyPrinter->pStmts(
     $parser->yyparse(
         new Lexer(file_get_contents(
