@@ -606,7 +606,7 @@ class PrettyPrinter_Zend extends PrettyPrinterAbstract
     }
 
     public function pStmt_InlineHTML(Node_Stmt_InlineHTML $node) {
-        return '?>' . $node->value . '<?php ';
+        return '?>' . ("\n" === $node->value[0] ? "\n" : '') . $node->value . '<?php ';
     }
 
     // Helpers
