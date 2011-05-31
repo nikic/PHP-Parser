@@ -4,16 +4,17 @@ PHP Parser
 This is a PHP parser written in PHP. It's purpose is to simplify static code analysis and
 manipulation.
 
-***Note: This project is work in progress. It is known to not function perfectly correct yet.***
+***Note: This project is work in progress. It is known to not function perfectly correct yet (see
+the "Known Issues" section at the end of this document).***
 
 Components
 ==========
 
 This package currently bundles several components:
 
-    * The `Parser` itself
-    * A `NodeDumper` to dump the nodes to a human readable string representation
-    * A `PrettyPrinter` to translate the node tree back to PHP
+ * The `Parser` itself
+ * A `NodeDumper` to dump the nodes to a human readable string representation
+ * A `PrettyPrinter` to translate the node tree back to PHP
 
 Parser and ParserDebug
 ----------------------
@@ -41,10 +42,10 @@ Node Tree
 The output of the parser is an array of statement nodes. All nodes are instances of `NodeAbstract`.
 Furthermore nodes are divided into three categories:
 
-    * `Node_Stmt`: A statement
-    * `Node_Expr`: An expression
-    * `Node_Scalar`: A scalar (which is a string, a number, aso.)
-      `Node_Scalar` inherits from `Node_Expr`.
+ * `Node_Stmt`: A statement
+ * `Node_Expr`: An expression
+ * `Node_Scalar`: A scalar (which is a string, a number, aso.)
+   `Node_Scalar` inherits from `Node_Expr`.
 
 Each node may have subnodes. For example `Node_Expr_Plus` has two subnodes, namely `left` and
 `right`, which represend the left hand side and right hand side expressions of the plus operation.
@@ -61,13 +62,13 @@ NodeDumper
 Nodes can be dumped into a string representation using the `NodeDumper->dump` method:
 
     $code = <<<'CODE'
-<?php
-    function printLine($msg) {
-        echo $msg, "\n";
-    }
+    <?php
+        function printLine($msg) {
+            echo $msg, "\n";
+        }
 
-    printLine('Hallo World!!!');
-CODE;
+        printLine('Hallo World!!!');
+    CODE;
 
     $parser = new Parser;
     $stmts = $parser->parse(
@@ -151,7 +152,7 @@ For the code mentioned in the above section this should create the output:
 Known Issues
 ============
 
- * Parsing of expressions of type `a::$b[c]()` (I.e. the method name is specifed by an array)
-   currently does not work (causes 1 parse fail in test against Symfony).
+ * Parsing expressions of type `a::$b[c]()` (I.e. the method name is specifed by an array)
+   currently does not work (causes 1 parse fail in test against Symfony Beta 3).
  * When pretty printing strings and InlineHTML those are indented like any other code, thus causing
-   extra whitespace to be inserted (causes 23 compare fails in test against Symfony).
+   extra whitespace to be inserted (causes 23 compare fails in test against Symfony Beta 3).
