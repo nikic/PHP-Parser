@@ -102,12 +102,6 @@ abstract class PrettyPrinterAbstract
     public function p(NodeAbstract $node) {
         $type = $node->getType();
 
-        if (!method_exists($this, 'p' . $type)) {
-            echo 'Missing: ' . 'p' . $type . "\n";
-
-            return '';
-        }
-
         if (isset($this->precedanceMap[$type])) {
             $precedence = $this->precedanceMap[$type];
 
