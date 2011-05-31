@@ -82,6 +82,7 @@ abstract class PrettyPrinterAbstract
                 || $node instanceof Node_Stmt_Switch
                 || $node instanceof Node_Stmt_While
                 || $node instanceof Node_Stmt_TryCatch
+                || $node instanceof Node_Stmt_Label
             ) {
                 $return .= "\n";
             } else {

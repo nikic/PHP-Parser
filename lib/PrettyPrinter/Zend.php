@@ -574,6 +574,14 @@ class PrettyPrinter_Zend extends PrettyPrinterAbstract
         return 'throw' . (null !== $node->expr ? ' ' . $this->p($node->expr) : '');
     }
 
+    public function pStmt_Label(Node_Stmt_Label $node) {
+        return $node->name . ':';
+    }
+
+    public function pStmt_Goto(Node_Stmt_Goto $node) {
+        return 'goto ' . $node->name;
+    }
+
     // Other
 
     public function pStmt_Echo(Node_Stmt_Echo $node) {
