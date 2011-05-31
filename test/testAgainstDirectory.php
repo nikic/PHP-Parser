@@ -10,31 +10,9 @@ $parser        = new Parser;
 $prettyPrinter = new PrettyPrinter_Zend;
 $nodeDumper    = new NodeDumper;
 
-echo '<!DOCTYPE html>
-<style>
-    body {
-        font-family: "Trebuchet MS", sans-serif;
-    }
+include './testFormatting.html';
 
-    .pass {
-        color: white;
-        background-color: green;
-    }
-
-    .fail {
-        color: white;
-        background-color: red;
-    }
-
-    .failReason {
-        background-color: rgba(255, 0, 0, 0.3);
-    }
-
-    .failCount {
-        color: red;
-    }
-</style>
-<table>
+echo '<table>
     <tr>
         <td>File</td>
         <td>Parse</td>

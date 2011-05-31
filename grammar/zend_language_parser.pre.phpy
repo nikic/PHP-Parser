@@ -697,6 +697,10 @@ base_variable:
 static_property_with_arrays:
       class_name T_PAAMAYIM_NEKUDOTAYIM T_VARIABLE
           { $$ = Expr_StaticPropertyFetch[class: $1, name: parseVar($3)]; }
+    | reference_variable T_PAAMAYIM_NEKUDOTAYIM T_VARIABLE
+          { $$ = Expr_StaticPropertyFetch[class: $1, name: parseVar($3)]; }
+    | class_name T_PAAMAYIM_NEKUDOTAYIM '$' '{' expr '}'
+          { $$ = Expr_StaticPropertyFetch[class: $1, name: $5]; }
     | reference_variable T_PAAMAYIM_NEKUDOTAYIM '$' '{' expr '}'
           { $$ = Expr_StaticPropertyFetch[class: $1, name: $5]; }
     | static_property_with_arrays '[' dim_offset ']'        { $$ = Expr_ArrayDimFetch[var: $1, dim: $3]; }
