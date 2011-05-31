@@ -1,119 +1,107 @@
 <?php
-$meta @
-@semval($) $this->yyval
-@semval($,%t) $this->yyval
-@semval(%n) $this->yyastk[$this->yysp-(%l-%n)]
-@semval(%n,%t) $this->yyastk[$this->yysp-(%l-%n)]
-@include;
+$meta #
+#semval($) $this->yyval
+#semval($,%t) $this->yyval
+#semval(%n) $this->yyastk[$this->yysp-(%l-%n)]
+#semval(%n,%t) $this->yyastk[$this->yysp-(%l-%n)]
+#include;
 
 /* Prototype file of classed PHP parser.
  * Written by Moriyoshi Koizumi, based on the work by Masato Bito.
  * This file is PUBLIC DOMAIN.
  */
-@if -p
-class @(-p)
-@endif
-@ifnot -p
+#if -p
+class #(-p)
+#endif
+#ifnot -p
 class YYParser
-@endif
+#endif
 {
-    const YYBADCH      = @(YYBADCH);
-    const YYMAXLEX     = @(YYMAXLEX);
-    const YYTERMS      = @(YYTERMS);
-    const YYNONTERMS   = @(YYNONTERMS);
-    const YYLAST       = @(YYLAST);
-    const YY2TBLSTATE  = @(YY2TBLSTATE);
-    const YYGLAST      = @(YYGLAST);
-    const YYSTATES     = @(YYSTATES);
-    const YYNLSTATES   = @(YYNLSTATES);
-    const YYINTERRTOK  = @(YYINTERRTOK);
-    const YYUNEXPECTED = @(YYUNEXPECTED);
-    const YYDEFAULT    = @(YYDEFAULT);
+    const YYBADCH      = #(YYBADCH);
+    const YYMAXLEX     = #(YYMAXLEX);
+    const YYTERMS      = #(YYTERMS);
+    const YYNONTERMS   = #(YYNONTERMS);
+    const YYLAST       = #(YYLAST);
+    const YY2TBLSTATE  = #(YY2TBLSTATE);
+    const YYGLAST      = #(YYGLAST);
+    const YYSTATES     = #(YYSTATES);
+    const YYNLSTATES   = #(YYNLSTATES);
+    const YYINTERRTOK  = #(YYINTERRTOK);
+    const YYUNEXPECTED = #(YYUNEXPECTED);
+    const YYDEFAULT    = #(YYDEFAULT);
 
     // {{{ Tokens
-@tokenval
+#tokenval
     const %s = %n;
-@endtokenval
+#endtokenval
     // }}}
 
-    protected $yyval;
-    protected $yyastk;
-    protected $yysp;
-    protected $yyaccept;
-
     private static $yyterminals = array(
-        @listvar terminals
+        #listvar terminals
         , "???"
     );
 
-@if -t
+#if -t
     private static $yyproduction = array(
-        @production-strings;
+        #production-strings;
     );
-@endif
+#endif
 
     private static $yytranslate = array(
-        @listvar yytranslate
+        #listvar yytranslate
     );
 
     private static $yyaction = array(
-        @listvar yyaction
+        #listvar yyaction
     );
 
     private static $yycheck = array(
-        @listvar yycheck
+        #listvar yycheck
     );
 
     private static $yybase = array(
-        @listvar yybase
+        #listvar yybase
     );
 
     private static $yydefault = array(
-        @listvar yydefault
+        #listvar yydefault
     );
 
     private static $yygoto = array(
-        @listvar yygoto
+        #listvar yygoto
     );
 
     private static $yygcheck = array(
-        @listvar yygcheck
+        #listvar yygcheck
     );
 
     private static $yygbase = array(
-        @listvar yygbase
+        #listvar yygbase
     );
 
     private static $yygdefault = array(
-        @listvar yygdefault
+        #listvar yygdefault
     );
 
     private static $yylhs = array(
-        @listvar yylhs
+        #listvar yylhs
     );
 
     private static $yylen = array(
-        @listvar yylen
+        #listvar yylen
     );
 
+#if -t
+    /* Debug Mode */
     protected function yyprintln($msg) {
         echo $msg, "\n";
     }
 
-    protected function error($sym) {
-        $errorCallback = $this->errorCallback;
-        $errorCallback(
-            'Parse error:'
-            . ' Unexpected token ' . self::$yyterminals[$sym]
-            . ' on line ' . $this->lex->getLine()
-        );
-    }
-
-@if -t
-    /* Traditional Debug Mode */
     private function YYTRACE_NEWSTATE($state, $sym) {
-        $this->yyprintln('% State ' . $state . ', Lookahead '
-                . ($sym < 0 ? '--none--' : self::$yyterminals[$sym]));
+        $this->yyprintln(
+            '% State ' . $state
+          . ', Lookahead ' . ($sym < 0 ? '--none--' : self::$yyterminals[$sym])
+        );
     }
 
     private function YYTRACE_READ($sym) {
@@ -139,15 +127,27 @@ class YYParser
     private function YYTRACE_DISCARD($sym) {
         $this->yyprintln('% Discard ' . self::$yyterminals[$sym]);
     }
-@endif
+#endif
+
+    protected $yyval;
+    protected $yyastk;
+    protected $yysp;
+    protected $yyaccept;
 
     /**
-     * Parser entry point
+#ifnot -t
+     * Parses PHP code into a node tree.
+#endif
+#if -t
+     * Parses PHP code into a node tree and prints out debugging information.
+#endif
+     *
+     * @param Lexer    $lex           A lexer
+     * @param callback $errorCallback Function to be passed a message in case of an error.
+     *
+     * @return array Array of statements
      */
-    public function yyparse($lex, $errorCallback) {
-        $this->lex = $lex;
-        $this->errorCallback  = $errorCallback;
-
+    public function parse(Lexer $lex, $errorCallback) {
         $this->yyastk = array();
         $yysstk = array();
         $this->yysp = 0;
@@ -160,20 +160,20 @@ class YYParser
         $yyerrflag = 0;
 
         for (;;) {
-@if -t
+#if -t
             $this->YYTRACE_NEWSTATE($yystate, $yychar);
-@endif
+#endif
             if (self::$yybase[$yystate] == 0) {
                 $yyn = self::$yydefault[$yystate];
             } else {
                 if ($yychar < 0) {
-                    if (($yychar = $lex->yylex($yylval)) < 0)
+                    if (($yychar = $lex->lex($yylval)) < 0)
                         $yychar = 0;
                     $yychar = $yychar < self::YYMAXLEX ?
                         self::$yytranslate[$yychar] : self::YYBADCH;
-@if -t
+#if -t
                     $this->YYTRACE_READ($yychar);
-@endif
+#endif
                 }
                 if ((($yyn = self::$yybase[$yystate] + $yychar) >= 0
                      && $yyn < self::YYLAST && self::$yycheck[$yyn] == $yychar
@@ -192,9 +192,9 @@ class YYParser
                      */
                     if ($yyn > 0) {
                         /* shift */
-@if -t
+#if -t
                         $this->YYTRACE_SHIFT($yychar);
-@endif
+#endif
                         ++$this->yysp;
 
                         $yysstk[$this->yysp] = $yystate = $yyn;
@@ -220,15 +220,15 @@ class YYParser
                 /* reduce/error */
                 if ($yyn == 0) {
                     /* accept */
-@if -t
+#if -t
                     $this->YYTRACE_ACCEPT();
-@endif
+#endif
                     return $this->yyval;
                 } elseif ($yyn != self::YYUNEXPECTED) {
                     /* reduce */
-@if -t
+#if -t
                     $this->YYTRACE_REDUCE($yyn);
-@endif
+#endif
                     $this->{'yyn' . $yyn}();
 
                     /* Goto - shift nonterminal */
@@ -250,7 +250,11 @@ class YYParser
                     /* error */
                     switch ($yyerrflag) {
                     case 0:
-                        $this->error($yychar);
+                        $errorCallback(
+                            'Parse error:'
+                            . ' Unexpected token ' . self::$yyterminals[$yychar]
+                            . ' on line ' . $lex->getLine()
+                        );
                     case 1:
                     case 2:
                         $yyerrflag = 3;
@@ -266,21 +270,21 @@ class YYParser
                                 return false;
                             }
                             $yystate = $yysstk[--$this->yysp];
-@if -t
+#if -t
                             $this->YYTRACE_POP($yystate);
-@endif
+#endif
                         }
                         $yyn = self::$yyaction[$yyn];
-@if -t
+#if -t
                         $this->YYTRACE_SHIFT(self::YYINTERRTOK);
-@endif
+#endif
                         $yysstk[++$this->yysp] = $yystate = $yyn;
                         break;
 
                     case 3:
-@if -t
+#if -t
                         $this->YYTRACE_DISCARD($yychar);
-@endif
+#endif
                         if ($yychar == 0) {
                             return false;
                         }
@@ -296,16 +300,16 @@ class YYParser
             }
         }
     }
-@reduce
+#reduce
 
     private function yyn%n() {
         %b
     }
-@noact
+#noact
 
     private function yyn%n() {
         $this->yyval = $this->yyastk[$this->yysp];
     }
-@endreduce
+#endreduce
 }
-@tailcode;
+#tailcode;

@@ -5,7 +5,8 @@ class NodeDumper
     /**
      * Dumps a Node, scalar or array to a string.
      *
-     * @param  mixed $node Value to dump
+     * @param mixed $node Value to dump
+     *
      * @return string Dumped value
      */
     public function dump($node) {

@@ -146,11 +146,6 @@ class Parser
     const T_NS_SEPARATOR = 379;
     // }}}
 
-    protected $yyval;
-    protected $yyastk;
-    protected $yysp;
-    protected $yyaccept;
-
     private static $yyterminals = array(
         '$EOF',
         "error",
@@ -908,27 +903,21 @@ class Parser
             4,    3,    3,    6,    3,    1,    1,    1,    3,    3
     );
 
-    protected function yyprintln($msg) {
-        echo $msg, "\n";
-    }
 
-    protected function error($sym) {
-        $errorCallback = $this->errorCallback;
-        $errorCallback(
-            'Parse error:'
-            . ' Unexpected token ' . self::$yyterminals[$sym]
-            . ' on line ' . $this->lex->getLine()
-        );
-    }
-
+    protected $yyval;
+    protected $yyastk;
+    protected $yysp;
+    protected $yyaccept;
 
     /**
-     * Parser entry point
+     * Parses PHP code into a node tree.
+     *
+     * @param Lexer    $lex           A lexer
+     * @param callback $errorCallback Function to be passed a message in case of an error.
+     *
+     * @return array Array of statements
      */
-    public function yyparse($lex, $errorCallback) {
-        $this->lex = $lex;
-        $this->errorCallback  = $errorCallback;
-
+    public function parse(Lexer $lex, $errorCallback) {
         $this->yyastk = array();
         $yysstk = array();
         $this->yysp = 0;
@@ -945,7 +934,7 @@ class Parser
                 $yyn = self::$yydefault[$yystate];
             } else {
                 if ($yychar < 0) {
-                    if (($yychar = $lex->yylex($yylval)) < 0)
+                    if (($yychar = $lex->lex($yylval)) < 0)
                         $yychar = 0;
                     $yychar = $yychar < self::YYMAXLEX ?
                         self::$yytranslate[$yychar] : self::YYBADCH;
@@ -1016,7 +1005,11 @@ class Parser
                     /* error */
                     switch ($yyerrflag) {
                     case 0:
-                        $this->error($yychar);
+                        $errorCallback(
+                            'Parse error:'
+                            . ' Unexpected token ' . self::$yyterminals[$yychar]
+                            . ' on line ' . $lex->getLine()
+                        );
                     case 1:
                     case 2:
                         $yyerrflag = 3;

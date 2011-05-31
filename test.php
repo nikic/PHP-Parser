@@ -11,7 +11,7 @@ $prettyPrinter = new PrettyPrinter_Zend;
 $nodeDumper    = new NodeDumper;
 
 // Output Demo
-$stmts = $parser->yyparse(new Lexer(
+$stmts = $parser->parse(new Lexer(
     '<?php
         x::$y[z];
         $x->y[z];
@@ -32,7 +32,7 @@ if (false !== $stmts) {
 echo "\n\n";
 
 $code = $prettyPrinter->pStmts(
-    $parser->yyparse(
+    $parser->parse(
         new Lexer(file_get_contents(
             '../symfonySandbox\src\vendor\symfony\src\Symfony\Components\Console\Input\InputDefinition.php'
         )),

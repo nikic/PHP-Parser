@@ -60,19 +60,13 @@ abstract class PrettyPrinterAbstract
     protected $precedenceStack    = array(19);
     protected $precedenceStackPos = 0;
 
-    public function pImplode(array $nodes, $glue = '') {
-        $pNodes = array();
-        foreach ($nodes as $node) {
-            $pNodes[] = $this->p($node);
-        }
-
-        return implode($glue, $pNodes);
-    }
-
-    public function pCommaSeparated(array $nodes) {
-        return $this->pImplode($nodes, ', ');
-    }
-
+    /**
+     * Pretty prints an array of statements.
+     *
+     * @param array $nodes Array of statements
+     *
+     * @return string Pretty printed statements
+     */
     public function pStmts(array $nodes) {
         $return = '';
         foreach ($nodes as $node) {
@@ -97,17 +91,13 @@ abstract class PrettyPrinterAbstract
         return $return;
     }
 
-    public function pIndent($string) {
-        $lines = explode("\n", $string);
-        foreach ($lines as &$line) {
-            if ('' !== $line) {
-                $line = '    ' . $line;
-            }
-        }
-
-        return implode("\n", $lines);
-    }
-
+    /**
+     * Pretty prints a node.
+     *
+     * @param NodeAbstract $node Node to be pretty printed
+     *
+     * @return string Pretty printed node
+     */
     public function p(NodeAbstract $node) {
         $type = $node->getType();
 
@@ -134,5 +124,51 @@ abstract class PrettyPrinterAbstract
         } else {
             return $this->{'p' . $type}($node);
         }
+    }
+
+    /**
+     * Pretty prints an array of nodes and implodes the printed values.
+     *
+     * @param array  $nodes Array of Nodes to be printed
+     * @param string $glue  Character to implode with
+     *
+     * @return string Imploded pretty printed nodes
+     */
+    protected function pImplode(array $nodes, $glue = '') {
+        $pNodes = array();
+        foreach ($nodes as $node) {
+            $pNodes[] = $this->p($node);
+        }
+
+        return implode($glue, $pNodes);
+    }
+
+    /**
+     * Pretty prints an array of nodes and implodes the printed values with commas.
+     *
+     * @param array $nodes Array of Nodes to be printed
+     *
+     * @return string Comma separated pretty printed nodes
+     */
+    protected function pCommaSeparated(array $nodes) {
+        return $this->pImplode($nodes, ', ');
+    }
+
+    /**
+     * Indents a string by four space characters.
+     *
+     * @param string $string String to indent
+     *
+     * @return string Indented string
+     */
+    protected function pIndent($string) {
+        $lines = explode("\n", $string);
+        foreach ($lines as &$line) {
+            if ('' !== $line) {
+                $line = '    ' . $line;
+            }
+        }
+
+        return implode("\n", $lines);
     }
 }

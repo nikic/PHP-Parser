@@ -58,12 +58,12 @@ foreach (new RecursiveIteratorIterator(
     <tr>
         <td>' . $file . '</td>';
 
-    set_time_limit(5);
+    set_time_limit(10);
 
     $errMsg = '';
     $startTime = microtime(true);
 
-    $stmts = $parser->yyparse(
+    $stmts = $parser->parse(
         new Lexer(file_get_contents($file)),
         function($msg) use (&$errMsg) {
             $errMsg = $msg;
@@ -76,7 +76,7 @@ foreach (new RecursiveIteratorIterator(
     if (false !== $stmts) {
         $code = '<?php' . "\n" . $prettyPrinter->pStmts($stmts);
 
-        $ppStmts = $parser->yyparse(
+        $ppStmts = $parser->parse(
             new Lexer($code),
             function($msg) use (&$errMsg) {
                 $errMsg = $msg;

@@ -10,6 +10,11 @@ class Lexer
         T_WHITESPACE => 1, T_COMMENT => 1, T_DOC_COMMENT => 1, T_OPEN_TAG => 1
     );
 
+    /**
+     * Creates a Lexer.
+     *
+     * @param string $code
+     */
     public function __construct($code) {
         self::initTokenMap();
 
@@ -17,14 +22,21 @@ class Lexer
         $this->pos    = -1;
     }
 
-    public function yylex(&$yyLVal) {
+    /**
+     * Returns the next token id.
+     *
+     * @param $lVal Variable to store token content in
+     *
+     * @return int Token id
+     */
+    public function lex(&$lVal) {
         while (isset($this->tokens[++$this->pos])) {
             $token = $this->tokens[$this->pos];
             if (is_string($token)) {
-                $yyLVal = $token;
+                $lVal = $token;
                 return ord($token);
             } elseif (!isset(self::$dropTokens[$token[0]])) {
-                $yyLVal = $token[1];
+                $lVal = $token[1];
                 return self::$tokenMap[$token[0]];
             }
         }
@@ -47,6 +59,13 @@ class Lexer
         return -1;
     }
 
+    /**
+     * Initializes the token map.
+     *
+     * The token map maps the PHP internal token identifiers
+     * to the identifiers used by the Parser. Additionally it
+     * maps T_OPEN_TAG_WITH_ECHO to T_ECHO and T_CLOSE_TAG to ';'.
+     */
     private static function initTokenMap() {
         if (!self::$tokenMap) {
             self::$tokenMap = array();
