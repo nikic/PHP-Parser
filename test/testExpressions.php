@@ -7,6 +7,9 @@ a::${b}
 $a::${b}
 a::$$b
 $a::$$b
+
+a::$b()
+a::$b[c]()
 EXPRS;
 
 function __autoload($class) {

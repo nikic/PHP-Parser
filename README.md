@@ -147,3 +147,11 @@ For the code mentioned in the above section this should create the output:
         echo $msg, "\n";
     }
     printLine('Hallo World!!!');
+
+Known Issues
+============
+
+ * Parsing of expressions of type `a::$b[c]()` (I.e. the method name is specifed by an array)
+   currently does not work (causes 1 parse fail in test against Symfony).
+ * When pretty printing strings and InlineHTML those are indented like any other code, thus causing
+   extra whitespace to be inserted (causes 23 compare fails in test against Symfony).
