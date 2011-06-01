@@ -75,7 +75,8 @@ foreach (new RecursiveIteratorIterator(
         <td class="pass">PASS</td>
         <td class="pass">PASS</td>
         <td class="pass">PASS</td>
-    </tr>';            } else {
+    </tr>';
+            } else {
                 echo '
         <td class="pass">PASS</td>
         <td class="pass">PASS</td>
@@ -99,7 +100,7 @@ foreach (new RecursiveIteratorIterator(
         <td></td>
         <td></td>
     </tr>
-    <tr class="failReason"><td colspan="5">' . $errMsg . '</td></tr>';
+    <tr class="failReason"><td colspan="4">' . $errMsg . '</td></tr>';
 
         ++$parseFail;
     }

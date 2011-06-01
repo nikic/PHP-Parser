@@ -13,7 +13,8 @@ class Node_Scalar_String extends Node_Scalar
     /**
      * Creates a String node from a string token (parses escape sequences).
      *
-     * @param  string $s String
+     * @param string $s String
+     *
      * @return Node_Scalar_String String Node
      */
     public static function create($s) {
@@ -45,7 +46,8 @@ class Node_Scalar_String extends Node_Scalar
      * Parses escape sequences in the content of a doubly quoted string
      * or heredoc string.
      *
-     * @param  string $s String without quotes
+     * @param string $s String without quotes
+     *
      * @return string String with escape sequences parsed
      */
     public static function parseEscapeSequences($s) {

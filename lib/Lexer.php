@@ -25,7 +25,7 @@ class Lexer
     /**
      * Returns the next token id.
      *
-     * @param $lVal Variable to store token content in
+     * @param mixed $lVal Variable to store token content in
      *
      * @return int Token id
      */
@@ -47,7 +47,7 @@ class Lexer
     /**
      * Returns the line the current token is in.
      *
-     * @return int
+     * @return int Line current token is in
      */
     public function getLine() {
         for ($i = $this->pos - 1; $i--;) {
