@@ -16,13 +16,14 @@ echo '<table>
     <tr>
         <td>File</td>
         <td>Parse</td>
-        <td>Time</td>
         <td>PrettyPrint</td>
         <td>Compare</td>
     </tr>';
 
-$totalStartTime = microtime(true);
 $parseFail = $parseCount = $ppFail = $ppCount = $compareFail = $compareCount = 0;
+
+$totalStartTime = microtime(true);
+$parseTime = $ppTime = $compareTime = 0;
 
 foreach (new RecursiveIteratorIterator(
              new RecursiveDirectoryIterator($DIR),
@@ -39,41 +40,44 @@ foreach (new RecursiveIteratorIterator(
     set_time_limit(10);
 
     $errMsg = '';
-    $startTime = microtime(true);
 
+    ++$parseCount;
+    $parseTime -= microtime(true);
     $stmts = $parser->parse(
         new Lexer(file_get_contents($file)),
-        function($msg) use (&$errMsg) {
+        function ($msg) use (&$errMsg) {
             $errMsg = $msg;
         }
     );
+    $parseTime += microtime(true);
 
-    $time = microtime(true) - $startTime;
-
-    ++$parseCount;
     if (false !== $stmts) {
+        ++$ppCount;
+        $ppTime -= microtime(true);
         $code = '<?php' . "\n" . $prettyPrinter->pStmts($stmts);
+        $ppTime += microtime(true);
 
         $ppStmts = $parser->parse(
             new Lexer($code),
-            function($msg) use (&$errMsg) {
+            function ($msg) use (&$errMsg) {
                 $errMsg = $msg;
             }
         );
 
-        ++$ppCount;
         if (false !== $ppStmts) {
             ++$compareCount;
-            if ($nodeDumper->dump($stmts) == $nodeDumper->dump($ppStmts)) {
+            $compareTime -= microtime(true);
+            $same = $nodeDumper->dump($stmts) == $nodeDumper->dump($ppStmts);
+            $compareTime += microtime(true);
+
+            if ($same) {
                 echo '
         <td class="pass">PASS</td>
-        <td>' . $time . 's</td>
         <td class="pass">PASS</td>
         <td class="pass">PASS</td>
     </tr>';            } else {
                 echo '
         <td class="pass">PASS</td>
-        <td>' . $time . 's</td>
         <td class="pass">PASS</td>
         <td class="fail">FAIL</td>
     </tr>';
@@ -83,7 +87,6 @@ foreach (new RecursiveIteratorIterator(
         } else {
             echo '
         <td class="pass">PASS</td>
-        <td>' . $time . 's</td>
         <td class="fail">FAIL</td>
         <td></td>
     </tr>';
@@ -93,7 +96,6 @@ foreach (new RecursiveIteratorIterator(
     } else {
         echo '
         <td class="fail">FAIL</td>
-        <td>' . $time . 's</td>
         <td></td>
         <td></td>
     </tr>
@@ -109,10 +111,16 @@ echo '
     <tr>
         <td>Fail / Total:</td>
         <td><span class="failCount">' . $parseFail .   '</span> / ' . $parseCount .   '</td>
-        <td></td>
         <td><span class="failCount">' . $ppFail .      '</span> / ' . $ppCount .      '</td>
         <td><span class="failCount">' . $compareFail . '</span> / ' . $compareCount . '</td>
     </tr>
+    <tr>
+        <td>Time:</td>
+        <td>' . $parseTime . '</td>
+        <td>' . $ppTime . '</td>
+        <td>' . $compareTime . '</td>
+    </tr>
 </table>';
 
-echo 'Total time: ', microtime(true) - $totalStartTime;
+echo 'Total time: ', microtime(true) - $totalStartTime, '<br />',
+     'Maximum memory usage: ', memory_get_peak_usage(true);
