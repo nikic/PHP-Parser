@@ -3,42 +3,37 @@
 class NodeDumper
 {
     /**
-     * Dumps a Node, scalar or array to a string.
+     * Dumps a node or array.
      *
-     * @param mixed $node Value to dump
+     * @param array|NodeAbstract $node Node or array to dump
      *
      * @return string Dumped value
      */
     public function dump($node) {
-        if (is_array($node) || $node instanceof NodeAbstract) {
-            if (is_array($node)) {
-                $r = 'array(';
-            } else {
-                $r = $node->getType() . '(';
-            }
-
-            foreach ($node as $key => $value) {
-                $r .= "\n" . '    ' . $key . ': ';
-
-                $lines = explode("\n", $this->dump($value));
-
-                $r .= array_shift($lines);
-                foreach ($lines as $line) {
-                    $r .= "\n" . '    ' . $line;
-                }
-            }
-
-            return $r . "\n" . ')';
-        } elseif (null === $node) {
-            return 'null';
-        } elseif (false === $node) {
-            return 'false';
-        } elseif (true === $node) {
-            return 'true';
-        } elseif (is_scalar($node)) {
-            return $node;
+        if ($node instanceof NodeAbstract) {
+            $r = $node->getType() . '(';
+        } elseif (is_array($node)) {
+            $r = 'array(';
         } else {
-            throw new InvalidArgumentException('Unexpected node type.');
+            throw new InvalidArgumentException('Can only dump nodes and arrays.');
         }
+
+        foreach ($node as $key => $value) {
+            $r .= "\n" . '    ' . $key . ': ';
+
+            if (null === $value) {
+                $r .= 'null';
+            } elseif (false === $value) {
+                $r .= 'false';
+            } elseif (true === $value) {
+                $r .= 'true';
+            } elseif (is_scalar($value)) {
+                $r .= $value;
+            } else {
+                $r .= implode("\n" . '    ', explode("\n", $this->dump($value)));
+            }
+        }
+
+        return $r . "\n" . ')';
     }
 }
