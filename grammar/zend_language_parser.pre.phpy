@@ -177,8 +177,7 @@ statement:
     | T_CONTINUE ';'                                        { $$ = Stmt_Continue[num: null]; }
     | T_CONTINUE expr ';'                                   { $$ = Stmt_Continue[num: $2]; }
     | T_RETURN ';'                                          { $$ = Stmt_Return[expr: null]; }
-    | T_RETURN expr_without_variable ';'                    { $$ = Stmt_Return[expr: $2]; }
-    | T_RETURN variable ';'                                 { $$ = Stmt_Return[expr: $2]; }
+    | T_RETURN expr ';'                                     { $$ = Stmt_Return[expr: $2]; }
     | T_GLOBAL global_var_list ';'                          { $$ = Stmt_Global[vars: $2]; }
     | T_STATIC static_var_list ';'                          { $$ = Stmt_Static[vars: $2]; }
     | T_ECHO expr_list ';'                                  { $$ = Stmt_Echo[exprs: $2]; }
@@ -351,12 +350,9 @@ function_call_argument_list:
 ;
 
 non_empty_function_call_argument_list:
-      expr_without_variable                                 { init(Expr_FuncCallArg[value: $1, byRef: false]); }
-    | variable                                              { init(Expr_FuncCallArg[value: $1, byRef: false]); }
+      expr                                                  { init(Expr_FuncCallArg[value: $1, byRef: false]); }
     | '&' variable                                          { init(Expr_FuncCallArg[value: $2, byRef: true]); }
-    | non_empty_function_call_argument_list ',' expr_without_variable
-          { push($1, Expr_FuncCallArg[value: $3, byRef: false]); }
-    | non_empty_function_call_argument_list ',' variable
+    | non_empty_function_call_argument_list ',' expr
           { push($1, Expr_FuncCallArg[value: $3, byRef: false]); }
     | non_empty_function_call_argument_list ',' '&' variable
           { push($1, Expr_FuncCallArg[value: $4, byRef: true]); }
@@ -448,8 +444,9 @@ for_expr:
     | expr_list                                             { $$ = $1; }
 ;
 
-expr_without_variable:
-      T_LIST '(' assignment_list ')' '=' expr               { $$ = Expr_List[assignList: $3, expr: $6]; }
+expr:
+      variable                                              { $$ = $1; }
+    | T_LIST '(' assignment_list ')' '=' expr               { $$ = Expr_List[assignList: $3, expr: $6]; }
     | variable '=' expr                                     { $$ = Expr_Assign[var: $1, expr: $3]; }
     | variable '=' '&' variable                             { $$ = Expr_AssignRef[var: $1, refVar: $4]; }
     | variable '=' '&' T_NEW class_name_reference ctor_arguments
@@ -663,11 +660,6 @@ non_empty_static_array_pair_list:
     | non_empty_static_array_pair_list ',' static_scalar    { push($1, Expr_ArrayItem[key: null, value: $3, byRef: false]); }
     | static_scalar T_DOUBLE_ARROW static_scalar            { init(Expr_ArrayItem[key: $1, value: $3, byRef: false]); }
     | static_scalar                                         { init(Expr_ArrayItem[key: null, value: $1, byRef: false]); }
-;
-
-expr:
-      variable                                              { $$ = $1; }
-    | expr_without_variable                                 { $$ = $1; }
 ;
 
 variable:

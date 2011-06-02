@@ -177,8 +177,7 @@ statement:
     | T_CONTINUE ';'                                        { $$ = new Node_Stmt_Continue(array('num' => null)); }
     | T_CONTINUE expr ';'                                   { $$ = new Node_Stmt_Continue(array('num' => $2)); }
     | T_RETURN ';'                                          { $$ = new Node_Stmt_Return(array('expr' => null)); }
-    | T_RETURN expr_without_variable ';'                    { $$ = new Node_Stmt_Return(array('expr' => $2)); }
-    | T_RETURN variable ';'                                 { $$ = new Node_Stmt_Return(array('expr' => $2)); }
+    | T_RETURN expr ';'                                     { $$ = new Node_Stmt_Return(array('expr' => $2)); }
     | T_GLOBAL global_var_list ';'                          { $$ = new Node_Stmt_Global(array('vars' => $2)); }
     | T_STATIC static_var_list ';'                          { $$ = new Node_Stmt_Static(array('vars' => $2)); }
     | T_ECHO expr_list ';'                                  { $$ = new Node_Stmt_Echo(array('exprs' => $2)); }
@@ -351,12 +350,9 @@ function_call_argument_list:
 ;
 
 non_empty_function_call_argument_list:
-      expr_without_variable                                 { $$ = array(new Node_Expr_FuncCallArg(array('value' => $1, 'byRef' => false))); }
-    | variable                                              { $$ = array(new Node_Expr_FuncCallArg(array('value' => $1, 'byRef' => false))); }
+      expr                                                  { $$ = array(new Node_Expr_FuncCallArg(array('value' => $1, 'byRef' => false))); }
     | '&' variable                                          { $$ = array(new Node_Expr_FuncCallArg(array('value' => $2, 'byRef' => true))); }
-    | non_empty_function_call_argument_list ',' expr_without_variable
-          { $1[] = new Node_Expr_FuncCallArg(array('value' => $3, 'byRef' => false)); $$ = $1; }
-    | non_empty_function_call_argument_list ',' variable
+    | non_empty_function_call_argument_list ',' expr
           { $1[] = new Node_Expr_FuncCallArg(array('value' => $3, 'byRef' => false)); $$ = $1; }
     | non_empty_function_call_argument_list ',' '&' variable
           { $1[] = new Node_Expr_FuncCallArg(array('value' => $4, 'byRef' => true)); $$ = $1; }
@@ -448,8 +444,9 @@ for_expr:
     | expr_list                                             { $$ = $1; }
 ;
 
-expr_without_variable:
-      T_LIST '(' assignment_list ')' '=' expr               { $$ = new Node_Expr_List(array('assignList' => $3, 'expr' => $6)); }
+expr:
+      variable                                              { $$ = $1; }
+    | T_LIST '(' assignment_list ')' '=' expr               { $$ = new Node_Expr_List(array('assignList' => $3, 'expr' => $6)); }
     | variable '=' expr                                     { $$ = new Node_Expr_Assign(array('var' => $1, 'expr' => $3)); }
     | variable '=' '&' variable                             { $$ = new Node_Expr_AssignRef(array('var' => $1, 'refVar' => $4)); }
     | variable '=' '&' T_NEW class_name_reference ctor_arguments
@@ -663,11 +660,6 @@ non_empty_static_array_pair_list:
     | non_empty_static_array_pair_list ',' static_scalar    { $1[] = new Node_Expr_ArrayItem(array('key' => null, 'value' => $3, 'byRef' => false)); $$ = $1; }
     | static_scalar T_DOUBLE_ARROW static_scalar            { $$ = array(new Node_Expr_ArrayItem(array('key' => $1, 'value' => $3, 'byRef' => false))); }
     | static_scalar                                         { $$ = array(new Node_Expr_ArrayItem(array('key' => null, 'value' => $1, 'byRef' => false))); }
-;
-
-expr:
-      variable                                              { $$ = $1; }
-    | expr_without_variable                                 { $$ = $1; }
 ;
 
 variable:
