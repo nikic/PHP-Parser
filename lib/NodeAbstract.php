@@ -31,6 +31,16 @@ abstract class NodeAbstract implements IteratorAggregate
     }
 
     /**
+     * Sets a sub node.
+     *
+     * @param string $name  Name of sub node
+     * @param mixed  $value Value to set sub node to
+     */
+    public function __set($name, $value) {
+        $this->subNodes[$name] = $value;
+    }
+
+    /**
      * Checks whether a subnode exists.
      *
      * @param string $name Name of sub node
