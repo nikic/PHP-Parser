@@ -8,6 +8,8 @@ abstract class PrettyPrinterAbstract
         'Expr_PreDec'           =>  1,
         'Expr_PostInc'          =>  1,
         'Expr_PostDec'          =>  1,
+        'Expr_UnaryPlus'        =>  1,
+        'Expr_UnaryMinus'       =>  1,
         'Expr_IntCast'          =>  1,
         'Expr_DoubleCast'       =>  1,
         'Expr_StringCast'       =>  1,
