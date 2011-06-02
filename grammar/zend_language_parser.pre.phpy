@@ -775,7 +775,7 @@ encaps_var:
 ;
 
 encaps_var_offset:
-      T_STRING                                              { $$ = Scalar_String[value: $1]; }
+      T_STRING                                              { $$ = Scalar_String[value: $1, isBinary: false, type: Scalar_String::SINGLE_QUOTED]; }
     | T_NUM_STRING                                          { $$ = Scalar_LNumber[value: parseLNumber($1)]; }
     | T_VARIABLE                                            { $$ = Variable[name: parseVar($1)]; }
 ;

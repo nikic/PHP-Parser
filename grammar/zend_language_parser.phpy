@@ -775,7 +775,7 @@ encaps_var:
 ;
 
 encaps_var_offset:
-      T_STRING                                              { $$ = new Node_Scalar_String(array('value' => $1)); }
+      T_STRING                                              { $$ = new Node_Scalar_String(array('value' => $1, 'isBinary' => false, 'type' => Node_Scalar_String::SINGLE_QUOTED)); }
     | T_NUM_STRING                                          { $$ = new Node_Scalar_LNumber(array('value' => (int) $1)); }
     | T_VARIABLE                                            { $$ = new Node_Variable(array('name' => substr($1, 1))); }
 ;

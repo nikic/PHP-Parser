@@ -2445,7 +2445,7 @@ class Parser
     }
 
     private function yyn352() {
-         $this->yyval = new Node_Scalar_String(array('value' => $this->yyastk[$this->yysp-(1-1)])); 
+         $this->yyval = new Node_Scalar_String(array('value' => $this->yyastk[$this->yysp-(1-1)], 'isBinary' => false, 'type' => Node_Scalar_String::SINGLE_QUOTED)); 
     }
 
     private function yyn353() {
