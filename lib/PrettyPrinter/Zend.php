@@ -67,7 +67,9 @@ class PrettyPrinter_Zend extends PrettyPrinterAbstract
     }
 
     public function pScalar_DNumber(Node_Scalar_DNumber $node) {
-        return (string) $node->value;
+        return (int) $node->value == $node->value
+               ? (string) $node->value . '.0' // ensure that number is really printed as float
+               : (string) $node->value;
     }
 
     // Assignments
