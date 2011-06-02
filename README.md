@@ -139,7 +139,7 @@ The pretty printer compiles nodes back to PHP code. "Pretty printing" here is ju
 name of the process and does not mean that the output is in any way pretty.
 
     $prettyPrinter = new PrettyPrinter_Zend;
-    echo '<pre>' . htmlspecialchars($prettyPrinter->pStmts($stmts)) . '</pre>';
+    echo '<pre>' . htmlspecialchars($prettyPrinter->prettyPrint($stmts)) . '</pre>';
 
 For the code mentioned in the above section this should create the output:
 
@@ -151,6 +151,3 @@ For the code mentioned in the above section this should create the output:
 
 Known Issues
 ============
-
- * When pretty printing strings and InlineHTML those are indented like any other code, thus causing
-   extra whitespace to be inserted (causes 23 compare fails in test against Symfony Beta 3).

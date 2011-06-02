@@ -56,40 +56,62 @@ abstract class PrettyPrinterAbstract
         'Expr_LogicalXor'       => 17,
         'Expr_LogicalOr'        => 18,
     );
+    protected $stmtsWithoutSemicolon = array(
+        'Stmt_Func' => true,
+        'Stmt_Interface' => true,
+        'Stmt_Class' => true,
+        'Stmt_ClassMethod' => true,
+        'Stmt_For' => true,
+        'Stmt_Foreach' => true,
+        'Stmt_If' => true,
+        'Stmt_Switch' => true,
+        'Stmt_While' => true,
+        'Stmt_TryCatch' => true,
+        'Stmt_Label' => true,
+    );
 
-    protected $precedenceStack    = array(19);
-    protected $precedenceStackPos = 0;
+    protected $precedenceStack;
+    protected $precedenceStackPos;
+    protected $noIndentToken;
 
     /**
-     * Pretty prints an array of statements.
+     * Pretty prints an array of nodes (statements).
      *
-     * @param array $nodes Array of statements
+     * @param array $nodes Array of nodes
+     *
+     * @return string Pretty printed nodes
+     */
+    public function prettyPrint(array $nodes) {
+        $this->precedenceStack = array($this->precedenceStackPos = 0 => 19);
+        $this->noIndentToken   = uniqid('_NO_INDENT_');
+
+        return str_replace("\n" . $this->noIndentToken, "\n", $this->pStmts($nodes, false));
+    }
+
+    /**
+     * Pretty prints an array of nodes (statements) and indents them optionally.
+     *
+     * @param array $nodes Array of nodes
+     * @param bool  $indent Whether to indent the printed nodes
      *
      * @return string Pretty printed statements
      */
-    public function pStmts(array $nodes) {
-        $return = '';
+    protected function pStmts(array $nodes, $indent = true) {
+        $pNodes = array();
         foreach ($nodes as $node) {
-            $return .= $this->p($node);
-
-            if (   $node instanceof Node_Stmt_Func
-                || $node instanceof Node_Stmt_Interface
-                || $node instanceof Node_Stmt_Class
-                || $node instanceof Node_Stmt_ClassMethod
-                || $node instanceof Node_Stmt_For
-                || $node instanceof Node_Stmt_Foreach
-                || $node instanceof Node_Stmt_If
-                || $node instanceof Node_Stmt_Switch
-                || $node instanceof Node_Stmt_While
-                || $node instanceof Node_Stmt_TryCatch
-                || $node instanceof Node_Stmt_Label
-            ) {
-                $return .= "\n";
-            } else {
-                $return .= ';' . "\n";
-            }
+            $pNodes[] = $this->p($node)
+                      . (isset($this->stmtsWithoutSemicolon[$node->getType()]) ? '' : ';');
         }
-        return $return;
+
+        if ($indent) {
+            return '    ' . preg_replace(
+                '~\n(?!$|' . $this->noIndentToken . ')~',
+                "\n" . '    ',
+                implode("\n", $pNodes)
+            );
+        } else {
+            return implode("\n", $pNodes);
+        }
     }
 
     /**
@@ -99,7 +121,7 @@ abstract class PrettyPrinterAbstract
      *
      * @return string Pretty printed node
      */
-    public function p(NodeAbstract $node) {
+    protected function p(NodeAbstract $node) {
         $type = $node->getType();
 
         if (isset($this->precedanceMap[$type])) {
@@ -150,20 +172,13 @@ abstract class PrettyPrinterAbstract
     }
 
     /**
-     * Indents a string by four space characters.
+     * Signifies the pretty printer that a string shall not be indented.
      *
-     * @param string $string String to indent
+     * @param string $string Not to be indented string
      *
-     * @return string Indented string
+     * @return mixed String marked with $this->noIndentToken's.
      */
-    protected function pIndent($string) {
-        $lines = explode("\n", $string);
-        foreach ($lines as &$line) {
-            if ('' !== $line) {
-                $line = '    ' . $line;
-            }
-        }
-
-        return implode("\n", $lines);
+    protected function pSafe($string) {
+        return str_replace("\n", "\n" . $this->noIndentToken, $string);
     }
 }

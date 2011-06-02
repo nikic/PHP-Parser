@@ -54,7 +54,7 @@ foreach (new RecursiveIteratorIterator(
     if (false !== $stmts) {
         ++$ppCount;
         $ppTime -= microtime(true);
-        $code = '<?php' . "\n" . $prettyPrinter->pStmts($stmts);
+        $code = '<?php' . "\n" . $prettyPrinter->prettyPrint($stmts);
         $ppTime += microtime(true);
 
         $ppStmts = $parser->parse(
