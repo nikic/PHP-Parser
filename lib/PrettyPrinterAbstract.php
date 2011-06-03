@@ -70,6 +70,7 @@ abstract class PrettyPrinterAbstract
         'Stmt_While' => true,
         'Stmt_TryCatch' => true,
         'Stmt_Label' => true,
+        'Stmt_HaltCompiler' => true,
     );
 
     protected $precedenceStack;

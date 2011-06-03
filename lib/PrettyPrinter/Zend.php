@@ -613,6 +613,10 @@ class PrettyPrinter_Zend extends PrettyPrinterAbstract
         ) . '<?php ';
     }
 
+    public function pStmt_HaltCompiler(Node_Stmt_HaltCompiler $node) {
+        return '__halt_compiler();' . $node->remaining;
+    }
+
     // Helpers
 
     public function pObjectProperty($node) {

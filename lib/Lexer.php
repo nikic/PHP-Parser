@@ -2,6 +2,7 @@
 
 class Lexer
 {
+    protected $code;
     protected $tokens;
     protected $pos;
 
@@ -22,6 +23,7 @@ class Lexer
         // Still hoping for a better solution to be found.
         @$errorGetLastResetUndefinedVariable;
 
+        $this->code   = $code;
         $this->tokens = @token_get_all($code);
         $this->pos    = -1;
 
@@ -56,6 +58,7 @@ class Lexer
     public function lex(&$lVal) {
         while (isset($this->tokens[++$this->pos])) {
             $token = $this->tokens[$this->pos];
+
             if (is_string($token)) {
                 $lVal = $token;
                 return ord($token);
@@ -81,6 +84,39 @@ class Lexer
         }
 
         return -1;
+    }
+
+    /**
+     * Handles __halt_compiler() by returning the text after it.
+     *
+     * @return string Remaining text
+     */
+    public function handleHaltCompiler() {
+        // get the length of the text before the T_HALT_COMPILER token
+        $textBefore = '';
+        for ($i = 0; $i <= $this->pos; ++$i) {
+            if (is_string($this->tokens[$i])) {
+                $textBefore .= $this->tokens[$i];
+            } else {
+                $textBefore .= $this->tokens[$i][1];
+            }
+        }
+
+        // text after T_HALT_COMPILER, still including ();
+        $textAfter = substr($this->code, strlen($textBefore));
+
+        // ensure that it is followed by ();
+        // this simplifies the situation, by not allowing any comments
+        // in between of the tokens.
+        if (!preg_match('~\s*\(\s*\)\s*;~', $textAfter, $matches)) {
+            throw new ParseErrorException('__halt_compiler must be followed by "();"');
+        }
+
+        // prevent the lexer from returning any further tokens
+        $this->pos = count($this->tokens);
+
+        // return with (); removed
+        return substr($textAfter, strlen($matches[0]));
     }
 
     /**
