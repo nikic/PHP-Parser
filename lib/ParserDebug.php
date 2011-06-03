@@ -1281,12 +1281,11 @@ class ParserDebug
     /**
      * Parses PHP code into a node tree and prints out debugging information.
      *
-     * @param Lexer    $lex           A lexer
-     * @param callback $errorCallback Function to be passed a message in case of an error.
+     * @param Lexer $lex A lexer
      *
      * @return array Array of statements
      */
-    public function parse(Lexer $lex, $errorCallback) {
+    public function parse(Lexer $lex) {
         $this->yyastk = array();
         $yysstk = array();
         $this->yysp = 0;
@@ -1334,8 +1333,8 @@ class ParserDebug
                         $this->yyastk[$this->yysp] = $yylval;
                         $yychar = -1;
 
-                        if ($yyerrflag > 0)
-                            --$yyerrflag;
+                        /*if ($yyerrflag > 0)
+                            --$yyerrflag;*/
                         if ($yyn < self::YYNLSTATES)
                             continue;
 
@@ -1358,7 +1357,13 @@ class ParserDebug
                 } elseif ($yyn != self::YYUNEXPECTED) {
                     /* reduce */
                     $this->YYTRACE_REDUCE($yyn);
-                    $this->{'yyn' . $yyn}();
+                    try {
+                        $this->{'yyn' . $yyn}();
+                    } catch (ParseErrorException $e) {
+                        $e->setRawLine($lex->getLine());
+
+                        throw $e;
+                    }
 
                     /* Goto - shift nonterminal */
                     $this->yysp -= self::$yylen[$yyn];
@@ -1377,18 +1382,17 @@ class ParserDebug
                     $this->yyastk[$this->yysp] = $this->yyval;
                 } else {
                     /* error */
-                    switch ($yyerrflag) {
-                    case 0:
-                        $errorCallback(
-                            'Parse error:'
-                            . ' Unexpected token ' . self::$yyterminals[$yychar]
-                            . ' on line ' . $lex->getLine()
+                    /*switch ($yyerrflag) {
+                    case 0:*/
+                        throw new ParseErrorException(
+                            'Unexpected token ' . self::$yyterminals[$yychar],
+                            $lex->getLine()
                         );
-                    case 1:
+                    /*case 1:
                     case 2:
-                        $yyerrflag = 3;
+                        $yyerrflag = 3;*/
                         /* Pop until error-expecting state uncovered */
-                        while (!(($yyn = self::$yybase[$yystate] + self::YYINTERRTOK) >= 0
+                        /*while (!(($yyn = self::$yybase[$yystate] + self::YYINTERRTOK) >= 0
                                  && $yyn < self::YYLAST
                                  && self::$yycheck[$yyn] == self::YYINTERRTOK
                                  || ($yystate < self::YY2TBLSTATE
@@ -1413,7 +1417,7 @@ class ParserDebug
                         }
                         $yychar = -1;
                         break;
-                    }
+                    }*/
                 }
 
                 if ($yystate < self::YYNLSTATES)
@@ -1541,7 +1545,7 @@ class ParserDebug
     }
 
     private function yyn29() {
-         error('__halt_compiler() can only be used from the outermost scope'); 
+         throw new ParseErrorException('__halt_compiler() can only be used from the outermost scope'); 
     }
 
     private function yyn30() {

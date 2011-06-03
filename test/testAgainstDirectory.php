@@ -22,8 +22,10 @@ echo '<table>
 
 $parseFail = $parseCount = $ppFail = $ppCount = $compareFail = $compareCount = 0;
 
-$totalStartTime = microtime(true);
 $parseTime = $ppTime = $compareTime = 0;
+
+$totalStartTime = microtime(true);
+
 
 foreach (new RecursiveIteratorIterator(
              new RecursiveDirectoryIterator($DIR),
@@ -39,36 +41,24 @@ foreach (new RecursiveIteratorIterator(
 
     set_time_limit(10);
 
-    $errMsg = '';
+    try {
+        ++$parseCount;
+        $startTime = microtime(true);
+        $stmts = $parser->parse(new Lexer(file_get_contents($file)));
+        $parseTime += microtime(true) - $startTime;
 
-    ++$parseCount;
-    $parseTime -= microtime(true);
-    $stmts = $parser->parse(
-        new Lexer(file_get_contents($file)),
-        function ($msg) use (&$errMsg) {
-            $errMsg = $msg;
-        }
-    );
-    $parseTime += microtime(true);
-
-    if (false !== $stmts) {
         ++$ppCount;
-        $ppTime -= microtime(true);
+        $startTime = microtime(true);
         $code = '<?php' . "\n" . $prettyPrinter->prettyPrint($stmts);
-        $ppTime += microtime(true);
+        $ppTime += microtime(true) - $startTime;
 
-        $ppStmts = $parser->parse(
-            new Lexer($code),
-            function ($msg) use (&$errMsg) {
-                $errMsg = $msg;
-            }
-        );
+        try {
+            $ppStmts = $parser->parse(new Lexer($code));
 
-        if (false !== $ppStmts) {
             ++$compareCount;
-            $compareTime -= microtime(true);
+            $startTime = microtime(true);
             $same = $nodeDumper->dump($stmts) == $nodeDumper->dump($ppStmts);
-            $compareTime += microtime(true);
+            $compareTime += microtime(true) - $startTime;
 
             if ($same) {
                 echo '
@@ -85,22 +75,23 @@ foreach (new RecursiveIteratorIterator(
 
                 ++$compareFail;
             }
-        } else {
+        } catch (ParseErrorException $e) {
             echo '
         <td class="pass">PASS</td>
         <td class="fail">FAIL</td>
         <td></td>
-    </tr>';
+    </tr>
+    <tr class="failReason"><td colspan="4">' . $e->getMessage() . '</td></tr>';
 
             ++$ppFail;
         }
-    } else {
+    } catch (ParseErrorException $e) {
         echo '
         <td class="fail">FAIL</td>
         <td></td>
         <td></td>
     </tr>
-    <tr class="failReason"><td colspan="4">' . $errMsg . '</td></tr>';
+    <tr class="failReason"><td colspan="4">' . $e->getMessage() . '</td></tr>';
 
         ++$parseFail;
     }

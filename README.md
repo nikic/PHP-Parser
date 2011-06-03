@@ -19,20 +19,17 @@ This package currently bundles several components:
 Parser and ParserDebug
 ----------------------
 
-Parsing is performed using `Parser->parse()`. This method accepts a `Lexer` as the first parameter
-and a error callback, i.e. a function that will be passed a message in case of an error, as
-second parameter. The parser returns an array of statement nodes. If an error occurs the parser
-instead returns `false` and sends an error message to the error callback.
+Parsing is performed using `Parser->parse()`. This method accepts a `Lexer` as the only parameter
+and returns an array of statement nodes. If an error occurs it throws a ParseErrorException.
 
     $code = '<?php // some code';
 
-    $parser = new Parser;
-    $stmts = $parser->parse(
-        new Lexer($code),
-        function ($msg) {
-            echo $msg;
-        }
-    );
+    try {
+        $parser = new Parser;
+        $stmts = $parser->parse(new Lexer($code));
+    } catch (ParseErrorException $e) {
+        echo 'Parse Error: ', $e->getMessage();
+    }
 
 The `ParserDebug` class also parses a PHP code, but outputs a debug trace while doing so.
 
@@ -59,7 +56,7 @@ respective files.
 NodeDumper
 ----------
 
-Nodes can be dumped into a string representation using the `NodeDumper->dump` method:
+Nodes can be dumped into a string representation using the `NodeDumper->dump()` method:
 
     $code = <<<'CODE'
     <?php
@@ -70,17 +67,14 @@ Nodes can be dumped into a string representation using the `NodeDumper->dump` me
         printLine('Hallo World!!!');
     CODE;
 
-    $parser = new Parser;
-    $stmts = $parser->parse(
-        new Lexer($code),
-        function ($msg) {
-            echo $msg;
-        }
-    );
+    try {
+        $parser = new Parser;
+        $stmts = $parser->parse(new Lexer($code));
 
-    if (false !== $stmts) {
         $nodeDumper = new NodeDumper;
         echo '<pre>' . htmlspecialchars($nodeDumper->dump($stmts)) . '</pre>';
+    } catch (ParseErrorException $e) {
+        echo 'Parse Error: ', $e->getMessage();
     }
 
 This script will have an output similar to the following:

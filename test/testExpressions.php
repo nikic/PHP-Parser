@@ -31,16 +31,13 @@ foreach (explode("\n", $exprs) as $expr) {
         continue;
     }
 
-    if ($parser->parse(
-            new Lexer('<?php ' . $expr . ';'),
-            function ($msg) use(&$errMsg) {
-                $errMsg = $msg;
-            }
-        )
-    ) {
+    try {
+        $parser->parse(new Lexer('<?php ' . $expr . ';'));
+
         echo '<tr><td>' . $expr . '</td><td class="pass">PASS</td></tr>';
-    } else {
+    } catch (ParseErrorException $e) {
         echo '<tr><td>' . $expr . '</td><td class="fail">FAIL</td></tr>';
+        echo '<tr><td colspan="2">' .  $e->getMessage() . '</td></tr>';
     }
 }
 

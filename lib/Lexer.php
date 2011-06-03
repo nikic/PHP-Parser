@@ -18,8 +18,32 @@ class Lexer
     public function __construct($code) {
         self::initTokenMap();
 
-        $this->tokens = token_get_all($code);
+        // Reset the error message in error_get_last()
+        // Still hoping for a better solution to be found.
+        @$errorGetLastResetUndefinedVariable;
+
+        $this->tokens = @token_get_all($code);
         $this->pos    = -1;
+
+        $error = error_get_last();
+
+        if (preg_match(
+                '~^(Unterminated comment) starting line ([0-9]+)$~',
+                $error['message'],
+                $matches
+            )
+        ) {
+            throw new ParseErrorException($matches[1], $matches[2]);
+        }
+
+        if (preg_match(
+                '~^(Unexpected character in input:\s+\'(.)\' \(ASCII=[0-9]+\))~s',
+                $error['message'],
+                $matches
+            )
+        ) {
+            throw new ParseErrorException($matches[1]);
+        }
     }
 
     /**

@@ -71,7 +71,7 @@ function resolveNodes($code) {
 
 function resolveMacros($code) {
     return preg_replace_callback(
-        '~(?<name>init|push|pushNormalizing|toArray|parse(?:Var|Encapsed|LNumber|DNumber))' . ARGS . '~',
+        '~(?<name>error|init|push|pushNormalizing|toArray|parse(?:Var|Encapsed|LNumber|DNumber))' . ARGS . '~',
         function($matches) {
             // recurse
             $matches['args'] = resolveMacros($matches['args']);
@@ -81,6 +81,12 @@ function resolveMacros($code) {
                 '(?:' . PARAMS . '|' . ARGS . ')(*SKIP)(*FAIL)|,',
                 $matches['args']
             );
+
+            if ('error' == $name) {
+                assertArgs(1, $args, $name);
+
+                return 'throw new ParseErrorException(' . $args[0] . ')';
+            }
 
             if ('init' == $name) {
                 return '$$ = array(' . implode(', ', $args) . ')';
