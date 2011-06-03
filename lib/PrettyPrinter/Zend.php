@@ -616,9 +616,7 @@ class PrettyPrinter_Zend extends PrettyPrinterAbstract
     // Helpers
 
     public function pObjectProperty($node) {
-        if ($node instanceof Node_Variable || $node instanceof Node_Expr_ArrayDimFetch) {
-            return $this->p($node);
-        } elseif ($node instanceof Node_Expr) {
+        if ($node instanceof Node_Variable || $node instanceof Node_Expr) {
             return '{' . $this->p($node) . '}';
         } else {
             return $node;
