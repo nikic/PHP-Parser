@@ -497,7 +497,7 @@ expr:
     | expr T_IS_SMALLER_OR_EQUAL expr                       { $$ = Expr_SmallerOrEqual[left: $1, right: $3]; }
     | expr '>' expr                                         { $$ = Expr_Greater[left: $1, right: $3]; }
     | expr T_IS_GREATER_OR_EQUAL expr                       { $$ = Expr_GreaterOrEqual[left: $1, right: $3]; }
-    | expr T_INSTANCEOF class_name_reference                { $$ = Expr_InstanceOf[expr: $1, class: $3]; }
+    | expr T_INSTANCEOF class_name_reference                { $$ = Expr_Instanceof[expr: $1, class: $3]; }
     | '(' expr ')'                                          { $$ = $2; }
     | expr '?' expr ':' expr                                { $$ = Expr_Ternary[cond: $1, if: $3, else: $5]; }
     | expr '?' ':' expr                                     { $$ = Expr_Ternary[cond: $1, if: null, else: $4]; }

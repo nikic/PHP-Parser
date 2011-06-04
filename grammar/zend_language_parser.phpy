@@ -497,7 +497,7 @@ expr:
     | expr T_IS_SMALLER_OR_EQUAL expr                       { $$ = new Node_Expr_SmallerOrEqual(array('left' => $1, 'right' => $3)); }
     | expr '>' expr                                         { $$ = new Node_Expr_Greater(array('left' => $1, 'right' => $3)); }
     | expr T_IS_GREATER_OR_EQUAL expr                       { $$ = new Node_Expr_GreaterOrEqual(array('left' => $1, 'right' => $3)); }
-    | expr T_INSTANCEOF class_name_reference                { $$ = new Node_Expr_InstanceOf(array('expr' => $1, 'class' => $3)); }
+    | expr T_INSTANCEOF class_name_reference                { $$ = new Node_Expr_Instanceof(array('expr' => $1, 'class' => $3)); }
     | '(' expr ')'                                          { $$ = $2; }
     | expr '?' expr ':' expr                                { $$ = new Node_Expr_Ternary(array('cond' => $1, 'if' => $3, 'else' => $5)); }
     | expr '?' ':' expr                                     { $$ = new Node_Expr_Ternary(array('cond' => $1, 'if' => null, 'else' => $4)); }

@@ -2264,7 +2264,7 @@ class ParserDebug
     }
 
     private function yyn209() {
-         $this->yyval = new Node_Expr_InstanceOf(array('expr' => $this->yyastk[$this->yysp-(3-1)], 'class' => $this->yyastk[$this->yysp-(3-3)])); 
+         $this->yyval = new Node_Expr_Instanceof(array('expr' => $this->yyastk[$this->yysp-(3-1)], 'class' => $this->yyastk[$this->yysp-(3-3)])); 
     }
 
     private function yyn210() {
