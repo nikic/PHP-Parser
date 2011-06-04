@@ -3,6 +3,6 @@
 /**
  * @property Node_Expr $expr Expression
  */
-class Node_Expr_ErrorSupress extends Node_Expr
+class Node_Expr_ErrorSuppress extends Node_Expr
 {
 }

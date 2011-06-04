@@ -516,7 +516,7 @@ expr:
     | T_BOOL_CAST expr                                      { $$ = Expr_BoolCast[expr: $2]; }
     | T_UNSET_CAST expr                                     { $$ = Expr_UnsetCast[expr: $2]; }
     | T_EXIT exit_expr                                      { $$ = Expr_Exit[expr: $2]; }
-    | '@' expr                                              { $$ = Expr_ErrorSupress[expr: $2]; }
+    | '@' expr                                              { $$ = Expr_ErrorSuppress[expr: $2]; }
     | scalar                                                { $$ = $1; }
     | T_ARRAY '(' array_pair_list ')'                       { $$ = Expr_Array[items: $3]; }
     | '`' backticks_expr '`'                                { $$ = Expr_ShellExec[parts: $2]; }

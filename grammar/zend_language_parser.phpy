@@ -516,7 +516,7 @@ expr:
     | T_BOOL_CAST expr                                      { $$ = new Node_Expr_BoolCast(array('expr' => $2)); }
     | T_UNSET_CAST expr                                     { $$ = new Node_Expr_UnsetCast(array('expr' => $2)); }
     | T_EXIT exit_expr                                      { $$ = new Node_Expr_Exit(array('expr' => $2)); }
-    | '@' expr                                              { $$ = new Node_Expr_ErrorSupress(array('expr' => $2)); }
+    | '@' expr                                              { $$ = new Node_Expr_ErrorSuppress(array('expr' => $2)); }
     | scalar                                                { $$ = $1; }
     | T_ARRAY '(' array_pair_list ')'                       { $$ = new Node_Expr_Array(array('items' => $3)); }
     | '`' backticks_expr '`'                                { $$ = new Node_Expr_ShellExec(array('parts' => $2)); }

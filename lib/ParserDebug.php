@@ -2340,7 +2340,7 @@ class ParserDebug
     }
 
     private function yyn228() {
-         $this->yyval = new Node_Expr_ErrorSupress(array('expr' => $this->yyastk[$this->yysp-(2-2)])); 
+         $this->yyval = new Node_Expr_ErrorSuppress(array('expr' => $this->yyastk[$this->yysp-(2-2)])); 
     }
 
     private function yyn229() {

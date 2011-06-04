@@ -275,7 +275,7 @@ class PrettyPrinter_Zend extends PrettyPrinterAbstract
         return $this->p($node->var) . '--';
     }
 
-    public function pExpr_ErrorSupress(Node_Expr_ErrorSupress $node) {
+    public function pExpr_ErrorSuppress(Node_Expr_ErrorSuppress $node) {
         return '@' . $this->p($node->expr);
     }
 
