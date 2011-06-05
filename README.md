@@ -15,6 +15,14 @@ This package currently bundles several components:
  * A `NodeDumper` to dump the nodes to a human readable string representation
  * A `PrettyPrinter` to translate the node tree back to PHP
 
+Autoloader
+----------
+
+In order to automatically include required files `PHPParser_Autoloader` can be used:
+
+    require_once 'path/to/phpparser/lib/PHPParser/Autoloader.php';
+    PHPParser_Autoloader::register();
+
 Parser and ParserDebug
 ----------------------
 
