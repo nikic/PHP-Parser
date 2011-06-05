@@ -3,7 +3,7 @@
 echo '<pre>';
 
 echo 'Building parser. Output: "',
-     `kmyacc -l -v -L c -m php.kmyacc -p Parser zend_language_parser.phpy`,
+     `kmyacc -l -v -L c -m php.kmyacc -p PHPParser_Parser zend_language_parser.phpy`,
      '"', "\n";
 
 $source = file_get_contents('y.tab.c');
@@ -13,12 +13,12 @@ $source = str_replace(
     $source
 );
 
-echo 'Moving parser to lib/Parser.php.', "\n";
-file_put_contents(dirname(__DIR__) . '/lib/Parser.php', $source);
+echo 'Moving parser to lib/PHPParser/Parser.php.', "\n";
+file_put_contents(dirname(__DIR__) . '/lib/PHPParser/Parser.php', $source);
 unlink(__DIR__ . '/y.tab.c');
 
 echo 'Building debug parser. Output: "',
-     `kmyacc -l -v -t -L c -m php.kmyacc -p ParserDebug zend_language_parser.phpy`,
+     `kmyacc -l -v -t -L c -m php.kmyacc -p PHPParser_ParserDebug zend_language_parser.phpy`,
      '"', "\n";
 
 $source = file_get_contents('y.tab.c');
@@ -34,8 +34,8 @@ $source = str_replace(
     $source
 );
 
-echo 'Moving debug parser to lib/ParserDebug.php.', "\n";
-file_put_contents(dirname(__DIR__) . '/lib/ParserDebug.php', $source);
+echo 'Moving debug parser to lib/PHPParser/ParserDebug.php.', "\n";
+file_put_contents(dirname(__DIR__) . '/lib/PHPParser/ParserDebug.php', $source);
 unlink(__DIR__ . '/y.tab.c');
 
 echo 'Done.';

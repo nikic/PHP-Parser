@@ -1,14 +1,14 @@
 <?php
 
-$DIR = '../../Symfony';
+$DIR = '../..';
 
 function __autoload($class) {
     is_file($file = '../lib/' . strtr($class, '_', '/') . '.php') && require_once $file;
 }
 
-$parser        = new Parser;
-$prettyPrinter = new PrettyPrinter_Zend;
-$nodeDumper    = new NodeDumper;
+$parser        = new PHPParser_Parser;
+$prettyPrinter = new PHPParser_PrettyPrinter_Zend;
+$nodeDumper    = new PHPParser_NodeDumper;
 
 include './testFormatting.html';
 
@@ -44,7 +44,7 @@ foreach (new RecursiveIteratorIterator(
     try {
         ++$parseCount;
         $startTime = microtime(true);
-        $stmts = $parser->parse(new Lexer(file_get_contents($file)));
+        $stmts = $parser->parse(new PHPParser_Lexer(file_get_contents($file)));
         $parseTime += microtime(true) - $startTime;
 
         ++$ppCount;
@@ -53,7 +53,7 @@ foreach (new RecursiveIteratorIterator(
         $ppTime += microtime(true) - $startTime;
 
         try {
-            $ppStmts = $parser->parse(new Lexer($code));
+            $ppStmts = $parser->parse(new PHPParser_Lexer($code));
 
             ++$compareCount;
             $startTime = microtime(true);
@@ -75,7 +75,7 @@ foreach (new RecursiveIteratorIterator(
 
                 ++$compareFail;
             }
-        } catch (ParseErrorException $e) {
+        } catch (PHPParser_ParseErrorException $e) {
             echo '
         <td class="pass">PASS</td>
         <td class="fail">FAIL</td>
@@ -85,7 +85,7 @@ foreach (new RecursiveIteratorIterator(
 
             ++$ppFail;
         }
-    } catch (ParseErrorException $e) {
+    } catch (PHPParser_ParseErrorException $e) {
         echo '
         <td class="fail">FAIL</td>
         <td></td>

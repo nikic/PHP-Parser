@@ -142,11 +142,11 @@ class YYParser
      * Parses PHP code into a node tree and prints out debugging information.
 #endif
      *
-     * @param Lexer $lex A lexer
+     * @param PHPParser_Lexer $lex A lexer
      *
      * @return array Array of statements
      */
-    public function parse(Lexer $lex) {
+    public function parse(PHPParser_Lexer $lex) {
         $this->yyastk = array();
         $yysstk = array();
         $this->yysp = 0;
@@ -230,11 +230,11 @@ class YYParser
 #endif
                     try {
                         if ('HALT_COMPILER' === $this->{'yyn' . $yyn}()) {
-                            $this->yyval = new Node_Stmt_HaltCompiler(
+                            $this->yyval = new PHPParser_Node_Stmt_HaltCompiler(
                                 array('remaining' => $lex->handleHaltCompiler())
                             );
                         }
-                    } catch (ParseErrorException $e) {
+                    } catch (PHPParser_ParseErrorException $e) {
                         $e->setRawLine($lex->getLine());
 
                         throw $e;
@@ -260,7 +260,7 @@ class YYParser
                     /*switch ($yyerrflag) {
                     case 0:*/
 #endif
-                        throw new ParseErrorException(
+                        throw new PHPParser_ParseErrorException(
                             'Unexpected token ' . self::$yyterminals[$yychar],
                             $lex->getLine()
                         );

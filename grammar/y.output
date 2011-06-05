@@ -1530,8 +1530,8 @@ state 15
 	.		reduce (93)
 
 state 16
-	(24) inner_statement_list : inner_statement_list . inner_statement
 	(105) new_else_single : T_ELSE ':' inner_statement_list .
+	(24) inner_statement_list : inner_statement_list . inner_statement
 
 	T_INCLUDE	shift 56
 	T_INCLUDE_ONCE	shift 57
@@ -1730,8 +1730,8 @@ state 17
 	.		reduce (92)
 
 state 18
-	(24) inner_statement_list : inner_statement_list . inner_statement
 	(101) new_elseif_list : new_elseif_list T_ELSEIF '(' expr ')' ':' inner_statement_list .
+	(24) inner_statement_list : inner_statement_list . inner_statement
 
 	T_INCLUDE	shift 56
 	T_INCLUDE_ONCE	shift 57
@@ -11966,6 +11966,7 @@ state 163
 	.		error
 
 state 164
+	(101) new_elseif_list : new_elseif_list T_ELSEIF '(' expr . ')' ':' inner_statement_list
 	(181) expr : expr . T_BOOLEAN_OR expr
 	(182) expr : expr . T_BOOLEAN_AND expr
 	(183) expr : expr . T_LOGICAL_OR expr
@@ -11993,7 +11994,6 @@ state 164
 	(209) expr : expr . T_INSTANCEOF class_name_reference
 	(211) expr : expr . '?' expr ':' expr
 	(212) expr : expr . '?' ':' expr
-	(101) new_elseif_list : new_elseif_list T_ELSEIF '(' expr . ')' ':' inner_statement_list
 
 	T_LOGICAL_OR	shift 83
 	T_LOGICAL_XOR	shift 84
@@ -16273,8 +16273,8 @@ state 305
 	.		reduce (102)
 
 state 306
-	(32) statement : T_IF '(' expr ')' ':' inner_statement_list new_elseif_list . new_else_single T_ENDIF ';'
 	(101) new_elseif_list : new_elseif_list . T_ELSEIF '(' expr ')' ':' inner_statement_list
+	(32) statement : T_IF '(' expr ')' ':' inner_statement_list new_elseif_list . new_else_single T_ENDIF ';'
 	(104) new_else_single : .
 
 	T_ELSEIF	shift 493
@@ -17399,9 +17399,9 @@ state 443
 	.		error
 
 state 444
+	(106) parameter_list : non_empty_parameter_list .
 	(110) non_empty_parameter_list : non_empty_parameter_list . ',' optional_class_type optional_ref T_VARIABLE
 	(111) non_empty_parameter_list : non_empty_parameter_list . ',' optional_class_type optional_ref T_VARIABLE '=' static_scalar
-	(106) parameter_list : non_empty_parameter_list .
 
 	','		shift 262
 	.		reduce (106)
@@ -19432,4 +19432,4 @@ Statistics for zend_language_parser.phpy:
 	3815 items
 	1124 lookahead sets used
 	13442+794=14236 action entries
-	228096 bytes used
+	229400 bytes used

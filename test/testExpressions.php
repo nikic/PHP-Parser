@@ -16,7 +16,7 @@ function __autoload($class) {
     is_file($file = '../lib/' . strtr($class, '_', '/') . '.php') && require_once $file;
 }
 
-$parser = new Parser;
+$parser = new PHPParser_Parser;
 
 include './testFormatting.html';
 
@@ -32,10 +32,10 @@ foreach (explode("\n", $exprs) as $expr) {
     }
 
     try {
-        $parser->parse(new Lexer('<?php ' . $expr . ';'));
+        $parser->parse(new PHPParser_Lexer('<?php ' . $expr . ';'));
 
         echo '<tr><td>' . $expr . '</td><td class="pass">PASS</td></tr>';
-    } catch (ParseErrorException $e) {
+    } catch (PHPParser_ParseErrorException $e) {
         echo '<tr><td>' . $expr . '</td><td class="fail">FAIL</td></tr>';
         echo '<tr><td colspan="2">' .  $e->getMessage() . '</td></tr>';
     }

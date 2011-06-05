@@ -36,7 +36,7 @@ echo '<pre>';
 
 $code = file_get_contents(IN);
 
-$code = preg_replace('~[A-Z][a-zA-Z_]++::~', 'Node_$0', $code);
+$code = preg_replace('~[A-Z][a-zA-Z_]++::~', 'PHPParser_Node_$0', $code);
 $code = resolveNodes($code);
 $code = resolveMacros($code);
 
@@ -63,7 +63,7 @@ function resolveNodes($code) {
                 $paramCodes[] = '\'' . $key . '\' => ' . $value;
             }
 
-            return 'new Node_' . $matches['name'] . '(array(' . implode(', ', $paramCodes) . '))';
+            return 'new PHPParser_Node_' . $matches['name'] . '(array(' . implode(', ', $paramCodes) . '))';
         },
         $code
     );

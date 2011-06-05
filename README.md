@@ -4,8 +4,7 @@ PHP Parser
 This is a PHP parser written in PHP. It's purpose is to simplify static code analysis and
 manipulation.
 
-***Note: This project is work in progress. It is known to not function perfectly correct yet (see
-the "Known Issues" section at the end of this document).***
+***Note: This project is highly experimental. It may not always function correctly.***
 
 Components
 ==========
@@ -19,33 +18,34 @@ This package currently bundles several components:
 Parser and ParserDebug
 ----------------------
 
-Parsing is performed using `Parser->parse()`. This method accepts a `Lexer` as the only parameter
-and returns an array of statement nodes. If an error occurs it throws a ParseErrorException.
+Parsing is performed using `PHPParser_Parser->parse()`. This method accepts a `PHPParser_Lexer`
+as the only parameter and returns an array of statement nodes. If an error occurs it throws a
+PHPParser_ParseErrorException.
 
     $code = '<?php // some code';
 
     try {
-        $parser = new Parser;
-        $stmts = $parser->parse(new Lexer($code));
-    } catch (ParseErrorException $e) {
+        $parser = new PHPParser_Parser;
+        $stmts = $parser->parse(new PHPParser_Lexer($code));
+    } catch (PHPParser_ParseErrorException $e) {
         echo 'Parse Error: ', $e->getMessage();
     }
 
-The `ParserDebug` class also parses a PHP code, but outputs a debug trace while doing so.
+The `PHPParser_ParserDebug` class also parses a PHP code, but outputs a debug trace while doing so.
 
 Node Tree
 ---------
 
-The output of the parser is an array of statement nodes. All nodes are instances of `NodeAbstract`.
-Furthermore nodes are divided into three categories:
+The output of the parser is an array of statement nodes. All nodes are instances of
+`PHPParser_NodeAbstract`. Furthermore nodes are divided into three categories:
 
- * `Node_Stmt`: A statement
- * `Node_Expr`: An expression
- * `Node_Scalar`: A scalar (which is a string, a number, aso.)
-   `Node_Scalar` inherits from `Node_Expr`.
+ * `PHPParser_Node_Stmt`: A statement
+ * `PHPParser_Node_Expr`: An expression
+ * `PHPParser_Node_Scalar`: A scalar (which is a string, a number, aso.)
+   `PHPParser_Node_Scalar` inherits from `PHPParser_Node_Expr`.
 
-Each node may have subnodes. For example `Node_Expr_Plus` has two subnodes, namely `left` and
-`right`, which represend the left hand side and right hand side expressions of the plus operation.
+Each node may have subnodes. For example `PHPParser_Node_Expr_Plus` has two subnodes, namely `left`
+and `right`, which represend the left hand side and right hand side expressions of the plus operation.
 Subnodes are accessed as normal properties:
 
     $node->left
@@ -56,7 +56,7 @@ respective files.
 NodeDumper
 ----------
 
-Nodes can be dumped into a string representation using the `NodeDumper->dump()` method:
+Nodes can be dumped into a string representation using the `PHPParser_NodeDumper->dump()` method:
 
     $code = <<<'CODE'
     <?php
@@ -68,12 +68,12 @@ Nodes can be dumped into a string representation using the `NodeDumper->dump()` 
     CODE;
 
     try {
-        $parser = new Parser;
-        $stmts = $parser->parse(new Lexer($code));
+        $parser = new PHPParser_Parser;
+        $stmts = $parser->parse(new PHPParser_Lexer($code));
 
-        $nodeDumper = new NodeDumper;
+        $nodeDumper = new PHPParser_NodeDumper;
         echo '<pre>' . htmlspecialchars($nodeDumper->dump($stmts)) . '</pre>';
-    } catch (ParseErrorException $e) {
+    } catch (PHPParser_ParseErrorException $e) {
         echo 'Parse Error: ', $e->getMessage();
     }
 
@@ -132,7 +132,7 @@ PrettyPrinter
 The pretty printer compiles nodes back to PHP code. "Pretty printing" here is just the formal
 name of the process and does not mean that the output is in any way pretty.
 
-    $prettyPrinter = new PrettyPrinter_Zend;
+    $prettyPrinter = new PHPParser_PrettyPrinter_Zend;
     echo '<pre>' . htmlspecialchars($prettyPrinter->prettyPrint($stmts)) . '</pre>';
 
 For the code mentioned in the above section this should create the output:
@@ -142,6 +142,3 @@ For the code mentioned in the above section this should create the output:
         echo $msg, "\n";
     }
     printLine('Hallo World!!!');
-
-Known Issues
-============
