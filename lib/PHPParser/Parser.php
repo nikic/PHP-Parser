@@ -959,7 +959,7 @@ class PHPParser_Parser
                                 array('remaining' => $lex->handleHaltCompiler())
                             );
                         }
-                    } catch (PHPParser_ParseErrorException $e) {
+                    } catch (PHPParser_Error $e) {
                         $e->setRawLine($lex->getLine());
 
                         throw $e;
@@ -984,7 +984,7 @@ class PHPParser_Parser
                     /* error */
                     /*switch ($yyerrflag) {
                     case 0:*/
-                        throw new PHPParser_ParseErrorException(
+                        throw new PHPParser_Error(
                             'Unexpected token ' . self::$yyterminals[$yychar],
                             $lex->getLine()
                         );

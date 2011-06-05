@@ -28,14 +28,14 @@ Parser and ParserDebug
 
 Parsing is performed using `PHPParser_Parser->parse()`. This method accepts a `PHPParser_Lexer`
 as the only parameter and returns an array of statement nodes. If an error occurs it throws a
-PHPParser_ParseErrorException.
+PHPParser_Error.
 
     $code = '<?php // some code';
 
     try {
         $parser = new PHPParser_Parser;
         $stmts = $parser->parse(new PHPParser_Lexer($code));
-    } catch (PHPParser_ParseErrorException $e) {
+    } catch (PHPParser_Error $e) {
         echo 'Parse Error: ', $e->getMessage();
     }
 
@@ -81,7 +81,7 @@ Nodes can be dumped into a string representation using the `PHPParser_NodeDumper
 
         $nodeDumper = new PHPParser_NodeDumper;
         echo '<pre>' . htmlspecialchars($nodeDumper->dump($stmts)) . '</pre>';
-    } catch (PHPParser_ParseErrorException $e) {
+    } catch (PHPParser_Error $e) {
         echo 'Parse Error: ', $e->getMessage();
     }
 

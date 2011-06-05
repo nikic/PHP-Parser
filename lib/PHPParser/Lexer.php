@@ -35,7 +35,7 @@ class PHPParser_Lexer
                 $matches
             )
         ) {
-            throw new PHPParser_ParseErrorException($matches[1], $matches[2]);
+            throw new PHPParser_Error($matches[1], $matches[2]);
         }
 
         if (preg_match(
@@ -44,7 +44,7 @@ class PHPParser_Lexer
                 $matches
             )
         ) {
-            throw new PHPParser_ParseErrorException($matches[1]);
+            throw new PHPParser_Error($matches[1]);
         }
     }
 
@@ -109,7 +109,7 @@ class PHPParser_Lexer
         // this simplifies the situation, by not allowing any comments
         // in between of the tokens.
         if (!preg_match('~\s*\(\s*\)\s*;~', $textAfter, $matches)) {
-            throw new PHPParser_ParseErrorException('__halt_compiler must be followed by "();"');
+            throw new PHPParser_Error('__halt_compiler must be followed by "();"');
         }
 
         // prevent the lexer from returning any further tokens

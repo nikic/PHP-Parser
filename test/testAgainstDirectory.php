@@ -74,7 +74,7 @@ foreach (new RecursiveIteratorIterator(
 
                 ++$compareFail;
             }
-        } catch (PHPParser_ParseErrorException $e) {
+        } catch (PHPParser_Error $e) {
             echo '
         <td class="pass">PASS</td>
         <td class="fail">FAIL</td>
@@ -84,7 +84,7 @@ foreach (new RecursiveIteratorIterator(
 
             ++$ppFail;
         }
-    } catch (PHPParser_ParseErrorException $e) {
+    } catch (PHPParser_Error $e) {
         echo '
         <td class="fail">FAIL</td>
         <td></td>

@@ -34,7 +34,7 @@ foreach (explode("\n", $exprs) as $expr) {
         $parser->parse(new PHPParser_Lexer('<?php ' . $expr . ';'));
 
         echo '<tr><td>' . $expr . '</td><td class="pass">PASS</td></tr>';
-    } catch (PHPParser_ParseErrorException $e) {
+    } catch (PHPParser_Error $e) {
         echo '<tr><td>' . $expr . '</td><td class="fail">FAIL</td></tr>';
         echo '<tr><td colspan="2">' .  $e->getMessage() . '</td></tr>';
     }
