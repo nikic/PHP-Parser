@@ -646,7 +646,7 @@ class PHPParser_PrettyPrinter_Zend extends PHPParser_PrettyPrinterAbstract
 
     public function pEncapsList(array $encapsList) {
         $return = '';
-        foreach ($encapsList as $i => $element) {
+        foreach ($encapsList as $element) {
             if (is_string($element)) {
                 $return .= addcslashes($element, "\n\r\t\f\v$\"\\");
             } else {

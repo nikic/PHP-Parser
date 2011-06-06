@@ -85,7 +85,7 @@ function resolveMacros($code) {
             if ('error' == $name) {
                 assertArgs(1, $args, $name);
 
-                return 'throw new ParseErrorException(' . $args[0] . ')';
+                return 'throw new PHPParser_Error(' . $args[0] . ')';
             }
 
             if ('init' == $name) {
