@@ -125,7 +125,8 @@ top_statement:
       statement                                             { $$ = $1; }
     | function_declaration_statement                        { $$ = $1; }
     | class_declaration_statement                           { $$ = $1; }
-    | T_HALT_COMPILER                                       { return 'HALT_COMPILER'; }
+    | T_HALT_COMPILER
+          { $$ = Stmt_HaltCompiler[remaining: #this->lexer->handleHaltCompiler()]; }
     | T_NAMESPACE namespace_name ';'                        { $$ = Stmt_Namespace[ns: $2]; }
     | T_NAMESPACE namespace_name '{' top_statement_list '}' { $$ = array(Stmt_Namespace[ns: $2], $4); }
     | T_NAMESPACE '{' top_statement_list '}'                { $$ = array(Stmt_Namespace[ns: null], $3); }

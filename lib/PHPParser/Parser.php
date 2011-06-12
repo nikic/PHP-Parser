@@ -889,6 +889,8 @@ class PHPParser_Parser
      * @return array Array of statements
      */
     public function parse(PHPParser_Lexer $lexer) {
+        $this->lexer = $lexer;
+
         $this->yyastk = array();
         $yysstk = array();
         $this->yysp = 0;
@@ -956,12 +958,7 @@ class PHPParser_Parser
                 } elseif ($yyn != self::YYUNEXPECTED) {
                     /* reduce */
                     try {
-                        if ('HALT_COMPILER' === $this->{'yyn' . $yyn}()) {
-                            $this->yyval = new PHPParser_Node_Stmt_HaltCompiler(
-                                array('remaining' => $lexer->handleHaltCompiler()),
-                                $this->line
-                            );
-                        }
+                        $this->{'yyn' . $yyn}();
                     } catch (PHPParser_Error $e) {
                         $e->setRawLine($this->line);
 
@@ -1069,7 +1066,7 @@ class PHPParser_Parser
     }
 
     private function yyn10() {
-         return 'HALT_COMPILER'; 
+         $this->yyval = new PHPParser_Node_Stmt_HaltCompiler(array('remaining' => $this->lexer->handleHaltCompiler()), $this->line); 
     }
 
     private function yyn11() {

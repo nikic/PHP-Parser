@@ -125,7 +125,8 @@ top_statement:
       statement                                             { $$ = $1; }
     | function_declaration_statement                        { $$ = $1; }
     | class_declaration_statement                           { $$ = $1; }
-    | T_HALT_COMPILER                                       { return 'HALT_COMPILER'; }
+    | T_HALT_COMPILER
+          { $$ = new PHPParser_Node_Stmt_HaltCompiler(array('remaining' => #this->lexer->handleHaltCompiler()), #this->line); }
     | T_NAMESPACE namespace_name ';'                        { $$ = new PHPParser_Node_Stmt_Namespace(array('ns' => $2), #this->line); }
     | T_NAMESPACE namespace_name '{' top_statement_list '}' { $$ = array(new PHPParser_Node_Stmt_Namespace(array('ns' => $2), #this->line), $4); }
     | T_NAMESPACE '{' top_statement_list '}'                { $$ = array(new PHPParser_Node_Stmt_Namespace(array('ns' => null), #this->line), $3); }
