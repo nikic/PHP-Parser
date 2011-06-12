@@ -8,8 +8,14 @@ echo 'Building parser. Output: "',
 
 $source = file_get_contents('y.tab.c');
 $source = str_replace(
-    '"$EOF"',
-    '\'$EOF\'',
+    array(
+        '"$EOF"',
+        '#',
+    ),
+    array(
+        '\'$EOF\'',
+        '$',
+    ),
     $source
 );
 
@@ -25,11 +31,13 @@ $source = file_get_contents('y.tab.c');
 $source = str_replace(
     array(
         '"$EOF"',
-        '"$start : start"'
+        '"$start : start"',
+        '#',
     ),
     array(
         '\'$EOF\'',
-        '\'$start : start\''
+        '\'$start : start\'',
+        '$',
     ),
     $source
 );

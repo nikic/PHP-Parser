@@ -5,6 +5,7 @@ class PHPParser_Lexer
     protected $code;
     protected $tokens;
     protected $pos;
+    protected $line;
 
     private static $tokenMap;
     private static $dropTokens = array(
@@ -26,6 +27,7 @@ class PHPParser_Lexer
         $this->code   = $code;
         $this->tokens = @token_get_all($code);
         $this->pos    = -1;
+        $this->line   = -1;
 
         $error = error_get_last();
 
@@ -51,39 +53,27 @@ class PHPParser_Lexer
     /**
      * Returns the next token id.
      *
-     * @param mixed $lVal Variable to store token content in
+     * @param mixed $value Variable to store token content in
+     * @param mixed $line  Variable to store line in
      *
      * @return int Token id
      */
-    public function lex(&$lVal) {
+    public function lex(&$value, &$line) {
         while (isset($this->tokens[++$this->pos])) {
             $token = $this->tokens[$this->pos];
 
             if (is_string($token)) {
-                $lVal = $token;
+                $value = $token;
+                $line  = $this->line;
                 return ord($token);
             } elseif (!isset(self::$dropTokens[$token[0]])) {
-                $lVal = $token[1];
+                $value = $token[1];
+                $line  = $this->line = $token[2];
                 return self::$tokenMap[$token[0]];
             }
         }
 
         return 0;
-    }
-
-    /**
-     * Returns the line the current token is in.
-     *
-     * @return int Line current token is in
-     */
-    public function getLine() {
-        for ($i = $this->pos - 1; $i--;) {
-            if (is_array($this->tokens[$i])) {
-                return $this->tokens[$i][2];
-            }
-        }
-
-        return -1;
     }
 
     /**

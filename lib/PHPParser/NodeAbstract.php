@@ -2,15 +2,18 @@
 
 abstract class PHPParser_NodeAbstract implements IteratorAggregate
 {
-    protected $subNodes = array();
+    protected $subNodes;
+    protected $line;
 
     /**
      * Creates a Node.
      *
      * @param array $subNodes Array of sub nodes
+     * @param int   $line     Line
      */
-    public function __construct(array $subNodes) {
+    public function __construct(array $subNodes, $line = -1) {
         $this->subNodes = $subNodes;
+        $this->line     = $line;
     }
 
     /**
@@ -61,6 +64,17 @@ abstract class PHPParser_NodeAbstract implements IteratorAggregate
      */
     public function getType() {
         return substr(get_class($this), 15);
+    }
+
+    /**
+     * Gets line the node *ended* in.
+     *
+     * TODO: We probably want the line it started in...
+     *
+     * @return int Line
+     */
+    public function getLine() {
+        return $this->line;
     }
 
     /**

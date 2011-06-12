@@ -63,7 +63,7 @@ function resolveNodes($code) {
                 $paramCodes[] = '\'' . $key . '\' => ' . $value;
             }
 
-            return 'new PHPParser_Node_' . $matches['name'] . '(array(' . implode(', ', $paramCodes) . '))';
+            return 'new PHPParser_Node_' . $matches['name'] . '(array(' . implode(', ', $paramCodes) . '), #this->line)';
         },
         $code
     );
