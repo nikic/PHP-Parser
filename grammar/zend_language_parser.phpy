@@ -104,7 +104,7 @@
 %%
 
 start:
-    top_statement_list                                      { $$ = $1; }
+    top_statement_list                                      { $$ = PHPParser_Node_Stmt_Namespace::postprocess($1); }
 ;
 
 top_statement_list:
@@ -127,9 +127,9 @@ top_statement:
     | class_declaration_statement                           { $$ = $1; }
     | T_HALT_COMPILER
           { $$ = new PHPParser_Node_Stmt_HaltCompiler(array('remaining' => #this->lexer->handleHaltCompiler()), #this->line); }
-    | T_NAMESPACE namespace_name ';'                        { $$ = new PHPParser_Node_Stmt_Namespace(array('ns' => $2), #this->line); }
-    | T_NAMESPACE namespace_name '{' top_statement_list '}' { $$ = array(new PHPParser_Node_Stmt_Namespace(array('ns' => $2), #this->line), $4); }
-    | T_NAMESPACE '{' top_statement_list '}'                { $$ = array(new PHPParser_Node_Stmt_Namespace(array('ns' => null), #this->line), $3); }
+    | T_NAMESPACE namespace_name ';'                        { $$ = new PHPParser_Node_Stmt_Namespace(array('name' => $2, 'stmts' => null), #this->line); }
+    | T_NAMESPACE namespace_name '{' top_statement_list '}' { $$ = new PHPParser_Node_Stmt_Namespace(array('name' => $2, 'stmts' => $4), #this->line); }
+    | T_NAMESPACE '{' top_statement_list '}'                { $$ = new PHPParser_Node_Stmt_Namespace(array('name' => null, 'stmts' => $3), #this->line); }
     | T_USE use_declarations ';'                            { $$ = new PHPParser_Node_Stmt_Use(array('uses' => $2), #this->line); }
     | constant_declaration ';'                              { $$ = new PHPParser_Node_Stmt_Const(array('consts' => $1), #this->line); }
 ;

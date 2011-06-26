@@ -1292,7 +1292,6 @@ class PHPParser_ParserDebug
         $yystate = 0;
         $yychar = -1;
 
-        //$yylval = null;
         $yysstk[$this->yysp] = 0;
         /*$yyerrflag = 0;*/
 
@@ -1432,7 +1431,7 @@ class PHPParser_ParserDebug
     }
 
     private function yyn1() {
-         $this->yyval = $this->yyastk[$this->yysp-(1-1)]; 
+         $this->yyval = PHPParser_Node_Stmt_Namespace::postprocess($this->yyastk[$this->yysp-(1-1)]); 
     }
 
     private function yyn2() {
@@ -1472,15 +1471,15 @@ class PHPParser_ParserDebug
     }
 
     private function yyn11() {
-         $this->yyval = new PHPParser_Node_Stmt_Namespace(array('ns' => $this->yyastk[$this->yysp-(3-2)]), $this->line); 
+         $this->yyval = new PHPParser_Node_Stmt_Namespace(array('name' => $this->yyastk[$this->yysp-(3-2)], 'stmts' => null), $this->line); 
     }
 
     private function yyn12() {
-         $this->yyval = array(new PHPParser_Node_Stmt_Namespace(array('ns' => $this->yyastk[$this->yysp-(5-2)]), $this->line), $this->yyastk[$this->yysp-(5-4)]); 
+         $this->yyval = new PHPParser_Node_Stmt_Namespace(array('name' => $this->yyastk[$this->yysp-(5-2)], 'stmts' => $this->yyastk[$this->yysp-(5-4)]), $this->line); 
     }
 
     private function yyn13() {
-         $this->yyval = array(new PHPParser_Node_Stmt_Namespace(array('ns' => null), $this->line), $this->yyastk[$this->yysp-(4-3)]); 
+         $this->yyval = new PHPParser_Node_Stmt_Namespace(array('name' => null, 'stmts' => $this->yyastk[$this->yysp-(4-3)]), $this->line); 
     }
 
     private function yyn14() {

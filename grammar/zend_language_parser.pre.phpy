@@ -104,7 +104,7 @@
 %%
 
 start:
-    top_statement_list                                      { $$ = $1; }
+    top_statement_list                                      { $$ = Stmt_Namespace::postprocess($1); }
 ;
 
 top_statement_list:
@@ -127,9 +127,9 @@ top_statement:
     | class_declaration_statement                           { $$ = $1; }
     | T_HALT_COMPILER
           { $$ = Stmt_HaltCompiler[remaining: #this->lexer->handleHaltCompiler()]; }
-    | T_NAMESPACE namespace_name ';'                        { $$ = Stmt_Namespace[ns: $2]; }
-    | T_NAMESPACE namespace_name '{' top_statement_list '}' { $$ = array(Stmt_Namespace[ns: $2], $4); }
-    | T_NAMESPACE '{' top_statement_list '}'                { $$ = array(Stmt_Namespace[ns: null], $3); }
+    | T_NAMESPACE namespace_name ';'                        { $$ = Stmt_Namespace[name: $2, stmts: null]; }
+    | T_NAMESPACE namespace_name '{' top_statement_list '}' { $$ = Stmt_Namespace[name: $2, stmts: $4]; }
+    | T_NAMESPACE '{' top_statement_list '}'                { $$ = Stmt_Namespace[name: null, stmts: $3]; }
     | T_USE use_declarations ';'                            { $$ = Stmt_Use[uses: $2]; }
     | constant_declaration ';'                              { $$ = Stmt_Const[consts: $1]; }
 ;

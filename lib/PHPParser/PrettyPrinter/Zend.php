@@ -424,7 +424,8 @@ class PHPParser_PrettyPrinter_Zend extends PHPParser_PrettyPrinterAbstract
     // Declarations
 
     public function pStmt_Namespace(PHPParser_Node_Stmt_Namespace $node) {
-        return 'namespace ' . $this->p($node->ns);
+        return 'namespace' . (null !== $node->name ? ' ' . $this->p($node->name) : '')
+             . ' {' . "\n" . $this->pStmts($node->stmts) . "\n" . '}';
     }
 
     public function pStmt_Use(PHPParser_Node_Stmt_Use $node) {

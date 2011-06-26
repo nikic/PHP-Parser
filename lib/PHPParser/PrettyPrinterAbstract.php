@@ -71,6 +71,7 @@ abstract class PHPParser_PrettyPrinterAbstract
         'Stmt_TryCatch' => true,
         'Stmt_Label' => true,
         'Stmt_HaltCompiler' => true,
+        'Stmt_Namespace' => true,
     );
 
     protected $precedenceStack;
