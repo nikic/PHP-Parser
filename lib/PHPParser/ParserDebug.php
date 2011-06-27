@@ -1293,7 +1293,6 @@ class PHPParser_ParserDebug
         $yychar = -1;
 
         $yysstk[$this->yysp] = 0;
-        /*$yyerrflag = 0;*/
 
         for (;;) {
             $this->YYTRACE_NEWSTATE($yystate, $yychar);
@@ -1331,8 +1330,6 @@ class PHPParser_ParserDebug
                         $this->yyastk[$this->yysp] = $yylval;
                         $yychar = -1;
 
-                        /*if ($yyerrflag > 0)
-                            --$yyerrflag;*/
                         if ($yyn < self::YYNLSTATES)
                             continue;
 
@@ -1380,42 +1377,10 @@ class PHPParser_ParserDebug
                     $this->yyastk[$this->yysp] = $this->yyval;
                 } else {
                     /* error */
-                    /*switch ($yyerrflag) {
-                    case 0:*/
-                        throw new PHPParser_Error(
-                            'Unexpected token ' . self::$yyterminals[$yychar],
-                            $this->line
-                        );
-                    /*case 1:
-                    case 2:
-                        $yyerrflag = 3;*/
-                        /* Pop until error-expecting state uncovered */
-                        /*while (!(($yyn = self::$yybase[$yystate] + self::YYINTERRTOK) >= 0
-                                 && $yyn < self::YYLAST
-                                 && self::$yycheck[$yyn] == self::YYINTERRTOK
-                                 || ($yystate < self::YY2TBLSTATE
-                                    && ($yyn = self::$yybase[$yystate + self::YYNLSTATES] + self::YYINTERRTOK) >= 0
-                                    && $yyn < self::YYLAST
-                                    && self::$yycheck[$yyn] == self::YYINTERRTOK))) {
-                            if ($this->yysp <= 0) {
-                                return false;
-                            }
-                            $yystate = $yysstk[--$this->yysp];
-                            $this->YYTRACE_POP($yystate);
-                        }
-                        $yyn = self::$yyaction[$yyn];
-                        $this->YYTRACE_SHIFT(self::YYINTERRTOK);
-                        $yysstk[++$this->yysp] = $yystate = $yyn;
-                        break;
-
-                    case 3:
-                        $this->YYTRACE_DISCARD($yychar);
-                        if ($yychar == 0) {
-                            return false;
-                        }
-                        $yychar = -1;
-                        break;
-                    }*/
+                    throw new PHPParser_Error(
+                        'Unexpected token ' . self::$yyterminals[$yychar],
+                        $this->line
+                    );
                 }
 
                 if ($yystate < self::YYNLSTATES)
