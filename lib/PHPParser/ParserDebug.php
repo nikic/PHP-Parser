@@ -2474,7 +2474,7 @@ class PHPParser_ParserDebug
     }
 
     private function yyn267($line) {
-         $this->yyval = PHPParser_Node_Scalar_String::create($this->yyastk[$this->yysp-(1-1)]); 
+         $this->yyval = PHPParser_Node_Scalar_String::create($this->yyastk[$this->yysp-(1-1)], $line); 
     }
 
     private function yyn268($line) {

@@ -613,7 +613,7 @@ ctor_arguments:
 common_scalar:
       T_LNUMBER                                             { $$ = new PHPParser_Node_Scalar_LNumber(array('value' => (int) $1), #line); }
     | T_DNUMBER                                             { $$ = new PHPParser_Node_Scalar_DNumber(array('value' => (double) $1), #line); }
-    | T_CONSTANT_ENCAPSED_STRING                            { $$ = PHPParser_Node_Scalar_String::create($1); }
+    | T_CONSTANT_ENCAPSED_STRING                            { $$ = PHPParser_Node_Scalar_String::create($1, #line); }
     | T_LINE                                                { $$ = new PHPParser_Node_Scalar_LineConst(array(), #line); }
     | T_FILE                                                { $$ = new PHPParser_Node_Scalar_FileConst(array(), #line); }
     | T_DIR                                                 { $$ = new PHPParser_Node_Scalar_DirConst(array(), #line); }

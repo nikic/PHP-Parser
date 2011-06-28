@@ -613,7 +613,7 @@ ctor_arguments:
 common_scalar:
       T_LNUMBER                                             { $$ = Scalar_LNumber[value: parseLNumber($1)]; }
     | T_DNUMBER                                             { $$ = Scalar_DNumber[value: parseDNumber($1)]; }
-    | T_CONSTANT_ENCAPSED_STRING                            { $$ = Scalar_String::create($1); }
+    | T_CONSTANT_ENCAPSED_STRING                            { $$ = Scalar_String::create($1, #line); }
     | T_LINE                                                { $$ = Scalar_LineConst[]; }
     | T_FILE                                                { $$ = Scalar_FileConst[]; }
     | T_DIR                                                 { $$ = Scalar_DirConst[]; }

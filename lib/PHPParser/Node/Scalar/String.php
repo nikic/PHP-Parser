@@ -13,11 +13,12 @@ class PHPParser_Node_Scalar_String extends PHPParser_Node_Scalar
     /**
      * Creates a String node from a string token (parses escape sequences).
      *
-     * @param string $s String
+     * @param string $s    String
+     * @param int    $line Line
      *
      * @return PHPParser_Node_Scalar_String String Node
      */
-    public static function create($s) {
+    public static function create($s, $line) {
         $isBinary = false;
         if ('b' === $s[0]) {
             $isBinary = true;
@@ -37,9 +38,12 @@ class PHPParser_Node_Scalar_String extends PHPParser_Node_Scalar
             $s = self::parseEscapeSequences(substr($s, $isBinary + 1, -1));
         }
 
-        return new self(array(
-            'value' => $s, 'isBinary' => $isBinary, 'type' => $type
-        ));
+        return new self(
+            array(
+                'value' => $s, 'isBinary' => $isBinary, 'type' => $type
+            ),
+            $line
+        );
     }
 
     /**
