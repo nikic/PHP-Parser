@@ -29,9 +29,7 @@ abstract class PHPParser_NodeAbstract extends ArrayObject
     }
 
     /**
-     * Gets line the node *ended* in.
-     *
-     * TODO: We probably want the line it started in...
+     * Gets line the node started in.
      *
      * @return int Line
      */

@@ -134,7 +134,6 @@ class YYParser
     protected $yysp;
     protected $yyaccept;
     protected $lexer;
-    protected $line;
 
     /**
 #ifnot -t
@@ -149,16 +148,14 @@ class YYParser
      * @return array Array of statements
      */
     public function parse(PHPParser_Lexer $lexer) {
-        $this->lexer = $lexer;
+        $this->lexer  = $lexer;
 
-        $this->yyastk = array();
-        $yysstk = array();
-        $this->yysp = 0;
+        $this->yysp   = 0;                   // Stack pos
+        $yysstk       = array($yystate = 0); // State stack
+        $this->yyastk = array();             // AST   stack (?)
+        $yylstk       = array($yyline  = 1); // Line  stack
 
-        $yystate = 0;
-        $yychar = -1;
-
-        $yysstk[$this->yysp] = 0;
+        $yychar       = -1;
 
         for (;;) {
 #if -t
@@ -168,10 +165,11 @@ class YYParser
                 $yyn = self::$yydefault[$yystate];
             } else {
                 if ($yychar < 0) {
-                    if (($yychar = $lexer->lex($yylval, $this->line)) < 0)
+                    if (($yychar = $lexer->lex($yylval, $yyline)) < 0)
                         $yychar = 0;
                     $yychar = $yychar < self::YYMAXLEX ?
                         self::$yytranslate[$yychar] : self::YYBADCH;
+                    $yylstk[$this->yysp] = $yyline;
 #if -t
                     $this->YYTRACE_READ($yychar);
 #endif
@@ -198,8 +196,9 @@ class YYParser
 #endif
                         ++$this->yysp;
 
-                        $yysstk[$this->yysp] = $yystate = $yyn;
+                        $yysstk[$this->yysp]       = $yystate = $yyn;
                         $this->yyastk[$this->yysp] = $yylval;
+                        $yylstk[$this->yysp]       = $yyline;
                         $yychar = -1;
 
                         if ($yyn < self::YYNLSTATES)
@@ -229,9 +228,9 @@ class YYParser
                     $this->YYTRACE_REDUCE($yyn);
 #endif
                     try {
-                        $this->{'yyn' . $yyn}();
+                        $this->{'yyn' . $yyn}($yylstk[$this->yysp - self::$yylen[$yyn]]);
                     } catch (PHPParser_Error $e) {
-                        $e->setRawLine($this->line);
+                        $e->setRawLine($yyline);
 
                         throw $e;
                     }
@@ -251,11 +250,12 @@ class YYParser
 
                     $yysstk[$this->yysp] = $yystate;
                     $this->yyastk[$this->yysp] = $this->yyval;
+                    $yylstk[$this->yysp]       = $yyline;
                 } else {
                     /* error */
                     throw new PHPParser_Error(
                         'Unexpected token ' . self::$yyterminals[$yychar],
-                        $this->line
+                        $yyline
                     );
                 }
 
@@ -268,7 +268,7 @@ class YYParser
     }
 #reduce
 
-    private function yyn%n() {
+    private function yyn%n($line) {
         %b
     }
 #noact

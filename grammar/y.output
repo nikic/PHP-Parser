@@ -419,8 +419,8 @@ state 4
 	.		error
 
 state 5
-	(54) statement : T_TRY '{' inner_statement_list . '}' catches
 	(24) inner_statement_list : inner_statement_list . inner_statement
+	(54) statement : T_TRY '{' inner_statement_list . '}' catches
 
 	T_INCLUDE	shift 56
 	T_INCLUDE_ONCE	shift 57
@@ -520,8 +520,8 @@ state 5
 	.		error
 
 state 6
-	(97) while_statement : ':' inner_statement_list . T_ENDWHILE ';'
 	(24) inner_statement_list : inner_statement_list . inner_statement
+	(97) while_statement : ':' inner_statement_list . T_ENDWHILE ';'
 
 	T_INCLUDE	shift 56
 	T_INCLUDE_ONCE	shift 57
@@ -621,8 +621,8 @@ state 6
 	.		error
 
 state 7
-	(84) declare_statement : ':' inner_statement_list . T_ENDDECLARE ';'
 	(24) inner_statement_list : inner_statement_list . inner_statement
+	(84) declare_statement : ':' inner_statement_list . T_ENDDECLARE ';'
 
 	T_INCLUDE	shift 56
 	T_INCLUDE_ONCE	shift 57
@@ -722,8 +722,8 @@ state 7
 	.		error
 
 state 8
-	(82) foreach_statement : ':' inner_statement_list . T_ENDFOREACH ';'
 	(24) inner_statement_list : inner_statement_list . inner_statement
+	(82) foreach_statement : ':' inner_statement_list . T_ENDFOREACH ';'
 
 	T_INCLUDE	shift 56
 	T_INCLUDE_ONCE	shift 57
@@ -823,8 +823,8 @@ state 8
 	.		error
 
 state 9
-	(65) function_declaration_statement : T_FUNCTION optional_ref T_STRING '(' parameter_list ')' '{' inner_statement_list . '}'
 	(24) inner_statement_list : inner_statement_list . inner_statement
+	(65) function_declaration_statement : T_FUNCTION optional_ref T_STRING '(' parameter_list ')' '{' inner_statement_list . '}'
 
 	T_INCLUDE	shift 56
 	T_INCLUDE_ONCE	shift 57
@@ -924,8 +924,8 @@ state 9
 	.		error
 
 state 10
-	(233) expr : T_FUNCTION optional_ref '(' parameter_list ')' lexical_vars '{' inner_statement_list . '}'
 	(24) inner_statement_list : inner_statement_list . inner_statement
+	(233) expr : T_FUNCTION optional_ref '(' parameter_list ')' lexical_vars '{' inner_statement_list . '}'
 
 	T_INCLUDE	shift 56
 	T_INCLUDE_ONCE	shift 57
@@ -1025,8 +1025,8 @@ state 10
 	.		error
 
 state 11
-	(80) for_statement : ':' inner_statement_list . T_ENDFOR ';'
 	(24) inner_statement_list : inner_statement_list . inner_statement
+	(80) for_statement : ':' inner_statement_list . T_ENDFOR ';'
 
 	T_INCLUDE	shift 56
 	T_INCLUDE_ONCE	shift 57
@@ -1126,8 +1126,8 @@ state 11
 	.		error
 
 state 12
-	(60) catch : T_CATCH '(' name T_VARIABLE ')' '{' inner_statement_list . '}'
 	(24) inner_statement_list : inner_statement_list . inner_statement
+	(60) catch : T_CATCH '(' name T_VARIABLE ')' '{' inner_statement_list . '}'
 
 	T_INCLUDE	shift 56
 	T_INCLUDE_ONCE	shift 57
@@ -1227,8 +1227,8 @@ state 12
 	.		error
 
 state 13
-	(136) method_body : '{' inner_statement_list . '}'
 	(24) inner_statement_list : inner_statement_list . inner_statement
+	(136) method_body : '{' inner_statement_list . '}'
 
 	T_INCLUDE	shift 56
 	T_INCLUDE_ONCE	shift 57
@@ -1430,8 +1430,8 @@ state 14
 	.		reduce (100)
 
 state 15
-	(93) case_list : case_list T_DEFAULT case_separator inner_statement_list .
 	(24) inner_statement_list : inner_statement_list . inner_statement
+	(93) case_list : case_list T_DEFAULT case_separator inner_statement_list .
 
 	T_INCLUDE	shift 56
 	T_INCLUDE_ONCE	shift 57
@@ -1530,8 +1530,8 @@ state 15
 	.		reduce (93)
 
 state 16
-	(105) new_else_single : T_ELSE ':' inner_statement_list .
 	(24) inner_statement_list : inner_statement_list . inner_statement
+	(105) new_else_single : T_ELSE ':' inner_statement_list .
 
 	T_INCLUDE	shift 56
 	T_INCLUDE_ONCE	shift 57
@@ -1630,8 +1630,8 @@ state 16
 	.		reduce (105)
 
 state 17
-	(92) case_list : case_list T_CASE expr case_separator inner_statement_list .
 	(24) inner_statement_list : inner_statement_list . inner_statement
+	(92) case_list : case_list T_CASE expr case_separator inner_statement_list .
 
 	T_INCLUDE	shift 56
 	T_INCLUDE_ONCE	shift 57
@@ -1730,8 +1730,8 @@ state 17
 	.		reduce (92)
 
 state 18
-	(101) new_elseif_list : new_elseif_list T_ELSEIF '(' expr ')' ':' inner_statement_list .
 	(24) inner_statement_list : inner_statement_list . inner_statement
+	(101) new_elseif_list : new_elseif_list T_ELSEIF '(' expr ')' ':' inner_statement_list .
 
 	T_INCLUDE	shift 56
 	T_INCLUDE_ONCE	shift 57
@@ -10366,6 +10366,7 @@ state 136
 	.		error
 
 state 137
+	(38) statement : T_BREAK expr . ';'
 	(181) expr : expr . T_BOOLEAN_OR expr
 	(182) expr : expr . T_BOOLEAN_AND expr
 	(183) expr : expr . T_LOGICAL_OR expr
@@ -10393,7 +10394,6 @@ state 137
 	(209) expr : expr . T_INSTANCEOF class_name_reference
 	(211) expr : expr . '?' expr ':' expr
 	(212) expr : expr . '?' ':' expr
-	(38) statement : T_BREAK expr . ';'
 
 	T_LOGICAL_OR	shift 83
 	T_LOGICAL_XOR	shift 84
@@ -10779,6 +10779,8 @@ state 143
 	.		error
 
 state 144
+	(31) statement : T_IF '(' expr . ')' statement elseif_list else_single
+	(32) statement : T_IF '(' expr . ')' ':' inner_statement_list new_elseif_list new_else_single T_ENDIF ';'
 	(181) expr : expr . T_BOOLEAN_OR expr
 	(182) expr : expr . T_BOOLEAN_AND expr
 	(183) expr : expr . T_LOGICAL_OR expr
@@ -10806,8 +10808,6 @@ state 144
 	(209) expr : expr . T_INSTANCEOF class_name_reference
 	(211) expr : expr . '?' expr ':' expr
 	(212) expr : expr . '?' ':' expr
-	(31) statement : T_IF '(' expr . ')' statement elseif_list else_single
-	(32) statement : T_IF '(' expr . ')' ':' inner_statement_list new_elseif_list new_else_single T_ENDIF ';'
 
 	T_LOGICAL_OR	shift 83
 	T_LOGICAL_XOR	shift 84
@@ -10839,6 +10839,7 @@ state 144
 	.		error
 
 state 145
+	(33) statement : T_WHILE '(' expr . ')' while_statement
 	(181) expr : expr . T_BOOLEAN_OR expr
 	(182) expr : expr . T_BOOLEAN_AND expr
 	(183) expr : expr . T_LOGICAL_OR expr
@@ -10866,7 +10867,6 @@ state 145
 	(209) expr : expr . T_INSTANCEOF class_name_reference
 	(211) expr : expr . '?' expr ':' expr
 	(212) expr : expr . '?' ':' expr
-	(33) statement : T_WHILE '(' expr . ')' while_statement
 
 	T_LOGICAL_OR	shift 83
 	T_LOGICAL_XOR	shift 84
@@ -10959,6 +10959,7 @@ state 146
 	.		error
 
 state 147
+	(36) statement : T_SWITCH '(' expr . ')' switch_case_list
 	(181) expr : expr . T_BOOLEAN_OR expr
 	(182) expr : expr . T_BOOLEAN_AND expr
 	(183) expr : expr . T_LOGICAL_OR expr
@@ -10986,7 +10987,6 @@ state 147
 	(209) expr : expr . T_INSTANCEOF class_name_reference
 	(211) expr : expr . '?' expr ':' expr
 	(212) expr : expr . '?' ':' expr
-	(36) statement : T_SWITCH '(' expr . ')' switch_case_list
 
 	T_LOGICAL_OR	shift 83
 	T_LOGICAL_XOR	shift 84
@@ -11610,6 +11610,7 @@ state 157
 	.		error
 
 state 158
+	(34) statement : T_DO statement T_WHILE '(' expr . ')' ';'
 	(181) expr : expr . T_BOOLEAN_OR expr
 	(182) expr : expr . T_BOOLEAN_AND expr
 	(183) expr : expr . T_LOGICAL_OR expr
@@ -11637,7 +11638,6 @@ state 158
 	(209) expr : expr . T_INSTANCEOF class_name_reference
 	(211) expr : expr . '?' expr ':' expr
 	(212) expr : expr . '?' ':' expr
-	(34) statement : T_DO statement T_WHILE '(' expr . ')' ';'
 
 	T_LOGICAL_OR	shift 83
 	T_LOGICAL_XOR	shift 84
@@ -15972,10 +15972,10 @@ state 277
 	.		error
 
 state 278
-	(246) name : T_NAMESPACE . T_NS_SEPARATOR namespace_name
 	(11) top_statement : T_NAMESPACE . namespace_name ';'
 	(12) top_statement : T_NAMESPACE . namespace_name '{' top_statement_list '}'
 	(13) top_statement : T_NAMESPACE . '{' top_statement_list '}'
+	(246) name : T_NAMESPACE . T_NS_SEPARATOR namespace_name
 
 	T_STRING	shift 563 and reduce (5)
 	T_NS_SEPARATOR	shift 340
@@ -16263,8 +16263,8 @@ state 304
 state 305
 305: shift/reduce conflict (shift 27, reduce 102) on T_ELSE
 305: shift/reduce conflict (shift 483, reduce 102) on T_ELSEIF
-	(99) elseif_list : elseif_list . T_ELSEIF '(' expr ')' statement
 	(31) statement : T_IF '(' expr ')' statement elseif_list . else_single
+	(99) elseif_list : elseif_list . T_ELSEIF '(' expr ')' statement
 	(102) else_single : .
 
 	T_ELSEIF	shift 483
@@ -16273,8 +16273,8 @@ state 305
 	.		reduce (102)
 
 state 306
-	(101) new_elseif_list : new_elseif_list . T_ELSEIF '(' expr ')' ':' inner_statement_list
 	(32) statement : T_IF '(' expr ')' ':' inner_statement_list new_elseif_list . new_else_single T_ENDIF ';'
+	(101) new_elseif_list : new_elseif_list . T_ELSEIF '(' expr ')' ':' inner_statement_list
 	(104) new_else_single : .
 
 	T_ELSEIF	shift 493
@@ -16796,8 +16796,8 @@ state 367
 	.		error
 
 state 368
-	(57) statement : T_STRING . ':'
 	(5) namespace_name_sub : T_STRING .
+	(57) statement : T_STRING . ':'
 
 	':'		shift 581 and reduce (57)
 	.		reduce (5)
