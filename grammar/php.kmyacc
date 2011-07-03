@@ -154,6 +154,7 @@ class YYParser
         $yysstk       = array($yystate = 0); // State stack
         $this->yyastk = array();             // AST   stack (?)
         $yylstk       = array($yyline  = 1); // Line  stack
+        $yydstk       = array($yyDC = null); // Doc comment stack
 
         $yychar       = -1;
 
@@ -165,11 +166,12 @@ class YYParser
                 $yyn = self::$yydefault[$yystate];
             } else {
                 if ($yychar < 0) {
-                    if (($yychar = $lexer->lex($yylval, $yyline)) < 0)
+                    if (($yychar = $lexer->lex($yylval, $yyline, $yyDC)) < 0)
                         $yychar = 0;
                     $yychar = $yychar < self::YYMAXLEX ?
                         self::$yytranslate[$yychar] : self::YYBADCH;
                     $yylstk[$this->yysp] = $yyline;
+                    $yydstk[$this->yysp] = $yyDC;
 #if -t
                     $this->YYTRACE_READ($yychar);
 #endif
@@ -199,6 +201,7 @@ class YYParser
                         $yysstk[$this->yysp]       = $yystate = $yyn;
                         $this->yyastk[$this->yysp] = $yylval;
                         $yylstk[$this->yysp]       = $yyline;
+                        $yydstk[$this->yysp]       = $yyDC;
                         $yychar = -1;
 
                         if ($yyn < self::YYNLSTATES)
@@ -228,7 +231,10 @@ class YYParser
                     $this->YYTRACE_REDUCE($yyn);
 #endif
                     try {
-                        $this->{'yyn' . $yyn}($yylstk[$this->yysp - self::$yylen[$yyn]]);
+                        $this->{'yyn' . $yyn}(
+                            $yylstk[$this->yysp - self::$yylen[$yyn]],
+                            $yydstk[$this->yysp - self::$yylen[$yyn]]
+                        );
                     } catch (PHPParser_Error $e) {
                         $e->setRawLine($yyline);
 
@@ -251,6 +257,7 @@ class YYParser
                     $yysstk[$this->yysp] = $yystate;
                     $this->yyastk[$this->yysp] = $this->yyval;
                     $yylstk[$this->yysp]       = $yyline;
+                    $yydstk[$this->yysp]       = $yyDC;
                 } else {
                     /* error */
                     throw new PHPParser_Error(
@@ -268,7 +275,7 @@ class YYParser
     }
 #reduce
 
-    private function yyn%n($line) {
+    private function yyn%n($line, $docComment) {
         %b
     }
 #noact

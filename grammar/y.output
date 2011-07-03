@@ -520,8 +520,8 @@ state 5
 	.		error
 
 state 6
-	(97) while_statement : ':' inner_statement_list . T_ENDWHILE ';'
 	(24) inner_statement_list : inner_statement_list . inner_statement
+	(97) while_statement : ':' inner_statement_list . T_ENDWHILE ';'
 
 	T_INCLUDE	shift 56
 	T_INCLUDE_ONCE	shift 57
@@ -924,8 +924,8 @@ state 9
 	.		error
 
 state 10
-	(233) expr : T_FUNCTION optional_ref '(' parameter_list ')' lexical_vars '{' inner_statement_list . '}'
 	(24) inner_statement_list : inner_statement_list . inner_statement
+	(233) expr : T_FUNCTION optional_ref '(' parameter_list ')' lexical_vars '{' inner_statement_list . '}'
 
 	T_INCLUDE	shift 56
 	T_INCLUDE_ONCE	shift 57
@@ -1227,8 +1227,8 @@ state 12
 	.		error
 
 state 13
-	(136) method_body : '{' inner_statement_list . '}'
 	(24) inner_statement_list : inner_statement_list . inner_statement
+	(136) method_body : '{' inner_statement_list . '}'
 
 	T_INCLUDE	shift 56
 	T_INCLUDE_ONCE	shift 57
@@ -1530,8 +1530,8 @@ state 15
 	.		reduce (93)
 
 state 16
-	(105) new_else_single : T_ELSE ':' inner_statement_list .
 	(24) inner_statement_list : inner_statement_list . inner_statement
+	(105) new_else_single : T_ELSE ':' inner_statement_list .
 
 	T_INCLUDE	shift 56
 	T_INCLUDE_ONCE	shift 57
@@ -1730,8 +1730,8 @@ state 17
 	.		reduce (92)
 
 state 18
-	(101) new_elseif_list : new_elseif_list T_ELSEIF '(' expr ')' ':' inner_statement_list .
 	(24) inner_statement_list : inner_statement_list . inner_statement
+	(101) new_elseif_list : new_elseif_list T_ELSEIF '(' expr ')' ':' inner_statement_list .
 
 	T_INCLUDE	shift 56
 	T_INCLUDE_ONCE	shift 57
@@ -10246,6 +10246,7 @@ state 134
 	.		error
 
 state 135
+	(92) case_list : case_list T_CASE expr . case_separator inner_statement_list
 	(181) expr : expr . T_BOOLEAN_OR expr
 	(182) expr : expr . T_BOOLEAN_AND expr
 	(183) expr : expr . T_LOGICAL_OR expr
@@ -10273,7 +10274,6 @@ state 135
 	(209) expr : expr . T_INSTANCEOF class_name_reference
 	(211) expr : expr . '?' expr ':' expr
 	(212) expr : expr . '?' ':' expr
-	(92) case_list : case_list T_CASE expr . case_separator inner_statement_list
 
 	T_LOGICAL_OR	shift 83
 	T_LOGICAL_XOR	shift 84
@@ -10307,6 +10307,7 @@ state 135
 	.		error
 
 state 136
+	(47) statement : expr . ';'
 	(181) expr : expr . T_BOOLEAN_OR expr
 	(182) expr : expr . T_BOOLEAN_AND expr
 	(183) expr : expr . T_LOGICAL_OR expr
@@ -10334,7 +10335,6 @@ state 136
 	(209) expr : expr . T_INSTANCEOF class_name_reference
 	(211) expr : expr . '?' expr ':' expr
 	(212) expr : expr . '?' ':' expr
-	(47) statement : expr . ';'
 
 	T_LOGICAL_OR	shift 83
 	T_LOGICAL_XOR	shift 84
@@ -10366,6 +10366,7 @@ state 136
 	.		error
 
 state 137
+	(38) statement : T_BREAK expr . ';'
 	(181) expr : expr . T_BOOLEAN_OR expr
 	(182) expr : expr . T_BOOLEAN_AND expr
 	(183) expr : expr . T_LOGICAL_OR expr
@@ -10393,7 +10394,6 @@ state 137
 	(209) expr : expr . T_INSTANCEOF class_name_reference
 	(211) expr : expr . '?' expr ':' expr
 	(212) expr : expr . '?' ':' expr
-	(38) statement : T_BREAK expr . ';'
 
 	T_LOGICAL_OR	shift 83
 	T_LOGICAL_XOR	shift 84
@@ -10425,6 +10425,7 @@ state 137
 	.		error
 
 state 138
+	(40) statement : T_CONTINUE expr . ';'
 	(181) expr : expr . T_BOOLEAN_OR expr
 	(182) expr : expr . T_BOOLEAN_AND expr
 	(183) expr : expr . T_LOGICAL_OR expr
@@ -10452,7 +10453,6 @@ state 138
 	(209) expr : expr . T_INSTANCEOF class_name_reference
 	(211) expr : expr . '?' expr ':' expr
 	(212) expr : expr . '?' ':' expr
-	(40) statement : T_CONTINUE expr . ';'
 
 	T_LOGICAL_OR	shift 83
 	T_LOGICAL_XOR	shift 84
@@ -10484,6 +10484,7 @@ state 138
 	.		error
 
 state 139
+	(42) statement : T_RETURN expr . ';'
 	(181) expr : expr . T_BOOLEAN_OR expr
 	(182) expr : expr . T_BOOLEAN_AND expr
 	(183) expr : expr . T_LOGICAL_OR expr
@@ -10511,7 +10512,6 @@ state 139
 	(209) expr : expr . T_INSTANCEOF class_name_reference
 	(211) expr : expr . '?' expr ':' expr
 	(212) expr : expr . '?' ':' expr
-	(42) statement : T_RETURN expr . ';'
 
 	T_LOGICAL_OR	shift 83
 	T_LOGICAL_XOR	shift 84
@@ -10543,6 +10543,7 @@ state 139
 	.		error
 
 state 140
+	(55) statement : T_THROW expr . ';'
 	(181) expr : expr . T_BOOLEAN_OR expr
 	(182) expr : expr . T_BOOLEAN_AND expr
 	(183) expr : expr . T_LOGICAL_OR expr
@@ -10570,7 +10571,6 @@ state 140
 	(209) expr : expr . T_INSTANCEOF class_name_reference
 	(211) expr : expr . '?' expr ':' expr
 	(212) expr : expr . '?' ':' expr
-	(55) statement : T_THROW expr . ';'
 
 	T_LOGICAL_OR	shift 83
 	T_LOGICAL_XOR	shift 84
@@ -10779,6 +10779,8 @@ state 143
 	.		error
 
 state 144
+	(31) statement : T_IF '(' expr . ')' statement elseif_list else_single
+	(32) statement : T_IF '(' expr . ')' ':' inner_statement_list new_elseif_list new_else_single T_ENDIF ';'
 	(181) expr : expr . T_BOOLEAN_OR expr
 	(182) expr : expr . T_BOOLEAN_AND expr
 	(183) expr : expr . T_LOGICAL_OR expr
@@ -10806,8 +10808,6 @@ state 144
 	(209) expr : expr . T_INSTANCEOF class_name_reference
 	(211) expr : expr . '?' expr ':' expr
 	(212) expr : expr . '?' ':' expr
-	(31) statement : T_IF '(' expr . ')' statement elseif_list else_single
-	(32) statement : T_IF '(' expr . ')' ':' inner_statement_list new_elseif_list new_else_single T_ENDIF ';'
 
 	T_LOGICAL_OR	shift 83
 	T_LOGICAL_XOR	shift 84
@@ -10839,6 +10839,7 @@ state 144
 	.		error
 
 state 145
+	(33) statement : T_WHILE '(' expr . ')' while_statement
 	(181) expr : expr . T_BOOLEAN_OR expr
 	(182) expr : expr . T_BOOLEAN_AND expr
 	(183) expr : expr . T_LOGICAL_OR expr
@@ -10866,7 +10867,6 @@ state 145
 	(209) expr : expr . T_INSTANCEOF class_name_reference
 	(211) expr : expr . '?' expr ':' expr
 	(212) expr : expr . '?' ':' expr
-	(33) statement : T_WHILE '(' expr . ')' while_statement
 
 	T_LOGICAL_OR	shift 83
 	T_LOGICAL_XOR	shift 84
@@ -10898,6 +10898,9 @@ state 145
 	.		error
 
 state 146
+	(49) statement : T_FOREACH '(' expr . T_AS variable ')' foreach_statement
+	(50) statement : T_FOREACH '(' expr . T_AS '&' variable ')' foreach_statement
+	(51) statement : T_FOREACH '(' expr . T_AS variable T_DOUBLE_ARROW optional_ref variable ')' foreach_statement
 	(181) expr : expr . T_BOOLEAN_OR expr
 	(182) expr : expr . T_BOOLEAN_AND expr
 	(183) expr : expr . T_LOGICAL_OR expr
@@ -10925,9 +10928,6 @@ state 146
 	(209) expr : expr . T_INSTANCEOF class_name_reference
 	(211) expr : expr . '?' expr ':' expr
 	(212) expr : expr . '?' ':' expr
-	(49) statement : T_FOREACH '(' expr . T_AS variable ')' foreach_statement
-	(50) statement : T_FOREACH '(' expr . T_AS '&' variable ')' foreach_statement
-	(51) statement : T_FOREACH '(' expr . T_AS variable T_DOUBLE_ARROW optional_ref variable ')' foreach_statement
 
 	T_LOGICAL_OR	shift 83
 	T_LOGICAL_XOR	shift 84
@@ -10959,6 +10959,7 @@ state 146
 	.		error
 
 state 147
+	(36) statement : T_SWITCH '(' expr . ')' switch_case_list
 	(181) expr : expr . T_BOOLEAN_OR expr
 	(182) expr : expr . T_BOOLEAN_AND expr
 	(183) expr : expr . T_LOGICAL_OR expr
@@ -10986,7 +10987,6 @@ state 147
 	(209) expr : expr . T_INSTANCEOF class_name_reference
 	(211) expr : expr . '?' expr ':' expr
 	(212) expr : expr . '?' ':' expr
-	(36) statement : T_SWITCH '(' expr . ')' switch_case_list
 
 	T_LOGICAL_OR	shift 83
 	T_LOGICAL_XOR	shift 84
@@ -11610,6 +11610,7 @@ state 157
 	.		error
 
 state 158
+	(34) statement : T_DO statement T_WHILE '(' expr . ')' ';'
 	(181) expr : expr . T_BOOLEAN_OR expr
 	(182) expr : expr . T_BOOLEAN_AND expr
 	(183) expr : expr . T_LOGICAL_OR expr
@@ -11637,7 +11638,6 @@ state 158
 	(209) expr : expr . T_INSTANCEOF class_name_reference
 	(211) expr : expr . '?' expr ':' expr
 	(212) expr : expr . '?' ':' expr
-	(34) statement : T_DO statement T_WHILE '(' expr . ')' ';'
 
 	T_LOGICAL_OR	shift 83
 	T_LOGICAL_XOR	shift 84
@@ -14905,8 +14905,8 @@ state 226
 	.		reduce (208)
 
 state 227
-	(130) class_statement_list : class_statement_list . class_statement
 	(67) class_declaration_statement : T_INTERFACE T_STRING interface_extends_list '{' class_statement_list . '}'
+	(130) class_statement_list : class_statement_list . class_statement
 	(139) method_modifiers : .
 
 	T_CONST		shift 477
@@ -14927,8 +14927,8 @@ state 227
 	.		reduce (139)
 
 state 228
-	(130) class_statement_list : class_statement_list . class_statement
 	(66) class_declaration_statement : class_entry_type T_STRING extends_from implements_list '{' class_statement_list . '}'
+	(130) class_statement_list : class_statement_list . class_statement
 	(139) method_modifiers : .
 
 	T_CONST		shift 477
@@ -15972,10 +15972,10 @@ state 277
 	.		error
 
 state 278
-	(246) name : T_NAMESPACE . T_NS_SEPARATOR namespace_name
 	(11) top_statement : T_NAMESPACE . namespace_name ';'
 	(12) top_statement : T_NAMESPACE . namespace_name '{' top_statement_list '}'
 	(13) top_statement : T_NAMESPACE . '{' top_statement_list '}'
+	(246) name : T_NAMESPACE . T_NS_SEPARATOR namespace_name
 
 	T_STRING	shift 563 and reduce (5)
 	T_NS_SEPARATOR	shift 340
@@ -16164,10 +16164,10 @@ state 294
 	.		error
 
 state 295
-	(302) object_access : variable . T_OBJECT_OPERATOR object_property '(' function_call_argument_list ')'
-	(303) object_access_arrayable : variable . T_OBJECT_OPERATOR object_property
 	(49) statement : T_FOREACH '(' expr T_AS variable . ')' foreach_statement
 	(51) statement : T_FOREACH '(' expr T_AS variable . T_DOUBLE_ARROW optional_ref variable ')' foreach_statement
+	(302) object_access : variable . T_OBJECT_OPERATOR object_property '(' function_call_argument_list ')'
+	(303) object_access_arrayable : variable . T_OBJECT_OPERATOR object_property
 
 	T_OBJECT_OPERATOR	shift 264
 	T_DOUBLE_ARROW	shift 359
@@ -16263,8 +16263,8 @@ state 304
 state 305
 305: shift/reduce conflict (shift 27, reduce 102) on T_ELSE
 305: shift/reduce conflict (shift 483, reduce 102) on T_ELSEIF
-	(99) elseif_list : elseif_list . T_ELSEIF '(' expr ')' statement
 	(31) statement : T_IF '(' expr ')' statement elseif_list . else_single
+	(99) elseif_list : elseif_list . T_ELSEIF '(' expr ')' statement
 	(102) else_single : .
 
 	T_ELSEIF	shift 483
@@ -16273,8 +16273,8 @@ state 305
 	.		reduce (102)
 
 state 306
-	(101) new_elseif_list : new_elseif_list . T_ELSEIF '(' expr ')' ':' inner_statement_list
 	(32) statement : T_IF '(' expr ')' ':' inner_statement_list new_elseif_list . new_else_single T_ENDIF ';'
+	(101) new_elseif_list : new_elseif_list . T_ELSEIF '(' expr ')' ':' inner_statement_list
 	(104) new_else_single : .
 
 	T_ELSEIF	shift 493
@@ -16325,16 +16325,16 @@ state 311
 	.		reduce (311)
 
 state 312
-	(155) expr_list : expr_list . ',' expr
 	(45) statement : T_ECHO expr_list . ';'
+	(155) expr_list : expr_list . ',' expr
 
 	','		shift 122
 	';'		shift 600 and reduce (45)
 	.		error
 
 state 313
-	(233) expr : T_FUNCTION optional_ref . '(' parameter_list ')' lexical_vars '{' inner_statement_list '}'
 	(65) function_declaration_statement : T_FUNCTION optional_ref . T_STRING '(' parameter_list ')' '{' inner_statement_list '}'
+	(233) expr : T_FUNCTION optional_ref . '(' parameter_list ')' lexical_vars '{' inner_statement_list '}'
 
 	T_STRING	shift 411
 	'('		shift 256
@@ -16349,17 +16349,17 @@ state 314
 	.		error
 
 state 315
-	(121) global_var_list : global_var_list . ',' global_var
 	(43) statement : T_GLOBAL global_var_list . ';'
+	(121) global_var_list : global_var_list . ',' global_var
 
 	','		shift 303
 	';'		shift 607 and reduce (43)
 	.		error
 
 state 316
+	(44) statement : T_STATIC static_var_list . ';'
 	(126) static_var_list : static_var_list . ',' T_VARIABLE
 	(127) static_var_list : static_var_list . ',' T_VARIABLE '=' static_scalar
-	(44) statement : T_STATIC static_var_list . ';'
 
 	','		shift 415
 	';'		shift 608 and reduce (44)
@@ -16428,8 +16428,8 @@ state 323
 	.		error
 
 state 324
-	(213) expr : T_ISSET '(' variables_list . ')'
 	(62) variables_list : variables_list . ',' variable
+	(213) expr : T_ISSET '(' variables_list . ')'
 
 	','		shift 246
 	')'		shift 644 and reduce (213)
@@ -16507,9 +16507,9 @@ state 332
 	.		error
 
 state 333
+	(50) statement : T_FOREACH '(' expr T_AS '&' variable . ')' foreach_statement
 	(302) object_access : variable . T_OBJECT_OPERATOR object_property '(' function_call_argument_list ')'
 	(303) object_access_arrayable : variable . T_OBJECT_OPERATOR object_property
-	(50) statement : T_FOREACH '(' expr T_AS '&' variable . ')' foreach_statement
 
 	T_OBJECT_OPERATOR	shift 264
 	')'		shift 22
@@ -16533,9 +16533,9 @@ state 335
 	.		error
 
 state 336
+	(51) statement : T_FOREACH '(' expr T_AS variable T_DOUBLE_ARROW optional_ref variable . ')' foreach_statement
 	(302) object_access : variable . T_OBJECT_OPERATOR object_property '(' function_call_argument_list ')'
 	(303) object_access_arrayable : variable . T_OBJECT_OPERATOR object_property
-	(51) statement : T_FOREACH '(' expr T_AS variable T_DOUBLE_ARROW optional_ref variable . ')' foreach_statement
 
 	T_OBJECT_OPERATOR	shift 264
 	')'		shift 24
@@ -16600,8 +16600,8 @@ state 343
 	.		reduce (257)
 
 state 344
-	(233) expr : T_FUNCTION . optional_ref '(' parameter_list ')' lexical_vars '{' inner_statement_list '}'
 	(65) function_declaration_statement : T_FUNCTION . optional_ref T_STRING '(' parameter_list ')' '{' inner_statement_list '}'
+	(233) expr : T_FUNCTION . optional_ref '(' parameter_list ')' lexical_vars '{' inner_statement_list '}'
 	(63) optional_ref : .
 
 	'&'		shift 584 and reduce (64)
@@ -16609,8 +16609,8 @@ state 344
 	.		reduce (63)
 
 state 345
-	(243) class_name : T_STATIC .
 	(44) statement : T_STATIC . static_var_list ';'
+	(243) class_name : T_STATIC .
 
 	T_VARIABLE	shift 401
 	static_var_list	goto 316
@@ -17139,9 +17139,9 @@ state 415
 	.		error
 
 state 416
+	(61) variables_list : variable .
 	(302) object_access : variable . T_OBJECT_OPERATOR object_property '(' function_call_argument_list ')'
 	(303) object_access_arrayable : variable . T_OBJECT_OPERATOR object_property
-	(61) variables_list : variable .
 
 	T_OBJECT_OPERATOR	shift 264
 	.		reduce (61)
@@ -17537,9 +17537,9 @@ state 464
 	.		error
 
 state 465
+	(62) variables_list : variables_list ',' variable .
 	(302) object_access : variable . T_OBJECT_OPERATOR object_property '(' function_call_argument_list ')'
 	(303) object_access_arrayable : variable . T_OBJECT_OPERATOR object_property
-	(62) variables_list : variables_list ',' variable .
 
 	T_OBJECT_OPERATOR	shift 264
 	.		reduce (62)
@@ -19432,4 +19432,4 @@ Statistics for zend_language_parser.phpy:
 	3815 items
 	1124 lookahead sets used
 	13442+794=14236 action entries
-	229536 bytes used
+	229560 bytes used

@@ -9,7 +9,7 @@ class PHPParser_Lexer
 
     private static $tokenMap;
     private static $dropTokens = array(
-        T_WHITESPACE => 1, T_COMMENT => 1, T_DOC_COMMENT => 1, T_OPEN_TAG => 1
+        T_WHITESPACE => 1, T_COMMENT => 1, T_OPEN_TAG => 1
     );
 
     /**
@@ -53,12 +53,15 @@ class PHPParser_Lexer
     /**
      * Returns the next token id.
      *
-     * @param mixed $value Variable to store token content in
-     * @param mixed $line  Variable to store line in
+     * @param mixed $value      Variable to store token content in
+     * @param mixed $line       Variable to store line in
+     * @param mixed $docComment Variable to store doc comment in
      *
      * @return int Token id
      */
-    public function lex(&$value, &$line) {
+    public function lex(&$value, &$line, &$docComment) {
+        $docComment = null;
+
         while (isset($this->tokens[++$this->pos])) {
             $token = $this->tokens[$this->pos];
 
@@ -66,6 +69,8 @@ class PHPParser_Lexer
                 $value = $token;
                 $line  = $this->line;
                 return ord($token);
+            } elseif (T_DOC_COMMENT === $token[0]) {
+                $docComment = $token[1];
             } elseif (!isset(self::$dropTokens[$token[0]])) {
                 $value = $token[1];
                 $line  = $this->line = $token[2];

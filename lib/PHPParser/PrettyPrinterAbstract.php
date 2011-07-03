@@ -103,7 +103,10 @@ abstract class PHPParser_PrettyPrinterAbstract
     protected function pStmts(array $nodes, $indent = true) {
         $pNodes = array();
         foreach ($nodes as $node) {
-            $pNodes[] = $this->p($node)
+            $pNodes[] = ((null !== $docComment = $node->getDocComment())
+                         ? preg_replace('~^\s+\*~m', ' *', $docComment) . "\n"
+                         : '')
+                      . $this->p($node)
                       . (isset($this->stmtsWithoutSemicolon[$node->getType()]) ? '' : ';');
         }
 
