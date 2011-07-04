@@ -138,8 +138,10 @@ class PHPParser_Lexer
                 } elseif(T_CLOSE_TAG === $i) {
                     self::$tokenMap[$i] = ord(';');
                 // and the others can be mapped directly
-                } elseif ('UNKNOWN' !== ($name = token_name($i))) {
-                    self::$tokenMap[$i] = constant('PHPParser_Parser::' . $name);
+                } elseif ('UNKNOWN' !== ($name = token_name($i))
+                          && defined($name = 'PHPParser_Parser::' . $name)
+                ) {
+                    self::$tokenMap[$i] = constant($name);
                 }
             }
         }
