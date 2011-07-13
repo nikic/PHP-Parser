@@ -43,14 +43,25 @@ class Unit_LexerTest extends PHPUnit_Framework_TestCase
 
     public function provideTestLex() {
         return array(
+            // tests conversion of closing PHP tag and drop of whitespace, comments and opening tags
             array(
-                '<?php tokens ?>plaintext',
+                '<?php tokens // ?>plaintext',
                 array(
                     array(PHPParser_Parser::T_STRING,      'tokens',    1, null),
                     array(ord(';'),                        '?>',        1, null),
                     array(PHPParser_Parser::T_INLINE_HTML, 'plaintext', 1, null),
                 )
             ),
+            // tests line numbers
+            array(
+                '<?php' . "\n" . '$ token /** doc' . "\n" . 'comment */ $',
+                array(
+                    array(ord('$'),                   '$',     2, null),
+                    array(PHPParser_Parser::T_STRING, 'token', 2, null),
+                    array(ord('$'),                   '$',     3, '/** doc' . "\n" . 'comment */')
+                )
+            ),
+            // tests doccomment extraction
             array(
                 '<?php /** docComment 1 *//** docComment 2 */ token',
                 array(

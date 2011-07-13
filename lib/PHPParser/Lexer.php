@@ -27,7 +27,7 @@ class PHPParser_Lexer
         $this->code   = $code;
         $this->tokens = @token_get_all($code);
         $this->pos    = -1;
-        $this->line   = -1;
+        $this->line   =  1;
 
         $error = error_get_last();
 
@@ -77,12 +77,16 @@ class PHPParser_Lexer
                 $value = $token;
                 $line  = $this->line;
                 return ord($token);
-            } elseif (T_DOC_COMMENT === $token[0]) {
-                $docComment = $token[1];
-            } elseif (!isset(self::$dropTokens[$token[0]])) {
-                $value = $token[1];
-                $line  = $this->line = $token[2];
-                return self::$tokenMap[$token[0]];
+            } else {
+                $this->line += substr_count($token[1], "\n");
+
+                if (T_DOC_COMMENT === $token[0]) {
+                    $docComment = $token[1];
+                } elseif (!isset(self::$dropTokens[$token[0]])) {
+                    $value = $token[1];
+                    $line  = $token[2];
+                    return self::$tokenMap[$token[0]];
+                }
             }
         }
 
