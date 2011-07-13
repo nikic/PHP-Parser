@@ -16,6 +16,8 @@ class PHPParser_Lexer
      * Creates a Lexer.
      *
      * @param string $code
+     *
+     * @throws PHPParser_Error on lexing errors (unterminated comment or unexpected character)
      */
     public function __construct($code) {
         self::initTokenMap();

@@ -6,8 +6,8 @@
  */
 class PHPParser_Node_Stmt_Namespace extends PHPParser_Node_Stmt
 {
-    public function __construct(array $subNodes, $line) {
-        parent::__construct($subNodes, $line);
+    public function __construct(array $subNodes, $line = -1, $docComment = null) {
+        parent::__construct($subNodes, $line, $docComment);
 
         if ('self' === $this->name || 'parent' === $this->name) {
             throw new PHPParser_Error(sprintf('Cannot use "%s" as namespace name', $this->name), $line);

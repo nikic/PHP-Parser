@@ -32,6 +32,8 @@ class PHPParser_NodeTraverser
      *
      * @param callback $visitor Visitor callback
      * @param int      $mode    Visitor mode (bitmap using self::ON_ENTER and self::ON_LEAVE)
+     *
+     * @throws InvalidArgumentException if visitor is not callable
      */
     public function addVisitor($visitor, $mode = self::ON_ENTER) {
         if (!is_callable($visitor)) {
@@ -50,7 +52,7 @@ class PHPParser_NodeTraverser
     /**
      * Traverses a node or an array using the registered visitors.
      *
-     * @param  PHPParser_NodeAbstract|array $node Node or array
+     * @param PHPParser_NodeAbstract|array $node Node or array
      *
      * @return mixed Node after all visitors were applied.
      */
