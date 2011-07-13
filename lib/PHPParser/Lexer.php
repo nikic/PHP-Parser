@@ -7,8 +7,8 @@ class PHPParser_Lexer
     protected $pos;
     protected $line;
 
-    private static $tokenMap;
-    private static $dropTokens = array(
+    protected static $tokenMap;
+    protected static $dropTokens = array(
         T_WHITESPACE => 1, T_COMMENT => 1, T_OPEN_TAG => 1
     );
 
@@ -32,21 +32,29 @@ class PHPParser_Lexer
         $error = error_get_last();
 
         if (preg_match(
-                '~^(Unterminated comment) starting line ([0-9]+)$~',
+                '~^Unterminated comment starting line ([0-9]+)$~',
                 $error['message'],
                 $matches
             )
         ) {
-            throw new PHPParser_Error($matches[1], $matches[2]);
+            throw new PHPParser_Error('Unterminated comment', $matches[1]);
         }
 
         if (preg_match(
-                '~^(Unexpected character in input:\s+\'(.)\' \(ASCII=[0-9]+\))~s',
+                '~^Unexpected character in input:  \'(.)\' \(ASCII=([0-9]+)\)~s',
                 $error['message'],
                 $matches
             )
         ) {
-            throw new PHPParser_Error($matches[1]);
+            throw new PHPParser_Error(sprintf(
+                'Unexpected character "%s" (ASCII %d)',
+                $matches[1], $matches[2]
+            ));
+        }
+
+        // PHP cuts error message after null byte, so need special case
+        if (preg_match('~^Unexpected character in input:  \'$~', $error['message'])) {
+            throw new PHPParser_Error('Unexpected null byte');
         }
     }
 
@@ -59,7 +67,7 @@ class PHPParser_Lexer
      *
      * @return int Token id
      */
-    public function lex(&$value, &$line, &$docComment) {
+    public function lex(&$value = null, &$line = null, &$docComment = null) {
         $docComment = null;
 
         while (isset($this->tokens[++$this->pos])) {
@@ -121,7 +129,7 @@ class PHPParser_Lexer
      * to the identifiers used by the Parser. Additionally it
      * maps T_OPEN_TAG_WITH_ECHO to T_ECHO and T_CLOSE_TAG to ';'.
      */
-    private static function initTokenMap() {
+    protected static function initTokenMap() {
         if (!self::$tokenMap) {
             self::$tokenMap = array();
 
