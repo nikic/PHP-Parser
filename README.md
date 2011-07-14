@@ -61,6 +61,10 @@ Subnodes are accessed as normal properties:
 The subnodes which a certain node can have are documented as `@property` doccomments in the
 respective files.
 
+Additionally all nodes have two methods, `getLine()` and `getDocComment()`.
+`getLine()` returns the line a node started in.
+`getDocComment()` returns the doccomment before the node or `null` if there was none.
+
 NodeDumper
 ----------
 
