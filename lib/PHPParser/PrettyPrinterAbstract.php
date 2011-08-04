@@ -59,24 +59,29 @@ abstract class PHPParser_PrettyPrinterAbstract
         'Expr_LogicalOr'        => 18,
     );
     protected $stmtsWithoutSemicolon = array(
-        'Stmt_Func' => true,
-        'Stmt_Interface' => true,
-        'Stmt_Class' => true,
-        'Stmt_ClassMethod' => true,
-        'Stmt_For' => true,
-        'Stmt_Foreach' => true,
-        'Stmt_If' => true,
-        'Stmt_Switch' => true,
-        'Stmt_While' => true,
-        'Stmt_TryCatch' => true,
-        'Stmt_Label' => true,
+        'Stmt_Func'         => true,
+        'Stmt_Interface'    => true,
+        'Stmt_Class'        => true,
+        'Stmt_ClassMethod'  => true,
+        'Stmt_For'          => true,
+        'Stmt_Foreach'      => true,
+        'Stmt_If'           => true,
+        'Stmt_Switch'       => true,
+        'Stmt_While'        => true,
+        'Stmt_TryCatch'     => true,
+        'Stmt_Label'        => true,
         'Stmt_HaltCompiler' => true,
-        'Stmt_Namespace' => true,
+        'Stmt_Namespace'    => true,
     );
 
     protected $precedenceStack;
     protected $precedenceStackPos;
     protected $noIndentToken;
+
+    public function __construct() {
+        $this->precedenceStack = array($this->precedenceStackPos = 0 => 19);
+        $this->noIndentToken   = uniqid('_NO_INDENT_');
+    }
 
     /**
      * Pretty prints an array of nodes (statements).
@@ -86,10 +91,18 @@ abstract class PHPParser_PrettyPrinterAbstract
      * @return string Pretty printed nodes
      */
     public function prettyPrint(array $nodes) {
-        $this->precedenceStack = array($this->precedenceStackPos = 0 => 19);
-        $this->noIndentToken   = uniqid('_NO_INDENT_');
-
         return str_replace("\n" . $this->noIndentToken, "\n", $this->pStmts($nodes, false));
+    }
+
+    /**
+     * Pretty prints an expression.
+     *
+     * @param PHPParser_Node_Expr $node Expression node
+     *
+     * @return string Pretty printed node
+     */
+    public function prettyPrintExpr(PHPParser_Node_Expr $node) {
+        return str_replace("\n" . $this->noIndentToken, "\n", $this->p($node));
     }
 
     /**

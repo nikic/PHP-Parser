@@ -154,3 +154,5 @@ For the code mentioned in the above section this should create the output:
         echo $msg, "\n";
     }
     printLine('Hallo World!!!');
+
+You can also pretty print only a single expression using the `prettyPrintExpr()` method.
