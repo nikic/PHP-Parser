@@ -77,11 +77,76 @@ class PHPParser_Node_Name extends PHPParser_NodeAbstract
 
     /**
      * Returns a string representation of the name by imploding the namespace parts with the
-     * namespace separator \ (backslash).
+     * namespace separator.
      *
      * @return string String representation
      */
     public function __toString() {
         return $this->toString('\\');
+    }
+
+    /**
+     * Sets the whole name.
+     *
+     * @param string|array|self $name The name to set the whole name to
+     */
+    public function set($name) {
+        $this->parts = $this->prepareName($name);
+    }
+
+    /**
+     * Prepends a name to this name.
+     *
+     * @param string|array|self $name Name to prepend
+     */
+    public function prepend($name) {
+        $this->parts = array_merge($this->prepareName($name), $this->parts);
+    }
+
+    /**
+     * Appends a name to this name.
+     *
+     * @param string|array|self $name Name to append
+     */
+    public function append($name) {
+        $this->parts = array_merge($this->prepareName($name), $name->parts);
+    }
+
+    /**
+     * Sets the first part of the name.
+     *
+     * @param string|array|self $name The name to set the first part to
+     */
+    public function setFirst($name) {
+        $this->parts = array_merge($this->prepareName($name), array_slice($this->parts, 1));
+    }
+
+    /**
+     * Sets the last part of the name.
+     *
+     * @param string|array|self $name The name to set the last part to
+     */
+    public function setLast($name) {
+        $this->parts = array_merge($this->prepareName($name), array_slice($this->parts, 0, -1));
+    }
+
+    /**
+     * Prepares a (string, array or Name node) name for use in name changing methods by converting
+     * it to an array.
+     *
+     * @param string|array|self $name Name to prepare
+     *
+     * @return array Prepared name
+     */
+    protected function prepareName($name) {
+        if (is_string($name)) {
+            return explode('\\', $name);
+        } elseif ($name instanceof self) {
+            return $name->parts;
+        } elseif (!is_array($name)) {
+            throw new InvalidArgumentException(
+                'When changing a name you need to pass either a string and array or a Name node'
+            );
+        }
     }
 }

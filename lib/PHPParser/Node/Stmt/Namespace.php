@@ -1,8 +1,8 @@
 <?php
 
 /**
- * @property PHPParser_Node_Name $name  Name
- * @property array               $stmts Statements
+ * @property null|PHPParser_Node_Name $name  Name
+ * @property array                    $stmts Statements
  */
 class PHPParser_Node_Stmt_Namespace extends PHPParser_Node_Stmt
 {
