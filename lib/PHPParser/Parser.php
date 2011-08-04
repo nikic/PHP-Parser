@@ -1016,7 +1016,7 @@ class PHPParser_Parser
     }
 
     private function yyn4($line, $docComment) {
-         $this->yyval = new PHPParser_Node_Name(array('parts' => $this->yyastk[$this->yysp-(1-1)]), $line, $docComment); 
+         $this->yyval = new PHPParser_Node_Name(array('parts' => $this->yyastk[$this->yysp-(1-1)], 'type' => PHPParser_Node_Name::NORMAL), $line, $docComment); 
     }
 
     private function yyn5($line, $docComment) {
@@ -1998,11 +1998,11 @@ class PHPParser_Parser
     }
 
     private function yyn246($line, $docComment) {
-         $this->yyastk[$this->yysp-(3-3)]->setResolveType(PHPParser_Node_Name::RELATIVE); $this->yyval = $this->yyastk[$this->yysp-(3-3)]; 
+         $this->yyastk[$this->yysp-(3-3)]->type = PHPParser_Node_Name::RELATIVE; $this->yyval = $this->yyastk[$this->yysp-(3-3)]; 
     }
 
     private function yyn247($line, $docComment) {
-         $this->yyastk[$this->yysp-(2-2)]->setResolveType(PHPParser_Node_Name::FULLY_QUALIFIED); $this->yyval = $this->yyastk[$this->yysp-(2-2)]; 
+         $this->yyastk[$this->yysp-(2-2)]->type = PHPParser_Node_Name::FULLY_QUALIFIED; $this->yyval = $this->yyastk[$this->yysp-(2-2)]; 
     }
 
     private function yyn248($line, $docComment) {
