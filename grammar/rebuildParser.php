@@ -3,7 +3,7 @@
 echo '<pre>';
 
 echo 'Building parser. Output: "',
-     `kmyacc -l -v -L c -m php.kmyacc -p PHPParser_Parser zend_language_parser.phpy`,
+     `kmyacc -l -L c -m php.kmyacc -p PHPParser_Parser zend_language_parser.phpy`,
      '"', "\n";
 
 $source = file_get_contents('y.tab.c');
@@ -24,7 +24,7 @@ file_put_contents(dirname(__DIR__) . '/lib/PHPParser/Parser.php', $source);
 unlink(__DIR__ . '/y.tab.c');
 
 echo 'Building debug parser. Output: "',
-     `kmyacc -l -v -t -L c -m php.kmyacc -p PHPParser_ParserDebug zend_language_parser.phpy`,
+     `kmyacc -l -t -L c -m php.kmyacc -p PHPParser_ParserDebug zend_language_parser.phpy`,
      '"', "\n";
 
 $source = file_get_contents('y.tab.c');

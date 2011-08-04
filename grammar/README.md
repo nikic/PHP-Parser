@@ -9,7 +9,6 @@ What do all those files mean?
  * `preprocessor.php`:              Transforms a `.pre.phpy` grammar into a `.phpy` grammar
  * `rebuildParser.php`:             Builds the actual parser by calling `kmyacc`
  * `php.kmyacc`:                    A `kmyacc` parser prototype file for PHP
- * `y.output`:                      `kmyacc`s debug output
 
 .pre.phpy pseudo language
 =========================
