@@ -104,21 +104,21 @@
 %%
 
 start:
-    top_statement_list                                      { $$ = PHPParser_Node_Stmt_Namespace::postprocess($1); }
+    top_statement_list                                      { $$ = Stmt_Namespace::postprocess($1); }
 ;
 
 top_statement_list:
-      top_statement_list top_statement                      { if (is_array($2)) { $$ = array_merge($1, $2); } else { $1[] = $2; $$ = $1; }; }
-    | /* empty */                                           { $$ = array(); }
+      top_statement_list top_statement                      { pushNormalizing($1, $2); }
+    | /* empty */                                           { init(); }
 ;
 
 namespace_name:
-    namespace_name_sub                                      { $$ = new PHPParser_Node_Name(array('parts' => $1), #line, #docComment); }
+    namespace_name_sub                                      { $$ = Name[parts: $1]; }
 ;
 
 namespace_name_sub:
-      T_STRING                                              { $$ = array($1); }
-    | namespace_name_sub T_NS_SEPARATOR T_STRING            { $1[] = $3; $$ = $1; }
+      T_STRING                                              { init($1); }
+    | namespace_name_sub T_NS_SEPARATOR T_STRING            { push($1, $3); }
 ;
 
 top_statement:
@@ -126,92 +126,92 @@ top_statement:
     | function_declaration_statement                        { $$ = $1; }
     | class_declaration_statement                           { $$ = $1; }
     | T_HALT_COMPILER
-          { $$ = new PHPParser_Node_Stmt_HaltCompiler(array('remaining' => #this->lexer->handleHaltCompiler()), #line, #docComment); }
-    | T_NAMESPACE namespace_name ';'                        { $$ = new PHPParser_Node_Stmt_Namespace(array('name' => $2, 'stmts' => null), #line, #docComment); }
-    | T_NAMESPACE namespace_name '{' top_statement_list '}' { $$ = new PHPParser_Node_Stmt_Namespace(array('name' => $2, 'stmts' => $4), #line, #docComment); }
-    | T_NAMESPACE '{' top_statement_list '}'                { $$ = new PHPParser_Node_Stmt_Namespace(array('name' => null, 'stmts' => $3), #line, #docComment); }
-    | T_USE use_declarations ';'                            { $$ = new PHPParser_Node_Stmt_Use(array('uses' => $2), #line, #docComment); }
-    | constant_declaration ';'                              { $$ = new PHPParser_Node_Stmt_Const(array('consts' => $1), #line, #docComment); }
+          { $$ = Stmt_HaltCompiler[remaining: $this->lexer->handleHaltCompiler()]; }
+    | T_NAMESPACE namespace_name ';'                        { $$ = Stmt_Namespace[name: $2, stmts: null]; }
+    | T_NAMESPACE namespace_name '{' top_statement_list '}' { $$ = Stmt_Namespace[name: $2, stmts: $4]; }
+    | T_NAMESPACE '{' top_statement_list '}'                { $$ = Stmt_Namespace[name: null, stmts: $3]; }
+    | T_USE use_declarations ';'                            { $$ = Stmt_Use[uses: $2]; }
+    | constant_declaration ';'                              { $$ = Stmt_Const[consts: $1]; }
 ;
 
 use_declarations:
-      use_declarations ',' use_declaration                  { $1[] = $3; $$ = $1; }
-    | use_declaration                                       { $$ = array($1); }
+      use_declarations ',' use_declaration                  { push($1, $3); }
+    | use_declaration                                       { init($1); }
 ;
 
 use_declaration:
-      namespace_name                                        { $$ = new PHPParser_Node_Stmt_UseUse(array('name' => $1, 'alias' => null), #line, #docComment); }
-    | namespace_name T_AS T_STRING                          { $$ = new PHPParser_Node_Stmt_UseUse(array('name' => $1, 'alias' => $3), #line, #docComment); }
-    | T_NS_SEPARATOR namespace_name                         { $$ = new PHPParser_Node_Stmt_UseUse(array('name' => $2, 'alias' => null), #line, #docComment); }
-    | T_NS_SEPARATOR namespace_name T_AS T_STRING           { $$ = new PHPParser_Node_Stmt_UseUse(array('name' => $2, 'alias' => $4), #line, #docComment); }
+      namespace_name                                        { $$ = Stmt_UseUse[name: $1, alias: null]; }
+    | namespace_name T_AS T_STRING                          { $$ = Stmt_UseUse[name: $1, alias: $3]; }
+    | T_NS_SEPARATOR namespace_name                         { $$ = Stmt_UseUse[name: $2, alias: null]; }
+    | T_NS_SEPARATOR namespace_name T_AS T_STRING           { $$ = Stmt_UseUse[name: $2, alias: $4]; }
 ;
 
 constant_declaration:
-      constant_declaration ',' T_STRING '=' static_scalar   { $1[] = new PHPParser_Node_Stmt_ConstConst(array('name' => $3, 'value' => $5), #line, #docComment); $$ = $1; }
-    | T_CONST T_STRING '=' static_scalar                    { $$ = array(new PHPParser_Node_Stmt_ConstConst(array('name' => $2, 'value' => $4), #line, #docComment)); }
+      constant_declaration ',' T_STRING '=' static_scalar   { push($1, Stmt_ConstConst[name: $3, value: $5]); }
+    | T_CONST T_STRING '=' static_scalar                    { init(Stmt_ConstConst[name: $2, value: $4]); }
 ;
 
 inner_statement_list:
-      inner_statement_list inner_statement                  { if (is_array($2)) { $$ = array_merge($1, $2); } else { $1[] = $2; $$ = $1; }; }
-    | /* empty */                                           { $$ = array(); }
+      inner_statement_list inner_statement                  { pushNormalizing($1, $2); }
+    | /* empty */                                           { init(); }
 ;
 
 inner_statement:
       statement                                             { $$ = $1; }
     | function_declaration_statement                        { $$ = $1; }
     | class_declaration_statement                           { $$ = $1; }
-    | T_HALT_COMPILER                                       { throw new PHPParser_Error('__halt_compiler() can only be used from the outermost scope'); }
+    | T_HALT_COMPILER                                       { error('__halt_compiler() can only be used from the outermost scope'); }
 ;
 
 statement:
       '{' inner_statement_list '}'                          { $$ = $2; }
-    | T_IF '(' expr ')' statement elseif_list else_single   { $$ = new PHPParser_Node_Stmt_If(array('cond' => $3, 'stmts' => is_array($5) ? $5 : array($5), 'elseifList' => $6, 'else' => $7), #line, #docComment); }
+    | T_IF '(' expr ')' statement elseif_list else_single   { $$ = Stmt_If[cond: $3, stmts: toArray($5), elseifList: $6, else: $7]; }
     | T_IF '(' expr ')' ':' inner_statement_list new_elseif_list new_else_single T_ENDIF ';'
-          { $$ = new PHPParser_Node_Stmt_If(array('cond' => $3, 'stmts' => $6, 'elseifList' => $7, 'else' => $8), #line, #docComment); }
-    | T_WHILE '(' expr ')' while_statement                  { $$ = new PHPParser_Node_Stmt_While(array('cond' => $3, 'stmts' => is_array($5) ? $5 : array($5)), #line, #docComment); }
-    | T_DO statement T_WHILE '(' expr ')' ';'               { $$ = new PHPParser_Node_Stmt_Do(array('stmts' => is_array($2) ? $2 : array($2), 'cond' => $5), #line, #docComment); }
+          { $$ = Stmt_If[cond: $3, stmts: $6, elseifList: $7, else: $8]; }
+    | T_WHILE '(' expr ')' while_statement                  { $$ = Stmt_While[cond: $3, stmts: toArray($5)]; }
+    | T_DO statement T_WHILE '(' expr ')' ';'               { $$ = Stmt_Do[stmts: toArray($2), cond: $5]; }
     | T_FOR '(' for_expr ';'  for_expr ';' for_expr ')' for_statement
-          { $$ = new PHPParser_Node_Stmt_For(array('init' => $3, 'cond' => $5, 'loop' => $7, 'stmts' => is_array($9) ? $9 : array($9)), #line, #docComment); }
-    | T_SWITCH '(' expr ')' switch_case_list                { $$ = new PHPParser_Node_Stmt_Switch(array('cond' => $3, 'caseList' => $5), #line, #docComment); }
-    | T_BREAK ';'                                           { $$ = new PHPParser_Node_Stmt_Break(array('num' => null), #line, #docComment); }
-    | T_BREAK expr ';'                                      { $$ = new PHPParser_Node_Stmt_Break(array('num' => $2), #line, #docComment); }
-    | T_CONTINUE ';'                                        { $$ = new PHPParser_Node_Stmt_Continue(array('num' => null), #line, #docComment); }
-    | T_CONTINUE expr ';'                                   { $$ = new PHPParser_Node_Stmt_Continue(array('num' => $2), #line, #docComment); }
-    | T_RETURN ';'                                          { $$ = new PHPParser_Node_Stmt_Return(array('expr' => null), #line, #docComment); }
-    | T_RETURN expr ';'                                     { $$ = new PHPParser_Node_Stmt_Return(array('expr' => $2), #line, #docComment); }
-    | T_GLOBAL global_var_list ';'                          { $$ = new PHPParser_Node_Stmt_Global(array('vars' => $2), #line, #docComment); }
-    | T_STATIC static_var_list ';'                          { $$ = new PHPParser_Node_Stmt_Static(array('vars' => $2), #line, #docComment); }
-    | T_ECHO expr_list ';'                                  { $$ = new PHPParser_Node_Stmt_Echo(array('exprs' => $2), #line, #docComment); }
-    | T_INLINE_HTML                                         { $$ = new PHPParser_Node_Stmt_InlineHTML(array('value' => $1), #line, #docComment); }
+          { $$ = Stmt_For[init: $3, cond: $5, loop: $7, stmts: toArray($9)]; }
+    | T_SWITCH '(' expr ')' switch_case_list                { $$ = Stmt_Switch[cond: $3, caseList: $5]; }
+    | T_BREAK ';'                                           { $$ = Stmt_Break[num: null]; }
+    | T_BREAK expr ';'                                      { $$ = Stmt_Break[num: $2]; }
+    | T_CONTINUE ';'                                        { $$ = Stmt_Continue[num: null]; }
+    | T_CONTINUE expr ';'                                   { $$ = Stmt_Continue[num: $2]; }
+    | T_RETURN ';'                                          { $$ = Stmt_Return[expr: null]; }
+    | T_RETURN expr ';'                                     { $$ = Stmt_Return[expr: $2]; }
+    | T_GLOBAL global_var_list ';'                          { $$ = Stmt_Global[vars: $2]; }
+    | T_STATIC static_var_list ';'                          { $$ = Stmt_Static[vars: $2]; }
+    | T_ECHO expr_list ';'                                  { $$ = Stmt_Echo[exprs: $2]; }
+    | T_INLINE_HTML                                         { $$ = Stmt_InlineHTML[value: $1]; }
     | expr ';'                                              { $$ = $1; }
-    | T_UNSET '(' variables_list ')' ';'                    { $$ = new PHPParser_Node_Stmt_Unset(array('vars' => $3), #line, #docComment); }
+    | T_UNSET '(' variables_list ')' ';'                    { $$ = Stmt_Unset[vars: $3]; }
     | T_FOREACH '(' expr T_AS variable ')' foreach_statement
-          { $$ = new PHPParser_Node_Stmt_Foreach(array('expr' => $3, 'keyVar' => null, 'byRef' => false, 'valueVar' => $5, 'stmts' => is_array($7) ? $7 : array($7)), #line, #docComment); }
+          { $$ = Stmt_Foreach[expr: $3, keyVar: null, byRef: false, valueVar: $5, stmts: toArray($7)]; }
     | T_FOREACH '(' expr T_AS '&' variable ')' foreach_statement
-          { $$ = new PHPParser_Node_Stmt_Foreach(array('expr' => $3, 'keyVar' => null, 'byRef' => true, 'valueVar' => $6, 'stmts' => is_array($8) ? $8 : array($8)), #line, #docComment); }
+          { $$ = Stmt_Foreach[expr: $3, keyVar: null, byRef: true, valueVar: $6, stmts: toArray($8)]; }
     | T_FOREACH '(' expr T_AS variable T_DOUBLE_ARROW optional_ref variable ')' foreach_statement
-          { $$ = new PHPParser_Node_Stmt_Foreach(array('expr' => $3, 'keyVar' => $5, 'byRef' => $7, 'valueVar' => $8, 'stmts' => is_array($10) ? $10 : array($10)), #line, #docComment); }
-    | T_DECLARE '(' declare_list ')' declare_statement      { $$ = new PHPParser_Node_Stmt_Declare(array('declares' => $3, 'stmts' => is_array($5) ? $5 : array($5)), #line, #docComment); }
+          { $$ = Stmt_Foreach[expr: $3, keyVar: $5, byRef: $7, valueVar: $8, stmts: toArray($10)]; }
+    | T_DECLARE '(' declare_list ')' declare_statement      { $$ = Stmt_Declare[declares: $3, stmts: toArray($5)]; }
     | ';'                                                   { $$ = array(); /* means: no statement */ }
-    | T_TRY '{' inner_statement_list '}' catches            { $$ = new PHPParser_Node_Stmt_TryCatch(array('stmts' => $3, 'catches' => $5), #line, #docComment); }
-    | T_THROW expr ';'                                      { $$ = new PHPParser_Node_Stmt_Throw(array('expr' => $2), #line, #docComment); }
-    | T_GOTO T_STRING ';'                                   { $$ = new PHPParser_Node_Stmt_Goto(array('name' => $2), #line, #docComment); }
-    | T_STRING ':'                                          { $$ = new PHPParser_Node_Stmt_Label(array('name' => $1), #line, #docComment); }
+    | T_TRY '{' inner_statement_list '}' catches            { $$ = Stmt_TryCatch[stmts: $3, catches: $5]; }
+    | T_THROW expr ';'                                      { $$ = Stmt_Throw[expr: $2]; }
+    | T_GOTO T_STRING ';'                                   { $$ = Stmt_Goto[name: $2]; }
+    | T_STRING ':'                                          { $$ = Stmt_Label[name: $1]; }
 ;
 
 catches:
-      catch                                                 { $$ = array($1); }
-    | catches catch                                         { $1[] = $2; $$ = $1; }
+      catch                                                 { init($1); }
+    | catches catch                                         { push($1, $2); }
 ;
 
 catch:
     T_CATCH '(' name T_VARIABLE ')' '{' inner_statement_list '}'
-        { $$ = new PHPParser_Node_Stmt_Catch(array('type' => $3, 'var' => substr($4, 1), 'stmts' => $7), #line, #docComment); }
+        { $$ = Stmt_Catch[type: $3, var: parseVar($4), stmts: $7]; }
 ;
 
 variables_list:
-      variable                                              { $$ = array($1); }
-    | variables_list ',' variable                           { $1[] = $3; $$ = $1; }
+      variable                                              { init($1); }
+    | variables_list ',' variable                           { push($1, $3); }
 ;
 
 optional_ref:
@@ -221,20 +221,20 @@ optional_ref:
 
 function_declaration_statement:
     T_FUNCTION optional_ref T_STRING '(' parameter_list ')' '{' inner_statement_list '}'
-        { $$ = new PHPParser_Node_Stmt_Func(array('byRef' => $2, 'name' => $3, 'params' => $5, 'stmts' => $8), #line, #docComment); }
+        { $$ = Stmt_Func[byRef: $2, name: $3, params: $5, stmts: $8]; }
 ;
 
 class_declaration_statement:
       class_entry_type T_STRING extends_from implements_list '{' class_statement_list '}'
-          { $$ = new PHPParser_Node_Stmt_Class(array('type' => $1, 'name' => $2, 'extends' => $3, 'implements' => $4, 'stmts' => $6), #line, #docComment); }
+          { $$ = Stmt_Class[type: $1, name: $2, extends: $3, implements: $4, stmts: $6]; }
     | T_INTERFACE T_STRING interface_extends_list '{' class_statement_list '}'
-          { $$ = new PHPParser_Node_Stmt_Interface(array('name' => $2, 'extends' => $3, 'stmts' => $5), #line, #docComment); }
+          { $$ = Stmt_Interface[name: $2, extends: $3, stmts: $5]; }
 ;
 
 class_entry_type:
       T_CLASS                                               { $$ = 0; }
-    | T_ABSTRACT T_CLASS                                    { $$ = PHPParser_Node_Stmt_Class::MODIFIER_ABSTRACT; }
-    | T_FINAL T_CLASS                                       { $$ = PHPParser_Node_Stmt_Class::MODIFIER_FINAL; }
+    | T_ABSTRACT T_CLASS                                    { $$ = Stmt_Class::MODIFIER_ABSTRACT; }
+    | T_FINAL T_CLASS                                       { $$ = Stmt_Class::MODIFIER_FINAL; }
 ;
 
 extends_from:
@@ -253,8 +253,8 @@ implements_list:
 ;
 
 interface_list:
-      name                                                  { $$ = array($1); }
-    | interface_list ',' name                               { $1[] = $3; $$ = $1; }
+      name                                                  { init($1); }
+    | interface_list ',' name                               { push($1, $3); }
 ;
 
 for_statement:
@@ -273,8 +273,8 @@ declare_statement:
 ;
 
 declare_list:
-      T_STRING '=' static_scalar                            { $$ = array(new PHPParser_Node_Stmt_DeclareDeclare(array('key' => $1, 'value' => $3), #line, #docComment)); }
-    | declare_list ',' T_STRING '=' static_scalar           { $1[] = new PHPParser_Node_Stmt_DeclareDeclare(array('key' => $3, 'value' => $5), #line, #docComment); $$ = $1; }
+      T_STRING '=' static_scalar                            { init(Stmt_DeclareDeclare[key: $1, value: $3]); }
+    | declare_list ',' T_STRING '=' static_scalar           { push($1, Stmt_DeclareDeclare[key: $3, value: $5]); }
 ;
 
 switch_case_list:
@@ -285,11 +285,11 @@ switch_case_list:
 ;
 
 case_list:
-      /* empty */                                           { $$ = array(); }
+      /* empty */                                           { init(); }
     | case_list T_CASE expr case_separator inner_statement_list
-          { $1[] = new PHPParser_Node_Stmt_Case(array('cond' => $3, 'stmts' => $5), #line, #docComment); $$ = $1; }
+          { push($1, Stmt_Case[cond: $3, stmts: $5]); }
     | case_list T_DEFAULT case_separator inner_statement_list
-          { $1[] = new PHPParser_Node_Stmt_Case(array('cond' => null, 'stmts' => $4), #line, #docComment); $$ = $1; }
+          { push($1, Stmt_Case[cond: null, stmts: $4]); }
 ;
 
 case_separator:
@@ -303,24 +303,24 @@ while_statement:
 ;
 
 elseif_list:
-      /* empty */                                           { $$ = array();}
-    | elseif_list T_ELSEIF '(' expr ')' statement           { $1[] = new PHPParser_Node_Stmt_ElseIf(array('cond' => $4, 'stmts' => is_array($6) ? $6 : array($6)), #line, #docComment); $$ = $1; }
+      /* empty */                                           { init();}
+    | elseif_list T_ELSEIF '(' expr ')' statement           { push($1, Stmt_ElseIf[cond: $4, stmts: toArray($6)]); }
 ;
 
 new_elseif_list:
-      /* empty */                                           { $$ = array(); }
+      /* empty */                                           { init(); }
     | new_elseif_list T_ELSEIF '(' expr ')' ':' inner_statement_list
-          { $1[] = new PHPParser_Node_Stmt_ElseIf(array('cond' => $4, 'stmts' => $7), #line, #docComment); $$ = $1; }
+          { push($1, Stmt_ElseIf[cond: $4, stmts: $7]); }
 ;
 
 else_single:
       /* empty */                                           { $$ = null; }
-    | T_ELSE statement                                      { $$ = new PHPParser_Node_Stmt_Else(array('stmts' => is_array($2) ? $2 : array($2)), #line, #docComment); }
+    | T_ELSE statement                                      { $$ = Stmt_Else[stmts: toArray($2)]; }
 ;
 
 new_else_single:
       /* empty */                                           { $$ = null; }
-    | T_ELSE ':' inner_statement_list                       { $$ = new PHPParser_Node_Stmt_Else(array('stmts' => $3), #line, #docComment); }
+    | T_ELSE ':' inner_statement_list                       { $$ = Stmt_Else[stmts: $3]; }
 ;
 
 parameter_list:
@@ -330,13 +330,13 @@ parameter_list:
 
 non_empty_parameter_list:
       optional_class_type optional_ref T_VARIABLE
-          { $$ = array(new PHPParser_Node_Stmt_FuncParam(array('type' => $1, 'name' => substr($3, 1), 'byRef' => $2, 'default' => null), #line, #docComment)); }
+          { init(Stmt_FuncParam[type: $1, name: parseVar($3), byRef: $2, default: null]); }
     | optional_class_type optional_ref T_VARIABLE '=' static_scalar
-          { $$ = array(new PHPParser_Node_Stmt_FuncParam(array('type' => $1, 'name' => substr($3, 1), 'byRef' => $2, 'default' => $5), #line, #docComment)); }
+          { init(Stmt_FuncParam[type: $1, name: parseVar($3), byRef: $2, default: $5]); }
     | non_empty_parameter_list ',' optional_class_type optional_ref T_VARIABLE
-          { $1[] = new PHPParser_Node_Stmt_FuncParam(array('type' => $3, 'name' => substr($5, 1), 'byRef' => $4, 'default' => null), #line, #docComment); $$ = $1; }
+          { push($1, Stmt_FuncParam[type: $3, name: parseVar($5), byRef: $4, default: null]); }
     | non_empty_parameter_list ',' optional_class_type optional_ref T_VARIABLE '=' static_scalar
-          { $1[] = new PHPParser_Node_Stmt_FuncParam(array('type' => $3, 'name' => substr($5, 1), 'byRef' => $4, 'default' => $7), #line, #docComment); $$ = $1; }
+          { push($1, Stmt_FuncParam[type: $3, name: parseVar($5), byRef: $4, default: $7]); }
 ;
 
 optional_class_type:
@@ -351,42 +351,42 @@ function_call_argument_list:
 ;
 
 non_empty_function_call_argument_list:
-      expr                                                  { $$ = array(new PHPParser_Node_Expr_FuncCallArg(array('value' => $1, 'byRef' => false), #line, #docComment)); }
-    | '&' variable                                          { $$ = array(new PHPParser_Node_Expr_FuncCallArg(array('value' => $2, 'byRef' => true), #line, #docComment)); }
+      expr                                                  { init(Expr_FuncCallArg[value: $1, byRef: false]); }
+    | '&' variable                                          { init(Expr_FuncCallArg[value: $2, byRef: true]); }
     | non_empty_function_call_argument_list ',' expr
-          { $1[] = new PHPParser_Node_Expr_FuncCallArg(array('value' => $3, 'byRef' => false), #line, #docComment); $$ = $1; }
+          { push($1, Expr_FuncCallArg[value: $3, byRef: false]); }
     | non_empty_function_call_argument_list ',' '&' variable
-          { $1[] = new PHPParser_Node_Expr_FuncCallArg(array('value' => $4, 'byRef' => true), #line, #docComment); $$ = $1; }
+          { push($1, Expr_FuncCallArg[value: $4, byRef: true]); }
 ;
 
 global_var_list:
-      global_var_list ',' global_var                        { $1[] = $3; $$ = $1; }
-    | global_var                                            { $$ = array($1); }
+      global_var_list ',' global_var                        { push($1, $3); }
+    | global_var                                            { init($1); }
 ;
 
 global_var:
-      T_VARIABLE                                            { $$ = new PHPParser_Node_Variable(array('name' => substr($1, 1)), #line, #docComment); }
-    | '$' variable                                          { $$ = new PHPParser_Node_Variable(array('name' => $2), #line, #docComment); }
-    | '$' '{' expr '}'                                      { $$ = new PHPParser_Node_Variable(array('name' => $3), #line, #docComment); }
+      T_VARIABLE                                            { $$ = Variable[name: parseVar($1)]; }
+    | '$' variable                                          { $$ = Variable[name: $2]; }
+    | '$' '{' expr '}'                                      { $$ = Variable[name: $3]; }
 ;
 
 static_var_list:
-      static_var_list ',' T_VARIABLE                        { $1[] = new PHPParser_Node_Stmt_StaticVar(array('name' => substr($3, 1), 'default' => null), #line, #docComment); $$ = $1; }
-    | static_var_list ',' T_VARIABLE '=' static_scalar      { $1[] = new PHPParser_Node_Stmt_StaticVar(array('name' => substr($3, 1), 'default' => $5), #line, #docComment); $$ = $1; }
-    | T_VARIABLE                                            { $$ = array(new PHPParser_Node_Stmt_StaticVar(array('name' => substr($1, 1), 'default' => null), #line, #docComment)); }
-    | T_VARIABLE '=' static_scalar                          { $$ = array(new PHPParser_Node_Stmt_StaticVar(array('name' => substr($1, 1), 'default' => $3), #line, #docComment)); }
+      static_var_list ',' T_VARIABLE                        { push($1, Stmt_StaticVar[name: parseVar($3), default: null]); }
+    | static_var_list ',' T_VARIABLE '=' static_scalar      { push($1, Stmt_StaticVar[name: parseVar($3), default: $5]); }
+    | T_VARIABLE                                            { init(Stmt_StaticVar[name: parseVar($1), default: null]); }
+    | T_VARIABLE '=' static_scalar                          { init(Stmt_StaticVar[name: parseVar($1), default: $3]); }
 ;
 
 class_statement_list:
-      class_statement_list class_statement                  { $1[] = $2; $$ = $1; }
-    | /* empty */                                           { $$ = array(); }
+      class_statement_list class_statement                  { push($1, $2); }
+    | /* empty */                                           { init(); }
 ;
 
 class_statement:
-      variable_modifiers class_variable_declaration ';'     { $$ = new PHPParser_Node_Stmt_Property(array('type' => $1, 'props' => $2), #line, #docComment); }
-    | class_constant_declaration ';'                        { $$ = new PHPParser_Node_Stmt_ClassConst(array('consts' => $1), #line, #docComment); }
+      variable_modifiers class_variable_declaration ';'     { $$ = Stmt_Property[type: $1, props: $2]; }
+    | class_constant_declaration ';'                        { $$ = Stmt_ClassConst[consts: $1]; }
     | method_modifiers T_FUNCTION optional_ref T_STRING '(' parameter_list ')' method_body
-          { $$ = new PHPParser_Node_Stmt_ClassMethod(array('type' => $1, 'byRef' => $3, 'name' => $4, 'params' => $6, 'stmts' => $8), #line, #docComment); }
+          { $$ = Stmt_ClassMethod[type: $1, byRef: $3, name: $4, params: $6, stmts: $8]; }
 ;
 
 method_body:
@@ -396,48 +396,48 @@ method_body:
 
 variable_modifiers:
       non_empty_member_modifiers                            { $$ = $1; }
-    | T_VAR                                                 { $$ = PHPParser_Node_Stmt_Class::MODIFIER_PUBLIC; }
+    | T_VAR                                                 { $$ = Stmt_Class::MODIFIER_PUBLIC; }
 ;
 
 method_modifiers:
-      /* empty */                                           { $$ = PHPParser_Node_Stmt_Class::MODIFIER_PUBLIC; }
+      /* empty */                                           { $$ = Stmt_Class::MODIFIER_PUBLIC; }
     | non_empty_member_modifiers                            { $$ = $1; }
 ;
 
 non_empty_member_modifiers:
       member_modifier                                       { $$ = $1; }
-    | non_empty_member_modifiers member_modifier            { PHPParser_Node_Stmt_Class::verifyModifier($1, $2); $$ = $1 | $2; }
+    | non_empty_member_modifiers member_modifier            { Stmt_Class::verifyModifier($1, $2); $$ = $1 | $2; }
 ;
 
 member_modifier:
-      T_PUBLIC                                              { $$ = PHPParser_Node_Stmt_Class::MODIFIER_PUBLIC; }
-    | T_PROTECTED                                           { $$ = PHPParser_Node_Stmt_Class::MODIFIER_PROTECTED; }
-    | T_PRIVATE                                             { $$ = PHPParser_Node_Stmt_Class::MODIFIER_PRIVATE; }
-    | T_STATIC                                              { $$ = PHPParser_Node_Stmt_Class::MODIFIER_STATIC; }
-    | T_ABSTRACT                                            { $$ = PHPParser_Node_Stmt_Class::MODIFIER_ABSTRACT; }
-    | T_FINAL                                               { $$ = PHPParser_Node_Stmt_Class::MODIFIER_FINAL; }
+      T_PUBLIC                                              { $$ = Stmt_Class::MODIFIER_PUBLIC; }
+    | T_PROTECTED                                           { $$ = Stmt_Class::MODIFIER_PROTECTED; }
+    | T_PRIVATE                                             { $$ = Stmt_Class::MODIFIER_PRIVATE; }
+    | T_STATIC                                              { $$ = Stmt_Class::MODIFIER_STATIC; }
+    | T_ABSTRACT                                            { $$ = Stmt_Class::MODIFIER_ABSTRACT; }
+    | T_FINAL                                               { $$ = Stmt_Class::MODIFIER_FINAL; }
 ;
 
 class_variable_declaration:
       class_variable_declaration ',' T_VARIABLE
-          { $1[] = new PHPParser_Node_Stmt_PropertyProperty(array('name' => substr($3, 1), 'default' => null), #line, #docComment); $$ = $1; }
+          { push($1, Stmt_PropertyProperty[name: parseVar($3), default: null]); }
     | class_variable_declaration ',' T_VARIABLE '=' static_scalar
-          { $1[] = new PHPParser_Node_Stmt_PropertyProperty(array('name' => substr($3, 1), 'default' => $5), #line, #docComment); $$ = $1; }
+          { push($1, Stmt_PropertyProperty[name: parseVar($3), default: $5]); }
     | T_VARIABLE
-          { $$ = array(new PHPParser_Node_Stmt_PropertyProperty(array('name' => substr($1, 1), 'default' => null), #line, #docComment)); }
+          { init(Stmt_PropertyProperty[name: parseVar($1), default: null]); }
     | T_VARIABLE '=' static_scalar
-          { $$ = array(new PHPParser_Node_Stmt_PropertyProperty(array('name' => substr($1, 1), 'default' => $3), #line, #docComment)); }
+          { init(Stmt_PropertyProperty[name: parseVar($1), default: $3]); }
 ;
 
 class_constant_declaration:
       class_constant_declaration ',' T_STRING '=' static_scalar
-          { $1[] = new PHPParser_Node_Stmt_ClassConstConst(array('name' => $3, 'value' => $5), #line, #docComment); $$ = $1; }
-    | T_CONST T_STRING '=' static_scalar                    { $$ = array(new PHPParser_Node_Stmt_ClassConstConst(array('name' => $2, 'value' => $4), #line, #docComment)); }
+          { push($1, Stmt_ClassConstConst[name: $3, value: $5]); }
+    | T_CONST T_STRING '=' static_scalar                    { init(Stmt_ClassConstConst[name: $2, value: $4]); }
 ;
 
 expr_list:
-      expr_list ',' expr                                    { $1[] = $3; $$ = $1; }
-    | expr                                                  { $$ = array($1); }
+      expr_list ',' expr                                    { push($1, $3); }
+    | expr                                                  { init($1); }
 ;
 
 for_expr:
@@ -447,83 +447,83 @@ for_expr:
 
 expr:
       variable                                              { $$ = $1; }
-    | T_LIST '(' assignment_list ')' '=' expr               { $$ = new PHPParser_Node_Expr_List(array('assignList' => $3, 'expr' => $6), #line, #docComment); }
-    | variable '=' expr                                     { $$ = new PHPParser_Node_Expr_Assign(array('var' => $1, 'expr' => $3), #line, #docComment); }
-    | variable '=' '&' variable                             { $$ = new PHPParser_Node_Expr_AssignRef(array('var' => $1, 'refVar' => $4), #line, #docComment); }
+    | T_LIST '(' assignment_list ')' '=' expr               { $$ = Expr_List[assignList: $3, expr: $6]; }
+    | variable '=' expr                                     { $$ = Expr_Assign[var: $1, expr: $3]; }
+    | variable '=' '&' variable                             { $$ = Expr_AssignRef[var: $1, refVar: $4]; }
     | variable '=' '&' T_NEW class_name_reference ctor_arguments
-          { $$ = new PHPParser_Node_Expr_Assign(array('var' => $1, 'expr' => new PHPParser_Node_Expr_New(array('class' => $5, 'args' => $6), #line, #docComment)), #line, #docComment); }
+          { $$ = Expr_Assign[var: $1, expr: Expr_New[class: $5, args: $6]]; }
           /* reference dropped intentially, TODO: Throw error? */
-    | T_NEW class_name_reference ctor_arguments             { $$ = new PHPParser_Node_Expr_New(array('class' => $2, 'args' => $3), #line, #docComment); }
-    | T_CLONE expr                                          { $$ = new PHPParser_Node_Expr_Clone(array('expr' => $2), #line, #docComment); }
-    | variable T_PLUS_EQUAL expr                            { $$ = new PHPParser_Node_Expr_AssignPlus(array('var' => $1, 'expr' => $3), #line, #docComment); }
-    | variable T_MINUS_EQUAL expr                           { $$ = new PHPParser_Node_Expr_AssignMinus(array('var' => $1, 'expr' => $3), #line, #docComment); }
-    | variable T_MUL_EQUAL expr                             { $$ = new PHPParser_Node_Expr_AssignMul(array('var' => $1, 'expr' => $3), #line, #docComment); }
-    | variable T_DIV_EQUAL expr                             { $$ = new PHPParser_Node_Expr_AssignDiv(array('var' => $1, 'expr' => $3), #line, #docComment); }
-    | variable T_CONCAT_EQUAL expr                          { $$ = new PHPParser_Node_Expr_AssignConcat(array('var' => $1, 'expr' => $3), #line, #docComment); }
-    | variable T_MOD_EQUAL expr                             { $$ = new PHPParser_Node_Expr_AssignMod(array('var' => $1, 'expr' => $3), #line, #docComment); }
-    | variable T_AND_EQUAL expr                             { $$ = new PHPParser_Node_Expr_AssignBinAnd(array('var' => $1, 'expr' => $3), #line, #docComment); }
-    | variable T_OR_EQUAL expr                              { $$ = new PHPParser_Node_Expr_AssignBinOr(array('var' => $1, 'expr' => $3), #line, #docComment); }
-    | variable T_XOR_EQUAL expr                             { $$ = new PHPParser_Node_Expr_AssignBinXor(array('var' => $1, 'expr' => $3), #line, #docComment); }
-    | variable T_SL_EQUAL expr                              { $$ = new PHPParser_Node_Expr_AssignShiftLeft(array('var' => $1, 'expr' => $3), #line, #docComment); }
-    | variable T_SR_EQUAL expr                              { $$ = new PHPParser_Node_Expr_AssignShiftRight(array('var' => $1, 'expr' => $3), #line, #docComment); }
-    | variable T_INC                                        { $$ = new PHPParser_Node_Expr_PostInc(array('var' => $1), #line, #docComment); }
-    | T_INC variable                                        { $$ = new PHPParser_Node_Expr_PreInc(array('var' => $2), #line, #docComment); }
-    | variable T_DEC                                        { $$ = new PHPParser_Node_Expr_PostDec(array('var' => $1), #line, #docComment); }
-    | T_DEC variable                                        { $$ = new PHPParser_Node_Expr_PreDec(array('var' => $2), #line, #docComment); }
-    | expr T_BOOLEAN_OR expr                                { $$ = new PHPParser_Node_Expr_BooleanOr(array('left' => $1, 'right' => $3), #line, #docComment); }
-    | expr T_BOOLEAN_AND expr                               { $$ = new PHPParser_Node_Expr_BooleanAnd(array('left' => $1, 'right' => $3), #line, #docComment); }
-    | expr T_LOGICAL_OR expr                                { $$ = new PHPParser_Node_Expr_LogicalOr(array('left' => $1, 'right' => $3), #line, #docComment); }
-    | expr T_LOGICAL_AND expr                               { $$ = new PHPParser_Node_Expr_LogicalAnd(array('left' => $1, 'right' => $3), #line, #docComment); }
-    | expr T_LOGICAL_XOR expr                               { $$ = new PHPParser_Node_Expr_LogicalXor(array('left' => $1, 'right' => $3), #line, #docComment); }
-    | expr '|' expr                                         { $$ = new PHPParser_Node_Expr_BinaryOr(array('left' => $1, 'right' => $3), #line, #docComment); }
-    | expr '&' expr                                         { $$ = new PHPParser_Node_Expr_BinaryAnd(array('left' => $1, 'right' => $3), #line, #docComment); }
-    | expr '^' expr                                         { $$ = new PHPParser_Node_Expr_BinaryXor(array('left' => $1, 'right' => $3), #line, #docComment); }
-    | expr '.' expr                                         { $$ = new PHPParser_Node_Expr_Concat(array('left' => $1, 'right' => $3), #line, #docComment); }
-    | expr '+' expr                                         { $$ = new PHPParser_Node_Expr_Plus(array('left' => $1, 'right' => $3), #line, #docComment); }
-    | expr '-' expr                                         { $$ = new PHPParser_Node_Expr_Minus(array('left' => $1, 'right' => $3), #line, #docComment); }
-    | expr '*' expr                                         { $$ = new PHPParser_Node_Expr_Mul(array('left' => $1, 'right' => $3), #line, #docComment); }
-    | expr '/' expr                                         { $$ = new PHPParser_Node_Expr_Div(array('left' => $1, 'right' => $3), #line, #docComment); }
-    | expr '%' expr                                         { $$ = new PHPParser_Node_Expr_Mod(array('left' => $1, 'right' => $3), #line, #docComment); }
-    | expr T_SL expr                                        { $$ = new PHPParser_Node_Expr_ShiftLeft(array('left' => $1, 'right' => $3), #line, #docComment); }
-    | expr T_SR expr                                        { $$ = new PHPParser_Node_Expr_ShiftRight(array('left' => $1, 'right' => $3), #line, #docComment); }
-    | '+' expr %prec T_INC                                  { $$ = new PHPParser_Node_Expr_UnaryPlus(array('expr' => $2), #line, #docComment); }
-    | '-' expr %prec T_INC                                  { $$ = new PHPParser_Node_Expr_UnaryMinus(array('expr' => $2), #line, #docComment); }
-    | '!' expr                                              { $$ = new PHPParser_Node_Expr_BooleanNot(array('expr' => $2), #line, #docComment); }
-    | '~' expr                                              { $$ = new PHPParser_Node_Expr_BinaryNot(array('expr' => $2), #line, #docComment); }
-    | expr T_IS_IDENTICAL expr                              { $$ = new PHPParser_Node_Expr_Identical(array('left' => $1, 'right' => $3), #line, #docComment); }
-    | expr T_IS_NOT_IDENTICAL expr                          { $$ = new PHPParser_Node_Expr_NotIdentical(array('left' => $1, 'right' => $3), #line, #docComment); }
-    | expr T_IS_EQUAL expr                                  { $$ = new PHPParser_Node_Expr_Equal(array('left' => $1, 'right' => $3), #line, #docComment); }
-    | expr T_IS_NOT_EQUAL expr                              { $$ = new PHPParser_Node_Expr_NotEqual(array('left' => $1, 'right' => $3), #line, #docComment); }
-    | expr '<' expr                                         { $$ = new PHPParser_Node_Expr_Smaller(array('left' => $1, 'right' => $3), #line, #docComment); }
-    | expr T_IS_SMALLER_OR_EQUAL expr                       { $$ = new PHPParser_Node_Expr_SmallerOrEqual(array('left' => $1, 'right' => $3), #line, #docComment); }
-    | expr '>' expr                                         { $$ = new PHPParser_Node_Expr_Greater(array('left' => $1, 'right' => $3), #line, #docComment); }
-    | expr T_IS_GREATER_OR_EQUAL expr                       { $$ = new PHPParser_Node_Expr_GreaterOrEqual(array('left' => $1, 'right' => $3), #line, #docComment); }
-    | expr T_INSTANCEOF class_name_reference                { $$ = new PHPParser_Node_Expr_Instanceof(array('expr' => $1, 'class' => $3), #line, #docComment); }
+    | T_NEW class_name_reference ctor_arguments             { $$ = Expr_New[class: $2, args: $3]; }
+    | T_CLONE expr                                          { $$ = Expr_Clone[expr: $2]; }
+    | variable T_PLUS_EQUAL expr                            { $$ = Expr_AssignPlus[var: $1, expr: $3]; }
+    | variable T_MINUS_EQUAL expr                           { $$ = Expr_AssignMinus[var: $1, expr: $3]; }
+    | variable T_MUL_EQUAL expr                             { $$ = Expr_AssignMul[var: $1, expr: $3]; }
+    | variable T_DIV_EQUAL expr                             { $$ = Expr_AssignDiv[var: $1, expr: $3]; }
+    | variable T_CONCAT_EQUAL expr                          { $$ = Expr_AssignConcat[var: $1, expr: $3]; }
+    | variable T_MOD_EQUAL expr                             { $$ = Expr_AssignMod[var: $1, expr: $3]; }
+    | variable T_AND_EQUAL expr                             { $$ = Expr_AssignBinAnd[var: $1, expr: $3]; }
+    | variable T_OR_EQUAL expr                              { $$ = Expr_AssignBinOr[var: $1, expr: $3]; }
+    | variable T_XOR_EQUAL expr                             { $$ = Expr_AssignBinXor[var: $1, expr: $3]; }
+    | variable T_SL_EQUAL expr                              { $$ = Expr_AssignShiftLeft[var: $1, expr: $3]; }
+    | variable T_SR_EQUAL expr                              { $$ = Expr_AssignShiftRight[var: $1, expr: $3]; }
+    | variable T_INC                                        { $$ = Expr_PostInc[var: $1]; }
+    | T_INC variable                                        { $$ = Expr_PreInc[var: $2]; }
+    | variable T_DEC                                        { $$ = Expr_PostDec[var: $1]; }
+    | T_DEC variable                                        { $$ = Expr_PreDec[var: $2]; }
+    | expr T_BOOLEAN_OR expr                                { $$ = Expr_BooleanOr[left: $1, right: $3]; }
+    | expr T_BOOLEAN_AND expr                               { $$ = Expr_BooleanAnd[left: $1, right: $3]; }
+    | expr T_LOGICAL_OR expr                                { $$ = Expr_LogicalOr[left: $1, right: $3]; }
+    | expr T_LOGICAL_AND expr                               { $$ = Expr_LogicalAnd[left: $1, right: $3]; }
+    | expr T_LOGICAL_XOR expr                               { $$ = Expr_LogicalXor[left: $1, right: $3]; }
+    | expr '|' expr                                         { $$ = Expr_BinaryOr[left: $1, right: $3]; }
+    | expr '&' expr                                         { $$ = Expr_BinaryAnd[left: $1, right: $3]; }
+    | expr '^' expr                                         { $$ = Expr_BinaryXor[left: $1, right: $3]; }
+    | expr '.' expr                                         { $$ = Expr_Concat[left: $1, right: $3]; }
+    | expr '+' expr                                         { $$ = Expr_Plus[left: $1, right: $3]; }
+    | expr '-' expr                                         { $$ = Expr_Minus[left: $1, right: $3]; }
+    | expr '*' expr                                         { $$ = Expr_Mul[left: $1, right: $3]; }
+    | expr '/' expr                                         { $$ = Expr_Div[left: $1, right: $3]; }
+    | expr '%' expr                                         { $$ = Expr_Mod[left: $1, right: $3]; }
+    | expr T_SL expr                                        { $$ = Expr_ShiftLeft[left: $1, right: $3]; }
+    | expr T_SR expr                                        { $$ = Expr_ShiftRight[left: $1, right: $3]; }
+    | '+' expr %prec T_INC                                  { $$ = Expr_UnaryPlus[expr: $2]; }
+    | '-' expr %prec T_INC                                  { $$ = Expr_UnaryMinus[expr: $2]; }
+    | '!' expr                                              { $$ = Expr_BooleanNot[expr: $2]; }
+    | '~' expr                                              { $$ = Expr_BinaryNot[expr: $2]; }
+    | expr T_IS_IDENTICAL expr                              { $$ = Expr_Identical[left: $1, right: $3]; }
+    | expr T_IS_NOT_IDENTICAL expr                          { $$ = Expr_NotIdentical[left: $1, right: $3]; }
+    | expr T_IS_EQUAL expr                                  { $$ = Expr_Equal[left: $1, right: $3]; }
+    | expr T_IS_NOT_EQUAL expr                              { $$ = Expr_NotEqual[left: $1, right: $3]; }
+    | expr '<' expr                                         { $$ = Expr_Smaller[left: $1, right: $3]; }
+    | expr T_IS_SMALLER_OR_EQUAL expr                       { $$ = Expr_SmallerOrEqual[left: $1, right: $3]; }
+    | expr '>' expr                                         { $$ = Expr_Greater[left: $1, right: $3]; }
+    | expr T_IS_GREATER_OR_EQUAL expr                       { $$ = Expr_GreaterOrEqual[left: $1, right: $3]; }
+    | expr T_INSTANCEOF class_name_reference                { $$ = Expr_Instanceof[expr: $1, class: $3]; }
     | '(' expr ')'                                          { $$ = $2; }
-    | expr '?' expr ':' expr                                { $$ = new PHPParser_Node_Expr_Ternary(array('cond' => $1, 'if' => $3, 'else' => $5), #line, #docComment); }
-    | expr '?' ':' expr                                     { $$ = new PHPParser_Node_Expr_Ternary(array('cond' => $1, 'if' => null, 'else' => $4), #line, #docComment); }
-    | T_ISSET '(' variables_list ')'                        { $$ = new PHPParser_Node_Expr_Isset(array('vars' => $3), #line, #docComment); }
-    | T_EMPTY '(' variable ')'                              { $$ = new PHPParser_Node_Expr_Empty(array('var' => $3), #line, #docComment); }
-    | T_INCLUDE expr                                        { $$ = new PHPParser_Node_Expr_Include(array('expr' => $2, 'type' => PHPParser_Node_Expr_Include::TYPE_INCLUDE), #line, #docComment); }
-    | T_INCLUDE_ONCE expr                                   { $$ = new PHPParser_Node_Expr_Include(array('expr' => $2, 'type' => PHPParser_Node_Expr_Include::TYPE_INCLUDE_ONCE), #line, #docComment); }
-    | T_EVAL '(' expr ')'                                   { $$ = new PHPParser_Node_Expr_Eval(array('expr' => $3), #line, #docComment); }
-    | T_REQUIRE expr                                        { $$ = new PHPParser_Node_Expr_Include(array('expr' => $2, 'type' => PHPParser_Node_Expr_Include::TYPE_REQUIRE), #line, #docComment); }
-    | T_REQUIRE_ONCE expr                                   { $$ = new PHPParser_Node_Expr_Include(array('expr' => $2, 'type' => PHPParser_Node_Expr_Include::TYPE_REQUIRE_ONCE), #line, #docComment); }
-    | T_INT_CAST expr                                       { $$ = new PHPParser_Node_Expr_IntCast(array('expr' => $2), #line, #docComment); }
-    | T_DOUBLE_CAST expr                                    { $$ = new PHPParser_Node_Expr_DoubleCast(array('expr' => $2), #line, #docComment); }
-    | T_STRING_CAST expr                                    { $$ = new PHPParser_Node_Expr_StringCast(array('expr' => $2), #line, #docComment); }
-    | T_ARRAY_CAST expr                                     { $$ = new PHPParser_Node_Expr_ArrayCast(array('expr' => $2), #line, #docComment); }
-    | T_OBJECT_CAST expr                                    { $$ = new PHPParser_Node_Expr_ObjectCast(array('expr' => $2), #line, #docComment); }
-    | T_BOOL_CAST expr                                      { $$ = new PHPParser_Node_Expr_BoolCast(array('expr' => $2), #line, #docComment); }
-    | T_UNSET_CAST expr                                     { $$ = new PHPParser_Node_Expr_UnsetCast(array('expr' => $2), #line, #docComment); }
-    | T_EXIT exit_expr                                      { $$ = new PHPParser_Node_Expr_Exit(array('expr' => $2), #line, #docComment); }
-    | '@' expr                                              { $$ = new PHPParser_Node_Expr_ErrorSuppress(array('expr' => $2), #line, #docComment); }
+    | expr '?' expr ':' expr                                { $$ = Expr_Ternary[cond: $1, if: $3, else: $5]; }
+    | expr '?' ':' expr                                     { $$ = Expr_Ternary[cond: $1, if: null, else: $4]; }
+    | T_ISSET '(' variables_list ')'                        { $$ = Expr_Isset[vars: $3]; }
+    | T_EMPTY '(' variable ')'                              { $$ = Expr_Empty[var: $3]; }
+    | T_INCLUDE expr                                        { $$ = Expr_Include[expr: $2, type: Expr_Include::TYPE_INCLUDE]; }
+    | T_INCLUDE_ONCE expr                                   { $$ = Expr_Include[expr: $2, type: Expr_Include::TYPE_INCLUDE_ONCE]; }
+    | T_EVAL '(' expr ')'                                   { $$ = Expr_Eval[expr: $3]; }
+    | T_REQUIRE expr                                        { $$ = Expr_Include[expr: $2, type: Expr_Include::TYPE_REQUIRE]; }
+    | T_REQUIRE_ONCE expr                                   { $$ = Expr_Include[expr: $2, type: Expr_Include::TYPE_REQUIRE_ONCE]; }
+    | T_INT_CAST expr                                       { $$ = Expr_IntCast[expr: $2]; }
+    | T_DOUBLE_CAST expr                                    { $$ = Expr_DoubleCast[expr: $2]; }
+    | T_STRING_CAST expr                                    { $$ = Expr_StringCast[expr: $2]; }
+    | T_ARRAY_CAST expr                                     { $$ = Expr_ArrayCast[expr: $2]; }
+    | T_OBJECT_CAST expr                                    { $$ = Expr_ObjectCast[expr: $2]; }
+    | T_BOOL_CAST expr                                      { $$ = Expr_BoolCast[expr: $2]; }
+    | T_UNSET_CAST expr                                     { $$ = Expr_UnsetCast[expr: $2]; }
+    | T_EXIT exit_expr                                      { $$ = Expr_Exit[expr: $2]; }
+    | '@' expr                                              { $$ = Expr_ErrorSuppress[expr: $2]; }
     | scalar                                                { $$ = $1; }
-    | T_ARRAY '(' array_pair_list ')'                       { $$ = new PHPParser_Node_Expr_Array(array('items' => $3), #line, #docComment); }
-    | '`' backticks_expr '`'                                { $$ = new PHPParser_Node_Expr_ShellExec(array('parts' => $2), #line, #docComment); }
-    | T_PRINT expr                                          { $$ = new PHPParser_Node_Expr_Print(array('expr' => $2), #line, #docComment); }
+    | T_ARRAY '(' array_pair_list ')'                       { $$ = Expr_Array[items: $3]; }
+    | '`' backticks_expr '`'                                { $$ = Expr_ShellExec[parts: $2]; }
+    | T_PRINT expr                                          { $$ = Expr_Print[expr: $2]; }
     | T_FUNCTION optional_ref '(' parameter_list ')' lexical_vars '{' inner_statement_list '}'
-          { $$ = new PHPParser_Node_Expr_LambdaFunc(array('byRef' => $2, 'params' => $4, 'useVars' => $6, 'stmts' => $8), #line, #docComment); }
+          { $$ = Expr_LambdaFunc[byRef: $2, params: $4, useVars: $6, stmts: $8]; }
 ;
 
 lexical_vars:
@@ -533,34 +533,34 @@ lexical_vars:
 
 lexical_var_list:
       lexical_var_list ',' optional_ref T_VARIABLE
-          { $1[] = new PHPParser_Node_Expr_LambdaFuncUse(array('var' => substr($4, 1), 'byRef' => $3), #line, #docComment); $$ = $1; }
+          { push($1, Expr_LambdaFuncUse[var: parseVar($4), byRef: $3]); }
     | optional_ref T_VARIABLE
-          { $$ = array(new PHPParser_Node_Expr_LambdaFuncUse(array('var' => substr($2, 1), 'byRef' => $1), #line, #docComment)); }
+          { init(Expr_LambdaFuncUse[var: parseVar($2), byRef: $1]); }
 ;
 
 function_call:
-      name '(' function_call_argument_list ')'             { $$ = new PHPParser_Node_Expr_FuncCall(array('func' => $1, 'args' => $3), #line, #docComment); }
+      name '(' function_call_argument_list ')'             { $$ = Expr_FuncCall[func: $1, args: $3]; }
     | class_name T_PAAMAYIM_NEKUDOTAYIM T_STRING '(' function_call_argument_list ')'
-          { $$ = new PHPParser_Node_Expr_StaticCall(array('class' => $1, 'func' => $3, 'args' => $5), #line, #docComment); }
+          { $$ = Expr_StaticCall[class: $1, func: $3, args: $5]; }
     | reference_variable T_PAAMAYIM_NEKUDOTAYIM T_STRING '(' function_call_argument_list ')'
-          { $$ = new PHPParser_Node_Expr_StaticCall(array('class' => $1, 'func' => $3, 'args' => $5), #line, #docComment); }
+          { $$ = Expr_StaticCall[class: $1, func: $3, args: $5]; }
     | static_property_with_arrays '(' function_call_argument_list ')' {
             if ($1 instanceof PHPParser_Node_Expr_StaticPropertyFetch) {
-                $$ = new PHPParser_Node_Expr_StaticCall(array('class' => $1->class, 'func' => $1->name, 'args' => $3), #line, #docComment);
+                $$ = Expr_StaticCall[class: $1->class, func: $1->name, args: $3];
             } elseif ($1 instanceof PHPParser_Node_Expr_ArrayDimFetch) {
-                #tmp = $1;
-                while (#tmp->var instanceof PHPParser_Node_Expr_ArrayDimFetch) {
-                    #tmp = #tmp->var;
+                $tmp = $1;
+                while ($tmp->var instanceof PHPParser_Node_Expr_ArrayDimFetch) {
+                    $tmp = $tmp->var;
                 }
 
-                $$ = new PHPParser_Node_Expr_StaticCall(array('class' => #tmp->var->class, 'func' => $1, 'args' => $3), #line, #docComment);
-                #tmp->var = new PHPParser_Node_Variable(array('name' => #tmp->var->name), #line, #docComment);
+                $$ = Expr_StaticCall[class: $tmp->var->class, func: $1, args: $3];
+                $tmp->var = Variable[name: $tmp->var->name];
             } else {
                 throw new Exception;
             }
           }
     | variable_without_objects '(' function_call_argument_list ')'
-          { $$ = new PHPParser_Node_Expr_FuncCall(array('func' => $1, 'args' => $3), #line, #docComment); }
+          { $$ = Expr_FuncCall[func: $1, args: $3]; }
 ;
 
 class_name:
@@ -570,8 +570,8 @@ class_name:
 
 name:
       namespace_name                                        { $$ = $1; }
-    | T_NAMESPACE T_NS_SEPARATOR namespace_name             { $3->resolveType(PHPParser_Node_Name::RELATIVE); $$ = $3; }
-    | T_NS_SEPARATOR namespace_name                         { $2->resolveType(PHPParser_Node_Name::ABSOLUTE); $$ = $2; }
+    | T_NAMESPACE T_NS_SEPARATOR namespace_name             { $3->resolveType(Name::RELATIVE); $$ = $3; }
+    | T_NS_SEPARATOR namespace_name                         { $2->resolveType(Name::ABSOLUTE); $$ = $2; }
 ;
 
 class_name_reference:
@@ -586,11 +586,11 @@ dynamic_class_name_reference:
 
 object_access_for_dcnr:
     | base_variable T_OBJECT_OPERATOR object_property
-          { $$ = new PHPParser_Node_Expr_PropertyFetch(array('var' => $1, 'name' => $3), #line, #docComment); }
+          { $$ = Expr_PropertyFetch[var: $1, name: $3]; }
     | object_access_for_dcnr T_OBJECT_OPERATOR object_property
-          { $$ = new PHPParser_Node_Expr_PropertyFetch(array('var' => $1, 'name' => $3), #line, #docComment); }
-    | object_access_for_dcnr '[' dim_offset ']'             { $$ = new PHPParser_Node_Expr_ArrayDimFetch(array('var' => $1, 'dim' => $3), #line, #docComment); }
-    | object_access_for_dcnr '{' expr '}'                   { $$ = new PHPParser_Node_Expr_ArrayDimFetch(array('var' => $1, 'dim' => $3), #line, #docComment); }
+          { $$ = Expr_PropertyFetch[var: $1, name: $3]; }
+    | object_access_for_dcnr '[' dim_offset ']'             { $$ = Expr_ArrayDimFetch[var: $1, dim: $3]; }
+    | object_access_for_dcnr '{' expr '}'                   { $$ = Expr_ArrayDimFetch[var: $1, dim: $3]; }
 ;
 
 exit_expr:
@@ -601,7 +601,7 @@ exit_expr:
 
 backticks_expr:
       /* empty */                                           { $$ = array(); }
-    | T_ENCAPSED_AND_WHITESPACE                             { $$ = array(PHPParser_Node_Scalar_String::parseEscapeSequences($1)); }
+    | T_ENCAPSED_AND_WHITESPACE                             { $$ = array(Scalar_String::parseEscapeSequences($1)); }
     | encaps_list                                           { $$ = $1; }
 ;
 
@@ -611,38 +611,38 @@ ctor_arguments:
 ;
 
 common_scalar:
-      T_LNUMBER                                             { $$ = new PHPParser_Node_Scalar_LNumber(array('value' => (int) $1), #line, #docComment); }
-    | T_DNUMBER                                             { $$ = new PHPParser_Node_Scalar_DNumber(array('value' => (double) $1), #line, #docComment); }
-    | T_CONSTANT_ENCAPSED_STRING                            { $$ = PHPParser_Node_Scalar_String::create($1, #line); }
-    | T_LINE                                                { $$ = new PHPParser_Node_Scalar_LineConst(array(), #line, #docComment); }
-    | T_FILE                                                { $$ = new PHPParser_Node_Scalar_FileConst(array(), #line, #docComment); }
-    | T_DIR                                                 { $$ = new PHPParser_Node_Scalar_DirConst(array(), #line, #docComment); }
-    | T_CLASS_C                                             { $$ = new PHPParser_Node_Scalar_ClassConst(array(), #line, #docComment); }
-    | T_METHOD_C                                            { $$ = new PHPParser_Node_Scalar_MethodConst(array(), #line, #docComment); }
-    | T_FUNC_C                                              { $$ = new PHPParser_Node_Scalar_FuncConst(array(), #line, #docComment); }
-    | T_NS_C                                                { $$ = new PHPParser_Node_Scalar_NSConst(array(), #line, #docComment); }
+      T_LNUMBER                                             { $$ = Scalar_LNumber[value: parseLNumber($1)]; }
+    | T_DNUMBER                                             { $$ = Scalar_DNumber[value: parseDNumber($1)]; }
+    | T_CONSTANT_ENCAPSED_STRING                            { $$ = Scalar_String::create($1, $line); }
+    | T_LINE                                                { $$ = Scalar_LineConst[]; }
+    | T_FILE                                                { $$ = Scalar_FileConst[]; }
+    | T_DIR                                                 { $$ = Scalar_DirConst[]; }
+    | T_CLASS_C                                             { $$ = Scalar_ClassConst[]; }
+    | T_METHOD_C                                            { $$ = Scalar_MethodConst[]; }
+    | T_FUNC_C                                              { $$ = Scalar_FuncConst[]; }
+    | T_NS_C                                                { $$ = Scalar_NSConst[]; }
     | T_START_HEREDOC T_ENCAPSED_AND_WHITESPACE T_END_HEREDOC
-          { $$ = new PHPParser_Node_Scalar_String(array('value' => PHPParser_Node_Scalar_String::parseEscapeSequences($2), 'isBinary' => false, 'type' => '\'' === $1[3] ? PHPParser_Node_Scalar_String::SINGLE_QUOTED : PHPParser_Node_Scalar_String::DOUBLE_QUOTED), #line, #docComment); }
+          { $$ = Scalar_String[value: Scalar_String::parseEscapeSequences($2), isBinary: false, type: '\'' === $1[3] ? Scalar_String::SINGLE_QUOTED : Scalar_String::DOUBLE_QUOTED]; }
     | T_START_HEREDOC T_END_HEREDOC
-          { $$ = new PHPParser_Node_Scalar_String(array('value' => '', 'isBinary' => false, 'type' => PHPParser_Node_Scalar_String::SINGLE_QUOTED), #line, #docComment); }
+          { $$ = Scalar_String[value: '', isBinary: false, type: Scalar_String::SINGLE_QUOTED]; }
 ;
 
 static_scalar: /* compile-time evaluated scalars */
       common_scalar                                         { $$ = $1; }
-    | name                                                  { $$ = new PHPParser_Node_Expr_ConstFetch(array('name' => $1), #line, #docComment); }
-    | '+' static_scalar                                     { $$ = new PHPParser_Node_Expr_UnaryPlus(array('expr' => $2), #line, #docComment); }
-    | '-' static_scalar                                     { $$ = new PHPParser_Node_Expr_UnaryMinus(array('expr' => $2), #line, #docComment); }
-    | T_ARRAY '(' static_array_pair_list ')'                { $$ = new PHPParser_Node_Expr_Array(array('items' => $3), #line, #docComment); }
-    | class_name T_PAAMAYIM_NEKUDOTAYIM T_STRING            { $$ = new PHPParser_Node_Expr_ClassConstFetch(array('class' => $1, 'name' => $3), #line, #docComment); }
+    | name                                                  { $$ = Expr_ConstFetch[name: $1]; }
+    | '+' static_scalar                                     { $$ = Expr_UnaryPlus[expr: $2]; }
+    | '-' static_scalar                                     { $$ = Expr_UnaryMinus[expr: $2]; }
+    | T_ARRAY '(' static_array_pair_list ')'                { $$ = Expr_Array[items: $3]; }
+    | class_name T_PAAMAYIM_NEKUDOTAYIM T_STRING            { $$ = Expr_ClassConstFetch[class: $1, name: $3]; }
 ;
 
 scalar:
-      T_STRING_VARNAME                                      { $$ = new PHPParser_Node_Scalar_String(array('value' => $1, 'isBinary' => false, 'type' => PHPParser_Node_Scalar_String::SINGLE_QUOTED), #line, #docComment); }
+      T_STRING_VARNAME                                      { $$ = Scalar_String[value: $1, isBinary: false, type: Scalar_String::SINGLE_QUOTED]; }
     | class_constant                                        { $$ = $1; }
-    | name                                                  { $$ = new PHPParser_Node_Expr_ConstFetch(array('name' => $1), #line, #docComment); }
+    | name                                                  { $$ = Expr_ConstFetch[name: $1]; }
     | common_scalar                                         { $$ = $1; }
-    | '"' encaps_list '"'                                   { $$ = new PHPParser_Node_Scalar_Encapsed(array('parts' => $2), #line, #docComment); }
-    | T_START_HEREDOC encaps_list T_END_HEREDOC             { $$ = new PHPParser_Node_Scalar_Encapsed(array('parts' => $2), #line, #docComment); }
+    | '"' encaps_list '"'                                   { $$ = Scalar_Encapsed[parts: $2]; }
+    | T_START_HEREDOC encaps_list T_END_HEREDOC             { $$ = Scalar_Encapsed[parts: $2]; }
 ;
 
 static_array_pair_list:
@@ -657,10 +657,10 @@ optional_comma:
 
 non_empty_static_array_pair_list:
       non_empty_static_array_pair_list ',' static_scalar T_DOUBLE_ARROW static_scalar
-          { $1[] = new PHPParser_Node_Expr_ArrayItem(array('key' => $3, 'value' => $5, 'byRef' => false), #line, #docComment); $$ = $1; }
-    | non_empty_static_array_pair_list ',' static_scalar    { $1[] = new PHPParser_Node_Expr_ArrayItem(array('key' => null, 'value' => $3, 'byRef' => false), #line, #docComment); $$ = $1; }
-    | static_scalar T_DOUBLE_ARROW static_scalar            { $$ = array(new PHPParser_Node_Expr_ArrayItem(array('key' => $1, 'value' => $3, 'byRef' => false), #line, #docComment)); }
-    | static_scalar                                         { $$ = array(new PHPParser_Node_Expr_ArrayItem(array('key' => null, 'value' => $1, 'byRef' => false), #line, #docComment)); }
+          { push($1, Expr_ArrayItem[key: $3, value: $5, byRef: false]); }
+    | non_empty_static_array_pair_list ',' static_scalar    { push($1, Expr_ArrayItem[key: null, value: $3, byRef: false]); }
+    | static_scalar T_DOUBLE_ARROW static_scalar            { init(Expr_ArrayItem[key: $1, value: $3, byRef: false]); }
+    | static_scalar                                         { init(Expr_ArrayItem[key: null, value: $1, byRef: false]); }
 ;
 
 variable:
@@ -672,50 +672,50 @@ variable:
 object_access:
       object_access_arrayable                               { $$ = $1; }
     | object_access_arrayable '(' function_call_argument_list ')'
-          { $$ = new PHPParser_Node_Expr_FuncCall(array('func' => $1, 'args' => $3), #line, #docComment); }
+          { $$ = Expr_FuncCall[func: $1, args: $3]; }
     | variable T_OBJECT_OPERATOR object_property '(' function_call_argument_list ')'
-          { $$ = new PHPParser_Node_Expr_MethodCall(array('var' => $1, 'name' => $3, 'args' => $5), #line, #docComment); }
+          { $$ = Expr_MethodCall[var: $1, name: $3, args: $5]; }
 ;
 
 object_access_arrayable:
       variable T_OBJECT_OPERATOR object_property
-          { $$ = new PHPParser_Node_Expr_PropertyFetch(array('var' => $1, 'name' => $3), #line, #docComment); }
-    | object_access_arrayable '[' dim_offset ']'            { $$ = new PHPParser_Node_Expr_ArrayDimFetch(array('var' => $1, 'dim' => $3), #line, #docComment); }
-    | object_access_arrayable '{' expr '}'                  { $$ = new PHPParser_Node_Expr_ArrayDimFetch(array('var' => $1, 'dim' => $3), #line, #docComment); }
+          { $$ = Expr_PropertyFetch[var: $1, name: $3]; }
+    | object_access_arrayable '[' dim_offset ']'            { $$ = Expr_ArrayDimFetch[var: $1, dim: $3]; }
+    | object_access_arrayable '{' expr '}'                  { $$ = Expr_ArrayDimFetch[var: $1, dim: $3]; }
 ;
 
 variable_without_objects:
       reference_variable                                    { $$ = $1; }
-    | '$' reference_variable                                { $$ = new PHPParser_Node_Variable(array('name' => $2), #line, #docComment); }
+    | '$' reference_variable                                { $$ = Variable[name: $2]; }
 ;
 
 base_variable:
       variable_without_objects                              { $$ = $1; }
     | class_name T_PAAMAYIM_NEKUDOTAYIM '$' reference_variable
-          { $$ = new PHPParser_Node_Expr_StaticPropertyFetch(array('class' => $1, 'name' => $4), #line, #docComment); }
+          { $$ = Expr_StaticPropertyFetch[class: $1, name: $4]; }
     | reference_variable T_PAAMAYIM_NEKUDOTAYIM '$' reference_variable
-          { $$ = new PHPParser_Node_Expr_StaticPropertyFetch(array('class' => $1, 'name' => $4), #line, #docComment); }
+          { $$ = Expr_StaticPropertyFetch[class: $1, name: $4]; }
     | static_property_with_arrays                           { $$ = $1; }
 ;
 
 static_property_with_arrays:
       class_name T_PAAMAYIM_NEKUDOTAYIM T_VARIABLE
-          { $$ = new PHPParser_Node_Expr_StaticPropertyFetch(array('class' => $1, 'name' => substr($3, 1)), #line, #docComment); }
+          { $$ = Expr_StaticPropertyFetch[class: $1, name: parseVar($3)]; }
     | reference_variable T_PAAMAYIM_NEKUDOTAYIM T_VARIABLE
-          { $$ = new PHPParser_Node_Expr_StaticPropertyFetch(array('class' => $1, 'name' => substr($3, 1)), #line, #docComment); }
+          { $$ = Expr_StaticPropertyFetch[class: $1, name: parseVar($3)]; }
     | class_name T_PAAMAYIM_NEKUDOTAYIM '$' '{' expr '}'
-          { $$ = new PHPParser_Node_Expr_StaticPropertyFetch(array('class' => $1, 'name' => $5), #line, #docComment); }
+          { $$ = Expr_StaticPropertyFetch[class: $1, name: $5]; }
     | reference_variable T_PAAMAYIM_NEKUDOTAYIM '$' '{' expr '}'
-          { $$ = new PHPParser_Node_Expr_StaticPropertyFetch(array('class' => $1, 'name' => $5), #line, #docComment); }
-    | static_property_with_arrays '[' dim_offset ']'        { $$ = new PHPParser_Node_Expr_ArrayDimFetch(array('var' => $1, 'dim' => $3), #line, #docComment); }
-    | static_property_with_arrays '{' expr '}'              { $$ = new PHPParser_Node_Expr_ArrayDimFetch(array('var' => $1, 'dim' => $3), #line, #docComment); }
+          { $$ = Expr_StaticPropertyFetch[class: $1, name: $5]; }
+    | static_property_with_arrays '[' dim_offset ']'        { $$ = Expr_ArrayDimFetch[var: $1, dim: $3]; }
+    | static_property_with_arrays '{' expr '}'              { $$ = Expr_ArrayDimFetch[var: $1, dim: $3]; }
 ;
 
 reference_variable:
-      reference_variable '[' dim_offset ']'                 { $$ = new PHPParser_Node_Expr_ArrayDimFetch(array('var' => $1, 'dim' => $3), #line, #docComment); }
-    | reference_variable '{' expr '}'                       { $$ = new PHPParser_Node_Expr_ArrayDimFetch(array('var' => $1, 'dim' => $3), #line, #docComment); }
-    | T_VARIABLE                                            { $$ = new PHPParser_Node_Variable(array('name' => substr($1, 1)), #line, #docComment); }
-    | '$' '{' expr '}'                                      { $$ = new PHPParser_Node_Variable(array('name' => $3), #line, #docComment); }
+      reference_variable '[' dim_offset ']'                 { $$ = Expr_ArrayDimFetch[var: $1, dim: $3]; }
+    | reference_variable '{' expr '}'                       { $$ = Expr_ArrayDimFetch[var: $1, dim: $3]; }
+    | T_VARIABLE                                            { $$ = Variable[name: parseVar($1)]; }
+    | '$' '{' expr '}'                                      { $$ = Variable[name: $3]; }
 ;
 
 dim_offset:
@@ -730,8 +730,8 @@ object_property:
 ;
 
 assignment_list:
-      assignment_list ',' assignment_list_element           { $1[] = $3; $$ = $1; }
-    | assignment_list_element                               { $$ = array($1); }
+      assignment_list ',' assignment_list_element           { push($1, $3); }
+    | assignment_list_element                               { init($1); }
 ;
 
 assignment_list_element:
@@ -747,43 +747,43 @@ array_pair_list:
 
 non_empty_array_pair_list:
       non_empty_array_pair_list ',' expr T_DOUBLE_ARROW expr
-          { $1[] = new PHPParser_Node_Expr_ArrayItem(array('key' => $3, 'value' => $5, 'byRef' => false), #line, #docComment); $$ = $1; }
-    | non_empty_array_pair_list ',' expr                    { $1[] = new PHPParser_Node_Expr_ArrayItem(array('key' => null, 'value' => $3, 'byRef' => false), #line, #docComment); $$ = $1; }
-    | expr T_DOUBLE_ARROW expr                              { $$ = array(new PHPParser_Node_Expr_ArrayItem(array('key' => $1, 'value' => $3, 'byRef' => false), #line, #docComment)); }
-    | expr                                                  { $$ = array(new PHPParser_Node_Expr_ArrayItem(array('key' => null, 'value' => $1, 'byRef' => false), #line, #docComment)); }
+          { push($1, Expr_ArrayItem[key: $3, value: $5, byRef: false]); }
+    | non_empty_array_pair_list ',' expr                    { push($1, Expr_ArrayItem[key: null, value: $3, byRef: false]); }
+    | expr T_DOUBLE_ARROW expr                              { init(Expr_ArrayItem[key: $1, value: $3, byRef: false]); }
+    | expr                                                  { init(Expr_ArrayItem[key: null, value: $1, byRef: false]); }
     | non_empty_array_pair_list ',' expr T_DOUBLE_ARROW '&' variable
-          { $1[] = new PHPParser_Node_Expr_ArrayItem(array('key' => $3, 'value' => $6, 'byRef' => true), #line, #docComment); $$ = $1; }
-    | non_empty_array_pair_list ',' '&' variable            { $1[] = new PHPParser_Node_Expr_ArrayItem(array('key' => null, 'value' => $4, 'byRef' => true), #line, #docComment); $$ = $1; }
-    | expr T_DOUBLE_ARROW '&' variable                      { $$ = array(new PHPParser_Node_Expr_ArrayItem(array('key' => $1, 'value' => $4, 'byRef' => true), #line, #docComment)); }
-    | '&' variable                                          { $$ = array(new PHPParser_Node_Expr_ArrayItem(array('key' => null, 'value' => $2, 'byRef' => true), #line, #docComment)); }
+          { push($1, Expr_ArrayItem[key: $3, value: $6, byRef: true]); }
+    | non_empty_array_pair_list ',' '&' variable            { push($1, Expr_ArrayItem[key: null, value: $4, byRef: true]); }
+    | expr T_DOUBLE_ARROW '&' variable                      { init(Expr_ArrayItem[key: $1, value: $4, byRef: true]); }
+    | '&' variable                                          { init(Expr_ArrayItem[key: null, value: $2, byRef: true]); }
 ;
 
 encaps_list:
-      encaps_list encaps_var                                { $1[] = $2; $$ = $1; }
-    | encaps_list T_ENCAPSED_AND_WHITESPACE                 { $1[] = PHPParser_Node_Scalar_String::parseEscapeSequences($2); $$ = $1; }
-    | encaps_var                                            { $$ = array($1); }
-    | T_ENCAPSED_AND_WHITESPACE encaps_var                  { $$ = array(PHPParser_Node_Scalar_String::parseEscapeSequences($1), $2); }
+      encaps_list encaps_var                                { push($1, $2); }
+    | encaps_list T_ENCAPSED_AND_WHITESPACE                 { push($1, Scalar_String::parseEscapeSequences($2)); }
+    | encaps_var                                            { init($1); }
+    | T_ENCAPSED_AND_WHITESPACE encaps_var                  { init(Scalar_String::parseEscapeSequences($1), $2); }
 ;
 
 encaps_var:
-      T_VARIABLE                                            { $$ = new PHPParser_Node_Variable(array('name' => substr($1, 1)), #line, #docComment); }
-    | T_VARIABLE '[' encaps_var_offset ']'                  { $$ = new PHPParser_Node_Expr_ArrayDimFetch(array('var' => new PHPParser_Node_Variable(array('name' => substr($1, 1)), #line, #docComment), 'dim' => $3), #line, #docComment); }
-    | T_VARIABLE T_OBJECT_OPERATOR T_STRING                 { $$ = new PHPParser_Node_Expr_PropertyFetch(array('var' => new PHPParser_Node_Variable(array('name' => substr($1, 1)), #line, #docComment), 'name' => $3), #line, #docComment); }
-    | T_DOLLAR_OPEN_CURLY_BRACES expr '}'                   { $$ = new PHPParser_Node_Variable(array('name' => $2), #line, #docComment); }
+      T_VARIABLE                                            { $$ = Variable[name: parseVar($1)]; }
+    | T_VARIABLE '[' encaps_var_offset ']'                  { $$ = Expr_ArrayDimFetch[var: Variable[name: parseVar($1)], dim: $3]; }
+    | T_VARIABLE T_OBJECT_OPERATOR T_STRING                 { $$ = Expr_PropertyFetch[var: Variable[name: parseVar($1)], name: $3]; }
+    | T_DOLLAR_OPEN_CURLY_BRACES expr '}'                   { $$ = Variable[name: $2]; }
     | T_DOLLAR_OPEN_CURLY_BRACES T_STRING_VARNAME '[' expr ']' '}'
-          { $$ = new PHPParser_Node_Expr_ArrayDimFetch(array('var' => new PHPParser_Node_Variable(array('name' => $2), #line, #docComment), 'dim' => $4), #line, #docComment); }
+          { $$ = Expr_ArrayDimFetch[var: Variable[name: $2], dim: $4]; }
     | T_CURLY_OPEN variable '}'                             { $$ = $2; }
 ;
 
 encaps_var_offset:
-      T_STRING                                              { $$ = new PHPParser_Node_Scalar_String(array('value' => $1, 'isBinary' => false, 'type' => PHPParser_Node_Scalar_String::SINGLE_QUOTED), #line, #docComment); }
-    | T_NUM_STRING                                          { $$ = new PHPParser_Node_Scalar_LNumber(array('value' => (int) $1), #line, #docComment); }
-    | T_VARIABLE                                            { $$ = new PHPParser_Node_Variable(array('name' => substr($1, 1)), #line, #docComment); }
+      T_STRING                                              { $$ = Scalar_String[value: $1, isBinary: false, type: Scalar_String::SINGLE_QUOTED]; }
+    | T_NUM_STRING                                          { $$ = Scalar_LNumber[value: parseLNumber($1)]; }
+    | T_VARIABLE                                            { $$ = Variable[name: parseVar($1)]; }
 ;
 
 class_constant:
-      class_name T_PAAMAYIM_NEKUDOTAYIM T_STRING            { $$ = new PHPParser_Node_Expr_ClassConstFetch(array('class' => $1, 'name' => $3), #line, #docComment); }
-    | reference_variable T_PAAMAYIM_NEKUDOTAYIM T_STRING    { $$ = new PHPParser_Node_Expr_ClassConstFetch(array('class' => $1, 'name' => $3), #line, #docComment); }
+      class_name T_PAAMAYIM_NEKUDOTAYIM T_STRING            { $$ = Expr_ClassConstFetch[class: $1, name: $3]; }
+    | reference_variable T_PAAMAYIM_NEKUDOTAYIM T_STRING    { $$ = Expr_ClassConstFetch[class: $1, name: $3]; }
 ;
 
 %%

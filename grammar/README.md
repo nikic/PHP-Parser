@@ -1,22 +1,19 @@
 What do all those files mean?
 =============================
 
- * `zend_language_parser.y`:        Original PHP grammer this parser is based on
- * `zend_language_parser.pre.phpy`: PHP grammer written in a pseudo language, which is transformed
-   into a proper `kmyacc` grammer using `preprocessor.php`
- * `zend_language_parser.phpy`:     PHP grammer ready for `kmyacc`
- * `analyzer.php`:                  Analyzes the `.pre.phpy`-grammer and outputs some info about it
- * `preprocessor.php`:              Transforms a `.pre.phpy` grammar into a `.phpy` grammar
- * `rebuildParser.php`:             Builds the actual parser by calling `kmyacc`
- * `php.kmyacc`:                    A `kmyacc` parser prototype file for PHP
+ * `zend_language_parser.y`:    Original PHP grammer this parser is based on
+ * `zend_language_parser.phpy`: PHP grammer written in a pseudo language
+ * `analyzer.php`:              Analyzes the `.phpy`-grammer and outputs some info about it
+ * `rebuildParser.php`:         Preprocesses the `.phpy`-grammar and builds the parser using `kmyacc`
+ * `php.kmyacc`:                A `kmyacc` parser prototype file for PHP
 
-.pre.phpy pseudo language
+.phpy pseudo language
 =========================
 
-The `.pre.phpy` file is a normal grammer in `kmyacc` (`yacc`) style, with some transformations
+The `.phpy` file is a normal grammer in `kmyacc` (`yacc`) style, with some transformations
 applied to it:
 
  * Nodes are created using the syntax `Name[subNode1: ..., subNode2: ...]`. This is transformed into
    `new PHPParser_Node_Name(array('subNode1' => ..., 'subNode2' => ...), $line, $docComment)`
  * `Name::abc` is transformed to `PHPParser_Node_Name::abc`
- * Some function-like constructs are resolved (see `preprocessor.php` for a list)
+ * Some function-like constructs are resolved (see `rebuildParser.php` for a list)
