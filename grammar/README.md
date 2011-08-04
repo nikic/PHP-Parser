@@ -17,8 +17,6 @@ The `.pre.phpy` file is a normal grammer in `kmyacc` (`yacc`) style, with some t
 applied to it:
 
  * Nodes are created using the syntax `Name[subNode1: ..., subNode2: ...]`. This is transformed into
-   `new PHPParser_Node_Name(array('subNode1' => ..., 'subNode2' => ...), #this->line)` (`#` is used
-   instead of `$` because `$` is a reservered character in `kmyacc` grammars. It is later transformed
-   back to `$`)
+   `new PHPParser_Node_Name(array('subNode1' => ..., 'subNode2' => ...), $line, $docComment)`
  * `Name::abc` is transformed to `PHPParser_Node_Name::abc`
  * Some function-like constructs are resolved (see `preprocessor.php` for a list)

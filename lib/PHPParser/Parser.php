@@ -1968,13 +1968,13 @@ class PHPParser_Parser
             if ($this->yyastk[$this->yysp-(4-1)] instanceof PHPParser_Node_Expr_StaticPropertyFetch) {
                 $this->yyval = new PHPParser_Node_Expr_StaticCall(array('class' => $this->yyastk[$this->yysp-(4-1)]->class, 'func' => $this->yyastk[$this->yysp-(4-1)]->name, 'args' => $this->yyastk[$this->yysp-(4-3)]), $line, $docComment);
             } elseif ($this->yyastk[$this->yysp-(4-1)] instanceof PHPParser_Node_Expr_ArrayDimFetch) {
-                $this->yyastk[$this->yysp-(4-2)] = $this->yyastk[$this->yysp-(4-1)]; // $2 is just a temporary variable. Nothing to do with the '('
-                while ($this->yyastk[$this->yysp-(4-2)]->var instanceof PHPParser_Node_Expr_ArrayDimFetch) {
-                    $this->yyastk[$this->yysp-(4-2)] = $this->yyastk[$this->yysp-(4-2)]->var;
+                $tmp = $this->yyastk[$this->yysp-(4-1)];
+                while ($tmp->var instanceof PHPParser_Node_Expr_ArrayDimFetch) {
+                    $tmp = $tmp->var;
                 }
 
-                $this->yyval = new PHPParser_Node_Expr_StaticCall(array('class' => $this->yyastk[$this->yysp-(4-2)]->var->class, 'func' => $this->yyastk[$this->yysp-(4-1)], 'args' => $this->yyastk[$this->yysp-(4-3)]), $line, $docComment);
-                $this->yyastk[$this->yysp-(4-2)]->var = new PHPParser_Node_Variable(array('name' => $this->yyastk[$this->yysp-(4-2)]->var->name), $line, $docComment);
+                $this->yyval = new PHPParser_Node_Expr_StaticCall(array('class' => $tmp->var->class, 'func' => $this->yyastk[$this->yysp-(4-1)], 'args' => $this->yyastk[$this->yysp-(4-3)]), $line, $docComment);
+                $tmp->var = new PHPParser_Node_Variable(array('name' => $tmp->var->name), $line, $docComment);
             } else {
                 throw new Exception;
             }
