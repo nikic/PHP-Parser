@@ -433,7 +433,7 @@ class PHPParser_PrettyPrinter_Zend extends PHPParser_PrettyPrinterAbstract
     }
 
     public function pStmt_UseUse(PHPParser_Node_Stmt_UseUse $node) {
-        return $this->p($node->ns) . (null !== $node->alias ? ' as ' . $node->alias : '');
+        return $this->p($node->name) . (null !== $node->alias ? ' as ' . $node->alias : '');
     }
 
     public function pStmt_Interface(PHPParser_Node_Stmt_Interface $node) {

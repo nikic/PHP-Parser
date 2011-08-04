@@ -140,10 +140,10 @@ use_declarations:
 ;
 
 use_declaration:
-      namespace_name                                        { $$ = new PHPParser_Node_Stmt_UseUse(array('ns' => $1, 'alias' => null), #line, #docComment); }
-    | namespace_name T_AS T_STRING                          { $$ = new PHPParser_Node_Stmt_UseUse(array('ns' => $1, 'alias' => $3), #line, #docComment); }
-    | T_NS_SEPARATOR namespace_name                         { $$ = new PHPParser_Node_Stmt_UseUse(array('ns' => $2, 'alias' => null), #line, #docComment); }
-    | T_NS_SEPARATOR namespace_name T_AS T_STRING           { $$ = new PHPParser_Node_Stmt_UseUse(array('ns' => $2, 'alias' => $4), #line, #docComment); }
+      namespace_name                                        { $$ = new PHPParser_Node_Stmt_UseUse(array('name' => $1, 'alias' => null), #line, #docComment); }
+    | namespace_name T_AS T_STRING                          { $$ = new PHPParser_Node_Stmt_UseUse(array('name' => $1, 'alias' => $3), #line, #docComment); }
+    | T_NS_SEPARATOR namespace_name                         { $$ = new PHPParser_Node_Stmt_UseUse(array('name' => $2, 'alias' => null), #line, #docComment); }
+    | T_NS_SEPARATOR namespace_name T_AS T_STRING           { $$ = new PHPParser_Node_Stmt_UseUse(array('name' => $2, 'alias' => $4), #line, #docComment); }
 ;
 
 constant_declaration:

@@ -1471,19 +1471,19 @@ class PHPParser_ParserDebug
     }
 
     private function yyn18($line, $docComment) {
-         $this->yyval = new PHPParser_Node_Stmt_UseUse(array('ns' => $this->yyastk[$this->yysp-(1-1)], 'alias' => null), $line, $docComment); 
+         $this->yyval = new PHPParser_Node_Stmt_UseUse(array('name' => $this->yyastk[$this->yysp-(1-1)], 'alias' => null), $line, $docComment); 
     }
 
     private function yyn19($line, $docComment) {
-         $this->yyval = new PHPParser_Node_Stmt_UseUse(array('ns' => $this->yyastk[$this->yysp-(3-1)], 'alias' => $this->yyastk[$this->yysp-(3-3)]), $line, $docComment); 
+         $this->yyval = new PHPParser_Node_Stmt_UseUse(array('name' => $this->yyastk[$this->yysp-(3-1)], 'alias' => $this->yyastk[$this->yysp-(3-3)]), $line, $docComment); 
     }
 
     private function yyn20($line, $docComment) {
-         $this->yyval = new PHPParser_Node_Stmt_UseUse(array('ns' => $this->yyastk[$this->yysp-(2-2)], 'alias' => null), $line, $docComment); 
+         $this->yyval = new PHPParser_Node_Stmt_UseUse(array('name' => $this->yyastk[$this->yysp-(2-2)], 'alias' => null), $line, $docComment); 
     }
 
     private function yyn21($line, $docComment) {
-         $this->yyval = new PHPParser_Node_Stmt_UseUse(array('ns' => $this->yyastk[$this->yysp-(4-2)], 'alias' => $this->yyastk[$this->yysp-(4-4)]), $line, $docComment); 
+         $this->yyval = new PHPParser_Node_Stmt_UseUse(array('name' => $this->yyastk[$this->yysp-(4-2)], 'alias' => $this->yyastk[$this->yysp-(4-4)]), $line, $docComment); 
     }
 
     private function yyn22($line, $docComment) {
