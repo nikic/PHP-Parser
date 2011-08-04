@@ -430,7 +430,7 @@ class PHPParser_PrettyPrinter_Zend extends PHPParser_PrettyPrinterAbstract
     }
 
     public function pStmt_Use(PHPParser_Node_Stmt_Use $node) {
-        return 'use ' . $this->pCommaSeparated($node->uses);
+        return 'use ' . $this->pCommaSeparated($node->uses) . ';';
     }
 
     public function pStmt_UseUse(PHPParser_Node_Stmt_UseUse $node) {
@@ -453,7 +453,7 @@ class PHPParser_PrettyPrinter_Zend extends PHPParser_PrettyPrinterAbstract
     }
 
     public function pStmt_Property(PHPParser_Node_Stmt_Property $node) {
-        return $this->pModifiers($node->type) . $this->pCommaSeparated($node->props);
+        return $this->pModifiers($node->type) . $this->pCommaSeparated($node->props) . ';';
     }
 
     public function pStmt_PropertyProperty(PHPParser_Node_Stmt_PropertyProperty $node) {
@@ -471,7 +471,7 @@ class PHPParser_PrettyPrinter_Zend extends PHPParser_PrettyPrinterAbstract
     }
 
     public function pStmt_ClassConst(PHPParser_Node_Stmt_ClassConst $node) {
-        return 'const ' . $this->pCommaSeparated($node->consts);
+        return 'const ' . $this->pCommaSeparated($node->consts) . ';';
     }
 
     public function pStmt_ClassConstConst(PHPParser_Node_Stmt_ClassConstConst $node) {
@@ -492,7 +492,7 @@ class PHPParser_PrettyPrinter_Zend extends PHPParser_PrettyPrinterAbstract
     }
 
     public function pStmt_Const(PHPParser_Node_Stmt_Const $node) {
-        return 'const ' . $this->pCommaSeparated($node->consts);
+        return 'const ' . $this->pCommaSeparated($node->consts) . ';';
     }
 
     public function pStmt_ConstConst(PHPParser_Node_Stmt_ConstConst $node) {
@@ -538,8 +538,8 @@ class PHPParser_PrettyPrinter_Zend extends PHPParser_PrettyPrinterAbstract
     }
 
     public function pStmt_Do(PHPParser_Node_Stmt_Do $node) {
-        return 'do {' . "\n" . $this->pStmts($node->stmts)
-             . '} while (' . $this->p($node->cond) . "\n" . ')';
+        return 'do {' . "\n" . $this->pStmts($node->stmts) . "\n"
+             . '} while (' . $this->p($node->cond) . ');';
     }
 
     public function pStmt_Switch(PHPParser_Node_Stmt_Switch $node) {
@@ -563,19 +563,19 @@ class PHPParser_PrettyPrinter_Zend extends PHPParser_PrettyPrinterAbstract
     }
 
     public function pStmt_Break(PHPParser_Node_Stmt_Break $node) {
-        return 'break' . ($node->num !== null ? ' ' . $this->p($node->num) : '');
+        return 'break' . ($node->num !== null ? ' ' . $this->p($node->num) : '') . ';';
     }
 
     public function pStmt_Continue(PHPParser_Node_Stmt_Continue $node) {
-        return 'continue' . ($node->num !== null ? ' ' . $this->p($node->num) : '');
+        return 'continue' . ($node->num !== null ? ' ' . $this->p($node->num) : '') . ';';
     }
 
     public function pStmt_Return(PHPParser_Node_Stmt_Return $node) {
-        return 'return' . (null !== $node->expr ? ' ' . $this->p($node->expr) : '');
+        return 'return' . (null !== $node->expr ? ' ' . $this->p($node->expr) : '') . ';';
     }
 
     public function pStmt_Throw(PHPParser_Node_Stmt_Throw $node) {
-        return 'throw' . (null !== $node->expr ? ' ' . $this->p($node->expr) : '');
+        return 'throw' . (null !== $node->expr ? ' ' . $this->p($node->expr) : '') . ';';
     }
 
     public function pStmt_Label(PHPParser_Node_Stmt_Label $node) {
@@ -583,21 +583,21 @@ class PHPParser_PrettyPrinter_Zend extends PHPParser_PrettyPrinterAbstract
     }
 
     public function pStmt_Goto(PHPParser_Node_Stmt_Goto $node) {
-        return 'goto ' . $node->name;
+        return 'goto ' . $node->name . ';';
     }
 
     // Other
 
     public function pStmt_Echo(PHPParser_Node_Stmt_Echo $node) {
-        return 'echo ' . $this->pCommaSeparated($node->exprs);
+        return 'echo ' . $this->pCommaSeparated($node->exprs) . ';';
     }
 
     public function pStmt_Static(PHPParser_Node_Stmt_Static $node) {
-        return 'static ' . $this->pCommaSeparated($node->vars);
+        return 'static ' . $this->pCommaSeparated($node->vars) . ';';
     }
 
     public function pStmt_Global(PHPParser_Node_Stmt_Global $node) {
-        return 'global ' . $this->pCommaSeparated($node->vars);
+        return 'global ' . $this->pCommaSeparated($node->vars) . ';';
     }
 
     public function pStmt_StaticVar(PHPParser_Node_Stmt_StaticVar $node) {
@@ -606,7 +606,7 @@ class PHPParser_PrettyPrinter_Zend extends PHPParser_PrettyPrinterAbstract
     }
 
     public function pStmt_Unset(PHPParser_Node_Stmt_Unset $node) {
-        return 'unset(' . $this->pCommaSeparated($node->vars) . ')';
+        return 'unset(' . $this->pCommaSeparated($node->vars) . ');';
     }
 
     public function pStmt_InlineHTML(PHPParser_Node_Stmt_InlineHTML $node) {

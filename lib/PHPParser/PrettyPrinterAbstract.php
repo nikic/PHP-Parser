@@ -58,21 +58,6 @@ abstract class PHPParser_PrettyPrinterAbstract
         'Expr_LogicalXor'       => 17,
         'Expr_LogicalOr'        => 18,
     );
-    protected $stmtsWithoutSemicolon = array(
-        'Stmt_Func'         => true,
-        'Stmt_Interface'    => true,
-        'Stmt_Class'        => true,
-        'Stmt_ClassMethod'  => true,
-        'Stmt_For'          => true,
-        'Stmt_Foreach'      => true,
-        'Stmt_If'           => true,
-        'Stmt_Switch'       => true,
-        'Stmt_While'        => true,
-        'Stmt_TryCatch'     => true,
-        'Stmt_Label'        => true,
-        'Stmt_HaltCompiler' => true,
-        'Stmt_Namespace'    => true,
-    );
 
     protected $precedenceStack;
     protected $precedenceStackPos;
@@ -108,7 +93,7 @@ abstract class PHPParser_PrettyPrinterAbstract
     /**
      * Pretty prints an array of nodes (statements) and indents them optionally.
      *
-     * @param array $nodes Array of nodes
+     * @param array $nodes  Array of nodes
      * @param bool  $indent Whether to indent the printed nodes
      *
      * @return string Pretty printed statements
@@ -120,7 +105,7 @@ abstract class PHPParser_PrettyPrinterAbstract
                          ? preg_replace('~^\s+\*~m', ' *', $docComment) . "\n"
                          : '')
                       . $this->p($node)
-                      . (isset($this->stmtsWithoutSemicolon[$node->getType()]) ? '' : ';');
+                      . ($node instanceof PHPParser_Node_Expr ? ';' : '');
         }
 
         if ($indent) {
