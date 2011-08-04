@@ -5,7 +5,8 @@ class PHPParser_PrettyPrinter_Zend extends PHPParser_PrettyPrinterAbstract
     // Names and Variables
 
     public function pName(PHPParser_Node_Name $node) {
-        return implode('\\', $node->parts);
+        return ($node->isFullyQualified() ? '\\' : ($node->isRelative() ? 'namespace\\' : ''))
+             . implode('\\', $node->parts);
     }
 
     public function pVariable(PHPParser_Node_Variable $node) {

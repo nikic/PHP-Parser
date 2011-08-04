@@ -2397,11 +2397,11 @@ class PHPParser_ParserDebug
     }
 
     private function yyn246($line, $docComment) {
-         $this->yyastk[$this->yysp-(3-3)]->resolveType(PHPParser_Node_Name::RELATIVE); $this->yyval = $this->yyastk[$this->yysp-(3-3)]; 
+         $this->yyastk[$this->yysp-(3-3)]->setResolveType(PHPParser_Node_Name::RELATIVE); $this->yyval = $this->yyastk[$this->yysp-(3-3)]; 
     }
 
     private function yyn247($line, $docComment) {
-         $this->yyastk[$this->yysp-(2-2)]->resolveType(PHPParser_Node_Name::ABSOLUTE); $this->yyval = $this->yyastk[$this->yysp-(2-2)]; 
+         $this->yyastk[$this->yysp-(2-2)]->setResolveType(PHPParser_Node_Name::FULLY_QUALIFIED); $this->yyval = $this->yyastk[$this->yysp-(2-2)]; 
     }
 
     private function yyn248($line, $docComment) {
