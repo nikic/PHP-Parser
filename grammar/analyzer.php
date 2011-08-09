@@ -1,7 +1,6 @@
 <?php
 
-const IN  = './zend_language_parser.pre.phpy';
-const OUT = './zend_language_parser.phpy';
+const GRAMMAR_FILE = './zend_language_parser.phpy';
 
 const LIB = '(?(DEFINE)
     (?<singleQuotedString>\'[^\\\\\']*+(?:\\\\.[^\\\\\']*+)*+\')
@@ -41,7 +40,7 @@ echo '<pre>';
 ////////////////////
 ////////////////////
 
-list($defs, $ruleBlocks) = magicSplit('%%', file_get_contents(IN));
+list($defs, $ruleBlocks) = magicSplit('%%', file_get_contents(GRAMMAR_FILE));
 
 if ('' !== trim(preg_replace(regex(RULE_BLOCK), '', $ruleBlocks))) {
     die('Not all rule blocks were properly recognized!');
