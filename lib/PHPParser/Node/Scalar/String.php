@@ -3,13 +3,9 @@
 /**
  * @property string $value    String value
  * @property bool   $isBinary Whether the string is binary (b'')
- * @property int    $type     Whether SINGLE_QUOTED or DOUBLE_QUOTED
  */
 class PHPParser_Node_Scalar_String extends PHPParser_Node_Scalar
 {
-    const SINGLE_QUOTED = 0;
-    const DOUBLE_QUOTED = 1;
-
     /**
      * Creates a String node from a string token (parses escape sequences).
      *
@@ -24,23 +20,19 @@ class PHPParser_Node_Scalar_String extends PHPParser_Node_Scalar
             $isBinary = true;
         }
 
-        if ('\'' === $s[0]) {
-            $type = self::SINGLE_QUOTED;
-
+        if ('\'' === $s[$isBinary]) {
             $s = str_replace(
                 array('\\\\', '\\\''),
                 array(  '\\',   '\''),
                 substr($s, $isBinary + 1, -1)
             );
         } else {
-            $type = self::DOUBLE_QUOTED;
-
             $s = self::parseEscapeSequences(substr($s, $isBinary + 1, -1));
         }
 
         return new self(
             array(
-                'value' => $s, 'isBinary' => $isBinary, 'type' => $type
+                'value' => $s, 'isBinary' => $isBinary
             ),
             $line
         );

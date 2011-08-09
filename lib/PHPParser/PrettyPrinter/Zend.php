@@ -53,10 +53,7 @@ class PHPParser_PrettyPrinter_Zend extends PHPParser_PrettyPrinterAbstract
 
     public function pScalar_String(PHPParser_Node_Scalar_String $node) {
         return ($node->isBinary ? 'b' : '')
-             . (PHPParser_Node_Scalar_String::SINGLE_QUOTED === $node->type
-                ? '\'' . $this->pSafe(addcslashes($node->value, '\'\\')) . '\''
-                : '"' . addcslashes($node->value, "\n\r\t\f\v$\"\\") . '"'
-        );
+             . '\'' . $this->pSafe(addcslashes($node->value, '\'\\')) . '\'';
     }
 
     public function pScalar_Encapsed(PHPParser_Node_Scalar_Encapsed $node) {

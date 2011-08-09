@@ -13,16 +13,14 @@ class Unit_NodeTraverserTest extends PHPUnit_Framework_TestCase
                         'exprs' => array(
                             new PHPParser_Node_Scalar_String(array(
                                 'value' => 'Hallo World',
-                                'isBinary' => false,
-                                'type' => PHPParser_Node_Scalar_String::SINGLE_QUOTED
+                                'isBinary' => false
                             ))
                         )
                     )),
                     new PHPParser_Node_Expr_Print(array(
                         'expr' => new PHPParser_Node_Scalar_String(array(
                             'value' => 'Hallo World, again!',
-                            'isBinary' => false,
-                            'type' => PHPParser_Node_Scalar_String::SINGLE_QUOTED
+                            'isBinary' => false
                         ))
                     )),
                 )
@@ -83,8 +81,7 @@ class Unit_NodeTraverserTest extends PHPUnit_Framework_TestCase
                     'exprs' => array(
                         new PHPParser_Node_Scalar_String(array(
                             'value' => 'Foo Bar',
-                            'isBinary' => false,
-                            'type' => PHPParser_Node_Scalar_String::SINGLE_QUOTED
+                            'isBinary' => false
                         ))
                     )
                 )),
