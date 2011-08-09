@@ -11,6 +11,24 @@ class PHPParser_Node_Name extends PHPParser_NodeAbstract
     const RELATIVE        = 2;
 
     /**
+     * Constructs a name node.
+     *
+     * @param array       $parts      Parts of the name
+     * @param int         $type       Resolve type
+     * @param int         $line       Line
+     * @param null|string $docComment Nearest doc comment
+     */
+    public function __construct(array $parts, $type = self::NORMAL, $line = -1, $docComment = null) {
+        parent::__construct(
+            array(
+                'parts' => $parts,
+                'type'  => $type
+            ),
+            $line, $docComment
+        );
+    }
+
+    /**
      * Gets the first part of the name, i.e. everything before the first namespace separator.
      *
      * @return string First part of the name

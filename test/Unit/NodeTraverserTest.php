@@ -5,21 +5,15 @@ class Unit_NodeTraverserTest extends PHPUnit_Framework_TestCase
     function getTestNode() {
         return array(
             new PHPParser_Node_Stmt_Namespace(array(
-                'name' => new PHPParser_Node_Name(array(
-                    'parts' => array('Foo', 'Bar')
-                )),
+                'name' => new PHPParser_Node_Name(array('Foo', 'Bar')),
                 'stmts' => array(
                     new PHPParser_Node_Stmt_Echo(array(
                         'exprs' => array(
-                            new PHPParser_Node_Scalar_String(array(
-                                'value' => 'Hallo World'
-                            ))
+                            new PHPParser_Node_Scalar_String('Hallo World')
                         )
                     )),
                     new PHPParser_Node_Expr_Print(array(
-                        'expr' => new PHPParser_Node_Scalar_String(array(
-                            'value' => 'Hallo World, again!'
-                        ))
+                        'expr' => new PHPParser_Node_Scalar_String('Hallo World, again!')
                     )),
                 )
             )),
@@ -77,9 +71,7 @@ class Unit_NodeTraverserTest extends PHPUnit_Framework_TestCase
             array(
                 new PHPParser_Node_Stmt_Echo(array(
                     'exprs' => array(
-                        new PHPParser_Node_Scalar_String(array(
-                            'value' => 'Foo Bar'
-                        ))
+                        new PHPParser_Node_Scalar_String('Foo Bar')
                     )
                 )),
             ),

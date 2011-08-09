@@ -113,7 +113,7 @@ top_statement_list:
 ;
 
 namespace_name:
-    namespace_name_sub                                      { $$ = Name[parts: $1, type: Name::NORMAL]; }
+    namespace_name_sub                                      { $$ = Name[$1, Name::NORMAL]; }
 ;
 
 namespace_name_sub:
@@ -365,9 +365,9 @@ global_var_list:
 ;
 
 global_var:
-      T_VARIABLE                                            { $$ = Variable[name: parseVar($1)]; }
-    | '$' variable                                          { $$ = Variable[name: $2]; }
-    | '$' '{' expr '}'                                      { $$ = Variable[name: $3]; }
+      T_VARIABLE                                            { $$ = Variable[parseVar($1)]; }
+    | '$' variable                                          { $$ = Variable[$2]; }
+    | '$' '{' expr '}'                                      { $$ = Variable[$3]; }
 ;
 
 static_var_list:
@@ -554,7 +554,7 @@ function_call:
                 }
 
                 $$ = Expr_StaticCall[class: $tmp->var->class, func: $1, args: $3];
-                $tmp->var = Variable[name: $tmp->var->name];
+                $tmp->var = Variable[$tmp->var->name];
             } else {
                 throw new Exception;
             }
@@ -611,9 +611,9 @@ ctor_arguments:
 ;
 
 common_scalar:
-      T_LNUMBER                                             { $$ = Scalar_LNumber[value: parseLNumber($1)]; }
-    | T_DNUMBER                                             { $$ = Scalar_DNumber[value: parseDNumber($1)]; }
-    | T_CONSTANT_ENCAPSED_STRING                            { $$ = Scalar_String::create($1, $line); }
+      T_LNUMBER                                             { $$ = Scalar_LNumber[parseLNumber($1)]; }
+    | T_DNUMBER                                             { $$ = Scalar_DNumber[parseDNumber($1)]; }
+    | T_CONSTANT_ENCAPSED_STRING                            { $$ = Scalar_String::create($1, $line, $docComment); }
     | T_LINE                                                { $$ = Scalar_LineConst[]; }
     | T_FILE                                                { $$ = Scalar_FileConst[]; }
     | T_DIR                                                 { $$ = Scalar_DirConst[]; }
@@ -622,9 +622,9 @@ common_scalar:
     | T_FUNC_C                                              { $$ = Scalar_FuncConst[]; }
     | T_NS_C                                                { $$ = Scalar_NSConst[]; }
     | T_START_HEREDOC T_ENCAPSED_AND_WHITESPACE T_END_HEREDOC
-          { $$ = Scalar_String[value: Scalar_String::parseEscapeSequences($2)]; }
+          { $$ = Scalar_String[Scalar_String::parseEscapeSequences($2)]; }
     | T_START_HEREDOC T_END_HEREDOC
-          { $$ = Scalar_String[value: '']; }
+          { $$ = Scalar_String['']; }
 ;
 
 static_scalar: /* compile-time evaluated scalars */
@@ -637,12 +637,12 @@ static_scalar: /* compile-time evaluated scalars */
 ;
 
 scalar:
-      T_STRING_VARNAME                                      { $$ = Scalar_String[value: $1]; }
+      T_STRING_VARNAME                                      { $$ = Scalar_String[$1]; }
     | class_constant                                        { $$ = $1; }
     | name                                                  { $$ = Expr_ConstFetch[name: $1]; }
     | common_scalar                                         { $$ = $1; }
-    | '"' encaps_list '"'                                   { $$ = Scalar_Encapsed[parts: $2]; }
-    | T_START_HEREDOC encaps_list T_END_HEREDOC             { $$ = Scalar_Encapsed[parts: $2]; }
+    | '"' encaps_list '"'                                   { $$ = Scalar_Encapsed[$2]; }
+    | T_START_HEREDOC encaps_list T_END_HEREDOC             { $$ = Scalar_Encapsed[$2]; }
 ;
 
 static_array_pair_list:
@@ -686,7 +686,7 @@ object_access_arrayable:
 
 variable_without_objects:
       reference_variable                                    { $$ = $1; }
-    | '$' reference_variable                                { $$ = Variable[name: $2]; }
+    | '$' reference_variable                                { $$ = Variable[$2]; }
 ;
 
 base_variable:
@@ -714,8 +714,8 @@ static_property_with_arrays:
 reference_variable:
       reference_variable '[' dim_offset ']'                 { $$ = Expr_ArrayDimFetch[var: $1, dim: $3]; }
     | reference_variable '{' expr '}'                       { $$ = Expr_ArrayDimFetch[var: $1, dim: $3]; }
-    | T_VARIABLE                                            { $$ = Variable[name: parseVar($1)]; }
-    | '$' '{' expr '}'                                      { $$ = Variable[name: $3]; }
+    | T_VARIABLE                                            { $$ = Variable[parseVar($1)]; }
+    | '$' '{' expr '}'                                      { $$ = Variable[$3]; }
 ;
 
 dim_offset:
@@ -766,19 +766,19 @@ encaps_list:
 ;
 
 encaps_var:
-      T_VARIABLE                                            { $$ = Variable[name: parseVar($1)]; }
-    | T_VARIABLE '[' encaps_var_offset ']'                  { $$ = Expr_ArrayDimFetch[var: Variable[name: parseVar($1)], dim: $3]; }
-    | T_VARIABLE T_OBJECT_OPERATOR T_STRING                 { $$ = Expr_PropertyFetch[var: Variable[name: parseVar($1)], name: $3]; }
-    | T_DOLLAR_OPEN_CURLY_BRACES expr '}'                   { $$ = Variable[name: $2]; }
+      T_VARIABLE                                            { $$ = Variable[parseVar($1)]; }
+    | T_VARIABLE '[' encaps_var_offset ']'                  { $$ = Expr_ArrayDimFetch[var: Variable[parseVar($1)], dim: $3]; }
+    | T_VARIABLE T_OBJECT_OPERATOR T_STRING                 { $$ = Expr_PropertyFetch[var: Variable[parseVar($1)], name: $3]; }
+    | T_DOLLAR_OPEN_CURLY_BRACES expr '}'                   { $$ = Variable[$2]; }
     | T_DOLLAR_OPEN_CURLY_BRACES T_STRING_VARNAME '[' expr ']' '}'
-          { $$ = Expr_ArrayDimFetch[var: Variable[name: $2], dim: $4]; }
+          { $$ = Expr_ArrayDimFetch[var: Variable[$2], dim: $4]; }
     | T_CURLY_OPEN variable '}'                             { $$ = $2; }
 ;
 
 encaps_var_offset:
-      T_STRING                                              { $$ = Scalar_String[value: $1]; }
-    | T_NUM_STRING                                          { $$ = Scalar_LNumber[value: parseLNumber($1)]; }
-    | T_VARIABLE                                            { $$ = Variable[name: parseVar($1)]; }
+      T_STRING                                              { $$ = Scalar_String[$1]; }
+    | T_NUM_STRING                                          { $$ = Scalar_LNumber[parseLNumber($1)]; }
+    | T_VARIABLE                                            { $$ = Variable[parseVar($1)]; }
 ;
 
 class_constant:

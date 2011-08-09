@@ -27,12 +27,13 @@ class Unit_NodeDumperTest extends PHPUnit_Framework_TestCase
 )'
             ),
             array(
-                new PHPParser_Node_Name(array('parts' => array('Hallo', 'World'))),
+                new PHPParser_Node_Name(array('Hallo', 'World')),
 'Name(
     parts: array(
         0: Hallo
         1: World
     )
+    type: 0
 )'
             ),
             array(

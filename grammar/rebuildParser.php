@@ -99,14 +99,29 @@ function resolveNodes($code) {
                 $matches['params']
             );
 
-            $paramCodes = array();
-            foreach ($params as $param) {
-                list($key, $value) = explode(': ', $param, 2);
-
-                $paramCodes[] = '\'' . $key . '\' => ' . $value;
+            if (array() === $params) {
+                return 'new PHPParser_Node_' . $matches['name'] . '($line, $docComment)';
             }
 
-            return 'new PHPParser_Node_' . $matches['name'] . '(array(' . implode(', ', $paramCodes) . '), $line, $docComment)';
+            $withArray = false;
+
+            $paramCodes = array();
+            foreach ($params as $param) {
+                if (false !== strpos($param, ': ')) {
+                    $withArray = true;
+
+                    list($key, $value) = explode(': ', $param, 2);
+                    $paramCodes[] = '\'' . $key . '\' => ' . $value;
+                } else {
+                    $paramCodes[] = $param;
+                }
+            }
+
+            if (!$withArray) {
+                return 'new PHPParser_Node_' . $matches['name'] . '(' . implode(', ', $paramCodes) . ', $line, $docComment)';
+            } else {
+                return 'new PHPParser_Node_' . $matches['name'] . '(array(' . implode(', ', $paramCodes) . '), $line, $docComment)';
+            }
         },
         $code
     );
