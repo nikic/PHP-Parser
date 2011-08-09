@@ -13,6 +13,7 @@ This package currently bundles several components:
 
  * The `Parser` itself
  * A `NodeDumper` to dump the nodes to a human readable string representation
+ * A `NodeTraverser` to traverse and modify the node tree
  * A `PrettyPrinter` to translate the node tree back to PHP
 
 Autoloader
@@ -137,6 +138,58 @@ This script will have an output similar to the following:
             )
         )
     )
+
+NodeTraverser
+-------------
+
+The node traverser allows traversing the node tree using a visitor class. A visitor class must
+implement the `NodeVisitorInterface`, which defines the following four methods:
+
+    public function beforeTraverse(&$node);
+    public function enterNode(PHPParser_NodeAbstract &$node);
+    public function leaveNode(PHPParser_NodeAbstract &$node);
+    public function afterTraverse(&$node);
+
+The `beforeTraverse` method is called once before the traversal begins and is passed the node the
+traverser was called with. This method can be used for resetting values before traversation or
+preparing the tree for traversal.
+
+The `afterTraverse` method is similar to the `beforeTraverse` method, with the only difference that
+it is called once after the traversal.
+
+The `enterNode` and `leaveNode` methods are called on every node, the former when it is entered, i.e.
+before its subnodes are traversed, the latter when it is left.
+
+The node is passed into all four functions by reference, i.e. the node may be transformed or even
+replaced in any way. (As the node is passed by reference it obviously shouldn't be returned after
+modifiation.) Additionally `leaveNode` can return two special values: If `false` is returned the
+current node will be completely deleted. If an `array` is returned the current node will be replaced
+with with an array of other nodes. I.e. if in `array(A, B, C)` the node `B` should be replaced with
+`array(X, Y, Z)` the result will be `array(A, X, Y, Z, C)`.
+
+The above described visitors are registered in the `NodeTraverser` class:
+
+    $visitor = new MyVisitor;
+
+    $traverser = new PHPParser_NodeTraverser;
+    $traverser->addVisitor($visitor);
+
+    $stmts = $parser->parse($lexer);
+
+    // ->traverse() directly modifies $stmts. Do *not* write $stmts = $traverser->traverse($stmts);
+    $traverser->traverse($stmts);
+
+With `MyVisitor` being something like that:
+
+    class MyVisitor extends PHPParser_NodeVisitorAbstract
+    {
+        public function enterNode(PHPParser_NodeAbstract &$node) {
+            // ...
+        }
+    }
+
+As you can see above you don't need to define all four methods if you extend
+`PHPParser_NodeVisitorAbstract` instead of directly implementing the interface.
 
 PrettyPrinter
 -------------
