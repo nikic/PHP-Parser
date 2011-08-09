@@ -13,12 +13,16 @@ class PHPParser_Node_Name extends PHPParser_NodeAbstract
     /**
      * Constructs a name node.
      *
-     * @param array       $parts      Parts of the name
-     * @param int         $type       Resolve type
-     * @param int         $line       Line
-     * @param null|string $docComment Nearest doc comment
+     * @param string|array $parts      Parts of the name (or name as string)
+     * @param int          $type       Resolve type
+     * @param int          $line       Line
+     * @param null|string  $docComment Nearest doc comment
      */
-    public function __construct(array $parts, $type = self::NORMAL, $line = -1, $docComment = null) {
+    public function __construct($parts, $type = self::NORMAL, $line = -1, $docComment = null) {
+        if (!is_array($parts)) {
+            $parts = explode('\\', $parts);
+        }
+
         parent::__construct(
             array(
                 'parts' => $parts,
