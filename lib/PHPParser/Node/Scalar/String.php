@@ -2,7 +2,6 @@
 
 /**
  * @property string $value    String value
- * @property bool   $isBinary Whether the string is binary (b'')
  */
 class PHPParser_Node_Scalar_String extends PHPParser_Node_Scalar
 {
@@ -15,25 +14,23 @@ class PHPParser_Node_Scalar_String extends PHPParser_Node_Scalar
      * @return PHPParser_Node_Scalar_String String Node
      */
     public static function create($s, $line) {
-        $isBinary = false;
+        $bLength = 0;
         if ('b' === $s[0]) {
-            $isBinary = true;
+            $bLength = 1;
         }
 
-        if ('\'' === $s[$isBinary]) {
+        if ('\'' === $s[$bLength]) {
             $s = str_replace(
                 array('\\\\', '\\\''),
                 array(  '\\',   '\''),
-                substr($s, $isBinary + 1, -1)
+                substr($s, $bLength + 1, -1)
             );
         } else {
-            $s = self::parseEscapeSequences(substr($s, $isBinary + 1, -1));
+            $s = self::parseEscapeSequences(substr($s, $bLength + 1, -1));
         }
 
         return new self(
-            array(
-                'value' => $s, 'isBinary' => $isBinary
-            ),
+            array('value' => $s),
             $line
         );
     }

@@ -2513,11 +2513,11 @@ class PHPParser_ParserDebug
     }
 
     private function yyn275($line, $docComment) {
-         $this->yyval = new PHPParser_Node_Scalar_String(array('value' => PHPParser_Node_Scalar_String::parseEscapeSequences($this->yyastk[$this->yysp-(3-2)]), 'isBinary' => 'b' === $this->yyastk[$this->yysp-(3-1)][0]), $line, $docComment); 
+         $this->yyval = new PHPParser_Node_Scalar_String(array('value' => PHPParser_Node_Scalar_String::parseEscapeSequences($this->yyastk[$this->yysp-(3-2)])), $line, $docComment); 
     }
 
     private function yyn276($line, $docComment) {
-         $this->yyval = new PHPParser_Node_Scalar_String(array('value' => '', 'isBinary' => 'b' === $this->yyastk[$this->yysp-(2-1)][0]), $line, $docComment); 
+         $this->yyval = new PHPParser_Node_Scalar_String(array('value' => ''), $line, $docComment); 
     }
 
     private function yyn277($line, $docComment) {
@@ -2545,7 +2545,7 @@ class PHPParser_ParserDebug
     }
 
     private function yyn283($line, $docComment) {
-         $this->yyval = new PHPParser_Node_Scalar_String(array('value' => $this->yyastk[$this->yysp-(1-1)], 'isBinary' => false), $line, $docComment); 
+         $this->yyval = new PHPParser_Node_Scalar_String(array('value' => $this->yyastk[$this->yysp-(1-1)]), $line, $docComment); 
     }
 
     private function yyn284($line, $docComment) {
@@ -2821,7 +2821,7 @@ class PHPParser_ParserDebug
     }
 
     private function yyn352($line, $docComment) {
-         $this->yyval = new PHPParser_Node_Scalar_String(array('value' => $this->yyastk[$this->yysp-(1-1)], 'isBinary' => false), $line, $docComment); 
+         $this->yyval = new PHPParser_Node_Scalar_String(array('value' => $this->yyastk[$this->yysp-(1-1)]), $line, $docComment); 
     }
 
     private function yyn353($line, $docComment) {

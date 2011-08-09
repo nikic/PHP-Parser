@@ -113,8 +113,6 @@ This script will have an output similar to the following:
                         1: Scalar_String(
                             value:
 
-                            isBinary: false
-                            type: 1
                         )
                     )
                 )
@@ -130,8 +128,6 @@ This script will have an output similar to the following:
                 0: Expr_FuncCallArg(
                     value: Scalar_String(
                         value: Hallo World!!!
-                        isBinary: false
-                        type: 0
                     )
                     byRef: false
                 )
