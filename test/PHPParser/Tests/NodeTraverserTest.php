@@ -1,6 +1,6 @@
 <?php
 
-class Unit_NodeTraverserTest extends PHPUnit_Framework_TestCase
+class PHPParser_Tests_NodeTraverserTest extends PHPUnit_Framework_TestCase
 {
     function getTestNode() {
         return array(
@@ -23,7 +23,7 @@ class Unit_NodeTraverserTest extends PHPUnit_Framework_TestCase
     function testTraverse() {
         $node = $this->getTestNode();
 
-        $visitor   = new Unit_NodeVisitor;
+        $visitor   = new PHPParser_Tests_NodeVisitor;
         $traverser = new PHPParser_NodeTraverser;
 
         $traverser->addVisitor($visitor);
@@ -61,7 +61,7 @@ class Unit_NodeTraverserTest extends PHPUnit_Framework_TestCase
     function testModifyingTraverse() {
         $node = $this->getTestNode();
 
-        $visitor   = new Unit_ModifyingNodeVisitor;
+        $visitor   = new PHPParser_Tests_ModifyingNodeVisitor;
         $traverser = new PHPParser_NodeTraverser;
 
         $traverser->addVisitor($visitor);
@@ -80,7 +80,7 @@ class Unit_NodeTraverserTest extends PHPUnit_Framework_TestCase
     }
 }
 
-class Unit_NodeVisitor extends PHPParser_NodeVisitorAbstract
+class PHPParser_Tests_NodeVisitor extends PHPParser_NodeVisitorAbstract
 {
     public $beforeTraverseNode;
     public $enteredNodes;
@@ -108,7 +108,7 @@ class Unit_NodeVisitor extends PHPParser_NodeVisitorAbstract
     }
 }
 
-class Unit_ModifyingNodeVisitor extends PHPParser_NodeVisitorAbstract
+class PHPParser_Tests_ModifyingNodeVisitor extends PHPParser_NodeVisitorAbstract
 {
     public function leaveNode(PHPParser_NodeAbstract &$node) {
         // delete namespace nodes by merging them

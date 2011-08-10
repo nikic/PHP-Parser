@@ -1,6 +1,6 @@
 <?php
 
-class Unit_NodeDumperTest extends PHPUnit_Framework_TestCase
+class PHPParser_Tests_NodeDumperTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @dataProvider provideTestDump

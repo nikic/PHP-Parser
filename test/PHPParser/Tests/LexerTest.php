@@ -1,6 +1,6 @@
 <?php
 
-class Unit_LexerTest extends PHPUnit_Framework_TestCase
+class PHPParser_Tests_LexerTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @dataProvider provideTestError
