@@ -461,9 +461,9 @@ expr:
     | variable T_DIV_EQUAL expr                             { $$ = Expr_AssignDiv       [$1, $3]; }
     | variable T_CONCAT_EQUAL expr                          { $$ = Expr_AssignConcat    [$1, $3]; }
     | variable T_MOD_EQUAL expr                             { $$ = Expr_AssignMod       [$1, $3]; }
-    | variable T_AND_EQUAL expr                             { $$ = Expr_AssignBinAnd    [$1, $3]; }
-    | variable T_OR_EQUAL expr                              { $$ = Expr_AssignBinOr     [$1, $3]; }
-    | variable T_XOR_EQUAL expr                             { $$ = Expr_AssignBinXor    [$1, $3]; }
+    | variable T_AND_EQUAL expr                             { $$ = Expr_AssignBitwiseAnd[$1, $3]; }
+    | variable T_OR_EQUAL expr                              { $$ = Expr_AssignBitwiseOr [$1, $3]; }
+    | variable T_XOR_EQUAL expr                             { $$ = Expr_AssignBitwiseXor[$1, $3]; }
     | variable T_SL_EQUAL expr                              { $$ = Expr_AssignShiftLeft [$1, $3]; }
     | variable T_SR_EQUAL expr                              { $$ = Expr_AssignShiftRight[$1, $3]; }
     | variable T_INC                                        { $$ = Expr_PostInc[var: $1]; }
@@ -475,9 +475,9 @@ expr:
     | expr T_LOGICAL_OR expr                                { $$ = Expr_LogicalOr[left: $1, right: $3]; }
     | expr T_LOGICAL_AND expr                               { $$ = Expr_LogicalAnd[left: $1, right: $3]; }
     | expr T_LOGICAL_XOR expr                               { $$ = Expr_LogicalXor[left: $1, right: $3]; }
-    | expr '|' expr                                         { $$ = Expr_BinaryOr[left: $1, right: $3]; }
-    | expr '&' expr                                         { $$ = Expr_BinaryAnd[left: $1, right: $3]; }
-    | expr '^' expr                                         { $$ = Expr_BinaryXor[left: $1, right: $3]; }
+    | expr '|' expr                                         { $$ = Expr_BitwiseOr[left: $1, right: $3]; }
+    | expr '&' expr                                         { $$ = Expr_BitwiseAnd[left: $1, right: $3]; }
+    | expr '^' expr                                         { $$ = Expr_BitwiseXor[left: $1, right: $3]; }
     | expr '.' expr                                         { $$ = Expr_Concat[left: $1, right: $3]; }
     | expr '+' expr                                         { $$ = Expr_Plus[left: $1, right: $3]; }
     | expr '-' expr                                         { $$ = Expr_Minus[left: $1, right: $3]; }
@@ -489,7 +489,7 @@ expr:
     | '+' expr %prec T_INC                                  { $$ = Expr_UnaryPlus[expr: $2]; }
     | '-' expr %prec T_INC                                  { $$ = Expr_UnaryMinus[expr: $2]; }
     | '!' expr                                              { $$ = Expr_BooleanNot[expr: $2]; }
-    | '~' expr                                              { $$ = Expr_BinaryNot[expr: $2]; }
+    | '~' expr                                              { $$ = Expr_BitwiseNot[expr: $2]; }
     | expr T_IS_IDENTICAL expr                              { $$ = Expr_Identical[left: $1, right: $3]; }
     | expr T_IS_NOT_IDENTICAL expr                          { $$ = Expr_NotIdentical[left: $1, right: $3]; }
     | expr T_IS_EQUAL expr                                  { $$ = Expr_Equal[left: $1, right: $3]; }

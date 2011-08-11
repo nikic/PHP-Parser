@@ -4,10 +4,10 @@
  * @property PHPParser_Node_Expr $var  Variable
  * @property PHPParser_Node_Expr $expr Expression
  */
-class PHPParser_Node_Expr_AssignBinXor extends PHPParser_Node_Expr
+class PHPParser_Node_Expr_AssignBitwiseAnd extends PHPParser_Node_Expr
 {
     /**
-     * Constructs an assignment with binary xor node.
+     * Constructs an assignment with bitwise and node.
      *
      * @param PHPParser_Node_Expr $var        Variable
      * @param PHPParser_Node_Expr $expr       Expression

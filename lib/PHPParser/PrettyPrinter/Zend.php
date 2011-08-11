@@ -103,15 +103,15 @@ class PHPParser_PrettyPrinter_Zend extends PHPParser_PrettyPrinterAbstract
         return $this->p($node->var) . ' %= ' . $this->p($node->expr);
     }
 
-    public function pExpr_AssignBinAnd(PHPParser_Node_Expr_AssignBinAnd $node) {
+    public function pExpr_AssignBitwiseAnd(PHPParser_Node_Expr_AssignBitwiseAnd $node) {
         return $this->p($node->var) . ' &= ' . $this->p($node->expr);
     }
 
-    public function pExpr_AssignBinOr(PHPParser_Node_Expr_AssignBinOr $node) {
+    public function pExpr_AssignBitwiseOr(PHPParser_Node_Expr_AssignBitwiseOr $node) {
         return $this->p($node->var) . ' |= ' . $this->p($node->expr);
     }
 
-    public function pExpr_AssignBinXor(PHPParser_Node_Expr_AssignBinXor $node) {
+    public function pExpr_AssignBitwiseXor(PHPParser_Node_Expr_AssignBitwiseXor $node) {
         return $this->p($node->var) . ' ^= ' . $this->p($node->expr);
     }
 
@@ -170,15 +170,15 @@ class PHPParser_PrettyPrinter_Zend extends PHPParser_PrettyPrinterAbstract
         return $this->p($node->left) . ' || ' . $this->p($node->right);
     }
 
-    public function pExpr_BinaryAnd(PHPParser_Node_Expr_BinaryAnd $node) {
+    public function pExpr_BitwiseAnd(PHPParser_Node_Expr_BitwiseAnd $node) {
         return $this->p($node->left) . ' & ' . $this->p($node->right);
     }
 
-    public function pExpr_BinaryOr(PHPParser_Node_Expr_BinaryOr $node) {
+    public function pExpr_BitwiseOr(PHPParser_Node_Expr_BitwiseOr $node) {
         return $this->p($node->left) . ' | ' . $this->p($node->right);
     }
 
-    public function pExpr_BinaryXor(PHPParser_Node_Expr_BinaryXor $node) {
+    public function pExpr_BitwiseXor(PHPParser_Node_Expr_BitwiseXor $node) {
         return $this->p($node->left) . ' ^ ' . $this->p($node->right);
     }
 
@@ -244,7 +244,7 @@ class PHPParser_PrettyPrinter_Zend extends PHPParser_PrettyPrinterAbstract
         return '!' . $this->p($node->expr);
     }
 
-    public function pExpr_BinaryNot(PHPParser_Node_Expr_BinaryNot $node) {
+    public function pExpr_BitwiseNot(PHPParser_Node_Expr_BitwiseNot $node) {
         return '~' . $this->p($node->expr);
     }
 
