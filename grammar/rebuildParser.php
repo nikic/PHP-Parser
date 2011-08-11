@@ -89,7 +89,7 @@ echo '</pre>';
 
 function resolveNodes($code) {
     return preg_replace_callback(
-        '~(?<name>[A-Z][a-zA-Z_]++)' . PARAMS . '~',
+        '~(?<name>[A-Z][a-zA-Z_]++)\s*' . PARAMS . '~',
         function($matches) {
             // recurse
             $matches['params'] = resolveNodes($matches['params']);

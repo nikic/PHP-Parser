@@ -76,7 +76,7 @@ class PHPParser_PrettyPrinter_Zend extends PHPParser_PrettyPrinterAbstract
     }
 
     public function pExpr_AssignRef(PHPParser_Node_Expr_AssignRef $node) {
-        return $this->p($node->var) . ' =& ' . $this->p($node->refVar);
+        return $this->p($node->var) . ' =& ' . $this->p($node->expr);
     }
 
     public function pExpr_AssignPlus(PHPParser_Node_Expr_AssignPlus $node) {
