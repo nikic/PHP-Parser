@@ -278,31 +278,31 @@ class PHPParser_PrettyPrinter_Zend extends PHPParser_PrettyPrinterAbstract
 
     // Casts
 
-    public function pExpr_IntCast(PHPParser_Node_Expr_IntCast $node) {
+    public function pExpr_Cast_Int(PHPParser_Node_Expr_Cast_Int $node) {
         return '(int) ' . $this->p($node->expr);
     }
 
-    public function pExpr_DoubleCast(PHPParser_Node_Expr_DoubleCast $node) {
+    public function pExpr_Cast_Double(PHPParser_Node_Expr_Cast_Double $node) {
         return '(double) ' . $this->p($node->expr);
     }
 
-    public function pExpr_StringCast(PHPParser_Node_Expr_StringCast $node) {
+    public function pExpr_Cast_String(PHPParser_Node_Expr_Cast_String $node) {
         return '(string) ' . $this->p($node->expr);
     }
 
-    public function pExpr_ArrayCast(PHPParser_Node_Expr_ArrayCast $node) {
+    public function pExpr_Cast_Array(PHPParser_Node_Expr_Cast_Array $node) {
         return '(array) ' . $this->p($node->expr);
     }
 
-    public function pExpr_ObjectCast(PHPParser_Node_Expr_ObjectCast $node) {
+    public function pExpr_Cast_Object(PHPParser_Node_Expr_Cast_Object $node) {
         return '(object) ' . $this->p($node->expr);
     }
 
-    public function pExpr_BoolCast(PHPParser_Node_Expr_BoolCast $node) {
+    public function pExpr_Cast_Bool(PHPParser_Node_Expr_Cast_Bool $node) {
         return '(bool) ' . $this->p($node->expr);
     }
 
-    public function pExpr_UnsetCast(PHPParser_Node_Expr_UnsetCast $node) {
+    public function pExpr_Cast_Unset(PHPParser_Node_Expr_Cast_Unset $node) {
         return '(unset) ' . $this->p($node->expr);
     }
 

@@ -3,10 +3,10 @@
 /**
  * @property PHPParser_Node_Expr $expr Expression
  */
-class PHPParser_Node_Expr_ArrayCast extends PHPParser_Node_Expr
+abstract class PHPParser_Node_Expr_Cast extends PHPParser_Node_Expr
 {
     /**
-     * Constructs an array cast node.
+     * Constructs a cast node.
      *
      * @param PHPParser_Node_Expr $expr       Expression
      * @param int                 $line       Line

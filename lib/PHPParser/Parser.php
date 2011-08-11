@@ -1863,31 +1863,31 @@ class PHPParser_Parser
     }
 
     private function yyn220($line, $docComment) {
-         $this->yyval = new PHPParser_Node_Expr_IntCast(array('expr' => $this->yyastk[$this->yysp-(2-2)]), $line, $docComment); 
+         $this->yyval = new PHPParser_Node_Expr_Cast_Int($this->yyastk[$this->yysp-(2-2)], $line, $docComment); 
     }
 
     private function yyn221($line, $docComment) {
-         $this->yyval = new PHPParser_Node_Expr_DoubleCast(array('expr' => $this->yyastk[$this->yysp-(2-2)]), $line, $docComment); 
+         $this->yyval = new PHPParser_Node_Expr_Cast_Double($this->yyastk[$this->yysp-(2-2)], $line, $docComment); 
     }
 
     private function yyn222($line, $docComment) {
-         $this->yyval = new PHPParser_Node_Expr_StringCast(array('expr' => $this->yyastk[$this->yysp-(2-2)]), $line, $docComment); 
+         $this->yyval = new PHPParser_Node_Expr_Cast_String($this->yyastk[$this->yysp-(2-2)], $line, $docComment); 
     }
 
     private function yyn223($line, $docComment) {
-         $this->yyval = new PHPParser_Node_Expr_ArrayCast($this->yyastk[$this->yysp-(2-2)], $line, $docComment); 
+         $this->yyval = new PHPParser_Node_Expr_Cast_Array($this->yyastk[$this->yysp-(2-2)], $line, $docComment); 
     }
 
     private function yyn224($line, $docComment) {
-         $this->yyval = new PHPParser_Node_Expr_ObjectCast(array('expr' => $this->yyastk[$this->yysp-(2-2)]), $line, $docComment); 
+         $this->yyval = new PHPParser_Node_Expr_Cast_Object($this->yyastk[$this->yysp-(2-2)], $line, $docComment); 
     }
 
     private function yyn225($line, $docComment) {
-         $this->yyval = new PHPParser_Node_Expr_BoolCast(array('expr' => $this->yyastk[$this->yysp-(2-2)]), $line, $docComment); 
+         $this->yyval = new PHPParser_Node_Expr_Cast_Bool($this->yyastk[$this->yysp-(2-2)], $line, $docComment); 
     }
 
     private function yyn226($line, $docComment) {
-         $this->yyval = new PHPParser_Node_Expr_UnsetCast(array('expr' => $this->yyastk[$this->yysp-(2-2)]), $line, $docComment); 
+         $this->yyval = new PHPParser_Node_Expr_Cast_Unset($this->yyastk[$this->yysp-(2-2)], $line, $docComment); 
     }
 
     private function yyn227($line, $docComment) {
