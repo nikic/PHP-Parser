@@ -515,8 +515,8 @@ class PHPParser_PrettyPrinter_Zend extends PHPParser_PrettyPrinterAbstract
 
     public function pStmt_For(PHPParser_Node_Stmt_For $node) {
         return 'for ('
-             . $this->pCommaSeparated($node->init) . ';'
-             . $this->pCommaSeparated($node->cond) . ';'
+             . $this->pCommaSeparated($node->init) . ';' . (!empty($node->cond) ? ' ' : '')
+             . $this->pCommaSeparated($node->cond) . ';' . (!empty($node->loop) ? ' ' : '')
              . $this->pCommaSeparated($node->loop)
              . ') {' . "\n" . $this->pStmts($node->stmts) . "\n" . '}';
     }
