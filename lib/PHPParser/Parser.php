@@ -1451,19 +1451,19 @@ class PHPParser_Parser
     }
 
     private function yyn117($line, $docComment) {
-         $this->yyval = array(new PHPParser_Node_Expr_FuncCallArg(array('value' => $this->yyastk[$this->yysp-(1-1)], 'byRef' => false), $line, $docComment)); 
+         $this->yyval = array(new PHPParser_Node_Expr_FuncCallArg($this->yyastk[$this->yysp-(1-1)], false, $line, $docComment)); 
     }
 
     private function yyn118($line, $docComment) {
-         $this->yyval = array(new PHPParser_Node_Expr_FuncCallArg(array('value' => $this->yyastk[$this->yysp-(2-2)], 'byRef' => true), $line, $docComment)); 
+         $this->yyval = array(new PHPParser_Node_Expr_FuncCallArg($this->yyastk[$this->yysp-(2-2)], true, $line, $docComment)); 
     }
 
     private function yyn119($line, $docComment) {
-         $this->yyastk[$this->yysp-(3-1)][] = new PHPParser_Node_Expr_FuncCallArg(array('value' => $this->yyastk[$this->yysp-(3-3)], 'byRef' => false), $line, $docComment); $this->yyval = $this->yyastk[$this->yysp-(3-1)]; 
+         $this->yyastk[$this->yysp-(3-1)][] = new PHPParser_Node_Expr_FuncCallArg($this->yyastk[$this->yysp-(3-3)], false, $line, $docComment); $this->yyval = $this->yyastk[$this->yysp-(3-1)]; 
     }
 
     private function yyn120($line, $docComment) {
-         $this->yyastk[$this->yysp-(4-1)][] = new PHPParser_Node_Expr_FuncCallArg(array('value' => $this->yyastk[$this->yysp-(4-4)], 'byRef' => true), $line, $docComment); $this->yyval = $this->yyastk[$this->yysp-(4-1)]; 
+         $this->yyastk[$this->yysp-(4-1)][] = new PHPParser_Node_Expr_FuncCallArg($this->yyastk[$this->yysp-(4-4)], true, $line, $docComment); $this->yyval = $this->yyastk[$this->yysp-(4-1)]; 
     }
 
     private function yyn121($line, $docComment) {
@@ -1623,7 +1623,7 @@ class PHPParser_Parser
     }
 
     private function yyn160($line, $docComment) {
-         $this->yyval = new PHPParser_Node_Expr_List(array('assignList' => $this->yyastk[$this->yysp-(6-3)], 'expr' => $this->yyastk[$this->yysp-(6-6)]), $line, $docComment); 
+         $this->yyval = new PHPParser_Node_Expr_List($this->yyastk[$this->yysp-(6-3)], $this->yyastk[$this->yysp-(6-6)], $line, $docComment); 
     }
 
     private function yyn161($line, $docComment) {
@@ -1635,15 +1635,15 @@ class PHPParser_Parser
     }
 
     private function yyn163($line, $docComment) {
-         $this->yyval = new PHPParser_Node_Expr_Assign($this->yyastk[$this->yysp-(6-1)], new PHPParser_Node_Expr_New(array('class' => $this->yyastk[$this->yysp-(6-5)], 'args' => $this->yyastk[$this->yysp-(6-6)]), $line, $docComment), $line, $docComment); 
+         $this->yyval = new PHPParser_Node_Expr_Assign($this->yyastk[$this->yysp-(6-1)], new PHPParser_Node_Expr_New($this->yyastk[$this->yysp-(6-5)], $this->yyastk[$this->yysp-(6-6)], $line, $docComment), $line, $docComment); 
     }
 
     private function yyn164($line, $docComment) {
-         $this->yyval = new PHPParser_Node_Expr_New(array('class' => $this->yyastk[$this->yysp-(3-2)], 'args' => $this->yyastk[$this->yysp-(3-3)]), $line, $docComment); 
+         $this->yyval = new PHPParser_Node_Expr_New($this->yyastk[$this->yysp-(3-2)], $this->yyastk[$this->yysp-(3-3)], $line, $docComment); 
     }
 
     private function yyn165($line, $docComment) {
-         $this->yyval = new PHPParser_Node_Expr_Clone(array('expr' => $this->yyastk[$this->yysp-(2-2)]), $line, $docComment); 
+         $this->yyval = new PHPParser_Node_Expr_Clone($this->yyastk[$this->yysp-(2-2)], $line, $docComment); 
     }
 
     private function yyn166($line, $docComment) {
@@ -1691,19 +1691,19 @@ class PHPParser_Parser
     }
 
     private function yyn177($line, $docComment) {
-         $this->yyval = new PHPParser_Node_Expr_PostInc(array('var' => $this->yyastk[$this->yysp-(2-1)]), $line, $docComment); 
+         $this->yyval = new PHPParser_Node_Expr_PostInc($this->yyastk[$this->yysp-(2-1)], $line, $docComment); 
     }
 
     private function yyn178($line, $docComment) {
-         $this->yyval = new PHPParser_Node_Expr_PreInc(array('var' => $this->yyastk[$this->yysp-(2-2)]), $line, $docComment); 
+         $this->yyval = new PHPParser_Node_Expr_PreInc($this->yyastk[$this->yysp-(2-2)], $line, $docComment); 
     }
 
     private function yyn179($line, $docComment) {
-         $this->yyval = new PHPParser_Node_Expr_PostDec(array('var' => $this->yyastk[$this->yysp-(2-1)]), $line, $docComment); 
+         $this->yyval = new PHPParser_Node_Expr_PostDec($this->yyastk[$this->yysp-(2-1)], $line, $docComment); 
     }
 
     private function yyn180($line, $docComment) {
-         $this->yyval = new PHPParser_Node_Expr_PreDec(array('var' => $this->yyastk[$this->yysp-(2-2)]), $line, $docComment); 
+         $this->yyval = new PHPParser_Node_Expr_PreDec($this->yyastk[$this->yysp-(2-2)], $line, $docComment); 
     }
 
     private function yyn181($line, $docComment) {
@@ -1771,19 +1771,19 @@ class PHPParser_Parser
     }
 
     private function yyn197($line, $docComment) {
-         $this->yyval = new PHPParser_Node_Expr_UnaryPlus(array('expr' => $this->yyastk[$this->yysp-(2-2)]), $line, $docComment); 
+         $this->yyval = new PHPParser_Node_Expr_UnaryPlus($this->yyastk[$this->yysp-(2-2)], $line, $docComment); 
     }
 
     private function yyn198($line, $docComment) {
-         $this->yyval = new PHPParser_Node_Expr_UnaryMinus(array('expr' => $this->yyastk[$this->yysp-(2-2)]), $line, $docComment); 
+         $this->yyval = new PHPParser_Node_Expr_UnaryMinus($this->yyastk[$this->yysp-(2-2)], $line, $docComment); 
     }
 
     private function yyn199($line, $docComment) {
-         $this->yyval = new PHPParser_Node_Expr_BooleanNot(array('expr' => $this->yyastk[$this->yysp-(2-2)]), $line, $docComment); 
+         $this->yyval = new PHPParser_Node_Expr_BooleanNot($this->yyastk[$this->yysp-(2-2)], $line, $docComment); 
     }
 
     private function yyn200($line, $docComment) {
-         $this->yyval = new PHPParser_Node_Expr_BitwiseNot(array('expr' => $this->yyastk[$this->yysp-(2-2)]), $line, $docComment); 
+         $this->yyval = new PHPParser_Node_Expr_BitwiseNot($this->yyastk[$this->yysp-(2-2)], $line, $docComment); 
     }
 
     private function yyn201($line, $docComment) {
@@ -1827,39 +1827,39 @@ class PHPParser_Parser
     }
 
     private function yyn211($line, $docComment) {
-         $this->yyval = new PHPParser_Node_Expr_Ternary(array('cond' => $this->yyastk[$this->yysp-(5-1)], 'if' => $this->yyastk[$this->yysp-(5-3)], 'else' => $this->yyastk[$this->yysp-(5-5)]), $line, $docComment); 
+         $this->yyval = new PHPParser_Node_Expr_Ternary($this->yyastk[$this->yysp-(5-1)], $this->yyastk[$this->yysp-(5-3)], $this->yyastk[$this->yysp-(5-5)], $line, $docComment); 
     }
 
     private function yyn212($line, $docComment) {
-         $this->yyval = new PHPParser_Node_Expr_Ternary(array('cond' => $this->yyastk[$this->yysp-(4-1)], 'if' => null, 'else' => $this->yyastk[$this->yysp-(4-4)]), $line, $docComment); 
+         $this->yyval = new PHPParser_Node_Expr_Ternary($this->yyastk[$this->yysp-(4-1)], null, $this->yyastk[$this->yysp-(4-4)], $line, $docComment); 
     }
 
     private function yyn213($line, $docComment) {
-         $this->yyval = new PHPParser_Node_Expr_Isset(array('vars' => $this->yyastk[$this->yysp-(4-3)]), $line, $docComment); 
+         $this->yyval = new PHPParser_Node_Expr_Isset($this->yyastk[$this->yysp-(4-3)], $line, $docComment); 
     }
 
     private function yyn214($line, $docComment) {
-         $this->yyval = new PHPParser_Node_Expr_Empty(array('var' => $this->yyastk[$this->yysp-(4-3)]), $line, $docComment); 
+         $this->yyval = new PHPParser_Node_Expr_Empty($this->yyastk[$this->yysp-(4-3)], $line, $docComment); 
     }
 
     private function yyn215($line, $docComment) {
-         $this->yyval = new PHPParser_Node_Expr_Include(array('expr' => $this->yyastk[$this->yysp-(2-2)], 'type' => PHPParser_Node_Expr_Include::TYPE_INCLUDE), $line, $docComment); 
+         $this->yyval = new PHPParser_Node_Expr_Include($this->yyastk[$this->yysp-(2-2)], PHPParser_Node_Expr_Include::TYPE_INCLUDE, $line, $docComment); 
     }
 
     private function yyn216($line, $docComment) {
-         $this->yyval = new PHPParser_Node_Expr_Include(array('expr' => $this->yyastk[$this->yysp-(2-2)], 'type' => PHPParser_Node_Expr_Include::TYPE_INCLUDE_ONCE), $line, $docComment); 
+         $this->yyval = new PHPParser_Node_Expr_Include($this->yyastk[$this->yysp-(2-2)], PHPParser_Node_Expr_Include::TYPE_INCLUDE_ONCE, $line, $docComment); 
     }
 
     private function yyn217($line, $docComment) {
-         $this->yyval = new PHPParser_Node_Expr_Eval(array('expr' => $this->yyastk[$this->yysp-(4-3)]), $line, $docComment); 
+         $this->yyval = new PHPParser_Node_Expr_Eval($this->yyastk[$this->yysp-(4-3)], $line, $docComment); 
     }
 
     private function yyn218($line, $docComment) {
-         $this->yyval = new PHPParser_Node_Expr_Include(array('expr' => $this->yyastk[$this->yysp-(2-2)], 'type' => PHPParser_Node_Expr_Include::TYPE_REQUIRE), $line, $docComment); 
+         $this->yyval = new PHPParser_Node_Expr_Include($this->yyastk[$this->yysp-(2-2)], PHPParser_Node_Expr_Include::TYPE_REQUIRE, $line, $docComment); 
     }
 
     private function yyn219($line, $docComment) {
-         $this->yyval = new PHPParser_Node_Expr_Include(array('expr' => $this->yyastk[$this->yysp-(2-2)], 'type' => PHPParser_Node_Expr_Include::TYPE_REQUIRE_ONCE), $line, $docComment); 
+         $this->yyval = new PHPParser_Node_Expr_Include($this->yyastk[$this->yysp-(2-2)], PHPParser_Node_Expr_Include::TYPE_REQUIRE_ONCE, $line, $docComment); 
     }
 
     private function yyn220($line, $docComment) {
@@ -1891,11 +1891,11 @@ class PHPParser_Parser
     }
 
     private function yyn227($line, $docComment) {
-         $this->yyval = new PHPParser_Node_Expr_Exit(array('expr' => $this->yyastk[$this->yysp-(2-2)]), $line, $docComment); 
+         $this->yyval = new PHPParser_Node_Expr_Exit($this->yyastk[$this->yysp-(2-2)], $line, $docComment); 
     }
 
     private function yyn228($line, $docComment) {
-         $this->yyval = new PHPParser_Node_Expr_ErrorSuppress(array('expr' => $this->yyastk[$this->yysp-(2-2)]), $line, $docComment); 
+         $this->yyval = new PHPParser_Node_Expr_ErrorSuppress($this->yyastk[$this->yysp-(2-2)], $line, $docComment); 
     }
 
     private function yyn229($line, $docComment) {
@@ -1907,11 +1907,11 @@ class PHPParser_Parser
     }
 
     private function yyn231($line, $docComment) {
-         $this->yyval = new PHPParser_Node_Expr_ShellExec(array('parts' => $this->yyastk[$this->yysp-(3-2)]), $line, $docComment); 
+         $this->yyval = new PHPParser_Node_Expr_ShellExec($this->yyastk[$this->yysp-(3-2)], $line, $docComment); 
     }
 
     private function yyn232($line, $docComment) {
-         $this->yyval = new PHPParser_Node_Expr_Print(array('expr' => $this->yyastk[$this->yysp-(2-2)]), $line, $docComment); 
+         $this->yyval = new PHPParser_Node_Expr_Print($this->yyastk[$this->yysp-(2-2)], $line, $docComment); 
     }
 
     private function yyn233($line, $docComment) {
@@ -1927,36 +1927,36 @@ class PHPParser_Parser
     }
 
     private function yyn236($line, $docComment) {
-         $this->yyastk[$this->yysp-(4-1)][] = new PHPParser_Node_Expr_LambdaFuncUse(array('var' => substr($this->yyastk[$this->yysp-(4-4)], 1), 'byRef' => $this->yyastk[$this->yysp-(4-3)]), $line, $docComment); $this->yyval = $this->yyastk[$this->yysp-(4-1)]; 
+         $this->yyastk[$this->yysp-(4-1)][] = new PHPParser_Node_Expr_LambdaFuncUse(substr($this->yyastk[$this->yysp-(4-4)], 1), $this->yyastk[$this->yysp-(4-3)], $line, $docComment); $this->yyval = $this->yyastk[$this->yysp-(4-1)]; 
     }
 
     private function yyn237($line, $docComment) {
-         $this->yyval = array(new PHPParser_Node_Expr_LambdaFuncUse(array('var' => substr($this->yyastk[$this->yysp-(2-2)], 1), 'byRef' => $this->yyastk[$this->yysp-(2-1)]), $line, $docComment)); 
+         $this->yyval = array(new PHPParser_Node_Expr_LambdaFuncUse(substr($this->yyastk[$this->yysp-(2-2)], 1), $this->yyastk[$this->yysp-(2-1)], $line, $docComment)); 
     }
 
     private function yyn238($line, $docComment) {
-         $this->yyval = new PHPParser_Node_Expr_FuncCall(array('func' => $this->yyastk[$this->yysp-(4-1)], 'args' => $this->yyastk[$this->yysp-(4-3)]), $line, $docComment); 
+         $this->yyval = new PHPParser_Node_Expr_FuncCall($this->yyastk[$this->yysp-(4-1)], $this->yyastk[$this->yysp-(4-3)], $line, $docComment); 
     }
 
     private function yyn239($line, $docComment) {
-         $this->yyval = new PHPParser_Node_Expr_StaticCall(array('class' => $this->yyastk[$this->yysp-(6-1)], 'func' => $this->yyastk[$this->yysp-(6-3)], 'args' => $this->yyastk[$this->yysp-(6-5)]), $line, $docComment); 
+         $this->yyval = new PHPParser_Node_Expr_StaticCall($this->yyastk[$this->yysp-(6-1)], $this->yyastk[$this->yysp-(6-3)], $this->yyastk[$this->yysp-(6-5)], $line, $docComment); 
     }
 
     private function yyn240($line, $docComment) {
-         $this->yyval = new PHPParser_Node_Expr_StaticCall(array('class' => $this->yyastk[$this->yysp-(6-1)], 'func' => $this->yyastk[$this->yysp-(6-3)], 'args' => $this->yyastk[$this->yysp-(6-5)]), $line, $docComment); 
+         $this->yyval = new PHPParser_Node_Expr_StaticCall($this->yyastk[$this->yysp-(6-1)], $this->yyastk[$this->yysp-(6-3)], $this->yyastk[$this->yysp-(6-5)], $line, $docComment); 
     }
 
     private function yyn241($line, $docComment) {
         
             if ($this->yyastk[$this->yysp-(4-1)] instanceof PHPParser_Node_Expr_StaticPropertyFetch) {
-                $this->yyval = new PHPParser_Node_Expr_StaticCall(array('class' => $this->yyastk[$this->yysp-(4-1)]->class, 'func' => $this->yyastk[$this->yysp-(4-1)]->name, 'args' => $this->yyastk[$this->yysp-(4-3)]), $line, $docComment);
+                $this->yyval = new PHPParser_Node_Expr_StaticCall($this->yyastk[$this->yysp-(4-1)]->class, $this->yyastk[$this->yysp-(4-1)]->name, $this->yyastk[$this->yysp-(4-3)], $line, $docComment);
             } elseif ($this->yyastk[$this->yysp-(4-1)] instanceof PHPParser_Node_Expr_ArrayDimFetch) {
                 $tmp = $this->yyastk[$this->yysp-(4-1)];
                 while ($tmp->var instanceof PHPParser_Node_Expr_ArrayDimFetch) {
                     $tmp = $tmp->var;
                 }
 
-                $this->yyval = new PHPParser_Node_Expr_StaticCall(array('class' => $tmp->var->class, 'func' => $this->yyastk[$this->yysp-(4-1)], 'args' => $this->yyastk[$this->yysp-(4-3)]), $line, $docComment);
+                $this->yyval = new PHPParser_Node_Expr_StaticCall($tmp->var->class, $this->yyastk[$this->yysp-(4-1)], $this->yyastk[$this->yysp-(4-3)], $line, $docComment);
                 $tmp->var = new PHPParser_Node_Variable($tmp->var->name, $line, $docComment);
             } else {
                 throw new Exception;
@@ -1965,7 +1965,7 @@ class PHPParser_Parser
     }
 
     private function yyn242($line, $docComment) {
-         $this->yyval = new PHPParser_Node_Expr_FuncCall(array('func' => $this->yyastk[$this->yysp-(4-1)], 'args' => $this->yyastk[$this->yysp-(4-3)]), $line, $docComment); 
+         $this->yyval = new PHPParser_Node_Expr_FuncCall($this->yyastk[$this->yysp-(4-1)], $this->yyastk[$this->yysp-(4-3)], $line, $docComment); 
     }
 
     private function yyn243($line, $docComment) {
@@ -2009,11 +2009,11 @@ class PHPParser_Parser
     }
 
     private function yyn253($line, $docComment) {
-         $this->yyval = new PHPParser_Node_Expr_PropertyFetch(array('var' => $this->yyastk[$this->yysp-(3-1)], 'name' => $this->yyastk[$this->yysp-(3-3)]), $line, $docComment); 
+         $this->yyval = new PHPParser_Node_Expr_PropertyFetch($this->yyastk[$this->yysp-(3-1)], $this->yyastk[$this->yysp-(3-3)], $line, $docComment); 
     }
 
     private function yyn254($line, $docComment) {
-         $this->yyval = new PHPParser_Node_Expr_PropertyFetch(array('var' => $this->yyastk[$this->yysp-(3-1)], 'name' => $this->yyastk[$this->yysp-(3-3)]), $line, $docComment); 
+         $this->yyval = new PHPParser_Node_Expr_PropertyFetch($this->yyastk[$this->yysp-(3-1)], $this->yyastk[$this->yysp-(3-3)], $line, $docComment); 
     }
 
     private function yyn255($line, $docComment) {
@@ -2109,15 +2109,15 @@ class PHPParser_Parser
     }
 
     private function yyn278($line, $docComment) {
-         $this->yyval = new PHPParser_Node_Expr_ConstFetch(array('name' => $this->yyastk[$this->yysp-(1-1)]), $line, $docComment); 
+         $this->yyval = new PHPParser_Node_Expr_ConstFetch($this->yyastk[$this->yysp-(1-1)], $line, $docComment); 
     }
 
     private function yyn279($line, $docComment) {
-         $this->yyval = new PHPParser_Node_Expr_UnaryPlus(array('expr' => $this->yyastk[$this->yysp-(2-2)]), $line, $docComment); 
+         $this->yyval = new PHPParser_Node_Expr_UnaryPlus($this->yyastk[$this->yysp-(2-2)], $line, $docComment); 
     }
 
     private function yyn280($line, $docComment) {
-         $this->yyval = new PHPParser_Node_Expr_UnaryMinus(array('expr' => $this->yyastk[$this->yysp-(2-2)]), $line, $docComment); 
+         $this->yyval = new PHPParser_Node_Expr_UnaryMinus($this->yyastk[$this->yysp-(2-2)], $line, $docComment); 
     }
 
     private function yyn281($line, $docComment) {
@@ -2125,7 +2125,7 @@ class PHPParser_Parser
     }
 
     private function yyn282($line, $docComment) {
-         $this->yyval = new PHPParser_Node_Expr_ClassConstFetch(array('class' => $this->yyastk[$this->yysp-(3-1)], 'name' => $this->yyastk[$this->yysp-(3-3)]), $line, $docComment); 
+         $this->yyval = new PHPParser_Node_Expr_ClassConstFetch($this->yyastk[$this->yysp-(3-1)], $this->yyastk[$this->yysp-(3-3)], $line, $docComment); 
     }
 
     private function yyn283($line, $docComment) {
@@ -2137,7 +2137,7 @@ class PHPParser_Parser
     }
 
     private function yyn285($line, $docComment) {
-         $this->yyval = new PHPParser_Node_Expr_ConstFetch(array('name' => $this->yyastk[$this->yysp-(1-1)]), $line, $docComment); 
+         $this->yyval = new PHPParser_Node_Expr_ConstFetch($this->yyastk[$this->yysp-(1-1)], $line, $docComment); 
     }
 
     private function yyn286($line, $docComment) {
@@ -2201,15 +2201,15 @@ class PHPParser_Parser
     }
 
     private function yyn301($line, $docComment) {
-         $this->yyval = new PHPParser_Node_Expr_FuncCall(array('func' => $this->yyastk[$this->yysp-(4-1)], 'args' => $this->yyastk[$this->yysp-(4-3)]), $line, $docComment); 
+         $this->yyval = new PHPParser_Node_Expr_FuncCall($this->yyastk[$this->yysp-(4-1)], $this->yyastk[$this->yysp-(4-3)], $line, $docComment); 
     }
 
     private function yyn302($line, $docComment) {
-         $this->yyval = new PHPParser_Node_Expr_MethodCall(array('var' => $this->yyastk[$this->yysp-(6-1)], 'name' => $this->yyastk[$this->yysp-(6-3)], 'args' => $this->yyastk[$this->yysp-(6-5)]), $line, $docComment); 
+         $this->yyval = new PHPParser_Node_Expr_MethodCall($this->yyastk[$this->yysp-(6-1)], $this->yyastk[$this->yysp-(6-3)], $this->yyastk[$this->yysp-(6-5)], $line, $docComment); 
     }
 
     private function yyn303($line, $docComment) {
-         $this->yyval = new PHPParser_Node_Expr_PropertyFetch(array('var' => $this->yyastk[$this->yysp-(3-1)], 'name' => $this->yyastk[$this->yysp-(3-3)]), $line, $docComment); 
+         $this->yyval = new PHPParser_Node_Expr_PropertyFetch($this->yyastk[$this->yysp-(3-1)], $this->yyastk[$this->yysp-(3-3)], $line, $docComment); 
     }
 
     private function yyn304($line, $docComment) {
@@ -2233,11 +2233,11 @@ class PHPParser_Parser
     }
 
     private function yyn309($line, $docComment) {
-         $this->yyval = new PHPParser_Node_Expr_StaticPropertyFetch(array('class' => $this->yyastk[$this->yysp-(4-1)], 'name' => $this->yyastk[$this->yysp-(4-4)]), $line, $docComment); 
+         $this->yyval = new PHPParser_Node_Expr_StaticPropertyFetch($this->yyastk[$this->yysp-(4-1)], $this->yyastk[$this->yysp-(4-4)], $line, $docComment); 
     }
 
     private function yyn310($line, $docComment) {
-         $this->yyval = new PHPParser_Node_Expr_StaticPropertyFetch(array('class' => $this->yyastk[$this->yysp-(4-1)], 'name' => $this->yyastk[$this->yysp-(4-4)]), $line, $docComment); 
+         $this->yyval = new PHPParser_Node_Expr_StaticPropertyFetch($this->yyastk[$this->yysp-(4-1)], $this->yyastk[$this->yysp-(4-4)], $line, $docComment); 
     }
 
     private function yyn311($line, $docComment) {
@@ -2245,19 +2245,19 @@ class PHPParser_Parser
     }
 
     private function yyn312($line, $docComment) {
-         $this->yyval = new PHPParser_Node_Expr_StaticPropertyFetch(array('class' => $this->yyastk[$this->yysp-(3-1)], 'name' => substr($this->yyastk[$this->yysp-(3-3)], 1)), $line, $docComment); 
+         $this->yyval = new PHPParser_Node_Expr_StaticPropertyFetch($this->yyastk[$this->yysp-(3-1)], substr($this->yyastk[$this->yysp-(3-3)], 1), $line, $docComment); 
     }
 
     private function yyn313($line, $docComment) {
-         $this->yyval = new PHPParser_Node_Expr_StaticPropertyFetch(array('class' => $this->yyastk[$this->yysp-(3-1)], 'name' => substr($this->yyastk[$this->yysp-(3-3)], 1)), $line, $docComment); 
+         $this->yyval = new PHPParser_Node_Expr_StaticPropertyFetch($this->yyastk[$this->yysp-(3-1)], substr($this->yyastk[$this->yysp-(3-3)], 1), $line, $docComment); 
     }
 
     private function yyn314($line, $docComment) {
-         $this->yyval = new PHPParser_Node_Expr_StaticPropertyFetch(array('class' => $this->yyastk[$this->yysp-(6-1)], 'name' => $this->yyastk[$this->yysp-(6-5)]), $line, $docComment); 
+         $this->yyval = new PHPParser_Node_Expr_StaticPropertyFetch($this->yyastk[$this->yysp-(6-1)], $this->yyastk[$this->yysp-(6-5)], $line, $docComment); 
     }
 
     private function yyn315($line, $docComment) {
-         $this->yyval = new PHPParser_Node_Expr_StaticPropertyFetch(array('class' => $this->yyastk[$this->yysp-(6-1)], 'name' => $this->yyastk[$this->yysp-(6-5)]), $line, $docComment); 
+         $this->yyval = new PHPParser_Node_Expr_StaticPropertyFetch($this->yyastk[$this->yysp-(6-1)], $this->yyastk[$this->yysp-(6-5)], $line, $docComment); 
     }
 
     private function yyn316($line, $docComment) {
@@ -2381,7 +2381,7 @@ class PHPParser_Parser
     }
 
     private function yyn346($line, $docComment) {
-         $this->yyval = new PHPParser_Node_Expr_PropertyFetch(array('var' => new PHPParser_Node_Variable(substr($this->yyastk[$this->yysp-(3-1)], 1), $line, $docComment), 'name' => $this->yyastk[$this->yysp-(3-3)]), $line, $docComment); 
+         $this->yyval = new PHPParser_Node_Expr_PropertyFetch(new PHPParser_Node_Variable(substr($this->yyastk[$this->yysp-(3-1)], 1), $line, $docComment), $this->yyastk[$this->yysp-(3-3)], $line, $docComment); 
     }
 
     private function yyn347($line, $docComment) {
@@ -2409,10 +2409,10 @@ class PHPParser_Parser
     }
 
     private function yyn353($line, $docComment) {
-         $this->yyval = new PHPParser_Node_Expr_ClassConstFetch(array('class' => $this->yyastk[$this->yysp-(3-1)], 'name' => $this->yyastk[$this->yysp-(3-3)]), $line, $docComment); 
+         $this->yyval = new PHPParser_Node_Expr_ClassConstFetch($this->yyastk[$this->yysp-(3-1)], $this->yyastk[$this->yysp-(3-3)], $line, $docComment); 
     }
 
     private function yyn354($line, $docComment) {
-         $this->yyval = new PHPParser_Node_Expr_ClassConstFetch(array('class' => $this->yyastk[$this->yysp-(3-1)], 'name' => $this->yyastk[$this->yysp-(3-3)]), $line, $docComment); 
+         $this->yyval = new PHPParser_Node_Expr_ClassConstFetch($this->yyastk[$this->yysp-(3-1)], $this->yyastk[$this->yysp-(3-3)], $line, $docComment); 
     }
 }

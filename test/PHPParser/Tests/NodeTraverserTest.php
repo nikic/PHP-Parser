@@ -8,13 +8,11 @@ class PHPParser_Tests_NodeTraverserTest extends PHPUnit_Framework_TestCase
                 'name' => new PHPParser_Node_Name(array('Foo', 'Bar')),
                 'stmts' => array(
                     new PHPParser_Node_Stmt_Echo(array(
-                        'exprs' => array(
-                            new PHPParser_Node_Scalar_String('Hallo World')
-                        )
+                        new PHPParser_Node_Scalar_String('Hallo World')
                     )),
-                    new PHPParser_Node_Expr_Print(array(
-                        'expr' => new PHPParser_Node_Scalar_String('Hallo World, again!')
-                    )),
+                    new PHPParser_Node_Expr_Print(
+                        new PHPParser_Node_Scalar_String('Hallo World, again!')
+                    ),
                 )
             )),
         );
@@ -70,9 +68,7 @@ class PHPParser_Tests_NodeTraverserTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(
             array(
                 new PHPParser_Node_Stmt_Echo(array(
-                    'exprs' => array(
-                        new PHPParser_Node_Scalar_String('Foo Bar')
-                    )
+                    new PHPParser_Node_Scalar_String('Foo Bar')
                 )),
             ),
             $node

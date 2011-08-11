@@ -309,7 +309,7 @@ class PHPParser_PrettyPrinter_Zend extends PHPParser_PrettyPrinterAbstract
     // Function calls and similar constructs
 
     public function pExpr_FuncCall(PHPParser_Node_Expr_FuncCall $node) {
-        return $this->p($node->func) . '(' . $this->pCommaSeparated($node->args) . ')';
+        return $this->p($node->name) . '(' . $this->pCommaSeparated($node->args) . ')';
     }
 
     public function pExpr_FuncCallArg(PHPParser_Node_Expr_FuncCallArg $node) {
@@ -323,7 +323,7 @@ class PHPParser_PrettyPrinter_Zend extends PHPParser_PrettyPrinterAbstract
 
     public function pExpr_StaticCall(PHPParser_Node_Expr_StaticCall $node) {
         return $this->pClassName($node->class) . '::'
-             . ($node->func instanceof PHPParser_Node_Expr ? $this->p($node->func) : $node->func)
+             . ($node->name instanceof PHPParser_Node_Expr ? $this->p($node->name) : $node->name)
              . '(' . $this->pCommaSeparated($node->args) . ')';
     }
 
