@@ -512,14 +512,14 @@ expr:
     | T_INT_CAST expr                                       { $$ = Expr_IntCast[expr: $2]; }
     | T_DOUBLE_CAST expr                                    { $$ = Expr_DoubleCast[expr: $2]; }
     | T_STRING_CAST expr                                    { $$ = Expr_StringCast[expr: $2]; }
-    | T_ARRAY_CAST expr                                     { $$ = Expr_ArrayCast[expr: $2]; }
+    | T_ARRAY_CAST expr                                     { $$ = Expr_ArrayCast[$2]; }
     | T_OBJECT_CAST expr                                    { $$ = Expr_ObjectCast[expr: $2]; }
     | T_BOOL_CAST expr                                      { $$ = Expr_BoolCast[expr: $2]; }
     | T_UNSET_CAST expr                                     { $$ = Expr_UnsetCast[expr: $2]; }
     | T_EXIT exit_expr                                      { $$ = Expr_Exit[expr: $2]; }
     | '@' expr                                              { $$ = Expr_ErrorSuppress[expr: $2]; }
     | scalar                                                { $$ = $1; }
-    | T_ARRAY '(' array_pair_list ')'                       { $$ = Expr_Array[items: $3]; }
+    | T_ARRAY '(' array_pair_list ')'                       { $$ = Expr_Array[$3]; }
     | '`' backticks_expr '`'                                { $$ = Expr_ShellExec[parts: $2]; }
     | T_PRINT expr                                          { $$ = Expr_Print[expr: $2]; }
     | T_FUNCTION optional_ref '(' parameter_list ')' lexical_vars '{' inner_statement_list '}'
@@ -589,8 +589,8 @@ object_access_for_dcnr:
           { $$ = Expr_PropertyFetch[var: $1, name: $3]; }
     | object_access_for_dcnr T_OBJECT_OPERATOR object_property
           { $$ = Expr_PropertyFetch[var: $1, name: $3]; }
-    | object_access_for_dcnr '[' dim_offset ']'             { $$ = Expr_ArrayDimFetch[var: $1, dim: $3]; }
-    | object_access_for_dcnr '{' expr '}'                   { $$ = Expr_ArrayDimFetch[var: $1, dim: $3]; }
+    | object_access_for_dcnr '[' dim_offset ']'             { $$ = Expr_ArrayDimFetch[$1, $3]; }
+    | object_access_for_dcnr '{' expr '}'                   { $$ = Expr_ArrayDimFetch[$1, $3]; }
 ;
 
 exit_expr:
@@ -632,7 +632,7 @@ static_scalar: /* compile-time evaluated scalars */
     | name                                                  { $$ = Expr_ConstFetch[name: $1]; }
     | '+' static_scalar                                     { $$ = Expr_UnaryPlus[expr: $2]; }
     | '-' static_scalar                                     { $$ = Expr_UnaryMinus[expr: $2]; }
-    | T_ARRAY '(' static_array_pair_list ')'                { $$ = Expr_Array[items: $3]; }
+    | T_ARRAY '(' static_array_pair_list ')'                { $$ = Expr_Array[$3]; }
     | class_name T_PAAMAYIM_NEKUDOTAYIM T_STRING            { $$ = Expr_ClassConstFetch[class: $1, name: $3]; }
 ;
 
@@ -661,8 +661,8 @@ non_empty_static_array_pair_list:
 ;
 
 static_array_pair:
-      static_scalar T_DOUBLE_ARROW static_scalar            { $$ = Expr_ArrayItem[key: $1, value: $3, byRef: false]; }
-    | static_scalar                                         { $$ = Expr_ArrayItem[key: null, value: $1, byRef: false]; }
+      static_scalar T_DOUBLE_ARROW static_scalar            { $$ = Expr_ArrayItem[$1,   $3, false]; }
+    | static_scalar                                         { $$ = Expr_ArrayItem[null, $1, false]; }
 ;
 
 variable:
@@ -682,8 +682,8 @@ object_access:
 object_access_arrayable:
       variable T_OBJECT_OPERATOR object_property
           { $$ = Expr_PropertyFetch[var: $1, name: $3]; }
-    | object_access_arrayable '[' dim_offset ']'            { $$ = Expr_ArrayDimFetch[var: $1, dim: $3]; }
-    | object_access_arrayable '{' expr '}'                  { $$ = Expr_ArrayDimFetch[var: $1, dim: $3]; }
+    | object_access_arrayable '[' dim_offset ']'            { $$ = Expr_ArrayDimFetch[$1, $3]; }
+    | object_access_arrayable '{' expr '}'                  { $$ = Expr_ArrayDimFetch[$1, $3]; }
 ;
 
 variable_without_objects:
@@ -709,13 +709,13 @@ static_property_with_arrays:
           { $$ = Expr_StaticPropertyFetch[class: $1, name: $5]; }
     | reference_variable T_PAAMAYIM_NEKUDOTAYIM '$' '{' expr '}'
           { $$ = Expr_StaticPropertyFetch[class: $1, name: $5]; }
-    | static_property_with_arrays '[' dim_offset ']'        { $$ = Expr_ArrayDimFetch[var: $1, dim: $3]; }
-    | static_property_with_arrays '{' expr '}'              { $$ = Expr_ArrayDimFetch[var: $1, dim: $3]; }
+    | static_property_with_arrays '[' dim_offset ']'        { $$ = Expr_ArrayDimFetch[$1, $3]; }
+    | static_property_with_arrays '{' expr '}'              { $$ = Expr_ArrayDimFetch[$1, $3]; }
 ;
 
 reference_variable:
-      reference_variable '[' dim_offset ']'                 { $$ = Expr_ArrayDimFetch[var: $1, dim: $3]; }
-    | reference_variable '{' expr '}'                       { $$ = Expr_ArrayDimFetch[var: $1, dim: $3]; }
+      reference_variable '[' dim_offset ']'                 { $$ = Expr_ArrayDimFetch[$1, $3]; }
+    | reference_variable '{' expr '}'                       { $$ = Expr_ArrayDimFetch[$1, $3]; }
     | T_VARIABLE                                            { $$ = Variable[parseVar($1)]; }
     | '$' '{' expr '}'                                      { $$ = Variable[$3]; }
 ;
@@ -753,10 +753,10 @@ non_empty_array_pair_list:
 ;
 
 array_pair:
-      expr T_DOUBLE_ARROW expr                              { $$ = Expr_ArrayItem[key: $1, value: $3, byRef: false]; }
-    | expr                                                  { $$ = Expr_ArrayItem[key: null, value: $1, byRef: false]; }
-    | expr T_DOUBLE_ARROW '&' variable                      { $$ = Expr_ArrayItem[key: $1, value: $4, byRef: true]; }
-    | '&' variable                                          { $$ = Expr_ArrayItem[key: null, value: $2, byRef: true]; }
+      expr T_DOUBLE_ARROW expr                              { $$ = Expr_ArrayItem[$1,   $3, false]; }
+    | expr                                                  { $$ = Expr_ArrayItem[null, $1, false]; }
+    | expr T_DOUBLE_ARROW '&' variable                      { $$ = Expr_ArrayItem[$1,   $4, true]; }
+    | '&' variable                                          { $$ = Expr_ArrayItem[null, $2, true]; }
 ;
 
 encaps_list:
@@ -768,11 +768,11 @@ encaps_list:
 
 encaps_var:
       T_VARIABLE                                            { $$ = Variable[parseVar($1)]; }
-    | T_VARIABLE '[' encaps_var_offset ']'                  { $$ = Expr_ArrayDimFetch[var: Variable[parseVar($1)], dim: $3]; }
+    | T_VARIABLE '[' encaps_var_offset ']'                  { $$ = Expr_ArrayDimFetch[Variable[parseVar($1)], $3]; }
     | T_VARIABLE T_OBJECT_OPERATOR T_STRING                 { $$ = Expr_PropertyFetch[var: Variable[parseVar($1)], name: $3]; }
     | T_DOLLAR_OPEN_CURLY_BRACES expr '}'                   { $$ = Variable[$2]; }
     | T_DOLLAR_OPEN_CURLY_BRACES T_STRING_VARNAME '[' expr ']' '}'
-          { $$ = Expr_ArrayDimFetch[var: Variable[$2], dim: $4]; }
+          { $$ = Expr_ArrayDimFetch[Variable[$2], $4]; }
     | T_CURLY_OPEN variable '}'                             { $$ = $2; }
 ;
 

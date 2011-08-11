@@ -10,10 +10,10 @@ class PHPParser_PrettyPrinter_Zend extends PHPParser_PrettyPrinterAbstract
     }
 
     public function pVariable(PHPParser_Node_Variable $node) {
-        if ($node->name instanceof PHPParser_Node_Expr) {
-            return '${' . $this->p($node->name) . '}';
-        } elseif ($node->name instanceof PHPParser_Node_Variable) {
+        if ($node->name instanceof PHPParser_Node_Variable) {
             return '$' . $this->p($node->name);
+        } elseif ($node->name instanceof PHPParser_Node_Expr) {
+            return '${' . $this->p($node->name) . '}';
         } else {
             return '$' . $node->name;
         }
@@ -619,7 +619,7 @@ class PHPParser_PrettyPrinter_Zend extends PHPParser_PrettyPrinterAbstract
     // Helpers
 
     public function pObjectProperty($node) {
-        if ($node instanceof PHPParser_Node_Variable || $node instanceof PHPParser_Node_Expr) {
+        if ($node instanceof PHPParser_Node_Expr) {
             return '{' . $this->p($node) . '}';
         } else {
             return $node;

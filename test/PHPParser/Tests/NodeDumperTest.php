@@ -37,14 +37,16 @@ class PHPParser_Tests_NodeDumperTest extends PHPUnit_Framework_TestCase
 )'
             ),
             array(
-                new PHPParser_Node_Expr_Array(array('items' => array(
-                    new PHPParser_Node_Expr_ArrayItem(array('key' => 'Foo', 'value' => 'Bar', 'byRef' => false))
-                ))),
+                new PHPParser_Node_Expr_Array(array(
+                    new PHPParser_Node_Expr_ArrayItem(null, new PHPParser_Node_Scalar_String('Foo'))
+                )),
 'Expr_Array(
     items: array(
         0: Expr_ArrayItem(
-            key: Foo
-            value: Bar
+            key: null
+            value: Scalar_String(
+                value: Foo
+            )
             byRef: false
         )
     )
