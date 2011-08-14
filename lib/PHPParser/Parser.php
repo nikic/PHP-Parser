@@ -147,7 +147,7 @@ class PHPParser_Parser
     // }}}
 
     private static $yyterminals = array(
-        '$EOF',
+        "EOF",
         "error",
         "T_INCLUDE",
         "T_INCLUDE_ONCE",

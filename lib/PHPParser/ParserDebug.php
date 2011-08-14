@@ -147,7 +147,7 @@ class PHPParser_ParserDebug
     // }}}
 
     private static $yyterminals = array(
-        '$EOF',
+        "EOF",
         "error",
         "T_INCLUDE",
         "T_INCLUDE_ONCE",
@@ -296,7 +296,7 @@ class PHPParser_ParserDebug
     );
 
     private static $yyproduction = array(
-        '$start : start',
+        "start : start",
         "start : top_statement_list",
         "top_statement_list : top_statement_list top_statement",
         "top_statement_list : /* empty */",

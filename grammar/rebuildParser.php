@@ -1,6 +1,8 @@
 <?php
 
 const GRAMMAR_FILE = './zend_language_parser.phpy';
+const TMP_FILE     = './tmp_parser.phpy';
+const RESULT_FILE  = './tmp_parser.php';
 
 ///////////////////////////////
 /// Utility regex constants ///
@@ -30,54 +32,22 @@ $grammarCode = file_get_contents(GRAMMAR_FILE);
 $grammarCode = preg_replace('~[A-Z][a-zA-Z_]++::~', 'PHPParser_Node_$0', $grammarCode);
 $grammarCode = resolveNodes($grammarCode);
 $grammarCode = resolveMacros($grammarCode);
-$grammarCode = preg_replace('~\$([a-zA-Z_]++)~', '#$1', $grammarCode);
 
-$tmpGrammarFile = tempnam('.', 'tmpGrammarFile');
-file_put_contents($tmpGrammarFile, $grammarCode);
+file_put_contents(TMP_FILE, $grammarCode);
 
 echo 'Building parser.       Output: "',
-     trim(`kmyacc -l -L c -m php.kmyacc -p PHPParser_Parser $tmpGrammarFile 2>&1`),
+     trim(shell_exec('kmyacc -l -m kmyacc.php.parser -p PHPParser_Parser ' . TMP_FILE . ' 2>&1')),
      '"', "\n";
 
-$code = file_get_contents('y.tab.c');
-$code = str_replace(
-    array(
-        '"$EOF"',
-        '#',
-    ),
-    array(
-        '\'$EOF\'',
-        '$',
-    ),
-    $code
-);
-
-file_put_contents(dirname(__DIR__) . '/lib/PHPParser/Parser.php', $code);
-unlink(__DIR__ . '/y.tab.c');
+rename(RESULT_FILE, '../lib/PHPParser/Parser.php');
 
 echo 'Building debug parser. Output: "',
-     trim(`kmyacc -l -t -L c -m php.kmyacc -p PHPParser_ParserDebug $tmpGrammarFile 2>&1`),
+     trim(shell_exec('kmyacc -t -l -m kmyacc.php.parser -p PHPParser_ParserDebug ' . TMP_FILE . ' 2>&1')),
      '"', "\n";
 
-$code = file_get_contents('y.tab.c');
-$code = str_replace(
-    array(
-        '"$EOF"',
-        '"$start : start"',
-        '#',
-    ),
-    array(
-        '\'$EOF\'',
-        '\'$start : start\'',
-        '$',
-    ),
-    $code
-);
+rename(RESULT_FILE, '../lib/PHPParser/ParserDebug.php');
 
-file_put_contents(dirname(__DIR__) . '/lib/PHPParser/ParserDebug.php', $code);
-unlink(__DIR__ . '/y.tab.c');
-
-unlink($tmpGrammarFile);
+unlink(TMP_FILE);
 
 echo 'The following temporary preproprocessed grammar file was used:', "\n", $grammarCode;
 

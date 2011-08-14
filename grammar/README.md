@@ -5,10 +5,10 @@ What do all those files mean?
  * `zend_language_parser.phpy`: PHP grammer written in a pseudo language
  * `analyzer.php`:              Analyzes the `.phpy`-grammer and outputs some info about it
  * `rebuildParser.php`:         Preprocesses the `.phpy`-grammar and builds the parser using `kmyacc`
- * `php.kmyacc`:                A `kmyacc` parser prototype file for PHP
+ * `kmyacc.php.parser`:         A `kmyacc` parser prototype file for PHP
 
 .phpy pseudo language
-=========================
+=====================
 
 The `.phpy` file is a normal grammer in `kmyacc` (`yacc`) style, with some transformations
 applied to it:
@@ -17,3 +17,9 @@ applied to it:
    `new PHPParser_Node_Name(array('subNode1' => ..., 'subNode2' => ...), $line, $docComment)`
  * `Name::abc` is transformed to `PHPParser_Node_Name::abc`
  * Some function-like constructs are resolved (see `rebuildParser.php` for a list)
+
+Building the parser
+===================
+
+In order to rebuild the parser, you need [moriyoshi's fork of kmyacc](https://github.com/moriyoshi/kmyacc-forked).
+After you compiled/installed it, run the `rebuildParser.php` file.
