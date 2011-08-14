@@ -2,21 +2,18 @@
 
 class PHPParser_PrettyPrinter_Zend extends PHPParser_PrettyPrinterAbstract
 {
-    // Names and Variables
+    // Special nodes
 
     public function pName(PHPParser_Node_Name $node) {
         return ($node->isFullyQualified() ? '\\' : ($node->isRelative() ? 'namespace\\' : ''))
              . implode('\\', $node->parts);
     }
 
-    public function pVariable(PHPParser_Node_Variable $node) {
-        if ($node->name instanceof PHPParser_Node_Variable) {
-            return '$' . $this->p($node->name);
-        } elseif ($node->name instanceof PHPParser_Node_Expr) {
-            return '${' . $this->p($node->name) . '}';
-        } else {
-            return '$' . $node->name;
-        }
+    public function pParam(PHPParser_Node_Param $node) {
+        return ($node->type ? ('array' == $node->type ? 'array' : $this->p($node->type)) . ' ' : '')
+             . ($node->byRef ? '&' : '')
+             . '$' . $node->name
+             . ($node->default ? ' = ' . $this->p($node->default) : '');
     }
 
     // Magic Constants
@@ -356,6 +353,16 @@ class PHPParser_PrettyPrinter_Zend extends PHPParser_PrettyPrinterAbstract
 
     // Other
 
+    public function pExpr_Variable(PHPParser_Node_Expr_Variable $node) {
+        if ($node->name instanceof PHPParser_Node_Expr_Variable) {
+            return '$' . $this->p($node->name);
+        } elseif ($node->name instanceof PHPParser_Node_Expr) {
+            return '${' . $this->p($node->name) . '}';
+        } else {
+            return '$' . $node->name;
+        }
+    }
+
     public function pExpr_Array(PHPParser_Node_Expr_Array $node) {
         return 'array(' . $this->pCommaSeparated($node->items) . ')';
     }
@@ -478,13 +485,6 @@ class PHPParser_PrettyPrinter_Zend extends PHPParser_PrettyPrinterAbstract
         return 'function ' . ($node->byRef ? '&' : '') . $node->name
              . '(' . $this->pCommaSeparated($node->params) . ')'
              . "\n" . '{' . "\n" . $this->pStmts($node->stmts) . "\n" . '}';
-    }
-
-    public function pStmt_FuncParam(PHPParser_Node_Stmt_FuncParam $node) {
-        return ($node->type ? ('array' == $node->type ? 'array' : $this->p($node->type)) . ' ' : '')
-             . ($node->byRef ? '&' : '')
-             . '$' . $node->name
-             . ($node->default ? ' = ' . $this->p($node->default) : '');
     }
 
     public function pStmt_Const(PHPParser_Node_Stmt_Const $node) {
