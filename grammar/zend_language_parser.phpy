@@ -523,7 +523,7 @@ expr:
     | '`' backticks_expr '`'                                { $$ = Expr_ShellExec[$2]; }
     | T_PRINT expr                                          { $$ = Expr_Print[$2]; }
     | T_FUNCTION optional_ref '(' parameter_list ')' lexical_vars '{' inner_statement_list '}'
-          { $$ = Expr_LambdaFunc[byRef: $2, params: $4, useVars: $6, stmts: $8]; }
+          { $$ = Expr_LambdaFunc[$8, $4, $6, $2]; }
 ;
 
 lexical_vars:

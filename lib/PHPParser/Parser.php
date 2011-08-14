@@ -1913,7 +1913,7 @@ class PHPParser_Parser
     }
 
     protected function yyn233($line, $docComment) {
-         $this->yyval = new PHPParser_Node_Expr_LambdaFunc(array('byRef' => $this->yyastk[$this->yysp-(9-2)], 'params' => $this->yyastk[$this->yysp-(9-4)], 'useVars' => $this->yyastk[$this->yysp-(9-6)], 'stmts' => $this->yyastk[$this->yysp-(9-8)]), $line, $docComment); 
+         $this->yyval = new PHPParser_Node_Expr_LambdaFunc($this->yyastk[$this->yysp-(9-8)], $this->yyastk[$this->yysp-(9-4)], $this->yyastk[$this->yysp-(9-6)], $this->yyastk[$this->yysp-(9-2)], $line, $docComment); 
     }
 
     protected function yyn234($line, $docComment) {
