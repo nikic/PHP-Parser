@@ -10,14 +10,14 @@ const LIB = '(?(DEFINE)
     (?<code>\{[^\'"/{}]*+(?:(?:(?&string)|(?&comment)|(?&code)|/)[^\'"/{}]*+)*+})
 )';
 
-const PARAMS = '\[(?<params>[^[\]]*+(?:\[(?&params)\][^[\]]*+)*+)\]';
-const ARGS   = '\((?<args>[^()]*+(?:\((?&args)\)[^()]*+)*+)\)';
-
 const RULE_BLOCK = '(?<name>[a-z_]++):(?<rules>[^\'"/{};]*+(?:(?:(?&string)|(?&comment)|(?&code)|/|})[^\'"/{};]*+)*+);';
 
-$tokensToExtract = array_flip(array(
+$usedTerminals = array_flip(array(
     'T_VARIABLE', 'T_STRING', 'T_INLINE_HTML', 'T_ENCAPSED_AND_WHITESPACE',
     'T_LNUMBER', 'T_DNUMBER', 'T_CONSTANT_ENCAPSED_STRING', 'T_STRING_VARNAME', 'T_NUM_STRING'
+));
+$unusedNonterminals = array_flip(array(
+    'case_separator', 'optional_comma'
 ));
 
 function regex($regex) {
@@ -46,8 +46,6 @@ if ('' !== trim(preg_replace(regex(RULE_BLOCK), '', $ruleBlocks))) {
     die('Not all rule blocks were properly recognized!');
 }
 
-$nodeSignatures = array();
-
 preg_match_all(regex(RULE_BLOCK), $ruleBlocks, $ruleBlocksMatches, PREG_SET_ORDER);
 foreach ($ruleBlocksMatches as $match) {
     $ruleBlockName = $match['name'];
@@ -63,27 +61,6 @@ foreach ($ruleBlocksMatches as $match) {
                 foreach ($backReferencesMatches as $match) {
                     $usedParts[$match[1]] = true;
                 }
-
-                preg_match_all('~(?<name>[A-Z][a-zA-Z_]++)' . PARAMS . '~', $part, $nodeMatches, PREG_SET_ORDER);
-                foreach ($nodeMatches as $match) {
-                    $signature =& $nodeSignatures[$match['name']];
-                    $params = magicSplit('(?:' . PARAMS . '|' . ARGS . ')(*SKIP)(*FAIL)|,', $match['params']);
-
-                    if (!isset($signature)) {
-                        $signature = array();
-                        foreach ($params as $i => $param) {
-                            list($name, ) = explode(': ', $param, 2);
-                            $signature[$i] = $name;
-                        }
-                    } else {
-                        foreach ($params as $i => $param) {
-                            list($name, ) = explode(': ', $param, 2);
-                            if ($signature[$i] != $name) {
-                                die('Signature mismatch for "' . $match['name'] . '"');
-                            }
-                        }
-                    }
-                }
             }
         }
 
@@ -94,17 +71,19 @@ foreach ($ruleBlocksMatches as $match) {
             }
 
             if (isset($usedParts[$i])) {
-                if ('\'' === $part[0] || '{' === $part[0]) {
+                if ('\'' === $part[0] || '{' === $part[0]
+                    || (ctype_upper($part[0]) && !isset($usedTerminals[$part]))
+                    || (ctype_lower($part[0]) && isset($unusedNonterminals[$part]))
+                ) {
                     $part = '<span style="background-color: red; color: white;">' . $part . '</span>';
-                } elseif ('T' === $part[0] && !isset($tokensToExtract[$part])) {
-                    $part = '<span style="background-color: green; color: white;">' . $part . '</span>';
                 } else {
                     $part = '<strong><em>' . $part . '</em></strong>';
                 }
-            } elseif (ctype_lower($part[0])) {
+            } elseif ((ctype_upper($part[0]) && isset($usedTerminals[$part]))
+                      || (ctype_lower($part[0]) && !isset($unusedNonterminals[$part]))
+
+            ) {
                 $part = '<span style="background-color: blue; color: white;">' . $part . '</span>';
-            } elseif ('T' === $part[0] && isset($tokensToExtract[$part])) {
-                $part = '<span style="background-color: yellow;">' . $part . '</span>';
             }
 
             ++$i;
@@ -115,16 +94,3 @@ foreach ($ruleBlocksMatches as $match) {
 
     echo $ruleBlockName, ':', "\n", '      ', implode("\n" . '    | ', $rules), "\n", ';', "\n\n";
 }
-
-var_dump($nodeSignatures);
-
-var_dump(array_keys($nodeSignatures));
-
-$names = array();
-foreach ($nodeSignatures as $params) {
-    foreach ($params as $param) {
-        $names[$param] = true;
-    }
-}
-
-var_dump(array_keys($names));

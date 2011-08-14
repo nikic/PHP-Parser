@@ -3,7 +3,7 @@ What do all those files mean?
 
  * `zend_language_parser.y`:    Original PHP grammer this parser is based on
  * `zend_language_parser.phpy`: PHP grammer written in a pseudo language
- * `analyzer.php`:              Analyzes the `.phpy`-grammer and outputs some info about it
+ * `analyze.php`:               Analyzes the `.phpy`-grammer and outputs some info about it
  * `rebuildParser.php`:         Preprocesses the `.phpy`-grammar and builds the parser using `kmyacc`
  * `kmyacc.php.parser`:         A `kmyacc` parser prototype file for PHP
 
