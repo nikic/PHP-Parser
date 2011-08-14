@@ -24,7 +24,7 @@ In order to automatically include required files `PHPParser_Autoloader` can be u
     require_once 'path/to/phpparser/lib/PHPParser/Autoloader.php';
     PHPParser_Autoloader::register();
 
-Parser and ParserDebug
+Parser and Parser_Debug
 ----------------------
 
 Parsing is performed using `PHPParser_Parser->parse()`. This method accepts a `PHPParser_Lexer`
@@ -40,7 +40,7 @@ PHPParser_Error.
         echo 'Parse Error: ', $e->getMessage();
     }
 
-The `PHPParser_ParserDebug` class also parses a PHP code, but outputs a debug trace while doing so.
+The `PHPParser_Parser_Debug` class also parses PHP code, but outputs a debug trace while doing so.
 
 Node Tree
 ---------

@@ -6,17 +6,18 @@ $meta #
 #semval(%n,%t) $this->yyastk[$this->yysp-(%l-%n)]
 #include;
 
-/* Prototype file of classed PHP parser.
+/* Prototype file of an object oriented PHP parser.
  * Written by Moriyoshi Koizumi, based on the work by Masato Bito.
  * This file is PUBLIC DOMAIN.
  */
-#if -p
+#if -t
+class #(-p)_Debug extends #(-p)
+#endif
+#ifnot -t
 class #(-p)
 #endif
-#ifnot -p
-class YYParser
-#endif
 {
+#ifnot -t
     const YYBADCH      = #(YYBADCH);
     const YYMAXLEX     = #(YYMAXLEX);
     const YYTERMS      = #(YYTERMS);
@@ -36,104 +37,101 @@ class YYParser
 #endtokenval
     // }}}
 
-    private static $yyterminals = array(
+    protected static $yyterminals = array(
         #listvar terminals
         , "???"
     );
 
-#if -t
-    private static $yyproduction = array(
-        #production-strings;
-    );
-#endif
-
-    private static $yytranslate = array(
+    protected static $yytranslate = array(
         #listvar yytranslate
     );
 
-    private static $yyaction = array(
+    protected static $yyaction = array(
         #listvar yyaction
     );
 
-    private static $yycheck = array(
+    protected static $yycheck = array(
         #listvar yycheck
     );
 
-    private static $yybase = array(
+    protected static $yybase = array(
         #listvar yybase
     );
 
-    private static $yydefault = array(
+    protected static $yydefault = array(
         #listvar yydefault
     );
 
-    private static $yygoto = array(
+    protected static $yygoto = array(
         #listvar yygoto
     );
 
-    private static $yygcheck = array(
+    protected static $yygcheck = array(
         #listvar yygcheck
     );
 
-    private static $yygbase = array(
+    protected static $yygbase = array(
         #listvar yygbase
     );
 
-    private static $yygdefault = array(
+    protected static $yygdefault = array(
         #listvar yygdefault
     );
 
-    private static $yylhs = array(
+    protected static $yylhs = array(
         #listvar yylhs
     );
 
-    private static $yylen = array(
+    protected static $yylen = array(
         #listvar yylen
     );
-
-#if -t
-    /* Debug Mode */
-    protected function yyprintln($msg) {
-        echo $msg, "\n";
-    }
-
-    private function YYTRACE_NEWSTATE($state, $sym) {
-        $this->yyprintln(
-            '% State ' . $state
-          . ', Lookahead ' . ($sym < 0 ? '--none--' : self::$yyterminals[$sym])
-        );
-    }
-
-    private function YYTRACE_READ($sym) {
-        $this->yyprintln('% Reading ' . self::$yyterminals[$sym]);
-    }
-
-    private function YYTRACE_SHIFT($sym) {
-        $this->yyprintln('% Shift ' . self::$yyterminals[$sym]);
-    }
-
-    private function YYTRACE_ACCEPT() {
-        $this->yyprintln('% Accepted.');
-    }
-
-    private function YYTRACE_REDUCE($n) {
-        $this->yyprintln('% Reduce by (' . $n . ') ' . self::$yyproduction[$n]);
-    }
-
-    private function YYTRACE_POP($state) {
-        $this->yyprintln('% Recovering, uncovers state ' . $state);
-    }
-
-    private function YYTRACE_DISCARD($sym) {
-        $this->yyprintln('% Discard ' . self::$yyterminals[$sym]);
-    }
-#endif
 
     protected $yyval;
     protected $yyastk;
     protected $yysp;
     protected $yyaccept;
     protected $lexer;
+#endif
+#if -t
+    protected static $yyproduction = array(
+        #production-strings;
+    );
+
+    protected function yyprintln($msg) {
+        echo $msg, "\n";
+    }
+
+    protected function YYTRACE_NEWSTATE($state, $sym) {
+        $this->yyprintln(
+            '% State ' . $state
+          . ', Lookahead ' . ($sym < 0 ? '--none--' : self::$yyterminals[$sym])
+        );
+    }
+
+    protected function YYTRACE_READ($sym) {
+        $this->yyprintln('% Reading ' . self::$yyterminals[$sym]);
+    }
+
+    protected function YYTRACE_SHIFT($sym) {
+        $this->yyprintln('% Shift ' . self::$yyterminals[$sym]);
+    }
+
+    protected function YYTRACE_ACCEPT() {
+        $this->yyprintln('% Accepted.');
+    }
+
+    protected function YYTRACE_REDUCE($n) {
+        $this->yyprintln('% Reduce by (' . $n . ') ' . self::$yyproduction[$n]);
+    }
+
+    protected function YYTRACE_POP($state) {
+        $this->yyprintln('% Recovering, uncovers state ' . $state);
+    }
+
+    protected function YYTRACE_DISCARD($sym) {
+        $this->yyprintln('% Discard ' . self::$yyterminals[$sym]);
+    }
+#endif
 
     /**
 #ifnot -t
@@ -273,16 +271,18 @@ class YYParser
             }
         }
     }
+#ifnot -t
 #reduce
 
-    private function yyn%n($line, $docComment) {
+    protected function yyn%n($line, $docComment) {
         %b
     }
 #noact
 
-    private function yyn%n() {
+    protected function yyn%n() {
         $this->yyval = $this->yyastk[$this->yysp];
     }
 #endreduce
+#endif
 }
 #tailcode;

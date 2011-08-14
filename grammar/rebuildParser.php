@@ -42,10 +42,10 @@ echo 'Building parser.       Output: "',
 rename(RESULT_FILE, '../lib/PHPParser/Parser.php');
 
 echo 'Building debug parser. Output: "',
-     trim(shell_exec('kmyacc -t -l -m kmyacc.php.parser -p PHPParser_ParserDebug ' . TMP_FILE . ' 2>&1')),
+     trim(shell_exec('kmyacc -t -l -m kmyacc.php.parser -p PHPParser_Parser ' . TMP_FILE . ' 2>&1')),
      '"', "\n";
 
-rename(RESULT_FILE, '../lib/PHPParser/ParserDebug.php');
+rename(RESULT_FILE, '../lib/PHPParser/Parser/Debug.php');
 
 unlink(TMP_FILE);
 
