@@ -2,7 +2,7 @@
 
 class PHPParser_Tests_NodeTraverserTest extends PHPUnit_Framework_TestCase
 {
-    function getTestNode() {
+    public function getTestNode() {
         return array(
             new PHPParser_Node_Stmt_Namespace(array(
                 'name' => new PHPParser_Node_Name(array('Foo', 'Bar')),
@@ -18,7 +18,7 @@ class PHPParser_Tests_NodeTraverserTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    function testTraverse() {
+    public function testTraverse() {
         $node = $this->getTestNode();
 
         $visitor   = new PHPParser_Tests_NodeVisitor;
@@ -56,7 +56,7 @@ class PHPParser_Tests_NodeTraverserTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($node, $visitor->afterTraverseNode);
     }
 
-    function testModifyingTraverse() {
+    public function testModifyingTraverse() {
         $node = $this->getTestNode();
 
         $visitor   = new PHPParser_Tests_ModifyingNodeVisitor;

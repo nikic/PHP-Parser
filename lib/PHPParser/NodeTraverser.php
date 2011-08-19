@@ -45,8 +45,7 @@ class PHPParser_NodeTraverser
             return;
         }
 
-        $delNodes = array();
-        $mrgNodes = array();
+        $doNodes = array();
 
         foreach ($node as $subNodeKey => &$subNode) {
             if ($subNode instanceof PHPParser_NodeAbstract) {
@@ -62,33 +61,29 @@ class PHPParser_NodeTraverser
                     $return = $visitor->leaveNode($subNode);
 
                     if (false === $return) {
-                        $delNodes[] = $subNodeKey;
+                        $doNodes[] = array($subNodeKey, array());
+                        break;
                     } elseif (is_array($return)) {
-                        $mrgNodes[] = array($subNodeKey, $return);
+                        $doNodes[] = array($subNodeKey, $return);
+                        break;
                     }
                 }
             }
         }
 
-        if (!empty($delNodes)) {
+        if (!empty($doNodes)) {
             if (is_array($node)) {
-                while ($delKey = array_pop($delNodes)) {
-                    array_splice($node, $delKey, 1, array());
+                while (list($key, $replace) = array_pop($doNodes)) {
+                    array_splice($node, $key, 1, $replace);
                 }
             } else {
-                while ($delKey = array_pop($delNodes)) {
-                    unset($node[$delKey]);
-                }
-            }
-        }
+                while (list($key, $replace) = array_pop($doNodes)) {
+                    if (!empty($replace)) {
+                        throw new Exception('Nodes can only be merged if the parent is an array');
+                    }
 
-        if (!empty($mrgNodes)) {
-            if (is_array($node)) {
-                while (list($mrgKey, $mrgItems) = array_pop($mrgNodes)) {
-                    array_splice($node, $mrgKey, 1, $mrgItems);
+                    unset($node[$key]);
                 }
-            } else {
-                throw new Exception('Nodes can only be merged if the parent is an array');
             }
         }
     }
