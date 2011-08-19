@@ -564,7 +564,7 @@ function_call:
 ;
 
 class_name:
-      T_STATIC                                              { $$ = 'static'; }
+      T_STATIC                                              { $$ = Name['static', Name::NORMAL]; }
     | name                                                  { $$ = $1; }
 ;
 

@@ -11,7 +11,7 @@ class PHPParser_Node_Expr_StaticCall extends PHPParser_Node_Expr
      * Constructs a static method call node.
      *
      * @param PHPParser_Node_Name|PHPParser_Node_Expr $class      Class name
-     * @param string|PHPParser_Node_Name              $name       Method name
+     * @param string|PHPParser_Node_Expr              $name       Method name
      * @param PHPParser_Node_Expr_FuncCallArg[]       $args       Arguments
      * @param int                                     $line       Line
      * @param null|string                             $docComment Nearest doc comment

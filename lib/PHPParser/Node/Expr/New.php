@@ -1,18 +1,18 @@
 <?php
 
 /**
- * @property string|PHPParser_Node_Name        $class Class name
- * @property PHPParser_Node_Expr_FuncCallArg[] $args  Arguments
+ * @property PHPParser_Node_Name|PHPParser_Node_Expr $class Class name
+ * @property PHPParser_Node_Expr_FuncCallArg[]       $args  Arguments
  */
 class PHPParser_Node_Expr_New extends PHPParser_Node_Expr
 {
     /**
      * Constructs a function call node.
      *
-     * @param string|PHPParser_Node_Name        $class      Class name
-     * @param PHPParser_Node_Expr_FuncCallArg[] $args       Arguments
-     * @param int                               $line       Line
-     * @param null|string                       $docComment Nearest doc comment
+     * @param PHPParser_Node_Name|PHPParser_Node_Expr $class      Class name
+     * @param PHPParser_Node_Expr_FuncCallArg[]       $args       Arguments
+     * @param int                                     $line       Line
+     * @param null|string                             $docComment Nearest doc comment
      */
     public function __construct($class, array $args = array(), $line = -1, $docComment = null) {
         parent::__construct(

@@ -319,7 +319,7 @@ class PHPParser_PrettyPrinter_Zend extends PHPParser_PrettyPrinterAbstract
     }
 
     public function pExpr_StaticCall(PHPParser_Node_Expr_StaticCall $node) {
-        return $this->pClassName($node->class) . '::'
+        return $this->p($node->class) . '::'
              . ($node->name instanceof PHPParser_Node_Expr ? $this->p($node->name) : $node->name)
              . '(' . $this->pCommaSeparated($node->args) . ')';
     }
@@ -381,7 +381,7 @@ class PHPParser_PrettyPrinter_Zend extends PHPParser_PrettyPrinterAbstract
     }
 
     public function pExpr_ClassConstFetch(PHPParser_Node_Expr_ClassConstFetch $node) {
-        return $this->pClassName($node->class) . '::' . $node->name;
+        return $this->p($node->class) . '::' . $node->name;
     }
 
     public function pExpr_PropertyFetch(PHPParser_Node_Expr_PropertyFetch $node) {
@@ -389,7 +389,7 @@ class PHPParser_PrettyPrinter_Zend extends PHPParser_PrettyPrinterAbstract
     }
 
     public function pExpr_StaticPropertyFetch(PHPParser_Node_Expr_StaticPropertyFetch $node) {
-        return $this->pClassName($node->class) . '::$' . $this->pObjectProperty($node->name);
+        return $this->p($node->class) . '::$' . $this->pObjectProperty($node->name);
     }
 
     public function pExpr_ShellExec(PHPParser_Node_Expr_ShellExec $node) {
@@ -408,7 +408,7 @@ class PHPParser_PrettyPrinter_Zend extends PHPParser_PrettyPrinterAbstract
     }
 
     public function pExpr_New(PHPParser_Node_Expr_New $node) {
-        return 'new ' . $this->pClassName($node->class) . '(' . $this->pCommaSeparated($node->args) . ')';
+        return 'new ' . $this->p($node->class) . '(' . $this->pCommaSeparated($node->args) . ')';
     }
 
     public function pExpr_Clone(PHPParser_Node_Expr_Clone $node) {
@@ -623,14 +623,6 @@ class PHPParser_PrettyPrinter_Zend extends PHPParser_PrettyPrinterAbstract
             return '{' . $this->p($node) . '}';
         } else {
             return $node;
-        }
-    }
-
-    public function pClassName($node) {
-        if ($node == 'static') {
-            return 'static';
-        } else {
-            return $this->p($node);
         }
     }
 

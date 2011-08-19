@@ -19,16 +19,16 @@ class PHPParser_Node_Stmt_Class extends PHPParser_Node_Stmt
     public function __construct(array $subNodes, $line = -1, $docComment = null) {
         parent::__construct($subNodes, $line, $docComment);
 
-        if ('self' == $this->name || 'parent' == $this->name) {
+        if ('self' == $this->name || 'parent' == $this->name) { // 'static' cannot occur
             throw new PHPParser_Error(sprintf('Cannot use "%s" as class name as it is reserved', $this->name));
         }
 
-        if ('self' == $this->extends || 'parent' == $this->extends) {
+        if ('self' == $this->extends || 'parent' == $this->extends || 'static' == $this->extends) {
             throw new PHPParser_Error(sprintf('Cannot use "%s" as class name as it is reserved', $this->extends));
         }
 
         foreach ($this->implements as $interface) {
-            if ('self' == $interface || 'parent' == $interface) {
+            if ('self' == $interface || 'parent' == $interface || 'static' == $interface) {
                 throw new PHPParser_Error(sprintf('Cannot use "%s" as interface name as it is reserved', $interface));
             }
         }

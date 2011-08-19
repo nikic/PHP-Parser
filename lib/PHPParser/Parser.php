@@ -1967,7 +1967,7 @@ class PHPParser_Parser
     }
 
     protected function yyn243($line, $docComment) {
-         $this->yyval = 'static'; 
+         $this->yyval = new PHPParser_Node_Name('static', PHPParser_Node_Name::NORMAL, $line, $docComment); 
     }
 
     protected function yyn244($line, $docComment) {
