@@ -89,7 +89,6 @@ class #(-p)
     protected $yyval;
     protected $yyastk;
     protected $yysp;
-    protected $yyaccept;
     protected $lexer;
 #endif
 #if -t

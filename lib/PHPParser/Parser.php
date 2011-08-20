@@ -858,7 +858,6 @@ class PHPParser_Parser
     protected $yyval;
     protected $yyastk;
     protected $yysp;
-    protected $yyaccept;
     protected $lexer;
 
     /**
@@ -2039,11 +2038,11 @@ class PHPParser_Parser
     }
 
     protected function yyn261($line, $docComment) {
-         $this->yyval = array(PHPParser_Node_Scalar_String::parseEscapeSequences($this->yyastk[$this->yysp-(1-1)])); 
+         $this->yyval = array(PHPParser_Node_Scalar_String::parseEscapeSequences($this->yyastk[$this->yysp-(1-1)], '`')); 
     }
 
     protected function yyn262($line, $docComment) {
-         $this->yyval = $this->yyastk[$this->yysp-(1-1)]; 
+         foreach ($this->yyastk[$this->yysp-(1-1)] as &$s) { if (is_string($s)) { $s = PHPParser_Node_Scalar_String::parseEscapeSequences($s, '`'); } }; $this->yyval = $this->yyastk[$this->yysp-(1-1)]; 
     }
 
     protected function yyn263($line, $docComment) {
@@ -2095,7 +2094,7 @@ class PHPParser_Parser
     }
 
     protected function yyn275($line, $docComment) {
-         $this->yyval = new PHPParser_Node_Scalar_String(PHPParser_Node_Scalar_String::parseEscapeSequences($this->yyastk[$this->yysp-(3-2)]), $line, $docComment); 
+         $this->yyval = new PHPParser_Node_Scalar_String(PHPParser_Node_Scalar_String::parseEscapeSequences($this->yyastk[$this->yysp-(3-2)], null), $line, $docComment); 
     }
 
     protected function yyn276($line, $docComment) {
@@ -2143,11 +2142,11 @@ class PHPParser_Parser
     }
 
     protected function yyn287($line, $docComment) {
-         $this->yyval = new PHPParser_Node_Scalar_Encapsed($this->yyastk[$this->yysp-(3-2)], $line, $docComment); 
+         foreach ($this->yyastk[$this->yysp-(3-2)] as &$s) { if (is_string($s)) { $s = PHPParser_Node_Scalar_String::parseEscapeSequences($s, '"'); } }; $this->yyval = new PHPParser_Node_Scalar_Encapsed($this->yyastk[$this->yysp-(3-2)], $line, $docComment); 
     }
 
     protected function yyn288($line, $docComment) {
-         $this->yyval = new PHPParser_Node_Scalar_Encapsed($this->yyastk[$this->yysp-(3-2)], $line, $docComment); 
+         foreach ($this->yyastk[$this->yysp-(3-2)] as &$s) { if (is_string($s)) { $s = PHPParser_Node_Scalar_String::parseEscapeSequences($s, null); } }; $this->yyval = new PHPParser_Node_Scalar_Encapsed($this->yyastk[$this->yysp-(3-2)], $line, $docComment); 
     }
 
     protected function yyn289($line, $docComment) {
@@ -2359,7 +2358,7 @@ class PHPParser_Parser
     }
 
     protected function yyn341($line, $docComment) {
-         $this->yyastk[$this->yysp-(2-1)][] = PHPParser_Node_Scalar_String::parseEscapeSequences($this->yyastk[$this->yysp-(2-2)]); $this->yyval = $this->yyastk[$this->yysp-(2-1)]; 
+         $this->yyastk[$this->yysp-(2-1)][] = $this->yyastk[$this->yysp-(2-2)]; $this->yyval = $this->yyastk[$this->yysp-(2-1)]; 
     }
 
     protected function yyn342($line, $docComment) {
@@ -2367,7 +2366,7 @@ class PHPParser_Parser
     }
 
     protected function yyn343($line, $docComment) {
-         $this->yyval = array(PHPParser_Node_Scalar_String::parseEscapeSequences($this->yyastk[$this->yysp-(2-1)]), $this->yyastk[$this->yysp-(2-2)]); 
+         $this->yyval = array($this->yyastk[$this->yysp-(2-1)], $this->yyastk[$this->yysp-(2-2)]); 
     }
 
     protected function yyn344($line, $docComment) {

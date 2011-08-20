@@ -99,7 +99,7 @@ function resolveNodes($code) {
 
 function resolveMacros($code) {
     return preg_replace_callback(
-        '~(?<name>error|init|push|pushNormalizing|toArray|parse(?:Var|Encapsed|LNumber|DNumber))' . ARGS . '~',
+        '~(?<name>error|init|push|pushNormalizing|toArray|parse(?:Var|LNumber|DNumber|Encapsed))' . ARGS . '~',
         function($matches) {
             // recurse
             $matches['args'] = resolveMacros($matches['args']);
@@ -144,12 +144,6 @@ function resolveMacros($code) {
                 return 'substr(' . $args[0] . ', 1)';
             }
 
-            if ('parseEncapsed' == $name) {
-                assertArgs(1, $args, $name);
-
-                return 'stripcslashes(' . $args[0] . ')';
-            }
-
             if ('parseLNumber' == $name) {
                 assertArgs(1, $args, $name);
 
@@ -160,6 +154,12 @@ function resolveMacros($code) {
                 assertArgs(1, $args, $name);
 
                 return '(double) ' . $args[0];
+            }
+
+            if ('parseEncapsed' == $name) {
+                assertArgs(2, $args, $name);
+
+                return 'foreach (' . $args[0] . ' as &$s) { if (is_string($s)) { $s = PHPParser_Node_Scalar_String::parseEscapeSequences($s, ' . $args[1] . '); } }';
             }
         },
         $code

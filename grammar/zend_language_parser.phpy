@@ -601,8 +601,8 @@ exit_expr:
 
 backticks_expr:
       /* empty */                                           { $$ = array(); }
-    | T_ENCAPSED_AND_WHITESPACE                             { $$ = array(Scalar_String::parseEscapeSequences($1)); }
-    | encaps_list                                           { $$ = $1; }
+    | T_ENCAPSED_AND_WHITESPACE                             { $$ = array(Scalar_String::parseEscapeSequences($1, '`')); }
+    | encaps_list                                           { parseEncapsed($1, '`'); $$ = $1; }
 ;
 
 ctor_arguments:
@@ -622,7 +622,7 @@ common_scalar:
     | T_FUNC_C                                              { $$ = Scalar_FuncConst[]; }
     | T_NS_C                                                { $$ = Scalar_NSConst[]; }
     | T_START_HEREDOC T_ENCAPSED_AND_WHITESPACE T_END_HEREDOC
-          { $$ = Scalar_String[Scalar_String::parseEscapeSequences($2)]; }
+          { $$ = Scalar_String[Scalar_String::parseEscapeSequences($2, null)]; }
     | T_START_HEREDOC T_END_HEREDOC
           { $$ = Scalar_String['']; }
 ;
@@ -641,8 +641,10 @@ scalar:
     | class_constant                                        { $$ = $1; }
     | name                                                  { $$ = Expr_ConstFetch[$1]; }
     | common_scalar                                         { $$ = $1; }
-    | '"' encaps_list '"'                                   { $$ = Scalar_Encapsed[$2]; }
-    | T_START_HEREDOC encaps_list T_END_HEREDOC             { $$ = Scalar_Encapsed[$2]; }
+    | '"' encaps_list '"'
+          { parseEncapsed($2, '"'); $$ = Scalar_Encapsed[$2]; }
+    | T_START_HEREDOC encaps_list T_END_HEREDOC
+          { parseEncapsed($2, null); $$ = Scalar_Encapsed[$2]; }
 ;
 
 static_array_pair_list:
@@ -760,9 +762,9 @@ array_pair:
 
 encaps_list:
       encaps_list encaps_var                                { push($1, $2); }
-    | encaps_list T_ENCAPSED_AND_WHITESPACE                 { push($1, Scalar_String::parseEscapeSequences($2)); }
+    | encaps_list T_ENCAPSED_AND_WHITESPACE                 { push($1, $2); }
     | encaps_var                                            { init($1); }
-    | T_ENCAPSED_AND_WHITESPACE encaps_var                  { init(Scalar_String::parseEscapeSequences($1), $2); }
+    | T_ENCAPSED_AND_WHITESPACE encaps_var                  { init($1, $2); }
 ;
 
 encaps_var:
