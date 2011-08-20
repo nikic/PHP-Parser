@@ -33,14 +33,14 @@ class PHPParser_NodeTraverser
             $visitor->beforeTraverse($node);
         }
 
-        $this->_traverse($node);
+        $this->_traverse($node, $this->visitors);
 
         foreach ($this->visitors as $visitor) {
             $visitor->afterTraverse($node);
         }
     }
 
-    protected function _traverse(&$node) {
+    protected function _traverse(&$node, array $visitors) {
         if (!is_array($node) && !$node instanceof Traversable) {
             return;
         }
@@ -49,21 +49,27 @@ class PHPParser_NodeTraverser
 
         foreach ($node as $subNodeKey => &$subNode) {
             if ($subNode instanceof PHPParser_NodeAbstract) {
-                foreach ($this->visitors as $visitor) {
+                foreach ($visitors as $visitor) {
                     $visitor->enterNode($subNode);
                 }
             }
 
-            $this->_traverse($subNode);
+            $this->_traverse($subNode, $visitors);
 
             if ($subNode instanceof PHPParser_NodeAbstract) {
-                foreach ($this->visitors as $visitor) {
+                foreach ($visitors as $i => $visitor) {
                     $return = $visitor->leaveNode($subNode);
 
                     if (false === $return) {
                         $doNodes[] = array($subNodeKey, array());
                         break;
                     } elseif (is_array($return)) {
+                        // traverse replacement nodes using all visitors apart from the one that
+                        // did the change
+                        $subNodeVisitors = $visitors;
+                        unset($subNodeVisitors[$i]);
+                        $this->_traverse($return, $subNodeVisitors);
+
                         $doNodes[] = array($subNodeKey, $return);
                         break;
                     }
