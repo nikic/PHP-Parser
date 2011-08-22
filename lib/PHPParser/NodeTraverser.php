@@ -26,7 +26,7 @@ class PHPParser_NodeTraverser
     /**
      * Traverses a node or an array using the registered visitors.
      *
-     * @param PHPParser_NodeAbstract|array $node Node or array
+     * @param array|PHPParser_NodeAbstract $node Node or array
      */
     public function traverse(&$node) {
         foreach ($this->visitors as $visitor) {

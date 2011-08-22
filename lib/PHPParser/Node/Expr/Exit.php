@@ -12,7 +12,7 @@ class PHPParser_Node_Expr_Exit extends PHPParser_Node_Expr
      * @param int                      $line       Line
      * @param null|string              $docComment Nearest doc comment
      */
-    public function __construct($expr = null, $line = -1, $docComment = null) {
+    public function __construct(PHPParser_Node_Expr $expr = null, $line = -1, $docComment = null) {
         parent::__construct(
             array(
                 'expr' => $expr
