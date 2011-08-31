@@ -29,6 +29,10 @@ class PHPParser_NodeTraverser
      * @param array|PHPParser_NodeAbstract $node Node or array
      */
     public function traverse(&$node) {
+        if (!is_array($node) && !$node instanceof PHPParser_NodeAbstract) {
+            throw new InvalidArgumentException('Can only traverse nodes and arrays');
+        }
+
         foreach ($this->visitors as $visitor) {
             $visitor->beforeTraverse($node);
         }
@@ -41,22 +45,18 @@ class PHPParser_NodeTraverser
     }
 
     protected function _traverse(&$node, array $visitors) {
-        if (!is_array($node) && !$node instanceof Traversable) {
-            return;
-        }
-
         $doNodes = array();
 
         foreach ($node as $subNodeKey => &$subNode) {
-            if ($subNode instanceof PHPParser_NodeAbstract) {
+            if (is_array($subNode)) {
+                $this->_traverse($subNode, $visitors);
+            } elseif ($subNode instanceof PHPParser_NodeAbstract) {
                 foreach ($visitors as $visitor) {
                     $visitor->enterNode($subNode);
                 }
-            }
 
-            $this->_traverse($subNode, $visitors);
+                $this->_traverse($subNode, $visitors);
 
-            if ($subNode instanceof PHPParser_NodeAbstract) {
                 foreach ($visitors as $i => $visitor) {
                     $return = $visitor->leaveNode($subNode);
 
@@ -78,18 +78,12 @@ class PHPParser_NodeTraverser
         }
 
         if (!empty($doNodes)) {
-            if (is_array($node)) {
-                while (list($key, $replace) = array_pop($doNodes)) {
-                    array_splice($node, $key, 1, $replace);
-                }
-            } else {
-                while (list($key, $replace) = array_pop($doNodes)) {
-                    if (!empty($replace)) {
-                        throw new Exception('Nodes can only be merged if the parent is an array');
-                    }
+            if (!is_array($node)) {
+                throw new Exception('Nodes can only be merged if the parent is an array');
+            }
 
-                    unset($node[$key]);
-                }
+            while (list($key, $replace) = array_pop($doNodes)) {
+                array_splice($node, $key, 1, $replace);
             }
         }
     }
