@@ -38,7 +38,7 @@ class PHPParser_Tests_NodeDumperTest extends PHPUnit_Framework_TestCase
             ),
             array(
                 new PHPParser_Node_Expr_Array(array(
-                    new PHPParser_Node_Expr_ArrayItem(null, new PHPParser_Node_Scalar_String('Foo'))
+                    new PHPParser_Node_Expr_ArrayItem(new PHPParser_Node_Scalar_String('Foo'))
                 )),
 'Expr_Array(
     items: array(

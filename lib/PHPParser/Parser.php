@@ -2174,11 +2174,11 @@ class PHPParser_Parser
     }
 
     protected function yyn295($line, $docComment) {
-         $this->yyval = new PHPParser_Node_Expr_ArrayItem($this->yyastk[$this->yysp-(3-1)], $this->yyastk[$this->yysp-(3-3)], false, $line, $docComment); 
+         $this->yyval = new PHPParser_Node_Expr_ArrayItem($this->yyastk[$this->yysp-(3-3)], $this->yyastk[$this->yysp-(3-1)], false, $line, $docComment); 
     }
 
     protected function yyn296($line, $docComment) {
-         $this->yyval = new PHPParser_Node_Expr_ArrayItem(null, $this->yyastk[$this->yysp-(1-1)], false, $line, $docComment); 
+         $this->yyval = new PHPParser_Node_Expr_ArrayItem($this->yyastk[$this->yysp-(1-1)], null, false, $line, $docComment); 
     }
 
     protected function yyn297($line, $docComment) {
@@ -2338,19 +2338,19 @@ class PHPParser_Parser
     }
 
     protected function yyn336($line, $docComment) {
-         $this->yyval = new PHPParser_Node_Expr_ArrayItem($this->yyastk[$this->yysp-(3-1)], $this->yyastk[$this->yysp-(3-3)], false, $line, $docComment); 
+         $this->yyval = new PHPParser_Node_Expr_ArrayItem($this->yyastk[$this->yysp-(3-3)], $this->yyastk[$this->yysp-(3-1)], false, $line, $docComment); 
     }
 
     protected function yyn337($line, $docComment) {
-         $this->yyval = new PHPParser_Node_Expr_ArrayItem(null, $this->yyastk[$this->yysp-(1-1)], false, $line, $docComment); 
+         $this->yyval = new PHPParser_Node_Expr_ArrayItem($this->yyastk[$this->yysp-(1-1)], null, false, $line, $docComment); 
     }
 
     protected function yyn338($line, $docComment) {
-         $this->yyval = new PHPParser_Node_Expr_ArrayItem($this->yyastk[$this->yysp-(4-1)], $this->yyastk[$this->yysp-(4-4)], true, $line, $docComment); 
+         $this->yyval = new PHPParser_Node_Expr_ArrayItem($this->yyastk[$this->yysp-(4-4)], $this->yyastk[$this->yysp-(4-1)], true, $line, $docComment); 
     }
 
     protected function yyn339($line, $docComment) {
-         $this->yyval = new PHPParser_Node_Expr_ArrayItem(null, $this->yyastk[$this->yysp-(2-2)], true, $line, $docComment); 
+         $this->yyval = new PHPParser_Node_Expr_ArrayItem($this->yyastk[$this->yysp-(2-2)], null, true, $line, $docComment); 
     }
 
     protected function yyn340($line, $docComment) {
