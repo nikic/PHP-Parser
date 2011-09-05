@@ -30,7 +30,7 @@ class PHPParser_NodeDumper
             } elseif (is_scalar($value)) {
                 $r .= $value;
             } else {
-                $r .= implode("\n" . '    ', explode("\n", $this->dump($value)));
+                $r .= str_replace("\n", "\n" . '    ', $this->dump($value));
             }
         }
 

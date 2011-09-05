@@ -1,6 +1,7 @@
 <?php
 
-$DIR = '../../Symfony';
+$DIR   = '../../Symfony';
+$REGEX = '~skeleton(*COMMIT)(*FAIL)|\.php(\.cache)?$~';
 
 require_once '../lib/PHPParser/Autoloader.php';
 PHPParser_Autoloader::register();
@@ -9,44 +10,33 @@ $parser        = new PHPParser_Parser;
 $prettyPrinter = new PHPParser_PrettyPrinter_Zend;
 $nodeDumper    = new PHPParser_NodeDumper;
 
-include './testFormatting.html';
-
-echo '<table>
-    <tr>
-        <td>File</td>
-        <td>Parse</td>
-        <td>PrettyPrint</td>
-        <td>Compare</td>
-    </tr>';
-
-$parseFail = $parseCount = $ppFail = $ppCount = $compareFail = $compareCount = 0;
-
+$parseFail = $ppFail = $compareFail = 0;
 $parseTime = $ppTime = $compareTime = 0;
+$count = 0;
 
 $totalStartTime = microtime(true);
 
+if ('cli' !== php_sapi_name()) {
+    echo '<pre>', "\n";
+}
 
 foreach (new RecursiveIteratorIterator(
              new RecursiveDirectoryIterator($DIR),
              RecursiveIteratorIterator::LEAVES_ONLY)
          as $file) {
-    if ('.php' !== substr($file, -4)) {
+    if (!preg_match($REGEX, $file)) {
         continue;
     }
 
-    echo '
-    <tr>
-        <td>' . $file . '</td>';
-
     set_time_limit(10);
 
+    ++$count;
+
     try {
-        ++$parseCount;
         $startTime = microtime(true);
         $stmts = $parser->parse(new PHPParser_Lexer(file_get_contents($file)));
         $parseTime += microtime(true) - $startTime;
 
-        ++$ppCount;
         $startTime = microtime(true);
         $code = '<?php' . "\n" . $prettyPrinter->prettyPrint($stmts);
         $ppTime += microtime(true) - $startTime;
@@ -54,64 +44,52 @@ foreach (new RecursiveIteratorIterator(
         try {
             $ppStmts = $parser->parse(new PHPParser_Lexer($code));
 
-            ++$compareCount;
             $startTime = microtime(true);
             $same = $nodeDumper->dump($stmts) == $nodeDumper->dump($ppStmts);
             $compareTime += microtime(true) - $startTime;
 
-            if ($same) {
-                echo '
-        <td class="pass">PASS</td>
-        <td class="pass">PASS</td>
-        <td class="pass">PASS</td>
-    </tr>';
-            } else {
-                echo '
-        <td class="pass">PASS</td>
-        <td class="pass">PASS</td>
-        <td class="fail">FAIL</td>
-    </tr>';
+            if (!$same) {
+                echo $file, ":\n    Result of initial parse and parse after pretty print differ\n";
 
                 ++$compareFail;
             }
         } catch (PHPParser_Error $e) {
-            echo '
-        <td class="pass">PASS</td>
-        <td class="fail">FAIL</td>
-        <td></td>
-    </tr>
-    <tr class="failReason"><td colspan="4">' . $e->getMessage() . '</td></tr>';
+            echo $file, ":\n    Parse of pretty print failed with message: {$e->getMessage()}\n";
 
             ++$ppFail;
         }
     } catch (PHPParser_Error $e) {
-        echo '
-        <td class="fail">FAIL</td>
-        <td></td>
-        <td></td>
-    </tr>
-    <tr class="failReason"><td colspan="4">' . $e->getMessage() . '</td></tr>';
+        echo $file, ":\n    Parse failed with message: {$e->getMessage()}\n";
 
         ++$parseFail;
     }
-
-    flush();
 }
 
-echo '
-    <tr>
-        <td>Fail / Total:</td>
-        <td><span class="failCount">' . $parseFail .   '</span> / ' . $parseCount .   '</td>
-        <td><span class="failCount">' . $ppFail .      '</span> / ' . $ppCount .      '</td>
-        <td><span class="failCount">' . $compareFail . '</span> / ' . $compareCount . '</td>
-    </tr>
-    <tr>
-        <td>Time:</td>
-        <td>' . $parseTime . '</td>
-        <td>' . $ppTime . '</td>
-        <td>' . $compareTime . '</td>
-    </tr>
-</table>';
+if (0 === $parseFail && 0 === $ppFail && 0 === $compareFail) {
+    echo 'All tests passed.', "\n";
+} else {
+    echo "\n", '==========', "\n\n", 'There were: ', "\n";
+    if (0 !== $parseFail) {
+        echo '    ', $parseFail,   ' parse failures.',        "\n";
+    }
+    if (0 !== $ppFail) {
+        echo '    ', $ppFail,      ' pretty print failures.', "\n";
+    }
+    if (0 !== $compareFail) {
+        echo '    ', $compareFail, ' compare failures.',      "\n";
+    }
+}
 
-echo 'Total time: ', microtime(true) - $totalStartTime, '<br />',
-     'Maximum memory usage: ', memory_get_peak_usage(true);
+echo "\n",
+     'Tested files:         ', $count,        "\n",
+     "\n",
+     'Parsing took:         ', $parseTime,   "\n",
+     'Pretty printing took: ', $ppTime,      "\n",
+     'Comparing took:       ', $compareTime, "\n",
+     "\n",
+     'Total time:           ', microtime(true) - $totalStartTime, "\n",
+     'Maximum memory usage: ', memory_get_peak_usage(true), "\n";
+
+if ('cli' !== php_sapi_name()) {
+    echo '</pre>';
+}
