@@ -1,9 +1,9 @@
 <?php
 
-$DIR   = '../../Symfony';
+$DIR   = dirname(__FILE__) . '/../../Symfony';
 $REGEX = '~skeleton(*COMMIT)(*FAIL)|\.php(\.cache)?$~';
 
-require_once '../lib/PHPParser/Autoloader.php';
+require_once dirname(__FILE__) . '/../lib/PHPParser/Autoloader.php';
 PHPParser_Autoloader::register();
 
 $parser        = new PHPParser_Parser;

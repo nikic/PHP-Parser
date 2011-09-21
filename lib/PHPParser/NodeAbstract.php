@@ -1,6 +1,6 @@
 <?php
 
-abstract class PHPParser_NodeAbstract extends ArrayObject
+abstract class PHPParser_NodeAbstract extends ArrayObject implements PHPParser_Node
 {
     protected $line;
     protected $docComment;
@@ -20,12 +20,9 @@ abstract class PHPParser_NodeAbstract extends ArrayObject
     }
 
     /**
-     * Gets the type of this node.
+     * Gets the type of the node.
      *
-     * The type of a node is the node's class name without the
-     * PHPParser_Node_ prefix.
-     *
-     * @return string Type of this node
+     * @return string Type of the node
      */
     public function getType() {
         return substr(get_class($this), 15);

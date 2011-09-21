@@ -91,11 +91,11 @@ class PHPParser_Tests_NodeVisitor extends PHPParser_NodeVisitorAbstract
         $this->beforeTraverseNode = $node;
     }
 
-    public function enterNode(PHPParser_NodeAbstract &$node) {
+    public function enterNode(PHPParser_Node &$node) {
         $this->enteredNodes[] = $node->getType();
     }
 
-    public function leaveNode(PHPParser_NodeAbstract &$node) {
+    public function leaveNode(PHPParser_Node &$node) {
         $this->leftNodes[] = $node->getType();
     }
 
@@ -106,7 +106,7 @@ class PHPParser_Tests_NodeVisitor extends PHPParser_NodeVisitorAbstract
 
 class PHPParser_Tests_ModifyingNodeVisitor extends PHPParser_NodeVisitorAbstract
 {
-    public function leaveNode(PHPParser_NodeAbstract &$node) {
+    public function leaveNode(PHPParser_Node &$node) {
         // delete namespace nodes by merging them
         if ($node instanceof PHPParser_Node_Stmt_Namespace) {
             return $node->stmts;

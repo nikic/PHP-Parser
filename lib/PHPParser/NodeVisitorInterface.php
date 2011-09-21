@@ -12,16 +12,16 @@ interface PHPParser_NodeVisitorInterface
     /**
      * Called when entering a node.
      *
-     * @param PHPParser_NodeAbstract $node
+     * @param PHPParser_Node $node
      */
-    public function enterNode(PHPParser_NodeAbstract &$node);
+    public function enterNode(PHPParser_Node &$node);
 
     /**
      * Called when leaving a node.
      *
-     * @param PHPParser_NodeAbstract $node
+     * @param PHPParser_Node $node
      */
-    public function leaveNode(PHPParser_NodeAbstract &$node);
+    public function leaveNode(PHPParser_Node &$node);
 
     /**
      * Called once after traversal.

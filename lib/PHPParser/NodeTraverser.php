@@ -26,10 +26,10 @@ class PHPParser_NodeTraverser
     /**
      * Traverses a node or an array using the registered visitors.
      *
-     * @param array|PHPParser_NodeAbstract $node Node or array
+     * @param array|PHPParser_Node $node Node or array
      */
     public function traverse(&$node) {
-        if (!is_array($node) && !$node instanceof PHPParser_NodeAbstract) {
+        if (!is_array($node) && !$node instanceof PHPParser_Node) {
             throw new InvalidArgumentException('Can only traverse nodes and arrays');
         }
 
@@ -50,7 +50,7 @@ class PHPParser_NodeTraverser
         foreach ($node as $subNodeKey => &$subNode) {
             if (is_array($subNode)) {
                 $this->_traverse($subNode, $visitors);
-            } elseif ($subNode instanceof PHPParser_NodeAbstract) {
+            } elseif ($subNode instanceof PHPParser_Node) {
                 foreach ($visitors as $visitor) {
                     $visitor->enterNode($subNode);
                 }

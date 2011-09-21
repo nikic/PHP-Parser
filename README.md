@@ -45,8 +45,8 @@ The `PHPParser_Parser_Debug` class also parses PHP code, but outputs a debug tra
 Node Tree
 ---------
 
-The output of the parser is an array of statement nodes. All nodes are instances of
-`PHPParser_NodeAbstract`. Furthermore nodes are divided into three categories:
+The output of the parser is an array of statement nodes. All nodes implement the `PHPParser_Node`
+interface (and extend `PHPParser_NodeAbstract`). Furthermore nodes are divided into three categories:
 
  * `PHPParser_Node_Stmt`: A statement
  * `PHPParser_Node_Expr`: An expression
@@ -142,8 +142,8 @@ The node traverser allows traversing the node tree using a visitor class. A visi
 implement the `NodeVisitorInterface`, which defines the following four methods:
 
     public function beforeTraverse(&$node);
-    public function enterNode(PHPParser_NodeAbstract &$node);
-    public function leaveNode(PHPParser_NodeAbstract &$node);
+    public function enterNode(PHPParser_Node &$node);
+    public function leaveNode(PHPParser_Node &$node);
     public function afterTraverse(&$node);
 
 The `beforeTraverse` method is called once before the traversal begins and is passed the node the
@@ -179,7 +179,7 @@ With `MyVisitor` being something like that:
 
     class MyVisitor extends PHPParser_NodeVisitorAbstract
     {
-        public function enterNode(PHPParser_NodeAbstract &$node) {
+        public function enterNode(PHPParser_Node &$node) {
             // ...
         }
     }

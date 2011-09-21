@@ -122,11 +122,11 @@ abstract class PHPParser_PrettyPrinterAbstract
     /**
      * Pretty prints a node.
      *
-     * @param PHPParser_NodeAbstract $node Node to be pretty printed
+     * @param PHPParser_Node $node Node to be pretty printed
      *
      * @return string Pretty printed node
      */
-    protected function p(PHPParser_NodeAbstract $node) {
+    protected function p(PHPParser_Node $node) {
         $type = $node->getType();
 
         if (isset($this->precedanceMap[$type])) {
