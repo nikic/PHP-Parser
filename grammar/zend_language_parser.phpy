@@ -126,12 +126,12 @@ top_statement:
     | function_declaration_statement                        { $$ = $1; }
     | class_declaration_statement                           { $$ = $1; }
     | T_HALT_COMPILER
-          { $$ = Stmt_HaltCompiler[remaining: $this->lexer->handleHaltCompiler()]; }
+          { $$ = Stmt_HaltCompiler[$this->lexer->handleHaltCompiler()]; }
     | T_NAMESPACE namespace_name ';'                        { $$ = Stmt_Namespace[name: $2, stmts: null]; }
     | T_NAMESPACE namespace_name '{' top_statement_list '}' { $$ = Stmt_Namespace[name: $2, stmts: $4]; }
     | T_NAMESPACE '{' top_statement_list '}'                { $$ = Stmt_Namespace[name: null, stmts: $3]; }
-    | T_USE use_declarations ';'                            { $$ = Stmt_Use[uses: $2]; }
-    | constant_declaration ';'                              { $$ = Stmt_Const[consts: $1]; }
+    | T_USE use_declarations ';'                            { $$ = Stmt_Use[$2]; }
+    | constant_declaration ';'                              { $$ = Stmt_Const[$1]; }
 ;
 
 use_declarations:
@@ -173,18 +173,18 @@ statement:
     | T_FOR '(' for_expr ';'  for_expr ';' for_expr ')' for_statement
           { $$ = Stmt_For[init: $3, cond: $5, loop: $7, stmts: toArray($9)]; }
     | T_SWITCH '(' expr ')' switch_case_list                { $$ = Stmt_Switch[cond: $3, caseList: $5]; }
-    | T_BREAK ';'                                           { $$ = Stmt_Break[num: null]; }
-    | T_BREAK expr ';'                                      { $$ = Stmt_Break[num: $2]; }
-    | T_CONTINUE ';'                                        { $$ = Stmt_Continue[num: null]; }
-    | T_CONTINUE expr ';'                                   { $$ = Stmt_Continue[num: $2]; }
-    | T_RETURN ';'                                          { $$ = Stmt_Return[expr: null]; }
-    | T_RETURN expr ';'                                     { $$ = Stmt_Return[expr: $2]; }
-    | T_GLOBAL global_var_list ';'                          { $$ = Stmt_Global[vars: $2]; }
-    | T_STATIC static_var_list ';'                          { $$ = Stmt_Static[vars: $2]; }
-    | T_ECHO expr_list ';'                                  { $$ = Stmt_Echo[exprs: $2]; }
-    | T_INLINE_HTML                                         { $$ = Stmt_InlineHTML[value: $1]; }
+    | T_BREAK ';'                                           { $$ = Stmt_Break[null]; }
+    | T_BREAK expr ';'                                      { $$ = Stmt_Break[$2]; }
+    | T_CONTINUE ';'                                        { $$ = Stmt_Continue[null]; }
+    | T_CONTINUE expr ';'                                   { $$ = Stmt_Continue[$2]; }
+    | T_RETURN ';'                                          { $$ = Stmt_Return[null]; }
+    | T_RETURN expr ';'                                     { $$ = Stmt_Return[$2]; }
+    | T_GLOBAL global_var_list ';'                          { $$ = Stmt_Global[$2]; }
+    | T_STATIC static_var_list ';'                          { $$ = Stmt_Static[$2]; }
+    | T_ECHO expr_list ';'                                  { $$ = Stmt_Echo[$2]; }
+    | T_INLINE_HTML                                         { $$ = Stmt_InlineHTML[$1]; }
     | expr ';'                                              { $$ = $1; }
-    | T_UNSET '(' variables_list ')' ';'                    { $$ = Stmt_Unset[vars: $3]; }
+    | T_UNSET '(' variables_list ')' ';'                    { $$ = Stmt_Unset[$3]; }
     | T_FOREACH '(' expr T_AS variable ')' foreach_statement
           { $$ = Stmt_Foreach[expr: $3, keyVar: null, byRef: false, valueVar: $5, stmts: toArray($7)]; }
     | T_FOREACH '(' expr T_AS '&' variable ')' foreach_statement
@@ -194,9 +194,9 @@ statement:
     | T_DECLARE '(' declare_list ')' declare_statement      { $$ = Stmt_Declare[declares: $3, stmts: toArray($5)]; }
     | ';'                                                   { $$ = array(); /* means: no statement */ }
     | T_TRY '{' inner_statement_list '}' catches            { $$ = Stmt_TryCatch[stmts: $3, catches: $5]; }
-    | T_THROW expr ';'                                      { $$ = Stmt_Throw[expr: $2]; }
-    | T_GOTO T_STRING ';'                                   { $$ = Stmt_Goto[name: $2]; }
-    | T_STRING ':'                                          { $$ = Stmt_Label[name: $1]; }
+    | T_THROW expr ';'                                      { $$ = Stmt_Throw[$2]; }
+    | T_GOTO T_STRING ';'                                   { $$ = Stmt_Goto[$2]; }
+    | T_STRING ':'                                          { $$ = Stmt_Label[$1]; }
 ;
 
 catches:
@@ -384,7 +384,7 @@ class_statement_list:
 
 class_statement:
       variable_modifiers class_variable_declaration ';'     { $$ = Stmt_Property[type: $1, props: $2]; }
-    | class_constant_declaration ';'                        { $$ = Stmt_ClassConst[consts: $1]; }
+    | class_constant_declaration ';'                        { $$ = Stmt_ClassConst[$1]; }
     | method_modifiers T_FUNCTION optional_ref T_STRING '(' parameter_list ')' method_body
           { $$ = Stmt_ClassMethod[type: $1, byRef: $3, name: $4, params: $6, stmts: $8]; }
 ;
