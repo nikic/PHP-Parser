@@ -351,12 +351,12 @@ function_call_argument_list:
 ;
 
 non_empty_function_call_argument_list:
-      expr                                                  { init(Expr_FuncCallArg[$1, false]); }
-    | '&' variable                                          { init(Expr_FuncCallArg[$2, true]); }
+      expr                                                  { init(Arg[$1, false]); }
+    | '&' variable                                          { init(Arg[$2, true]); }
     | non_empty_function_call_argument_list ',' expr
-          { push($1, Expr_FuncCallArg[$3, false]); }
+          { push($1, Arg[$3, false]); }
     | non_empty_function_call_argument_list ',' '&' variable
-          { push($1, Expr_FuncCallArg[$4, true]); }
+          { push($1, Arg[$4, true]); }
 ;
 
 global_var_list:

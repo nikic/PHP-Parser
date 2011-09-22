@@ -125,7 +125,7 @@ This script will have an output similar to the following:
                 )
             )
             args: array(
-                0: Expr_FuncCallArg(
+                0: Arg(
                     value: Scalar_String(
                         value: Hallo World!!!
                     )

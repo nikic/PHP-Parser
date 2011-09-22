@@ -16,6 +16,10 @@ class PHPParser_PrettyPrinter_Zend extends PHPParser_PrettyPrinterAbstract
              . ($node->default ? ' = ' . $this->p($node->default) : '');
     }
 
+    public function pArg(PHPParser_Node_Arg $node) {
+        return ($node->byRef ? '&' : '') . $this->p($node->value);
+    }
+
     // Magic Constants
 
     public function pScalar_ClassConst(PHPParser_Node_Scalar_ClassConst $node) {
@@ -307,10 +311,6 @@ class PHPParser_PrettyPrinter_Zend extends PHPParser_PrettyPrinterAbstract
 
     public function pExpr_FuncCall(PHPParser_Node_Expr_FuncCall $node) {
         return $this->p($node->name) . '(' . $this->pCommaSeparated($node->args) . ')';
-    }
-
-    public function pExpr_FuncCallArg(PHPParser_Node_Expr_FuncCallArg $node) {
-        return ($node->byRef ? '&' : '') . $this->p($node->value);
     }
 
     public function pExpr_MethodCall(PHPParser_Node_Expr_MethodCall $node) {
