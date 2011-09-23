@@ -20,6 +20,10 @@ class PHPParser_PrettyPrinter_Zend extends PHPParser_PrettyPrinterAbstract
         return ($node->byRef ? '&' : '') . $this->p($node->value);
     }
 
+    public function pConst(PHPParser_Node_Const $node) {
+        return $node->name . ' = ' . $this->p($node->value);
+    }
+
     // Magic Constants
 
     public function pScalar_ClassConst(PHPParser_Node_Scalar_ClassConst $node) {
@@ -477,10 +481,6 @@ class PHPParser_PrettyPrinter_Zend extends PHPParser_PrettyPrinterAbstract
         return 'const ' . $this->pCommaSeparated($node->consts) . ';';
     }
 
-    public function pStmt_ClassConstConst(PHPParser_Node_Stmt_ClassConstConst $node) {
-        return $node->name . ' = ' . $this->p($node->value);
-    }
-
     public function pStmt_Func(PHPParser_Node_Stmt_Func $node) {
         return 'function ' . ($node->byRef ? '&' : '') . $node->name
              . '(' . $this->pCommaSeparated($node->params) . ')'
@@ -489,10 +489,6 @@ class PHPParser_PrettyPrinter_Zend extends PHPParser_PrettyPrinterAbstract
 
     public function pStmt_Const(PHPParser_Node_Stmt_Const $node) {
         return 'const ' . $this->pCommaSeparated($node->consts) . ';';
-    }
-
-    public function pStmt_ConstConst(PHPParser_Node_Stmt_ConstConst $node) {
-        return $node->name . ' = ' . $this->p($node->value);
     }
 
     public function pStmt_Declare(PHPParser_Node_Stmt_Declare $node) {

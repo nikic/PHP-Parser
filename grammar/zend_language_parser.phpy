@@ -131,7 +131,7 @@ top_statement:
     | T_NAMESPACE namespace_name '{' top_statement_list '}' { $$ = Stmt_Namespace[name: $2, stmts: $4]; }
     | T_NAMESPACE '{' top_statement_list '}'                { $$ = Stmt_Namespace[name: null, stmts: $3]; }
     | T_USE use_declarations ';'                            { $$ = Stmt_Use[$2]; }
-    | constant_declaration ';'                              { $$ = Stmt_Const[$1]; }
+    | T_CONST constant_declaration_list ';'                 { $$ = Stmt_Const[$2]; }
 ;
 
 use_declarations:
@@ -146,9 +146,13 @@ use_declaration:
     | T_NS_SEPARATOR namespace_name T_AS T_STRING           { $$ = Stmt_UseUse[name: $2, alias: $4]; }
 ;
 
+constant_declaration_list:
+      constant_declaration_list ',' constant_declaration    { push($1, $3); }
+    | constant_declaration                                  { init($1); }
+;
+
 constant_declaration:
-      constant_declaration ',' T_STRING '=' static_scalar   { push($1, Stmt_ConstConst[name: $3, value: $5]); }
-    | T_CONST T_STRING '=' static_scalar                    { init(Stmt_ConstConst[name: $2, value: $4]); }
+    T_STRING '=' static_scalar                              { $$ = Const[$1, $3]; }
 ;
 
 inner_statement_list:
@@ -384,7 +388,7 @@ class_statement_list:
 
 class_statement:
       variable_modifiers class_variable_declaration ';'     { $$ = Stmt_Property[type: $1, props: $2]; }
-    | class_constant_declaration ';'                        { $$ = Stmt_ClassConst[$1]; }
+    | T_CONST constant_declaration_list ';'                 { $$ = Stmt_ClassConst[$2]; }
     | method_modifiers T_FUNCTION optional_ref T_STRING '(' parameter_list ')' method_body
           { $$ = Stmt_ClassMethod[type: $1, byRef: $3, name: $4, params: $6, stmts: $8]; }
 ;
@@ -427,12 +431,6 @@ class_variable_declaration:
           { init(Stmt_PropertyProperty[name: parseVar($1), default: null]); }
     | T_VARIABLE '=' static_scalar
           { init(Stmt_PropertyProperty[name: parseVar($1), default: $3]); }
-;
-
-class_constant_declaration:
-      class_constant_declaration ',' T_STRING '=' static_scalar
-          { push($1, Stmt_ClassConstConst[name: $3, value: $5]); }
-    | T_CONST T_STRING '=' static_scalar                    { init(Stmt_ClassConstConst[name: $2, value: $4]); }
 ;
 
 expr_list:
