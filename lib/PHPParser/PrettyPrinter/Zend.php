@@ -495,6 +495,15 @@ class PHPParser_PrettyPrinter_Zend extends PHPParser_PrettyPrinterAbstract
         return $node->name . ' = ' . $this->p($node->value);
     }
 
+    public function pStmt_Declare(PHPParser_Node_Stmt_Declare $node) {
+        return 'declare (' . $this->pCommaSeparated($node->declares) . ') {'
+             . "\n" . $this->pStmts($node->stmts) . "\n" . '}';
+    }
+
+    public function pStmt_DeclareDeclare(PHPParser_Node_Stmt_DeclareDeclare $node) {
+        return $node->key . ' = ' . $node->value;
+    }
+
     // Control flow
 
     public function pStmt_If(PHPParser_Node_Stmt_If $node) {
