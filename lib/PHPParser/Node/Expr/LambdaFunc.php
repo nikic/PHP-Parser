@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @property array                               $stmts  Statements
+ * @property PHPParser_Node[]                    $stmts  Statements
  * @property PHPParser_Node_Stmt_FuncParam[]     $params Parameters
  * @property PHPParser_Node_Expr_LambdaFuncUse[] $uses   use()s
  * @property bool                                $byRef  Whether to return by reference
@@ -11,7 +11,7 @@ class PHPParser_Node_Expr_LambdaFunc extends PHPParser_Node_Expr
     /**
      * Constructs a lambda function node.
      *
-     * @param array                               $stmts      Statements
+     * @param PHPParser_Node[]                    $stmts      Statements
      * @param PHPParser_Node_Stmt_FuncParam[]     $params     Parameters
      * @param PHPParser_Node_Expr_LambdaFuncUse[] $uses       use()s
      * @param bool                                $byRef      Whether to return by reference

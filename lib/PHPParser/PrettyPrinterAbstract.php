@@ -71,7 +71,7 @@ abstract class PHPParser_PrettyPrinterAbstract
     /**
      * Pretty prints an array of nodes (statements).
      *
-     * @param array $nodes Array of nodes
+     * @param PHPParser_Node[] $nodes Array of nodes
      *
      * @return string Pretty printed nodes
      */
@@ -93,8 +93,8 @@ abstract class PHPParser_PrettyPrinterAbstract
     /**
      * Pretty prints an array of nodes (statements) and indents them optionally.
      *
-     * @param array $nodes  Array of nodes
-     * @param bool  $indent Whether to indent the printed nodes
+     * @param PHPParser_Node[] $nodes  Array of nodes
+     * @param bool             $indent Whether to indent the printed nodes
      *
      * @return string Pretty printed statements
      */
@@ -151,8 +151,8 @@ abstract class PHPParser_PrettyPrinterAbstract
     /**
      * Pretty prints an array of nodes and implodes the printed values.
      *
-     * @param array  $nodes Array of Nodes to be printed
-     * @param string $glue  Character to implode with
+     * @param PHPParser_Node[] $nodes Array of Nodes to be printed
+     * @param string           $glue  Character to implode with
      *
      * @return string Imploded pretty printed nodes
      */
@@ -168,7 +168,7 @@ abstract class PHPParser_PrettyPrinterAbstract
     /**
      * Pretty prints an array of nodes and implodes the printed values with commas.
      *
-     * @param array $nodes Array of Nodes to be printed
+     * @param PHPParser_Node[] $nodes Array of Nodes to be printed
      *
      * @return string Comma separated pretty printed nodes
      */

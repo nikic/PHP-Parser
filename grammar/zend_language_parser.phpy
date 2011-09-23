@@ -206,7 +206,7 @@ catches:
 
 catch:
     T_CATCH '(' name T_VARIABLE ')' '{' inner_statement_list '}'
-        { $$ = Stmt_Catch[type: $3, var: parseVar($4), stmts: $7]; }
+        { $$ = Stmt_Catch[$3, parseVar($4), $7]; }
 ;
 
 variables_list:
@@ -287,9 +287,9 @@ switch_case_list:
 case_list:
       /* empty */                                           { init(); }
     | case_list T_CASE expr case_separator inner_statement_list
-          { push($1, Stmt_Case[cond: $3, stmts: $5]); }
+          { push($1, Stmt_Case[$5, $3]); }
     | case_list T_DEFAULT case_separator inner_statement_list
-          { push($1, Stmt_Case[cond: null, stmts: $4]); }
+          { push($1, Stmt_Case[$4, null]); }
 ;
 
 case_separator:
