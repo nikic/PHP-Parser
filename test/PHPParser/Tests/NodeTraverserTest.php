@@ -21,13 +21,14 @@ class PHPParser_Tests_NodeTraverserTest extends PHPUnit_Framework_TestCase
     public function testTraverse() {
         $node = $this->getTestNode();
 
-        $visitor   = new PHPParser_Tests_NodeVisitor;
+        $visitor = new PHPParser_Tests_NodeVisitor;
+
         $traverser = new PHPParser_NodeTraverser;
-
         $traverser->addVisitor($visitor);
-        $traverser->traverse($node);
 
-        $this->assertEquals($node, $visitor->beforeTraverseNode);
+        $node = $traverser->traverse($node);
+
+        $this->assertEquals($node, $visitor->beforeTraverseNodes);
 
         $this->assertEquals(
             array(
@@ -53,17 +54,14 @@ class PHPParser_Tests_NodeTraverserTest extends PHPUnit_Framework_TestCase
             $visitor->leftNodes
         );
 
-        $this->assertEquals($node, $visitor->afterTraverseNode);
+        $this->assertEquals($node, $visitor->afterTraverseNodes);
     }
 
     public function testModifyingTraverse() {
         $node = $this->getTestNode();
 
-        $visitor   = new PHPParser_Tests_ModifyingNodeVisitor;
         $traverser = new PHPParser_NodeTraverser;
-
-        $traverser->addVisitor($visitor);
-        $traverser->traverse($node);
+        $traverser->addVisitor(new PHPParser_Tests_ModifyingNodeVisitor);
 
         $this->assertEquals(
             array(
@@ -71,42 +69,42 @@ class PHPParser_Tests_NodeTraverserTest extends PHPUnit_Framework_TestCase
                     new PHPParser_Node_Scalar_String('Foo Bar')
                 )),
             ),
-            $node
+            $traverser->traverse($node)
         );
     }
 }
 
 class PHPParser_Tests_NodeVisitor extends PHPParser_NodeVisitorAbstract
 {
-    public $beforeTraverseNode;
+    public $beforeTraverseNodes;
     public $enteredNodes;
     public $leftNodes;
-    public $afterTraverseNode;
+    public $afterTraverseNodes;
 
     public function __construct() {
         $this->enteredNodes = $this->leftNodes = array();
     }
 
-    public function beforeTraverse(&$node) {
-        $this->beforeTraverseNode = $node;
+    public function beforeTraverse(array $nodes) {
+        $this->beforeTraverseNodes = $nodes;
     }
 
-    public function enterNode(PHPParser_Node &$node) {
+    public function enterNode(PHPParser_Node $node) {
         $this->enteredNodes[] = $node->getType();
     }
 
-    public function leaveNode(PHPParser_Node &$node) {
+    public function leaveNode(PHPParser_Node $node) {
         $this->leftNodes[] = $node->getType();
     }
 
-    public function afterTraverse(&$node) {
-        $this->afterTraverseNode = $node;
+    public function afterTraverse(array $nodes) {
+        $this->afterTraverseNodes = $nodes;
     }
 }
 
 class PHPParser_Tests_ModifyingNodeVisitor extends PHPParser_NodeVisitorAbstract
 {
-    public function leaveNode(PHPParser_Node &$node) {
+    public function leaveNode(PHPParser_Node $node) {
         // delete namespace nodes by merging them
         if ($node instanceof PHPParser_Node_Stmt_Namespace) {
             return $node->stmts;

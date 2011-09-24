@@ -3,7 +3,7 @@
 class PHPParser_NodeTraverser
 {
     /**
-     * @var PHPParser_NodeVisitorInterface[] Visitors
+     * @var PHPParser_NodeVisitor[] Visitors
      */
     protected $visitors;
 
@@ -17,61 +17,69 @@ class PHPParser_NodeTraverser
     /**
      * Adds a visitor.
      *
-     * @param PHPParser_NodeVisitorInterface $visitor Visitor to add
+     * @param PHPParser_NodeVisitor $visitor Visitor to add
      */
-    public function addVisitor(PHPParser_NodeVisitorInterface $visitor) {
+    public function addVisitor(PHPParser_NodeVisitor $visitor) {
         $this->visitors[] = $visitor;
     }
 
     /**
-     * Traverses a node or an array using the registered visitors.
+     * Traverses an array of nodes using the registered visitors.
      *
-     * @param array|PHPParser_Node $node Node or array
+     * @param PHPParser_Node[] $nodes Array of nodes
+     *
+     * @return PHPParser_Node[] Traversed array of nodes
      */
-    public function traverse(&$node) {
-        if (!is_array($node) && !$node instanceof PHPParser_Node) {
-            throw new InvalidArgumentException('Can only traverse nodes and arrays');
+    public function traverse(array $nodes) {
+        foreach ($this->visitors as $visitor) {
+            if (null !== $return = $visitor->beforeTraverse($nodes)) {
+                $nodes = $return;
+            }
         }
+
+        $nodes = $this->_traverse($nodes);
 
         foreach ($this->visitors as $visitor) {
-            $visitor->beforeTraverse($node);
+            if (null !== $return = $visitor->afterTraverse($nodes)) {
+                $nodes = $return;
+            }
         }
 
-        $this->_traverse($node, $this->visitors);
-
-        foreach ($this->visitors as $visitor) {
-            $visitor->afterTraverse($node);
-        }
+        return $nodes;
     }
 
-    protected function _traverse(&$node, array $visitors) {
+    protected function _traverse($node) {
         $doNodes = array();
 
-        foreach ($node as $subNodeKey => &$subNode) {
+        foreach ($node as $name => $subNode) {
             if (is_array($subNode)) {
-                $this->_traverse($subNode, $visitors);
+                $node[$name] = $this->_traverse($subNode, $this->visitors);
             } elseif ($subNode instanceof PHPParser_Node) {
-                foreach ($visitors as $visitor) {
-                    $visitor->enterNode($subNode);
+                foreach ($this->visitors as $visitor) {
+                    if (null !== $return = $visitor->enterNode($subNode)) {
+                        $node[$name] = $return;
+                    }
                 }
 
-                $this->_traverse($subNode, $visitors);
+                $node[$name] = $this->_traverse($subNode, $this->visitors);
 
-                foreach ($visitors as $i => $visitor) {
+                foreach ($this->visitors as $i => $visitor) {
                     $return = $visitor->leaveNode($subNode);
 
                     if (false === $return) {
-                        $doNodes[] = array($subNodeKey, array());
+                        $doNodes[] = array($name, array());
                         break;
                     } elseif (is_array($return)) {
                         // traverse replacement nodes using all visitors apart from the one that
                         // did the change
-                        $subNodeVisitors = $visitors;
-                        unset($subNodeVisitors[$i]);
-                        $this->_traverse($return, $subNodeVisitors);
+                        unset($this->visitors[$i]);
+                        $return = $this->_traverse($return);
+                        $this->visitors[$i] = $visitor;
 
-                        $doNodes[] = array($subNodeKey, $return);
+                        $doNodes[] = array($name, $return);
                         break;
+                    } elseif (null !== $return) {
+                        $node[$name] = $return;
                     }
                 }
             }
@@ -86,5 +94,7 @@ class PHPParser_NodeTraverser
                 array_splice($node, $key, 1, $replace);
             }
         }
+
+        return $node;
     }
 }

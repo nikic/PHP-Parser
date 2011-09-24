@@ -139,29 +139,29 @@ NodeTraverser
 -------------
 
 The node traverser allows traversing the node tree using a visitor class. A visitor class must
-implement the `NodeVisitorInterface`, which defines the following four methods:
+implement the `NodeVisitor` interface, which defines the following four methods:
 
-    public function beforeTraverse(&$node);
-    public function enterNode(PHPParser_Node &$node);
-    public function leaveNode(PHPParser_Node &$node);
-    public function afterTraverse(&$node);
+    public function beforeTraverse(array $nodes);
+    public function enterNode(PHPParser_Node $node);
+    public function leaveNode(PHPParser_Node $node);
+    public function afterTraverse(array $nodes);
 
-The `beforeTraverse` method is called once before the traversal begins and is passed the node the
+The `beforeTraverse` method is called once before the traversal begins and is passed the nodes the
 traverser was called with. This method can be used for resetting values before traversation or
 preparing the tree for traversal.
 
 The `afterTraverse` method is similar to the `beforeTraverse` method, with the only difference that
 it is called once after the traversal.
 
-The `enterNode` and `leaveNode` methods are called on every node, the former when it is entered, i.e.
-before its subnodes are traversed, the latter when it is left.
+The `enterNode` and `leaveNode` methods are called on every node, the former when it is entered,
+i.e. before its subnodes are traversed, the latter when it is left.
 
-The node is passed into all four functions by reference, i.e. the node may be transformed or even
-replaced in any way. (As the node is passed by reference it obviously shouldn't be returned after
-modifiation.) Additionally `leaveNode` can return two special values: If `false` is returned the
-current node will be completely deleted. If an `array` is returned the current node will be replaced
-with with an array of other nodes. I.e. if in `array(A, B, C)` the node `B` should be replaced with
-`array(X, Y, Z)` the result will be `array(A, X, Y, Z, C)`.
+All four methods can either return the changed node or not return at all (or return `null`) in which
+case the current node is not changed. The `leaveNode` method can furthermore return two special
+values: If `false` is returned the current node will be removed from the parent array. If an `array`
+is returned the current node will be merged into the parent array at the offset of the current node.
+I.e. if in `array(A, B, C)` the node `B` should be replaced with `array(X, Y, Z)` the result will be
+`array(A, X, Y, Z, C)`.
 
 The above described visitors are registered in the `NodeTraverser` class:
 
@@ -171,15 +171,13 @@ The above described visitors are registered in the `NodeTraverser` class:
     $traverser->addVisitor($visitor);
 
     $stmts = $parser->parse($lexer);
-
-    // ->traverse() directly modifies $stmts. Do *not* write $stmts = $traverser->traverse($stmts);
-    $traverser->traverse($stmts);
+    $stmts = $traverser->traverse($stmts);
 
 With `MyVisitor` being something like that:
 
     class MyVisitor extends PHPParser_NodeVisitorAbstract
     {
-        public function enterNode(PHPParser_Node &$node) {
+        public function enterNode(PHPParser_Node $node) {
             // ...
         }
     }
