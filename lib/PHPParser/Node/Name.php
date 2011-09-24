@@ -2,23 +2,17 @@
 
 /**
  * @property array $parts Parts of the name
- * @property int   $type  Resolve type (self::NORMAL, self::FULLY_QUALIFIED or self::RELATIVE)
  */
 class PHPParser_Node_Name extends PHPParser_NodeAbstract
 {
-    const NORMAL          = 0;
-    const FULLY_QUALIFIED = 1;
-    const RELATIVE        = 2;
-
     /**
      * Constructs a name node.
      *
      * @param string|array $parts      Parts of the name (or name as string)
-     * @param int          $type       Resolve type
      * @param int          $line       Line
      * @param null|string  $docComment Nearest doc comment
      */
-    public function __construct($parts, $type = self::NORMAL, $line = -1, $docComment = null) {
+    public function __construct($parts, $line = -1, $docComment = null) {
         if (!is_array($parts)) {
             $parts = explode('\\', $parts);
         }
@@ -26,7 +20,6 @@ class PHPParser_Node_Name extends PHPParser_NodeAbstract
         parent::__construct(
             array(
                 'parts' => $parts,
-                'type'  => $type
             ),
             $line, $docComment
         );
@@ -51,42 +44,6 @@ class PHPParser_Node_Name extends PHPParser_NodeAbstract
     }
 
     /**
-     * Checks whether the name is unqualified. (E.g. Name)
-     *
-     * @return bool Whether the name is unqualified
-     */
-    public function isUnqualified() {
-        return self::NORMAL == $this->type && 1 == count($this->parts);
-    }
-
-    /**
-     * Checks whether the name is qualified. (E.g. Name\Name)
-     *
-     * @return bool Whether the name is qualified
-     */
-    public function isQualified() {
-        return self::NORMAL == $this->type && 1 < count($this->parts);
-    }
-
-    /**
-     * Checks whether the name is fully qualified. (E.g. \Name)
-     *
-     * @return bool Whether the name is fully qualified
-     */
-    public function isFullyQualified() {
-        return self::FULLY_QUALIFIED == $this->type;
-    }
-
-    /**
-     * Checks whether the name is explicitly relative to the current namespace. (E.g. namespace\Name)
-     *
-     * @return bool Whether the name is fully qualified
-     */
-    public function isRelative() {
-        return self::RELATIVE == $this->type;
-    }
-
-    /**
      * Returns a string representation of the name by imploding the namespace parts with a separator.
      *
      * @param string $separator The separator to use (defaults to the namespace separator \)
@@ -104,7 +61,7 @@ class PHPParser_Node_Name extends PHPParser_NodeAbstract
      * @return string String representation
      */
     public function __toString() {
-        return $this->toString('\\');
+        return implode('\\', $this->parts);
     }
 
     /**
@@ -167,7 +124,7 @@ class PHPParser_Node_Name extends PHPParser_NodeAbstract
             return $name->parts;
         } elseif (!is_array($name)) {
             throw new InvalidArgumentException(
-                'When changing a name you need to pass either a string and array or a Name node'
+                'When changing a name you need to pass either a string, an array or a Name node'
             );
         }
     }

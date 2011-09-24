@@ -33,7 +33,6 @@ class PHPParser_Tests_NodeDumperTest extends PHPUnit_Framework_TestCase
         0: Hallo
         1: World
     )
-    type: 0
 )'
             ),
             array(

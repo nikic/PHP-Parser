@@ -4,11 +4,6 @@ class PHPParser_PrettyPrinter_Zend extends PHPParser_PrettyPrinterAbstract
 {
     // Special nodes
 
-    public function pName(PHPParser_Node_Name $node) {
-        return ($node->isFullyQualified() ? '\\' : ($node->isRelative() ? 'namespace\\' : ''))
-             . implode('\\', $node->parts);
-    }
-
     public function pParam(PHPParser_Node_Param $node) {
         return ($node->type ? ('array' == $node->type ? 'array' : $this->p($node->type)) . ' ' : '')
              . ($node->byRef ? '&' : '')
@@ -22,6 +17,24 @@ class PHPParser_PrettyPrinter_Zend extends PHPParser_PrettyPrinterAbstract
 
     public function pConst(PHPParser_Node_Const $node) {
         return $node->name . ' = ' . $this->p($node->value);
+    }
+
+    // Names
+
+    public function pName(PHPParser_Node_Name $node) {
+        return implode('\\', $node->parts);
+    }
+
+    public function pName_Normal(PHPParser_Node_Name_Normal $node) {
+        return implode('\\', $node->parts);
+    }
+
+    public function pName_FullyQualified(PHPParser_Node_Name_FullyQualified $node) {
+        return '\\' . implode('\\', $node->parts);
+    }
+
+    public function pName_Relative(PHPParser_Node_Name_Relative $node) {
+        return 'namespace\\' . implode('\\', $node->parts);
     }
 
     // Magic Constants
