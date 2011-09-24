@@ -1956,7 +1956,7 @@ class PHPParser_Parser
     }
 
     protected function yyn241($line, $docComment) {
-         $this->yyval = new PHPParser_Node_Name_Normal('static', $line, $docComment); 
+         $this->yyval = new PHPParser_Node_Name('static', $line, $docComment); 
     }
 
     protected function yyn242($line, $docComment) {
@@ -1964,7 +1964,7 @@ class PHPParser_Parser
     }
 
     protected function yyn243($line, $docComment) {
-         $this->yyval = new PHPParser_Node_Name_Normal($this->yyastk[$this->yysp-(1-1)], $line, $docComment); 
+         $this->yyval = new PHPParser_Node_Name($this->yyastk[$this->yysp-(1-1)], $line, $docComment); 
     }
 
     protected function yyn244($line, $docComment) {

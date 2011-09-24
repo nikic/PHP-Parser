@@ -25,10 +25,6 @@ class PHPParser_PrettyPrinter_Zend extends PHPParser_PrettyPrinterAbstract
         return implode('\\', $node->parts);
     }
 
-    public function pName_Normal(PHPParser_Node_Name_Normal $node) {
-        return implode('\\', $node->parts);
-    }
-
     public function pName_FullyQualified(PHPParser_Node_Name_FullyQualified $node) {
         return '\\' . implode('\\', $node->parts);
     }

@@ -558,12 +558,12 @@ function_call:
 ;
 
 class_name:
-      T_STATIC                                              { $$ = Name_Normal['static']; }
+      T_STATIC                                              { $$ = Name['static']; }
     | name                                                  { $$ = $1; }
 ;
 
 name:
-      namespace_name                                        { $$ = Name_Normal[$1]; }
+      namespace_name                                        { $$ = Name[$1]; }
     | T_NS_SEPARATOR namespace_name                         { $$ = Name_FullyQualified[$2]; }
     | T_NAMESPACE T_NS_SEPARATOR namespace_name             { $$ = Name_Relative[$3]; }
 ;
