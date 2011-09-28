@@ -4,7 +4,8 @@ PHP Parser
 This is a PHP parser written in PHP. It's purpose is to simplify static code analysis and
 manipulation.
 
-***Note: This project is highly experimental. It may not always function correctly.***
+***Note: This project is experimental. There are no known bugs in the parser itself, but the API is
+subject to change.***
 
 Components
 ==========
@@ -21,11 +22,11 @@ Autoloader
 
 In order to automatically include required files `PHPParser_Autoloader` can be used:
 
-    require_once 'path/to/phpparser/lib/PHPParser/Autoloader.php';
+    require_once 'path/to/PHP-Parser/lib/PHPParser/Autoloader.php';
     PHPParser_Autoloader::register();
 
 Parser and Parser_Debug
-----------------------
+-----------------------
 
 Parsing is performed using `PHPParser_Parser->parse()`. This method accepts a `PHPParser_Lexer`
 as the only parameter and returns an array of statement nodes. If an error occurs it throws a

@@ -8,7 +8,7 @@ class PHPParser_Node_Scalar_DNumber extends PHPParser_Node_Scalar
     /**
      * Constructs a float number scalar node.
      *
-     * @param double      $value      Value of the number
+     * @param float       $value      Value of the number
      * @param int         $line       Line
      * @param null|string $docComment Nearest doc comment
      */

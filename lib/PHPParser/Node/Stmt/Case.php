@@ -2,7 +2,7 @@
 
 /**
  * @property PHPParser_Node[]         $stmts Statements
- * @property null|PHPParser_Node_Expr $cond Condition (null for default)
+ * @property null|PHPParser_Node_Expr $cond  Condition (null for default)
  */
 class PHPParser_Node_Stmt_Case extends PHPParser_Node_Stmt
 {
