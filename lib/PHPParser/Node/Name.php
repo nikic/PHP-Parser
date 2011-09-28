@@ -124,7 +124,7 @@ class PHPParser_Node_Name extends PHPParser_NodeAbstract
      * @param string|array|self $name Name to append
      */
     public function append($name) {
-        $this->parts = array_merge($this->prepareName($name), $name->parts);
+        $this->parts = array_merge($this->parts, $this->prepareName($name));
     }
 
     /**
@@ -133,7 +133,7 @@ class PHPParser_Node_Name extends PHPParser_NodeAbstract
      * @param string|array|self $name The name to set the first part to
      */
     public function setFirst($name) {
-        $this->parts = array_merge($this->prepareName($name), array_slice($this->parts, 1));
+        array_splice($this->parts, 0, 1, $this->prepareName($name));
     }
 
     /**
@@ -142,7 +142,7 @@ class PHPParser_Node_Name extends PHPParser_NodeAbstract
      * @param string|array|self $name The name to set the last part to
      */
     public function setLast($name) {
-        $this->parts = array_merge($this->prepareName($name), array_slice($this->parts, 0, -1));
+        array_splice($this->parts, -1, 1, $this->prepareName($name));
     }
 
     /**
@@ -156,12 +156,14 @@ class PHPParser_Node_Name extends PHPParser_NodeAbstract
     protected function prepareName($name) {
         if (is_string($name)) {
             return explode('\\', $name);
+        } elseif (is_array($name)) {
+            return $name;
         } elseif ($name instanceof self) {
             return $name->parts;
-        } elseif (!is_array($name)) {
-            throw new InvalidArgumentException(
-                'When changing a name you need to pass either a string, an array or a Name node'
-            );
         }
+
+        throw new InvalidArgumentException(
+            'When changing a name you need to pass either a string, an array or a Name node'
+        );
     }
 }
