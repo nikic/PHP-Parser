@@ -87,7 +87,6 @@ class PHPParser_NodeVisitor_NameResolver extends PHPParser_NodeVisitorAbstract
             $name->prepend($this->namespace);
         }
 
-        // return fully qualified name
         return new PHPParser_Node_Name_FullyQualified($name->parts);
     }
 
@@ -97,25 +96,20 @@ class PHPParser_NodeVisitor_NameResolver extends PHPParser_NodeVisitorAbstract
             return $name;
         }
 
-        // fully qualified names are already resolved
-        if ($name->isFullyQualified()) {
+        // fully qualified names are already resolved and we can't do anything about unqualified
+        // ones at compiler-time
+        if ($name->isFullyQualified() || $name->isUnqualified()) {
             return $name;
         }
 
         // resolve aliases for qualified names
         if ($name->isQualified() && isset($this->aliases[$name->getFirst()])) {
             $name->setFirst($this->aliases[$name->getFirst()]);
-            return new PHPParser_Node_Name_FullyQualified($name->parts);
+        // prepend namespace for relative names
+        } elseif (null !== $this->namespace) {
+            $name->prepend($this->namespace);
         }
 
-        // if no alias exists prepend namespace for qualified anf relative names
-        if (!$name->isUnqualified()) {
-            if (null !== $this->namespace) {
-                $name->prepend($this->namespace);
-            }
-            return new PHPParser_Node_Name_FullyQualified($name->parts);
-        }
-
-        return $name;
+        return new PHPParser_Node_Name_FullyQualified($name->parts);
     }
 }
