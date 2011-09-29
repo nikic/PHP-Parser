@@ -52,13 +52,11 @@ class PHPParser_NodeVisitor_NameResolver extends PHPParser_NodeVisitorAbstract
                   || $node instanceof PHPParser_Node_Expr_Instanceof
         ) {
             $node->class = $this->resolveClassName($node->class);
-        } elseif ($node instanceof PHPParser_Node_Expr_FuncCall) {
-            $node->name = $this->resolveOtherName($node->name);
-        } elseif ($node instanceof PHPParser_Node_Expr_ConstFetch) {
-            $node->name = $this->resolveOtherName($node->name);
-        } elseif ($node instanceof PHPParser_Node_Param
-                  && $node->type instanceof PHPParser_Node_Name
+        } elseif ($node instanceof PHPParser_Node_Expr_FuncCall
+                  || $node instanceof PHPParser_Node_Expr_ConstFetch
         ) {
+            $node->name = $this->resolveOtherName($node->name);
+        } elseif ($node instanceof PHPParser_Node_Param) {
             $node->type = $this->resolveClassName($node->type);
         }
     }

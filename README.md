@@ -55,7 +55,7 @@ interface (and extend `PHPParser_NodeAbstract`). Furthermore nodes are divided i
    `PHPParser_Node_Scalar` inherits from `PHPParser_Node_Expr`.
 
 Each node may have subnodes. For example `PHPParser_Node_Expr_Plus` has two subnodes, namely `left`
-and `right`, which represend the left hand side and right hand side expressions of the plus operation.
+and `right`, which represent the left hand side and right hand side expressions of the plus operation.
 Subnodes are accessed as normal properties:
 
     $node->left
