@@ -585,7 +585,7 @@ class PHPParser_PrettyPrinter_Zend extends PHPParser_PrettyPrinterAbstract
     }
 
     public function pStmt_Throw(PHPParser_Node_Stmt_Throw $node) {
-        return 'throw' . (null !== $node->expr ? ' ' . $this->p($node->expr) : '') . ';';
+        return 'throw ' . $this->p($node->expr) . ';';
     }
 
     public function pStmt_Label(PHPParser_Node_Stmt_Label $node) {
