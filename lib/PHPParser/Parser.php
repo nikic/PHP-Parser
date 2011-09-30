@@ -1346,11 +1346,11 @@ class PHPParser_Parser
     }
 
     protected function yyn92($line, $docComment) {
-         $this->yyastk[$this->yysp-(5-1)][] = new PHPParser_Node_Stmt_Case($this->yyastk[$this->yysp-(5-5)], $this->yyastk[$this->yysp-(5-3)], $line, $docComment); $this->yyval = $this->yyastk[$this->yysp-(5-1)]; 
+         $this->yyastk[$this->yysp-(5-1)][] = new PHPParser_Node_Stmt_Case($this->yyastk[$this->yysp-(5-3)], $this->yyastk[$this->yysp-(5-5)], $line, $docComment); $this->yyval = $this->yyastk[$this->yysp-(5-1)]; 
     }
 
     protected function yyn93($line, $docComment) {
-         $this->yyastk[$this->yysp-(4-1)][] = new PHPParser_Node_Stmt_Case($this->yyastk[$this->yysp-(4-4)], null, $line, $docComment); $this->yyval = $this->yyastk[$this->yysp-(4-1)]; 
+         $this->yyastk[$this->yysp-(4-1)][] = new PHPParser_Node_Stmt_Case(null, $this->yyastk[$this->yysp-(4-4)], $line, $docComment); $this->yyval = $this->yyastk[$this->yysp-(4-1)]; 
     }
 
     protected function yyn94() {

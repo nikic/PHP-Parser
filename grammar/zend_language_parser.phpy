@@ -287,9 +287,9 @@ switch_case_list:
 case_list:
       /* empty */                                           { init(); }
     | case_list T_CASE expr case_separator inner_statement_list
-          { push($1, Stmt_Case[$5, $3]); }
+          { push($1, Stmt_Case[$3, $5]); }
     | case_list T_DEFAULT case_separator inner_statement_list
-          { push($1, Stmt_Case[$4, null]); }
+          { push($1, Stmt_Case[null, $4]); }
 ;
 
 case_separator:
