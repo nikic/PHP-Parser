@@ -136,10 +136,10 @@ use_declarations:
 ;
 
 use_declaration:
-      namespace_name                                        { $$ = Stmt_UseUse[name: Name[$1], alias: null]; }
-    | namespace_name T_AS T_STRING                          { $$ = Stmt_UseUse[name: Name[$1], alias: $3]; }
-    | T_NS_SEPARATOR namespace_name                         { $$ = Stmt_UseUse[name: Name[$2], alias: null]; }
-    | T_NS_SEPARATOR namespace_name T_AS T_STRING           { $$ = Stmt_UseUse[name: Name[$2], alias: $4]; }
+      namespace_name                                        { $$ = Stmt_UseUse[Name[$1], null]; }
+    | namespace_name T_AS T_STRING                          { $$ = Stmt_UseUse[Name[$1], $3]; }
+    | T_NS_SEPARATOR namespace_name                         { $$ = Stmt_UseUse[Name[$2], null]; }
+    | T_NS_SEPARATOR namespace_name T_AS T_STRING           { $$ = Stmt_UseUse[Name[$2], $4]; }
 ;
 
 constant_declaration_list:
@@ -168,11 +168,11 @@ statement:
     | T_IF '(' expr ')' statement elseif_list else_single   { $$ = Stmt_If[cond: $3, stmts: toArray($5), elseifList: $6, else: $7]; }
     | T_IF '(' expr ')' ':' inner_statement_list new_elseif_list new_else_single T_ENDIF ';'
           { $$ = Stmt_If[cond: $3, stmts: $6, elseifList: $7, else: $8]; }
-    | T_WHILE '(' expr ')' while_statement                  { $$ = Stmt_While[cond: $3, stmts: toArray($5)]; }
+    | T_WHILE '(' expr ')' while_statement                  { $$ = Stmt_While[$3, toArray($5)]; }
     | T_DO statement T_WHILE '(' expr ')' ';'               { $$ = Stmt_Do[stmts: toArray($2), cond: $5]; }
     | T_FOR '(' for_expr ';'  for_expr ';' for_expr ')' for_statement
           { $$ = Stmt_For[init: $3, cond: $5, loop: $7, stmts: toArray($9)]; }
-    | T_SWITCH '(' expr ')' switch_case_list                { $$ = Stmt_Switch[cond: $3, caseList: $5]; }
+    | T_SWITCH '(' expr ')' switch_case_list                { $$ = Stmt_Switch[$3, $5]; }
     | T_BREAK ';'                                           { $$ = Stmt_Break[null]; }
     | T_BREAK expr ';'                                      { $$ = Stmt_Break[$2]; }
     | T_CONTINUE ';'                                        { $$ = Stmt_Continue[null]; }
@@ -193,7 +193,7 @@ statement:
           { $$ = Stmt_Foreach[expr: $3, keyVar: $5, byRef: $7, valueVar: $8, stmts: toArray($10)]; }
     | T_DECLARE '(' declare_list ')' declare_statement      { $$ = Stmt_Declare[declares: $3, stmts: toArray($5)]; }
     | ';'                                                   { $$ = array(); /* means: no statement */ }
-    | T_TRY '{' inner_statement_list '}' catches            { $$ = Stmt_TryCatch[stmts: $3, catches: $5]; }
+    | T_TRY '{' inner_statement_list '}' catches            { $$ = Stmt_TryCatch[$3, $5]; }
     | T_THROW expr ';'                                      { $$ = Stmt_Throw[$2]; }
     | T_GOTO T_STRING ';'                                   { $$ = Stmt_Goto[$2]; }
     | T_STRING ':'                                          { $$ = Stmt_Label[$1]; }
@@ -371,10 +371,10 @@ global_var:
 ;
 
 static_var_list:
-      static_var_list ',' T_VARIABLE                        { push($1, Stmt_StaticVar[name: parseVar($3), default: null]); }
-    | static_var_list ',' T_VARIABLE '=' static_scalar      { push($1, Stmt_StaticVar[name: parseVar($3), default: $5]); }
-    | T_VARIABLE                                            { init(Stmt_StaticVar[name: parseVar($1), default: null]); }
-    | T_VARIABLE '=' static_scalar                          { init(Stmt_StaticVar[name: parseVar($1), default: $3]); }
+      static_var_list ',' T_VARIABLE                        { push($1, Stmt_StaticVar[parseVar($3), null]); }
+    | static_var_list ',' T_VARIABLE '=' static_scalar      { push($1, Stmt_StaticVar[parseVar($3), $5]); }
+    | T_VARIABLE                                            { init(Stmt_StaticVar[parseVar($1), null]); }
+    | T_VARIABLE '=' static_scalar                          { init(Stmt_StaticVar[parseVar($1), $3]); }
 ;
 
 class_statement_list:
@@ -383,7 +383,7 @@ class_statement_list:
 ;
 
 class_statement:
-      variable_modifiers class_variable_declaration ';'     { $$ = Stmt_Property[type: $1, props: $2]; }
+      variable_modifiers class_variable_declaration ';'     { $$ = Stmt_Property[$1, $2]; }
     | T_CONST constant_declaration_list ';'                 { $$ = Stmt_ClassConst[$2]; }
     | method_modifiers T_FUNCTION optional_ref T_STRING '(' parameter_list ')' method_body
           { $$ = Stmt_ClassMethod[type: $1, byRef: $3, name: $4, params: $6, stmts: $8]; }
@@ -420,13 +420,13 @@ member_modifier:
 
 class_variable_declaration:
       class_variable_declaration ',' T_VARIABLE
-          { push($1, Stmt_PropertyProperty[name: parseVar($3), default: null]); }
+          { push($1, Stmt_PropertyProperty[parseVar($3), null]); }
     | class_variable_declaration ',' T_VARIABLE '=' static_scalar
-          { push($1, Stmt_PropertyProperty[name: parseVar($3), default: $5]); }
+          { push($1, Stmt_PropertyProperty[parseVar($3), $5]); }
     | T_VARIABLE
-          { init(Stmt_PropertyProperty[name: parseVar($1), default: null]); }
+          { init(Stmt_PropertyProperty[parseVar($1), null]); }
     | T_VARIABLE '=' static_scalar
-          { init(Stmt_PropertyProperty[name: parseVar($1), default: $3]); }
+          { init(Stmt_PropertyProperty[parseVar($1), $3]); }
 ;
 
 expr_list:

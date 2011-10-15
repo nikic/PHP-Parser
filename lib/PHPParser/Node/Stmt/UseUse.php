@@ -6,18 +6,32 @@
  */
 class PHPParser_Node_Stmt_UseUse extends PHPParser_Node_Stmt
 {
-    public function __construct(array $subNodes, $line = -1, $docComment = null) {
-        parent::__construct($subNodes, $line, $docComment);
-
-        if (null === $this->alias) {
-            $this->alias = $this->name->getLast();
+    /**
+     * Constructs an alias (use) node.
+     *
+     * @param PHPParser_Node_Name $name       Namespace/Class to alias
+     * @param string              $alias      Alias
+     * @param int                 $line       Line
+     * @param null|string         $docComment Nearest doc comment
+     */
+    public function __construct(PHPParser_Node_Name $name, $alias, $line = -1, $docComment = null) {
+        if (null === $alias) {
+            $alias = $name->getLast();
         }
 
-        if ('self' == $this->alias || 'parent' == $this->alias) {
+        if ('self' == $alias || 'parent' == $alias) {
             throw new PHPParser_Error(sprintf(
                 'Cannot use "%s" as "%s" because "%2$s" is a special class name',
-                $this->name, $this->alias
+                $name, $alias
             ));
         }
+
+        parent::__construct(
+            array(
+                'name'  => $name,
+                'alias' => $alias,
+            ),
+            $line, $docComment
+        );
     }
 }

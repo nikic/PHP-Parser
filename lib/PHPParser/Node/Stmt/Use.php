@@ -6,7 +6,7 @@
 class PHPParser_Node_Stmt_Use extends PHPParser_Node_Stmt
 {
     /**
-     * Constructs an alias (use) node.
+     * Constructs an alias (use) list node.
      *
      * @param PHPParser_Node_Stmt_UseUse[] $uses       Aliases
      * @param int                          $line       Line
