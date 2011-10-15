@@ -554,7 +554,7 @@ class PHPParser_PrettyPrinter_Zend extends PHPParser_PrettyPrinterAbstract
 
     public function pStmt_Switch(PHPParser_Node_Stmt_Switch $node) {
         return 'switch (' . $this->p($node->cond) . ') {'
-             . "\n" . $this->pImplode($node->caseList) . '}';
+             . "\n" . $this->pImplode($node->cases) . '}';
     }
 
     public function pStmt_TryCatch(PHPParser_Node_Stmt_TryCatch $node) {
