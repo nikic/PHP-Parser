@@ -506,7 +506,7 @@ class PHPParser_PrettyPrinter_Zend extends PHPParser_PrettyPrinterAbstract
     }
 
     public function pStmt_DeclareDeclare(PHPParser_Node_Stmt_DeclareDeclare $node) {
-        return $node->key . ' = ' . $node->value;
+        return $node->key . ' = ' . $this->p($node->value);
     }
 
     // Control flow
