@@ -138,16 +138,7 @@ class PHPParser_PrettyPrinter_Zend extends PHPParser_PrettyPrinterAbstract
     }
 
     public function pExpr_List(PHPParser_Node_Expr_List $node) {
-        $pAssignList = array();
-        foreach ($node->assignList as $element) {
-            if (null === $element) {
-                $pAssignList[] = '';
-            } else {
-                $pAssignList[] = $this->p($element);
-            }
-        }
-
-        return 'list(' . implode(', ', $pAssignList) . ') = ' . $this->p($node->expr);
+        return $this->pAssignList($node->assignList) . ' = ' . $this->p($node->expr);
     }
 
     // Binary expressions
@@ -660,5 +651,20 @@ class PHPParser_PrettyPrinter_Zend extends PHPParser_PrettyPrinterAbstract
         }
 
         return $return;
+    }
+
+    public function pAssignList(array $elements) {
+        $pAssignList = array();
+        foreach ($elements as $element) {
+            if (null === $element) {
+                $pAssignList[] = '';
+            } elseif (is_array($element)) {
+                $pAssignList[] = $this->pAssignList($element);
+            } else {
+                $pAssignList[] = $this->p($element);
+            }
+        }
+
+        return 'list(' . implode(', ', $pAssignList) . ')';
     }
 }
