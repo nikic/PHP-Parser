@@ -54,7 +54,7 @@ abstract class PHPParser_PrettyPrinterAbstract
         'Expr_AssignBitwiseXor' => 15,
         'Expr_AssignShiftLeft'  => 15,
         'Expr_AssignShiftRight' => 15,
-        'Expr_List'             => 15,
+        'Expr_AssignList'       => 15,
         'Expr_LogicalAnd'       => 16,
         'Expr_LogicalXor'       => 17,
         'Expr_LogicalOr'        => 18,

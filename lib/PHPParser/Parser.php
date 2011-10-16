@@ -1613,7 +1613,7 @@ class PHPParser_Parser
     }
 
     protected function yyn158($line, $docComment) {
-         $this->yyval = new PHPParser_Node_Expr_List($this->yyastk[$this->yysp-(6-3)], $this->yyastk[$this->yysp-(6-6)], $line, $docComment); 
+         $this->yyval = new PHPParser_Node_Expr_AssignList($this->yyastk[$this->yysp-(6-3)], $this->yyastk[$this->yysp-(6-6)], $line, $docComment); 
     }
 
     protected function yyn159($line, $docComment) {

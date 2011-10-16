@@ -441,7 +441,7 @@ for_expr:
 
 expr:
       variable                                              { $$ = $1; }
-    | T_LIST '(' assignment_list ')' '=' expr               { $$ = Expr_List[$3, $6]; }
+    | T_LIST '(' assignment_list ')' '=' expr               { $$ = Expr_AssignList[$3, $6]; }
     | variable '=' expr                                     { $$ = Expr_Assign[$1, $3]; }
     | variable '=' '&' variable                             { $$ = Expr_AssignRef[$1, $4]; }
     | variable '=' '&' T_NEW class_name_reference ctor_arguments

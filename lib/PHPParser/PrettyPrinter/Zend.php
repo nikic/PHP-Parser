@@ -137,8 +137,8 @@ class PHPParser_PrettyPrinter_Zend extends PHPParser_PrettyPrinterAbstract
         return $this->p($node->var) . ' >>= ' . $this->p($node->expr);
     }
 
-    public function pExpr_List(PHPParser_Node_Expr_List $node) {
-        return $this->pAssignList($node->assignList) . ' = ' . $this->p($node->expr);
+    public function pExpr_AssignList(PHPParser_Node_Expr_AssignList $node) {
+        return $this->pAssignList($node->vars) . ' = ' . $this->p($node->expr);
     }
 
     // Binary expressions
