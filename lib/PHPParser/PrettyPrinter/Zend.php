@@ -78,7 +78,7 @@ class PHPParser_PrettyPrinter_Zend extends PHPParser_PrettyPrinterAbstract
     }
 
     public function pScalar_DNumber(PHPParser_Node_Scalar_DNumber $node) {
-        return (int) $node->value == $node->value
+        return (string) (int) $node->value == (string) $node->value
                ? (string) $node->value . '.0' // ensure that number is really printed as float
                : (string) $node->value;
     }
