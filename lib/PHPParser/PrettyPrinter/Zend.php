@@ -358,9 +358,7 @@ class PHPParser_PrettyPrinter_Zend extends PHPParser_PrettyPrinterAbstract
     // Other
 
     public function pExpr_Variable(PHPParser_Node_Expr_Variable $node) {
-        if ($node->name instanceof PHPParser_Node_Expr_Variable) {
-            return '$' . $this->p($node->name);
-        } elseif ($node->name instanceof PHPParser_Node_Expr) {
+        if ($node->name instanceof PHPParser_Node_Expr) {
             return '${' . $this->p($node->name) . '}';
         } else {
             return '$' . $node->name;
