@@ -312,7 +312,7 @@ class PHPParser_Parser_Debug extends PHPParser_Parser
         "object_access_arrayable : object_access_arrayable '[' dim_offset ']'",
         "object_access_arrayable : object_access_arrayable '{' expr '}'",
         "variable_without_objects : reference_variable",
-        "variable_without_objects : '$' reference_variable",
+        "variable_without_objects : '$' variable_without_objects",
         "base_variable : variable_without_objects",
         "base_variable : class_name T_PAAMAYIM_NEKUDOTAYIM '$' reference_variable",
         "base_variable : reference_variable T_PAAMAYIM_NEKUDOTAYIM '$' reference_variable",

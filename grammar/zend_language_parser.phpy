@@ -683,7 +683,7 @@ object_access_arrayable:
 
 variable_without_objects:
       reference_variable                                    { $$ = $1; }
-    | '$' reference_variable                                { $$ = Expr_Variable[$2]; }
+    | '$' variable_without_objects                          { $$ = Expr_Variable[$2]; }
 ;
 
 base_variable:
