@@ -70,7 +70,7 @@ class PHPParser_PrettyPrinter_Zend extends PHPParser_PrettyPrinterAbstract
     }
 
     public function pScalar_Encapsed(PHPParser_Node_Scalar_Encapsed $node) {
-        return '"' . $this->pEncapsList($node->parts) . '"';
+        return '"' . $this->pEncapsList($node->parts, '"') . '"';
     }
 
     public function pScalar_LNumber(PHPParser_Node_Scalar_LNumber $node) {
@@ -397,7 +397,7 @@ class PHPParser_PrettyPrinter_Zend extends PHPParser_PrettyPrinterAbstract
     }
 
     public function pExpr_ShellExec(PHPParser_Node_Expr_ShellExec $node) {
-        return '`' . $this->pEncapsList($node->parts) . '`';
+        return '`' . $this->pEncapsList($node->parts, '`') . '`';
     }
 
     public function pExpr_LambdaFunc(PHPParser_Node_Expr_LambdaFunc $node) {
@@ -640,11 +640,11 @@ class PHPParser_PrettyPrinter_Zend extends PHPParser_PrettyPrinterAbstract
              . ($modifiers & PHPParser_Node_Stmt_Class::MODIFIER_FINAL     ? 'final '     : '');
     }
 
-    public function pEncapsList(array $encapsList) {
+    public function pEncapsList(array $encapsList, $quote) {
         $return = '';
         foreach ($encapsList as $element) {
             if (is_string($element)) {
-                $return .= addcslashes($element, "\n\r\t\f\v$\"\\");
+                $return .= addcslashes($element, "\n\r\t\f\v$" . $quote . "\\");
             } else {
                 $return .= '{' . $this->p($element) . '}';
             }
