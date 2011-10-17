@@ -1,7 +1,26 @@
 <?php
 
-$DIR   = dirname(__FILE__) . '/../../Symfony';
-$REGEX = '~skeleton(*COMMIT)(*FAIL)|\.php(\.cache)?$~';
+$DIR = dirname(__FILE__) . '/../../Symfony';
+$FILTER_FUNC = function ($path) {
+    return preg_match('~\.php(?:\.cache)?$~', $path) && false === strpos($path, 'skeleton');
+};
+$PREPARE_FUNC = function ($code) {
+    return $code;
+};
+
+/*
+$DIR = dirname(__FILE__) . '/../../php-5.3.8-src';
+$FILTER_FUNC = function ($path) {
+    return preg_match('~\.phpt$~', $path);
+};
+$PREPARE_FUNC = function ($code) {
+    if (!preg_match('~--FILE--\s*(.*?)--[A-Z]+--~s', $code, $matches)) {
+        return '';
+    }
+
+    return $matches[1];
+};
+*/
 
 require_once dirname(__FILE__) . '/../lib/PHPParser/Autoloader.php';
 PHPParser_Autoloader::register();
@@ -24,7 +43,7 @@ foreach (new RecursiveIteratorIterator(
              new RecursiveDirectoryIterator($DIR),
              RecursiveIteratorIterator::LEAVES_ONLY)
          as $file) {
-    if (!preg_match($REGEX, $file)) {
+    if (!$FILTER_FUNC($file)) {
         continue;
     }
 
@@ -34,7 +53,7 @@ foreach (new RecursiveIteratorIterator(
 
     try {
         $startTime = microtime(true);
-        $stmts = $parser->parse(new PHPParser_Lexer(file_get_contents($file)));
+        $stmts = $parser->parse(new PHPParser_Lexer($PREPARE_FUNC(file_get_contents($file))));
         $parseTime += microtime(true) - $startTime;
 
         $startTime = microtime(true);
