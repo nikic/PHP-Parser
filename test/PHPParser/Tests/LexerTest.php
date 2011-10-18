@@ -87,6 +87,7 @@ class PHPParser_Tests_LexerTest extends PHPUnit_Framework_TestCase
         return array(
             array('<?php ... __halt_compiler();Remaining Text', 'Remaining Text'),
             array('<?php ... __halt_compiler ( ) ;Remaining Text', 'Remaining Text'),
+            array('<?php ... __halt_compiler() ?>Remaining Text', 'Remaining Text'),
             //array('<?php ... __halt_compiler();' . "\0", "\0"),
             //array('<?php ... __halt_compiler /* */ ( ) ;Remaining Text', 'Remaining Text'),
         );
