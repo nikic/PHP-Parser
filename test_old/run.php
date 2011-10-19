@@ -51,10 +51,25 @@ foreach (new RecursiveIteratorIterator(
     $code = file_get_contents($file);
 
     if ('PHP' === $TEST_TYPE) {
+        if (preg_match('~(?:
+# skeleton files
+  ext.gmp.tests.001
+| ext.skeleton.tests.001
+# multibyte encoded files
+| ext.mbstring.tests.zend_multibyte-01
+| Zend.tests.multibyte.multibyte_encoding_001
+| Zend.tests.multibyte.multibyte_encoding_004
+| Zend.tests.multibyte.multibyte_encoding_005
+# token_get_all bug (https://bugs.php.net/bug.php?id=60097)
+| Zend.tests.bug47516
+)\.phpt$~x', $file)) {
+            continue;
+        }
+
         if (!preg_match('~--FILE--\s*(.*?)--[A-Z]+--~s', $code, $matches)) {
             continue;
         }
-        if (preg_match('~--EXPECTF?--\s*Parse error~', $code)) {
+        if (preg_match('~--EXPECT(?:F|REGEX)?--\s*(?:Parse|Fatal) error~', $code)) {
             continue;
         }
 
