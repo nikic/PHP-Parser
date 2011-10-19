@@ -1,26 +1,31 @@
 <?php
 
-$DIR = dirname(__FILE__) . '/../../Symfony';
-$FILTER_FUNC = function ($path) {
-    return preg_match('~\.php(?:\.cache)?$~', $path) && false === strpos($path, 'skeleton');
-};
-$PREPARE_FUNC = function ($code) {
-    return $code;
-};
+if ('cli' !== php_sapi_name()) {
+    die('This script is designed for running on the command line.');
+}
 
-/*
-$DIR = dirname(__FILE__) . '/../../php-5.3.8-src';
-$FILTER_FUNC = function ($path) {
-    return preg_match('~\.phpt$~', $path);
-};
-$PREPARE_FUNC = function ($code) {
-    if (!preg_match('~--FILE--\s*(.*?)--[A-Z]+--~s', $code, $matches)) {
-        return '';
-    }
+if (3 !== $argc) {
+    die('This script expects exactly two arguments:
+  1. The test type (either "Symfony" or "PHP")
+  2. The path to the test files');
+}
 
-    return $matches[1];
-};
-*/
+$TEST_TYPE = $argv[1];
+$DIR = $argv[2];
+
+if ('Symfony' === $TEST_TYPE) {
+    $FILTER_FUNC = function ($path) {
+        return preg_match('~\.php(?:\.cache)?$~', $path) && false === strpos($path, 'skeleton');
+    };
+} elseif ('PHP' === $TEST_TYPE) {
+    $FILTER_FUNC = function ($path) {
+        return preg_match('~\.phpt$~', $path);
+    };
+} else {
+    die('The test type must be either "Symfony" or "PHP".');
+}
+
+ini_set('short_open_tag', false);
 
 require_once dirname(__FILE__) . '/../lib/PHPParser/Autoloader.php';
 PHPParser_Autoloader::register();
@@ -35,10 +40,6 @@ $count = 0;
 
 $totalStartTime = microtime(true);
 
-if ('cli' !== php_sapi_name()) {
-    echo '<pre>', "\n";
-}
-
 foreach (new RecursiveIteratorIterator(
              new RecursiveDirectoryIterator($DIR),
              RecursiveIteratorIterator::LEAVES_ONLY)
@@ -47,13 +48,26 @@ foreach (new RecursiveIteratorIterator(
         continue;
     }
 
+    $code = file_get_contents($file);
+
+    if ('PHP' === $TEST_TYPE) {
+        if (!preg_match('~--FILE--\s*(.*?)--[A-Z]+--~s', $code, $matches)) {
+            continue;
+        }
+        if (preg_match('~--EXPECTF?--\s*Parse error~', $code)) {
+            continue;
+        }
+
+        $code = $matches[1];
+    }
+
     set_time_limit(10);
 
     ++$count;
 
     try {
         $startTime = microtime(true);
-        $stmts = $parser->parse(new PHPParser_Lexer($PREPARE_FUNC(file_get_contents($file))));
+        $stmts = $parser->parse(new PHPParser_Lexer($code));
         $parseTime += microtime(true) - $startTime;
 
         $startTime = microtime(true);
@@ -108,7 +122,3 @@ echo "\n",
      "\n",
      'Total time:           ', microtime(true) - $totalStartTime, "\n",
      'Maximum memory usage: ', memory_get_peak_usage(true), "\n";
-
-if ('cli' !== php_sapi_name()) {
-    echo '</pre>';
-}
