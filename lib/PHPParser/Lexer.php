@@ -76,9 +76,16 @@ class PHPParser_Lexer
             $token = $this->tokens[$this->pos];
 
             if (is_string($token)) {
-                $value = $token;
-                $line  = $this->line;
-                return ord($token);
+                $line = $this->line;
+
+                // bug in token_get_all
+                if ('b"' === $token) {
+                    $value = 'b"';
+                    return ord('"');
+                } else {
+                    $value = $token;
+                    return ord($token);
+                }
             } else {
                 $this->line += substr_count($token[1], "\n");
 
