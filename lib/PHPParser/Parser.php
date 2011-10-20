@@ -1939,7 +1939,7 @@ class PHPParser_Parser
     protected function yyn239($line, $docComment) {
         
             if ($this->yyastk[$this->yysp-(4-1)] instanceof PHPParser_Node_Expr_StaticPropertyFetch) {
-                $this->yyval = new PHPParser_Node_Expr_StaticCall($this->yyastk[$this->yysp-(4-1)]->class, $this->yyastk[$this->yysp-(4-1)]->name, $this->yyastk[$this->yysp-(4-3)], $line, $docComment);
+                $this->yyval = new PHPParser_Node_Expr_StaticCall($this->yyastk[$this->yysp-(4-1)]->class, new PHPParser_Node_Expr_Variable($this->yyastk[$this->yysp-(4-1)]->name, $line, $docComment), $this->yyastk[$this->yysp-(4-3)], $line, $docComment);
             } elseif ($this->yyastk[$this->yysp-(4-1)] instanceof PHPParser_Node_Expr_ArrayDimFetch) {
                 $tmp = $this->yyastk[$this->yysp-(4-1)];
                 while ($tmp->var instanceof PHPParser_Node_Expr_ArrayDimFetch) {

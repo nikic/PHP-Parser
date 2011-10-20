@@ -540,7 +540,7 @@ function_call:
           { $$ = Expr_StaticCall[$1, $3, $5]; }
     | static_property_with_arrays '(' function_call_argument_list ')' {
             if ($1 instanceof PHPParser_Node_Expr_StaticPropertyFetch) {
-                $$ = Expr_StaticCall[$1->class, $1->name, $3];
+                $$ = Expr_StaticCall[$1->class, Expr_Variable[$1->name], $3];
             } elseif ($1 instanceof PHPParser_Node_Expr_ArrayDimFetch) {
                 $tmp = $1;
                 while ($tmp->var instanceof PHPParser_Node_Expr_ArrayDimFetch) {
