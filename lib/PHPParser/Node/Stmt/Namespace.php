@@ -58,8 +58,10 @@ class PHPParser_Node_Stmt_Namespace extends PHPParser_Node_Stmt
                 if (!$bracketed) {
                     $nsOffsets[] = $i;
                 }
-            // declare() is the only valid statement before a namespace
-            } elseif (!$stmt instanceof PHPParser_Node_Stmt_Declare) {
+            // declare() and __halt_compiler() are the only valid statements outside of namespace declarations
+            } elseif (!$stmt instanceof PHPParser_Node_Stmt_Declare
+                      && !$stmt instanceof PHPParser_Node_Stmt_HaltCompiler
+            ) {
                 if (true === $bracketed) {
                     throw new PHPParser_Error('No code may exist outside of namespace {}', $stmt->getLine());
                 }
