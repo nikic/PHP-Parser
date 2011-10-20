@@ -1,5 +1,8 @@
 <?php
 
+error_reporting(E_ALL | E_STRICT);
+ini_set('short_open_tag', false);
+
 if ('cli' !== php_sapi_name()) {
     die('This script is designed for running on the command line.');
 }
@@ -24,8 +27,6 @@ if ('Symfony' === $TEST_TYPE) {
 } else {
     die('The test type must be either "Symfony" or "PHP".');
 }
-
-ini_set('short_open_tag', false);
 
 require_once dirname(__FILE__) . '/../lib/PHPParser/Autoloader.php';
 PHPParser_Autoloader::register();
