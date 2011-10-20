@@ -538,7 +538,7 @@ function_call:
           { $$ = Expr_StaticCall[$1, $3, $5]; }
     | reference_variable T_PAAMAYIM_NEKUDOTAYIM T_STRING '(' function_call_argument_list ')'
           { $$ = Expr_StaticCall[$1, $3, $5]; }
-    | static_property_with_arrays '(' function_call_argument_list ')' {
+    | static_property '(' function_call_argument_list ')' {
             if ($1 instanceof PHPParser_Node_Expr_StaticPropertyFetch) {
                 $$ = Expr_StaticCall[$1->class, Expr_Variable[$1->name], $3];
             } elseif ($1 instanceof PHPParser_Node_Expr_ArrayDimFetch) {
@@ -688,7 +688,11 @@ variable_without_objects:
 
 base_variable:
       variable_without_objects                              { $$ = $1; }
-    | class_name T_PAAMAYIM_NEKUDOTAYIM '$' reference_variable
+    | static_property                                       { $$ = $1; }
+;
+
+static_property:
+      class_name T_PAAMAYIM_NEKUDOTAYIM '$' reference_variable
           { $$ = Expr_StaticPropertyFetch[$1, $4]; }
     | reference_variable T_PAAMAYIM_NEKUDOTAYIM '$' reference_variable
           { $$ = Expr_StaticPropertyFetch[$1, $4]; }
