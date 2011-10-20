@@ -7,7 +7,7 @@
 class PHPParser_Parser
 {
     const YYBADCH      = 145;
-    const YYMAXLEX     = 380;
+    const YYMAXLEX     = 383;
     const YYTERMS      = 145;
     const YYNONTERMS   = 91;
     const YYLAST       = 886;
@@ -117,33 +117,36 @@ class PHPParser_Parser
     const T_EMPTY = 350;
     const T_HALT_COMPILER = 351;
     const T_CLASS = 352;
-    const T_INTERFACE = 353;
-    const T_EXTENDS = 354;
-    const T_IMPLEMENTS = 355;
-    const T_OBJECT_OPERATOR = 356;
-    const T_DOUBLE_ARROW = 357;
-    const T_LIST = 358;
-    const T_ARRAY = 359;
-    const T_CLASS_C = 360;
-    const T_METHOD_C = 361;
-    const T_FUNC_C = 362;
-    const T_LINE = 363;
-    const T_FILE = 364;
-    const T_COMMENT = 365;
-    const T_DOC_COMMENT = 366;
-    const T_OPEN_TAG = 367;
-    const T_OPEN_TAG_WITH_ECHO = 368;
-    const T_CLOSE_TAG = 369;
-    const T_WHITESPACE = 370;
-    const T_START_HEREDOC = 371;
-    const T_END_HEREDOC = 372;
-    const T_DOLLAR_OPEN_CURLY_BRACES = 373;
-    const T_CURLY_OPEN = 374;
-    const T_PAAMAYIM_NEKUDOTAYIM = 375;
-    const T_NAMESPACE = 376;
-    const T_NS_C = 377;
-    const T_DIR = 378;
-    const T_NS_SEPARATOR = 379;
+    const T_TRAIT = 353;
+    const T_INTERFACE = 354;
+    const T_EXTENDS = 355;
+    const T_IMPLEMENTS = 356;
+    const T_OBJECT_OPERATOR = 357;
+    const T_DOUBLE_ARROW = 358;
+    const T_LIST = 359;
+    const T_ARRAY = 360;
+    const T_CALLABLE = 361;
+    const T_CLASS_C = 362;
+    const T_TRAIT_C = 363;
+    const T_METHOD_C = 364;
+    const T_FUNC_C = 365;
+    const T_LINE = 366;
+    const T_FILE = 367;
+    const T_COMMENT = 368;
+    const T_DOC_COMMENT = 369;
+    const T_OPEN_TAG = 370;
+    const T_OPEN_TAG_WITH_ECHO = 371;
+    const T_CLOSE_TAG = 372;
+    const T_WHITESPACE = 373;
+    const T_START_HEREDOC = 374;
+    const T_END_HEREDOC = 375;
+    const T_DOLLAR_OPEN_CURLY_BRACES = 376;
+    const T_CURLY_OPEN = 377;
+    const T_PAAMAYIM_NEKUDOTAYIM = 378;
+    const T_NAMESPACE = 379;
+    const T_NS_C = 380;
+    const T_DIR = 381;
+    const T_NS_SEPARATOR = 382;
     // }}}
 
     protected static $yyterminals = array(
@@ -331,9 +334,10 @@ class PHPParser_Parser
            82,   83,   84,   85,   86,   87,   88,   89,   90,   91,
            92,   93,   94,   95,   96,   97,   98,   99,  100,  101,
           102,  103,  104,  105,  106,  107,  108,  109,  110,  111,
-          112,  113,  114,  115,  116,  117,  118,  119,  120,  121,
-          122,  123,  124,  125,  126,  145,  145,  145,  145,  145,
-          145,  127,  128,  129,  130,  131,  132,  133,  134,  135
+          112,  113,  114,  145,  115,  116,  117,  118,  119,  120,
+          121,  145,  122,  145,  123,  124,  125,  126,  145,  145,
+          145,  145,  145,  145,  127,  128,  129,  130,  131,  132,
+          133,  134,  135
     );
 
     protected static $yyaction = array(

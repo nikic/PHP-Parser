@@ -73,6 +73,7 @@
 %token T_EMPTY
 %token T_HALT_COMPILER
 %token T_CLASS
+%token T_TRAIT
 %token T_INTERFACE
 %token T_EXTENDS
 %token T_IMPLEMENTS
@@ -80,7 +81,9 @@
 %token T_DOUBLE_ARROW
 %token T_LIST
 %token T_ARRAY
+%token T_CALLABLE
 %token T_CLASS_C
+%token T_TRAIT_C
 %token T_METHOD_C
 %token T_FUNC_C
 %token T_LINE
