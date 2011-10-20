@@ -9,11 +9,11 @@ class PHPParser_Parser
     const YYBADCH      = 145;
     const YYMAXLEX     = 383;
     const YYTERMS      = 145;
-    const YYNONTERMS   = 91;
+    const YYNONTERMS   = 90;
     const YYLAST       = 886;
     const YY2TBLSTATE  = 328;
-    const YYGLAST      = 416;
-    const YYSTATES     = 741;
+    const YYGLAST      = 424;
+    const YYSTATES     = 740;
     const YYNLSTATES   = 521;
     const YYINTERRTOK  = 1;
     const YYUNEXPECTED = 32767;
@@ -341,41 +341,41 @@ class PHPParser_Parser
     );
 
     protected static $yyaction = array(
-           55,   56,  360,   57,   58,-32766,-32766,-32766,  246,   59,
-        -32767,-32767,-32767,-32767,   98,   99,  100,  101,  102,  840,
+           55,   56,  360,   57,   58,-32766,-32766,-32766,  242,   59,
+        -32767,-32767,-32767,-32767,   98,   99,  100,  101,  102,  839,
           644,-32766,    0,-32766,-32766,   44,  106,  107,  108,  109,
           110,  111,  112,  113,  114,  115,  116,   81,  257,   60,
            61,  266,-32766,-32766,-32766,   62,-32766,   63,  233,  234,
-           64,   65,   66,   67,   68,   69,   70,   71,-32766,  244,
+           64,   65,   66,   67,   68,   69,   70,   71,-32766,  235,
            72,  333,  361,  696,  698,  224,  784,  785,  362,  802,
-          840,  488,  567,  358,  786,   50,   26,  363,   46,  364,
+          839,  488,  567,  358,  786,   50,   26,  363,   46,  364,
           615,  365,  474,  366,-32766,  476,  367,   38,  266,  225,
-           39,   40,  368,  337,  334,   41,  369,  334,   73,  240,
+           39,   40,  368,  337,  334,   41,  369,  334,   73,  243,
           292,  335,  635,  370,  371,  294,  370,  371,  372,  373,
-          374,  840,  550,  589,  375,  550,  589,  375,  376,  377,
+          374,  839,  550,  589,  375,  550,  589,  375,  376,  377,
           790,  791,  792,  787,  788,  250,  197,   82,   83,   84,
           383,  793,  789,  336,  574,  499,  123,   74,   52,  266,
-          253,  840,  258,   43,  309,   85,   86,   87,   88,   89,
+          253,  839,  258,   43,  309,   85,   86,   87,   88,   89,
            90,   91,   92,   93,   94,   95,   96,   97,   98,   99,
-          100,  101,  102,  103,  104,  105,   54,  245,  667,  668,
+          100,  101,  102,  103,  104,  105,   54,  238,  667,  668,
           669,  666,  665,  664,  525,-32766,  122,-32766,-32766,-32766,
-          266,  525,  226,  198,  840,-32766,  344,  433,-32766,-32766,
-        -32766,  616,-32766,-32766,-32766,-32766,-32766,  348,  844,-32766,
-          653,   80,  236,-32766,-32766,-32766,  754,  762,-32766,-32766,
+          266,  525,  226,  198,  839,-32766,  344,  433,-32766,-32766,
+        -32766,  616,-32766,-32766,-32766,-32766,-32766,  348,  843,-32766,
+          653,   80,  237,-32766,-32766,-32766,  754,  762,-32766,-32766,
           266,-32766,  293,-32766,  762,  118,-32766,   33,-32766,-32766,
-        -32766,-32766,  525,  237,  255,  870,-32766,  872,  871,-32766,
+        -32766,-32766,  525,  239,  255,  869,-32766,  871,  870,-32766,
         -32766,-32766,  409,-32766,  564,-32766,  383,-32766,  331,  336,
         -32766,   53,  273,  120,-32766,-32766,-32766,-32766,-32766,-32766,
         -32766,  659,-32766,  266,-32766,  762,   51,-32766,  121,  342,
-          331,  501,-32766,  525,  238,  124,  840,-32766,  268,  266,
-        -32766,-32766,-32766,  659,-32766,  239,-32766,  196,-32766,-32766,
+          331,  501,-32766,  525,  240,  124,  839,-32766,  268,  266,
+        -32766,-32766,-32766,  659,-32766,  241,-32766,  196,-32766,-32766,
           588,-32766,  100,  101,  102,-32766,-32766,-32766,-32766,-32766,
-        -32766,-32766,  840,-32766,  406,-32766,  762,  635,-32766,  506,
-          412,  199,  587,-32766,  525,  241,  454,  833,-32766,  349,
-          832,-32766,-32766,-32766,  861,-32766, -107,-32766,  119,-32766,
-           20,  861,-32766,-32766,-32766,  202,-32766,-32766,-32766,-32766,
+        -32766,-32766,  839,-32766,  406,-32766,  762,  635,-32766,  506,
+          412,  199,  587,-32766,  525,  244,  454,  832,-32766,  349,
+          831,-32766,-32766,-32766,  860,-32766, -107,-32766,  119,-32766,
+           20,  860,-32766,-32766,-32766,  202,-32766,-32766,-32766,-32766,
         -32766,-32766,-32766,  117,-32766,  449,-32766,  762,  259,-32766,
-          203,  534,  204,  353,-32766,  525,  242,  481,  482,-32766,
+          203,  534,  204,  353,-32766,  525,  245,  481,  482,-32766,
           473,   27,-32766,-32766,-32766,  206,-32766,  207,-32766,  795,
         -32766,  266,  208,-32766,   21,  656,  520,-32766,-32766,-32766,
         -32766,-32766,-32766,-32766,  807,-32766,  275,-32766,  762,  274,
@@ -383,16 +383,16 @@ class PHPParser_Parser
         -32766,  795,  511,-32766,-32766,-32766,  507,-32766,  504,-32766,
           578,-32766,  127,-32766,-32766,-32766,-32766,-32766,-32766,-32766,
         -32766,-32766,-32766,-32766,-32766,  519,-32766,  516,-32766,  762,
-          515,-32766,  245,  565,  531,  502,-32766,  525,  103,  104,
-          105,-32766,  245,  585,-32766,-32766,-32766,  490,-32766,  539,
+          515,-32766,  238,  565,  531,  502,-32766,  525,  103,  104,
+          105,-32766,  238,  585,-32766,-32766,-32766,  490,-32766,  539,
         -32766,  126,-32766,  271,  399,-32766,  526,  439,  525,-32766,
         -32766,-32766,-32766,-32766,-32766,-32766,  494,-32766,  451,-32766,
-          762,  430,-32766,  429,  866,  456,  423,-32766,  525,  413,
+          762,  430,-32766,  429,  865,  456,  423,-32766,  525,  413,
           541,  341,-32766,  591,  421,-32766,-32766,-32766,  403,-32766,
           402,-32766,  393,-32766,  801,  343,-32766,  392,  755,  404,
         -32766,-32766,-32766,-32766,-32766,-32766,-32766,  777,-32766,  756,
         -32766,  762,  394,-32766,  440, -137,  493,  487,-32766,  525,
-          486,  272,  480,-32766,  466,  227,-32766,-32766,-32766,  861,
+          486,  272,  480,-32766,  466,  227,-32766,-32766,-32766,  860,
         -32766,  357,-32766,  464,-32766,  590,  484,-32766,-32766,  264,
           477,-32766,-32766,-32766,-32766,-32766,-32766,-32766,  265,-32766,
           267,-32766,  762,   49,-32766,  509,  794,  256,  750,-32766,
@@ -408,13 +408,13 @@ class PHPParser_Parser
         -32766,-32766,  508,-32766,  518,-32766,  500,-32766,  200,  201,
         -32766,   81,  129,  128,-32766,-32766,-32766,-32766,-32766,-32766,
         -32766,  334,-32766,  608,-32766,  762,-32766,-32766,-32766,  609,
-          370,  371,-32766,  869,  835,  784,  785,  867,  841,  550,
+          370,  371,-32766,  868,  834,  784,  785,  866,  840,  550,
           589,  375,-32766,  786,-32766,-32766,-32766,-32766,-32766,-32767,
-        -32767,-32767,-32767,  839,  824,  837,  775,  868,  562,-32766,
-          334,  329,  845,  834,  752,    0,  291,  334,  329,  370,
+        -32767,-32767,-32767,  838,  823,  836,  775,  867,  562,-32766,
+          334,  329,  844,  833,  752,    0,  291,  334,  329,  370,
           371,   30,   31,  291,   32,   34,  370,  371,  530,  589,
           375,  332,  339,  223,   29,  530,  589,  375,  436,  790,
-          791,  792,  787,  788,  320,   35,  248,  270,  247,  235,
+          791,  792,  787,  788,  320,   35,  248,  270,  247,  236,
           793,  789,  232,  533,  270,  334,  329,   36,  231,   37,
           532,  291,   42,   47,  370,  371,-32766,-32766,-32766,   75,
            76,  334,  222,  530,  589,  375,  195,-32766,-32766,-32766,
@@ -422,14 +422,14 @@ class PHPParser_Parser
           589,  375,  270,-32766,  269,-32766,-32766,-32766,-32766,  334,
           249,  132,  334,  125,   79,   78,  334,   23,  370,  371,
            77,  370,  371,  732,  581,  370,  371,  550,  589,  375,
-          550,  589,  375,  441,  550,  589,  375,  850,  334,  443,
+          550,  589,  375,  441,  550,  589,  375,  849,  334,  443,
           497,   19,   25,   28,  295,   22,   24,  370,  371,  491,
           778,  800,  657,  334,    0,  551,  550,  589,  375,  330,
-          334,  865,  370,  371,  759,  334,  758,  821,  783,  370,
-          371,  550,  589,  375,  370,  371,  820,  761,  550,  589,
+          334,  864,  370,  371,  759,  334,  758,  820,  783,  370,
+          371,  550,  589,  375,  370,  371,  821,  761,  550,  589,
           375,  586,  760,  550,  589,  375,  757,  749,  492,  463,
           350,  299,  736,  729,  496,  733,  462,    0,    0,    0,
-          774,    0,  836,  823,  838,  471
+          774,    0,  835,  822,  837,  471
     );
 
     protected static $yycheck = array(
@@ -615,10 +615,10 @@ class PHPParser_Parser
     protected static $yydefault = array(
             3,32767,32767,    1,32767,32767,32767,32767,32767,32767,
         32767,32767,32767,32767,  100,   93,  105,   92,  101,32767,
-        32767,32767,32767,32767,32767,32767,32767,32767,32767,  331,
+        32767,32767,32767,32767,32767,32767,32767,32767,32767,  330,
           116,  116,  116,  116,  116,  116,  116,  116,  290,32767,
         32767,32767,32767,32767,32767,32767,32767,  155,  155,  155,
-        32767,  321,  321,  321,  321,32767,32767,32767,32767,32767,
+        32767,  320,  320,  320,  320,32767,32767,32767,32767,32767,
         32767,32767,32767,32767,32767,32767,32767,32767,32767,32767,
         32767,32767,32767,32767,32767,32767,32767,32767,32767,32767,
         32767,32767,32767,32767,32767,32767,32767,32767,32767,32767,
@@ -627,40 +627,40 @@ class PHPParser_Parser
         32767,32767,32767,32767,32767,32767,32767,32767,32767,32767,
         32767,32767,32767,32767,32767,32767,32767,32767,32767,32767,
         32767,32767,32767,32767,32767,32767,32767,32767,32767,32767,
-        32767,32767,32767,32767,32767,32767,32767,  336,32767,32767,
+        32767,32767,32767,32767,32767,32767,32767,  335,32767,32767,
         32767,32767,32767,32767,32767,32767,32767,32767,32767,32767,
-        32767,32767,32767,  213,  214,  216,  217,  154,  117,  322,
-          153,  335,  119,  181,  183,  230,  182,  159,  164,  165,
+        32767,32767,32767,  213,  214,  216,  217,  154,  117,  321,
+          153,  334,  119,  181,  183,  230,  182,  159,  164,  165,
           166,  167,  168,  169,  170,  171,  172,  173,  174,  158,
           210,  209,  179,  180,  184,  287,  290,32767,32767,32767,
         32767,32767,32767,32767,32767,32767,32767,32767,32767,  186,
           185,  201,  202,  199,  200,  157,  203,  204,  205,  206,
-          139,  139,  330,  330,  330,32767,32767,32767,  140,  193,
-          194,32767,32767,32767,32767,32767,32767,32767,32767,32767,
-        32767,32767,32767,32767,  250,  250,  250,  112,  112,  112,
+          139,  139,  329,  329,  329,32767,32767,32767,  140,  193,
+          194,32767,32767,32767,32767,  250,32767,32767,  250,32767,
+        32767,32767,  250,32767,32767,32767,32767,  112,  112,  112,
         32767,32767,32767,  258,32767,32767,32767,  112,32767,32767,
           260,  188,  189,  187,32767,32767,32767,32767,32767,32767,
-        32767,  259,32767,32767,32767,32767,  304,  298,  304,  304,
+        32767,  259,32767,32767,32767,32767,  303,  295,  303,  303,
           248,32767,32767,32767,32767,32767,32767,32767,32767,32767,
         32767,32767,32767,32767,32767,32767,  102,  104,32767,32767,
-          283,  310,32767,32767,32767,   17,32767,32767,32767,  343,
-          304,32767,32767,32767,   19,32767,32767,32767,32767,32767,
-        32767,  308,  309,32767,32767,32767,32767,32767,32767,32767,
+          283,  309,32767,32767,32767,   17,32767,32767,32767,  342,
+          303,32767,32767,32767,   19,32767,32767,32767,32767,32767,
+        32767,  307,  308,32767,32767,32767,32767,32767,32767,32767,
         32767,32767,   63,  255,   63,  241,32767,   63,  261,32767,
         32767,   73,32767,   71,32767,  289,   75,   63,   91,   91,
           232,   54,  261,   63,   63,  289,32767,   63,   63,32767,
         32767,32767,    4,32767,32767,32767,32767,32767,32767,32767,
         32767,32767,32767,32767,32767,32767,32767,32767,  243,32767,
-        32767,  307,  306,32767,  197,  176,  242,32767,  178,  246,
+        32767,  306,  305,32767,  197,  176,  242,32767,  178,  246,
           249,32767,32767,32767,  128,  244,32767,32767,32767,32767,
         32767,  156,32767,32767,32767,  124,32767,   61,32767,32767,
-          328,32767,32767,  281,  245,  190,  191,  192,  301,32767,
-          115,  352,32767,  353,32767,32767,32767,32767,32767,32767,
+          327,32767,32767,  281,  245,  190,  191,  192,  298,32767,
+          115,  351,32767,  352,32767,32767,32767,32767,32767,32767,
         32767,32767,32767,32767,32767,  106,32767,  276,32767,32767,
-          126,32767,   74,32767,  338,32767,  160,  118,32767,32767,
+          126,32767,   74,32767,  337,32767,  160,  118,32767,32767,
         32767,32767,32767,32767,32767,32767,32767,   62,32767,   76,
         32767,32767,32767,32767,32767,32767,  108,  294,32767,32767,
-          337,32767,  120,32767,32767,32767,32767,32767,32767,32767,
+          336,32767,  120,32767,32767,32767,32767,32767,32767,32767,
           151,32767,32767,32767,32767,32767,  110,32767,32767,32767,
         32767,32767,32767,  149,32767,32767,32767,32767,32767,   25,
            25,    3,    3,  131,   25,   98,   25,   25,  131,   91,
@@ -682,35 +682,36 @@ class PHPParser_Parser
           160,  189,  134,  161,  162,  437,  437,  437,  437,  437,
           437,  437,  437,  437,  437,  437,  437,  437,  437,  544,
           650,  606,  798,  799,  648,  607,  630,  814,  673,  632,
-          671,  854,  386,  386,  386,  386,  386,  386,  450,  475,
-          288,  386,  386,  386,  386,  386,  386,  386,  386,  386,
-          386,  386,  386,  386,  763,  763,  763,  634,  634,  634,
-          424,  425,  427,  431,  458,  460,  461,  634,  529,  529,
-          529,  528,  528,  528,  598,  598,  302,  593,  599,  479,
+          671,  853,  386,  386,  386,  386,  386,  386,  528,  528,
+          528,  386,  386,  386,  386,  763,  386,  386,  763,  386,
+          386,  386,  763,  386,  386,  386,  386,  634,  634,  634,
+          424,  425,  427,  431,  458,  460,  461,  634,  260,  827,
+          450,  475,  827,  252,  598,  598,  827,  593,  599,  479,
           438,  438,  438,  438,  438,  438,  438,  438,  438,  438,
-          438,  438,  438,  438,  860,  860,  426,  428,  432,  828,
-          828,  828,  863,  860,  390,  390,  390,  387,  387,  387,
-          387,  387,  387,  323,  863,  863,  387,  387,  387,  387,
-          387,  387,  387,  387,  387,  387,  387,  387,  387,  389,
-          389,  389,  278,  278,  278,  278,  278,  278,  571,  812,
-          572,  278,  278,  278,  278,  278,  278,  278,  278,  278,
-          278,  278,  278,  278,  279,  279,  279,  728,  352,  452,
-          498,  827,  827,  827,  310,  310,  310,    1,    2,  260,
-          847,  846,  846,  846,  252,  663,  310,  410,  410,  410,
-          405,  446,  286,  826,  321,  322,  407,  407,  385,  388,
-          317,  319,  444,  447,  457,  324,  470,  472,  327,    5,
-          289,  290,  316,   14,  459,    6,    7,  773,  772,  642,
-            8,    9,   10,   15,   16,   11,   17,   12,   18,   13,
-          796,  796,  796,  796,  796,  796,  796,  796,  796,  796,
-          796,  796,  796,  796,  527,  527,  527,  354,  536,  514,
-          325,  542,  580,  281,  682,  221,    0,    0,  809,    0,
-            0,    0,  617,  604,  602,  602,  600,  602,  505,  391,
-          624,  620,  303,    0,  305,  398,  305,    0,    0,    0,
-            0,    0,    0,    0,    0,  453,    0,    0,    0,    0,
-            0,  243,  478,    0,    0,  489,  495,    0,    0,    0,
+          438,  438,  438,  438,  859,  859,  571,  390,  572,  302,
+          390,  728,  862,  859,  390,  352,  323,  387,  387,  387,
+          387,  387,  387,  812,  862,  862,  387,  387,  387,  387,
+          389,  387,  387,  389,  387,  387,  387,  389,  387,  387,
+          387,  387,  278,  278,  278,  278,  278,  278,  288,  452,
+          498,  278,  278,  278,  278,  279,  278,  278,  279,  278,
+          278,  278,  279,  278,  278,  278,  278,  529,  529,  529,
+          426,  428,  432,  846,  310,  310,  310,  773,  772,    1,
+            2,  663,  316,  354,  459,  536,  310,  410,  410,  410,
+          405,  446,  286,  642,  321,  322,  407,  407,  385,  388,
+          514,  317,  319,  542,  444,  447,  457,  325,  324,  470,
+          472,  327,    5,  580,  221,  682,   14,    0,    6,    7,
+          809,    0,    0,    8,    9,   10,   15,   16,   11,   17,
+           12,   18,   13,  796,  796,  796,  796,  796,  796,  796,
+          796,  796,  796,  796,  796,  796,  796,  527,  527,  527,
+            0,    0,    0,    0,    0,    0,  826,    0,    0,  826,
+            0,  281,    0,  826,    0,  617,  604,  602,  602,  600,
+          602,  505,  391,  624,  620,  845,  845,  845,  303,    0,
+            0,  398,  305,    0,  305,    0,    0,  825,    0,    0,
+            0,  453,    0,    0,    0,    0,    0,  246,  478,    0,
+            0,  489,  495,    0,    0,    0,    0,    0,  289,  290,
             0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
-            0,    0,    0,    0,    0,    0,    0,    0,    0,  395,
-            0,    0,    0,  314,    0,  414
+            0,    0,    0,    0,    0,    0,    0,  395,    0,    0,
+            0,  314,    0,  414
     );
 
     protected static $yygcheck = array(
@@ -727,48 +728,48 @@ class PHPParser_Parser
            15,   15,   15,   15,   15,   35,   35,   35,   35,   35,
            35,   35,   35,   35,   35,   35,   35,   35,   35,   12,
            12,   12,   12,   12,   12,   12,   12,   12,   12,   12,
-           12,   88,   35,   35,   35,   35,   35,   35,   21,   21,
-           43,   35,   35,   35,   35,   35,   35,   35,   35,   35,
+           12,   87,   35,   35,   35,   35,   35,   35,    6,    6,
+            6,   35,   35,   35,   35,   35,   35,   35,   35,   35,
            35,   35,   35,   35,   35,   35,   35,   35,   35,   35,
-           47,   47,   47,   47,   47,   47,   47,   35,    7,    7,
-            7,    6,    6,    6,   35,   35,   26,   35,   35,   35,
+           47,   47,   47,   47,   47,   47,   47,   35,   76,   69,
+           21,   21,   69,   76,   35,   35,   69,   35,   35,   35,
            67,   67,   67,   67,   67,   67,   67,   67,   67,   67,
-           67,   67,   67,   67,   89,   89,   75,   75,   75,   69,
-           69,   69,   89,   89,   73,   73,   73,   67,   67,   67,
-           67,   67,   67,   57,   89,   89,   67,   67,   67,   67,
+           67,   67,   67,   67,   88,   88,   29,   73,   29,   26,
+           73,   58,   88,   88,   73,   58,   57,   67,   67,   67,
+           67,   67,   67,   82,   88,   88,   67,   67,   67,   67,
            67,   67,   67,   67,   67,   67,   67,   67,   67,   67,
-           67,   67,   68,   68,   68,   68,   68,   68,   29,   82,
-           29,   68,   68,   68,   68,   68,   68,   68,   68,   68,
-           68,   68,   68,   68,   68,   68,   68,   58,   58,   36,
-           36,   70,   70,   70,   68,   68,   68,    2,    2,   76,
-           86,   70,   70,   70,   76,   56,   68,   28,   28,   28,
-           28,   28,   28,   70,   68,   68,   28,   28,   28,   28,
-           28,   28,   28,   28,   28,   28,   28,   28,   28,   13,
-           43,   43,   27,   13,   42,   13,   13,   74,   74,   49,
-           13,   13,   13,   13,   13,   13,   13,   13,   13,   13,
-           77,   77,   77,   77,   77,   77,   77,   77,   77,   77,
-           77,   77,   77,   77,    5,    5,    5,   46,   10,   44,
-            9,   11,   34,    4,   59,   40,   -1,   -1,   81,   -1,
-           -1,   -1,    5,    5,    5,    5,    5,    5,    5,    5,
-            5,    5,   30,   -1,    4,   30,    4,   -1,   -1,   -1,
-           -1,   -1,   -1,   -1,   -1,   30,   -1,   -1,   -1,   -1,
-           -1,   30,   30,   -1,   -1,   30,   30,   -1,   -1,   -1,
+           67,   67,   68,   68,   68,   68,   68,   68,   43,   36,
+           36,   68,   68,   68,   68,   68,   68,   68,   68,   68,
+           68,   68,   68,   68,   68,   68,   68,    7,    7,    7,
+           75,   75,   75,   85,   68,   68,   68,   74,   74,    2,
+            2,   56,   27,   46,   42,   10,   68,   28,   28,   28,
+           28,   28,   28,   49,   68,   68,   28,   28,   28,   28,
+           44,   28,   28,   11,   28,   28,   28,    9,   28,   28,
+           28,   28,   13,   34,   40,   59,   13,   -1,   13,   13,
+           81,   -1,   -1,   13,   13,   13,   13,   13,   13,   13,
+           13,   13,   13,   77,   77,   77,   77,   77,   77,   77,
+           77,   77,   77,   77,   77,   77,   77,    5,    5,    5,
+           -1,   -1,   -1,   -1,   -1,   -1,   70,   -1,   -1,   70,
+           -1,    4,   -1,   70,   -1,    5,    5,    5,    5,    5,
+            5,    5,    5,    5,    5,   70,   70,   70,   30,   -1,
+           -1,   30,    4,   -1,    4,   -1,   -1,   70,   -1,   -1,
+           -1,   30,   -1,   -1,   -1,   -1,   -1,   30,   30,   -1,
+           -1,   30,   30,   -1,   -1,   -1,   -1,   -1,   43,   43,
            -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,
-           -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,    4,
-           -1,   -1,   -1,    4,   -1,    4
+           -1,   -1,   -1,   -1,   -1,   -1,   -1,    4,   -1,   -1,
+           -1,    4,   -1,    4
     );
 
     protected static $yygbase = array(
-            0,    0, -234,    0,   73,  333,  170,  167,    0,    9,
-           45,   -3,  -78, -201,    0,  -29,    0,    0,    0,    0,
-            0,   90,    0,    0,    0,    0,  126,   70,   55,  216,
-           28,    0,    0,    0,   -9,  -90,   11,    0,    0,    0,
-         -163,    0,   39, -209,   41,    0,   80,  129,    0,   15,
-            0,    0,    0,    0,    0,    0,   47,  -10,   12,   -8,
-            0,    0,    0,    0,    0,    0,    0,  -15,   10,  -45,
-           17,    0,    0,  -40,   52,  144,   16,  125,    0,    0,
-            0,   -7,   43,    0,    0,    0,   46,    0,   93,  -57,
-            0
+            0,    0, -232,    0,   81,  336,  137,  256,    0,  -34,
+          -18,  -51,  -78, -198,    0,  -29,    0,    0,    0,    0,
+            0,  122,    0,    0,    0,    0,  149,   40,   55,  174,
+           34,    0,    0,    0,  -48,  -90,   -9,    0,    0,    0,
+         -204,    0,    9, -111,   -8,    0,   16,  129,    0,  -11,
+            0,    0,    0,    0,    0,    0,   43,  -17,  -37,  -47,
+            0,    0,    0,    0,    0,    0,    0,  -15,   10,  -66,
+          111,    0,    0,  -38,   12,  208,  -85,  128,    0,    0,
+            0,  -45,   17,    0,    0,   39,    0,   93,  -57,    0
     );
 
     protected static $yygdefault = array(
@@ -780,8 +781,7 @@ class PHPParser_Parser
           651,  356,  326,  469,  655,  228,  662,  318,  338,  683,
           746,  748,  411,  396,  465,  328,  818,  380,  276,  381,
           382,  768,  280,  817,  418,  422,  251,  805,  468,  803,
-          355,  853,  813,  816,  277,  301,  848,  345,  855,  862,
-          445
+          355,  852,  813,  277,  301,  847,  345,  854,  861,  445
     );
 
     protected static $yylhs = array(
@@ -815,12 +815,12 @@ class PHPParser_Parser
            77,   77,   77,   77,   77,   12,   12,   12,   12,   12,
            12,   61,   61,   61,   61,   61,   61,   78,   78,   81,
            81,   80,   80,   82,   82,   28,   28,   28,   83,   83,
-           83,   84,   84,   84,   70,   70,   73,   73,   69,   69,
-           69,   85,   85,   85,   85,   85,   85,   68,   68,   68,
-           68,   75,   75,   74,   74,   74,   57,   57,   86,   86,
-           86,   62,   62,   87,   87,   88,   88,   88,   88,   76,
-           76,   76,   76,   89,   89,   89,   89,   89,   89,   90,
-           90,   90,   79,   79
+           83,   83,   83,   70,   70,   73,   73,   69,   69,   69,
+           84,   84,   84,   84,   84,   84,   68,   68,   68,   68,
+           75,   75,   74,   74,   74,   57,   57,   85,   85,   85,
+           62,   62,   86,   86,   87,   87,   87,   87,   76,   76,
+           76,   76,   88,   88,   88,   88,   88,   88,   89,   89,
+           89,   79,   79
     );
 
     protected static $yylen = array(
@@ -853,13 +853,13 @@ class PHPParser_Parser
             1,    0,    3,    1,    1,    1,    1,    1,    1,    1,
             1,    1,    1,    3,    2,    1,    1,    2,    2,    4,
             3,    1,    1,    1,    1,    3,    3,    0,    2,    0,
-            1,    3,    1,    3,    1,    1,    1,    1,    1,    4,
-            6,    3,    4,    4,    1,    2,    1,    1,    4,    4,
-            1,    3,    3,    6,    6,    4,    4,    4,    4,    1,
-            4,    0,    1,    1,    3,    1,    3,    1,    1,    4,
-            0,    0,    2,    3,    1,    3,    1,    4,    2,    2,
-            2,    1,    2,    1,    4,    3,    3,    6,    3,    1,
-            1,    1,    3,    3
+            1,    3,    1,    3,    1,    1,    1,    1,    3,    6,
+            4,    4,    4,    1,    2,    1,    1,    4,    4,    1,
+            3,    3,    6,    6,    4,    4,    4,    4,    1,    4,
+            0,    1,    1,    3,    1,    3,    1,    1,    4,    0,
+            0,    2,    3,    1,    3,    1,    4,    2,    2,    2,
+            1,    2,    1,    4,    3,    3,    6,    3,    1,    1,
+            1,    3,    3
     );
 
     protected $yyval;
@@ -2193,19 +2193,19 @@ class PHPParser_Parser
     }
 
     protected function yyn298($line, $docComment) {
-         $this->yyval = $this->yyastk[$this->yysp-(1-1)]; 
+         $this->yyval = new PHPParser_Node_Expr_PropertyFetch($this->yyastk[$this->yysp-(3-1)], $this->yyastk[$this->yysp-(3-3)], $line, $docComment); 
     }
 
     protected function yyn299($line, $docComment) {
-         $this->yyval = new PHPParser_Node_Expr_FuncCall($this->yyastk[$this->yysp-(4-1)], $this->yyastk[$this->yysp-(4-3)], $line, $docComment); 
-    }
-
-    protected function yyn300($line, $docComment) {
          $this->yyval = new PHPParser_Node_Expr_MethodCall($this->yyastk[$this->yysp-(6-1)], $this->yyastk[$this->yysp-(6-3)], $this->yyastk[$this->yysp-(6-5)], $line, $docComment); 
     }
 
+    protected function yyn300($line, $docComment) {
+         $this->yyval = new PHPParser_Node_Expr_FuncCall($this->yyastk[$this->yysp-(4-1)], $this->yyastk[$this->yysp-(4-3)], $line, $docComment); 
+    }
+
     protected function yyn301($line, $docComment) {
-         $this->yyval = new PHPParser_Node_Expr_PropertyFetch($this->yyastk[$this->yysp-(3-1)], $this->yyastk[$this->yysp-(3-3)], $line, $docComment); 
+         $this->yyval = new PHPParser_Node_Expr_ArrayDimFetch($this->yyastk[$this->yysp-(4-1)], $this->yyastk[$this->yysp-(4-3)], $line, $docComment); 
     }
 
     protected function yyn302($line, $docComment) {
@@ -2213,15 +2213,15 @@ class PHPParser_Parser
     }
 
     protected function yyn303($line, $docComment) {
-         $this->yyval = new PHPParser_Node_Expr_ArrayDimFetch($this->yyastk[$this->yysp-(4-1)], $this->yyastk[$this->yysp-(4-3)], $line, $docComment); 
-    }
-
-    protected function yyn304($line, $docComment) {
          $this->yyval = $this->yyastk[$this->yysp-(1-1)]; 
     }
 
-    protected function yyn305($line, $docComment) {
+    protected function yyn304($line, $docComment) {
          $this->yyval = new PHPParser_Node_Expr_Variable($this->yyastk[$this->yysp-(2-2)], $line, $docComment); 
+    }
+
+    protected function yyn305($line, $docComment) {
+         $this->yyval = $this->yyastk[$this->yysp-(1-1)]; 
     }
 
     protected function yyn306($line, $docComment) {
@@ -2229,7 +2229,7 @@ class PHPParser_Parser
     }
 
     protected function yyn307($line, $docComment) {
-         $this->yyval = $this->yyastk[$this->yysp-(1-1)]; 
+         $this->yyval = new PHPParser_Node_Expr_StaticPropertyFetch($this->yyastk[$this->yysp-(4-1)], $this->yyastk[$this->yysp-(4-4)], $line, $docComment); 
     }
 
     protected function yyn308($line, $docComment) {
@@ -2237,11 +2237,11 @@ class PHPParser_Parser
     }
 
     protected function yyn309($line, $docComment) {
-         $this->yyval = new PHPParser_Node_Expr_StaticPropertyFetch($this->yyastk[$this->yysp-(4-1)], $this->yyastk[$this->yysp-(4-4)], $line, $docComment); 
+         $this->yyval = $this->yyastk[$this->yysp-(1-1)]; 
     }
 
     protected function yyn310($line, $docComment) {
-         $this->yyval = $this->yyastk[$this->yysp-(1-1)]; 
+         $this->yyval = new PHPParser_Node_Expr_StaticPropertyFetch($this->yyastk[$this->yysp-(3-1)], substr($this->yyastk[$this->yysp-(3-3)], 1), $line, $docComment); 
     }
 
     protected function yyn311($line, $docComment) {
@@ -2249,7 +2249,7 @@ class PHPParser_Parser
     }
 
     protected function yyn312($line, $docComment) {
-         $this->yyval = new PHPParser_Node_Expr_StaticPropertyFetch($this->yyastk[$this->yysp-(3-1)], substr($this->yyastk[$this->yysp-(3-3)], 1), $line, $docComment); 
+         $this->yyval = new PHPParser_Node_Expr_StaticPropertyFetch($this->yyastk[$this->yysp-(6-1)], $this->yyastk[$this->yysp-(6-5)], $line, $docComment); 
     }
 
     protected function yyn313($line, $docComment) {
@@ -2257,7 +2257,7 @@ class PHPParser_Parser
     }
 
     protected function yyn314($line, $docComment) {
-         $this->yyval = new PHPParser_Node_Expr_StaticPropertyFetch($this->yyastk[$this->yysp-(6-1)], $this->yyastk[$this->yysp-(6-5)], $line, $docComment); 
+         $this->yyval = new PHPParser_Node_Expr_ArrayDimFetch($this->yyastk[$this->yysp-(4-1)], $this->yyastk[$this->yysp-(4-3)], $line, $docComment); 
     }
 
     protected function yyn315($line, $docComment) {
@@ -2273,19 +2273,19 @@ class PHPParser_Parser
     }
 
     protected function yyn318($line, $docComment) {
-         $this->yyval = new PHPParser_Node_Expr_ArrayDimFetch($this->yyastk[$this->yysp-(4-1)], $this->yyastk[$this->yysp-(4-3)], $line, $docComment); 
-    }
-
-    protected function yyn319($line, $docComment) {
          $this->yyval = new PHPParser_Node_Expr_Variable(substr($this->yyastk[$this->yysp-(1-1)], 1), $line, $docComment); 
     }
 
-    protected function yyn320($line, $docComment) {
+    protected function yyn319($line, $docComment) {
          $this->yyval = new PHPParser_Node_Expr_Variable($this->yyastk[$this->yysp-(4-3)], $line, $docComment); 
     }
 
-    protected function yyn321($line, $docComment) {
+    protected function yyn320($line, $docComment) {
          $this->yyval = null; 
+    }
+
+    protected function yyn321($line, $docComment) {
+         $this->yyval = $this->yyastk[$this->yysp-(1-1)]; 
     }
 
     protected function yyn322($line, $docComment) {
@@ -2293,67 +2293,67 @@ class PHPParser_Parser
     }
 
     protected function yyn323($line, $docComment) {
-         $this->yyval = $this->yyastk[$this->yysp-(1-1)]; 
-    }
-
-    protected function yyn324($line, $docComment) {
          $this->yyval = $this->yyastk[$this->yysp-(3-2)]; 
     }
 
-    protected function yyn325($line, $docComment) {
+    protected function yyn324($line, $docComment) {
          $this->yyval = $this->yyastk[$this->yysp-(1-1)]; 
+    }
+
+    protected function yyn325($line, $docComment) {
+         $this->yyastk[$this->yysp-(3-1)][] = $this->yyastk[$this->yysp-(3-3)]; $this->yyval = $this->yyastk[$this->yysp-(3-1)]; 
     }
 
     protected function yyn326($line, $docComment) {
-         $this->yyastk[$this->yysp-(3-1)][] = $this->yyastk[$this->yysp-(3-3)]; $this->yyval = $this->yyastk[$this->yysp-(3-1)]; 
+         $this->yyval = array($this->yyastk[$this->yysp-(1-1)]); 
     }
 
     protected function yyn327($line, $docComment) {
-         $this->yyval = array($this->yyastk[$this->yysp-(1-1)]); 
-    }
-
-    protected function yyn328($line, $docComment) {
          $this->yyval = $this->yyastk[$this->yysp-(1-1)]; 
     }
 
-    protected function yyn329($line, $docComment) {
+    protected function yyn328($line, $docComment) {
          $this->yyval = $this->yyastk[$this->yysp-(4-3)]; 
     }
 
-    protected function yyn330($line, $docComment) {
+    protected function yyn329($line, $docComment) {
          $this->yyval = null; 
     }
 
-    protected function yyn331($line, $docComment) {
+    protected function yyn330($line, $docComment) {
          $this->yyval = array(); 
     }
 
-    protected function yyn332($line, $docComment) {
+    protected function yyn331($line, $docComment) {
          $this->yyval = $this->yyastk[$this->yysp-(2-1)]; 
     }
 
-    protected function yyn333($line, $docComment) {
+    protected function yyn332($line, $docComment) {
          $this->yyastk[$this->yysp-(3-1)][] = $this->yyastk[$this->yysp-(3-3)]; $this->yyval = $this->yyastk[$this->yysp-(3-1)]; 
     }
 
-    protected function yyn334($line, $docComment) {
+    protected function yyn333($line, $docComment) {
          $this->yyval = array($this->yyastk[$this->yysp-(1-1)]); 
     }
 
-    protected function yyn335($line, $docComment) {
+    protected function yyn334($line, $docComment) {
          $this->yyval = new PHPParser_Node_Expr_ArrayItem($this->yyastk[$this->yysp-(3-3)], $this->yyastk[$this->yysp-(3-1)], false, $line, $docComment); 
     }
 
-    protected function yyn336($line, $docComment) {
+    protected function yyn335($line, $docComment) {
          $this->yyval = new PHPParser_Node_Expr_ArrayItem($this->yyastk[$this->yysp-(1-1)], null, false, $line, $docComment); 
     }
 
-    protected function yyn337($line, $docComment) {
+    protected function yyn336($line, $docComment) {
          $this->yyval = new PHPParser_Node_Expr_ArrayItem($this->yyastk[$this->yysp-(4-4)], $this->yyastk[$this->yysp-(4-1)], true, $line, $docComment); 
     }
 
-    protected function yyn338($line, $docComment) {
+    protected function yyn337($line, $docComment) {
          $this->yyval = new PHPParser_Node_Expr_ArrayItem($this->yyastk[$this->yysp-(2-2)], null, true, $line, $docComment); 
+    }
+
+    protected function yyn338($line, $docComment) {
+         $this->yyastk[$this->yysp-(2-1)][] = $this->yyastk[$this->yysp-(2-2)]; $this->yyval = $this->yyastk[$this->yysp-(2-1)]; 
     }
 
     protected function yyn339($line, $docComment) {
@@ -2361,58 +2361,54 @@ class PHPParser_Parser
     }
 
     protected function yyn340($line, $docComment) {
-         $this->yyastk[$this->yysp-(2-1)][] = $this->yyastk[$this->yysp-(2-2)]; $this->yyval = $this->yyastk[$this->yysp-(2-1)]; 
-    }
-
-    protected function yyn341($line, $docComment) {
          $this->yyval = array($this->yyastk[$this->yysp-(1-1)]); 
     }
 
-    protected function yyn342($line, $docComment) {
+    protected function yyn341($line, $docComment) {
          $this->yyval = array($this->yyastk[$this->yysp-(2-1)], $this->yyastk[$this->yysp-(2-2)]); 
     }
 
-    protected function yyn343($line, $docComment) {
+    protected function yyn342($line, $docComment) {
          $this->yyval = new PHPParser_Node_Expr_Variable(substr($this->yyastk[$this->yysp-(1-1)], 1), $line, $docComment); 
     }
 
-    protected function yyn344($line, $docComment) {
+    protected function yyn343($line, $docComment) {
          $this->yyval = new PHPParser_Node_Expr_ArrayDimFetch(new PHPParser_Node_Expr_Variable(substr($this->yyastk[$this->yysp-(4-1)], 1), $line, $docComment), $this->yyastk[$this->yysp-(4-3)], $line, $docComment); 
     }
 
-    protected function yyn345($line, $docComment) {
+    protected function yyn344($line, $docComment) {
          $this->yyval = new PHPParser_Node_Expr_PropertyFetch(new PHPParser_Node_Expr_Variable(substr($this->yyastk[$this->yysp-(3-1)], 1), $line, $docComment), $this->yyastk[$this->yysp-(3-3)], $line, $docComment); 
     }
 
-    protected function yyn346($line, $docComment) {
+    protected function yyn345($line, $docComment) {
          $this->yyval = new PHPParser_Node_Expr_Variable($this->yyastk[$this->yysp-(3-2)], $line, $docComment); 
     }
 
-    protected function yyn347($line, $docComment) {
+    protected function yyn346($line, $docComment) {
          $this->yyval = new PHPParser_Node_Expr_ArrayDimFetch(new PHPParser_Node_Expr_Variable($this->yyastk[$this->yysp-(6-2)], $line, $docComment), $this->yyastk[$this->yysp-(6-4)], $line, $docComment); 
     }
 
-    protected function yyn348($line, $docComment) {
+    protected function yyn347($line, $docComment) {
          $this->yyval = $this->yyastk[$this->yysp-(3-2)]; 
     }
 
-    protected function yyn349($line, $docComment) {
+    protected function yyn348($line, $docComment) {
          $this->yyval = new PHPParser_Node_Scalar_String($this->yyastk[$this->yysp-(1-1)], $line, $docComment); 
     }
 
-    protected function yyn350($line, $docComment) {
+    protected function yyn349($line, $docComment) {
          $this->yyval = new PHPParser_Node_Scalar_LNumber((int) $this->yyastk[$this->yysp-(1-1)], $line, $docComment); 
     }
 
-    protected function yyn351($line, $docComment) {
+    protected function yyn350($line, $docComment) {
          $this->yyval = new PHPParser_Node_Expr_Variable(substr($this->yyastk[$this->yysp-(1-1)], 1), $line, $docComment); 
     }
 
-    protected function yyn352($line, $docComment) {
+    protected function yyn351($line, $docComment) {
          $this->yyval = new PHPParser_Node_Expr_ClassConstFetch($this->yyastk[$this->yysp-(3-1)], $this->yyastk[$this->yysp-(3-3)], $line, $docComment); 
     }
 
-    protected function yyn353($line, $docComment) {
+    protected function yyn352($line, $docComment) {
          $this->yyval = new PHPParser_Node_Expr_ClassConstFetch($this->yyastk[$this->yysp-(3-1)], $this->yyastk[$this->yysp-(3-3)], $line, $docComment); 
     }
 }

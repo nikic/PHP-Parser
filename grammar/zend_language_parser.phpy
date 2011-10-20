@@ -671,17 +671,12 @@ variable:
 ;
 
 object_access:
-      object_access_arrayable                               { $$ = $1; }
-    | object_access_arrayable '(' function_call_argument_list ')'
-          { $$ = Expr_FuncCall[$1, $3]; }
+      variable T_OBJECT_OPERATOR object_property            { $$ = Expr_PropertyFetch[$1, $3]; }
     | variable T_OBJECT_OPERATOR object_property '(' function_call_argument_list ')'
           { $$ = Expr_MethodCall[$1, $3, $5]; }
-;
-
-object_access_arrayable:
-      variable T_OBJECT_OPERATOR object_property            { $$ = Expr_PropertyFetch[$1, $3]; }
-    | object_access_arrayable '[' dim_offset ']'            { $$ = Expr_ArrayDimFetch[$1, $3]; }
-    | object_access_arrayable '{' expr '}'                  { $$ = Expr_ArrayDimFetch[$1, $3]; }
+    | object_access '(' function_call_argument_list ')'     { $$ = Expr_FuncCall[$1, $3]; }
+    | object_access '[' dim_offset ']'                      { $$ = Expr_ArrayDimFetch[$1, $3]; }
+    | object_access '{' expr '}'                            { $$ = Expr_ArrayDimFetch[$1, $3]; }
 ;
 
 variable_without_objects:
