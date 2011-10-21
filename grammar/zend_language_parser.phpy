@@ -539,9 +539,7 @@ lexical_var_list:
 
 function_call:
       name '(' function_call_argument_list ')'             { $$ = Expr_FuncCall[$1, $3]; }
-    | class_name T_PAAMAYIM_NEKUDOTAYIM T_STRING '(' function_call_argument_list ')'
-          { $$ = Expr_StaticCall[$1, $3, $5]; }
-    | reference_variable T_PAAMAYIM_NEKUDOTAYIM T_STRING '(' function_call_argument_list ')'
+    | class_name_or_var T_PAAMAYIM_NEKUDOTAYIM T_STRING '(' function_call_argument_list ')'
           { $$ = Expr_StaticCall[$1, $3, $5]; }
     | static_property '(' function_call_argument_list ')' {
             if ($1 instanceof PHPParser_Node_Expr_StaticPropertyFetch) {
@@ -581,6 +579,11 @@ class_name_reference:
 dynamic_class_name_reference:
       object_access_for_dcnr                                { $$ = $1; }
     | base_variable                                         { $$ = $1; }
+;
+
+class_name_or_var:
+      class_name                                            { $$ = $1; }
+    | reference_variable                                    { $$ = $1; }
 ;
 
 object_access_for_dcnr:
@@ -638,7 +641,7 @@ static_scalar: /* compile-time evaluated scalars */
 
 scalar:
       T_STRING_VARNAME                                      { $$ = Scalar_String[$1]; }
-    | class_constant                                        { $$ = $1; }
+    | class_name_or_var T_PAAMAYIM_NEKUDOTAYIM T_STRING     { $$ = Expr_ClassConstFetch[$1, $3]; }
     | name                                                  { $$ = Expr_ConstFetch[$1]; }
     | common_scalar                                         { $$ = $1; }
     | '"' encaps_list '"'
@@ -693,21 +696,15 @@ base_variable:
 ;
 
 static_property:
-      class_name T_PAAMAYIM_NEKUDOTAYIM '$' reference_variable
-          { $$ = Expr_StaticPropertyFetch[$1, $4]; }
-    | reference_variable T_PAAMAYIM_NEKUDOTAYIM '$' reference_variable
+      class_name_or_var T_PAAMAYIM_NEKUDOTAYIM '$' reference_variable
           { $$ = Expr_StaticPropertyFetch[$1, $4]; }
     | static_property_with_arrays                           { $$ = $1; }
 ;
 
 static_property_with_arrays:
-      class_name T_PAAMAYIM_NEKUDOTAYIM T_VARIABLE
+      class_name_or_var T_PAAMAYIM_NEKUDOTAYIM T_VARIABLE
           { $$ = Expr_StaticPropertyFetch[$1, parseVar($3)]; }
-    | reference_variable T_PAAMAYIM_NEKUDOTAYIM T_VARIABLE
-          { $$ = Expr_StaticPropertyFetch[$1, parseVar($3)]; }
-    | class_name T_PAAMAYIM_NEKUDOTAYIM '$' '{' expr '}'
-          { $$ = Expr_StaticPropertyFetch[$1, $5]; }
-    | reference_variable T_PAAMAYIM_NEKUDOTAYIM '$' '{' expr '}'
+    | class_name_or_var T_PAAMAYIM_NEKUDOTAYIM '$' '{' expr '}'
           { $$ = Expr_StaticPropertyFetch[$1, $5]; }
     | static_property_with_arrays '[' dim_offset ']'        { $$ = Expr_ArrayDimFetch[$1, $3]; }
     | static_property_with_arrays '{' expr '}'              { $$ = Expr_ArrayDimFetch[$1, $3]; }
@@ -780,11 +777,6 @@ encaps_var_offset:
       T_STRING                                              { $$ = Scalar_String[$1]; }
     | T_NUM_STRING                                          { $$ = Scalar_LNumber[parseLNumber($1)]; }
     | T_VARIABLE                                            { $$ = Expr_Variable[parseVar($1)]; }
-;
-
-class_constant:
-      class_name T_PAAMAYIM_NEKUDOTAYIM T_STRING            { $$ = Expr_ClassConstFetch[$1, $3]; }
-    | reference_variable T_PAAMAYIM_NEKUDOTAYIM T_STRING    { $$ = Expr_ClassConstFetch[$1, $3]; }
 ;
 
 %%
