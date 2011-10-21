@@ -1015,15 +1015,15 @@ class PHPParser_Parser
     }
 
     protected function yyn10($line, $docComment) {
-         $this->yyval = new PHPParser_Node_Stmt_Namespace(array('name' => new PHPParser_Node_Name($this->yyastk[$this->yysp-(3-2)], $line, $docComment), 'stmts' => null), $line, $docComment); 
+         $this->yyval = new PHPParser_Node_Stmt_Namespace(new PHPParser_Node_Name($this->yyastk[$this->yysp-(3-2)], $line, $docComment), null, $line, $docComment); 
     }
 
     protected function yyn11($line, $docComment) {
-         $this->yyval = new PHPParser_Node_Stmt_Namespace(array('name' => new PHPParser_Node_Name($this->yyastk[$this->yysp-(5-2)], $line, $docComment), 'stmts' => $this->yyastk[$this->yysp-(5-4)]), $line, $docComment); 
+         $this->yyval = new PHPParser_Node_Stmt_Namespace(new PHPParser_Node_Name($this->yyastk[$this->yysp-(5-2)], $line, $docComment), $this->yyastk[$this->yysp-(5-4)], $line, $docComment); 
     }
 
     protected function yyn12($line, $docComment) {
-         $this->yyval = new PHPParser_Node_Stmt_Namespace(array('name' => null, 'stmts' => $this->yyastk[$this->yysp-(4-3)]), $line, $docComment); 
+         $this->yyval = new PHPParser_Node_Stmt_Namespace(null, $this->yyastk[$this->yysp-(4-3)], $line, $docComment); 
     }
 
     protected function yyn13($line, $docComment) {
@@ -1111,7 +1111,7 @@ class PHPParser_Parser
     }
 
     protected function yyn34($line, $docComment) {
-         $this->yyval = new PHPParser_Node_Stmt_Do(array('stmts' => is_array($this->yyastk[$this->yysp-(7-2)]) ? $this->yyastk[$this->yysp-(7-2)] : array($this->yyastk[$this->yysp-(7-2)]), 'cond' => $this->yyastk[$this->yysp-(7-5)]), $line, $docComment); 
+         $this->yyval = new PHPParser_Node_Stmt_Do($this->yyastk[$this->yysp-(7-5)], is_array($this->yyastk[$this->yysp-(7-2)]) ? $this->yyastk[$this->yysp-(7-2)] : array($this->yyastk[$this->yysp-(7-2)]), $line, $docComment); 
     }
 
     protected function yyn35($line, $docComment) {
@@ -1183,7 +1183,7 @@ class PHPParser_Parser
     }
 
     protected function yyn52($line, $docComment) {
-         $this->yyval = new PHPParser_Node_Stmt_Declare(array('declares' => $this->yyastk[$this->yysp-(5-3)], 'stmts' => is_array($this->yyastk[$this->yysp-(5-5)]) ? $this->yyastk[$this->yysp-(5-5)] : array($this->yyastk[$this->yysp-(5-5)])), $line, $docComment); 
+         $this->yyval = new PHPParser_Node_Stmt_Declare($this->yyastk[$this->yysp-(5-3)], is_array($this->yyastk[$this->yysp-(5-5)]) ? $this->yyastk[$this->yysp-(5-5)] : array($this->yyastk[$this->yysp-(5-5)]), $line, $docComment); 
     }
 
     protected function yyn53($line, $docComment) {
@@ -1315,11 +1315,11 @@ class PHPParser_Parser
     }
 
     protected function yyn85($line, $docComment) {
-         $this->yyval = array(new PHPParser_Node_Stmt_DeclareDeclare(array('key' => $this->yyastk[$this->yysp-(3-1)], 'value' => $this->yyastk[$this->yysp-(3-3)]), $line, $docComment)); 
+         $this->yyval = array(new PHPParser_Node_Stmt_DeclareDeclare($this->yyastk[$this->yysp-(3-1)], $this->yyastk[$this->yysp-(3-3)], $line, $docComment)); 
     }
 
     protected function yyn86($line, $docComment) {
-         $this->yyastk[$this->yysp-(5-1)][] = new PHPParser_Node_Stmt_DeclareDeclare(array('key' => $this->yyastk[$this->yysp-(5-3)], 'value' => $this->yyastk[$this->yysp-(5-5)]), $line, $docComment); $this->yyval = $this->yyastk[$this->yysp-(5-1)]; 
+         $this->yyastk[$this->yysp-(5-1)][] = new PHPParser_Node_Stmt_DeclareDeclare($this->yyastk[$this->yysp-(5-3)], $this->yyastk[$this->yysp-(5-5)], $line, $docComment); $this->yyval = $this->yyastk[$this->yysp-(5-1)]; 
     }
 
     protected function yyn87($line, $docComment) {

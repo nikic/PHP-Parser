@@ -2,12 +2,26 @@
 
 /**
  * @property null|PHPParser_Node_Name $name  Name
- * @property array                    $stmts Statements
+ * @property PHPParser_Node[]         $stmts Statements
  */
 class PHPParser_Node_Stmt_Namespace extends PHPParser_Node_Stmt
 {
-    public function __construct(array $subNodes, $line = -1, $docComment = null) {
-        parent::__construct($subNodes, $line, $docComment);
+    /**
+     * Constructs a namespace node.
+     *
+     * @param null|PHPParser_Node_Name $name       Name
+     * @param PHPParser_Node[]         $stmts      Statements
+     * @param int                      $line       Line
+     * @param null|string              $docComment Nearest doc comment
+     */
+    public function __construct(PHPParser_Node_Name $name = null, $stmts, $line = -1, $docComment = null) {
+        parent::__construct(
+            array(
+                'name'  => $name,
+                'stmts' => $stmts,
+            ),
+            $line, $docComment
+        );
 
         if ('self' === $this->name || 'parent' === $this->name) {
             throw new PHPParser_Error(sprintf('Cannot use "%s" as namespace name', $this->name), $line);

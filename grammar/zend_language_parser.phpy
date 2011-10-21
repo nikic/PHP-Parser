@@ -126,9 +126,9 @@ top_statement:
     | class_declaration_statement                           { $$ = $1; }
     | T_HALT_COMPILER
           { $$ = Stmt_HaltCompiler[$this->lexer->handleHaltCompiler()]; }
-    | T_NAMESPACE namespace_name ';'                        { $$ = Stmt_Namespace[name: Name[$2], stmts: null]; }
-    | T_NAMESPACE namespace_name '{' top_statement_list '}' { $$ = Stmt_Namespace[name: Name[$2], stmts: $4]; }
-    | T_NAMESPACE '{' top_statement_list '}'                { $$ = Stmt_Namespace[name: null, stmts: $3]; }
+    | T_NAMESPACE namespace_name ';'                        { $$ = Stmt_Namespace[Name[$2], null]; }
+    | T_NAMESPACE namespace_name '{' top_statement_list '}' { $$ = Stmt_Namespace[Name[$2], $4]; }
+    | T_NAMESPACE '{' top_statement_list '}'                { $$ = Stmt_Namespace[null,     $3]; }
     | T_USE use_declarations ';'                            { $$ = Stmt_Use[$2]; }
     | T_CONST constant_declaration_list ';'                 { $$ = Stmt_Const[$2]; }
 ;
@@ -172,7 +172,7 @@ statement:
     | T_IF '(' expr ')' ':' inner_statement_list new_elseif_list new_else_single T_ENDIF ';'
           { $$ = Stmt_If[cond: $3, stmts: $6, elseifList: $7, else: $8]; }
     | T_WHILE '(' expr ')' while_statement                  { $$ = Stmt_While[$3, toArray($5)]; }
-    | T_DO statement T_WHILE '(' expr ')' ';'               { $$ = Stmt_Do[stmts: toArray($2), cond: $5]; }
+    | T_DO statement T_WHILE '(' expr ')' ';'               { $$ = Stmt_Do   [$5, toArray($2)]; }
     | T_FOR '(' for_expr ';'  for_expr ';' for_expr ')' for_statement
           { $$ = Stmt_For[init: $3, cond: $5, loop: $7, stmts: toArray($9)]; }
     | T_SWITCH '(' expr ')' switch_case_list                { $$ = Stmt_Switch[$3, $5]; }
@@ -194,7 +194,7 @@ statement:
           { $$ = Stmt_Foreach[expr: $3, keyVar: null, byRef: true, valueVar: $6, stmts: toArray($8)]; }
     | T_FOREACH '(' expr T_AS variable T_DOUBLE_ARROW optional_ref variable ')' foreach_statement
           { $$ = Stmt_Foreach[expr: $3, keyVar: $5, byRef: $7, valueVar: $8, stmts: toArray($10)]; }
-    | T_DECLARE '(' declare_list ')' declare_statement      { $$ = Stmt_Declare[declares: $3, stmts: toArray($5)]; }
+    | T_DECLARE '(' declare_list ')' declare_statement      { $$ = Stmt_Declare[$3, toArray($5)]; }
     | ';'                                                   { $$ = array(); /* means: no statement */ }
     | T_TRY '{' inner_statement_list '}' catches            { $$ = Stmt_TryCatch[$3, $5]; }
     | T_THROW expr ';'                                      { $$ = Stmt_Throw[$2]; }
@@ -276,8 +276,8 @@ declare_statement:
 ;
 
 declare_list:
-      T_STRING '=' static_scalar                            { init(Stmt_DeclareDeclare[key: $1, value: $3]); }
-    | declare_list ',' T_STRING '=' static_scalar           { push($1, Stmt_DeclareDeclare[key: $3, value: $5]); }
+      T_STRING '=' static_scalar                            { init(Stmt_DeclareDeclare[$1, $3]); }
+    | declare_list ',' T_STRING '=' static_scalar           { push($1, Stmt_DeclareDeclare[$3, $5]); }
 ;
 
 switch_case_list:

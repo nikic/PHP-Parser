@@ -17,8 +17,8 @@ class PHPParser_Node_Stmt_While extends PHPParser_Node_Stmt
     public function __construct($cond, array $stmts, $line = -1, $docComment = null) {
         parent::__construct(
             array(
-                'stmts' => $stmts,
                 'cond'  => $cond,
+                'stmts' => $stmts,
             ),
             $line, $docComment
         );
