@@ -346,6 +346,7 @@ optional_class_type:
       /* empty */                                           { $$ = null; }
     | name                                                  { $$ = $1; }
     | T_ARRAY                                               { $$ = 'array'; }
+    | T_CALLABLE                                            { $$ = 'callable'; }
 ;
 
 function_call_argument_list:

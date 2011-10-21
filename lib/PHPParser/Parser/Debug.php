@@ -122,6 +122,7 @@ class PHPParser_Parser_Debug extends PHPParser_Parser
         "optional_class_type : /* empty */",
         "optional_class_type : name",
         "optional_class_type : T_ARRAY",
+        "optional_class_type : T_CALLABLE",
         "function_call_argument_list : non_empty_function_call_argument_list",
         "function_call_argument_list : /* empty */",
         "non_empty_function_call_argument_list : expr",

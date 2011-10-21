@@ -5,7 +5,7 @@ class PHPParser_PrettyPrinter_Zend extends PHPParser_PrettyPrinterAbstract
     // Special nodes
 
     public function pParam(PHPParser_Node_Param $node) {
-        return ($node->type ? ('array' == $node->type ? 'array' : $this->p($node->type)) . ' ' : '')
+        return ($node->type ? (is_string($node->type) ? $node->type : $this->p($node->type)) . ' ' : '')
              . ($node->byRef ? '&' : '')
              . '$' . $node->name
              . ($node->default ? ' = ' . $this->p($node->default) : '');
