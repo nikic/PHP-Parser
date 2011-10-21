@@ -325,7 +325,12 @@ class PHPParser_PrettyPrinter_Zend extends PHPParser_PrettyPrinterAbstract
 
     public function pExpr_StaticCall(PHPParser_Node_Expr_StaticCall $node) {
         return $this->p($node->class) . '::'
-             . ($node->name instanceof PHPParser_Node_Expr ? $this->p($node->name) : $node->name)
+             . ($node->name instanceof PHPParser_Node_Expr
+                ? ($node->name instanceof PHPParser_Node_Expr_Variable
+                   || $node->name instanceof PHPParser_Node_Expr_ArrayDimFetch
+                   ? $this->p($node->name)
+                   : '{' . $this->p($node->name) . '}')
+                : $node->name)
              . '(' . $this->pCommaSeparated($node->args) . ')';
     }
 

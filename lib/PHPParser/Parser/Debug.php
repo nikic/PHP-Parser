@@ -247,6 +247,7 @@ class PHPParser_Parser_Debug extends PHPParser_Parser
         "lexical_var_list : optional_ref T_VARIABLE",
         "function_call : name '(' function_call_argument_list ')'",
         "function_call : class_name_or_var T_PAAMAYIM_NEKUDOTAYIM T_STRING '(' function_call_argument_list ')'",
+        "function_call : class_name_or_var T_PAAMAYIM_NEKUDOTAYIM '{' expr '}' '(' function_call_argument_list ')'",
         "function_call : static_property '(' function_call_argument_list ')'",
         "function_call : variable_without_objects '(' function_call_argument_list ')'",
         "class_name : T_STATIC",
