@@ -517,6 +517,7 @@ expr:
     | '@' expr                                              { $$ = Expr_ErrorSuppress[$2]; }
     | scalar                                                { $$ = $1; }
     | T_ARRAY '(' array_pair_list ')'                       { $$ = Expr_Array[$3]; }
+    | '[' array_pair_list ']'                               { $$ = Expr_Array[$2]; }
     | '`' backticks_expr '`'                                { $$ = Expr_ShellExec[$2]; }
     | T_PRINT expr                                          { $$ = Expr_Print[$2]; }
     | T_FUNCTION optional_ref '(' parameter_list ')' lexical_vars '{' inner_statement_list '}'
@@ -630,6 +631,7 @@ static_scalar: /* compile-time evaluated scalars */
     | '+' static_scalar                                     { $$ = Expr_UnaryPlus[$2]; }
     | '-' static_scalar                                     { $$ = Expr_UnaryMinus[$2]; }
     | T_ARRAY '(' static_array_pair_list ')'                { $$ = Expr_Array[$3]; }
+    | '[' static_array_pair_list ']'                        { $$ = Expr_Array[$2]; }
     | class_name T_PAAMAYIM_NEKUDOTAYIM T_STRING            { $$ = Expr_ClassConstFetch[$1, $3]; }
 ;
 
