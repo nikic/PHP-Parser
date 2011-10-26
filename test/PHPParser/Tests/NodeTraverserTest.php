@@ -4,9 +4,9 @@ class PHPParser_Tests_NodeTraverserTest extends PHPUnit_Framework_TestCase
 {
     public function getTestNode() {
         return array(
-            new PHPParser_Node_Stmt_Namespace(array(
-                'name' => new PHPParser_Node_Name(array('Foo', 'Bar')),
-                'stmts' => array(
+            new PHPParser_Node_Stmt_Namespace(
+                new PHPParser_Node_Name(array('Foo', 'Bar')),
+                array(
                     new PHPParser_Node_Stmt_Echo(array(
                         new PHPParser_Node_Scalar_String('Hallo World')
                     )),
@@ -14,7 +14,7 @@ class PHPParser_Tests_NodeTraverserTest extends PHPUnit_Framework_TestCase
                         new PHPParser_Node_Scalar_String('Hallo World, again!')
                     ),
                 )
-            )),
+            ),
         );
     }
 
