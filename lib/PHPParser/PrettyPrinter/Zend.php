@@ -404,14 +404,14 @@ class PHPParser_PrettyPrinter_Zend extends PHPParser_PrettyPrinterAbstract
         return '`' . $this->pEncapsList($node->parts, '`') . '`';
     }
 
-    public function pExpr_LambdaFunc(PHPParser_Node_Expr_LambdaFunc $node) {
+    public function pExpr_Closure(PHPParser_Node_Expr_Closure $node) {
         return 'function ' . ($node->byRef ? '&' : '')
              . '(' . $this->pCommaSeparated($node->params) . ')'
              . (!empty($node->uses) ? ' use(' . $this->pCommaSeparated($node->uses) . ')': '')
              . ' {' . "\n" . $this->pStmts($node->stmts) . "\n" . '}';
     }
 
-    public function pExpr_LambdaFuncUse(PHPParser_Node_Expr_LambdaFuncUse $node) {
+    public function pExpr_ClosureUse(PHPParser_Node_Expr_ClosureUse $node) {
         return ($node->byRef ? '&' : '') . '$' . $node->var;
     }
 

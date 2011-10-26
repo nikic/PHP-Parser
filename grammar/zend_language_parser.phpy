@@ -522,7 +522,7 @@ expr:
     | '`' backticks_expr '`'                                { $$ = Expr_ShellExec[$2]; }
     | T_PRINT expr                                          { $$ = Expr_Print[$2]; }
     | T_FUNCTION optional_ref '(' parameter_list ')' lexical_vars '{' inner_statement_list '}'
-          { $$ = Expr_LambdaFunc[$8, $4, $6, $2]; }
+          { $$ = Expr_Closure[$8, $4, $6, $2]; }
 ;
 
 lexical_vars:
@@ -532,9 +532,9 @@ lexical_vars:
 
 lexical_var_list:
       lexical_var_list ',' optional_ref T_VARIABLE
-          { push($1, Expr_LambdaFuncUse[parseVar($4), $3]); }
+          { push($1, Expr_ClosureUse[parseVar($4), $3]); }
     | optional_ref T_VARIABLE
-          { init(Expr_LambdaFuncUse[parseVar($2), $1]); }
+          { init(Expr_ClosureUse[parseVar($2), $1]); }
 ;
 
 function_call:

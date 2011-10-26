@@ -4,7 +4,7 @@
  * @property string $var   Name of variable
  * @property bool   $byRef Whether to use by reference
  */
-class PHPParser_Node_Expr_LambdaFuncUse extends PHPParser_Node_Expr
+class PHPParser_Node_Expr_ClosureUse extends PHPParser_Node_Expr
 {
     /**
      * Constructs a closure use node.
