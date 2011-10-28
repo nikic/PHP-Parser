@@ -12,7 +12,7 @@ class PHPParser_Node_Stmt_Else extends PHPParser_Node_Stmt
      * @param int              $line       Line
      * @param null|string      $docComment Nearest doc comment
      */
-    public function __construct(array $stmts, $line = -1, $docComment = null) {
+    public function __construct(array $stmts = array(), $line = -1, $docComment = null) {
         parent::__construct(
             array(
                 'stmts' => $stmts,

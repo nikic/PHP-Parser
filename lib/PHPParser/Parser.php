@@ -1235,7 +1235,7 @@ class PHPParser_Parser
     }
 
     protected function yyn65($line, $docComment) {
-         $this->yyval = new PHPParser_Node_Stmt_Func($this->yyastk[$this->yysp-(9-3)], array('byRef' => $this->yyastk[$this->yysp-(9-2)], 'params' => $this->yyastk[$this->yysp-(9-5)], 'stmts' => $this->yyastk[$this->yysp-(9-8)]), $line, $docComment); 
+         $this->yyval = new PHPParser_Node_Stmt_Function($this->yyastk[$this->yysp-(9-3)], array('byRef' => $this->yyastk[$this->yysp-(9-2)], 'params' => $this->yyastk[$this->yysp-(9-5)], 'stmts' => $this->yyastk[$this->yysp-(9-8)]), $line, $docComment); 
     }
 
     protected function yyn66($line, $docComment) {

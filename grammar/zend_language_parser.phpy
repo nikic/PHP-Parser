@@ -224,7 +224,7 @@ optional_ref:
 
 function_declaration_statement:
     T_FUNCTION optional_ref T_STRING '(' parameter_list ')' '{' inner_statement_list '}'
-        { $$ = Stmt_Func[$3, [byRef: $2, params: $5, stmts: $8]]; }
+        { $$ = Stmt_Function[$3, [byRef: $2, params: $5, stmts: $8]]; }
 ;
 
 class_declaration_statement:

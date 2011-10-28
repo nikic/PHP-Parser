@@ -6,7 +6,7 @@
  * @property PHPParser_Node_Param[] $params Parameters
  * @property PHPParser_Node[]       $stmts  Statements
  */
-class PHPParser_Node_Stmt_Func extends PHPParser_Node_Stmt
+class PHPParser_Node_Stmt_Function extends PHPParser_Node_Stmt
 {
     /**
      * Constructs a function node.
@@ -19,7 +19,7 @@ class PHPParser_Node_Stmt_Func extends PHPParser_Node_Stmt
      * @param int         $line       Line
      * @param null|string $docComment Nearest doc comment
      */
-    public function __construct($name, array $subNodes, $line = -1, $docComment = null) {
+    public function __construct($name, array $subNodes = array(), $line = -1, $docComment = null) {
         parent::__construct(
             $subNodes + array(
                 'byRef'  => false,
