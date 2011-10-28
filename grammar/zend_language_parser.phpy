@@ -171,10 +171,10 @@ statement:
     | T_IF '(' expr ')' statement elseif_list else_single   { $$ = Stmt_If[$3, [stmts: toArray($5), elseifs: $6, else: $7]]; }
     | T_IF '(' expr ')' ':' inner_statement_list new_elseif_list new_else_single T_ENDIF ';'
           { $$ = Stmt_If[$3, [stmts: $6, elseifs: $7, else: $8]]; }
-    | T_WHILE '(' expr ')' while_statement                  { $$ = Stmt_While[$3, toArray($5)]; }
+    | T_WHILE '(' expr ')' while_statement                  { $$ = Stmt_While[$3, $5]; }
     | T_DO statement T_WHILE '(' expr ')' ';'               { $$ = Stmt_Do   [$5, toArray($2)]; }
     | T_FOR '(' for_expr ';'  for_expr ';' for_expr ')' for_statement
-          { $$ = Stmt_For[[init: $3, cond: $5, loop: $7, stmts: toArray($9)]]; }
+          { $$ = Stmt_For[[init: $3, cond: $5, loop: $7, stmts: $9]]; }
     | T_SWITCH '(' expr ')' switch_case_list                { $$ = Stmt_Switch[$3, $5]; }
     | T_BREAK ';'                                           { $$ = Stmt_Break[null]; }
     | T_BREAK expr ';'                                      { $$ = Stmt_Break[$2]; }
@@ -189,12 +189,12 @@ statement:
     | expr ';'                                              { $$ = $1; }
     | T_UNSET '(' variables_list ')' ';'                    { $$ = Stmt_Unset[$3]; }
     | T_FOREACH '(' expr T_AS variable ')' foreach_statement
-          { $$ = Stmt_Foreach[$3, $5, [keyVar: null, byRef: false, stmts: toArray($7)]]; }
+          { $$ = Stmt_Foreach[$3, $5, [keyVar: null, byRef: false, stmts: $7]]; }
     | T_FOREACH '(' expr T_AS '&' variable ')' foreach_statement
-          { $$ = Stmt_Foreach[$3, $6, [keyVar: null, byRef: true, stmts: toArray($8)]]; }
+          { $$ = Stmt_Foreach[$3, $6, [keyVar: null, byRef: true, stmts: $8]]; }
     | T_FOREACH '(' expr T_AS variable T_DOUBLE_ARROW optional_ref variable ')' foreach_statement
-          { $$ = Stmt_Foreach[$3, $8, [keyVar: $5, byRef: $7, stmts: toArray($10)]]; }
-    | T_DECLARE '(' declare_list ')' declare_statement      { $$ = Stmt_Declare[$3, toArray($5)]; }
+          { $$ = Stmt_Foreach[$3, $8, [keyVar: $5, byRef: $7, stmts: $10]]; }
+    | T_DECLARE '(' declare_list ')' declare_statement      { $$ = Stmt_Declare[$3, $5]; }
     | ';'                                                   { $$ = array(); /* means: no statement */ }
     | T_TRY '{' inner_statement_list '}' catches            { $$ = Stmt_TryCatch[$3, $5]; }
     | T_THROW expr ';'                                      { $$ = Stmt_Throw[$2]; }
@@ -261,17 +261,17 @@ interface_list:
 ;
 
 for_statement:
-      statement                                             { $$ = $1; }
+      statement                                             { $$ = toArray($1); }
     | ':' inner_statement_list T_ENDFOR ';'                 { $$ = $2; }
 ;
 
 foreach_statement:
-      statement                                             { $$ = $1; }
+      statement                                             { $$ = toArray($1); }
     | ':' inner_statement_list T_ENDFOREACH ';'             { $$ = $2; }
 ;
 
 declare_statement:
-      statement                                             { $$ = $1; }
+      statement                                             { $$ = toArray($1); }
     | ':' inner_statement_list T_ENDDECLARE ';'             { $$ = $2; }
 ;
 
@@ -301,7 +301,7 @@ case_separator:
 ;
 
 while_statement:
-      statement                                             { $$ = $1; }
+      statement                                             { $$ = toArray($1); }
     | ':' inner_statement_list T_ENDWHILE ';'               { $$ = $2; }
 ;
 
