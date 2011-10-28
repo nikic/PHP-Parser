@@ -37,7 +37,7 @@ class PHPParser_NodeTraverser
             }
         }
 
-        $nodes = $this->_traverse($nodes);
+        $nodes = $this->traverseArray($nodes);
 
         foreach ($this->visitors as $visitor) {
             if (null !== $return = $visitor->afterTraverse($nodes)) {
@@ -48,53 +48,73 @@ class PHPParser_NodeTraverser
         return $nodes;
     }
 
-    protected function _traverse($node) {
-        $doNodes = array();
-
+    protected function traverseNode(PHPParser_Node $node) {
         foreach ($node as $name => $subNode) {
             if (is_array($subNode)) {
-                $node[$name] = $this->_traverse($subNode, $this->visitors);
+                $node->$name = $this->traverseArray($subNode);
             } elseif ($subNode instanceof PHPParser_Node) {
                 foreach ($this->visitors as $visitor) {
                     if (null !== $return = $visitor->enterNode($subNode)) {
-                        $node[$name] = $return;
+                        $node->$name = $return;
                     }
                 }
 
-                $node[$name] = $this->_traverse($subNode, $this->visitors);
+                $node->$name = $this->traverseNode($subNode);
 
-                foreach ($this->visitors as $i => $visitor) {
-                    $return = $visitor->leaveNode($subNode);
+                foreach ($this->visitors as $visitor) {
+                    if (null !== $return = $visitor->leaveNode($subNode)) {
+                        $node->$name = $return;
+                    }
+                }
+            }
+        }
+
+        return $node;
+    }
+
+    protected function traverseArray(array $nodes) {
+        $doNodes = array();
+
+        foreach ($nodes as $i => $node) {
+            if (is_array($node)) {
+                $nodes[$i] = $this->traverseArray($node);
+            } elseif ($node instanceof PHPParser_Node) {
+                foreach ($this->visitors as $visitor) {
+                    if (null !== $return = $visitor->enterNode($node)) {
+                        $nodes[$i] = $return;
+                    }
+                }
+
+                $nodes[$i] = $this->traverseNode($node);
+
+                foreach ($this->visitors as $j => $visitor) {
+                    $return = $visitor->leaveNode($node);
 
                     if (false === $return) {
-                        $doNodes[] = array($name, array());
+                        $doNodes[] = array($i, array());
                         break;
                     } elseif (is_array($return)) {
                         // traverse replacement nodes using all visitors apart from the one that
                         // did the change
-                        unset($this->visitors[$i]);
-                        $return = $this->_traverse($return);
-                        $this->visitors[$i] = $visitor;
+                        unset($this->visitors[$j]);
+                        $return = $this->traverseArray($return);
+                        $this->visitors[$j] = $visitor;
 
-                        $doNodes[] = array($name, $return);
+                        $doNodes[] = array($i, $return);
                         break;
                     } elseif (null !== $return) {
-                        $node[$name] = $return;
+                        $nodes[$i] = $return;
                     }
                 }
             }
         }
 
         if (!empty($doNodes)) {
-            if (!is_array($node)) {
-                throw new Exception('Nodes can only be merged if the parent is an array');
-            }
-
-            while (list($key, $replace) = array_pop($doNodes)) {
-                array_splice($node, $key, 1, $replace);
+            while (list($i, $replace) = array_pop($doNodes)) {
+                array_splice($nodes, $i, 1, $replace);
             }
         }
 
-        return $node;
+        return $nodes;
     }
 }
