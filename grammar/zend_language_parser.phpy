@@ -522,7 +522,9 @@ expr:
     | '`' backticks_expr '`'                                { $$ = Expr_ShellExec[$2]; }
     | T_PRINT expr                                          { $$ = Expr_Print[$2]; }
     | T_FUNCTION optional_ref '(' parameter_list ')' lexical_vars '{' inner_statement_list '}'
-          { $$ = Expr_Closure[[byRef: $2, params: $4, uses: $6, stmts: $8]]; }
+          { $$ = Expr_Closure[[static: false, byRef: $2, params: $4, uses: $6, stmts: $8]]; }
+    | T_STATIC T_FUNCTION optional_ref '(' parameter_list ')' lexical_vars '{' inner_statement_list '}'
+          { $$ = Expr_Closure[[static: true, byRef: $3, params: $5, uses: $7, stmts: $9]]; }
 ;
 
 lexical_vars:

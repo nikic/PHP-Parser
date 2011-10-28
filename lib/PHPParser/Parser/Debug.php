@@ -241,6 +241,7 @@ class PHPParser_Parser_Debug extends PHPParser_Parser
         "expr : '`' backticks_expr '`'",
         "expr : T_PRINT expr",
         "expr : T_FUNCTION optional_ref '(' parameter_list ')' lexical_vars '{' inner_statement_list '}'",
+        "expr : T_STATIC T_FUNCTION optional_ref '(' parameter_list ')' lexical_vars '{' inner_statement_list '}'",
         "lexical_vars : /* empty */",
         "lexical_vars : T_USE '(' lexical_var_list ')'",
         "lexical_var_list : lexical_var_list ',' optional_ref T_VARIABLE",

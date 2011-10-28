@@ -5,6 +5,7 @@
  * @property PHPParser_Node_Stmt_FuncParam[]  $params Parameters
  * @property PHPParser_Node_Expr_ClosureUse[] $uses   use()s
  * @property bool                             $byRef  Whether to return by reference
+ * @property bool                             $static Whether the closure is static
  */
 class PHPParser_Node_Expr_Closure extends PHPParser_Node_Expr
 {
@@ -16,6 +17,7 @@ class PHPParser_Node_Expr_Closure extends PHPParser_Node_Expr
      *                                'params' => array(): Parameters
      *                                'uses'   => array(): use()s
      *                                'byRef'  => false  : Whether to return by reference
+     *                                'static' => false  : Whether the closure is static
      * @param int         $line       Line
      * @param null|string $docComment Nearest doc comment
      */
@@ -26,6 +28,7 @@ class PHPParser_Node_Expr_Closure extends PHPParser_Node_Expr
                 'params' => array(),
                 'uses'   => array(),
                 'byRef'  => false,
+                'static' => false,
             ),
             $line, $docComment
         );

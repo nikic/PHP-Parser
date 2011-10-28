@@ -405,7 +405,8 @@ class PHPParser_PrettyPrinter_Zend extends PHPParser_PrettyPrinterAbstract
     }
 
     public function pExpr_Closure(PHPParser_Node_Expr_Closure $node) {
-        return 'function ' . ($node->byRef ? '&' : '')
+        return ($node->static ? 'static ' : '')
+             . 'function ' . ($node->byRef ? '&' : '')
              . '(' . $this->pCommaSeparated($node->params) . ')'
              . (!empty($node->uses) ? ' use(' . $this->pCommaSeparated($node->uses) . ')': '')
              . ' {' . "\n" . $this->pStmts($node->stmts) . "\n" . '}';
