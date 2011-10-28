@@ -29,9 +29,10 @@ echo 'Building temporary preproprocessed grammar file.', "\n";
 
 $grammarCode = file_get_contents(GRAMMAR_FILE);
 
-$grammarCode = preg_replace('~[A-Z][a-zA-Z_]++::~', 'PHPParser_Node_$0', $grammarCode);
+$grammarCode = resolveConstants($grammarCode);
 $grammarCode = resolveNodes($grammarCode);
 $grammarCode = resolveMacros($grammarCode);
+$grammarCode = resolveArrays($grammarCode);
 
 file_put_contents(TMP_FILE, $grammarCode);
 
@@ -57,6 +58,10 @@ echo '</pre>';
 /// Preprocessing functions ///
 ///////////////////////////////
 
+function resolveConstants($code) {
+    return preg_replace('~[A-Z][a-zA-Z_]++::~', 'PHPParser_Node_$0', $code);
+}
+
 function resolveNodes($code) {
     return preg_replace_callback(
         '~(?<name>[A-Z][a-zA-Z_]++)\s*' . PARAMS . '~',
@@ -69,29 +74,12 @@ function resolveNodes($code) {
                 $matches['params']
             );
 
-            if (array() === $params) {
-                return 'new PHPParser_Node_' . $matches['name'] . '($line, $docComment)';
-            }
-
-            $withArray = false;
-
-            $paramCodes = array();
+            $paramCode = '';
             foreach ($params as $param) {
-                if (false !== strpos($param, ': ')) {
-                    $withArray = true;
-
-                    list($key, $value) = explode(': ', $param, 2);
-                    $paramCodes[] = '\'' . $key . '\' => ' . $value;
-                } else {
-                    $paramCodes[] = $param;
-                }
+                $paramCode .= $param . ', ';
             }
 
-            if (!$withArray) {
-                return 'new PHPParser_Node_' . $matches['name'] . '(' . implode(', ', $paramCodes) . ', $line, $docComment)';
-            } else {
-                return 'new PHPParser_Node_' . $matches['name'] . '(array(' . implode(', ', $paramCodes) . '), $line, $docComment)';
-            }
+            return 'new PHPParser_Node_' . $matches['name'] . '(' . $paramCode . '$line, $docComment)';
         },
         $code
     );
@@ -99,7 +87,7 @@ function resolveNodes($code) {
 
 function resolveMacros($code) {
     return preg_replace_callback(
-        '~(?<name>error|init|push|pushNormalizing|toArray|parse(?:Var|LNumber|DNumber|Encapsed))' . ARGS . '~',
+        '~\b(?<!::|->)(?!array\()(?<name>[a-z][A-Za-z]++)' . ARGS . '~',
         function($matches) {
             // recurse
             $matches['args'] = resolveMacros($matches['args']);
@@ -161,6 +149,8 @@ function resolveMacros($code) {
 
                 return 'foreach (' . $args[0] . ' as &$s) { if (is_string($s)) { $s = PHPParser_Node_Scalar_String::parseEscapeSequences($s, ' . $args[1] . '); } }';
             }
+
+            throw new Exception(sprintf('Unknown macro "%s"', $name));
         },
         $code
     );
@@ -170,6 +160,37 @@ function assertArgs($num, $args, $name) {
     if ($num != count($args)) {
         die('Wrong argument count for ' . $name . '().');
     }
+}
+
+function resolveArrays($code) {
+    return preg_replace_callback(
+        '~' . PARAMS . '~',
+        function ($matches) {
+            $elements = magicSplit(
+                '(?:' . PARAMS . '|' . ARGS . ')(*SKIP)(*FAIL)|,',
+                $matches['params']
+            );
+
+            // don't convert [] to array, it might have different meaning
+            if (empty($elements)) {
+                return $matches[0];
+            }
+
+            $elementCodes = array();
+            foreach ($elements as $element) {
+                // convert only arrays where all elements have keys
+                if (false === strpos($element, ':')) {
+                    return $matches[0];
+                }
+
+                list($key, $value) = explode(':', $element, 2);
+                $elementCodes[] = "'" . $key . "' =>" . $value;
+            }
+
+            return 'array(' . implode(', ', $elementCodes) . ')';
+        },
+        $code
+    );
 }
 
 //////////////////////////////

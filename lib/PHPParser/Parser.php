@@ -1099,11 +1099,11 @@ class PHPParser_Parser
     }
 
     protected function yyn31($line, $docComment) {
-         $this->yyval = new PHPParser_Node_Stmt_If(array('cond' => $this->yyastk[$this->yysp-(7-3)], 'stmts' => is_array($this->yyastk[$this->yysp-(7-5)]) ? $this->yyastk[$this->yysp-(7-5)] : array($this->yyastk[$this->yysp-(7-5)]), 'elseifList' => $this->yyastk[$this->yysp-(7-6)], 'else' => $this->yyastk[$this->yysp-(7-7)]), $line, $docComment); 
+         $this->yyval = new PHPParser_Node_Stmt_If($this->yyastk[$this->yysp-(7-3)], array('stmts' => is_array($this->yyastk[$this->yysp-(7-5)]) ? $this->yyastk[$this->yysp-(7-5)] : array($this->yyastk[$this->yysp-(7-5)]), 'elseifs' => $this->yyastk[$this->yysp-(7-6)], 'else' => $this->yyastk[$this->yysp-(7-7)]), $line, $docComment); 
     }
 
     protected function yyn32($line, $docComment) {
-         $this->yyval = new PHPParser_Node_Stmt_If(array('cond' => $this->yyastk[$this->yysp-(10-3)], 'stmts' => $this->yyastk[$this->yysp-(10-6)], 'elseifList' => $this->yyastk[$this->yysp-(10-7)], 'else' => $this->yyastk[$this->yysp-(10-8)]), $line, $docComment); 
+         $this->yyval = new PHPParser_Node_Stmt_If($this->yyastk[$this->yysp-(10-3)], array('stmts' => $this->yyastk[$this->yysp-(10-6)], 'elseifs' => $this->yyastk[$this->yysp-(10-7)], 'else' => $this->yyastk[$this->yysp-(10-8)]), $line, $docComment); 
     }
 
     protected function yyn33($line, $docComment) {
@@ -1171,15 +1171,15 @@ class PHPParser_Parser
     }
 
     protected function yyn49($line, $docComment) {
-         $this->yyval = new PHPParser_Node_Stmt_Foreach(array('expr' => $this->yyastk[$this->yysp-(7-3)], 'keyVar' => null, 'byRef' => false, 'valueVar' => $this->yyastk[$this->yysp-(7-5)], 'stmts' => is_array($this->yyastk[$this->yysp-(7-7)]) ? $this->yyastk[$this->yysp-(7-7)] : array($this->yyastk[$this->yysp-(7-7)])), $line, $docComment); 
+         $this->yyval = new PHPParser_Node_Stmt_Foreach($this->yyastk[$this->yysp-(7-3)], $this->yyastk[$this->yysp-(7-5)], array('keyVar' => null, 'byRef' => false, 'stmts' => is_array($this->yyastk[$this->yysp-(7-7)]) ? $this->yyastk[$this->yysp-(7-7)] : array($this->yyastk[$this->yysp-(7-7)])), $line, $docComment); 
     }
 
     protected function yyn50($line, $docComment) {
-         $this->yyval = new PHPParser_Node_Stmt_Foreach(array('expr' => $this->yyastk[$this->yysp-(8-3)], 'keyVar' => null, 'byRef' => true, 'valueVar' => $this->yyastk[$this->yysp-(8-6)], 'stmts' => is_array($this->yyastk[$this->yysp-(8-8)]) ? $this->yyastk[$this->yysp-(8-8)] : array($this->yyastk[$this->yysp-(8-8)])), $line, $docComment); 
+         $this->yyval = new PHPParser_Node_Stmt_Foreach($this->yyastk[$this->yysp-(8-3)], $this->yyastk[$this->yysp-(8-6)], array('keyVar' => null, 'byRef' => true, 'stmts' => is_array($this->yyastk[$this->yysp-(8-8)]) ? $this->yyastk[$this->yysp-(8-8)] : array($this->yyastk[$this->yysp-(8-8)])), $line, $docComment); 
     }
 
     protected function yyn51($line, $docComment) {
-         $this->yyval = new PHPParser_Node_Stmt_Foreach(array('expr' => $this->yyastk[$this->yysp-(10-3)], 'keyVar' => $this->yyastk[$this->yysp-(10-5)], 'byRef' => $this->yyastk[$this->yysp-(10-7)], 'valueVar' => $this->yyastk[$this->yysp-(10-8)], 'stmts' => is_array($this->yyastk[$this->yysp-(10-10)]) ? $this->yyastk[$this->yysp-(10-10)] : array($this->yyastk[$this->yysp-(10-10)])), $line, $docComment); 
+         $this->yyval = new PHPParser_Node_Stmt_Foreach($this->yyastk[$this->yysp-(10-3)], $this->yyastk[$this->yysp-(10-8)], array('keyVar' => $this->yyastk[$this->yysp-(10-5)], 'byRef' => $this->yyastk[$this->yysp-(10-7)], 'stmts' => is_array($this->yyastk[$this->yysp-(10-10)]) ? $this->yyastk[$this->yysp-(10-10)] : array($this->yyastk[$this->yysp-(10-10)])), $line, $docComment); 
     }
 
     protected function yyn52($line, $docComment) {
@@ -1235,15 +1235,15 @@ class PHPParser_Parser
     }
 
     protected function yyn65($line, $docComment) {
-         $this->yyval = new PHPParser_Node_Stmt_Func(array('byRef' => $this->yyastk[$this->yysp-(9-2)], 'name' => $this->yyastk[$this->yysp-(9-3)], 'params' => $this->yyastk[$this->yysp-(9-5)], 'stmts' => $this->yyastk[$this->yysp-(9-8)]), $line, $docComment); 
+         $this->yyval = new PHPParser_Node_Stmt_Func($this->yyastk[$this->yysp-(9-3)], array('byRef' => $this->yyastk[$this->yysp-(9-2)], 'params' => $this->yyastk[$this->yysp-(9-5)], 'stmts' => $this->yyastk[$this->yysp-(9-8)]), $line, $docComment); 
     }
 
     protected function yyn66($line, $docComment) {
-         $this->yyval = new PHPParser_Node_Stmt_Class(array('type' => $this->yyastk[$this->yysp-(7-1)], 'name' => $this->yyastk[$this->yysp-(7-2)], 'extends' => $this->yyastk[$this->yysp-(7-3)], 'implements' => $this->yyastk[$this->yysp-(7-4)], 'stmts' => $this->yyastk[$this->yysp-(7-6)]), $line, $docComment); 
+         $this->yyval = new PHPParser_Node_Stmt_Class($this->yyastk[$this->yysp-(7-2)], array('type' => $this->yyastk[$this->yysp-(7-1)], 'extends' => $this->yyastk[$this->yysp-(7-3)], 'implements' => $this->yyastk[$this->yysp-(7-4)], 'stmts' => $this->yyastk[$this->yysp-(7-6)]), $line, $docComment); 
     }
 
     protected function yyn67($line, $docComment) {
-         $this->yyval = new PHPParser_Node_Stmt_Interface(array('name' => $this->yyastk[$this->yysp-(6-2)], 'extends' => $this->yyastk[$this->yysp-(6-3)], 'stmts' => $this->yyastk[$this->yysp-(6-5)]), $line, $docComment); 
+         $this->yyval = new PHPParser_Node_Stmt_Interface($this->yyastk[$this->yysp-(6-2)], array('extends' => $this->yyastk[$this->yysp-(6-3)], 'stmts' => $this->yyastk[$this->yysp-(6-5)]), $line, $docComment); 
     }
 
     protected function yyn68($line, $docComment) {
@@ -1371,7 +1371,7 @@ class PHPParser_Parser
     }
 
     protected function yyn99($line, $docComment) {
-         $this->yyastk[$this->yysp-(6-1)][] = new PHPParser_Node_Stmt_ElseIf(array('cond' => $this->yyastk[$this->yysp-(6-4)], 'stmts' => is_array($this->yyastk[$this->yysp-(6-6)]) ? $this->yyastk[$this->yysp-(6-6)] : array($this->yyastk[$this->yysp-(6-6)])), $line, $docComment); $this->yyval = $this->yyastk[$this->yysp-(6-1)]; 
+         $this->yyastk[$this->yysp-(6-1)][] = new PHPParser_Node_Stmt_ElseIf($this->yyastk[$this->yysp-(6-4)], is_array($this->yyastk[$this->yysp-(6-6)]) ? $this->yyastk[$this->yysp-(6-6)] : array($this->yyastk[$this->yysp-(6-6)]), $line, $docComment); $this->yyval = $this->yyastk[$this->yysp-(6-1)]; 
     }
 
     protected function yyn100($line, $docComment) {
@@ -1379,7 +1379,7 @@ class PHPParser_Parser
     }
 
     protected function yyn101($line, $docComment) {
-         $this->yyastk[$this->yysp-(7-1)][] = new PHPParser_Node_Stmt_ElseIf(array('cond' => $this->yyastk[$this->yysp-(7-4)], 'stmts' => $this->yyastk[$this->yysp-(7-7)]), $line, $docComment); $this->yyval = $this->yyastk[$this->yysp-(7-1)]; 
+         $this->yyastk[$this->yysp-(7-1)][] = new PHPParser_Node_Stmt_ElseIf($this->yyastk[$this->yysp-(7-4)], $this->yyastk[$this->yysp-(7-7)], $line, $docComment); $this->yyval = $this->yyastk[$this->yysp-(7-1)]; 
     }
 
     protected function yyn102($line, $docComment) {
@@ -1387,7 +1387,7 @@ class PHPParser_Parser
     }
 
     protected function yyn103($line, $docComment) {
-         $this->yyval = new PHPParser_Node_Stmt_Else(array('stmts' => is_array($this->yyastk[$this->yysp-(2-2)]) ? $this->yyastk[$this->yysp-(2-2)] : array($this->yyastk[$this->yysp-(2-2)])), $line, $docComment); 
+         $this->yyval = new PHPParser_Node_Stmt_Else(is_array($this->yyastk[$this->yysp-(2-2)]) ? $this->yyastk[$this->yysp-(2-2)] : array($this->yyastk[$this->yysp-(2-2)]), $line, $docComment); 
     }
 
     protected function yyn104($line, $docComment) {
@@ -1395,7 +1395,7 @@ class PHPParser_Parser
     }
 
     protected function yyn105($line, $docComment) {
-         $this->yyval = new PHPParser_Node_Stmt_Else(array('stmts' => $this->yyastk[$this->yysp-(3-3)]), $line, $docComment); 
+         $this->yyval = new PHPParser_Node_Stmt_Else($this->yyastk[$this->yysp-(3-3)], $line, $docComment); 
     }
 
     protected function yyn106($line, $docComment) {
@@ -1515,7 +1515,7 @@ class PHPParser_Parser
     }
 
     protected function yyn135($line, $docComment) {
-         $this->yyval = new PHPParser_Node_Stmt_ClassMethod(array('type' => $this->yyastk[$this->yysp-(8-1)], 'byRef' => $this->yyastk[$this->yysp-(8-3)], 'name' => $this->yyastk[$this->yysp-(8-4)], 'params' => $this->yyastk[$this->yysp-(8-6)], 'stmts' => $this->yyastk[$this->yysp-(8-8)]), $line, $docComment); 
+         $this->yyval = new PHPParser_Node_Stmt_ClassMethod($this->yyastk[$this->yysp-(8-4)], array('type' => $this->yyastk[$this->yysp-(8-1)], 'byRef' => $this->yyastk[$this->yysp-(8-3)], 'params' => $this->yyastk[$this->yysp-(8-6)], 'stmts' => $this->yyastk[$this->yysp-(8-8)]), $line, $docComment); 
     }
 
     protected function yyn136($line, $docComment) {
@@ -1907,7 +1907,7 @@ class PHPParser_Parser
     }
 
     protected function yyn233($line, $docComment) {
-         $this->yyval = new PHPParser_Node_Expr_Closure($this->yyastk[$this->yysp-(9-8)], $this->yyastk[$this->yysp-(9-4)], $this->yyastk[$this->yysp-(9-6)], $this->yyastk[$this->yysp-(9-2)], $line, $docComment); 
+         $this->yyval = new PHPParser_Node_Expr_Closure(array('byRef' => $this->yyastk[$this->yysp-(9-2)], 'params' => $this->yyastk[$this->yysp-(9-4)], 'uses' => $this->yyastk[$this->yysp-(9-6)], 'stmts' => $this->yyastk[$this->yysp-(9-8)]), $line, $docComment); 
     }
 
     protected function yyn234($line, $docComment) {

@@ -509,7 +509,7 @@ class PHPParser_PrettyPrinter_Zend extends PHPParser_PrettyPrinterAbstract
     public function pStmt_If(PHPParser_Node_Stmt_If $node) {
         return 'if (' . $this->p($node->cond) . ') {'
              . "\n" . $this->pStmts($node->stmts) . "\n" . '}'
-             . $this->pImplode($node->elseifList)
+             . $this->pImplode($node->elseifs)
              . (null !== $node->else ? $this->p($node->else) : '');
     }
 

@@ -168,13 +168,13 @@ inner_statement:
 
 statement:
       '{' inner_statement_list '}'                          { $$ = $2; }
-    | T_IF '(' expr ')' statement elseif_list else_single   { $$ = Stmt_If[cond: $3, stmts: toArray($5), elseifList: $6, else: $7]; }
+    | T_IF '(' expr ')' statement elseif_list else_single   { $$ = Stmt_If[$3, [stmts: toArray($5), elseifs: $6, else: $7]]; }
     | T_IF '(' expr ')' ':' inner_statement_list new_elseif_list new_else_single T_ENDIF ';'
-          { $$ = Stmt_If[cond: $3, stmts: $6, elseifList: $7, else: $8]; }
+          { $$ = Stmt_If[$3, [stmts: $6, elseifs: $7, else: $8]]; }
     | T_WHILE '(' expr ')' while_statement                  { $$ = Stmt_While[$3, toArray($5)]; }
     | T_DO statement T_WHILE '(' expr ')' ';'               { $$ = Stmt_Do   [$5, toArray($2)]; }
     | T_FOR '(' for_expr ';'  for_expr ';' for_expr ')' for_statement
-          { $$ = Stmt_For[init: $3, cond: $5, loop: $7, stmts: toArray($9)]; }
+          { $$ = Stmt_For[[init: $3, cond: $5, loop: $7, stmts: toArray($9)]]; }
     | T_SWITCH '(' expr ')' switch_case_list                { $$ = Stmt_Switch[$3, $5]; }
     | T_BREAK ';'                                           { $$ = Stmt_Break[null]; }
     | T_BREAK expr ';'                                      { $$ = Stmt_Break[$2]; }
@@ -189,11 +189,11 @@ statement:
     | expr ';'                                              { $$ = $1; }
     | T_UNSET '(' variables_list ')' ';'                    { $$ = Stmt_Unset[$3]; }
     | T_FOREACH '(' expr T_AS variable ')' foreach_statement
-          { $$ = Stmt_Foreach[expr: $3, keyVar: null, byRef: false, valueVar: $5, stmts: toArray($7)]; }
+          { $$ = Stmt_Foreach[$3, $5, [keyVar: null, byRef: false, stmts: toArray($7)]]; }
     | T_FOREACH '(' expr T_AS '&' variable ')' foreach_statement
-          { $$ = Stmt_Foreach[expr: $3, keyVar: null, byRef: true, valueVar: $6, stmts: toArray($8)]; }
+          { $$ = Stmt_Foreach[$3, $6, [keyVar: null, byRef: true, stmts: toArray($8)]]; }
     | T_FOREACH '(' expr T_AS variable T_DOUBLE_ARROW optional_ref variable ')' foreach_statement
-          { $$ = Stmt_Foreach[expr: $3, keyVar: $5, byRef: $7, valueVar: $8, stmts: toArray($10)]; }
+          { $$ = Stmt_Foreach[$3, $8, [keyVar: $5, byRef: $7, stmts: toArray($10)]]; }
     | T_DECLARE '(' declare_list ')' declare_statement      { $$ = Stmt_Declare[$3, toArray($5)]; }
     | ';'                                                   { $$ = array(); /* means: no statement */ }
     | T_TRY '{' inner_statement_list '}' catches            { $$ = Stmt_TryCatch[$3, $5]; }
@@ -224,14 +224,14 @@ optional_ref:
 
 function_declaration_statement:
     T_FUNCTION optional_ref T_STRING '(' parameter_list ')' '{' inner_statement_list '}'
-        { $$ = Stmt_Func[byRef: $2, name: $3, params: $5, stmts: $8]; }
+        { $$ = Stmt_Func[$3, [byRef: $2, params: $5, stmts: $8]]; }
 ;
 
 class_declaration_statement:
       class_entry_type T_STRING extends_from implements_list '{' class_statement_list '}'
-          { $$ = Stmt_Class[type: $1, name: $2, extends: $3, implements: $4, stmts: $6]; }
+          { $$ = Stmt_Class[$2, [type: $1, extends: $3, implements: $4, stmts: $6]]; }
     | T_INTERFACE T_STRING interface_extends_list '{' class_statement_list '}'
-          { $$ = Stmt_Interface[name: $2, extends: $3, stmts: $5]; }
+          { $$ = Stmt_Interface[$2, [extends: $3, stmts: $5]]; }
 ;
 
 class_entry_type:
@@ -307,23 +307,23 @@ while_statement:
 
 elseif_list:
       /* empty */                                           { init();}
-    | elseif_list T_ELSEIF '(' expr ')' statement           { push($1, Stmt_ElseIf[cond: $4, stmts: toArray($6)]); }
+    | elseif_list T_ELSEIF '(' expr ')' statement           { push($1, Stmt_ElseIf[$4, toArray($6)]); }
 ;
 
 new_elseif_list:
       /* empty */                                           { init(); }
     | new_elseif_list T_ELSEIF '(' expr ')' ':' inner_statement_list
-          { push($1, Stmt_ElseIf[cond: $4, stmts: $7]); }
+          { push($1, Stmt_ElseIf[$4, $7]); }
 ;
 
 else_single:
       /* empty */                                           { $$ = null; }
-    | T_ELSE statement                                      { $$ = Stmt_Else[stmts: toArray($2)]; }
+    | T_ELSE statement                                      { $$ = Stmt_Else[toArray($2)]; }
 ;
 
 new_else_single:
       /* empty */                                           { $$ = null; }
-    | T_ELSE ':' inner_statement_list                       { $$ = Stmt_Else[stmts: $3]; }
+    | T_ELSE ':' inner_statement_list                       { $$ = Stmt_Else[$3]; }
 ;
 
 parameter_list:
@@ -390,7 +390,7 @@ class_statement:
       variable_modifiers class_variable_declaration ';'     { $$ = Stmt_Property[$1, $2]; }
     | T_CONST constant_declaration_list ';'                 { $$ = Stmt_ClassConst[$2]; }
     | method_modifiers T_FUNCTION optional_ref T_STRING '(' parameter_list ')' method_body
-          { $$ = Stmt_ClassMethod[type: $1, byRef: $3, name: $4, params: $6, stmts: $8]; }
+          { $$ = Stmt_ClassMethod[$4, [type: $1, byRef: $3, params: $6, stmts: $8]]; }
 ;
 
 method_body:
@@ -522,7 +522,7 @@ expr:
     | '`' backticks_expr '`'                                { $$ = Expr_ShellExec[$2]; }
     | T_PRINT expr                                          { $$ = Expr_Print[$2]; }
     | T_FUNCTION optional_ref '(' parameter_list ')' lexical_vars '{' inner_statement_list '}'
-          { $$ = Expr_Closure[$8, $4, $6, $2]; }
+          { $$ = Expr_Closure[[byRef: $2, params: $4, uses: $6, stmts: $8]]; }
 ;
 
 lexical_vars:

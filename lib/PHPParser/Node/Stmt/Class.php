@@ -4,8 +4,8 @@
  * @property int                      $type       Type
  * @property string                   $name       Name
  * @property null|PHPParser_Node_Name $extends    Name of extended class
- * @property array                    $implements Names of implemented interfaces
- * @property array                    $stmts      Statements
+ * @property PHPParser_Node_Name[]    $implements Names of implemented interfaces
+ * @property PHPParser_Node[]         $stmts      Statements
  */
 class PHPParser_Node_Stmt_Class extends PHPParser_Node_Stmt
 {
@@ -16,19 +16,46 @@ class PHPParser_Node_Stmt_Class extends PHPParser_Node_Stmt
     const MODIFIER_ABSTRACT  = 16;
     const MODIFIER_FINAL     = 32;
 
-    public function __construct(array $subNodes, $line = -1, $docComment = null) {
-        parent::__construct($subNodes, $line, $docComment);
+    protected static $specialClassNames = array(
+        'self'   => true,
+        'parent' => true,
+        'static' => true,
+    );
 
-        if ('self' == $this->name || 'parent' == $this->name) { // 'static' cannot occur
+    /**
+     * Constructs a class node.
+     *
+     * @param string      $name       Name
+     * @param array       $subNodes   Array of the following optional subnodes:
+     *                                'type'       => 0      : Type
+     *                                'extends'    => null   : Name of extended class
+     *                                'implements' => array(): Names of implemented interfaces
+     *                                'stmts'      => array(): Statements
+     * @param int         $line       Line
+     * @param null|string $docComment Nearest doc comment
+     */
+    public function __construct($name, array $subNodes, $line = -1, $docComment = null) {
+        parent::__construct(
+            $subNodes + array(
+                'type'       => 0,
+                'extends'    => null,
+                'implements' => array(),
+                'stmts'      => array(),
+            ),
+            $line, $docComment
+        );
+        $this->name = $name;
+
+        if (isset(self::$specialClassNames[(string) $this->name])) {
             throw new PHPParser_Error(sprintf('Cannot use "%s" as class name as it is reserved', $this->name));
         }
 
-        if ('self' == $this->extends || 'parent' == $this->extends || 'static' == $this->extends) {
+        if (isset(self::$specialClassNames[(string) $this->extends])) {
             throw new PHPParser_Error(sprintf('Cannot use "%s" as class name as it is reserved', $this->extends));
         }
 
         foreach ($this->implements as $interface) {
-            if ('self' == $interface || 'parent' == $interface || 'static' == $interface) {
+            if (isset(self::$specialClassNames[(string) $interface])) {
                 throw new PHPParser_Error(sprintf('Cannot use "%s" as interface name as it is reserved', $interface));
             }
         }

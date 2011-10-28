@@ -13,10 +13,12 @@ What do all those files mean?
 The `.phpy` file is a normal grammer in `kmyacc` (`yacc`) style, with some transformations
 applied to it:
 
- * Nodes are created using the syntax `Name[subNode1: ..., subNode2: ...]`. This is transformed into
-   `new PHPParser_Node_Name(array('subNode1' => ..., 'subNode2' => ...), $line, $docComment)`
+ * Nodes are created using the syntax `Name[..., ...]`. This is transformed into
+   `new PHPParser_Node_Name(..., ..., $line, $docComment)`
  * `Name::abc` is transformed to `PHPParser_Node_Name::abc`
  * Some function-like constructs are resolved (see `rebuildParser.php` for a list)
+ * Associative arrays are written as `[key: value, ...]`, which is transformed to
+   `array('key' => value, ...)`
 
 Building the parser
 ===================

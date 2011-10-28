@@ -1,21 +1,44 @@
 <?php
 
 /**
- * @property string $name    Name
- * @property array  $extends Extended interfaces
- * @property array  $stmts   Statements
+ * @property string                $name    Name
+ * @property PHPParser_Node_Name[] $extends Extended interfaces
+ * @property PHPParser_Node[]      $stmts   Statements
  */
 class PHPParser_Node_Stmt_Interface extends PHPParser_Node_Stmt
 {
-    public function __construct(array $subNodes, $line = -1, $docComment = null) {
-        parent::__construct($subNodes, $line, $docComment);
+    protected static $specialInterfaceNames = array(
+        'self'   => true,
+        'parent' => true,
+        'static' => true,
+    );
 
-        if ('self' == $this->name || 'parent' == $this->name) { // 'static' cannot occur
-            throw new PHPParser_Error(sprintf('Cannot use "%s" as class name as it is reserved', $this->name));
+    /**
+     * Constructs a class node.
+     *
+     * @param string      $name       Name
+     * @param array       $subNodes   Array of the following optional subnodes:
+     *                                'extends' => array(): Name of extended interfaces
+     *                                'stmts'   => array(): Statements
+     * @param int         $line       Line
+     * @param null|string $docComment Nearest doc comment
+     */
+    public function __construct($name, array $subNodes, $line = -1, $docComment = null) {
+        parent::__construct(
+            $subNodes + array(
+                'extends' => array(),
+                'stmts'   => array(),
+            ),
+            $line, $docComment
+        );
+        $this->name = $name;
+
+        if (isset(self::$specialInterfaceNames[(string) $this->name])) {
+            throw new PHPParser_Error(sprintf('Cannot use "%s" as interface name as it is reserved', $this->name));
         }
 
         foreach ($this->extends as $interface) {
-            if ('self' == $interface || 'parent' == $interface || 'static' == $interface) {
+            if (isset(self::$specialInterfaceNames[(string) $interface])) {
                 throw new PHPParser_Error(sprintf('Cannot use "%s" as interface name as it is reserved', $interface));
             }
         }
