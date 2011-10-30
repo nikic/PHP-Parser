@@ -35,10 +35,9 @@ $parser        = new PHPParser_Parser;
 $prettyPrinter = new PHPParser_PrettyPrinter_Zend;
 $nodeDumper    = new PHPParser_NodeDumper;
 
-$parseFail = $ppFail = $compareFail = 0;
-$parseTime = $ppTime = $compareTime = 0;
-$count = 0;
+$parseFail = $ppFail = $compareFail = $count = 0;;
 
+$readTime = $parseTime = $ppTime = $reparseTime = $compareTime = 0;
 $totalStartTime = microtime(true);
 
 foreach (new RecursiveIteratorIterator(
@@ -49,7 +48,9 @@ foreach (new RecursiveIteratorIterator(
         continue;
     }
 
+    $startTime = microtime(true);
     $code = file_get_contents($file);
+    $readTime += microtime(true) - $startTime;
 
     if ('PHP' === $TEST_TYPE) {
         if (preg_match('~(?:
@@ -63,6 +64,9 @@ foreach (new RecursiveIteratorIterator(
 | Zend.tests.multibyte.multibyte_encoding_005
 # token_get_all bug (https://bugs.php.net/bug.php?id=60097)
 | Zend.tests.bug47516
+# pretty print difference due to INF vs 1e1000
+| ext.standard.tests.general_functions.bug27678
+| tests.lang.bug24640
 )\.phpt$~x', $file)) {
             continue;
         }
@@ -91,7 +95,9 @@ foreach (new RecursiveIteratorIterator(
         $ppTime += microtime(true) - $startTime;
 
         try {
+            $startTime = microtime(true);
             $ppStmts = $parser->parse(new PHPParser_Lexer($code));
+            $reparseTime += microtime(true) - $startTime;
 
             $startTime = microtime(true);
             $same = $nodeDumper->dump($stmts) == $nodeDumper->dump($ppStmts);
@@ -132,8 +138,10 @@ if (0 === $parseFail && 0 === $ppFail && 0 === $compareFail) {
 echo "\n",
      'Tested files:         ', $count,        "\n",
      "\n",
+     'Reading files took:   ', $readTime,    "\n",
      'Parsing took:         ', $parseTime,   "\n",
      'Pretty printing took: ', $ppTime,      "\n",
+     'Reparsing took:       ', $reparseTime, "\n",
      'Comparing took:       ', $compareTime, "\n",
      "\n",
      'Total time:           ', microtime(true) - $totalStartTime, "\n",
