@@ -65,6 +65,7 @@
 %token T_CATCH
 %token T_THROW
 %token T_USE
+%token T_INSTEADOF
 %token T_GLOBAL
 %right T_STATIC T_ABSTRACT T_FINAL T_PRIVATE T_PROTECTED T_PUBLIC
 %token T_VAR
@@ -232,6 +233,8 @@ class_declaration_statement:
           { $$ = Stmt_Class[$2, [type: $1, extends: $3, implements: $4, stmts: $6]]; }
     | T_INTERFACE T_STRING interface_extends_list '{' class_statement_list '}'
           { $$ = Stmt_Interface[$2, [extends: $3, stmts: $5]]; }
+    | T_TRAIT T_STRING '{' class_statement_list '}'
+          { $$ = Stmt_Trait[$2, $4]; }
 ;
 
 class_entry_type:
@@ -247,17 +250,17 @@ extends_from:
 
 interface_extends_list:
       /* empty */                                           { $$ = array(); }
-    | T_EXTENDS interface_list                              { $$ = $2; }
+    | T_EXTENDS name_list                                   { $$ = $2; }
 ;
 
 implements_list:
       /* empty */                                           { $$ = array(); }
-    | T_IMPLEMENTS interface_list                           { $$ = $2; }
+    | T_IMPLEMENTS name_list                                { $$ = $2; }
 ;
 
-interface_list:
+name_list:
       name                                                  { init($1); }
-    | interface_list ',' name                               { push($1, $3); }
+    | name_list ',' name                                    { push($1, $3); }
 ;
 
 for_statement:
@@ -391,6 +394,36 @@ class_statement:
     | T_CONST constant_declaration_list ';'                 { $$ = Stmt_ClassConst[$2]; }
     | method_modifiers T_FUNCTION optional_ref T_STRING '(' parameter_list ')' method_body
           { $$ = Stmt_ClassMethod[$4, [type: $1, byRef: $3, params: $6, stmts: $8]]; }
+    | T_USE name_list trait_adaptations                     { $$ = Stmt_TraitUse[$2, $3]; }
+;
+
+trait_adaptations:
+      ';'                                                   { $$ = array(); }
+    | '{' trait_adaptation_list '}'                         { $$ = $2; }
+;
+
+trait_adaptation_list:
+      /* empty */                                           { init(); }
+    | trait_adaptation_list trait_adaptation                { push($1, $2); }
+;
+
+trait_adaptation:
+      trait_method_reference_fully_qualified T_INSTEADOF name_list ';'
+          { $$ = Stmt_TraitUseAdaptation_Precedence[$1[0], $1[1], $3]; }
+    | trait_method_reference T_AS member_modifier T_STRING ';'
+          { $$ = Stmt_TraitUseAdaptation_Alias[$1[0], $1[1], $3, $4]; }
+    | trait_method_reference T_AS member_modifier ';'
+          { $$ = Stmt_TraitUseAdaptation_Alias[$1[0], $1[1], $3, null]; }
+    | trait_method_reference T_AS T_STRING ';'
+          { $$ = Stmt_TraitUseAdaptation_Alias[$1[0], $1[1], null, $3]; }
+;
+
+trait_method_reference_fully_qualified:
+      name T_PAAMAYIM_NEKUDOTAYIM T_STRING                  { $$ = array($1, $3); }
+;
+trait_method_reference:
+      trait_method_reference_fully_qualified                { $$ = $1; }
+    | T_STRING                                              { $$ = array(null, $1); }
 ;
 
 method_body:
@@ -624,6 +657,7 @@ common_scalar:
     | T_FILE                                                { $$ = Scalar_FileConst[]; }
     | T_DIR                                                 { $$ = Scalar_DirConst[]; }
     | T_CLASS_C                                             { $$ = Scalar_ClassConst[]; }
+    | T_TRAIT_C                                             { $$ = Scalar_TraitConst[]; }
     | T_METHOD_C                                            { $$ = Scalar_MethodConst[]; }
     | T_FUNC_C                                              { $$ = Scalar_FuncConst[]; }
     | T_NS_C                                                { $$ = Scalar_NSConst[]; }

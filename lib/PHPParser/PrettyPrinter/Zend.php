@@ -39,6 +39,10 @@ class PHPParser_PrettyPrinter_Zend extends PHPParser_PrettyPrinterAbstract
         return '__CLASS__';
     }
 
+    public function pScalar_TraitConst(PHPParser_Node_Scalar_TraitConst $node) {
+        return '__TRAIT__';
+    }
+
     public function pScalar_DirConst(PHPParser_Node_Scalar_DirConst $node) {
         return '__DIR__';
     }
@@ -462,6 +466,31 @@ class PHPParser_PrettyPrinter_Zend extends PHPParser_PrettyPrinterAbstract
              . (null !== $node->extends ? ' extends ' . $this->p($node->extends) : '')
              . (!empty($node->implements) ? ' implements ' . $this->pCommaSeparated($node->implements) : '')
              . "\n" . '{' . "\n" . $this->pStmts($node->stmts) . "\n" . '}';
+    }
+
+    public function pStmt_Trait(PHPParser_Node_Stmt_Trait $node) {
+        return 'trait ' . $node->name
+             . "\n" . '{' . "\n" . $this->pStmts($node->stmts) . "\n" . '}';
+    }
+
+    public function pStmt_TraitUse(PHPParser_Node_Stmt_TraitUse $node) {
+        return 'use ' . $this->pCommaSeparated($node->traits)
+             . (empty($node->adaptations)
+                ? ';'
+                : ' {' . "\n" . $this->pStmts($node->adaptations) . "\n" . '}');
+    }
+
+    public function pStmt_TraitUseAdaptation_Precedence(PHPParser_Node_Stmt_TraitUseAdaptation_Precedence $node) {
+        return $this->p($node->trait) . '::' . $node->method
+             . ' insteadof ' . $this->pCommaSeparated($node->insteadof) . ';';
+    }
+
+    public function pStmt_TraitUseAdaptation_Alias(PHPParser_Node_Stmt_TraitUseAdaptation_Alias $node) {
+        return (null !== $node->trait ? $this->p($node->trait) . '::' : '')
+             . $node->method . ' as'
+             . (null !== $node->newModifier ? ' ' . $this->pModifiers($node->newModifier) : '')
+             . (null !== $node->newName     ? ' ' . $node->newName                        : '')
+             . ';';
     }
 
     public function pStmt_Property(PHPParser_Node_Stmt_Property $node) {
