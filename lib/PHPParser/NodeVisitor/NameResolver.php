@@ -57,7 +57,10 @@ class PHPParser_NodeVisitor_NameResolver extends PHPParser_NodeVisitorAbstract
         ) {
             $node->name = $this->resolveOtherName($node->name);
         } elseif ($node instanceof PHPParser_Node_Param) {
-            $node->type = $this->resolveClassName($node->type);
+            if (!is_null($node->type))
+            {
+                $node->type = $this->resolveClassName($node->type);
+            }            
         }
     }
 
