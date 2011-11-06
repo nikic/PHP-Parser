@@ -38,12 +38,30 @@ abstract class PHPParser_NodeAbstract implements PHPParser_Node, IteratorAggrega
     }
 
     /**
+     * Sets line the node started in.
+     *
+     * @param int $line Line
+     */
+    public function setLine($line) {
+        $this->line = (int) $line;
+    }
+
+    /**
      * Gets the nearest doc comment.
      *
      * @return null|string Nearest doc comment or null
      */
     public function getDocComment() {
         return $this->docComment;
+    }
+
+    /**
+     * Sets the nearest doc comment.
+     *
+     * @param null|string $docComment Nearest doc comment or null
+     */
+    public function setDocComment($docComment) {
+        $this->docComment = $docComment;
     }
 
     /* Magic interfaces */

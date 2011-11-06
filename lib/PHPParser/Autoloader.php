@@ -8,7 +8,7 @@ class PHPParser_Autoloader
     static public function register()
     {
         ini_set('unserialize_callback_func', 'spl_autoload_call');
-        spl_autoload_register(array(new self, 'autoload'));
+        spl_autoload_register(array(__CLASS__, 'autoload'));
     }
 
     /**
