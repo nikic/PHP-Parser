@@ -51,22 +51,23 @@ class PHPParser_NodeVisitor_NameResolver extends PHPParser_NodeVisitorAbstract
                   || $node instanceof PHPParser_Node_Expr_New
                   || $node instanceof PHPParser_Node_Expr_Instanceof
         ) {
-            $node->class = $this->resolveClassName($node->class);
+            if ($node->class instanceof PHPParser_Node_Name) {
+                $node->class = $this->resolveClassName($node->class);
+            }
         } elseif ($node instanceof PHPParser_Node_Expr_FuncCall
                   || $node instanceof PHPParser_Node_Expr_ConstFetch
         ) {
-            $node->name = $this->resolveOtherName($node->name);
-        } elseif ($node instanceof PHPParser_Node_Param) {
+            if ($node->name instanceof PHPParser_Node_Name) {
+                $node->name = $this->resolveOtherName($node->name);
+            }
+        } elseif ($node instanceof PHPParser_Node_Param
+                  && $node instanceof PHPParser_Node_Name
+        ) {
             $node->type = $this->resolveClassName($node->type);
         }
     }
 
-    protected function resolveClassName(PHPParser_Node $name) {
-        // can't resolve dynamic names at compile-time
-        if (!$name instanceof PHPParser_Node_Name) {
-            return $name;
-        }
-
+    protected function resolveClassName(PHPParser_Node_Name $name) {
         // don't resolve special class names
         if (in_array((string) $name, array('self', 'parent', 'static'))) {
             return $name;
@@ -88,12 +89,7 @@ class PHPParser_NodeVisitor_NameResolver extends PHPParser_NodeVisitorAbstract
         return new PHPParser_Node_Name_FullyQualified($name->parts);
     }
 
-    protected function resolveOtherName(PHPParser_Node $name) {
-        // can't resolve dynamic names at compile-time
-        if (!$name instanceof PHPParser_Node_Name) {
-            return $name;
-        }
-
+    protected function resolveOtherName(PHPParser_Node_Name $name) {
         // fully qualified names are already resolved and we can't do anything about unqualified
         // ones at compiler-time
         if ($name->isFullyQualified() || $name->isUnqualified()) {
