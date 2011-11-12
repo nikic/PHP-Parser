@@ -2,7 +2,7 @@
 
 class PHPParser_Tests_NodeVisitor_NameResolverTest extends PHPUnit_Framework_TestCase
 {
-    public function testResolve() {
+    public function testResolveNames() {
         $code = <<<EOC
 <?php
 
@@ -79,5 +79,36 @@ EOC;
         $stmts = $traverser->traverse($stmts);
 
         $this->assertEquals($expectedCode, $prettyPrinter->prettyPrint($stmts));
+    }
+
+    public function testAddNamespacedName() {
+        $code = <<<EOC
+<?php
+
+namespace Foo {
+    class A {}
+    function B() {}
+    const C = 'D';
+}
+namespace {
+    class A {}
+    function B() {}
+    const C = 'D';
+}
+EOC;
+
+        $parser    = new PHPParser_Parser;
+        $traverser = new PHPParser_NodeTraverser;
+        $traverser->addVisitor(new PHPParser_NodeVisitor_NameResolver);
+
+        $stmts = $parser->parse(new PHPParser_Lexer($code));
+        $stmts = $traverser->traverse($stmts);
+
+        $this->assertEquals('Foo\\A', (string) $stmts[0]->stmts[0]->namespacedName);
+        $this->assertEquals('Foo\\B', (string) $stmts[0]->stmts[1]->namespacedName);
+        $this->assertEquals('Foo\\C', (string) $stmts[0]->stmts[2]->consts[0]->namespacedName);
+        $this->assertEquals('A',      (string) $stmts[1]->stmts[0]->namespacedName);
+        $this->assertEquals('B',      (string) $stmts[1]->stmts[1]->namespacedName);
+        $this->assertEquals('C',      (string) $stmts[1]->stmts[2]->consts[0]->namespacedName);
     }
 }

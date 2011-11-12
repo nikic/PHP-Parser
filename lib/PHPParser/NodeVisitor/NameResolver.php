@@ -41,9 +41,19 @@ class PHPParser_NodeVisitor_NameResolver extends PHPParser_NodeVisitorAbstract
             foreach ($node->implements as &$interface) {
                 $interface = $this->resolveClassName($interface);
             }
+
+            $this->addNamespacedName($node);
         } elseif ($node instanceof PHPParser_Node_Stmt_Interface) {
             foreach ($node->extends as &$interface) {
                 $interface = $this->resolveClassName($interface);
+            }
+
+            $this->addNamespacedName($node);
+        } elseif ($node instanceof PHPParser_Node_Stmt_Function) {
+            $this->addNamespacedName($node);
+        } elseif ($node instanceof PHPParser_Node_Stmt_Const) {
+            foreach ($node->consts as $const) {
+                $this->addNamespacedName($const);
             }
         } elseif ($node instanceof PHPParser_Node_Expr_StaticCall
                   || $node instanceof PHPParser_Node_Expr_StaticPropertyFetch
@@ -105,5 +115,14 @@ class PHPParser_NodeVisitor_NameResolver extends PHPParser_NodeVisitorAbstract
         }
 
         return new PHPParser_Node_Name_FullyQualified($name->parts);
+    }
+
+    protected function addNamespacedName(PHPParser_Node $node) {
+        if (null !== $this->namespace) {
+            $node->namespacedName = clone $this->namespace;
+            $node->namespacedName->append($node->name);
+        } else {
+            $node->namespacedName = new PHPParser_Node_Name($node->name);
+        }
     }
 }
