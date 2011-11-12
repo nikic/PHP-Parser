@@ -49,6 +49,8 @@ class PHPParser_NodeVisitor_NameResolver extends PHPParser_NodeVisitorAbstract
             }
 
             $this->addNamespacedName($node);
+        } elseif ($node instanceof PHPParser_Node_Stmt_Trait) {
+            $this->addNamespacedName($node);
         } elseif ($node instanceof PHPParser_Node_Stmt_Function) {
             $this->addNamespacedName($node);
         } elseif ($node instanceof PHPParser_Node_Stmt_Const) {

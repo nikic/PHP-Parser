@@ -227,3 +227,127 @@ After running it most names will be fully qualified. The only names that will st
 unqualified function and constant names. These are resolved at runtime and thus the visitor can't
 know which function they are referring to. In most cases this is a non-issue as the global functions
 are meant.
+
+Also the `NameResolver` adds a `namespacedName` subnode to class, function and constant declarations
+that contains the namespaced name instead of only the shortname that is available via `name`.
+
+Example: Converting namespaced code to pseudo namespaces
+--------------------------------------------------------
+
+A small example to understand the concept: We want to convert namespaced code to pseudo namespaces
+so it works on 5.2, i.e. name like `A\\B` should be converted to `A_B`. Note that such conversions
+are fairly complicated if you take PHP's dynamic features into account, so our conversion will
+assume that no dynamic features are used.
+
+We start off with the following base code:
+
+    const IN_DIR  = '/some/path';
+    const OUT_DIR = '/some/other/path';
+
+    $parser        = new PHPParser_Parser;
+    $traverser     = new PHPParser_NodeTraverser;
+    $prettyPrinter = new PHPParser_PrettyPrinter_Zend;
+
+    $traverser->addVisitor(new PHPParser_NodeVisitor_NameResolver); // we will need resolved names
+    $traverser->addVisitor(new NodeVisitor_NamespaceConverter);     // our own node visitor
+
+    // iterate over all files in the directory
+    foreach (new RecursiveIteratorIterator(
+                 new RecursiveDirectoryIterator(IN_DIR),
+                 RecursiveIteratorIterator::LEAVES_ONLY)
+             as $file) {
+        // only convert .php files
+        if (!preg_match('~\.php$~', $file)) {
+            continue;
+        }
+
+        try {
+            // read the file that should be converted
+            $code = file_get_contents($file);
+
+            // parse
+            $stmts = $parser->parse(new PHPParser_Lexer($code));
+
+            // traverse
+            $stmts = $traverser->traverse($stmts);
+
+            // pretty print
+            $code = '<?php ' . $prettyPrinter->prettyPrint($stmts);
+
+            // write the converted file to the target directory
+            file_put_contents(
+                substr_replace($file->getPathname(), OUT_DIR, 0, strlen(IN_DIR)),
+                $code
+            );
+        } catch (PHPParser_Error $e) {
+            echo 'Parse Error: ', $e->getMessage();
+        }
+    }
+
+Now lets start with the main code, the `NodeVisitor_NamespaceConverter`. One thing it needs to do
+is convert `A\\B` style names to `A_B` style ones.
+
+    class NodeVisitor_NamespaceConverter extends PHPParser_NodeVisitorAbstract
+    {
+        public function leaveNode(PHPParser_Node $node) {
+            if ($node instanceof PHPParser_Node_Name) {
+                return new PHPParser_Node_Name($node->toString('_'));
+            }
+        }
+    }
+
+The above code profits from the fact that the `NameResolver` already resolved all names as far as
+possible, so we don't need to do that. All the need to create a string with the name parts separated
+by underscores instead of backslashes. This is what `$node->toString('_')` does. (If you want to
+create a name with backslashes either write `$node->toString()` or `(string) $node`.) Then we create
+a new name from the string and return it. Returning a new node replaces the old node.
+
+Another thing we need to do is change the class/function/const declarations. Currently they contain
+only the shortname (i.e. the last part of the name), but they need to contain the complete class
+name:
+
+    class NodeVisitor_NamespaceConverter extends PHPParser_NodeVisitorAbstract
+    {
+        public function leaveNode(PHPParser_Node $node) {
+            if ($node instanceof PHPParser_Node_Name) {
+                return new PHPParser_Node_Name($node->toString('_'));
+            } elseif ($node instanceof PHPParser_Node_Stmt_Class
+                      || $node instanceof PHPParser_Node_Stmt_Interface
+                      || $node instanceof PHPParser_Node_Stmt_Function) {
+                $node->name = $node->namespacedName->toString('_');
+            } elseif ($node instanceof PHPParser_Node_Stmt_Const) {
+                foreach ($node->consts as $const) {
+                    $const->name = $const->namespacedName->toString('_');
+                }
+            }
+        }
+    }
+
+There is not much more to it than converting the namespaced name to string with `_` as separator.
+
+The last thing we need to do is remove the `namespace` and `use` statements:
+
+    class NodeVisitor_NamespaceConverter extends PHPParser_NodeVisitorAbstract
+    {
+        public function leaveNode(PHPParser_Node $node) {
+            if ($node instanceof PHPParser_Node_Name) {
+                return new PHPParser_Node_Name($node->toString('_'));
+            } elseif ($node instanceof PHPParser_Node_Stmt_Class
+                      || $node instanceof PHPParser_Node_Stmt_Interface
+                      || $node instanceof PHPParser_Node_Stmt_Function) {
+                $node->name = $node->namespacedName->toString('_');
+            } elseif ($node instanceof PHPParser_Node_Stmt_Const) {
+                foreach ($node->consts as $const) {
+                    $const->name = $const->namespacedName->toString('_');
+                }
+            } elseif ($node instanceof PHPParser_Node_Stmt_Namespace) {
+                // returning an array merges is into the parent array
+                return $node->stmts;
+            } elseif ($node instanceof PHPParser_Node_Stmt_Use) {
+                // returning false removed the node altogether
+                return false;
+            }
+        }
+    }
+
+That's all.
