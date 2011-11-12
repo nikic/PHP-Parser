@@ -59,18 +59,20 @@ The parser produces an [Abstract Syntax Tree][1] (AST) also known as a node tree
 can best be seen in an example. The program `<?php echo 'Hi', 'World';` will give you a node tree
 roughly looking like this:
 
-    array(
-        0: Stmt_Echo(
-            exprs: array(
-                0: Scalar_String(
-                    value: Hi
-                )
-                1: Scalar_String(
-                    value: World
-                )
+```
+array(
+    0: Stmt_Echo(
+        exprs: array(
+            0: Scalar_String(
+                value: Hi
+            )
+            1: Scalar_String(
+                value: World
             )
         )
     )
+)
+```
 
 This matches the semantics the program had: An echo statement, which takes two strings as expressions,
 with the values `Hi` and `World!`.

@@ -9,12 +9,18 @@ Bootstrapping
 The library needs to register a class autoloader; you can do this either by including the
 `bootstrap.php` file:
 
-    require 'path/to/PHP-Parser/lib/bootstrap.php';
+```php
+<?php
+require 'path/to/PHP-Parser/lib/bootstrap.php';
+```
 
 Or by manually registering the loader:
 
-    require 'path/to/PHP-Parser/lib/PHPParser/Autoloader.php';
-    PHPParser_Autoloader::register();
+```php
+<?php
+require 'path/to/PHP-Parser/lib/PHPParser/Autoloader.php';
+PHPParser_Autoloader::register();
+```
 
 Parsing
 -------
@@ -24,15 +30,18 @@ expects a `PHPParser_Lexer` instance which itself again expects a PHP source cod
 `<?php` opening tags). If a syntax error is encountered `PHPParser_Error` is thrown, so
 this exception should be `catch`ed.
 
-    $code = '<?php // some code';
+```php
+<?php
+$code = '<?php // some code';
 
-    $parser = new PHPParser_Parser;
+$parser = new PHPParser_Parser;
 
-    try {
-        $stmts = $parser->parse(new PHPParser_Lexer($code));
-    } catch (PHPParser_Error $e) {
-        echo 'Parse Error: ', $e->getMessage();
-    }
+try {
+    $stmts = $parser->parse(new PHPParser_Lexer($code));
+} catch (PHPParser_Error $e) {
+    echo 'Parse Error: ', $e->getMessage();
+}
+```
 
 The `parse` method will return an array of statement nodes (`$stmts`).
 
@@ -42,25 +51,27 @@ Node tree
 If you use the above code with `$code = "<?php echo 'Hi ', hi\\getTarget();"` the parser will
 generate a node tree looking like this:
 
-    array(
-        0: Stmt_Echo(
-            exprs: array(
-                0: Scalar_String(
-                    value: Hi
+```
+array(
+    0: Stmt_Echo(
+        exprs: array(
+            0: Scalar_String(
+                value: Hi
+            )
+            1: Expr_FuncCall(
+                name: Name(
+                    parts: array(
+                        0: hi
+                        1: getTarget
+                    )
                 )
-                1: Expr_FuncCall(
-                    name: Name(
-                        parts: array(
-                            0: hi
-                            1: getTarget
-                        )
-                    )
-                    args: array(
-                    )
+                args: array(
                 )
             )
         )
     )
+)
+```
 
 Thus `$stmts` will contain an array with only one node, with this node being an instance of
 `PHPParser_Node_Stmt_Echo`.
@@ -99,29 +110,32 @@ information the formatting is done using a specified scheme. Currently there is 
 namely `PHPParser_PrettyPrinter_Zend` (the name "Zend" might be misleading. It does not strictly adhere
 to the Zend Coding Standard.)
 
-    $code = "<?php echo 'Hi ', hi\\getTarget();";
+```php
+<?php
+$code = "<?php echo 'Hi ', hi\\getTarget();";
 
-    $parser        = new PHPParser_Parser;
-    $prettyPrinter = new PHPParser_PrettyPrinter_Zend;
+$parser        = new PHPParser_Parser;
+$prettyPrinter = new PHPParser_PrettyPrinter_Zend;
 
-    try {
-        // parse
-        $stmts = $parser->parse(new PHPParser_Lexer($code));
+try {
+    // parse
+    $stmts = $parser->parse(new PHPParser_Lexer($code));
 
-        // change
-        $stmts[0]         // the echo statement
-              ->exprs     // sub expressions
-              [0]         // the first of them (the string node)
-              ->value     // it's value, i.e. 'Hi '
-              = 'Hallo '; // change to 'Hallo '
+    // change
+    $stmts[0]         // the echo statement
+          ->exprs     // sub expressions
+          [0]         // the first of them (the string node)
+          ->value     // it's value, i.e. 'Hi '
+          = 'Hallo '; // change to 'Hallo '
 
-        // pretty print
-        $code = '<?php ' . $prettyPrinter->prettyPrint($stmts);
+    // pretty print
+    $code = '<?php ' . $prettyPrinter->prettyPrint($stmts);
 
-        echo $code;
-    } catch (PHPParser_Error $e) {
-        echo 'Parse Error: ', $e->getMessage();
-    }
+    echo $code;
+} catch (PHPParser_Error $e) {
+    echo 'Parse Error: ', $e->getMessage();
+}
+```
 
 The above code will output:
 
@@ -144,40 +158,46 @@ going to look like.
 For this purpose the parser provides a component for traversing and visiting the node tree. The basic
 structure of a program using this `PHPParser_NodeTraverser` looks like this:
 
-    $code = "<?php // some code";
+```php
+<?php
+$code = "<?php // some code";
 
-    $parser        = new PHPParser_Parser;
-    $traverser     = new PHPParser_NodeTraverser;
-    $prettyPrinter = new PHPParser_PrettyPrinter_Zend;
+$parser        = new PHPParser_Parser;
+$traverser     = new PHPParser_NodeTraverser;
+$prettyPrinter = new PHPParser_PrettyPrinter_Zend;
 
-    // add your visitor
-    $traverser->addVisitor(new MyNodeVisitor);
+// add your visitor
+$traverser->addVisitor(new MyNodeVisitor);
 
-    try {
-        // parse
-        $stmts = $parser->parse(new PHPParser_Lexer($code));
+try {
+    // parse
+    $stmts = $parser->parse(new PHPParser_Lexer($code));
 
-        // traverse
-        $stmts = $traverser->traverse($stmts);
+    // traverse
+    $stmts = $traverser->traverse($stmts);
 
-        // pretty print
-        $code = '<?php ' . $prettyPrinter->prettyPrint($stmts);
+    // pretty print
+    $code = '<?php ' . $prettyPrinter->prettyPrint($stmts);
 
-        echo $code;
-    } catch (PHPParser_Error $e) {
-        echo 'Parse Error: ', $e->getMessage();
-    }
+    echo $code;
+} catch (PHPParser_Error $e) {
+    echo 'Parse Error: ', $e->getMessage();
+}
+```
 
 A same node visitor for this code might look like this:
 
-    class MyNodeVisitor extends PHPParser_NodeVisitorAbstract
-    {
-        public function leaveNode(PHPParser_Node $node) {
-            if ($node instanceof PHPParser_Node_Scalar_String) {
-                $node->value = 'foo';
-            }
+```php
+<?php
+class MyNodeVisitor extends PHPParser_NodeVisitorAbstract
+{
+    public function leaveNode(PHPParser_Node $node) {
+        if ($node instanceof PHPParser_Node_Scalar_String) {
+            $node->value = 'foo';
         }
     }
+}
+```
 
 The above node visitor would change all string literals in the program to `'foo'`.
 
@@ -235,66 +255,72 @@ Example: Converting namespaced code to pseudo namespaces
 --------------------------------------------------------
 
 A small example to understand the concept: We want to convert namespaced code to pseudo namespaces
-so it works on 5.2, i.e. name like `A\\B` should be converted to `A_B`. Note that such conversions
+so it works on 5.2, i.e. names like `A\\B` should be converted to `A_B`. Note that such conversions
 are fairly complicated if you take PHP's dynamic features into account, so our conversion will
 assume that no dynamic features are used.
 
 We start off with the following base code:
 
-    const IN_DIR  = '/some/path';
-    const OUT_DIR = '/some/other/path';
+```php
+<?php
+const IN_DIR  = '/some/path';
+const OUT_DIR = '/some/other/path';
 
-    $parser        = new PHPParser_Parser;
-    $traverser     = new PHPParser_NodeTraverser;
-    $prettyPrinter = new PHPParser_PrettyPrinter_Zend;
+$parser        = new PHPParser_Parser;
+$traverser     = new PHPParser_NodeTraverser;
+$prettyPrinter = new PHPParser_PrettyPrinter_Zend;
 
-    $traverser->addVisitor(new PHPParser_NodeVisitor_NameResolver); // we will need resolved names
-    $traverser->addVisitor(new NodeVisitor_NamespaceConverter);     // our own node visitor
+$traverser->addVisitor(new PHPParser_NodeVisitor_NameResolver); // we will need resolved names
+$traverser->addVisitor(new NodeVisitor_NamespaceConverter);     // our own node visitor
 
-    // iterate over all files in the directory
-    foreach (new RecursiveIteratorIterator(
-                 new RecursiveDirectoryIterator(IN_DIR),
-                 RecursiveIteratorIterator::LEAVES_ONLY)
-             as $file) {
-        // only convert .php files
-        if (!preg_match('~\.php$~', $file)) {
-            continue;
-        }
-
-        try {
-            // read the file that should be converted
-            $code = file_get_contents($file);
-
-            // parse
-            $stmts = $parser->parse(new PHPParser_Lexer($code));
-
-            // traverse
-            $stmts = $traverser->traverse($stmts);
-
-            // pretty print
-            $code = '<?php ' . $prettyPrinter->prettyPrint($stmts);
-
-            // write the converted file to the target directory
-            file_put_contents(
-                substr_replace($file->getPathname(), OUT_DIR, 0, strlen(IN_DIR)),
-                $code
-            );
-        } catch (PHPParser_Error $e) {
-            echo 'Parse Error: ', $e->getMessage();
-        }
+// iterate over all files in the directory
+foreach (new RecursiveIteratorIterator(
+             new RecursiveDirectoryIterator(IN_DIR),
+             RecursiveIteratorIterator::LEAVES_ONLY)
+         as $file) {
+    // only convert .php files
+    if (!preg_match('~\.php$~', $file)) {
+        continue;
     }
+
+    try {
+        // read the file that should be converted
+        $code = file_get_contents($file);
+
+        // parse
+        $stmts = $parser->parse(new PHPParser_Lexer($code));
+
+        // traverse
+        $stmts = $traverser->traverse($stmts);
+
+        // pretty print
+        $code = '<?php ' . $prettyPrinter->prettyPrint($stmts);
+
+        // write the converted file to the target directory
+        file_put_contents(
+            substr_replace($file->getPathname(), OUT_DIR, 0, strlen(IN_DIR)),
+            $code
+        );
+    } catch (PHPParser_Error $e) {
+        echo 'Parse Error: ', $e->getMessage();
+    }
+}
+```
 
 Now lets start with the main code, the `NodeVisitor_NamespaceConverter`. One thing it needs to do
 is convert `A\\B` style names to `A_B` style ones.
 
-    class NodeVisitor_NamespaceConverter extends PHPParser_NodeVisitorAbstract
-    {
-        public function leaveNode(PHPParser_Node $node) {
-            if ($node instanceof PHPParser_Node_Name) {
-                return new PHPParser_Node_Name($node->toString('_'));
-            }
+```php
+<?php
+class NodeVisitor_NamespaceConverter extends PHPParser_NodeVisitorAbstract
+{
+    public function leaveNode(PHPParser_Node $node) {
+        if ($node instanceof PHPParser_Node_Name) {
+            return new PHPParser_Node_Name($node->toString('_'));
         }
     }
+}
+```
 
 The above code profits from the fact that the `NameResolver` already resolved all names as far as
 possible, so we don't need to do that. All the need to create a string with the name parts separated
@@ -306,48 +332,54 @@ Another thing we need to do is change the class/function/const declarations. Cur
 only the shortname (i.e. the last part of the name), but they need to contain the complete class
 name:
 
-    class NodeVisitor_NamespaceConverter extends PHPParser_NodeVisitorAbstract
-    {
-        public function leaveNode(PHPParser_Node $node) {
-            if ($node instanceof PHPParser_Node_Name) {
-                return new PHPParser_Node_Name($node->toString('_'));
-            } elseif ($node instanceof PHPParser_Node_Stmt_Class
-                      || $node instanceof PHPParser_Node_Stmt_Interface
-                      || $node instanceof PHPParser_Node_Stmt_Function) {
-                $node->name = $node->namespacedName->toString('_');
-            } elseif ($node instanceof PHPParser_Node_Stmt_Const) {
-                foreach ($node->consts as $const) {
-                    $const->name = $const->namespacedName->toString('_');
-                }
+```php
+<?php
+class NodeVisitor_NamespaceConverter extends PHPParser_NodeVisitorAbstract
+{
+    public function leaveNode(PHPParser_Node $node) {
+        if ($node instanceof PHPParser_Node_Name) {
+            return new PHPParser_Node_Name($node->toString('_'));
+        } elseif ($node instanceof PHPParser_Node_Stmt_Class
+                  || $node instanceof PHPParser_Node_Stmt_Interface
+                  || $node instanceof PHPParser_Node_Stmt_Function) {
+            $node->name = $node->namespacedName->toString('_');
+        } elseif ($node instanceof PHPParser_Node_Stmt_Const) {
+            foreach ($node->consts as $const) {
+                $const->name = $const->namespacedName->toString('_');
             }
         }
     }
+}
+```
 
 There is not much more to it than converting the namespaced name to string with `_` as separator.
 
 The last thing we need to do is remove the `namespace` and `use` statements:
 
-    class NodeVisitor_NamespaceConverter extends PHPParser_NodeVisitorAbstract
-    {
-        public function leaveNode(PHPParser_Node $node) {
-            if ($node instanceof PHPParser_Node_Name) {
-                return new PHPParser_Node_Name($node->toString('_'));
-            } elseif ($node instanceof PHPParser_Node_Stmt_Class
-                      || $node instanceof PHPParser_Node_Stmt_Interface
-                      || $node instanceof PHPParser_Node_Stmt_Function) {
-                $node->name = $node->namespacedName->toString('_');
-            } elseif ($node instanceof PHPParser_Node_Stmt_Const) {
-                foreach ($node->consts as $const) {
-                    $const->name = $const->namespacedName->toString('_');
-                }
-            } elseif ($node instanceof PHPParser_Node_Stmt_Namespace) {
-                // returning an array merges is into the parent array
-                return $node->stmts;
-            } elseif ($node instanceof PHPParser_Node_Stmt_Use) {
-                // returning false removed the node altogether
-                return false;
+```php
+<?php
+class NodeVisitor_NamespaceConverter extends PHPParser_NodeVisitorAbstract
+{
+    public function leaveNode(PHPParser_Node $node) {
+        if ($node instanceof PHPParser_Node_Name) {
+            return new PHPParser_Node_Name($node->toString('_'));
+        } elseif ($node instanceof PHPParser_Node_Stmt_Class
+                  || $node instanceof PHPParser_Node_Stmt_Interface
+                  || $node instanceof PHPParser_Node_Stmt_Function) {
+            $node->name = $node->namespacedName->toString('_');
+        } elseif ($node instanceof PHPParser_Node_Stmt_Const) {
+            foreach ($node->consts as $const) {
+                $const->name = $const->namespacedName->toString('_');
             }
+        } elseif ($node instanceof PHPParser_Node_Stmt_Namespace) {
+            // returning an array merges is into the parent array
+            return $node->stmts;
+        } elseif ($node instanceof PHPParser_Node_Stmt_Use) {
+            // returning false removed the node altogether
+            return false;
         }
     }
+}
+```
 
 That's all.
