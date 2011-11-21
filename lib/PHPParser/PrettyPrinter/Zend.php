@@ -323,7 +323,7 @@ class PHPParser_PrettyPrinter_Zend extends PHPParser_PrettyPrinterAbstract
     }
 
     public function pExpr_MethodCall(PHPParser_Node_Expr_MethodCall $node) {
-        return $this->p($node->var) . '->' . $this->pObjectProperty($node->name)
+        return $this->pVarOrNewExpr($node->var) . '->' . $this->pObjectProperty($node->name)
              . '(' . $this->pCommaSeparated($node->args) . ')';
     }
 
@@ -385,7 +385,8 @@ class PHPParser_PrettyPrinter_Zend extends PHPParser_PrettyPrinterAbstract
     }
 
     public function pExpr_ArrayDimFetch(PHPParser_Node_Expr_ArrayDimFetch $node) {
-        return $this->p($node->var) . '[' . (null !== $node->dim ? $this->p($node->dim) : '') . ']';
+        return $this->pVarOrNewExpr($node->var)
+             . '[' . (null !== $node->dim ? $this->p($node->dim) : '') . ']';
     }
 
     public function pExpr_ConstFetch(PHPParser_Node_Expr_ConstFetch $node) {
@@ -397,7 +398,7 @@ class PHPParser_PrettyPrinter_Zend extends PHPParser_PrettyPrinterAbstract
     }
 
     public function pExpr_PropertyFetch(PHPParser_Node_Expr_PropertyFetch $node) {
-        return $this->p($node->var) . '->' . $this->pObjectProperty($node->name);
+        return $this->pVarOrNewExpr($node->var) . '->' . $this->pObjectProperty($node->name);
     }
 
     public function pExpr_StaticPropertyFetch(PHPParser_Node_Expr_StaticPropertyFetch $node) {
@@ -700,5 +701,13 @@ class PHPParser_PrettyPrinter_Zend extends PHPParser_PrettyPrinterAbstract
         }
 
         return 'list(' . implode(', ', $pAssignList) . ')';
+    }
+
+    public function pVarOrNewExpr(PHPParser_Node $node) {
+        if ($node instanceof PHPParser_Node_Expr_New) {
+            return '(' . $this->p($node) . ')';
+        } else {
+            return $this->p($node);
+        }
     }
 }

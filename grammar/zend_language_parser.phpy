@@ -481,10 +481,8 @@ expr:
     | T_LIST '(' assignment_list ')' '=' expr               { $$ = Expr_AssignList[$3, $6]; }
     | variable '=' expr                                     { $$ = Expr_Assign[$1, $3]; }
     | variable '=' '&' variable                             { $$ = Expr_AssignRef[$1, $4]; }
-    | variable '=' '&' T_NEW class_name_reference ctor_arguments
-          { $$ = Expr_Assign[$1, Expr_New[$5, $6]]; }
-          /* reference dropped intentially */
-    | T_NEW class_name_reference ctor_arguments             { $$ = Expr_New[$2, $3]; }
+    | variable '=' '&' new_expr                             { $$ = Expr_Assign[$1, $4]; } /* reference dropped intentially */
+    | new_expr                                              { $$ = $1; }
     | T_CLONE expr                                          { $$ = Expr_Clone[$2]; }
     | variable T_PLUS_EQUAL expr                            { $$ = Expr_AssignPlus      [$1, $3]; }
     | variable T_MINUS_EQUAL expr                           { $$ = Expr_AssignMinus     [$1, $3]; }
@@ -558,6 +556,10 @@ expr:
           { $$ = Expr_Closure[[static: false, byRef: $2, params: $4, uses: $6, stmts: $8]]; }
     | T_STATIC T_FUNCTION optional_ref '(' parameter_list ')' lexical_vars '{' inner_statement_list '}'
           { $$ = Expr_Closure[[static: true, byRef: $3, params: $5, uses: $7, stmts: $9]]; }
+;
+
+new_expr:
+      T_NEW class_name_reference ctor_arguments             { $$ = Expr_New[$2, $3]; }
 ;
 
 lexical_vars:
@@ -712,15 +714,27 @@ variable:
       object_access                                         { $$ = $1; }
     | base_variable                                         { $$ = $1; }
     | function_call                                         { $$ = $1; }
+    | new_expr_array_deref                                  { $$ = $1; }
+;
+
+new_expr_array_deref:
+      '(' new_expr ')' '[' dim_offset ']'                   { $$ = Expr_ArrayDimFetch[$2, $5]; }
+    | new_expr_array_deref '[' dim_offset ']'               { $$ = Expr_ArrayDimFetch[$1, $3]; }
 ;
 
 object_access:
-      variable T_OBJECT_OPERATOR object_property            { $$ = Expr_PropertyFetch[$1, $3]; }
-    | variable T_OBJECT_OPERATOR object_property '(' function_call_argument_list ')'
+      variable_or_new_expr T_OBJECT_OPERATOR object_property
+          { $$ = Expr_PropertyFetch[$1, $3]; }
+    | variable_or_new_expr T_OBJECT_OPERATOR object_property '(' function_call_argument_list ')'
           { $$ = Expr_MethodCall[$1, $3, $5]; }
     | object_access '(' function_call_argument_list ')'     { $$ = Expr_FuncCall[$1, $3]; }
     | object_access '[' dim_offset ']'                      { $$ = Expr_ArrayDimFetch[$1, $3]; }
     | object_access '{' expr '}'                            { $$ = Expr_ArrayDimFetch[$1, $3]; }
+;
+
+variable_or_new_expr:
+      variable                                              { $$ = $1; }
+    | '(' new_expr ')'                                      { $$ = $2; }
 ;
 
 variable_without_objects:
