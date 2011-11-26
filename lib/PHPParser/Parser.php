@@ -2164,7 +2164,7 @@ class PHPParser_Parser
     }
 
     protected function yyn284($line, $docComment) {
-         $this->yyval = new PHPParser_Node_Scalar_LNumber((int) $this->yyastk[$this->yysp-(1-1)], $line, $docComment); 
+         $this->yyval = new PHPParser_Node_Scalar_LNumber(PHPParser_Node_Scalar_LNumber::parse($this->yyastk[$this->yysp-(1-1)]), $line, $docComment); 
     }
 
     protected function yyn285($line, $docComment) {
@@ -2520,7 +2520,7 @@ class PHPParser_Parser
     }
 
     protected function yyn373($line, $docComment) {
-         $this->yyval = new PHPParser_Node_Scalar_LNumber((int) $this->yyastk[$this->yysp-(1-1)], $line, $docComment); 
+         $this->yyval = new PHPParser_Node_Scalar_String($this->yyastk[$this->yysp-(1-1)], $line, $docComment); 
     }
 
     protected function yyn374($line, $docComment) {

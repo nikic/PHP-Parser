@@ -1,0 +1,69 @@
+Different integer syntaxes
+-----
+<?php
+0;
+1;
+@@{ PHP_INT_MAX     }@@;
+@@{ PHP_INT_MAX + 1 }@@;
+0xFFF;
+0xfff;
+0XfFf;
+0777;
+0787;
+0b111000111000;
+-----
+<?xml version="1.0" encoding="UTF-8"?>
+<AST xmlns:node="http://nikic.github.com/PHPParser/XML/node" xmlns:subNode="http://nikic.github.com/PHPParser/XML/subNode" xmlns:scalar="http://nikic.github.com/PHPParser/XML/scalar">
+ <scalar:array>
+  <node:Scalar_LNumber line="2">
+   <subNode:value>
+    <scalar:int>0</scalar:int>
+   </subNode:value>
+  </node:Scalar_LNumber>
+  <node:Scalar_LNumber line="3">
+   <subNode:value>
+    <scalar:int>1</scalar:int>
+   </subNode:value>
+  </node:Scalar_LNumber>
+  <node:Scalar_LNumber line="4">
+   <subNode:value>
+    <scalar:int>2147483647</scalar:int>
+   </subNode:value>
+  </node:Scalar_LNumber>
+  <node:Scalar_DNumber line="5">
+   <subNode:value>
+    <scalar:float>2147483648</scalar:float>
+   </subNode:value>
+  </node:Scalar_DNumber>
+  <node:Scalar_LNumber line="6">
+   <subNode:value>
+    <scalar:int>4095</scalar:int>
+   </subNode:value>
+  </node:Scalar_LNumber>
+  <node:Scalar_LNumber line="7">
+   <subNode:value>
+    <scalar:int>4095</scalar:int>
+   </subNode:value>
+  </node:Scalar_LNumber>
+  <node:Scalar_LNumber line="8">
+   <subNode:value>
+    <scalar:int>4095</scalar:int>
+   </subNode:value>
+  </node:Scalar_LNumber>
+  <node:Scalar_LNumber line="9">
+   <subNode:value>
+    <scalar:int>511</scalar:int>
+   </subNode:value>
+  </node:Scalar_LNumber>
+  <node:Scalar_LNumber line="10">
+   <subNode:value>
+    <scalar:int>7</scalar:int>
+   </subNode:value>
+  </node:Scalar_LNumber>
+  <node:Scalar_LNumber line="11">
+   <subNode:value>
+    <scalar:int>3640</scalar:int>
+   </subNode:value>
+  </node:Scalar_LNumber>
+ </scalar:array>
+</AST>

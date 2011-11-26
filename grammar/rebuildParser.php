@@ -132,12 +132,6 @@ function resolveMacros($code) {
                 return 'substr(' . $args[0] . ', 1)';
             }
 
-            if ('parseLNumber' == $name) {
-                assertArgs(1, $args, $name);
-
-                return '(int) ' . $args[0];
-            }
-
             if ('parseDNumber' == $name) {
                 assertArgs(1, $args, $name);
 
