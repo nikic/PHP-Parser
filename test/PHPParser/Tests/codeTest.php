@@ -5,12 +5,16 @@ class PHPParser_Tests_codeTest extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider provideTestCode
      */
-    public function testCode($name, $code, $xml) {
-        $parser     = new PHPParser_Parser;
-        $serializer = new PHPParser_Serializer_XML;
+    public function testCode($name, $code, $dump) {
+        $parser = new PHPParser_Parser;
+        $dumper = new PHPParser_NodeDumper;
 
         $stmts = $parser->parse(new PHPParser_Lexer($code));
-        $this->assertEquals($xml, trim($serializer->serialize($stmts)), $name);
+        $this->assertEquals(
+            $this->canonicalize($dump),
+            $this->canonicalize($dumper->dump($stmts)),
+            $name
+        );
     }
 
     public function provideTestCode() {
@@ -23,9 +27,6 @@ class PHPParser_Tests_codeTest extends PHPUnit_Framework_TestCase
         foreach ($it as $file) {
             $fileContents = file_get_contents($file);
 
-            // normalize EOL to Unix
-            $fileContents = str_replace(array("\r\n", "\r"), "\n", $fileContents);
-
             // evaluate @@{expr}@@ expressions
             $fileContents = preg_replace('/@@\{(.*?)\}@@/e', '$1', $fileContents);
 
@@ -33,5 +34,16 @@ class PHPParser_Tests_codeTest extends PHPUnit_Framework_TestCase
         }
 
         return $tests;
+    }
+
+    protected function canonicalize($str) {
+        // trim from both sides
+        $str = trim($str);
+
+        // normalize EOL to \n
+        $str = str_replace(array("\r\n", "\r"), "\n", $str);
+
+        // trim right side of all lines
+        return implode("\n", array_map('rtrim', explode("\n", $str)));
     }
 }
