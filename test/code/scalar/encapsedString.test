@@ -1,6 +1,7 @@
 Encapsed strings
 -----
 <?php
+
 "$A";
 "$A->B";
 "$A[B]";

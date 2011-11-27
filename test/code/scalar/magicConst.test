@@ -1,6 +1,7 @@
 Magic constants
 -----
 <?php
+
 __CLASS__;
 __DIR__;
 __FILE__;
@@ -8,7 +9,6 @@ __FUNCTION__;
 __LINE__;
 __METHOD__;
 __NAMESPACE__;
-__TRAIT__;
 -----
 array(
     0: Scalar_ClassConst(
@@ -24,7 +24,5 @@ array(
     5: Scalar_MethodConst(
     )
     6: Scalar_NSConst(
-    )
-    7: Scalar_TraitConst(
     )
 )

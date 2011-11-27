@@ -1,0 +1,39 @@
+Try/catch
+-----
+<?php
+try {
+
+} catch (A $b) {
+
+} catch (B $c) {
+
+}
+-----
+array(
+    0: Stmt_TryCatch(
+        stmts: array(
+        )
+        catches: array(
+            0: Stmt_Catch(
+                type: Name(
+                    parts: array(
+                        0: A
+                    )
+                )
+                var: b
+                stmts: array(
+                )
+            )
+            1: Stmt_Catch(
+                type: Name(
+                    parts: array(
+                        0: B
+                    )
+                )
+                var: c
+                stmts: array(
+                )
+            )
+        )
+    )
+)

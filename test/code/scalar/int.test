@@ -1,6 +1,7 @@
 Different integer syntaxes
 -----
 <?php
+
 0;
 1;
 @@{ PHP_INT_MAX     }@@;
@@ -10,7 +11,6 @@ Different integer syntaxes
 0XfFf;
 0777;
 0787;
-0b111000111000;
 -----
 array(
     0: Scalar_LNumber(
@@ -39,8 +39,5 @@ array(
     )
     8: Scalar_LNumber(
         value: 7
-    )
-    9: Scalar_LNumber(
-        value: 3640
     )
 )

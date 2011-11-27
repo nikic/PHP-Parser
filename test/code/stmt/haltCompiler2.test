@@ -1,0 +1,15 @@
+__halt_compiler (2)
+-----
+<?php
+
+$a;
+__halt_compiler();Hallo World!
+-----
+array(
+    0: Expr_Variable(
+        name: a
+    )
+    1: Stmt_HaltCompiler(
+        remaining: Hallo World!
+    )
+)

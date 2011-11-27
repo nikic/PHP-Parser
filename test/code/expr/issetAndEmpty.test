@@ -1,0 +1,35 @@
+isset() and empty()
+-----
+<?php
+isset($a);
+isset($a, $b, $c);
+
+empty($a);
+-----
+array(
+    0: Expr_Isset(
+        vars: array(
+            0: Expr_Variable(
+                name: a
+            )
+        )
+    )
+    1: Expr_Isset(
+        vars: array(
+            0: Expr_Variable(
+                name: a
+            )
+            1: Expr_Variable(
+                name: b
+            )
+            2: Expr_Variable(
+                name: c
+            )
+        )
+    )
+    2: Expr_Empty(
+        var: Expr_Variable(
+            name: a
+        )
+    )
+)

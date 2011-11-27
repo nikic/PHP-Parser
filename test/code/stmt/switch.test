@@ -1,0 +1,38 @@
+Switch
+-----
+<?php
+
+switch ($a) {
+    case 0:
+    case 1;
+    default:
+}
+-----
+array(
+    0: Stmt_Switch(
+        cond: Expr_Variable(
+            name: a
+        )
+        cases: array(
+            0: Stmt_Case(
+                stmts: array(
+                )
+                cond: Scalar_LNumber(
+                    value: 0
+                )
+            )
+            1: Stmt_Case(
+                stmts: array(
+                )
+                cond: Scalar_LNumber(
+                    value: 1
+                )
+            )
+            2: Stmt_Case(
+                stmts: array(
+                )
+                cond: null
+            )
+        )
+    )
+)

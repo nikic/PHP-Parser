@@ -1,6 +1,7 @@
 Different float syntaxes
 -----
 <?php
+
 0.0;
 0.;
 .0;

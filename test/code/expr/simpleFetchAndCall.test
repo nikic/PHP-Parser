@@ -1,0 +1,95 @@
+Simple fetches (array, property, constant) and calls
+-----
+<?php
+
+// simple calls
+a();
+$a->b();
+A::b();
+
+// simple properties
+$a->b;
+A::$b;
+
+// simple array access
+$a[$b];
+$a{$b};
+
+// simple constants
+A;
+A::B;
+-----
+array(
+    0: Expr_FuncCall(
+        name: Name(
+            parts: array(
+                0: a
+            )
+        )
+        args: array(
+        )
+    )
+    1: Expr_MethodCall(
+        var: Expr_Variable(
+            name: a
+        )
+        name: b
+        args: array(
+        )
+    )
+    2: Expr_StaticCall(
+        class: Name(
+            parts: array(
+                0: A
+            )
+        )
+        name: b
+        args: array(
+        )
+    )
+    3: Expr_PropertyFetch(
+        var: Expr_Variable(
+            name: a
+        )
+        name: b
+    )
+    4: Expr_StaticPropertyFetch(
+        class: Name(
+            parts: array(
+                0: A
+            )
+        )
+        name: b
+    )
+    5: Expr_ArrayDimFetch(
+        var: Expr_Variable(
+            name: a
+        )
+        dim: Expr_Variable(
+            name: b
+        )
+    )
+    6: Expr_ArrayDimFetch(
+        var: Expr_Variable(
+            name: a
+        )
+        dim: Expr_Variable(
+            name: b
+        )
+    )
+    7: Expr_ConstFetch(
+        name: Name(
+            parts: array(
+                0: A
+            )
+        )
+    )
+    8: Expr_ClassConstFetch(
+        class: Name(
+            parts: array(
+                0: A
+            )
+        )
+        name: B
+    )
+)

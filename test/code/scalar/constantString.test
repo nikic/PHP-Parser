@@ -1,6 +1,7 @@
 Constant string syntaxes
 -----
 <?php
+
 '';
 "";
 b'';

@@ -22,14 +22,21 @@ class PHPParser_Tests_codeTest extends PHPUnit_Framework_TestCase
 
         $it = new RecursiveDirectoryIterator(dirname(__FILE__) . '/../../code');
         $it = new RecursiveIteratorIterator($it, RecursiveIteratorIterator::LEAVES_ONLY);
-        $it = new RegexIterator($it, '~\.test$~');
+
+        if (version_compare(PHP_VERSION, '5.4.0RC1', '>=')) {
+            $it = new RegexIterator($it, '~\.test(-5\.4)?$~');
+        } else {
+            $it = new RegexIterator($it, '~\.test$~');
+        }
 
         foreach ($it as $file) {
+            // read file
             $fileContents = file_get_contents($file);
 
             // evaluate @@{expr}@@ expressions
             $fileContents = preg_replace('/@@\{(.*?)\}@@/e', '$1', $fileContents);
 
+            // parse sections
             $tests[] = array_map('trim', explode('-----', $fileContents));
         }
 
