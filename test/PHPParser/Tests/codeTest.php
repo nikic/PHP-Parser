@@ -37,22 +37,10 @@ class PHPParser_Tests_codeTest extends PHPUnit_Framework_TestCase
     }
 
     public function provideTestCodeFail() {
-        $preTests = $this->getTests('test-fail');
-
-        $tests = array();
-        foreach ($preTests as $preTest) {
-            $name = array_shift($preTest);
-            foreach (array_chunk($preTest, 2) as $chunk) {
-                $tests[] = array($name, $chunk[0], $chunk[1]);
-            }
-        }
-
-        return $tests;
+        return $this->getTests('test-fail');
     }
 
     protected function getTests($ext) {
-        $tests = array();
-
         $it = new RecursiveDirectoryIterator(dirname(__FILE__) . '/../../code');
         $it = new RecursiveIteratorIterator($it, RecursiveIteratorIterator::LEAVES_ONLY);
 
@@ -63,6 +51,7 @@ class PHPParser_Tests_codeTest extends PHPUnit_Framework_TestCase
             $it = new RegexIterator($it, '~\.' . $ext . '$~');
         }
 
+        $tests = array();
         foreach ($it as $file) {
             // read file
             $fileContents = file_get_contents($file);
@@ -71,7 +60,15 @@ class PHPParser_Tests_codeTest extends PHPUnit_Framework_TestCase
             $fileContents = preg_replace('/@@\{(.*?)\}@@/e', '$1', $fileContents);
 
             // parse sections
-            $tests[] = array_map('trim', explode('-----', $fileContents));
+            $parts = array_map('trim', explode('-----', $fileContents));
+
+            // first part is the name
+            $name = array_shift($parts);
+
+            // multiple sections possible with always two forming a pair
+            foreach (array_chunk($parts, 2) as $chunk) {
+                $tests[] = array($name, $chunk[0], $chunk[1]);
+            }
         }
 
         return $tests;

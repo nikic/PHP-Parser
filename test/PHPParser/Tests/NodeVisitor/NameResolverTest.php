@@ -127,7 +127,7 @@ EOC;
      */
     public function testAddTraitNamespacedName() {
         if (!version_compare(PHP_VERSION, '5.4.0RC1', '>=')) {
-            $this->markTestSkipped('The test require PHP 5.4');
+            $this->markTestSkipped('The test requires PHP 5.4');
         }
 
         $code = <<<EOC

@@ -23,7 +23,7 @@ class PHPParser_Error extends RuntimeException
      * @return string Error message
      */
     public function getRawMessage() {
-        return $this->message;
+        return $this->rawMessage;
     }
 
     /**
@@ -32,7 +32,7 @@ class PHPParser_Error extends RuntimeException
      * @param string $message Error message
      */
     public function setRawMessage($message) {
-        $this->message = (string) $message;
+        $this->rawMessage = (string) $message;
         $this->updateMessage();
     }
 

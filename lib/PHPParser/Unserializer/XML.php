@@ -13,7 +13,7 @@ class PHPParser_Unserializer_XML implements PHPParser_Unserializer
 
         $this->reader->read();
         if ('AST' !== $this->reader->name) {
-            throw new Exception('AST root element not found');
+            throw new DomainException('AST root element not found');
         }
 
         return $this->read();

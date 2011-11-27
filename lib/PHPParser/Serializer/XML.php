@@ -68,7 +68,7 @@ class PHPParser_Serializer_XML implements PHPParser_Serializer
         } elseif (null === $node) {
             $this->writer->writeElement('scalar:null');
         } else {
-            throw new Exception('Unexpected node type');
+            throw new InvalidArgumentException('Unexpected node type');
         }
     }
 }
