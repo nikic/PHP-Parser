@@ -16,7 +16,7 @@ class PHPParser_Node_Stmt_Class extends PHPParser_Node_Stmt
     const MODIFIER_ABSTRACT  = 16;
     const MODIFIER_FINAL     = 32;
 
-    protected static $specialClassNames = array(
+    protected static $specialNames = array(
         'self'   => true,
         'parent' => true,
         'static' => true,
@@ -46,16 +46,16 @@ class PHPParser_Node_Stmt_Class extends PHPParser_Node_Stmt
         );
         $this->name = $name;
 
-        if (isset(self::$specialClassNames[(string) $this->name])) {
+        if (isset(self::$specialNames[(string) $this->name])) {
             throw new PHPParser_Error(sprintf('Cannot use "%s" as class name as it is reserved', $this->name));
         }
 
-        if (isset(self::$specialClassNames[(string) $this->extends])) {
+        if (isset(self::$specialNames[(string) $this->extends])) {
             throw new PHPParser_Error(sprintf('Cannot use "%s" as class name as it is reserved', $this->extends));
         }
 
         foreach ($this->implements as $interface) {
-            if (isset(self::$specialClassNames[(string) $interface])) {
+            if (isset(self::$specialNames[(string) $interface])) {
                 throw new PHPParser_Error(sprintf('Cannot use "%s" as interface name as it is reserved', $interface));
             }
         }

@@ -4,6 +4,7 @@ class PHPParser_Tests_NodeDumperTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @dataProvider provideTestDump
+     * @covers PHPParser_NodeDumper::dump
      */
     public function testDump($node, $dump) {
         $nodeDumper = new PHPParser_NodeDumper;

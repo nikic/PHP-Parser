@@ -118,4 +118,13 @@ class PHPParser_Tests_Node_NameTest extends PHPUnit_Framework_TestCase
         $this->assertFalse($name->isFullyQualified());
         $this->assertTrue ($name->isRelative());
     }
+
+    /**
+     * @expectedException        InvalidArgumentException
+     * @expectedExceptionMessage When changing a name you need to pass either a string, an array or a Name node
+     */
+    public function testInvalidArg() {
+        $name = new PHPParser_Node_Name('foo');
+        $name->set(new stdClass);
+    }
 }

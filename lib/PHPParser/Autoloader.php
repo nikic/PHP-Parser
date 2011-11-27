@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @codeCoverageIgnore
+ */
 class PHPParser_Autoloader
 {
     /**

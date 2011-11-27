@@ -1,0 +1,61 @@
+Invalid class name
+-----
+<?php class self {}
+-----
+Cannot use "self" as class name as it is reserved on line 1
+-----
+<?php class parent {}
+-----
+Cannot use "parent" as class name as it is reserved on line 1
+-----
+<?php class static {}
+-----
+Unexpected token T_STATIC on line 1
+-----
+<?php class A extends self {}
+-----
+Cannot use "self" as class name as it is reserved on line 1
+-----
+<?php class A extends parent {}
+-----
+Cannot use "parent" as class name as it is reserved on line 1
+-----
+<?php class A extends static {}
+-----
+Unexpected token T_STATIC on line 1
+-----
+<?php class A implements self {}
+-----
+Cannot use "self" as interface name as it is reserved on line 1
+-----
+<?php class A implements parent {}
+-----
+Cannot use "parent" as interface name as it is reserved on line 1
+-----
+<?php class A implements static {}
+-----
+Unexpected token T_STATIC on line 1
+-----
+<?php interface self {}
+-----
+Cannot use "self" as interface name as it is reserved on line 1
+-----
+<?php interface parent {}
+-----
+Cannot use "parent" as interface name as it is reserved on line 1
+-----
+<?php interface static {}
+-----
+Unexpected token T_STATIC on line 1
+-----
+<?php interface A extends self {}
+-----
+Cannot use "self" as interface name as it is reserved on line 1
+-----
+<?php interface A extends parent {}
+-----
+Cannot use "parent" as interface name as it is reserved on line 1
+-----
+<?php interface A extends static {}
+-----
+Unexpected token T_STATIC on line 1

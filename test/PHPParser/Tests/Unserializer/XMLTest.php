@@ -2,6 +2,9 @@
 
 class PHPParser_Tests_Unserializer_XMLTest extends PHPUnit_Framework_TestCase
 {
+    /**
+     * @covers PHPParser_Unserializer_XML<extended>
+     */
     public function testUnserialize() {
         $xml = <<<'XML'
 <?xml version="1.0" encoding="UTF-8"?>

@@ -7,7 +7,7 @@
  */
 class PHPParser_Node_Stmt_Interface extends PHPParser_Node_Stmt
 {
-    protected static $specialInterfaceNames = array(
+    protected static $specialNames = array(
         'self'   => true,
         'parent' => true,
         'static' => true,
@@ -33,12 +33,12 @@ class PHPParser_Node_Stmt_Interface extends PHPParser_Node_Stmt
         );
         $this->name = $name;
 
-        if (isset(self::$specialInterfaceNames[(string) $this->name])) {
+        if (isset(self::$specialNames[(string) $this->name])) {
             throw new PHPParser_Error(sprintf('Cannot use "%s" as interface name as it is reserved', $this->name));
         }
 
         foreach ($this->extends as $interface) {
-            if (isset(self::$specialInterfaceNames[(string) $interface])) {
+            if (isset(self::$specialNames[(string) $interface])) {
                 throw new PHPParser_Error(sprintf('Cannot use "%s" as interface name as it is reserved', $interface));
             }
         }

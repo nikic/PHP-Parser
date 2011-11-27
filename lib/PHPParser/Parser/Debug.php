@@ -505,7 +505,9 @@ class PHPParser_Parser_Debug extends PHPParser_Parser
                             $yydstk[$this->yysp - self::$yylen[$yyn]]
                         );
                     } catch (PHPParser_Error $e) {
-                        $e->setRawLine($yyline);
+                        if (-1 === $e->getRawLine()) {
+                            $e->setRawLine($yyline);
+                        }
 
                         throw $e;
                     }

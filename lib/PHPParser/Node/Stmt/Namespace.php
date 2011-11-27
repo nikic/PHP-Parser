@@ -6,6 +6,12 @@
  */
 class PHPParser_Node_Stmt_Namespace extends PHPParser_Node_Stmt
 {
+    protected static $specialNames = array(
+        'self'   => true,
+        'parent' => true,
+        'static' => true,
+    );
+
     /**
      * Constructs a namespace node.
      *
@@ -23,8 +29,8 @@ class PHPParser_Node_Stmt_Namespace extends PHPParser_Node_Stmt
             $line, $docComment
         );
 
-        if ('self' === $this->name || 'parent' === $this->name) {
-            throw new PHPParser_Error(sprintf('Cannot use "%s" as namespace name', $this->name), $line);
+        if (isset(self::$specialNames[(string) $this->name])) {
+            throw new PHPParser_Error(sprintf('Cannot use "%s" as namespace name as it is reserved', $this->name));
         }
 
         if (null !== $this->stmts) {

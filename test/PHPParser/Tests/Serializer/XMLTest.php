@@ -2,6 +2,9 @@
 
 class PHPParser_Tests_Serializer_XMLTest extends PHPUnit_Framework_TestCase
 {
+    /**
+     * @covers PHPParser_Serializer_XML<extended>
+     */
     public function testSerialize() {
         $code = <<<'CODE'
 <?php

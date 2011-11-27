@@ -18,15 +18,49 @@ class PHPParser_Tests_codeTest extends PHPUnit_Framework_TestCase
     }
 
     public function provideTestCode() {
+        return $this->getTests('test');
+    }
+
+    /**
+     * @dataProvider provideTestCodeFail
+     */
+    public function testCodeFail($name, $code, $msg) {
+        $parser = new PHPParser_Parser;
+
+        try {
+            $parser->parse(new PHPParser_Lexer($code));
+
+            $this->fail(sprintf('"%s": Expected PHPParser_Error', $name));
+        } catch (PHPParser_Error $e) {
+            $this->assertEquals($msg, $e->getMessage(), $name);
+        }
+    }
+
+    public function provideTestCodeFail() {
+        $preTests = $this->getTests('test-fail');
+
+        $tests = array();
+        foreach ($preTests as $preTest) {
+            $name = array_shift($preTest);
+            foreach (array_chunk($preTest, 2) as $chunk) {
+                $tests[] = array($name, $chunk[0], $chunk[1]);
+            }
+        }
+
+        return $tests;
+    }
+
+    protected function getTests($ext) {
         $tests = array();
 
         $it = new RecursiveDirectoryIterator(dirname(__FILE__) . '/../../code');
         $it = new RecursiveIteratorIterator($it, RecursiveIteratorIterator::LEAVES_ONLY);
 
+        $ext = preg_quote($ext, '~');
         if (version_compare(PHP_VERSION, '5.4.0RC1', '>=')) {
-            $it = new RegexIterator($it, '~\.test(-5\.4)?$~');
+            $it = new RegexIterator($it, '~\.' . $ext . '(-5\.4)?$~');
         } else {
-            $it = new RegexIterator($it, '~\.test$~');
+            $it = new RegexIterator($it, '~\.' . $ext . '$~');
         }
 
         foreach ($it as $file) {

@@ -2,6 +2,9 @@
 
 class PHPParser_Tests_NodeVisitor_NameResolverTest extends PHPUnit_Framework_TestCase
 {
+    /**
+     * @covers PHPParser_NodeVisitor_NameResolver
+     */
     public function testResolveNames() {
         $code = <<<EOC
 <?php
@@ -81,6 +84,9 @@ EOC;
         $this->assertEquals($expectedCode, $prettyPrinter->prettyPrint($stmts));
     }
 
+    /**
+     * @covers PHPParser_NodeVisitor_NameResolver
+     */
     public function testAddNamespacedName() {
         $code = <<<EOC
 <?php
