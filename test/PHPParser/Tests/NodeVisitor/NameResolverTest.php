@@ -94,14 +94,12 @@ EOC;
 namespace Foo {
     class A {}
     interface B {}
-    trait C {}
     function D() {}
     const E = 'F';
 }
 namespace {
     class A {}
     interface B {}
-    trait C {}
     function D() {}
     const E = 'F';
 }
@@ -116,13 +114,41 @@ EOC;
 
         $this->assertEquals('Foo\\A', (string) $stmts[0]->stmts[0]->namespacedName);
         $this->assertEquals('Foo\\B', (string) $stmts[0]->stmts[1]->namespacedName);
-        $this->assertEquals('Foo\\C', (string) $stmts[0]->stmts[2]->namespacedName);
-        $this->assertEquals('Foo\\D', (string) $stmts[0]->stmts[3]->namespacedName);
-        $this->assertEquals('Foo\\E', (string) $stmts[0]->stmts[4]->consts[0]->namespacedName);
+        $this->assertEquals('Foo\\D', (string) $stmts[0]->stmts[2]->namespacedName);
+        $this->assertEquals('Foo\\E', (string) $stmts[0]->stmts[3]->consts[0]->namespacedName);
         $this->assertEquals('A',      (string) $stmts[1]->stmts[0]->namespacedName);
         $this->assertEquals('B',      (string) $stmts[1]->stmts[1]->namespacedName);
-        $this->assertEquals('C',      (string) $stmts[1]->stmts[2]->namespacedName);
-        $this->assertEquals('D',      (string) $stmts[1]->stmts[3]->namespacedName);
-        $this->assertEquals('E',      (string) $stmts[1]->stmts[4]->consts[0]->namespacedName);
+        $this->assertEquals('D',      (string) $stmts[1]->stmts[2]->namespacedName);
+        $this->assertEquals('E',      (string) $stmts[1]->stmts[3]->consts[0]->namespacedName);
+    }
+
+    /**
+     * @covers PHPParser_NodeVisitor_NameResolver
+     */
+    public function testAddTraitNamespacedName() {
+        if (!version_compare(PHP_VERSION, '5.4.0RC1', '>=')) {
+            $this->markTestSkipped('The test require PHP 5.4');
+        }
+
+        $code = <<<EOC
+<?php
+
+namespace Foo {
+    trait C {}
+}
+namespace {
+    trait C {}
+}
+EOC;
+
+        $parser    = new PHPParser_Parser;
+        $traverser = new PHPParser_NodeTraverser;
+        $traverser->addVisitor(new PHPParser_NodeVisitor_NameResolver);
+
+        $stmts = $parser->parse(new PHPParser_Lexer($code));
+        $stmts = $traverser->traverse($stmts);
+
+        $this->assertEquals('Foo\\C', (string) $stmts[0]->stmts[0]->namespacedName);
+        $this->assertEquals('C',      (string) $stmts[1]->stmts[0]->namespacedName);
     }
 }
