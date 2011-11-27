@@ -36,17 +36,23 @@ $grammarCode = resolveArrays($grammarCode);
 
 file_put_contents(TMP_FILE, $grammarCode);
 
-echo 'Building parser.       Output: "',
+echo 'Building parser. Output: "',
      trim(shell_exec('kmyacc -l -m kmyacc.php.parser -p PHPParser_Parser ' . TMP_FILE . ' 2>&1')),
      '"', "\n";
 
 rename(RESULT_FILE, '../lib/PHPParser/Parser.php');
 
-echo 'Building debug parser. Output: "',
-     trim(shell_exec('kmyacc -t -l -m kmyacc.php.parser -p PHPParser_Parser ' . TMP_FILE . ' 2>&1')),
-     '"', "\n";
+if (isset($_GET['debug'])) {
+    echo 'Building debug parser. Output: "',
+    trim(shell_exec('kmyacc -t -v -l -m kmyacc.php.parser -p PHPParser_Parser ' . TMP_FILE . ' 2>&1')),
+    '"', "\n";
 
-rename(RESULT_FILE, '../lib/PHPParser/Parser/Debug.php');
+    if (!is_dir('../lib/PHPParser/Parser')) {
+        mkdir('../lib/PHPParser/Parser');
+    }
+    rename(RESULT_FILE, '../lib/PHPParser/Parser/Debug.php');
+}
+
 
 unlink(TMP_FILE);
 
