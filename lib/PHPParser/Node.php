@@ -10,6 +10,13 @@ interface PHPParser_Node
     public function getType();
 
     /**
+     * Gets the names of the sub nodes.
+     *
+     * @return array Names of sub nodes
+     */
+    public function getSubNodeNames();
+
+    /**
      * Gets line the node started in.
      *
      * @return int Line

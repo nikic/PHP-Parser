@@ -49,21 +49,25 @@ class PHPParser_NodeTraverser
     }
 
     protected function traverseNode(PHPParser_Node $node) {
-        foreach ($node as $name => $subNode) {
+        $node = clone $node;
+
+        foreach ($node->getSubNodeNames() as $name) {
+            $subNode =& $node->$name;
+
             if (is_array($subNode)) {
-                $node->$name = $this->traverseArray($subNode);
+                $subNode = $this->traverseArray($subNode);
             } elseif ($subNode instanceof PHPParser_Node) {
                 foreach ($this->visitors as $visitor) {
                     if (null !== $return = $visitor->enterNode($subNode)) {
-                        $node->$name = $return;
+                        $subNode = $return;
                     }
                 }
 
-                $node->$name = $this->traverseNode($subNode);
+                $subNode = $this->traverseNode($subNode);
 
                 foreach ($this->visitors as $visitor) {
                     if (null !== $return = $visitor->leaveNode($subNode)) {
-                        $node->$name = $return;
+                        $subNode = $return;
                     }
                 }
             }
@@ -75,17 +79,17 @@ class PHPParser_NodeTraverser
     protected function traverseArray(array $nodes) {
         $doNodes = array();
 
-        foreach ($nodes as $i => $node) {
+        foreach ($nodes as $i => &$node) {
             if (is_array($node)) {
-                $nodes[$i] = $this->traverseArray($node);
+                $node = $this->traverseArray($node);
             } elseif ($node instanceof PHPParser_Node) {
                 foreach ($this->visitors as $visitor) {
                     if (null !== $return = $visitor->enterNode($node)) {
-                        $nodes[$i] = $return;
+                        $node = $return;
                     }
                 }
 
-                $nodes[$i] = $this->traverseNode($node);
+                $node = $this->traverseNode($node);
 
                 foreach ($this->visitors as $j => $visitor) {
                     $return = $visitor->leaveNode($node);
@@ -103,7 +107,7 @@ class PHPParser_NodeTraverser
                         $doNodes[] = array($i, $return);
                         break;
                     } elseif (null !== $return) {
-                        $nodes[$i] = $return;
+                        $node = $return;
                     }
                 }
             }
