@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @codeCoverageIgnore
+ */
 class PHPParser_NodeVisitorAbstract implements PHPParser_NodeVisitor
 {
     public function beforeTraverse(array $nodes)    { }
