@@ -5,6 +5,16 @@
  */
 class PHPParser_Node_Scalar_String extends PHPParser_Node_Scalar
 {
+    protected static $replacements = array(
+        '\\' => '\\',
+        '$'  =>  '$',
+        'n'  => "\n",
+        'r'  => "\r",
+        't'  => "\t",
+        'f'  => "\f",
+        'v'  => "\v",
+    );
+
     /**
      * Constructs a string scalar node.
      *
@@ -69,16 +79,6 @@ class PHPParser_Node_Scalar_String extends PHPParser_Node_Scalar
         );
     }
 
-    protected static $replacements = array(
-        '\\' => '\\',
-        '$'  =>  '$',
-        'n'  => "\n",
-        'r'  => "\r",
-        't'  => "\t",
-        'f'  => "\f",
-        'v'  => "\v",
-    );
-
     public static function parseCallback($matches) {
         $str = $matches[1];
 
@@ -89,5 +89,25 @@ class PHPParser_Node_Scalar_String extends PHPParser_Node_Scalar
         } else {
             return chr(octdec($str));
         }
+    }
+
+    /**
+     * Parses a constant doc string.
+     *
+     * @param string $startToken Doc string start token content (<<<SMTHG)
+     * @param string $str        String token content
+     *
+     * @return string Parsed string
+     */
+    public static function parseDocString($startToken, $str) {
+        // strip last newline (thanks tokenizer for sticking it into the string!)
+        $str = preg_replace('~(\r\n|\n|\r)$~', '', $str);
+
+        // nowdoc string
+        if (false !== strpos($startToken, '\'')) {
+            return $str;
+        }
+
+        return self::parseEscapeSequences($str, null);
     }
 }

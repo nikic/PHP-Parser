@@ -7,11 +7,15 @@ elseif  ($b) {}
 elseif  ($c) {}
 else         {}
 
+if ($a) {} // without else
+
 if      ($a):
 elseif  ($b):
 elseif  ($c):
 else        :
 endif;
+
+if ($a): endif; // without else
 -----
 array(
     0: Stmt_If(
@@ -45,6 +49,16 @@ array(
         stmts: array(
         )
         elseifs: array(
+        )
+        else: null
+        cond: Expr_Variable(
+            name: a
+        )
+    )
+    2: Stmt_If(
+        stmts: array(
+        )
+        elseifs: array(
             0: Stmt_ElseIf(
                 cond: Expr_Variable(
                     name: b
@@ -64,6 +78,16 @@ array(
             stmts: array(
             )
         )
+        cond: Expr_Variable(
+            name: a
+        )
+    )
+    3: Stmt_If(
+        stmts: array(
+        )
+        elseifs: array(
+        )
+        else: null
         cond: Expr_Variable(
             name: a
         )

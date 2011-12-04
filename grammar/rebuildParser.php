@@ -150,6 +150,12 @@ function resolveMacros($code) {
                 return 'foreach (' . $args[0] . ' as &$s) { if (is_string($s)) { $s = PHPParser_Node_Scalar_String::parseEscapeSequences($s, ' . $args[1] . '); } }';
             }
 
+            if ('parseEncapsedDoc' == $name) {
+                assertArgs(1, $args, $name);
+
+                return 'foreach (' . $args[0] . ' as &$s) { if (is_string($s)) { $s = PHPParser_Node_Scalar_String::parseEscapeSequences($s, null); } } $s = preg_replace(\'~(\r\n|\n|\r)$~\', \'\', $s); if (\'\' === $s) array_pop(' . $args[0] . ');';
+            }
+
             throw new Exception(sprintf('Unknown macro "%s"', $name));
         },
         $code

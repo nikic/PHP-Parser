@@ -1,6 +1,7 @@
 Shell execution
 -----
 <?php
+``;
 `test`;
 `test $A`;
 `test \``;
@@ -9,10 +10,14 @@ Shell execution
 array(
     0: Expr_ShellExec(
         parts: array(
-            0: test
         )
     )
     1: Expr_ShellExec(
+        parts: array(
+            0: test
+        )
+    )
+    2: Expr_ShellExec(
         parts: array(
             0: test
             1: Expr_Variable(
@@ -20,12 +25,12 @@ array(
             )
         )
     )
-    2: Expr_ShellExec(
+    3: Expr_ShellExec(
         parts: array(
             0: test `
         )
     )
-    3: Expr_ShellExec(
+    4: Expr_ShellExec(
         parts: array(
             0: test \"
         )

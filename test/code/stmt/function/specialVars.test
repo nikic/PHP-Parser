@@ -3,7 +3,7 @@ Special function variables
 <?php
 
 function a() {
-    global $a, $b;
+    global $a, ${'b'}, $$c;
     static $c, $d = 'e';
 }
 -----
@@ -19,7 +19,14 @@ array(
                         name: a
                     )
                     1: Expr_Variable(
-                        name: b
+                        name: Scalar_String(
+                            value: b
+                        )
+                    )
+                    2: Expr_Variable(
+                        name: Expr_Variable(
+                            name: c
+                        )
                     )
                 )
             )

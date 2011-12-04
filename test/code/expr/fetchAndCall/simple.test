@@ -3,9 +3,7 @@ Simple fetches (array, property, constant) and calls
 <?php
 
 // simple calls
-a();
 $a->b();
-A::b();
 
 // simple properties
 $a->b;
@@ -20,16 +18,7 @@ A;
 A::B;
 -----
 array(
-    0: Expr_FuncCall(
-        name: Name(
-            parts: array(
-                0: a
-            )
-        )
-        args: array(
-        )
-    )
-    1: Expr_MethodCall(
+    0: Expr_MethodCall(
         var: Expr_Variable(
             name: a
         )
@@ -37,23 +26,13 @@ array(
         args: array(
         )
     )
-    2: Expr_StaticCall(
-        class: Name(
-            parts: array(
-                0: A
-            )
-        )
-        name: b
-        args: array(
-        )
-    )
-    3: Expr_PropertyFetch(
+    1: Expr_PropertyFetch(
         var: Expr_Variable(
             name: a
         )
         name: b
     )
-    4: Expr_StaticPropertyFetch(
+    2: Expr_StaticPropertyFetch(
         class: Name(
             parts: array(
                 0: A
@@ -61,7 +40,7 @@ array(
         )
         name: b
     )
-    5: Expr_ArrayDimFetch(
+    3: Expr_ArrayDimFetch(
         var: Expr_Variable(
             name: a
         )
@@ -69,7 +48,7 @@ array(
             name: b
         )
     )
-    6: Expr_ArrayDimFetch(
+    4: Expr_ArrayDimFetch(
         var: Expr_Variable(
             name: a
         )
@@ -77,14 +56,14 @@ array(
             name: b
         )
     )
-    7: Expr_ConstFetch(
+    5: Expr_ConstFetch(
         name: Name(
             parts: array(
                 0: A
             )
         )
     )
-    8: Expr_ClassConstFetch(
+    6: Expr_ClassConstFetch(
         class: Name(
             parts: array(
                 0: A
