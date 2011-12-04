@@ -13,6 +13,7 @@ class PHPParser_Node_Scalar_String extends PHPParser_Node_Scalar
         't'  => "\t",
         'f'  => "\f",
         'v'  => "\v",
+        'e'  => "\x1B",
     );
 
     /**
@@ -73,7 +74,7 @@ class PHPParser_Node_Scalar_String extends PHPParser_Node_Scalar
         }
 
         return preg_replace_callback(
-            '~\\\\([\\\\$nrtfv]|[xX][0-9a-fA-F]{1,2}|[0-7]{1,3})~',
+            '~\\\\([\\\\$nrtfve]|[xX][0-9a-fA-F]{1,2}|[0-7]{1,3})~',
             array(__CLASS__, 'parseCallback'),
             $str
         );

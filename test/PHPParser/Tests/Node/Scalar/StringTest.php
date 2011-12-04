@@ -28,6 +28,7 @@ class PHPParser_Tests_Node_Scalar_StringTest extends PHPUnit_Framework_TestCase
             array('\\"',            '\\"',              '`'),
             array('\\"\\`',         '\\"\\`',           null),
             array("\\\$\n\r\t\f\v", '\\\\\$\n\r\t\f\v', null),
+            array("\x1B",           '\e',               null),
             array(chr(255),         '\xFF',             null),
             array(chr(255),         '\377',             null),
             array(chr(0),           '\400',             null),
