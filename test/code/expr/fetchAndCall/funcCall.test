@@ -13,7 +13,6 @@ $a{'b'}();
 
 // array dereferencing
 a()['b'];
-a(){'b'}; // this is invalid PHP. Remove?
 -----
 array(
     0: Expr_FuncCall(
@@ -86,20 +85,6 @@ array(
         )
     )
     7: Expr_ArrayDimFetch(
-        var: Expr_FuncCall(
-            name: Name(
-                parts: array(
-                    0: a
-                )
-            )
-            args: array(
-            )
-        )
-        dim: Scalar_String(
-            value: b
-        )
-    )
-    8: Expr_ArrayDimFetch(
         var: Expr_FuncCall(
             name: Name(
                 parts: array(

@@ -11,7 +11,6 @@ A::$b['c']['d']();
 
 // array dereferencing
 A::b()['c'];
-A::b(){'c'}; // this is invalid PHP. Remove?
 
 // class name variations
 static::b();
@@ -108,22 +107,7 @@ array(
             value: c
         )
     )
-    6: Expr_ArrayDimFetch(
-        var: Expr_StaticCall(
-            class: Name(
-                parts: array(
-                    0: A
-                )
-            )
-            name: b
-            args: array(
-            )
-        )
-        dim: Scalar_String(
-            value: c
-        )
-    )
-    7: Expr_StaticCall(
+    6: Expr_StaticCall(
         class: Name(
             parts: array(
                 0: static
@@ -133,7 +117,7 @@ array(
         args: array(
         )
     )
-    8: Expr_StaticCall(
+    7: Expr_StaticCall(
         class: Expr_Variable(
             name: a
         )
@@ -141,7 +125,7 @@ array(
         args: array(
         )
     )
-    9: Expr_StaticCall(
+    8: Expr_StaticCall(
         class: Expr_Variable(
             name: Scalar_String(
                 value: a
@@ -151,7 +135,7 @@ array(
         args: array(
         )
     )
-    10: Expr_StaticCall(
+    9: Expr_StaticCall(
         class: Expr_ArrayDimFetch(
             var: Expr_Variable(
                 name: a

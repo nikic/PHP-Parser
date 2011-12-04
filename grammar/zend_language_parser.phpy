@@ -602,7 +602,7 @@ function_call:
     | variable_without_objects '(' argument_list ')'
           { $$ = Expr_FuncCall[$1, $3]; }
     | function_call '[' dim_offset ']'                      { $$ = Expr_ArrayDimFetch[$1, $3]; }
-    | function_call '{' expr '}'                            { $$ = Expr_ArrayDimFetch[$1, $3]; }
+      /* alternative array syntax missing intentionally */
 ;
 
 class_name:
@@ -724,6 +724,7 @@ variable:
 new_expr_array_deref:
       '(' new_expr ')' '[' dim_offset ']'                   { $$ = Expr_ArrayDimFetch[$2, $5]; }
     | new_expr_array_deref '[' dim_offset ']'               { $$ = Expr_ArrayDimFetch[$1, $3]; }
+      /* alternative array syntax missing intentionally */
 ;
 
 object_access:
