@@ -466,10 +466,8 @@ property_declaration_list:
 ;
 
 property_declaration:
-      T_VARIABLE
-          { $$ = Stmt_PropertyProperty[parseVar($1), null]; }
-    | T_VARIABLE '=' static_scalar
-          {$$ = Stmt_PropertyProperty[parseVar($1), $3]; }
+      T_VARIABLE                                            { $$ = Stmt_PropertyProperty[parseVar($1), null]; }
+    | T_VARIABLE '=' static_scalar                          { $$ = Stmt_PropertyProperty[parseVar($1), $3]; }
 ;
 
 expr_list:
