@@ -132,7 +132,7 @@ class PHPParser_Lexer
         $this->pos = count($this->tokens);
 
         // return with (); removed
-        return substr($textAfter, strlen($matches[0]));
+        return (string) substr($textAfter, strlen($matches[0])); // (string) converts false to ''
     }
 
     /**

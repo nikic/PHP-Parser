@@ -101,17 +101,20 @@ class PHPParser_Node_Stmt_Namespace extends PHPParser_Node_Stmt
 
             // iterate over all following namespaces
             for ($i = 0, $c = count($nsOffsets); $i < $c; ++$i) {
-                $nsStmt = $stmts[$nsOffsets[$i]];
+                $newStmts[] = $nsStmt = $stmts[$nsOffsets[$i]];
 
                 // the last namespace takes all statements after it
                 if ($c === $i + 1) {
                     $nsStmt->stmts = array_slice($stmts, $nsOffsets[$i] + 1);
+
+                    // if the last statement is __halt_compiler() put it outside the namespace
+                    if (end($nsStmt->stmts) instanceof PHPParser_Node_Stmt_HaltCompiler) {
+                        $newStmts[] = array_pop($nsStmt->stmts);
+                    }
                 // and all the others take all statements between the current and the following one
                 } else {
                     $nsStmt->stmts = array_slice($stmts, $nsOffsets[$i] + 1, $nsOffsets[$i + 1] - $nsOffsets[$i] - 1);
                 }
-
-                $newStmts[] = $nsStmt;
             }
 
             return $newStmts;
