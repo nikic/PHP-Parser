@@ -5,8 +5,9 @@ Variable syntaxes
 $a;
 ${'a'};
 ${foo()};
-$$b;
-$$$c;
+$$a;
+$$$a;
+$$a['b'];
 -----
 array(
     0: Expr_Variable(
@@ -30,13 +31,23 @@ array(
     )
     3: Expr_Variable(
         name: Expr_Variable(
-            name: b
+            name: a
         )
     )
     4: Expr_Variable(
         name: Expr_Variable(
             name: Expr_Variable(
-                name: c
+                name: a
+            )
+        )
+    )
+    5: Expr_Variable(
+        name: Expr_ArrayDimFetch(
+            var: Expr_Variable(
+                name: a
+            )
+            dim: Scalar_String(
+                value: b
             )
         )
     )

@@ -1,0 +1,38 @@
+Type hints
+-----
+<?php
+
+function a($b, array $c, D $e) {}
+-----
+array(
+    0: Stmt_Function(
+        byRef: false
+        params: array(
+            0: Param(
+                name: b
+                default: null
+                type: null
+                byRef: false
+            )
+            1: Param(
+                name: c
+                default: null
+                type: array
+                byRef: false
+            )
+            2: Param(
+                name: e
+                default: null
+                type: Name(
+                    parts: array(
+                        0: D
+                    )
+                )
+                byRef: false
+            )
+        )
+        stmts: array(
+        )
+        name: a
+    )
+)

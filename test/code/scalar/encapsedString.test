@@ -7,6 +7,7 @@ Encapsed strings
 "$A[B]";
 "$A[0]";
 "$A[0x0]";
+"$A[$B]";
 "{$A}";
 "{$A['B']}";
 "${A}";
@@ -71,13 +72,25 @@ array(
     )
     5: Scalar_Encapsed(
         parts: array(
-            0: Expr_Variable(
-                name: A
+            0: Expr_ArrayDimFetch(
+                var: Expr_Variable(
+                    name: A
+                )
+                dim: Expr_Variable(
+                    name: B
+                )
             )
         )
     )
     6: Scalar_Encapsed(
         parts: array(
+            0: Expr_Variable(
+                name: A
+            )
+        )
+    )
+    7: Scalar_Encapsed(
+        parts: array(
             0: Expr_ArrayDimFetch(
                 var: Expr_Variable(
                     name: A
@@ -88,14 +101,14 @@ array(
             )
         )
     )
-    7: Scalar_Encapsed(
+    8: Scalar_Encapsed(
         parts: array(
             0: Expr_Variable(
                 name: A
             )
         )
     )
-    8: Scalar_Encapsed(
+    9: Scalar_Encapsed(
         parts: array(
             0: Expr_ArrayDimFetch(
                 var: Expr_Variable(
@@ -107,7 +120,7 @@ array(
             )
         )
     )
-    9: Scalar_Encapsed(
+    10: Scalar_Encapsed(
         parts: array(
             0: Expr_Variable(
                 name: Expr_Variable(
@@ -116,7 +129,7 @@ array(
             )
         )
     )
-    10: Scalar_Encapsed(
+    11: Scalar_Encapsed(
         parts: array(
             0: A
             1: Expr_Variable(
@@ -125,7 +138,7 @@ array(
             2:  C
         )
     )
-    11: Scalar_Encapsed(
+    12: Scalar_Encapsed(
         parts: array(
             0: Expr_Variable(
                 name: A
