@@ -10,11 +10,11 @@ class PHPParser_Node_Stmt_UseUse extends PHPParser_Node_Stmt
      * Constructs an alias (use) node.
      *
      * @param PHPParser_Node_Name $name       Namespace/Class to alias
-     * @param string              $alias      Alias
+     * @param null|string         $alias      Alias
      * @param int                 $line       Line
      * @param null|string         $docComment Nearest doc comment
      */
-    public function __construct(PHPParser_Node_Name $name, $alias, $line = -1, $docComment = null) {
+    public function __construct(PHPParser_Node_Name $name, $alias = null, $line = -1, $docComment = null) {
         if (null === $alias) {
             $alias = $name->getLast();
         }

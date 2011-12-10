@@ -25,7 +25,7 @@ class PHPParser_NodeVisitor_NameResolver extends PHPParser_NodeVisitorAbstract
             if (isset($this->aliases[$node->alias])) {
                 throw new PHPParser_Error(
                     sprintf(
-                        'Cannot use %s as %s because the name is already in use',
+                        'Cannot use "%s" as "%s" because the name is already in use',
                         $node->name, $node->alias
                     ),
                     $node->getLine()
@@ -72,8 +72,12 @@ class PHPParser_NodeVisitor_NameResolver extends PHPParser_NodeVisitorAbstract
             if ($node->name instanceof PHPParser_Node_Name) {
                 $node->name = $this->resolveOtherName($node->name);
             }
+        } elseif ($node instanceof PHPParser_Node_Stmt_TraitUse) {
+            foreach ($node->traits as &$trait) {
+                $trait = $this->resolveClassName($trait);
+            }
         } elseif ($node instanceof PHPParser_Node_Param
-                  && $node instanceof PHPParser_Node_Name
+                  && $node->type instanceof PHPParser_Node_Name
         ) {
             $node->type = $this->resolveClassName($node->type);
         }

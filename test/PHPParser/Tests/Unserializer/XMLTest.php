@@ -68,8 +68,6 @@ XML;
 
     /**
      * @dataProvider             provideTestErrors
-     * @expectedException        DomainException
-     * @expectedExceptionMessage false, true and null scalars must be empty elements
      */
     public function testErrors($xml, $errorMsg) {
         $this->setExpectedException('DomainException', $errorMsg);
