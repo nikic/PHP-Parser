@@ -2,7 +2,7 @@ Type hints
 -----
 <?php
 
-function a($b, array $c, D $e) {}
+function a($b, array $c, callable $d, E $f) {}
 -----
 array(
     0: Stmt_Function(
@@ -21,11 +21,17 @@ array(
                 byRef: false
             )
             2: Param(
-                name: e
+                name: d
+                default: null
+                type: callable
+                byRef: false
+            )
+            3: Param(
+                name: f
                 default: null
                 type: Name(
                     parts: array(
-                        0: D
+                        0: E
                     )
                 )
                 byRef: false

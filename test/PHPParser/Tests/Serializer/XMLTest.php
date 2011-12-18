@@ -6,10 +6,10 @@ class PHPParser_Tests_Serializer_XMLTest extends PHPUnit_Framework_TestCase
      * @covers PHPParser_Serializer_XML<extended>
      */
     public function testSerialize() {
-        $code = <<<'CODE'
+        $code = <<<CODE
 <?php
 /** doc comment */
-function functionName(&$a = 0, $b = 1.0) {
+function functionName(&\$a = 0, \$b = 1.0) {
     echo 'Foo';
 }
 CODE;

@@ -9,7 +9,7 @@ class PHPParser_Tests_codeTest extends PHPUnit_Framework_TestCase
         $parser = new PHPParser_Parser;
         $dumper = new PHPParser_NodeDumper;
 
-        $stmts = $parser->parse(new PHPParser_Lexer($code));
+        $stmts = $parser->parse(new PHPParser_Lexer_Emulative($code));
         $this->assertEquals(
             $this->canonicalize($dump),
             $this->canonicalize($dumper->dump($stmts)),
@@ -28,7 +28,7 @@ class PHPParser_Tests_codeTest extends PHPUnit_Framework_TestCase
         $parser = new PHPParser_Parser;
 
         try {
-            $parser->parse(new PHPParser_Lexer($code));
+            $parser->parse(new PHPParser_Lexer_Emulative($code));
 
             $this->fail(sprintf('"%s": Expected PHPParser_Error', $name));
         } catch (PHPParser_Error $e) {
@@ -43,13 +43,7 @@ class PHPParser_Tests_codeTest extends PHPUnit_Framework_TestCase
     protected function getTests($ext) {
         $it = new RecursiveDirectoryIterator(dirname(__FILE__) . '/../../code');
         $it = new RecursiveIteratorIterator($it, RecursiveIteratorIterator::LEAVES_ONLY);
-
-        $ext = preg_quote($ext, '~');
-        if (version_compare(PHP_VERSION, '5.4.0RC1', '>=')) {
-            $it = new RegexIterator($it, '~\.' . $ext . '(-5\.4)?$~');
-        } else {
-            $it = new RegexIterator($it, '~\.' . $ext . '$~');
-        }
+        $it = new RegexIterator($it, '(\.' . preg_quote($ext) . '$)');
 
         $tests = array();
         foreach ($it as $file) {
