@@ -55,7 +55,9 @@ class PHPParser_Lexer_Emulative extends PHPParser_Lexer
                 && preg_match('(^__EMU__([A-Z]++)__(?:([A-Za-z0-9]++)__)?$)', $this->tokens[$i + 1][1], $matches)
             ) {
                 if ('BINARY' === $matches[1]) {
-                    $replace = array(array(T_LNUMBER, $matches[2], $this->tokens[$i + 1][2]));
+                    $replace = array(
+                        array(is_int(bindec($matches[2])) ? T_LNUMBER : T_DNUMBER, $matches[2], $this->tokens[$i + 1][2])
+                    );
                 } elseif ('NS' === $matches[1]) {
                     $replace = array('\\');
                 } elseif ('NOWDOC' === $matches[1]) {
