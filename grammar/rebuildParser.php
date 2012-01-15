@@ -138,12 +138,6 @@ function resolveMacros($code) {
                 return 'substr(' . $args[0] . ', 1)';
             }
 
-            if ('parseDNumber' == $name) {
-                assertArgs(1, $args, $name);
-
-                return '(double) ' . $args[0];
-            }
-
             if ('parseEncapsed' == $name) {
                 assertArgs(2, $args, $name);
 

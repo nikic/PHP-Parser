@@ -2157,7 +2157,7 @@ class PHPParser_Parser
     }
 
     protected function yyn284($line, $docComment) {
-         $this->yyval = new PHPParser_Node_Scalar_DNumber((double) $this->yyastk[$this->yysp-(1-1)], $line, $docComment); 
+         $this->yyval = new PHPParser_Node_Scalar_DNumber(PHPParser_Node_Scalar_DNumber::parse($this->yyastk[$this->yysp-(1-1)]), $line, $docComment); 
     }
 
     protected function yyn285($line, $docComment) {

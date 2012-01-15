@@ -659,7 +659,7 @@ ctor_arguments:
 
 common_scalar:
       T_LNUMBER                                             { $$ = Scalar_LNumber[Scalar_LNumber::parse($1)]; }
-    | T_DNUMBER                                             { $$ = Scalar_DNumber[parseDNumber($1)]; }
+    | T_DNUMBER                                             { $$ = Scalar_DNumber[Scalar_DNumber::parse($1)]; }
     | T_CONSTANT_ENCAPSED_STRING                            { $$ = Scalar_String::create($1, $line, $docComment); }
     | T_LINE                                                { $$ = Scalar_LineConst[]; }
     | T_FILE                                                { $$ = Scalar_FileConst[]; }

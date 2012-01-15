@@ -12,6 +12,13 @@ Different float syntaxes
 30.20e10;
 300.200e100;
 1e10000;
+
+// various integer -> float overflows
+9999999999999999999;
+0xFFFFFFFFFFFFFFFF;
+07777777777777777777777;
+0777777777777777777777787;
+0b1111111111111111111111111111111111111111111111111111111111111111;
 -----
 array(
     0: Scalar_DNumber(
@@ -43,5 +50,20 @@ array(
     )
     9: Scalar_DNumber(
         value: INF
+    )
+    10: Scalar_DNumber(
+        value: 1.0E+19
+    )
+    11: Scalar_DNumber(
+        value: 1.844674407371E+19
+    )
+    12: Scalar_DNumber(
+        value: 7.3786976294838E+19
+    )
+    13: Scalar_DNumber(
+        value: 7.3786976294838E+19
+    )
+    14: Scalar_DNumber(
+        value: 1.844674407371E+19
     )
 )
