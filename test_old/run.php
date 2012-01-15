@@ -17,11 +17,11 @@ $TEST_TYPE = $argv[1];
 $DIR = $argv[2];
 
 if ('Symfony' === $TEST_TYPE) {
-    $FILTER_FUNC = function ($path) {
+    function filter_func($path) {
         return preg_match('~\.php(?:\.cache)?$~', $path) && false === strpos($path, 'skeleton');
     };
 } elseif ('PHP' === $TEST_TYPE) {
-    $FILTER_FUNC = function ($path) {
+    function filter_func($path) {
         return preg_match('~\.phpt$~', $path);
     };
 } else {
@@ -44,7 +44,7 @@ foreach (new RecursiveIteratorIterator(
              new RecursiveDirectoryIterator($DIR),
              RecursiveIteratorIterator::LEAVES_ONLY)
          as $file) {
-    if (!$FILTER_FUNC($file)) {
+    if (!filter_func($file)) {
         continue;
     }
 
@@ -87,7 +87,7 @@ foreach (new RecursiveIteratorIterator(
 
     try {
         $startTime = microtime(true);
-        $stmts = $parser->parse(new PHPParser_Lexer($code));
+        $stmts = $parser->parse(new PHPParser_Lexer_Emulative($code));
         $parseTime += microtime(true) - $startTime;
 
         $startTime = microtime(true);
@@ -96,7 +96,7 @@ foreach (new RecursiveIteratorIterator(
 
         try {
             $startTime = microtime(true);
-            $ppStmts = $parser->parse(new PHPParser_Lexer($code));
+            $ppStmts = $parser->parse(new PHPParser_Lexer_Emulative($code));
             $reparseTime += microtime(true) - $startTime;
 
             $startTime = microtime(true);
