@@ -34,11 +34,11 @@ class PHPParser_Lexer_Emulative extends PHPParser_Lexer
 
             // nowdoc
             $code = preg_replace_callback(
-                '((*BSR_ANYCRLF)    # set \R to (\r|\n|\r\n)
+                '((*BSR_ANYCRLF)        # set \R to (?>\r\n|\r|\n)
                   (b?<<<[\t ]*\'([a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*)\'\R) # opening token
-                  ((?:(?!\2).*\R)*) # content
-                  (\2)              # closing token
-                  (?=;?\R)          # must be followed by newline (with optional semicolon)
+                  ((?:(?!\2;?\R).*\R)*) # content
+                  (\2)                  # closing token
+                  (?=;?\R)              # must be followed by newline (with optional semicolon)
                  )x',
                 array($this, 'encodeNowdocCallback'),
                 $code
