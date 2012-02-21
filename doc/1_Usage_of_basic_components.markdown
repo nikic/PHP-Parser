@@ -45,6 +45,12 @@ try {
 
 The `parse` method will return an array of statement nodes (`$stmts`).
 
+### Emulative lexer
+
+Instead of `PHPParser_Lexer` one can also use `PHPParser_Lexer_Emulative`. This class will emulate tokens
+of newer PHP versions and as such allow parsing PHP 5.4 on PHP 5.2, for example. So if you want to parse
+PHP code of newer versions than the one you are running, you should use the emulative lexer.
+
 Node tree
 ---------
 
@@ -288,7 +294,9 @@ foreach (new RecursiveIteratorIterator(
         $code = file_get_contents($file);
 
         // parse
-        $stmts = $parser->parse(new PHPParser_Lexer($code));
+        // use the emulative lexer here, as we are running PHP 5.2 but want to
+        // parse PHP 5.3
+        $stmts = $parser->parse(new PHPParser_Lexer_Emulative($code));
 
         // traverse
         $stmts = $traverser->traverse($stmts);

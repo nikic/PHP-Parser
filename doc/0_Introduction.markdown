@@ -26,31 +26,13 @@ programmatic PHP code analysis are incidentially PHP developers, not C developer
 What can it parse?
 ------------------
 
-The parser uses a PHP 5.4 compliant grammar, but lexing is done using the `token_get_all` tokenization
-facility provided by PHP itself. This means that you will be able to parse pretty much any PHP code you
-want, but there are some limitations to keep in mind:
+The parser uses a PHP 5.4 compliant grammar, which is backwards compatible with at least PHP 5.3 and PHP
+5.2 (and maybe older).
 
- * The PHP 5.4 grammar is implemented in such a way that it is backwards compatible. So parsing PHP 5.3
-   and PHP 5.2 is also possible (and maybe older versions). On the other hand this means that the parser
-   will let some code through, which would be invalid in the newest version (for example call time pass
-   by reference will *not* throw an error even though PHP 5.4 doesn't allow it anymore). This shouldn't
-   normally be a problem and if it is strictly required it can be easily implemented in a NodeVisitor.
-
- * Even though the parser supports PHP 5.4 it depends on the internal tokenizer, which only supports
-   the PHP version it runs on. So you will be able parse PHP 5.4 if you are running PHP 5.4. But you
-   wouldn't be able to parse PHP 5.4 code (which uses one of the new features) on PHP 5.3. The support
-   matrix looks roughly like this:
-
-                        | parsing PHP 5.4 | parsing PHP 5.3 | parsing PHP 5.2
-        ---------------------------------------------------------------------
-        running PHP 5.4 | yes             | yes             | yes
-        running PHP 5.3 | no              | yes             | yes
-        running PHP 5.2 | no              | no              | yes
-
- * The parser inherits all bugs of the `token_get_all` function. There are only two which I
-   currently know of, namely lexing of `b"$var"` literals and nested HEREDOC strings. The former
-   bug is circumvented by the `PHPParser_Lexer` wrapper which the parser uses, but the latter remains
-   (though I seriously doublt it will ever occur in practical use.)
+As the parser is based on the tokens returned by `token_get_all` (which is only able to lex the PHP
+version it runs on), additionally a wrapper for emulating new tokens from 5.3 and 5.4 is provided. This
+allows to parse PHP 5.4 source code running on PHP 5.2, for example. This emulation is very hacky and not
+yet perfect, but it should work well on any sane code.
 
 What output does it produce?
 ----------------------------
