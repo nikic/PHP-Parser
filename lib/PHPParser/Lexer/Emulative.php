@@ -49,7 +49,7 @@ class PHPParser_Lexer_Emulative extends PHPParser_Lexer
             // namespace separator (backslash not followed by some special characters,
             // which are not valid after a NS separator, but would cause problems with
             // escape sequence parsing if one would replace the backslash there)
-            $code = preg_replace('(\\\\(?!["\'`$\\\\]))', '~__EMU__NS__~', $code);
+            $code = preg_replace('(\\\\(?!["\'`${\\\\]))', '~__EMU__NS__~', $code);
 
             // nowdoc (<<<'ABC'\ncontent\nABC;)
             $code = preg_replace_callback(
