@@ -22,32 +22,34 @@ class PHPParser_Lexer
     public function __construct($code) {
         self::initTokenMap();
 
-        // Reset the error message in error_get_last()
-        // Still hoping for a better solution to be found.
-        @$errorGetLastResetUndefinedVariable;
-
-        $this->code   = $code;
+        $this->resetErrors();
         $this->tokens = @token_get_all($code);
-        $this->pos    = -1;
-        $this->line   =  1;
+        $this->handleErrors();
 
+        $this->code = $code; // keep the code around for __halt_compiler() handling
+        $this->pos  = -1;
+        $this->line =  1;
+    }
+
+    protected function resetErrors() {
+        // clear error_get_last() by forcing an undefined variable error
+        @$undefinedVariable;
+    }
+
+    protected function handleErrors() {
         $error = error_get_last();
 
         if (preg_match(
-                '~^Unterminated comment starting line ([0-9]+)$~',
-                $error['message'],
-                $matches
-            )
-        ) {
+            '~^Unterminated comment starting line ([0-9]+)$~',
+            $error['message'], $matches
+        )) {
             throw new PHPParser_Error('Unterminated comment', $matches[1]);
         }
 
         if (preg_match(
-                '~^Unexpected character in input:  \'(.)\' \(ASCII=([0-9]+)\)~s',
-                $error['message'],
-                $matches
-            )
-        ) {
+            '~^Unexpected character in input:  \'(.)\' \(ASCII=([0-9]+)\)~s',
+            $error['message'], $matches
+        )) {
             throw new PHPParser_Error(sprintf(
                 'Unexpected character "%s" (ASCII %d)',
                 $matches[1], $matches[2]
