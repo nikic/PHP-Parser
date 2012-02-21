@@ -67,10 +67,11 @@ array(
 )
 ```
 
-If you then stick that result into the pretty printer you'll get back PHP code again :)
+You can then work with this syntax tree, for example to statically analyze the code (e.g. to find
+programming errors or security issues).
 
-This is useful for a variety of situations where you want to deal with code programmatically, like static
-analysis, code preprocessing and code generation.
+Additionally, you can convert a syntax tree back to PHP code. This allows you to do code preprocessing
+(like automatedly porting code to older PHP versions).
 
 So, that's it, in a nutshell. You can find everything else in the [docs][1].
 
