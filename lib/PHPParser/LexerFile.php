@@ -15,7 +15,12 @@ class PHPParser_LexerFile extends PHPParser_Lexer
         $this->filename = $filename;
         parent::__construct(file_get_contents($filename));
     }
-
+	
+    /**
+     * Retrieves the current filename.
+     * 
+     * @return string Current filename
+     */
     public function getFilename() {
         return $this->filename;
     }
