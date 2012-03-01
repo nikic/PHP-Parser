@@ -1,8 +1,13 @@
 <?php
 
-/* Prototype file of an object oriented PHP parser.
- * Written by Moriyoshi Koizumi, based on the work by Masato Bito.
- * This file is PUBLIC DOMAIN.
+/* This is an automatically GENERATED file, which should not be manually edited.
+ * Instead edit one of the following:
+ *  * the grammar file grammar/zend_language_parser.phpy
+ *  * the parser sceleton grammar/kymacc.php.parser
+ *  * the preprocessing script grammar/rebuildParser.php
+ *
+ * The sceleton for this parser was written by Moriyoshi Koizumi and is based on
+ * the work by Masato Bito and is in the PUBLIC DOMAIN.
  */
 class PHPParser_Parser
 {
