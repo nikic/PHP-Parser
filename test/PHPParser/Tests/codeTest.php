@@ -51,7 +51,11 @@ class PHPParser_Tests_codeTest extends PHPUnit_Framework_TestCase
             $fileContents = file_get_contents($file);
 
             // evaluate @@{expr}@@ expressions
-            $fileContents = preg_replace('/@@\{(.*?)\}@@/e', '$1', $fileContents);
+            $fileContents = preg_replace_callback(
+                '/@@\{(.*?)\}@@/',
+                array($this, 'evalCallback'),
+                $fileContents
+            );
 
             // parse sections
             $parts = array_map('trim', explode('-----', $fileContents));
@@ -77,5 +81,9 @@ class PHPParser_Tests_codeTest extends PHPUnit_Framework_TestCase
 
         // trim right side of all lines
         return implode("\n", array_map('rtrim', explode("\n", $str)));
+    }
+
+    protected function evalCallback($matches) {
+        return eval('return ' . $matches[1] . ';');
     }
 }
