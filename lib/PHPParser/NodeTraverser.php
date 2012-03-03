@@ -98,12 +98,6 @@ class PHPParser_NodeTraverser
                         $doNodes[] = array($i, array());
                         break;
                     } elseif (is_array($return)) {
-                        // traverse replacement nodes using all visitors apart from the one that
-                        // did the change
-                        unset($this->visitors[$j]);
-                        $return = $this->traverseArray($return);
-                        $this->visitors[$j] = $visitor;
-
                         $doNodes[] = array($i, $return);
                         break;
                     } elseif (null !== $return) {
