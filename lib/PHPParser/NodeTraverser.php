@@ -91,7 +91,7 @@ class PHPParser_NodeTraverser
 
                 $node = $this->traverseNode($node);
 
-                foreach ($this->visitors as $j => $visitor) {
+                foreach ($this->visitors as $visitor) {
                     $return = $visitor->leaveNode($node);
 
                     if (false === $return) {
