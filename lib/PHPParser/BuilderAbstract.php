@@ -19,6 +19,51 @@ abstract class PHPParser_BuilderAbstract implements PHPParser_Builder {
     }
 
     /**
+     * Normalizes a name: Converts plain string names to PHPParser_Node_Name.
+     *
+     * @param PHPParser_Node_Name|string $name The name to normalize
+     *
+     * @return PHPParser_Node_Name The normalized name
+     */
+    protected function normalizeName($name) {
+        if ($name instanceof PHPParser_Node_Name) {
+            return $name;
+        } else {
+            return new PHPParser_Node_Name($name);
+        }
+    }
+
+    /**
+     * Normalizes a value: Converts nulls, booleans, integers,
+     * floats and strings into their respective nodes
+     *
+     * @param mixed $value The value to normalize
+     *
+     * @return PHPParser_Node The normalized value
+     */
+    protected function normalizeValue($value) {
+        if ($value instanceof PHPParser_Node) {
+            return $value;
+        } elseif (is_null($value)) {
+            return new PHPParser_Node_Expr_ConstFetch(
+                new PHPParser_Node_Name('null')
+            );
+        } elseif (is_bool($value)) {
+            return new PHPParser_Node_Expr_ConstFetch(
+                new PHPParser_Node_Name($value ? 'true' : 'false')
+            );
+        } elseif (is_int($value)) {
+            return new PHPParser_Node_Scalar_LNumber($value);
+        } elseif (is_float($value)) {
+            return new PHPParser_Node_Scalar_DNumber($value);
+        } elseif (is_string($value)) {
+            return new PHPParser_Node_Scalar_String($value);
+        } else {
+            throw new LogicException('Invalid value');
+        }
+    }
+
+    /**
      * Sets a modifier in the $this->type property.
      *
      * @param int $modifier Modifier to set

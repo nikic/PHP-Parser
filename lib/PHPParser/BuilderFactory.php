@@ -18,10 +18,21 @@ class PHPParser_BuilderFactory
      *
      * @param string $name Name of the method
      *
-     * @return PHPParser_Builder_Method The created method class builder
+     * @return PHPParser_Builder_Method The created method builder
      */
     public function method($name) {
         return new PHPParser_Builder_Method($name);
+    }
+
+    /**
+     * Creates a parameter builder.
+     *
+     * @param string $name Name of the parameter
+     *
+     * @return PHPParser_Builder_Param The created parameter builder
+     */
+    public function param($name) {
+        return new PHPParser_Builder_Param($name);
     }
 
     public function __call($name, array $args) {

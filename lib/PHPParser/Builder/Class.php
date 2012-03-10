@@ -134,19 +134,4 @@ class PHPParser_Builder_Class extends PHPParser_BuilderAbstract
             'stmts' => array_merge($this->uses, $this->constants, $this->properties, $this->methods),
         ));
     }
-
-    /**
-     * Normalizes a name: Converts plain string names to PHPParser_Node_Name.
-     *
-     * @param PHPParser_Node_Name|string $name The name to normalize
-     *
-     * @return PHPParser_Node_Name The normalized name
-     */
-    protected function normalizeName($name) {
-        if ($name instanceof PHPParser_Node_Name) {
-            return $name;
-        } else {
-            return new PHPParser_Node_Name($name);
-        }
-    }
 }
