@@ -182,10 +182,6 @@ EOC;
     }
 
     public function testAddTraitNamespacedName() {
-        if (!version_compare(PHP_VERSION, '5.4.0RC1', '>=')) {
-            $this->markTestSkipped('The test requires PHP 5.4');
-        }
-
         $stmts = $this->createNamespacedAndNonNamespaced(array(
             new PHPParser_Node_Stmt_Trait('A')
         ));
