@@ -78,4 +78,14 @@ class PHPParser_Tests_Builder_ClassTest extends PHPUnit_Framework_TestCase
             $node
         );
     }
+
+    /**
+     * @expectedException LogicException
+     * @expectedExceptionMessage Unexpected node of type "Stmt_Echo"
+     */
+    public function testInvalidStmtError() {
+        $this->createClassBuilder('Test')
+            ->addStmt(new PHPParser_Node_Stmt_Echo(array()))
+        ;
+    }
 }

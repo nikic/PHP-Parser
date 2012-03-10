@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @method PHPParser_Builder_Class class(string $name) Create a class builder
+ * @method PHPParser_Builder_Class class(string $name) Creates a class builder.
  */
 class PHPParser_BuilderFactory
 {
@@ -11,6 +11,17 @@ class PHPParser_BuilderFactory
      */
     protected function _class($name) {
         return new PHPParser_Builder_Class($name);
+    }
+
+    /**
+     * Creates a method builder.
+     *
+     * @param string $name Name of the method
+     *
+     * @return PHPParser_Builder_Method The created method class builder
+     */
+    public function method($name) {
+        return new PHPParser_Builder_Method($name);
     }
 
     public function __call($name, array $args) {

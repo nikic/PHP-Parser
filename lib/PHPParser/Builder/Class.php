@@ -1,6 +1,6 @@
 <?php
 
-class PHPParser_Builder_Class implements PHPParser_Builder
+class PHPParser_Builder_Class extends PHPParser_BuilderAbstract
 {
     protected $name;
 
@@ -63,7 +63,7 @@ class PHPParser_Builder_Class implements PHPParser_Builder
      * @return PHPParser_Builder_Class The builder instance (for fluid interface)
      */
     public function makeAbstract() {
-        $this->type = PHPParser_Node_Stmt_Class::MODIFIER_ABSTRACT;
+        $this->setModifier(PHPParser_Node_Stmt_Class::MODIFIER_ABSTRACT);
 
         return $this;
     }
@@ -74,7 +74,7 @@ class PHPParser_Builder_Class implements PHPParser_Builder
      * @return PHPParser_Builder_Class The builder instance (for fluid interface)
      */
     public function makeFinal() {
-        $this->type = PHPParser_Node_Stmt_Class::MODIFIER_FINAL;
+        $this->setModifier(PHPParser_Node_Stmt_Class::MODIFIER_FINAL);
 
         return $this;
     }
@@ -82,7 +82,7 @@ class PHPParser_Builder_Class implements PHPParser_Builder
     /**
      * Adds a statement.
      *
-     * @param PHPParser_Node|PHPParser_Builder $stmt The statement to add
+     * @param PHPParser_Node_Stmt|PHPParser_Builder $stmt The statement to add
      *
      * @return PHPParser_Builder_Class The builder instance (for fluid interface)
      */
@@ -124,7 +124,7 @@ class PHPParser_Builder_Class implements PHPParser_Builder
     /**
      * Returns the built class node.
      *
-     * @return PHPParser_Node The built class node
+     * @return PHPParser_Node_Stmt_Class The built class node
      */
     public function getNode() {
         return new PHPParser_Node_Stmt_Class($this->name, array(
@@ -148,22 +148,5 @@ class PHPParser_Builder_Class implements PHPParser_Builder
         } else {
             return new PHPParser_Node_Name($name);
         }
-    }
-
-    /**
-     * Normalizes a node: Converts builder objects to nodes.
-     *
-     * @param PHPParser_Node|PHPParser_Builder $node The node to normalize
-     *
-     * @return PHPParser_Node The normalized node
-     */
-    protected function normalizeNode($node) {
-        if ($node instanceof PHPParser_Builder) {
-            return $node->getNode();
-        } elseif ($node instanceof PHPParser_Node) {
-            return $node;
-        }
-
-        throw new LogicException('Expected node or builder object');
     }
 }
