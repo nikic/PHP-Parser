@@ -35,6 +35,17 @@ class PHPParser_BuilderFactory
         return new PHPParser_Builder_Param($name);
     }
 
+    /**
+     * Creates a property builder.
+     *
+     * @param string $name Name of the property
+     *
+     * @return PHPParser_Builder_Property The created property builder
+     */
+    public function property($name) {
+        return new PHPParser_Builder_Property($name);
+    }
+
     public function __call($name, array $args) {
         if ('class' === $name) {
             return call_user_func_array(array($this, '_class'), $args);
