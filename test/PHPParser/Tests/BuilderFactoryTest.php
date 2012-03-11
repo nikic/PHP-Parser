@@ -21,4 +21,9 @@ class PHPParser_Tests_BuilderFactoryTest extends PHPUnit_Framework_TestCase
         $factory = new PHPParser_BuilderFactory;
         $this->assertInstanceOf('PHPParser_Builder_Property', $factory->property('test'));
     }
+
+    public function testCreateFunctionBuilder() {
+        $factory = new PHPParser_BuilderFactory;
+        $this->assertInstanceOf('PHPParser_Builder_Function', $factory->function('test'));
+    }
 }
