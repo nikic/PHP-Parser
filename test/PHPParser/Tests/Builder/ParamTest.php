@@ -45,6 +45,27 @@ class PHPParser_Tests_Builder_ParamTest extends PHPUnit_Framework_TestCase
                 new PHPParser_Node_Scalar_String('Hallo World')
             ),
             array(
+                array(1, 2, 3),
+                new PHPParser_Node_Expr_Array(array(
+                    new PHPParser_Node_Expr_ArrayItem(new PHPParser_Node_Scalar_LNumber(1)),
+                    new PHPParser_Node_Expr_ArrayItem(new PHPParser_Node_Scalar_LNumber(2)),
+                    new PHPParser_Node_Expr_ArrayItem(new PHPParser_Node_Scalar_LNumber(3)),
+                ))
+            ),
+            array(
+                array('foo' => 'bar', 'bar' => 'foo'),
+                new PHPParser_Node_Expr_Array(array(
+                    new PHPParser_Node_Expr_ArrayItem(
+                        new PHPParser_Node_Scalar_String('bar'),
+                        new PHPParser_Node_Scalar_String('foo')
+                    ),
+                    new PHPParser_Node_Expr_ArrayItem(
+                        new PHPParser_Node_Scalar_String('foo'),
+                        new PHPParser_Node_Scalar_String('bar')
+                    ),
+                ))
+            ),
+            array(
                 new PHPParser_Node_Scalar_DirConst,
                 new PHPParser_Node_Scalar_DirConst
             )

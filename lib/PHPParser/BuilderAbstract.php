@@ -39,7 +39,7 @@ abstract class PHPParser_BuilderAbstract implements PHPParser_Builder {
      *
      * @param mixed $value The value to normalize
      *
-     * @return PHPParser_Node The normalized value
+     * @return PHPParser_Node_Expr The normalized value
      */
     protected function normalizeValue($value) {
         if ($value instanceof PHPParser_Node) {
@@ -58,6 +58,25 @@ abstract class PHPParser_BuilderAbstract implements PHPParser_Builder {
             return new PHPParser_Node_Scalar_DNumber($value);
         } elseif (is_string($value)) {
             return new PHPParser_Node_Scalar_String($value);
+        } elseif (is_array($value)) {
+            $items = array();
+            $lastKey = -1;
+            foreach ($value as $itemKey => $itemValue) {
+                // for consecutive, numeric keys don't generate keys
+                if (null !== $lastKey && ++$lastKey === $itemKey) {
+                    $items[] = new PHPParser_Node_Expr_ArrayItem(
+                        $this->normalizeValue($itemValue)
+                    );
+                } else {
+                    $lastKey = null;
+                    $items[] = new PHPParser_Node_Expr_ArrayItem(
+                        $this->normalizeValue($itemValue),
+                        $this->normalizeValue($itemKey)
+                    );
+                }
+            }
+
+            return new PHPParser_Node_Expr_Array($items);
         } else {
             throw new LogicException('Invalid value');
         }
