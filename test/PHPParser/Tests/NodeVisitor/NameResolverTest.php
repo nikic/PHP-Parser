@@ -78,7 +78,7 @@ EOC;
         $traverser     = new PHPParser_NodeTraverser;
         $traverser->addVisitor(new PHPParser_NodeVisitor_NameResolver);
 
-        $stmts = $parser->parse(new PHPParser_Lexer($code));
+        $stmts = $parser->parse(new PHPParser_Lexer_Emulative($code));
         $stmts = $traverser->traverse($stmts);
 
         $this->assertEquals($expectedCode, $prettyPrinter->prettyPrint($stmts));
@@ -134,7 +134,7 @@ EOC;
         $traverser     = new PHPParser_NodeTraverser;
         $traverser->addVisitor(new PHPParser_NodeVisitor_NameResolver);
 
-        $stmts = $parser->parse(new PHPParser_Lexer($code));
+        $stmts = $parser->parse(new PHPParser_Lexer_Emulative($code));
         $stmts = $traverser->traverse($stmts);
 
         $this->assertEquals($expectedCode, $prettyPrinter->prettyPrint($stmts));
