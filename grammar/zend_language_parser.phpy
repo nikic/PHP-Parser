@@ -187,7 +187,7 @@ statement:
     | T_STATIC static_var_list ';'                          { $$ = Stmt_Static[$2]; }
     | T_ECHO expr_list ';'                                  { $$ = Stmt_Echo[$2]; }
     | T_INLINE_HTML                                         { $$ = Stmt_InlineHTML[$1]; }
-    | expr ';'                                              { $$ = $1; }
+    | expr ';'                                              { $$ = Stmt_Expr[$1]; }
     | T_UNSET '(' variables_list ')' ';'                    { $$ = Stmt_Unset[$3]; }
     | T_FOREACH '(' expr T_AS variable ')' foreach_statement
           { $$ = Stmt_Foreach[$3, $5, [keyVar: null, byRef: false, stmts: $7]]; }
