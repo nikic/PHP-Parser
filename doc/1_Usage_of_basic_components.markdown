@@ -108,6 +108,9 @@ without the `PHPParser_Node_` prefix). Additionally there are `getLine()`, which
 the node startet in, and `getDocComment()`, which returns the doc comment above the node (if there
 is any), and the respective setters `setLine()` and `setDocComment()`.
 
+It is possible to associate custom metadata with a node using the `setAttribute()` method. This data
+can then be retrieved using `hasAttribute()`, `getAttribute()` and `getAttributes()`.
+
 Pretty printer
 --------------
 
