@@ -47,7 +47,10 @@ class PHPParser_Unserializer_XML implements PHPParser_Unserializer
 
         // create the node without calling it's constructor
         $node = unserialize(
-            sprintf('O:%d:"%s":0:{}', strlen($className), $className)
+            sprintf(
+                "O:%d:\"%s\":2:{s:11:\"\0*\0subNodes\";a:0:{}s:13:\"\0*\0attributes\";a:0:{}}",
+                strlen($className), $className
+            )
         );
 
         $line = $this->reader->getAttribute('line');

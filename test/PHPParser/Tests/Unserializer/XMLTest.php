@@ -21,6 +21,21 @@ XML;
         );
     }
 
+    public function testEmptyNode() {
+        $xml = <<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<AST xmlns:node="http://nikic.github.com/PHPParser/XML/node" xmlns:subNode="http://nikic.github.com/PHPParser/XML/subNode" xmlns:scalar="http://nikic.github.com/PHPParser/XML/scalar">
+ <node:Scalar_ClassConst />
+</AST>
+XML;
+
+        $unserializer  = new PHPParser_Unserializer_XML;
+        $this->assertEquals(
+            new PHPParser_Node_Scalar_ClassConst,
+            $unserializer->unserialize($xml)
+        );
+    }
+
     public function testScalars() {
         $xml = <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
