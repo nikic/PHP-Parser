@@ -4,6 +4,7 @@ abstract class PHPParser_NodeAbstract implements PHPParser_Node, IteratorAggrega
 {
     protected $subNodes;
     protected $line;
+    protected $filename;
     protected $docComment;
     protected $attributes;
 
@@ -14,9 +15,10 @@ abstract class PHPParser_NodeAbstract implements PHPParser_Node, IteratorAggrega
      * @param int         $line       Line
      * @param null|string $docComment Nearest doc comment
      */
-    public function __construct(array $subNodes, $line = -1, $docComment = null) {
+    public function __construct(array $subNodes, $line = -1, $filename, $docComment = null) {
         $this->subNodes   = $subNodes;
         $this->line       = $line;
+        $this->filename   = $filename;
         $this->docComment = $docComment;
         $this->attributes = array();
     }
@@ -46,6 +48,15 @@ abstract class PHPParser_NodeAbstract implements PHPParser_Node, IteratorAggrega
      */
     public function getLine() {
         return $this->line;
+    }
+
+    /**
+     * Gets filename the node started in.
+     *
+     * @return string Filename
+     */
+    public function getFilename() {
+        return $this->filename;
     }
 
     /**
