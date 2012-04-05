@@ -2,13 +2,11 @@
 require '../PHPParser/Autoloader.php';
 PHPParser_Autoloader::register();
 
-require_once 'UsefulVisitor.php';
-require_once 'IVisitor.php';
-require_once 'BaseVisitor.php';
+require_once 'IPrinter.php';
+require_once 'BasePrinter.php';
 
-class AST2Rascal extends BaseVisitor {
+class AST2Rascal extends BasePrinter {
   private $filename = "";
-  private $fragments = array();
 
   public function AST2Rascal($str)
   {
@@ -65,62 +63,62 @@ class AST2Rascal extends BaseVisitor {
     return "";
   }
 
-  public function leaveArg(PHPParser_Node_Arg $node)
+  public function pprintArg(PHPParser_Node_Arg $node)
   {
-    $fragment = "actualParameter(";
-    $fragment .= array_pop($this->fragments);
-    $fragment .= ",";
+    $argValue = $this->pprint($node->value);
+
     if ($node->byRef)
-      $fragment .= "true";
+      $byRef = "true";
     else
-      $fragment .= "false";
-    $fragment .= ")";
+      $byRef = "false";
+    
+    $fragment = "actualParameter(" . $argValue . "," . $byRef . ")";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+
+    return $fragment;
   }
 
-  public function leaveConst(PHPParser_Node_Const $node)
+  public function pprintConst(PHPParser_Node_Const $node)
   {
-    $fragment = "const(\"" . $this->rascalizeString($node->name) . "\",";
-    $fragment .= array_pop($this->fragments) . ")";
+    $fragment = "const(\"" . $this->rascalizeString($node->name) . "\"," . $this->pprint($node->value) . ")";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+
+    return $fragment;
   }
 
-  public function leaveArrayExpr(PHPParser_Node_Expr_Array $node)
+  public function pprintArrayExpr(PHPParser_Node_Expr_Array $node)
   {
-    $fragment = "array([";
     $items = array();
     foreach($node->items as $item)
-      $items[] = array_pop($this->fragments);
-    $fragment .= implode(",",array_reverse($items));
-    $fragment .= "])";
+      $items[] = $this->pprint($item);
+
+    $fragment = "array([" . implode(",",$items) . "])";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+
+    return $fragment;
   }
 
-  public function leaveArrayDimFetchExpr(PHPParser_Node_Expr_ArrayDimFetch $node)
+  public function pprintArrayDimFetchExpr(PHPParser_Node_Expr_ArrayDimFetch $node)
   {
-    $dim = "noExpr()";
     if (null != $node->dim)
-      $dim = "someExpr(" . array_pop($this->fragments) . ")";
-    $fragment = "fetchArrayDim(" . array_pop($this->fragments) . "," . $dim . ")";
+      $dim = "someExpr(" . $this->pprint($node->dim) . ")";
+    else
+      $dim = "noExpr()";
+
+    $fragment = "fetchArrayDim(" . $this->pprint($node->var) . "," . $dim . ")";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+
+    return $fragment;
   }
 
-  public function leaveArrayItemExpr(PHPParser_Node_Expr_ArrayItem $node)
+  public function pprintArrayItemExpr(PHPParser_Node_Expr_ArrayItem $node)
   {
-    $nodeValue = array_pop($this->fragments);
+    $nodeValue = $this->pprint($node->value);
     
     if (null == $node->key)
       $key = "noExpr()";
     else
-      $key = "someExpr(" . array_pop($this->fragments) . ")";
+      $key = "someExpr(" . $this->pprint($node->key) . ")";
     
     if ($node->byRef)
       $byRef = "true";
@@ -129,345 +127,340 @@ class AST2Rascal extends BaseVisitor {
 
     $fragment = "arrayElement(" . $key . "," . $nodeValue . "," . $byRef . ")";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+
+    return $fragment;
   }
 
-  public function leaveAssignExpr(PHPParser_Node_Expr_Assign $node)
+  public function pprintAssignExpr(PHPParser_Node_Expr_Assign $node)
   {
-    $assignExpr = array_pop($this->fragments);
-    $assignVar = array_pop($this->fragments);
+    $assignExpr = $this->pprint($node->expr);
+    $assignVar = $this->pprint($node->var);
 
     $fragment = "assign(".$assignVar.",".$assignExpr.")";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+
+    return $fragment;
   }
 
-  public function leaveAssignBitwiseAndExpr(PHPParser_Node_Expr_AssignBitwiseAnd $node)
+  public function pprintAssignBitwiseAndExpr(PHPParser_Node_Expr_AssignBitwiseAnd $node)
   {
-    $assignExpr = array_pop($this->fragments);
-    $assignVar = array_pop($this->fragments);
+    $assignExpr = $this->pprint($node->expr);
+    $assignVar = $this->pprint($node->var);
 
     $fragment = "assignWOp(".$assignVar.",".$assignExpr.",bitwiseAnd())";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+
+    return $fragment;
   }
 	
-  public function leaveAssignBitwiseOrExpr(PHPParser_Node_Expr_AssignBitwiseOr $node)
+  public function pprintAssignBitwiseOrExpr(PHPParser_Node_Expr_AssignBitwiseOr $node)
   {
-    $assignExpr = array_pop($this->fragments);
-    $assignVar = array_pop($this->fragments);
+    $assignExpr = $this->pprint($node->expr);
+    $assignVar = $this->pprint($node->var);
 
     $fragment = "assignWOp(".$assignVar.",".$assignExpr.",bitwiseOr())";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+
+    return $fragment;
   }
 	
-  public function leaveAssignBitwiseXorExpr(PHPParser_Node_Expr_AssignBitwiseXor $node)
+  public function pprintAssignBitwiseXorExpr(PHPParser_Node_Expr_AssignBitwiseXor $node)
   {
-    $assignExpr = array_pop($this->fragments);
-    $assignVar = array_pop($this->fragments);
+    $assignExpr = $this->pprint($node->expr);
+    $assignVar = $this->pprint($node->var);
 
     $fragment = "assignWOp(".$assignVar.",".$assignExpr.",bitwiseXor())";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+
+    return $fragment;
   }
 	
-  public function leaveAssignConcatExpr(PHPParser_Node_Expr_AssignConcat $node)
+  public function pprintAssignConcatExpr(PHPParser_Node_Expr_AssignConcat $node)
   {
-    $assignExpr = array_pop($this->fragments);
-    $assignVar = array_pop($this->fragments);
+    $assignExpr = $this->pprint($node->expr);
+    $assignVar = $this->pprint($node->var);
 
     $fragment = "assignWOp(".$assignVar.",".$assignExpr.",concat())";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+
+    return $fragment;
   }
 	
-  public function leaveAssignDivExpr(PHPParser_Node_Expr_AssignDiv $node)
+  public function pprintAssignDivExpr(PHPParser_Node_Expr_AssignDiv $node)
   {
-    $assignExpr = array_pop($this->fragments);
-    $assignVar = array_pop($this->fragments);
+    $assignExpr = $this->pprint($node->expr);
+    $assignVar = $this->pprint($node->var);
 
     $fragment = "assignWOp(".$assignVar.",".$assignExpr.",div())";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+
+    return $fragment;
   }
 	
-  public function leaveAssignListExpr(PHPParser_Node_Expr_AssignList $node)
+  public function pprintAssignListExpr(PHPParser_Node_Expr_AssignList $node)
   {
-    $assignExpr = array_pop($this->fragments);
+    $assignExpr = $this->pprint($node->expr);
+
     $assignVars = array();
-    // TODO: Need to verify this, not sure if these are all fragments
     foreach($node->vars as $var) {
       if (null != $var) {
-	$assignVars[] = "someExpr(" . array_pop($this->fragments) . ")";
+	$assignVars[] = "someExpr(" . $this->pprint($var) . ")";
       } else {
 	$assignVars[] = "noExpr()";
       }
     }
 
-    $fragment = "listAssign([" . implode(",",array_reverse($assignVars)) . "]," . $assignExpr . ")";
+    $fragment = "listAssign([" . implode(",",$assignVars) . "]," . $assignExpr . ")";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+
+    return $fragment;
   }
 	
-  public function leaveAssignMinusExpr(PHPParser_Node_Expr_AssignMinus $node)
+  public function pprintAssignMinusExpr(PHPParser_Node_Expr_AssignMinus $node)
   {
-    $assignExpr = array_pop($this->fragments);
-    $assignVar = array_pop($this->fragments);
+    $assignExpr = $this->pprint($node->expr);
+    $assignVar = $this->pprint($node->var);
 
     $fragment = "assignWOp(".$assignVar.",".$assignExpr.",minus())";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+
+    return $fragment;
   }
 	
-  public function leaveAssignModExpr(PHPParser_Node_Expr_AssignMod $node)
+  public function pprintAssignModExpr(PHPParser_Node_Expr_AssignMod $node)
   {
-    $assignExpr = array_pop($this->fragments);
-    $assignVar = array_pop($this->fragments);
+    $assignExpr = $this->pprint($node->expr);
+    $assignVar = $this->pprint($node->var);
 
     $fragment = "assignWOp(".$assignVar.",".$assignExpr.",\\mod())";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+
+    return $fragment;
   }
 	
-  public function leaveAssignMulExpr(PHPParser_Node_Expr_AssignMul $node)
+  public function pprintAssignMulExpr(PHPParser_Node_Expr_AssignMul $node)
   {
-    $assignExpr = array_pop($this->fragments);
-    $assignVar = array_pop($this->fragments);
+    $assignExpr = $this->pprint($node->expr);
+    $assignVar = $this->pprint($node->var);
 
     $fragment = "assignWOp(".$assignVar.",".$assignExpr.",mul())";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+
+    return $fragment;
   }
 	
-  public function leaveAssignPlusExpr(PHPParser_Node_Expr_AssignPlus $node)
+  public function pprintAssignPlusExpr(PHPParser_Node_Expr_AssignPlus $node)
   {
-    $assignExpr = array_pop($this->fragments);
-    $assignVar = array_pop($this->fragments);
+    $assignExpr = $this->pprint($node->expr);
+    $assignVar = $this->pprint($node->var);
 
     $fragment = "assignWOp(".$assignVar.",".$assignExpr.",plus())";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+
+    return $fragment;
   }
 	
-  public function leaveAssignRefExpr(PHPParser_Node_Expr_AssignRef $node)
+  public function pprintAssignRefExpr(PHPParser_Node_Expr_AssignRef $node)
   {
-    $assignExpr = array_pop($this->fragments);
-    $assignVar = array_pop($this->fragments);
+    $assignExpr = $this->pprint($node->expr);
+    $assignVar = $this->pprint($node->var);
 
     $fragment = "refAssign(".$assignVar.",".$assignExpr.")";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+
+    return $fragment;
   }
 	
-  public function leaveAssignShiftLeftExpr(PHPParser_Node_Expr_AssignShiftLeft $node)
+  public function pprintAssignShiftLeftExpr(PHPParser_Node_Expr_AssignShiftLeft $node)
   {
-    $assignExpr = array_pop($this->fragments);
-    $assignVar = array_pop($this->fragments);
+    $assignExpr = $this->pprint($node->expr);
+    $assignVar = $this->pprint($node->var);
 
     $fragment = "assignWOp(".$assignVar.",".$assignExpr.",leftShift())";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+
+    return $fragment;
   }
 	
-  public function leaveAssignShiftRightExpr(PHPParser_Node_Expr_AssignShiftRight $node)
+  public function pprintAssignShiftRightExpr(PHPParser_Node_Expr_AssignShiftRight $node)
   {
-    $assignExpr = array_pop($this->fragments);
-    $assignVar = array_pop($this->fragments);
+    $assignExpr = $this->pprint($node->expr);
+    $assignVar = $this->pprint($node->var);
 
     $fragment = "assignWOp(".$assignVar.",".$assignExpr.",rightShift())";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+
+    return $fragment;
   }
 
-  public function leaveBitwiseAndExpr(PHPParser_Node_Expr_BitwiseAnd $node)
+  public function pprintBitwiseAndExpr(PHPParser_Node_Expr_BitwiseAnd $node)
   {
-    $right = array_pop($this->fragments);
-    $left = array_pop($this->fragments);
+    $right = $this->pprint($node->right);
+    $left = $this->pprint($node->left);
 
     $fragment = "binaryOperation(".$left.",".$right.",bitwiseAnd())";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+
+    return $fragment;
   }
 
-  public function leaveBitwiseNotExpr(PHPParser_Node_Expr_BitwiseNot $node)
+  public function pprintBitwiseNotExpr(PHPParser_Node_Expr_BitwiseNot $node)
   {
-    $operand = array_pop($this->fragments);
-    $fragment = "unaryOperation(".$operand.",bitwiseNot())";
+    $expr = $this->pprint($node->expr);
+
+    $fragment = "unaryOperation(".$expr.",bitwiseNot())";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+
+    return $fragment;
   }
   
-  public function leaveBitwiseOrExpr(PHPParser_Node_Expr_BitwiseOr $node)
+  public function pprintBitwiseOrExpr(PHPParser_Node_Expr_BitwiseOr $node)
   {
-    $right = array_pop($this->fragments);
-    $left = array_pop($this->fragments);
+    $right = $this->pprint($node->right);
+    $left = $this->pprint($node->left);
 
     $fragment = "binaryOperation(".$left.",".$right.",bitwiseOr())";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+
+    return $fragment;
   }
 	
-  public function leaveBitwiseXorExpr(PHPParser_Node_Expr_BitwiseXor $node)
+  public function pprintBitwiseXorExpr(PHPParser_Node_Expr_BitwiseXor $node)
   {
-    $right = array_pop($this->fragments);
-    $left = array_pop($this->fragments);
+    $right = $this->pprint($node->right);
+    $left = $this->pprint($node->left);
 
     $fragment = "binaryOperation(".$left.",".$right.",bitwiseXor())";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+
+    return $fragment;
   }
 	
-  public function leaveBooleanAndExpr(PHPParser_Node_Expr_BooleanAnd $node)
+  public function pprintBooleanAndExpr(PHPParser_Node_Expr_BooleanAnd $node)
   {
-    $right = array_pop($this->fragments);
-    $left = array_pop($this->fragments);
+    $right = $this->pprint($node->right);
+    $left = $this->pprint($node->left);
 
     $fragment = "binaryOperation(".$left.",".$right.",booleanAnd())";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+
+    return $fragment;
   }
 	
-  public function leaveBooleanNotExpr(PHPParser_Node_Expr_BooleanNot $node)
+  public function pprintBooleanNotExpr(PHPParser_Node_Expr_BooleanNot $node)
   {
-    $operand = array_pop($this->fragments);
-    $fragment = "unaryOperation(".$operand.",booleanNot())";
+    $expr = $this->pprint($node->expr);
+
+    $fragment = "unaryOperation(".$expr.",booleanNot())";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+
+    return $fragment;
   }
 	
-  public function leaveBooleanOrExpr(PHPParser_Node_Expr_BooleanOr $node)
+  public function pprintBooleanOrExpr(PHPParser_Node_Expr_BooleanOr $node)
   {
-    $right = array_pop($this->fragments);
-    $left = array_pop($this->fragments);
+    $right = $this->pprint($node->right);
+    $left = $this->pprint($node->left);
 
     $fragment = "binaryOperation(".$left.",".$right.",booleanOr())";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+
+    return $fragment;
   }
 
-  public function leaveArrayCastExpr(PHPParser_Node_Expr_Cast_Array $node)
+  public function pprintArrayCastExpr(PHPParser_Node_Expr_Cast_Array $node)
   {
-    $toCast = array_pop($this->fragments);
+    $toCast = $this->pprint($node->expr);
     $fragment = "cast(array()," . $toCast . ")";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+    return $fragment;
   }
 	
-  public function leaveBoolCastExpr(PHPParser_Node_Expr_Cast_Bool $node)
+  public function pprintBoolCastExpr(PHPParser_Node_Expr_Cast_Bool $node)
   {
-    $toCast = array_pop($this->fragments);
+    $toCast = $this->pprint($node->expr);
     $fragment = "cast(\bool()," . $toCast . ")";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+    return $fragment;
   }
 	
-  public function leaveDoubleCastExpr(PHPParser_Node_Expr_Cast_Double $node)
+  public function pprintDoubleCastExpr(PHPParser_Node_Expr_Cast_Double $node)
   {
-    $toCast = array_pop($this->fragments);
+    $toCast = $this->pprint($node->expr);
     $fragment = "cast(float()," . $toCast . ")";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+    return $fragment;
   }
 	
-  public function leaveIntCastExpr(PHPParser_Node_Expr_Cast_Int $node)
+  public function pprintIntCastExpr(PHPParser_Node_Expr_Cast_Int $node)
   {
-    $toCast = array_pop($this->fragments);
+    $toCast = $this->pprint($node->expr);
     $fragment = "cast(\int()," . $toCast . ")";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+    return $fragment;
   }
 	
-  public function leaveObjectCastExpr(PHPParser_Node_Expr_Cast_Object $node)
+  public function pprintObjectCastExpr(PHPParser_Node_Expr_Cast_Object $node)
   {
-    $toCast = array_pop($this->fragments);
+    $toCast = $this->pprint($node->expr);
     $fragment = "cast(object()," . $toCast . ")";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+    return $fragment;
   }
 	
-  public function leaveStringCastExpr(PHPParser_Node_Expr_Cast_String $node)
+  public function pprintStringCastExpr(PHPParser_Node_Expr_Cast_String $node)
   {
-    $toCast = array_pop($this->fragments);
+    $toCast = $this->pprint($node->expr);
     $fragment = "cast(string()," . $toCast . ")";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+    return $fragment;
   }
 	
-  public function leaveUnsetCastExpr(PHPParser_Node_Expr_Cast_Unset $node)
+  public function pprintUnsetCastExpr(PHPParser_Node_Expr_Cast_Unset $node)
   {
-    $toCast = array_pop($this->fragments);
+    $toCast = $this->pprint($node->expr);
     $fragment = "cast(unset()," . $toCast . ")";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+    return $fragment;
   }
 
-  public function leaveClassConstFetchExpr(PHPParser_Node_Expr_ClassConstFetch $node)
+  public function pprintClassConstFetchExpr(PHPParser_Node_Expr_ClassConstFetch $node)
   {
-    $name = array_pop($this->fragments);
+    $name = $this->pprint($node->class);
     if ($node->class instanceof PHPParser_Node_Name)
       $name = "name({$name})";
     else
       $name = "expr({$name})";
+
     $fragment = "fetchClassConst(" . $name . ",\"" . $this->rascalizeString($node->name) . "\")";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+
+    return $fragment;
   }
 
-  public function leaveCloneExpr(PHPParser_Node_Expr_Clone $node)
+  public function pprintCloneExpr(PHPParser_Node_Expr_Clone $node)
   {
-    $fragment = "clone(" . array_pop($this->fragments) . ")";
+    $fragment = "clone(" . $this->pprint($node->expr) . ")";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+    return $fragment;
   }
 	
-  public function leaveClosureExpr(PHPParser_Node_Expr_Closure $node)
+  public function pprintClosureExpr(PHPParser_Node_Expr_Closure $node)
   {
     $body = array();
     $params = array();
     $uses = array();
 
     foreach($node->uses as $use)
-      $uses[] = array_pop($this->fragments);
+      $uses[] = $this->pprint($use);
     foreach($node->params as $param)
-      $params[] = array_pop($this->fragments);
+      $params[] = $this->pprint($param);
     foreach($node->stmts as $stmt)
-      $body[] = array_pop($this->fragments);
+      $body[] = $this->pprint($stmt);
     
-    $fragment = "closure([" . implode(",",array_reverse($body)) . "],[";
-    $fragment .= implode(",",array_reverse($params)) . "],[";
-    $fragment .= implode(",",array_reverse($uses)) . "],";
+    $fragment = "closure([" . implode(",",$body) . "],[";
+    $fragment .= implode(",",$params) . "],[";
+    $fragment .= implode(",",$uses) . "],";
     if ($node->byRef)
       $fragment .= "true,";
     else
@@ -479,11 +472,10 @@ class AST2Rascal extends BaseVisitor {
     $fragment .= ")";
     
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+    return $fragment;
   }
 	
-  public function leaveClosureUseExpr(PHPParser_Node_Expr_ClosureUse $node)
+  public function pprintClosureUseExpr(PHPParser_Node_Expr_ClosureUse $node)
   {
     $fragment = "closureUse(\"" . $node->var . "\",";
     if ($node->byRef)
@@ -492,141 +484,135 @@ class AST2Rascal extends BaseVisitor {
       $fragment .= "false";
     $fragment .= ")";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+    return $fragment;
   }
 	
-  public function leaveConcatExpr(PHPParser_Node_Expr_Concat $node)
+  public function pprintConcatExpr(PHPParser_Node_Expr_Concat $node)
   {
-    $right = array_pop($this->fragments);
-    $left = array_pop($this->fragments);
+    $right = $this->pprint($node->right);
+    $left = $this->pprint($node->left);
 
     $fragment = "binaryOperation(".$left.",".$right.",concat())";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+
+    return $fragment;
   }
 
-  public function leaveConstFetchExpr(PHPParser_Node_Expr_ConstFetch $node)
+  public function pprintConstFetchExpr(PHPParser_Node_Expr_ConstFetch $node)
   {
-    $fragment = "fetchConst(" . array_pop($this->fragments) . ")";
+    $fragment = "fetchConst(" . $this->pprint($node->name) . ")";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+    return $fragment;
   }
 
-  public function leaveDivExpr(PHPParser_Node_Expr_Div $node)
+  public function pprintDivExpr(PHPParser_Node_Expr_Div $node)
   {
-    $right = array_pop($this->fragments);
-    $left = array_pop($this->fragments);
+    $right = $this->pprint($node->right);
+    $left = $this->pprint($node->left);
 
     $fragment = "binaryOperation(".$left.",".$right.",div())";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+
+    return $fragment;
   }
 
-  public function leaveEmptyExpr(PHPParser_Node_Expr_Empty $node)
+  public function pprintEmptyExpr(PHPParser_Node_Expr_Empty $node)
   {
-    $fragment = "empty(" . array_pop($this->fragments) . ")";
+    $fragment = "empty(" . $this->pprint($node->var) . ")";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+    return $fragment;
   }
   
-  public function leaveEqualExpr(PHPParser_Node_Expr_Equal $node)
+  public function pprintEqualExpr(PHPParser_Node_Expr_Equal $node)
   {
-    $right = array_pop($this->fragments);
-    $left = array_pop($this->fragments);
+    $right = $this->pprint($node->right);
+    $left = $this->pprint($node->left);
 
     $fragment = "binaryOperation(".$left.",".$right.",equal())";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+
+    return $fragment;
   }
 	
-  public function leaveErrorSuppressExpr(PHPParser_Node_Expr_ErrorSuppress $node)
+  public function pprintErrorSuppressExpr(PHPParser_Node_Expr_ErrorSuppress $node)
   {
-    $fragment = "suppress(" . array_pop($this->fragments) . ")";
+    $fragment = "suppress(" . $this->pprint($node->expr) . ")";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+    return $fragment;
   }
 	
-  public function leaveEvalExpr(PHPParser_Node_Expr_Eval $node)
+  public function pprintEvalExpr(PHPParser_Node_Expr_Eval $node)
   {
-    $fragment = "eval(" . array_pop($this->fragments) . ")";
+    $fragment = "eval(" . $this->pprint($node->expr) . ")";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+    return $fragment;
   }
 	
-  public function leaveExitExpr(PHPParser_Node_Expr_Exit $node)
+  public function pprintExitExpr(PHPParser_Node_Expr_Exit $node)
   {
     if (null != $node->expr)
-      $fragment = "someExpr(" . array_pop($this->fragments) . ")";
+      $fragment = "someExpr(" . $this->pprint($node->expr) . ")";
     else
       $fragment = "noExpr()";
     $fragment = "exit(" . $fragment . ")";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+    return $fragment;
   }
 	
-  public function leaveFuncCallExpr(PHPParser_Node_Expr_FuncCall $node)
+  public function pprintFuncCallExpr(PHPParser_Node_Expr_FuncCall $node)
   {
     $args = array();
     foreach($node->args as $arg)
-      $args[] = array_pop($this->fragments);
+      $args[] = $this->pprint($arg);
 
-    $name = array_pop($this->fragments);
+    $name = $this->pprint($node->name);
     if ($node->name instanceof PHPParser_Node_Name)
       $name = "name({$name})";
     else
       $name = "expr({$name})";
-    $fragment = "call(" . $name . ",[" . implode(",",array_reverse($args)) . "])";
-    $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
 
-    return null;
+    $fragment = "call(" . $name . ",[" . implode(",",$args) . "])";
+    $fragment .= $this->tagWithLine($node);
+
+    return $fragment;
   }
 
-  public function leaveGreaterExpr(PHPParser_Node_Expr_Greater $node)
+  public function pprintGreaterExpr(PHPParser_Node_Expr_Greater $node)
   {
-    $right = array_pop($this->fragments);
-    $left = array_pop($this->fragments);
+    $right = $this->pprint($node->right);
+    $left = $this->pprint($node->left);
 
     $fragment = "binaryOperation(".$left.",".$right.",gt())";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+
+    return $fragment;
   }
 	
-  public function leaveGreaterOrEqualExpr(PHPParser_Node_Expr_GreaterOrEqual $node)
+  public function pprintGreaterOrEqualExpr(PHPParser_Node_Expr_GreaterOrEqual $node)
   {
-    $right = array_pop($this->fragments);
-    $left = array_pop($this->fragments);
+    $right = $this->pprint($node->right);
+    $left = $this->pprint($node->left);
 
     $fragment = "binaryOperation(".$left.",".$right.",geq())";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+
+    return $fragment;
   }
 
-  public function leaveIdenticalExpr(PHPParser_Node_Expr_Identical $node)
+  public function pprintIdenticalExpr(PHPParser_Node_Expr_Identical $node)
   {
-    $right = array_pop($this->fragments);
-    $left = array_pop($this->fragments);
+    $right = $this->pprint($node->right);
+    $left = $this->pprint($node->left);
 
     $fragment = "binaryOperation(".$left.",".$right.",identical())";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+
+    return $fragment;
   }
 	
-  public function leaveIncludeExpr(PHPParser_Node_Expr_Include $node)
+  public function pprintIncludeExpr(PHPParser_Node_Expr_Include $node)
   {
-    $fragment = "include(" . array_pop($this->fragments) . ",";
+    $fragment = "include(" . $this->pprint($node->expr) . ",";
     if (PHPParser_Node_Expr_Include::TYPE_INCLUDE == $node->type)
       $fragment .= "include()";
     elseif (PHPParser_Node_Expr_Include::TYPE_INCLUDE_ONCE == $node->type)
@@ -637,396 +623,392 @@ class AST2Rascal extends BaseVisitor {
       $fragment .= "requireOnce()";
     $fragment .= ")";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+
+    return $fragment;
   }
 	
-  public function leaveInstanceofExpr(PHPParser_Node_Expr_Instanceof $node)
+  public function pprintInstanceofExpr(PHPParser_Node_Expr_Instanceof $node)
   {
-    $right = array_pop($this->fragments);
+    $right = $this->pprint($node->class);
     if ($node->class instanceOf PHPParser_Node_Name)
       $right = "name({$right})";
     else
       $right = "expr({$right})";
 
-    $left = array_pop($this->fragments);
+    $left = $this->pprint($node->expr);
 
     $fragment = "instanceOf(".$left.",".$right.")";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+
+    return $fragment;
   }
 	
-  public function leaveIssetExpr(PHPParser_Node_Expr_Isset $node)
+  public function pprintIssetExpr(PHPParser_Node_Expr_Isset $node)
   {
-    $fragment = "isSet(" . array_pop($this->fragments) . ")";
+    $exprs = array();
+    foreach($node->vars as $var)
+      $exprs[] = $this->pprint($var);
+
+    $fragment = "isSet([" . implode(",",$exprs) . "])";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+
+    return $fragment;
   }
 
-  public function leaveLogicalAndExpr(PHPParser_Node_Expr_LogicalAnd $node)
+  public function pprintLogicalAndExpr(PHPParser_Node_Expr_LogicalAnd $node)
   {
-    $right = array_pop($this->fragments);
-    $left = array_pop($this->fragments);
+    $right = $this->pprint($node->right);
+    $left = $this->pprint($node->left);
 
     $fragment = "binaryOperation(".$left.",".$right.",logicalAnd())";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+
+    return $fragment;
   }
 	
-  public function leaveLogicalOrExpr(PHPParser_Node_Expr_LogicalOr $node)
+  public function pprintLogicalOrExpr(PHPParser_Node_Expr_LogicalOr $node)
   {
-    $right = array_pop($this->fragments);
-    $left = array_pop($this->fragments);
+    $right = $this->pprint($node->right);
+    $left = $this->pprint($node->left);
 
     $fragment = "binaryOperation(".$left.",".$right.",logicalOr())";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+
+    return $fragment;
   }
   	
-  public function leaveLogicalXorExpr(PHPParser_Node_Expr_LogicalXor $node)
+  public function pprintLogicalXorExpr(PHPParser_Node_Expr_LogicalXor $node)
   {
-    $right = array_pop($this->fragments);
-    $left = array_pop($this->fragments);
+    $right = $this->pprint($node->right);
+    $left = $this->pprint($node->left);
 
     $fragment = "binaryOperation(".$left.",".$right.",logicalXor())";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+
+    return $fragment;
   }
 
-  public function leaveMethodCallExpr(PHPParser_Node_Expr_MethodCall $node)
+  public function pprintMethodCallExpr(PHPParser_Node_Expr_MethodCall $node)
   {
     $args = array();
     foreach($node->args as $arg)
-      $args[] = array_pop($this->fragments);
+      $args[] = $this->pprint($arg);
 
     if ($node->name instanceof PHPParser_Node_Expr) {
-      $name = array_pop($this->fragments);
+      $name = $this->pprint($node->name);
       $name = "expr({$name})";
     } else {
       $name = "name(name(\"" . $node->name . "\"))";
     }
 
-    $target = array_pop($this->fragments);
+    $target = $this->pprint($node->var);
 
-    $fragment = "methodCall(" . $target . "," . $name . ",[" . implode(",",array_reverse($args)) . "])";
+    $fragment = "methodCall(" . $target . "," . $name . ",[" . implode(",",$args) . "])";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
 
-    return null;
+    return $fragment;
   }
 
-  public function leaveMinusExpr(PHPParser_Node_Expr_Minus $node)
+  public function pprintMinusExpr(PHPParser_Node_Expr_Minus $node)
   {
-    $right = array_pop($this->fragments);
-    $left = array_pop($this->fragments);
+    $right = $this->pprint($node->right);
+    $left = $this->pprint($node->left);
 
     $fragment = "binaryOperation(".$left.",".$right.",minus())";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+
+    return $fragment;
   }
 	
-  public function leaveModExpr(PHPParser_Node_Expr_Mod $node)
+  public function pprintModExpr(PHPParser_Node_Expr_Mod $node)
   {
-    $right = array_pop($this->fragments);
-    $left = array_pop($this->fragments);
+    $right = $this->pprint($node->right);
+    $left = $this->pprint($node->left);
 
     $fragment = "binaryOperation(".$left.",".$right.",\\mod())";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+
+    return $fragment;
   }
 	
-  public function leaveMulExpr(PHPParser_Node_Expr_Mul $node)
+  public function pprintMulExpr(PHPParser_Node_Expr_Mul $node)
   {
-    $right = array_pop($this->fragments);
-    $left = array_pop($this->fragments);
+    $right = $this->pprint($node->right);
+    $left = $this->pprint($node->left);
 
     $fragment = "binaryOperation(".$left.",".$right.",mul())";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+
+    return $fragment;
   }
 
-  public function leaveNewExpr(PHPParser_Node_Expr_New $node)
+  public function pprintNewExpr(PHPParser_Node_Expr_New $node)
   {
     $args = array();
     foreach ($node->args as $arg)
-      $args[] = array_pop($this->fragments);
+      $args[] = $this->pprint($arg);
 
-    $name = array_pop($this->fragments);
+    $name = $this->pprint($node->class);
 
     if ($node->class instanceof PHPParser_Node_Expr)
       $name = "expr({$name})";
     else
       $name = "name({$name})";
 
-    $fragment = "new(" . $name . ",[" . implode(",",array_reverse($args)) . "])";
+    $fragment = "new(" . $name . ",[" . implode(",",$args) . "])";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+
+    return $fragment;
   }
 
-  public function leaveNotEqualExpr(PHPParser_Node_Expr_NotEqual $node)
+  public function pprintNotEqualExpr(PHPParser_Node_Expr_NotEqual $node)
   {
-    $right = array_pop($this->fragments);
-    $left = array_pop($this->fragments);
+    $right = $this->pprint($node->right);
+    $left = $this->pprint($node->left);
 
     $fragment = "binaryOperation(".$left.",".$right.",notEqual())";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+
+    return $fragment;
   }
 	
-  public function leaveNotIdenticalExpr(PHPParser_Node_Expr_NotIdentical $node)
+  public function pprintNotIdenticalExpr(PHPParser_Node_Expr_NotIdentical $node)
   {
-    $right = array_pop($this->fragments);
-    $left = array_pop($this->fragments);
+    $right = $this->pprint($node->right);
+    $left = $this->pprint($node->left);
 
     $fragment = "binaryOperation(".$left.",".$right.",notIdentical())";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+
+    return $fragment;
   }
 	
-  public function leavePlusExpr(PHPParser_Node_Expr_Plus $node)
+  public function pprintPlusExpr(PHPParser_Node_Expr_Plus $node)
   {
-    $right = array_pop($this->fragments);
-    $left = array_pop($this->fragments);
+    $right = $this->pprint($node->right);
+    $left = $this->pprint($node->left);
 
     $fragment = "binaryOperation(".$left.",".$right.",plus())";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+
+    return $fragment;
   }
 
-  public function leavePostDecExpr(PHPParser_Node_Expr_PostDec $node)
+  public function pprintPostDecExpr(PHPParser_Node_Expr_PostDec $node)
   {
-    $operand = array_pop($this->fragments);
+    $operand = $this->pprint($node->var);
     $fragment = "unaryOperation(".$operand.",postDec())";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+    return $fragment;
   }
 
-  public function leavePostIncExpr(PHPParser_Node_Expr_PostInc $node)
+  public function pprintPostIncExpr(PHPParser_Node_Expr_PostInc $node)
   {
-    $operand = array_pop($this->fragments);
+    $operand = $this->pprint($node->var);
     $fragment = "unaryOperation(".$operand.",postInc())";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+    return $fragment;
   }
 
-  public function leavePreDecExpr(PHPParser_Node_Expr_PreDec $node)
+  public function pprintPreDecExpr(PHPParser_Node_Expr_PreDec $node)
   {
-    $operand = array_pop($this->fragments);
+    $operand = $this->pprint($node->var);
     $fragment = "unaryOperation(".$operand.",preDec())";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+    return $fragment;
   }
 
-  public function leavePreIncExpr(PHPParser_Node_Expr_PreInc $node)
+  public function pprintPreIncExpr(PHPParser_Node_Expr_PreInc $node)
   {
-    $operand = array_pop($this->fragments);
+    $operand = $this->pprint($node->var);
     $fragment = "unaryOperation(".$operand.",preInc())";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+    return $fragment;
   }
 
-  public function leavePrintExpr(PHPParser_Node_Expr_Print $node)
+  public function pprintPrintExpr(PHPParser_Node_Expr_Print $node)
   {
-    $operand = array_pop($this->fragments);
+    $operand = $this->pprint($node->expr);
     $fragment = "print(" . $operand . ")";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+    return $fragment;
   }
 	
-  public function leavePropertyFetchExpr(PHPParser_Node_Expr_PropertyFetch $node)
+  public function pprintPropertyFetchExpr(PHPParser_Node_Expr_PropertyFetch $node)
   {
     if ($node->name instanceof PHPParser_Node_Expr) {
-      $fragment = "expr(" . array_pop($this->fragments) . ")";
+      $fragment = "expr(" . $this->pprint($node->name) . ")";
     } else {
       $fragment = "name(name(\"" . $node->name . "\"))";
     }
 
-    $fragment = "propertyFetch(" . array_pop($this->fragments) . "," . $fragment . ")";
+    $fragment = "propertyFetch(" . $this->pprint($node->var) . "," . $fragment . ")";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+
+    return $fragment;
   }
 	
-  public function leaveShellExecExpr(PHPParser_Node_Expr_ShellExec $node)
+  public function pprintShellExecExpr(PHPParser_Node_Expr_ShellExec $node)
   {
     $parts = array();
     foreach($node->parts as $item) {
       if ($item instanceof PHPParser_Node_Expr) {
-	$parts[] = array_pop($this->fragments);
+	$parts[] = $this->pprint($item);
       } else {
 	$parts[] = "scalar(string(\"" . $this->rascalizeString($item) . "\"))";
       }
     }
 
-    $fragment = "shellExec([" . implode(",",array_reverse($parts)) . "])";
+    $fragment = "shellExec([" . implode(",",$parts) . "])";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+
+    return $fragment;
   }
 
-  public function leaveShiftLeftExpr(PHPParser_Node_Expr_ShiftLeft $node)
+  public function pprintShiftLeftExpr(PHPParser_Node_Expr_ShiftLeft $node)
   {
-    $right = array_pop($this->fragments);
-    $left = array_pop($this->fragments);
+    $right = $this->pprint($node->right);
+    $left = $this->pprint($node->left);
 
     $fragment = "binaryOperation(".$left.",".$right.",leftShift())";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+
+    return $fragment;
   }
 
-  public function leaveShiftRightExpr(PHPParser_Node_Expr_ShiftRight $node)
+  public function pprintShiftRightExpr(PHPParser_Node_Expr_ShiftRight $node)
   {
-    $right = array_pop($this->fragments);
-    $left = array_pop($this->fragments);
+    $right = $this->pprint($node->right);
+    $left = $this->pprint($node->left);
 
     $fragment = "binaryOperation(".$left.",".$right.",rightShift())";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+
+    return $fragment;
   }
 
-  public function leaveSmallerExpr(PHPParser_Node_Expr_Smaller $node)
+  public function pprintSmallerExpr(PHPParser_Node_Expr_Smaller $node)
   {
-    $right = array_pop($this->fragments);
-    $left = array_pop($this->fragments);
+    $right = $this->pprint($node->right);
+    $left = $this->pprint($node->left);
 
     $fragment = "binaryOperation(".$left.",".$right.",lt())";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+
+    return $fragment;
   }
 	
-  public function leaveSmallerOrEqualExpr(PHPParser_Node_Expr_SmallerOrEqual $node)
+  public function pprintSmallerOrEqualExpr(PHPParser_Node_Expr_SmallerOrEqual $node)
   {
-    $right = array_pop($this->fragments);
-    $left = array_pop($this->fragments);
+    $right = $this->pprint($node->right);
+    $left = $this->pprint($node->left);
 
     $fragment = "binaryOperation(".$left.",".$right.",leq())";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+
+    return $fragment;
   }
 
-  public function leaveStaticCallExpr(PHPParser_Node_Expr_StaticCall $node)
+  public function pprintStaticCallExpr(PHPParser_Node_Expr_StaticCall $node)
   {
     $args = array();
     foreach($node->args as $arg)
-      $args[] = array_pop($this->fragments);
+      $args[] = $this->pprint($arg);
 
     if ($node->name instanceof PHPParser_Node_Expr)
-      $name = "expr(" . array_pop($this->fragments) . ")";
+      $name = "expr(" . $this->pprint($node->name) . ")";
     else
       $name = "name(name(\"" . $node->name . "\"))";
 
     if ($node->class instanceof PHPParser_Node_Expr) {
-      $class = "expr(" . array_pop($this->fragments) . ")";
+      $class = "expr(" . $this->pprint($node->class) . ")";
     } else {
-      $class = "name(" . array_pop($this->fragments) . ")";
+      $class = "name(" . $this->pprint($node->class) . ")";
     }
 
-    $fragment = "staticCall({$class},{$name},[" . implode(",",array_reverse($args)) . "])";
+    $fragment = "staticCall({$class},{$name},[" . implode(",",$args) . "])";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+
+    return $fragment;
   }
 	
-  public function leaveStaticPropertyFetchExpr(PHPParser_Node_Expr_StaticPropertyFetch $node)
+  public function pprintStaticPropertyFetchExpr(PHPParser_Node_Expr_StaticPropertyFetch $node)
   {
     if ($node->name instanceof PHPParser_Node_Expr) {
-      $name = "expr(" . array_pop($this->fragments) . ")";
+      $name = "expr(" . $this->pprint($node->name) . ")";
     } else {
       $name = "name(name(\"" . $node->name . "\"))";
     }
 
     if ($node->class instanceof PHPParser_Node_Expr) {
-      $class = "expr(" . array_pop($this->fragments) . ")";
+      $class = "expr(" . $this->pprint($node->class) . ")";
     } else {
-      $class = "name(" . array_pop($this->fragments) . ")";
+      $class = "name(" . $this->pprint($node->class) . ")";
     }
 
     $fragment = "fetchStaticProperty({$class},{$name})";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+
+    return $fragment;
   }
 	
-  public function leaveTernaryExpr(PHPParser_Node_Expr_Ternary $node)
+  public function pprintTernaryExpr(PHPParser_Node_Expr_Ternary $node)
   {
-    $else = array_pop($this->fragments);
+    $else = $this->pprint($node->else);
     if (null != $node->if)
-      $if = "someExpr(" . array_pop($this->fragments) . ")";
+      $if = "someExpr(" . $this->pprint($node->if) . ")";
     else
       $if = "noExpr()";
-    $cond = array_pop($this->fragments);
+    $cond = $this->pprint($node->cond);
     
     $fragment = "ternary({$cond},{$if},{$else})";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+
+    return $fragment;
   }
 
-  public function leaveUnaryMinusExpr(PHPParser_Node_Expr_UnaryMinus $node)
+  public function pprintUnaryMinusExpr(PHPParser_Node_Expr_UnaryMinus $node)
   {
-    $operand = array_pop($this->fragments);
+    $operand = $this->pprint($node->expr);
     $fragment = "unaryOperation(".$operand.",unaryMinus())";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+
+    return $fragment;
   }
 	
-  public function leaveUnaryPlusExpr(PHPParser_Node_Expr_UnaryPlus $node)
+  public function pprintUnaryPlusExpr(PHPParser_Node_Expr_UnaryPlus $node)
   {
-    $operand = array_pop($this->fragments);
+    $operand = $this->pprint($node->expr);
     $fragment = "unaryOperation(".$operand.",unaryPlus())";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+
+    return $fragment;
   }
 
-  public function leaveVariableExpr(PHPParser_Node_Expr_Variable $node)
+  public function pprintVariableExpr(PHPParser_Node_Expr_Variable $node)
   {
     if ($node->name instanceof PHPParser_Node_Expr) {
-      $fragment = "expr(" . array_pop($this->fragments) . ")";
+      $fragment = "expr(" . $this->pprint($node->name) . ")";
     } else {
       $fragment = "name(name(\"" . $node->name . "\"))";
     }
     $fragment = "var(" . $fragment . ")";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+
+    return $fragment;
   }
 	
-  public function leaveFullyQualifiedName(PHPParser_Node_Name_FullyQualified $node)
+  public function pprintFullyQualifiedName(PHPParser_Node_Name_FullyQualified $node)
   {
-    if (is_array($node->parts))
-      $fragment = implode("::",$node->parts);
-    else
-      $fragment = $node->parts;
-    $fragment = "name(\"" . $fragment . "\")";
-    $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+    return $this->printName($node);
   }
 	
-  public function leaveRelativeName(PHPParser_Node_Name_Relative $node)
+  public function pprintRelativeName(PHPParser_Node_Name_Relative $node)
+  {
+    return $this->printName($node);
+  }
+
+  public function pprintName(PHPParser_Node_Name $node)
   {
     if (is_array($node->parts))
       $fragment = implode("::",$node->parts);
@@ -1034,29 +1016,17 @@ class AST2Rascal extends BaseVisitor {
       $fragment = $node->parts;
     $fragment = "name(\"" . $fragment . "\")";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+
+    return $fragment;
   }
 
-  public function leaveName(PHPParser_Node_Name $node)
-  {
-    if (is_array($node->parts))
-      $fragment = implode("::",$node->parts);
-    else
-      $fragment = $node->parts;
-    $fragment = "name(\"" . $fragment . "\")";
-    $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
-  }
-
-  public function leaveParam(PHPParser_Node_Param $node)
+  public function pprintParam(PHPParser_Node_Param $node)
   {
     if (null == $node->type) {
       $type = "noName()";
     } else {
       if ($node->type instanceof PHPParser_Node_Name) {
-	$type = "someName(" . array_pop($this->fragments) . ")";
+	$type = "someName(" . $this->pprint($node->type) . ")";
       } else {
 	$type = "someName(name(\"" . $node->type . "\"))";
       }
@@ -1065,7 +1035,7 @@ class AST2Rascal extends BaseVisitor {
     if (null == $node->default) {
       $default = "noExpr()";
     } else {
-      $default = "someExpr(" . array_pop($this->fragments) . ")";
+      $default = "someExpr(" . $this->pprint($node->default) . ")";
     }
 
     $fragment = "param(\"" . $node->name . "\"," . $default . "," . $type . ",";
@@ -1076,184 +1046,184 @@ class AST2Rascal extends BaseVisitor {
     $fragment .= ")";
 
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+
+    return $fragment;
   }
 	
-  public function leaveClassConstScalar(PHPParser_Node_Scalar_ClassConst $node)
+  public function pprintClassConstScalar(PHPParser_Node_Scalar_ClassConst $node)
   {
     $fragment = "classConstant()";
     $fragment = "scalar(" . $fragment . ")";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+
+    return $fragment;
   }
 	
-  public function leaveDirConstScalar(PHPParser_Node_Scalar_DirConst $node)
+  public function pprintDirConstScalar(PHPParser_Node_Scalar_DirConst $node)
   {
     $fragment = "dirConstant()";
     $fragment = "scalar(" . $fragment . ")";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+
+    return $fragment;
   }
 	
-  public function leaveDNumberScalar(PHPParser_Node_Scalar_DNumber $node)
+  public function pprintDNumberScalar(PHPParser_Node_Scalar_DNumber $node)
   {
     $fragment = "float(" . sprintf('%f', $node->value) . ")";
     $fragment = "scalar(" . $fragment . ")";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+
+    return $fragment;
   }
 	
-  public function leaveEncapsedScalar(PHPParser_Node_Scalar_Encapsed $node)
+  public function pprintEncapsedScalar(PHPParser_Node_Scalar_Encapsed $node)
   {
     $parts = array();
     foreach($node->parts as $item) {
       if ($item instanceof PHPParser_Node_Expr) {
-	$parts[] = array_pop($this->fragments);
+	$parts[] = $this->pprint($item);
       } else {
 	$parts[] = "scalar(string(\"" . $this->rascalizeString($item) . "\"))";
       }
     }
-    $fragment = "scalar(encapsed([" . implode(",",array_reverse($parts)) . "]))";
+    $fragment = "scalar(encapsed([" . implode(",",$parts) . "]))";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+
+    return $fragment;
   }
 	
-  public function leaveFileConstScalar(PHPParser_Node_Scalar_FileConst $node)
+  public function pprintFileConstScalar(PHPParser_Node_Scalar_FileConst $node)
   {
     $fragment = "fileConstant()";
     $fragment = "scalar(" . $fragment . ")";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+
+    return $fragment;
   }
 	
-  public function leaveFuncConstScalar(PHPParser_Node_Scalar_FuncConst $node)
+  public function pprintFuncConstScalar(PHPParser_Node_Scalar_FuncConst $node)
   {
     $fragment = "funcConstant()";
     $fragment = "scalar(" . $fragment . ")";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+
+    return $fragment;
   }
 	
-  public function leaveLineConstScalar(PHPParser_Node_Scalar_LineConst $node)
+  public function pprintLineConstScalar(PHPParser_Node_Scalar_LineConst $node)
   {
     $fragment = "lineConstant()";
     $fragment = "scalar(" . $fragment . ")";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+
+    return $fragment;
   }
 
-  public function leaveLNumberScalar(PHPParser_Node_Scalar_LNumber $node)
+  public function pprintLNumberScalar(PHPParser_Node_Scalar_LNumber $node)
   {
     $fragment = "integer(" . sprintf('%d',$node->value) . ")";
     $fragment = "scalar(" . $fragment . ")";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+
+    return $fragment;
   }
 
-  public function leaveMethodConstScalar(PHPParser_Node_Scalar_MethodConst $node)
+  public function pprintMethodConstScalar(PHPParser_Node_Scalar_MethodConst $node)
   {
     $fragment = "methodConstant()";
     $fragment = "scalar(" . $fragment . ")";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+
+    return $fragment;
   }
 
-  public function leaveNSConstScalar(PHPParser_Node_Scalar_NSConst $node)
+  public function pprintNSConstScalar(PHPParser_Node_Scalar_NSConst $node)
   {
     $fragment = "namespaceConstant()";
     $fragment = "scalar(" . $fragment . ")";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+
+    return $fragment;
   }
 
-  public function leaveStringScalar(PHPParser_Node_Scalar_String $node)
+  public function pprintStringScalar(PHPParser_Node_Scalar_String $node)
   {
     $fragment = "string(\"" . $this->rascalizeString($node->value) . "\")";
     $fragment = "scalar(" . $fragment . ")";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+
+    return $fragment;
   }
 
-  public function leaveTraitConstScalar(PHPParser_Node_Scalar_TraitConst $node)
+  public function pprintTraitConstScalar(PHPParser_Node_Scalar_TraitConst $node)
   {
     $fragment = "traitConstant()";
     $fragment = "scalar(" . $fragment . ")";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+
+    return $fragment;
   }
 
-  public function leaveBreakStmt(PHPParser_Node_Stmt_Break $node)
+  public function pprintBreakStmt(PHPParser_Node_Stmt_Break $node)
   {
     if (null != $node->num)
-      $fragment = "someExpr(" . array_pop($this->fragments) . ")";
+      $fragment = "someExpr(" . $this->pprint($node->num) . ")";
     else
       $fragment = "noExpr()";
+
+    $fragment = "\\break(" . $fragment . ")";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = "\\break(" . $fragment . ")";
-    return null;
+
+    return $fragment;
   }
 
-  public function leaveCaseStmt(PHPParser_Node_Stmt_Case $node)
+  public function pprintCaseStmt(PHPParser_Node_Stmt_Case $node)
   {
     if (null != $node->cond)
-      $cond = "someExpr(" . array_pop($this->fragments) . ")";
+      $cond = "someExpr(" . $this->pprint($node->cond) . ")";
     else
       $cond = "noExpr()";
 
     $body = array();
     foreach($node->stmts as $stmt)
-      $body[] = array_pop($this->fragments);
+      $body[] = $this->pprint($stmt);
 
-    $fragment = "\\case(" . $cond . ",[" . implode(",",array_reverse($body)) . "])";
+    $fragment = "\\case(" . $cond . ",[" . implode(",",$body) . "])";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+
+    return $fragment;
   }
 	
-  public function leaveCatchStmt(PHPParser_Node_Stmt_Catch $node)
+  public function pprintCatchStmt(PHPParser_Node_Stmt_Catch $node)
   {
     $body = array();
     foreach($node->stmts as $stmt)
-      $body[] = array_pop($this->fragments);
+      $body[] = $this->pprint($stmt);
 
-    $xtype = array_pop($this->fragments);
+    $xtype = $this->pprint($node->type);
 
-    $fragment = "\\catch(" . $xtype . ",\"" . $this->rascalizeString($node->var) . "\",[" 
-      . implode(",",array_reverse($body)) . "])";
+    $fragment = "\\catch(" . $xtype . ",\"" . $this->rascalizeString($node->var) . "\",[" . implode(",",$body) . "])";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+
+    return $fragment;
   }
 
-  public function leaveClassStmt(PHPParser_Node_Stmt_Class $node)
+  public function pprintClassStmt(PHPParser_Node_Stmt_Class $node)
   {
     $stmts = array();
     foreach($node->stmts as $stmt)
-      $stmts[] = array_pop($this->fragments);
+      $stmts[] = $this->pprint($stmt);
 
     $implements = array();
     foreach($node->implements as $implemented)
-      $implements[] = array_pop($this->fragments);
+      $implements[] = $this->pprint($implemented);
 
     if (null != $node->extends)
-      $extends = array_pop($this->fragments);
+      $extends = "someName(" . $this->pprint($node->extends) . ")";
+    else
+      $extends = "noName()";
     
-    $fragment = "class(\"" . $this->rascalizeString($node->name) . "\"";
-    $fragment .= ",";
-
     $modifiers = array();
     if ($node->type & PHPParser_Node_Stmt_Class::MODIFIER_PUBLIC) $modifiers[] = "\public()";
     if ($node->type & PHPParser_Node_Stmt_Class::MODIFIER_PROTECTED) $modifiers[] = "protected()";
@@ -1262,47 +1232,39 @@ class AST2Rascal extends BaseVisitor {
     if ($node->type & PHPParser_Node_Stmt_Class::MODIFIER_FINAL) $modifiers[] = "final()";
     if ($node->type & PHPParser_Node_Stmt_Class::MODIFIER_STATIC) $modifiers[] = "static()";
 
-    $fragment .= "{" . implode(",", $modifiers) . "}";
-    $fragment .= ",";
-
-    if (null == $node->extends)
-      $fragment .= "noName()";
-    else
-      $fragment .= "someName(".$extends.")";
-    $fragment .= ",";
-
-    $fragment .= "[" . implode(",",array_reverse($implements)) . "],[";
-    $fragment .= implode(",",array_reverse($stmts))."])";
+    $fragment = "class(\"" . $this->rascalizeString($node->name) . "\",{" . implode(",", $modifiers) . "}," . $extends . ",";
+    $fragment .= "[" . implode(",",$implements) . "],[";
+    $fragment .= implode(",",$stmts)."])";
     $fragment .= $this->tagWithLine($node);
 
     $fragment = "classDef(" . $fragment . ")";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+
+    return $fragment;
   }
 
-  public function leaveClassConstStmt(PHPParser_Node_Stmt_ClassConst $node)
+  public function pprintClassConstStmt(PHPParser_Node_Stmt_ClassConst $node)
   {
     $consts = array();
     foreach($node->consts as $const)
-      $consts[] = array_pop($this->fragments);
+      $consts[] = $this->pprint($const);
 
-    $fragment = "const([" . implode(",", array_reverse($consts)) . "])";
+    $fragment = "const([" . implode(",", $consts) . "])";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+
+    return $fragment;
   }
 	
-  public function leaveClassMethodStmt(PHPParser_Node_Stmt_ClassMethod $node)
+  public function pprintClassMethodStmt(PHPParser_Node_Stmt_ClassMethod $node)
   {
     $body = array();
     if (null != $node->stmts)
       foreach($node->stmts as $thestmt)
-	$body[] = array_pop($this->fragments);
+	$body[] = $this->pprint($thestmt);
 
     $params = array();
     foreach($node->params as $param)
-      $params[] = array_pop($this->fragments);
+      $params[] = $this->pprint($param);
 
     $modifiers = array();
     if ($node->type & PHPParser_Node_Stmt_Class::MODIFIER_PUBLIC) $modifiers[] = "\public()";
@@ -1316,311 +1278,293 @@ class AST2Rascal extends BaseVisitor {
     if ($node->byRef) $byRef = "true";
 
     $fragment = "method(\"" . $node->name . "\",{" . implode(",",$modifiers) . "}," . $byRef . ",[" 
-      . implode(",",array_reverse($params)) . "],[" . implode(",",array_reverse($body)) . "])";
+      . implode(",",$params) . "],[" . implode(",",$body) . "])";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+
+    return $fragment;
   }
 	
-  public function leaveConstStmt(PHPParser_Node_Stmt_Const $node)
+  public function pprintConstStmt(PHPParser_Node_Stmt_Const $node)
   {
     $consts = array();
     foreach($node->consts as $const)
-      $consts[] = array_pop($this->fragments);
+      $consts[] = $this->pprint($const);
 
-    $fragment = "const([" . implode(",", array_reverse($consts)) . "])";
+    $fragment = "const([" . implode(",", $consts) . "])";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+
+    return $fragment;
   }
 
-  public function leaveContinueStmt(PHPParser_Node_Stmt_Continue $node)
+  public function pprintContinueStmt(PHPParser_Node_Stmt_Continue $node)
   {
     if (null != $node->num)
-      $fragment = "someExpr(" . array_pop($this->fragments) . ")";
+      $fragment = "someExpr(" . $this->pprint($node->num) . ")";
     else
       $fragment = "noExpr()";
+
+    $fragment = "\\continue(" . $fragment . ")";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = "\\continue(" . $fragment . ")";
-    return null;
+
+    return $fragment;
   }
 
-  public function leaveDeclareStmt(PHPParser_Node_Stmt_Declare $node)
+  public function pprintDeclareStmt(PHPParser_Node_Stmt_Declare $node)
   {
     $body = array();
     foreach($node->stmts as $stmt)
-      $body[] = array_pop($this->fragments);
+      $body[] = $this->pprint($stmt);
 
     $decls = array();
     foreach($node->declares as $decl)
-      $decls[] = array_pop($this->fragments);
+      $decls[] = $this->pprint($decl);
 
-    $fragment = "declare([" . implode(",", array_reverse($decls)) . "],[" . implode(",", array_reverse($body)) . "])";
+    $fragment = "declare([" . implode(",", $decls) . "],[" . implode(",", $body) . "])";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+
+    return $fragment;
   }
 	
-  public function leaveDeclareDeclareStmt(PHPParser_Node_Stmt_DeclareDeclare $node)
+  public function pprintDeclareDeclareStmt(PHPParser_Node_Stmt_DeclareDeclare $node)
   {
-    $fragment = "declaration(\"" . $this->rascalizeString($node->key) . "\", " . array_pop($this->fragments) . ")";
+    $fragment = "declaration(\"" . $this->rascalizeString($node->key) . "\", " . $this->pprint($node->value) . ")";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+
+    return $fragment;
   }
 	
-  public function leaveDoStmt(PHPParser_Node_Stmt_Do $node)
+  public function pprintDoStmt(PHPParser_Node_Stmt_Do $node)
   {
     $stmts = array();
-    foreach($node->stmts as $stmt) {
-      $stmts[] = array_pop($this->fragments);
-    }
-    $fragment = "\\do(" . array_pop($this->fragments) . ",[" . implode(",",array_reverse($stmts)) . "])";
+    foreach($node->stmts as $stmt)
+      $stmts[] = $this->pprint($stmt);
+
+    $fragment = "\\do(" . $this->pprint($node->cond) . ",[" . implode(",",$stmts) . "])";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+
+    return $fragment;
   }
 	
-  public function leaveEchoStmt(PHPParser_Node_Stmt_Echo $node)
+  public function pprintEchoStmt(PHPParser_Node_Stmt_Echo $node)
   {
     $parts = array();
     foreach($node->exprs as $expr)
-      $parts[] = array_pop($this->fragments);
+      $parts[] = $this->pprint($expr);
 
-    $fragment = "echo([" . implode(",", array_reverse($parts)) . "])";
+    $fragment = "echo([" . implode(",", $parts) . "])";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+
+    return $fragment;
   }
 
-  public function leaveElseStmt(PHPParser_Node_Stmt_Else $node)
+  public function pprintElseStmt(PHPParser_Node_Stmt_Else $node)
   {
     $body = array();
     foreach($node->stmts as $stmt)
-      $body[] = array_pop($this->fragments);
+      $body[] = $this->pprint($stmt);
 
-    $fragment = "\\else([" . implode(",",array_reverse($body)) . "])"; 
+    $fragment = "\\else([" . implode(",",$body) . "])"; 
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+
+    return $fragment;
   }
 
-  public function leaveElseIfStmt(PHPParser_Node_Stmt_ElseIf $node)
+  public function pprintElseIfStmt(PHPParser_Node_Stmt_ElseIf $node)
   {
     $body = array();
     foreach($node->stmts as $stmt)
-      $body[] = array_pop($this->fragments);
+      $body[] = $this->pprint($stmt);
     
-    $fragment = "elseIf(" . array_pop($this->fragments) . ",[" . implode(",",array_reverse($body)) . "])";
+    $fragment = "elseIf(" . $this->pprint($node->cond) . ",[" . implode(",",$body) . "])";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+
+    return $fragment;
   }
 
-  public function leaveExprStmt(PHPParser_Node_Stmt_Expr $node)
+  public function pprintExprStmt(PHPParser_Node_Stmt_Expr $node)
   {
-    $fragment = "expr(" . array_pop($this->fragments) . ")";
+    $fragment = "exprstmt(" . $this->pprint($node->expr) . ")";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+
+    return $fragment;
   }
 
-  public function leaveForStmt(PHPParser_Node_Stmt_For $node)
+  public function pprintForStmt(PHPParser_Node_Stmt_For $node)
   {
     $stmts = array();
-    foreach($node->stmts as $stmt) {
-      $stmts[] = array_pop($this->fragments);
-    }
+    foreach($node->stmts as $stmt)
+      $stmts[] = $this->pprint($stmt);
     
     $loops = array();
-    foreach($node->loop as $loop) {
-      $loops[] = array_pop($this->fragments);
-    }
+    foreach($node->loop as $loop)
+      $loops[] = $this->pprint($loop);
 
     $conds = array();
-    foreach($node->cond as $cond) {
-      $conds[] = array_pop($this->fragments);
-    }
+    foreach($node->cond as $cond)
+      $conds[] = $this->pprint($cond);
 
     $inits = array();
-    foreach($node->init as $init) {
-      $inits[] = array_pop($this->fragments);
-    }
+    foreach($node->init as $init)
+      $inits[] = $this->pprint($init);
 
-    $fragment = "\\for([" . implode(",", array_reverse($inits)) . "],[" . implode(",", array_reverse($conds))
-      . "],[" . implode(",", array_reverse($loops)) . "],[" . implode(",", array_reverse($stmts)) . "])";
+    $fragment = "\\for([" . implode(",", $inits) . "],[" . implode(",", $conds) . "],[" . implode(",", $loops) . "],[" . implode(",", $stmts) . "])";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
-    
+
+    return $fragment;    
   }
 	
-  public function leaveForeachStmt(PHPParser_Node_Stmt_Foreach $node)
+  public function pprintForeachStmt(PHPParser_Node_Stmt_Foreach $node)
   {
-    $valueVar = array_pop($this->fragments);
-    $expr = array_pop($this->fragments);
+    $valueVar = $this->pprint($node->valueVar);
+    $expr = $this->pprint($node->expr);
     $byRef = "false"; if ($node->byRef) $byRef = "true";
 
     $stmts = array();
     foreach($node->stmts as $stmt)
-      $stmts[] = array_pop($this->fragments);
+      $stmts[] = $this->pprint($stmt);
 
     $keyvar = "noExpr()";
     if (null != $node->keyVar)
-      $keyvar = "someExpr(" . array_pop($this->fragments) . ")";
+      $keyvar = "someExpr(" . $this->pprint($node->keyVar) . ")";
 
     $fragment = "foreach(" . $expr . "," . $keyvar . "," . $byRef . "," . $valueVar . ",[" 
-      . implode(",",array_reverse($stmts)) . "])";
+      . implode(",",$stmts) . "])";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+
+    return $fragment;
   }
 	
-  public function leaveFunctionStmt(PHPParser_Node_Stmt_Function $node)
+  public function pprintFunctionStmt(PHPParser_Node_Stmt_Function $node)
   {
     $body = array();
     foreach($node->stmts as $stmt)
-      $body[] = array_pop($this->fragments);
+      $body[] = $this->pprint($stmt);
 
     $params = array();
     foreach($node->params as $param)
-      $params[] = array_pop($this->fragments);
+      $params[] = $this->pprint($param);
 
     $byRef = "false";
     if ($node->byRef) $byRef = "true";
 
     $fragment = "function(\"" . $this->rascalizeString($node->name) . "\"," . $byRef 
-      . ",[" . implode(",",array_reverse($params)) . "],[" . implode(",",array_reverse($body)) . "])";
+      . ",[" . implode(",",$params) . "],[" . implode(",",$body) . "])";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+
+    return $fragment;
   }
 
-  public function leaveGlobalStmt(PHPParser_Node_Stmt_Global $node)
+  public function pprintGlobalStmt(PHPParser_Node_Stmt_Global $node)
   {
     $vars = array();
     foreach($node->vars as $var)
-      $vars[] = array_pop($this->fragments);
+      $vars[] = $this->pprint($var);
     
-    $fragment = "global([" . implode(",",array_reverse($vars)) . "])";
+    $fragment = "global([" . implode(",",$vars) . "])";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+
+    return $fragment;
   }
 
-  public function leaveGotoStmt(PHPParser_Node_Stmt_Goto $node)
+  public function pprintGotoStmt(PHPParser_Node_Stmt_Goto $node)
   {
     $fragment = "goto(\"" . $this->rascalizeString($node->name) . "\")"; 
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+
+    return $fragment;
   }
 	
-  public function leaveHaltCompilerStmt(PHPParser_Node_Stmt_HaltCompiler $node)
+  public function pprintHaltCompilerStmt(PHPParser_Node_Stmt_HaltCompiler $node)
   {
     $fragment = "haltCompiler(\"" . $this->rascalizeString($node->remaining) . "\")";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+
+    return $fragment;
   }
 	
-  public function leaveIfStmt(PHPParser_Node_Stmt_If $node)
+  public function pprintIfStmt(PHPParser_Node_Stmt_If $node)
   {
-//  	echo 'Entered If on line ', $node->getLine(), ' with ', count($this->fragments), ' fragments, ';
-//	if (null != $node->else)
-//      echo 'an else clause, ';
-//	echo count($node->elseifs), ' else-if clauses, and a body of length ', count($node->stmts);
-//	echo ", current fragments are:\n";
-
-//	print_r($this->fragments);
-
-    $cond = array_pop($this->fragments);
+    $cond = $this->pprint($node->cond);
 
     if (null != $node->else)
-      $elseNode = "someElse(" . array_pop($this->fragments) . ")";
+      $elseNode = "someElse(" . $this->pprint($node->else) . ")";
     else
       $elseNode = "noElse()";
 
-//	echo 'Built else node: ' . $elseNode . "\n";
-	
     $elseIfs = array();
     foreach($node->elseifs as $elseif)
-      $elseIfs[] = array_pop($this->fragments);
+      $elseIfs[] = $this->pprint($elseif);
 
     $body = array();
     foreach($node->stmts as $stmt)
-      $body[] = array_pop($this->fragments);
+      $body[] = $this->pprint($stmt);
 
-    $fragment = "\\if(" . $cond . ",[" . implode(",", array_reverse($body)) . "],[" 
-      . implode(",", array_reverse($elseIfs)) . "]," . $elseNode . ")";
+    $fragment = "\\if(" . $cond . ",[" . implode(",", $body) . "],[" 
+      . implode(",", $elseIfs) . "]," . $elseNode . ")";
     $fragment .= $this->tagWithLine($node);
     
-//    echo 'Built fragment: ' . $fragment . "\n";
-    $this->fragments[] = $fragment;
-    return null;
+    return $fragment;
   }
 
-  public function leaveInlineHTMLStmt(PHPParser_Node_Stmt_InlineHTML $node)
+  public function pprintInlineHTMLStmt(PHPParser_Node_Stmt_InlineHTML $node)
   {
     $fragment = "inlineHTML(\"".$this->rascalizeString($node->value)."\")";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+
+    return $fragment;
   }
 
-  public function leaveInterfaceStmt(PHPParser_Node_Stmt_Interface $node)
+  public function pprintInterfaceStmt(PHPParser_Node_Stmt_Interface $node)
   {
-    // The fragments are in reverse order, so we first need to get out
-    // the statements, and then the extends interfaces.
     $stmts = array();
     foreach($node->stmts as $stmt)
-      $stmts[] = array_pop($this->fragments);
+      $stmts[] = $this->pprint($stmt);
 
     $extends = array();
     foreach($node->extends as $extended)
-      $extends[] = array_pop($this->fragments);
+      $extends[] = $this->pprint($extended);
     
     $fragment = "interface(\"" . $this->rascalizeString($node->name) . "\",[";
-    $fragment .= implode(",",array_reverse($extends)) . "],[";
-    $fragment .= implode(",",array_reverse($stmts)) . "])";
+    $fragment .= implode(",",$extends) . "],[";
+    $fragment .= implode(",",$stmts) . "])";
     $fragment .= $this->tagWithLine($node);
 
     $fragment = "interfaceDef(" . $fragment . ")";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+
+    return $fragment;
   }
 
-  public function leaveLabelStmt(PHPParser_Node_Stmt_Label $node)
+  public function pprintLabelStmt(PHPParser_Node_Stmt_Label $node)
   {
     $fragment = "label(\"" . $this->rascalizeString($node->name) . "\")";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+
+    return $fragment;
   }
 	
-  public function leaveNamespaceStmt(PHPParser_Node_Stmt_Namespace $node)
+  public function pprintNamespaceStmt(PHPParser_Node_Stmt_Namespace $node)
   {
     $body = array();
     foreach($node->stmts as $stmt)
-      $body[] = array_pop($this->fragments);
+      $body[] = $this->pprint($stmt);
 
     if (null != $node->name)
-      $name = "someName(" . array_pop($this->fragments) . ")";
+      $name = "someName(" . $this->pprint($node->name) . ")";
     else
       $name = "noName()";
 
-    $fragment = "namespace(" . $name . ",[" . implode(",",array_reverse($body)) . "])";
+    $fragment = "namespace(" . $name . ",[" . implode(",",$body) . "])";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+
+    return $fragment;
   }
 	
-  public function leavePropertyStmt(PHPParser_Node_Stmt_Property $node)
+  public function pprintPropertyStmt(PHPParser_Node_Stmt_Property $node)
   {
     $props = array();
     foreach($node->props as $prop)
-      $props[] = array_pop($this->fragments);
+      $props[] = $this->pprint($prop);
 
     $modifiers = array();
     if ($node->type & PHPParser_Node_Stmt_Class::MODIFIER_PUBLIC) $modifiers[] = "\public()";
@@ -1630,159 +1574,224 @@ class AST2Rascal extends BaseVisitor {
     if ($node->type & PHPParser_Node_Stmt_Class::MODIFIER_FINAL) $modifiers[] = "final()";
     if ($node->type & PHPParser_Node_Stmt_Class::MODIFIER_STATIC) $modifiers[] = "static()";
 
-    $fragment = "property({" . implode(",",$modifiers) . "},[" . implode(",",array_reverse($props)) . "])";
+    $fragment = "property({" . implode(",",$modifiers) . "},[" . implode(",",$props) . "])";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+
+    return $fragment;
   }
   
-  public function leavePropertyPropertyStmt(PHPParser_Node_Stmt_PropertyProperty $node)
+  public function pprintPropertyPropertyStmt(PHPParser_Node_Stmt_PropertyProperty $node)
   {
     if (null != $node->default) {
-      $fragment = "someExpr(" . array_pop($this->fragments) . ")";
+      $fragment = "someExpr(" . $this->pprint($node->default) . ")";
     } else {
       $fragment = "noExpr()";
     }
 
     $fragment = "property(\"" . $node->name . "\"," . $fragment . ")";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+
+    return $fragment;
   }
 
-  public function leaveReturnStmt(PHPParser_Node_Stmt_Return $node)
+  public function pprintReturnStmt(PHPParser_Node_Stmt_Return $node)
   {
     if (null != $node->expr)
-      $fragment = "someExpr(" . array_pop($this->fragments) . ")";
+      $fragment = "someExpr(" . $this->pprint($node->expr) . ")";
     else
       $fragment = "noExpr()";
     $fragment = "\\return(" . $fragment . ")";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+
+    return $fragment;
   }
 
-  public function leaveStaticStmt(PHPParser_Node_Stmt_Static $node)
+  public function pprintStaticStmt(PHPParser_Node_Stmt_Static $node)
   {
     $staticVars = array();
     foreach($node->vars as $var)
-      $staticVars[] = array_pop($this->fragments);
-    $fragment = "static([" . implode(",", array_reverse($staticVars)) . "])";
+      $staticVars[] = $this->pprint($var);
+
+    $fragment = "static([" . implode(",", $staticVars) . "])";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+
+    return $fragment;
   }
 
-  public function leaveStaticVarStmt(PHPParser_Node_Stmt_StaticVar $node)
+  public function pprintStaticVarStmt(PHPParser_Node_Stmt_StaticVar $node)
   {
     $default = "noExpr()";
     if (null != $node->default)
-      $default = "someExpr(" . array_pop($this->fragments) . ")";
+      $default = "someExpr(" . $this->pprint($node->default) . ")";
+
     $fragment = "staticVar(\"" . $this->rascalizeString($node->name) . "\"," . $default . ")";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+
+    return $fragment;
   }
 
-  public function leaveSwitchStmt(PHPParser_Node_Stmt_Switch $node)
+  public function pprintSwitchStmt(PHPParser_Node_Stmt_Switch $node)
   {
     $cases = array();
     foreach($node->cases as $case)
-      $cases[] = array_pop($this->fragments);
+      $cases[] = $this->pprint($case);
 
-    $fragment = "\\switch(" . array_pop($this->fragments) . ",[" . implode(",",array_reverse($cases)) . "])";
+    $fragment = "\\switch(" . $this->pprint($node->cond) . ",[" . implode(",",$cases) . "])";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+
+    return $fragment;
   }
 
-  public function leaveThrowStmt(PHPParser_Node_Stmt_Throw $node)
+  public function pprintThrowStmt(PHPParser_Node_Stmt_Throw $node)
   {
-    $fragment = "\\throw(" . array_pop($this->fragments) . ")";
+    $fragment = "\\throw(" . $this->pprint($node->expr) . ")";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+
+    return $fragment;
   }
 
-/* 	public function leaveTraitStmt(PHPParser_Node_Stmt_Trait $node) */
-/* 	{ */
-/* 		return null; */
-/* 	} */
-/* 	public function leaveTraitUseStmt(PHPParser_Node_Stmt_TraitUse $node) */
-/* 	{ */
-/* 		return null; */
-/* 	} */
-/* 	public function leaveAliasTraitUseAdaptationStmt(PHPParser_Node_Stmt_TraitUseAdaptation_Alias $node) */
-/* 	{ */
-/* 		return null; */
-/* 	} */
-/* 	public function leavePrecedenceTraitUseAdaptationStmt(PHPParser_Node_Stmt_TraitUseAdaptation_Precedence $node) */
-/* 	{ */
-/* 		return null; */
-/* 	} */
+  public function pprintTraitStmt(PHPParser_Node_Stmt_Trait $node)
+  {
+    $body = array();
+    foreach($node->stmts as $stmt)
+      $body[] = $this->pprint($stmt);
 
-  public function leaveTryCatchStmt(PHPParser_Node_Stmt_TryCatch $node)
+    $fragment = "trait(\"" . $node->name . "\",[" . implode(",",$body) . "])";
+    $fragment .= $this->tagWithLine($node);
+
+    $fragment = "traitDef(" . $fragment . ")";
+    $fragment .= $this->tagWithLine($node);
+
+    return $fragment;
+  }
+
+  public function pprintTraitUseStmt(PHPParser_Node_Stmt_TraitUse $node)
+  {
+    $adaptations = array();
+    foreach($node->adaptations as $adaptation)
+      $adaptations[] = $this->pprint($adaptation);
+
+    $traits = array();
+    foreach($node->traits as $trait)
+      $traits[] = $this->pprint($trait);
+
+    $fragment = "traitUse([" . implode(",",$traits) . "],[" . implode(",",$adaptations) . "])";
+    $fragment .= $this->tagWithLine($node);
+
+    return $fragment;
+  }
+	
+  public function pprintAliasTraitUseAdaptationStmt(PHPParser_Node_Stmt_TraitUseAdaptation_Alias $node)
+  {
+    if (null != $node->newName) {
+      $newName = "someName(name(\"" . $node->newName . "\"))";
+    } else {
+      $newName = "noName()";
+    }
+
+    if (null != $node->newModifier) {
+      $modifiers = array();
+      if ($node->type & PHPParser_Node_Stmt_Class::MODIFIER_PUBLIC) $modifiers[] = "\public()";
+      if ($node->type & PHPParser_Node_Stmt_Class::MODIFIER_PROTECTED) $modifiers[] = "protected()";
+      if ($node->type & PHPParser_Node_Stmt_Class::MODIFIER_PRIVATE) $modifiers[] = "\private()";
+      if ($node->type & PHPParser_Node_Stmt_Class::MODIFIER_ABSTRACT) $modifiers[] = "abstract()";
+      if ($node->type & PHPParser_Node_Stmt_Class::MODIFIER_FINAL) $modifiers[] = "final()";
+      if ($node->type & PHPParser_Node_Stmt_Class::MODIFIER_STATIC) $modifiers[] = "static()";
+      $newModifier = "{ " . implode(",",$modifiers) . " }";
+    } else {
+      $newModifier = "{ }";
+    }
+
+    $newMethod = "\"" . $node->method . "\"";
+
+    if (null != $node->trait) {
+      $trait = "someName(" . $this->pprint($node->trait) . ")";
+    } else {
+      $trait = "noName()";
+    }
+
+    $fragment = "traitAlias(" . $trait . "," . $newMethod . "," . $newModifier . "," . $newName . ")";
+    $fragment .= $this->tagWithLine($node);
+
+    return $fragment;
+  }
+	
+  public function pprintPrecedenceTraitUseAdaptationStmt(PHPParser_Node_Stmt_TraitUseAdaptation_Precedence $node)
+  {
+    $insteadOf = array();
+    foreach($node->insteadof as $item)
+      $insteadOf[] = $this->pprint($item);
+
+    $fragment = "traitPrecedence(" . $this->pprint($node->trait) . ",\"" . $node->method . "\",[" . implode(",",$insteadOf) . "])";
+    $fragment .= $this->tagWithLine($node);
+
+    return $fragment;
+  }
+
+  public function pprintTryCatchStmt(PHPParser_Node_Stmt_TryCatch $node)
   {
     $catches = array();
     foreach($node->catches as $toCatch)
-      $catches[] = array_pop($this->fragments);
+      $catches[] = $this->pprint($toCatch);
 
     $body = array();
     foreach($node->stmts as $stmt)
-      $body[] = array_pop($this->fragments);
+      $body[] = $this->pprint($stmt);
 
-    $fragment = "tryCatch([" . implode(",", array_reverse($body)) . "],[" . implode(",",array_reverse($catches)) . "])";
+    $fragment = "tryCatch([" . implode(",", $body) . "],[" . implode(",",$catches) . "])";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+
+    return $fragment;
   }
 
-  public function leaveUnsetStmt(PHPParser_Node_Stmt_Unset $node)
+  public function pprintUnsetStmt(PHPParser_Node_Stmt_Unset $node)
   {
     $vars = array();
     foreach($node->vars as $var)
-      $vars[] = array_pop($this->fragments);
-    $fragment = "unset([" . implode(",", array_reverse($vars)) . "])";
+      $vars[] = $this->pprint($var);
+
+    $fragment = "unset([" . implode(",", $vars) . "])";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+
+    return $fragment;
   }
 
-  public function leaveUseStmt(PHPParser_Node_Stmt_Use $node)
+  public function pprintUseStmt(PHPParser_Node_Stmt_Use $node)
   {
     $uses = array();
     foreach($node->uses as $use)
-      $uses[] = array_pop($this->fragments);
-    $fragment = "use([" . implode(",", array_reverse($uses)) . "])";
+      $uses[] = $this->pprint($use);
+
+    $fragment = "use([" . implode(",", $uses) . "])";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+
+    return $fragment;
   }
 
-  public function leaveUseUseStmt(PHPParser_Node_Stmt_UseUse $node)
+  public function pprintUseUseStmt(PHPParser_Node_Stmt_UseUse $node)
   {
-    $aliasName = array_pop($this->fragments);
-    $fragment = "use(" . $aliasName . "," . "\"" . $node->alias . "\")";
+    $name = $this->pprint($node->name);
+    if (null != $node->alias)
+      $alias = "someName(name(\"" . $node->alias . "\"))";
+    else
+      $alias = "noName()";
+
+    $fragment = "use(" . $name . "," . $alias . ")";
     $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
+
+    return $fragment;
   }
   
-  public function leaveWhileStmt(PHPParser_Node_Stmt_While $node)
+  public function pprintWhileStmt(PHPParser_Node_Stmt_While $node)
   {
     $stmts = array();
-    foreach($node->stmts as $stmt) {
-      $stmts[] = array_pop($this->fragments);
-    }
-    $fragment = "\\while(" . array_pop($this->fragments) . ",[" . implode(",",array_reverse($stmts)) . "])";
-    $fragment .= $this->tagWithLine($node);
-    $this->fragments[] = $fragment;
-    return null;
-  }
+    foreach($node->stmts as $stmt) 
+      $stmts[] = $this->pprint($stmt);
 
-  public function getRascalizedAST()
-  {
-    return "script([".implode(",\n",$this->fragments)."])";
+    $fragment = "\\while(" . $this->pprint($node->cond) . ",[" . implode(",",$stmts) . "])";
+    $fragment .= $this->tagWithLine($node);
+
+    return $fragment;
   }
 }
 
@@ -1798,19 +1807,17 @@ if (file_exists($file))
   $inputCode = file_get_contents($file);
 
 $parser = new PHPParser_Parser;
-$traverser = new PHPParser_NodeTraverser;
-$visitor = new AST2Rascal($file);
-$useful = new UsefulVisitor($visitor);
-$traverser->addVisitor($useful);
 $dumper = new PHPParser_NodeDumper;
+$printer = new AST2Rascal($file);
 
 try {
   $stmts = $parser->parse(new PHPParser_Lexer($inputCode));
 /*   echo htmlspecialchars($dumper->dump($stmts)); */
-  $stmts = $traverser->traverse($stmts);
+  $strStmts = array();
+  foreach($stmts as $stmt) $strStmts[] = $printer->pprint($stmt);
+  $script = implode(",\n", $strStmts);
+  echo "script([" . $script . "])";
 } catch (PHPParser_Error $e) {
   echo 'Parse Error: ', $e->getMessage();
 }
-
-echo $visitor->getRascalizedAST();
 ?>
