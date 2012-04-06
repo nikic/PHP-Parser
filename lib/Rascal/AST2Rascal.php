@@ -1000,12 +1000,12 @@ class AST2Rascal extends BasePrinter {
 	
   public function pprintFullyQualifiedName(PHPParser_Node_Name_FullyQualified $node)
   {
-    return $this->printName($node);
+    return $this->pprintName($node);
   }
 	
   public function pprintRelativeName(PHPParser_Node_Name_Relative $node)
   {
-    return $this->printName($node);
+    return $this->pprintName($node);
   }
 
   public function pprintName(PHPParser_Node_Name $node)
