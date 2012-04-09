@@ -74,30 +74,30 @@ abstract class PHPParser_NodeAbstract implements PHPParser_Node, IteratorAggrega
     public function setDocComment($docComment) {
         $this->docComment = $docComment;
     }
-    
+
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function setAttribute($key, $value) {
         $this->attributes[$key] = $value;
     }
-    
+
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function hasAttribute($key) {
         return array_key_exists($key, $this->attributes);
     }
-    
+
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function getAttribute($key, $default = null) {
         return array_key_exists($key, $this->attributes) ? $this->attributes[$key] : $default;
     }
-    
+
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function getAttributes() {
         return $this->attributes;

@@ -21,6 +21,7 @@ class PHPParser_Tests_NodeAbstractTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('/** doc comment */', $node->getDocComment());
         $this->assertEquals('value', $node->subNode);
         $this->assertTrue(isset($node->subNode));
+        $this->assertEmpty($node->getAttributes());
 
         return $node;
     }
@@ -49,5 +50,33 @@ class PHPParser_Tests_NodeAbstractTest extends PHPUnit_Framework_TestCase
         // removal
         unset($node->subNode);
         $this->assertFalse(isset($node->subNode));
+    }
+
+    /**
+     * @depends testConstruct
+     */
+    public function testAttributes(PHPParser_NodeAbstract $node) {
+        $this->assertEmpty($node->getAttributes());
+
+        $node->setAttribute('key', 'value');
+        $this->assertTrue($node->hasAttribute('key'));
+        $this->assertEquals('value', $node->getAttribute('key'));
+
+        $this->assertFalse($node->hasAttribute('doesNotExist'));
+        $this->assertNull($node->getAttribute('doesNotExist'));
+        $this->assertEquals('default', $node->getAttribute('doesNotExist', 'default'));
+
+        $node->setAttribute('null', null);
+        $this->assertTrue($node->hasAttribute('null'));
+        $this->assertNull($node->getAttribute('null'));
+        $this->assertNull($node->getAttribute('null', 'default'));
+
+        $this->assertEquals(
+            array(
+                'key' => 'value',
+                'null' => null,
+            ),
+            $node->getAttributes()
+        );
     }
 }
