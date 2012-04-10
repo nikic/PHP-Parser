@@ -59,8 +59,8 @@ class AST2Rascal extends BasePrinter {
 
   private function tagWithLine(PHPParser_Node $node)
   {
-    //return "[@at=|file://{$this->filename}|(0,0,<{$node->getLine()},0>,<{$node->getLine()},0>)]";
-    return "";
+    return "[@at=|file://{$this->filename}|(0,0,<{$node->getLine()},0>,<{$node->getLine()},0>)]";
+    //return "";
   }
 
   public function pprintArg(PHPParser_Node_Arg $node)
