@@ -279,8 +279,12 @@ declare_statement:
 ;
 
 declare_list:
-      T_STRING '=' static_scalar                            { init(Stmt_DeclareDeclare[$1, $3]); }
-    | declare_list ',' T_STRING '=' static_scalar           { push($1, Stmt_DeclareDeclare[$3, $5]); }
+      declare_list_element                                  { init($1); }
+    | declare_list ',' declare_list_element                 { push($1, $3); }
+;
+
+declare_list_element:
+      T_STRING '=' static_scalar                            { $$ = Stmt_DeclareDeclare[$1, $3]; }
 ;
 
 switch_case_list:
@@ -292,10 +296,12 @@ switch_case_list:
 
 case_list:
       /* empty */                                           { init(); }
-    | case_list T_CASE expr case_separator inner_statement_list
-          { push($1, Stmt_Case[$3, $5]); }
-    | case_list T_DEFAULT case_separator inner_statement_list
-          { push($1, Stmt_Case[null, $4]); }
+    | case_list case                                        { push($1, $2); }
+;
+
+case:
+      T_CASE expr case_separator inner_statement_list       { $$ = Stmt_Case[$2, $4]; }
+    | T_DEFAULT case_separator inner_statement_list         { $$ = Stmt_Case[null, $3]; }
 ;
 
 case_separator:
@@ -309,14 +315,21 @@ while_statement:
 ;
 
 elseif_list:
-      /* empty */                                           { init();}
-    | elseif_list T_ELSEIF '(' expr ')' statement           { push($1, Stmt_ElseIf[$4, toArray($6)]); }
+      /* empty */                                           { init(); }
+    | elseif_list elseif                                    { push($1, $2); }
+;
+
+elseif:
+      T_ELSEIF '(' expr ')' statement                       { $$ = Stmt_ElseIf[$3, toArray($5)]; }
 ;
 
 new_elseif_list:
       /* empty */                                           { init(); }
-    | new_elseif_list T_ELSEIF '(' expr ')' ':' inner_statement_list
-          { push($1, Stmt_ElseIf[$4, $7]); }
+    | new_elseif_list new_elseif                            { push($1, $2); }
+;
+
+new_elseif:
+     T_ELSEIF '(' expr ')' ':' inner_statement_list         { $$ = Stmt_ElseIf[$3, $6]; }
 ;
 
 else_single:
@@ -572,14 +585,16 @@ lexical_vars:
 ;
 
 lexical_var_list:
-      lexical_var_list ',' optional_ref T_VARIABLE
-          { push($1, Expr_ClosureUse[parseVar($4), $3]); }
-    | optional_ref T_VARIABLE
-          { init(Expr_ClosureUse[parseVar($2), $1]); }
+      lexical_var                                           { init($1); }
+    | lexical_var_list ',' lexical_var                      { push($1, $3); }
+;
+
+lexical_var:
+      optional_ref T_VARIABLE                               { $$ = Expr_ClosureUse[parseVar($2), $1]; }
 ;
 
 function_call:
-      name '(' argument_list ')'                             { $$ = Expr_FuncCall[$1, $3]; }
+      name '(' argument_list ')'                            { $$ = Expr_FuncCall[$1, $3]; }
     | class_name_or_var T_PAAMAYIM_NEKUDOTAYIM T_STRING '(' argument_list ')'
           { $$ = Expr_StaticCall[$1, $3, $5]; }
     | class_name_or_var T_PAAMAYIM_NEKUDOTAYIM '{' expr '}' '(' argument_list ')'
