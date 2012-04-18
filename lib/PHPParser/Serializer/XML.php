@@ -29,7 +29,7 @@ class PHPParser_Serializer_XML implements PHPParser_Serializer
         return $this->writer->outputMemory();
     }
 
-    public function _serialize($node) {
+    protected function _serialize($node) {
          if ($node instanceof PHPParser_Node) {
             $this->writer->startElement('node:' . $node->getType());
 
