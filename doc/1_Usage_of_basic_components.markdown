@@ -14,14 +14,6 @@ The library needs to register a class autoloader; you can do this either by incl
 require 'path/to/PHP-Parser/lib/bootstrap.php';
 ```
 
-Or by manually registering the loader:
-
-```php
-<?php
-require 'path/to/PHP-Parser/lib/PHPParser/Autoloader.php';
-PHPParser_Autoloader::register();
-```
-
 Parsing
 -------
 
