@@ -1,5 +1,10 @@
-Version 0.9.1-dev
+Version 0.9.2-dev
 -----------------
+
+Nothing yet.
+
+Version 0.9.1 (24.04.2012)
+--------------------------
 
 * Add ability to add attributes to nodes:
 
