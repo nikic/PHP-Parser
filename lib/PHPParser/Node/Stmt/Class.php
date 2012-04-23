@@ -79,7 +79,7 @@ class PHPParser_Node_Stmt_Class extends PHPParser_Node_Stmt
         }
 
         if ($a & 48 && $b & 48) {
-            throw new PHPParser_Error('Cannot use the final modifier on an abstract class member');
+            throw new PHPParser_Error('Cannot use the final and abstract modifier at the same time');
         }
     }
 }
