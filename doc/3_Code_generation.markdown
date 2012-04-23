@@ -1,7 +1,9 @@
 Code generation
 ===============
 
-...
+It is also possible to generate code using the parser, by first creating an Abstract Syntax Tree and then using the
+pretty printer to convert it to PHP code. To simplify code generation, the project comes with a set of builders for
+common structures as well as simple templating support. Both features are described in the following:
 
 Builders
 --------
