@@ -65,7 +65,7 @@ Templates
 
 Additionally it is possible to generate code from reusable templates.
 
-As an example consider the following template, which defines a general getter/setter sceleton in terms of a property
+As an example consider the following template, which defines a general getter/setter skeleton in terms of a property
 `__name__` and its `__type__`:
 
 ```php
