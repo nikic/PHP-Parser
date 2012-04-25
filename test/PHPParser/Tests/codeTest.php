@@ -6,10 +6,10 @@ class PHPParser_Tests_codeTest extends PHPUnit_Framework_TestCase
      * @dataProvider provideTestCode
      */
     public function testCode($name, $code, $dump) {
-        $parser = new PHPParser_Parser;
+        $parser = new PHPParser_Parser(new PHPParser_Lexer_Emulative);
         $dumper = new PHPParser_NodeDumper;
 
-        $stmts = $parser->parse(new PHPParser_Lexer_Emulative($code));
+        $stmts = $parser->parse($code);
         $this->assertEquals(
             $this->canonicalize($dump),
             $this->canonicalize($dumper->dump($stmts)),
@@ -25,10 +25,10 @@ class PHPParser_Tests_codeTest extends PHPUnit_Framework_TestCase
      * @dataProvider provideTestCodeFail
      */
     public function testCodeFail($name, $code, $msg) {
-        $parser = new PHPParser_Parser;
+        $parser = new PHPParser_Parser(new PHPParser_Lexer_Emulative);
 
         try {
-            $parser->parse(new PHPParser_Lexer_Emulative($code));
+            $parser->parse($code);
 
             $this->fail(sprintf('"%s": Expected PHPParser_Error', $name));
         } catch (PHPParser_Error $e) {

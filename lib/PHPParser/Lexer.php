@@ -7,21 +7,29 @@ class PHPParser_Lexer
     protected $pos;
     protected $line;
 
-    protected static $tokenMap;
-    protected static $dropTokens = array(
-        T_WHITESPACE => 1, T_COMMENT => 1, T_OPEN_TAG => 1
-    );
+    protected $tokenMap;
+    protected $dropTokens;
 
     /**
      * Creates a Lexer.
+     */
+    public function __construct() {
+        // map from internal tokens to PHPParser tokens
+        $this->tokenMap = $this->createTokenMap();
+
+        // map of tokens to drop while lexing (the map is only used for isset lookup,
+        // that's why the value is simply set to 1; the value is never actually used.)
+        $this->dropTokens = array_fill_keys(array(T_WHITESPACE, T_COMMENT, T_OPEN_TAG), 1);
+    }
+
+    /**
+     * Initializes the lexer for lexing the provided source code.
      *
-     * @param string $code
+     * @param string $code The source code to lex
      *
      * @throws PHPParser_Error on lexing errors (unterminated comment or unexpected character)
      */
-    public function __construct($code) {
-        self::initTokenMap();
-
+    public function startLexing($code) {
         $this->resetErrors();
         $this->tokens = @token_get_all($code);
         $this->handleErrors();
@@ -71,7 +79,7 @@ class PHPParser_Lexer
      *
      * @return int Token id
      */
-    public function lex(&$value = null, &$line = null, &$docComment = null) {
+    public function getNextToken(&$value = null, &$line = null, &$docComment = null) {
         $docComment = null;
 
         while (isset($this->tokens[++$this->pos])) {
@@ -93,10 +101,10 @@ class PHPParser_Lexer
 
                 if (T_DOC_COMMENT === $token[0]) {
                     $docComment = $token[1];
-                } elseif (!isset(self::$dropTokens[$token[0]])) {
+                } elseif (!isset($this->dropTokens[$token[0]])) {
                     $value = $token[1];
                     $line  = $token[2];
-                    return self::$tokenMap[$token[0]];
+                    return $this->tokenMap[$token[0]];
                 }
             }
         }
@@ -138,35 +146,37 @@ class PHPParser_Lexer
     }
 
     /**
-     * Initializes the token map.
+     * Creates the token map.
      *
      * The token map maps the PHP internal token identifiers
      * to the identifiers used by the Parser. Additionally it
      * maps T_OPEN_TAG_WITH_ECHO to T_ECHO and T_CLOSE_TAG to ';'.
+     *
+     * @return array The token map
      */
-    protected static function initTokenMap() {
-        if (!self::$tokenMap) {
-            self::$tokenMap = array();
+    protected function createTokenMap() {
+        $tokenMap = array();
 
-            // 256 is the minimum possible token number, as everything below
-            // it is an ASCII value
-            for ($i = 256; $i < 1000; ++$i) {
-                // T_DOUBLE_COLON is equivalent to T_PAAMAYIM_NEKUDOTAYIM
-                if (T_DOUBLE_COLON === $i) {
-                    self::$tokenMap[$i] = PHPParser_Parser::T_PAAMAYIM_NEKUDOTAYIM;
-                // T_OPEN_TAG_WITH_ECHO with dropped T_OPEN_TAG results in T_ECHO
-                } elseif(T_OPEN_TAG_WITH_ECHO === $i) {
-                    self::$tokenMap[$i] = PHPParser_Parser::T_ECHO;
-                // T_CLOSE_TAG is equivalent to ';'
-                } elseif(T_CLOSE_TAG === $i) {
-                    self::$tokenMap[$i] = ord(';');
-                // and the others can be mapped directly
-                } elseif ('UNKNOWN' !== ($name = token_name($i))
-                          && defined($name = 'PHPParser_Parser::' . $name)
-                ) {
-                    self::$tokenMap[$i] = constant($name);
-                }
+        // 256 is the minimum possible token number, as everything below
+        // it is an ASCII value
+        for ($i = 256; $i < 1000; ++$i) {
+            // T_DOUBLE_COLON is equivalent to T_PAAMAYIM_NEKUDOTAYIM
+            if (T_DOUBLE_COLON === $i) {
+                $tokenMap[$i] = PHPParser_Parser::T_PAAMAYIM_NEKUDOTAYIM;
+            // T_OPEN_TAG_WITH_ECHO with dropped T_OPEN_TAG results in T_ECHO
+            } elseif(T_OPEN_TAG_WITH_ECHO === $i) {
+                $tokenMap[$i] = PHPParser_Parser::T_ECHO;
+            // T_CLOSE_TAG is equivalent to ';'
+            } elseif(T_CLOSE_TAG === $i) {
+                $tokenMap[$i] = ord(';');
+            // and the others can be mapped directly
+            } elseif ('UNKNOWN' !== ($name = token_name($i))
+                      && defined($name = 'PHPParser_Parser::' . $name)
+            ) {
+                $tokenMap[$i] = constant($name);
             }
         }
+
+        return $tokenMap;
     }
 }

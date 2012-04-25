@@ -2,12 +2,19 @@
 
 class PHPParser_Tests_LexerTest extends PHPUnit_Framework_TestCase
 {
+    /** @var PHPParser_Lexer */
+    protected $lexer;
+
+    protected function setUp() {
+        $this->lexer = new PHPParser_Lexer;
+    }
+
     /**
      * @dataProvider provideTestError
      */
     public function testError($code, $message) {
         try {
-            new PHPParser_Lexer($code);
+            $this->lexer->startLexing($code);
         } catch (PHPParser_Error $e) {
             $this->assertEquals($message, $e->getMessage());
 
@@ -29,9 +36,8 @@ class PHPParser_Tests_LexerTest extends PHPUnit_Framework_TestCase
      * @dataProvider provideTestLex
      */
     public function testLex($code, $tokens) {
-        $lexer = new PHPParser_Lexer($code);
-
-        while ($id = $lexer->lex($value, $line, $docComment)) {
+        $this->lexer->startLexing($code);
+        while ($id = $this->lexer->getNextToken($value, $line, $docComment)) {
             $token = array_shift($tokens);
 
             $this->assertEquals($token[0], $id);
@@ -75,12 +81,12 @@ class PHPParser_Tests_LexerTest extends PHPUnit_Framework_TestCase
      * @dataProvider provideTestHaltCompiler
      */
     public function testHandleHaltCompiler($code, $remaining) {
-        $lexer = new PHPParser_Lexer($code);
+        $this->lexer->startLexing($code);
 
-        while (PHPParser_Parser::T_HALT_COMPILER !== $lexer->lex());
+        while (PHPParser_Parser::T_HALT_COMPILER !== $this->lexer->getNextToken());
 
-        $this->assertEquals($lexer->handleHaltCompiler(), $remaining);
-        $this->assertEquals(0, $lexer->lex());
+        $this->assertEquals($this->lexer->handleHaltCompiler(), $remaining);
+        $this->assertEquals(0, $this->lexer->getNextToken());
     }
 
     public function provideTestHaltCompiler() {

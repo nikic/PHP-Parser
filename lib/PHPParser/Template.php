@@ -25,20 +25,8 @@ class PHPParser_Template
      * @return PHPParser_Node[] Statements
      */
     public function getStmts(array $placeholders) {
-        /*
-         * TODO This is evil.
-         * The lexer shouldn't be created in here, instead it should be a dependency, which
-         * basically means that we'd need to have a LexerFactory (which seems strange).
-         * An alternative solution would be to make the lexer work similar to how the parser
-         * works. I.e. one would instantiate the Lexer only once and then pass the results
-         * of ->lex() to the parser (which would then be the full tokens array). This design
-         * seems cleaner, but comes at the expense of higher memory consumption, as the token
-         * array can be quite large.
-         */
         return $this->parser->parse(
-            new PHPParser_Lexer_Emulative(
-                $this->getTemplateWithPlaceholdersReplaced($placeholders)
-            )
+            $this->getTemplateWithPlaceholdersReplaced($placeholders)
         );
     }
 

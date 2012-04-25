@@ -894,14 +894,23 @@ class PHPParser_Parser
     protected $lexer;
 
     /**
-     * Parses PHP code into a node tree.
+     * Creates a parser instance.
      *
      * @param PHPParser_Lexer $lexer A lexer
+     */
+    public function __construct(PHPParser_Lexer $lexer) {
+        $this->lexer = $lexer;
+    }
+
+    /**
+     * Parses PHP code into a node tree.
+     *
+     * @param string $code The source code to parse
      *
      * @return array Array of statements
      */
-    public function parse(PHPParser_Lexer $lexer) {
-        $this->lexer  = $lexer;
+    public function parse($code) {
+        $this->lexer->startLexing($code);
 
         $this->yysp   = 0;                   // Stack pos
         $yysstk       = array($yystate = 0); // State stack
@@ -916,7 +925,7 @@ class PHPParser_Parser
                 $yyn = self::$yydefault[$yystate];
             } else {
                 if ($yychar < 0) {
-                    if (($yychar = $lexer->lex($yylval, $yyline, $yyDC)) < 0)
+                    if (($yychar = $this->lexer->getNextToken($yylval, $yyline, $yyDC)) < 0)
                         $yychar = 0;
                     $yychar = $yychar < self::YYMAXLEX ?
                         self::$yytranslate[$yychar] : self::YYBADCH;

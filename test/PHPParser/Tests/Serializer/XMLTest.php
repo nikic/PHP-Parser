@@ -84,10 +84,10 @@ CODE;
 </AST>
 XML;
 
-        $parser     = new PHPParser_Parser;
+        $parser     = new PHPParser_Parser(new PHPParser_Lexer);
         $serializer = new PHPParser_Serializer_XML;
 
-        $stmts = $parser->parse(new PHPParser_Lexer($code));
+        $stmts = $parser->parse($code);
         $this->assertXmlStringEqualsXmlString($xml, $serializer->serialize($stmts));
     }
 
