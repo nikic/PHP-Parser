@@ -11,16 +11,15 @@ class PHPParser_Node_Arg extends PHPParser_NodeAbstract
      *
      * @param PHPParser_Node_Expr $value      Value to pass
      * @param bool                $byRef      Whether to pass by ref
-     * @param int                 $line       Line
-     * @param null|string         $docComment Nearest doc comment
+     * @param array               $attributes Additional attributes
      */
-    public function __construct(PHPParser_Node_Expr $value, $byRef = false, $line = -1, $docComment = null) {
+    public function __construct(PHPParser_Node_Expr $value, $byRef = false, array $attributes = array()) {
         parent::__construct(
             array(
                 'value' => $value,
                 'byRef' => $byRef
             ),
-            $line, $docComment
+            $attributes
         );
     }
 }

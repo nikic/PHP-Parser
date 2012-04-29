@@ -85,7 +85,7 @@ function resolveNodes($code) {
                 $paramCode .= $param . ', ';
             }
 
-            return 'new PHPParser_Node_' . $matches['name'] . '(' . $paramCode . '$line, $docComment)';
+            return 'new PHPParser_Node_' . $matches['name'] . '(' . $paramCode . '$attributes)';
         },
         $code
     );

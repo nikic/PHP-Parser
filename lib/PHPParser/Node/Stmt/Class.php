@@ -31,10 +31,9 @@ class PHPParser_Node_Stmt_Class extends PHPParser_Node_Stmt
      *                                'extends'    => null   : Name of extended class
      *                                'implements' => array(): Names of implemented interfaces
      *                                'stmts'      => array(): Statements
-     * @param int         $line       Line
-     * @param null|string $docComment Nearest doc comment
+     * @param array       $attributes Additional attributes
      */
-    public function __construct($name, array $subNodes = array(), $line = -1, $docComment = null) {
+    public function __construct($name, array $subNodes = array(), array $attributes = array()) {
         parent::__construct(
             $subNodes + array(
                 'type'       => 0,
@@ -42,7 +41,7 @@ class PHPParser_Node_Stmt_Class extends PHPParser_Node_Stmt
                 'implements' => array(),
                 'stmts'      => array(),
             ),
-            $line, $docComment
+            $attributes
         );
         $this->name = $name;
 

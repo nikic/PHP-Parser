@@ -8,16 +8,15 @@ class PHPParser_Node_Scalar_LNumber extends PHPParser_Node_Scalar
     /**
      * Constructs an integer number scalar node.
      *
-     * @param int         $value      Value of the number
-     * @param int         $line       Line
-     * @param null|string $docComment Nearest doc comment
+     * @param int   $value      Value of the number
+     * @param array $attributes Additional attributes
      */
-    public function __construct($value = 0, $line = -1, $docComment = null) {
+    public function __construct($value = 0, array $attributes = array()) {
         parent::__construct(
             array(
                 'value' => $value
             ),
-            $line, $docComment
+            $attributes
         );
     }
 

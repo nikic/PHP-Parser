@@ -19,10 +19,9 @@ class PHPParser_Node_Stmt_ClassMethod extends PHPParser_Node_Stmt
      *                                'byRef'  => false          : Whether to return by reference
      *                                'params' => array()        : Parameters
      *                                'stmts'  => array()        : Statements
-     * @param int         $line       Line
-     * @param null|string $docComment Nearest doc comment
+     * @param array       $attributes Additional attributes
      */
-    public function __construct($name, array $subNodes = array(), $line = -1, $docComment = null) {
+    public function __construct($name, array $subNodes = array(), array $attributes = array()) {
         parent::__construct(
             $subNodes + array(
                 'type'   => PHPParser_Node_Stmt_Class::MODIFIER_PUBLIC,
@@ -30,7 +29,7 @@ class PHPParser_Node_Stmt_ClassMethod extends PHPParser_Node_Stmt
                 'params' => array(),
                 'stmts'  => array(),
             ),
-            $line, $docComment
+            $attributes
         );
         $this->name = $name;
 

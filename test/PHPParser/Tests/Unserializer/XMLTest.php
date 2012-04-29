@@ -5,8 +5,14 @@ class PHPParser_Tests_Unserializer_XMLTest extends PHPUnit_Framework_TestCase
     public function testNode() {
         $xml = <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
-<AST xmlns:node="http://nikic.github.com/PHPParser/XML/node" xmlns:subNode="http://nikic.github.com/PHPParser/XML/subNode" xmlns:scalar="http://nikic.github.com/PHPParser/XML/scalar">
+<AST xmlns:node="http://nikic.github.com/PHPParser/XML/node" xmlns:subNode="http://nikic.github.com/PHPParser/XML/subNode" xmlns:attribute="http://nikic.github.com/PHPParser/XML/attribute" xmlns:scalar="http://nikic.github.com/PHPParser/XML/scalar">
  <node:Scalar_String line="1" docComment="/** doc comment */">
+  <attribute:line>
+   <scalar:int>1</scalar:int>
+  </attribute:line>
+  <attribute:docComment>
+   <scalar:string>/** doc comment */</scalar:string>
+  </attribute:docComment>
   <subNode:value>
    <scalar:string>Test</scalar:string>
   </subNode:value>
@@ -16,7 +22,10 @@ XML;
 
         $unserializer  = new PHPParser_Unserializer_XML;
         $this->assertEquals(
-            new PHPParser_Node_Scalar_String('Test', 1, '/** doc comment */'),
+            new PHPParser_Node_Scalar_String('Test', array(
+                'line'       => 1,
+                'docComment' => '/** doc comment */',
+            )),
             $unserializer->unserialize($xml)
         );
     }
@@ -24,12 +33,15 @@ XML;
     public function testEmptyNode() {
         $xml = <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
-<AST xmlns:node="http://nikic.github.com/PHPParser/XML/node" xmlns:subNode="http://nikic.github.com/PHPParser/XML/subNode" xmlns:scalar="http://nikic.github.com/PHPParser/XML/scalar">
+<AST xmlns:node="http://nikic.github.com/PHPParser/XML/node">
  <node:Scalar_ClassConst />
 </AST>
 XML;
 
         $unserializer  = new PHPParser_Unserializer_XML;
+        var_dump($unserializer->unserialize($xml));
+
+
         $this->assertEquals(
             new PHPParser_Node_Scalar_ClassConst,
             $unserializer->unserialize($xml)
@@ -113,7 +125,7 @@ XML;
             array('<foo:bar>test</foo:bar>',           'Unexpected node of type "foo:bar"'),
             array(
                 '<node:Scalar_String><foo:bar>test</foo:bar></node:Scalar_String>',
-                'Expected sub node, got node of type "foo:bar"'
+                'Expected sub node or attribute, got node of type "foo:bar"'
             ),
             array(
                 '<node:Scalar_String><subNode:value/></node:Scalar_String>',

@@ -11,16 +11,15 @@ class PHPParser_Node_Stmt_Declare extends PHPParser_Node_Stmt
      *
      * @param PHPParser_Node_Stmt_DeclareDeclare[] $declares   List of declares
      * @param PHPParser_Node[]                     $stmts      Statements
-     * @param int                                  $line       Line
-     * @param null|string                          $docComment Nearest doc comment
+     * @param array                                $attributes Additional attributes
      */
-    public function __construct(array $declares, array $stmts, $line = -1, $docComment = null) {
+    public function __construct(array $declares, array $stmts, array $attributes = array()) {
         parent::__construct(
             array(
                 'declares' => $declares,
                 'stmts'    => $stmts,
             ),
-            $line, $docComment
+            $attributes
         );
     }
 }

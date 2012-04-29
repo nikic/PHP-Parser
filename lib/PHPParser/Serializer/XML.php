@@ -18,9 +18,10 @@ class PHPParser_Serializer_XML implements PHPParser_Serializer
         $this->writer->startDocument('1.0', 'UTF-8');
 
         $this->writer->startElement('AST');
-        $this->writer->writeAttribute('xmlns:node',    'http://nikic.github.com/PHPParser/XML/node');
-        $this->writer->writeAttribute('xmlns:subNode', 'http://nikic.github.com/PHPParser/XML/subNode');
-        $this->writer->writeAttribute('xmlns:scalar',  'http://nikic.github.com/PHPParser/XML/scalar');
+        $this->writer->writeAttribute('xmlns:node',      'http://nikic.github.com/PHPParser/XML/node');
+        $this->writer->writeAttribute('xmlns:subNode',   'http://nikic.github.com/PHPParser/XML/subNode');
+        $this->writer->writeAttribute('xmlns:attribute', 'http://nikic.github.com/PHPParser/XML/attribute');
+        $this->writer->writeAttribute('xmlns:scalar',    'http://nikic.github.com/PHPParser/XML/scalar');
 
         $this->_serialize($nodes);
 
@@ -30,21 +31,18 @@ class PHPParser_Serializer_XML implements PHPParser_Serializer
     }
 
     protected function _serialize($node) {
-         if ($node instanceof PHPParser_Node) {
+        if ($node instanceof PHPParser_Node) {
             $this->writer->startElement('node:' . $node->getType());
 
-            if (-1 !== $line = $node->getLine()) {
-                $this->writer->writeAttribute('line', $line);
-            }
-
-            if (null !== $docComment = $node->getDocComment()) {
-                $this->writer->writeAttribute('docComment', $docComment);
+            foreach ($node->getAttributes() as $name => $value) {
+                $this->writer->startElement('attribute:' . $name);
+                $this->_serialize($value);
+                $this->writer->endElement();
             }
 
             foreach ($node as $name => $subNode) {
                 $this->writer->startElement('subNode:' . $name);
                 $this->_serialize($subNode);
-
                 $this->writer->endElement();
             }
 

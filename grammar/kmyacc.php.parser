@@ -258,8 +258,10 @@ class #(-p)
 #endif
                     try {
                         $this->{'yyn' . $yyn}(
-                            $yylstk[$this->yysp - self::$yylen[$yyn]],
-                            $yydstk[$this->yysp - self::$yylen[$yyn]]
+                            array(
+                                'line'       => $yylstk[$this->yysp - self::$yylen[$yyn]],
+                                'docComment' => $yydstk[$this->yysp - self::$yylen[$yyn]]
+                            )
                         );
                     } catch (PHPParser_Error $e) {
                         if (-1 === $e->getRawLine()) {
@@ -304,7 +306,7 @@ class #(-p)
 #ifnot -t
 #reduce
 
-    protected function yyn%n($line, $docComment) {
+    protected function yyn%n($attributes) {
         %b
     }
 #noact

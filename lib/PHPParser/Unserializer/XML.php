@@ -53,28 +53,27 @@ class PHPParser_Unserializer_XML implements PHPParser_Unserializer
             )
         );
 
-        $line = $this->reader->getAttribute('line');
-        $node->setLine(null !== $line ? $line : -1);
-
-        $docComment = $this->reader->getAttribute('docComment');
-        $node->setDocComment($docComment);
-
         $depthLimit = $this->reader->depth;
         while ($this->reader->read() && $depthLimit < $this->reader->depth) {
             if (XMLReader::ELEMENT !== $this->reader->nodeType) {
                 continue;
             }
 
-            if ('subNode' !== $this->reader->prefix) {
+            $type = $this->reader->prefix;
+            if ('subNode' !== $type && 'attribute' !== $type) {
                 throw new DomainException(
-                    sprintf('Expected sub node, got node of type "%s"', $this->reader->name)
+                    sprintf('Expected sub node or attribute, got node of type "%s"', $this->reader->name)
                 );
             }
 
-            $subNodeName = $this->reader->localName;
-            $subNodeContent = $this->read($this->reader->depth);
+            $name = $this->reader->localName;
+            $value = $this->read($this->reader->depth);
 
-            $node->$subNodeName = $subNodeContent;
+            if ('subNode' === $type) {
+                $node->$name = $value;
+            } else {
+                $node->setAttribute($name, $value);
+            }
         }
 
         return $node;

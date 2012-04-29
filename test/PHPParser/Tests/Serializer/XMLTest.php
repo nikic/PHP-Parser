@@ -15,72 +15,114 @@ function functionName(&\$a = 0, \$b = 1.0) {
 CODE;
         $xml = <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
-<AST xmlns:node="http://nikic.github.com/PHPParser/XML/node" xmlns:subNode="http://nikic.github.com/PHPParser/XML/subNode" xmlns:scalar="http://nikic.github.com/PHPParser/XML/scalar">
-  <scalar:array>
-    <node:Stmt_Function line="3" docComment="/** doc comment */">
-      <subNode:byRef>
-        <scalar:false/>
-      </subNode:byRef>
-      <subNode:params>
-        <scalar:array>
-          <node:Param line="3">
-            <subNode:name>
-              <scalar:string>a</scalar:string>
-            </subNode:name>
-            <subNode:default>
-              <node:Scalar_LNumber line="3">
-                <subNode:value>
-                  <scalar:int>0</scalar:int>
-                </subNode:value>
-              </node:Scalar_LNumber>
-            </subNode:default>
-            <subNode:type>
-              <scalar:null/>
-            </subNode:type>
-            <subNode:byRef>
-              <scalar:true/>
-            </subNode:byRef>
-          </node:Param>
-          <node:Param line="3">
-            <subNode:name>
-              <scalar:string>b</scalar:string>
-            </subNode:name>
-            <subNode:default>
-              <node:Scalar_DNumber line="3">
-                <subNode:value>
-                  <scalar:float>1</scalar:float>
-                </subNode:value>
-              </node:Scalar_DNumber>
-            </subNode:default>
-            <subNode:type>
-              <scalar:null/>
-            </subNode:type>
-            <subNode:byRef>
-              <scalar:false/>
-            </subNode:byRef>
-          </node:Param>
-        </scalar:array>
-      </subNode:params>
-      <subNode:stmts>
-        <scalar:array>
-          <node:Stmt_Echo line="4">
-            <subNode:exprs>
-              <scalar:array>
-                <node:Scalar_String line="4">
-                  <subNode:value>
-                    <scalar:string>Foo</scalar:string>
-                  </subNode:value>
-                </node:Scalar_String>
-              </scalar:array>
-            </subNode:exprs>
-          </node:Stmt_Echo>
-        </scalar:array>
-      </subNode:stmts>
+<AST xmlns:node="http://nikic.github.com/PHPParser/XML/node" xmlns:subNode="http://nikic.github.com/PHPParser/XML/subNode" xmlns:attribute="http://nikic.github.com/PHPParser/XML/attribute" xmlns:scalar="http://nikic.github.com/PHPParser/XML/scalar">
+ <scalar:array>
+  <node:Stmt_Function>
+   <attribute:line>
+    <scalar:int>3</scalar:int>
+   </attribute:line>
+   <attribute:docComment>
+    <scalar:string>/** doc comment */</scalar:string>
+   </attribute:docComment>
+   <subNode:byRef>
+    <scalar:false/>
+   </subNode:byRef>
+   <subNode:params>
+    <scalar:array>
+     <node:Param>
+      <attribute:line>
+       <scalar:int>3</scalar:int>
+      </attribute:line>
+      <attribute:docComment>
+       <scalar:null/>
+      </attribute:docComment>
       <subNode:name>
-        <scalar:string>functionName</scalar:string>
+       <scalar:string>a</scalar:string>
       </subNode:name>
-    </node:Stmt_Function>
-  </scalar:array>
+      <subNode:default>
+       <node:Scalar_LNumber>
+        <attribute:line>
+         <scalar:int>3</scalar:int>
+        </attribute:line>
+        <attribute:docComment>
+         <scalar:null/>
+        </attribute:docComment>
+        <subNode:value>
+         <scalar:int>0</scalar:int>
+        </subNode:value>
+       </node:Scalar_LNumber>
+      </subNode:default>
+      <subNode:type>
+       <scalar:null/>
+      </subNode:type>
+      <subNode:byRef>
+       <scalar:true/>
+      </subNode:byRef>
+     </node:Param>
+     <node:Param>
+      <attribute:line>
+       <scalar:int>3</scalar:int>
+      </attribute:line>
+      <attribute:docComment>
+       <scalar:null/>
+      </attribute:docComment>
+      <subNode:name>
+       <scalar:string>b</scalar:string>
+      </subNode:name>
+      <subNode:default>
+       <node:Scalar_DNumber>
+        <attribute:line>
+         <scalar:int>3</scalar:int>
+        </attribute:line>
+        <attribute:docComment>
+         <scalar:null/>
+        </attribute:docComment>
+        <subNode:value>
+         <scalar:float>1</scalar:float>
+        </subNode:value>
+       </node:Scalar_DNumber>
+      </subNode:default>
+      <subNode:type>
+       <scalar:null/>
+      </subNode:type>
+      <subNode:byRef>
+       <scalar:false/>
+      </subNode:byRef>
+     </node:Param>
+    </scalar:array>
+   </subNode:params>
+   <subNode:stmts>
+    <scalar:array>
+     <node:Stmt_Echo>
+      <attribute:line>
+       <scalar:int>4</scalar:int>
+      </attribute:line>
+      <attribute:docComment>
+       <scalar:null/>
+      </attribute:docComment>
+      <subNode:exprs>
+       <scalar:array>
+        <node:Scalar_String>
+         <attribute:line>
+          <scalar:int>4</scalar:int>
+         </attribute:line>
+         <attribute:docComment>
+          <scalar:null/>
+         </attribute:docComment>
+         <subNode:value>
+          <scalar:string>Foo</scalar:string>
+         </subNode:value>
+        </node:Scalar_String>
+       </scalar:array>
+      </subNode:exprs>
+     </node:Stmt_Echo>
+    </scalar:array>
+   </subNode:stmts>
+   <subNode:name>
+    <scalar:string>functionName</scalar:string>
+   </subNode:name>
+  </node:Stmt_Function>
+ </scalar:array>
 </AST>
 XML;
 

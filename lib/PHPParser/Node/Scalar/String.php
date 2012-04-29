@@ -19,29 +19,27 @@ class PHPParser_Node_Scalar_String extends PHPParser_Node_Scalar
     /**
      * Constructs a string scalar node.
      *
-     * @param string      $value      Value of the string
-     * @param int         $line       Line
-     * @param null|string $docComment Nearest doc comment
+     * @param string $value      Value of the string
+     * @param array  $attributes Additional attributes
      */
-    public function __construct($value = '', $line = -1, $docComment = null) {
+    public function __construct($value = '', array $attributes = array()) {
         parent::__construct(
             array(
                 'value' => $value
             ),
-            $line, $docComment
+            $attributes
         );
     }
 
     /**
      * Creates a String node from a string token (parses escape sequences).
      *
-     * @param string      $str        String
-     * @param int         $line       Line
-     * @param null|string $docComment Nearest doc comment
+     * @param string $str        String
+     * @param array  $attributes Additional attributes
      *
      * @return PHPParser_Node_Scalar_String String Node
      */
-    public static function create($str, $line = -1, $docComment = null) {
+    public static function create($str, array $attributes = array()) {
         $bLength = 0;
         if ('b' === $str[0]) {
             $bLength = 1;
@@ -57,7 +55,7 @@ class PHPParser_Node_Scalar_String extends PHPParser_Node_Scalar
             $str = self::parseEscapeSequences(substr($str, $bLength + 1, -1), '"');
         }
 
-        return new self($str, $line, $docComment);
+        return new self($str, $attributes);
     }
 
     /**
