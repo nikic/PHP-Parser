@@ -31,7 +31,7 @@ if ('Symfony' === $TEST_TYPE) {
 require_once dirname(__FILE__) . '/../lib/PHPParser/Autoloader.php';
 PHPParser_Autoloader::register();
 
-$parser        = new PHPParser_Parser;
+$parser        = new PHPParser_Parser(new PHPParser_Lexer_Emulative);
 $prettyPrinter = new PHPParser_PrettyPrinter_Zend;
 $nodeDumper    = new PHPParser_NodeDumper;
 
@@ -87,7 +87,7 @@ foreach (new RecursiveIteratorIterator(
 
     try {
         $startTime = microtime(true);
-        $stmts = $parser->parse(new PHPParser_Lexer_Emulative($code));
+        $stmts = $parser->parse($code);
         $parseTime += microtime(true) - $startTime;
 
         $startTime = microtime(true);
@@ -96,7 +96,7 @@ foreach (new RecursiveIteratorIterator(
 
         try {
             $startTime = microtime(true);
-            $ppStmts = $parser->parse(new PHPParser_Lexer_Emulative($code));
+            $ppStmts = $parser->parse($code);
             $reparseTime += microtime(true) - $startTime;
 
             $startTime = microtime(true);
