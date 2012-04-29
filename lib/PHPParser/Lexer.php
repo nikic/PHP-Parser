@@ -109,6 +109,7 @@ class PHPParser_Lexer
             }
         }
 
+        // 0 is the EOF token
         return 0;
     }
 

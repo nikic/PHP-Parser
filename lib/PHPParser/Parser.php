@@ -11,16 +11,15 @@
  */
 class PHPParser_Parser
 {
-    const YYBADCH      = 149;
-    const YYMAXLEX     = 384;
-    const YYTERMS      = 149;
-    const YYNONTERMS   = 107;
+    const TOKEN_NONE    = -1;
+    const TOKEN_INVALID = 149;
+
+    const TOKEN_MAP_SIZE = 384;
+
     const YYLAST       = 913;
     const YY2TBLSTATE  = 327;
     const YYGLAST      = 414;
-    const YYSTATES     = 788;
     const YYNLSTATES   = 543;
-    const YYINTERRTOK  = 1;
     const YYUNEXPECTED = 32767;
     const YYDEFAULT    = -32766;
 
@@ -155,7 +154,8 @@ class PHPParser_Parser
     const T_NS_SEPARATOR = 383;
     // }}}
 
-    protected static $yyterminals = array(
+    /* @var array Map of token ids to their respective names */
+    protected static $terminals = array(
         "EOF",
         "error",
         "T_INCLUDE",
@@ -308,7 +308,8 @@ class PHPParser_Parser
         , "???"
     );
 
-    protected static $yytranslate = array(
+    /* @var Map which translates lexer tokens to internal tokens */
+    protected static $translate = array(
             0,  149,  149,  149,  149,  149,  149,  149,  149,  149,
           149,  149,  149,  149,  149,  149,  149,  149,  149,  149,
           149,  149,  149,  149,  149,  149,  149,  149,  149,  149,
@@ -913,32 +914,43 @@ class PHPParser_Parser
         $this->lexer->startLexing($code);
 
         $this->yysp   = 0;                   // Stack pos
-        $yysstk       = array($yystate = 0); // State stack
+        $stateStack   = array($state = 0);   // State stack
         $this->yyastk = array();             // AST   stack (?)
         $yylstk       = array($yyline  = 1); // Line  stack
         $yydstk       = array($yyDC = null); // Doc comment stack
 
-        $yychar       = -1;
+        $tokenId = self::TOKEN_NONE;
 
         for (;;) {
-            if (self::$yybase[$yystate] == 0) {
-                $yyn = self::$yydefault[$yystate];
+            if (self::$yybase[$state] == 0) {
+                $yyn = self::$yydefault[$state];
             } else {
-                if ($yychar < 0) {
-                    if (($yychar = $this->lexer->getNextToken($yylval, $yyline, $yyDC)) < 0)
-                        $yychar = 0;
-                    $yychar = $yychar < self::YYMAXLEX ?
-                        self::$yytranslate[$yychar] : self::YYBADCH;
+                if ($tokenId === self::TOKEN_NONE) {
+                    // fetch the next token id from the lexer and fetch additional info by-ref
+                    $origTokenId = $this->lexer->getNextToken($tokenValue, $yyline, $yyDC);
+
+                    // map the lexer token id to the internally used token id's
+                    $tokenId = $origTokenId >= 0 && $origTokenId < self::TOKEN_MAP_SIZE
+                        ? self::$translate[$origTokenId]
+                        : self::TOKEN_INVALID;
+
+                    if ($tokenId === self::TOKEN_INVALID) {
+                        throw new RangeException(sprintf(
+                            'The lexer returned an invalid token (id=%d, value=%s)',
+                            $origTokenId, $tokenValue
+                        ));
+                    }
+
                     $yylstk[$this->yysp] = $yyline;
                     $yydstk[$this->yysp] = $yyDC;
                 }
-                if ((($yyn = self::$yybase[$yystate] + $yychar) >= 0
-                     && $yyn < self::YYLAST && self::$yycheck[$yyn] == $yychar
-                     || ($yystate < self::YY2TBLSTATE
-                        && ($yyn = self::$yybase[$yystate + self::YYNLSTATES]
-                            + $yychar) >= 0
+
+                if ((($yyn = self::$yybase[$state] + $tokenId) >= 0
+                     && $yyn < self::YYLAST && self::$yycheck[$yyn] == $tokenId
+                     || ($state < self::YY2TBLSTATE
+                        && ($yyn = self::$yybase[$state + self::YYNLSTATES] + $tokenId) >= 0
                         && $yyn < self::YYLAST
-                        && self::$yycheck[$yyn] == $yychar))
+                        && self::$yycheck[$yyn] == $tokenId))
                     && ($yyn = self::$yyaction[$yyn]) != self::YYDEFAULT) {
                     /*
                      * >= YYNLSTATE: shift and reduce
@@ -951,11 +963,11 @@ class PHPParser_Parser
                         /* shift */
                         ++$this->yysp;
 
-                        $yysstk[$this->yysp]       = $yystate = $yyn;
-                        $this->yyastk[$this->yysp] = $yylval;
+                        $stateStack[$this->yysp]   = $state = $yyn;
+                        $this->yyastk[$this->yysp] = $tokenValue;
                         $yylstk[$this->yysp]       = $yyline;
                         $yydstk[$this->yysp]       = $yyDC;
-                        $yychar = -1;
+                        $tokenId = self::TOKEN_NONE;
 
                         if ($yyn < self::YYNLSTATES)
                             continue;
@@ -966,7 +978,7 @@ class PHPParser_Parser
                         $yyn = -$yyn;
                     }
                 } else {
-                    $yyn = self::$yydefault[$yystate];
+                    $yyn = self::$yydefault[$state];
                 }
             }
 
@@ -993,32 +1005,32 @@ class PHPParser_Parser
                     /* Goto - shift nonterminal */
                     $this->yysp -= self::$yylen[$yyn];
                     $yyn = self::$yylhs[$yyn];
-                    if (($yyp = self::$yygbase[$yyn] + $yysstk[$this->yysp]) >= 0
+                    if (($yyp = self::$yygbase[$yyn] + $stateStack[$this->yysp]) >= 0
                          && $yyp < self::YYGLAST
                          && self::$yygcheck[$yyp] == $yyn) {
-                        $yystate = self::$yygoto[$yyp];
+                        $state = self::$yygoto[$yyp];
                     } else {
-                        $yystate = self::$yygdefault[$yyn];
+                        $state = self::$yygdefault[$yyn];
                     }
 
                     ++$this->yysp;
 
-                    $yysstk[$this->yysp] = $yystate;
+                    $stateStack[$this->yysp]   = $state;
                     $this->yyastk[$this->yysp] = $this->yyval;
                     $yylstk[$this->yysp]       = $yyline;
                     $yydstk[$this->yysp]       = $yyDC;
                 } else {
                     /* error */
                     throw new PHPParser_Error(
-                        'Unexpected token ' . self::$yyterminals[$yychar],
+                        'Unexpected token ' . self::$terminals[$tokenId],
                         $yyline
                     );
                 }
 
-                if ($yystate < self::YYNLSTATES)
+                if ($state < self::YYNLSTATES)
                     break;
                 /* >= YYNLSTATES means shift-and-reduce */
-                $yyn = $yystate - self::YYNLSTATES;
+                $yyn = $state - self::YYNLSTATES;
             }
         }
     }
