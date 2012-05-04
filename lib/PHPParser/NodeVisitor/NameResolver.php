@@ -104,7 +104,7 @@ class PHPParser_NodeVisitor_NameResolver extends PHPParser_NodeVisitorAbstract
             $name->prepend($this->namespace);
         }
 
-        return new PHPParser_Node_Name_FullyQualified($name->parts);
+        return new PHPParser_Node_Name_FullyQualified($name->parts, $name->getLine());
     }
 
     protected function resolveOtherName(PHPParser_Node_Name $name) {
@@ -122,7 +122,7 @@ class PHPParser_NodeVisitor_NameResolver extends PHPParser_NodeVisitorAbstract
             $name->prepend($this->namespace);
         }
 
-        return new PHPParser_Node_Name_FullyQualified($name->parts);
+        return new PHPParser_Node_Name_FullyQualified($name->parts, $name->getLine());
     }
 
     protected function addNamespacedName(PHPParser_Node $node) {
@@ -130,7 +130,7 @@ class PHPParser_NodeVisitor_NameResolver extends PHPParser_NodeVisitorAbstract
             $node->namespacedName = clone $this->namespace;
             $node->namespacedName->append($node->name);
         } else {
-            $node->namespacedName = new PHPParser_Node_Name($node->name);
+            $node->namespacedName = new PHPParser_Node_Name($node->name, $node->getLine());
         }
     }
 }
