@@ -6,7 +6,7 @@ This document explains how to use the parser, the pretty printer and the node tr
 Bootstrapping
 -------------
 
-The library needs to register a class autoloader; you can do this either by including the
+The library needs to register a class autoloader; this is done by including the
 `bootstrap.php` file:
 
 ```php
