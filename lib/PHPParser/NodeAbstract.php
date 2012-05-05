@@ -40,7 +40,7 @@ abstract class PHPParser_NodeAbstract implements PHPParser_Node, IteratorAggrega
      * @return int Line
      */
     public function getLine() {
-        return $this->getAttribute('line', -1);
+        return $this->getAttribute('startLine', -1);
     }
 
     /**
@@ -49,7 +49,7 @@ abstract class PHPParser_NodeAbstract implements PHPParser_Node, IteratorAggrega
      * @param int $line Line
      */
     public function setLine($line) {
-        $this->setAttribute('line', (int) $line);
+        $this->setAttribute('startLine', (int) $line);
     }
 
     /**

@@ -37,13 +37,13 @@ class PHPParser_Tests_LexerTest extends PHPUnit_Framework_TestCase
      */
     public function testLex($code, $tokens) {
         $this->lexer->startLexing($code);
-        while ($id = $this->lexer->getNextToken($value, $line, $docComment)) {
+        while ($id = $this->lexer->getNextToken($value, $startAttributes, $endAttributes)) {
             $token = array_shift($tokens);
 
             $this->assertEquals($token[0], $id);
             $this->assertEquals($token[1], $value);
-            $this->assertEquals($token[2], $line);
-            $this->assertEquals($token[3], $docComment);
+            $this->assertEquals($token[2], $startAttributes);
+            $this->assertEquals($token[3], $endAttributes);
         }
     }
 
@@ -53,25 +53,56 @@ class PHPParser_Tests_LexerTest extends PHPUnit_Framework_TestCase
             array(
                 '<?php tokens // ?>plaintext',
                 array(
-                    array(PHPParser_Parser::T_STRING,      'tokens',    1, null),
-                    array(ord(';'),                        '?>',        1, null),
-                    array(PHPParser_Parser::T_INLINE_HTML, 'plaintext', 1, null),
+                    array(
+                        PHPParser_Parser::T_STRING, 'tokens',
+                        array('startLine' => 1), array('endLine' => 1)
+                    ),
+                    array(
+                        ord(';'), '?>',
+                        array('startLine' => 1), array('endLine' => 1)
+                    ),
+                    array(
+                        PHPParser_Parser::T_INLINE_HTML, 'plaintext',
+                        array('startLine' => 1), array('endLine' => 1)
+                    ),
                 )
             ),
             // tests line numbers
             array(
                 '<?php' . "\n" . '$ token /** doc' . "\n" . 'comment */ $',
                 array(
-                    array(ord('$'),                   '$',     2, null),
-                    array(PHPParser_Parser::T_STRING, 'token', 2, null),
-                    array(ord('$'),                   '$',     3, '/** doc' . "\n" . 'comment */')
+                    array(
+                        ord('$'), '$',
+                        array('startLine' => 2), array('endLine' => 2)
+                    ),
+                    array(
+                        PHPParser_Parser::T_STRING, 'token',
+                        array('startLine' => 2), array('endLine' => 2)
+                    ),
+                    array(
+                        ord('$'), '$',
+                        array('startLine' => 3, 'docComment' => '/** doc' . "\n" . 'comment */'), array('endLine' => 3)
+                    ),
                 )
             ),
             // tests doccomment extraction
             array(
                 '<?php /** docComment 1 *//** docComment 2 */ token',
                 array(
-                    array(PHPParser_Parser::T_STRING, 'token', 1, '/** docComment 2 */'),
+                    array(
+                        PHPParser_Parser::T_STRING, 'token',
+                        array('startLine' => 1, 'docComment' => '/** docComment 2 */'), array('endLine' => 1)
+                    ),
+                )
+            ),
+            // tests differing start and end line
+            array(
+                '<?php "foo' . "\n" . 'bar"',
+                array(
+                    array(
+                        PHPParser_Parser::T_CONSTANT_ENCAPSED_STRING, '"foo' . "\n" . 'bar"',
+                        array('startLine' => 1), array('endLine' => 2)
+                    ),
                 )
             ),
         );

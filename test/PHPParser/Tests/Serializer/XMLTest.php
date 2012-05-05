@@ -18,35 +18,38 @@ CODE;
 <AST xmlns:node="http://nikic.github.com/PHPParser/XML/node" xmlns:subNode="http://nikic.github.com/PHPParser/XML/subNode" xmlns:attribute="http://nikic.github.com/PHPParser/XML/attribute" xmlns:scalar="http://nikic.github.com/PHPParser/XML/scalar">
  <scalar:array>
   <node:Stmt_Function>
-   <attribute:line>
-    <scalar:int>3</scalar:int>
-   </attribute:line>
    <attribute:docComment>
     <scalar:string>/** doc comment */</scalar:string>
    </attribute:docComment>
+   <attribute:startLine>
+    <scalar:int>3</scalar:int>
+   </attribute:startLine>
+   <attribute:endLine>
+    <scalar:int>5</scalar:int>
+   </attribute:endLine>
    <subNode:byRef>
     <scalar:false/>
    </subNode:byRef>
    <subNode:params>
     <scalar:array>
      <node:Param>
-      <attribute:line>
+      <attribute:startLine>
        <scalar:int>3</scalar:int>
-      </attribute:line>
-      <attribute:docComment>
-       <scalar:null/>
-      </attribute:docComment>
+      </attribute:startLine>
+      <attribute:endLine>
+       <scalar:int>3</scalar:int>
+      </attribute:endLine>
       <subNode:name>
        <scalar:string>a</scalar:string>
       </subNode:name>
       <subNode:default>
        <node:Scalar_LNumber>
-        <attribute:line>
+        <attribute:startLine>
          <scalar:int>3</scalar:int>
-        </attribute:line>
-        <attribute:docComment>
-         <scalar:null/>
-        </attribute:docComment>
+        </attribute:startLine>
+        <attribute:endLine>
+         <scalar:int>3</scalar:int>
+        </attribute:endLine>
         <subNode:value>
          <scalar:int>0</scalar:int>
         </subNode:value>
@@ -60,23 +63,23 @@ CODE;
       </subNode:byRef>
      </node:Param>
      <node:Param>
-      <attribute:line>
+      <attribute:startLine>
        <scalar:int>3</scalar:int>
-      </attribute:line>
-      <attribute:docComment>
-       <scalar:null/>
-      </attribute:docComment>
+      </attribute:startLine>
+      <attribute:endLine>
+       <scalar:int>3</scalar:int>
+      </attribute:endLine>
       <subNode:name>
        <scalar:string>b</scalar:string>
       </subNode:name>
       <subNode:default>
        <node:Scalar_DNumber>
-        <attribute:line>
+        <attribute:startLine>
          <scalar:int>3</scalar:int>
-        </attribute:line>
-        <attribute:docComment>
-         <scalar:null/>
-        </attribute:docComment>
+        </attribute:startLine>
+        <attribute:endLine>
+         <scalar:int>3</scalar:int>
+        </attribute:endLine>
         <subNode:value>
          <scalar:float>1</scalar:float>
         </subNode:value>
@@ -94,21 +97,21 @@ CODE;
    <subNode:stmts>
     <scalar:array>
      <node:Stmt_Echo>
-      <attribute:line>
+      <attribute:startLine>
        <scalar:int>4</scalar:int>
-      </attribute:line>
-      <attribute:docComment>
-       <scalar:null/>
-      </attribute:docComment>
+      </attribute:startLine>
+      <attribute:endLine>
+       <scalar:int>4</scalar:int>
+      </attribute:endLine>
       <subNode:exprs>
        <scalar:array>
         <node:Scalar_String>
-         <attribute:line>
+         <attribute:startLine>
           <scalar:int>4</scalar:int>
-         </attribute:line>
-         <attribute:docComment>
-          <scalar:null/>
-         </attribute:docComment>
+         </attribute:startLine>
+         <attribute:endLine>
+          <scalar:int>4</scalar:int>
+         </attribute:endLine>
          <subNode:value>
           <scalar:string>Foo</scalar:string>
          </subNode:value>

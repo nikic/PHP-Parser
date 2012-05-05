@@ -202,8 +202,8 @@ EOC;
     public function testAlreadyInUseError() {
         $stmts = array(
             new PHPParser_Node_Stmt_Use(array(
-                new PHPParser_Node_Stmt_UseUse(new PHPParser_Node_Name('A\B'), 'B', array('line' => 1)),
-                new PHPParser_Node_Stmt_UseUse(new PHPParser_Node_Name('C'),   'B', array('line' => 2)),
+                new PHPParser_Node_Stmt_UseUse(new PHPParser_Node_Name('A\B'), 'B', array('startLine' => 1)),
+                new PHPParser_Node_Stmt_UseUse(new PHPParser_Node_Name('C'),   'B', array('startLine' => 2)),
             ))
         );
 

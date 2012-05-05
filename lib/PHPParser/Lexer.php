@@ -71,22 +71,24 @@ class PHPParser_Lexer
     }
 
     /**
-     * Returns the next token id.
+     * Fetches the next token.
      *
-     * @param mixed $value      Variable to store token content in
-     * @param mixed $line       Variable to store line in
-     * @param mixed $docComment Variable to store doc comment in
+     * @param mixed $value           Variable to store token content in
+     * @param mixed $startAttributes Variable to store start attributes in
+     * @param mixed $endAttributes   Variable to store end attributes in
      *
      * @return int Token id
      */
-    public function getNextToken(&$value = null, &$line = null, &$docComment = null) {
-        $docComment = null;
+    public function getNextToken(&$value = null, &$startAttributes = null, &$endAttributes = null) {
+        $startAttributes = array();
+        $endAttributes   = array();
 
         while (isset($this->tokens[++$this->pos])) {
             $token = $this->tokens[$this->pos];
 
             if (is_string($token)) {
-                $line = $this->line;
+                $startAttributes['startLine'] = $this->line;
+                $endAttributes['endLine']     = $this->line;
 
                 // bug in token_get_all
                 if ('b"' === $token) {
@@ -100,14 +102,18 @@ class PHPParser_Lexer
                 $this->line += substr_count($token[1], "\n");
 
                 if (T_DOC_COMMENT === $token[0]) {
-                    $docComment = $token[1];
+                    $startAttributes['docComment'] = $token[1];
                 } elseif (!isset($this->dropTokens[$token[0]])) {
                     $value = $token[1];
-                    $line  = $token[2];
+                    $startAttributes['startLine'] = $token[2];
+                    $endAttributes['endLine']     = $this->line;
+
                     return $this->tokenMap[$token[0]];
                 }
             }
         }
+
+        $startAttributes['startLine'] = $this->line;
 
         // 0 is the EOF token
         return 0;

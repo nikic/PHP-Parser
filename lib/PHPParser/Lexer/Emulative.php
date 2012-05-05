@@ -173,8 +173,8 @@ class PHPParser_Lexer_Emulative extends PHPParser_Lexer
         }
     }
 
-    public function getNextToken(&$value = null, &$line = null, &$docComment = null) {
-        $token = parent::getNextToken($value, $line, $docComment);
+    public function getNextToken(&$value = null, &$startAttributes = null, &$endAttributes = null) {
+        $token = parent::getNextToken($value, $startAttributes, $endAttributes);
 
         // replace new keywords by their respective tokens. This is not done
         // if we currently are in an object access (e.g. in $obj->namespace

@@ -2,8 +2,8 @@
 $meta #
 #semval($) $this->yyval
 #semval($,%t) $this->yyval
-#semval(%n) $this->yyastk[$this->yysp-(%l-%n)]
-#semval(%n,%t) $this->yyastk[$this->yysp-(%l-%n)]
+#semval(%n) $this->yyastk[$this->stackPos-(%l-%n)]
+#semval(%n,%t) $this->yyastk[$this->stackPos-(%l-%n)]
 #include;
 
 /* This is an automatically GENERATED file, which should not be manually edited.
@@ -94,7 +94,7 @@ class #(-p)
 
     protected $yyval;
     protected $yyastk;
-    protected $yysp;
+    protected $stackPos;
     protected $lexer;
 
     /**
@@ -162,13 +162,28 @@ class #(-p)
     public function parse($code) {
         $this->lexer->startLexing($code);
 
-        $this->yysp   = 0;                   // Stack pos
-        $stateStack   = array($state = 0);   // State stack
-        $this->yyastk = array();             // AST   stack (?)
-        $yylstk       = array($yyline  = 1); // Line  stack
-        $yydstk       = array($yyDC = null); // Doc comment stack
-
+        // We start off with no lookahead-token
         $tokenId = self::TOKEN_NONE;
+
+        // The attributes for a node are taken from the first and last token of the node.
+        // From the first token only the startAttributes are taken and from the last only
+        // the endAttributes. Both are merged using the array union operator (+).
+        $startAttributes = array('startLine' => 1);
+        $endAttributes   = array();
+
+        // In order to figure out the attributes for the starting token, we have to keep
+        // them in a stack
+        $attributeStack = array($startAttributes);
+
+        // Start off in the initial state and keep a stack of previous states
+        $state = 0;
+        $stateStack = array($state);
+
+        // AST stack (?)
+        $this->yyastk = array();
+
+        // Current position in the stack(s)
+        $this->stackPos = 0;
 
         for (;;) {
 #if -t
@@ -180,7 +195,7 @@ class #(-p)
             } else {
                 if ($tokenId === self::TOKEN_NONE) {
                     // fetch the next token id from the lexer and fetch additional info by-ref
-                    $origTokenId = $this->lexer->getNextToken($tokenValue, $yyline, $yyDC);
+                    $origTokenId = $this->lexer->getNextToken($tokenValue, $startAttributes, $endAttributes);
 
                     // map the lexer token id to the internally used token id's
                     $tokenId = $origTokenId >= 0 && $origTokenId < self::TOKEN_MAP_SIZE
@@ -194,8 +209,7 @@ class #(-p)
                         ));
                     }
 
-                    $yylstk[$this->yysp] = $yyline;
-                    $yydstk[$this->yysp] = $yyDC;
+                    $attributeStack[$this->stackPos] = $startAttributes;
 #if -t
 
                     $this->YYTRACE_READ($tokenId);
@@ -222,12 +236,11 @@ class #(-p)
                         $this->YYTRACE_SHIFT($tokenId);
 
 #endif
-                        ++$this->yysp;
+                        ++$this->stackPos;
 
-                        $stateStack[$this->yysp]   = $state = $yyn;
-                        $this->yyastk[$this->yysp] = $tokenValue;
-                        $yylstk[$this->yysp]       = $yyline;
-                        $yydstk[$this->yysp]       = $yyDC;
+                        $stateStack[$this->stackPos]     = $state = $yyn;
+                        $this->yyastk[$this->stackPos]   = $tokenValue;
+                        $attributeStack[$this->stackPos] = $startAttributes;
                         $tokenId = self::TOKEN_NONE;
 
                         if ($yyn < self::YYNLSTATES)
@@ -258,23 +271,21 @@ class #(-p)
 #endif
                     try {
                         $this->{'yyn' . $yyn}(
-                            array(
-                                'line'       => $yylstk[$this->yysp - self::$yylen[$yyn]],
-                                'docComment' => $yydstk[$this->yysp - self::$yylen[$yyn]]
-                            )
+                            $attributeStack[$this->stackPos - self::$yylen[$yyn]]
+                            + $endAttributes
                         );
                     } catch (PHPParser_Error $e) {
                         if (-1 === $e->getRawLine()) {
-                            $e->setRawLine($yyline);
+                            $e->setRawLine($startAttributes['startLine']);
                         }
 
                         throw $e;
                     }
 
                     /* Goto - shift nonterminal */
-                    $this->yysp -= self::$yylen[$yyn];
+                    $this->stackPos -= self::$yylen[$yyn];
                     $yyn = self::$yylhs[$yyn];
-                    if (($yyp = self::$yygbase[$yyn] + $stateStack[$this->yysp]) >= 0
+                    if (($yyp = self::$yygbase[$yyn] + $stateStack[$this->stackPos]) >= 0
                          && $yyp < self::YYGLAST
                          && self::$yygcheck[$yyp] == $yyn) {
                         $state = self::$yygoto[$yyp];
@@ -282,17 +293,16 @@ class #(-p)
                         $state = self::$yygdefault[$yyn];
                     }
 
-                    ++$this->yysp;
+                    ++$this->stackPos;
 
-                    $stateStack[$this->yysp]   = $state;
-                    $this->yyastk[$this->yysp] = $this->yyval;
-                    $yylstk[$this->yysp]       = $yyline;
-                    $yydstk[$this->yysp]       = $yyDC;
+                    $stateStack[$this->stackPos]     = $state;
+                    $this->yyastk[$this->stackPos]   = $this->yyval;
+                    $attributeStack[$this->stackPos] = $startAttributes;
                 } else {
                     /* error */
                     throw new PHPParser_Error(
                         'Unexpected token ' . self::$terminals[$tokenId],
-                        $yyline
+                        $startAttributes['startLine']
                     );
                 }
 
@@ -312,7 +322,7 @@ class #(-p)
 #noact
 
     protected function yyn%n() {
-        $this->yyval = $this->yyastk[$this->yysp];
+        $this->yyval = $this->yyastk[$this->stackPos];
     }
 #endreduce
 #endif
