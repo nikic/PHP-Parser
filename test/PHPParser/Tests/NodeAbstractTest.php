@@ -4,8 +4,11 @@ class PHPParser_Tests_NodeAbstractTest extends PHPUnit_Framework_TestCase
 {
     public function testConstruct() {
         $attributes = array(
-            'startLine'  => 10,
-            'docComment' => '/** doc comment */',
+            'startLine' => 10,
+            'comments'  => array(
+                new PHPParser_Comment('// Comment' . "\n"),
+                new PHPParser_Comment_Doc('/** doc comment */'),
+            ),
         );
 
         $node = $this->getMockForAbstractClass(
@@ -33,14 +36,21 @@ class PHPParser_Tests_NodeAbstractTest extends PHPUnit_Framework_TestCase
     /**
      * @depends testConstruct
      */
+    public function testGetDocComment(PHPParser_Node $node) {
+        $this->assertEquals('/** doc comment */', $node->getDocComment());
+        array_pop($node->getAttribute('comments')); // remove doc comment
+        $this->assertNull($node->getDocComment());
+        array_pop($node->getAttribute('comments')); // remove comment
+        $this->assertNull($node->getDocComment());
+    }
+
+    /**
+     * @depends testConstruct
+     */
     public function testChange(PHPParser_Node $node) {
         // change of line
         $node->setLine(15);
         $this->assertEquals(15, $node->getLine());
-
-        // change of doc comment
-        $node->setDocComment('/** other doc comment */');
-        $this->assertEquals('/** other doc comment */', $node->getDocComment());
 
         // direct modification
         $node->subNode = 'newValue';

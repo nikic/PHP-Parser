@@ -31,18 +31,13 @@ interface PHPParser_Node
     public function setLine($line);
 
     /**
-     * Gets the nearest doc comment.
+     * Gets the doc comment of the node.
      *
-     * @return null|string Nearest doc comment or null
+     * The doc comment has to be the last comment associated with the node.
+     *
+     * @return null|PHPParser_Comment_Doc Doc comment object or null
      */
     public function getDocComment();
-
-    /**
-     * Sets the nearest doc comment.
-     *
-     * @param null|string $docComment Nearest doc comment or null
-     */
-    public function setDocComment($docComment);
 
     /**
      * Sets an attribute on a node.
