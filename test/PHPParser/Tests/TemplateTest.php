@@ -48,7 +48,12 @@ class PHPParser_Tests_TemplateTest extends PHPUnit_Framework_TestCase
                 '<?php $___name___;',
                 array('name' => 'foo'),
                 '$_foo_;'
-            )
+            ),
+            array(
+                '<?php $foobar;',
+                array(),
+                '$foobar;'
+            ),
         );
     }
 }

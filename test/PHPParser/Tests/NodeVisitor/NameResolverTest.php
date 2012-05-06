@@ -107,6 +107,12 @@ namespace NS {
 
     namespace\a();
     namespace\A;
+
+    try {
+        \$someThing;
+    } catch (A \$a) {
+        \$someThingElse;
+    }
 }
 EOC;
         $expectedCode = <<<EOC
@@ -126,6 +132,11 @@ namespace NS {
     \$a instanceof \\NS\\A;
     \\NS\\a();
     \\NS\\A;
+    try {
+        \$someThing;
+    } catch (\\NS\\A \$a) {
+        \$someThingElse;
+    }
 }
 EOC;
 
