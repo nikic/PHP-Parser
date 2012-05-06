@@ -47,6 +47,11 @@ class PHPParser_Serializer_XML implements PHPParser_Serializer
             }
 
             $this->writer->endElement();
+        } elseif ($node instanceof PHPParser_Comment) {
+            $this->writer->startElement('comment');
+            $this->writer->writeAttribute('isDocComment', $node instanceof PHPParser_Comment_Doc ? 'true' : 'false');
+            $this->writer->text($node->getText());
+            $this->writer->endElement();
         } elseif (is_array($node)) {
             $this->writer->startElement('scalar:array');
             foreach ($node as $subNode) {

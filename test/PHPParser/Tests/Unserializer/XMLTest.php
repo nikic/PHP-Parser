@@ -39,8 +39,6 @@ XML;
 XML;
 
         $unserializer  = new PHPParser_Unserializer_XML;
-        var_dump($unserializer->unserialize($xml));
-
 
         $this->assertEquals(
             new PHPParser_Node_Scalar_ClassConst,

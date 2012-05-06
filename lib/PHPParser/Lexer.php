@@ -19,7 +19,7 @@ class PHPParser_Lexer
 
         // map of tokens to drop while lexing (the map is only used for isset lookup,
         // that's why the value is simply set to 1; the value is never actually used.)
-        $this->dropTokens = array_fill_keys(array(T_WHITESPACE, T_COMMENT, T_OPEN_TAG), 1);
+        $this->dropTokens = array_fill_keys(array(T_WHITESPACE, T_OPEN_TAG), 1);
     }
 
     /**
@@ -101,8 +101,10 @@ class PHPParser_Lexer
             } else {
                 $this->line += substr_count($token[1], "\n");
 
-                if (T_DOC_COMMENT === $token[0]) {
-                    $startAttributes['docComment'] = $token[1];
+                if (T_COMMENT === $token[0]) {
+                    $startAttributes['comments'][] = new PHPParser_Comment($token[1]);
+                } elseif (T_DOC_COMMENT === $token[0]) {
+                    $startAttributes['comments'][] = new PHPParser_Comment_Doc($token[1]);
                 } elseif (!isset($this->dropTokens[$token[0]])) {
                     $value = $token[1];
                     $startAttributes['startLine'] = $token[2];

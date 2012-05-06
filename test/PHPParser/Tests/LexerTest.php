@@ -49,9 +49,9 @@ class PHPParser_Tests_LexerTest extends PHPUnit_Framework_TestCase
 
     public function provideTestLex() {
         return array(
-            // tests conversion of closing PHP tag and drop of whitespace, comments and opening tags
+            // tests conversion of closing PHP tag and drop of whitespace and opening tags
             array(
-                '<?php tokens // ?>plaintext',
+                '<?php tokens ?>plaintext',
                 array(
                     array(
                         PHPParser_Parser::T_STRING, 'tokens',
@@ -81,17 +81,30 @@ class PHPParser_Tests_LexerTest extends PHPUnit_Framework_TestCase
                     ),
                     array(
                         ord('$'), '$',
-                        array('startLine' => 3, 'docComment' => '/** doc' . "\n" . 'comment */'), array('endLine' => 3)
+                        array(
+                            'startLine' => 3,
+                            'comments' => array(new PHPParser_Comment_Doc('/** doc' . "\n" . 'comment */'))
+                        ),
+                        array('endLine' => 3)
                     ),
                 )
             ),
-            // tests doccomment extraction
+            // tests comment extraction
             array(
-                '<?php /** docComment 1 *//** docComment 2 */ token',
+                '<?php /* comment */ // comment' . "\n" . '/** docComment 1 *//** docComment 2 */ token',
                 array(
                     array(
                         PHPParser_Parser::T_STRING, 'token',
-                        array('startLine' => 1, 'docComment' => '/** docComment 2 */'), array('endLine' => 1)
+                        array(
+                            'startLine' => 2,
+                            'comments' => array(
+                                new PHPParser_Comment('/* comment */'),
+                                new PHPParser_Comment('// comment' . "\n"),
+                                new PHPParser_Comment_Doc('/** docComment 1 */'),
+                                new PHPParser_Comment_Doc('/** docComment 2 */'),
+                            ),
+                        ),
+                        array('endLine' => 2)
                     ),
                 )
             ),
