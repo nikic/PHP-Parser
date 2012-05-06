@@ -7,12 +7,16 @@ class PHPParser_Tests_Unserializer_XMLTest extends PHPUnit_Framework_TestCase
 <?xml version="1.0" encoding="UTF-8"?>
 <AST xmlns:node="http://nikic.github.com/PHPParser/XML/node" xmlns:subNode="http://nikic.github.com/PHPParser/XML/subNode" xmlns:attribute="http://nikic.github.com/PHPParser/XML/attribute" xmlns:scalar="http://nikic.github.com/PHPParser/XML/scalar">
  <node:Scalar_String line="1" docComment="/** doc comment */">
-  <attribute:line>
+  <attribute:startLine>
    <scalar:int>1</scalar:int>
-  </attribute:line>
-  <attribute:docComment>
-   <scalar:string>/** doc comment */</scalar:string>
-  </attribute:docComment>
+  </attribute:startLine>
+  <attribute:comments>
+   <scalar:array>
+    <comment isDocComment="false">// comment
+</comment>
+    <comment isDocComment="true">/** doc comment */</comment>
+   </scalar:array>
+  </attribute:comments>
   <subNode:value>
    <scalar:string>Test</scalar:string>
   </subNode:value>
@@ -23,8 +27,11 @@ XML;
         $unserializer  = new PHPParser_Unserializer_XML;
         $this->assertEquals(
             new PHPParser_Node_Scalar_String('Test', array(
-                'line'       => 1,
-                'docComment' => '/** doc comment */',
+                'startLine' => 1,
+                'comments'  => array(
+                    new PHPParser_Comment('// comment' . "\n"),
+                    new PHPParser_Comment_Doc('/** doc comment */'),
+                ),
             )),
             $unserializer->unserialize($xml)
         );
