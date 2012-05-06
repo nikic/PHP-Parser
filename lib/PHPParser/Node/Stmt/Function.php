@@ -1,10 +1,11 @@
 <?php
 
 /**
- * @property bool                   $byRef  Whether returns by reference
- * @property string                 $name   Name
- * @property PHPParser_Node_Param[] $params Parameters
- * @property PHPParser_Node[]       $stmts  Statements
+ * @property bool                   $byRef          Whether returns by reference
+ * @property string                 $name           Name
+ * @property string                 $namespacedName Full qualified function name
+ * @property PHPParser_Node_Param[] $params         Parameters
+ * @property PHPParser_Node[]       $stmts          Statements
  */
 class PHPParser_Node_Stmt_Function extends PHPParser_Node_Stmt
 {
