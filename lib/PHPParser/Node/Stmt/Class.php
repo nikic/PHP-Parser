@@ -1,11 +1,12 @@
 <?php
 
 /**
- * @property int                      $type       Type
- * @property string                   $name       Name
- * @property null|PHPParser_Node_Name $extends    Name of extended class
- * @property PHPParser_Node_Name[]    $implements Names of implemented interfaces
- * @property PHPParser_Node[]         $stmts      Statements
+ * @property int                      $type           Type
+ * @property string                   $name           Name
+ * @property string                   $namespacedName Full qualified class name.
+ * @property null|PHPParser_Node_Name $extends        Name of extended class
+ * @property PHPParser_Node_Name[]    $implements     Names of implemented interfaces
+ * @property PHPParser_Node[]         $stmts          Statements
  */
 class PHPParser_Node_Stmt_Class extends PHPParser_Node_Stmt
 {
