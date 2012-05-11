@@ -11,8 +11,8 @@ A lexer has to define the following public interface:
     getNextToken(&$value = null, &$startAttributes = null, &$endAttributes = null);
     handleHaltCompiler();
 
-`startLexing`
--------------
+startLexing
+-----------
 
 The `startLexing` method is invoked when the `parse()` method of the parser is called. It's argument will be whatever
 was passed to the `parse()` method.
@@ -38,8 +38,8 @@ var_dump($parser->parse('someFile.php'));
 var_dump($parser->parse('someOtherFile.php'));
 ```
 
-`getNextToken`
---------------
+getNextToken
+------------
 
 `getNextToken` returns the ID of the next token and sets some additional information in the three variables which it
 accepts by-ref. If no more tokens are available it has to return `0`, which is the ID of the `EOF` token.
@@ -61,6 +61,8 @@ If you don't want all these attributes to be added (to reduce memory usage of th
 overriding the method:
 
 ```php
+<?php
+
 class LessAttributesLexer extends PHPParser_Lexer {
     public function getNextToken(&$value = null, &$startAttributes = null, &$endAttributes = null) {
         $tokenId = parent::getNextToken($value, $startAttributes, $endAttributes);
@@ -105,8 +107,8 @@ class FileLexer extends PHPParser_Lexer {
 }
 ```
 
-`handleHaltCompiler`
---------------------
+handleHaltCompiler
+------------------
 
 The method is invoked whenever a `T_HALT_COMPILER` token is encountered. It has to return the remaining string after the
 construct (not including `();`).

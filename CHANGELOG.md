@@ -26,15 +26,15 @@ Version 0.9.2-dev
 
   Now the lexer is injected only once when creating the parser. Instead of
 
-      $parser = new PHPParser_Parser;
-      $parser->parse(new PHPParser_Lexer($code));
-      $parser->parse(new PHPParser_Lexer($code2));
+       $parser = new PHPParser_Parser;
+       $parser->parse(new PHPParser_Lexer($code));
+       $parser->parse(new PHPParser_Lexer($code2));
 
   you write:
 
-      $parser = new PHPParser_Parser(new PHPParser_Lexer);
-      $parser->parse($code);
-      $parser->parse($code2);
+       $parser = new PHPParser_Parser(new PHPParser_Lexer);
+       $parser->parse($code);
+       $parser->parse($code2);
 
 * Fix `NameResolver` visitor to also resolve class names in `catch` blocks.
 
