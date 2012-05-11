@@ -2,7 +2,7 @@
 
 abstract class PHPParser_PrettyPrinterAbstract
 {
-    protected $precedanceMap = array(
+    protected $precedenceMap = array(
         'Expr_BitwiseNot'       =>  1,
         'Expr_PreInc'           =>  1,
         'Expr_PreDec'           =>  1,
@@ -102,9 +102,7 @@ abstract class PHPParser_PrettyPrinterAbstract
     protected function pStmts(array $nodes, $indent = true) {
         $pNodes = array();
         foreach ($nodes as $node) {
-            $pNodes[] = ((null !== $docComment = $node->getDocComment())
-                         ? preg_replace('~^\s+\*~m', ' *', $docComment) . "\n"
-                         : '')
+            $pNodes[] = $this->pComments($node->getAttribute('comments', array()))
                       . $this->p($node)
                       . ($node instanceof PHPParser_Node_Expr ? ';' : '');
         }
@@ -130,8 +128,8 @@ abstract class PHPParser_PrettyPrinterAbstract
     protected function p(PHPParser_Node $node) {
         $type = $node->getType();
 
-        if (isset($this->precedanceMap[$type])) {
-            $precedence = $this->precedanceMap[$type];
+        if (isset($this->precedenceMap[$type])) {
+            $precedence = $this->precedenceMap[$type];
 
             if ($precedence >= $this->precedenceStack[$this->precedenceStackPos]) {
                 $this->precedenceStack[++$this->precedenceStackPos] = $precedence;
@@ -186,5 +184,15 @@ abstract class PHPParser_PrettyPrinterAbstract
      */
     protected function pSafe($string) {
         return str_replace("\n", "\n" . $this->noIndentToken, $string);
+    }
+
+    protected function pComments(array $comments) {
+        $result = '';
+
+        foreach ($comments as $comment) {
+            $result .= $comment->getReformattedText() . "\n";
+        }
+
+        return $result;
     }
 }
