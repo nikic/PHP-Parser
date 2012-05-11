@@ -55,7 +55,7 @@ class PHPParser_Comment
         if (false === strpos($text, "\n")) {
             // Single line comments don't need further processing
             return $text;
-        } elseif (preg_match('((*BSR_ANYCRLF)(*ANYCRLF)^\N*(?:\R\s+\*\N*)+$)', $text)) {
+        } elseif (preg_match('((*BSR_ANYCRLF)(*ANYCRLF)^.*(?:\R\s+\*.*)+$)', $text)) {
             // Multi line comment of the type
             //
             //     /*
