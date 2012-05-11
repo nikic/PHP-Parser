@@ -1,7 +1,39 @@
 Version 0.9.2-dev
 -----------------
 
-Nothing yet.
+* Add mechanism for adding attributes to nodes in the lexer.
+
+  The following attributes are now added by default:
+
+   * `startLine`: The line the node started in.
+   * `endLine`: The line the node ended in.
+   * `comments`: An array of comments. The comments are instances of `PHPParser_Comment`
+     (or `PHPParser_Comment_Doc` for doc comments).
+
+  The methods `getLine()` and `setLine()` still exist and function as before, but internally
+  operator on the `startLine` attribute.
+
+  `getDocComment()` also continues to exist. It returns the last comment in the `comments`
+  attribute if it is a doc comment, otherwise `null`. As `getDocComment()` now returns a
+  comment object (which can be modified using `->setText()`) the `setDocComment()` method was
+  removed. Comment objects implement a `__toString()` method, so `getDocComment()` should
+  continue to work properly with old code.
+
+* [BC] Use inject-once approach for lexer:
+
+  Now the lexer is injected only once when creating the parser. Instead of
+
+      $parser = new PHPParser_Parser;
+      $parser->parse(new PHPParser_Lexer($code));
+      $parser->parse(new PHPParser_Lexer($code2));
+
+  you write:
+
+      $parser = new PHPParser_Parser(new PHPParser_Lexer);
+      $parser->parse($code);
+      $parser->parse($code2);
+
+* Fix `NameResolver` visitor to also resolve class names in `catch` blocks.
 
 Version 0.9.1 (24.04.2012)
 --------------------------
@@ -21,10 +53,10 @@ Version 0.9.1 (24.04.2012)
   If a NodeVisitor returns an array of nodes to merge, these will no longer be traversed by all other visitors. This
   behavior only caused problems.
 
-* Fix line numbers for some list structures
-* Fix XML unserialization of empty nodes
-* Fix parsing of integers that overflow into floats
-* Fix emulation of NOWDOC and binary floats
+* Fix line numbers for some list structures.
+* Fix XML unserialization of empty nodes.
+* Fix parsing of integers that overflow into floats.
+* Fix emulation of NOWDOC and binary floats.
 
 Version 0.9.0 (05.01.2012)
 --------------------------
