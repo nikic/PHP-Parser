@@ -1,6 +1,9 @@
 Version 0.9.2-dev
 -----------------
 
+* [BC] Due to the below changes nodes now optionally accept an `$attributes` array as the
+  last parameter, instead of the previously used `$line` and `$docComment` parameters.
+
 * Add mechanism for adding attributes to nodes in the lexer.
 
   The following attributes are now added by default:

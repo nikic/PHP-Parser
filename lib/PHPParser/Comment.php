@@ -65,9 +65,7 @@ class PHPParser_Comment
             //
             // is handled by replacing the whitespace sequences before the * by a single space
             return preg_replace('(^\s+\*)m', ' *', $this->text);
-        } elseif (preg_match('((*BSR_ANYCRLF)^/\*\*?\s\R)', $text)
-                  && preg_match('((*BSR_ANYCRLF)\R(\s*)\*/$)', $text, $matches)
-        ) {
+        } elseif (preg_match('(^/\*\*?\s*[\r\n])', $text) && preg_match('(\n(\s*)\*/$)', $text, $matches)) {
             // Multi line comment of the type
             //
             //    /*
