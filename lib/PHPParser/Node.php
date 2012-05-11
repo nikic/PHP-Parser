@@ -64,7 +64,7 @@ interface PHPParser_Node
      *
      * @return mixed
      */
-    public function getAttribute($key, $default = null);
+    public function &getAttribute($key, $default = null);
 
     /**
      * Returns all attributes for the given node.
