@@ -17,19 +17,19 @@ require 'path/to/PHP-Parser/lib/bootstrap.php';
 Parsing
 -------
 
-Parsing is done by calling the `parse` method of a `PHPParser_Parser` object. The method
-expects a `PHPParser_Lexer` instance which itself again expects a PHP source code (including
-`<?php` opening tags). If a syntax error is encountered `PHPParser_Error` is thrown, so
-this exception should be `catch`ed.
+In order to parse some source code you first have to create a `PHPParser_Parser` object (which
+needs to be passed a `PHPParser_Lexer` instance) and then pass the code (including `<?php` opening
+tags) to the `parse` method. If a syntax error is encountered `PHPParser_Error` is thrown, so this
+exception should be `catch`ed.
 
 ```php
 <?php
 $code = '<?php // some code';
 
-$parser = new PHPParser_Parser;
+$parser = new PHPParser_Parser(new PHPParser_Lexer);
 
 try {
-    $stmts = $parser->parse(new PHPParser_Lexer($code));
+    $stmts = $parser->parse($code);
 } catch (PHPParser_Error $e) {
     echo 'Parse Error: ', $e->getMessage();
 }
@@ -96,12 +96,16 @@ in the above example you would write `$stmts[0]->exprs`. If you wanted to access
 call, you would write `$stmts[0]->exprs[1]->name`.
 
 All nodes also define a `getType()` method that returns the node type (the type is the class name
-without the `PHPParser_Node_` prefix). Additionally there are `getLine()`, which returns the line
-the node startet in, and `getDocComment()`, which returns the doc comment above the node (if there
-is any), and the respective setters `setLine()` and `setDocComment()`.
+without the `PHPParser_Node_` prefix).
 
 It is possible to associate custom metadata with a node using the `setAttribute()` method. This data
 can then be retrieved using `hasAttribute()`, `getAttribute()` and `getAttributes()`.
+
+By default the lexer adds the `startLine`, `endLine` and `comments` attributes. `comments` is an array
+of `PHPParser_Comment[_Doc]` instances.
+
+The start line can also be accessed using `getLine()`/`setLine()` (instead of `getAttribute('startLine')`).
+The last doc comment from the `comments` attribute can be obtained using `getDocComment()`.
 
 Pretty printer
 --------------
@@ -115,12 +119,12 @@ to the Zend Coding Standard.)
 <?php
 $code = "<?php echo 'Hi ', hi\\getTarget();";
 
-$parser        = new PHPParser_Parser;
+$parser        = new PHPParser_Parser(new PHPParser_Lexer);
 $prettyPrinter = new PHPParser_PrettyPrinter_Zend;
 
 try {
     // parse
-    $stmts = $parser->parse(new PHPParser_Lexer($code));
+    $stmts = $parser->parse($code);
 
     // change
     $stmts[0]         // the echo statement
@@ -163,7 +167,7 @@ structure of a program using this `PHPParser_NodeTraverser` looks like this:
 <?php
 $code = "<?php // some code";
 
-$parser        = new PHPParser_Parser;
+$parser        = new PHPParser_Parser(new PHPParser_Lexer);
 $traverser     = new PHPParser_NodeTraverser;
 $prettyPrinter = new PHPParser_PrettyPrinter_Zend;
 
@@ -172,7 +176,7 @@ $traverser->addVisitor(new MyNodeVisitor);
 
 try {
     // parse
-    $stmts = $parser->parse(new PHPParser_Lexer($code));
+    $stmts = $parser->parse($code);
 
     // traverse
     $stmts = $traverser->traverse($stmts);
@@ -267,7 +271,8 @@ We start off with the following base code:
 const IN_DIR  = '/some/path';
 const OUT_DIR = '/some/other/path';
 
-$parser        = new PHPParser_Parser;
+// use the emulative lexer here, as we are running PHP 5.2 but want to parse PHP 5.3
+$parser        = new PHPParser_Parser(new PHPParser_Lexer_Emulative);
 $traverser     = new PHPParser_NodeTraverser;
 $prettyPrinter = new PHPParser_PrettyPrinter_Zend;
 
@@ -289,9 +294,7 @@ foreach (new RecursiveIteratorIterator(
         $code = file_get_contents($file);
 
         // parse
-        // use the emulative lexer here, as we are running PHP 5.2 but want to
-        // parse PHP 5.3
-        $stmts = $parser->parse(new PHPParser_Lexer_Emulative($code));
+        $stmts = $parser->parse($code);
 
         // traverse
         $stmts = $traverser->traverse($stmts);

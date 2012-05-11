@@ -27,11 +27,11 @@ $code = <<<'CODE'
     printLine('Hallo World!!!');
 CODE;
 
-$parser     = new PHPParser_Parser;
+$parser     = new PHPParser_Parser(new PHPParser_Lexer);
 $nodeDumper = new PHPParser_NodeDumper;
 
 try {
-    $stmts = $parser->parse(new PHPParser_Lexer($code));
+    $stmts = $parser->parse($code);
 
     echo '<pre>' . htmlspecialchars($nodeDumper->dump($stmts)) . '</pre>';
 } catch (PHPParser_Error $e) {
@@ -104,11 +104,11 @@ $code = <<<'CODE'
     printLine('Hallo World!!!');
 CODE;
 
-$parser     = new PHPParser_Parser;
+$parser     = new PHPParser_Parser(new PHPParser_Lexer);
 $serializer = new PHPParser_Serializer_XML;
 
 try {
-    $stmts = $parser->parse(new PHPParser_Lexer($code));
+    $stmts = $parser->parse($code);
 
     echo '<pre>' . htmlspecialchars($serializer->serialize($stmts)) . '</pre>';
 } catch (PHPParser_Error $e) {

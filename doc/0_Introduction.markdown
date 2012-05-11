@@ -59,8 +59,8 @@ array(
 This matches the semantics the program had: An echo statement, which takes two strings as expressions,
 with the values `Hi` and `World!`.
 
-You can also see that the AST does not contain any whitespace or comment information (only doc comments
-are saved). So using it for formatting analysis is not possible.
+You can also see that the AST does not contain any whitespace information (but most comments are saved).
+So using it for formatting analysis is not possible.
 
 What else can it do?
 --------------------
