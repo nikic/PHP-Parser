@@ -15,6 +15,8 @@ new $a->b->c();
 new $a->b['c']();
 new $a->b{'c'}();
 
+// test regression introduces by new dereferencing syntext
+(new A);
 -----
 array(
     0: Expr_New(
@@ -120,6 +122,15 @@ array(
             )
             dim: Scalar_String(
                 value: c
+            )
+        )
+        args: array(
+        )
+    )
+    9: Expr_New(
+        class: Name(
+            parts: array(
+                0: A
             )
         )
         args: array(
