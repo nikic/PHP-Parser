@@ -3,7 +3,7 @@
 class PHPParser_Tests_CommentTest extends PHPUnit_Framework_TestCase
 {
     public function testGetSetText() {
-        $comment = new PHPParser_Comment('/* Some comment */');
+        $comment = new PHPParser_Comment('/* Some comment */', 1);
 
         $this->assertEquals('/* Some comment */', $comment->getText());
         $this->assertEquals('/* Some comment */', (string) $comment);
@@ -18,7 +18,7 @@ class PHPParser_Tests_CommentTest extends PHPUnit_Framework_TestCase
      * @dataProvider provideTestReformatting
      */
     public function testReformatting($commentText, $reformattedText) {
-        $comment = new PHPParser_Comment($commentText);
+        $comment = new PHPParser_Comment($commentText, 1);
         $this->assertEquals($reformattedText, $comment->getReformattedText());
     }
 

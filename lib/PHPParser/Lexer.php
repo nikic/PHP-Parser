@@ -102,9 +102,9 @@ class PHPParser_Lexer
                 $this->line += substr_count($token[1], "\n");
 
                 if (T_COMMENT === $token[0]) {
-                    $startAttributes['comments'][] = new PHPParser_Comment($token[1]);
+                    $startAttributes['comments'][] = new PHPParser_Comment($token[1], $token[2]);
                 } elseif (T_DOC_COMMENT === $token[0]) {
-                    $startAttributes['comments'][] = new PHPParser_Comment_Doc($token[1]);
+                    $startAttributes['comments'][] = new PHPParser_Comment_Doc($token[1], $token[2]);
                 } elseif (!isset($this->dropTokens[$token[0]])) {
                     $value = $token[1];
                     $startAttributes['startLine'] = $token[2];
