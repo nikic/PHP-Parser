@@ -125,6 +125,9 @@ class PHPParser_Unserializer_XML implements PHPParser_Unserializer
             ? 'PHPParser_Comment_Doc'
             : 'PHPParser_Comment'
         ;
-        return new $className($this->reader->readString());
+        return new $className(
+            $this->reader->readString(),
+            $this->reader->getAttribute('line')
+        );
     }
 }

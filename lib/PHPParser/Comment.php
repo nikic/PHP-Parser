@@ -4,13 +4,17 @@ class PHPParser_Comment
 {
     protected $text;
 
+    protected $line;
+
     /**
      * Constructs a comment node.
      *
      * @param string $text Comment text (including comment delimiters like /*)
+     * @param int $line Line number the comment started on
      */
-    public function __construct($text) {
+    public function __construct($text, $line) {
         $this->text = $text;
+        $this->line = $line;
     }
 
     /**
@@ -29,6 +33,15 @@ class PHPParser_Comment
      */
     public function setText($text) {
         $this->text = $text;
+    }
+
+    /**
+     * Gets the line number the comment started on.
+     *
+     * @return int Line number
+     */
+    public function getLine() {
+        return $this->line;
     }
 
     /**

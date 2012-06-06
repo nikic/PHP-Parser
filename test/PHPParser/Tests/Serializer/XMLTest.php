@@ -21,9 +21,9 @@ CODE;
   <node:Stmt_Function>
    <attribute:comments>
     <scalar:array>
-     <comment isDocComment="false">// comment
+     <comment isDocComment="false" line="2">// comment
 </comment>
-     <comment isDocComment="true">/** doc comment */</comment>
+     <comment isDocComment="true" line="3">/** doc comment */</comment>
     </scalar:array>
    </attribute:comments>
    <attribute:startLine>

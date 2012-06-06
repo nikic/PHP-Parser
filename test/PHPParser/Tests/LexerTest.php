@@ -83,7 +83,7 @@ class PHPParser_Tests_LexerTest extends PHPUnit_Framework_TestCase
                         ord('$'), '$',
                         array(
                             'startLine' => 3,
-                            'comments' => array(new PHPParser_Comment_Doc('/** doc' . "\n" . 'comment */'))
+                            'comments' => array(new PHPParser_Comment_Doc('/** doc' . "\n" . 'comment */', 2))
                         ),
                         array('endLine' => 3)
                     ),
@@ -98,10 +98,10 @@ class PHPParser_Tests_LexerTest extends PHPUnit_Framework_TestCase
                         array(
                             'startLine' => 2,
                             'comments' => array(
-                                new PHPParser_Comment('/* comment */'),
-                                new PHPParser_Comment('// comment' . "\n"),
-                                new PHPParser_Comment_Doc('/** docComment 1 */'),
-                                new PHPParser_Comment_Doc('/** docComment 2 */'),
+                                new PHPParser_Comment('/* comment */', 1),
+                                new PHPParser_Comment('// comment' . "\n", 1),
+                                new PHPParser_Comment_Doc('/** docComment 1 */', 2),
+                                new PHPParser_Comment_Doc('/** docComment 2 */', 2),
                             ),
                         ),
                         array('endLine' => 2)

@@ -12,9 +12,9 @@ class PHPParser_Tests_Unserializer_XMLTest extends PHPUnit_Framework_TestCase
   </attribute:startLine>
   <attribute:comments>
    <scalar:array>
-    <comment isDocComment="false">// comment
+    <comment isDocComment="false" line="2">// comment
 </comment>
-    <comment isDocComment="true">/** doc comment */</comment>
+    <comment isDocComment="true" line="3">/** doc comment */</comment>
    </scalar:array>
   </attribute:comments>
   <subNode:value>
@@ -29,8 +29,8 @@ XML;
             new PHPParser_Node_Scalar_String('Test', array(
                 'startLine' => 1,
                 'comments'  => array(
-                    new PHPParser_Comment('// comment' . "\n"),
-                    new PHPParser_Comment_Doc('/** doc comment */'),
+                    new PHPParser_Comment('// comment' . "\n", 2),
+                    new PHPParser_Comment_Doc('/** doc comment */', 3),
                 ),
             )),
             $unserializer->unserialize($xml)
