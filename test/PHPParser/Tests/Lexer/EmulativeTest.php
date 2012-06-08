@@ -74,8 +74,8 @@ class PHPParser_Tests_Lexer_EmulativeTest extends PHPUnit_Framework_TestCase
             array('0b1010110', array(
                 array(PHPParser_Parser::T_LNUMBER, '0b1010110'),
             )),
-            array('0b10110101010010101101010100101010110101010101011010110', array(
-                array(PHPParser_Parser::T_DNUMBER, '0b10110101010010101101010100101010110101010101011010110'),
+            array('0b1011010101001010110101010010101011010101010101101011001110111100', array(
+                array(PHPParser_Parser::T_DNUMBER, '0b1011010101001010110101010010101011010101010101101011001110111100'),
             )),
             array('\\', array(
                 array(PHPParser_Parser::T_NS_SEPARATOR, '\\'),
