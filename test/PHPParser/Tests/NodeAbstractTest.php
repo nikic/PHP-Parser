@@ -6,8 +6,8 @@ class PHPParser_Tests_NodeAbstractTest extends PHPUnit_Framework_TestCase
         $attributes = array(
             'startLine' => 10,
             'comments'  => array(
-                new PHPParser_Comment('// Comment' . "\n", 8),
-                new PHPParser_Comment_Doc('/** doc comment */', 9),
+                new PHPParser_Comment('// Comment' . "\n"),
+                new PHPParser_Comment_Doc('/** doc comment */'),
             ),
         );
 
