@@ -1,6 +1,9 @@
 Version 0.9.2-dev
 -----------------
 
+* Add `Class->getMethods()` function, which returns all methods contained in the `stmts` array of the class node. This
+  does not take inherited methods into account.
+
 * Add `isPublic()`, `isProtected()`, `isPrivate()`. `isAbstract()`, `isFinal()` and `isStatic()` accessors to the
   `ClassMethod`, `Property` and `Class` nodes. (`Property` and `Class` obviously only have the accessors relevant to
   them.)
