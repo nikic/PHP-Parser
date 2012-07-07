@@ -39,4 +39,28 @@ class PHPParser_Node_Stmt_ClassMethod extends PHPParser_Node_Stmt
             throw new PHPParser_Error(sprintf('"%s" method cannot be static', $this->name));
         }
     }
+
+    public function isPublic() {
+        return (bool) ($this->type & PHPParser_Node_Stmt_Class::MODIFIER_PUBLIC);
+    }
+
+    public function isProtected() {
+        return (bool) ($this->type & PHPParser_Node_Stmt_Class::MODIFIER_PROTECTED);
+    }
+
+    public function isPrivate() {
+        return (bool) ($this->type & PHPParser_Node_Stmt_Class::MODIFIER_PRIVATE);
+    }
+
+    public function isAbstract() {
+        return (bool) ($this->type & PHPParser_Node_Stmt_Class::MODIFIER_ABSTRACT);
+    }
+
+    public function isFinal() {
+        return (bool) ($this->type & PHPParser_Node_Stmt_Class::MODIFIER_FINAL);
+    }
+
+    public function isStatic() {
+        return (bool) ($this->type & PHPParser_Node_Stmt_Class::MODIFIER_STATIC);
+    }
 }

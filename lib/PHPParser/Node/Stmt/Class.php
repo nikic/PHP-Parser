@@ -60,6 +60,14 @@ class PHPParser_Node_Stmt_Class extends PHPParser_Node_Stmt
         }
     }
 
+    public function isAbstract() {
+        return (bool) ($this->type & self::MODIFIER_ABSTRACT);
+    }
+
+    public function isFinal() {
+        return (bool) ($this->type & self::MODIFIER_FINAL);
+    }
+
     public static function verifyModifier($a, $b) {
         if ($a & 7 && $b & 7) {
             throw new PHPParser_Error('Multiple access type modifiers are not allowed');

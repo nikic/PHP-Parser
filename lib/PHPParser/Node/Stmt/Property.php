@@ -22,4 +22,20 @@ class PHPParser_Node_Stmt_Property extends PHPParser_Node_Stmt
             $attributes
         );
     }
+
+    public function isPublic() {
+        return (bool) ($this->type & PHPParser_Node_Stmt_Class::MODIFIER_PUBLIC);
+    }
+
+    public function isProtected() {
+        return (bool) ($this->type & PHPParser_Node_Stmt_Class::MODIFIER_PROTECTED);
+    }
+
+    public function isPrivate() {
+        return (bool) ($this->type & PHPParser_Node_Stmt_Class::MODIFIER_PRIVATE);
+    }
+
+    public function isStatic() {
+        return (bool) ($this->type & PHPParser_Node_Stmt_Class::MODIFIER_STATIC);
+    }
 }

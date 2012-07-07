@@ -1,6 +1,10 @@
 Version 0.9.2-dev
 -----------------
 
+* Add `isPublic()`, `isProtected()`, `isPrivate()`. `isAbstract()`, `isFinal()` and `isStatic()` accessors to the
+  `ClassMethod`, `Property` and `Class` nodes. (`Property` and `Class` obviously only have the accessors relevant to
+  them.)
+
 * Fix parsing of new expressions in parentheses, e.g. `return(new Foo);`.
 
 * [BC] Due to the below changes nodes now optionally accept an `$attributes` array as the
