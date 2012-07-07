@@ -1,6 +1,10 @@
-Version 0.9.2-dev
+Version 0.9.3-dev
 -----------------
 
+Nothing yet.
+
+Version 0.9.2 (07.07.2012)
+--------------------------
 * Add `Class->getMethods()` function, which returns all methods contained in the `stmts` array of the class node. This
   does not take inherited methods into account.
 
