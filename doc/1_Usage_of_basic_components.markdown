@@ -14,6 +14,15 @@ The library needs to register a class autoloader; this is done by including the
 require 'path/to/PHP-Parser/lib/bootstrap.php';
 ```
 
+Additionally you may want to set the `xdebug.max_nesting_level` ini option to a higher value:
+
+```php
+<?php
+ini_set('xdebug.max_nesting_level', 2000);
+```
+
+This ensures that there will be no errors when traversing highly nested node trees.
+
 Parsing
 -------
 
