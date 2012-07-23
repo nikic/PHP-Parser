@@ -1765,7 +1765,7 @@ class PHPParser_Parser
     }
 
     protected function yyn179($attributes) {
-         $this->yyval = new PHPParser_Node_Expr_Assign($this->yyastk[$this->stackPos-(4-1)], $this->yyastk[$this->stackPos-(4-4)], $attributes); 
+         $this->yyval = new PHPParser_Node_Expr_AssignRef($this->yyastk[$this->stackPos-(4-1)], $this->yyastk[$this->stackPos-(4-4)], $attributes); 
     }
 
     protected function yyn180($attributes) {

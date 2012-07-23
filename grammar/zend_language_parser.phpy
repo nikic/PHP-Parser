@@ -498,7 +498,7 @@ expr:
     | T_LIST '(' assignment_list ')' '=' expr               { $$ = Expr_AssignList[$3, $6]; }
     | variable '=' expr                                     { $$ = Expr_Assign[$1, $3]; }
     | variable '=' '&' variable                             { $$ = Expr_AssignRef[$1, $4]; }
-    | variable '=' '&' new_expr                             { $$ = Expr_Assign[$1, $4]; } /* reference dropped intentially */
+    | variable '=' '&' new_expr                             { $$ = Expr_AssignRef[$1, $4]; }
     | new_expr                                              { $$ = $1; }
     | T_CLONE expr                                          { $$ = Expr_Clone[$2]; }
     | variable T_PLUS_EQUAL expr                            { $$ = Expr_AssignPlus      [$1, $3]; }

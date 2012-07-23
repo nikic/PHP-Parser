@@ -137,7 +137,7 @@ array(
             name: b
         )
     )
-    13: Expr_Assign(
+    13: Expr_AssignRef(
         var: Expr_Variable(
             name: a
         )

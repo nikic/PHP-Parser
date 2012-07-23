@@ -1,7 +1,7 @@
 Version 0.9.3-dev
 -----------------
 
-Nothing yet.
+* Fix parsing of `$foo =& new Bar`. It is now properly parsed as `AssignRef` (instead of `Assign`).
 
 Version 0.9.2 (07.07.2012)
 --------------------------
