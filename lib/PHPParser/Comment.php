@@ -46,7 +46,7 @@ class PHPParser_Comment
     /**
      * Sets the line number the comment started on.
      *
-     * @param int Line number
+     * @param int $line Line number
      */
     public function setLine($line) {
         $this->line = $line;

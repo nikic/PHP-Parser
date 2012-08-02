@@ -308,7 +308,7 @@ class PHPParser_Parser
         , "???"
     );
 
-    /* @var Map which translates lexer tokens to internal tokens */
+    /* @var array Map which translates lexer tokens to internal tokens */
     protected static $translate = array(
             0,  149,  149,  149,  149,  149,  149,  149,  149,  149,
           149,  149,  149,  149,  149,  149,  149,  149,  149,  149,

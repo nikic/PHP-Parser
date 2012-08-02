@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @property double $value Number value
+ * @property float $value Number value
  */
 class PHPParser_Node_Scalar_DNumber extends PHPParser_Node_Scalar
 {
