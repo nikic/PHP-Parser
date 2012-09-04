@@ -13,7 +13,7 @@ class AST2Rascal extends BasePrinter {
     $this->filename = $str;
   }
 
-  private function rascalizeString($str) 
+  public function rascalizeString($str) 
   {
     $newstr = "";
     foreach(str_split($str) as $char) {
@@ -40,7 +40,7 @@ class AST2Rascal extends BasePrinter {
     return $newstr;
   }
 
-  private function rascalizeStringLiteral($str) 
+  public function rascalizeStringLiteral($str) 
   {
     $newstr = "";
     foreach(str_split($str) as $char) {
@@ -1828,6 +1828,8 @@ try {
   $script = implode(",\n", $strStmts);
   echo "script([" . $script . "])";
 } catch (PHPParser_Error $e) {
-  echo 'Parse Error: ', $e->getMessage();
+  echo "errscript(\"" . $printer->rascalizeString($e->getMessage()) . "\")";
+} catch (Exception $e) {
+  echo "errscript(\"" . $printer->rascalizeString($e->getMessage()) . "\")";
 }
 ?>
