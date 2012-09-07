@@ -45,10 +45,10 @@ array(
             )
             2: Expr_Yield(
                 key: Expr_Variable(
-                    name: value
+                    name: key
                 )
                 value: Expr_Variable(
-                    name: key
+                    name: value
                 )
             )
             3: Expr_Assign(
@@ -77,10 +77,10 @@ array(
                 )
                 expr: Expr_Yield(
                     key: Expr_Variable(
-                        name: value
+                        name: key
                     )
                     value: Expr_Variable(
-                        name: key
+                        name: value
                     )
                 )
             )

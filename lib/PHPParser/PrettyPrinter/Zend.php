@@ -142,10 +142,6 @@ class PHPParser_PrettyPrinter_Zend extends PHPParser_PrettyPrinterAbstract
         return $this->p($node->var) . ' >>= ' . $this->p($node->expr);
     }
 
-    public function pExpr_AssignList(PHPParser_Node_Expr_AssignList $node) {
-        return $this->pAssignList($node->vars) . ' = ' . $this->p($node->expr);
-    }
-
     // Binary expressions
 
     public function pExpr_Plus(PHPParser_Node_Expr_Plus $node) {
@@ -365,6 +361,19 @@ class PHPParser_PrettyPrinter_Zend extends PHPParser_PrettyPrinterAbstract
         return $map[$node->type] . ' ' . $this->p($node->expr);
     }
 
+    public function pExpr_List(PHPParser_Node_Expr_List $node) {
+        $pList = array();
+        foreach ($node->vars as $var) {
+            if (null === $var) {
+                $pList[] = '';
+            } else {
+                $pList[] = $this->p($var);
+            }
+        }
+
+        return 'list(' . implode(', ', $pList) . ')';
+    }
+
     // Other
 
     public function pExpr_Variable(PHPParser_Node_Expr_Variable $node) {
@@ -437,6 +446,18 @@ class PHPParser_PrettyPrinter_Zend extends PHPParser_PrettyPrinterAbstract
 
     public function pExpr_Exit(PHPParser_Node_Expr_Exit $node) {
         return 'die' . (null !== $node->expr ? '(' . $this->p($node->expr) . ')' : '');
+    }
+
+    public function pExpr_Yield(PHPParser_Node_Expr_Yield $node) {
+        if ($node->value === null) {
+            return 'yield';
+        } else {
+            // this is a bit ugly, but currently there is no way to detect whether the parentheses are necessary
+            return '(yield '
+                 . ($node->key !== null ? $this->p($node->key) . ' => ' : '')
+                 . $this->p($node->value)
+                 . ')';
+        }
     }
 
     // Declarations
@@ -585,7 +606,10 @@ class PHPParser_PrettyPrinter_Zend extends PHPParser_PrettyPrinterAbstract
 
     public function pStmt_TryCatch(PHPParser_Node_Stmt_TryCatch $node) {
         return 'try {' . "\n" . $this->pStmts($node->stmts) . "\n" . '}'
-             . $this->pImplode($node->catches);
+             . $this->pImplode($node->catches)
+             . ($node->finallyStmts !== null
+                ? ' finally {' . "\n" . $this->pStmts($node->finallyStmts) . "\n" . '}'
+                : '');
     }
 
     public function pStmt_Catch(PHPParser_Node_Stmt_Catch $node) {
@@ -686,21 +710,6 @@ class PHPParser_PrettyPrinter_Zend extends PHPParser_PrettyPrinterAbstract
         }
 
         return $return;
-    }
-
-    public function pAssignList(array $elements) {
-        $pAssignList = array();
-        foreach ($elements as $element) {
-            if (null === $element) {
-                $pAssignList[] = '';
-            } elseif (is_array($element)) {
-                $pAssignList[] = $this->pAssignList($element);
-            } else {
-                $pAssignList[] = $this->p($element);
-            }
-        }
-
-        return 'list(' . implode(', ', $pAssignList) . ')';
     }
 
     public function pVarOrNewExpr(PHPParser_Node $node) {

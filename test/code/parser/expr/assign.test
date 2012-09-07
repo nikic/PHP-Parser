@@ -185,10 +185,12 @@ array(
                 0: Expr_Variable(
                     name: a
                 )
-                1: array(
-                    0: null
-                    1: Expr_Variable(
-                        name: c
+                1: Expr_List(
+                    vars: array(
+                        0: null
+                        1: Expr_Variable(
+                            name: c
+                        )
                     )
                 )
                 2: Expr_Variable(
