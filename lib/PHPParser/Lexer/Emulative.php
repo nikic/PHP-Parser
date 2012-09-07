@@ -14,6 +14,7 @@ class PHPParser_Lexer_Emulative extends PHPParser_Lexer
         $newKeywordsPerVersion = array(
             '5.5.0-dev' => array(
                 'finally'       => PHPParser_Parser::T_FINALLY,
+                'yield'         => PHPParser_Parser::T_YIELD,
             ),
             '5.4.0-dev' => array(
                 'callable'      => PHPParser_Parser::T_CALLABLE,

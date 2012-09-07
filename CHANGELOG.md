@@ -1,6 +1,9 @@
 Version 0.9.3-dev
 -----------------
 
+* [PHP 5.5] Add support for `yield` expressions. This adds a new `Yield` expression type, with subnodes `key` and
+  `value`.
+
 * [PHP 5.5] Add support for `finally`. This adds a new `finallyStmts` subnode to the `TryCatch` node. If there is no
   finally clause it will be `null`.
 

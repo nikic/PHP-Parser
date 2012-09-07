@@ -32,10 +32,17 @@ class PHPParser_Tests_Lexer_EmulativeTest extends PHPUnit_Framework_TestCase
 
     public function provideTestReplaceKeywords() {
         return array(
+            // PHP 5.5
+            array('finally',       PHPParser_Parser::T_FINALLY),
+            array('yield',         PHPParser_Parser::T_YIELD),
+
+            // PHP 5.4
             array('callable',      PHPParser_Parser::T_CALLABLE),
             array('insteadof',     PHPParser_Parser::T_INSTEADOF),
             array('trait',         PHPParser_Parser::T_TRAIT),
             array('__TRAIT__',     PHPParser_Parser::T_TRAIT_C),
+
+            // PHP 5.3
             array('__DIR__',       PHPParser_Parser::T_DIR),
             array('goto',          PHPParser_Parser::T_GOTO),
             array('namespace',     PHPParser_Parser::T_NAMESPACE),
