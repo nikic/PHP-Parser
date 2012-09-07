@@ -582,8 +582,8 @@ expr:
     | T_EXIT exit_expr                                      { $$ = Expr_Exit         [$2]; }
     | '@' expr                                              { $$ = Expr_ErrorSuppress[$2]; }
     | scalar                                                { $$ = $1; }
-    | T_ARRAY '(' array_pair_list ')'                       { $$ = Expr_Array[$3]; }
-    | '[' array_pair_list ']'                               { $$ = Expr_Array[$2]; }
+    | array_expr                                            { $$ = $1; }
+    | scalar_dereference                                    { $$ = $1; }
     | '`' backticks_expr '`'                                { $$ = Expr_ShellExec[$2]; }
     | T_PRINT expr                                          { $$ = Expr_Print[$2]; }
     | T_YIELD                                               { $$ = Expr_Yield[null, null]; }
@@ -601,6 +601,19 @@ parentheses_expr:
 yield_expr:
       T_YIELD expr                                          { $$ = Expr_Yield[$2, null]; }
     | T_YIELD expr T_DOUBLE_ARROW expr                      { $$ = Expr_Yield[$2, $4]; }
+;
+
+array_expr:
+      T_ARRAY '(' array_pair_list ')'                       { $$ = Expr_Array[$3]; }
+    | '[' array_pair_list ']'                               { $$ = Expr_Array[$2]; }
+;
+
+scalar_dereference:
+      array_expr '[' dim_offset ']'                         { $$ = Expr_ArrayDimFetch[$1, $3]; }
+    | T_CONSTANT_ENCAPSED_STRING '[' dim_offset ']'
+          { $$ = Expr_ArrayDimFetch[Scalar_String::create($1, $attributes), $3]; }
+    | scalar_dereference '[' dim_offset ']'                 { $$ = Expr_ArrayDimFetch[$1, $3]; }
+    /* alternative array syntax missing intentionally */
 ;
 
 new_expr:

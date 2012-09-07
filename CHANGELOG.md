@@ -1,6 +1,9 @@
 Version 0.9.3-dev
 -----------------
 
+* [PHP 5.5] Add support for constant array / string dereferencing.
+  Examples: `"foo"[2]`, `[1, 2, 3][2]`
+
 * [PHP 5.5] Add support for `yield` expressions. This adds a new `Yield` expression type, with subnodes `key` and
   `value`.
 
