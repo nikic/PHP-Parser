@@ -11,31 +11,32 @@ class PHPParser_Lexer_Emulative extends PHPParser_Lexer
     public function __construct() {
         parent::__construct();
 
+        $newKeywordsPerVersion = array(
+            '5.5.0-dev' => array(
+                'finally'       => PHPParser_Parser::T_FINALLY,
+            ),
+            '5.4.0-dev' => array(
+                'callable'      => PHPParser_Parser::T_CALLABLE,
+                'insteadof'     => PHPParser_Parser::T_INSTEADOF,
+                'trait'         => PHPParser_Parser::T_TRAIT,
+                '__trait__'     => PHPParser_Parser::T_TRAIT_C,
+            ),
+            '5.3.0-dev' => array(
+                '__dir__'       => PHPParser_Parser::T_DIR,
+                'goto'          => PHPParser_Parser::T_GOTO,
+                'namespace'     => PHPParser_Parser::T_NAMESPACE,
+                '__namespace__' => PHPParser_Parser::T_NS_C,
+            ),
+        );
+
         $this->newKeywords = array();
+        foreach ($newKeywordsPerVersion as $version => $newKeywords) {
+            if (version_compare(PHP_VERSION, $version, '>=')) {
+                break;
+            }
 
-        if (version_compare(PHP_VERSION, '5.4.0RC1', '>=')) {
-            return;
+            $this->newKeywords += $newKeywords;
         }
-
-        // new PHP 5.4 keywords
-        $this->newKeywords += array(
-            'callable'  => PHPParser_Parser::T_CALLABLE,
-            'insteadof' => PHPParser_Parser::T_INSTEADOF,
-            'trait'     => PHPParser_Parser::T_TRAIT,
-            '__trait__' => PHPParser_Parser::T_TRAIT_C,
-        );
-
-        if (version_compare(PHP_VERSION, '5.3.0', '>=')) {
-            return;
-        }
-
-        // new PHP 5.3 keywords
-        $this->newKeywords += array(
-            '__dir__'       => PHPParser_Parser::T_DIR,
-            'goto'          => PHPParser_Parser::T_GOTO,
-            'namespace'     => PHPParser_Parser::T_NAMESPACE,
-            '__namespace__' => PHPParser_Parser::T_NS_C,
-        );
     }
 
     public function startLexing($code) {

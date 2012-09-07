@@ -1,6 +1,9 @@
 Version 0.9.3-dev
 -----------------
 
+* [PHP 5.5] Add support for `finally`. This adds a new `finallyStmts` subnode to the `TryCatch` node. If there is no
+  finally clause it will be `null`.
+
 * [BC] [PHP 5.5] Add support for `list()` destructuring of `foreach` values.
   Example: `foreach ($coords as list($x, $y)) { ... }`
 

@@ -63,6 +63,7 @@
 %token T_RETURN
 %token T_TRY
 %token T_CATCH
+%token T_FINALLY
 %token T_THROW
 %token T_USE
 %token T_INSTEADOF
@@ -195,20 +196,26 @@ statement:
           { $$ = Stmt_Foreach[$3, $7[0], [keyVar: $5, byRef: $7[1], stmts: $9]]; }
     | T_DECLARE '(' declare_list ')' declare_statement      { $$ = Stmt_Declare[$3, $5]; }
     | ';'                                                   { $$ = array(); /* means: no statement */ }
-    | T_TRY '{' inner_statement_list '}' catches            { $$ = Stmt_TryCatch[$3, $5]; }
+    | T_TRY '{' inner_statement_list '}' catches optional_finally
+          { $$ = Stmt_TryCatch[$3, $5, $6]; }
     | T_THROW expr ';'                                      { $$ = Stmt_Throw[$2]; }
     | T_GOTO T_STRING ';'                                   { $$ = Stmt_Goto[$2]; }
     | T_STRING ':'                                          { $$ = Stmt_Label[$1]; }
 ;
 
 catches:
-      catch                                                 { init($1); }
+      /* empty */                                           { init(); }
     | catches catch                                         { push($1, $2); }
 ;
 
 catch:
     T_CATCH '(' name T_VARIABLE ')' '{' inner_statement_list '}'
         { $$ = Stmt_Catch[$3, parseVar($4), $7]; }
+;
+
+optional_finally:
+      /* empty */                                           { $$ = null; }
+    | T_FINALLY '{' inner_statement_list '}'                { $$ = $3; }
 ;
 
 variables_list:
