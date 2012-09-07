@@ -189,12 +189,10 @@ statement:
     | T_INLINE_HTML                                         { $$ = Stmt_InlineHTML[$1]; }
     | expr ';'                                              { $$ = $1; }
     | T_UNSET '(' variables_list ')' ';'                    { $$ = Stmt_Unset[$3]; }
-    | T_FOREACH '(' expr T_AS variable ')' foreach_statement
-          { $$ = Stmt_Foreach[$3, $5, [keyVar: null, byRef: false, stmts: $7]]; }
-    | T_FOREACH '(' expr T_AS '&' variable ')' foreach_statement
-          { $$ = Stmt_Foreach[$3, $6, [keyVar: null, byRef: true, stmts: $8]]; }
-    | T_FOREACH '(' expr T_AS variable T_DOUBLE_ARROW optional_ref variable ')' foreach_statement
-          { $$ = Stmt_Foreach[$3, $8, [keyVar: $5, byRef: $7, stmts: $10]]; }
+    | T_FOREACH '(' expr T_AS foreach_variable ')' foreach_statement
+          { $$ = Stmt_Foreach[$3, $5[0], [keyVar: null, byRef: $5[1], stmts: $7]]; }
+    | T_FOREACH '(' expr T_AS variable T_DOUBLE_ARROW foreach_variable ')' foreach_statement
+          { $$ = Stmt_Foreach[$3, $7[0], [keyVar: $5, byRef: $7[1], stmts: $9]]; }
     | T_DECLARE '(' declare_list ')' declare_statement      { $$ = Stmt_Declare[$3, $5]; }
     | ';'                                                   { $$ = array(); /* means: no statement */ }
     | T_TRY '{' inner_statement_list '}' catches            { $$ = Stmt_TryCatch[$3, $5]; }
@@ -340,6 +338,12 @@ else_single:
 new_else_single:
       /* empty */                                           { $$ = null; }
     | T_ELSE ':' inner_statement_list                       { $$ = Stmt_Else[$3]; }
+;
+
+foreach_variable:
+      variable                                              { $$ = array($1, false); }
+    | '&' variable                                          { $$ = array($2, true); }
+    | list_expr                                             { $$ = array($1, false); }
 ;
 
 parameter_list:
@@ -495,7 +499,7 @@ for_expr:
 
 expr:
       variable                                              { $$ = $1; }
-    | T_LIST '(' assignment_list ')' '=' expr               { $$ = Expr_AssignList[$3, $6]; }
+    | list_expr '=' expr                                    { $$ = Expr_Assign[$1, $3]; }
     | variable '=' expr                                     { $$ = Expr_Assign[$1, $3]; }
     | variable '=' '&' variable                             { $$ = Expr_AssignRef[$1, $4]; }
     | variable '=' '&' new_expr                             { $$ = Expr_AssignRef[$1, $4]; }
@@ -579,6 +583,10 @@ expr:
 
 new_expr:
       T_NEW class_name_reference ctor_arguments             { $$ = Expr_New[$2, $3]; }
+;
+
+list_expr:
+      T_LIST '(' assignment_list ')'                        { $$ = Expr_List[$3]; }
 ;
 
 lexical_vars:

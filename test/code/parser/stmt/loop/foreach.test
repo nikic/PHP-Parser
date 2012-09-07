@@ -7,6 +7,8 @@ foreach ($a as $b)  {}
 foreach ($a as &$b) {}
 foreach ($a as $b => $c) {}
 foreach ($a as $b => &$c) {}
+foreach ($a as list($a, $b)) {}
+foreach ($a as $a => list($b, , $c)) {}
 
 // foreach on expression
 foreach (array() as $b) {}
@@ -73,6 +75,47 @@ array(
         byRef: false
         stmts: array(
         )
+        expr: Expr_Variable(
+            name: a
+        )
+        valueVar: Expr_List(
+            vars: array(
+                0: Expr_Variable(
+                    name: a
+                )
+                1: Expr_Variable(
+                    name: b
+                )
+            )
+        )
+    )
+    5: Stmt_Foreach(
+        keyVar: Expr_Variable(
+            name: a
+        )
+        byRef: false
+        stmts: array(
+        )
+        expr: Expr_Variable(
+            name: a
+        )
+        valueVar: Expr_List(
+            vars: array(
+                0: Expr_Variable(
+                    name: b
+                )
+                1: null
+                2: Expr_Variable(
+                    name: c
+                )
+            )
+        )
+    )
+    6: Stmt_Foreach(
+        keyVar: null
+        byRef: false
+        stmts: array(
+        )
         expr: Expr_Array(
             items: array(
             )
@@ -81,7 +124,7 @@ array(
             name: b
         )
     )
-    5: Stmt_Foreach(
+    7: Stmt_Foreach(
         keyVar: null
         byRef: false
         stmts: array(

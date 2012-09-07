@@ -151,43 +151,49 @@ array(
             )
         )
     )
-    14: Expr_AssignList(
-        vars: array(
-            0: Expr_Variable(
-                name: a
+    14: Expr_Assign(
+        var: Expr_List(
+            vars: array(
+                0: Expr_Variable(
+                    name: a
+                )
             )
         )
         expr: Expr_Variable(
             name: b
         )
     )
-    15: Expr_AssignList(
-        vars: array(
-            0: Expr_Variable(
-                name: a
-            )
-            1: null
-            2: Expr_Variable(
-                name: b
+    15: Expr_Assign(
+        var: Expr_List(
+            vars: array(
+                0: Expr_Variable(
+                    name: a
+                )
+                1: null
+                2: Expr_Variable(
+                    name: b
+                )
             )
         )
         expr: Expr_Variable(
             name: c
         )
     )
-    16: Expr_AssignList(
-        vars: array(
-            0: Expr_Variable(
-                name: a
-            )
-            1: array(
-                0: null
-                1: Expr_Variable(
-                    name: c
+    16: Expr_Assign(
+        var: Expr_List(
+            vars: array(
+                0: Expr_Variable(
+                    name: a
                 )
-            )
-            2: Expr_Variable(
-                name: d
+                1: array(
+                    0: null
+                    1: Expr_Variable(
+                        name: c
+                    )
+                )
+                2: Expr_Variable(
+                    name: d
+                )
             )
         )
         expr: Expr_Variable(

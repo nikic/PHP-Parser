@@ -1,6 +1,13 @@
 Version 0.9.3-dev
 -----------------
 
+* [BC] [PHP 5.5] Add support for `list()` destructuring of `foreach` values.
+  Example: `foreach ($coords as list($x, $y)) { ... }`
+
+  This changes the node structure for the previously existing `list(...) = $foo` assignments. Those no longer have a
+  dedicated `AssignList` node; instead they are parsed as a normal `Assign` node with a `List` as `var`. Similarly the
+  use in `foreach` will generate a `List` for `valueVar`.
+
 * Fix parsing of `$foo =& new Bar`. It is now properly parsed as `AssignRef` (instead of `Assign`).
 
 Version 0.9.2 (07.07.2012)
