@@ -1,10 +1,14 @@
 Version 0.9.3-dev
 -----------------
 
-* [BC] As `list()` in `foreach` is not supported the structure of list assignments changed:
+* [BC] As `list()` in `foreach` is now supported the structure of list assignments changed:
 
   1. There is no longer a dedicated `AssignList` node; instead a normal `Assign` node is used with a `List` as  `var`.
   2. Nested lists are now `List` nodes too, instead of just arrays.
+
+* [BC] As arbitrary expressions are allowed in `empty()` now its subnode was renamed from `var` to `expr`.
+
+* [PHP 5.5] Add support for arbitrary expressions in `empty()`.
 
 * [PHP 5.5] Add support for constant array / string dereferencing.
   Examples: `"foo"[2]`, `[1, 2, 3][2]`

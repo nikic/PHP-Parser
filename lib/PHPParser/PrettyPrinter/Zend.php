@@ -335,7 +335,7 @@ class PHPParser_PrettyPrinter_Zend extends PHPParser_PrettyPrinterAbstract
     }
 
     public function pExpr_Empty(PHPParser_Node_Expr_Empty $node) {
-        return 'empty(' . $this->p($node->var) . ')';
+        return 'empty(' . $this->p($node->expr) . ')';
     }
 
     public function pExpr_Isset(PHPParser_Node_Expr_Isset $node) {

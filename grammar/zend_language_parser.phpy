@@ -566,7 +566,7 @@ expr:
     | expr '?' expr ':' expr                                { $$ = Expr_Ternary[$1, $3,   $5]; }
     | expr '?' ':' expr                                     { $$ = Expr_Ternary[$1, null, $4]; }
     | T_ISSET '(' variables_list ')'                        { $$ = Expr_Isset[$3]; }
-    | T_EMPTY '(' variable ')'                              { $$ = Expr_Empty[$3]; }
+    | T_EMPTY '(' expr ')'                                  { $$ = Expr_Empty[$3]; }
     | T_INCLUDE expr                                        { $$ = Expr_Include[$2, Expr_Include::TYPE_INCLUDE]; }
     | T_INCLUDE_ONCE expr                                   { $$ = Expr_Include[$2, Expr_Include::TYPE_INCLUDE_ONCE]; }
     | T_EVAL parentheses_expr                               { $$ = Expr_Eval[$2]; }
