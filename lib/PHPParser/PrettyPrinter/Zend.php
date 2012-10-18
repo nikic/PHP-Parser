@@ -422,7 +422,7 @@ class PHPParser_PrettyPrinter_Zend extends PHPParser_PrettyPrinterAbstract
         return ($node->static ? 'static ' : '')
              . 'function ' . ($node->byRef ? '&' : '')
              . '(' . $this->pCommaSeparated($node->params) . ')'
-             . (!empty($node->uses) ? ' use(' . $this->pCommaSeparated($node->uses) . ')': '')
+             . (!empty($node->uses) ? ' use (' . $this->pCommaSeparated($node->uses) . ')': '')
              . ' {' . "\n" . $this->pStmts($node->stmts) . "\n" . '}';
     }
 
@@ -601,7 +601,7 @@ class PHPParser_PrettyPrinter_Zend extends PHPParser_PrettyPrinterAbstract
 
     public function pStmt_Switch(PHPParser_Node_Stmt_Switch $node) {
         return 'switch (' . $this->p($node->cond) . ') {'
-             . "\n" . $this->pImplode($node->cases) . '}';
+             . "\n" . $this->pStmts($node->cases) . "\n" .'}';
     }
 
     public function pStmt_TryCatch(PHPParser_Node_Stmt_TryCatch $node) {
@@ -619,7 +619,10 @@ class PHPParser_PrettyPrinter_Zend extends PHPParser_PrettyPrinterAbstract
 
     public function pStmt_Case(PHPParser_Node_Stmt_Case $node) {
         return (null !== $node->cond ? 'case ' . $this->p($node->cond) : 'default') . ':'
-             . "\n" . $this->pStmts($node->stmts) . "\n";
+             . (count($node->stmts) > 0
+                ? "\n" . $this->pStmts($node->stmts)
+                : ''
+               );
     }
 
     public function pStmt_Break(PHPParser_Node_Stmt_Break $node) {

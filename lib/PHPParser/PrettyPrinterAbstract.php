@@ -58,6 +58,7 @@ abstract class PHPParser_PrettyPrinterAbstract
         'Expr_LogicalAnd'       => 16,
         'Expr_LogicalXor'       => 17,
         'Expr_LogicalOr'        => 18,
+        'Expr_Closure'          => false,
     );
 
     protected $precedenceStack;
@@ -130,8 +131,11 @@ abstract class PHPParser_PrettyPrinterAbstract
 
         if (isset($this->precedenceMap[$type])) {
             $precedence = $this->precedenceMap[$type];
-
-            if ($precedence >= $this->precedenceStack[$this->precedenceStackPos]) {
+                
+            if (false !== $this->precedenceStack[$this->precedenceStackPos] 
+                && $precedence >= $this->precedenceStack[$this->precedenceStackPos]
+                ) 
+            {
                 $this->precedenceStack[++$this->precedenceStackPos] = $precedence;
                 $return = '(' . $this->{'p' . $type}($node) . ')';
                 --$this->precedenceStackPos;
