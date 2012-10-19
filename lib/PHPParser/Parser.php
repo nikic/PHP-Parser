@@ -2147,7 +2147,7 @@ class PHPParser_Parser
     }
 
     protected function yyn267($attributes) {
-         $this->yyval = new PHPParser_Node_Expr_ArrayDimFetch(PHPParser_Node_Scalar_String::create($this->yyastk[$this->stackPos-(4-1)], $attributes), $this->yyastk[$this->stackPos-(4-3)], $attributes); 
+         $this->yyval = new PHPParser_Node_Expr_ArrayDimFetch(new PHPParser_Node_Scalar_String(PHPParser_Node_Scalar_String::parse($this->yyastk[$this->stackPos-(4-1)]), $attributes), $this->yyastk[$this->stackPos-(4-3)], $attributes); 
     }
 
     protected function yyn268($attributes) {
@@ -2321,7 +2321,7 @@ class PHPParser_Parser
     }
 
     protected function yyn307($attributes) {
-         $this->yyval = PHPParser_Node_Scalar_String::create($this->yyastk[$this->stackPos-(1-1)], $attributes); 
+         $this->yyval = new PHPParser_Node_Scalar_String(PHPParser_Node_Scalar_String::parse($this->yyastk[$this->stackPos-(1-1)]), $attributes); 
     }
 
     protected function yyn308($attributes) {

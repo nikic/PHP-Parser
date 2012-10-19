@@ -32,30 +32,27 @@ class PHPParser_Node_Scalar_String extends PHPParser_Node_Scalar
     }
 
     /**
-     * Creates a String node from a string token (parses escape sequences).
+     * Parses a string token.
      *
-     * @param string $str        String
-     * @param array  $attributes Additional attributes
+     * @param string $str String token content
      *
-     * @return PHPParser_Node_Scalar_String String Node
+     * @return string The parsed string
      */
-    public static function create($str, array $attributes = array()) {
+    public static function parse($str) {
         $bLength = 0;
         if ('b' === $str[0]) {
             $bLength = 1;
         }
 
         if ('\'' === $str[$bLength]) {
-            $str = str_replace(
+            return str_replace(
                 array('\\\\', '\\\''),
                 array(  '\\',   '\''),
                 substr($str, $bLength + 1, -1)
             );
         } else {
-            $str = self::parseEscapeSequences(substr($str, $bLength + 1, -1), '"');
+            return self::parseEscapeSequences(substr($str, $bLength + 1, -1), '"');
         }
-
-        return new self($str, $attributes);
     }
 
     /**

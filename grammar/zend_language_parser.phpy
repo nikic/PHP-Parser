@@ -611,7 +611,7 @@ array_expr:
 scalar_dereference:
       array_expr '[' dim_offset ']'                         { $$ = Expr_ArrayDimFetch[$1, $3]; }
     | T_CONSTANT_ENCAPSED_STRING '[' dim_offset ']'
-          { $$ = Expr_ArrayDimFetch[Scalar_String::create($1, $attributes), $3]; }
+          { $$ = Expr_ArrayDimFetch[Scalar_String[Scalar_String::parse($1)], $3]; }
     | scalar_dereference '[' dim_offset ']'                 { $$ = Expr_ArrayDimFetch[$1, $3]; }
     /* alternative array syntax missing intentionally */
 ;
@@ -716,7 +716,7 @@ ctor_arguments:
 common_scalar:
       T_LNUMBER                                             { $$ = Scalar_LNumber[Scalar_LNumber::parse($1)]; }
     | T_DNUMBER                                             { $$ = Scalar_DNumber[Scalar_DNumber::parse($1)]; }
-    | T_CONSTANT_ENCAPSED_STRING                            { $$ = Scalar_String::create($1, $attributes); }
+    | T_CONSTANT_ENCAPSED_STRING                            { $$ = Scalar_String[Scalar_String::parse($1)]; }
     | T_LINE                                                { $$ = Scalar_LineConst[]; }
     | T_FILE                                                { $$ = Scalar_FileConst[]; }
     | T_DIR                                                 { $$ = Scalar_DirConst[]; }
