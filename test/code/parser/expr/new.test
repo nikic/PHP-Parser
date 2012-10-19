@@ -15,7 +15,7 @@ new $a->b->c();
 new $a->b['c']();
 new $a->b{'c'}();
 
-// test regression introduces by new dereferencing syntext
+// test regression introduces by new dereferencing syntax
 (new A);
 -----
 array(

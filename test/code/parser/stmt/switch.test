@@ -23,23 +23,23 @@ array(
         )
         cases: array(
             0: Stmt_Case(
-                stmts: array(
-                )
                 cond: Scalar_LNumber(
                     value: 0
                 )
-            )
-            1: Stmt_Case(
                 stmts: array(
                 )
+            )
+            1: Stmt_Case(
                 cond: Scalar_LNumber(
                     value: 1
                 )
-            )
-            2: Stmt_Case(
                 stmts: array(
                 )
+            )
+            2: Stmt_Case(
                 cond: null
+                stmts: array(
+                )
             )
         )
     )
