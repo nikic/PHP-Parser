@@ -207,7 +207,7 @@ abstract class PHPParser_PrettyPrinterAbstract
      *
      * @return mixed String marked with $this->noIndentToken's.
      */
-    protected function pSafe($string) {
+    protected function pNoIndent($string) {
         return str_replace("\n", "\n" . $this->noIndentToken, $string);
     }
 

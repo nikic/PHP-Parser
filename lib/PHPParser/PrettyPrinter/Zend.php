@@ -70,7 +70,7 @@ class PHPParser_PrettyPrinter_Zend extends PHPParser_PrettyPrinterAbstract
     // Scalars
 
     public function pScalar_String(PHPParser_Node_Scalar_String $node) {
-        return '\'' . $this->pSafe(addcslashes($node->value, '\'\\')) . '\'';
+        return '\'' . $this->pNoIndent(addcslashes($node->value, '\'\\')) . '\'';
     }
 
     public function pScalar_Encapsed(PHPParser_Node_Scalar_Encapsed $node) {
@@ -672,7 +672,7 @@ class PHPParser_PrettyPrinter_Zend extends PHPParser_PrettyPrinterAbstract
     }
 
     public function pStmt_InlineHTML(PHPParser_Node_Stmt_InlineHTML $node) {
-        return '?>' . $this->pSafe(
+        return '?>' . $this->pNoIndent(
             ("\n" === $node->value[0] || "\r" === $node->value[0] ? "\n" : '')
             . $node->value
         ) . '<?php ';
