@@ -3,69 +3,68 @@
 abstract class PHPParser_PrettyPrinterAbstract
 {
     protected $precedenceMap = array(
-        'Expr_BitwiseNot'       =>  1,
-        'Expr_PreInc'           =>  1,
-        'Expr_PreDec'           =>  1,
-        'Expr_PostInc'          =>  1,
-        'Expr_PostDec'          =>  1,
-        'Expr_UnaryPlus'        =>  1,
-        'Expr_UnaryMinus'       =>  1,
-        'Expr_Cast_Int'         =>  1,
-        'Expr_Cast_Double'      =>  1,
-        'Expr_Cast_String'      =>  1,
-        'Expr_Cast_Array'       =>  1,
-        'Expr_Cast_Object'      =>  1,
-        'Expr_Cast_Bool'        =>  1,
-        'Expr_Cast_Unset'       =>  1,
-        'Expr_ErrorSuppress'    =>  1,
-        'Expr_Instanceof'       =>  2,
-        'Expr_BooleanNot'       =>  3,
-        'Expr_Mul'              =>  4,
-        'Expr_Div'              =>  4,
-        'Expr_Mod'              =>  4,
-        'Expr_Plus'             =>  5,
-        'Expr_Minus'            =>  5,
-        'Expr_Concat'           =>  5,
-        'Expr_ShiftLeft'        =>  6,
-        'Expr_ShiftRight'       =>  6,
-        'Expr_Smaller'          =>  7,
-        'Expr_SmallerOrEqual'   =>  7,
-        'Expr_Greater'          =>  7,
-        'Expr_GreaterOrEqual'   =>  7,
-        'Expr_Equal'            =>  8,
-        'Expr_NotEqual'         =>  8,
-        'Expr_Identical'        =>  8,
-        'Expr_NotIdentical'     =>  8,
-        'Expr_BitwiseAnd'       =>  9,
-        'Expr_BitwiseXor'       => 10,
-        'Expr_BitwiseOr'        => 11,
-        'Expr_BooleanAnd'       => 12,
-        'Expr_BooleanOr'        => 13,
-        'Expr_Ternary'          => 14,
-        'Expr_Assign'           => 15,
-        'Expr_AssignPlus'       => 15,
-        'Expr_AssignMinus'      => 15,
-        'Expr_AssignMul'        => 15,
-        'Expr_AssignDiv'        => 15,
-        'Expr_AssignConcat'     => 15,
-        'Expr_AssignMod'        => 15,
-        'Expr_AssignBitwiseAnd' => 15,
-        'Expr_AssignBitwiseOr'  => 15,
-        'Expr_AssignBitwiseXor' => 15,
-        'Expr_AssignShiftLeft'  => 15,
-        'Expr_AssignShiftRight' => 15,
-        'Expr_AssignList'       => 15,
-        'Expr_LogicalAnd'       => 16,
-        'Expr_LogicalXor'       => 17,
-        'Expr_LogicalOr'        => 18,
+        // [precedence, associativity] where for the latter -1 is %left, 0 is %nonassoc and 1 is %right
+        'Expr_BitwiseNot'       => array( 1,  1),
+        'Expr_PreInc'           => array( 1,  1),
+        'Expr_PreDec'           => array( 1,  1),
+        'Expr_PostInc'          => array( 1, -1),
+        'Expr_PostDec'          => array( 1, -1),
+        'Expr_UnaryPlus'        => array( 1,  1),
+        'Expr_UnaryMinus'       => array( 1,  1),
+        'Expr_Cast_Int'         => array( 1,  1),
+        'Expr_Cast_Double'      => array( 1,  1),
+        'Expr_Cast_String'      => array( 1,  1),
+        'Expr_Cast_Array'       => array( 1,  1),
+        'Expr_Cast_Object'      => array( 1,  1),
+        'Expr_Cast_Bool'        => array( 1,  1),
+        'Expr_Cast_Unset'       => array( 1,  1),
+        'Expr_ErrorSuppress'    => array( 1,  1),
+        'Expr_Instanceof'       => array( 2,  0),
+        'Expr_BooleanNot'       => array( 3,  1),
+        'Expr_Mul'              => array( 4, -1),
+        'Expr_Div'              => array( 4, -1),
+        'Expr_Mod'              => array( 4, -1),
+        'Expr_Plus'             => array( 5, -1),
+        'Expr_Minus'            => array( 5, -1),
+        'Expr_Concat'           => array( 5, -1),
+        'Expr_ShiftLeft'        => array( 6, -1),
+        'Expr_ShiftRight'       => array( 6, -1),
+        'Expr_Smaller'          => array( 7,  0),
+        'Expr_SmallerOrEqual'   => array( 7,  0),
+        'Expr_Greater'          => array( 7,  0),
+        'Expr_GreaterOrEqual'   => array( 7,  0),
+        'Expr_Equal'            => array( 8,  0),
+        'Expr_NotEqual'         => array( 8,  0),
+        'Expr_Identical'        => array( 8,  0),
+        'Expr_NotIdentical'     => array( 8,  0),
+        'Expr_BitwiseAnd'       => array( 9, -1),
+        'Expr_BitwiseXor'       => array(10, -1),
+        'Expr_BitwiseOr'        => array(11, -1),
+        'Expr_BooleanAnd'       => array(12, -1),
+        'Expr_BooleanOr'        => array(13, -1),
+        'Expr_Ternary'          => array(14, -1),
+        // parser uses %left for assignments, but they really behave as %right
+        'Expr_Assign'           => array(15,  1),
+        'Expr_AssignRef'        => array(15,  1),
+        'Expr_AssignPlus'       => array(15,  1),
+        'Expr_AssignMinus'      => array(15,  1),
+        'Expr_AssignMul'        => array(15,  1),
+        'Expr_AssignDiv'        => array(15,  1),
+        'Expr_AssignConcat'     => array(15,  1),
+        'Expr_AssignMod'        => array(15,  1),
+        'Expr_AssignBitwiseAnd' => array(15,  1),
+        'Expr_AssignBitwiseOr'  => array(15,  1),
+        'Expr_AssignBitwiseXor' => array(15,  1),
+        'Expr_AssignShiftLeft'  => array(15,  1),
+        'Expr_AssignShiftRight' => array(15,  1),
+        'Expr_LogicalAnd'       => array(16, -1),
+        'Expr_LogicalXor'       => array(17, -1),
+        'Expr_LogicalOr'        => array(18, -1),
     );
 
-    protected $precedenceStack;
-    protected $precedenceStackPos;
     protected $noIndentToken;
 
     public function __construct() {
-        $this->precedenceStack = array($this->precedenceStackPos = 0 => 19);
         $this->noIndentToken   = uniqid('_NO_INDENT_');
     }
 
@@ -126,25 +125,51 @@ abstract class PHPParser_PrettyPrinterAbstract
      * @return string Pretty printed node
      */
     protected function p(PHPParser_Node $node) {
+        return $this->{'p' . $node->getType()}($node);
+    }
+
+    protected function pInfixOp($type, PHPParser_Node $leftNode, $operatorString, PHPParser_Node $rightNode) {
+        list($precedence, $associativity) = $this->precedenceMap[$type];
+
+        return $this->pPrec($leftNode, $precedence, $associativity, -1)
+             . $operatorString
+             . $this->pPrec($rightNode, $precedence, $associativity, 1);
+    }
+
+    protected function pPrefixOp($type, $operatorString, PHPParser_Node $node) {
+        list($precedence, $associativity) = $this->precedenceMap[$type];
+        return $operatorString . $this->pPrec($node, $precedence, $associativity, 1);
+    }
+
+    protected function pPostfixOp($type, PHPParser_Node $node, $operatorString) {
+        list($precedence, $associativity) = $this->precedenceMap[$type];
+        return $this->pPrec($node, $precedence, $associativity, -1) . $operatorString;
+    }
+
+    /**
+     * Prints an expression node with the least amount of parentheses necessary to preserve the meaning.
+     *
+     * @param PHPParser_Node $node                Node to pretty print
+     * @param int            $parentPrecedence    Precedence of the parent operator
+     * @param int            $parentAssociativity Associativity of parent operator
+     *                                            (-1 is left, 0 is nonassoc, 1 is right)
+     * @param int            $childPosition       Position of the node relative to the operator
+     *                                            (-1 is left, 1 is right)
+     *
+     * @return string The pretty printed node
+     */
+    protected function pPrec(PHPParser_Node $node, $parentPrecedence, $parentAssociativity, $childPosition) {
         $type = $node->getType();
-
         if (isset($this->precedenceMap[$type])) {
-            $precedence = $this->precedenceMap[$type];
-
-            if ($precedence >= $this->precedenceStack[$this->precedenceStackPos]) {
-                $this->precedenceStack[++$this->precedenceStackPos] = $precedence;
-                $return = '(' . $this->{'p' . $type}($node) . ')';
-                --$this->precedenceStackPos;
-            } else {
-                $this->precedenceStack[++$this->precedenceStackPos] = $precedence;
-                $return = $this->{'p' . $type}($node);
-                --$this->precedenceStackPos;
+            $childPrecedence = $this->precedenceMap[$type][0];
+            if ($childPrecedence > $parentPrecedence
+                || ($parentPrecedence == $childPrecedence && $parentAssociativity != $childPosition)
+            ) {
+                return '(' . $this->{'p' . $type}($node) . ')';
             }
-
-            return $return;
-        } else {
-            return $this->{'p' . $type}($node);
         }
+
+        return $this->{'p' . $type}($node);
     }
 
     /**

@@ -91,225 +91,225 @@ class PHPParser_PrettyPrinter_Zend extends PHPParser_PrettyPrinterAbstract
     // Assignments
 
     public function pExpr_Assign(PHPParser_Node_Expr_Assign $node) {
-        return $this->p($node->var) . ' = ' . $this->p($node->expr);
+        return $this->pInfixOp('Expr_Assign', $node->var, ' = ', $node->expr);
     }
 
     public function pExpr_AssignRef(PHPParser_Node_Expr_AssignRef $node) {
-        return $this->p($node->var) . ' =& ' . $this->p($node->expr);
+        return $this->pInfixOp('Expr_AssignRef', $node->var, ' =& ', $node->expr);
     }
 
     public function pExpr_AssignPlus(PHPParser_Node_Expr_AssignPlus $node) {
-        return $this->p($node->var) . ' += ' . $this->p($node->expr);
+        return $this->pInfixOp('Expr_AssignPlus', $node->var, ' += ', $node->expr);
     }
 
     public function pExpr_AssignMinus(PHPParser_Node_Expr_AssignMinus $node) {
-        return $this->p($node->var) . ' -= ' . $this->p($node->expr);
+        return $this->pInfixOp('Expr_AssignMinus', $node->var, ' -= ', $node->expr);
     }
 
     public function pExpr_AssignMul(PHPParser_Node_Expr_AssignMul $node) {
-        return $this->p($node->var) . ' *= ' . $this->p($node->expr);
+        return $this->pInfixOp('Expr_AssignMul', $node->var, ' *= ', $node->expr);
     }
 
     public function pExpr_AssignDiv(PHPParser_Node_Expr_AssignDiv $node) {
-        return $this->p($node->var) . ' /= ' . $this->p($node->expr);
+        return $this->pInfixOp('Expr_AssignDiv', $node->var, ' /= ', $node->expr);
     }
 
     public function pExpr_AssignConcat(PHPParser_Node_Expr_AssignConcat $node) {
-        return $this->p($node->var) . ' .= ' . $this->p($node->expr);
+        return $this->pInfixOp('Expr_AssignConcat', $node->var, ' .= ', $node->expr);
     }
 
     public function pExpr_AssignMod(PHPParser_Node_Expr_AssignMod $node) {
-        return $this->p($node->var) . ' %= ' . $this->p($node->expr);
+        return $this->pInfixOp('Expr_AssignMod', $node->var, ' %= ', $node->expr);
     }
 
     public function pExpr_AssignBitwiseAnd(PHPParser_Node_Expr_AssignBitwiseAnd $node) {
-        return $this->p($node->var) . ' &= ' . $this->p($node->expr);
+        return $this->pInfixOp('Expr_AssignBitwiseAnd', $node->var, ' &= ', $node->expr);
     }
 
     public function pExpr_AssignBitwiseOr(PHPParser_Node_Expr_AssignBitwiseOr $node) {
-        return $this->p($node->var) . ' |= ' . $this->p($node->expr);
+        return $this->pInfixOp('Expr_AssignBitwiseOr', $node->var, ' |= ', $node->expr);
     }
 
     public function pExpr_AssignBitwiseXor(PHPParser_Node_Expr_AssignBitwiseXor $node) {
-        return $this->p($node->var) . ' ^= ' . $this->p($node->expr);
+        return $this->pInfixOp('Expr_AssignBitwiseXor', $node->var, ' ^= ', $node->expr);
     }
 
     public function pExpr_AssignShiftLeft(PHPParser_Node_Expr_AssignShiftLeft $node) {
-        return $this->p($node->var) . ' <<= ' . $this->p($node->expr);
+        return $this->pInfixOp('Expr_AssignShiftLeft', $node->var, ' <<= ', $node->expr);
     }
 
     public function pExpr_AssignShiftRight(PHPParser_Node_Expr_AssignShiftRight $node) {
-        return $this->p($node->var) . ' >>= ' . $this->p($node->expr);
+        return $this->pInfixOp('Expr_AssignShiftRight', $node->var, ' >>= ', $node->expr);
     }
 
     // Binary expressions
 
     public function pExpr_Plus(PHPParser_Node_Expr_Plus $node) {
-        return $this->p($node->left) . ' + ' . $this->p($node->right);
+        return $this->pInfixOp('Expr_Plus', $node->left, ' + ', $node->right);
     }
 
     public function pExpr_Minus(PHPParser_Node_Expr_Minus $node) {
-        return $this->p($node->left) . ' - ' . $this->p($node->right);
+        return $this->pInfixOp('Expr_Minus', $node->left, ' - ', $node->right);
     }
 
     public function pExpr_Mul(PHPParser_Node_Expr_Mul $node) {
-        return $this->p($node->left) . ' * ' . $this->p($node->right);
+        return $this->pInfixOp('Expr_Mul', $node->left, ' * ', $node->right);
     }
 
     public function pExpr_Div(PHPParser_Node_Expr_Div $node) {
-        return $this->p($node->left) . ' / ' . $this->p($node->right);
+        return $this->pInfixOp('Expr_Div', $node->left, ' / ', $node->right);
     }
 
     public function pExpr_Concat(PHPParser_Node_Expr_Concat $node) {
-        return $this->p($node->left) . ' . ' . $this->p($node->right);
+        return $this->pInfixOp('Expr_Concat', $node->left, ' . ', $node->right);
     }
 
     public function pExpr_Mod(PHPParser_Node_Expr_Mod $node) {
-        return $this->p($node->left) . ' % ' . $this->p($node->right);
+        return $this->pInfixOp('Expr_Mod', $node->left, ' % ', $node->right);
     }
 
     public function pExpr_BooleanAnd(PHPParser_Node_Expr_BooleanAnd $node) {
-        return $this->p($node->left) . ' && ' . $this->p($node->right);
+        return $this->pInfixOp('Expr_BooleanAnd', $node->left, ' && ', $node->right);
     }
 
     public function pExpr_BooleanOr(PHPParser_Node_Expr_BooleanOr $node) {
-        return $this->p($node->left) . ' || ' . $this->p($node->right);
+        return $this->pInfixOp('Expr_BooleanOr', $node->left, ' || ', $node->right);
     }
 
     public function pExpr_BitwiseAnd(PHPParser_Node_Expr_BitwiseAnd $node) {
-        return $this->p($node->left) . ' & ' . $this->p($node->right);
+        return $this->pInfixOp('Expr_BitwiseAnd', $node->left, ' & ', $node->right);
     }
 
     public function pExpr_BitwiseOr(PHPParser_Node_Expr_BitwiseOr $node) {
-        return $this->p($node->left) . ' | ' . $this->p($node->right);
+        return $this->pInfixOp('Expr_BitwiseOr', $node->left, ' | ', $node->right);
     }
 
     public function pExpr_BitwiseXor(PHPParser_Node_Expr_BitwiseXor $node) {
-        return $this->p($node->left) . ' ^ ' . $this->p($node->right);
+        return $this->pInfixOp('Expr_BitwiseXor', $node->left, ' ^ ', $node->right);
     }
 
     public function pExpr_ShiftLeft(PHPParser_Node_Expr_ShiftLeft $node) {
-        return $this->p($node->left) . ' << ' . $this->p($node->right);
+        return $this->pInfixOp('Expr_ShiftLeft', $node->left, ' << ', $node->right);
     }
 
     public function pExpr_ShiftRight(PHPParser_Node_Expr_ShiftRight $node) {
-        return $this->p($node->left) . ' >> ' . $this->p($node->right);
+        return $this->pInfixOp('Expr_ShiftRight', $node->left, ' >> ', $node->right);
     }
 
     public function pExpr_LogicalAnd(PHPParser_Node_Expr_LogicalAnd $node) {
-        return $this->p($node->left) . ' and ' . $this->p($node->right);
+        return $this->pInfixOp('Expr_LogicalAnd', $node->left, ' and ', $node->right);
     }
 
     public function pExpr_LogicalOr(PHPParser_Node_Expr_LogicalOr $node) {
-        return $this->p($node->left) . ' or ' . $this->p($node->right);
+        return $this->pInfixOp('Expr_LogicalOr', $node->left, ' or ', $node->right);
     }
 
     public function pExpr_LogicalXor(PHPParser_Node_Expr_LogicalXor $node) {
-        return $this->p($node->left) . ' xor ' . $this->p($node->right);
+        return $this->pInfixOp('Expr_LogicalXor', $node->left, ' xor ', $node->right);
     }
 
     public function pExpr_Equal(PHPParser_Node_Expr_Equal $node) {
-        return $this->p($node->left) . ' == ' . $this->p($node->right);
+        return $this->pInfixOp('Expr_Equal', $node->left, ' == ', $node->right);
     }
 
     public function pExpr_NotEqual(PHPParser_Node_Expr_NotEqual $node) {
-        return $this->p($node->left) . ' != ' . $this->p($node->right);
+        return $this->pInfixOp('Expr_NotEqual', $node->left, ' != ', $node->right);
     }
 
     public function pExpr_Identical(PHPParser_Node_Expr_Identical $node) {
-        return $this->p($node->left) . ' === ' . $this->p($node->right);
+        return $this->pInfixOp('Expr_Identical', $node->left, ' === ', $node->right);
     }
 
     public function pExpr_NotIdentical(PHPParser_Node_Expr_NotIdentical $node) {
-        return $this->p($node->left) . ' !== ' . $this->p($node->right);
+        return $this->pInfixOp('Expr_NotIdentical', $node->left, ' !== ', $node->right);
     }
 
     public function pExpr_Greater(PHPParser_Node_Expr_Greater $node) {
-        return $this->p($node->left) . ' > ' . $this->p($node->right);
+        return $this->pInfixOp('Expr_Greater', $node->left, ' > ', $node->right);
     }
 
     public function pExpr_GreaterOrEqual(PHPParser_Node_Expr_GreaterOrEqual $node) {
-        return $this->p($node->left) . ' >= ' . $this->p($node->right);
+        return $this->pInfixOp('Expr_GreaterOrEqual', $node->left, ' >= ', $node->right);
     }
 
     public function pExpr_Smaller(PHPParser_Node_Expr_Smaller $node) {
-        return $this->p($node->left) . ' < ' . $this->p($node->right);
+        return $this->pInfixOp('Expr_Smaller', $node->left, ' < ', $node->right);
     }
 
     public function pExpr_SmallerOrEqual(PHPParser_Node_Expr_SmallerOrEqual $node) {
-        return $this->p($node->left) . ' <= ' . $this->p($node->right);
+        return $this->pInfixOp('Expr_SmallerOrEqual', $node->left, ' <= ', $node->right);
     }
 
     public function pExpr_Instanceof(PHPParser_Node_Expr_Instanceof $node) {
-        return $this->p($node->expr) . ' instanceof ' . $this->p($node->class);
+        return $this->pInfixOp('Expr_Instanceof', $node->expr, ' instanceof ', $node->class);
     }
 
     // Unary expressions
 
     public function pExpr_BooleanNot(PHPParser_Node_Expr_BooleanNot $node) {
-        return '!' . $this->p($node->expr);
+        return $this->pPrefixOp('Expr_BooleanNot', '!', $node->expr);
     }
 
     public function pExpr_BitwiseNot(PHPParser_Node_Expr_BitwiseNot $node) {
-        return '~' . $this->p($node->expr);
+        return $this->pPrefixOp('Expr_BitwiseNot', '~', $node->expr);
     }
 
     public function pExpr_UnaryMinus(PHPParser_Node_Expr_UnaryMinus $node) {
-        return '-' . $this->p($node->expr);
+        return $this->pPrefixOp('Expr_UnaryMinus', '-', $node->expr);
     }
 
     public function pExpr_UnaryPlus(PHPParser_Node_Expr_UnaryPlus $node) {
-        return '+' . $this->p($node->expr);
+        return $this->pPrefixOp('Expr_UnaryPlus', '+', $node->expr);
     }
 
     public function pExpr_PreInc(PHPParser_Node_Expr_PreInc $node) {
-        return '++' . $this->p($node->var);
+        return $this->pPrefixOp('Expr_PreInc', '++', $node->var);
     }
 
     public function pExpr_PreDec(PHPParser_Node_Expr_PreDec $node) {
-        return '--' . $this->p($node->var);
+        return $this->pPrefixOp('Expr_PreDec', '--', $node->var);
     }
 
     public function pExpr_PostInc(PHPParser_Node_Expr_PostInc $node) {
-        return $this->p($node->var) . '++';
+        return $this->pPostfixOp('Expr_PostInc', $node->var, '++');
     }
 
     public function pExpr_PostDec(PHPParser_Node_Expr_PostDec $node) {
-        return $this->p($node->var) . '--';
+        return $this->pPostfixOp('Expr_PostDec', $node->var, '--');
     }
 
     public function pExpr_ErrorSuppress(PHPParser_Node_Expr_ErrorSuppress $node) {
-        return '@' . $this->p($node->expr);
+        return $this->pPrefixOp('Expr_ErrorSuppress', '@', $node->expr);
     }
 
     // Casts
 
     public function pExpr_Cast_Int(PHPParser_Node_Expr_Cast_Int $node) {
-        return '(int) ' . $this->p($node->expr);
+        return $this->pPrefixOp('Expr_Cast_Int', '(int) ', $node->expr);
     }
 
     public function pExpr_Cast_Double(PHPParser_Node_Expr_Cast_Double $node) {
-        return '(double) ' . $this->p($node->expr);
+        return $this->pPrefixOp('Expr_Cast_Double', '(double) ', $node->expr);
     }
 
     public function pExpr_Cast_String(PHPParser_Node_Expr_Cast_String $node) {
-        return '(string) ' . $this->p($node->expr);
+        return $this->pPrefixOp('Expr_Cast_String', '(string) ', $node->expr);
     }
 
     public function pExpr_Cast_Array(PHPParser_Node_Expr_Cast_Array $node) {
-        return '(array) ' . $this->p($node->expr);
+        return $this->pPrefixOp('Expr_Cast_Array', '(array) ', $node->expr);
     }
 
     public function pExpr_Cast_Object(PHPParser_Node_Expr_Cast_Object $node) {
-        return '(object) ' . $this->p($node->expr);
+        return $this->pPrefixOp('Expr_Cast_Object', '(object) ', $node->expr);
     }
 
     public function pExpr_Cast_Bool(PHPParser_Node_Expr_Cast_Bool $node) {
-        return '(bool) ' . $this->p($node->expr);
+        return $this->pPrefixOp('Expr_Cast_Bool', '(bool) ', $node->expr);
     }
 
     public function pExpr_Cast_Unset(PHPParser_Node_Expr_Cast_Unset $node) {
-        return '(unset) ' . $this->p($node->expr);
+        return $this->pPrefixOp('Expr_Cast_Unset', '(unset) ', $node->expr);
     }
 
     // Function calls and similar constructs
@@ -439,9 +439,11 @@ class PHPParser_PrettyPrinter_Zend extends PHPParser_PrettyPrinterAbstract
     }
 
     public function pExpr_Ternary(PHPParser_Node_Expr_Ternary $node) {
-        return $this->p($node->cond) . ' ?'
-             . (null !== $node->if ? ' ' . $this->p($node->if) . ' ' : '')
-             . ': ' . $this->p($node->else);
+        // a bit of cheating: we treat the ternary as a binary op where the ?...: part is the operator.
+        // this is okay because the part between ? and : never needs parentheses.
+        return $this->pInfixOp('Expr_Ternary',
+            $node->cond, ' ?' . (null !== $node->if ? ' ' . $this->p($node->if) . ' ' : '') . ': ', $node->else
+        );
     }
 
     public function pExpr_Exit(PHPParser_Node_Expr_Exit $node) {
