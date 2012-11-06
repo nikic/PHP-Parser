@@ -35,7 +35,7 @@ abstract class PHPParser_BuilderAbstract implements PHPParser_Builder {
 
     /**
      * Normalizes a value: Converts nulls, booleans, integers,
-     * floats and strings into their respective nodes
+     * floats, strings and arrays into their respective nodes
      *
      * @param mixed $value The value to normalize
      *
