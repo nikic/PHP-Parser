@@ -96,6 +96,8 @@ class PHPParser_NodeVisitor_NameResolver extends PHPParser_NodeVisitorAbstract
             return $name;
         }
 
+        $origName = clone $name;
+
         // resolve aliases (for non-relative names)
         if (!$name->isRelative() && isset($this->aliases[$name->getFirst()])) {
             $name->setFirst($this->aliases[$name->getFirst()]);
@@ -104,7 +106,10 @@ class PHPParser_NodeVisitor_NameResolver extends PHPParser_NodeVisitorAbstract
             $name->prepend($this->namespace);
         }
 
-        return new PHPParser_Node_Name_FullyQualified($name->parts, $name->getAttributes());
+        $fqn = new PHPParser_Node_Name_FullyQualified($name->parts, $name->getAttributes());
+        $fqn->setAttribute('original_name', $origName);
+
+        return $fqn;
     }
 
     protected function resolveOtherName(PHPParser_Node_Name $name) {
@@ -114,6 +119,8 @@ class PHPParser_NodeVisitor_NameResolver extends PHPParser_NodeVisitorAbstract
             return $name;
         }
 
+        $origName = clone $name;
+
         // resolve aliases for qualified names
         if ($name->isQualified() && isset($this->aliases[$name->getFirst()])) {
             $name->setFirst($this->aliases[$name->getFirst()]);
@@ -122,7 +129,10 @@ class PHPParser_NodeVisitor_NameResolver extends PHPParser_NodeVisitorAbstract
             $name->prepend($this->namespace);
         }
 
-        return new PHPParser_Node_Name_FullyQualified($name->parts, $name->getAttributes());
+        $fqn = new PHPParser_Node_Name_FullyQualified($name->parts, $name->getAttributes());
+        $fqn->setAttribute('original_name', $origName);
+
+        return $fqn;
     }
 
     protected function addNamespacedName(PHPParser_Node $node) {
