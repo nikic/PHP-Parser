@@ -194,8 +194,11 @@ class #(-p)
                 $yyn = self::$yydefault[$state];
             } else {
                 if ($tokenId === self::TOKEN_NONE) {
-                    // fetch the next token id from the lexer and fetch additional info by-ref
-                    $origTokenId = $this->lexer->getNextToken($tokenValue, $startAttributes, $endAttributes);
+                    // Fetch the next token id from the lexer and fetch additional info by-ref.
+                    // The end attributes are fetched into a temporary variable and only set once the token is really
+                    // shifted (not during read). Otherwise you would sometimes get off-by-one errors, when a rule is
+                    // reduced after a token was read but not yet shifted.
+                    $origTokenId = $this->lexer->getNextToken($tokenValue, $startAttributes, $nextEndAttributes);
 
                     // map the lexer token id to the internally used token id's
                     $tokenId = $origTokenId >= 0 && $origTokenId < self::TOKEN_MAP_SIZE
@@ -241,6 +244,7 @@ class #(-p)
                         $stateStack[$this->stackPos]     = $state = $yyn;
                         $this->yyastk[$this->stackPos]   = $tokenValue;
                         $attributeStack[$this->stackPos] = $startAttributes;
+                        $endAttributes = $nextEndAttributes;
                         $tokenId = self::TOKEN_NONE;
 
                         if ($yyn < self::YYNLSTATES)
