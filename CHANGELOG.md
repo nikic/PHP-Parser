@@ -1,12 +1,15 @@
 Version 0.9.3-dev
 -----------------
 
+
 * [BC] As `list()` in `foreach` is now supported the structure of list assignments changed:
 
   1. There is no longer a dedicated `AssignList` node; instead a normal `Assign` node is used with a `List` as  `var`.
   2. Nested lists are now `List` nodes too, instead of just arrays.
 
 * [BC] As arbitrary expressions are allowed in `empty()` now its subnode was renamed from `var` to `expr`.
+
+* [BC] The protected `pSafe()` method in `PrettyPrinterAbstract` was renamed to `pNoIndent()`.
 
 * [PHP 5.5] Add support for arbitrary expressions in `empty()`.
 
@@ -22,7 +25,19 @@ Version 0.9.3-dev
 * [PHP 5.5] Add support for `list()` destructuring of `foreach` values.
   Example: `foreach ($coords as list($x, $y)) { ... }`
 
+* Improve pretty printing of expressions by printing less unnecessary parentheses. In particular concatenations are now
+  printed as `$a . $b . $c . $d . $e` rather than `$a . ($b . ($c . ($d . $e)))`. This is implemented by taking operator
+  associativity into account. New protected methods added to the pretty printer are `pPrec()`, `pInfixOp()`,
+  `pPrefixOp()` and `pPostfixOp()`. This also fixes an issue with extraneous parentheses in closure bodies.
+
+* Fix formatting of fall-through `case` statements in the Zend pretty printer.
+
 * Fix parsing of `$foo =& new Bar`. It is now properly parsed as `AssignRef` (instead of `Assign`).
+
+* Fix assignment of `$endAttributes`. Sometimes the attributes of the token right after the node were assigned, rather
+  than the attributes of the last token in the node.
+
+* `rebuildParser.php` is now designed to be run from the command line rather than from the browser.
 
 Version 0.9.2 (07.07.2012)
 --------------------------
