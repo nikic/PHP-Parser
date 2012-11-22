@@ -1,6 +1,10 @@
-Version 0.9.3-dev
+Version 0.9.4-dev
 -----------------
 
+Nothing yet.
+
+Version 0.9.3 (22.11.2012)
+--------------------------
 
 * [BC] As `list()` in `foreach` is now supported the structure of list assignments changed:
 
