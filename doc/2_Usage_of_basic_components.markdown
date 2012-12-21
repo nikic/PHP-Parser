@@ -288,16 +288,11 @@ $prettyPrinter = new PHPParser_PrettyPrinter_Zend;
 $traverser->addVisitor(new PHPParser_NodeVisitor_NameResolver); // we will need resolved names
 $traverser->addVisitor(new NodeVisitor_NamespaceConverter);     // our own node visitor
 
-// iterate over all files in the directory
-foreach (new RecursiveIteratorIterator(
-             new RecursiveDirectoryIterator(IN_DIR),
-             RecursiveIteratorIterator::LEAVES_ONLY)
-         as $file) {
-    // only convert .php files
-    if (!preg_match('~\.php$~', $file)) {
-        continue;
-    }
+// iterate over all .php files in the directory
+$files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator(IN_DIR));
+$files = new RegexIterator($files, '/\.php$/');
 
+foreach ($files as $file) {
     try {
         // read the file that should be converted
         $code = file_get_contents($file);

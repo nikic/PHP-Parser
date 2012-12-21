@@ -8,8 +8,8 @@ Version 0.9.3 (22.11.2012)
 
 * [BC] As `list()` in `foreach` is now supported the structure of list assignments changed:
 
-  1. There is no longer a dedicated `AssignList` node; instead a normal `Assign` node is used with a `List` as  `var`.
-  2. Nested lists are now `List` nodes too, instead of just arrays.
+   1. There is no longer a dedicated `AssignList` node; instead a normal `Assign` node is used with a `List` as  `var`.
+   2. Nested lists are now `List` nodes too, instead of just arrays.
 
 * [BC] As arbitrary expressions are allowed in `empty()` now its subnode was renamed from `var` to `expr`.
 

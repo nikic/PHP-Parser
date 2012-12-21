@@ -939,7 +939,7 @@ class PHPParser_Parser
      *
      * @param string $code The source code to parse
      *
-     * @return array Array of statements
+     * @return PHPParser_Node[] Array of statements
      */
     public function parse($code) {
         $this->lexer->startLexing($code);
