@@ -289,14 +289,12 @@ $traverser->addVisitor(new PHPParser_NodeVisitor_NameResolver); // we will need 
 $traverser->addVisitor(new NodeVisitor_NamespaceConverter);     // our own node visitor
 
 // iterate over all files in the directory
-foreach (new RecursiveIteratorIterator(
-             new RecursiveDirectoryIterator(IN_DIR),
-             RecursiveIteratorIterator::LEAVES_ONLY)
+foreach (new RegexIterator(
+             new RecursiveIteratorIterator(
+                 new RecursiveDirectoryIterator(IN_DIR),
+                 RecursiveIteratorIterator::LEAVES_ONLY),
+             '/\.php$/')
          as $file) {
-    // only convert .php files
-    if (!preg_match('~\.php$~', $file)) {
-        continue;
-    }
 
     try {
         // read the file that should be converted
