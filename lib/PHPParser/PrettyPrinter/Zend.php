@@ -2,6 +2,13 @@
 
 class PHPParser_PrettyPrinter_Zend extends PHPParser_PrettyPrinterAbstract
 {
+    private $preserveOriginalNames = false;
+
+    public function setPreserveOriginalNames($bool)
+    {
+        $this->preserveOriginalNames = (boolean) $bool;
+    }
+
     // Special nodes
 
     public function pParam(PHPParser_Node_Param $node) {
@@ -26,6 +33,12 @@ class PHPParser_PrettyPrinter_Zend extends PHPParser_PrettyPrinterAbstract
     }
 
     public function pName_FullyQualified(PHPParser_Node_Name_FullyQualified $node) {
+        // Print out the name that was originally present in the source document
+        // if we replaced it during parsing.
+        if ($this->preserveOriginalNames && null !== $origName = $node->getAttribute('original_name')) {
+            return $this->p($origName);
+        }
+
         return '\\' . implode('\\', $node->parts);
     }
 

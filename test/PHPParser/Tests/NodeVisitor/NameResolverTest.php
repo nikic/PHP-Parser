@@ -84,6 +84,50 @@ EOC;
         $this->assertEquals($expectedCode, $prettyPrinter->prettyPrint($stmts));
     }
 
+    public function testPreservesOriginalName()
+    {
+        $code = <<<EOC
+<?php
+
+namespace Foo;
+
+class A { }
+
+namespace Bar;
+
+use Foo\A as Baz;
+
+class A extends Baz { }
+EOC;
+
+        $expectedCode = <<<EOC
+namespace Foo {
+    class A
+    {
+        
+    }
+}
+namespace Bar {
+    use Foo\A as Baz;
+    class A extends Baz
+    {
+        
+    }
+}
+EOC;
+
+        $parser        = new PHPParser_Parser(new PHPParser_Lexer_Emulative);
+        $prettyPrinter = new PHPParser_PrettyPrinter_Zend;
+        $prettyPrinter->setPreserveOriginalNames(true);
+        $traverser     = new PHPParser_NodeTraverser;
+        $traverser->addVisitor(new PHPParser_NodeVisitor_NameResolver);
+
+        $stmts = $parser->parse($code);
+        $stmts = $traverser->traverse($stmts);
+
+        $this->assertEquals($expectedCode, $prettyPrinter->prettyPrint($stmts));
+    }
+
     /**
      * @covers PHPParser_NodeVisitor_NameResolver
      */
