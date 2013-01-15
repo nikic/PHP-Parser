@@ -2,7 +2,8 @@ Comments
 -----
 <?php
 
-namespace JustForIndentation {
+function justForIndentation()
+{
     // Some text
     # Some text
     /* Some text */
@@ -28,7 +29,8 @@ namespace JustForIndentation {
 }
 
 -----
-namespace JustForIndentation {
+function justForIndentation()
+{
     // Some text
     # Some text
     /* Some text */

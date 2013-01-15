@@ -90,53 +90,53 @@ EOC;
     public function testResolveLocations() {
         $code = <<<EOC
 <?php
-namespace NS {
-    class A extends B implements C {
-        use A;
-    }
+namespace NS;
 
-    interface A extends C {
-        public function a(A \$a);
-    }
+class A extends B implements C {
+    use A;
+}
 
-    A::b();
-    A::\$b;
-    A::B;
-    new A;
-    \$a instanceof A;
+interface A extends C {
+    public function a(A \$a);
+}
 
-    namespace\a();
-    namespace\A;
+A::b();
+A::\$b;
+A::B;
+new A;
+\$a instanceof A;
 
-    try {
-        \$someThing;
-    } catch (A \$a) {
-        \$someThingElse;
-    }
+namespace\a();
+namespace\A;
+
+try {
+    \$someThing;
+} catch (A \$a) {
+    \$someThingElse;
 }
 EOC;
         $expectedCode = <<<EOC
-namespace NS {
-    class A extends \\NS\\B implements \\NS\\C
-    {
-        use \\NS\\A;
-    }
-    interface A extends \\NS\\C
-    {
-        public function a(\\NS\\A \$a);
-    }
-    \\NS\\A::b();
-    \\NS\\A::\$b;
-    \\NS\\A::B;
-    new \\NS\\A();
-    \$a instanceof \\NS\\A;
-    \\NS\\a();
-    \\NS\\A;
-    try {
-        \$someThing;
-    } catch (\\NS\\A \$a) {
-        \$someThingElse;
-    }
+namespace NS;
+
+class A extends \\NS\\B implements \\NS\\C
+{
+    use \\NS\\A;
+}
+interface A extends \\NS\\C
+{
+    public function a(\\NS\\A \$a);
+}
+\\NS\\A::b();
+\\NS\\A::\$b;
+\\NS\\A::B;
+new \\NS\\A();
+\$a instanceof \\NS\\A;
+\\NS\\a();
+\\NS\\A;
+try {
+    \$someThing;
+} catch (\\NS\\A \$a) {
+    \$someThingElse;
 }
 EOC;
 

@@ -465,8 +465,12 @@ class PHPParser_PrettyPrinter_Default extends PHPParser_PrettyPrinterAbstract
     // Declarations
 
     public function pStmt_Namespace(PHPParser_Node_Stmt_Namespace $node) {
-        return 'namespace' . (null !== $node->name ? ' ' . $this->p($node->name) : '')
-             . ' {' . "\n" . $this->pStmts($node->stmts) . "\n" . '}';
+        if ($this->canUseSemicolonNamespaces) {
+            return 'namespace ' . $this->p($node->name) . ';' . "\n\n" . $this->pStmts($node->stmts, false);
+        } else {
+            return 'namespace' . (null !== $node->name ? ' ' . $this->p($node->name) : '')
+                 . ' {' . "\n" . $this->pStmts($node->stmts) . "\n" . '}';
+        }
     }
 
     public function pStmt_Use(PHPParser_Node_Stmt_Use $node) {

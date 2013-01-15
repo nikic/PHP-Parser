@@ -63,9 +63,10 @@ abstract class PHPParser_PrettyPrinterAbstract
     );
 
     protected $noIndentToken;
+    protected $canUseSemicolonNamespaces;
 
     public function __construct() {
-        $this->noIndentToken   = uniqid('_NO_INDENT_');
+        $this->noIndentToken = uniqid('_NO_INDENT_');
     }
 
     /**
@@ -76,6 +77,8 @@ abstract class PHPParser_PrettyPrinterAbstract
      * @return string Pretty printed nodes
      */
     public function prettyPrint(array $nodes) {
+        $this->preprocessNodes($nodes);
+
         return str_replace("\n" . $this->noIndentToken, "\n", $this->pStmts($nodes, false));
     }
 
@@ -88,6 +91,21 @@ abstract class PHPParser_PrettyPrinterAbstract
      */
     public function prettyPrintExpr(PHPParser_Node_Expr $node) {
         return str_replace("\n" . $this->noIndentToken, "\n", $this->p($node));
+    }
+
+    /**
+     * Preprocesses the top-level nodes to initialize pretty printer state.
+     *
+     * @param PHPParser_Node[] $nodes Array of nodes
+     */
+    protected function preprocessNodes(array $nodes) {
+        /* We can use semicolon-namespaces unless there is a global namespace declaration */
+        $this->canUseSemicolonNamespaces = true;
+        foreach ($nodes as $node) {
+            if ($node instanceof PHPParser_Node_Stmt_Namespace && null === $node->name) {
+                $this->canUseSemicolonNamespaces = false;
+            }
+        }
     }
 
     /**
@@ -201,7 +219,7 @@ abstract class PHPParser_PrettyPrinterAbstract
     }
 
     /**
-     * Signifies the pretty printer that a string shall not be indented.
+     * Signals the pretty printer that a string shall not be indented.
      *
      * @param string $string Not to be indented string
      *

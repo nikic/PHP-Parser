@@ -11,6 +11,9 @@ Version 0.9.4-dev
   very loosely applies the Zend Coding Standard. The class `PHPParser_PrettyPrinter_Zend` extends
   `PHPParser_PrettyPrinter_Default` to maintain backwards compatibility.
 
+* The pretty printer now prints namespaces in semicolon-style if possible (i.e. if the file does not contain a global
+  namespace declaration).
+
 Version 0.9.3 (22.11.2012)
 --------------------------
 
