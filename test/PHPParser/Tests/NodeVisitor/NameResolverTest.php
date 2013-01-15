@@ -74,7 +74,7 @@ namespace {
 EOC;
 
         $parser        = new PHPParser_Parser(new PHPParser_Lexer_Emulative);
-        $prettyPrinter = new PHPParser_PrettyPrinter_Zend;
+        $prettyPrinter = new PHPParser_PrettyPrinter_Default;
         $traverser     = new PHPParser_NodeTraverser;
         $traverser->addVisitor(new PHPParser_NodeVisitor_NameResolver);
 
@@ -141,7 +141,7 @@ namespace NS {
 EOC;
 
         $parser        = new PHPParser_Parser(new PHPParser_Lexer_Emulative);
-        $prettyPrinter = new PHPParser_PrettyPrinter_Zend;
+        $prettyPrinter = new PHPParser_PrettyPrinter_Default;
         $traverser     = new PHPParser_NodeTraverser;
         $traverser->addVisitor(new PHPParser_NodeVisitor_NameResolver);
 

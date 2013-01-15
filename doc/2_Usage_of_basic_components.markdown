@@ -121,15 +121,14 @@ Pretty printer
 
 The pretty printer component compiles the AST back to PHP code. As the parser does not retain formatting
 information the formatting is done using a specified scheme. Currently there is only one scheme available,
-namely `PHPParser_PrettyPrinter_Zend` (the name "Zend" might be misleading. It does not strictly adhere
-to the Zend Coding Standard.)
+namely `PHPParser_PrettyPrinter_Default`.
 
 ```php
 <?php
 $code = "<?php echo 'Hi ', hi\\getTarget();";
 
 $parser        = new PHPParser_Parser(new PHPParser_Lexer);
-$prettyPrinter = new PHPParser_PrettyPrinter_Zend;
+$prettyPrinter = new PHPParser_PrettyPrinter_Default;
 
 try {
     // parse
@@ -156,7 +155,7 @@ The above code will output:
     <?php echo 'Hallo ', hi\getTarget();
 
 As you can see the source code was first parsed using `PHPParser_Parser->parse`, then changed and then
-again converted to code using `PHPParser_PrettyPrinter_Zend->prettyPrint`.
+again converted to code using `PHPParser_PrettyPrinter_Default->prettyPrint`.
 
 The `prettyPrint` method pretty prints a statements array. It is also possible to pretty print only a
 single expression using `prettyPrintExpr`.
@@ -178,7 +177,7 @@ $code = "<?php // some code";
 
 $parser        = new PHPParser_Parser(new PHPParser_Lexer);
 $traverser     = new PHPParser_NodeTraverser;
-$prettyPrinter = new PHPParser_PrettyPrinter_Zend;
+$prettyPrinter = new PHPParser_PrettyPrinter_Default;
 
 // add your visitor
 $traverser->addVisitor(new MyNodeVisitor);
@@ -283,7 +282,7 @@ const OUT_DIR = '/some/other/path';
 // use the emulative lexer here, as we are running PHP 5.2 but want to parse PHP 5.3
 $parser        = new PHPParser_Parser(new PHPParser_Lexer_Emulative);
 $traverser     = new PHPParser_NodeTraverser;
-$prettyPrinter = new PHPParser_PrettyPrinter_Zend;
+$prettyPrinter = new PHPParser_PrettyPrinter_Default;
 
 $traverser->addVisitor(new PHPParser_NodeVisitor_NameResolver); // we will need resolved names
 $traverser->addVisitor(new NodeVisitor_NamespaceConverter);     // our own node visitor

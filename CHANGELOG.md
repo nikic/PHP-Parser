@@ -7,6 +7,10 @@ Version 0.9.4-dev
         Old: Unexpected token T_STATIC on line 1
         New: Syntax error, unexpected T_STATIC, expecting T_STRING or T_NS_SEPARATOR or '{'
 
+* `PHPParser_PrettyPrinter_Zend` was renamed to `PHPParser_PrettyPrinter_Default` as the default pretty printer only
+  very loosely applies the Zend Coding Standard. The class `PHPParser_PrettyPrinter_Zend` extends
+  `PHPParser_PrettyPrinter_Default` to maintain backwards compatibility.
+
 Version 0.9.3 (22.11.2012)
 --------------------------
 

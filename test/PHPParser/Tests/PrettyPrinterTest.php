@@ -10,7 +10,7 @@ class PHPParser_Tests_PrettyPrinterTest extends PHPParser_Tests_CodeTestAbstract
      */
     public function testPrettyPrint($name, $code, $dump) {
         $parser = new PHPParser_Parser(new PHPParser_Lexer_Emulative);
-        $prettyPrinter = new PHPParser_PrettyPrinter_Zend;
+        $prettyPrinter = new PHPParser_PrettyPrinter_Default;
 
         $stmts = $parser->parse($code);
         $this->assertEquals(

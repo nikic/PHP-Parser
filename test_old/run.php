@@ -69,7 +69,7 @@ require_once dirname(__FILE__) . '/../lib/PHPParser/Autoloader.php';
 PHPParser_Autoloader::register();
 
 $parser        = new PHPParser_Parser(new PHPParser_Lexer_Emulative);
-$prettyPrinter = new PHPParser_PrettyPrinter_Zend;
+$prettyPrinter = new PHPParser_PrettyPrinter_Default;
 $nodeDumper    = new PHPParser_NodeDumper;
 
 $parseFail = $ppFail = $compareFail = $count = 0;
