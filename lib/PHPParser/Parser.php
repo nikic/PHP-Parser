@@ -1068,8 +1068,35 @@ class PHPParser_Parser
                     $attributeStack[$this->stackPos] = $startAttributes;
                 } else {
                     /* error */
+                    $expected = array();
+
+                    $base = self::$yybase[$state];
+                    for ($i = 0; $i < self::TOKEN_MAP_SIZE; ++$i) {
+                        $n = $base + $i;
+                        if ($n >= 0 && $n < self::YYLAST && self::$yycheck[$n] == $i
+                         || $state < self::YY2TBLSTATE
+                            && ($n = self::$yybase[$state + self::YYNLSTATES] + $i)
+                            && $n < self::YYLAST && self::$yycheck[$n] == $i
+                        ) {
+                            if (self::$yyaction[$n] != self::YYUNEXPECTED) {
+                                if (count($expected) == 4) {
+                                    /* Too many expected tokens */
+                                    $expected = array();
+                                    break;
+                                }
+
+                                $expected[] = self::$terminals[$i];
+                            }
+                        }
+                    }
+
+                    $expectedString = '';
+                    if ($expected) {
+                        $expectedString = ', expecting ' . implode(' or ', $expected);
+                    }
+
                     throw new PHPParser_Error(
-                        'Unexpected token ' . self::$terminals[$tokenId],
+                        'Syntax error, unexpected ' . self::$terminals[$tokenId] . $expectedString,
                         $startAttributes['startLine']
                     );
                 }

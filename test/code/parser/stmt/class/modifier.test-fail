@@ -26,4 +26,4 @@ Cannot use the final and abstract modifier at the same time on line 1
 -----
 <?php abstract final class A { }
 -----
-Unexpected token T_FINAL on line 1
+Syntax error, unexpected T_FINAL, expecting T_CLASS on line 1

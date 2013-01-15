@@ -10,7 +10,7 @@ Cannot use "parent" as class name as it is reserved on line 1
 -----
 <?php class static {}
 -----
-Unexpected token T_STATIC on line 1
+Syntax error, unexpected T_STATIC, expecting T_STRING on line 1
 -----
 <?php class A extends self {}
 -----
@@ -22,7 +22,7 @@ Cannot use "parent" as class name as it is reserved on line 1
 -----
 <?php class A extends static {}
 -----
-Unexpected token T_STATIC on line 1
+Syntax error, unexpected T_STATIC, expecting T_STRING or T_NAMESPACE or T_NS_SEPARATOR on line 1
 -----
 <?php class A implements self {}
 -----
@@ -34,7 +34,7 @@ Cannot use "parent" as interface name as it is reserved on line 1
 -----
 <?php class A implements static {}
 -----
-Unexpected token T_STATIC on line 1
+Syntax error, unexpected T_STATIC, expecting T_STRING or T_NAMESPACE or T_NS_SEPARATOR on line 1
 -----
 <?php interface self {}
 -----
@@ -46,7 +46,7 @@ Cannot use "parent" as interface name as it is reserved on line 1
 -----
 <?php interface static {}
 -----
-Unexpected token T_STATIC on line 1
+Syntax error, unexpected T_STATIC, expecting T_STRING on line 1
 -----
 <?php interface A extends self {}
 -----
@@ -58,4 +58,4 @@ Cannot use "parent" as interface name as it is reserved on line 1
 -----
 <?php interface A extends static {}
 -----
-Unexpected token T_STATIC on line 1
+Syntax error, unexpected T_STATIC, expecting T_STRING or T_NAMESPACE or T_NS_SEPARATOR on line 1

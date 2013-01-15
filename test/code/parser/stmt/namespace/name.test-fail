@@ -10,7 +10,7 @@ Cannot use "parent" as namespace name as it is reserved on line 1
 -----
 <?php namespace static;
 -----
-Unexpected token T_STATIC on line 1
+Syntax error, unexpected T_STATIC, expecting T_STRING or T_NS_SEPARATOR or '{' on line 1
 -----
 <?php use A as self;
 -----
@@ -22,4 +22,4 @@ Cannot use "B" as "parent" because "parent" is a special class name on line 1
 -----
 <?php use C as static;
 -----
-Unexpected token T_STATIC on line 1
+Syntax error, unexpected T_STATIC, expecting T_STRING on line 1

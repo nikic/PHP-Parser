@@ -1,7 +1,11 @@
 Version 0.9.4-dev
 -----------------
 
-Nothing yet.
+* Syntax errors now include information on expected tokens and mimic the format of PHP's own (pre 5.4) error messages.
+  Example:
+
+        Old: Unexpected token T_STATIC on line 1
+        New: Syntax error, unexpected T_STATIC, expecting T_STRING or T_NS_SEPARATOR or '{'
 
 Version 0.9.3 (22.11.2012)
 --------------------------
