@@ -5,13 +5,13 @@ Final class
 final class A {}
 -----
 array(
-    0: Stmt_Class(
-        type: 32
-        extends: null
-        implements: array(
-        )
-        stmts: array(
-        )
-        name: A
-    )
+		0: Stmt_Class(
+				type: 32
+				extends: null
+				implements: array(
+				)
+				stmts: array(
+				)
+				name: A
+		)
 )

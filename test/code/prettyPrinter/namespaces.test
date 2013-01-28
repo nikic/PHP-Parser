@@ -32,27 +32,27 @@ function bar()
 <?php
 
 namespace Foo {
-    function foo()
-    {
+		function foo()
+		{
 
-    }
+		}
 }
 
 namespace {
-    function glob() {
+		function glob() {
 
-    }
+		}
 }
 -----
 namespace Foo {
-    function foo()
-    {
+		function foo()
+		{
 
-    }
+		}
 }
 namespace {
-    function glob()
-    {
+		function glob()
+		{
 
-    }
+		}
 }

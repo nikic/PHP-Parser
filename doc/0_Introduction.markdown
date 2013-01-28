@@ -43,16 +43,16 @@ roughly looking like this:
 
 ```
 array(
-    0: Stmt_Echo(
-        exprs: array(
-            0: Scalar_String(
-                value: Hi
-            )
-            1: Scalar_String(
-                value: World
-            )
-        )
-    )
+		0: Stmt_Echo(
+				exprs: array(
+						0: Scalar_String(
+								value: Hi
+						)
+						1: Scalar_String(
+								value: World
+						)
+				)
+		)
 )
 ```
 
@@ -68,11 +68,11 @@ What else can it do?
 Apart from the parser itself this package also bundles support for some other, related features:
 
  * Support for pretty printing, which is the act of converting an AST into PHP code. Please note
-   that "pretty printing" does not imply that the output is especially pretty. It's just how it's
-   called ;)
+	 that "pretty printing" does not imply that the output is especially pretty. It's just how it's
+	 called ;)
  * Support for serializing and unserializing the node tree to XML
  * Support for dumping the node tree in a human readable form (see the section above for an
-   example of how the output looks like)
+	 example of how the output looks like)
  * Infrastructure for traversing and changing the AST (node traverser and node visitors)
  * A node visitor for resolving namespaced names
 

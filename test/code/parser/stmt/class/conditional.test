@@ -3,31 +3,31 @@ Conditional class definition
 <?php
 
 if (true) {
-    class A {}
+		class A {}
 }
 -----
 array(
-    0: Stmt_If(
-        stmts: array(
-            0: Stmt_Class(
-                type: 0
-                extends: null
-                implements: array(
-                )
-                stmts: array(
-                )
-                name: A
-            )
-        )
-        elseifs: array(
-        )
-        else: null
-        cond: Expr_ConstFetch(
-            name: Name(
-                parts: array(
-                    0: true
-                )
-            )
-        )
-    )
+		0: Stmt_If(
+				stmts: array(
+						0: Stmt_Class(
+								type: 0
+								extends: null
+								implements: array(
+								)
+								stmts: array(
+								)
+								name: A
+						)
+				)
+				elseifs: array(
+				)
+				else: null
+				cond: Expr_ConstFetch(
+						name: Name(
+								parts: array(
+										0: true
+								)
+						)
+				)
+		)
 )

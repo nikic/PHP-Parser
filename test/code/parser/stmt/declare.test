@@ -8,40 +8,40 @@ declare (A='B', C='D'):
 enddeclare;
 -----
 array(
-    0: Stmt_Declare(
-        declares: array(
-            0: Stmt_DeclareDeclare(
-                key: A
-                value: Scalar_String(
-                    value: B
-                )
-            )
-            1: Stmt_DeclareDeclare(
-                key: C
-                value: Scalar_String(
-                    value: D
-                )
-            )
-        )
-        stmts: array(
-        )
-    )
-    1: Stmt_Declare(
-        declares: array(
-            0: Stmt_DeclareDeclare(
-                key: A
-                value: Scalar_String(
-                    value: B
-                )
-            )
-            1: Stmt_DeclareDeclare(
-                key: C
-                value: Scalar_String(
-                    value: D
-                )
-            )
-        )
-        stmts: array(
-        )
-    )
+		0: Stmt_Declare(
+				declares: array(
+						0: Stmt_DeclareDeclare(
+								key: A
+								value: Scalar_String(
+										value: B
+								)
+						)
+						1: Stmt_DeclareDeclare(
+								key: C
+								value: Scalar_String(
+										value: D
+								)
+						)
+				)
+				stmts: array(
+				)
+		)
+		1: Stmt_Declare(
+				declares: array(
+						0: Stmt_DeclareDeclare(
+								key: A
+								value: Scalar_String(
+										value: B
+								)
+						)
+						1: Stmt_DeclareDeclare(
+								key: C
+								value: Scalar_String(
+										value: D
+								)
+						)
+				)
+				stmts: array(
+				)
+		)
 )

@@ -13,34 +13,34 @@ Installing via Composer
 
 Create a `composer.json` file in your project root and use it to define your dependencies:
 
-    {
-        "require": {
-            "nikic/php-parser": "0.9.3"
-        }
-    }
+		{
+				"require": {
+						"nikic/php-parser": "0.9.3"
+				}
+		}
 
 Then install Composer in your project (or [download the composer.phar][1] directly):
 
-    curl -s http://getcomposer.org/installer | php
+		curl -s http://getcomposer.org/installer | php
 
 And finally ask Composer to install the dependencies:
 
-    php composer.phar install
+		php composer.phar install
 
 Installing as a PEAR package
 ----------------------------
 
 Run the following two commands:
 
-    pear channel-discover nikic.github.com/pear
-    pear install channel://nikic.github.com/pear/PHPParser-0.9.3
+		pear channel-discover nikic.github.com/pear
+		pear install channel://nikic.github.com/pear/PHPParser-0.9.3
 
 Installing as a Git Submodule
 -----------------------------
 
 Run the following command to install the parser into the `vendor/PHP-Parser` folder:
 
-    git submodule add git://github.com/nikic/PHP-Parser.git vendor/PHP-Parser
+		git submodule add git://github.com/nikic/PHP-Parser.git vendor/PHP-Parser
 
 
 
