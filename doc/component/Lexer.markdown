@@ -7,9 +7,9 @@ newer PHP versions and thus allows parsing of new code on older versions.
 
 A lexer has to define the following public interface:
 
-    startLexing($code);
-    getNextToken(&$value = null, &$startAttributes = null, &$endAttributes = null);
-    handleHaltCompiler();
+		startLexing($code);
+		getNextToken(&$value = null, &$startAttributes = null, &$endAttributes = null);
+		handleHaltCompiler();
 
 startLexing
 -----------
@@ -23,13 +23,13 @@ Even though `startLexing` is meant to accept a source code string, you could for
 <?php
 
 class FileLexer extends PHPParser_Lexer {
-    public function startLexing($fileName) {
-        if (!file_exists($fileName)) {
-            throw new InvalidArgumentException(sprintf('File "%s" does not exist', $fileName));
-        }
+		public function startLexing($fileName) {
+				if (!file_exists($fileName)) {
+						throw new InvalidArgumentException(sprintf('File "%s" does not exist', $fileName));
+				}
 
-        parent::startLexing(file_get_contents($fileName));
-    }
+				parent::startLexing(file_get_contents($fileName));
+		}
 }
 
 $parser = new PHPParser_Parser(new FileLexer);
@@ -64,15 +64,15 @@ overriding the method:
 <?php
 
 class LessAttributesLexer extends PHPParser_Lexer {
-    public function getNextToken(&$value = null, &$startAttributes = null, &$endAttributes = null) {
-        $tokenId = parent::getNextToken($value, $startAttributes, $endAttributes);
+		public function getNextToken(&$value = null, &$startAttributes = null, &$endAttributes = null) {
+				$tokenId = parent::getNextToken($value, $startAttributes, $endAttributes);
 
-        // only keep startLine attribute
-        unset($startAttributes['comments']);
-        unset($endAttributes['endLine']);
+				// only keep startLine attribute
+				unset($startAttributes['comments']);
+				unset($endAttributes['endLine']);
 
-        return $tokenId;
-    }
+				return $tokenId;
+		}
 }
 ```
 
@@ -83,27 +83,27 @@ a `fileName` attribute to all nodes:
 <?php
 
 class FileLexer extends PHPParser_Lexer {
-    protected $fileName;
+		protected $fileName;
 
-    public function startLexing($fileName) {
-        if (!file_exists($fileName)) {
-            throw new InvalidArgumentException(sprintf('File "%s" does not exist', $fileName));
-        }
+		public function startLexing($fileName) {
+				if (!file_exists($fileName)) {
+						throw new InvalidArgumentException(sprintf('File "%s" does not exist', $fileName));
+				}
 
-        $this->fileName = $fileName;
-        parent::startLexing(file_get_contents($fileName));
-    }
+				$this->fileName = $fileName;
+				parent::startLexing(file_get_contents($fileName));
+		}
 
-    public function getNextToken(&$value = null, &$startAttributes = null, &$endAttributes = null) {
-        $tokenId = parent::getNextToken($value, $startAttributes, $endAttributes);
+		public function getNextToken(&$value = null, &$startAttributes = null, &$endAttributes = null) {
+				$tokenId = parent::getNextToken($value, $startAttributes, $endAttributes);
 
-        // we could use either $startAttributes or $endAttributes here, because the fileName is always the same
-        // (regardless of whether it is the start or end token). We choose $endAttributes, because it is slightly
-        // more efficient (as the parser has to keep a stack for the $startAttributes).
-        $endAttributes['fileName'] = $fileName;
+				// we could use either $startAttributes or $endAttributes here, because the fileName is always the same
+				// (regardless of whether it is the start or end token). We choose $endAttributes, because it is slightly
+				// more efficient (as the parser has to keep a stack for the $startAttributes).
+				$endAttributes['fileName'] = $fileName;
 
-        return $tokenId;
-    }
+				return $tokenId;
+		}
 }
 ```
 

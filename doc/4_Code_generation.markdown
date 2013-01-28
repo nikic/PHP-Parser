@@ -17,27 +17,27 @@ Here is an example:
 <?php
 $factory = new PHPParser_BuilderFactory;
 $node = $factory->class('SomeClass')
-    ->extend('SomeOtherClass')
-    ->implement('A\Few', 'Interfaces')
-    ->makeAbstract() // ->makeFinal()
+		->extend('SomeOtherClass')
+		->implement('A\Few', 'Interfaces')
+		->makeAbstract() // ->makeFinal()
 
-    ->addStmt($factory->method('someMethod')
-        ->makeAbstract() // ->makeFinal()
-        ->addParam($factory->param('someParam')->setTypeHint('SomeClass'))
-    )
+		->addStmt($factory->method('someMethod')
+				->makeAbstract() // ->makeFinal()
+				->addParam($factory->param('someParam')->setTypeHint('SomeClass'))
+		)
 
-    ->addStmt($factory->method('anotherMethod')
-        ->makeProtected() // ->makePublic() [default], ->makePrivate()
-        ->addParam($factory->param('someParam')->setDefault('test'))
-        // it is possible to add manually created nodes
-        ->addStmt(new PHPParser_Node_Expr_Print(new PHPParser_Node_Expr_Variable('someParam')))
-    )
+		->addStmt($factory->method('anotherMethod')
+				->makeProtected() // ->makePublic() [default], ->makePrivate()
+				->addParam($factory->param('someParam')->setDefault('test'))
+				// it is possible to add manually created nodes
+				->addStmt(new PHPParser_Node_Expr_Print(new PHPParser_Node_Expr_Variable('someParam')))
+		)
 
-    // properties will be correctly reordered above the methods
-    ->addStmt($factory->property('someProperty')->makeProtected())
-    ->addStmt($factory->property('anotherProperty')->makePrivate()->setDefault(array(1, 2, 3)))
+		// properties will be correctly reordered above the methods
+		->addStmt($factory->property('someProperty')->makeProtected())
+		->addStmt($factory->property('anotherProperty')->makePrivate()->setDefault(array(1, 2, 3)))
 
-    ->getNode()
+		->getNode()
 ;
 
 $stmts = array($node);
@@ -50,13 +50,13 @@ This will produce the following output with the default pretty printer:
 <?php
 abstract class SomeClass extends SomeOtherClass implements A\Few, Interfaces
 {
-    protected $someProperty;
-    private $anotherProperty = array(1, 2, 3);
-    abstract function someMethod(SomeClass $someParam);
-    protected function anotherMethod($someParam = 'test')
-    {
-        print $someParam;
-    }
+		protected $someProperty;
+		private $anotherProperty = array(1, 2, 3);
+		abstract function someMethod(SomeClass $someParam);
+		protected function anotherMethod($someParam = 'test')
+		{
+				print $someParam;
+		}
 }
 ```
 
@@ -73,28 +73,28 @@ As an example consider the following template, which defines a general getter/se
 
 class GetterSetterTemplate
 {
-    /**
-     * @var __type__ The __name__
-     */
-    protected $__name__;
+		/**
+		 * @var __type__ The __name__
+		 */
+		protected $__name__;
 
-    /**
-     * Gets the __name__.
-     *
-     * @return __type__ The __name__
-     */
-    public function get__Name__() {
-        return $this->__name__;
-    }
+		/**
+		 * Gets the __name__.
+		 *
+		 * @return __type__ The __name__
+		 */
+		public function get__Name__() {
+				return $this->__name__;
+		}
 
-    /**
-     * Sets the __name__.
-     *
-     * @param __type__ $__name__ The new __name__
-     */
-    public function set__Name__($__name__) {
-        $this->__name__ = $__name__;
-    }
+		/**
+		 * Sets the __name__.
+		 *
+		 * @param __type__ $__name__ The new __name__
+		 */
+		public function set__Name__($__name__) {
+				$this->__name__ = $__name__;
+		}
 }
 ```
 
@@ -109,22 +109,22 @@ $template = new PHPParser_Template($parser, $templateString);
 // We only have to specify the __name__ placeholder, as the
 // capitalized __Name__ placeholder is automatically created
 $properties = [
-    ['name' => 'title',     'type' => 'string'],
-    ['name' => 'body',      'type' => 'string'],
-    ['name' => 'author',    'type' => 'User'],
-    ['name' => 'timestamp', 'type' => 'DateTime'],
+		['name' => 'title',		 'type' => 'string'],
+		['name' => 'body',			'type' => 'string'],
+		['name' => 'author',		'type' => 'User'],
+		['name' => 'timestamp', 'type' => 'DateTime'],
 ];
 
 $class = $factory->class('BlogPost')->implement('Post');
 
 foreach ($properties as $propertyPlaceholders) {
-    $stmts = $template->getStmts($propertyPlaceholders);
+		$stmts = $template->getStmts($propertyPlaceholders);
 
-    $class->addStmts(
-        // $stmts contains all statements from the template. So [0] fetches the class statement
-        // and ->stmts retrieves the methods.
-        $stmts[0]->stmts
-    );
+		$class->addStmts(
+				// $stmts contains all statements from the template. So [0] fetches the class statement
+				// and ->stmts retrieves the methods.
+				$stmts[0]->stmts
+		);
 }
 
 echo $prettyPrinter->prettyPrint(array($class->getNode()));
@@ -137,105 +137,105 @@ The result would look roughly like this:
 
 class BlogPost implements Post
 {
-    /**
-     * @var string The title
-     */
-    protected $title;
+		/**
+		 * @var string The title
+		 */
+		protected $title;
 
-    /**
-     * @var string The body
-     */
-    protected $body;
+		/**
+		 * @var string The body
+		 */
+		protected $body;
 
-    /**
-     * @var User The author
-     */
-    protected $author;
+		/**
+		 * @var User The author
+		 */
+		protected $author;
 
-    /**
-     * @var DateTime The timestamp
-     */
-    protected $timestamp;
+		/**
+		 * @var DateTime The timestamp
+		 */
+		protected $timestamp;
 
-    /**
-     * Gets the title.
-     *
-     * @return string The title
-     */
-    public function getTitle()
-    {
-        return $this->title;
-    }
+		/**
+		 * Gets the title.
+		 *
+		 * @return string The title
+		 */
+		public function getTitle()
+		{
+				return $this->title;
+		}
 
-    /**
-     * Sets the title.
-     *
-     * @param string $title The new title
-     */
-    public function setTitle($title)
-    {
-        $this->title = $title;
-    }
+		/**
+		 * Sets the title.
+		 *
+		 * @param string $title The new title
+		 */
+		public function setTitle($title)
+		{
+				$this->title = $title;
+		}
 
-    /**
-     * Gets the body.
-     *
-     * @return string The body
-     */
-    public function getBody()
-    {
-        return $this->body;
-    }
+		/**
+		 * Gets the body.
+		 *
+		 * @return string The body
+		 */
+		public function getBody()
+		{
+				return $this->body;
+		}
 
-    /**
-     * Sets the body.
-     *
-     * @param string $body The new body
-     */
-    public function setBody($body)
-    {
-        $this->body = $body;
-    }
+		/**
+		 * Sets the body.
+		 *
+		 * @param string $body The new body
+		 */
+		public function setBody($body)
+		{
+				$this->body = $body;
+		}
 
-    /**
-     * Gets the author.
-     *
-     * @return User The author
-     */
-    public function getAuthor()
-    {
-        return $this->author;
-    }
+		/**
+		 * Gets the author.
+		 *
+		 * @return User The author
+		 */
+		public function getAuthor()
+		{
+				return $this->author;
+		}
 
-    /**
-     * Sets the author.
-     *
-     * @param User $author The new author
-     */
-    public function setAuthor($author)
-    {
-        $this->author = $author;
-    }
+		/**
+		 * Sets the author.
+		 *
+		 * @param User $author The new author
+		 */
+		public function setAuthor($author)
+		{
+				$this->author = $author;
+		}
 
-    /**
-     * Gets the timestamp.
-     *
-     * @return DateTime The timestamp
-     */
-    public function getTimestamp()
-    {
-        return $this->timestamp;
-    }
+		/**
+		 * Gets the timestamp.
+		 *
+		 * @return DateTime The timestamp
+		 */
+		public function getTimestamp()
+		{
+				return $this->timestamp;
+		}
 
-    /**
-     * Sets the timestamp.
-     *
-     * @param DateTime $timestamp The new timestamp
-     */
-    public function setTimestamp($timestamp)
-    {
-        $this->timestamp = $timestamp;
-    }
+		/**
+		 * Sets the timestamp.
+		 *
+		 * @param DateTime $timestamp The new timestamp
+		 */
+		public function setTimestamp($timestamp)
+		{
+				$this->timestamp = $timestamp;
+		}
 }
 ```
 

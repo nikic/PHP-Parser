@@ -27,43 +27,43 @@ You'll get a syntax tree looking roughly like this:
 
 ```
 array(
-    0: Stmt_Echo(
-        exprs: array(
-            0: Scalar_String(
-                value: Hi
-            )
-            1: Scalar_String(
-                value: World
-            )
-        )
-    )
-    1: Expr_FuncCall(
-        name: Name(
-            parts: array(
-                0: hello
-                1: world
-            )
-        )
-        args: array(
-            0: Arg(
-                value: Scalar_String(
-                    value: foo
-                )
-                byRef: false
-            )
-            1: Arg(
-                value: Expr_Concat(
-                    left: Scalar_String(
-                        value: bar
-                    )
-                    right: Scalar_String(
-                        value: baz
-                    )
-                )
-                byRef: false
-            )
-        )
-    )
+		0: Stmt_Echo(
+				exprs: array(
+						0: Scalar_String(
+								value: Hi
+						)
+						1: Scalar_String(
+								value: World
+						)
+				)
+		)
+		1: Expr_FuncCall(
+				name: Name(
+						parts: array(
+								0: hello
+								1: world
+						)
+				)
+				args: array(
+						0: Arg(
+								value: Scalar_String(
+										value: foo
+								)
+								byRef: false
+						)
+						1: Arg(
+								value: Expr_Concat(
+										left: Scalar_String(
+												value: bar
+										)
+										right: Scalar_String(
+												value: baz
+										)
+								)
+								byRef: false
+						)
+				)
+		)
 )
 ```
 

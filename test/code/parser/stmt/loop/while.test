@@ -8,18 +8,18 @@ while ($a):
 endwhile;
 -----
 array(
-    0: Stmt_While(
-        cond: Expr_Variable(
-            name: a
-        )
-        stmts: array(
-        )
-    )
-    1: Stmt_While(
-        cond: Expr_Variable(
-            name: a
-        )
-        stmts: array(
-        )
-    )
+		0: Stmt_While(
+				cond: Expr_Variable(
+						name: a
+				)
+				stmts: array(
+				)
+		)
+		1: Stmt_While(
+				cond: Expr_Variable(
+						name: a
+				)
+				stmts: array(
+				)
+		)
 )

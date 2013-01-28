@@ -6,32 +6,32 @@ function a(&$b) {}
 function &a($b) {}
 -----
 array(
-    0: Stmt_Function(
-        byRef: false
-        params: array(
-            0: Param(
-                name: b
-                default: null
-                type: null
-                byRef: true
-            )
-        )
-        stmts: array(
-        )
-        name: a
-    )
-    1: Stmt_Function(
-        byRef: true
-        params: array(
-            0: Param(
-                name: b
-                default: null
-                type: null
-                byRef: false
-            )
-        )
-        stmts: array(
-        )
-        name: a
-    )
+		0: Stmt_Function(
+				byRef: false
+				params: array(
+						0: Param(
+								name: b
+								default: null
+								type: null
+								byRef: true
+						)
+				)
+				stmts: array(
+				)
+				name: a
+		)
+		1: Stmt_Function(
+				byRef: true
+				params: array(
+						0: Param(
+								name: b
+								default: null
+								type: null
+								byRef: false
+						)
+				)
+				stmts: array(
+				)
+				name: a
+		)
 )
