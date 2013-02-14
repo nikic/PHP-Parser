@@ -1,6 +1,9 @@
 Version 0.9.4-dev
 -----------------
 
+* [PHP 5.5] Add support for `ClassName::class`. This is parsed as an `Expr_ClassConstFetch` with `'class'` being the
+  constant name.
+
 * Syntax errors now include information on expected tokens and mimic the format of PHP's own (pre 5.4) error messages.
   Example:
 
