@@ -734,7 +734,7 @@ common_scalar:
 
 static_scalar: /* compile-time evaluated scalars */
       common_scalar                                         { $$ = $1; }
-    | class_name T_PAAMAYIM_NEKUDOTAYIM T_STRING            { $$ = Expr_ClassConstFetch[$1, $3]; }
+    | class_name T_PAAMAYIM_NEKUDOTAYIM class_const_name    { $$ = Expr_ClassConstFetch[$1, $3]; }
     | '+' static_scalar                                     { $$ = Expr_UnaryPlus[$2]; }
     | '-' static_scalar                                     { $$ = Expr_UnaryMinus[$2]; }
     | T_ARRAY '(' static_array_pair_list ')'                { $$ = Expr_Array[$3]; }
@@ -743,11 +743,17 @@ static_scalar: /* compile-time evaluated scalars */
 
 scalar:
       common_scalar                                         { $$ = $1; }
-    | class_name_or_var T_PAAMAYIM_NEKUDOTAYIM T_STRING     { $$ = Expr_ClassConstFetch[$1, $3]; }
+    | class_name_or_var T_PAAMAYIM_NEKUDOTAYIM class_const_name
+          { $$ = Expr_ClassConstFetch[$1, $3]; }
     | '"' encaps_list '"'
           { parseEncapsed($2, '"'); $$ = Scalar_Encapsed[$2]; }
     | T_START_HEREDOC encaps_list T_END_HEREDOC
           { parseEncapsedDoc($2); $$ = Scalar_Encapsed[$2]; }
+;
+
+class_const_name:
+      T_STRING                                              { $$ = $1; }
+    | T_CLASS                                               { $$ = 'class'; }
 ;
 
 static_array_pair_list:
