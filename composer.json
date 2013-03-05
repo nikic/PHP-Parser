@@ -14,5 +14,10 @@
     },
     "autoload": {
         "psr-0": { "PHPParser": "lib/" }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.9-dev"
+        }
     }
 }
