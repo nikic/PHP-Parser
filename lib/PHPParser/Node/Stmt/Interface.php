@@ -1,9 +1,10 @@
 <?php
 
 /**
- * @property string                $name    Name
- * @property PHPParser_Node_Name[] $extends Extended interfaces
- * @property PHPParser_Node[]      $stmts   Statements
+ * @property string                $name           Name
+ * @property string                $namespacedName Full qualified class name.
+ * @property PHPParser_Node_Name[] $extends        Extended interfaces
+ * @property PHPParser_Node[]      $stmts          Statements
  */
 class PHPParser_Node_Stmt_Interface extends PHPParser_Node_Stmt
 {
