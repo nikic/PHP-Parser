@@ -1,7 +1,7 @@
 Introduction
 ============
 
-This project is a PHP 5.4 (and older) parser **written in PHP itself**.
+This project is a PHP 5.5 (and older) parser **written in PHP itself**.
 
 What is this for?
 -----------------
@@ -26,12 +26,12 @@ programmatic PHP code analysis are incidentally PHP developers, not C developers
 What can it parse?
 ------------------
 
-The parser uses a PHP 5.4 compliant grammar, which is backwards compatible with at least PHP 5.3 and PHP
-5.2 (and maybe older).
+The parser uses a PHP 5.5 compliant grammar, which is backwards compatible with at least PHP 5.4, PHP 5.3
+and PHP 5.2 (and maybe older).
 
 As the parser is based on the tokens returned by `token_get_all` (which is only able to lex the PHP
-version it runs on), additionally a wrapper for emulating new tokens from 5.3 and 5.4 is provided. This
-allows to parse PHP 5.4 source code running on PHP 5.2, for example. This emulation is very hacky and not
+version it runs on), additionally a wrapper for emulating new tokens from 5.3, 5.4 and 5.5 is provided. This
+allows to parse PHP 5.5 source code running on PHP 5.2, for example. This emulation is very hacky and not
 yet perfect, but it should work well on any sane code.
 
 What output does it produce?
