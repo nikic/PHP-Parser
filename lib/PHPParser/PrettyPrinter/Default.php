@@ -676,10 +676,7 @@ class PHPParser_PrettyPrinter_Default extends PHPParser_PrettyPrinterAbstract
     }
 
     public function pStmt_InlineHTML(PHPParser_Node_Stmt_InlineHTML $node) {
-        return '?>' . $this->pNoIndent(
-            ("\n" === $node->value[0] || "\r" === $node->value[0] ? "\n" : '')
-            . $node->value
-        ) . '<?php ';
+        return '?>' . $this->pNoIndent("\n" . $node->value) . '<?php ';
     }
 
     public function pStmt_HaltCompiler(PHPParser_Node_Stmt_HaltCompiler $node) {

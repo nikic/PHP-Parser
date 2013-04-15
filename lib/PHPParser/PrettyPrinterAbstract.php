@@ -70,16 +70,16 @@ abstract class PHPParser_PrettyPrinterAbstract
     }
 
     /**
-     * Pretty prints an array of nodes (statements).
+     * Pretty prints an array of statements.
      *
-     * @param PHPParser_Node[] $nodes Array of nodes
+     * @param PHPParser_Node[] $stmts Array of statements
      *
-     * @return string Pretty printed nodes
+     * @return string Pretty printed statements
      */
-    public function prettyPrint(array $nodes) {
-        $this->preprocessNodes($nodes);
+    public function prettyPrint(array $stmts) {
+        $this->preprocessNodes($stmts);
 
-        return str_replace("\n" . $this->noIndentToken, "\n", $this->pStmts($nodes, false));
+        return str_replace("\n" . $this->noIndentToken, "\n", $this->pStmts($stmts, false));
     }
 
     /**
@@ -91,6 +91,26 @@ abstract class PHPParser_PrettyPrinterAbstract
      */
     public function prettyPrintExpr(PHPParser_Node_Expr $node) {
         return str_replace("\n" . $this->noIndentToken, "\n", $this->p($node));
+    }
+
+    /**
+     * Pretty prints a file of statements (includes the opening <?php tag if it is required).
+     *
+     * @param PHPParser_Node[] $stmts Array of statements
+     *
+     * @return string Pretty printed statements
+     */
+    public function prettyPrintFile(array $stmts) {
+        $p = trim($this->prettyPrint($stmts));
+
+        $p = preg_replace('/^\?>\n?/', '', $p, -1, $count);
+        $p = preg_replace('/<\?php$/', '', $p);
+
+        if (!$count) {
+            $p = "<?php\n\n" . $p;
+        }
+
+        return $p;
     }
 
     /**

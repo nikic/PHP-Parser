@@ -17,6 +17,10 @@ Version 0.9.4-dev
 * The pretty printer now prints namespaces in semicolon-style if possible (i.e. if the file does not contain a global
   namespace declaration).
 
+* Added `prettyPrintFile(array $stmts)` method which will pretty print a file of statements including the opening
+  `<?php` tag if it is required. Use of this method will also eliminate the unnecessary `<?php ?>` at the start and end
+  of files using inline HTML.
+
 Version 0.9.3 (22.11.2012)
 --------------------------
 
