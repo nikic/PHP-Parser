@@ -1,6 +1,6 @@
 <?php
 
-class PHPParser_NodeTraverser
+class PHPParser_NodeTraverser implements PHPParser_NodeTraverserInterface
 {
     /**
      * @var PHPParser_NodeVisitor[] Visitors
