@@ -8,7 +8,7 @@ common structures as well as simple templating support. Both features are descri
 Builders
 --------
 
-The project provides builders for classes, methods, functions, parameters and properties, which
+The project provides builders for classes, interfaces, methods, functions, parameters and properties, which
 allow creating node trees with a fluid interface, instead of instantiating all nodes manually.
 
 Here is an example:

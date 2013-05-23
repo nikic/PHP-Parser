@@ -21,6 +21,10 @@ Version 0.9.4-dev
   `<?php` tag if it is required. Use of this method will also eliminate the unnecessary `<?php ?>` at the start and end
   of files using inline HTML.
 
+* There now is a builder for interfaces (`PHPParser_Builder_Interface`).
+
+* An interface for the node traversation has been added: `PHPParser_NodeTraverserInterface`
+
 Version 0.9.3 (22.11.2012)
 --------------------------
 

@@ -2,7 +2,6 @@
 
 interface PHPParser_NodeTraverserInterface
 {
-
     /**
      * Adds a visitor.
      *
