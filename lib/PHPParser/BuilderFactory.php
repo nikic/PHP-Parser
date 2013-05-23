@@ -1,12 +1,13 @@
 <?php
 
 /**
- * "class" and "function" are reserved keywords, so the methods are defined as _class()
- * and _function() in the class and are made available as class() and function() through
- * __call() magic.
+ * "class", "interface" and "function" are reserved keywords, so the methods are defined as _class(),
+ * _interface() and _function() in the class and are made available as class(), interface() and function()
+ * through __call() magic.
  *
- * @method PHPParser_Builder_Class    class(string $name)    Creates a class builder.
- * @method PHPParser_Builder_Function function(string $name) Creates a function builder
+ * @method PHPParser_Builder_Class     class(string $name)     Creates a class builder.
+ * @method PHPParser_Builder_Function  function(string $name)  Creates a function builder
+ * @method PHPParser_Builder_Interface interface(string $name) Creates an interface builder.
  */
 class PHPParser_BuilderFactory
 {
@@ -19,6 +20,17 @@ class PHPParser_BuilderFactory
      */
     protected function _class($name) {
         return new PHPParser_Builder_Class($name);
+    }
+
+    /**
+     * Creates a interface builder.
+     *
+     * @param string $name Name of the interface
+     *
+     * @return PHPParser_Builder_Class The created interface builder
+     */
+    protected function _interface($name) {
+        return new PHPParser_Builder_Interface($name);
     }
 
     /**
@@ -66,10 +78,8 @@ class PHPParser_BuilderFactory
     }
 
     public function __call($name, array $args) {
-        if ('class' === $name) {
-            return call_user_func_array(array($this, '_class'), $args);
-        } elseif ('function' === $name) {
-            return call_user_func_array(array($this, '_function'), $args);
+        if (method_exists($this, '_' . $name)) {
+            return call_user_func_array(array($this, '_' . $name), $args);
         }
 
         throw new LogicException(sprintf('Method "%s" does not exist', $name));
