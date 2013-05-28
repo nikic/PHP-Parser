@@ -15,62 +15,17 @@ class AST2Rascal extends BasePrinter {
 
   public function rascalizeString($str) 
   {
-    $newstr = "";
-    foreach(str_split($str) as $char) {
-      if ("<" == $char)
-	$newstr .= "\\<";
-      elseif (">" == $char)
-	$newstr .= "\\>";
-      elseif ("'" == $char)
-	$newstr .= "\\'";
-      elseif ("\n" == $char)
-	$newstr .= "\\n";
-      elseif ("\t" == $char)
-	$newstr .= "\\t";
-      elseif ("\r" == $char)
-	$newstr .= "\\r";
-      elseif ("\\" == $char)
-	$newstr .= "\\\\";
-      elseif ("\"" == $char)
-	$newstr .= "\\\"";
-      else
-	$newstr .= $char;
-    }
-    $newstr = str_replace("\x1b","",$newstr);
-    return $newstr;
+    return addcslashes($str, "<>'\n\t\r\\\"");
   }
 
   public function rascalizeStringLiteral($str) 
   {
-    $newstr = "";
-    foreach(str_split($str) as $char) {
-      if ("<" == $char)
-	$newstr .= "\\<";
-      elseif (">" == $char)
-	$newstr .= "\\>";
-      elseif ("'" == $char)
-	$newstr .= "\\'";
-      elseif ("\n" == $char)
-	$newstr .= "\\n";
-      elseif ("\t" == $char)
-	$newstr .= "\\t";
-      elseif ("\r" == $char)
-	$newstr .= "\\r";
-      elseif ("\\" == $char)
-	$newstr .= "\\\\";
-      elseif ("\"" == $char)
-	$newstr .= "\\\"";
-      else
-	$newstr .= $char;
-    }
-    $newstr = str_replace("\x1b","",$newstr);
-    return $newstr;
+    return $this->rascalizeString($str);
   }
 
   private function tagWithLine(PHPParser_Node $node)
   {
     return "[@at=|file://{$this->filename}|(0,0,<{$node->getLine()},0>,<{$node->getLine()},0>)]";
-    //return "";
   }
 
   public function pprintArg(PHPParser_Node_Arg $node)
