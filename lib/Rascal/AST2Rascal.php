@@ -626,7 +626,7 @@ class AST2Rascal extends BasePrinter {
       if (null != $var)
         $exprs[] = "someExpr(" . $this->pprint($var) . ")";
       else
-        $expr[] = "noExpr()";
+        $exprs[] = "noExpr()";
       
     $fragment = "listExpr([" . implode(",",$exprs) . "])";
     $fragment .= $this->annotateASTNode($node);
