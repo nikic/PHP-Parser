@@ -26,21 +26,24 @@ class AST2Rascal extends BasePrinter {
 
   private function addUniqueId() {
     $idToAdd = uniqid($this->idPrefix, true);
-  	return "[@id=\"{$this->rascalizeString($idToAdd)}\"]";
+  	return "@id=\"{$this->rascalizeString($idToAdd)}\"";
   }
   
   private function addLocationTag(PHPParser_Node $node) {
-  	return "[@at=|file://{$this->filename}|(0,0,<{$node->getLine()},0>,<{$node->getLine()},0>)]";
+  	return "@at=|file://{$this->filename}|(0,0,<{$node->getLine()},0>,<{$node->getLine()},0>)";
   }
   
   private function annotateASTNode(PHPParser_Node $node)
   {
-  	$tagToAdd = "";
+    $tagsToAdd = array();
   	if ($this->addLocations)
-  		$tagToAdd .= $this->addLocationTag($node);
+  		$tagsToAdd[] = $this->addLocationTag($node);
   	if ($this->addIds)
-  		$tagToAdd .= $this->addUniqueId();
-    return $tagToAdd;
+  		$tagsToAdd[] = $this->addUniqueId();
+    
+    if (count($tagsToAdd) > 0)
+    	return "[" . implode(",",$tagsToAdd) . "]";
+    return "";
   }
 
   public function pprintArg(PHPParser_Node_Arg $node)
