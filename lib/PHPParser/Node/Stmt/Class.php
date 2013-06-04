@@ -31,10 +31,9 @@ class PHPParser_Node_Stmt_Class extends PHPParser_Node_Stmt
      *                                'extends'    => null   : Name of extended class
      *                                'implements' => array(): Names of implemented interfaces
      *                                'stmts'      => array(): Statements
-     * @param int         $line       Line
-     * @param null|string $docComment Nearest doc comment
+     * @param array       $attributes Additional attributes
      */
-    public function __construct($name, array $subNodes = array(), $line = -1, $docComment = null) {
+    public function __construct($name, array $subNodes = array(), array $attributes = array()) {
         parent::__construct(
             $subNodes + array(
                 'type'       => 0,
@@ -42,7 +41,7 @@ class PHPParser_Node_Stmt_Class extends PHPParser_Node_Stmt
                 'implements' => array(),
                 'stmts'      => array(),
             ),
-            $line, $docComment
+            $attributes
         );
         $this->name = $name;
 
@@ -59,6 +58,24 @@ class PHPParser_Node_Stmt_Class extends PHPParser_Node_Stmt
                 throw new PHPParser_Error(sprintf('Cannot use "%s" as interface name as it is reserved', $interface));
             }
         }
+    }
+
+    public function isAbstract() {
+        return (bool) ($this->type & self::MODIFIER_ABSTRACT);
+    }
+
+    public function isFinal() {
+        return (bool) ($this->type & self::MODIFIER_FINAL);
+    }
+
+    public function getMethods() {
+        $methods = array();
+        foreach ($this->stmts as $stmt) {
+            if ($stmt instanceof PHPParser_Node_Stmt_ClassMethod) {
+                $methods[] = $stmt;
+            }
+        }
+        return $methods;
     }
 
     public static function verifyModifier($a, $b) {
@@ -79,7 +96,7 @@ class PHPParser_Node_Stmt_Class extends PHPParser_Node_Stmt
         }
 
         if ($a & 48 && $b & 48) {
-            throw new PHPParser_Error('Cannot use the final modifier on an abstract class member');
+            throw new PHPParser_Error('Cannot use the final and abstract modifier at the same time');
         }
     }
 }

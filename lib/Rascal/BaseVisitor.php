@@ -45,10 +45,6 @@ class BaseVisitor implements IVisitor
 	{
 		return null;
 	}
-	public function enterAssignListExpr(PHPParser_Node_Expr_AssignList $node)
-	{
-		return null;
-	}
 	public function enterAssignMinusExpr(PHPParser_Node_Expr_AssignMinus $node)
 	{
 		return null;
@@ -133,6 +129,10 @@ class BaseVisitor implements IVisitor
 	{
 		return null;
 	}
+	public function enterCastExpr(PHPParser_Node_Expr_Cast $node)
+	{
+		return null;
+	}
 	public function enterClassConstFetchExpr(PHPParser_Node_Expr_ClassConstFetch $node)
 	{
 		return null;
@@ -206,6 +206,10 @@ class BaseVisitor implements IVisitor
 		return null;
 	}
 	public function enterIssetExpr(PHPParser_Node_Expr_Isset $node)
+	{
+		return null;
+	}
+	public function enterListExpr(PHPParser_Node_Expr_List $node)
 	{
 		return null;
 	}
@@ -321,6 +325,10 @@ class BaseVisitor implements IVisitor
 	{
 		return null;
 	}
+	public function enterYieldExpr(PHPParser_Node_Expr_Yield $node)
+	{
+		return null;
+	}
 	public function enterFullyQualifiedName(PHPParser_Node_Name_FullyQualified $node)
 	{
 		return null;
@@ -382,6 +390,10 @@ class BaseVisitor implements IVisitor
 		return null;
 	}
 	public function enterTraitConstScalar(PHPParser_Node_Scalar_TraitConst $node)
+	{
+		return null;
+	}
+	public function enterScalar(PHPParser_Node_Scalar $node)
 	{
 		return null;
 	}
@@ -533,6 +545,10 @@ class BaseVisitor implements IVisitor
 	{
 		return null;
 	}
+	public function enterTraitUseAdaptationStmt(PHPParser_Node_Stmt_TraitUseAdaptation $node)
+	{
+		return null;
+	}
 	public function enterTryCatchStmt(PHPParser_Node_Stmt_TryCatch $node)
 	{
 		return null;
@@ -550,6 +566,14 @@ class BaseVisitor implements IVisitor
 		return null;
 	}
 	public function enterWhileStmt(PHPParser_Node_Stmt_While $node)
+	{
+		return null;
+	}
+	public function enterStmt(PHPParser_Node_Stmt $node)
+	{
+		return null;
+	}
+	public function enterExpr(PHPParser_Node_Expr $node)
 	{
 		return null;
 	}
@@ -595,10 +619,6 @@ class BaseVisitor implements IVisitor
 		return null;
 	}
 	public function leaveAssignDivExpr(PHPParser_Node_Expr_AssignDiv $node)
-	{
-		return null;
-	}
-	public function leaveAssignListExpr(PHPParser_Node_Expr_AssignList $node)
 	{
 		return null;
 	}
@@ -686,6 +706,10 @@ class BaseVisitor implements IVisitor
 	{
 		return null;
 	}
+	public function leaveCastExpr(PHPParser_Node_Expr_Cast $node)
+	{
+		return null;
+	}
 	public function leaveClassConstFetchExpr(PHPParser_Node_Expr_ClassConstFetch $node)
 	{
 		return null;
@@ -759,6 +783,10 @@ class BaseVisitor implements IVisitor
 		return null;
 	}
 	public function leaveIssetExpr(PHPParser_Node_Expr_Isset $node)
+	{
+		return null;
+	}
+	public function leaveListExpr(PHPParser_Node_Expr_List $node)
 	{
 		return null;
 	}
@@ -874,6 +902,10 @@ class BaseVisitor implements IVisitor
 	{
 		return null;
 	}
+	public function leaveYieldExpr(PHPParser_Node_Expr_Yield $node)
+	{
+		return null;
+	}
 	public function leaveFullyQualifiedName(PHPParser_Node_Name_FullyQualified $node)
 	{
 		return null;
@@ -935,6 +967,10 @@ class BaseVisitor implements IVisitor
 		return null;
 	}
 	public function leaveTraitConstScalar(PHPParser_Node_Scalar_TraitConst $node)
+	{
+		return null;
+	}
+	public function leaveScalar(PHPParser_Node_Scalar $node)
 	{
 		return null;
 	}
@@ -1086,6 +1122,10 @@ class BaseVisitor implements IVisitor
 	{
 		return null;
 	}
+	public function leaveTraitUseAdaptationStmt(PHPParser_Node_Stmt_TraitUseAdaptation $node)
+	{
+		return null;
+	}
 	public function leaveTryCatchStmt(PHPParser_Node_Stmt_TryCatch $node)
 	{
 		return null;
@@ -1103,6 +1143,14 @@ class BaseVisitor implements IVisitor
 		return null;
 	}
 	public function leaveWhileStmt(PHPParser_Node_Stmt_While $node)
+	{
+		return null;
+	}
+	public function leaveStmt(PHPParser_Node_Stmt $node)
+	{
+		return null;
+	}
+	public function leaveExpr(PHPParser_Node_Expr $node)
 	{
 		return null;
 	}

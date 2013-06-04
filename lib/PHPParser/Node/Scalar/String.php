@@ -19,45 +19,40 @@ class PHPParser_Node_Scalar_String extends PHPParser_Node_Scalar
     /**
      * Constructs a string scalar node.
      *
-     * @param string      $value      Value of the string
-     * @param int         $line       Line
-     * @param null|string $docComment Nearest doc comment
+     * @param string $value      Value of the string
+     * @param array  $attributes Additional attributes
      */
-    public function __construct($value = '', $line = -1, $docComment = null) {
+    public function __construct($value = '', array $attributes = array()) {
         parent::__construct(
             array(
                 'value' => $value
             ),
-            $line, $docComment
+            $attributes
         );
     }
 
     /**
-     * Creates a String node from a string token (parses escape sequences).
+     * Parses a string token.
      *
-     * @param string      $str        String
-     * @param int         $line       Line
-     * @param null|string $docComment Nearest doc comment
+     * @param string $str String token content
      *
-     * @return PHPParser_Node_Scalar_String String Node
+     * @return string The parsed string
      */
-    public static function create($str, $line = -1, $docComment = null) {
+    public static function parse($str) {
         $bLength = 0;
         if ('b' === $str[0]) {
             $bLength = 1;
         }
 
         if ('\'' === $str[$bLength]) {
-            $str = str_replace(
+            return str_replace(
                 array('\\\\', '\\\''),
                 array(  '\\',   '\''),
                 substr($str, $bLength + 1, -1)
             );
         } else {
-            $str = self::parseEscapeSequences(substr($str, $bLength + 1, -1), '"');
+            return self::parseEscapeSequences(substr($str, $bLength + 1, -1), '"');
         }
-
-        return new self($str, $line, $docComment);
     }
 
     /**

@@ -13,17 +13,16 @@ class PHPParser_Node_Stmt_TraitUseAdaptation_Precedence extends PHPParser_Node_S
      * @param PHPParser_Node_Name   $trait       Trait name
      * @param string                $method      Method name
      * @param PHPParser_Node_Name[] $insteadof   Overwritten traits
-     * @param int                   $line        Line
-     * @param null|string           $docComment  Nearest doc comment
+     * @param array                 $attributes  Additional attributes
      */
-    public function __construct(PHPParser_Node_Name $trait, $method, array $insteadof, $line = -1, $docComment = null) {
+    public function __construct(PHPParser_Node_Name $trait, $method, array $insteadof, array $attributes = array()) {
         parent::__construct(
             array(
                 'trait'     => $trait,
                 'method'    => $method,
                 'insteadof' => $insteadof,
             ),
-            $line, $docComment
+            $attributes
         );
     }
 }

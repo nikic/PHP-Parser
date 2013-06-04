@@ -73,12 +73,12 @@ namespace {
 }
 EOC;
 
-        $parser        = new PHPParser_Parser;
-        $prettyPrinter = new PHPParser_PrettyPrinter_Zend;
+        $parser        = new PHPParser_Parser(new PHPParser_Lexer_Emulative);
+        $prettyPrinter = new PHPParser_PrettyPrinter_Default;
         $traverser     = new PHPParser_NodeTraverser;
         $traverser->addVisitor(new PHPParser_NodeVisitor_NameResolver);
 
-        $stmts = $parser->parse(new PHPParser_Lexer($code));
+        $stmts = $parser->parse($code);
         $stmts = $traverser->traverse($stmts);
 
         $this->assertEquals($expectedCode, $prettyPrinter->prettyPrint($stmts));
@@ -90,51 +90,62 @@ EOC;
     public function testResolveLocations() {
         $code = <<<EOC
 <?php
-namespace NS {
-    class A extends B implements C {
-        use A;
-    }
+namespace NS;
 
-    interface A extends C {
-        public function a(A \$a);
-    }
+class A extends B implements C {
+    use A;
+}
 
-    A::b();
-    A::\$b;
-    A::B;
-    new A;
-    \$a instanceof A;
+interface A extends C {
+    public function a(A \$a);
+}
 
-    namespace\a();
-    namespace\A;
+A::b();
+A::\$b;
+A::B;
+new A;
+\$a instanceof A;
+
+namespace\a();
+namespace\A;
+
+try {
+    \$someThing;
+} catch (A \$a) {
+    \$someThingElse;
 }
 EOC;
         $expectedCode = <<<EOC
-namespace NS {
-    class A extends \\NS\\B implements \\NS\\C
-    {
-        use \\NS\\A;
-    }
-    interface A extends \\NS\\C
-    {
-        public function a(\\NS\\A \$a);
-    }
-    \\NS\\A::b();
-    \\NS\\A::\$b;
-    \\NS\\A::B;
-    new \\NS\\A();
-    \$a instanceof \\NS\\A;
-    \\NS\\a();
-    \\NS\\A;
+namespace NS;
+
+class A extends \\NS\\B implements \\NS\\C
+{
+    use \\NS\\A;
+}
+interface A extends \\NS\\C
+{
+    public function a(\\NS\\A \$a);
+}
+\\NS\\A::b();
+\\NS\\A::\$b;
+\\NS\\A::B;
+new \\NS\\A();
+\$a instanceof \\NS\\A;
+\\NS\\a();
+\\NS\\A;
+try {
+    \$someThing;
+} catch (\\NS\\A \$a) {
+    \$someThingElse;
 }
 EOC;
 
-        $parser        = new PHPParser_Parser;
-        $prettyPrinter = new PHPParser_PrettyPrinter_Zend;
+        $parser        = new PHPParser_Parser(new PHPParser_Lexer_Emulative);
+        $prettyPrinter = new PHPParser_PrettyPrinter_Default;
         $traverser     = new PHPParser_NodeTraverser;
         $traverser->addVisitor(new PHPParser_NodeVisitor_NameResolver);
 
-        $stmts = $parser->parse(new PHPParser_Lexer($code));
+        $stmts = $parser->parse($code);
         $stmts = $traverser->traverse($stmts);
 
         $this->assertEquals($expectedCode, $prettyPrinter->prettyPrint($stmts));
@@ -182,10 +193,6 @@ EOC;
     }
 
     public function testAddTraitNamespacedName() {
-        if (!version_compare(PHP_VERSION, '5.4.0RC1', '>=')) {
-            $this->markTestSkipped('The test requires PHP 5.4');
-        }
-
         $stmts = $this->createNamespacedAndNonNamespaced(array(
             new PHPParser_Node_Stmt_Trait('A')
         ));
@@ -206,8 +213,8 @@ EOC;
     public function testAlreadyInUseError() {
         $stmts = array(
             new PHPParser_Node_Stmt_Use(array(
-                new PHPParser_Node_Stmt_UseUse(new PHPParser_Node_Name('A\B'), 'B', 1),
-                new PHPParser_Node_Stmt_UseUse(new PHPParser_Node_Name('C'),   'B', 2),
+                new PHPParser_Node_Stmt_UseUse(new PHPParser_Node_Name('A\B'), 'B', array('startLine' => 1)),
+                new PHPParser_Node_Stmt_UseUse(new PHPParser_Node_Name('C'),   'B', array('startLine' => 2)),
             ))
         );
 

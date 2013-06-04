@@ -16,16 +16,15 @@ class PHPParser_Node_Expr_Include extends PHPParser_Node_Expr
      *
      * @param PHPParser_Node_Expr $expr       Expression
      * @param int                 $type       Type of include
-     * @param int                 $line       Line
-     * @param null|string         $docComment Nearest doc comment
+     * @param array               $attributes Additional attributes
      */
-    public function __construct(PHPParser_Node_Expr $expr, $type, $line = -1, $docComment = null) {
+    public function __construct(PHPParser_Node_Expr $expr, $type, array $attributes = array()) {
         parent::__construct(
             array(
                 'expr' => $expr,
                 'type' => $type
             ),
-            $line, $docComment
+            $attributes
         );
     }
 }

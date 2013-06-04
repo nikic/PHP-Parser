@@ -8,16 +8,15 @@ class PHPParser_Node_Stmt_InlineHTML extends PHPParser_Node_Stmt
     /**
      * Constructs an inline HTML node.
      *
-     * @param string      $value      String
-     * @param int         $line       Line
-     * @param null|string $docComment Nearest doc comment
+     * @param string $value      String
+     * @param array  $attributes Additional attributes
      */
-    public function __construct($value, $line = -1, $docComment = null) {
+    public function __construct($value, array $attributes = array()) {
         parent::__construct(
             array(
                 'value' => $value,
             ),
-            $line, $docComment
+            $attributes
         );
     }
 }

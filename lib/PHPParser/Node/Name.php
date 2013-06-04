@@ -9,10 +9,9 @@ class PHPParser_Node_Name extends PHPParser_NodeAbstract
      * Constructs a name node.
      *
      * @param string|array $parts      Parts of the name (or name as string)
-     * @param int          $line       Line
-     * @param null|string  $docComment Nearest doc comment
+     * @param array        $attributes Additional attributes
      */
-    public function __construct($parts, $line = -1, $docComment = null) {
+    public function __construct($parts, array $attributes = array()) {
         if (!is_array($parts)) {
             $parts = explode('\\', $parts);
         }
@@ -21,7 +20,7 @@ class PHPParser_Node_Name extends PHPParser_NodeAbstract
             array(
                 'parts' => $parts,
             ),
-            $line, $docComment
+            $attributes
         );
     }
 

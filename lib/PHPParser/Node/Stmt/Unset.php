@@ -9,15 +9,14 @@ class PHPParser_Node_Stmt_Unset extends PHPParser_Node_Stmt
      * Constructs an unset node.
      *
      * @param PHPParser_Node_Expr[] $vars       Variables to unset
-     * @param int                   $line       Line
-     * @param null|string           $docComment Nearest doc comment
+     * @param array                 $attributes Additional attributes
      */
-    public function __construct(array $vars, $line = -1, $docComment = null) {
+    public function __construct(array $vars, array $attributes = array()) {
         parent::__construct(
             array(
                 'vars' => $vars,
             ),
-            $line, $docComment
+            $attributes
         );
     }
 }

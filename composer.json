@@ -3,7 +3,7 @@
     "description": "A PHP parser written in PHP",
     "keywords": ["php", "parser"],
     "type": "library",
-    "license": "BSD",
+    "license": "BSD-3-Clause",
     "authors": [
         {
             "name": "Nikita Popov"
@@ -14,5 +14,10 @@
     },
     "autoload": {
         "psr-0": { "PHPParser": "lib/" }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.9-dev"
+        }
     }
 }

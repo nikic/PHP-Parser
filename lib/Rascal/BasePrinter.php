@@ -25,8 +25,6 @@ class BasePrinter implements IPrinter
 			return $this->pprintAssignConcatExpr($node);
 		} elseif ($node instanceof PHPParser_Node_Expr_AssignDiv) {
 			return $this->pprintAssignDivExpr($node);
-		} elseif ($node instanceof PHPParser_Node_Expr_AssignList) {
-			return $this->pprintAssignListExpr($node);
 		} elseif ($node instanceof PHPParser_Node_Expr_AssignMinus) {
 			return $this->pprintAssignMinusExpr($node);
 		} elseif ($node instanceof PHPParser_Node_Expr_AssignMod) {
@@ -69,6 +67,8 @@ class BasePrinter implements IPrinter
 			return $this->pprintStringCastExpr($node);
 		} elseif ($node instanceof PHPParser_Node_Expr_Cast_Unset) {
 			return $this->pprintUnsetCastExpr($node);
+		} elseif ($node instanceof PHPParser_Node_Expr_Cast) {
+			return $this->pprintCastExpr($node);
 		} elseif ($node instanceof PHPParser_Node_Expr_ClassConstFetch) {
 			return $this->pprintClassConstFetchExpr($node);
 		} elseif ($node instanceof PHPParser_Node_Expr_Clone) {
@@ -107,6 +107,8 @@ class BasePrinter implements IPrinter
 			return $this->pprintInstanceofExpr($node);
 		} elseif ($node instanceof PHPParser_Node_Expr_Isset) {
 			return $this->pprintIssetExpr($node);
+		} elseif ($node instanceof PHPParser_Node_Expr_List) {
+			return $this->pprintListExpr($node);
 		} elseif ($node instanceof PHPParser_Node_Expr_LogicalAnd) {
 			return $this->pprintLogicalAndExpr($node);
 		} elseif ($node instanceof PHPParser_Node_Expr_LogicalOr) {
@@ -163,6 +165,8 @@ class BasePrinter implements IPrinter
 			return $this->pprintUnaryPlusExpr($node);
 		} elseif ($node instanceof PHPParser_Node_Expr_Variable) {
 			return $this->pprintVariableExpr($node);
+		} elseif ($node instanceof PHPParser_Node_Expr_Yield) {
+			return $this->pprintYieldExpr($node);
 		} elseif ($node instanceof PHPParser_Node_Name_FullyQualified) {
 			return $this->pprintFullyQualifiedName($node);
 		} elseif ($node instanceof PHPParser_Node_Name_Relative) {
@@ -195,6 +199,8 @@ class BasePrinter implements IPrinter
 			return $this->pprintStringScalar($node);
 		} elseif ($node instanceof PHPParser_Node_Scalar_TraitConst) {
 			return $this->pprintTraitConstScalar($node);
+		} elseif ($node instanceof PHPParser_Node_Scalar) {
+			return $this->pprintScalar($node);
 		} elseif ($node instanceof PHPParser_Node_Stmt_Break) {
 			return $this->pprintBreakStmt($node);
 		} elseif ($node instanceof PHPParser_Node_Stmt_Case) {
@@ -269,6 +275,8 @@ class BasePrinter implements IPrinter
 			return $this->pprintAliasTraitUseAdaptationStmt($node);
 		} elseif ($node instanceof PHPParser_Node_Stmt_TraitUseAdaptation_Precedence) {
 			return $this->pprintPrecedenceTraitUseAdaptationStmt($node);
+		} elseif ($node instanceof PHPParser_Node_Stmt_TraitUseAdaptation) {
+			return $this->pprintTraitUseAdaptationStmt($node);
 		} elseif ($node instanceof PHPParser_Node_Stmt_TryCatch) {
 			return $this->pprintTryCatchStmt($node);
 		} elseif ($node instanceof PHPParser_Node_Stmt_Unset) {
@@ -279,6 +287,10 @@ class BasePrinter implements IPrinter
 			return $this->pprintUseUseStmt($node);
 		} elseif ($node instanceof PHPParser_Node_Stmt_While) {
 			return $this->pprintWhileStmt($node);
+		} elseif ($node instanceof PHPParser_Node_Stmt) {
+			return $this->pprintStmt($node);
+		} elseif ($node instanceof PHPParser_Node_Expr) {
+			return $this->pprintExpr($node);
 		}
 	}
 	public function pprintArg(PHPParser_Node_Arg $node)
@@ -322,10 +334,6 @@ class BasePrinter implements IPrinter
 		return "";
 	}
 	public function pprintAssignDivExpr(PHPParser_Node_Expr_AssignDiv $node)
-	{
-		return "";
-	}
-	public function pprintAssignListExpr(PHPParser_Node_Expr_AssignList $node)
 	{
 		return "";
 	}
@@ -413,6 +421,10 @@ class BasePrinter implements IPrinter
 	{
 		return "";
 	}
+	public function pprintCastExpr(PHPParser_Node_Expr_Cast $node)
+	{
+		return "";
+	}
 	public function pprintClassConstFetchExpr(PHPParser_Node_Expr_ClassConstFetch $node)
 	{
 		return "";
@@ -486,6 +498,10 @@ class BasePrinter implements IPrinter
 		return "";
 	}
 	public function pprintIssetExpr(PHPParser_Node_Expr_Isset $node)
+	{
+		return "";
+	}
+	public function pprintListExpr(PHPParser_Node_Expr_List $node)
 	{
 		return "";
 	}
@@ -601,6 +617,10 @@ class BasePrinter implements IPrinter
 	{
 		return "";
 	}
+	public function pprintYieldExpr(PHPParser_Node_Expr_Yield $node)
+	{
+		return "";
+	}
 	public function pprintFullyQualifiedName(PHPParser_Node_Name_FullyQualified $node)
 	{
 		return "";
@@ -662,6 +682,10 @@ class BasePrinter implements IPrinter
 		return "";
 	}
 	public function pprintTraitConstScalar(PHPParser_Node_Scalar_TraitConst $node)
+	{
+		return "";
+	}
+	public function pprintScalar(PHPParser_Node_Scalar $node)
 	{
 		return "";
 	}
@@ -813,6 +837,10 @@ class BasePrinter implements IPrinter
 	{
 		return "";
 	}
+	public function pprintTraitUseAdaptationStmt(PHPParser_Node_Stmt_TraitUseAdaptation $node)
+	{
+		return "";
+	}
 	public function pprintTryCatchStmt(PHPParser_Node_Stmt_TryCatch $node)
 	{
 		return "";
@@ -830,6 +858,14 @@ class BasePrinter implements IPrinter
 		return "";
 	}
 	public function pprintWhileStmt(PHPParser_Node_Stmt_While $node)
+	{
+		return "";
+	}
+	public function pprintStmt(PHPParser_Node_Stmt $node)
+	{
+		return "";
+	}
+	public function pprintExpr(PHPParser_Node_Expr $node)
 	{
 		return "";
 	}

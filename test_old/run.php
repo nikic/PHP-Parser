@@ -7,14 +7,51 @@ if ('cli' !== php_sapi_name()) {
     die('This script is designed for running on the command line.');
 }
 
-if (3 !== $argc) {
-    die('This script expects exactly two arguments:
-  1. The test type (either "Symfony" or "PHP")
-  2. The path to the test files');
+function showHelp($error) {
+    die($error . "\n\n" .
+<<<OUTPUT
+This script has to be called with the following signature:
+
+    php run.php [--no-progress] testType pathToTestFiles
+
+The test type can be either "Symfony" or "PHP".
+
+The following options are available:
+
+    --no-progress    Disables showing which file is currently tested.
+OUTPUT
+    );
 }
 
-$TEST_TYPE = $argv[1];
-$DIR = $argv[2];
+$options = array();
+$arguments = array();
+
+// remove script name from argv
+array_shift($argv);
+
+foreach ($argv as $arg) {
+    if ('-' === $arg[0]) {
+        $options[] = $arg;
+    } else {
+        $arguments[] = $arg;
+    }
+}
+
+if (count($arguments) !== 2) {
+    showHelp('Too little arguments passed!');
+}
+
+$SHOW_PROGRESS = true;
+if (count($options) > 0) {
+    if (count($options) === 1 && $options[0] === '--no-progress') {
+        $SHOW_PROGRESS = false;
+    } else {
+        showHelp('Invalid option passed!');
+    }
+}
+
+$TEST_TYPE = $arguments[0];
+$DIR       = $arguments[1];
 
 if ('Symfony' === $TEST_TYPE) {
     function filter_func($path) {
@@ -25,17 +62,17 @@ if ('Symfony' === $TEST_TYPE) {
         return preg_match('~\.phpt$~', $path);
     };
 } else {
-    die('The test type must be either "Symfony" or "PHP".');
+    showHelp('Test type must be either "Symfony" or "PHP"!');
 }
 
 require_once dirname(__FILE__) . '/../lib/PHPParser/Autoloader.php';
 PHPParser_Autoloader::register();
 
-$parser        = new PHPParser_Parser;
-$prettyPrinter = new PHPParser_PrettyPrinter_Zend;
+$parser        = new PHPParser_Parser(new PHPParser_Lexer_Emulative);
+$prettyPrinter = new PHPParser_PrettyPrinter_Default;
 $nodeDumper    = new PHPParser_NodeDumper;
 
-$parseFail = $ppFail = $compareFail = $count = 0;;
+$parseFail = $ppFail = $compareFail = $count = 0;
 
 $readTime = $parseTime = $ppTime = $reparseTime = $compareTime = 0;
 $totalStartTime = microtime(true);
@@ -85,9 +122,13 @@ foreach (new RecursiveIteratorIterator(
 
     ++$count;
 
+    if ($SHOW_PROGRESS) {
+        echo substr(str_pad('Testing file ' . $count . ': ' . substr($file, strlen($DIR)), 79), 0, 79), "\r";
+    }
+
     try {
         $startTime = microtime(true);
-        $stmts = $parser->parse(new PHPParser_Lexer_Emulative($code));
+        $stmts = $parser->parse($code);
         $parseTime += microtime(true) - $startTime;
 
         $startTime = microtime(true);
@@ -96,7 +137,7 @@ foreach (new RecursiveIteratorIterator(
 
         try {
             $startTime = microtime(true);
-            $ppStmts = $parser->parse(new PHPParser_Lexer_Emulative($code));
+            $ppStmts = $parser->parse($code);
             $reparseTime += microtime(true) - $startTime;
 
             $startTime = microtime(true);
@@ -121,9 +162,9 @@ foreach (new RecursiveIteratorIterator(
 }
 
 if (0 === $parseFail && 0 === $ppFail && 0 === $compareFail) {
-    echo 'All tests passed.', "\n";
+    echo "\n\n", 'All tests passed.', "\n";
 } else {
-    echo "\n", '==========', "\n\n", 'There were: ', "\n";
+    echo "\n\n", '==========', "\n\n", 'There were: ', "\n";
     if (0 !== $parseFail) {
         echo '    ', $parseFail,   ' parse failures.',        "\n";
     }

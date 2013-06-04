@@ -2,12 +2,19 @@
 
 class PHPParser_Tests_LexerTest extends PHPUnit_Framework_TestCase
 {
+    /** @var PHPParser_Lexer */
+    protected $lexer;
+
+    protected function setUp() {
+        $this->lexer = new PHPParser_Lexer;
+    }
+
     /**
      * @dataProvider provideTestError
      */
     public function testError($code, $message) {
         try {
-            new PHPParser_Lexer($code);
+            $this->lexer->startLexing($code);
         } catch (PHPParser_Error $e) {
             $this->assertEquals($message, $e->getMessage());
 
@@ -29,43 +36,86 @@ class PHPParser_Tests_LexerTest extends PHPUnit_Framework_TestCase
      * @dataProvider provideTestLex
      */
     public function testLex($code, $tokens) {
-        $lexer = new PHPParser_Lexer($code);
-
-        while ($id = $lexer->lex($value, $line, $docComment)) {
+        $this->lexer->startLexing($code);
+        while ($id = $this->lexer->getNextToken($value, $startAttributes, $endAttributes)) {
             $token = array_shift($tokens);
 
             $this->assertEquals($token[0], $id);
             $this->assertEquals($token[1], $value);
-            $this->assertEquals($token[2], $line);
-            $this->assertEquals($token[3], $docComment);
+            $this->assertEquals($token[2], $startAttributes);
+            $this->assertEquals($token[3], $endAttributes);
         }
     }
 
     public function provideTestLex() {
         return array(
-            // tests conversion of closing PHP tag and drop of whitespace, comments and opening tags
+            // tests conversion of closing PHP tag and drop of whitespace and opening tags
             array(
-                '<?php tokens // ?>plaintext',
+                '<?php tokens ?>plaintext',
                 array(
-                    array(PHPParser_Parser::T_STRING,      'tokens',    1, null),
-                    array(ord(';'),                        '?>',        1, null),
-                    array(PHPParser_Parser::T_INLINE_HTML, 'plaintext', 1, null),
+                    array(
+                        PHPParser_Parser::T_STRING, 'tokens',
+                        array('startLine' => 1), array('endLine' => 1)
+                    ),
+                    array(
+                        ord(';'), '?>',
+                        array('startLine' => 1), array('endLine' => 1)
+                    ),
+                    array(
+                        PHPParser_Parser::T_INLINE_HTML, 'plaintext',
+                        array('startLine' => 1), array('endLine' => 1)
+                    ),
                 )
             ),
             // tests line numbers
             array(
                 '<?php' . "\n" . '$ token /** doc' . "\n" . 'comment */ $',
                 array(
-                    array(ord('$'),                   '$',     2, null),
-                    array(PHPParser_Parser::T_STRING, 'token', 2, null),
-                    array(ord('$'),                   '$',     3, '/** doc' . "\n" . 'comment */')
+                    array(
+                        ord('$'), '$',
+                        array('startLine' => 2), array('endLine' => 2)
+                    ),
+                    array(
+                        PHPParser_Parser::T_STRING, 'token',
+                        array('startLine' => 2), array('endLine' => 2)
+                    ),
+                    array(
+                        ord('$'), '$',
+                        array(
+                            'startLine' => 3,
+                            'comments' => array(new PHPParser_Comment_Doc('/** doc' . "\n" . 'comment */', 2))
+                        ),
+                        array('endLine' => 3)
+                    ),
                 )
             ),
-            // tests doccomment extraction
+            // tests comment extraction
             array(
-                '<?php /** docComment 1 *//** docComment 2 */ token',
+                '<?php /* comment */ // comment' . "\n" . '/** docComment 1 *//** docComment 2 */ token',
                 array(
-                    array(PHPParser_Parser::T_STRING, 'token', 1, '/** docComment 2 */'),
+                    array(
+                        PHPParser_Parser::T_STRING, 'token',
+                        array(
+                            'startLine' => 2,
+                            'comments' => array(
+                                new PHPParser_Comment('/* comment */', 1),
+                                new PHPParser_Comment('// comment' . "\n", 1),
+                                new PHPParser_Comment_Doc('/** docComment 1 */', 2),
+                                new PHPParser_Comment_Doc('/** docComment 2 */', 2),
+                            ),
+                        ),
+                        array('endLine' => 2)
+                    ),
+                )
+            ),
+            // tests differing start and end line
+            array(
+                '<?php "foo' . "\n" . 'bar"',
+                array(
+                    array(
+                        PHPParser_Parser::T_CONSTANT_ENCAPSED_STRING, '"foo' . "\n" . 'bar"',
+                        array('startLine' => 1), array('endLine' => 2)
+                    ),
                 )
             ),
         );
@@ -75,12 +125,12 @@ class PHPParser_Tests_LexerTest extends PHPUnit_Framework_TestCase
      * @dataProvider provideTestHaltCompiler
      */
     public function testHandleHaltCompiler($code, $remaining) {
-        $lexer = new PHPParser_Lexer($code);
+        $this->lexer->startLexing($code);
 
-        while (PHPParser_Parser::T_HALT_COMPILER !== $lexer->lex());
+        while (PHPParser_Parser::T_HALT_COMPILER !== $this->lexer->getNextToken());
 
-        $this->assertEquals($lexer->handleHaltCompiler(), $remaining);
-        $this->assertEquals(0, $lexer->lex());
+        $this->assertEquals($this->lexer->handleHaltCompiler(), $remaining);
+        $this->assertEquals(0, $this->lexer->getNextToken());
     }
 
     public function provideTestHaltCompiler() {

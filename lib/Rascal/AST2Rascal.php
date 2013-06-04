@@ -1,9 +1,9 @@
 <?php
-require '../PHPParser/Autoloader.php';
-PHPParser_Autoloader::register();
-
+require '../bootstrap.php';
 require_once 'IPrinter.php';
 require_once 'BasePrinter.php';
+
+ini_set('xdebug.max_nesting_level', 2000);
 
 class AST2Rascal extends BasePrinter {
   private $filename = "";
@@ -176,26 +176,7 @@ class AST2Rascal extends BasePrinter {
 
     return $fragment;
   }
-	
-  public function pprintAssignListExpr(PHPParser_Node_Expr_AssignList $node)
-  {
-    $assignExpr = $this->pprint($node->expr);
 
-    $assignVars = array();
-    foreach($node->vars as $var) {
-      if (null != $var) {
-	$assignVars[] = "someExpr(" . $this->pprint($var) . ")";
-      } else {
-	$assignVars[] = "noExpr()";
-      }
-    }
-
-    $fragment = "listAssign([" . implode(",",$assignVars) . "]," . $assignExpr . ")";
-    $fragment .= $this->annotateASTNode($node);
-
-    return $fragment;
-  }
-	
   public function pprintAssignMinusExpr(PHPParser_Node_Expr_AssignMinus $node)
   {
     $assignExpr = $this->pprint($node->expr);
@@ -498,7 +479,7 @@ class AST2Rascal extends BasePrinter {
 
   public function pprintEmptyExpr(PHPParser_Node_Expr_Empty $node)
   {
-    $fragment = "empty(" . $this->pprint($node->var) . ")";
+    $fragment = "empty(" . $this->pprint($node->expr) . ")";
     $fragment .= $this->annotateASTNode($node);
     return $fragment;
   }
@@ -635,6 +616,21 @@ class AST2Rascal extends BasePrinter {
     return $fragment;
   }
 
+  public function pprintListExpr(PHPParser_Node_Expr_List $node)
+  {
+    $exprs = array();
+    foreach($node->vars as $var)
+      if (null != $var)
+        $exprs[] = "someExpr(" . $this->pprint($var) . ")";
+      else
+        $expr[] = "noExpr()";
+      
+    $fragment = "listExpr([" . implode(",",$exprs) . "])";
+    $fragment .= $this->annotateASTNode($node);
+    
+    return $fragment;
+  }
+  
   public function pprintLogicalAndExpr(PHPParser_Node_Expr_LogicalAnd $node)
   {
     $right = $this->pprint($node->right);
@@ -978,6 +974,24 @@ class AST2Rascal extends BasePrinter {
     return $fragment;
   }
 	
+  public function pprintYieldExpr(PHPParser_Node_Expr_Yield $node)
+  {
+    if (null != $node->value)
+      $valuePart = "someExpr(" . $this->pprint($node->value) . ")";
+    else
+      $valuePart = "noExpr()";
+      
+    if (null != $node->key)
+      $keyPart = "someExpr(" . $this->pprint($node->key) . ")";
+    else
+      $keyPart = "noExpr()";
+      
+    $fragment = "yield({$keyPart},{$valuePart})";
+    $fragment .= $this->annotateASTNode($node);
+    
+    return $fragment;
+  }
+  
   public function pprintFullyQualifiedName(PHPParser_Node_Name_FullyQualified $node)
   {
     return $this->pprintName($node);
@@ -1529,12 +1543,17 @@ class AST2Rascal extends BasePrinter {
     foreach($node->stmts as $stmt)
       $body[] = $this->pprint($stmt);
 
-    if (null != $node->name)
-      $name = "someName(" . $this->pprint($node->name) . ")";
-    else
+    if (null != $node->name) {
+      $headerName = $this->pprint($node->name);
+      $name = "someName({$headerName})";
+    } else {
       $name = "noName()";
+    }
 
-    $fragment = "namespace(" . $name . ",[" . implode(",",$body) . "])";
+    if (null != $node->stmts)
+      $fragment = "namespace(" . $name . ",[" . implode(",",$body) . "])";
+    else
+      $fragment = "namespaceHeader({$headerName})"; 
     $fragment .= $this->annotateASTNode($node);
 
     return $fragment;
@@ -1710,6 +1729,11 @@ class AST2Rascal extends BasePrinter {
 
   public function pprintTryCatchStmt(PHPParser_Node_Stmt_TryCatch $node)
   {
+    $finallyBody = array();
+    if (null != $node->finallyStmts)
+      foreach($node->finallyStmts as $fstmt)
+        $finallyBody[] = $this->pprint($fstmt);
+        
     $catches = array();
     foreach($node->catches as $toCatch)
       $catches[] = $this->pprint($toCatch);
@@ -1718,7 +1742,10 @@ class AST2Rascal extends BasePrinter {
     foreach($node->stmts as $stmt)
       $body[] = $this->pprint($stmt);
 
-    $fragment = "tryCatch([" . implode(",", $body) . "],[" . implode(",",$catches) . "])";
+    if (null != $node->finallyStmts)
+      $fragment = "tryCatchFinally([" . implode(",", $body) . "],[" . implode(",",$catches) . "],[" . implode(",",$finallyBody) . "])";
+	else
+      $fragment = "tryCatch([" . implode(",", $body) . "],[" . implode(",",$catches) . "])";	
     $fragment .= $this->annotateASTNode($node);
 
     return $fragment;
@@ -1817,13 +1844,12 @@ else {
   exit -1;
 }
 
-$parser = new PHPParser_Parser;
+$parser = new PHPParser_Parser(new PHPParser_Lexer);
 $dumper = new PHPParser_NodeDumper;
 $printer = new AST2Rascal($file, $enableLocations, $uniqueIds, $prefix);
 
 try {
-  $stmts = $parser->parse(new PHPParser_Lexer($inputCode));
-/*   echo htmlspecialchars($dumper->dump($stmts)); */
+  $stmts = $parser->parse($inputCode);
   $strStmts = array();
   foreach($stmts as $stmt) $strStmts[] = $printer->pprint($stmt);
   $script = implode(",\n", $strStmts);

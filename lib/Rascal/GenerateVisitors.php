@@ -1,6 +1,6 @@
 <?php
-require '../PHPParser/Autoloader.php';
-PHPParser_Autoloader::register();
+require '../bootstrap.php';
+ini_set('xdebug.max_nesting_level', 2000);
 
 $classNames = array();
 $abstractClassNames = array();
@@ -11,16 +11,17 @@ class GenerateCode extends PHPParser_NodeVisitorAbstract
     global $classNames;
     global $abstractClassNames;
     if ($node instanceof PHPParser_Node_Stmt_Class) {
-      if (! ($node->type & PHPParser_Node_Stmt_Class::MODIFIER_ABSTRACT)) {
-	array_push($classNames,$node->name);
-      } else {
-	array_push($abstractClassNames,$node->name);
+      if ($node->isAbstract) {
+	    array_push($abstractClassNames,$node->name);
+      } else if ($node->name !== "PHPParser_Node_Expr") {
+      	// See below for why this is filtered...
+	    array_push($classNames,$node->name);
       }
     }
   }
 }
 
-$parser = new PHPParser_Parser;
+$parser = new PHPParser_Parser(new PHPParser_Lexer);
 $visitor = new PHPParser_NodeTraverser;
 $rvis = new GenerateCode;
 $visitor->addVisitor($rvis);
@@ -28,14 +29,15 @@ $dumper = new PHPParser_NodeDumper;
 
 $startdir = '../PHPParser/Node';
 
-foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($startdir), RecursiveIteratorIterator::LEAVES_ONLY) as $file) {
+foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($startdir), RecursiveIteratorIterator::CHILD_FIRST & RecursiveIteratorIterator::LEAVES_ONLY) as $file) {
   if (!preg_match('~\.php$~', $file)) {
     continue;
   }
 
   $inputCode = file_get_contents($file);
+
   try {
-    $stmts = $parser->parse(new PHPParser_Lexer($inputCode));
+    $stmts = $parser->parse($inputCode);
     $stmts = $visitor->traverse($stmts);
   } catch (PHPParser_Error $e) {
     echo 'Parse Error: ', $e->getMessage();
@@ -53,6 +55,12 @@ $ifcLeaves = "";
 $ifcPrints = "\tpublic function pprint(PHPParser_Node \$node);\n";
 
 $firstPass = true;
+
+// TODO: This is not elegant, but, since Scalar extends Expr, these are going
+// in the file in the wrong order. This just forces PHPParser_Node_Expr to be
+// the last class handled. The better fix would be to compute the inherits
+// relation and base the order on this instead. 
+array_push($classNames, "PHPParser_Node_Expr");
 
 foreach($classNames as $className) {
   $callName = $className;

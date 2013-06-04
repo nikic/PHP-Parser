@@ -1,8 +1,21 @@
 <?php
 
-const GRAMMAR_FILE = './zend_language_parser.phpy';
-const TMP_FILE     = './tmp_parser.phpy';
-const RESULT_FILE  = './tmp_parser.php';
+$grammarFile           = __DIR__ . '/zend_language_parser.phpy';
+$skeletonFile          = __DIR__ . '/kmyacc.php.parser';
+$tmpGrammarFile        = __DIR__ . '/tmp_parser.phpy';
+$tmpResultFile         = __DIR__ . '/tmp_parser.php';
+$parserResultFile      = __DIR__ . '/../lib/PHPParser/Parser.php';
+$debugParserResultFile = __DIR__ . '/../lib/PHPParser/Parser/Debug.php';
+
+// check for kmyacc.exe binary in this directory, otherwise fall back to global name
+$kmyacc = __DIR__ . '/kmyacc.exe';
+if (!file_exists($kmyacc)) {
+    $kmyacc = 'kmyacc';
+}
+
+$options = array_flip($argv);
+$optionDebug = isset($options['--debug']);
+$optionKeepTmpGrammar = isset($options['--keep-tmp-grammar']);
 
 ///////////////////////////////
 /// Utility regex constants ///
@@ -23,42 +36,34 @@ const ARGS   = '\((?<args>[^()]*+(?:\((?&args)\)[^()]*+)*+)\)';
 /// Main script ///
 ///////////////////
 
-echo '<pre>';
-
 echo 'Building temporary preproprocessed grammar file.', "\n";
 
-$grammarCode = file_get_contents(GRAMMAR_FILE);
+$grammarCode = file_get_contents($grammarFile);
 
 $grammarCode = resolveConstants($grammarCode);
 $grammarCode = resolveNodes($grammarCode);
 $grammarCode = resolveMacros($grammarCode);
 $grammarCode = resolveArrays($grammarCode);
 
-file_put_contents(TMP_FILE, $grammarCode);
+file_put_contents($tmpGrammarFile, $grammarCode);
 
-echo 'Building parser. Output: "',
-     trim(shell_exec('kmyacc -l -m kmyacc.php.parser -p PHPParser_Parser ' . TMP_FILE . ' 2>&1')),
-     '"', "\n";
+echo "Building parser.\n";
+$output = trim(shell_exec("$kmyacc -l -m $skeletonFile -p PHPParser_Parser $tmpGrammarFile 2>&1"));
+echo "Output: \"$output\"\n";
 
-rename(RESULT_FILE, '../lib/PHPParser/Parser.php');
+moveFileWithDirCheck($tmpResultFile, $parserResultFile);
 
-if (isset($_GET['debug'])) {
-    echo 'Building debug parser. Output: "',
-    trim(shell_exec('kmyacc -t -v -l -m kmyacc.php.parser -p PHPParser_Parser ' . TMP_FILE . ' 2>&1')),
-    '"', "\n";
+if ($optionDebug) {
+    echo "Building debug parser.\n";
+    $output = trim(shell_exec("$kmyacc -t -v -l -m $skeletonFile -p PHPParser_Parser $tmpGrammarFile 2>&1"));
+    echo "Output: \"$output\"\n";
 
-    if (!is_dir('../lib/PHPParser/Parser')) {
-        mkdir('../lib/PHPParser/Parser');
-    }
-    rename(RESULT_FILE, '../lib/PHPParser/Parser/Debug.php');
+    moveFileWithDirCheck($tmpResultFile, $debugParserResultFile);
 }
 
-
-unlink(TMP_FILE);
-
-echo 'The following temporary preproprocessed grammar file was used:', "\n", $grammarCode;
-
-echo '</pre>';
+if (!$optionKeepTmpGrammar) {
+    unlink($tmpGrammarFile);
+}
 
 ///////////////////////////////
 /// Preprocessing functions ///
@@ -85,7 +90,7 @@ function resolveNodes($code) {
                 $paramCode .= $param . ', ';
             }
 
-            return 'new PHPParser_Node_' . $matches['name'] . '(' . $paramCode . '$line, $docComment)';
+            return 'new PHPParser_Node_' . $matches['name'] . '(' . $paramCode . '$attributes)';
         },
         $code
     );
@@ -191,6 +196,14 @@ function resolveArrays($code) {
         },
         $code
     );
+}
+
+function moveFileWithDirCheck($fromPath, $toPath) {
+    $dir = dirname($toPath);
+    if (!is_dir($dir)) {
+        mkdir($dir, 0777, true);
+    }
+    rename($fromPath, $toPath);
 }
 
 //////////////////////////////

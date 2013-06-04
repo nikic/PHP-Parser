@@ -3,20 +3,17 @@
 abstract class PHPParser_NodeAbstract implements PHPParser_Node, IteratorAggregate
 {
     protected $subNodes;
-    protected $line;
-    protected $docComment;
+    protected $attributes;
 
     /**
      * Creates a Node.
      *
-     * @param array       $subNodes   Array of sub nodes
-     * @param int         $line       Line
-     * @param null|string $docComment Nearest doc comment
+     * @param array $subNodes   Array of sub nodes
+     * @param array $attributes Array of attributes
      */
-    public function __construct(array $subNodes, $line = -1, $docComment = null) {
+    public function __construct(array $subNodes = array(), array $attributes = array()) {
         $this->subNodes   = $subNodes;
-        $this->line       = $line;
-        $this->docComment = $docComment;
+        $this->attributes = $attributes;
     }
 
     /**
@@ -43,7 +40,7 @@ abstract class PHPParser_NodeAbstract implements PHPParser_Node, IteratorAggrega
      * @return int Line
      */
     public function getLine() {
-        return $this->line;
+        return $this->getAttribute('startLine', -1);
     }
 
     /**
@@ -52,25 +49,60 @@ abstract class PHPParser_NodeAbstract implements PHPParser_Node, IteratorAggrega
      * @param int $line Line
      */
     public function setLine($line) {
-        $this->line = (int) $line;
+        $this->setAttribute('startLine', (int) $line);
     }
 
     /**
-     * Gets the nearest doc comment.
+     * Gets the doc comment of the node.
      *
-     * @return null|string Nearest doc comment or null
+     * The doc comment has to be the last comment associated with the node.
+     *
+     * @return null|PHPParser_Comment_Doc Doc comment object or null
      */
     public function getDocComment() {
-        return $this->docComment;
+        $comments = $this->getAttribute('comments');
+        if (!$comments) {
+            return null;
+        }
+
+        $lastComment = $comments[count($comments) - 1];
+        if (!$lastComment instanceof PHPParser_Comment_Doc) {
+            return null;
+        }
+
+        return $lastComment;
     }
 
     /**
-     * Sets the nearest doc comment.
-     *
-     * @param null|string $docComment Nearest doc comment or null
+     * {@inheritDoc}
      */
-    public function setDocComment($docComment) {
-        $this->docComment = $docComment;
+    public function setAttribute($key, $value) {
+        $this->attributes[$key] = $value;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function hasAttribute($key) {
+        return array_key_exists($key, $this->attributes);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function &getAttribute($key, $default = null) {
+        if (!array_key_exists($key, $this->attributes)) {
+            return $default;
+        } else {
+            return $this->attributes[$key];
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getAttributes() {
+        return $this->attributes;
     }
 
     /* Magic interfaces */

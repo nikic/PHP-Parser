@@ -12,7 +12,6 @@ interface IVisitor
 	public function enterAssignBitwiseXorExpr(PHPParser_Node_Expr_AssignBitwiseXor $node);
 	public function enterAssignConcatExpr(PHPParser_Node_Expr_AssignConcat $node);
 	public function enterAssignDivExpr(PHPParser_Node_Expr_AssignDiv $node);
-	public function enterAssignListExpr(PHPParser_Node_Expr_AssignList $node);
 	public function enterAssignMinusExpr(PHPParser_Node_Expr_AssignMinus $node);
 	public function enterAssignModExpr(PHPParser_Node_Expr_AssignMod $node);
 	public function enterAssignMulExpr(PHPParser_Node_Expr_AssignMul $node);
@@ -34,6 +33,7 @@ interface IVisitor
 	public function enterObjectCastExpr(PHPParser_Node_Expr_Cast_Object $node);
 	public function enterStringCastExpr(PHPParser_Node_Expr_Cast_String $node);
 	public function enterUnsetCastExpr(PHPParser_Node_Expr_Cast_Unset $node);
+	public function enterCastExpr(PHPParser_Node_Expr_Cast $node);
 	public function enterClassConstFetchExpr(PHPParser_Node_Expr_ClassConstFetch $node);
 	public function enterCloneExpr(PHPParser_Node_Expr_Clone $node);
 	public function enterClosureExpr(PHPParser_Node_Expr_Closure $node);
@@ -53,6 +53,7 @@ interface IVisitor
 	public function enterIncludeExpr(PHPParser_Node_Expr_Include $node);
 	public function enterInstanceofExpr(PHPParser_Node_Expr_Instanceof $node);
 	public function enterIssetExpr(PHPParser_Node_Expr_Isset $node);
+	public function enterListExpr(PHPParser_Node_Expr_List $node);
 	public function enterLogicalAndExpr(PHPParser_Node_Expr_LogicalAnd $node);
 	public function enterLogicalOrExpr(PHPParser_Node_Expr_LogicalOr $node);
 	public function enterLogicalXorExpr(PHPParser_Node_Expr_LogicalXor $node);
@@ -81,6 +82,7 @@ interface IVisitor
 	public function enterUnaryMinusExpr(PHPParser_Node_Expr_UnaryMinus $node);
 	public function enterUnaryPlusExpr(PHPParser_Node_Expr_UnaryPlus $node);
 	public function enterVariableExpr(PHPParser_Node_Expr_Variable $node);
+	public function enterYieldExpr(PHPParser_Node_Expr_Yield $node);
 	public function enterFullyQualifiedName(PHPParser_Node_Name_FullyQualified $node);
 	public function enterRelativeName(PHPParser_Node_Name_Relative $node);
 	public function enterName(PHPParser_Node_Name $node);
@@ -97,6 +99,7 @@ interface IVisitor
 	public function enterNSConstScalar(PHPParser_Node_Scalar_NSConst $node);
 	public function enterStringScalar(PHPParser_Node_Scalar_String $node);
 	public function enterTraitConstScalar(PHPParser_Node_Scalar_TraitConst $node);
+	public function enterScalar(PHPParser_Node_Scalar $node);
 	public function enterBreakStmt(PHPParser_Node_Stmt_Break $node);
 	public function enterCaseStmt(PHPParser_Node_Stmt_Case $node);
 	public function enterCatchStmt(PHPParser_Node_Stmt_Catch $node);
@@ -134,11 +137,14 @@ interface IVisitor
 	public function enterTraitUseStmt(PHPParser_Node_Stmt_TraitUse $node);
 	public function enterAliasTraitUseAdaptationStmt(PHPParser_Node_Stmt_TraitUseAdaptation_Alias $node);
 	public function enterPrecedenceTraitUseAdaptationStmt(PHPParser_Node_Stmt_TraitUseAdaptation_Precedence $node);
+	public function enterTraitUseAdaptationStmt(PHPParser_Node_Stmt_TraitUseAdaptation $node);
 	public function enterTryCatchStmt(PHPParser_Node_Stmt_TryCatch $node);
 	public function enterUnsetStmt(PHPParser_Node_Stmt_Unset $node);
 	public function enterUseStmt(PHPParser_Node_Stmt_Use $node);
 	public function enterUseUseStmt(PHPParser_Node_Stmt_UseUse $node);
 	public function enterWhileStmt(PHPParser_Node_Stmt_While $node);
+	public function enterStmt(PHPParser_Node_Stmt $node);
+	public function enterExpr(PHPParser_Node_Expr $node);
 
 	public function leaveArg(PHPParser_Node_Arg $node);
 	public function leaveConst(PHPParser_Node_Const $node);
@@ -151,7 +157,6 @@ interface IVisitor
 	public function leaveAssignBitwiseXorExpr(PHPParser_Node_Expr_AssignBitwiseXor $node);
 	public function leaveAssignConcatExpr(PHPParser_Node_Expr_AssignConcat $node);
 	public function leaveAssignDivExpr(PHPParser_Node_Expr_AssignDiv $node);
-	public function leaveAssignListExpr(PHPParser_Node_Expr_AssignList $node);
 	public function leaveAssignMinusExpr(PHPParser_Node_Expr_AssignMinus $node);
 	public function leaveAssignModExpr(PHPParser_Node_Expr_AssignMod $node);
 	public function leaveAssignMulExpr(PHPParser_Node_Expr_AssignMul $node);
@@ -173,6 +178,7 @@ interface IVisitor
 	public function leaveObjectCastExpr(PHPParser_Node_Expr_Cast_Object $node);
 	public function leaveStringCastExpr(PHPParser_Node_Expr_Cast_String $node);
 	public function leaveUnsetCastExpr(PHPParser_Node_Expr_Cast_Unset $node);
+	public function leaveCastExpr(PHPParser_Node_Expr_Cast $node);
 	public function leaveClassConstFetchExpr(PHPParser_Node_Expr_ClassConstFetch $node);
 	public function leaveCloneExpr(PHPParser_Node_Expr_Clone $node);
 	public function leaveClosureExpr(PHPParser_Node_Expr_Closure $node);
@@ -192,6 +198,7 @@ interface IVisitor
 	public function leaveIncludeExpr(PHPParser_Node_Expr_Include $node);
 	public function leaveInstanceofExpr(PHPParser_Node_Expr_Instanceof $node);
 	public function leaveIssetExpr(PHPParser_Node_Expr_Isset $node);
+	public function leaveListExpr(PHPParser_Node_Expr_List $node);
 	public function leaveLogicalAndExpr(PHPParser_Node_Expr_LogicalAnd $node);
 	public function leaveLogicalOrExpr(PHPParser_Node_Expr_LogicalOr $node);
 	public function leaveLogicalXorExpr(PHPParser_Node_Expr_LogicalXor $node);
@@ -220,6 +227,7 @@ interface IVisitor
 	public function leaveUnaryMinusExpr(PHPParser_Node_Expr_UnaryMinus $node);
 	public function leaveUnaryPlusExpr(PHPParser_Node_Expr_UnaryPlus $node);
 	public function leaveVariableExpr(PHPParser_Node_Expr_Variable $node);
+	public function leaveYieldExpr(PHPParser_Node_Expr_Yield $node);
 	public function leaveFullyQualifiedName(PHPParser_Node_Name_FullyQualified $node);
 	public function leaveRelativeName(PHPParser_Node_Name_Relative $node);
 	public function leaveName(PHPParser_Node_Name $node);
@@ -236,6 +244,7 @@ interface IVisitor
 	public function leaveNSConstScalar(PHPParser_Node_Scalar_NSConst $node);
 	public function leaveStringScalar(PHPParser_Node_Scalar_String $node);
 	public function leaveTraitConstScalar(PHPParser_Node_Scalar_TraitConst $node);
+	public function leaveScalar(PHPParser_Node_Scalar $node);
 	public function leaveBreakStmt(PHPParser_Node_Stmt_Break $node);
 	public function leaveCaseStmt(PHPParser_Node_Stmt_Case $node);
 	public function leaveCatchStmt(PHPParser_Node_Stmt_Catch $node);
@@ -273,11 +282,14 @@ interface IVisitor
 	public function leaveTraitUseStmt(PHPParser_Node_Stmt_TraitUse $node);
 	public function leaveAliasTraitUseAdaptationStmt(PHPParser_Node_Stmt_TraitUseAdaptation_Alias $node);
 	public function leavePrecedenceTraitUseAdaptationStmt(PHPParser_Node_Stmt_TraitUseAdaptation_Precedence $node);
+	public function leaveTraitUseAdaptationStmt(PHPParser_Node_Stmt_TraitUseAdaptation $node);
 	public function leaveTryCatchStmt(PHPParser_Node_Stmt_TryCatch $node);
 	public function leaveUnsetStmt(PHPParser_Node_Stmt_Unset $node);
 	public function leaveUseStmt(PHPParser_Node_Stmt_Use $node);
 	public function leaveUseUseStmt(PHPParser_Node_Stmt_UseUse $node);
 	public function leaveWhileStmt(PHPParser_Node_Stmt_While $node);
+	public function leaveStmt(PHPParser_Node_Stmt $node);
+	public function leaveExpr(PHPParser_Node_Expr $node);
 
 }
 ?>

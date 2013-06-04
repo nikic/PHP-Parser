@@ -16,20 +16,19 @@ class PHPParser_Node_Stmt_Interface extends PHPParser_Node_Stmt
     /**
      * Constructs a class node.
      *
-     * @param string      $name       Name
-     * @param array       $subNodes   Array of the following optional subnodes:
-     *                                'extends' => array(): Name of extended interfaces
-     *                                'stmts'   => array(): Statements
-     * @param int         $line       Line
-     * @param null|string $docComment Nearest doc comment
+     * @param string $name       Name
+     * @param array  $subNodes   Array of the following optional subnodes:
+     *                           'extends' => array(): Name of extended interfaces
+     *                           'stmts'   => array(): Statements
+     * @param array  $attributes Additional attributes
      */
-    public function __construct($name, array $subNodes = array(), $line = -1, $docComment = null) {
+    public function __construct($name, array $subNodes = array(), array $attributes = array()) {
         parent::__construct(
             $subNodes + array(
                 'extends' => array(),
                 'stmts'   => array(),
             ),
-            $line, $docComment
+            $attributes
         );
         $this->name = $name;
 

@@ -34,8 +34,6 @@ class UsefulVisitor extends PHPParser_NodeVisitorAbstract
 			return $this->visitor->enterAssignConcatExpr($node);
 		} elseif ($node instanceof PHPParser_Node_Expr_AssignDiv) {
 			return $this->visitor->enterAssignDivExpr($node);
-		} elseif ($node instanceof PHPParser_Node_Expr_AssignList) {
-			return $this->visitor->enterAssignListExpr($node);
 		} elseif ($node instanceof PHPParser_Node_Expr_AssignMinus) {
 			return $this->visitor->enterAssignMinusExpr($node);
 		} elseif ($node instanceof PHPParser_Node_Expr_AssignMod) {
@@ -78,6 +76,8 @@ class UsefulVisitor extends PHPParser_NodeVisitorAbstract
 			return $this->visitor->enterStringCastExpr($node);
 		} elseif ($node instanceof PHPParser_Node_Expr_Cast_Unset) {
 			return $this->visitor->enterUnsetCastExpr($node);
+		} elseif ($node instanceof PHPParser_Node_Expr_Cast) {
+			return $this->visitor->enterCastExpr($node);
 		} elseif ($node instanceof PHPParser_Node_Expr_ClassConstFetch) {
 			return $this->visitor->enterClassConstFetchExpr($node);
 		} elseif ($node instanceof PHPParser_Node_Expr_Clone) {
@@ -116,6 +116,8 @@ class UsefulVisitor extends PHPParser_NodeVisitorAbstract
 			return $this->visitor->enterInstanceofExpr($node);
 		} elseif ($node instanceof PHPParser_Node_Expr_Isset) {
 			return $this->visitor->enterIssetExpr($node);
+		} elseif ($node instanceof PHPParser_Node_Expr_List) {
+			return $this->visitor->enterListExpr($node);
 		} elseif ($node instanceof PHPParser_Node_Expr_LogicalAnd) {
 			return $this->visitor->enterLogicalAndExpr($node);
 		} elseif ($node instanceof PHPParser_Node_Expr_LogicalOr) {
@@ -172,6 +174,8 @@ class UsefulVisitor extends PHPParser_NodeVisitorAbstract
 			return $this->visitor->enterUnaryPlusExpr($node);
 		} elseif ($node instanceof PHPParser_Node_Expr_Variable) {
 			return $this->visitor->enterVariableExpr($node);
+		} elseif ($node instanceof PHPParser_Node_Expr_Yield) {
+			return $this->visitor->enterYieldExpr($node);
 		} elseif ($node instanceof PHPParser_Node_Name_FullyQualified) {
 			return $this->visitor->enterFullyQualifiedName($node);
 		} elseif ($node instanceof PHPParser_Node_Name_Relative) {
@@ -204,6 +208,8 @@ class UsefulVisitor extends PHPParser_NodeVisitorAbstract
 			return $this->visitor->enterStringScalar($node);
 		} elseif ($node instanceof PHPParser_Node_Scalar_TraitConst) {
 			return $this->visitor->enterTraitConstScalar($node);
+		} elseif ($node instanceof PHPParser_Node_Scalar) {
+			return $this->visitor->enterScalar($node);
 		} elseif ($node instanceof PHPParser_Node_Stmt_Break) {
 			return $this->visitor->enterBreakStmt($node);
 		} elseif ($node instanceof PHPParser_Node_Stmt_Case) {
@@ -278,6 +284,8 @@ class UsefulVisitor extends PHPParser_NodeVisitorAbstract
 			return $this->visitor->enterAliasTraitUseAdaptationStmt($node);
 		} elseif ($node instanceof PHPParser_Node_Stmt_TraitUseAdaptation_Precedence) {
 			return $this->visitor->enterPrecedenceTraitUseAdaptationStmt($node);
+		} elseif ($node instanceof PHPParser_Node_Stmt_TraitUseAdaptation) {
+			return $this->visitor->enterTraitUseAdaptationStmt($node);
 		} elseif ($node instanceof PHPParser_Node_Stmt_TryCatch) {
 			return $this->visitor->enterTryCatchStmt($node);
 		} elseif ($node instanceof PHPParser_Node_Stmt_Unset) {
@@ -288,6 +296,10 @@ class UsefulVisitor extends PHPParser_NodeVisitorAbstract
 			return $this->visitor->enterUseUseStmt($node);
 		} elseif ($node instanceof PHPParser_Node_Stmt_While) {
 			return $this->visitor->enterWhileStmt($node);
+		} elseif ($node instanceof PHPParser_Node_Stmt) {
+			return $this->visitor->enterStmt($node);
+		} elseif ($node instanceof PHPParser_Node_Expr) {
+			return $this->visitor->enterExpr($node);
 		}
 	}
 	public function leaveNode(PHPParser_Node $node)
@@ -314,8 +326,6 @@ class UsefulVisitor extends PHPParser_NodeVisitorAbstract
 			return $this->visitor->leaveAssignConcatExpr($node);
 		} elseif ($node instanceof PHPParser_Node_Expr_AssignDiv) {
 			return $this->visitor->leaveAssignDivExpr($node);
-		} elseif ($node instanceof PHPParser_Node_Expr_AssignList) {
-			return $this->visitor->leaveAssignListExpr($node);
 		} elseif ($node instanceof PHPParser_Node_Expr_AssignMinus) {
 			return $this->visitor->leaveAssignMinusExpr($node);
 		} elseif ($node instanceof PHPParser_Node_Expr_AssignMod) {
@@ -358,6 +368,8 @@ class UsefulVisitor extends PHPParser_NodeVisitorAbstract
 			return $this->visitor->leaveStringCastExpr($node);
 		} elseif ($node instanceof PHPParser_Node_Expr_Cast_Unset) {
 			return $this->visitor->leaveUnsetCastExpr($node);
+		} elseif ($node instanceof PHPParser_Node_Expr_Cast) {
+			return $this->visitor->leaveCastExpr($node);
 		} elseif ($node instanceof PHPParser_Node_Expr_ClassConstFetch) {
 			return $this->visitor->leaveClassConstFetchExpr($node);
 		} elseif ($node instanceof PHPParser_Node_Expr_Clone) {
@@ -396,6 +408,8 @@ class UsefulVisitor extends PHPParser_NodeVisitorAbstract
 			return $this->visitor->leaveInstanceofExpr($node);
 		} elseif ($node instanceof PHPParser_Node_Expr_Isset) {
 			return $this->visitor->leaveIssetExpr($node);
+		} elseif ($node instanceof PHPParser_Node_Expr_List) {
+			return $this->visitor->leaveListExpr($node);
 		} elseif ($node instanceof PHPParser_Node_Expr_LogicalAnd) {
 			return $this->visitor->leaveLogicalAndExpr($node);
 		} elseif ($node instanceof PHPParser_Node_Expr_LogicalOr) {
@@ -452,6 +466,8 @@ class UsefulVisitor extends PHPParser_NodeVisitorAbstract
 			return $this->visitor->leaveUnaryPlusExpr($node);
 		} elseif ($node instanceof PHPParser_Node_Expr_Variable) {
 			return $this->visitor->leaveVariableExpr($node);
+		} elseif ($node instanceof PHPParser_Node_Expr_Yield) {
+			return $this->visitor->leaveYieldExpr($node);
 		} elseif ($node instanceof PHPParser_Node_Name_FullyQualified) {
 			return $this->visitor->leaveFullyQualifiedName($node);
 		} elseif ($node instanceof PHPParser_Node_Name_Relative) {
@@ -484,6 +500,8 @@ class UsefulVisitor extends PHPParser_NodeVisitorAbstract
 			return $this->visitor->leaveStringScalar($node);
 		} elseif ($node instanceof PHPParser_Node_Scalar_TraitConst) {
 			return $this->visitor->leaveTraitConstScalar($node);
+		} elseif ($node instanceof PHPParser_Node_Scalar) {
+			return $this->visitor->leaveScalar($node);
 		} elseif ($node instanceof PHPParser_Node_Stmt_Break) {
 			return $this->visitor->leaveBreakStmt($node);
 		} elseif ($node instanceof PHPParser_Node_Stmt_Case) {
@@ -558,6 +576,8 @@ class UsefulVisitor extends PHPParser_NodeVisitorAbstract
 			return $this->visitor->leaveAliasTraitUseAdaptationStmt($node);
 		} elseif ($node instanceof PHPParser_Node_Stmt_TraitUseAdaptation_Precedence) {
 			return $this->visitor->leavePrecedenceTraitUseAdaptationStmt($node);
+		} elseif ($node instanceof PHPParser_Node_Stmt_TraitUseAdaptation) {
+			return $this->visitor->leaveTraitUseAdaptationStmt($node);
 		} elseif ($node instanceof PHPParser_Node_Stmt_TryCatch) {
 			return $this->visitor->leaveTryCatchStmt($node);
 		} elseif ($node instanceof PHPParser_Node_Stmt_Unset) {
@@ -568,6 +588,10 @@ class UsefulVisitor extends PHPParser_NodeVisitorAbstract
 			return $this->visitor->leaveUseUseStmt($node);
 		} elseif ($node instanceof PHPParser_Node_Stmt_While) {
 			return $this->visitor->leaveWhileStmt($node);
+		} elseif ($node instanceof PHPParser_Node_Stmt) {
+			return $this->visitor->leaveStmt($node);
+		} elseif ($node instanceof PHPParser_Node_Expr) {
+			return $this->visitor->leaveExpr($node);
 		}
 	}
 }

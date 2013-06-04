@@ -13,7 +13,6 @@ interface IPrinter
 	public function pprintAssignBitwiseXorExpr(PHPParser_Node_Expr_AssignBitwiseXor $node);
 	public function pprintAssignConcatExpr(PHPParser_Node_Expr_AssignConcat $node);
 	public function pprintAssignDivExpr(PHPParser_Node_Expr_AssignDiv $node);
-	public function pprintAssignListExpr(PHPParser_Node_Expr_AssignList $node);
 	public function pprintAssignMinusExpr(PHPParser_Node_Expr_AssignMinus $node);
 	public function pprintAssignModExpr(PHPParser_Node_Expr_AssignMod $node);
 	public function pprintAssignMulExpr(PHPParser_Node_Expr_AssignMul $node);
@@ -35,6 +34,7 @@ interface IPrinter
 	public function pprintObjectCastExpr(PHPParser_Node_Expr_Cast_Object $node);
 	public function pprintStringCastExpr(PHPParser_Node_Expr_Cast_String $node);
 	public function pprintUnsetCastExpr(PHPParser_Node_Expr_Cast_Unset $node);
+	public function pprintCastExpr(PHPParser_Node_Expr_Cast $node);
 	public function pprintClassConstFetchExpr(PHPParser_Node_Expr_ClassConstFetch $node);
 	public function pprintCloneExpr(PHPParser_Node_Expr_Clone $node);
 	public function pprintClosureExpr(PHPParser_Node_Expr_Closure $node);
@@ -54,6 +54,7 @@ interface IPrinter
 	public function pprintIncludeExpr(PHPParser_Node_Expr_Include $node);
 	public function pprintInstanceofExpr(PHPParser_Node_Expr_Instanceof $node);
 	public function pprintIssetExpr(PHPParser_Node_Expr_Isset $node);
+	public function pprintListExpr(PHPParser_Node_Expr_List $node);
 	public function pprintLogicalAndExpr(PHPParser_Node_Expr_LogicalAnd $node);
 	public function pprintLogicalOrExpr(PHPParser_Node_Expr_LogicalOr $node);
 	public function pprintLogicalXorExpr(PHPParser_Node_Expr_LogicalXor $node);
@@ -82,6 +83,7 @@ interface IPrinter
 	public function pprintUnaryMinusExpr(PHPParser_Node_Expr_UnaryMinus $node);
 	public function pprintUnaryPlusExpr(PHPParser_Node_Expr_UnaryPlus $node);
 	public function pprintVariableExpr(PHPParser_Node_Expr_Variable $node);
+	public function pprintYieldExpr(PHPParser_Node_Expr_Yield $node);
 	public function pprintFullyQualifiedName(PHPParser_Node_Name_FullyQualified $node);
 	public function pprintRelativeName(PHPParser_Node_Name_Relative $node);
 	public function pprintName(PHPParser_Node_Name $node);
@@ -98,6 +100,7 @@ interface IPrinter
 	public function pprintNSConstScalar(PHPParser_Node_Scalar_NSConst $node);
 	public function pprintStringScalar(PHPParser_Node_Scalar_String $node);
 	public function pprintTraitConstScalar(PHPParser_Node_Scalar_TraitConst $node);
+	public function pprintScalar(PHPParser_Node_Scalar $node);
 	public function pprintBreakStmt(PHPParser_Node_Stmt_Break $node);
 	public function pprintCaseStmt(PHPParser_Node_Stmt_Case $node);
 	public function pprintCatchStmt(PHPParser_Node_Stmt_Catch $node);
@@ -135,11 +138,14 @@ interface IPrinter
 	public function pprintTraitUseStmt(PHPParser_Node_Stmt_TraitUse $node);
 	public function pprintAliasTraitUseAdaptationStmt(PHPParser_Node_Stmt_TraitUseAdaptation_Alias $node);
 	public function pprintPrecedenceTraitUseAdaptationStmt(PHPParser_Node_Stmt_TraitUseAdaptation_Precedence $node);
+	public function pprintTraitUseAdaptationStmt(PHPParser_Node_Stmt_TraitUseAdaptation $node);
 	public function pprintTryCatchStmt(PHPParser_Node_Stmt_TryCatch $node);
 	public function pprintUnsetStmt(PHPParser_Node_Stmt_Unset $node);
 	public function pprintUseStmt(PHPParser_Node_Stmt_Use $node);
 	public function pprintUseUseStmt(PHPParser_Node_Stmt_UseUse $node);
 	public function pprintWhileStmt(PHPParser_Node_Stmt_While $node);
+	public function pprintStmt(PHPParser_Node_Stmt $node);
+	public function pprintExpr(PHPParser_Node_Expr $node);
 
 }
 ?>

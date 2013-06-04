@@ -1,6 +1,6 @@
 <?php
 
-class PHPParser_NodeTraverser
+class PHPParser_NodeTraverser implements PHPParser_NodeTraverserInterface
 {
     /**
      * @var PHPParser_NodeVisitor[] Visitors
@@ -91,7 +91,7 @@ class PHPParser_NodeTraverser
 
                 $node = $this->traverseNode($node);
 
-                foreach ($this->visitors as $j => $visitor) {
+                foreach ($this->visitors as $visitor) {
                     $return = $visitor->leaveNode($node);
 
                     if (false === $return) {

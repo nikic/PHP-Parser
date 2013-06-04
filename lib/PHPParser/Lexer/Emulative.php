@@ -5,30 +5,50 @@
  */
 class PHPParser_Lexer_Emulative extends PHPParser_Lexer
 {
-    protected static $keywords = array(
-        // PHP 5.4
-        'callable'      => PHPParser_Parser::T_CALLABLE,
-        'insteadof'     => PHPParser_Parser::T_INSTEADOF,
-        'trait'         => PHPParser_Parser::T_TRAIT,
-        '__trait__'     => PHPParser_Parser::T_TRAIT_C,
-        // PHP 5.3
-        '__dir__'       => PHPParser_Parser::T_DIR,
-        'goto'          => PHPParser_Parser::T_GOTO,
-        'namespace'     => PHPParser_Parser::T_NAMESPACE,
-        '__namespace__' => PHPParser_Parser::T_NS_C,
-    );
-
+    protected $newKeywords;
     protected $inObjectAccess;
 
-    public function __construct($code) {
+    public function __construct() {
+        parent::__construct();
+
+        $newKeywordsPerVersion = array(
+            '5.5.0-dev' => array(
+                'finally'       => PHPParser_Parser::T_FINALLY,
+                'yield'         => PHPParser_Parser::T_YIELD,
+            ),
+            '5.4.0-dev' => array(
+                'callable'      => PHPParser_Parser::T_CALLABLE,
+                'insteadof'     => PHPParser_Parser::T_INSTEADOF,
+                'trait'         => PHPParser_Parser::T_TRAIT,
+                '__trait__'     => PHPParser_Parser::T_TRAIT_C,
+            ),
+            '5.3.0-dev' => array(
+                '__dir__'       => PHPParser_Parser::T_DIR,
+                'goto'          => PHPParser_Parser::T_GOTO,
+                'namespace'     => PHPParser_Parser::T_NAMESPACE,
+                '__namespace__' => PHPParser_Parser::T_NS_C,
+            ),
+        );
+
+        $this->newKeywords = array();
+        foreach ($newKeywordsPerVersion as $version => $newKeywords) {
+            if (version_compare(PHP_VERSION, $version, '>=')) {
+                break;
+            }
+
+            $this->newKeywords += $newKeywords;
+        }
+    }
+
+    public function startLexing($code) {
         $this->inObjectAccess = false;
 
         // on PHP 5.4 don't do anything
         if (version_compare(PHP_VERSION, '5.4.0RC1', '>=')) {
-            parent::__construct($code);
+            parent::startLexing($code);
         } else {
             $code = $this->preprocessCode($code);
-            parent::__construct($code);
+            parent::startLexing($code);
             $this->postprocessTokens();
         }
     }
@@ -103,8 +123,8 @@ class PHPParser_Lexer_Emulative extends PHPParser_Lexer
                     );
                 } elseif ('NS' === $matches[1]) {
                     // a \ single char token is returned here and replaced by a
-                    // PHPParser_Parser::T_NS_SEPARATOR token in ->lex(). This hacks around the
-                    // limitations arising from T_NS_SEPARATOR not being defined on 5.3
+                    // PHPParser_Parser::T_NS_SEPARATOR token in ->getNextToken(). This hacks around
+                    // the limitations arising from T_NS_SEPARATOR not being defined on 5.3
                     $replace = array('\\');
                 } elseif ('NOWDOC' === $matches[1]) {
                     // decode the encoded nowdoc payload; pack('H*' is bin2hex( for 5.3
@@ -155,15 +175,15 @@ class PHPParser_Lexer_Emulative extends PHPParser_Lexer
         }
     }
 
-    public function lex(&$value = null, &$line = null, &$docComment = null) {
-        $token = parent::lex($value, $line, $docComment);
+    public function getNextToken(&$value = null, &$startAttributes = null, &$endAttributes = null) {
+        $token = parent::getNextToken($value, $startAttributes, $endAttributes);
 
         // replace new keywords by their respective tokens. This is not done
         // if we currently are in an object access (e.g. in $obj->namespace
         // "namespace" stays a T_STRING tokens and isn't converted to T_NAMESPACE)
         if (PHPParser_Parser::T_STRING === $token && !$this->inObjectAccess) {
-            if (isset(self::$keywords[strtolower($value)])) {
-                return self::$keywords[strtolower($value)];
+            if (isset($this->newKeywords[strtolower($value)])) {
+                return $this->newKeywords[strtolower($value)];
             }
         // backslashes are replaced by T_NS_SEPARATOR tokens
         } elseif (92 === $token) { // ord('\\')

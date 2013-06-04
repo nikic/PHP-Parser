@@ -19,10 +19,9 @@ class PHPParser_Node_Stmt_ClassMethod extends PHPParser_Node_Stmt
      *                                'byRef'  => false          : Whether to return by reference
      *                                'params' => array()        : Parameters
      *                                'stmts'  => array()        : Statements
-     * @param int         $line       Line
-     * @param null|string $docComment Nearest doc comment
+     * @param array       $attributes Additional attributes
      */
-    public function __construct($name, array $subNodes = array(), $line = -1, $docComment = null) {
+    public function __construct($name, array $subNodes = array(), array $attributes = array()) {
         parent::__construct(
             $subNodes + array(
                 'type'   => PHPParser_Node_Stmt_Class::MODIFIER_PUBLIC,
@@ -30,7 +29,7 @@ class PHPParser_Node_Stmt_ClassMethod extends PHPParser_Node_Stmt
                 'params' => array(),
                 'stmts'  => array(),
             ),
-            $line, $docComment
+            $attributes
         );
         $this->name = $name;
 
@@ -39,5 +38,29 @@ class PHPParser_Node_Stmt_ClassMethod extends PHPParser_Node_Stmt
         ) {
             throw new PHPParser_Error(sprintf('"%s" method cannot be static', $this->name));
         }
+    }
+
+    public function isPublic() {
+        return (bool) ($this->type & PHPParser_Node_Stmt_Class::MODIFIER_PUBLIC);
+    }
+
+    public function isProtected() {
+        return (bool) ($this->type & PHPParser_Node_Stmt_Class::MODIFIER_PROTECTED);
+    }
+
+    public function isPrivate() {
+        return (bool) ($this->type & PHPParser_Node_Stmt_Class::MODIFIER_PRIVATE);
+    }
+
+    public function isAbstract() {
+        return (bool) ($this->type & PHPParser_Node_Stmt_Class::MODIFIER_ABSTRACT);
+    }
+
+    public function isFinal() {
+        return (bool) ($this->type & PHPParser_Node_Stmt_Class::MODIFIER_FINAL);
+    }
+
+    public function isStatic() {
+        return (bool) ($this->type & PHPParser_Node_Stmt_Class::MODIFIER_STATIC);
     }
 }

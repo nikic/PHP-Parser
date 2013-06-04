@@ -8,16 +8,15 @@ class PHPParser_Node_Stmt_HaltCompiler extends PHPParser_Node_Stmt
     /**
      * Constructs a __halt_compiler node.
      *
-     * @param string      $remaining  Remaining text after halt compiler statement.
-     * @param int         $line       Line
-     * @param null|string $docComment Nearest doc comment
+     * @param string $remaining  Remaining text after halt compiler statement.
+     * @param array  $attributes Additional attributes
      */
-    public function __construct($remaining, $line = -1, $docComment = null) {
+    public function __construct($remaining, array $attributes = array()) {
         parent::__construct(
             array(
                 'remaining' => $remaining,
             ),
-            $line, $docComment
+            $attributes
         );
     }
 }
