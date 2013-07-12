@@ -66,7 +66,7 @@ abstract class PHPParser_PrettyPrinterAbstract
     protected $canUseSemicolonNamespaces;
 
     public function __construct() {
-        $this->noIndentToken = uniqid('_NO_INDENT_');
+        $this->noIndentToken = '_NO_INDENT_' . mt_rand();
     }
 
     /**
