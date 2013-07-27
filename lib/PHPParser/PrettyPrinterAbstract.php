@@ -60,6 +60,7 @@ abstract class PHPParser_PrettyPrinterAbstract
         'Expr_LogicalAnd'       => array(16, -1),
         'Expr_LogicalXor'       => array(17, -1),
         'Expr_LogicalOr'        => array(18, -1),
+        'Expr_Include'          => array(19, -1),
     );
 
     protected $noIndentToken;

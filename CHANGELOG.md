@@ -25,6 +25,8 @@ Version 0.9.4-dev
 
 * An interface for the node traversation has been added: `PHPParser_NodeTraverserInterface`
 
+* Fix pretty printing of `include` expressions (precedence information was missing)
+
 Version 0.9.3 (22.11.2012)
 --------------------------
 
