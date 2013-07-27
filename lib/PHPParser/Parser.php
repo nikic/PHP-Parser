@@ -1075,7 +1075,7 @@ class PHPParser_Parser
                         $n = $base + $i;
                         if ($n >= 0 && $n < self::YYLAST && self::$yycheck[$n] == $i
                          || $state < self::YY2TBLSTATE
-                            && ($n = self::$yybase[$state + self::YYNLSTATES] + $i)
+                            && ($n = self::$yybase[$state + self::YYNLSTATES] + $i) >= 0
                             && $n < self::YYLAST && self::$yycheck[$n] == $i
                         ) {
                             if (self::$yyaction[$n] != self::YYUNEXPECTED) {
