@@ -1,7 +1,8 @@
 Version 0.9.5-dev
 -----------------
 
-Nothing yet.
+* Added `NodeTraverser::removeVisitor()` method, which removes a visitor from the node traverser. This also modifies the
+  corresponding `NodeTraverserInterface`.
 
 Version 0.9.4 (25.08.2013)
 --------------------------
