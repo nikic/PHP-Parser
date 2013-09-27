@@ -10,7 +10,8 @@
         }
     ],
     "require": {
-        "php": ">=5.2"
+        "php": ">=5.2",
+        "ext-tokenizer": "*"
     },
     "autoload": {
         "psr-0": { "PHPParser": "lib/" }
