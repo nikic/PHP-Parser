@@ -7,7 +7,7 @@
  * @property PHPParser_Node_Name[]    $implements Names of implemented interfaces
  * @property PHPParser_Node[]         $stmts      Statements
  */
-class PHPParser_Node_Stmt_Class extends PHPParser_Node_Stmt
+class PHPParser_Node_Stmt_Class extends PHPParser_Node_Stmt_ObjectDefinition
 {
     const MODIFIER_PUBLIC    =  1;
     const MODIFIER_PROTECTED =  2;
@@ -15,12 +15,6 @@ class PHPParser_Node_Stmt_Class extends PHPParser_Node_Stmt
     const MODIFIER_STATIC    =  8;
     const MODIFIER_ABSTRACT  = 16;
     const MODIFIER_FINAL     = 32;
-
-    protected static $specialNames = array(
-        'self'   => true,
-        'parent' => true,
-        'static' => true,
-    );
 
     /**
      * Constructs a class node.
@@ -40,15 +34,11 @@ class PHPParser_Node_Stmt_Class extends PHPParser_Node_Stmt
                 'extends'    => null,
                 'implements' => array(),
                 'stmts'      => array(),
+                'name' => $name
             ),
             $attributes
         );
-        $this->name = $name;
-
-        if (isset(self::$specialNames[(string) $this->name])) {
-            throw new PHPParser_Error(sprintf('Cannot use "%s" as class name as it is reserved', $this->name));
-        }
-
+       
         if (isset(self::$specialNames[(string) $this->extends])) {
             throw new PHPParser_Error(sprintf('Cannot use "%s" as class name as it is reserved', $this->extends));
         }
@@ -66,16 +56,6 @@ class PHPParser_Node_Stmt_Class extends PHPParser_Node_Stmt
 
     public function isFinal() {
         return (bool) ($this->type & self::MODIFIER_FINAL);
-    }
-
-    public function getMethods() {
-        $methods = array();
-        foreach ($this->stmts as $stmt) {
-            if ($stmt instanceof PHPParser_Node_Stmt_ClassMethod) {
-                $methods[] = $stmt;
-            }
-        }
-        return $methods;
     }
 
     public static function verifyModifier($a, $b) {
