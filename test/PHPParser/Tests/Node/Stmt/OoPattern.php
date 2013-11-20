@@ -3,7 +3,7 @@
 /**
  * Template Method for tests on class/interface/trait nodes
  */
-abstract class PHPParser_Tests_Node_Stmt_ObjectDefinition extends PHPUnit_Framework_TestCase
+abstract class PHPParser_Tests_Node_Stmt_OoPattern extends PHPUnit_Framework_TestCase
 {
 
     abstract protected function createDefinitionType(array $methodList);

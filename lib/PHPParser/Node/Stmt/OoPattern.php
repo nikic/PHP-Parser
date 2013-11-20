@@ -4,7 +4,7 @@
  * PHPParser_Node_Stmt_ObjectDefinition is a mother class for all
  * object oriented programing definitions.
  */
-abstract class PHPParser_Node_Stmt_ObjectDefinition extends PHPParser_Node_Stmt
+abstract class PHPParser_Node_Stmt_OoPattern extends PHPParser_Node_Stmt
 {
 
     protected static $specialNames = array(

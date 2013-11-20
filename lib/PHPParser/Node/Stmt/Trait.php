@@ -4,7 +4,7 @@
  * @property string           $name  Name
  * @property PHPParser_Node[] $stmts Statements
  */
-class PHPParser_Node_Stmt_Trait extends PHPParser_Node_Stmt_ObjectDefinition
+class PHPParser_Node_Stmt_Trait extends PHPParser_Node_Stmt_OoPattern
 {
     /**
      * Constructs a trait node.

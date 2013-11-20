@@ -7,7 +7,7 @@
  * @property PHPParser_Node_Name[]    $implements Names of implemented interfaces
  * @property PHPParser_Node[]         $stmts      Statements
  */
-class PHPParser_Node_Stmt_Class extends PHPParser_Node_Stmt_ObjectDefinition
+class PHPParser_Node_Stmt_Class extends PHPParser_Node_Stmt_OoPattern
 {
     const MODIFIER_PUBLIC    =  1;
     const MODIFIER_PROTECTED =  2;

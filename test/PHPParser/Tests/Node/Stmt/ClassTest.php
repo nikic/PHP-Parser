@@ -1,6 +1,8 @@
 <?php
 
-class PHPParser_Tests_Node_Stmt_ClassTest extends PHPParser_Tests_Node_Stmt_ObjectDefinition
+require_once __DIR__ . '/OoPattern.php';
+
+class PHPParser_Tests_Node_Stmt_ClassTest extends PHPParser_Tests_Node_Stmt_OoPattern
 {
     public function testIsAbstract() {
         $class = new PHPParser_Node_Stmt_Class('Foo', array('type' => PHPParser_Node_Stmt_Class::MODIFIER_ABSTRACT));
@@ -16,16 +18,6 @@ class PHPParser_Tests_Node_Stmt_ClassTest extends PHPParser_Tests_Node_Stmt_Obje
 
         $class = new PHPParser_Node_Stmt_Class('Foo');
         $this->assertFalse($class->isFinal());
-    }
-
-    public function testGetMethods() {
-        $methods = array(
-            new PHPParser_Node_Stmt_ClassMethod('foo'),
-            new PHPParser_Node_Stmt_ClassMethod('bar'),
-            new PHPParser_Node_Stmt_ClassMethod('fooBar'),
-        );
-        $class = $this->createDefinitionType($methods);
-        $this->assertEquals($methods, $class->getMethods());
     }
 
     protected function createDefinitionType(array $methods)
