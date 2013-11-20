@@ -20,6 +20,6 @@ class PHPParser_Node_Stmt_Trait extends PHPParser_Node_Stmt_OoPattern
                 'stmts' => $stmts,
             ),
             $attributes
-        );
+        );       
     }
 }
