@@ -571,7 +571,7 @@ class PHPParser_PrettyPrinter_Default extends PHPParser_PrettyPrinterAbstract
              . (null !== $node->else ? $this->p($node->else) : '');
     }
 
-    public function pStmt_Elseif(PHPParser_Node_Stmt_Elseif $node) {
+    public function pStmt_ElseIf(PHPParser_Node_Stmt_ElseIf $node) {
         return ' elseif (' . $this->p($node->cond) . ') {'
              . "\n" . $this->pStmts($node->stmts) . "\n" . '}';
     }
