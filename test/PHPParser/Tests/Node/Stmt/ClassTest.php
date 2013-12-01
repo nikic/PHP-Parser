@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '/OoPattern.php';
+require_once dirname(__FILE__) . '/OoPattern.php';
 
 class PHPParser_Tests_Node_Stmt_ClassTest extends PHPParser_Tests_Node_Stmt_OoPattern
 {

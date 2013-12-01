@@ -27,7 +27,7 @@ abstract class PHPParser_Node_Stmt_OoPattern extends PHPParser_Node_Stmt
 
         if (isset(self::$specialNames[(string) $this->name])) {
             $typeDef = array();
-            preg_match('#_([^_]+)$#', get_called_class(), $typeDef);
+            preg_match('#_([^_]+)$#', get_class(), $typeDef);
             throw new PHPParser_Error(sprintf('Cannot use "%s" as %s name as it is reserved', $this->name, strtolower($typeDef[1])));
         }
     }
