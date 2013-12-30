@@ -11,7 +11,6 @@ class AST2Rascal extends BasePrinter {
   private $relativeLocations = FALSE;
   private $addIds = FALSE;
   private $idPrefix = "";
-  private $relname = "";
   
   public function AST2Rascal($str, $locs, $rel, $ids, $prefix)
   {
@@ -19,17 +18,7 @@ class AST2Rascal extends BasePrinter {
     $this->addLocations = $locs;
     $this->relativeLocations = $rel;
     $this->addIds = $ids;
-    $this->idPrefix = $prefix;
-    
-    if ($this->relativeLocations) {
-    	$homedir = $_SERVER['HOME'];
-    	$pos = strpos($this->filename, $homedir);
-    	if ($pos === false) {
-    		$this->relativeLocations = FALSE;
-    	} else {
-    		$this->relname = substr($this->filename, $pos + strlen($homedir));
-    	}
-    }
+    $this->idPrefix = $prefix;    
   }
 
   public function rascalizeString($str) 
@@ -44,7 +33,7 @@ class AST2Rascal extends BasePrinter {
   
   private function addLocationTag(PHPParser_Node $node) {
   	if ($this->relativeLocations) {
-  		return "@at=|home://{$this->relname}|(0,0,<{$node->getLine()},0>,<{$node->getLine()},0>)";
+  		return "@at=|home://{$this->filename}|(0,0,<{$node->getLine()},0>,<{$node->getLine()},0>)";
   	} else {
   		return "@at=|file://{$this->filename}|(0,0,<{$node->getLine()},0>,<{$node->getLine()},0>)";
   	}
@@ -1860,9 +1849,12 @@ $relativeLocations = FALSE;
 if (isset($opts["r"]) || isset($opts["relativeLocations"]))
 	$relativeLocations = TRUE;
 		
+$homedir = $_SERVER['HOME'];		
 $inputCode = '';
-if (file_exists($file))
+if (!$relativeLocations && file_exists($file))
   $inputCode = file_get_contents($file);
+else if (relativeLocations && file_exists($homedir.$file))
+  $inputCode = file_get_contents($homedir.$file);
 else {
   echo "errscript(\"The given file, $file, does not exist\")";
   exit -1;
