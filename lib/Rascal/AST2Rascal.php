@@ -8,15 +8,28 @@ ini_set('xdebug.max_nesting_level', 2000);
 class AST2Rascal extends BasePrinter {
   private $filename = "";
   private $addLocations = FALSE;
+  private $relativeLocations = FALSE;
   private $addIds = FALSE;
   private $idPrefix = "";
+  private $relname = "";
   
-  public function AST2Rascal($str, $locs, $ids, $prefix)
+  public function AST2Rascal($str, $locs, $rel, $ids, $prefix)
   {
     $this->filename = $str;
     $this->addLocations = $locs;
+    $this->relativeLocations = $rel;
     $this->addIds = $ids;
     $this->idPrefix = $prefix;
+    
+    if ($this->relativeLocations) {
+    	$homedir = $_SERVER['HOME'];
+    	$pos = strpos($this->filename, $homedir);
+    	if ($pos === false) {
+    		$this->relativeLocations = FALSE;
+    	} else {
+    		$this->relname = substr($this->filename, $pos + strlen($homedir));
+    	}
+    }
   }
 
   public function rascalizeString($str) 
@@ -30,7 +43,11 @@ class AST2Rascal extends BasePrinter {
   }
   
   private function addLocationTag(PHPParser_Node $node) {
-  	return "@at=|file://{$this->filename}|(0,0,<{$node->getLine()},0>,<{$node->getLine()},0>)";
+  	if ($this->relativeLocations) {
+  		return "@at=|home://{$this->relname}|(0,0,<{$node->getLine()},0>,<{$node->getLine()},0>)";
+  	} else {
+  		return "@at=|file://{$this->filename}|(0,0,<{$node->getLine()},0>,<{$node->getLine()},0>)";
+  	}
   }
   
   private function annotateASTNode(PHPParser_Node $node)
@@ -1810,7 +1827,7 @@ if (count($argv) < 2) {
   exit -1;
 }
 
-$opts = getopt("f:lip:",array("file:","enableLocations","uniqueIds","prefix:"));
+$opts = getopt("f:lirp:",array("file:","enableLocations","uniqueIds","relativeLocations","prefix:"));
 
 if (isset($opts["f"]))
 	$file = $opts["f"];
@@ -1838,7 +1855,11 @@ else if (isset($opts["prefix"]))
 else {
 	$prefix = "";
 }
-	
+
+$relativeLocations = FALSE;
+if (isset($opts["r"]) || isset($opts["relativeLocations"]))
+	$relativeLocations = TRUE;
+		
 $inputCode = '';
 if (file_exists($file))
   $inputCode = file_get_contents($file);
@@ -1849,7 +1870,7 @@ else {
 
 $parser = new PHPParser_Parser(new PHPParser_Lexer);
 $dumper = new PHPParser_NodeDumper;
-$printer = new AST2Rascal($file, $enableLocations, $uniqueIds, $prefix);
+$printer = new AST2Rascal($file, $enableLocations, $relativeLocations, $uniqueIds, $prefix);
 
 try {
   $stmts = $parser->parse($inputCode);
