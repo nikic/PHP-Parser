@@ -30,6 +30,34 @@ interface PHPParser_Node
      */
     public function setLine($line);
 
+	/**
+	 * Gets the starting offset in the file of the node.
+	 *
+	 * @return int Offset
+	 */
+	public function getOffset();
+	 
+	/**
+	 * Sets offset of the node from the start of the file.
+     *
+	 * @param int $offset Offset
+	 */
+	public function setOffset($offset);
+	  
+	/**
+	 * Gets the length of the node in the file.
+	 *
+	 * @return int Length
+	 */
+	public function getLength();
+	   
+	/**
+	 * Sets the length of the node in the file.
+	 *
+	 * @param int $length Length
+	 */
+	public function setLength($length);    
+	   
     /**
      * Gets the doc comment of the node.
      *

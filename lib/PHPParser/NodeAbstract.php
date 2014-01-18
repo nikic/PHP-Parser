@@ -52,6 +52,46 @@ abstract class PHPParser_NodeAbstract implements PHPParser_Node, IteratorAggrega
         $this->setAttribute('startLine', (int) $line);
     }
 
+	/**
+	 * Gets the starting offset in the file of the node.
+	 *
+	 * @return int Offset
+	 */
+	public function getOffset() {
+	    return $this->getAttribute('startOffset', -1);
+	}
+	 
+	/**
+	 * Sets offset of the node from the start of the file.
+     *
+	 * @param int $offset Offset
+	 */
+	public function setOffset($offset) {
+	    $this->setAttribute('startOffset', (int) $offset);
+	}
+	  
+	/**
+	 * Gets the length of the node in the file.
+	 *
+	 * @return int Length
+	 */
+	public function getLength() {
+	    if( $this->hasAttribute('endOffset') && $this->hasAttribute('endLength') && $this->hasAttribute('startOffset')) {
+	        $totalLength = $this->getAttribute('endOffset',-1) - $this->getAttribute('startOffset',-1) + $this->getAttribute('endLength',-1);
+	        return $totalLength;
+	    }
+	    return -1;
+	}
+	   
+	/**
+	 * Sets the length of the node in the file.
+	 *
+	 * @param int $length Length
+	 */
+	public function setLength($length) {
+	    $this->setAttribute('startLength', (int) $length);
+	}
+    
     /**
      * Gets the doc comment of the node.
      *

@@ -6,6 +6,8 @@ class PHPParser_Lexer
     protected $tokens;
     protected $pos;
     protected $line;
+    protected $offset;
+    protected $length;
 
     protected $tokenMap;
     protected $dropTokens;
@@ -37,6 +39,8 @@ class PHPParser_Lexer
         $this->code = $code; // keep the code around for __halt_compiler() handling
         $this->pos  = -1;
         $this->line =  1;
+        $this->offset = 0;
+        $this->length = 0;
     }
 
     protected function resetErrors() {
@@ -85,10 +89,18 @@ class PHPParser_Lexer
 
         while (isset($this->tokens[++$this->pos])) {
             $token = $this->tokens[$this->pos];
+            
+            $startingOffset = $this->offset;
+            $this->length = (is_string($token)) ? 1 : strlen($token[1]);
+            $this->offset += $this->length;
 
             if (is_string($token)) {
                 $startAttributes['startLine'] = $this->line;
                 $endAttributes['endLine']     = $this->line;
+                $startAttributes['startOffset'] = $startingOffset;
+                $startAttributes['startLength'] = $this->length; 
+                $endAttributes['endOffset'] = $startingOffset;
+                $endAttributes['endLength'] = $this->length; 
 
                 // bug in token_get_all
                 if ('b"' === $token) {
@@ -109,6 +121,10 @@ class PHPParser_Lexer
                     $value = $token[1];
                     $startAttributes['startLine'] = $token[2];
                     $endAttributes['endLine']     = $this->line;
+	                $startAttributes['startOffset'] = $startingOffset;
+	                $startAttributes['startLength'] = $this->length; 
+    	            $endAttributes['endOffset'] = $startingOffset;
+        	        $endAttributes['endLength'] = $this->length; 
 
                     return $this->tokenMap[$token[0]];
                 }

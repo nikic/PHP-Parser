@@ -33,9 +33,9 @@ class AST2Rascal extends BasePrinter {
   
   private function addLocationTag(PHPParser_Node $node) {
   	if ($this->relativeLocations) {
-  		return "@at=|home://{$this->filename}|(0,0,<{$node->getLine()},0>,<{$node->getLine()},0>)";
+  		return "@at=|home://{$this->filename}|({$node->getOffset()},{$node->getLength()})";
   	} else {
-  		return "@at=|file://{$this->filename}|(0,0,<{$node->getLine()},0>,<{$node->getLine()},0>)";
+  		return "@at=|file://{$this->filename}|({$node->getOffset()},{$node->getLength()})";
   	}
   }
   
