@@ -1848,12 +1848,17 @@ else {
 $relativeLocations = FALSE;
 if (isset($opts["r"]) || isset($opts["relativeLocations"]))
 	$relativeLocations = TRUE;
-		
-$homedir = $_SERVER['HOME'];		
+
+if (isset($_SERVER['HOME'])) {	
+	$homedir = $_SERVER['HOME'];
+} else {
+	$homedir = $_SERVER['HOMEDRIVE'] . $_SERVER['HOMEPATH'];
+}
+
 $inputCode = '';
 if (!$relativeLocations && file_exists($file))
   $inputCode = file_get_contents($file);
-else if (relativeLocations && file_exists($homedir.$file))
+else if ($relativeLocations && file_exists($homedir.$file))
   $inputCode = file_get_contents($homedir.$file);
 else {
   echo "errscript(\"The given file, $file, does not exist\")";
