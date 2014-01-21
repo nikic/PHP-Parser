@@ -40,9 +40,13 @@ class PHPParser_Lexer
     }
 
     protected function resetErrors() {
-        // clear error_get_last() by forcing an undefined variable error
+        // set error_get_last() to defined state by forcing an undefined variable error
+        set_error_handler(array($this, 'dummyErrorHandler'), 0);
         @$undefinedVariable;
+        restore_error_handler();
     }
+
+    private function dummyErrorHandler() { return false; }
 
     protected function handleErrors() {
         $error = error_get_last();
