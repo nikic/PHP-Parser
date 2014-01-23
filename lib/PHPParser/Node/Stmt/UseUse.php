@@ -19,7 +19,7 @@ class PHPParser_Node_Stmt_UseUse extends PHPParser_Node_Stmt
         }
 
         if ('self' == $alias || 'parent' == $alias) {
-            throw new PHPParser_Error(sprintf(
+            throw new PHPParser_Error_Fatal(sprintf(
                 'Cannot use "%s" as "%s" because "%2$s" is a special class name',
                 $name, $alias
             ));

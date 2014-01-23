@@ -29,13 +29,13 @@ class PHPParser_Node_Stmt_Namespace extends PHPParser_Node_Stmt
         );
 
         if (isset(self::$specialNames[(string) $this->name])) {
-            throw new PHPParser_Error(sprintf('Cannot use "%s" as namespace name as it is reserved', $this->name));
+            throw new PHPParser_Error_Fatal(sprintf('Cannot use "%s" as namespace name as it is reserved', $this->name));
         }
 
         if (null !== $this->stmts) {
             foreach ($this->stmts as $stmt) {
                 if ($stmt instanceof PHPParser_Node_Stmt_Namespace) {
-                    throw new PHPParser_Error('Namespace declarations cannot be nested', $stmt->getLine());
+                    throw new PHPParser_Error_Fatal('Namespace declarations cannot be nested', $stmt->getLine());
                 }
             }
         }
@@ -65,12 +65,12 @@ class PHPParser_Node_Stmt_Namespace extends PHPParser_Node_Stmt
 
                     // and ensure that it isn't preceded by a not allowed statement
                     if ($hasNotAllowedStmts) {
-                        throw new PHPParser_Error('Namespace declaration statement has to be the very first statement in the script', $stmt->getLine());
+                        throw new PHPParser_Error_Fatal('Namespace declaration statement has to be the very first statement in the script', $stmt->getLine());
                     }
                 // otherwise ensure that the style of the current namespace matches the style of
                 // namespaceing used before in this document
                 } elseif ($bracketed !== $currentBracketed) {
-                    throw new PHPParser_Error('Cannot mix bracketed namespace declarations with unbracketed namespace declarations', $stmt->getLine());
+                    throw new PHPParser_Error_Fatal('Cannot mix bracketed namespace declarations with unbracketed namespace declarations', $stmt->getLine());
                 }
 
                 // for semicolon style namespaces remember the offset
@@ -82,7 +82,7 @@ class PHPParser_Node_Stmt_Namespace extends PHPParser_Node_Stmt
                       && !$stmt instanceof PHPParser_Node_Stmt_HaltCompiler
             ) {
                 if (true === $bracketed) {
-                    throw new PHPParser_Error('No code may exist outside of namespace {}', $stmt->getLine());
+                    throw new PHPParser_Error_Fatal('No code may exist outside of namespace {}', $stmt->getLine());
                 }
 
                 $hasNotAllowedStmts = true;

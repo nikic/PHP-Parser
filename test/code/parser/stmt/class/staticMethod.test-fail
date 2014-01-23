@@ -2,12 +2,12 @@ Some special methods cannot be static
 -----
 <?php class A { static function __construct() {} }
 -----
-"__construct" method cannot be static on line 1
+Fatal error: "__construct" method cannot be static on line 1
 -----
 <?php class A { static function __destruct() {} }
 -----
-"__destruct" method cannot be static on line 1
+Fatal error: "__destruct" method cannot be static on line 1
 -----
 <?php class A { static function __clone() {} }
 -----
-"__clone" method cannot be static on line 1
+Fatal error: "__clone" method cannot be static on line 1

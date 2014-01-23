@@ -4,10 +4,10 @@ Namespace types cannot be mixed
 namespace A;
 namespace B {}
 -----
-Cannot mix bracketed namespace declarations with unbracketed namespace declarations on line 3
+Fatal error: Cannot mix bracketed namespace declarations with unbracketed namespace declarations on line 3
 -----
 <?php
 namespace A {}
 namespace B;
 -----
-Cannot mix bracketed namespace declarations with unbracketed namespace declarations on line 3
+Fatal error: Cannot mix bracketed namespace declarations with unbracketed namespace declarations on line 3
