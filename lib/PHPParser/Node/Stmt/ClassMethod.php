@@ -33,10 +33,15 @@ class PHPParser_Node_Stmt_ClassMethod extends PHPParser_Node_Stmt
         );
         $this->name = $name;
 
-        if (($this->type & PHPParser_Node_Stmt_Class::MODIFIER_STATIC)
-            && ('__construct' == $this->name || '__destruct' == $this->name || '__clone' == $this->name)
-        ) {
-            throw new PHPParser_Error(sprintf('"%s" method cannot be static', $this->name));
+        if ($this->type & PHPParser_Node_Stmt_Class::MODIFIER_STATIC) {
+            switch (strtolower($this->name)) {
+                case '__construct':
+                    throw new PHPParser_Error(sprintf('Constructor %s() cannot be static', $this->name));
+                case '__destruct':
+                    throw new PHPParser_Error(sprintf('Destructor %s() cannot be static', $this->name));
+                case '__clone':
+                    throw new PHPParser_Error(sprintf('Clone method %s() cannot be static', $this->name));
+            }
         }
     }
 

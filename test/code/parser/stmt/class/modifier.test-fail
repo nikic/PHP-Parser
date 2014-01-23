@@ -22,7 +22,7 @@ Multiple final modifiers are not allowed on line 1
 -----
 <?php class A { abstract final a(); }
 -----
-Cannot use the final and abstract modifier at the same time on line 1
+Cannot use the final modifier on an abstract class member on line 1
 -----
 <?php abstract final class A { }
 -----

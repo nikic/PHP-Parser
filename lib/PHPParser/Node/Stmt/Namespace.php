@@ -29,7 +29,7 @@ class PHPParser_Node_Stmt_Namespace extends PHPParser_Node_Stmt
         );
 
         if (isset(self::$specialNames[(string) $this->name])) {
-            throw new PHPParser_Error(sprintf('Cannot use "%s" as namespace name as it is reserved', $this->name));
+            throw new PHPParser_Error(sprintf('Cannot use \'%s\' as namespace name', $this->name));
         }
 
         if (null !== $this->stmts) {

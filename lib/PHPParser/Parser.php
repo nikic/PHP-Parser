@@ -1226,7 +1226,7 @@ class PHPParser_Parser
     }
 
     protected function yyn29($attributes) {
-         throw new PHPParser_Error('__halt_compiler() can only be used from the outermost scope'); 
+         throw new PHPParser_Error('__HALT_COMPILER() can only be used from the outermost scope'); 
     }
 
     protected function yyn30($attributes) {

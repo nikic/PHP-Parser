@@ -148,7 +148,7 @@ class PHPParser_Lexer
         // this simplifies the situation, by not allowing any comments
         // in between of the tokens.
         if (!preg_match('~\s*\(\s*\)\s*(?:;|\?>\r?\n?)~', $textAfter, $matches)) {
-            throw new PHPParser_Error('__halt_compiler must be followed by "();"');
+            throw new PHPParser_Error('__HALT_COMPILER must be followed by "();"');
         }
 
         // prevent the lexer from returning any further tokens

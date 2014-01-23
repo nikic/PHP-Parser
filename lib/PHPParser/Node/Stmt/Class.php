@@ -46,16 +46,16 @@ class PHPParser_Node_Stmt_Class extends PHPParser_Node_Stmt
         $this->name = $name;
 
         if (isset(self::$specialNames[(string) $this->name])) {
-            throw new PHPParser_Error(sprintf('Cannot use "%s" as class name as it is reserved', $this->name));
+            throw new PHPParser_Error(sprintf('Cannot use \'%s\' as class name as it is reserved', $this->name));
         }
 
         if (isset(self::$specialNames[(string) $this->extends])) {
-            throw new PHPParser_Error(sprintf('Cannot use "%s" as class name as it is reserved', $this->extends));
+            throw new PHPParser_Error(sprintf('Cannot use \'%s\' as class name as it is reserved', $this->extends));
         }
 
         foreach ($this->implements as $interface) {
             if (isset(self::$specialNames[(string) $interface])) {
-                throw new PHPParser_Error(sprintf('Cannot use "%s" as interface name as it is reserved', $interface));
+                throw new PHPParser_Error(sprintf('Cannot use \'%s\' as interface name as it is reserved', $interface));
             }
         }
     }
@@ -96,7 +96,7 @@ class PHPParser_Node_Stmt_Class extends PHPParser_Node_Stmt
         }
 
         if ($a & 48 && $b & 48) {
-            throw new PHPParser_Error('Cannot use the final and abstract modifier at the same time');
+            throw new PHPParser_Error('Cannot use the final modifier on an abstract class member');
         }
     }
 }
