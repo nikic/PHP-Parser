@@ -332,7 +332,7 @@ class #(-p)
                     }
 
                     throw new PHPParser_Error_Parse(
-                        'Syntax error, unexpected ' . self::$terminals[$tokenId] . $expectedString,
+                        'syntax error, unexpected ' . self::$terminals[$tokenId] . $expectedString,
                         $startAttributes['startLine']
                     );
                 }

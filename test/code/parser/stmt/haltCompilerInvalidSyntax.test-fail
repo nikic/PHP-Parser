@@ -3,4 +3,4 @@ Invalid __halt_compiler() syntax
 <?php
 __halt_compiler()
 -----
-Parse error: __halt_compiler must be followed by "();" on line 2
+Parse error: syntax error, unexpected end of file, expecting ';' on line 2

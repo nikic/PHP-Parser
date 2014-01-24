@@ -1092,7 +1092,7 @@ class PHPParser_Parser
                     }
 
                     throw new PHPParser_Error_Parse(
-                        'Syntax error, unexpected ' . self::$terminals[$tokenId] . $expectedString,
+                        'syntax error, unexpected ' . self::$terminals[$tokenId] . $expectedString,
                         $startAttributes['startLine']
                     );
                 }
@@ -1222,7 +1222,7 @@ class PHPParser_Parser
     }
 
     protected function yyn29($attributes) {
-         throw new PHPParser_Error_Parse('__halt_compiler() can only be used from the outermost scope'); 
+         throw new PHPParser_Error_Fatal('__HALT_COMPILER() can only be used from the outermost scope'); 
     }
 
     protected function yyn30($attributes) {
