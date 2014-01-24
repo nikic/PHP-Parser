@@ -34,7 +34,7 @@ class PHPParser_Node_Stmt_ClassMethod extends PHPParser_Node_Stmt
         $this->name = $name;
 
         if (($this->type & PHPParser_Node_Stmt_Class::MODIFIER_STATIC)) {
-            switch ($this->name) {
+            switch (strtolower($this->name)) {
                 case '__construct':
                     throw new PHPParser_Error_Fatal(sprintf('Constructor %s() cannot be static', $this->name));
                 case '__destruct':
