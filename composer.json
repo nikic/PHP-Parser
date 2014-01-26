@@ -10,7 +10,7 @@
         }
     ],
     "require": {
-        "php": ">=5.2",
+        "php": ">=5.3",
         "ext-tokenizer": "*"
     },
     "autoload": {
@@ -18,7 +18,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "0.9-dev"
+            "dev-master": "1.0-dev"
         }
     }
 }
