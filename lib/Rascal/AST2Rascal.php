@@ -11,6 +11,15 @@ class AST2Rascal extends BasePrinter {
   private $relativeLocations = FALSE;
   private $addIds = FALSE;
   private $idPrefix = "";
+
+  private $insideTrait = FALSE;
+  
+  private $currentFunction = "";
+  private $currentClass = "";
+  private $currentTrait = "";
+  private $currentMethod = "";
+  private $currentNamespace = "";
+  
   
   public function AST2Rascal($str, $locs, $rel, $ids, $prefix)
   {
@@ -1055,7 +1064,14 @@ class AST2Rascal extends BasePrinter {
 	
   public function pprintClassConstScalar(PHPParser_Node_Scalar_ClassConst $node)
   {
-    $fragment = "classConstant()";
+    // If we are inside a trait and find __CLASS__, we have no clue what it should
+    // be, so leave it unresolved for now; else tag it with the class we are actually
+    // inside at the moment.
+  	if ($this->insideTrait) {
+	    $fragment = "classConstant()";
+	} else {
+	    $fragment = "classConstant()[@actualValue=\"{$this->currentClass}\"]";
+	}	
     $fragment = "scalar(" . $fragment . ")";
     $fragment .= $this->annotateASTNode($node);
 
@@ -1064,7 +1080,7 @@ class AST2Rascal extends BasePrinter {
 	
   public function pprintDirConstScalar(PHPParser_Node_Scalar_DirConst $node)
   {
-    $fragment = "dirConstant()";
+    $fragment = "dirConstant()[@actualValue=\"{dirname($this->filename)}\"]";
     $fragment = "scalar(" . $fragment . ")";
     $fragment .= $this->annotateASTNode($node);
 
@@ -1098,7 +1114,7 @@ class AST2Rascal extends BasePrinter {
 	
   public function pprintFileConstScalar(PHPParser_Node_Scalar_FileConst $node)
   {
-    $fragment = "fileConstant()";
+    $fragment = "fileConstant()[@actualValue=\"{$this->filename}\"]";
     $fragment = "scalar(" . $fragment . ")";
     $fragment .= $this->annotateASTNode($node);
 
@@ -1107,7 +1123,7 @@ class AST2Rascal extends BasePrinter {
 	
   public function pprintFuncConstScalar(PHPParser_Node_Scalar_FuncConst $node)
   {
-    $fragment = "funcConstant()";
+    $fragment = "funcConstant()[@actualValue=\"{$this->currentFunction}\"]";
     $fragment = "scalar(" . $fragment . ")";
     $fragment .= $this->annotateASTNode($node);
 
@@ -1116,7 +1132,7 @@ class AST2Rascal extends BasePrinter {
 	
   public function pprintLineConstScalar(PHPParser_Node_Scalar_LineConst $node)
   {
-    $fragment = "lineConstant()";
+    $fragment = "lineConstant()[@actualValue=\"{$node->getLine()}\"]";
     $fragment = "scalar(" . $fragment . ")";
     $fragment .= $this->annotateASTNode($node);
 
@@ -1134,7 +1150,7 @@ class AST2Rascal extends BasePrinter {
 
   public function pprintMethodConstScalar(PHPParser_Node_Scalar_MethodConst $node)
   {
-    $fragment = "methodConstant()";
+    $fragment = "methodConstant()[@actualValue=\"{$this->currentMethod}\"]";
     $fragment = "scalar(" . $fragment . ")";
     $fragment .= $this->annotateASTNode($node);
 
@@ -1143,7 +1159,7 @@ class AST2Rascal extends BasePrinter {
 
   public function pprintNSConstScalar(PHPParser_Node_Scalar_NSConst $node)
   {
-    $fragment = "namespaceConstant()";
+    $fragment = "namespaceConstant()[@actualValue=\"{$this->currentNamespace}\"]";
     $fragment = "scalar(" . $fragment . ")";
     $fragment .= $this->annotateASTNode($node);
 
@@ -1161,7 +1177,7 @@ class AST2Rascal extends BasePrinter {
 
   public function pprintTraitConstScalar(PHPParser_Node_Scalar_TraitConst $node)
   {
-    $fragment = "traitConstant()";
+    $fragment = "traitConstant()[@actualValue=\"{$this->currentTrait}\"]";
     $fragment = "scalar(" . $fragment . ")";
     $fragment .= $this->annotateASTNode($node);
 
@@ -1214,6 +1230,12 @@ class AST2Rascal extends BasePrinter {
 
   public function pprintClassStmt(PHPParser_Node_Stmt_Class $node)
   {
+    $priorClass = $this->currentClass;
+    if (strlen($this->currentNamespace) > 0)
+	    $this->currentClass = $this->currentNamespace . "\\" . $node->name;
+	else
+		$this->currentClass = $node->name;
+
     $stmts = array();
     foreach($node->stmts as $stmt)
       $stmts[] = $this->pprint($stmt);
@@ -1243,6 +1265,8 @@ class AST2Rascal extends BasePrinter {
     $fragment = "classDef(" . $fragment . ")";
     $fragment .= $this->annotateASTNode($node);
 
+	$this->currentClass = $priorClass;
+	
     return $fragment;
   }
 
@@ -1260,6 +1284,9 @@ class AST2Rascal extends BasePrinter {
 	
   public function pprintClassMethodStmt(PHPParser_Node_Stmt_ClassMethod $node)
   {
+  	$priorMethod = $this->currentMethod;
+  	$this->currentMethod = $node->name;
+  	
     $body = array();
     if (null != $node->stmts)
       foreach($node->stmts as $thestmt)
@@ -1284,6 +1311,8 @@ class AST2Rascal extends BasePrinter {
       . implode(",",$params) . "],[" . implode(",",$body) . "])";
     $fragment .= $this->annotateASTNode($node);
 
+	$this->currentMethod = $priorMethod;
+	
     return $fragment;
   }
 	
@@ -1439,6 +1468,9 @@ class AST2Rascal extends BasePrinter {
 	
   public function pprintFunctionStmt(PHPParser_Node_Stmt_Function $node)
   {
+  	$priorFunction = $this->currentFunction;
+  	$this->currentFunction = $node->name;
+  	
     $body = array();
     foreach($node->stmts as $stmt)
       $body[] = $this->pprint($stmt);
@@ -1454,6 +1486,8 @@ class AST2Rascal extends BasePrinter {
       . ",[" . implode(",",$params) . "],[" . implode(",",$body) . "])";
     $fragment .= $this->annotateASTNode($node);
 
+	$this->currentFunction = $priorFunction;
+	
     return $fragment;
   }
 
@@ -1548,10 +1582,21 @@ class AST2Rascal extends BasePrinter {
 	
   public function pprintNamespaceStmt(PHPParser_Node_Stmt_Namespace $node)
   {
+  	// If we have a non-null name, set this to the namespace name; if we
+  	// don't, this is a global namespace declaration, like
+  	// namespace { global stuff }
+  	$priorNamespace = $this->currentNamespace;
+  	if (null != $node->name)
+  		$this->currentNamespace = $node->name;
+  	else
+  		$this->currentNamespace = "";
+  		
     $body = array();
     foreach($node->stmts as $stmt)
       $body[] = $this->pprint($stmt);
 
+	// Again check the name -- since it is optional, we return an OptionName
+	// here, which could be noName() if this is a global namespace
     if (null != $node->name) {
       $headerName = $this->pprint($node->name);
       $name = "someName({$headerName})";
@@ -1559,12 +1604,26 @@ class AST2Rascal extends BasePrinter {
       $name = "noName()";
     }
 
+	// The third option shouldn't occur, but is put in just in case; the first
+	// option is the case where we have a body, the second is where we have
+	// a namespace header, like namespace DB; that opens a new block but doesn't
+	// enclose it in braces
     if (null != $node->stmts)
       $fragment = "namespace(" . $name . ",[" . implode(",",$body) . "])";
+    else if (null != $node->name)
+      $fragment = "namespaceHeader({$this->pprint($node->name)})";
     else
-      $fragment = "namespaceHeader({$headerName})"; 
+      $fragment = "namespaceHeader({$this->pprint("")})";
+       
     $fragment .= $this->annotateASTNode($node);
 
+	// If we had a statement body, then we reset the namespace at the end; if
+	// we didn't, it means that we just had a namespace declaration like
+	// namespace DB; which had no body, but then is still active at the end
+	// in which case we don't want to reset it
+	if (null != $node->stmts)
+		$this->currentNamespace = $priorNamespace;
+		
     return $fragment;
   }
 	
@@ -1661,6 +1720,15 @@ class AST2Rascal extends BasePrinter {
   public function pprintTraitStmt(PHPParser_Node_Stmt_Trait $node)
   {
     $body = array();
+
+    $priorTrait = $this->currentTrait;
+    $this->insideTrait = TRUE;
+    
+    if (strlen($this->currentNamespace) > 0)
+	    $this->currentTrait = $this->currentNamespace . "\\" . $node->name;
+	else
+		$this->currentTrait = $node->name;
+		
     foreach($node->stmts as $stmt)
       $body[] = $this->pprint($stmt);
 
@@ -1670,6 +1738,9 @@ class AST2Rascal extends BasePrinter {
     $fragment = "traitDef(" . $fragment . ")";
     $fragment .= $this->annotateASTNode($node);
 
+	$this->currentTrait = $priorTrait;
+	$this->insideTrait = FALSE;
+	
     return $fragment;
   }
 
