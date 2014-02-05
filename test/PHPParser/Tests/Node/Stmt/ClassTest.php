@@ -1,6 +1,8 @@
 <?php
 
-class PHPParser_Tests_Node_Stmt_ClassTest extends PHPUnit_Framework_TestCase
+require_once dirname(__FILE__) . '/OoPattern.php';
+
+class PHPParser_Tests_Node_Stmt_ClassTest extends PHPParser_Tests_Node_Stmt_OoPattern
 {
     public function testIsAbstract() {
         $class = new PHPParser_Node_Stmt_Class('Foo', array('type' => PHPParser_Node_Stmt_Class::MODIFIER_ABSTRACT));
@@ -18,13 +20,9 @@ class PHPParser_Tests_Node_Stmt_ClassTest extends PHPUnit_Framework_TestCase
         $this->assertFalse($class->isFinal());
     }
 
-    public function testGetMethods() {
-        $methods = array(
-            new PHPParser_Node_Stmt_ClassMethod('foo'),
-            new PHPParser_Node_Stmt_ClassMethod('bar'),
-            new PHPParser_Node_Stmt_ClassMethod('fooBar'),
-        );
-        $class = new PHPParser_Node_Stmt_Class('Foo', array(
+    protected function createDefinitionType(array $methods)
+    {
+        return new PHPParser_Node_Stmt_Class('Foo', array(
             'stmts' => array(
                 new PHPParser_Node_Stmt_TraitUse(array()),
                 $methods[0],
@@ -34,7 +32,6 @@ class PHPParser_Tests_Node_Stmt_ClassTest extends PHPUnit_Framework_TestCase
                 $methods[2],
             )
         ));
-
-        $this->assertEquals($methods, $class->getMethods());
     }
+
 }
