@@ -2,6 +2,7 @@
 
 class PHPParser_Error extends RuntimeException
 {
+    protected $prefix;
     protected $rawMessage;
     protected $rawLine;
 
@@ -59,7 +60,7 @@ class PHPParser_Error extends RuntimeException
      * Updates the exception message after a change to rawMessage or rawLine.
      */
     protected function updateMessage() {
-        $this->message = $this->rawMessage;
+        $this->message = $this->prefix.$this->rawMessage;
 
         if (-1 === $this->rawLine) {
             $this->message .= ' on unknown line';

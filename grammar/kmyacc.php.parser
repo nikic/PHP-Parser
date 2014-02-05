@@ -331,8 +331,8 @@ class #(-p)
                         $expectedString = ', expecting ' . implode(' or ', $expected);
                     }
 
-                    throw new PHPParser_Error(
-                        'Syntax error, unexpected ' . self::$terminals[$tokenId] . $expectedString,
+                    throw new PHPParser_Error_Parse(
+                        'syntax error, unexpected ' . self::$terminals[$tokenId] . $expectedString,
                         $startAttributes['startLine']
                     );
                 }

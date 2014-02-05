@@ -4,4 +4,4 @@ Cannot use try without catch or finally
 
 try { }
 -----
-Cannot use try without catch or finally on line 3
+Fatal error: Cannot use try without catch or finally on line 3

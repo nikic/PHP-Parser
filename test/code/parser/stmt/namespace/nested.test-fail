@@ -7,4 +7,4 @@ namespace A {
     }
 }
 -----
-Namespace declarations cannot be nested on line 3
+Fatal error: Namespace declarations cannot be nested on line 3
