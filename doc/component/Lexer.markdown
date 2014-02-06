@@ -1,8 +1,8 @@
 Lexer component documentation
 =============================
 
-The lexer is responsible for providing tokens to the parser. The project comes with two lexers: `PHPParser_Lexer` and
-`PHPParser_Lexer_Emulative`. The latter is an extension of the former, which adds the ability to emulate tokens of
+The lexer is responsible for providing tokens to the parser. The project comes with two lexers: `PhpParser\Lexer` and
+`PhpParser\Lexer\Emulative`. The latter is an extension of the former, which adds the ability to emulate tokens of
 newer PHP versions and thus allows parsing of new code on older versions.
 
 A lexer has to define the following public interface:
@@ -22,7 +22,7 @@ Even though `startLexing` is meant to accept a source code string, you could for
 ```php
 <?php
 
-class FileLexer extends PHPParser_Lexer {
+class FileLexer extends PhpParser\Lexer {
     public function startLexing($fileName) {
         if (!file_exists($fileName)) {
             throw new InvalidArgumentException(sprintf('File "%s" does not exist', $fileName));
@@ -32,7 +32,7 @@ class FileLexer extends PHPParser_Lexer {
     }
 }
 
-$parser = new PHPParser_Parser(new FileLexer);
+$parser = new PhpParser\Parser(new FileLexer);
 
 var_dump($parser->parse('someFile.php'));
 var_dump($parser->parse('someOtherFile.php'));
@@ -63,7 +63,7 @@ overriding the method:
 ```php
 <?php
 
-class LessAttributesLexer extends PHPParser_Lexer {
+class LessAttributesLexer extends PhpParser\Lexer {
     public function getNextToken(&$value = null, &$startAttributes = null, &$endAttributes = null) {
         $tokenId = parent::getNextToken($value, $startAttributes, $endAttributes);
 
@@ -82,7 +82,7 @@ a `fileName` attribute to all nodes:
 ```php
 <?php
 
-class FileLexer extends PHPParser_Lexer {
+class FileLexer extends PhpParser\Lexer {
     protected $fileName;
 
     public function startLexing($fileName) {

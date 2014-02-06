@@ -14,7 +14,7 @@ Human readable dumping
 ----------------------
 
 Furthermore it is possible to dump nodes into a human readable form using the `dump` method of
-`PHPParser_NodeDumper`. This can be used for debugging.
+`PhpParser\NodeDumper`. This can be used for debugging.
 
 ```php
 <?php
@@ -27,14 +27,14 @@ $code = <<<'CODE'
     printLine('Hallo World!!!');
 CODE;
 
-$parser     = new PHPParser_Parser(new PHPParser_Lexer);
-$nodeDumper = new PHPParser_NodeDumper;
+$parser     = new PhpParser\Parser(new PhpParser\Lexer);
+$nodeDumper = new PhpParser\NodeDumper;
 
 try {
     $stmts = $parser->parse($code);
 
     echo '<pre>' . htmlspecialchars($nodeDumper->dump($stmts)) . '</pre>';
-} catch (PHPParser_Error $e) {
+} catch (PhpParser\Error $e) {
     echo 'Parse Error: ', $e->getMessage();
 }
 ```
@@ -89,8 +89,8 @@ array(
 Serialization to XML
 --------------------
 
-It is also possible to serialize the node tree to XML using `PHPParser_Serializer_XML->serialize()`
-and to unserialize it using `PHPParser_Unserializer_XML->unserialize()`. This is useful for
+It is also possible to serialize the node tree to XML using `PhpParser\Serializer\XML->serialize()`
+and to unserialize it using `PhpParser\Unserializer\XML->unserialize()`. This is useful for
 interfacing with other languages and applications or for doing transformation using XSLT.
 
 ```php
@@ -104,14 +104,14 @@ $code = <<<'CODE'
     printLine('Hallo World!!!');
 CODE;
 
-$parser     = new PHPParser_Parser(new PHPParser_Lexer);
-$serializer = new PHPParser_Serializer_XML;
+$parser     = new PhpParser\Parser(new PhpParser\Lexer);
+$serializer = new PhpParser\Serializer\XML;
 
 try {
     $stmts = $parser->parse($code);
 
     echo '<pre>' . htmlspecialchars($serializer->serialize($stmts)) . '</pre>';
-} catch (PHPParser_Error $e) {
+} catch (PhpParser\Error $e) {
     echo 'Parse Error: ', $e->getMessage();
 }
 ```

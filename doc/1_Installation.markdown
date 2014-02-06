@@ -15,7 +15,7 @@ Create a `composer.json` file in your project root and use it to define your dep
 
     {
         "require": {
-            "nikic/php-parser": "0.9.4"
+            "nikic/php-parser": "1.0-dev"
         }
     }
 
@@ -26,14 +26,6 @@ Then install Composer in your project (or [download the composer.phar][1] direct
 And finally ask Composer to install the dependencies:
 
     php composer.phar install
-
-Installing as a PEAR package
-----------------------------
-
-Run the following two commands:
-
-    pear channel-discover nikic.github.com/pear
-    pear install nikic/PHPParser-0.9.4
 
 Installing as a Git Submodule
 -----------------------------

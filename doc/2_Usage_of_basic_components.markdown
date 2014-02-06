@@ -26,20 +26,20 @@ This ensures that there will be no errors when traversing highly nested node tre
 Parsing
 -------
 
-In order to parse some source code you first have to create a `PHPParser_Parser` object (which
-needs to be passed a `PHPParser_Lexer` instance) and then pass the code (including `<?php` opening
-tags) to the `parse` method. If a syntax error is encountered `PHPParser_Error` is thrown, so this
+In order to parse some source code you first have to create a `PhpParser\Parser` object (which
+needs to be passed a `PhpParser\Lexer` instance) and then pass the code (including `<?php` opening
+tags) to the `parse` method. If a syntax error is encountered `PhpParser\Error` is thrown, so this
 exception should be `catch`ed.
 
 ```php
 <?php
 $code = '<?php // some code';
 
-$parser = new PHPParser_Parser(new PHPParser_Lexer);
+$parser = new PhpParser\Parser(new PhpParser\Lexer);
 
 try {
     $stmts = $parser->parse($code);
-} catch (PHPParser_Error $e) {
+} catch (PhpParser\Error $e) {
     echo 'Parse Error: ', $e->getMessage();
 }
 ```
@@ -48,7 +48,7 @@ The `parse` method will return an array of statement nodes (`$stmts`).
 
 ### Emulative lexer
 
-Instead of `PHPParser_Lexer` one can also use `PHPParser_Lexer_Emulative`. This class will emulate tokens
+Instead of `PhpParser\Lexer` one can also use `PhpParser\Lexer\Emulative`. This class will emulate tokens
 of newer PHP versions and as such allow parsing PHP 5.5 on PHP 5.2, for example. So if you want to parse
 PHP code of newer versions than the one you are running, you should use the emulative lexer.
 
@@ -81,37 +81,41 @@ array(
 ```
 
 Thus `$stmts` will contain an array with only one node, with this node being an instance of
-`PHPParser_Node_Stmt_Echo`.
+`PhpParser\Node\Stmt\Echo_`.
 
 As PHP is a large language there are approximately 140 different nodes. In order to make work
 with them easier they are grouped into three categories:
 
- * `PHPParser_Node_Stmt`s are statement nodes, i.e. language constructs that do not return
+ * `PhpParser\Node\Stmt`s are statement nodes, i.e. language constructs that do not return
    a value and can not occur in an expression. For example a class definition is a statement.
    It doesn't return a value and you can't write something like `func(class A {});`.
- * `PHPParser_Node_Expr`s are expression nodes, i.e. language constructs that return a value
+ * `PhpParser\Node\Expr`s are expression nodes, i.e. language constructs that return a value
    and thus can occur in other expressions. Examples of expressions are `$var`
-   (`PHPParser_Node_Expr_Variable`) and `func()` (`PHPParser_Node_Expr_FuncCall`).
- * `PHPParser_Node_Scalar`s are nodes representing scalar values, like `'string'`
-   (`PHPParser_Node_Scalar_String`), `0` (`PHPParser_Node_Scalar_LNumber`) or magic constants
-   like `__FILE__` (`PHPParser_Node_Scalar_FileConst`). All `PHPParser_Node_Scalar`s extend
-   `PHPParser_Node_Expr`, as scalars are expressions, too.
- * There are some nodes not in either of these groups, for example names (`PHPParser_Node_Name`)
-   and call arguments (`PHPParser_Node_Arg`).
+   (`PhpParser\Node\Expr\Variable`) and `func()` (`PhpParser\Node\Expr\FuncCall`).
+ * `PhpParser\Node\Scalar`s are nodes representing scalar values, like `'string'`
+   (`PhpParser\Node\Scalar\String`), `0` (`PhpParser\Node\Scalar\LNumber`) or magic constants
+   like `__FILE__` (`PhpParser\Node\Scalar\MagicConst\File`). All `PhpParser\Node\Scalar`s extend
+   `PhpParser\Node\Expr`, as scalars are expressions, too.
+ * There are some nodes not in either of these groups, for example names (`PhpParser\Node\Name`)
+   and call arguments (`PhpParser\Node\Arg`).
+
+Some node class names have a trailing `_`. This is used whenever the class name would otherwise clash
+with a PHP keyword.
 
 Every node has a (possibly zero) number of subnodes. You can access subnodes by writing
-`$node->subNodeName`. The `Stmt_Echo` node has only one subnode `exprs`. So in order to access it
+`$node->subNodeName`. The `Stmt\Echo_` node has only one subnode `exprs`. So in order to access it
 in the above example you would write `$stmts[0]->exprs`. If you wanted to access name of the function
 call, you would write `$stmts[0]->exprs[1]->name`.
 
-All nodes also define a `getType()` method that returns the node type (the type is the class name
-without the `PHPParser_Node_` prefix).
+All nodes also define a `getType()` method that returns the node type. The type is the class name
+without the `PHPParser\Node\` prefix and `\` replaced with `_`. It also does not contain a trailing
+`_` for reserved-keyword class names.
 
 It is possible to associate custom metadata with a node using the `setAttribute()` method. This data
 can then be retrieved using `hasAttribute()`, `getAttribute()` and `getAttributes()`.
 
 By default the lexer adds the `startLine`, `endLine` and `comments` attributes. `comments` is an array
-of `PHPParser_Comment[_Doc]` instances.
+of `PhpParser\Comment[\Doc]` instances.
 
 The start line can also be accessed using `getLine()`/`setLine()` (instead of `getAttribute('startLine')`).
 The last doc comment from the `comments` attribute can be obtained using `getDocComment()`.
@@ -121,14 +125,14 @@ Pretty printer
 
 The pretty printer component compiles the AST back to PHP code. As the parser does not retain formatting
 information the formatting is done using a specified scheme. Currently there is only one scheme available,
-namely `PHPParser_PrettyPrinter_Default`.
+namely `PhpParser\PrettyPrinter\Standard`.
 
 ```php
 <?php
 $code = "<?php echo 'Hi ', hi\\getTarget();";
 
-$parser        = new PHPParser_Parser(new PHPParser_Lexer);
-$prettyPrinter = new PHPParser_PrettyPrinter_Default;
+$parser        = new PhpParser\Parser(new PhpParser\Lexer);
+$prettyPrinter = new PhpParser\PrettyPrinter\Standard;
 
 try {
     // parse
@@ -145,7 +149,7 @@ try {
     $code = '<?php ' . $prettyPrinter->prettyPrint($stmts);
 
     echo $code;
-} catch (PHPParser_Error $e) {
+} catch (PhpParser\Error $e) {
     echo 'Parse Error: ', $e->getMessage();
 }
 ```
@@ -154,11 +158,11 @@ The above code will output:
 
     <?php echo 'Hallo ', hi\getTarget();
 
-As you can see the source code was first parsed using `PHPParser_Parser->parse`, then changed and then
-again converted to code using `PHPParser_PrettyPrinter_Default->prettyPrint`.
+As you can see the source code was first parsed using `PhpParser\Parser->parse()`, then changed and then
+again converted to code using `PhpParser\PrettyPrinter\Standard->prettyPrint()`.
 
-The `prettyPrint` method pretty prints a statements array. It is also possible to pretty print only a
-single expression using `prettyPrintExpr`.
+The `prettyPrint()` method pretty prints a statements array. It is also possible to pretty print only a
+single expression using `prettyPrintExpr()`.
 
 Node traversation
 -----------------
@@ -169,15 +173,15 @@ Usually you want to change / analyze code in a generic way, where you don't know
 going to look like.
 
 For this purpose the parser provides a component for traversing and visiting the node tree. The basic
-structure of a program using this `PHPParser_NodeTraverser` looks like this:
+structure of a program using this `PhpParser\NodeTraverser` looks like this:
 
 ```php
 <?php
 $code = "<?php // some code";
 
-$parser        = new PHPParser_Parser(new PHPParser_Lexer);
-$traverser     = new PHPParser_NodeTraverser;
-$prettyPrinter = new PHPParser_PrettyPrinter_Default;
+$parser        = new PhpParser\Parser(new PhpParser\Lexer);
+$traverser     = new PhpParser\NodeTraverser;
+$prettyPrinter = new PhpParser\PrettyPrinter\Standard;
 
 // add your visitor
 $traverser->addVisitor(new MyNodeVisitor);
@@ -193,7 +197,7 @@ try {
     $code = '<?php ' . $prettyPrinter->prettyPrint($stmts);
 
     echo $code;
-} catch (PHPParser_Error $e) {
+} catch (PhpParser\Error $e) {
     echo 'Parse Error: ', $e->getMessage();
 }
 ```
@@ -202,10 +206,10 @@ A same node visitor for this code might look like this:
 
 ```php
 <?php
-class MyNodeVisitor extends PHPParser_NodeVisitorAbstract
+class MyNodeVisitor extends PhpParser\NodeVisitorAbstract
 {
-    public function leaveNode(PHPParser_Node $node) {
-        if ($node instanceof PHPParser_Node_Scalar_String) {
+    public function leaveNode(PhpParser\Node $node) {
+        if ($node instanceof PhpParser\Node\Scalar\String) {
             $node->value = 'foo';
         }
     }
@@ -214,12 +218,12 @@ class MyNodeVisitor extends PHPParser_NodeVisitorAbstract
 
 The above node visitor would change all string literals in the program to `'foo'`.
 
-All visitors must implement the `PHPParser_NodeVisitor` interface, which defined the following four
+All visitors must implement the `PhpParser\NodeVisitor` interface, which defined the following four
 methods:
 
     public function beforeTraverse(array $nodes);
-    public function enterNode(PHPParser_Node $node);
-    public function leaveNode(PHPParser_Node $node);
+    public function enterNode(PhpParser\Node $node);
+    public function leaveNode(PhpParser\Node $node);
     public function afterTraverse(array $nodes);
 
 The `beforeTraverse` method is called once before the traversal begins and is passed the nodes the
@@ -245,7 +249,7 @@ class, which will define empty default implementations for all the above methods
 The NameResolver node visitor
 -----------------------------
 
-One visitor is already bundled with the package: `PHPParser_NodeVisitor_NameResolver`. This visitor
+One visitor is already bundled with the package: `PhpParser\NodeVisitor\NameResolver`. This visitor
 helps you work with namespaced code by trying to resolve most names to fully qualified ones.
 
 For example, consider the following code:
@@ -280,12 +284,12 @@ const IN_DIR  = '/some/path';
 const OUT_DIR = '/some/other/path';
 
 // use the emulative lexer here, as we are running PHP 5.2 but want to parse PHP 5.3
-$parser        = new PHPParser_Parser(new PHPParser_Lexer_Emulative);
-$traverser     = new PHPParser_NodeTraverser;
-$prettyPrinter = new PHPParser_PrettyPrinter_Default;
+$parser        = new PhpParser\Parser(new PhpParser\Lexer\Emulative);
+$traverser     = new PhpParser\NodeTraverser;
+$prettyPrinter = new PhpParser\PrettyPrinter\Standard;
 
-$traverser->addVisitor(new PHPParser_NodeVisitor_NameResolver); // we will need resolved names
-$traverser->addVisitor(new NodeVisitor_NamespaceConverter);     // our own node visitor
+$traverser->addVisitor(new PhpParser\NodeVisitor\NameResolver); // we will need resolved names
+$traverser->addVisitor(new NodeVisitor\NamespaceConverter);     // our own node visitor
 
 // iterate over all .php files in the directory
 $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator(IN_DIR));
@@ -310,7 +314,7 @@ foreach ($files as $file) {
             substr_replace($file->getPathname(), OUT_DIR, 0, strlen(IN_DIR)),
             $code
         );
-    } catch (PHPParser_Error $e) {
+    } catch (PhpParser\Error $e) {
         echo 'Parse Error: ', $e->getMessage();
     }
 }
@@ -321,11 +325,12 @@ is convert `A\\B` style names to `A_B` style ones.
 
 ```php
 <?php
-class NodeVisitor_NamespaceConverter extends PHPParser_NodeVisitorAbstract
+use PhpParser\Node;
+class NodeVisitor_NamespaceConverter extends PhpParser\NodeVisitorAbstract
 {
-    public function leaveNode(PHPParser_Node $node) {
-        if ($node instanceof PHPParser_Node_Name) {
-            return new PHPParser_Node_Name($node->toString('_'));
+    public function leaveNode(Node $node) {
+        if ($node instanceof Node\Name) {
+            return new Node\Name($node->toString('_'));
         }
     }
 }
@@ -343,16 +348,18 @@ name:
 
 ```php
 <?php
-class NodeVisitor_NamespaceConverter extends PHPParser_NodeVisitorAbstract
+use PhpParser\Node;
+use PhpParser\Node\Stmt;
+class NodeVisitor_NamespaceConverter extends PhpParser\NodeVisitorAbstract
 {
-    public function leaveNode(PHPParser_Node $node) {
-        if ($node instanceof PHPParser_Node_Name) {
-            return new PHPParser_Node_Name($node->toString('_'));
-        } elseif ($node instanceof PHPParser_Node_Stmt_Class
-                  || $node instanceof PHPParser_Node_Stmt_Interface
-                  || $node instanceof PHPParser_Node_Stmt_Function) {
+    public function leaveNode(Node $node) {
+        if ($node instanceof Node\Name) {
+            return new Node\Name($node->toString('_'));
+        } elseif ($node instanceof Stmt\Class_
+                  || $node instanceof Stmt\Interface_
+                  || $node instanceof Stmt\Function_) {
             $node->name = $node->namespacedName->toString('_');
-        } elseif ($node instanceof PHPParser_Node_Stmt_Const) {
+        } elseif ($node instanceof Stmt\Const_) {
             foreach ($node->consts as $const) {
                 $const->name = $const->namespacedName->toString('_');
             }
@@ -367,23 +374,25 @@ The last thing we need to do is remove the `namespace` and `use` statements:
 
 ```php
 <?php
-class NodeVisitor_NamespaceConverter extends PHPParser_NodeVisitorAbstract
+use PhpParser\Node;
+use PhpParser\Node\Stmt;
+class NodeVisitor_NamespaceConverter extends PhpParser\NodeVisitorAbstract
 {
-    public function leaveNode(PHPParser_Node $node) {
-        if ($node instanceof PHPParser_Node_Name) {
-            return new PHPParser_Node_Name($node->toString('_'));
-        } elseif ($node instanceof PHPParser_Node_Stmt_Class
-                  || $node instanceof PHPParser_Node_Stmt_Interface
-                  || $node instanceof PHPParser_Node_Stmt_Function) {
+    public function leaveNode(Node $node) {
+        if ($node instanceof Node\Name) {
+            return new Node\Name($node->toString('_'));
+        } elseif ($node instanceof Stmt\Class_
+                  || $node instanceof Stmt\Interface_
+                  || $node instanceof Stmt\Function_) {
             $node->name = $node->namespacedName->toString('_');
-        } elseif ($node instanceof PHPParser_Node_Stmt_Const) {
+        } elseif ($node instanceof Stmt\Const_) {
             foreach ($node->consts as $const) {
                 $const->name = $const->namespacedName->toString('_');
             }
-        } elseif ($node instanceof PHPParser_Node_Stmt_Namespace) {
+        } elseif ($node instanceof Stmt\Namespace_) {
             // returning an array merges is into the parent array
             return $node->stmts;
-        } elseif ($node instanceof PHPParser_Node_Stmt_Use) {
+        } elseif ($node instanceof Stmt\Use_) {
             // returning false removed the node altogether
             return false;
         }

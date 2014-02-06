@@ -15,7 +15,7 @@ Here is an example:
 
 ```php
 <?php
-$factory = new PHPParser_BuilderFactory;
+$factory = new PhpParser\BuilderFactory;
 $node = $factory->class('SomeClass')
     ->extend('SomeOtherClass')
     ->implement('A\Few', 'Interfaces')
@@ -30,7 +30,7 @@ $node = $factory->class('SomeClass')
         ->makeProtected() // ->makePublic() [default], ->makePrivate()
         ->addParam($factory->param('someParam')->setDefault('test'))
         // it is possible to add manually created nodes
-        ->addStmt(new PHPParser_Node_Expr_Print(new PHPParser_Node_Expr_Variable('someParam')))
+        ->addStmt(new PhpParser\Node\Expr\Print_(new PhpParser\Node\Expr\Variable('someParam')))
     )
 
     // properties will be correctly reordered above the methods
@@ -104,7 +104,7 @@ Using this template we can easily create a class with multiple properties and th
 <?php
 
 // $templateString contains the above template
-$template = new PHPParser_Template($parser, $templateString);
+$template = new PhpParser\Template($parser, $templateString);
 
 // We only have to specify the __name__ placeholder, as the
 // capitalized __Name__ placeholder is automatically created
@@ -246,7 +246,7 @@ When using multiple templates it is easier to manage them on the filesystem. The
 <?php
 
 // We'll store our templates in ./templates and give them a .php suffix
-$loader = new PHPParser_TemplateLoader($parser, './templates', '.php');
+$loader = new PhpParser\TemplateLoader($parser, './templates', '.php');
 
 // loads ./templates/GetterSetter.php
 $getterSetterTemplate = $loader->load('GetterSetter');
@@ -255,7 +255,7 @@ $getterSetterTemplate = $loader->load('GetterSetter');
 $collectionTemplate = $loader->load('Collection');
 
 // The use of a suffix is optional. The following code for example is equivalent:
-$loader = new PHPParser_TemplateLoader($parser, './templates');
+$loader = new PhpParser\TemplateLoader($parser, './templates');
 
 // loads ./templates/GetterSetter.php
 $getterSetterTemplate = $loader->load('GetterSetter.php');
