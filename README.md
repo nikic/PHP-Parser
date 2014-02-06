@@ -76,7 +76,7 @@ programming errors or security issues).
 Additionally, you can convert a syntax tree back to PHP code. This allows you to do code preprocessing
 (like automatedly porting code to older PHP versions).
 
-So, that's it, in a nutshell. You can find everything else in the [docs][1].
+So, that's it, in a nutshell. You can find everything else in the [docs][doc_master].
 
  [doc_0_9]: https://github.com/nikic/PHP-Parser/tree/0.9/doc
  [doc_master]: https://github.com/nikic/PHP-Parser/tree/master/doc
