@@ -28,7 +28,7 @@ array(
             )
         )
         cond: array(
-            0: Expr_Smaller(
+            0: Expr_BinaryOp_Smaller(
                 left: Expr_Variable(
                     name: i
                 )

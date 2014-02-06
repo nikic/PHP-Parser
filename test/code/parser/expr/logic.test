@@ -21,7 +21,7 @@ $a = $b || $c;
 $a = $b or $c;
 -----
 array(
-    0: Expr_BooleanAnd(
+    0: Expr_BinaryOp_BooleanAnd(
         left: Expr_Variable(
             name: a
         )
@@ -29,7 +29,7 @@ array(
             name: b
         )
     )
-    1: Expr_BooleanOr(
+    1: Expr_BinaryOp_BooleanOr(
         left: Expr_Variable(
             name: a
         )
@@ -49,7 +49,7 @@ array(
             )
         )
     )
-    4: Expr_LogicalAnd(
+    4: Expr_BinaryOp_LogicalAnd(
         left: Expr_Variable(
             name: a
         )
@@ -57,7 +57,7 @@ array(
             name: b
         )
     )
-    5: Expr_LogicalOr(
+    5: Expr_BinaryOp_LogicalOr(
         left: Expr_Variable(
             name: a
         )
@@ -65,7 +65,7 @@ array(
             name: b
         )
     )
-    6: Expr_LogicalXor(
+    6: Expr_BinaryOp_LogicalXor(
         left: Expr_Variable(
             name: a
         )
@@ -73,8 +73,8 @@ array(
             name: b
         )
     )
-    7: Expr_BooleanOr(
-        left: Expr_BooleanAnd(
+    7: Expr_BinaryOp_BooleanOr(
+        left: Expr_BinaryOp_BooleanAnd(
             left: Expr_Variable(
                 name: a
             )
@@ -82,7 +82,7 @@ array(
                 name: b
             )
         )
-        right: Expr_BooleanAnd(
+        right: Expr_BinaryOp_BooleanAnd(
             left: Expr_Variable(
                 name: c
             )
@@ -91,12 +91,12 @@ array(
             )
         )
     )
-    8: Expr_BooleanAnd(
-        left: Expr_BooleanAnd(
+    8: Expr_BinaryOp_BooleanAnd(
+        left: Expr_BinaryOp_BooleanAnd(
             left: Expr_Variable(
                 name: a
             )
-            right: Expr_BooleanOr(
+            right: Expr_BinaryOp_BooleanOr(
                 left: Expr_Variable(
                     name: b
                 )
@@ -113,7 +113,7 @@ array(
         var: Expr_Variable(
             name: a
         )
-        expr: Expr_BooleanOr(
+        expr: Expr_BinaryOp_BooleanOr(
             left: Expr_Variable(
                 name: b
             )
@@ -122,7 +122,7 @@ array(
             )
         )
     )
-    10: Expr_LogicalOr(
+    10: Expr_BinaryOp_LogicalOr(
         left: Expr_Assign(
             var: Expr_Variable(
                 name: a

@@ -41,7 +41,7 @@ array(
             name: b
         )
     )
-    1: Expr_AssignBitwiseAnd(
+    1: Expr_AssignOp_BitwiseAnd(
         var: Expr_Variable(
             name: a
         )
@@ -49,7 +49,7 @@ array(
             name: b
         )
     )
-    2: Expr_AssignBitwiseOr(
+    2: Expr_AssignOp_BitwiseOr(
         var: Expr_Variable(
             name: a
         )
@@ -57,7 +57,7 @@ array(
             name: b
         )
     )
-    3: Expr_AssignBitwiseXor(
+    3: Expr_AssignOp_BitwiseXor(
         var: Expr_Variable(
             name: a
         )
@@ -65,7 +65,7 @@ array(
             name: b
         )
     )
-    4: Expr_AssignConcat(
+    4: Expr_AssignOp_Concat(
         var: Expr_Variable(
             name: a
         )
@@ -73,7 +73,7 @@ array(
             name: b
         )
     )
-    5: Expr_AssignDiv(
+    5: Expr_AssignOp_Div(
         var: Expr_Variable(
             name: a
         )
@@ -81,7 +81,7 @@ array(
             name: b
         )
     )
-    6: Expr_AssignMinus(
+    6: Expr_AssignOp_Minus(
         var: Expr_Variable(
             name: a
         )
@@ -89,7 +89,7 @@ array(
             name: b
         )
     )
-    7: Expr_AssignMod(
+    7: Expr_AssignOp_Mod(
         var: Expr_Variable(
             name: a
         )
@@ -97,7 +97,7 @@ array(
             name: b
         )
     )
-    8: Expr_AssignMul(
+    8: Expr_AssignOp_Mul(
         var: Expr_Variable(
             name: a
         )
@@ -105,7 +105,7 @@ array(
             name: b
         )
     )
-    9: Expr_AssignPlus(
+    9: Expr_AssignOp_Plus(
         var: Expr_Variable(
             name: a
         )
@@ -113,7 +113,7 @@ array(
             name: b
         )
     )
-    10: Expr_AssignShiftLeft(
+    10: Expr_AssignOp_ShiftLeft(
         var: Expr_Variable(
             name: a
         )
@@ -121,7 +121,7 @@ array(
             name: b
         )
     )
-    11: Expr_AssignShiftRight(
+    11: Expr_AssignOp_ShiftRight(
         var: Expr_Variable(
             name: a
         )

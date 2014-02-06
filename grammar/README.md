@@ -13,8 +13,8 @@ The `.phpy` file is a normal grammer in `kmyacc` (`yacc`) style, with some trans
 applied to it:
 
  * Nodes are created using the syntax `Name[..., ...]`. This is transformed into
-   `new PHPParser_Node_Name(..., ..., $attributes)`
- * `Name::abc` is transformed to `PHPParser_Node_Name::abc`
+   `new Node\Name(..., ..., $attributes)`
+ * `Name::abc` is transformed to `Node\Name::abc`
  * Some function-like constructs are resolved (see `rebuildParser.php` for a list)
  * Associative arrays are written as `[key: value, ...]`, which is transformed to
    `array('key' => value, ...)`

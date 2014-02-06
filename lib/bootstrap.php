@@ -1,4 +1,4 @@
 <?php
 
-require dirname(__FILE__) . '/PHPParser/Autoloader.php';
-PHPParser_Autoloader::register();
+require __DIR__ . '/PhpParser/Autoloader.php';
+PhpParser\Autoloader::register();

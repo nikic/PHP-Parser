@@ -6,6 +6,8 @@ $meta #
 #semval(%n,%t) $this->yyastk[$this->stackPos-(%l-%n)]
 #include;
 
+namespace PhpParser;
+
 /* This is an automatically GENERATED file, which should not be manually edited.
  * Instead edit one of the following:
  *  * the grammar file grammar/zend_language_parser.phpy
@@ -100,9 +102,9 @@ class #(-p)
     /**
      * Creates a parser instance.
      *
-     * @param PHPParser_Lexer $lexer A lexer
+     * @param Lexer $lexer A lexer
      */
-    public function __construct(PHPParser_Lexer $lexer) {
+    public function __construct(Lexer $lexer) {
         $this->lexer = $lexer;
     }
 #endif
@@ -157,7 +159,7 @@ class #(-p)
      *
      * @param string $code The source code to parse
      *
-     * @return PHPParser_Node[] Array of statements
+     * @return Node[] Array of statements
      */
     public function parse($code) {
         $this->lexer->startLexing($code);
@@ -206,7 +208,7 @@ class #(-p)
                         : self::TOKEN_INVALID;
 
                     if ($tokenId === self::TOKEN_INVALID) {
-                        throw new RangeException(sprintf(
+                        throw new \RangeException(sprintf(
                             'The lexer returned an invalid token (id=%d, value=%s)',
                             $origTokenId, $tokenValue
                         ));
@@ -278,7 +280,7 @@ class #(-p)
                             $attributeStack[$this->stackPos - self::$yylen[$yyn]]
                             + $endAttributes
                         );
-                    } catch (PHPParser_Error $e) {
+                    } catch (Error $e) {
                         if (-1 === $e->getRawLine()) {
                             $e->setRawLine($startAttributes['startLine']);
                         }
@@ -331,7 +333,7 @@ class #(-p)
                         $expectedString = ', expecting ' . implode(' or ', $expected);
                     }
 
-                    throw new PHPParser_Error(
+                    throw new Error(
                         'Syntax error, unexpected ' . self::$terminals[$tokenId] . $expectedString,
                         $startAttributes['startLine']
                     );

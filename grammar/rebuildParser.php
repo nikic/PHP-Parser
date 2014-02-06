@@ -48,14 +48,14 @@ $grammarCode = resolveArrays($grammarCode);
 file_put_contents($tmpGrammarFile, $grammarCode);
 
 echo "Building parser.\n";
-$output = trim(shell_exec("$kmyacc -l -m $skeletonFile -p PHPParser_Parser $tmpGrammarFile 2>&1"));
+$output = trim(shell_exec("$kmyacc -l -m $skeletonFile -p Parser $tmpGrammarFile 2>&1"));
 echo "Output: \"$output\"\n";
 
 moveFileWithDirCheck($tmpResultFile, $parserResultFile);
 
 if ($optionDebug) {
     echo "Building debug parser.\n";
-    $output = trim(shell_exec("$kmyacc -t -v -l -m $skeletonFile -p PHPParser_Parser $tmpGrammarFile 2>&1"));
+    $output = trim(shell_exec("$kmyacc -t -v -l -m $skeletonFile -p Parser $tmpGrammarFile 2>&1"));
     echo "Output: \"$output\"\n";
 
     moveFileWithDirCheck($tmpResultFile, $debugParserResultFile);
@@ -70,12 +70,12 @@ if (!$optionKeepTmpGrammar) {
 ///////////////////////////////
 
 function resolveConstants($code) {
-    return preg_replace('~[A-Z][a-zA-Z_]++::~', 'PHPParser_Node_$0', $code);
+    return preg_replace('~[A-Z][a-zA-Z_\\\\]++::~', 'Node\\\\$0', $code);
 }
 
 function resolveNodes($code) {
     return preg_replace_callback(
-        '~(?<name>[A-Z][a-zA-Z_]++)\s*' . PARAMS . '~',
+        '~(?<name>[A-Z][a-zA-Z_\\\\]++)\s*' . PARAMS . '~',
         function($matches) {
             // recurse
             $matches['params'] = resolveNodes($matches['params']);
@@ -90,7 +90,7 @@ function resolveNodes($code) {
                 $paramCode .= $param . ', ';
             }
 
-            return 'new PHPParser_Node_' . $matches['name'] . '(' . $paramCode . '$attributes)';
+            return 'new Node\\' . $matches['name'] . '(' . $paramCode . '$attributes)';
         },
         $code
     );
@@ -112,7 +112,7 @@ function resolveMacros($code) {
             if ('error' == $name) {
                 assertArgs(1, $args, $name);
 
-                return 'throw new PHPParser_Error(' . $args[0] . ')';
+                return 'throw new Error(' . $args[0] . ')';
             }
 
             if ('init' == $name) {
@@ -146,13 +146,13 @@ function resolveMacros($code) {
             if ('parseEncapsed' == $name) {
                 assertArgs(2, $args, $name);
 
-                return 'foreach (' . $args[0] . ' as &$s) { if (is_string($s)) { $s = PHPParser_Node_Scalar_String::parseEscapeSequences($s, ' . $args[1] . '); } }';
+                return 'foreach (' . $args[0] . ' as &$s) { if (is_string($s)) { $s = Node\Scalar\String::parseEscapeSequences($s, ' . $args[1] . '); } }';
             }
 
             if ('parseEncapsedDoc' == $name) {
                 assertArgs(1, $args, $name);
 
-                return 'foreach (' . $args[0] . ' as &$s) { if (is_string($s)) { $s = PHPParser_Node_Scalar_String::parseEscapeSequences($s, null); } } $s = preg_replace(\'~(\r\n|\n|\r)$~\', \'\', $s); if (\'\' === $s) array_pop(' . $args[0] . ');';
+                return 'foreach (' . $args[0] . ' as &$s) { if (is_string($s)) { $s = Node\Scalar\String::parseEscapeSequences($s, null); } } $s = preg_replace(\'~(\r\n|\n|\r)$~\', \'\', $s); if (\'\' === $s) array_pop(' . $args[0] . ');';
             }
 
             throw new Exception(sprintf('Unknown macro "%s"', $name));
