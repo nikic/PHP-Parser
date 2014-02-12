@@ -10,9 +10,9 @@ class Autoloader
     /**
     * Registers PhpParser\Autoloader as an SPL autoloader.
     */
-    static public function register() {
+    static public function register($prepend = true) {
         ini_set('unserialize_callback_func', 'spl_autoload_call');
-        spl_autoload_register(array(__CLASS__, 'autoload'));
+        spl_autoload_register(array(__CLASS__, 'autoload'), true, $prepend);
     }
 
     /**
