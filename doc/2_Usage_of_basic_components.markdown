@@ -108,7 +108,7 @@ in the above example you would write `$stmts[0]->exprs`. If you wanted to access
 call, you would write `$stmts[0]->exprs[1]->name`.
 
 All nodes also define a `getType()` method that returns the node type. The type is the class name
-without the `PHPParser\Node\` prefix and `\` replaced with `_`. It also does not contain a trailing
+without the `PhpParser\Node\` prefix and `\` replaced with `_`. It also does not contain a trailing
 `_` for reserved-keyword class names.
 
 It is possible to associate custom metadata with a node using the `setAttribute()` method. This data

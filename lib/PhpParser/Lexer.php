@@ -16,7 +16,7 @@ class Lexer
      * Creates a Lexer.
      */
     public function __construct() {
-        // map from internal tokens to PHPParser tokens
+        // map from internal tokens to PhpParser tokens
         $this->tokenMap = $this->createTokenMap();
 
         // map of tokens to drop while lexing (the map is only used for isset lookup,

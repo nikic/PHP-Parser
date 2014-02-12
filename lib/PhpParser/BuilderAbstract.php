@@ -26,7 +26,7 @@ abstract class BuilderAbstract implements Builder {
     }
 
     /**
-     * Normalizes a name: Converts plain string names to PHPParser_Node_Name.
+     * Normalizes a name: Converts plain string names to PhpParser\Node\Name.
      *
      * @param Name|string $name The name to normalize
      *

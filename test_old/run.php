@@ -65,7 +65,7 @@ if ('Symfony' === $TEST_TYPE) {
     showHelp('Test type must be either "Symfony" or "PHP"!');
 }
 
-require_once dirname(__FILE__) . '/../lib/PHPParser/Autoloader.php';
+require_once dirname(__FILE__) . '/../lib/PhpParser/Autoloader.php';
 PhpParser\Autoloader::register();
 
 $parser        = new PhpParser\Parser(new PhpParser\Lexer\Emulative);
