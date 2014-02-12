@@ -8,18 +8,20 @@ namespace PhpParser;
 class Autoloader
 {
     /**
-    * Registers PhpParser\Autoloader as an SPL autoloader.
-    */
-    static public function register() {
+     * Registers PhpParser\Autoloader as an SPL autoloader.
+     *
+     * @param bool $prepend Whether to prepend the autoloader instead of appending
+     */
+    static public function register($prepend = false) {
         ini_set('unserialize_callback_func', 'spl_autoload_call');
-        spl_autoload_register(array(__CLASS__, 'autoload'));
+        spl_autoload_register(array(__CLASS__, 'autoload'), true, $prepend);
     }
 
     /**
-    * Handles autoloading of classes.
-    *
-    * @param string $class A class name.
-    */
+     * Handles autoloading of classes.
+     *
+     * @param string $class A class name.
+     */
     static public function autoload($class) {
         if (0 === strpos($class, 'PhpParser\\')) {
             $fileName = dirname(__DIR__) . '/' . rtrim(strtr($class, '\\', '/'), '_') . '.php';
