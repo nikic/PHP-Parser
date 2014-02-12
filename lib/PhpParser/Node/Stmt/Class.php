@@ -51,16 +51,16 @@ class Class_ extends Node\Stmt
         $this->name = $name;
 
         if (isset(self::$specialNames[(string) $this->name])) {
-            throw new Error(sprintf('Cannot use "%s" as class name as it is reserved', $this->name));
+            throw new Error(sprintf('Cannot use \'%s\' as class name as it is reserved', $this->name));
         }
 
         if (isset(self::$specialNames[(string) $this->extends])) {
-            throw new Error(sprintf('Cannot use "%s" as class name as it is reserved', $this->extends));
+            throw new Error(sprintf('Cannot use \'%s\' as class name as it is reserved', $this->extends));
         }
 
         foreach ($this->implements as $interface) {
             if (isset(self::$specialNames[(string) $interface])) {
-                throw new Error(sprintf('Cannot use "%s" as interface name as it is reserved', $interface));
+                throw new Error(sprintf('Cannot use \'%s\' as interface name as it is reserved', $interface));
             }
         }
     }
@@ -101,7 +101,7 @@ class Class_ extends Node\Stmt
         }
 
         if ($a & 48 && $b & 48) {
-            throw new Error('Cannot use the final and abstract modifier at the same time');
+            throw new Error('Cannot use the final modifier on an abstract class member');
         }
     }
 }

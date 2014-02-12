@@ -38,10 +38,15 @@ class ClassMethod extends Node\Stmt
         );
         $this->name = $name;
 
-        if (($this->type & Class_::MODIFIER_STATIC)
-            && ('__construct' == $this->name || '__destruct' == $this->name || '__clone' == $this->name)
-        ) {
-            throw new Error(sprintf('"%s" method cannot be static', $this->name));
+        if ($this->type & Class_::MODIFIER_STATIC) {
+            switch (strtolower($this->name)) {
+                case '__construct':
+                    throw new Error(sprintf('Constructor %s() cannot be static', $this->name));
+                case '__destruct':
+                    throw new Error(sprintf('Destructor %s() cannot be static', $this->name));
+                case '__clone':
+                    throw new Error(sprintf('Clone method %s() cannot be static', $this->name));
+            }
         }
     }
 

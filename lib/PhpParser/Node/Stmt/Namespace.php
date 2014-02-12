@@ -34,7 +34,7 @@ class Namespace_ extends Node\Stmt
         );
 
         if (isset(self::$specialNames[(string) $this->name])) {
-            throw new Error(sprintf('Cannot use "%s" as namespace name as it is reserved', $this->name));
+            throw new Error(sprintf('Cannot use \'%s\' as namespace name', $this->name));
         }
 
         if (null !== $this->stmts) {

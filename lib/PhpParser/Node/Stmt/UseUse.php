@@ -25,7 +25,7 @@ class UseUse extends Node\Stmt
 
         if ('self' == $alias || 'parent' == $alias) {
             throw new Error(sprintf(
-                'Cannot use "%s" as "%s" because "%2$s" is a special class name',
+                'Cannot use %s as %s because \'%2$s\' is a special class name',
                 $name, $alias
             ));
         }
