@@ -3,6 +3,7 @@
 namespace PhpParser\Node\Scalar;
 
 use PhpParser\Node\Scalar;
+use PhpParser\Node\Name;
 
 abstract class MagicConst extends Scalar
 {
@@ -12,6 +13,14 @@ abstract class MagicConst extends Scalar
      * @param array $attributes Additional attributes
      */
     public function __construct(array $attributes = array()) {
-        parent::__construct(array(), $attributes);
+        $name = explode('\\', get_class($this));
+        $name = trim(strtoupper(array_pop($name)), '_');
+
+        parent::__construct(
+            array(
+                'name' => new Name(sprintf('__%s__', $name))
+            ),
+            $attributes
+        );
     }
 }
