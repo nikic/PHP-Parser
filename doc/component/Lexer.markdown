@@ -100,7 +100,7 @@ class FileLexer extends PhpParser\Lexer {
         // we could use either $startAttributes or $endAttributes here, because the fileName is always the same
         // (regardless of whether it is the start or end token). We choose $endAttributes, because it is slightly
         // more efficient (as the parser has to keep a stack for the $startAttributes).
-        $endAttributes['fileName'] = $fileName;
+        $endAttributes['fileName'] = $this->fileName;
 
         return $tokenId;
     }
