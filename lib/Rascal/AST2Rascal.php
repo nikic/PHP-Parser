@@ -1991,7 +1991,7 @@ else
     }
 
 $addPHPDocs = false;
-if (isset($opts["phpdocs"]))
+if (isset($opts["phpdoc"]))
   $addPHPDocs = true;
 
 $relativeLocations = false;
