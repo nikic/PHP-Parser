@@ -75,12 +75,18 @@ class AST2Rascal extends BasePrinter
      * Try to extract data from PHPDoc.
      * If no PHPDoc found, return NULL
      *
+     * Restriction: only for Class, Interface and Variable.
+     *
      * @return string
      */
     private function addPhpDocForNode(PHPParser_Node $node)
     {
         $docString = "@phpdoc=\"%s\"";
-        if ($doc = $node->getDocComment())
+        if ($node instanceof PHPParser_Node_Stmt_Class ||
+            $node instanceof PHPParser_Node_Stmt_Interface ||
+            $node instanceof PHPParser_Node_Expr_Variable
+        )
+          if ($doc = $node->getDocComment())
             return sprintf($docString, $this->rascalizeString($doc));
         return sprintf($docString, null);
     }
