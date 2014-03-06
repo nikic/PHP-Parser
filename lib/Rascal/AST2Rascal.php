@@ -10,17 +10,17 @@ class AST2Rascal extends BasePrinter
 
     private $filename = "";
 
-    private $addLocations = FALSE;
+    private $addLocations = false;
 
-    private $relativeLocations = FALSE;
+    private $relativeLocations = false;
 
-    private $addIds = FALSE;
+    private $addIds = false;
 
-    private $addDocs = FALSE;
+    private $addPhpDoc = false;
 
     private $idPrefix = "";
 
-    private $insideTrait = FALSE;
+    private $insideTrait = false;
 
     private $currentFunction = "";
 
@@ -39,16 +39,16 @@ class AST2Rascal extends BasePrinter
      * @param bool $rel            
      * @param bool $ids            
      * @param string $prefix            
-     * @param bool $docs            
+     * @param bool $phpdoc
      */
-    public function AST2Rascal($str, $locs, $rel, $ids, $prefix, $docs)
+    public function AST2Rascal($str, $locs, $rel, $ids, $prefix, $phpdoc)
     {
         $this->filename = $str;
         $this->addLocations = $locs;
         $this->relativeLocations = $rel;
         $this->addIds = $ids;
         $this->idPrefix = $prefix;
-        $this->addDocs = $docs;
+        $this->addPhpDoc = $phpdoc;
     }
 
     public function rascalizeString($str)
@@ -77,9 +77,9 @@ class AST2Rascal extends BasePrinter
      *
      * @return string
      */
-    private function addDocForNode(PHPParser_Node $node)
+    private function addPhpDocForNode(PHPParser_Node $node)
     {
-        $docString = "@doc=\"%s\"";
+        $docString = "@phpdoc=\"%s\"";
         if ($doc = $node->getDocComment())
             return sprintf($docString, $this->rascalizeString($doc));
         return sprintf($docString, null);
@@ -92,8 +92,8 @@ class AST2Rascal extends BasePrinter
             $tagsToAdd[] = $this->addLocationTag($node);
         if ($this->addIds)
             $tagsToAdd[] = $this->addUniqueId();
-        if ($this->addDocs)
-            $tagsToAdd[] = $this->addDocForNode($node);
+        if ($this->addPhpDoc)
+            $tagsToAdd[] = $this->addPhpDocForNode($node);
         
         if (count($tagsToAdd) > 0)
             return "[" . implode(",", $tagsToAdd) . "]";
@@ -1780,7 +1780,7 @@ class AST2Rascal extends BasePrinter
         $body = array();
         
         $priorTrait = $this->currentTrait;
-        $this->insideTrait = TRUE;
+        $this->insideTrait = true;
         
         if (strlen($this->currentNamespace) > 0)
             $this->currentTrait = $this->currentNamespace . "\\" . $node->name;
@@ -1797,7 +1797,7 @@ class AST2Rascal extends BasePrinter
         $fragment .= $this->annotateASTNode($node);
         
         $this->currentTrait = $priorTrait;
-        $this->insideTrait = FALSE;
+        $this->insideTrait = false;
         
         return $fragment;
     }
@@ -1972,13 +1972,13 @@ else
             exit() - 1;
         }
 
-$enableLocations = FALSE;
+$enableLocations = false;
 if (isset($opts["l"]) || isset($opts["enableLocations"]))
-    $enableLocations = TRUE;
+    $enableLocations = true;
 
-$uniqueIds = FALSE;
+$uniqueIds = false;
 if (isset($opts["i"]) || isset($opts["uniqueIds"]))
-    $uniqueIds = TRUE;
+    $uniqueIds = true;
 
 if (isset($opts["p"]))
     $prefix = $opts["p"] . '.';
@@ -1989,9 +1989,9 @@ else
         $prefix = "";
     }
 
-$relativeLocations = FALSE;
+$relativeLocations = false;
 if (isset($opts["r"]) || isset($opts["relativeLocations"]))
-    $relativeLocations = TRUE;
+    $relativeLocations = true;
 
 if (isset($_SERVER['HOME'])) {
     $homedir = $_SERVER['HOME'];
@@ -2010,7 +2010,7 @@ else
         exit() - 1;
     }
 
-$addPHPDocs = TRUE;
+$addPHPDocs = true;
 
 $parser = new PHPParser_Parser(new PHPParser_Lexer());
 $dumper = new PHPParser_NodeDumper();
