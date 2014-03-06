@@ -222,4 +222,25 @@ EOC;
         $traverser->addVisitor(new PHPParser_NodeVisitor_NameResolver);
         $traverser->traverse($stmts);
     }
+
+    public function testClassNameIsCaseInsensitive()
+    {
+        $source = <<<EOC
+<?php
+namespace Foo;
+use Bar\\Baz;
+\$test = new baz();
+EOC;
+
+        $parser = new PHPParser_Parser(new PHPParser_Lexer_Emulative);
+        $stmts = $parser->parse($source);
+
+        $traverser = new PHPParser_NodeTraverser;
+        $traverser->addVisitor(new PHPParser_NodeVisitor_NameResolver);
+
+        $stmts = $traverser->traverse($stmts);
+        $stmt = $stmts[0];
+
+        $this->assertEquals(array('Bar', 'Baz'), $stmt->stmts[1]->expr->class->parts);
+    }
 }

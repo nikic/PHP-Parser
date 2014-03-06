@@ -24,6 +24,20 @@ class PHPParser_NodeTraverser implements PHPParser_NodeTraverserInterface
     }
 
     /**
+     * Removes an added visitor.
+     *
+     * @param PHPParser_NodeVisitor $visitor
+     */
+    public function removeVisitor(PHPParser_NodeVisitor $visitor) {
+        foreach ($this->visitors as $index => $storedVisitor) {
+            if ($storedVisitor === $visitor) {
+                unset($this->visitors[$index]);
+                break;
+            }
+        }
+    }
+
+    /**
      * Traverses an array of nodes using the registered visitors.
      *
      * @param PHPParser_Node[] $nodes Array of nodes
