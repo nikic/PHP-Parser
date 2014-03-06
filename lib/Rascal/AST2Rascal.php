@@ -1956,7 +1956,8 @@ $opts = getopt("f:lirp:", array(
     "enableLocations",
     "uniqueIds",
     "relativeLocations",
-    "prefix:"
+    "prefix:",
+    "phpdoc"
 ));
 
 if (isset($opts["f"]))
@@ -1989,6 +1990,10 @@ else
         $prefix = "";
     }
 
+$addPHPDocs = false;
+if (isset($opts["phpdocs"]))
+  $addPHPDocs = true;
+
 $relativeLocations = false;
 if (isset($opts["r"]) || isset($opts["relativeLocations"]))
     $relativeLocations = true;
@@ -2010,7 +2015,6 @@ else
         exit() - 1;
     }
 
-$addPHPDocs = true;
 
 $parser = new PHPParser_Parser(new PHPParser_Lexer());
 $dumper = new PHPParser_NodeDumper();
@@ -2018,16 +2022,11 @@ $printer = new AST2Rascal($file, $enableLocations, $relativeLocations, $uniqueId
 
 try {
     $stmts = $parser->parse($inputCode);
-    // cache the output of the parsed files in the case
-    $tempFileName = preg_replace('#(.*)/([a-z-_]+)/([a-z-_]+\.[a-z]{2,4})#i', '/tmp/\2_\3', $file);
-    file_put_contents($tempFileName, print_r($stmts,1));
     $strStmts = array();
     foreach ($stmts as $stmt)
         $strStmts[] = $printer->pprint($stmt);
     $script = implode(",\n", $strStmts);
     echo "script([" . $script . "])";
-    // add this output to the file
-    file_put_contents($tempFileName, "\nscript([" . $script . "])\n\nGenerated at: ".date('Y-m-d H:i:s'), FILE_APPEND);
 } catch (PHPParser_Error $e) {
     echo "errscript(\"" . $printer->rascalizeString($e->getMessage()) . "\")";
 } catch (Exception $e) {
