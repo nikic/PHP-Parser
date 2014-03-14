@@ -1958,7 +1958,7 @@ class AST2Rascal extends BasePrinter
 
 if (count($argv) < 2) {
     echo "Expected at least 1 argument\n";
-    exit() - 1;
+    exit(-1);
 }
 
 $opts = getopt("f:lirp:", array(
