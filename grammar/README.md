@@ -1,7 +1,6 @@
 What do all those files mean?
 =============================
 
- * `zend_language_parser.y`:    Original PHP grammer this parser is based on
  * `zend_language_parser.phpy`: PHP grammer written in a pseudo language
  * `analyze.php`:               Analyzes the `.phpy`-grammer and outputs some info about it
  * `rebuildParser.php`:         Preprocesses the `.phpy`-grammar and builds the parser using `kmyacc`
@@ -26,5 +25,5 @@ Building the parser
 In order to rebuild the parser, you need [moriyoshi's fork of kmyacc](https://github.com/moriyoshi/kmyacc-forked).
 After you compiled/installed it, run the `rebuildParser.php` script.
 
-By default only the `Parser.php` is built. If you want to build the `Parser/Debug.php` and the `y.output` run the
+By default only the `Parser.php` is built. If you want to additionally build `Parser/Debug.php` and `y.output` run the
 script with `--debug`. If you want to retain the preprocessed grammar pass `--keep-tmp-grammar`.

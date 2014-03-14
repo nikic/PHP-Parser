@@ -122,4 +122,23 @@ class PHPParser_Tests_NodeTraverserTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals($stmts, $traverser->traverse($stmts));
     }
+
+    public function testRemovingVisitor() {
+        $visitor1 = $this->getMock('PHPParser_NodeVisitor');
+        $visitor2 = $this->getMock('PHPParser_NodeVisitor');
+        $visitor3 = $this->getMock('PHPParser_NodeVisitor');
+
+        $traverser = new PHPParser_NodeTraverser;
+        $traverser->addVisitor($visitor1);
+        $traverser->addVisitor($visitor2);
+        $traverser->addVisitor($visitor3);
+
+        $preExpected = array($visitor1, $visitor2, $visitor3);
+        $this->assertAttributeSame($preExpected, 'visitors', $traverser, 'The appropriate visitors have not been added');
+
+        $traverser->removeVisitor($visitor2);
+
+        $postExpected = array(0 => $visitor1, 2 => $visitor3);
+        $this->assertAttributeSame($postExpected, 'visitors', $traverser, 'The appropriate visitors are not present after removal');
+    }
 }
