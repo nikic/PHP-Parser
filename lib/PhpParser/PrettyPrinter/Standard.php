@@ -98,7 +98,7 @@ class Standard extends PrettyPrinterAbstract
         $stringValue = (string) $node->value;
 
         // ensure that number is really printed as float
-        return ctype_digit($stringValue) ? $stringValue . '.0' : $stringValue;
+        return preg_match('/^-?[0-9]+$/', $stringValue) ? $stringValue . '.0' : $stringValue;
     }
 
     // Assignments
