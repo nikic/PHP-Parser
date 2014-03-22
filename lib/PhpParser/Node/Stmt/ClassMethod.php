@@ -28,15 +28,15 @@ class ClassMethod extends Node\Stmt
      */
     public function __construct($name, array $subNodes = array(), array $attributes = array()) {
         parent::__construct(
-            $subNodes + array(
-                'type'   => Class_::MODIFIER_PUBLIC,
-                'byRef'  => false,
-                'params' => array(),
-                'stmts'  => array(),
+            array(
+                'type'   => isset($subNodes['type'])   ? $subNodes['type']   : Class_::MODIFIER_PUBLIC,
+                'byRef'  => isset($subNodes['byRef'])  ? $subNodes['byRef']  : false,
+                'name'   => $name,
+                'params' => isset($subNodes['params']) ? $subNodes['params'] : array(),
+                'stmts'  => array_key_exists('stmts', $subNodes) ? $subNodes['stmts'] : array(),
             ),
             $attributes
         );
-        $this->name = $name;
 
         if ($this->type & Class_::MODIFIER_STATIC) {
             switch (strtolower($this->name)) {

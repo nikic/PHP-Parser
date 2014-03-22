@@ -28,16 +28,17 @@ array(
             0: Stmt_ClassMethod(
                 type: 1
                 byRef: false
+                name: a
                 params: array(
                 )
                 stmts: array(
                 )
-                name: a
             )
         )
     )
     1: Stmt_Class(
         type: 0
+        name: B
         extends: null
         implements: array(
         )
@@ -154,6 +155,5 @@ array(
                 )
             )
         )
-        name: B
     )
 )

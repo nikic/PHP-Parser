@@ -24,11 +24,11 @@ class For_ extends Node\Stmt
      */
     public function __construct(array $subNodes = array(), array $attributes = array()) {
         parent::__construct(
-            $subNodes + array(
-                'init'  => array(),
-                'cond'  => array(),
-                'loop'  => array(),
-                'stmts' => array(),
+            array(
+                'init'  => isset($subNodes['init']) ? $subNodes['init'] : array(),
+                'cond'  => isset($subNodes['cond']) ? $subNodes['cond'] : array(),
+                'loop'  => isset($subNodes['loop']) ? $subNodes['loop'] : array(),
+                'stmts' => isset($subNodes['stmts']) ? $subNodes['stmts'] : array(),
             ),
             $attributes
         );

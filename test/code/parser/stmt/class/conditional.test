@@ -8,20 +8,6 @@ if (true) {
 -----
 array(
     0: Stmt_If(
-        stmts: array(
-            0: Stmt_Class(
-                type: 0
-                extends: null
-                implements: array(
-                )
-                stmts: array(
-                )
-                name: A
-            )
-        )
-        elseifs: array(
-        )
-        else: null
         cond: Expr_ConstFetch(
             name: Name(
                 parts: array(
@@ -29,5 +15,19 @@ array(
                 )
             )
         )
+        stmts: array(
+            0: Stmt_Class(
+                type: 0
+                name: A
+                extends: null
+                implements: array(
+                )
+                stmts: array(
+                )
+            )
+        )
+        elseifs: array(
+        )
+        else: null
     )
 )

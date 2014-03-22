@@ -39,6 +39,9 @@ CODE;
    <subNode:byRef>
     <scalar:false/>
    </subNode:byRef>
+   <subNode:name>
+    <scalar:string>functionName</scalar:string>
+   </subNode:name>
    <subNode:params>
     <scalar:array>
      <node:Param>
@@ -130,9 +133,6 @@ CODE;
      </node:Stmt_Echo>
     </scalar:array>
    </subNode:stmts>
-   <subNode:name>
-    <scalar:string>functionName</scalar:string>
-   </subNode:name>
   </node:Stmt_Function>
  </scalar:array>
 </AST>

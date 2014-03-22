@@ -40,15 +40,15 @@ class Class_ extends Node\Stmt
      */
     public function __construct($name, array $subNodes = array(), array $attributes = array()) {
         parent::__construct(
-            $subNodes + array(
-                'type'       => 0,
-                'extends'    => null,
-                'implements' => array(),
-                'stmts'      => array(),
+            array(
+                'type'       => isset($subNodes['type'])       ? $subNodes['type']       : 0,
+                'name'       => $name,
+                'extends'    => isset($subNodes['extends'])    ? $subNodes['extends']    : null,
+                'implements' => isset($subNodes['implements']) ? $subNodes['implements'] : array(),
+                'stmts'      => isset($subNodes['stmts'])      ? $subNodes['stmts']      : array(),
             ),
             $attributes
         );
-        $this->name = $name;
 
         if (isset(self::$specialNames[(string) $this->name])) {
             throw new Error(sprintf('Cannot use \'%s\' as class name as it is reserved', $this->name));

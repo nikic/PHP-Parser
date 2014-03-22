@@ -29,13 +29,13 @@ class Interface_ extends Node\Stmt
      */
     public function __construct($name, array $subNodes = array(), array $attributes = array()) {
         parent::__construct(
-            $subNodes + array(
-                'extends' => array(),
-                'stmts'   => array(),
+            array(
+                'name'    => $name,
+                'extends' => isset($subNodes['extends']) ? $subNodes['extends'] : array(),
+                'stmts'   => isset($subNodes['stmts'])   ? $subNodes['stmts']   : array(),
             ),
             $attributes
         );
-        $this->name = $name;
 
         if (isset(self::$specialNames[(string) $this->name])) {
             throw new Error(sprintf('Cannot use \'%s\' as class name as it is reserved', $this->name));

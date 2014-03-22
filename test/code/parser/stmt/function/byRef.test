@@ -8,6 +8,7 @@ function &a($b) {}
 array(
     0: Stmt_Function(
         byRef: false
+        name: a
         params: array(
             0: Param(
                 name: b
@@ -18,10 +19,10 @@ array(
         )
         stmts: array(
         )
-        name: a
     )
     1: Stmt_Function(
         byRef: true
+        name: a
         params: array(
             0: Param(
                 name: b
@@ -32,6 +33,5 @@ array(
         )
         stmts: array(
         )
-        name: a
     )
 )

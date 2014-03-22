@@ -24,10 +24,11 @@ class Function_ extends Node\Stmt
      */
     public function __construct($name, array $subNodes = array(), array $attributes = array()) {
         parent::__construct(
-            $subNodes + array(
-                'byRef'  => false,
-                'params' => array(),
-                'stmts'  => array(),
+            array(
+                'byRef'  => isset($subNodes['byRef'])  ? $subNodes['byRef']  : false,
+                'name'   => $name,
+                'params' => isset($subNodes['params']) ? $subNodes['params'] : array(),
+                'stmts'  => isset($subNodes['stmts'])  ? $subNodes['stmts']  : array(),
             ),
             $attributes
         );

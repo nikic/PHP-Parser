@@ -7,11 +7,11 @@ final class A {}
 array(
     0: Stmt_Class(
         type: 32
+        name: A
         extends: null
         implements: array(
         )
         stmts: array(
         )
-        name: A
     )
 )

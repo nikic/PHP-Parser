@@ -30,6 +30,7 @@ function gen() {
 array(
     0: Stmt_Function(
         byRef: false
+        name: gen
         params: array(
         )
         stmts: array(
@@ -85,6 +86,12 @@ array(
                 )
             )
             6: Stmt_If(
+                cond: Expr_Yield(
+                    key: null
+                    value: Expr_Variable(
+                        name: foo
+                    )
+                )
                 stmts: array(
                 )
                 elseifs: array(
@@ -100,14 +107,14 @@ array(
                     )
                 )
                 else: null
-                cond: Expr_Yield(
-                    key: null
-                    value: Expr_Variable(
-                        name: foo
-                    )
-                )
             )
             7: Stmt_If(
+                cond: Expr_Yield(
+                    key: null
+                    value: Expr_Variable(
+                        name: foo
+                    )
+                )
                 stmts: array(
                 )
                 elseifs: array(
@@ -123,12 +130,6 @@ array(
                     )
                 )
                 else: null
-                cond: Expr_Yield(
-                    key: null
-                    value: Expr_Variable(
-                        name: foo
-                    )
-                )
             )
             8: Stmt_While(
                 cond: Expr_Yield(
@@ -222,6 +223,5 @@ array(
                 )
             )
         )
-        name: gen
     )
 )

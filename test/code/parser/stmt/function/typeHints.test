@@ -7,6 +7,7 @@ function a($b, array $c, callable $d, E $f) {}
 array(
     0: Stmt_Function(
         byRef: false
+        name: a
         params: array(
             0: Param(
                 name: b
@@ -39,6 +40,5 @@ array(
         )
         stmts: array(
         )
-        name: a
     )
 )

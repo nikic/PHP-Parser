@@ -19,6 +19,7 @@ class A extends B implements C, D {
 array(
     0: Stmt_Class(
         type: 0
+        name: A
         extends: Name(
             parts: array(
                 0: B
@@ -91,49 +92,48 @@ array(
             4: Stmt_ClassMethod(
                 type: 1
                 byRef: false
+                name: a
                 params: array(
                 )
                 stmts: array(
                 )
-                name: a
             )
             5: Stmt_ClassMethod(
                 type: 9
                 byRef: false
+                name: b
                 params: array(
                 )
                 stmts: array(
                 )
-                name: b
             )
             6: Stmt_ClassMethod(
                 type: 33
                 byRef: false
+                name: c
                 params: array(
                 )
                 stmts: array(
                 )
-                name: c
             )
             7: Stmt_ClassMethod(
                 type: 2
                 byRef: false
+                name: d
                 params: array(
                 )
                 stmts: array(
                 )
-                name: d
             )
             8: Stmt_ClassMethod(
                 type: 4
                 byRef: false
+                name: e
                 params: array(
                 )
                 stmts: array(
                 )
-                name: e
             )
         )
-        name: A
     )
 )

@@ -19,65 +19,63 @@ endforeach;
 -----
 array(
     0: Stmt_Foreach(
-        keyVar: null
-        byRef: false
-        stmts: array(
-        )
         expr: Expr_Variable(
             name: a
         )
+        keyVar: null
+        byRef: false
         valueVar: Expr_Variable(
             name: b
+        )
+        stmts: array(
         )
     )
     1: Stmt_Foreach(
-        keyVar: null
-        byRef: true
-        stmts: array(
-        )
         expr: Expr_Variable(
             name: a
         )
+        keyVar: null
+        byRef: true
         valueVar: Expr_Variable(
             name: b
+        )
+        stmts: array(
         )
     )
     2: Stmt_Foreach(
+        expr: Expr_Variable(
+            name: a
+        )
         keyVar: Expr_Variable(
             name: b
         )
         byRef: false
-        stmts: array(
-        )
-        expr: Expr_Variable(
-            name: a
-        )
         valueVar: Expr_Variable(
             name: c
         )
+        stmts: array(
+        )
     )
     3: Stmt_Foreach(
+        expr: Expr_Variable(
+            name: a
+        )
         keyVar: Expr_Variable(
             name: b
         )
         byRef: true
-        stmts: array(
-        )
-        expr: Expr_Variable(
-            name: a
-        )
         valueVar: Expr_Variable(
             name: c
         )
-    )
-    4: Stmt_Foreach(
-        keyVar: null
-        byRef: false
         stmts: array(
         )
+    )
+    4: Stmt_Foreach(
         expr: Expr_Variable(
             name: a
         )
+        keyVar: null
+        byRef: false
         valueVar: Expr_List(
             vars: array(
                 0: Expr_Variable(
@@ -88,17 +86,17 @@ array(
                 )
             )
         )
+        stmts: array(
+        )
     )
     5: Stmt_Foreach(
+        expr: Expr_Variable(
+            name: a
+        )
         keyVar: Expr_Variable(
             name: a
         )
         byRef: false
-        stmts: array(
-        )
-        expr: Expr_Variable(
-            name: a
-        )
         valueVar: Expr_List(
             vars: array(
                 0: Expr_Variable(
@@ -110,30 +108,32 @@ array(
                 )
             )
         )
-    )
-    6: Stmt_Foreach(
-        keyVar: null
-        byRef: false
         stmts: array(
         )
+    )
+    6: Stmt_Foreach(
         expr: Expr_Array(
             items: array(
             )
         )
+        keyVar: null
+        byRef: false
         valueVar: Expr_Variable(
             name: b
+        )
+        stmts: array(
         )
     )
     7: Stmt_Foreach(
-        keyVar: null
-        byRef: false
-        stmts: array(
-        )
         expr: Expr_Variable(
             name: a
         )
+        keyVar: null
+        byRef: false
         valueVar: Expr_Variable(
             name: b
+        )
+        stmts: array(
         )
     )
 )
