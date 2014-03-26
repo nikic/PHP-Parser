@@ -393,7 +393,7 @@ optional_class_type:
 argument_list:
       '(' ')'                                               { $$ = array(); }
     | '(' non_empty_argument_list ')'                       { $$ = $2; }
-    | '(' yield_expr ')'                                    { $$ = array(Arg[$2, false]); }
+    | '(' yield_expr ')'                                    { $$ = array(Arg[$2, false, false]); }
 ;
 
 non_empty_argument_list:
@@ -402,8 +402,9 @@ non_empty_argument_list:
 ;
 
 argument:
-      expr                                                  { $$ = Arg[$1, false]; }
-    | '&' variable                                          { $$ = Arg[$2, true]; }
+      expr                                                  { $$ = Arg[$1, false, false]; }
+    | '&' variable                                          { $$ = Arg[$2, true, false]; }
+    | T_ELLIPSIS expr                                       { $$ = Arg[$2, false, true]; }
 ;
 
 global_var_list:

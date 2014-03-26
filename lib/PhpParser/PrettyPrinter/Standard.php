@@ -26,7 +26,7 @@ class Standard extends PrettyPrinterAbstract
     }
 
     public function pArg(Node\Arg $node) {
-        return ($node->byRef ? '&' : '') . $this->p($node->value);
+        return ($node->byRef ? '&' : '') . ($node->unpack ? '...' : '') . $this->p($node->value);
     }
 
     public function pConst(Node\Const_ $node) {
