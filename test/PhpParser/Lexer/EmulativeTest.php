@@ -85,6 +85,12 @@ class EmulativeTest extends \PHPUnit_Framework_TestCase
             array('...', array(
                 array(Parser::T_ELLIPSIS, '...'),
             )),
+            array('**', array(
+                array(Parser::T_POW, '**'),
+            )),
+            array('**=', array(
+                array(Parser::T_POW_EQUAL, '**='),
+            )),
             array('0b1010110', array(
                 array(Parser::T_LNUMBER, '0b1010110'),
             )),

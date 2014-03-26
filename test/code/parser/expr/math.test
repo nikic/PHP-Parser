@@ -19,6 +19,7 @@ $a * $b;
 $a + $b;
 $a << $b;
 $a >> $b;
+$a ** $b;
 
 // associativity
 $a * $b * $c;
@@ -27,6 +28,10 @@ $a * ($b * $c);
 // precedence
 $a + $b * $c;
 ($a + $b) * $c;
+
+// pow is special
+$a ** $b ** $c;
+($a ** $b) ** $c;
 -----
 array(
     0: Expr_BitwiseNot(
@@ -132,7 +137,15 @@ array(
             name: b
         )
     )
-    14: Expr_BinaryOp_Mul(
+    14: Expr_BinaryOp_Pow(
+        left: Expr_Variable(
+            name: a
+        )
+        right: Expr_Variable(
+            name: b
+        )
+    )
+    15: Expr_BinaryOp_Mul(
         left: Expr_BinaryOp_Mul(
             left: Expr_Variable(
                 name: a
@@ -145,7 +158,7 @@ array(
             name: c
         )
     )
-    15: Expr_BinaryOp_Mul(
+    16: Expr_BinaryOp_Mul(
         left: Expr_Variable(
             name: a
         )
@@ -158,7 +171,7 @@ array(
             )
         )
     )
-    16: Expr_BinaryOp_Plus(
+    17: Expr_BinaryOp_Plus(
         left: Expr_Variable(
             name: a
         )
@@ -171,8 +184,34 @@ array(
             )
         )
     )
-    17: Expr_BinaryOp_Mul(
+    18: Expr_BinaryOp_Mul(
         left: Expr_BinaryOp_Plus(
+            left: Expr_Variable(
+                name: a
+            )
+            right: Expr_Variable(
+                name: b
+            )
+        )
+        right: Expr_Variable(
+            name: c
+        )
+    )
+    19: Expr_BinaryOp_Pow(
+        left: Expr_Variable(
+            name: a
+        )
+        right: Expr_BinaryOp_Pow(
+            left: Expr_Variable(
+                name: b
+            )
+            right: Expr_Variable(
+                name: c
+            )
+        )
+    )
+    20: Expr_BinaryOp_Pow(
+        left: Expr_BinaryOp_Pow(
             left: Expr_Variable(
                 name: a
             )

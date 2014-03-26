@@ -12,7 +12,9 @@ class Emulative extends \PhpParser\Lexer
     protected $newKeywords;
     protected $inObjectAccess;
 
-    const T_ELLIPSIS = 1001;
+    const T_ELLIPSIS  = 1001;
+    const T_POW       = 1002;
+    const T_POW_EQUAL = 1003;
 
     public function __construct() {
         parent::__construct();
@@ -40,7 +42,9 @@ class Emulative extends \PhpParser\Lexer
         }
 
         if (version_compare(PHP_VERSION, '5.6.0beta1', '<')) {
-            $this->tokenMap[self::T_ELLIPSIS] = Parser::T_ELLIPSIS;
+            $this->tokenMap[self::T_ELLIPSIS]  = Parser::T_ELLIPSIS;
+            $this->tokenMap[self::T_POW]       = Parser::T_POW;
+            $this->tokenMap[self::T_POW_EQUAL] = Parser::T_POW_EQUAL;
         }
     }
 
@@ -67,6 +71,8 @@ class Emulative extends \PhpParser\Lexer
      */
     protected function preprocessCode($code) {
         $code = str_replace('...', '~__EMU__ELLIPSIS__~', $code);
+        $code = preg_replace('((?<!/)\*\*=)', '~__EMU__POWEQUAL__~', $code);
+        $code = preg_replace('((?<!/)\*\*)', '~__EMU__POW__~', $code);
 
         if (version_compare(PHP_VERSION, '5.4.0beta1', '<')) {
             // binary notation (0b010101101001...)
@@ -102,6 +108,14 @@ class Emulative extends \PhpParser\Lexer
                     $replace = array(
                         array(self::T_ELLIPSIS, '...', $this->tokens[$i + 1][2])
                     );
+                } else if ('POW' === $matches[1]) {
+                    $replace = array(
+                        array(self::T_POW, '**', $this->tokens[$i + 1][2])
+                    );
+                } else if ('POWEQUAL' === $matches[1]) {
+                    $replace = array(
+                        array(self::T_POW_EQUAL, '**=', $this->tokens[$i + 1][2])
+                    );
                 } else {
                     // just ignore all other __EMU__ sequences
                     continue;
@@ -132,6 +146,10 @@ class Emulative extends \PhpParser\Lexer
             return $matches[2];
         } else if ('ELLIPSIS' === $matches[1]) {
             return '...';
+        } else if ('POW' === $matches[1]) {
+            return '**';
+        } else if ('POWEQUAL' === $matches[1]) {
+            return '**=';
         } else {
             return $matches[0];
         }

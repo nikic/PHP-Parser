@@ -9,6 +9,7 @@ abstract class PrettyPrinterAbstract
 {
     protected $precedenceMap = array(
         // [precedence, associativity] where for the latter -1 is %left, 0 is %nonassoc and 1 is %right
+        'Expr_BinaryOp_Pow'            => array( 0,  1),
         'Expr_BitwiseNot'              => array( 1,  1),
         'Expr_PreInc'                  => array( 1,  1),
         'Expr_PreDec'                  => array( 1,  1),
@@ -62,6 +63,7 @@ abstract class PrettyPrinterAbstract
         'Expr_AssignOp_BitwiseXor'     => array(15,  1),
         'Expr_AssignOp_ShiftLeft'      => array(15,  1),
         'Expr_AssignOp_ShiftRight'     => array(15,  1),
+        'Expr_AssignOp_Pow'            => array(15,  1),
         'Expr_BinaryOp_LogicalAnd'     => array(16, -1),
         'Expr_BinaryOp_LogicalXor'     => array(17, -1),
         'Expr_BinaryOp_LogicalOr'      => array(18, -1),

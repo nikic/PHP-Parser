@@ -156,6 +156,10 @@ class Standard extends PrettyPrinterAbstract
         return $this->pInfixOp('Expr_AssignOp_ShiftRight', $node->var, ' >>= ', $node->expr);
     }
 
+    public function pExpr_AssignOp_Pow(AssignOp\Pow $node) {
+        return $this->pInfixOp('Expr_AssignOp_Pow', $node->var, ' **= ', $node->expr);
+    }
+
     // Binary expressions
 
     public function pExpr_BinaryOp_Plus(BinaryOp\Plus $node) {
@@ -208,6 +212,10 @@ class Standard extends PrettyPrinterAbstract
 
     public function pExpr_BinaryOp_ShiftRight(BinaryOp\ShiftRight $node) {
         return $this->pInfixOp('Expr_BinaryOp_ShiftRight', $node->left, ' >> ', $node->right);
+    }
+
+    public function pExpr_BinaryOp_Pow(BinaryOp\Pow $node) {
+        return $this->pInfixOp('Expr_BinaryOp_Pow', $node->left, ' ** ', $node->right);
     }
 
     public function pExpr_BinaryOp_LogicalAnd(BinaryOp\LogicalAnd $node) {
