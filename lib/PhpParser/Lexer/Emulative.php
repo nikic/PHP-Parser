@@ -72,7 +72,7 @@ class Emulative extends \PhpParser\Lexer
     protected function preprocessCode($code) {
         $code = str_replace('...', '~__EMU__ELLIPSIS__~', $code);
         $code = preg_replace('((?<!/)\*\*=)', '~__EMU__POWEQUAL__~', $code);
-        $code = preg_replace('((?<!/)\*\*)', '~__EMU__POW__~', $code);
+        $code = preg_replace('((?<!/)\*\*(?!/))', '~__EMU__POW__~', $code);
 
         if (version_compare(PHP_VERSION, '5.4.0beta1', '<')) {
             // binary notation (0b010101101001...)
