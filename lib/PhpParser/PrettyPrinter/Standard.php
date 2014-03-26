@@ -496,7 +496,10 @@ class Standard extends PrettyPrinterAbstract
     }
 
     public function pStmt_Use(Stmt\Use_ $node) {
-        return 'use ' . $this->pCommaSeparated($node->uses) . ';';
+        return 'use '
+             . ($node->type === Stmt\Use_::TYPE_FUNCTION ? 'function ' : '')
+             . ($node->type === Stmt\Use_::TYPE_CONSTANT ? 'const ' : '')
+             . $this->pCommaSeparated($node->uses) . ';';
     }
 
     public function pStmt_UseUse(Stmt\UseUse $node) {

@@ -138,7 +138,9 @@ top_statement:
     | T_NAMESPACE namespace_name ';'                        { $$ = Stmt\Namespace_[$2, null]; }
     | T_NAMESPACE namespace_name '{' top_statement_list '}' { $$ = Stmt\Namespace_[$2, $4]; }
     | T_NAMESPACE '{' top_statement_list '}'                { $$ = Stmt\Namespace_[null,     $3]; }
-    | T_USE use_declarations ';'                            { $$ = Stmt\Use_[$2]; }
+    | T_USE use_declarations ';'                            { $$ = Stmt\Use_[$2, Stmt\Use_::TYPE_NORMAL]; }
+    | T_USE T_FUNCTION use_declarations ';'                 { $$ = Stmt\Use_[$3, Stmt\Use_::TYPE_FUNCTION]; }
+    | T_USE T_CONST use_declarations ';'                    { $$ = Stmt\Use_[$3, Stmt\Use_::TYPE_CONSTANT]; }
     | T_CONST constant_declaration_list ';'                 { $$ = Stmt\Const_[$2]; }
 ;
 

@@ -9,9 +9,16 @@ use F\G as H, J;
 // evil alias notation - Do Not Use!
 use \A;
 use \A as B;
+
+// function and constant aliases
+use function foo\bar;
+use function foo\bar as baz;
+use const foo\BAR;
+use const foo\BAR as BAZ;
 -----
 array(
     0: Stmt_Use(
+        type: 1
         uses: array(
             0: Stmt_UseUse(
                 name: Name(
@@ -25,6 +32,7 @@ array(
         )
     )
     1: Stmt_Use(
+        type: 1
         uses: array(
             0: Stmt_UseUse(
                 name: Name(
@@ -38,6 +46,7 @@ array(
         )
     )
     2: Stmt_Use(
+        type: 1
         uses: array(
             0: Stmt_UseUse(
                 name: Name(
@@ -59,6 +68,7 @@ array(
         )
     )
     3: Stmt_Use(
+        type: 1
         uses: array(
             0: Stmt_UseUse(
                 name: Name(
@@ -71,6 +81,7 @@ array(
         )
     )
     4: Stmt_Use(
+        type: 1
         uses: array(
             0: Stmt_UseUse(
                 name: Name(
@@ -79,6 +90,62 @@ array(
                     )
                 )
                 alias: B
+            )
+        )
+    )
+    5: Stmt_Use(
+        type: 2
+        uses: array(
+            0: Stmt_UseUse(
+                name: Name(
+                    parts: array(
+                        0: foo
+                        1: bar
+                    )
+                )
+                alias: bar
+            )
+        )
+    )
+    6: Stmt_Use(
+        type: 2
+        uses: array(
+            0: Stmt_UseUse(
+                name: Name(
+                    parts: array(
+                        0: foo
+                        1: bar
+                    )
+                )
+                alias: baz
+            )
+        )
+    )
+    7: Stmt_Use(
+        type: 3
+        uses: array(
+            0: Stmt_UseUse(
+                name: Name(
+                    parts: array(
+                        0: foo
+                        1: BAR
+                    )
+                )
+                alias: BAR
+            )
+        )
+    )
+    8: Stmt_Use(
+        type: 3
+        uses: array(
+            0: Stmt_UseUse(
+                name: Name(
+                    parts: array(
+                        0: foo
+                        1: BAR
+                    )
+                )
+                alias: BAZ
             )
         )
     )
