@@ -13,7 +13,7 @@ class NameResolverTest extends \PHPUnit_Framework_TestCase
      * @covers NameResolver
      */
     public function testResolveNames() {
-        $code = <<<EOC
+        $code = <<<'EOC'
 <?php
 
 namespace Foo {
@@ -21,62 +21,106 @@ namespace Foo {
 
     new Bar();
     new Hi();
-    new Hi\\Bar();
-    new \\Bar();
-    new namespace\\Bar();
+    new Hi\Bar();
+    new \Bar();
+    new namespace\Bar();
 
     bar();
     hi();
-    Hi\\bar();
-    foo\\bar();
-    \\bar();
-    namespace\\bar();
+    Hi\bar();
+    foo\bar();
+    \bar();
+    namespace\bar();
 }
 namespace {
     use Hallo as Hi;
 
     new Bar();
     new Hi();
-    new Hi\\Bar();
-    new \\Bar();
-    new namespace\\Bar();
+    new Hi\Bar();
+    new \Bar();
+    new namespace\Bar();
 
     bar();
     hi();
-    Hi\\bar();
-    foo\\bar();
-    \\bar();
-    namespace\\bar();
+    Hi\bar();
+    foo\bar();
+    \bar();
+    namespace\bar();
+}
+namespace Bar {
+    use function foo\bar as baz;
+    use const foo\BAR as BAZ;
+    use foo as bar;
+
+    bar();
+    baz();
+    bar\foo();
+    baz\foo();
+    BAR();
+    BAZ();
+    BAR\FOO();
+    BAZ\FOO();
+
+    bar;
+    baz;
+    bar\foo;
+    baz\foo;
+    BAR;
+    BAZ;
+    BAR\FOO;
+    BAZ\FOO;
 }
 EOC;
-        $expectedCode = <<<EOC
+        $expectedCode = <<<'EOC'
 namespace Foo {
     use Hallo as Hi;
-    new \\Foo\\Bar();
-    new \\Hallo();
-    new \\Hallo\\Bar();
-    new \\Bar();
-    new \\Foo\\Bar();
+    new \Foo\Bar();
+    new \Hallo();
+    new \Hallo\Bar();
+    new \Bar();
+    new \Foo\Bar();
     bar();
     hi();
-    \\Hallo\\bar();
-    \\Foo\\foo\\bar();
-    \\bar();
-    \\Foo\\bar();
+    \Hallo\bar();
+    \Foo\foo\bar();
+    \bar();
+    \Foo\bar();
 }
 namespace {
     use Hallo as Hi;
-    new \\Bar();
-    new \\Hallo();
-    new \\Hallo\\Bar();
-    new \\Bar();
-    new \\Bar();
+    new \Bar();
+    new \Hallo();
+    new \Hallo\Bar();
+    new \Bar();
+    new \Bar();
     bar();
     hi();
-    \\Hallo\\bar();
-    \\foo\\bar();
-    \\bar();
-    \\bar();
+    \Hallo\bar();
+    \foo\bar();
+    \bar();
+    \bar();
+}
+namespace Bar {
+    use function foo\bar as baz;
+    use const foo\BAR as BAZ;
+    use foo as bar;
+    bar();
+    \foo\bar();
+    \foo\foo();
+    \Bar\baz\foo();
+    BAR();
+    \foo\bar();
+    \foo\FOO();
+    \Bar\BAZ\FOO();
+    bar;
+    baz;
+    \foo\foo;
+    \Bar\baz\foo;
+    BAR;
+    \foo\BAR;
+    \foo\FOO;
+    \Bar\BAZ\FOO;
 }
 EOC;
 
@@ -95,7 +139,7 @@ EOC;
      * @covers NameResolver
      */
     public function testResolveLocations() {
-        $code = <<<EOC
+        $code = <<<'EOC'
 <?php
 namespace NS;
 
@@ -104,46 +148,46 @@ class A extends B implements C {
 }
 
 interface A extends C {
-    public function a(A \$a);
+    public function a(A $a);
 }
 
 A::b();
-A::\$b;
+A::$b;
 A::B;
 new A;
-\$a instanceof A;
+$a instanceof A;
 
 namespace\a();
 namespace\A;
 
 try {
-    \$someThing;
-} catch (A \$a) {
-    \$someThingElse;
+    $someThing;
+} catch (A $a) {
+    $someThingElse;
 }
 EOC;
-        $expectedCode = <<<EOC
+        $expectedCode = <<<'EOC'
 namespace NS;
 
-class A extends \\NS\\B implements \\NS\\C
+class A extends \NS\B implements \NS\C
 {
-    use \\NS\\A;
+    use \NS\A;
 }
-interface A extends \\NS\\C
+interface A extends \NS\C
 {
-    public function a(\\NS\\A \$a);
+    public function a(\NS\A $a);
 }
-\\NS\\A::b();
-\\NS\\A::\$b;
-\\NS\\A::B;
-new \\NS\\A();
-\$a instanceof \\NS\\A;
-\\NS\\a();
-\\NS\\A;
+\NS\A::b();
+\NS\A::$b;
+\NS\A::B;
+new \NS\A();
+$a instanceof \NS\A;
+\NS\a();
+\NS\A;
 try {
-    \$someThing;
-} catch (\\NS\\A \$a) {
-    \$someThingElse;
+    $someThing;
+} catch (\NS\A $a) {
+    $someThingElse;
 }
 EOC;
 
@@ -214,29 +258,49 @@ EOC;
     }
 
     /**
-     * @expectedException        PhpParser\Error
-     * @expectedExceptionMessage Cannot use "C" as "B" because the name is already in use on line 2
+     * @dataProvider provideTestAlreadyInUseError
      */
-    public function testAlreadyInUseError() {
-        $stmts = array(
-            new Stmt\Use_(array(
-                new Stmt\UseUse(new Name('A\B'), 'B', array('startLine' => 1)),
-                new Stmt\UseUse(new Name('C'),   'B', array('startLine' => 2)),
-            ))
-        );
+    public function testAlreadyInUseError(Stmt\Use_ $use, $errorMsg) {
+        $this->setExpectedException('PhpParser\Error', $errorMsg);
 
         $traverser = new PhpParser\NodeTraverser;
         $traverser->addVisitor(new NameResolver);
-        $traverser->traverse($stmts);
+        $traverser->traverse(array($use));
+    }
+
+    public function provideTestAlreadyInUseError() {
+        return array(
+            array(
+                new Stmt\Use_(array(
+                    new Stmt\UseUse(new Name('A\B'), 'B', array('startLine' => 1)),
+                    new Stmt\UseUse(new Name('C\D'), 'B', array('startLine' => 2)),
+                ), Stmt\Use_::TYPE_NORMAL),
+                'Cannot use C\D as B because the name is already in use on line 2'
+            ),
+            array(
+                new Stmt\Use_(array(
+                    new Stmt\UseUse(new Name('a\b'), 'b', array('startLine' => 1)),
+                    new Stmt\UseUse(new Name('c\d'), 'B', array('startLine' => 2)),
+                ), Stmt\Use_::TYPE_FUNCTION),
+                'Cannot use function c\d as B because the name is already in use on line 2'
+            ),
+            array(
+                new Stmt\Use_(array(
+                    new Stmt\UseUse(new Name('A\B'), 'B', array('startLine' => 1)),
+                    new Stmt\UseUse(new Name('C\D'), 'B', array('startLine' => 2)),
+                ), Stmt\Use_::TYPE_CONSTANT),
+                'Cannot use const C\D as B because the name is already in use on line 2'
+            ),
+        );
     }
 
     public function testClassNameIsCaseInsensitive()
     {
-        $source = <<<EOC
+        $source = <<<'EOC'
 <?php
 namespace Foo;
-use Bar\\Baz;
-\$test = new baz();
+use Bar\Baz;
+$test = new baz();
 EOC;
 
         $parser = new PhpParser\Parser(new PhpParser\Lexer\Emulative);

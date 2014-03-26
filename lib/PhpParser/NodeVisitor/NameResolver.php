@@ -17,32 +17,21 @@ class NameResolver extends NodeVisitorAbstract
     protected $namespace;
 
     /**
-     * @var array Currently defined namespace and class aliases
+     * @var array Map of format [aliasType => [aliasName => originalName]]
      */
     protected $aliases;
 
     public function beforeTraverse(array $nodes) {
-        $this->namespace = null;
-        $this->aliases   = array();
+        $this->resetState();
     }
 
     public function enterNode(Node $node) {
         if ($node instanceof Stmt\Namespace_) {
-            $this->namespace = $node->name;
-            $this->aliases   = array();
-        } elseif ($node instanceof Stmt\UseUse) {
-            $aliasName = strtolower($node->alias);
-            if (isset($this->aliases[$aliasName])) {
-                throw new Error(
-                    sprintf(
-                        'Cannot use "%s" as "%s" because the name is already in use',
-                        $node->name, $node->alias
-                    ),
-                    $node->getLine()
-                );
+            $this->resetState($node->name);
+        } elseif ($node instanceof Stmt\Use_) {
+            foreach ($node->uses as $use) {
+                $this->addAlias($use, $node->type);
             }
-
-            $this->aliases[$aliasName] = $node->name;
         } elseif ($node instanceof Stmt\Class_) {
             if (null !== $node->extends) {
                 $node->extends = $this->resolveClassName($node->extends);
@@ -78,12 +67,12 @@ class NameResolver extends NodeVisitorAbstract
             }
         } elseif ($node instanceof Stmt\Catch_) {
             $node->type = $this->resolveClassName($node->type);
-        } elseif ($node instanceof Expr\FuncCall
-                  || $node instanceof Expr\ConstFetch
-        ) {
+        } elseif ($node instanceof Expr\FuncCall) {
             if ($node->name instanceof Name) {
-                $node->name = $this->resolveOtherName($node->name);
+                $node->name = $this->resolveOtherName($node->name, Stmt\Use_::TYPE_FUNCTION);
             }
+        } elseif ($node instanceof Expr\ConstFetch) {
+            $node->name = $this->resolveOtherName($node->name, Stmt\Use_::TYPE_CONSTANT);
         } elseif ($node instanceof Stmt\TraitUse) {
             foreach ($node->traits as &$trait) {
                 $trait = $this->resolveClassName($trait);
@@ -93,6 +82,42 @@ class NameResolver extends NodeVisitorAbstract
         ) {
             $node->type = $this->resolveClassName($node->type);
         }
+    }
+
+    protected function resetState(Name $namespace = null) {
+        $this->namespace = $namespace;
+        $this->aliases   = array(
+            Stmt\Use_::TYPE_NORMAL   => array(),
+            Stmt\Use_::TYPE_FUNCTION => array(),
+            Stmt\Use_::TYPE_CONSTANT => array(),
+        );
+    }
+
+    protected function addAlias(Stmt\UseUse $use, $type) {
+        // Constant names are case sensitive, everything else case insensitive
+        if ($type === Stmt\Use_::TYPE_CONSTANT) {
+            $aliasName = $use->alias;
+        } else {
+            $aliasName = strtolower($use->alias);
+        }
+
+        if (isset($this->aliases[$type][$aliasName])) {
+            $typeStringMap = array(
+                Stmt\Use_::TYPE_NORMAL   => '',
+                Stmt\Use_::TYPE_FUNCTION => 'function ',
+                Stmt\Use_::TYPE_CONSTANT => 'const ',
+            );
+
+            throw new Error(
+                sprintf(
+                    'Cannot use %s%s as %s because the name is already in use',
+                    $typeStringMap[$type], $use->name, $use->alias
+                ),
+                $use->getLine()
+            );
+        }
+
+        $this->aliases[$type][$aliasName] = $use->name;
     }
 
     protected function resolveClassName(Name $name) {
@@ -106,31 +131,43 @@ class NameResolver extends NodeVisitorAbstract
             return $name;
         }
 
-        // resolve aliases (for non-relative names)
         $aliasName = strtolower($name->getFirst());
-        if (!$name->isRelative() && isset($this->aliases[$aliasName])) {
-            $name->setFirst($this->aliases[$aliasName]);
-        // if no alias exists prepend current namespace
+        if (!$name->isRelative() && isset($this->aliases[Stmt\Use_::TYPE_NORMAL][$aliasName])) {
+            // resolve aliases (for non-relative names)
+            $name->setFirst($this->aliases[Stmt\Use_::TYPE_NORMAL][$aliasName]);
         } elseif (null !== $this->namespace) {
+            // if no alias exists prepend current namespace
             $name->prepend($this->namespace);
         }
 
         return new Name\FullyQualified($name->parts, $name->getAttributes());
     }
 
-    protected function resolveOtherName(Name $name) {
-        // fully qualified names are already resolved and we can't do anything about unqualified
-        // ones at compiler-time
-        if ($name->isFullyQualified() || $name->isUnqualified()) {
+    protected function resolveOtherName(Name $name, $type) {
+        // fully qualified names are already resolved
+        if ($name->isFullyQualified()) {
             return $name;
         }
 
         // resolve aliases for qualified names
         $aliasName = strtolower($name->getFirst());
-        if ($name->isQualified() && isset($this->aliases[$aliasName])) {
-            $name->setFirst($this->aliases[$aliasName]);
-        // prepend namespace for relative names
+        if ($name->isQualified() && isset($this->aliases[Stmt\Use_::TYPE_NORMAL][$aliasName])) {
+            $name->setFirst($this->aliases[Stmt\Use_::TYPE_NORMAL][$aliasName]);
+        } elseif ($name->isUnqualified()) {
+            if ($type === Stmt\Use_::TYPE_CONSTANT) {
+                // constant aliases are case-sensitive, function aliases case-insensitive
+                $aliasName = $name->getFirst();
+            }
+
+            if (isset($this->aliases[$type][$aliasName])) {
+                // resolve unqualified aliases
+                $name->set($this->aliases[$type][$aliasName]);
+            } else {
+                // unqualified, unaliased names cannot be resolved at compile-time
+                return $name;
+            }
         } elseif (null !== $this->namespace) {
+            // if no alias exists prepend current namespace
             $name->prepend($this->namespace);
         }
 
