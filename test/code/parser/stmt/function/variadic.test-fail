@@ -1,0 +1,6 @@
+Invalid variadic function
+-----
+<?php
+function foo(...$foo = []) {}
+-----
+Variadic parameter cannot have a default value on line 2

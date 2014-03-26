@@ -10,32 +10,36 @@ array(
         name: a
         params: array(
             0: Param(
-                name: b
-                default: null
                 type: null
                 byRef: false
+                variadic: false
+                name: b
+                default: null
             )
             1: Param(
-                name: c
-                default: null
                 type: array
                 byRef: false
+                variadic: false
+                name: c
+                default: null
             )
             2: Param(
-                name: d
-                default: null
                 type: callable
                 byRef: false
+                variadic: false
+                name: d
+                default: null
             )
             3: Param(
-                name: f
-                default: null
                 type: Name(
                     parts: array(
                         0: E
                     )
                 )
                 byRef: false
+                variadic: false
+                name: f
+                default: null
             )
         )
         stmts: array(

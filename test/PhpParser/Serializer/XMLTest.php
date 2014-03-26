@@ -51,6 +51,15 @@ CODE;
       <attribute:endLine>
        <scalar:int>4</scalar:int>
       </attribute:endLine>
+      <subNode:type>
+       <scalar:null/>
+      </subNode:type>
+      <subNode:byRef>
+       <scalar:true/>
+      </subNode:byRef>
+      <subNode:variadic>
+       <scalar:false/>
+      </subNode:variadic>
       <subNode:name>
        <scalar:string>a</scalar:string>
       </subNode:name>
@@ -67,12 +76,6 @@ CODE;
         </subNode:value>
        </node:Scalar_LNumber>
       </subNode:default>
-      <subNode:type>
-       <scalar:null/>
-      </subNode:type>
-      <subNode:byRef>
-       <scalar:true/>
-      </subNode:byRef>
      </node:Param>
      <node:Param>
       <attribute:startLine>
@@ -81,6 +84,15 @@ CODE;
       <attribute:endLine>
        <scalar:int>4</scalar:int>
       </attribute:endLine>
+      <subNode:type>
+       <scalar:null/>
+      </subNode:type>
+      <subNode:byRef>
+       <scalar:false/>
+      </subNode:byRef>
+      <subNode:variadic>
+       <scalar:false/>
+      </subNode:variadic>
       <subNode:name>
        <scalar:string>b</scalar:string>
       </subNode:name>
@@ -97,12 +109,6 @@ CODE;
         </subNode:value>
        </node:Scalar_DNumber>
       </subNode:default>
-      <subNode:type>
-       <scalar:null/>
-      </subNode:type>
-      <subNode:byRef>
-       <scalar:false/>
-      </subNode:byRef>
      </node:Param>
     </scalar:array>
    </subNode:params>

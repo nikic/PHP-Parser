@@ -11,10 +11,11 @@ array(
         name: a
         params: array(
             0: Param(
-                name: b
-                default: null
                 type: null
                 byRef: true
+                variadic: false
+                name: b
+                default: null
             )
         )
         stmts: array(
@@ -25,10 +26,11 @@ array(
         name: a
         params: array(
             0: Param(
-                name: b
-                default: null
                 type: null
                 byRef: false
+                variadic: false
+                name: b
+                default: null
             )
         )
         stmts: array(

@@ -2,13 +2,15 @@
 
 namespace PhpParser\Node;
 
+use PhpParser\Error;
 use PhpParser\NodeAbstract;
 
 /**
- * @property string           $name    Name
- * @property null|Expr        $default Default value
- * @property null|string|Name $type    Typehint
- * @property bool             $byRef   Whether is passed by reference
+ * @property null|string|Name $type     Typehint
+ * @property bool             $byRef    Whether is passed by reference
+ * @property bool             $variadic Whether this is a variadic argument
+ * @property string           $name     Name
+ * @property null|Expr        $default  Default value
  */
 class Param extends NodeAbstract
 {
@@ -19,17 +21,23 @@ class Param extends NodeAbstract
      * @param null|Expr        $default    Default value
      * @param null|string|Name $type       Typehint
      * @param bool             $byRef      Whether is passed by reference
+     * @param bool             $variadic   Whether this is a variadic argument
      * @param array            $attributes Additional attributes
      */
-    public function __construct($name, $default = null, $type = null, $byRef = false, array $attributes = array()) {
+    public function __construct($name, $default = null, $type = null, $byRef = false, $variadic = false, array $attributes = array()) {
         parent::__construct(
             array(
-                'name'    => $name,
-                'default' => $default,
-                'type'    => $type,
-                'byRef'   => $byRef
+                'type'     => $type,
+                'byRef'    => $byRef,
+                'variadic' => $variadic,
+                'name'     => $name,
+                'default'  => $default,
             ),
             $attributes
         );
+
+        if ($variadic && null !== $default) {
+            throw new Error('Variadic parameter cannot have a default value');
+        }
     }
 }

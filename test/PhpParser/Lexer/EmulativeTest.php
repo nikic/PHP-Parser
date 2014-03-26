@@ -82,6 +82,9 @@ class EmulativeTest extends \PHPUnit_Framework_TestCase
 
     public function provideTestLexNewFeatures() {
         return array(
+            array('...', array(
+                array(Parser::T_ELLIPSIS, '...'),
+            )),
             array('0b1010110', array(
                 array(Parser::T_LNUMBER, '0b1010110'),
             )),

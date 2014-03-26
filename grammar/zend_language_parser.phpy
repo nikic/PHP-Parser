@@ -106,6 +106,7 @@
 %token T_NS_C
 %token T_DIR
 %token T_NS_SEPARATOR
+%token T_ELLIPSIS
 
 %%
 
@@ -233,6 +234,11 @@ variables_list:
 optional_ref:
       /* empty */                                           { $$ = false; }
     | '&'                                                   { $$ = true; }
+;
+
+optional_ellipsis:
+      /* empty */                                           { $$ = false; }
+    | T_ELLIPSIS                                            { $$ = true; }
 ;
 
 function_declaration_statement:
@@ -371,10 +377,10 @@ non_empty_parameter_list:
 ;
 
 parameter:
-      optional_class_type optional_ref T_VARIABLE
-          { $$ = Param[parseVar($3), null, $1, $2]; }
-    | optional_class_type optional_ref T_VARIABLE '=' static_scalar
-          { $$ = Param[parseVar($3), $5, $1, $2]; }
+      optional_class_type optional_ref optional_ellipsis T_VARIABLE
+          { $$ = Param[parseVar($4), null, $1, $2, $3]; }
+    | optional_class_type optional_ref optional_ellipsis T_VARIABLE '=' static_scalar
+          { $$ = Param[parseVar($4), $6, $1, $2, $3]; }
 ;
 
 optional_class_type:

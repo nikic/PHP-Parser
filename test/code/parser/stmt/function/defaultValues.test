@@ -20,6 +20,9 @@ array(
         name: a
         params: array(
             0: Param(
+                type: null
+                byRef: false
+                variadic: false
                 name: b
                 default: Expr_ConstFetch(
                     name: Name(
@@ -28,18 +31,20 @@ array(
                         )
                     )
                 )
-                type: null
-                byRef: false
             )
             1: Param(
+                type: null
+                byRef: false
+                variadic: false
                 name: c
                 default: Scalar_String(
                     value: foo
                 )
-                type: null
-                byRef: false
             )
             2: Param(
+                type: null
+                byRef: false
+                variadic: false
                 name: d
                 default: Expr_ClassConstFetch(
                     class: Name(
@@ -49,48 +54,53 @@ array(
                     )
                     name: B
                 )
-                type: null
-                byRef: false
             )
             3: Param(
+                type: null
+                byRef: false
+                variadic: false
                 name: f
                 default: Expr_UnaryPlus(
                     expr: Scalar_LNumber(
                         value: 1
                     )
                 )
-                type: null
-                byRef: false
             )
             4: Param(
+                type: null
+                byRef: false
+                variadic: false
                 name: g
                 default: Expr_UnaryMinus(
                     expr: Scalar_DNumber(
                         value: 1
                     )
                 )
-                type: null
-                byRef: false
             )
             5: Param(
+                type: null
+                byRef: false
+                variadic: false
                 name: h
                 default: Expr_Array(
                     items: array(
                     )
                 )
-                type: null
-                byRef: false
             )
             6: Param(
+                type: null
+                byRef: false
+                variadic: false
                 name: i
                 default: Expr_Array(
                     items: array(
                     )
                 )
-                type: null
-                byRef: false
             )
             7: Param(
+                type: null
+                byRef: false
+                variadic: false
                 name: j
                 default: Expr_Array(
                     items: array(
@@ -103,10 +113,11 @@ array(
                         )
                     )
                 )
-                type: null
-                byRef: false
             )
             8: Param(
+                type: null
+                byRef: false
+                variadic: false
                 name: k
                 default: Expr_Array(
                     items: array(
@@ -128,8 +139,6 @@ array(
                         )
                     )
                 )
-                type: null
-                byRef: false
             )
         )
         stmts: array(

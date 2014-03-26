@@ -12,6 +12,8 @@ class Emulative extends \PhpParser\Lexer
     protected $newKeywords;
     protected $inObjectAccess;
 
+    const T_ELLIPSIS = 1001;
+
     public function __construct() {
         parent::__construct();
 
@@ -36,13 +38,17 @@ class Emulative extends \PhpParser\Lexer
 
             $this->newKeywords += $newKeywords;
         }
+
+        if (version_compare(PHP_VERSION, '5.6.0beta1', '<')) {
+            $this->tokenMap[self::T_ELLIPSIS] = Parser::T_ELLIPSIS;
+        }
     }
 
     public function startLexing($code) {
         $this->inObjectAccess = false;
 
-        // on PHP 5.4 don't do anything
-        if (version_compare(PHP_VERSION, '5.4.0RC1', '>=')) {
+        // on PHP 5.6 don't do anything
+        if (version_compare(PHP_VERSION, '5.6.0beta1', '>=')) {
             parent::startLexing($code);
         } else {
             $code = $this->preprocessCode($code);
@@ -60,8 +66,14 @@ class Emulative extends \PhpParser\Lexer
      * inside a string, i.e. a place where they don't have a special meaning).
      */
     protected function preprocessCode($code) {
-        // binary notation (0b010101101001...)
-        return preg_replace('(\b0b[01]+\b)', '~__EMU__BINARY__$0__~', $code);
+        $code = str_replace('...', '~__EMU__ELLIPSIS__~', $code);
+
+        if (version_compare(PHP_VERSION, '5.4.0beta1', '<')) {
+            // binary notation (0b010101101001...)
+            $code = preg_replace('(\b0b[01]+\b)', '~__EMU__BINARY__$0__~', $code);
+        }
+
+        return $code;
     }
 
     /*
@@ -85,6 +97,10 @@ class Emulative extends \PhpParser\Lexer
                     // or DNUMBER respectively
                     $replace = array(
                         array(is_int(bindec($matches[2])) ? T_LNUMBER : T_DNUMBER, $matches[2], $this->tokens[$i + 1][2])
+                    );
+                } else if ('ELLIPSIS' === $matches[1]) {
+                    $replace = array(
+                        array(self::T_ELLIPSIS, '...', $this->tokens[$i + 1][2])
                     );
                 } else {
                     // just ignore all other __EMU__ sequences
@@ -114,6 +130,8 @@ class Emulative extends \PhpParser\Lexer
     public function restoreContentCallback(array $matches) {
         if ('BINARY' === $matches[1]) {
             return $matches[2];
+        } else if ('ELLIPSIS' === $matches[1]) {
+            return '...';
         } else {
             return $matches[0];
         }
