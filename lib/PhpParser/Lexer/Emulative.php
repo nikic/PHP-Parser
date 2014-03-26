@@ -16,15 +16,19 @@ class Emulative extends \PhpParser\Lexer
     const T_POW       = 1002;
     const T_POW_EQUAL = 1003;
 
+    const PHP_5_6 = '5.6.0beta1';
+    const PHP_5_5 = '5.5.0beta1';
+    const PHP_5_4 = '5.4.0beta1';
+
     public function __construct() {
         parent::__construct();
 
         $newKeywordsPerVersion = array(
-            '5.5.0-dev' => array(
+            self::PHP_5_5 => array(
                 'finally'       => Parser::T_FINALLY,
                 'yield'         => Parser::T_YIELD,
             ),
-            '5.4.0-dev' => array(
+            self::PHP_5_4 => array(
                 'callable'      => Parser::T_CALLABLE,
                 'insteadof'     => Parser::T_INSTEADOF,
                 'trait'         => Parser::T_TRAIT,
@@ -41,7 +45,7 @@ class Emulative extends \PhpParser\Lexer
             $this->newKeywords += $newKeywords;
         }
 
-        if (version_compare(PHP_VERSION, '5.6.0beta1', '<')) {
+        if (version_compare(PHP_VERSION, self::PHP_5_6, '<')) {
             $this->tokenMap[self::T_ELLIPSIS]  = Parser::T_ELLIPSIS;
             $this->tokenMap[self::T_POW]       = Parser::T_POW;
             $this->tokenMap[self::T_POW_EQUAL] = Parser::T_POW_EQUAL;
@@ -51,12 +55,9 @@ class Emulative extends \PhpParser\Lexer
     public function startLexing($code) {
         $this->inObjectAccess = false;
 
-        // on PHP 5.6 don't do anything
-        if (version_compare(PHP_VERSION, '5.6.0beta1', '>=')) {
-            parent::startLexing($code);
-        } else {
-            $code = $this->preprocessCode($code);
-            parent::startLexing($code);
+        $preprocessedCode = $this->preprocessCode($code);
+        parent::startLexing($preprocessedCode);
+        if ($preprocessedCode !== $code) {
             $this->postprocessTokens();
         }
     }
@@ -66,20 +67,24 @@ class Emulative extends \PhpParser\Lexer
      * ~LABEL~ is never valid PHP code, that's why we can (to some degree) safely
      * use it here.
      * Later when preprocessing the tokens these sequences will either be replaced
-     * by real tokens or replaced with their original content (e.g. if they occured
+     * by real tokens or replaced with their original content (e.g. if they occurred
      * inside a string, i.e. a place where they don't have a special meaning).
      */
     protected function preprocessCode($code) {
+        if (version_compare(PHP_VERSION, self::PHP_5_6, '>=')) {
+            return $code;
+        }
+
         $code = str_replace('...', '~__EMU__ELLIPSIS__~', $code);
         $code = preg_replace('((?<!/)\*\*=)', '~__EMU__POWEQUAL__~', $code);
         $code = preg_replace('((?<!/)\*\*(?!/))', '~__EMU__POW__~', $code);
 
-        if (version_compare(PHP_VERSION, '5.4.0beta1', '<')) {
-            // binary notation (0b010101101001...)
-            $code = preg_replace('(\b0b[01]+\b)', '~__EMU__BINARY__$0__~', $code);
+        if (version_compare(PHP_VERSION, self::PHP_5_4, '>=')) {
+            return $code;
         }
 
-        return $code;
+        // binary notation (0b010101101001...)
+        return preg_replace('(\b0b[01]+\b)', '~__EMU__BINARY__$0__~', $code);
     }
 
     /*
