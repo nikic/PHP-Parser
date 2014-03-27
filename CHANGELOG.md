@@ -1,6 +1,11 @@
 Version 1.0.0-dev
 -----------------
 
+Nothing yet.
+
+Version 1.0.0-beta1 (27.03.2014)
+--------------------------------
+
 * [BC] PHP-Parser now requires PHP 5.3 or newer to run. It is however still possible to *parse* PHP 5.2 source code,
   while running on a newer version.
 
