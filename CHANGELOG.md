@@ -4,7 +4,13 @@ Version 0.9.5-dev
 * Add `NodeTraverser::removeVisitor()` method, which removes a visitor from the node traverser. This also modifies the
   corresponding `NodeTraverserInterface`.
 
+* Deprecated `PHPParser_Template` and `PHPParser_TemplateLoader`. This functionality does not belong in the main project
+  and - as far as I know - nobody is using it.
+
 * Fix alias resolution in `NameResolver`: Class names are now correctly handled as case-insensitive.
+
+* The undefined variable error, which is used to the lexer to reset the error state, will no longer interfere with
+  custom error handlers.
 
 Version 0.9.4 (25.08.2013)
 --------------------------
