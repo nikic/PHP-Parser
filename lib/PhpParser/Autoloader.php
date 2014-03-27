@@ -25,7 +25,9 @@ class Autoloader
     static public function autoload($class) {
         if (0 === strpos($class, 'PhpParser\\')) {
             $fileName = dirname(__DIR__) . '/' . rtrim(strtr($class, '\\', '/'), '_') . '.php';
-            require $fileName;
+            if (file_exists($fileName)) {
+                require $fileName;
+            }
         } else if (0 === strpos($class, 'PHPParser_')) {
             if (isset(self::$oldToNewMap[$class])) {
                 self::registerLegacyAliases();
