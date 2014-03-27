@@ -6,27 +6,23 @@ namespace Foo;
 
 function foo()
 {
-
 }
 
 namespace Bar;
 
 function bar()
 {
-
 }
 -----
 namespace Foo;
 
 function foo()
 {
-
 }
 namespace Bar;
 
 function bar()
 {
-
 }
 -----
 <?php
@@ -34,25 +30,21 @@ function bar()
 namespace Foo {
     function foo()
     {
-
     }
 }
 
 namespace {
     function glob() {
-
     }
 }
 -----
 namespace Foo {
     function foo()
     {
-
     }
 }
 namespace {
     function glob()
     {
-
     }
 }

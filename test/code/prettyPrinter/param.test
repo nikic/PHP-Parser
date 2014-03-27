@@ -9,17 +9,13 @@ function test(&... $foo) {}
 -----
 function test($a, &$b, Type $c, Type &$c, Type &... $d)
 {
-
 }
 function test(... $foo)
 {
-
 }
 function test(Type ... $foo)
 {
-
 }
 function test(&... $foo)
 {
-
 }
