@@ -164,6 +164,9 @@ again converted to code using `PhpParser\PrettyPrinter\Standard->prettyPrint()`.
 The `prettyPrint()` method pretty prints a statements array. It is also possible to pretty print only a
 single expression using `prettyPrintExpr()`.
 
+The `prettyPrintFile()` method can be used to print an entire file. This will include the opening `<?php` tag and handle
+inline HTML as the first/last sentence more gracefully.
+
 Node traversation
 -----------------
 
