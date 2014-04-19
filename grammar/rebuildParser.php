@@ -5,7 +5,6 @@ $skeletonFile          = __DIR__ . '/kmyacc.php.parser';
 $tmpGrammarFile        = __DIR__ . '/tmp_parser.phpy';
 $tmpResultFile         = __DIR__ . '/tmp_parser.php';
 $parserResultFile      = __DIR__ . '/../lib/PhpParser/Parser.php';
-$debugParserResultFile = __DIR__ . '/../lib/PhpParser/Parser/Debug.php';
 
 // check for kmyacc.exe binary in this directory, otherwise fall back to global name
 $kmyacc = __DIR__ . '/kmyacc.exe';
@@ -47,19 +46,13 @@ $grammarCode = resolveArrays($grammarCode);
 
 file_put_contents($tmpGrammarFile, $grammarCode);
 
+$additionalArgs = $optionDebug ? '-t -v' : '';
+
 echo "Building parser.\n";
-$output = trim(shell_exec("$kmyacc -l -m $skeletonFile -p Parser $tmpGrammarFile 2>&1"));
+$output = trim(shell_exec("$kmyacc $additionalArgs -l -m $skeletonFile $tmpGrammarFile 2>&1"));
 echo "Output: \"$output\"\n";
 
 moveFileWithDirCheck($tmpResultFile, $parserResultFile);
-
-if ($optionDebug) {
-    echo "Building debug parser.\n";
-    $output = trim(shell_exec("$kmyacc -t -v -l -m $skeletonFile -p Parser $tmpGrammarFile 2>&1"));
-    echo "Output: \"$output\"\n";
-
-    moveFileWithDirCheck($tmpResultFile, $debugParserResultFile);
-}
 
 if (!$optionKeepTmpGrammar) {
     unlink($tmpGrammarFile);

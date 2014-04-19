@@ -5,17 +5,12 @@ namespace PhpParser;
 /* This is an automatically GENERATED file, which should not be manually edited.
  * Instead edit one of the following:
  *  * the grammar file grammar/zend_language_parser.phpy
- *  * the parser skeleton grammar/kymacc.php.parser
+ *  * the skeleton file grammar/kymacc.php.parser
  *  * the preprocessing script grammar/rebuildParser.php
- *
- * The skeleton for this parser was written by Moriyoshi Koizumi and is based on
- * the work by Masato Bito and is in the PUBLIC DOMAIN.
  */
-class Parser
+class Parser extends ParserAbstract
 {
-    const TOKEN_NONE    = -1;
     const TOKEN_INVALID = 154;
-
     const TOKEN_MAP_SIZE = 389;
 
     const YYLAST       = 1091;
@@ -25,7 +20,6 @@ class Parser
     const YYUNEXPECTED = 32767;
     const YYDEFAULT    = -32766;
 
-    // {{{ Tokens
     const YYERRTOK = 256;
     const T_INCLUDE = 257;
     const T_INCLUDE_ONCE = 258;
@@ -159,9 +153,7 @@ class Parser
     const T_DIR = 386;
     const T_NS_SEPARATOR = 387;
     const T_ELLIPSIS = 388;
-    // }}}
 
-    /* @var array Map of token ids to their respective names */
     protected static $terminals = array(
         "EOF",
         "error",
@@ -320,7 +312,6 @@ class Parser
         , "???"
     );
 
-    /* @var array Map which translates lexer tokens to internal tokens */
     protected static $translate = array(
             0,  154,  154,  154,  154,  154,  154,  154,  154,  154,
           154,  154,  154,  154,  154,  154,  154,  154,  154,  154,
@@ -1004,195 +995,6 @@ class Parser
             1,    3,    1,    4,    2,    2,    2,    1,    2,    1,
             4,    3,    3,    3,    6,    3,    1,    1,    1
     );
-
-    protected $yyval;
-    protected $yyastk;
-    protected $stackPos;
-    protected $lexer;
-
-    /**
-     * Creates a parser instance.
-     *
-     * @param Lexer $lexer A lexer
-     */
-    public function __construct(Lexer $lexer) {
-        $this->lexer = $lexer;
-    }
-
-    /**
-     * Parses PHP code into a node tree.
-     *
-     * @param string $code The source code to parse
-     *
-     * @return Node[] Array of statements
-     */
-    public function parse($code) {
-        $this->lexer->startLexing($code);
-
-        // We start off with no lookahead-token
-        $tokenId = self::TOKEN_NONE;
-
-        // The attributes for a node are taken from the first and last token of the node.
-        // From the first token only the startAttributes are taken and from the last only
-        // the endAttributes. Both are merged using the array union operator (+).
-        $startAttributes = array('startLine' => 1);
-        $endAttributes   = array();
-
-        // In order to figure out the attributes for the starting token, we have to keep
-        // them in a stack
-        $attributeStack = array($startAttributes);
-
-        // Start off in the initial state and keep a stack of previous states
-        $state = 0;
-        $stateStack = array($state);
-
-        // AST stack (?)
-        $this->yyastk = array();
-
-        // Current position in the stack(s)
-        $this->stackPos = 0;
-
-        for (;;) {
-            if (self::$yybase[$state] == 0) {
-                $yyn = self::$yydefault[$state];
-            } else {
-                if ($tokenId === self::TOKEN_NONE) {
-                    // Fetch the next token id from the lexer and fetch additional info by-ref.
-                    // The end attributes are fetched into a temporary variable and only set once the token is really
-                    // shifted (not during read). Otherwise you would sometimes get off-by-one errors, when a rule is
-                    // reduced after a token was read but not yet shifted.
-                    $origTokenId = $this->lexer->getNextToken($tokenValue, $startAttributes, $nextEndAttributes);
-
-                    // map the lexer token id to the internally used token id's
-                    $tokenId = $origTokenId >= 0 && $origTokenId < self::TOKEN_MAP_SIZE
-                        ? self::$translate[$origTokenId]
-                        : self::TOKEN_INVALID;
-
-                    if ($tokenId === self::TOKEN_INVALID) {
-                        throw new \RangeException(sprintf(
-                            'The lexer returned an invalid token (id=%d, value=%s)',
-                            $origTokenId, $tokenValue
-                        ));
-                    }
-
-                    $attributeStack[$this->stackPos] = $startAttributes;
-                }
-
-                if ((($yyn = self::$yybase[$state] + $tokenId) >= 0
-                     && $yyn < self::YYLAST && self::$yycheck[$yyn] == $tokenId
-                     || ($state < self::YY2TBLSTATE
-                        && ($yyn = self::$yybase[$state + self::YYNLSTATES] + $tokenId) >= 0
-                        && $yyn < self::YYLAST
-                        && self::$yycheck[$yyn] == $tokenId))
-                    && ($yyn = self::$yyaction[$yyn]) != self::YYDEFAULT) {
-                    /*
-                     * >= YYNLSTATE: shift and reduce
-                     * > 0: shift
-                     * = 0: accept
-                     * < 0: reduce
-                     * = -YYUNEXPECTED: error
-                     */
-                    if ($yyn > 0) {
-                        /* shift */
-                        ++$this->stackPos;
-
-                        $stateStack[$this->stackPos]     = $state = $yyn;
-                        $this->yyastk[$this->stackPos]   = $tokenValue;
-                        $attributeStack[$this->stackPos] = $startAttributes;
-                        $endAttributes = $nextEndAttributes;
-                        $tokenId = self::TOKEN_NONE;
-
-                        if ($yyn < self::YYNLSTATES)
-                            continue;
-
-                        /* $yyn >= YYNLSTATES means shift-and-reduce */
-                        $yyn -= self::YYNLSTATES;
-                    } else {
-                        $yyn = -$yyn;
-                    }
-                } else {
-                    $yyn = self::$yydefault[$state];
-                }
-            }
-
-            for (;;) {
-                /* reduce/error */
-                if ($yyn == 0) {
-                    /* accept */
-                    return $this->yyval;
-                } elseif ($yyn != self::YYUNEXPECTED) {
-                    /* reduce */
-                    try {
-                        $this->{'yyn' . $yyn}(
-                            $attributeStack[$this->stackPos - self::$yylen[$yyn]]
-                            + $endAttributes
-                        );
-                    } catch (Error $e) {
-                        if (-1 === $e->getRawLine()) {
-                            $e->setRawLine($startAttributes['startLine']);
-                        }
-
-                        throw $e;
-                    }
-
-                    /* Goto - shift nonterminal */
-                    $this->stackPos -= self::$yylen[$yyn];
-                    $yyn = self::$yylhs[$yyn];
-                    if (($yyp = self::$yygbase[$yyn] + $stateStack[$this->stackPos]) >= 0
-                         && $yyp < self::YYGLAST
-                         && self::$yygcheck[$yyp] == $yyn) {
-                        $state = self::$yygoto[$yyp];
-                    } else {
-                        $state = self::$yygdefault[$yyn];
-                    }
-
-                    ++$this->stackPos;
-
-                    $stateStack[$this->stackPos]     = $state;
-                    $this->yyastk[$this->stackPos]   = $this->yyval;
-                    $attributeStack[$this->stackPos] = $startAttributes;
-                } else {
-                    /* error */
-                    $expected = array();
-
-                    $base = self::$yybase[$state];
-                    for ($i = 0; $i < self::TOKEN_MAP_SIZE; ++$i) {
-                        $n = $base + $i;
-                        if ($n >= 0 && $n < self::YYLAST && self::$yycheck[$n] == $i
-                         || $state < self::YY2TBLSTATE
-                            && ($n = self::$yybase[$state + self::YYNLSTATES] + $i) >= 0
-                            && $n < self::YYLAST && self::$yycheck[$n] == $i
-                        ) {
-                            if (self::$yyaction[$n] != self::YYUNEXPECTED) {
-                                if (count($expected) == 4) {
-                                    /* Too many expected tokens */
-                                    $expected = array();
-                                    break;
-                                }
-
-                                $expected[] = self::$terminals[$i];
-                            }
-                        }
-                    }
-
-                    $expectedString = '';
-                    if ($expected) {
-                        $expectedString = ', expecting ' . implode(' or ', $expected);
-                    }
-
-                    throw new Error(
-                        'Syntax error, unexpected ' . self::$terminals[$tokenId] . $expectedString,
-                        $startAttributes['startLine']
-                    );
-                }
-
-                if ($state < self::YYNLSTATES)
-                    break;
-                /* >= YYNLSTATES means shift-and-reduce */
-                $yyn = $state - self::YYNLSTATES;
-            }
-        }
-    }
 
     protected function yyn0() {
         $this->yyval = $this->yyastk[$this->stackPos];
