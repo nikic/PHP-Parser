@@ -748,52 +748,48 @@ common_scalar:
     | name                                                  { $$ = Expr\ConstFetch[$1]; }
 ;
 
-/* Arrays are currently not allowed in static scalar operations */
 static_scalar:
-      static_scalar_value                                   { $$ = $1; }
-    | T_ARRAY '(' static_array_pair_list ')'                { $$ = Expr\Array_[$3]; }
-    | '[' static_array_pair_list ']'                        { $$ = Expr\Array_[$2]; }
-;
-
-static_scalar_value:
       common_scalar                                         { $$ = $1; }
     | class_name T_PAAMAYIM_NEKUDOTAYIM class_const_name    { $$ = Expr\ClassConstFetch[$1, $3]; }
+    | T_ARRAY '(' static_array_pair_list ')'                { $$ = Expr\Array_[$3]; }
+    | '[' static_array_pair_list ']'                        { $$ = Expr\Array_[$2]; }
     | static_operation                                      { $$ = $1; }
 ;
 
 static_operation:
-      static_scalar_value T_BOOLEAN_OR static_scalar_value                 { $$ = Expr\BinaryOp\BooleanOr [$1, $3]; }
-    | static_scalar_value T_BOOLEAN_AND static_scalar_value                { $$ = Expr\BinaryOp\BooleanAnd[$1, $3]; }
-    | static_scalar_value T_LOGICAL_OR static_scalar_value                 { $$ = Expr\BinaryOp\LogicalOr [$1, $3]; }
-    | static_scalar_value T_LOGICAL_AND static_scalar_value                { $$ = Expr\BinaryOp\LogicalAnd[$1, $3]; }
-    | static_scalar_value T_LOGICAL_XOR static_scalar_value                { $$ = Expr\BinaryOp\LogicalXor[$1, $3]; }
-    | static_scalar_value '|' static_scalar_value                          { $$ = Expr\BinaryOp\BitwiseOr [$1, $3]; }
-    | static_scalar_value '&' static_scalar_value                          { $$ = Expr\BinaryOp\BitwiseAnd[$1, $3]; }
-    | static_scalar_value '^' static_scalar_value                          { $$ = Expr\BinaryOp\BitwiseXor[$1, $3]; }
-    | static_scalar_value '.' static_scalar_value                          { $$ = Expr\BinaryOp\Concat    [$1, $3]; }
-    | static_scalar_value '+' static_scalar_value                          { $$ = Expr\BinaryOp\Plus      [$1, $3]; }
-    | static_scalar_value '-' static_scalar_value                          { $$ = Expr\BinaryOp\Minus     [$1, $3]; }
-    | static_scalar_value '*' static_scalar_value                          { $$ = Expr\BinaryOp\Mul       [$1, $3]; }
-    | static_scalar_value '/' static_scalar_value                          { $$ = Expr\BinaryOp\Div       [$1, $3]; }
-    | static_scalar_value '%' static_scalar_value                          { $$ = Expr\BinaryOp\Mod       [$1, $3]; }
-    | static_scalar_value T_SL static_scalar_value                         { $$ = Expr\BinaryOp\ShiftLeft [$1, $3]; }
-    | static_scalar_value T_SR static_scalar_value                         { $$ = Expr\BinaryOp\ShiftRight[$1, $3]; }
-    | static_scalar_value T_POW static_scalar_value                        { $$ = Expr\BinaryOp\Pow       [$1, $3]; }
-    | '+' static_scalar_value %prec T_INC                                  { $$ = Expr\UnaryPlus [$2]; }
-    | '-' static_scalar_value %prec T_INC                                  { $$ = Expr\UnaryMinus[$2]; }
-    | '!' static_scalar_value                                              { $$ = Expr\BooleanNot[$2]; }
-    | '~' static_scalar_value                                              { $$ = Expr\BitwiseNot[$2]; }
-    | static_scalar_value T_IS_IDENTICAL static_scalar_value               { $$ = Expr\BinaryOp\Identical     [$1, $3]; }
-    | static_scalar_value T_IS_NOT_IDENTICAL static_scalar_value           { $$ = Expr\BinaryOp\NotIdentical  [$1, $3]; }
-    | static_scalar_value T_IS_EQUAL static_scalar_value                   { $$ = Expr\BinaryOp\Equal         [$1, $3]; }
-    | static_scalar_value T_IS_NOT_EQUAL static_scalar_value               { $$ = Expr\BinaryOp\NotEqual      [$1, $3]; }
-    | static_scalar_value '<' static_scalar_value                          { $$ = Expr\BinaryOp\Smaller       [$1, $3]; }
-    | static_scalar_value T_IS_SMALLER_OR_EQUAL static_scalar_value        { $$ = Expr\BinaryOp\SmallerOrEqual[$1, $3]; }
-    | static_scalar_value '>' static_scalar_value                          { $$ = Expr\BinaryOp\Greater       [$1, $3]; }
-    | static_scalar_value T_IS_GREATER_OR_EQUAL static_scalar_value        { $$ = Expr\BinaryOp\GreaterOrEqual[$1, $3]; }
-    | static_scalar_value '?' static_scalar_value ':' static_scalar_value  { $$ = Expr\Ternary[$1, $3,   $5]; }
-    | static_scalar_value '?' ':' static_scalar_value                      { $$ = Expr\Ternary[$1, null, $4]; }
-    | '(' static_scalar_value ')'                                          { $$ = $2; }
+      static_scalar T_BOOLEAN_OR static_scalar              { $$ = Expr\BinaryOp\BooleanOr [$1, $3]; }
+    | static_scalar T_BOOLEAN_AND static_scalar             { $$ = Expr\BinaryOp\BooleanAnd[$1, $3]; }
+    | static_scalar T_LOGICAL_OR static_scalar              { $$ = Expr\BinaryOp\LogicalOr [$1, $3]; }
+    | static_scalar T_LOGICAL_AND static_scalar             { $$ = Expr\BinaryOp\LogicalAnd[$1, $3]; }
+    | static_scalar T_LOGICAL_XOR static_scalar             { $$ = Expr\BinaryOp\LogicalXor[$1, $3]; }
+    | static_scalar '|' static_scalar                       { $$ = Expr\BinaryOp\BitwiseOr [$1, $3]; }
+    | static_scalar '&' static_scalar                       { $$ = Expr\BinaryOp\BitwiseAnd[$1, $3]; }
+    | static_scalar '^' static_scalar                       { $$ = Expr\BinaryOp\BitwiseXor[$1, $3]; }
+    | static_scalar '.' static_scalar                       { $$ = Expr\BinaryOp\Concat    [$1, $3]; }
+    | static_scalar '+' static_scalar                       { $$ = Expr\BinaryOp\Plus      [$1, $3]; }
+    | static_scalar '-' static_scalar                       { $$ = Expr\BinaryOp\Minus     [$1, $3]; }
+    | static_scalar '*' static_scalar                       { $$ = Expr\BinaryOp\Mul       [$1, $3]; }
+    | static_scalar '/' static_scalar                       { $$ = Expr\BinaryOp\Div       [$1, $3]; }
+    | static_scalar '%' static_scalar                       { $$ = Expr\BinaryOp\Mod       [$1, $3]; }
+    | static_scalar T_SL static_scalar                      { $$ = Expr\BinaryOp\ShiftLeft [$1, $3]; }
+    | static_scalar T_SR static_scalar                      { $$ = Expr\BinaryOp\ShiftRight[$1, $3]; }
+    | static_scalar T_POW static_scalar                     { $$ = Expr\BinaryOp\Pow       [$1, $3]; }
+    | '+' static_scalar %prec T_INC                         { $$ = Expr\UnaryPlus [$2]; }
+    | '-' static_scalar %prec T_INC                         { $$ = Expr\UnaryMinus[$2]; }
+    | '!' static_scalar                                     { $$ = Expr\BooleanNot[$2]; }
+    | '~' static_scalar                                     { $$ = Expr\BitwiseNot[$2]; }
+    | static_scalar T_IS_IDENTICAL static_scalar            { $$ = Expr\BinaryOp\Identical     [$1, $3]; }
+    | static_scalar T_IS_NOT_IDENTICAL static_scalar        { $$ = Expr\BinaryOp\NotIdentical  [$1, $3]; }
+    | static_scalar T_IS_EQUAL static_scalar                { $$ = Expr\BinaryOp\Equal         [$1, $3]; }
+    | static_scalar T_IS_NOT_EQUAL static_scalar            { $$ = Expr\BinaryOp\NotEqual      [$1, $3]; }
+    | static_scalar '<' static_scalar                       { $$ = Expr\BinaryOp\Smaller       [$1, $3]; }
+    | static_scalar T_IS_SMALLER_OR_EQUAL static_scalar     { $$ = Expr\BinaryOp\SmallerOrEqual[$1, $3]; }
+    | static_scalar '>' static_scalar                       { $$ = Expr\BinaryOp\Greater       [$1, $3]; }
+    | static_scalar T_IS_GREATER_OR_EQUAL static_scalar     { $$ = Expr\BinaryOp\GreaterOrEqual[$1, $3]; }
+    | static_scalar '?' static_scalar ':' static_scalar     { $$ = Expr\Ternary[$1, $3,   $5]; }
+    | static_scalar '?' ':' static_scalar                   { $$ = Expr\Ternary[$1, null, $4]; }
+    | static_scalar '[' static_scalar ']'                   { $$ = Expr\ArrayDimFetch[$1, $3]; }
+    | '(' static_scalar ')'                                 { $$ = $2; }
 ;
 
 scalar:

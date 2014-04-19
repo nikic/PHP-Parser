@@ -31,6 +31,7 @@ const T_24 = 1 == "1";
 const T_25 = 1 + 2 * 3;
 const T_26 = "1" + 2 + "3";
 const T_27 = 2 ** 3;
+const T_28 = [1, 2, 3][1];
 -----
 array(
     0: Stmt_Const(
@@ -462,6 +463,43 @@ array(
                     )
                     right: Scalar_LNumber(
                         value: 3
+                    )
+                )
+            )
+        )
+    )
+    27: Stmt_Const(
+        consts: array(
+            0: Const(
+                name: T_28
+                value: Expr_ArrayDimFetch(
+                    var: Expr_Array(
+                        items: array(
+                            0: Expr_ArrayItem(
+                                key: null
+                                value: Scalar_LNumber(
+                                    value: 1
+                                )
+                                byRef: false
+                            )
+                            1: Expr_ArrayItem(
+                                key: null
+                                value: Scalar_LNumber(
+                                    value: 2
+                                )
+                                byRef: false
+                            )
+                            2: Expr_ArrayItem(
+                                key: null
+                                value: Scalar_LNumber(
+                                    value: 3
+                                )
+                                byRef: false
+                            )
+                        )
+                    )
+                    dim: Scalar_LNumber(
+                        value: 1
                     )
                 )
             )
