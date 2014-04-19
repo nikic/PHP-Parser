@@ -30,9 +30,13 @@ class PHPParser_Lexer
      * @throws PHPParser_Error on lexing errors (unterminated comment or unexpected character)
      */
     public function startLexing($code) {
+        $scream = ini_set('xdebug.scream', 0);
+
         $this->resetErrors();
         $this->tokens = @token_get_all($code);
         $this->handleErrors();
+
+        ini_set('xdebug.scream', $scream);
 
         $this->code = $code; // keep the code around for __halt_compiler() handling
         $this->pos  = -1;
