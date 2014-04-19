@@ -154,7 +154,7 @@ class Parser extends ParserAbstract
     const T_NS_SEPARATOR = 387;
     const T_ELLIPSIS = 388;
 
-    protected static $terminals = array(
+    protected $terminals = array(
         "EOF",
         "error",
         "T_INCLUDE",
@@ -312,7 +312,7 @@ class Parser extends ParserAbstract
         , "???"
     );
 
-    protected static $translate = array(
+    protected $translate = array(
             0,  154,  154,  154,  154,  154,  154,  154,  154,  154,
           154,  154,  154,  154,  154,  154,  154,  154,  154,  154,
           154,  154,  154,  154,  154,  154,  154,  154,  154,  154,
@@ -354,7 +354,7 @@ class Parser extends ParserAbstract
           136,  137,  138,  139,  140,  141,  142,  143,  144
     );
 
-    protected static $yyaction = array(
+    protected $yyaction = array(
            59,   60,  410,   61,   62,-32766,-32766,-32766,-32766,   63,
            64,  215,  216,  217,  218,  219,  220,  221,  222,  223,
           224,  225,  226,  227,  228,  229,  230,  231,  232,  233,
@@ -467,7 +467,7 @@ class Parser extends ParserAbstract
           899
     );
 
-    protected static $yycheck = array(
+    protected $yycheck = array(
             2,    3,    4,    5,    6,   28,   29,   30,   31,   11,
            12,   28,   29,   30,   31,   32,   33,   34,   35,   36,
            37,   38,   39,   40,   41,   42,   43,   44,   45,   46,
@@ -580,7 +580,7 @@ class Parser extends ParserAbstract
           152
     );
 
-    protected static $yybase = array(
+    protected $yybase = array(
             0,  763,  746,  780,  838,  851,  899,   -1,  929,  834,
           821,  230,  224,  925,  868,  881,  956,  956,  956,  956,
           956,  468,  445,  434,  524,  434,  482,   -2,   -2,   -2,
@@ -686,7 +686,7 @@ class Parser extends ParserAbstract
             0,    0,  245,    0,    0,  197
     );
 
-    protected static $yydefault = array(
+    protected $yydefault = array(
             3,32767,32767,    1,32767,32767,32767,32767,32767,32767,
         32767,32767,32767,32767,32767,32767,  111,  103,  117,  102,
           113,32767,32767,32767,32767,32767,32767,32767,32767,32767,
@@ -752,7 +752,7 @@ class Parser extends ParserAbstract
           156,   28,   28,   28,   28,   28
     );
 
-    protected static $yygoto = array(
+    protected $yygoto = array(
           168,  168,  138,  138,  143,  138,  139,  140,  141,  146,
           148,  186,  170,  166,  166,  166,  166,  143,  143,  167,
           167,  167,  167,  167,  167,  167,  167,  167,  167,  162,
@@ -812,7 +812,7 @@ class Parser extends ParserAbstract
           500,    0,    0,    0,    0,    0,    0,    0,    0,  523
     );
 
-    protected static $yygcheck = array(
+    protected $yygcheck = array(
            25,   25,   25,   25,   25,   25,   25,   25,   25,   25,
            25,   25,   25,   25,   25,   25,   25,   25,   25,   25,
            25,   25,   25,   25,   25,   25,   25,   25,   25,   25,
@@ -872,7 +872,7 @@ class Parser extends ParserAbstract
             4,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,    4
     );
 
-    protected static $yygbase = array(
+    protected $yygbase = array(
             0,    0, -361,    0,  145,  -99,  458,  119,  195,  -11,
           -53,    1,  -26,  216, -301,    0,   88,    0,    0,    0,
             0,    0,  202,    0,    0,  -30,  370,    0,    0,  196,
@@ -887,7 +887,7 @@ class Parser extends ParserAbstract
             0,    0,    0,   31,    0,  173, -117,    0
     );
 
-    protected static $yygdefault = array(
+    protected $yygdefault = array(
         -32768,  446,    3,  628,  463,  497,  655,  656,  657,  366,
           365,  645,  651,  156,    4,  653,  866,  352,  660,  353,
           563,  662,  509,  664,  665,  136,  464,  367,  368,  510,
@@ -902,7 +902,7 @@ class Parser extends ParserAbstract
           472,  361,  378, 1039,  421, 1046, 1053,  544
     );
 
-    protected static $yylhs = array(
+    protected $yylhs = array(
             0,    1,    2,    2,    4,    4,    5,    3,    3,    3,
             3,    3,    3,    3,    3,    3,    3,    3,    9,    9,
            11,   11,   11,   11,   10,   10,   12,   14,   14,   15,
@@ -949,7 +949,7 @@ class Parser extends ParserAbstract
           116,  116,  116,  116,  116,  116,  117,  117,  117
     );
 
-    protected static $yylen = array(
+    protected $yylen = array(
             1,    1,    2,    0,    1,    3,    1,    1,    1,    1,
             1,    3,    5,    4,    3,    4,    4,    3,    3,    1,
             1,    3,    2,    4,    3,    1,    3,    2,    0,    1,

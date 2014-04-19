@@ -30,57 +30,57 @@ class Parser extends ParserAbstract
     const %s = %n;
 #endtokenval
 
-    protected static $terminals = array(
+    protected $terminals = array(
         #listvar terminals
         , "???"
     );
 
-    protected static $translate = array(
+    protected $translate = array(
         #listvar yytranslate
     );
 
-    protected static $yyaction = array(
+    protected $yyaction = array(
         #listvar yyaction
     );
 
-    protected static $yycheck = array(
+    protected $yycheck = array(
         #listvar yycheck
     );
 
-    protected static $yybase = array(
+    protected $yybase = array(
         #listvar yybase
     );
 
-    protected static $yydefault = array(
+    protected $yydefault = array(
         #listvar yydefault
     );
 
-    protected static $yygoto = array(
+    protected $yygoto = array(
         #listvar yygoto
     );
 
-    protected static $yygcheck = array(
+    protected $yygcheck = array(
         #listvar yygcheck
     );
 
-    protected static $yygbase = array(
+    protected $yygbase = array(
         #listvar yygbase
     );
 
-    protected static $yygdefault = array(
+    protected $yygdefault = array(
         #listvar yygdefault
     );
 
-    protected static $yylhs = array(
+    protected $yylhs = array(
         #listvar yylhs
     );
 
-    protected static $yylen = array(
+    protected $yylen = array(
         #listvar yylen
     );
 #if -t
 
-    protected static $yyproduction = array(
+    protected $yyproduction = array(
         #production-strings;
     );
 #endif

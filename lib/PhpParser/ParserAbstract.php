@@ -21,23 +21,23 @@ abstract class ParserAbstract
     const YYDEFAULT    = 0;
 
     /* @var array Map of token ids to their respective names */
-    protected static $terminals;
+    protected $terminals;
     /* @var array Map which translates lexer tokens to internal tokens */
-    protected static $translate;
+    protected $translate;
 
-    protected static $yyaction;
-    protected static $yycheck;
-    protected static $yybase;
-    protected static $yydefault;
-    protected static $yygoto;
-    protected static $yygcheck;
-    protected static $yygbase;
-    protected static $yygdefault;
-    protected static $yylhs;
-    protected static $yylen;
+    protected $yyaction;
+    protected $yycheck;
+    protected $yybase;
+    protected $yydefault;
+    protected $yygoto;
+    protected $yygcheck;
+    protected $yygbase;
+    protected $yygdefault;
+    protected $yylhs;
+    protected $yylen;
 
     /* This is optional data only necessary when debugging */
-    protected static $yyproduction;
+    protected $yyproduction;
 
     /* End of dummy data */
 
@@ -93,8 +93,8 @@ abstract class ParserAbstract
         for (;;) {
             //$this->traceNewState($state, $tokenId);
 
-            if (static::$yybase[$state] == 0) {
-                $yyn = static::$yydefault[$state];
+            if ($this->yybase[$state] == 0) {
+                $yyn = $this->yydefault[$state];
             } else {
                 if ($tokenId === self::TOKEN_NONE) {
                     // Fetch the next token id from the lexer and fetch additional info by-ref.
@@ -105,7 +105,7 @@ abstract class ParserAbstract
 
                     // map the lexer token id to the internally used token id's
                     $tokenId = $origTokenId >= 0 && $origTokenId < static::TOKEN_MAP_SIZE
-                        ? static::$translate[$origTokenId]
+                        ? $this->translate[$origTokenId]
                         : static::TOKEN_INVALID;
 
                     if ($tokenId === static::TOKEN_INVALID) {
@@ -120,13 +120,13 @@ abstract class ParserAbstract
                     //$this->traceRead($tokenId);
                 }
 
-                if ((($yyn = static::$yybase[$state] + $tokenId) >= 0
-                     && $yyn < static::YYLAST && static::$yycheck[$yyn] == $tokenId
+                if ((($yyn = $this->yybase[$state] + $tokenId) >= 0
+                     && $yyn < static::YYLAST && $this->yycheck[$yyn] == $tokenId
                      || ($state < static::YY2TBLSTATE
-                        && ($yyn = static::$yybase[$state + static::YYNLSTATES] + $tokenId) >= 0
+                        && ($yyn = $this->yybase[$state + static::YYNLSTATES] + $tokenId) >= 0
                         && $yyn < static::YYLAST
-                        && static::$yycheck[$yyn] == $tokenId))
-                    && ($yyn = static::$yyaction[$yyn]) != static::YYDEFAULT) {
+                        && $this->yycheck[$yyn] == $tokenId))
+                    && ($yyn = $this->yyaction[$yyn]) != static::YYDEFAULT) {
                     /*
                      * >= YYNLSTATE: shift and reduce
                      * > 0: shift
@@ -154,7 +154,7 @@ abstract class ParserAbstract
                         $yyn = -$yyn;
                     }
                 } else {
-                    $yyn = static::$yydefault[$state];
+                    $yyn = $this->yydefault[$state];
                 }
             }
 
@@ -170,7 +170,7 @@ abstract class ParserAbstract
 
                     try {
                         $this->{'yyn' . $yyn}(
-                            $attributeStack[$this->stackPos - static::$yylen[$yyn]]
+                            $attributeStack[$this->stackPos - $this->yylen[$yyn]]
                             + $endAttributes
                         );
                     } catch (Error $e) {
@@ -182,14 +182,14 @@ abstract class ParserAbstract
                     }
 
                     /* Goto - shift nonterminal */
-                    $this->stackPos -= static::$yylen[$yyn];
-                    $yyn = static::$yylhs[$yyn];
-                    if (($yyp = static::$yygbase[$yyn] + $stateStack[$this->stackPos]) >= 0
+                    $this->stackPos -= $this->yylen[$yyn];
+                    $yyn = $this->yylhs[$yyn];
+                    if (($yyp = $this->yygbase[$yyn] + $stateStack[$this->stackPos]) >= 0
                          && $yyp < static::YYGLAST
-                         && static::$yygcheck[$yyp] == $yyn) {
-                        $state = static::$yygoto[$yyp];
+                         && $this->yygcheck[$yyp] == $yyn) {
+                        $state = $this->yygoto[$yyp];
                     } else {
-                        $state = static::$yygdefault[$yyn];
+                        $state = $this->yygdefault[$yyn];
                     }
 
                     ++$this->stackPos;
@@ -201,22 +201,22 @@ abstract class ParserAbstract
                     /* error */
                     $expected = array();
 
-                    $base = static::$yybase[$state];
+                    $base = $this->yybase[$state];
                     for ($i = 0; $i < static::TOKEN_MAP_SIZE; ++$i) {
                         $n = $base + $i;
-                        if ($n >= 0 && $n < static::YYLAST && static::$yycheck[$n] == $i
+                        if ($n >= 0 && $n < static::YYLAST && $this->yycheck[$n] == $i
                          || $state < static::YY2TBLSTATE
-                            && ($n = static::$yybase[$state + static::YYNLSTATES] + $i) >= 0
-                            && $n < static::YYLAST && static::$yycheck[$n] == $i
+                            && ($n = $this->yybase[$state + static::YYNLSTATES] + $i) >= 0
+                            && $n < static::YYLAST && $this->yycheck[$n] == $i
                         ) {
-                            if (static::$yyaction[$n] != static::YYUNEXPECTED) {
+                            if ($this->yyaction[$n] != static::YYUNEXPECTED) {
                                 if (count($expected) == 4) {
                                     /* Too many expected tokens */
                                     $expected = array();
                                     break;
                                 }
 
-                                $expected[] = static::$terminals[$i];
+                                $expected[] = $this->terminals[$i];
                             }
                         }
                     }
@@ -227,7 +227,7 @@ abstract class ParserAbstract
                     }
 
                     throw new Error(
-                        'Syntax error, unexpected ' . static::$terminals[$tokenId] . $expectedString,
+                        'Syntax error, unexpected ' . $this->terminals[$tokenId] . $expectedString,
                         $startAttributes['startLine']
                     );
                 }
@@ -242,15 +242,15 @@ abstract class ParserAbstract
 
     protected function traceNewState($state, $tokenId) {
         echo '% State ' . $state
-            . ', Lookahead ' . ($tokenId == self::TOKEN_NONE ? '--none--' : static::$terminals[$tokenId]) . "\n";
+            . ', Lookahead ' . ($tokenId == self::TOKEN_NONE ? '--none--' : $this->terminals[$tokenId]) . "\n";
     }
 
     protected function traceRead($tokenId) {
-        echo '% Reading ' . static::$terminals[$tokenId] . "\n";
+        echo '% Reading ' . $this->terminals[$tokenId] . "\n";
     }
 
     protected function traceShift($tokenId) {
-        echo '% Shift ' . static::$terminals[$tokenId] . "\n";
+        echo '% Shift ' . $this->terminals[$tokenId] . "\n";
     }
 
     protected function traceAccept() {
@@ -258,6 +258,6 @@ abstract class ParserAbstract
     }
 
     protected function traceReduce($n) {
-        echo '% Reduce by (' . $n . ') ' . static::$yyproduction[$n] . "\n";
+        echo '% Reduce by (' . $n . ') ' . $this->yyproduction[$n] . "\n";
     }
 }
