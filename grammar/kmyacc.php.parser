@@ -1,9 +1,9 @@
 <?php
 $meta #
-#semval($) $this->yyval
-#semval($,%t) $this->yyval
-#semval(%n) $this->yyastk[$this->stackPos-(%l-%n)]
-#semval(%n,%t) $this->yyastk[$this->stackPos-(%l-%n)]
+#semval($) $this->semValue
+#semval($,%t) $this->semValue
+#semval(%n) $this->semStack[$this->stackPos-(%l-%n)]
+#semval(%n,%t) $this->semStack[$this->stackPos-(%l-%n)]
 #include;
 
 namespace PhpParser;
@@ -16,83 +16,83 @@ namespace PhpParser;
  */
 class Parser extends ParserAbstract
 {
-    const TOKEN_INVALID = #(YYBADCH);
-    const TOKEN_MAP_SIZE = #(YYMAXLEX);
+    protected $tokenToSymbolMapSize = #(YYMAXLEX);
+    protected $actionTableSize = #(YYLAST);
+    protected $gotoTableSize = #(YYGLAST);
 
-    const YYLAST       = #(YYLAST);
-    const YY2TBLSTATE  = #(YY2TBLSTATE);
-    const YYGLAST      = #(YYGLAST);
-    const YYNLSTATES   = #(YYNLSTATES);
-    const YYUNEXPECTED = #(YYUNEXPECTED);
-    const YYDEFAULT    = #(YYDEFAULT);
+    protected $invalidToken = #(YYBADCH);
+    protected $defaultAction = #(YYDEFAULT);
+    protected $unexpectedTokenRule = #(YYUNEXPECTED);
+
+    protected $YY2TBLSTATE  = #(YY2TBLSTATE);
+    protected $YYNLSTATES   = #(YYNLSTATES);
 
 #tokenval
     const %s = %n;
 #endtokenval
 
-    protected $terminals = array(
+    protected $symbolToName = array(
         #listvar terminals
-        , "???"
     );
 
-    protected $translate = array(
+    protected $tokenToSymbol = array(
         #listvar yytranslate
     );
 
-    protected $yyaction = array(
+    protected $action = array(
         #listvar yyaction
     );
 
-    protected $yycheck = array(
+    protected $actionCheck = array(
         #listvar yycheck
     );
 
-    protected $yybase = array(
+    protected $actionBase = array(
         #listvar yybase
     );
 
-    protected $yydefault = array(
+    protected $actionDefault = array(
         #listvar yydefault
     );
 
-    protected $yygoto = array(
+    protected $goto = array(
         #listvar yygoto
     );
 
-    protected $yygcheck = array(
+    protected $gotoCheck = array(
         #listvar yygcheck
     );
 
-    protected $yygbase = array(
+    protected $gotoBase = array(
         #listvar yygbase
     );
 
-    protected $yygdefault = array(
+    protected $gotoDefault = array(
         #listvar yygdefault
     );
 
-    protected $yylhs = array(
+    protected $ruleToNonTerminal = array(
         #listvar yylhs
     );
 
-    protected $yylen = array(
+    protected $ruleToLength = array(
         #listvar yylen
     );
 #if -t
 
-    protected $yyproduction = array(
+    protected $productions = array(
         #production-strings;
     );
 #endif
 #reduce
 
-    protected function yyn%n($attributes) {
+    protected function reduceRule%n($attributes) {
         %b
     }
 #noact
 
-    protected function yyn%n() {
-        $this->yyval = $this->yyastk[$this->stackPos];
+    protected function reduceRule%n() {
+        $this->semValue = $this->semStack[$this->stackPos];
     }
 #endreduce
 }

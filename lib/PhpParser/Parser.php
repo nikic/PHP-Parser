@@ -10,15 +10,16 @@ namespace PhpParser;
  */
 class Parser extends ParserAbstract
 {
-    const TOKEN_INVALID = 154;
-    const TOKEN_MAP_SIZE = 389;
+    protected $tokenToSymbolMapSize = 389;
+    protected $actionTableSize = 1091;
+    protected $gotoTableSize = 570;
 
-    const YYLAST       = 1091;
-    const YY2TBLSTATE  = 400;
-    const YYGLAST      = 570;
-    const YYNLSTATES   = 626;
-    const YYUNEXPECTED = 32767;
-    const YYDEFAULT    = -32766;
+    protected $invalidToken = 154;
+    protected $defaultAction = -32766;
+    protected $unexpectedTokenRule = 32767;
+
+    protected $YY2TBLSTATE  = 400;
+    protected $YYNLSTATES   = 626;
 
     const YYERRTOK = 256;
     const T_INCLUDE = 257;
@@ -154,7 +155,7 @@ class Parser extends ParserAbstract
     const T_NS_SEPARATOR = 387;
     const T_ELLIPSIS = 388;
 
-    protected $terminals = array(
+    protected $symbolToName = array(
         "EOF",
         "error",
         "T_INCLUDE",
@@ -309,10 +310,9 @@ class Parser extends ParserAbstract
         "'`'",
         "']'",
         "'\"'"
-        , "???"
     );
 
-    protected $translate = array(
+    protected $tokenToSymbol = array(
             0,  154,  154,  154,  154,  154,  154,  154,  154,  154,
           154,  154,  154,  154,  154,  154,  154,  154,  154,  154,
           154,  154,  154,  154,  154,  154,  154,  154,  154,  154,
@@ -354,7 +354,7 @@ class Parser extends ParserAbstract
           136,  137,  138,  139,  140,  141,  142,  143,  144
     );
 
-    protected $yyaction = array(
+    protected $action = array(
            59,   60,  410,   61,   62,-32766,-32766,-32766,-32766,   63,
            64,  215,  216,  217,  218,  219,  220,  221,  222,  223,
           224,  225,  226,  227,  228,  229,  230,  231,  232,  233,
@@ -467,7 +467,7 @@ class Parser extends ParserAbstract
           899
     );
 
-    protected $yycheck = array(
+    protected $actionCheck = array(
             2,    3,    4,    5,    6,   28,   29,   30,   31,   11,
            12,   28,   29,   30,   31,   32,   33,   34,   35,   36,
            37,   38,   39,   40,   41,   42,   43,   44,   45,   46,
@@ -580,7 +580,7 @@ class Parser extends ParserAbstract
           152
     );
 
-    protected $yybase = array(
+    protected $actionBase = array(
             0,  763,  746,  780,  838,  851,  899,   -1,  929,  834,
           821,  230,  224,  925,  868,  881,  956,  956,  956,  956,
           956,  468,  445,  434,  524,  434,  482,   -2,   -2,   -2,
@@ -686,7 +686,7 @@ class Parser extends ParserAbstract
             0,    0,  245,    0,    0,  197
     );
 
-    protected $yydefault = array(
+    protected $actionDefault = array(
             3,32767,32767,    1,32767,32767,32767,32767,32767,32767,
         32767,32767,32767,32767,32767,32767,  111,  103,  117,  102,
           113,32767,32767,32767,32767,32767,32767,32767,32767,32767,
@@ -752,7 +752,7 @@ class Parser extends ParserAbstract
           156,   28,   28,   28,   28,   28
     );
 
-    protected $yygoto = array(
+    protected $goto = array(
           168,  168,  138,  138,  143,  138,  139,  140,  141,  146,
           148,  186,  170,  166,  166,  166,  166,  143,  143,  167,
           167,  167,  167,  167,  167,  167,  167,  167,  167,  162,
@@ -812,7 +812,7 @@ class Parser extends ParserAbstract
           500,    0,    0,    0,    0,    0,    0,    0,    0,  523
     );
 
-    protected $yygcheck = array(
+    protected $gotoCheck = array(
            25,   25,   25,   25,   25,   25,   25,   25,   25,   25,
            25,   25,   25,   25,   25,   25,   25,   25,   25,   25,
            25,   25,   25,   25,   25,   25,   25,   25,   25,   25,
@@ -872,7 +872,7 @@ class Parser extends ParserAbstract
             4,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,    4
     );
 
-    protected $yygbase = array(
+    protected $gotoBase = array(
             0,    0, -361,    0,  145,  -99,  458,  119,  195,  -11,
           -53,    1,  -26,  216, -301,    0,   88,    0,    0,    0,
             0,    0,  202,    0,    0,  -30,  370,    0,    0,  196,
@@ -887,7 +887,7 @@ class Parser extends ParserAbstract
             0,    0,    0,   31,    0,  173, -117,    0
     );
 
-    protected $yygdefault = array(
+    protected $gotoDefault = array(
         -32768,  446,    3,  628,  463,  497,  655,  656,  657,  366,
           365,  645,  651,  156,    4,  653,  866,  352,  660,  353,
           563,  662,  509,  664,  665,  136,  464,  367,  368,  510,
@@ -902,7 +902,7 @@ class Parser extends ParserAbstract
           472,  361,  378, 1039,  421, 1046, 1053,  544
     );
 
-    protected $yylhs = array(
+    protected $ruleToNonTerminal = array(
             0,    1,    2,    2,    4,    4,    5,    3,    3,    3,
             3,    3,    3,    3,    3,    3,    3,    3,    9,    9,
            11,   11,   11,   11,   10,   10,   12,   14,   14,   15,
@@ -949,7 +949,7 @@ class Parser extends ParserAbstract
           116,  116,  116,  116,  116,  116,  117,  117,  117
     );
 
-    protected $yylen = array(
+    protected $ruleToLength = array(
             1,    1,    2,    0,    1,    3,    1,    1,    1,    1,
             1,    3,    5,    4,    3,    4,    4,    3,    3,    1,
             1,    3,    2,    4,    3,    1,    3,    2,    0,    1,
@@ -996,1161 +996,1161 @@ class Parser extends ParserAbstract
             4,    3,    3,    3,    6,    3,    1,    1,    1
     );
 
-    protected function yyn0() {
-        $this->yyval = $this->yyastk[$this->stackPos];
+    protected function reduceRule0() {
+        $this->semValue = $this->semStack[$this->stackPos];
     }
 
-    protected function yyn1($attributes) {
-         $this->yyval = Node\Stmt\Namespace_::postprocess($this->yyastk[$this->stackPos-(1-1)]); 
+    protected function reduceRule1($attributes) {
+         $this->semValue = Node\Stmt\Namespace_::postprocess($this->semStack[$this->stackPos-(1-1)]); 
     }
 
-    protected function yyn2($attributes) {
-         if (is_array($this->yyastk[$this->stackPos-(2-2)])) { $this->yyval = array_merge($this->yyastk[$this->stackPos-(2-1)], $this->yyastk[$this->stackPos-(2-2)]); } else { $this->yyastk[$this->stackPos-(2-1)][] = $this->yyastk[$this->stackPos-(2-2)]; $this->yyval = $this->yyastk[$this->stackPos-(2-1)]; }; 
+    protected function reduceRule2($attributes) {
+         if (is_array($this->semStack[$this->stackPos-(2-2)])) { $this->semValue = array_merge($this->semStack[$this->stackPos-(2-1)], $this->semStack[$this->stackPos-(2-2)]); } else { $this->semStack[$this->stackPos-(2-1)][] = $this->semStack[$this->stackPos-(2-2)]; $this->semValue = $this->semStack[$this->stackPos-(2-1)]; }; 
     }
 
-    protected function yyn3($attributes) {
-         $this->yyval = array(); 
+    protected function reduceRule3($attributes) {
+         $this->semValue = array(); 
     }
 
-    protected function yyn4($attributes) {
-         $this->yyval = array($this->yyastk[$this->stackPos-(1-1)]); 
+    protected function reduceRule4($attributes) {
+         $this->semValue = array($this->semStack[$this->stackPos-(1-1)]); 
     }
 
-    protected function yyn5($attributes) {
-         $this->yyastk[$this->stackPos-(3-1)][] = $this->yyastk[$this->stackPos-(3-3)]; $this->yyval = $this->yyastk[$this->stackPos-(3-1)]; 
+    protected function reduceRule5($attributes) {
+         $this->semStack[$this->stackPos-(3-1)][] = $this->semStack[$this->stackPos-(3-3)]; $this->semValue = $this->semStack[$this->stackPos-(3-1)]; 
     }
 
-    protected function yyn6($attributes) {
-         $this->yyval = new Node\Name($this->yyastk[$this->stackPos-(1-1)], $attributes); 
+    protected function reduceRule6($attributes) {
+         $this->semValue = new Node\Name($this->semStack[$this->stackPos-(1-1)], $attributes); 
     }
 
-    protected function yyn7($attributes) {
-         $this->yyval = $this->yyastk[$this->stackPos-(1-1)]; 
+    protected function reduceRule7($attributes) {
+         $this->semValue = $this->semStack[$this->stackPos-(1-1)]; 
     }
 
-    protected function yyn8($attributes) {
-         $this->yyval = $this->yyastk[$this->stackPos-(1-1)]; 
+    protected function reduceRule8($attributes) {
+         $this->semValue = $this->semStack[$this->stackPos-(1-1)]; 
     }
 
-    protected function yyn9($attributes) {
-         $this->yyval = $this->yyastk[$this->stackPos-(1-1)]; 
+    protected function reduceRule9($attributes) {
+         $this->semValue = $this->semStack[$this->stackPos-(1-1)]; 
     }
 
-    protected function yyn10($attributes) {
-         $this->yyval = new Node\Stmt\HaltCompiler($this->lexer->handleHaltCompiler(), $attributes); 
+    protected function reduceRule10($attributes) {
+         $this->semValue = new Node\Stmt\HaltCompiler($this->lexer->handleHaltCompiler(), $attributes); 
     }
 
-    protected function yyn11($attributes) {
-         $this->yyval = new Node\Stmt\Namespace_($this->yyastk[$this->stackPos-(3-2)], null, $attributes); 
+    protected function reduceRule11($attributes) {
+         $this->semValue = new Node\Stmt\Namespace_($this->semStack[$this->stackPos-(3-2)], null, $attributes); 
     }
 
-    protected function yyn12($attributes) {
-         $this->yyval = new Node\Stmt\Namespace_($this->yyastk[$this->stackPos-(5-2)], $this->yyastk[$this->stackPos-(5-4)], $attributes); 
+    protected function reduceRule12($attributes) {
+         $this->semValue = new Node\Stmt\Namespace_($this->semStack[$this->stackPos-(5-2)], $this->semStack[$this->stackPos-(5-4)], $attributes); 
     }
 
-    protected function yyn13($attributes) {
-         $this->yyval = new Node\Stmt\Namespace_(null, $this->yyastk[$this->stackPos-(4-3)], $attributes); 
+    protected function reduceRule13($attributes) {
+         $this->semValue = new Node\Stmt\Namespace_(null, $this->semStack[$this->stackPos-(4-3)], $attributes); 
     }
 
-    protected function yyn14($attributes) {
-         $this->yyval = new Node\Stmt\Use_($this->yyastk[$this->stackPos-(3-2)], Node\Stmt\Use_::TYPE_NORMAL, $attributes); 
+    protected function reduceRule14($attributes) {
+         $this->semValue = new Node\Stmt\Use_($this->semStack[$this->stackPos-(3-2)], Node\Stmt\Use_::TYPE_NORMAL, $attributes); 
     }
 
-    protected function yyn15($attributes) {
-         $this->yyval = new Node\Stmt\Use_($this->yyastk[$this->stackPos-(4-3)], Node\Stmt\Use_::TYPE_FUNCTION, $attributes); 
+    protected function reduceRule15($attributes) {
+         $this->semValue = new Node\Stmt\Use_($this->semStack[$this->stackPos-(4-3)], Node\Stmt\Use_::TYPE_FUNCTION, $attributes); 
     }
 
-    protected function yyn16($attributes) {
-         $this->yyval = new Node\Stmt\Use_($this->yyastk[$this->stackPos-(4-3)], Node\Stmt\Use_::TYPE_CONSTANT, $attributes); 
+    protected function reduceRule16($attributes) {
+         $this->semValue = new Node\Stmt\Use_($this->semStack[$this->stackPos-(4-3)], Node\Stmt\Use_::TYPE_CONSTANT, $attributes); 
     }
 
-    protected function yyn17($attributes) {
-         $this->yyval = new Node\Stmt\Const_($this->yyastk[$this->stackPos-(3-2)], $attributes); 
+    protected function reduceRule17($attributes) {
+         $this->semValue = new Node\Stmt\Const_($this->semStack[$this->stackPos-(3-2)], $attributes); 
     }
 
-    protected function yyn18($attributes) {
-         $this->yyastk[$this->stackPos-(3-1)][] = $this->yyastk[$this->stackPos-(3-3)]; $this->yyval = $this->yyastk[$this->stackPos-(3-1)]; 
+    protected function reduceRule18($attributes) {
+         $this->semStack[$this->stackPos-(3-1)][] = $this->semStack[$this->stackPos-(3-3)]; $this->semValue = $this->semStack[$this->stackPos-(3-1)]; 
     }
 
-    protected function yyn19($attributes) {
-         $this->yyval = array($this->yyastk[$this->stackPos-(1-1)]); 
+    protected function reduceRule19($attributes) {
+         $this->semValue = array($this->semStack[$this->stackPos-(1-1)]); 
     }
 
-    protected function yyn20($attributes) {
-         $this->yyval = new Node\Stmt\UseUse($this->yyastk[$this->stackPos-(1-1)], null, $attributes); 
+    protected function reduceRule20($attributes) {
+         $this->semValue = new Node\Stmt\UseUse($this->semStack[$this->stackPos-(1-1)], null, $attributes); 
     }
 
-    protected function yyn21($attributes) {
-         $this->yyval = new Node\Stmt\UseUse($this->yyastk[$this->stackPos-(3-1)], $this->yyastk[$this->stackPos-(3-3)], $attributes); 
+    protected function reduceRule21($attributes) {
+         $this->semValue = new Node\Stmt\UseUse($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
-    protected function yyn22($attributes) {
-         $this->yyval = new Node\Stmt\UseUse($this->yyastk[$this->stackPos-(2-2)], null, $attributes); 
+    protected function reduceRule22($attributes) {
+         $this->semValue = new Node\Stmt\UseUse($this->semStack[$this->stackPos-(2-2)], null, $attributes); 
     }
 
-    protected function yyn23($attributes) {
-         $this->yyval = new Node\Stmt\UseUse($this->yyastk[$this->stackPos-(4-2)], $this->yyastk[$this->stackPos-(4-4)], $attributes); 
+    protected function reduceRule23($attributes) {
+         $this->semValue = new Node\Stmt\UseUse($this->semStack[$this->stackPos-(4-2)], $this->semStack[$this->stackPos-(4-4)], $attributes); 
     }
 
-    protected function yyn24($attributes) {
-         $this->yyastk[$this->stackPos-(3-1)][] = $this->yyastk[$this->stackPos-(3-3)]; $this->yyval = $this->yyastk[$this->stackPos-(3-1)]; 
+    protected function reduceRule24($attributes) {
+         $this->semStack[$this->stackPos-(3-1)][] = $this->semStack[$this->stackPos-(3-3)]; $this->semValue = $this->semStack[$this->stackPos-(3-1)]; 
     }
 
-    protected function yyn25($attributes) {
-         $this->yyval = array($this->yyastk[$this->stackPos-(1-1)]); 
+    protected function reduceRule25($attributes) {
+         $this->semValue = array($this->semStack[$this->stackPos-(1-1)]); 
     }
 
-    protected function yyn26($attributes) {
-         $this->yyval = new Node\Const_($this->yyastk[$this->stackPos-(3-1)], $this->yyastk[$this->stackPos-(3-3)], $attributes); 
+    protected function reduceRule26($attributes) {
+         $this->semValue = new Node\Const_($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
-    protected function yyn27($attributes) {
-         if (is_array($this->yyastk[$this->stackPos-(2-2)])) { $this->yyval = array_merge($this->yyastk[$this->stackPos-(2-1)], $this->yyastk[$this->stackPos-(2-2)]); } else { $this->yyastk[$this->stackPos-(2-1)][] = $this->yyastk[$this->stackPos-(2-2)]; $this->yyval = $this->yyastk[$this->stackPos-(2-1)]; }; 
+    protected function reduceRule27($attributes) {
+         if (is_array($this->semStack[$this->stackPos-(2-2)])) { $this->semValue = array_merge($this->semStack[$this->stackPos-(2-1)], $this->semStack[$this->stackPos-(2-2)]); } else { $this->semStack[$this->stackPos-(2-1)][] = $this->semStack[$this->stackPos-(2-2)]; $this->semValue = $this->semStack[$this->stackPos-(2-1)]; }; 
     }
 
-    protected function yyn28($attributes) {
-         $this->yyval = array(); 
+    protected function reduceRule28($attributes) {
+         $this->semValue = array(); 
     }
 
-    protected function yyn29($attributes) {
-         $this->yyval = $this->yyastk[$this->stackPos-(1-1)]; 
+    protected function reduceRule29($attributes) {
+         $this->semValue = $this->semStack[$this->stackPos-(1-1)]; 
     }
 
-    protected function yyn30($attributes) {
-         $this->yyval = $this->yyastk[$this->stackPos-(1-1)]; 
+    protected function reduceRule30($attributes) {
+         $this->semValue = $this->semStack[$this->stackPos-(1-1)]; 
     }
 
-    protected function yyn31($attributes) {
-         $this->yyval = $this->yyastk[$this->stackPos-(1-1)]; 
+    protected function reduceRule31($attributes) {
+         $this->semValue = $this->semStack[$this->stackPos-(1-1)]; 
     }
 
-    protected function yyn32($attributes) {
+    protected function reduceRule32($attributes) {
          throw new Error('__HALT_COMPILER() can only be used from the outermost scope'); 
     }
 
-    protected function yyn33($attributes) {
-         $this->yyval = $this->yyastk[$this->stackPos-(3-2)]; 
+    protected function reduceRule33($attributes) {
+         $this->semValue = $this->semStack[$this->stackPos-(3-2)]; 
     }
 
-    protected function yyn34($attributes) {
-         $this->yyval = new Node\Stmt\If_($this->yyastk[$this->stackPos-(5-2)], array('stmts' => is_array($this->yyastk[$this->stackPos-(5-3)]) ? $this->yyastk[$this->stackPos-(5-3)] : array($this->yyastk[$this->stackPos-(5-3)]), 'elseifs' => $this->yyastk[$this->stackPos-(5-4)], 'else' => $this->yyastk[$this->stackPos-(5-5)]), $attributes); 
+    protected function reduceRule34($attributes) {
+         $this->semValue = new Node\Stmt\If_($this->semStack[$this->stackPos-(5-2)], array('stmts' => is_array($this->semStack[$this->stackPos-(5-3)]) ? $this->semStack[$this->stackPos-(5-3)] : array($this->semStack[$this->stackPos-(5-3)]), 'elseifs' => $this->semStack[$this->stackPos-(5-4)], 'else' => $this->semStack[$this->stackPos-(5-5)]), $attributes); 
     }
 
-    protected function yyn35($attributes) {
-         $this->yyval = new Node\Stmt\If_($this->yyastk[$this->stackPos-(8-2)], array('stmts' => $this->yyastk[$this->stackPos-(8-4)], 'elseifs' => $this->yyastk[$this->stackPos-(8-5)], 'else' => $this->yyastk[$this->stackPos-(8-6)]), $attributes); 
+    protected function reduceRule35($attributes) {
+         $this->semValue = new Node\Stmt\If_($this->semStack[$this->stackPos-(8-2)], array('stmts' => $this->semStack[$this->stackPos-(8-4)], 'elseifs' => $this->semStack[$this->stackPos-(8-5)], 'else' => $this->semStack[$this->stackPos-(8-6)]), $attributes); 
     }
 
-    protected function yyn36($attributes) {
-         $this->yyval = new Node\Stmt\While_($this->yyastk[$this->stackPos-(3-2)], $this->yyastk[$this->stackPos-(3-3)], $attributes); 
+    protected function reduceRule36($attributes) {
+         $this->semValue = new Node\Stmt\While_($this->semStack[$this->stackPos-(3-2)], $this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
-    protected function yyn37($attributes) {
-         $this->yyval = new Node\Stmt\Do_($this->yyastk[$this->stackPos-(5-4)], is_array($this->yyastk[$this->stackPos-(5-2)]) ? $this->yyastk[$this->stackPos-(5-2)] : array($this->yyastk[$this->stackPos-(5-2)]), $attributes); 
+    protected function reduceRule37($attributes) {
+         $this->semValue = new Node\Stmt\Do_($this->semStack[$this->stackPos-(5-4)], is_array($this->semStack[$this->stackPos-(5-2)]) ? $this->semStack[$this->stackPos-(5-2)] : array($this->semStack[$this->stackPos-(5-2)]), $attributes); 
     }
 
-    protected function yyn38($attributes) {
-         $this->yyval = new Node\Stmt\For_(array('init' => $this->yyastk[$this->stackPos-(9-3)], 'cond' => $this->yyastk[$this->stackPos-(9-5)], 'loop' => $this->yyastk[$this->stackPos-(9-7)], 'stmts' => $this->yyastk[$this->stackPos-(9-9)]), $attributes); 
+    protected function reduceRule38($attributes) {
+         $this->semValue = new Node\Stmt\For_(array('init' => $this->semStack[$this->stackPos-(9-3)], 'cond' => $this->semStack[$this->stackPos-(9-5)], 'loop' => $this->semStack[$this->stackPos-(9-7)], 'stmts' => $this->semStack[$this->stackPos-(9-9)]), $attributes); 
     }
 
-    protected function yyn39($attributes) {
-         $this->yyval = new Node\Stmt\Switch_($this->yyastk[$this->stackPos-(3-2)], $this->yyastk[$this->stackPos-(3-3)], $attributes); 
+    protected function reduceRule39($attributes) {
+         $this->semValue = new Node\Stmt\Switch_($this->semStack[$this->stackPos-(3-2)], $this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
-    protected function yyn40($attributes) {
-         $this->yyval = new Node\Stmt\Break_(null, $attributes); 
+    protected function reduceRule40($attributes) {
+         $this->semValue = new Node\Stmt\Break_(null, $attributes); 
     }
 
-    protected function yyn41($attributes) {
-         $this->yyval = new Node\Stmt\Break_($this->yyastk[$this->stackPos-(3-2)], $attributes); 
+    protected function reduceRule41($attributes) {
+         $this->semValue = new Node\Stmt\Break_($this->semStack[$this->stackPos-(3-2)], $attributes); 
     }
 
-    protected function yyn42($attributes) {
-         $this->yyval = new Node\Stmt\Continue_(null, $attributes); 
+    protected function reduceRule42($attributes) {
+         $this->semValue = new Node\Stmt\Continue_(null, $attributes); 
     }
 
-    protected function yyn43($attributes) {
-         $this->yyval = new Node\Stmt\Continue_($this->yyastk[$this->stackPos-(3-2)], $attributes); 
+    protected function reduceRule43($attributes) {
+         $this->semValue = new Node\Stmt\Continue_($this->semStack[$this->stackPos-(3-2)], $attributes); 
     }
 
-    protected function yyn44($attributes) {
-         $this->yyval = new Node\Stmt\Return_(null, $attributes); 
+    protected function reduceRule44($attributes) {
+         $this->semValue = new Node\Stmt\Return_(null, $attributes); 
     }
 
-    protected function yyn45($attributes) {
-         $this->yyval = new Node\Stmt\Return_($this->yyastk[$this->stackPos-(3-2)], $attributes); 
+    protected function reduceRule45($attributes) {
+         $this->semValue = new Node\Stmt\Return_($this->semStack[$this->stackPos-(3-2)], $attributes); 
     }
 
-    protected function yyn46($attributes) {
-         $this->yyval = $this->yyastk[$this->stackPos-(2-1)]; 
+    protected function reduceRule46($attributes) {
+         $this->semValue = $this->semStack[$this->stackPos-(2-1)]; 
     }
 
-    protected function yyn47($attributes) {
-         $this->yyval = new Node\Stmt\Global_($this->yyastk[$this->stackPos-(3-2)], $attributes); 
+    protected function reduceRule47($attributes) {
+         $this->semValue = new Node\Stmt\Global_($this->semStack[$this->stackPos-(3-2)], $attributes); 
     }
 
-    protected function yyn48($attributes) {
-         $this->yyval = new Node\Stmt\Static_($this->yyastk[$this->stackPos-(3-2)], $attributes); 
+    protected function reduceRule48($attributes) {
+         $this->semValue = new Node\Stmt\Static_($this->semStack[$this->stackPos-(3-2)], $attributes); 
     }
 
-    protected function yyn49($attributes) {
-         $this->yyval = new Node\Stmt\Echo_($this->yyastk[$this->stackPos-(3-2)], $attributes); 
+    protected function reduceRule49($attributes) {
+         $this->semValue = new Node\Stmt\Echo_($this->semStack[$this->stackPos-(3-2)], $attributes); 
     }
 
-    protected function yyn50($attributes) {
-         $this->yyval = new Node\Stmt\InlineHTML($this->yyastk[$this->stackPos-(1-1)], $attributes); 
+    protected function reduceRule50($attributes) {
+         $this->semValue = new Node\Stmt\InlineHTML($this->semStack[$this->stackPos-(1-1)], $attributes); 
     }
 
-    protected function yyn51($attributes) {
-         $this->yyval = $this->yyastk[$this->stackPos-(2-1)]; 
+    protected function reduceRule51($attributes) {
+         $this->semValue = $this->semStack[$this->stackPos-(2-1)]; 
     }
 
-    protected function yyn52($attributes) {
-         $this->yyval = new Node\Stmt\Unset_($this->yyastk[$this->stackPos-(5-3)], $attributes); 
+    protected function reduceRule52($attributes) {
+         $this->semValue = new Node\Stmt\Unset_($this->semStack[$this->stackPos-(5-3)], $attributes); 
     }
 
-    protected function yyn53($attributes) {
-         $this->yyval = new Node\Stmt\Foreach_($this->yyastk[$this->stackPos-(7-3)], $this->yyastk[$this->stackPos-(7-5)][0], array('keyVar' => null, 'byRef' => $this->yyastk[$this->stackPos-(7-5)][1], 'stmts' => $this->yyastk[$this->stackPos-(7-7)]), $attributes); 
+    protected function reduceRule53($attributes) {
+         $this->semValue = new Node\Stmt\Foreach_($this->semStack[$this->stackPos-(7-3)], $this->semStack[$this->stackPos-(7-5)][0], array('keyVar' => null, 'byRef' => $this->semStack[$this->stackPos-(7-5)][1], 'stmts' => $this->semStack[$this->stackPos-(7-7)]), $attributes); 
     }
 
-    protected function yyn54($attributes) {
-         $this->yyval = new Node\Stmt\Foreach_($this->yyastk[$this->stackPos-(9-3)], $this->yyastk[$this->stackPos-(9-7)][0], array('keyVar' => $this->yyastk[$this->stackPos-(9-5)], 'byRef' => $this->yyastk[$this->stackPos-(9-7)][1], 'stmts' => $this->yyastk[$this->stackPos-(9-9)]), $attributes); 
+    protected function reduceRule54($attributes) {
+         $this->semValue = new Node\Stmt\Foreach_($this->semStack[$this->stackPos-(9-3)], $this->semStack[$this->stackPos-(9-7)][0], array('keyVar' => $this->semStack[$this->stackPos-(9-5)], 'byRef' => $this->semStack[$this->stackPos-(9-7)][1], 'stmts' => $this->semStack[$this->stackPos-(9-9)]), $attributes); 
     }
 
-    protected function yyn55($attributes) {
-         $this->yyval = new Node\Stmt\Declare_($this->yyastk[$this->stackPos-(5-3)], $this->yyastk[$this->stackPos-(5-5)], $attributes); 
+    protected function reduceRule55($attributes) {
+         $this->semValue = new Node\Stmt\Declare_($this->semStack[$this->stackPos-(5-3)], $this->semStack[$this->stackPos-(5-5)], $attributes); 
     }
 
-    protected function yyn56($attributes) {
-         $this->yyval = array(); /* means: no statement */ 
+    protected function reduceRule56($attributes) {
+         $this->semValue = array(); /* means: no statement */ 
     }
 
-    protected function yyn57($attributes) {
-         $this->yyval = new Node\Stmt\TryCatch($this->yyastk[$this->stackPos-(6-3)], $this->yyastk[$this->stackPos-(6-5)], $this->yyastk[$this->stackPos-(6-6)], $attributes); 
+    protected function reduceRule57($attributes) {
+         $this->semValue = new Node\Stmt\TryCatch($this->semStack[$this->stackPos-(6-3)], $this->semStack[$this->stackPos-(6-5)], $this->semStack[$this->stackPos-(6-6)], $attributes); 
     }
 
-    protected function yyn58($attributes) {
-         $this->yyval = new Node\Stmt\Throw_($this->yyastk[$this->stackPos-(3-2)], $attributes); 
+    protected function reduceRule58($attributes) {
+         $this->semValue = new Node\Stmt\Throw_($this->semStack[$this->stackPos-(3-2)], $attributes); 
     }
 
-    protected function yyn59($attributes) {
-         $this->yyval = new Node\Stmt\Goto_($this->yyastk[$this->stackPos-(3-2)], $attributes); 
+    protected function reduceRule59($attributes) {
+         $this->semValue = new Node\Stmt\Goto_($this->semStack[$this->stackPos-(3-2)], $attributes); 
     }
 
-    protected function yyn60($attributes) {
-         $this->yyval = new Node\Stmt\Label($this->yyastk[$this->stackPos-(2-1)], $attributes); 
+    protected function reduceRule60($attributes) {
+         $this->semValue = new Node\Stmt\Label($this->semStack[$this->stackPos-(2-1)], $attributes); 
     }
 
-    protected function yyn61($attributes) {
-         $this->yyval = array(); 
+    protected function reduceRule61($attributes) {
+         $this->semValue = array(); 
     }
 
-    protected function yyn62($attributes) {
-         $this->yyastk[$this->stackPos-(2-1)][] = $this->yyastk[$this->stackPos-(2-2)]; $this->yyval = $this->yyastk[$this->stackPos-(2-1)]; 
+    protected function reduceRule62($attributes) {
+         $this->semStack[$this->stackPos-(2-1)][] = $this->semStack[$this->stackPos-(2-2)]; $this->semValue = $this->semStack[$this->stackPos-(2-1)]; 
     }
 
-    protected function yyn63($attributes) {
-         $this->yyval = new Node\Stmt\Catch_($this->yyastk[$this->stackPos-(8-3)], substr($this->yyastk[$this->stackPos-(8-4)], 1), $this->yyastk[$this->stackPos-(8-7)], $attributes); 
+    protected function reduceRule63($attributes) {
+         $this->semValue = new Node\Stmt\Catch_($this->semStack[$this->stackPos-(8-3)], substr($this->semStack[$this->stackPos-(8-4)], 1), $this->semStack[$this->stackPos-(8-7)], $attributes); 
     }
 
-    protected function yyn64($attributes) {
-         $this->yyval = null; 
+    protected function reduceRule64($attributes) {
+         $this->semValue = null; 
     }
 
-    protected function yyn65($attributes) {
-         $this->yyval = $this->yyastk[$this->stackPos-(4-3)]; 
+    protected function reduceRule65($attributes) {
+         $this->semValue = $this->semStack[$this->stackPos-(4-3)]; 
     }
 
-    protected function yyn66($attributes) {
-         $this->yyval = array($this->yyastk[$this->stackPos-(1-1)]); 
+    protected function reduceRule66($attributes) {
+         $this->semValue = array($this->semStack[$this->stackPos-(1-1)]); 
     }
 
-    protected function yyn67($attributes) {
-         $this->yyastk[$this->stackPos-(3-1)][] = $this->yyastk[$this->stackPos-(3-3)]; $this->yyval = $this->yyastk[$this->stackPos-(3-1)]; 
+    protected function reduceRule67($attributes) {
+         $this->semStack[$this->stackPos-(3-1)][] = $this->semStack[$this->stackPos-(3-3)]; $this->semValue = $this->semStack[$this->stackPos-(3-1)]; 
     }
 
-    protected function yyn68($attributes) {
-         $this->yyval = false; 
+    protected function reduceRule68($attributes) {
+         $this->semValue = false; 
     }
 
-    protected function yyn69($attributes) {
-         $this->yyval = true; 
+    protected function reduceRule69($attributes) {
+         $this->semValue = true; 
     }
 
-    protected function yyn70($attributes) {
-         $this->yyval = false; 
+    protected function reduceRule70($attributes) {
+         $this->semValue = false; 
     }
 
-    protected function yyn71($attributes) {
-         $this->yyval = true; 
+    protected function reduceRule71($attributes) {
+         $this->semValue = true; 
     }
 
-    protected function yyn72($attributes) {
-         $this->yyval = new Node\Stmt\Function_($this->yyastk[$this->stackPos-(9-3)], array('byRef' => $this->yyastk[$this->stackPos-(9-2)], 'params' => $this->yyastk[$this->stackPos-(9-5)], 'stmts' => $this->yyastk[$this->stackPos-(9-8)]), $attributes); 
+    protected function reduceRule72($attributes) {
+         $this->semValue = new Node\Stmt\Function_($this->semStack[$this->stackPos-(9-3)], array('byRef' => $this->semStack[$this->stackPos-(9-2)], 'params' => $this->semStack[$this->stackPos-(9-5)], 'stmts' => $this->semStack[$this->stackPos-(9-8)]), $attributes); 
     }
 
-    protected function yyn73($attributes) {
-         $this->yyval = new Node\Stmt\Class_($this->yyastk[$this->stackPos-(7-2)], array('type' => $this->yyastk[$this->stackPos-(7-1)], 'extends' => $this->yyastk[$this->stackPos-(7-3)], 'implements' => $this->yyastk[$this->stackPos-(7-4)], 'stmts' => $this->yyastk[$this->stackPos-(7-6)]), $attributes); 
+    protected function reduceRule73($attributes) {
+         $this->semValue = new Node\Stmt\Class_($this->semStack[$this->stackPos-(7-2)], array('type' => $this->semStack[$this->stackPos-(7-1)], 'extends' => $this->semStack[$this->stackPos-(7-3)], 'implements' => $this->semStack[$this->stackPos-(7-4)], 'stmts' => $this->semStack[$this->stackPos-(7-6)]), $attributes); 
     }
 
-    protected function yyn74($attributes) {
-         $this->yyval = new Node\Stmt\Interface_($this->yyastk[$this->stackPos-(6-2)], array('extends' => $this->yyastk[$this->stackPos-(6-3)], 'stmts' => $this->yyastk[$this->stackPos-(6-5)]), $attributes); 
+    protected function reduceRule74($attributes) {
+         $this->semValue = new Node\Stmt\Interface_($this->semStack[$this->stackPos-(6-2)], array('extends' => $this->semStack[$this->stackPos-(6-3)], 'stmts' => $this->semStack[$this->stackPos-(6-5)]), $attributes); 
     }
 
-    protected function yyn75($attributes) {
-         $this->yyval = new Node\Stmt\Trait_($this->yyastk[$this->stackPos-(5-2)], $this->yyastk[$this->stackPos-(5-4)], $attributes); 
+    protected function reduceRule75($attributes) {
+         $this->semValue = new Node\Stmt\Trait_($this->semStack[$this->stackPos-(5-2)], $this->semStack[$this->stackPos-(5-4)], $attributes); 
     }
 
-    protected function yyn76($attributes) {
-         $this->yyval = 0; 
+    protected function reduceRule76($attributes) {
+         $this->semValue = 0; 
     }
 
-    protected function yyn77($attributes) {
-         $this->yyval = Node\Stmt\Class_::MODIFIER_ABSTRACT; 
+    protected function reduceRule77($attributes) {
+         $this->semValue = Node\Stmt\Class_::MODIFIER_ABSTRACT; 
     }
 
-    protected function yyn78($attributes) {
-         $this->yyval = Node\Stmt\Class_::MODIFIER_FINAL; 
+    protected function reduceRule78($attributes) {
+         $this->semValue = Node\Stmt\Class_::MODIFIER_FINAL; 
     }
 
-    protected function yyn79($attributes) {
-         $this->yyval = null; 
+    protected function reduceRule79($attributes) {
+         $this->semValue = null; 
     }
 
-    protected function yyn80($attributes) {
-         $this->yyval = $this->yyastk[$this->stackPos-(2-2)]; 
+    protected function reduceRule80($attributes) {
+         $this->semValue = $this->semStack[$this->stackPos-(2-2)]; 
     }
 
-    protected function yyn81($attributes) {
-         $this->yyval = array(); 
+    protected function reduceRule81($attributes) {
+         $this->semValue = array(); 
     }
 
-    protected function yyn82($attributes) {
-         $this->yyval = $this->yyastk[$this->stackPos-(2-2)]; 
+    protected function reduceRule82($attributes) {
+         $this->semValue = $this->semStack[$this->stackPos-(2-2)]; 
     }
 
-    protected function yyn83($attributes) {
-         $this->yyval = array(); 
+    protected function reduceRule83($attributes) {
+         $this->semValue = array(); 
     }
 
-    protected function yyn84($attributes) {
-         $this->yyval = $this->yyastk[$this->stackPos-(2-2)]; 
+    protected function reduceRule84($attributes) {
+         $this->semValue = $this->semStack[$this->stackPos-(2-2)]; 
     }
 
-    protected function yyn85($attributes) {
-         $this->yyval = array($this->yyastk[$this->stackPos-(1-1)]); 
+    protected function reduceRule85($attributes) {
+         $this->semValue = array($this->semStack[$this->stackPos-(1-1)]); 
     }
 
-    protected function yyn86($attributes) {
-         $this->yyastk[$this->stackPos-(3-1)][] = $this->yyastk[$this->stackPos-(3-3)]; $this->yyval = $this->yyastk[$this->stackPos-(3-1)]; 
+    protected function reduceRule86($attributes) {
+         $this->semStack[$this->stackPos-(3-1)][] = $this->semStack[$this->stackPos-(3-3)]; $this->semValue = $this->semStack[$this->stackPos-(3-1)]; 
     }
 
-    protected function yyn87($attributes) {
-         $this->yyval = is_array($this->yyastk[$this->stackPos-(1-1)]) ? $this->yyastk[$this->stackPos-(1-1)] : array($this->yyastk[$this->stackPos-(1-1)]); 
+    protected function reduceRule87($attributes) {
+         $this->semValue = is_array($this->semStack[$this->stackPos-(1-1)]) ? $this->semStack[$this->stackPos-(1-1)] : array($this->semStack[$this->stackPos-(1-1)]); 
     }
 
-    protected function yyn88($attributes) {
-         $this->yyval = $this->yyastk[$this->stackPos-(4-2)]; 
+    protected function reduceRule88($attributes) {
+         $this->semValue = $this->semStack[$this->stackPos-(4-2)]; 
     }
 
-    protected function yyn89($attributes) {
-         $this->yyval = is_array($this->yyastk[$this->stackPos-(1-1)]) ? $this->yyastk[$this->stackPos-(1-1)] : array($this->yyastk[$this->stackPos-(1-1)]); 
+    protected function reduceRule89($attributes) {
+         $this->semValue = is_array($this->semStack[$this->stackPos-(1-1)]) ? $this->semStack[$this->stackPos-(1-1)] : array($this->semStack[$this->stackPos-(1-1)]); 
     }
 
-    protected function yyn90($attributes) {
-         $this->yyval = $this->yyastk[$this->stackPos-(4-2)]; 
+    protected function reduceRule90($attributes) {
+         $this->semValue = $this->semStack[$this->stackPos-(4-2)]; 
     }
 
-    protected function yyn91($attributes) {
-         $this->yyval = is_array($this->yyastk[$this->stackPos-(1-1)]) ? $this->yyastk[$this->stackPos-(1-1)] : array($this->yyastk[$this->stackPos-(1-1)]); 
+    protected function reduceRule91($attributes) {
+         $this->semValue = is_array($this->semStack[$this->stackPos-(1-1)]) ? $this->semStack[$this->stackPos-(1-1)] : array($this->semStack[$this->stackPos-(1-1)]); 
     }
 
-    protected function yyn92($attributes) {
-         $this->yyval = $this->yyastk[$this->stackPos-(4-2)]; 
+    protected function reduceRule92($attributes) {
+         $this->semValue = $this->semStack[$this->stackPos-(4-2)]; 
     }
 
-    protected function yyn93($attributes) {
-         $this->yyval = array($this->yyastk[$this->stackPos-(1-1)]); 
+    protected function reduceRule93($attributes) {
+         $this->semValue = array($this->semStack[$this->stackPos-(1-1)]); 
     }
 
-    protected function yyn94($attributes) {
-         $this->yyastk[$this->stackPos-(3-1)][] = $this->yyastk[$this->stackPos-(3-3)]; $this->yyval = $this->yyastk[$this->stackPos-(3-1)]; 
+    protected function reduceRule94($attributes) {
+         $this->semStack[$this->stackPos-(3-1)][] = $this->semStack[$this->stackPos-(3-3)]; $this->semValue = $this->semStack[$this->stackPos-(3-1)]; 
     }
 
-    protected function yyn95($attributes) {
-         $this->yyval = new Node\Stmt\DeclareDeclare($this->yyastk[$this->stackPos-(3-1)], $this->yyastk[$this->stackPos-(3-3)], $attributes); 
+    protected function reduceRule95($attributes) {
+         $this->semValue = new Node\Stmt\DeclareDeclare($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
-    protected function yyn96($attributes) {
-         $this->yyval = $this->yyastk[$this->stackPos-(3-2)]; 
+    protected function reduceRule96($attributes) {
+         $this->semValue = $this->semStack[$this->stackPos-(3-2)]; 
     }
 
-    protected function yyn97($attributes) {
-         $this->yyval = $this->yyastk[$this->stackPos-(4-3)]; 
+    protected function reduceRule97($attributes) {
+         $this->semValue = $this->semStack[$this->stackPos-(4-3)]; 
     }
 
-    protected function yyn98($attributes) {
-         $this->yyval = $this->yyastk[$this->stackPos-(4-2)]; 
+    protected function reduceRule98($attributes) {
+         $this->semValue = $this->semStack[$this->stackPos-(4-2)]; 
     }
 
-    protected function yyn99($attributes) {
-         $this->yyval = $this->yyastk[$this->stackPos-(5-3)]; 
+    protected function reduceRule99($attributes) {
+         $this->semValue = $this->semStack[$this->stackPos-(5-3)]; 
     }
 
-    protected function yyn100($attributes) {
-         $this->yyval = array(); 
+    protected function reduceRule100($attributes) {
+         $this->semValue = array(); 
     }
 
-    protected function yyn101($attributes) {
-         $this->yyastk[$this->stackPos-(2-1)][] = $this->yyastk[$this->stackPos-(2-2)]; $this->yyval = $this->yyastk[$this->stackPos-(2-1)]; 
+    protected function reduceRule101($attributes) {
+         $this->semStack[$this->stackPos-(2-1)][] = $this->semStack[$this->stackPos-(2-2)]; $this->semValue = $this->semStack[$this->stackPos-(2-1)]; 
     }
 
-    protected function yyn102($attributes) {
-         $this->yyval = new Node\Stmt\Case_($this->yyastk[$this->stackPos-(4-2)], $this->yyastk[$this->stackPos-(4-4)], $attributes); 
+    protected function reduceRule102($attributes) {
+         $this->semValue = new Node\Stmt\Case_($this->semStack[$this->stackPos-(4-2)], $this->semStack[$this->stackPos-(4-4)], $attributes); 
     }
 
-    protected function yyn103($attributes) {
-         $this->yyval = new Node\Stmt\Case_(null, $this->yyastk[$this->stackPos-(3-3)], $attributes); 
+    protected function reduceRule103($attributes) {
+         $this->semValue = new Node\Stmt\Case_(null, $this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
-    protected function yyn104() {
-        $this->yyval = $this->yyastk[$this->stackPos];
+    protected function reduceRule104() {
+        $this->semValue = $this->semStack[$this->stackPos];
     }
 
-    protected function yyn105() {
-        $this->yyval = $this->yyastk[$this->stackPos];
+    protected function reduceRule105() {
+        $this->semValue = $this->semStack[$this->stackPos];
     }
 
-    protected function yyn106($attributes) {
-         $this->yyval = is_array($this->yyastk[$this->stackPos-(1-1)]) ? $this->yyastk[$this->stackPos-(1-1)] : array($this->yyastk[$this->stackPos-(1-1)]); 
+    protected function reduceRule106($attributes) {
+         $this->semValue = is_array($this->semStack[$this->stackPos-(1-1)]) ? $this->semStack[$this->stackPos-(1-1)] : array($this->semStack[$this->stackPos-(1-1)]); 
     }
 
-    protected function yyn107($attributes) {
-         $this->yyval = $this->yyastk[$this->stackPos-(4-2)]; 
+    protected function reduceRule107($attributes) {
+         $this->semValue = $this->semStack[$this->stackPos-(4-2)]; 
     }
 
-    protected function yyn108($attributes) {
-         $this->yyval = array(); 
+    protected function reduceRule108($attributes) {
+         $this->semValue = array(); 
     }
 
-    protected function yyn109($attributes) {
-         $this->yyastk[$this->stackPos-(2-1)][] = $this->yyastk[$this->stackPos-(2-2)]; $this->yyval = $this->yyastk[$this->stackPos-(2-1)]; 
+    protected function reduceRule109($attributes) {
+         $this->semStack[$this->stackPos-(2-1)][] = $this->semStack[$this->stackPos-(2-2)]; $this->semValue = $this->semStack[$this->stackPos-(2-1)]; 
     }
 
-    protected function yyn110($attributes) {
-         $this->yyval = new Node\Stmt\ElseIf_($this->yyastk[$this->stackPos-(3-2)], is_array($this->yyastk[$this->stackPos-(3-3)]) ? $this->yyastk[$this->stackPos-(3-3)] : array($this->yyastk[$this->stackPos-(3-3)]), $attributes); 
+    protected function reduceRule110($attributes) {
+         $this->semValue = new Node\Stmt\ElseIf_($this->semStack[$this->stackPos-(3-2)], is_array($this->semStack[$this->stackPos-(3-3)]) ? $this->semStack[$this->stackPos-(3-3)] : array($this->semStack[$this->stackPos-(3-3)]), $attributes); 
     }
 
-    protected function yyn111($attributes) {
-         $this->yyval = array(); 
+    protected function reduceRule111($attributes) {
+         $this->semValue = array(); 
     }
 
-    protected function yyn112($attributes) {
-         $this->yyastk[$this->stackPos-(2-1)][] = $this->yyastk[$this->stackPos-(2-2)]; $this->yyval = $this->yyastk[$this->stackPos-(2-1)]; 
+    protected function reduceRule112($attributes) {
+         $this->semStack[$this->stackPos-(2-1)][] = $this->semStack[$this->stackPos-(2-2)]; $this->semValue = $this->semStack[$this->stackPos-(2-1)]; 
     }
 
-    protected function yyn113($attributes) {
-         $this->yyval = new Node\Stmt\ElseIf_($this->yyastk[$this->stackPos-(4-2)], $this->yyastk[$this->stackPos-(4-4)], $attributes); 
+    protected function reduceRule113($attributes) {
+         $this->semValue = new Node\Stmt\ElseIf_($this->semStack[$this->stackPos-(4-2)], $this->semStack[$this->stackPos-(4-4)], $attributes); 
     }
 
-    protected function yyn114($attributes) {
-         $this->yyval = null; 
+    protected function reduceRule114($attributes) {
+         $this->semValue = null; 
     }
 
-    protected function yyn115($attributes) {
-         $this->yyval = new Node\Stmt\Else_(is_array($this->yyastk[$this->stackPos-(2-2)]) ? $this->yyastk[$this->stackPos-(2-2)] : array($this->yyastk[$this->stackPos-(2-2)]), $attributes); 
+    protected function reduceRule115($attributes) {
+         $this->semValue = new Node\Stmt\Else_(is_array($this->semStack[$this->stackPos-(2-2)]) ? $this->semStack[$this->stackPos-(2-2)] : array($this->semStack[$this->stackPos-(2-2)]), $attributes); 
     }
 
-    protected function yyn116($attributes) {
-         $this->yyval = null; 
+    protected function reduceRule116($attributes) {
+         $this->semValue = null; 
     }
 
-    protected function yyn117($attributes) {
-         $this->yyval = new Node\Stmt\Else_($this->yyastk[$this->stackPos-(3-3)], $attributes); 
+    protected function reduceRule117($attributes) {
+         $this->semValue = new Node\Stmt\Else_($this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
-    protected function yyn118($attributes) {
-         $this->yyval = array($this->yyastk[$this->stackPos-(1-1)], false); 
+    protected function reduceRule118($attributes) {
+         $this->semValue = array($this->semStack[$this->stackPos-(1-1)], false); 
     }
 
-    protected function yyn119($attributes) {
-         $this->yyval = array($this->yyastk[$this->stackPos-(2-2)], true); 
+    protected function reduceRule119($attributes) {
+         $this->semValue = array($this->semStack[$this->stackPos-(2-2)], true); 
     }
 
-    protected function yyn120($attributes) {
-         $this->yyval = array($this->yyastk[$this->stackPos-(1-1)], false); 
+    protected function reduceRule120($attributes) {
+         $this->semValue = array($this->semStack[$this->stackPos-(1-1)], false); 
     }
 
-    protected function yyn121($attributes) {
-         $this->yyval = $this->yyastk[$this->stackPos-(1-1)]; 
+    protected function reduceRule121($attributes) {
+         $this->semValue = $this->semStack[$this->stackPos-(1-1)]; 
     }
 
-    protected function yyn122($attributes) {
-         $this->yyval = array(); 
+    protected function reduceRule122($attributes) {
+         $this->semValue = array(); 
     }
 
-    protected function yyn123($attributes) {
-         $this->yyval = array($this->yyastk[$this->stackPos-(1-1)]); 
+    protected function reduceRule123($attributes) {
+         $this->semValue = array($this->semStack[$this->stackPos-(1-1)]); 
     }
 
-    protected function yyn124($attributes) {
-         $this->yyastk[$this->stackPos-(3-1)][] = $this->yyastk[$this->stackPos-(3-3)]; $this->yyval = $this->yyastk[$this->stackPos-(3-1)]; 
+    protected function reduceRule124($attributes) {
+         $this->semStack[$this->stackPos-(3-1)][] = $this->semStack[$this->stackPos-(3-3)]; $this->semValue = $this->semStack[$this->stackPos-(3-1)]; 
     }
 
-    protected function yyn125($attributes) {
-         $this->yyval = new Node\Param(substr($this->yyastk[$this->stackPos-(4-4)], 1), null, $this->yyastk[$this->stackPos-(4-1)], $this->yyastk[$this->stackPos-(4-2)], $this->yyastk[$this->stackPos-(4-3)], $attributes); 
+    protected function reduceRule125($attributes) {
+         $this->semValue = new Node\Param(substr($this->semStack[$this->stackPos-(4-4)], 1), null, $this->semStack[$this->stackPos-(4-1)], $this->semStack[$this->stackPos-(4-2)], $this->semStack[$this->stackPos-(4-3)], $attributes); 
     }
 
-    protected function yyn126($attributes) {
-         $this->yyval = new Node\Param(substr($this->yyastk[$this->stackPos-(6-4)], 1), $this->yyastk[$this->stackPos-(6-6)], $this->yyastk[$this->stackPos-(6-1)], $this->yyastk[$this->stackPos-(6-2)], $this->yyastk[$this->stackPos-(6-3)], $attributes); 
+    protected function reduceRule126($attributes) {
+         $this->semValue = new Node\Param(substr($this->semStack[$this->stackPos-(6-4)], 1), $this->semStack[$this->stackPos-(6-6)], $this->semStack[$this->stackPos-(6-1)], $this->semStack[$this->stackPos-(6-2)], $this->semStack[$this->stackPos-(6-3)], $attributes); 
     }
 
-    protected function yyn127($attributes) {
-         $this->yyval = null; 
+    protected function reduceRule127($attributes) {
+         $this->semValue = null; 
     }
 
-    protected function yyn128($attributes) {
-         $this->yyval = $this->yyastk[$this->stackPos-(1-1)]; 
+    protected function reduceRule128($attributes) {
+         $this->semValue = $this->semStack[$this->stackPos-(1-1)]; 
     }
 
-    protected function yyn129($attributes) {
-         $this->yyval = 'array'; 
+    protected function reduceRule129($attributes) {
+         $this->semValue = 'array'; 
     }
 
-    protected function yyn130($attributes) {
-         $this->yyval = 'callable'; 
+    protected function reduceRule130($attributes) {
+         $this->semValue = 'callable'; 
     }
 
-    protected function yyn131($attributes) {
-         $this->yyval = array(); 
+    protected function reduceRule131($attributes) {
+         $this->semValue = array(); 
     }
 
-    protected function yyn132($attributes) {
-         $this->yyval = $this->yyastk[$this->stackPos-(3-2)]; 
+    protected function reduceRule132($attributes) {
+         $this->semValue = $this->semStack[$this->stackPos-(3-2)]; 
     }
 
-    protected function yyn133($attributes) {
-         $this->yyval = array(new Node\Arg($this->yyastk[$this->stackPos-(3-2)], false, false, $attributes)); 
+    protected function reduceRule133($attributes) {
+         $this->semValue = array(new Node\Arg($this->semStack[$this->stackPos-(3-2)], false, false, $attributes)); 
     }
 
-    protected function yyn134($attributes) {
-         $this->yyval = array($this->yyastk[$this->stackPos-(1-1)]); 
+    protected function reduceRule134($attributes) {
+         $this->semValue = array($this->semStack[$this->stackPos-(1-1)]); 
     }
 
-    protected function yyn135($attributes) {
-         $this->yyastk[$this->stackPos-(3-1)][] = $this->yyastk[$this->stackPos-(3-3)]; $this->yyval = $this->yyastk[$this->stackPos-(3-1)]; 
+    protected function reduceRule135($attributes) {
+         $this->semStack[$this->stackPos-(3-1)][] = $this->semStack[$this->stackPos-(3-3)]; $this->semValue = $this->semStack[$this->stackPos-(3-1)]; 
     }
 
-    protected function yyn136($attributes) {
-         $this->yyval = new Node\Arg($this->yyastk[$this->stackPos-(1-1)], false, false, $attributes); 
+    protected function reduceRule136($attributes) {
+         $this->semValue = new Node\Arg($this->semStack[$this->stackPos-(1-1)], false, false, $attributes); 
     }
 
-    protected function yyn137($attributes) {
-         $this->yyval = new Node\Arg($this->yyastk[$this->stackPos-(2-2)], true, false, $attributes); 
+    protected function reduceRule137($attributes) {
+         $this->semValue = new Node\Arg($this->semStack[$this->stackPos-(2-2)], true, false, $attributes); 
     }
 
-    protected function yyn138($attributes) {
-         $this->yyval = new Node\Arg($this->yyastk[$this->stackPos-(2-2)], false, true, $attributes); 
+    protected function reduceRule138($attributes) {
+         $this->semValue = new Node\Arg($this->semStack[$this->stackPos-(2-2)], false, true, $attributes); 
     }
 
-    protected function yyn139($attributes) {
-         $this->yyastk[$this->stackPos-(3-1)][] = $this->yyastk[$this->stackPos-(3-3)]; $this->yyval = $this->yyastk[$this->stackPos-(3-1)]; 
+    protected function reduceRule139($attributes) {
+         $this->semStack[$this->stackPos-(3-1)][] = $this->semStack[$this->stackPos-(3-3)]; $this->semValue = $this->semStack[$this->stackPos-(3-1)]; 
     }
 
-    protected function yyn140($attributes) {
-         $this->yyval = array($this->yyastk[$this->stackPos-(1-1)]); 
+    protected function reduceRule140($attributes) {
+         $this->semValue = array($this->semStack[$this->stackPos-(1-1)]); 
     }
 
-    protected function yyn141($attributes) {
-         $this->yyval = new Node\Expr\Variable(substr($this->yyastk[$this->stackPos-(1-1)], 1), $attributes); 
+    protected function reduceRule141($attributes) {
+         $this->semValue = new Node\Expr\Variable(substr($this->semStack[$this->stackPos-(1-1)], 1), $attributes); 
     }
 
-    protected function yyn142($attributes) {
-         $this->yyval = new Node\Expr\Variable($this->yyastk[$this->stackPos-(2-2)], $attributes); 
+    protected function reduceRule142($attributes) {
+         $this->semValue = new Node\Expr\Variable($this->semStack[$this->stackPos-(2-2)], $attributes); 
     }
 
-    protected function yyn143($attributes) {
-         $this->yyval = new Node\Expr\Variable($this->yyastk[$this->stackPos-(4-3)], $attributes); 
+    protected function reduceRule143($attributes) {
+         $this->semValue = new Node\Expr\Variable($this->semStack[$this->stackPos-(4-3)], $attributes); 
     }
 
-    protected function yyn144($attributes) {
-         $this->yyastk[$this->stackPos-(3-1)][] = $this->yyastk[$this->stackPos-(3-3)]; $this->yyval = $this->yyastk[$this->stackPos-(3-1)]; 
+    protected function reduceRule144($attributes) {
+         $this->semStack[$this->stackPos-(3-1)][] = $this->semStack[$this->stackPos-(3-3)]; $this->semValue = $this->semStack[$this->stackPos-(3-1)]; 
     }
 
-    protected function yyn145($attributes) {
-         $this->yyval = array($this->yyastk[$this->stackPos-(1-1)]); 
+    protected function reduceRule145($attributes) {
+         $this->semValue = array($this->semStack[$this->stackPos-(1-1)]); 
     }
 
-    protected function yyn146($attributes) {
-         $this->yyval = new Node\Stmt\StaticVar(substr($this->yyastk[$this->stackPos-(1-1)], 1), null, $attributes); 
+    protected function reduceRule146($attributes) {
+         $this->semValue = new Node\Stmt\StaticVar(substr($this->semStack[$this->stackPos-(1-1)], 1), null, $attributes); 
     }
 
-    protected function yyn147($attributes) {
-         $this->yyval = new Node\Stmt\StaticVar(substr($this->yyastk[$this->stackPos-(3-1)], 1), $this->yyastk[$this->stackPos-(3-3)], $attributes); 
+    protected function reduceRule147($attributes) {
+         $this->semValue = new Node\Stmt\StaticVar(substr($this->semStack[$this->stackPos-(3-1)], 1), $this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
-    protected function yyn148($attributes) {
-         $this->yyastk[$this->stackPos-(2-1)][] = $this->yyastk[$this->stackPos-(2-2)]; $this->yyval = $this->yyastk[$this->stackPos-(2-1)]; 
+    protected function reduceRule148($attributes) {
+         $this->semStack[$this->stackPos-(2-1)][] = $this->semStack[$this->stackPos-(2-2)]; $this->semValue = $this->semStack[$this->stackPos-(2-1)]; 
     }
 
-    protected function yyn149($attributes) {
-         $this->yyval = array(); 
+    protected function reduceRule149($attributes) {
+         $this->semValue = array(); 
     }
 
-    protected function yyn150($attributes) {
-         $this->yyval = new Node\Stmt\Property($this->yyastk[$this->stackPos-(3-1)], $this->yyastk[$this->stackPos-(3-2)], $attributes); 
+    protected function reduceRule150($attributes) {
+         $this->semValue = new Node\Stmt\Property($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-2)], $attributes); 
     }
 
-    protected function yyn151($attributes) {
-         $this->yyval = new Node\Stmt\ClassConst($this->yyastk[$this->stackPos-(3-2)], $attributes); 
+    protected function reduceRule151($attributes) {
+         $this->semValue = new Node\Stmt\ClassConst($this->semStack[$this->stackPos-(3-2)], $attributes); 
     }
 
-    protected function yyn152($attributes) {
-         $this->yyval = new Node\Stmt\ClassMethod($this->yyastk[$this->stackPos-(8-4)], array('type' => $this->yyastk[$this->stackPos-(8-1)], 'byRef' => $this->yyastk[$this->stackPos-(8-3)], 'params' => $this->yyastk[$this->stackPos-(8-6)], 'stmts' => $this->yyastk[$this->stackPos-(8-8)]), $attributes); 
+    protected function reduceRule152($attributes) {
+         $this->semValue = new Node\Stmt\ClassMethod($this->semStack[$this->stackPos-(8-4)], array('type' => $this->semStack[$this->stackPos-(8-1)], 'byRef' => $this->semStack[$this->stackPos-(8-3)], 'params' => $this->semStack[$this->stackPos-(8-6)], 'stmts' => $this->semStack[$this->stackPos-(8-8)]), $attributes); 
     }
 
-    protected function yyn153($attributes) {
-         $this->yyval = new Node\Stmt\TraitUse($this->yyastk[$this->stackPos-(3-2)], $this->yyastk[$this->stackPos-(3-3)], $attributes); 
+    protected function reduceRule153($attributes) {
+         $this->semValue = new Node\Stmt\TraitUse($this->semStack[$this->stackPos-(3-2)], $this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
-    protected function yyn154($attributes) {
-         $this->yyval = array(); 
+    protected function reduceRule154($attributes) {
+         $this->semValue = array(); 
     }
 
-    protected function yyn155($attributes) {
-         $this->yyval = $this->yyastk[$this->stackPos-(3-2)]; 
+    protected function reduceRule155($attributes) {
+         $this->semValue = $this->semStack[$this->stackPos-(3-2)]; 
     }
 
-    protected function yyn156($attributes) {
-         $this->yyval = array(); 
+    protected function reduceRule156($attributes) {
+         $this->semValue = array(); 
     }
 
-    protected function yyn157($attributes) {
-         $this->yyastk[$this->stackPos-(2-1)][] = $this->yyastk[$this->stackPos-(2-2)]; $this->yyval = $this->yyastk[$this->stackPos-(2-1)]; 
+    protected function reduceRule157($attributes) {
+         $this->semStack[$this->stackPos-(2-1)][] = $this->semStack[$this->stackPos-(2-2)]; $this->semValue = $this->semStack[$this->stackPos-(2-1)]; 
     }
 
-    protected function yyn158($attributes) {
-         $this->yyval = new Node\Stmt\TraitUseAdaptation\Precedence($this->yyastk[$this->stackPos-(4-1)][0], $this->yyastk[$this->stackPos-(4-1)][1], $this->yyastk[$this->stackPos-(4-3)], $attributes); 
+    protected function reduceRule158($attributes) {
+         $this->semValue = new Node\Stmt\TraitUseAdaptation\Precedence($this->semStack[$this->stackPos-(4-1)][0], $this->semStack[$this->stackPos-(4-1)][1], $this->semStack[$this->stackPos-(4-3)], $attributes); 
     }
 
-    protected function yyn159($attributes) {
-         $this->yyval = new Node\Stmt\TraitUseAdaptation\Alias($this->yyastk[$this->stackPos-(5-1)][0], $this->yyastk[$this->stackPos-(5-1)][1], $this->yyastk[$this->stackPos-(5-3)], $this->yyastk[$this->stackPos-(5-4)], $attributes); 
+    protected function reduceRule159($attributes) {
+         $this->semValue = new Node\Stmt\TraitUseAdaptation\Alias($this->semStack[$this->stackPos-(5-1)][0], $this->semStack[$this->stackPos-(5-1)][1], $this->semStack[$this->stackPos-(5-3)], $this->semStack[$this->stackPos-(5-4)], $attributes); 
     }
 
-    protected function yyn160($attributes) {
-         $this->yyval = new Node\Stmt\TraitUseAdaptation\Alias($this->yyastk[$this->stackPos-(4-1)][0], $this->yyastk[$this->stackPos-(4-1)][1], $this->yyastk[$this->stackPos-(4-3)], null, $attributes); 
+    protected function reduceRule160($attributes) {
+         $this->semValue = new Node\Stmt\TraitUseAdaptation\Alias($this->semStack[$this->stackPos-(4-1)][0], $this->semStack[$this->stackPos-(4-1)][1], $this->semStack[$this->stackPos-(4-3)], null, $attributes); 
     }
 
-    protected function yyn161($attributes) {
-         $this->yyval = new Node\Stmt\TraitUseAdaptation\Alias($this->yyastk[$this->stackPos-(4-1)][0], $this->yyastk[$this->stackPos-(4-1)][1], null, $this->yyastk[$this->stackPos-(4-3)], $attributes); 
+    protected function reduceRule161($attributes) {
+         $this->semValue = new Node\Stmt\TraitUseAdaptation\Alias($this->semStack[$this->stackPos-(4-1)][0], $this->semStack[$this->stackPos-(4-1)][1], null, $this->semStack[$this->stackPos-(4-3)], $attributes); 
     }
 
-    protected function yyn162($attributes) {
-         $this->yyval = array($this->yyastk[$this->stackPos-(3-1)], $this->yyastk[$this->stackPos-(3-3)]); 
+    protected function reduceRule162($attributes) {
+         $this->semValue = array($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-3)]); 
     }
 
-    protected function yyn163($attributes) {
-         $this->yyval = $this->yyastk[$this->stackPos-(1-1)]; 
+    protected function reduceRule163($attributes) {
+         $this->semValue = $this->semStack[$this->stackPos-(1-1)]; 
     }
 
-    protected function yyn164($attributes) {
-         $this->yyval = array(null, $this->yyastk[$this->stackPos-(1-1)]); 
+    protected function reduceRule164($attributes) {
+         $this->semValue = array(null, $this->semStack[$this->stackPos-(1-1)]); 
     }
 
-    protected function yyn165($attributes) {
-         $this->yyval = null; 
+    protected function reduceRule165($attributes) {
+         $this->semValue = null; 
     }
 
-    protected function yyn166($attributes) {
-         $this->yyval = $this->yyastk[$this->stackPos-(3-2)]; 
+    protected function reduceRule166($attributes) {
+         $this->semValue = $this->semStack[$this->stackPos-(3-2)]; 
     }
 
-    protected function yyn167($attributes) {
-         $this->yyval = $this->yyastk[$this->stackPos-(1-1)]; 
+    protected function reduceRule167($attributes) {
+         $this->semValue = $this->semStack[$this->stackPos-(1-1)]; 
     }
 
-    protected function yyn168($attributes) {
-         $this->yyval = Node\Stmt\Class_::MODIFIER_PUBLIC; 
+    protected function reduceRule168($attributes) {
+         $this->semValue = Node\Stmt\Class_::MODIFIER_PUBLIC; 
     }
 
-    protected function yyn169($attributes) {
-         $this->yyval = Node\Stmt\Class_::MODIFIER_PUBLIC; 
+    protected function reduceRule169($attributes) {
+         $this->semValue = Node\Stmt\Class_::MODIFIER_PUBLIC; 
     }
 
-    protected function yyn170($attributes) {
-         $this->yyval = $this->yyastk[$this->stackPos-(1-1)]; 
+    protected function reduceRule170($attributes) {
+         $this->semValue = $this->semStack[$this->stackPos-(1-1)]; 
     }
 
-    protected function yyn171($attributes) {
-         $this->yyval = $this->yyastk[$this->stackPos-(1-1)]; 
+    protected function reduceRule171($attributes) {
+         $this->semValue = $this->semStack[$this->stackPos-(1-1)]; 
     }
 
-    protected function yyn172($attributes) {
-         Node\Stmt\Class_::verifyModifier($this->yyastk[$this->stackPos-(2-1)], $this->yyastk[$this->stackPos-(2-2)]); $this->yyval = $this->yyastk[$this->stackPos-(2-1)] | $this->yyastk[$this->stackPos-(2-2)]; 
+    protected function reduceRule172($attributes) {
+         Node\Stmt\Class_::verifyModifier($this->semStack[$this->stackPos-(2-1)], $this->semStack[$this->stackPos-(2-2)]); $this->semValue = $this->semStack[$this->stackPos-(2-1)] | $this->semStack[$this->stackPos-(2-2)]; 
     }
 
-    protected function yyn173($attributes) {
-         $this->yyval = Node\Stmt\Class_::MODIFIER_PUBLIC; 
+    protected function reduceRule173($attributes) {
+         $this->semValue = Node\Stmt\Class_::MODIFIER_PUBLIC; 
     }
 
-    protected function yyn174($attributes) {
-         $this->yyval = Node\Stmt\Class_::MODIFIER_PROTECTED; 
+    protected function reduceRule174($attributes) {
+         $this->semValue = Node\Stmt\Class_::MODIFIER_PROTECTED; 
     }
 
-    protected function yyn175($attributes) {
-         $this->yyval = Node\Stmt\Class_::MODIFIER_PRIVATE; 
+    protected function reduceRule175($attributes) {
+         $this->semValue = Node\Stmt\Class_::MODIFIER_PRIVATE; 
     }
 
-    protected function yyn176($attributes) {
-         $this->yyval = Node\Stmt\Class_::MODIFIER_STATIC; 
+    protected function reduceRule176($attributes) {
+         $this->semValue = Node\Stmt\Class_::MODIFIER_STATIC; 
     }
 
-    protected function yyn177($attributes) {
-         $this->yyval = Node\Stmt\Class_::MODIFIER_ABSTRACT; 
+    protected function reduceRule177($attributes) {
+         $this->semValue = Node\Stmt\Class_::MODIFIER_ABSTRACT; 
     }
 
-    protected function yyn178($attributes) {
-         $this->yyval = Node\Stmt\Class_::MODIFIER_FINAL; 
+    protected function reduceRule178($attributes) {
+         $this->semValue = Node\Stmt\Class_::MODIFIER_FINAL; 
     }
 
-    protected function yyn179($attributes) {
-         $this->yyval = array($this->yyastk[$this->stackPos-(1-1)]); 
+    protected function reduceRule179($attributes) {
+         $this->semValue = array($this->semStack[$this->stackPos-(1-1)]); 
     }
 
-    protected function yyn180($attributes) {
-         $this->yyastk[$this->stackPos-(3-1)][] = $this->yyastk[$this->stackPos-(3-3)]; $this->yyval = $this->yyastk[$this->stackPos-(3-1)]; 
+    protected function reduceRule180($attributes) {
+         $this->semStack[$this->stackPos-(3-1)][] = $this->semStack[$this->stackPos-(3-3)]; $this->semValue = $this->semStack[$this->stackPos-(3-1)]; 
     }
 
-    protected function yyn181($attributes) {
-         $this->yyval = new Node\Stmt\PropertyProperty(substr($this->yyastk[$this->stackPos-(1-1)], 1), null, $attributes); 
+    protected function reduceRule181($attributes) {
+         $this->semValue = new Node\Stmt\PropertyProperty(substr($this->semStack[$this->stackPos-(1-1)], 1), null, $attributes); 
     }
 
-    protected function yyn182($attributes) {
-         $this->yyval = new Node\Stmt\PropertyProperty(substr($this->yyastk[$this->stackPos-(3-1)], 1), $this->yyastk[$this->stackPos-(3-3)], $attributes); 
+    protected function reduceRule182($attributes) {
+         $this->semValue = new Node\Stmt\PropertyProperty(substr($this->semStack[$this->stackPos-(3-1)], 1), $this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
-    protected function yyn183($attributes) {
-         $this->yyastk[$this->stackPos-(3-1)][] = $this->yyastk[$this->stackPos-(3-3)]; $this->yyval = $this->yyastk[$this->stackPos-(3-1)]; 
+    protected function reduceRule183($attributes) {
+         $this->semStack[$this->stackPos-(3-1)][] = $this->semStack[$this->stackPos-(3-3)]; $this->semValue = $this->semStack[$this->stackPos-(3-1)]; 
     }
 
-    protected function yyn184($attributes) {
-         $this->yyval = array($this->yyastk[$this->stackPos-(1-1)]); 
+    protected function reduceRule184($attributes) {
+         $this->semValue = array($this->semStack[$this->stackPos-(1-1)]); 
     }
 
-    protected function yyn185($attributes) {
-         $this->yyval = array(); 
+    protected function reduceRule185($attributes) {
+         $this->semValue = array(); 
     }
 
-    protected function yyn186($attributes) {
-         $this->yyval = $this->yyastk[$this->stackPos-(1-1)]; 
+    protected function reduceRule186($attributes) {
+         $this->semValue = $this->semStack[$this->stackPos-(1-1)]; 
     }
 
-    protected function yyn187($attributes) {
-         $this->yyval = $this->yyastk[$this->stackPos-(1-1)]; 
+    protected function reduceRule187($attributes) {
+         $this->semValue = $this->semStack[$this->stackPos-(1-1)]; 
     }
 
-    protected function yyn188($attributes) {
-         $this->yyval = new Node\Expr\Assign($this->yyastk[$this->stackPos-(3-1)], $this->yyastk[$this->stackPos-(3-3)], $attributes); 
+    protected function reduceRule188($attributes) {
+         $this->semValue = new Node\Expr\Assign($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
-    protected function yyn189($attributes) {
-         $this->yyval = new Node\Expr\Assign($this->yyastk[$this->stackPos-(3-1)], $this->yyastk[$this->stackPos-(3-3)], $attributes); 
+    protected function reduceRule189($attributes) {
+         $this->semValue = new Node\Expr\Assign($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
-    protected function yyn190($attributes) {
-         $this->yyval = new Node\Expr\AssignRef($this->yyastk[$this->stackPos-(4-1)], $this->yyastk[$this->stackPos-(4-4)], $attributes); 
+    protected function reduceRule190($attributes) {
+         $this->semValue = new Node\Expr\AssignRef($this->semStack[$this->stackPos-(4-1)], $this->semStack[$this->stackPos-(4-4)], $attributes); 
     }
 
-    protected function yyn191($attributes) {
-         $this->yyval = new Node\Expr\AssignRef($this->yyastk[$this->stackPos-(4-1)], $this->yyastk[$this->stackPos-(4-4)], $attributes); 
+    protected function reduceRule191($attributes) {
+         $this->semValue = new Node\Expr\AssignRef($this->semStack[$this->stackPos-(4-1)], $this->semStack[$this->stackPos-(4-4)], $attributes); 
     }
 
-    protected function yyn192($attributes) {
-         $this->yyval = $this->yyastk[$this->stackPos-(1-1)]; 
+    protected function reduceRule192($attributes) {
+         $this->semValue = $this->semStack[$this->stackPos-(1-1)]; 
     }
 
-    protected function yyn193($attributes) {
-         $this->yyval = new Node\Expr\Clone_($this->yyastk[$this->stackPos-(2-2)], $attributes); 
+    protected function reduceRule193($attributes) {
+         $this->semValue = new Node\Expr\Clone_($this->semStack[$this->stackPos-(2-2)], $attributes); 
     }
 
-    protected function yyn194($attributes) {
-         $this->yyval = new Node\Expr\AssignOp\Plus($this->yyastk[$this->stackPos-(3-1)], $this->yyastk[$this->stackPos-(3-3)], $attributes); 
+    protected function reduceRule194($attributes) {
+         $this->semValue = new Node\Expr\AssignOp\Plus($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
-    protected function yyn195($attributes) {
-         $this->yyval = new Node\Expr\AssignOp\Minus($this->yyastk[$this->stackPos-(3-1)], $this->yyastk[$this->stackPos-(3-3)], $attributes); 
+    protected function reduceRule195($attributes) {
+         $this->semValue = new Node\Expr\AssignOp\Minus($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
-    protected function yyn196($attributes) {
-         $this->yyval = new Node\Expr\AssignOp\Mul($this->yyastk[$this->stackPos-(3-1)], $this->yyastk[$this->stackPos-(3-3)], $attributes); 
+    protected function reduceRule196($attributes) {
+         $this->semValue = new Node\Expr\AssignOp\Mul($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
-    protected function yyn197($attributes) {
-         $this->yyval = new Node\Expr\AssignOp\Div($this->yyastk[$this->stackPos-(3-1)], $this->yyastk[$this->stackPos-(3-3)], $attributes); 
+    protected function reduceRule197($attributes) {
+         $this->semValue = new Node\Expr\AssignOp\Div($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
-    protected function yyn198($attributes) {
-         $this->yyval = new Node\Expr\AssignOp\Concat($this->yyastk[$this->stackPos-(3-1)], $this->yyastk[$this->stackPos-(3-3)], $attributes); 
+    protected function reduceRule198($attributes) {
+         $this->semValue = new Node\Expr\AssignOp\Concat($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
-    protected function yyn199($attributes) {
-         $this->yyval = new Node\Expr\AssignOp\Mod($this->yyastk[$this->stackPos-(3-1)], $this->yyastk[$this->stackPos-(3-3)], $attributes); 
+    protected function reduceRule199($attributes) {
+         $this->semValue = new Node\Expr\AssignOp\Mod($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
-    protected function yyn200($attributes) {
-         $this->yyval = new Node\Expr\AssignOp\BitwiseAnd($this->yyastk[$this->stackPos-(3-1)], $this->yyastk[$this->stackPos-(3-3)], $attributes); 
+    protected function reduceRule200($attributes) {
+         $this->semValue = new Node\Expr\AssignOp\BitwiseAnd($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
-    protected function yyn201($attributes) {
-         $this->yyval = new Node\Expr\AssignOp\BitwiseOr($this->yyastk[$this->stackPos-(3-1)], $this->yyastk[$this->stackPos-(3-3)], $attributes); 
+    protected function reduceRule201($attributes) {
+         $this->semValue = new Node\Expr\AssignOp\BitwiseOr($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
-    protected function yyn202($attributes) {
-         $this->yyval = new Node\Expr\AssignOp\BitwiseXor($this->yyastk[$this->stackPos-(3-1)], $this->yyastk[$this->stackPos-(3-3)], $attributes); 
+    protected function reduceRule202($attributes) {
+         $this->semValue = new Node\Expr\AssignOp\BitwiseXor($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
-    protected function yyn203($attributes) {
-         $this->yyval = new Node\Expr\AssignOp\ShiftLeft($this->yyastk[$this->stackPos-(3-1)], $this->yyastk[$this->stackPos-(3-3)], $attributes); 
+    protected function reduceRule203($attributes) {
+         $this->semValue = new Node\Expr\AssignOp\ShiftLeft($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
-    protected function yyn204($attributes) {
-         $this->yyval = new Node\Expr\AssignOp\ShiftRight($this->yyastk[$this->stackPos-(3-1)], $this->yyastk[$this->stackPos-(3-3)], $attributes); 
+    protected function reduceRule204($attributes) {
+         $this->semValue = new Node\Expr\AssignOp\ShiftRight($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
-    protected function yyn205($attributes) {
-         $this->yyval = new Node\Expr\AssignOp\Pow($this->yyastk[$this->stackPos-(3-1)], $this->yyastk[$this->stackPos-(3-3)], $attributes); 
+    protected function reduceRule205($attributes) {
+         $this->semValue = new Node\Expr\AssignOp\Pow($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
-    protected function yyn206($attributes) {
-         $this->yyval = new Node\Expr\PostInc($this->yyastk[$this->stackPos-(2-1)], $attributes); 
+    protected function reduceRule206($attributes) {
+         $this->semValue = new Node\Expr\PostInc($this->semStack[$this->stackPos-(2-1)], $attributes); 
     }
 
-    protected function yyn207($attributes) {
-         $this->yyval = new Node\Expr\PreInc($this->yyastk[$this->stackPos-(2-2)], $attributes); 
+    protected function reduceRule207($attributes) {
+         $this->semValue = new Node\Expr\PreInc($this->semStack[$this->stackPos-(2-2)], $attributes); 
     }
 
-    protected function yyn208($attributes) {
-         $this->yyval = new Node\Expr\PostDec($this->yyastk[$this->stackPos-(2-1)], $attributes); 
+    protected function reduceRule208($attributes) {
+         $this->semValue = new Node\Expr\PostDec($this->semStack[$this->stackPos-(2-1)], $attributes); 
     }
 
-    protected function yyn209($attributes) {
-         $this->yyval = new Node\Expr\PreDec($this->yyastk[$this->stackPos-(2-2)], $attributes); 
+    protected function reduceRule209($attributes) {
+         $this->semValue = new Node\Expr\PreDec($this->semStack[$this->stackPos-(2-2)], $attributes); 
     }
 
-    protected function yyn210($attributes) {
-         $this->yyval = new Node\Expr\BinaryOp\BooleanOr($this->yyastk[$this->stackPos-(3-1)], $this->yyastk[$this->stackPos-(3-3)], $attributes); 
+    protected function reduceRule210($attributes) {
+         $this->semValue = new Node\Expr\BinaryOp\BooleanOr($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
-    protected function yyn211($attributes) {
-         $this->yyval = new Node\Expr\BinaryOp\BooleanAnd($this->yyastk[$this->stackPos-(3-1)], $this->yyastk[$this->stackPos-(3-3)], $attributes); 
+    protected function reduceRule211($attributes) {
+         $this->semValue = new Node\Expr\BinaryOp\BooleanAnd($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
-    protected function yyn212($attributes) {
-         $this->yyval = new Node\Expr\BinaryOp\LogicalOr($this->yyastk[$this->stackPos-(3-1)], $this->yyastk[$this->stackPos-(3-3)], $attributes); 
+    protected function reduceRule212($attributes) {
+         $this->semValue = new Node\Expr\BinaryOp\LogicalOr($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
-    protected function yyn213($attributes) {
-         $this->yyval = new Node\Expr\BinaryOp\LogicalAnd($this->yyastk[$this->stackPos-(3-1)], $this->yyastk[$this->stackPos-(3-3)], $attributes); 
+    protected function reduceRule213($attributes) {
+         $this->semValue = new Node\Expr\BinaryOp\LogicalAnd($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
-    protected function yyn214($attributes) {
-         $this->yyval = new Node\Expr\BinaryOp\LogicalXor($this->yyastk[$this->stackPos-(3-1)], $this->yyastk[$this->stackPos-(3-3)], $attributes); 
+    protected function reduceRule214($attributes) {
+         $this->semValue = new Node\Expr\BinaryOp\LogicalXor($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
-    protected function yyn215($attributes) {
-         $this->yyval = new Node\Expr\BinaryOp\BitwiseOr($this->yyastk[$this->stackPos-(3-1)], $this->yyastk[$this->stackPos-(3-3)], $attributes); 
+    protected function reduceRule215($attributes) {
+         $this->semValue = new Node\Expr\BinaryOp\BitwiseOr($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
-    protected function yyn216($attributes) {
-         $this->yyval = new Node\Expr\BinaryOp\BitwiseAnd($this->yyastk[$this->stackPos-(3-1)], $this->yyastk[$this->stackPos-(3-3)], $attributes); 
+    protected function reduceRule216($attributes) {
+         $this->semValue = new Node\Expr\BinaryOp\BitwiseAnd($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
-    protected function yyn217($attributes) {
-         $this->yyval = new Node\Expr\BinaryOp\BitwiseXor($this->yyastk[$this->stackPos-(3-1)], $this->yyastk[$this->stackPos-(3-3)], $attributes); 
+    protected function reduceRule217($attributes) {
+         $this->semValue = new Node\Expr\BinaryOp\BitwiseXor($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
-    protected function yyn218($attributes) {
-         $this->yyval = new Node\Expr\BinaryOp\Concat($this->yyastk[$this->stackPos-(3-1)], $this->yyastk[$this->stackPos-(3-3)], $attributes); 
+    protected function reduceRule218($attributes) {
+         $this->semValue = new Node\Expr\BinaryOp\Concat($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
-    protected function yyn219($attributes) {
-         $this->yyval = new Node\Expr\BinaryOp\Plus($this->yyastk[$this->stackPos-(3-1)], $this->yyastk[$this->stackPos-(3-3)], $attributes); 
+    protected function reduceRule219($attributes) {
+         $this->semValue = new Node\Expr\BinaryOp\Plus($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
-    protected function yyn220($attributes) {
-         $this->yyval = new Node\Expr\BinaryOp\Minus($this->yyastk[$this->stackPos-(3-1)], $this->yyastk[$this->stackPos-(3-3)], $attributes); 
+    protected function reduceRule220($attributes) {
+         $this->semValue = new Node\Expr\BinaryOp\Minus($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
-    protected function yyn221($attributes) {
-         $this->yyval = new Node\Expr\BinaryOp\Mul($this->yyastk[$this->stackPos-(3-1)], $this->yyastk[$this->stackPos-(3-3)], $attributes); 
+    protected function reduceRule221($attributes) {
+         $this->semValue = new Node\Expr\BinaryOp\Mul($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
-    protected function yyn222($attributes) {
-         $this->yyval = new Node\Expr\BinaryOp\Div($this->yyastk[$this->stackPos-(3-1)], $this->yyastk[$this->stackPos-(3-3)], $attributes); 
+    protected function reduceRule222($attributes) {
+         $this->semValue = new Node\Expr\BinaryOp\Div($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
-    protected function yyn223($attributes) {
-         $this->yyval = new Node\Expr\BinaryOp\Mod($this->yyastk[$this->stackPos-(3-1)], $this->yyastk[$this->stackPos-(3-3)], $attributes); 
+    protected function reduceRule223($attributes) {
+         $this->semValue = new Node\Expr\BinaryOp\Mod($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
-    protected function yyn224($attributes) {
-         $this->yyval = new Node\Expr\BinaryOp\ShiftLeft($this->yyastk[$this->stackPos-(3-1)], $this->yyastk[$this->stackPos-(3-3)], $attributes); 
+    protected function reduceRule224($attributes) {
+         $this->semValue = new Node\Expr\BinaryOp\ShiftLeft($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
-    protected function yyn225($attributes) {
-         $this->yyval = new Node\Expr\BinaryOp\ShiftRight($this->yyastk[$this->stackPos-(3-1)], $this->yyastk[$this->stackPos-(3-3)], $attributes); 
+    protected function reduceRule225($attributes) {
+         $this->semValue = new Node\Expr\BinaryOp\ShiftRight($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
-    protected function yyn226($attributes) {
-         $this->yyval = new Node\Expr\BinaryOp\Pow($this->yyastk[$this->stackPos-(3-1)], $this->yyastk[$this->stackPos-(3-3)], $attributes); 
+    protected function reduceRule226($attributes) {
+         $this->semValue = new Node\Expr\BinaryOp\Pow($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
-    protected function yyn227($attributes) {
-         $this->yyval = new Node\Expr\UnaryPlus($this->yyastk[$this->stackPos-(2-2)], $attributes); 
+    protected function reduceRule227($attributes) {
+         $this->semValue = new Node\Expr\UnaryPlus($this->semStack[$this->stackPos-(2-2)], $attributes); 
     }
 
-    protected function yyn228($attributes) {
-         $this->yyval = new Node\Expr\UnaryMinus($this->yyastk[$this->stackPos-(2-2)], $attributes); 
+    protected function reduceRule228($attributes) {
+         $this->semValue = new Node\Expr\UnaryMinus($this->semStack[$this->stackPos-(2-2)], $attributes); 
     }
 
-    protected function yyn229($attributes) {
-         $this->yyval = new Node\Expr\BooleanNot($this->yyastk[$this->stackPos-(2-2)], $attributes); 
+    protected function reduceRule229($attributes) {
+         $this->semValue = new Node\Expr\BooleanNot($this->semStack[$this->stackPos-(2-2)], $attributes); 
     }
 
-    protected function yyn230($attributes) {
-         $this->yyval = new Node\Expr\BitwiseNot($this->yyastk[$this->stackPos-(2-2)], $attributes); 
+    protected function reduceRule230($attributes) {
+         $this->semValue = new Node\Expr\BitwiseNot($this->semStack[$this->stackPos-(2-2)], $attributes); 
     }
 
-    protected function yyn231($attributes) {
-         $this->yyval = new Node\Expr\BinaryOp\Identical($this->yyastk[$this->stackPos-(3-1)], $this->yyastk[$this->stackPos-(3-3)], $attributes); 
+    protected function reduceRule231($attributes) {
+         $this->semValue = new Node\Expr\BinaryOp\Identical($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
-    protected function yyn232($attributes) {
-         $this->yyval = new Node\Expr\BinaryOp\NotIdentical($this->yyastk[$this->stackPos-(3-1)], $this->yyastk[$this->stackPos-(3-3)], $attributes); 
+    protected function reduceRule232($attributes) {
+         $this->semValue = new Node\Expr\BinaryOp\NotIdentical($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
-    protected function yyn233($attributes) {
-         $this->yyval = new Node\Expr\BinaryOp\Equal($this->yyastk[$this->stackPos-(3-1)], $this->yyastk[$this->stackPos-(3-3)], $attributes); 
+    protected function reduceRule233($attributes) {
+         $this->semValue = new Node\Expr\BinaryOp\Equal($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
-    protected function yyn234($attributes) {
-         $this->yyval = new Node\Expr\BinaryOp\NotEqual($this->yyastk[$this->stackPos-(3-1)], $this->yyastk[$this->stackPos-(3-3)], $attributes); 
+    protected function reduceRule234($attributes) {
+         $this->semValue = new Node\Expr\BinaryOp\NotEqual($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
-    protected function yyn235($attributes) {
-         $this->yyval = new Node\Expr\BinaryOp\Smaller($this->yyastk[$this->stackPos-(3-1)], $this->yyastk[$this->stackPos-(3-3)], $attributes); 
+    protected function reduceRule235($attributes) {
+         $this->semValue = new Node\Expr\BinaryOp\Smaller($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
-    protected function yyn236($attributes) {
-         $this->yyval = new Node\Expr\BinaryOp\SmallerOrEqual($this->yyastk[$this->stackPos-(3-1)], $this->yyastk[$this->stackPos-(3-3)], $attributes); 
+    protected function reduceRule236($attributes) {
+         $this->semValue = new Node\Expr\BinaryOp\SmallerOrEqual($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
-    protected function yyn237($attributes) {
-         $this->yyval = new Node\Expr\BinaryOp\Greater($this->yyastk[$this->stackPos-(3-1)], $this->yyastk[$this->stackPos-(3-3)], $attributes); 
+    protected function reduceRule237($attributes) {
+         $this->semValue = new Node\Expr\BinaryOp\Greater($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
-    protected function yyn238($attributes) {
-         $this->yyval = new Node\Expr\BinaryOp\GreaterOrEqual($this->yyastk[$this->stackPos-(3-1)], $this->yyastk[$this->stackPos-(3-3)], $attributes); 
+    protected function reduceRule238($attributes) {
+         $this->semValue = new Node\Expr\BinaryOp\GreaterOrEqual($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
-    protected function yyn239($attributes) {
-         $this->yyval = new Node\Expr\Instanceof_($this->yyastk[$this->stackPos-(3-1)], $this->yyastk[$this->stackPos-(3-3)], $attributes); 
+    protected function reduceRule239($attributes) {
+         $this->semValue = new Node\Expr\Instanceof_($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
-    protected function yyn240($attributes) {
-         $this->yyval = $this->yyastk[$this->stackPos-(1-1)]; 
+    protected function reduceRule240($attributes) {
+         $this->semValue = $this->semStack[$this->stackPos-(1-1)]; 
     }
 
-    protected function yyn241($attributes) {
-         $this->yyval = $this->yyastk[$this->stackPos-(3-2)]; 
+    protected function reduceRule241($attributes) {
+         $this->semValue = $this->semStack[$this->stackPos-(3-2)]; 
     }
 
-    protected function yyn242($attributes) {
-         $this->yyval = new Node\Expr\Ternary($this->yyastk[$this->stackPos-(5-1)], $this->yyastk[$this->stackPos-(5-3)], $this->yyastk[$this->stackPos-(5-5)], $attributes); 
+    protected function reduceRule242($attributes) {
+         $this->semValue = new Node\Expr\Ternary($this->semStack[$this->stackPos-(5-1)], $this->semStack[$this->stackPos-(5-3)], $this->semStack[$this->stackPos-(5-5)], $attributes); 
     }
 
-    protected function yyn243($attributes) {
-         $this->yyval = new Node\Expr\Ternary($this->yyastk[$this->stackPos-(4-1)], null, $this->yyastk[$this->stackPos-(4-4)], $attributes); 
+    protected function reduceRule243($attributes) {
+         $this->semValue = new Node\Expr\Ternary($this->semStack[$this->stackPos-(4-1)], null, $this->semStack[$this->stackPos-(4-4)], $attributes); 
     }
 
-    protected function yyn244($attributes) {
-         $this->yyval = new Node\Expr\Isset_($this->yyastk[$this->stackPos-(4-3)], $attributes); 
+    protected function reduceRule244($attributes) {
+         $this->semValue = new Node\Expr\Isset_($this->semStack[$this->stackPos-(4-3)], $attributes); 
     }
 
-    protected function yyn245($attributes) {
-         $this->yyval = new Node\Expr\Empty_($this->yyastk[$this->stackPos-(4-3)], $attributes); 
+    protected function reduceRule245($attributes) {
+         $this->semValue = new Node\Expr\Empty_($this->semStack[$this->stackPos-(4-3)], $attributes); 
     }
 
-    protected function yyn246($attributes) {
-         $this->yyval = new Node\Expr\Include_($this->yyastk[$this->stackPos-(2-2)], Node\Expr\Include_::TYPE_INCLUDE, $attributes); 
+    protected function reduceRule246($attributes) {
+         $this->semValue = new Node\Expr\Include_($this->semStack[$this->stackPos-(2-2)], Node\Expr\Include_::TYPE_INCLUDE, $attributes); 
     }
 
-    protected function yyn247($attributes) {
-         $this->yyval = new Node\Expr\Include_($this->yyastk[$this->stackPos-(2-2)], Node\Expr\Include_::TYPE_INCLUDE_ONCE, $attributes); 
+    protected function reduceRule247($attributes) {
+         $this->semValue = new Node\Expr\Include_($this->semStack[$this->stackPos-(2-2)], Node\Expr\Include_::TYPE_INCLUDE_ONCE, $attributes); 
     }
 
-    protected function yyn248($attributes) {
-         $this->yyval = new Node\Expr\Eval_($this->yyastk[$this->stackPos-(2-2)], $attributes); 
+    protected function reduceRule248($attributes) {
+         $this->semValue = new Node\Expr\Eval_($this->semStack[$this->stackPos-(2-2)], $attributes); 
     }
 
-    protected function yyn249($attributes) {
-         $this->yyval = new Node\Expr\Include_($this->yyastk[$this->stackPos-(2-2)], Node\Expr\Include_::TYPE_REQUIRE, $attributes); 
+    protected function reduceRule249($attributes) {
+         $this->semValue = new Node\Expr\Include_($this->semStack[$this->stackPos-(2-2)], Node\Expr\Include_::TYPE_REQUIRE, $attributes); 
     }
 
-    protected function yyn250($attributes) {
-         $this->yyval = new Node\Expr\Include_($this->yyastk[$this->stackPos-(2-2)], Node\Expr\Include_::TYPE_REQUIRE_ONCE, $attributes); 
+    protected function reduceRule250($attributes) {
+         $this->semValue = new Node\Expr\Include_($this->semStack[$this->stackPos-(2-2)], Node\Expr\Include_::TYPE_REQUIRE_ONCE, $attributes); 
     }
 
-    protected function yyn251($attributes) {
-         $this->yyval = new Node\Expr\Cast\Int($this->yyastk[$this->stackPos-(2-2)], $attributes); 
+    protected function reduceRule251($attributes) {
+         $this->semValue = new Node\Expr\Cast\Int($this->semStack[$this->stackPos-(2-2)], $attributes); 
     }
 
-    protected function yyn252($attributes) {
-         $this->yyval = new Node\Expr\Cast\Double($this->yyastk[$this->stackPos-(2-2)], $attributes); 
+    protected function reduceRule252($attributes) {
+         $this->semValue = new Node\Expr\Cast\Double($this->semStack[$this->stackPos-(2-2)], $attributes); 
     }
 
-    protected function yyn253($attributes) {
-         $this->yyval = new Node\Expr\Cast\String($this->yyastk[$this->stackPos-(2-2)], $attributes); 
+    protected function reduceRule253($attributes) {
+         $this->semValue = new Node\Expr\Cast\String($this->semStack[$this->stackPos-(2-2)], $attributes); 
     }
 
-    protected function yyn254($attributes) {
-         $this->yyval = new Node\Expr\Cast\Array_($this->yyastk[$this->stackPos-(2-2)], $attributes); 
+    protected function reduceRule254($attributes) {
+         $this->semValue = new Node\Expr\Cast\Array_($this->semStack[$this->stackPos-(2-2)], $attributes); 
     }
 
-    protected function yyn255($attributes) {
-         $this->yyval = new Node\Expr\Cast\Object($this->yyastk[$this->stackPos-(2-2)], $attributes); 
+    protected function reduceRule255($attributes) {
+         $this->semValue = new Node\Expr\Cast\Object($this->semStack[$this->stackPos-(2-2)], $attributes); 
     }
 
-    protected function yyn256($attributes) {
-         $this->yyval = new Node\Expr\Cast\Bool($this->yyastk[$this->stackPos-(2-2)], $attributes); 
+    protected function reduceRule256($attributes) {
+         $this->semValue = new Node\Expr\Cast\Bool($this->semStack[$this->stackPos-(2-2)], $attributes); 
     }
 
-    protected function yyn257($attributes) {
-         $this->yyval = new Node\Expr\Cast\Unset_($this->yyastk[$this->stackPos-(2-2)], $attributes); 
+    protected function reduceRule257($attributes) {
+         $this->semValue = new Node\Expr\Cast\Unset_($this->semStack[$this->stackPos-(2-2)], $attributes); 
     }
 
-    protected function yyn258($attributes) {
-         $this->yyval = new Node\Expr\Exit_($this->yyastk[$this->stackPos-(2-2)], $attributes); 
+    protected function reduceRule258($attributes) {
+         $this->semValue = new Node\Expr\Exit_($this->semStack[$this->stackPos-(2-2)], $attributes); 
     }
 
-    protected function yyn259($attributes) {
-         $this->yyval = new Node\Expr\ErrorSuppress($this->yyastk[$this->stackPos-(2-2)], $attributes); 
+    protected function reduceRule259($attributes) {
+         $this->semValue = new Node\Expr\ErrorSuppress($this->semStack[$this->stackPos-(2-2)], $attributes); 
     }
 
-    protected function yyn260($attributes) {
-         $this->yyval = $this->yyastk[$this->stackPos-(1-1)]; 
+    protected function reduceRule260($attributes) {
+         $this->semValue = $this->semStack[$this->stackPos-(1-1)]; 
     }
 
-    protected function yyn261($attributes) {
-         $this->yyval = $this->yyastk[$this->stackPos-(1-1)]; 
+    protected function reduceRule261($attributes) {
+         $this->semValue = $this->semStack[$this->stackPos-(1-1)]; 
     }
 
-    protected function yyn262($attributes) {
-         $this->yyval = $this->yyastk[$this->stackPos-(1-1)]; 
+    protected function reduceRule262($attributes) {
+         $this->semValue = $this->semStack[$this->stackPos-(1-1)]; 
     }
 
-    protected function yyn263($attributes) {
-         $this->yyval = new Node\Expr\ShellExec($this->yyastk[$this->stackPos-(3-2)], $attributes); 
+    protected function reduceRule263($attributes) {
+         $this->semValue = new Node\Expr\ShellExec($this->semStack[$this->stackPos-(3-2)], $attributes); 
     }
 
-    protected function yyn264($attributes) {
-         $this->yyval = new Node\Expr\Print_($this->yyastk[$this->stackPos-(2-2)], $attributes); 
+    protected function reduceRule264($attributes) {
+         $this->semValue = new Node\Expr\Print_($this->semStack[$this->stackPos-(2-2)], $attributes); 
     }
 
-    protected function yyn265($attributes) {
-         $this->yyval = new Node\Expr\Yield_(null, null, $attributes); 
+    protected function reduceRule265($attributes) {
+         $this->semValue = new Node\Expr\Yield_(null, null, $attributes); 
     }
 
-    protected function yyn266($attributes) {
-         $this->yyval = new Node\Expr\Closure(array('static' => false, 'byRef' => $this->yyastk[$this->stackPos-(9-2)], 'params' => $this->yyastk[$this->stackPos-(9-4)], 'uses' => $this->yyastk[$this->stackPos-(9-6)], 'stmts' => $this->yyastk[$this->stackPos-(9-8)]), $attributes); 
+    protected function reduceRule266($attributes) {
+         $this->semValue = new Node\Expr\Closure(array('static' => false, 'byRef' => $this->semStack[$this->stackPos-(9-2)], 'params' => $this->semStack[$this->stackPos-(9-4)], 'uses' => $this->semStack[$this->stackPos-(9-6)], 'stmts' => $this->semStack[$this->stackPos-(9-8)]), $attributes); 
     }
 
-    protected function yyn267($attributes) {
-         $this->yyval = new Node\Expr\Closure(array('static' => true, 'byRef' => $this->yyastk[$this->stackPos-(10-3)], 'params' => $this->yyastk[$this->stackPos-(10-5)], 'uses' => $this->yyastk[$this->stackPos-(10-7)], 'stmts' => $this->yyastk[$this->stackPos-(10-9)]), $attributes); 
+    protected function reduceRule267($attributes) {
+         $this->semValue = new Node\Expr\Closure(array('static' => true, 'byRef' => $this->semStack[$this->stackPos-(10-3)], 'params' => $this->semStack[$this->stackPos-(10-5)], 'uses' => $this->semStack[$this->stackPos-(10-7)], 'stmts' => $this->semStack[$this->stackPos-(10-9)]), $attributes); 
     }
 
-    protected function yyn268($attributes) {
-         $this->yyval = $this->yyastk[$this->stackPos-(3-2)]; 
+    protected function reduceRule268($attributes) {
+         $this->semValue = $this->semStack[$this->stackPos-(3-2)]; 
     }
 
-    protected function yyn269($attributes) {
-         $this->yyval = $this->yyastk[$this->stackPos-(3-2)]; 
+    protected function reduceRule269($attributes) {
+         $this->semValue = $this->semStack[$this->stackPos-(3-2)]; 
     }
 
-    protected function yyn270($attributes) {
-         $this->yyval = new Node\Expr\Yield_($this->yyastk[$this->stackPos-(2-2)], null, $attributes); 
+    protected function reduceRule270($attributes) {
+         $this->semValue = new Node\Expr\Yield_($this->semStack[$this->stackPos-(2-2)], null, $attributes); 
     }
 
-    protected function yyn271($attributes) {
-         $this->yyval = new Node\Expr\Yield_($this->yyastk[$this->stackPos-(4-4)], $this->yyastk[$this->stackPos-(4-2)], $attributes); 
+    protected function reduceRule271($attributes) {
+         $this->semValue = new Node\Expr\Yield_($this->semStack[$this->stackPos-(4-4)], $this->semStack[$this->stackPos-(4-2)], $attributes); 
     }
 
-    protected function yyn272($attributes) {
-         $this->yyval = new Node\Expr\Array_($this->yyastk[$this->stackPos-(4-3)], $attributes); 
+    protected function reduceRule272($attributes) {
+         $this->semValue = new Node\Expr\Array_($this->semStack[$this->stackPos-(4-3)], $attributes); 
     }
 
-    protected function yyn273($attributes) {
-         $this->yyval = new Node\Expr\Array_($this->yyastk[$this->stackPos-(3-2)], $attributes); 
+    protected function reduceRule273($attributes) {
+         $this->semValue = new Node\Expr\Array_($this->semStack[$this->stackPos-(3-2)], $attributes); 
     }
 
-    protected function yyn274($attributes) {
-         $this->yyval = new Node\Expr\ArrayDimFetch($this->yyastk[$this->stackPos-(4-1)], $this->yyastk[$this->stackPos-(4-3)], $attributes); 
+    protected function reduceRule274($attributes) {
+         $this->semValue = new Node\Expr\ArrayDimFetch($this->semStack[$this->stackPos-(4-1)], $this->semStack[$this->stackPos-(4-3)], $attributes); 
     }
 
-    protected function yyn275($attributes) {
-         $this->yyval = new Node\Expr\ArrayDimFetch(new Node\Scalar\String(Node\Scalar\String::parse($this->yyastk[$this->stackPos-(4-1)]), $attributes), $this->yyastk[$this->stackPos-(4-3)], $attributes); 
+    protected function reduceRule275($attributes) {
+         $this->semValue = new Node\Expr\ArrayDimFetch(new Node\Scalar\String(Node\Scalar\String::parse($this->semStack[$this->stackPos-(4-1)]), $attributes), $this->semStack[$this->stackPos-(4-3)], $attributes); 
     }
 
-    protected function yyn276($attributes) {
-         $this->yyval = new Node\Expr\ArrayDimFetch($this->yyastk[$this->stackPos-(4-1)], $this->yyastk[$this->stackPos-(4-3)], $attributes); 
+    protected function reduceRule276($attributes) {
+         $this->semValue = new Node\Expr\ArrayDimFetch($this->semStack[$this->stackPos-(4-1)], $this->semStack[$this->stackPos-(4-3)], $attributes); 
     }
 
-    protected function yyn277($attributes) {
-         $this->yyval = new Node\Expr\New_($this->yyastk[$this->stackPos-(3-2)], $this->yyastk[$this->stackPos-(3-3)], $attributes); 
+    protected function reduceRule277($attributes) {
+         $this->semValue = new Node\Expr\New_($this->semStack[$this->stackPos-(3-2)], $this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
-    protected function yyn278($attributes) {
-         $this->yyval = array(); 
+    protected function reduceRule278($attributes) {
+         $this->semValue = array(); 
     }
 
-    protected function yyn279($attributes) {
-         $this->yyval = $this->yyastk[$this->stackPos-(4-3)]; 
+    protected function reduceRule279($attributes) {
+         $this->semValue = $this->semStack[$this->stackPos-(4-3)]; 
     }
 
-    protected function yyn280($attributes) {
-         $this->yyval = array($this->yyastk[$this->stackPos-(1-1)]); 
+    protected function reduceRule280($attributes) {
+         $this->semValue = array($this->semStack[$this->stackPos-(1-1)]); 
     }
 
-    protected function yyn281($attributes) {
-         $this->yyastk[$this->stackPos-(3-1)][] = $this->yyastk[$this->stackPos-(3-3)]; $this->yyval = $this->yyastk[$this->stackPos-(3-1)]; 
+    protected function reduceRule281($attributes) {
+         $this->semStack[$this->stackPos-(3-1)][] = $this->semStack[$this->stackPos-(3-3)]; $this->semValue = $this->semStack[$this->stackPos-(3-1)]; 
     }
 
-    protected function yyn282($attributes) {
-         $this->yyval = new Node\Expr\ClosureUse(substr($this->yyastk[$this->stackPos-(2-2)], 1), $this->yyastk[$this->stackPos-(2-1)], $attributes); 
+    protected function reduceRule282($attributes) {
+         $this->semValue = new Node\Expr\ClosureUse(substr($this->semStack[$this->stackPos-(2-2)], 1), $this->semStack[$this->stackPos-(2-1)], $attributes); 
     }
 
-    protected function yyn283($attributes) {
-         $this->yyval = new Node\Expr\FuncCall($this->yyastk[$this->stackPos-(2-1)], $this->yyastk[$this->stackPos-(2-2)], $attributes); 
+    protected function reduceRule283($attributes) {
+         $this->semValue = new Node\Expr\FuncCall($this->semStack[$this->stackPos-(2-1)], $this->semStack[$this->stackPos-(2-2)], $attributes); 
     }
 
-    protected function yyn284($attributes) {
-         $this->yyval = new Node\Expr\StaticCall($this->yyastk[$this->stackPos-(4-1)], $this->yyastk[$this->stackPos-(4-3)], $this->yyastk[$this->stackPos-(4-4)], $attributes); 
+    protected function reduceRule284($attributes) {
+         $this->semValue = new Node\Expr\StaticCall($this->semStack[$this->stackPos-(4-1)], $this->semStack[$this->stackPos-(4-3)], $this->semStack[$this->stackPos-(4-4)], $attributes); 
     }
 
-    protected function yyn285($attributes) {
-         $this->yyval = new Node\Expr\StaticCall($this->yyastk[$this->stackPos-(6-1)], $this->yyastk[$this->stackPos-(6-4)], $this->yyastk[$this->stackPos-(6-6)], $attributes); 
+    protected function reduceRule285($attributes) {
+         $this->semValue = new Node\Expr\StaticCall($this->semStack[$this->stackPos-(6-1)], $this->semStack[$this->stackPos-(6-4)], $this->semStack[$this->stackPos-(6-6)], $attributes); 
     }
 
-    protected function yyn286($attributes) {
+    protected function reduceRule286($attributes) {
         
-            if ($this->yyastk[$this->stackPos-(2-1)] instanceof Node\Expr\StaticPropertyFetch) {
-                $this->yyval = new Node\Expr\StaticCall($this->yyastk[$this->stackPos-(2-1)]->class, new Node\Expr\Variable($this->yyastk[$this->stackPos-(2-1)]->name, $attributes), $this->yyastk[$this->stackPos-(2-2)], $attributes);
-            } elseif ($this->yyastk[$this->stackPos-(2-1)] instanceof Node\Expr\ArrayDimFetch) {
-                $tmp = $this->yyastk[$this->stackPos-(2-1)];
+            if ($this->semStack[$this->stackPos-(2-1)] instanceof Node\Expr\StaticPropertyFetch) {
+                $this->semValue = new Node\Expr\StaticCall($this->semStack[$this->stackPos-(2-1)]->class, new Node\Expr\Variable($this->semStack[$this->stackPos-(2-1)]->name, $attributes), $this->semStack[$this->stackPos-(2-2)], $attributes);
+            } elseif ($this->semStack[$this->stackPos-(2-1)] instanceof Node\Expr\ArrayDimFetch) {
+                $tmp = $this->semStack[$this->stackPos-(2-1)];
                 while ($tmp->var instanceof Node\Expr\ArrayDimFetch) {
                     $tmp = $tmp->var;
                 }
 
-                $this->yyval = new Node\Expr\StaticCall($tmp->var->class, $this->yyastk[$this->stackPos-(2-1)], $this->yyastk[$this->stackPos-(2-2)], $attributes);
+                $this->semValue = new Node\Expr\StaticCall($tmp->var->class, $this->semStack[$this->stackPos-(2-1)], $this->semStack[$this->stackPos-(2-2)], $attributes);
                 $tmp->var = new Node\Expr\Variable($tmp->var->name, $attributes);
             } else {
                 throw new \Exception;
@@ -2158,611 +2158,611 @@ class Parser extends ParserAbstract
           
     }
 
-    protected function yyn287($attributes) {
-         $this->yyval = new Node\Expr\FuncCall($this->yyastk[$this->stackPos-(2-1)], $this->yyastk[$this->stackPos-(2-2)], $attributes); 
+    protected function reduceRule287($attributes) {
+         $this->semValue = new Node\Expr\FuncCall($this->semStack[$this->stackPos-(2-1)], $this->semStack[$this->stackPos-(2-2)], $attributes); 
     }
 
-    protected function yyn288($attributes) {
-         $this->yyval = new Node\Expr\ArrayDimFetch($this->yyastk[$this->stackPos-(4-1)], $this->yyastk[$this->stackPos-(4-3)], $attributes); 
+    protected function reduceRule288($attributes) {
+         $this->semValue = new Node\Expr\ArrayDimFetch($this->semStack[$this->stackPos-(4-1)], $this->semStack[$this->stackPos-(4-3)], $attributes); 
     }
 
-    protected function yyn289($attributes) {
-         $this->yyval = new Node\Name('static', $attributes); 
+    protected function reduceRule289($attributes) {
+         $this->semValue = new Node\Name('static', $attributes); 
     }
 
-    protected function yyn290($attributes) {
-         $this->yyval = $this->yyastk[$this->stackPos-(1-1)]; 
+    protected function reduceRule290($attributes) {
+         $this->semValue = $this->semStack[$this->stackPos-(1-1)]; 
     }
 
-    protected function yyn291($attributes) {
-         $this->yyval = new Node\Name($this->yyastk[$this->stackPos-(1-1)], $attributes); 
+    protected function reduceRule291($attributes) {
+         $this->semValue = new Node\Name($this->semStack[$this->stackPos-(1-1)], $attributes); 
     }
 
-    protected function yyn292($attributes) {
-         $this->yyval = new Node\Name\FullyQualified($this->yyastk[$this->stackPos-(2-2)], $attributes); 
+    protected function reduceRule292($attributes) {
+         $this->semValue = new Node\Name\FullyQualified($this->semStack[$this->stackPos-(2-2)], $attributes); 
     }
 
-    protected function yyn293($attributes) {
-         $this->yyval = new Node\Name\Relative($this->yyastk[$this->stackPos-(3-3)], $attributes); 
+    protected function reduceRule293($attributes) {
+         $this->semValue = new Node\Name\Relative($this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
-    protected function yyn294($attributes) {
-         $this->yyval = $this->yyastk[$this->stackPos-(1-1)]; 
+    protected function reduceRule294($attributes) {
+         $this->semValue = $this->semStack[$this->stackPos-(1-1)]; 
     }
 
-    protected function yyn295($attributes) {
-         $this->yyval = $this->yyastk[$this->stackPos-(1-1)]; 
+    protected function reduceRule295($attributes) {
+         $this->semValue = $this->semStack[$this->stackPos-(1-1)]; 
     }
 
-    protected function yyn296($attributes) {
-         $this->yyval = $this->yyastk[$this->stackPos-(1-1)]; 
+    protected function reduceRule296($attributes) {
+         $this->semValue = $this->semStack[$this->stackPos-(1-1)]; 
     }
 
-    protected function yyn297($attributes) {
-         $this->yyval = $this->yyastk[$this->stackPos-(1-1)]; 
+    protected function reduceRule297($attributes) {
+         $this->semValue = $this->semStack[$this->stackPos-(1-1)]; 
     }
 
-    protected function yyn298($attributes) {
-         $this->yyval = $this->yyastk[$this->stackPos-(1-1)]; 
+    protected function reduceRule298($attributes) {
+         $this->semValue = $this->semStack[$this->stackPos-(1-1)]; 
     }
 
-    protected function yyn299($attributes) {
-         $this->yyval = $this->yyastk[$this->stackPos-(1-1)]; 
+    protected function reduceRule299($attributes) {
+         $this->semValue = $this->semStack[$this->stackPos-(1-1)]; 
     }
 
-    protected function yyn300() {
-        $this->yyval = $this->yyastk[$this->stackPos];
+    protected function reduceRule300() {
+        $this->semValue = $this->semStack[$this->stackPos];
     }
 
-    protected function yyn301($attributes) {
-         $this->yyval = new Node\Expr\PropertyFetch($this->yyastk[$this->stackPos-(3-1)], $this->yyastk[$this->stackPos-(3-3)], $attributes); 
+    protected function reduceRule301($attributes) {
+         $this->semValue = new Node\Expr\PropertyFetch($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
-    protected function yyn302($attributes) {
-         $this->yyval = new Node\Expr\PropertyFetch($this->yyastk[$this->stackPos-(3-1)], $this->yyastk[$this->stackPos-(3-3)], $attributes); 
+    protected function reduceRule302($attributes) {
+         $this->semValue = new Node\Expr\PropertyFetch($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
-    protected function yyn303($attributes) {
-         $this->yyval = new Node\Expr\ArrayDimFetch($this->yyastk[$this->stackPos-(4-1)], $this->yyastk[$this->stackPos-(4-3)], $attributes); 
+    protected function reduceRule303($attributes) {
+         $this->semValue = new Node\Expr\ArrayDimFetch($this->semStack[$this->stackPos-(4-1)], $this->semStack[$this->stackPos-(4-3)], $attributes); 
     }
 
-    protected function yyn304($attributes) {
-         $this->yyval = new Node\Expr\ArrayDimFetch($this->yyastk[$this->stackPos-(4-1)], $this->yyastk[$this->stackPos-(4-3)], $attributes); 
+    protected function reduceRule304($attributes) {
+         $this->semValue = new Node\Expr\ArrayDimFetch($this->semStack[$this->stackPos-(4-1)], $this->semStack[$this->stackPos-(4-3)], $attributes); 
     }
 
-    protected function yyn305($attributes) {
-         $this->yyval = null; 
+    protected function reduceRule305($attributes) {
+         $this->semValue = null; 
     }
 
-    protected function yyn306($attributes) {
-         $this->yyval = null; 
+    protected function reduceRule306($attributes) {
+         $this->semValue = null; 
     }
 
-    protected function yyn307($attributes) {
-         $this->yyval = $this->yyastk[$this->stackPos-(1-1)]; 
+    protected function reduceRule307($attributes) {
+         $this->semValue = $this->semStack[$this->stackPos-(1-1)]; 
     }
 
-    protected function yyn308($attributes) {
-         $this->yyval = array(); 
+    protected function reduceRule308($attributes) {
+         $this->semValue = array(); 
     }
 
-    protected function yyn309($attributes) {
-         $this->yyval = array(Node\Scalar\String::parseEscapeSequences($this->yyastk[$this->stackPos-(1-1)], '`')); 
+    protected function reduceRule309($attributes) {
+         $this->semValue = array(Node\Scalar\String::parseEscapeSequences($this->semStack[$this->stackPos-(1-1)], '`')); 
     }
 
-    protected function yyn310($attributes) {
-         foreach ($this->yyastk[$this->stackPos-(1-1)] as &$s) { if (is_string($s)) { $s = Node\Scalar\String::parseEscapeSequences($s, '`'); } }; $this->yyval = $this->yyastk[$this->stackPos-(1-1)]; 
+    protected function reduceRule310($attributes) {
+         foreach ($this->semStack[$this->stackPos-(1-1)] as &$s) { if (is_string($s)) { $s = Node\Scalar\String::parseEscapeSequences($s, '`'); } }; $this->semValue = $this->semStack[$this->stackPos-(1-1)]; 
     }
 
-    protected function yyn311($attributes) {
-         $this->yyval = array(); 
+    protected function reduceRule311($attributes) {
+         $this->semValue = array(); 
     }
 
-    protected function yyn312($attributes) {
-         $this->yyval = $this->yyastk[$this->stackPos-(1-1)]; 
+    protected function reduceRule312($attributes) {
+         $this->semValue = $this->semStack[$this->stackPos-(1-1)]; 
     }
 
-    protected function yyn313($attributes) {
-         $this->yyval = new Node\Scalar\LNumber(Node\Scalar\LNumber::parse($this->yyastk[$this->stackPos-(1-1)]), $attributes); 
+    protected function reduceRule313($attributes) {
+         $this->semValue = new Node\Scalar\LNumber(Node\Scalar\LNumber::parse($this->semStack[$this->stackPos-(1-1)]), $attributes); 
     }
 
-    protected function yyn314($attributes) {
-         $this->yyval = new Node\Scalar\DNumber(Node\Scalar\DNumber::parse($this->yyastk[$this->stackPos-(1-1)]), $attributes); 
+    protected function reduceRule314($attributes) {
+         $this->semValue = new Node\Scalar\DNumber(Node\Scalar\DNumber::parse($this->semStack[$this->stackPos-(1-1)]), $attributes); 
     }
 
-    protected function yyn315($attributes) {
-         $this->yyval = new Node\Scalar\String(Node\Scalar\String::parse($this->yyastk[$this->stackPos-(1-1)]), $attributes); 
+    protected function reduceRule315($attributes) {
+         $this->semValue = new Node\Scalar\String(Node\Scalar\String::parse($this->semStack[$this->stackPos-(1-1)]), $attributes); 
     }
 
-    protected function yyn316($attributes) {
-         $this->yyval = new Node\Scalar\MagicConst\Line($attributes); 
+    protected function reduceRule316($attributes) {
+         $this->semValue = new Node\Scalar\MagicConst\Line($attributes); 
     }
 
-    protected function yyn317($attributes) {
-         $this->yyval = new Node\Scalar\MagicConst\File($attributes); 
+    protected function reduceRule317($attributes) {
+         $this->semValue = new Node\Scalar\MagicConst\File($attributes); 
     }
 
-    protected function yyn318($attributes) {
-         $this->yyval = new Node\Scalar\MagicConst\Dir($attributes); 
+    protected function reduceRule318($attributes) {
+         $this->semValue = new Node\Scalar\MagicConst\Dir($attributes); 
     }
 
-    protected function yyn319($attributes) {
-         $this->yyval = new Node\Scalar\MagicConst\Class_($attributes); 
+    protected function reduceRule319($attributes) {
+         $this->semValue = new Node\Scalar\MagicConst\Class_($attributes); 
     }
 
-    protected function yyn320($attributes) {
-         $this->yyval = new Node\Scalar\MagicConst\Trait_($attributes); 
+    protected function reduceRule320($attributes) {
+         $this->semValue = new Node\Scalar\MagicConst\Trait_($attributes); 
     }
 
-    protected function yyn321($attributes) {
-         $this->yyval = new Node\Scalar\MagicConst\Method($attributes); 
+    protected function reduceRule321($attributes) {
+         $this->semValue = new Node\Scalar\MagicConst\Method($attributes); 
     }
 
-    protected function yyn322($attributes) {
-         $this->yyval = new Node\Scalar\MagicConst\Function_($attributes); 
+    protected function reduceRule322($attributes) {
+         $this->semValue = new Node\Scalar\MagicConst\Function_($attributes); 
     }
 
-    protected function yyn323($attributes) {
-         $this->yyval = new Node\Scalar\MagicConst\Namespace_($attributes); 
+    protected function reduceRule323($attributes) {
+         $this->semValue = new Node\Scalar\MagicConst\Namespace_($attributes); 
     }
 
-    protected function yyn324($attributes) {
-         $this->yyval = new Node\Scalar\String(Node\Scalar\String::parseDocString($this->yyastk[$this->stackPos-(3-1)], $this->yyastk[$this->stackPos-(3-2)]), $attributes); 
+    protected function reduceRule324($attributes) {
+         $this->semValue = new Node\Scalar\String(Node\Scalar\String::parseDocString($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-2)]), $attributes); 
     }
 
-    protected function yyn325($attributes) {
-         $this->yyval = new Node\Scalar\String('', $attributes); 
+    protected function reduceRule325($attributes) {
+         $this->semValue = new Node\Scalar\String('', $attributes); 
     }
 
-    protected function yyn326($attributes) {
-         $this->yyval = new Node\Expr\ConstFetch($this->yyastk[$this->stackPos-(1-1)], $attributes); 
+    protected function reduceRule326($attributes) {
+         $this->semValue = new Node\Expr\ConstFetch($this->semStack[$this->stackPos-(1-1)], $attributes); 
     }
 
-    protected function yyn327($attributes) {
-         $this->yyval = $this->yyastk[$this->stackPos-(1-1)]; 
+    protected function reduceRule327($attributes) {
+         $this->semValue = $this->semStack[$this->stackPos-(1-1)]; 
     }
 
-    protected function yyn328($attributes) {
-         $this->yyval = new Node\Expr\ClassConstFetch($this->yyastk[$this->stackPos-(3-1)], $this->yyastk[$this->stackPos-(3-3)], $attributes); 
+    protected function reduceRule328($attributes) {
+         $this->semValue = new Node\Expr\ClassConstFetch($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
-    protected function yyn329($attributes) {
-         $this->yyval = new Node\Expr\Array_($this->yyastk[$this->stackPos-(4-3)], $attributes); 
+    protected function reduceRule329($attributes) {
+         $this->semValue = new Node\Expr\Array_($this->semStack[$this->stackPos-(4-3)], $attributes); 
     }
 
-    protected function yyn330($attributes) {
-         $this->yyval = new Node\Expr\Array_($this->yyastk[$this->stackPos-(3-2)], $attributes); 
+    protected function reduceRule330($attributes) {
+         $this->semValue = new Node\Expr\Array_($this->semStack[$this->stackPos-(3-2)], $attributes); 
     }
 
-    protected function yyn331($attributes) {
-         $this->yyval = $this->yyastk[$this->stackPos-(1-1)]; 
+    protected function reduceRule331($attributes) {
+         $this->semValue = $this->semStack[$this->stackPos-(1-1)]; 
     }
 
-    protected function yyn332($attributes) {
-         $this->yyval = new Node\Expr\BinaryOp\BooleanOr($this->yyastk[$this->stackPos-(3-1)], $this->yyastk[$this->stackPos-(3-3)], $attributes); 
+    protected function reduceRule332($attributes) {
+         $this->semValue = new Node\Expr\BinaryOp\BooleanOr($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
-    protected function yyn333($attributes) {
-         $this->yyval = new Node\Expr\BinaryOp\BooleanAnd($this->yyastk[$this->stackPos-(3-1)], $this->yyastk[$this->stackPos-(3-3)], $attributes); 
+    protected function reduceRule333($attributes) {
+         $this->semValue = new Node\Expr\BinaryOp\BooleanAnd($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
-    protected function yyn334($attributes) {
-         $this->yyval = new Node\Expr\BinaryOp\LogicalOr($this->yyastk[$this->stackPos-(3-1)], $this->yyastk[$this->stackPos-(3-3)], $attributes); 
+    protected function reduceRule334($attributes) {
+         $this->semValue = new Node\Expr\BinaryOp\LogicalOr($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
-    protected function yyn335($attributes) {
-         $this->yyval = new Node\Expr\BinaryOp\LogicalAnd($this->yyastk[$this->stackPos-(3-1)], $this->yyastk[$this->stackPos-(3-3)], $attributes); 
+    protected function reduceRule335($attributes) {
+         $this->semValue = new Node\Expr\BinaryOp\LogicalAnd($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
-    protected function yyn336($attributes) {
-         $this->yyval = new Node\Expr\BinaryOp\LogicalXor($this->yyastk[$this->stackPos-(3-1)], $this->yyastk[$this->stackPos-(3-3)], $attributes); 
+    protected function reduceRule336($attributes) {
+         $this->semValue = new Node\Expr\BinaryOp\LogicalXor($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
-    protected function yyn337($attributes) {
-         $this->yyval = new Node\Expr\BinaryOp\BitwiseOr($this->yyastk[$this->stackPos-(3-1)], $this->yyastk[$this->stackPos-(3-3)], $attributes); 
+    protected function reduceRule337($attributes) {
+         $this->semValue = new Node\Expr\BinaryOp\BitwiseOr($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
-    protected function yyn338($attributes) {
-         $this->yyval = new Node\Expr\BinaryOp\BitwiseAnd($this->yyastk[$this->stackPos-(3-1)], $this->yyastk[$this->stackPos-(3-3)], $attributes); 
+    protected function reduceRule338($attributes) {
+         $this->semValue = new Node\Expr\BinaryOp\BitwiseAnd($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
-    protected function yyn339($attributes) {
-         $this->yyval = new Node\Expr\BinaryOp\BitwiseXor($this->yyastk[$this->stackPos-(3-1)], $this->yyastk[$this->stackPos-(3-3)], $attributes); 
+    protected function reduceRule339($attributes) {
+         $this->semValue = new Node\Expr\BinaryOp\BitwiseXor($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
-    protected function yyn340($attributes) {
-         $this->yyval = new Node\Expr\BinaryOp\Concat($this->yyastk[$this->stackPos-(3-1)], $this->yyastk[$this->stackPos-(3-3)], $attributes); 
+    protected function reduceRule340($attributes) {
+         $this->semValue = new Node\Expr\BinaryOp\Concat($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
-    protected function yyn341($attributes) {
-         $this->yyval = new Node\Expr\BinaryOp\Plus($this->yyastk[$this->stackPos-(3-1)], $this->yyastk[$this->stackPos-(3-3)], $attributes); 
+    protected function reduceRule341($attributes) {
+         $this->semValue = new Node\Expr\BinaryOp\Plus($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
-    protected function yyn342($attributes) {
-         $this->yyval = new Node\Expr\BinaryOp\Minus($this->yyastk[$this->stackPos-(3-1)], $this->yyastk[$this->stackPos-(3-3)], $attributes); 
+    protected function reduceRule342($attributes) {
+         $this->semValue = new Node\Expr\BinaryOp\Minus($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
-    protected function yyn343($attributes) {
-         $this->yyval = new Node\Expr\BinaryOp\Mul($this->yyastk[$this->stackPos-(3-1)], $this->yyastk[$this->stackPos-(3-3)], $attributes); 
+    protected function reduceRule343($attributes) {
+         $this->semValue = new Node\Expr\BinaryOp\Mul($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
-    protected function yyn344($attributes) {
-         $this->yyval = new Node\Expr\BinaryOp\Div($this->yyastk[$this->stackPos-(3-1)], $this->yyastk[$this->stackPos-(3-3)], $attributes); 
+    protected function reduceRule344($attributes) {
+         $this->semValue = new Node\Expr\BinaryOp\Div($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
-    protected function yyn345($attributes) {
-         $this->yyval = new Node\Expr\BinaryOp\Mod($this->yyastk[$this->stackPos-(3-1)], $this->yyastk[$this->stackPos-(3-3)], $attributes); 
+    protected function reduceRule345($attributes) {
+         $this->semValue = new Node\Expr\BinaryOp\Mod($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
-    protected function yyn346($attributes) {
-         $this->yyval = new Node\Expr\BinaryOp\ShiftLeft($this->yyastk[$this->stackPos-(3-1)], $this->yyastk[$this->stackPos-(3-3)], $attributes); 
+    protected function reduceRule346($attributes) {
+         $this->semValue = new Node\Expr\BinaryOp\ShiftLeft($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
-    protected function yyn347($attributes) {
-         $this->yyval = new Node\Expr\BinaryOp\ShiftRight($this->yyastk[$this->stackPos-(3-1)], $this->yyastk[$this->stackPos-(3-3)], $attributes); 
+    protected function reduceRule347($attributes) {
+         $this->semValue = new Node\Expr\BinaryOp\ShiftRight($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
-    protected function yyn348($attributes) {
-         $this->yyval = new Node\Expr\BinaryOp\Pow($this->yyastk[$this->stackPos-(3-1)], $this->yyastk[$this->stackPos-(3-3)], $attributes); 
+    protected function reduceRule348($attributes) {
+         $this->semValue = new Node\Expr\BinaryOp\Pow($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
-    protected function yyn349($attributes) {
-         $this->yyval = new Node\Expr\UnaryPlus($this->yyastk[$this->stackPos-(2-2)], $attributes); 
+    protected function reduceRule349($attributes) {
+         $this->semValue = new Node\Expr\UnaryPlus($this->semStack[$this->stackPos-(2-2)], $attributes); 
     }
 
-    protected function yyn350($attributes) {
-         $this->yyval = new Node\Expr\UnaryMinus($this->yyastk[$this->stackPos-(2-2)], $attributes); 
+    protected function reduceRule350($attributes) {
+         $this->semValue = new Node\Expr\UnaryMinus($this->semStack[$this->stackPos-(2-2)], $attributes); 
     }
 
-    protected function yyn351($attributes) {
-         $this->yyval = new Node\Expr\BooleanNot($this->yyastk[$this->stackPos-(2-2)], $attributes); 
+    protected function reduceRule351($attributes) {
+         $this->semValue = new Node\Expr\BooleanNot($this->semStack[$this->stackPos-(2-2)], $attributes); 
     }
 
-    protected function yyn352($attributes) {
-         $this->yyval = new Node\Expr\BitwiseNot($this->yyastk[$this->stackPos-(2-2)], $attributes); 
+    protected function reduceRule352($attributes) {
+         $this->semValue = new Node\Expr\BitwiseNot($this->semStack[$this->stackPos-(2-2)], $attributes); 
     }
 
-    protected function yyn353($attributes) {
-         $this->yyval = new Node\Expr\BinaryOp\Identical($this->yyastk[$this->stackPos-(3-1)], $this->yyastk[$this->stackPos-(3-3)], $attributes); 
+    protected function reduceRule353($attributes) {
+         $this->semValue = new Node\Expr\BinaryOp\Identical($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
-    protected function yyn354($attributes) {
-         $this->yyval = new Node\Expr\BinaryOp\NotIdentical($this->yyastk[$this->stackPos-(3-1)], $this->yyastk[$this->stackPos-(3-3)], $attributes); 
+    protected function reduceRule354($attributes) {
+         $this->semValue = new Node\Expr\BinaryOp\NotIdentical($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
-    protected function yyn355($attributes) {
-         $this->yyval = new Node\Expr\BinaryOp\Equal($this->yyastk[$this->stackPos-(3-1)], $this->yyastk[$this->stackPos-(3-3)], $attributes); 
+    protected function reduceRule355($attributes) {
+         $this->semValue = new Node\Expr\BinaryOp\Equal($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
-    protected function yyn356($attributes) {
-         $this->yyval = new Node\Expr\BinaryOp\NotEqual($this->yyastk[$this->stackPos-(3-1)], $this->yyastk[$this->stackPos-(3-3)], $attributes); 
+    protected function reduceRule356($attributes) {
+         $this->semValue = new Node\Expr\BinaryOp\NotEqual($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
-    protected function yyn357($attributes) {
-         $this->yyval = new Node\Expr\BinaryOp\Smaller($this->yyastk[$this->stackPos-(3-1)], $this->yyastk[$this->stackPos-(3-3)], $attributes); 
+    protected function reduceRule357($attributes) {
+         $this->semValue = new Node\Expr\BinaryOp\Smaller($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
-    protected function yyn358($attributes) {
-         $this->yyval = new Node\Expr\BinaryOp\SmallerOrEqual($this->yyastk[$this->stackPos-(3-1)], $this->yyastk[$this->stackPos-(3-3)], $attributes); 
+    protected function reduceRule358($attributes) {
+         $this->semValue = new Node\Expr\BinaryOp\SmallerOrEqual($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
-    protected function yyn359($attributes) {
-         $this->yyval = new Node\Expr\BinaryOp\Greater($this->yyastk[$this->stackPos-(3-1)], $this->yyastk[$this->stackPos-(3-3)], $attributes); 
+    protected function reduceRule359($attributes) {
+         $this->semValue = new Node\Expr\BinaryOp\Greater($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
-    protected function yyn360($attributes) {
-         $this->yyval = new Node\Expr\BinaryOp\GreaterOrEqual($this->yyastk[$this->stackPos-(3-1)], $this->yyastk[$this->stackPos-(3-3)], $attributes); 
+    protected function reduceRule360($attributes) {
+         $this->semValue = new Node\Expr\BinaryOp\GreaterOrEqual($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
-    protected function yyn361($attributes) {
-         $this->yyval = new Node\Expr\Ternary($this->yyastk[$this->stackPos-(5-1)], $this->yyastk[$this->stackPos-(5-3)], $this->yyastk[$this->stackPos-(5-5)], $attributes); 
+    protected function reduceRule361($attributes) {
+         $this->semValue = new Node\Expr\Ternary($this->semStack[$this->stackPos-(5-1)], $this->semStack[$this->stackPos-(5-3)], $this->semStack[$this->stackPos-(5-5)], $attributes); 
     }
 
-    protected function yyn362($attributes) {
-         $this->yyval = new Node\Expr\Ternary($this->yyastk[$this->stackPos-(4-1)], null, $this->yyastk[$this->stackPos-(4-4)], $attributes); 
+    protected function reduceRule362($attributes) {
+         $this->semValue = new Node\Expr\Ternary($this->semStack[$this->stackPos-(4-1)], null, $this->semStack[$this->stackPos-(4-4)], $attributes); 
     }
 
-    protected function yyn363($attributes) {
-         $this->yyval = new Node\Expr\ArrayDimFetch($this->yyastk[$this->stackPos-(4-1)], $this->yyastk[$this->stackPos-(4-3)], $attributes); 
+    protected function reduceRule363($attributes) {
+         $this->semValue = new Node\Expr\ArrayDimFetch($this->semStack[$this->stackPos-(4-1)], $this->semStack[$this->stackPos-(4-3)], $attributes); 
     }
 
-    protected function yyn364($attributes) {
-         $this->yyval = $this->yyastk[$this->stackPos-(3-2)]; 
+    protected function reduceRule364($attributes) {
+         $this->semValue = $this->semStack[$this->stackPos-(3-2)]; 
     }
 
-    protected function yyn365($attributes) {
-         $this->yyval = $this->yyastk[$this->stackPos-(1-1)]; 
+    protected function reduceRule365($attributes) {
+         $this->semValue = $this->semStack[$this->stackPos-(1-1)]; 
     }
 
-    protected function yyn366($attributes) {
-         $this->yyval = new Node\Expr\ClassConstFetch($this->yyastk[$this->stackPos-(3-1)], $this->yyastk[$this->stackPos-(3-3)], $attributes); 
+    protected function reduceRule366($attributes) {
+         $this->semValue = new Node\Expr\ClassConstFetch($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
-    protected function yyn367($attributes) {
-         foreach ($this->yyastk[$this->stackPos-(3-2)] as &$s) { if (is_string($s)) { $s = Node\Scalar\String::parseEscapeSequences($s, '"'); } }; $this->yyval = new Node\Scalar\Encapsed($this->yyastk[$this->stackPos-(3-2)], $attributes); 
+    protected function reduceRule367($attributes) {
+         foreach ($this->semStack[$this->stackPos-(3-2)] as &$s) { if (is_string($s)) { $s = Node\Scalar\String::parseEscapeSequences($s, '"'); } }; $this->semValue = new Node\Scalar\Encapsed($this->semStack[$this->stackPos-(3-2)], $attributes); 
     }
 
-    protected function yyn368($attributes) {
-         foreach ($this->yyastk[$this->stackPos-(3-2)] as &$s) { if (is_string($s)) { $s = Node\Scalar\String::parseEscapeSequences($s, null); } } $s = preg_replace('~(\r\n|\n|\r)$~', '', $s); if ('' === $s) array_pop($this->yyastk[$this->stackPos-(3-2)]);; $this->yyval = new Node\Scalar\Encapsed($this->yyastk[$this->stackPos-(3-2)], $attributes); 
+    protected function reduceRule368($attributes) {
+         foreach ($this->semStack[$this->stackPos-(3-2)] as &$s) { if (is_string($s)) { $s = Node\Scalar\String::parseEscapeSequences($s, null); } } $s = preg_replace('~(\r\n|\n|\r)$~', '', $s); if ('' === $s) array_pop($this->semStack[$this->stackPos-(3-2)]);; $this->semValue = new Node\Scalar\Encapsed($this->semStack[$this->stackPos-(3-2)], $attributes); 
     }
 
-    protected function yyn369($attributes) {
-         $this->yyval = $this->yyastk[$this->stackPos-(1-1)]; 
+    protected function reduceRule369($attributes) {
+         $this->semValue = $this->semStack[$this->stackPos-(1-1)]; 
     }
 
-    protected function yyn370($attributes) {
-         $this->yyval = 'class'; 
+    protected function reduceRule370($attributes) {
+         $this->semValue = 'class'; 
     }
 
-    protected function yyn371($attributes) {
-         $this->yyval = array(); 
+    protected function reduceRule371($attributes) {
+         $this->semValue = array(); 
     }
 
-    protected function yyn372($attributes) {
-         $this->yyval = $this->yyastk[$this->stackPos-(2-1)]; 
+    protected function reduceRule372($attributes) {
+         $this->semValue = $this->semStack[$this->stackPos-(2-1)]; 
     }
 
-    protected function yyn373() {
-        $this->yyval = $this->yyastk[$this->stackPos];
+    protected function reduceRule373() {
+        $this->semValue = $this->semStack[$this->stackPos];
     }
 
-    protected function yyn374() {
-        $this->yyval = $this->yyastk[$this->stackPos];
+    protected function reduceRule374() {
+        $this->semValue = $this->semStack[$this->stackPos];
     }
 
-    protected function yyn375($attributes) {
-         $this->yyastk[$this->stackPos-(3-1)][] = $this->yyastk[$this->stackPos-(3-3)]; $this->yyval = $this->yyastk[$this->stackPos-(3-1)]; 
+    protected function reduceRule375($attributes) {
+         $this->semStack[$this->stackPos-(3-1)][] = $this->semStack[$this->stackPos-(3-3)]; $this->semValue = $this->semStack[$this->stackPos-(3-1)]; 
     }
 
-    protected function yyn376($attributes) {
-         $this->yyval = array($this->yyastk[$this->stackPos-(1-1)]); 
+    protected function reduceRule376($attributes) {
+         $this->semValue = array($this->semStack[$this->stackPos-(1-1)]); 
     }
 
-    protected function yyn377($attributes) {
-         $this->yyval = new Node\Expr\ArrayItem($this->yyastk[$this->stackPos-(3-3)], $this->yyastk[$this->stackPos-(3-1)], false, $attributes); 
+    protected function reduceRule377($attributes) {
+         $this->semValue = new Node\Expr\ArrayItem($this->semStack[$this->stackPos-(3-3)], $this->semStack[$this->stackPos-(3-1)], false, $attributes); 
     }
 
-    protected function yyn378($attributes) {
-         $this->yyval = new Node\Expr\ArrayItem($this->yyastk[$this->stackPos-(1-1)], null, false, $attributes); 
+    protected function reduceRule378($attributes) {
+         $this->semValue = new Node\Expr\ArrayItem($this->semStack[$this->stackPos-(1-1)], null, false, $attributes); 
     }
 
-    protected function yyn379($attributes) {
-         $this->yyval = $this->yyastk[$this->stackPos-(1-1)]; 
+    protected function reduceRule379($attributes) {
+         $this->semValue = $this->semStack[$this->stackPos-(1-1)]; 
     }
 
-    protected function yyn380($attributes) {
-         $this->yyval = $this->yyastk[$this->stackPos-(1-1)]; 
+    protected function reduceRule380($attributes) {
+         $this->semValue = $this->semStack[$this->stackPos-(1-1)]; 
     }
 
-    protected function yyn381($attributes) {
-         $this->yyval = $this->yyastk[$this->stackPos-(1-1)]; 
+    protected function reduceRule381($attributes) {
+         $this->semValue = $this->semStack[$this->stackPos-(1-1)]; 
     }
 
-    protected function yyn382($attributes) {
-         $this->yyval = $this->yyastk[$this->stackPos-(1-1)]; 
+    protected function reduceRule382($attributes) {
+         $this->semValue = $this->semStack[$this->stackPos-(1-1)]; 
     }
 
-    protected function yyn383($attributes) {
-         $this->yyval = new Node\Expr\ArrayDimFetch($this->yyastk[$this->stackPos-(6-2)], $this->yyastk[$this->stackPos-(6-5)], $attributes); 
+    protected function reduceRule383($attributes) {
+         $this->semValue = new Node\Expr\ArrayDimFetch($this->semStack[$this->stackPos-(6-2)], $this->semStack[$this->stackPos-(6-5)], $attributes); 
     }
 
-    protected function yyn384($attributes) {
-         $this->yyval = new Node\Expr\ArrayDimFetch($this->yyastk[$this->stackPos-(4-1)], $this->yyastk[$this->stackPos-(4-3)], $attributes); 
+    protected function reduceRule384($attributes) {
+         $this->semValue = new Node\Expr\ArrayDimFetch($this->semStack[$this->stackPos-(4-1)], $this->semStack[$this->stackPos-(4-3)], $attributes); 
     }
 
-    protected function yyn385($attributes) {
-         $this->yyval = new Node\Expr\PropertyFetch($this->yyastk[$this->stackPos-(3-1)], $this->yyastk[$this->stackPos-(3-3)], $attributes); 
+    protected function reduceRule385($attributes) {
+         $this->semValue = new Node\Expr\PropertyFetch($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
-    protected function yyn386($attributes) {
-         $this->yyval = new Node\Expr\MethodCall($this->yyastk[$this->stackPos-(4-1)], $this->yyastk[$this->stackPos-(4-3)], $this->yyastk[$this->stackPos-(4-4)], $attributes); 
+    protected function reduceRule386($attributes) {
+         $this->semValue = new Node\Expr\MethodCall($this->semStack[$this->stackPos-(4-1)], $this->semStack[$this->stackPos-(4-3)], $this->semStack[$this->stackPos-(4-4)], $attributes); 
     }
 
-    protected function yyn387($attributes) {
-         $this->yyval = new Node\Expr\FuncCall($this->yyastk[$this->stackPos-(2-1)], $this->yyastk[$this->stackPos-(2-2)], $attributes); 
+    protected function reduceRule387($attributes) {
+         $this->semValue = new Node\Expr\FuncCall($this->semStack[$this->stackPos-(2-1)], $this->semStack[$this->stackPos-(2-2)], $attributes); 
     }
 
-    protected function yyn388($attributes) {
-         $this->yyval = new Node\Expr\ArrayDimFetch($this->yyastk[$this->stackPos-(4-1)], $this->yyastk[$this->stackPos-(4-3)], $attributes); 
+    protected function reduceRule388($attributes) {
+         $this->semValue = new Node\Expr\ArrayDimFetch($this->semStack[$this->stackPos-(4-1)], $this->semStack[$this->stackPos-(4-3)], $attributes); 
     }
 
-    protected function yyn389($attributes) {
-         $this->yyval = new Node\Expr\ArrayDimFetch($this->yyastk[$this->stackPos-(4-1)], $this->yyastk[$this->stackPos-(4-3)], $attributes); 
+    protected function reduceRule389($attributes) {
+         $this->semValue = new Node\Expr\ArrayDimFetch($this->semStack[$this->stackPos-(4-1)], $this->semStack[$this->stackPos-(4-3)], $attributes); 
     }
 
-    protected function yyn390($attributes) {
-         $this->yyval = $this->yyastk[$this->stackPos-(1-1)]; 
+    protected function reduceRule390($attributes) {
+         $this->semValue = $this->semStack[$this->stackPos-(1-1)]; 
     }
 
-    protected function yyn391($attributes) {
-         $this->yyval = $this->yyastk[$this->stackPos-(3-2)]; 
+    protected function reduceRule391($attributes) {
+         $this->semValue = $this->semStack[$this->stackPos-(3-2)]; 
     }
 
-    protected function yyn392($attributes) {
-         $this->yyval = $this->yyastk[$this->stackPos-(1-1)]; 
+    protected function reduceRule392($attributes) {
+         $this->semValue = $this->semStack[$this->stackPos-(1-1)]; 
     }
 
-    protected function yyn393($attributes) {
-         $this->yyval = new Node\Expr\Variable($this->yyastk[$this->stackPos-(2-2)], $attributes); 
+    protected function reduceRule393($attributes) {
+         $this->semValue = new Node\Expr\Variable($this->semStack[$this->stackPos-(2-2)], $attributes); 
     }
 
-    protected function yyn394($attributes) {
-         $this->yyval = $this->yyastk[$this->stackPos-(1-1)]; 
+    protected function reduceRule394($attributes) {
+         $this->semValue = $this->semStack[$this->stackPos-(1-1)]; 
     }
 
-    protected function yyn395($attributes) {
-         $this->yyval = $this->yyastk[$this->stackPos-(1-1)]; 
+    protected function reduceRule395($attributes) {
+         $this->semValue = $this->semStack[$this->stackPos-(1-1)]; 
     }
 
-    protected function yyn396($attributes) {
-         $this->yyval = new Node\Expr\StaticPropertyFetch($this->yyastk[$this->stackPos-(4-1)], $this->yyastk[$this->stackPos-(4-4)], $attributes); 
+    protected function reduceRule396($attributes) {
+         $this->semValue = new Node\Expr\StaticPropertyFetch($this->semStack[$this->stackPos-(4-1)], $this->semStack[$this->stackPos-(4-4)], $attributes); 
     }
 
-    protected function yyn397($attributes) {
-         $this->yyval = $this->yyastk[$this->stackPos-(1-1)]; 
+    protected function reduceRule397($attributes) {
+         $this->semValue = $this->semStack[$this->stackPos-(1-1)]; 
     }
 
-    protected function yyn398($attributes) {
-         $this->yyval = new Node\Expr\StaticPropertyFetch($this->yyastk[$this->stackPos-(3-1)], substr($this->yyastk[$this->stackPos-(3-3)], 1), $attributes); 
+    protected function reduceRule398($attributes) {
+         $this->semValue = new Node\Expr\StaticPropertyFetch($this->semStack[$this->stackPos-(3-1)], substr($this->semStack[$this->stackPos-(3-3)], 1), $attributes); 
     }
 
-    protected function yyn399($attributes) {
-         $this->yyval = new Node\Expr\StaticPropertyFetch($this->yyastk[$this->stackPos-(6-1)], $this->yyastk[$this->stackPos-(6-5)], $attributes); 
+    protected function reduceRule399($attributes) {
+         $this->semValue = new Node\Expr\StaticPropertyFetch($this->semStack[$this->stackPos-(6-1)], $this->semStack[$this->stackPos-(6-5)], $attributes); 
     }
 
-    protected function yyn400($attributes) {
-         $this->yyval = new Node\Expr\ArrayDimFetch($this->yyastk[$this->stackPos-(4-1)], $this->yyastk[$this->stackPos-(4-3)], $attributes); 
+    protected function reduceRule400($attributes) {
+         $this->semValue = new Node\Expr\ArrayDimFetch($this->semStack[$this->stackPos-(4-1)], $this->semStack[$this->stackPos-(4-3)], $attributes); 
     }
 
-    protected function yyn401($attributes) {
-         $this->yyval = new Node\Expr\ArrayDimFetch($this->yyastk[$this->stackPos-(4-1)], $this->yyastk[$this->stackPos-(4-3)], $attributes); 
+    protected function reduceRule401($attributes) {
+         $this->semValue = new Node\Expr\ArrayDimFetch($this->semStack[$this->stackPos-(4-1)], $this->semStack[$this->stackPos-(4-3)], $attributes); 
     }
 
-    protected function yyn402($attributes) {
-         $this->yyval = new Node\Expr\ArrayDimFetch($this->yyastk[$this->stackPos-(4-1)], $this->yyastk[$this->stackPos-(4-3)], $attributes); 
+    protected function reduceRule402($attributes) {
+         $this->semValue = new Node\Expr\ArrayDimFetch($this->semStack[$this->stackPos-(4-1)], $this->semStack[$this->stackPos-(4-3)], $attributes); 
     }
 
-    protected function yyn403($attributes) {
-         $this->yyval = new Node\Expr\ArrayDimFetch($this->yyastk[$this->stackPos-(4-1)], $this->yyastk[$this->stackPos-(4-3)], $attributes); 
+    protected function reduceRule403($attributes) {
+         $this->semValue = new Node\Expr\ArrayDimFetch($this->semStack[$this->stackPos-(4-1)], $this->semStack[$this->stackPos-(4-3)], $attributes); 
     }
 
-    protected function yyn404($attributes) {
-         $this->yyval = new Node\Expr\Variable(substr($this->yyastk[$this->stackPos-(1-1)], 1), $attributes); 
+    protected function reduceRule404($attributes) {
+         $this->semValue = new Node\Expr\Variable(substr($this->semStack[$this->stackPos-(1-1)], 1), $attributes); 
     }
 
-    protected function yyn405($attributes) {
-         $this->yyval = new Node\Expr\Variable($this->yyastk[$this->stackPos-(4-3)], $attributes); 
+    protected function reduceRule405($attributes) {
+         $this->semValue = new Node\Expr\Variable($this->semStack[$this->stackPos-(4-3)], $attributes); 
     }
 
-    protected function yyn406($attributes) {
-         $this->yyval = null; 
+    protected function reduceRule406($attributes) {
+         $this->semValue = null; 
     }
 
-    protected function yyn407($attributes) {
-         $this->yyval = $this->yyastk[$this->stackPos-(1-1)]; 
+    protected function reduceRule407($attributes) {
+         $this->semValue = $this->semStack[$this->stackPos-(1-1)]; 
     }
 
-    protected function yyn408($attributes) {
-         $this->yyval = $this->yyastk[$this->stackPos-(1-1)]; 
+    protected function reduceRule408($attributes) {
+         $this->semValue = $this->semStack[$this->stackPos-(1-1)]; 
     }
 
-    protected function yyn409($attributes) {
-         $this->yyval = $this->yyastk[$this->stackPos-(3-2)]; 
+    protected function reduceRule409($attributes) {
+         $this->semValue = $this->semStack[$this->stackPos-(3-2)]; 
     }
 
-    protected function yyn410($attributes) {
-         $this->yyval = $this->yyastk[$this->stackPos-(1-1)]; 
+    protected function reduceRule410($attributes) {
+         $this->semValue = $this->semStack[$this->stackPos-(1-1)]; 
     }
 
-    protected function yyn411($attributes) {
-         $this->yyval = new Node\Expr\List_($this->yyastk[$this->stackPos-(4-3)], $attributes); 
+    protected function reduceRule411($attributes) {
+         $this->semValue = new Node\Expr\List_($this->semStack[$this->stackPos-(4-3)], $attributes); 
     }
 
-    protected function yyn412($attributes) {
-         $this->yyastk[$this->stackPos-(3-1)][] = $this->yyastk[$this->stackPos-(3-3)]; $this->yyval = $this->yyastk[$this->stackPos-(3-1)]; 
+    protected function reduceRule412($attributes) {
+         $this->semStack[$this->stackPos-(3-1)][] = $this->semStack[$this->stackPos-(3-3)]; $this->semValue = $this->semStack[$this->stackPos-(3-1)]; 
     }
 
-    protected function yyn413($attributes) {
-         $this->yyval = array($this->yyastk[$this->stackPos-(1-1)]); 
+    protected function reduceRule413($attributes) {
+         $this->semValue = array($this->semStack[$this->stackPos-(1-1)]); 
     }
 
-    protected function yyn414($attributes) {
-         $this->yyval = $this->yyastk[$this->stackPos-(1-1)]; 
+    protected function reduceRule414($attributes) {
+         $this->semValue = $this->semStack[$this->stackPos-(1-1)]; 
     }
 
-    protected function yyn415($attributes) {
-         $this->yyval = $this->yyastk[$this->stackPos-(1-1)]; 
+    protected function reduceRule415($attributes) {
+         $this->semValue = $this->semStack[$this->stackPos-(1-1)]; 
     }
 
-    protected function yyn416($attributes) {
-         $this->yyval = null; 
+    protected function reduceRule416($attributes) {
+         $this->semValue = null; 
     }
 
-    protected function yyn417($attributes) {
-         $this->yyval = array(); 
+    protected function reduceRule417($attributes) {
+         $this->semValue = array(); 
     }
 
-    protected function yyn418($attributes) {
-         $this->yyval = $this->yyastk[$this->stackPos-(2-1)]; 
+    protected function reduceRule418($attributes) {
+         $this->semValue = $this->semStack[$this->stackPos-(2-1)]; 
     }
 
-    protected function yyn419($attributes) {
-         $this->yyastk[$this->stackPos-(3-1)][] = $this->yyastk[$this->stackPos-(3-3)]; $this->yyval = $this->yyastk[$this->stackPos-(3-1)]; 
+    protected function reduceRule419($attributes) {
+         $this->semStack[$this->stackPos-(3-1)][] = $this->semStack[$this->stackPos-(3-3)]; $this->semValue = $this->semStack[$this->stackPos-(3-1)]; 
     }
 
-    protected function yyn420($attributes) {
-         $this->yyval = array($this->yyastk[$this->stackPos-(1-1)]); 
+    protected function reduceRule420($attributes) {
+         $this->semValue = array($this->semStack[$this->stackPos-(1-1)]); 
     }
 
-    protected function yyn421($attributes) {
-         $this->yyval = new Node\Expr\ArrayItem($this->yyastk[$this->stackPos-(3-3)], $this->yyastk[$this->stackPos-(3-1)], false, $attributes); 
+    protected function reduceRule421($attributes) {
+         $this->semValue = new Node\Expr\ArrayItem($this->semStack[$this->stackPos-(3-3)], $this->semStack[$this->stackPos-(3-1)], false, $attributes); 
     }
 
-    protected function yyn422($attributes) {
-         $this->yyval = new Node\Expr\ArrayItem($this->yyastk[$this->stackPos-(1-1)], null, false, $attributes); 
+    protected function reduceRule422($attributes) {
+         $this->semValue = new Node\Expr\ArrayItem($this->semStack[$this->stackPos-(1-1)], null, false, $attributes); 
     }
 
-    protected function yyn423($attributes) {
-         $this->yyval = new Node\Expr\ArrayItem($this->yyastk[$this->stackPos-(4-4)], $this->yyastk[$this->stackPos-(4-1)], true, $attributes); 
+    protected function reduceRule423($attributes) {
+         $this->semValue = new Node\Expr\ArrayItem($this->semStack[$this->stackPos-(4-4)], $this->semStack[$this->stackPos-(4-1)], true, $attributes); 
     }
 
-    protected function yyn424($attributes) {
-         $this->yyval = new Node\Expr\ArrayItem($this->yyastk[$this->stackPos-(2-2)], null, true, $attributes); 
+    protected function reduceRule424($attributes) {
+         $this->semValue = new Node\Expr\ArrayItem($this->semStack[$this->stackPos-(2-2)], null, true, $attributes); 
     }
 
-    protected function yyn425($attributes) {
-         $this->yyastk[$this->stackPos-(2-1)][] = $this->yyastk[$this->stackPos-(2-2)]; $this->yyval = $this->yyastk[$this->stackPos-(2-1)]; 
+    protected function reduceRule425($attributes) {
+         $this->semStack[$this->stackPos-(2-1)][] = $this->semStack[$this->stackPos-(2-2)]; $this->semValue = $this->semStack[$this->stackPos-(2-1)]; 
     }
 
-    protected function yyn426($attributes) {
-         $this->yyastk[$this->stackPos-(2-1)][] = $this->yyastk[$this->stackPos-(2-2)]; $this->yyval = $this->yyastk[$this->stackPos-(2-1)]; 
+    protected function reduceRule426($attributes) {
+         $this->semStack[$this->stackPos-(2-1)][] = $this->semStack[$this->stackPos-(2-2)]; $this->semValue = $this->semStack[$this->stackPos-(2-1)]; 
     }
 
-    protected function yyn427($attributes) {
-         $this->yyval = array($this->yyastk[$this->stackPos-(1-1)]); 
+    protected function reduceRule427($attributes) {
+         $this->semValue = array($this->semStack[$this->stackPos-(1-1)]); 
     }
 
-    protected function yyn428($attributes) {
-         $this->yyval = array($this->yyastk[$this->stackPos-(2-1)], $this->yyastk[$this->stackPos-(2-2)]); 
+    protected function reduceRule428($attributes) {
+         $this->semValue = array($this->semStack[$this->stackPos-(2-1)], $this->semStack[$this->stackPos-(2-2)]); 
     }
 
-    protected function yyn429($attributes) {
-         $this->yyval = new Node\Expr\Variable(substr($this->yyastk[$this->stackPos-(1-1)], 1), $attributes); 
+    protected function reduceRule429($attributes) {
+         $this->semValue = new Node\Expr\Variable(substr($this->semStack[$this->stackPos-(1-1)], 1), $attributes); 
     }
 
-    protected function yyn430($attributes) {
-         $this->yyval = new Node\Expr\ArrayDimFetch(new Node\Expr\Variable(substr($this->yyastk[$this->stackPos-(4-1)], 1), $attributes), $this->yyastk[$this->stackPos-(4-3)], $attributes); 
+    protected function reduceRule430($attributes) {
+         $this->semValue = new Node\Expr\ArrayDimFetch(new Node\Expr\Variable(substr($this->semStack[$this->stackPos-(4-1)], 1), $attributes), $this->semStack[$this->stackPos-(4-3)], $attributes); 
     }
 
-    protected function yyn431($attributes) {
-         $this->yyval = new Node\Expr\PropertyFetch(new Node\Expr\Variable(substr($this->yyastk[$this->stackPos-(3-1)], 1), $attributes), $this->yyastk[$this->stackPos-(3-3)], $attributes); 
+    protected function reduceRule431($attributes) {
+         $this->semValue = new Node\Expr\PropertyFetch(new Node\Expr\Variable(substr($this->semStack[$this->stackPos-(3-1)], 1), $attributes), $this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
-    protected function yyn432($attributes) {
-         $this->yyval = new Node\Expr\Variable($this->yyastk[$this->stackPos-(3-2)], $attributes); 
+    protected function reduceRule432($attributes) {
+         $this->semValue = new Node\Expr\Variable($this->semStack[$this->stackPos-(3-2)], $attributes); 
     }
 
-    protected function yyn433($attributes) {
-         $this->yyval = new Node\Expr\Variable($this->yyastk[$this->stackPos-(3-2)], $attributes); 
+    protected function reduceRule433($attributes) {
+         $this->semValue = new Node\Expr\Variable($this->semStack[$this->stackPos-(3-2)], $attributes); 
     }
 
-    protected function yyn434($attributes) {
-         $this->yyval = new Node\Expr\ArrayDimFetch(new Node\Expr\Variable($this->yyastk[$this->stackPos-(6-2)], $attributes), $this->yyastk[$this->stackPos-(6-4)], $attributes); 
+    protected function reduceRule434($attributes) {
+         $this->semValue = new Node\Expr\ArrayDimFetch(new Node\Expr\Variable($this->semStack[$this->stackPos-(6-2)], $attributes), $this->semStack[$this->stackPos-(6-4)], $attributes); 
     }
 
-    protected function yyn435($attributes) {
-         $this->yyval = $this->yyastk[$this->stackPos-(3-2)]; 
+    protected function reduceRule435($attributes) {
+         $this->semValue = $this->semStack[$this->stackPos-(3-2)]; 
     }
 
-    protected function yyn436($attributes) {
-         $this->yyval = new Node\Scalar\String($this->yyastk[$this->stackPos-(1-1)], $attributes); 
+    protected function reduceRule436($attributes) {
+         $this->semValue = new Node\Scalar\String($this->semStack[$this->stackPos-(1-1)], $attributes); 
     }
 
-    protected function yyn437($attributes) {
-         $this->yyval = new Node\Scalar\String($this->yyastk[$this->stackPos-(1-1)], $attributes); 
+    protected function reduceRule437($attributes) {
+         $this->semValue = new Node\Scalar\String($this->semStack[$this->stackPos-(1-1)], $attributes); 
     }
 
-    protected function yyn438($attributes) {
-         $this->yyval = new Node\Expr\Variable(substr($this->yyastk[$this->stackPos-(1-1)], 1), $attributes); 
+    protected function reduceRule438($attributes) {
+         $this->semValue = new Node\Expr\Variable(substr($this->semStack[$this->stackPos-(1-1)], 1), $attributes); 
     }
 }

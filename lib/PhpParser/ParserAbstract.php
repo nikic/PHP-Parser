@@ -8,45 +8,78 @@ namespace PhpParser;
  */
 abstract class ParserAbstract
 {
-    /* The following dummy data must be provided by the extending class: */
+    const SYMBOL_NONE = -1;
 
-    const TOKEN_INVALID = 0;
-    const TOKEN_MAP_SIZE = 0;
+    /*
+     * The following members will be filled with generated parsing data:
+     */
 
-    const YYLAST       = 0;
-    const YY2TBLSTATE  = 0;
-    const YYGLAST      = 0;
-    const YYNLSTATES   = 0;
-    const YYUNEXPECTED = 0;
-    const YYDEFAULT    = 0;
+    /** @var int Size of $tokenToSymbol map */
+    protected $tokenToSymbolMapSize;
+    /** @var int Size of $action table */
+    protected $actionTableSize;
+    /** @var int Size of $goto table */
+    protected $gotoTableSize;
 
-    /* @var array Map of token ids to their respective names */
-    protected $terminals;
-    /* @var array Map which translates lexer tokens to internal tokens */
-    protected $translate;
+    /** @var int Symbol number signifying an invalid token */
+    protected $invalidSymbol;
+    /** @var int Action number signifying default action */
+    protected $defaultAction;
+    /** @var int Rule number signifying that an unexpected token was encountered */
+    protected $unexpectedTokenRule;
 
-    protected $yyaction;
-    protected $yycheck;
-    protected $yybase;
-    protected $yydefault;
-    protected $yygoto;
-    protected $yygcheck;
-    protected $yygbase;
-    protected $yygdefault;
-    protected $yylhs;
-    protected $yylen;
+    protected $YY2TBLSTATE;
+    protected $YYNLSTATES;
 
-    /* This is optional data only necessary when debugging */
-    protected $yyproduction;
+    /** @var array Map of lexer tokens to internal symbols */
+    protected $tokenToSymbol;
+    /** @var array Map of symbols to their names */
+    protected $symbolToName;
+    /** @var array Names of the production rules (only necessary for debugging) */
+    protected $productions;
 
-    /* End of dummy data */
+    /** @var array Map of states to a displacement into the $action table. The corresponding action for this
+     *             state/symbol pair is $action[$actionBase[$state] + $symbol]. If $actionBase[$state] is 0, the
+                   action is defaulted, i.e. $actionDefault[$state] should be used instead. */
+    protected $actionBase;
+    /** @var array Table of actions. Indexed according to $actionBase comment. */
+    protected $action;
+    /** @var array Table indexed analogously to $action. If $actionCheck[$actionBase[$state] + $symbol] != $symbol
+     *             then the action is defaulted, i.e. $actionDefault[$state] should be used instead. */
+    protected $actionCheck;
+    /** @var array Map of states to their default action */
+    protected $actionDefault;
 
-    const TOKEN_NONE = -1;
+    /** @var array Map of non-terminals to a displacement into the $goto table. The corresponding goto state for this
+     *             non-terminal/state pair is $goto[$gotoBase[$nonTerminal] + $state] (unless defaulted) */
+    protected $gotoBase;
+    /** @var array Table of states to goto after reduction. Indexed according to $gotoBase comment. */
+    protected $goto;
+    /** @var array Table indexed analogously to $goto. If $gotoCheck[$gotoBase[$nonTerminal] + $state] != $nonTerminal
+     *             then the goto state is defaulted, i.e. $gotoDefault[$nonTerminal] should be used. */
+    protected $gotoCheck;
+    /** @var array Map of non-terminals to the default state to goto after their reduction */
+    protected $gotoDefault;
 
-    protected $yyval;
-    protected $yyastk;
-    protected $stackPos;
+    /** @var array Map of rules to the non-terminal on their left-hand side, i.e. the non-terminal to use for
+     *             determining the state to goto after reduction. */
+    protected $ruleToNonTerminal;
+    /** @var array Map of rules to the length of their right-hand side, which is the number of elements that have to
+     *             be popped from the stack(s) on reduction. */
+    protected $ruleToLength;
+
+    /*
+     * The following members are part of the parser state:
+     */
+
+    /** @var Lexer Lexer that is used when parsing */
     protected $lexer;
+    /** @var mixed Temporary value containing the result of last semantic action (reduction) */
+    protected $semValue;
+    /** @var array Semantic value stack (contains values of tokens and semantic action results) */
+    protected $semStack;
+    /** @var int Position in stacks (state stack, semantic value stack, attribute stack) */
+    protected $stackPos;
 
     /**
      * Creates a parser instance.
@@ -68,7 +101,7 @@ abstract class ParserAbstract
         $this->lexer->startLexing($code);
 
         // We start off with no lookahead-token
-        $tokenId = self::TOKEN_NONE;
+        $symbol = self::SYMBOL_NONE;
 
         // The attributes for a node are taken from the first and last token of the node.
         // From the first token only the startAttributes are taken and from the last only
@@ -84,93 +117,91 @@ abstract class ParserAbstract
         $state = 0;
         $stateStack = array($state);
 
-        // AST stack (?)
-        $this->yyastk = array();
+        // Semantic value stack (contains values of tokens and semantic action results)
+        $this->semStack = array();
 
         // Current position in the stack(s)
         $this->stackPos = 0;
 
         for (;;) {
-            //$this->traceNewState($state, $tokenId);
+            //$this->traceNewState($state, $symbol);
 
-            if ($this->yybase[$state] == 0) {
-                $yyn = $this->yydefault[$state];
+            if ($this->actionBase[$state] == 0) {
+                $rule = $this->actionDefault[$state];
             } else {
-                if ($tokenId === self::TOKEN_NONE) {
+                if ($symbol === self::SYMBOL_NONE) {
                     // Fetch the next token id from the lexer and fetch additional info by-ref.
                     // The end attributes are fetched into a temporary variable and only set once the token is really
                     // shifted (not during read). Otherwise you would sometimes get off-by-one errors, when a rule is
                     // reduced after a token was read but not yet shifted.
-                    $origTokenId = $this->lexer->getNextToken($tokenValue, $startAttributes, $nextEndAttributes);
+                    $tokenId = $this->lexer->getNextToken($tokenValue, $startAttributes, $nextEndAttributes);
 
-                    // map the lexer token id to the internally used token id's
-                    $tokenId = $origTokenId >= 0 && $origTokenId < static::TOKEN_MAP_SIZE
-                        ? $this->translate[$origTokenId]
-                        : static::TOKEN_INVALID;
+                    // map the lexer token id to the internally used symbols
+                    $symbol = $tokenId >= 0 && $tokenId < $this->tokenToSymbolMapSize
+                        ? $this->tokenToSymbol[$tokenId]
+                        : $this->invalidSymbol;
 
-                    if ($tokenId === static::TOKEN_INVALID) {
+                    if ($symbol === $this->invalidSymbol) {
                         throw new \RangeException(sprintf(
                             'The lexer returned an invalid token (id=%d, value=%s)',
-                            $origTokenId, $tokenValue
+                            $tokenId, $tokenValue
                         ));
                     }
 
                     $attributeStack[$this->stackPos] = $startAttributes;
 
-                    //$this->traceRead($tokenId);
+                    //$this->traceRead($symbol);
                 }
 
-                if ((($yyn = $this->yybase[$state] + $tokenId) >= 0
-                     && $yyn < static::YYLAST && $this->yycheck[$yyn] == $tokenId
-                     || ($state < static::YY2TBLSTATE
-                        && ($yyn = $this->yybase[$state + static::YYNLSTATES] + $tokenId) >= 0
-                        && $yyn < static::YYLAST
-                        && $this->yycheck[$yyn] == $tokenId))
-                    && ($yyn = $this->yyaction[$yyn]) != static::YYDEFAULT) {
+                $idx = $this->actionBase[$state] + $symbol;
+                if ((($idx >= 0 && $idx < $this->actionTableSize && $this->actionCheck[$idx] == $symbol)
+                     || ($state < $this->YY2TBLSTATE
+                         && ($idx = $this->actionBase[$state + $this->YYNLSTATES] + $symbol) >= 0
+                         && $idx < $this->actionTableSize && $this->actionCheck[$idx] == $symbol))
+                    && ($action = $this->action[$idx]) != $this->defaultAction) {
                     /*
-                     * >= YYNLSTATE: shift and reduce
+                     * >= YYNLSTATES: shift and reduce
                      * > 0: shift
                      * = 0: accept
                      * < 0: reduce
                      * = -YYUNEXPECTED: error
                      */
-                    if ($yyn > 0) {
+                    if ($action > 0) {
                         /* shift */
-                        //$this->traceShift($tokenId);
+                        //$this->traceShift($symbol);
 
                         ++$this->stackPos;
-                        $stateStack[$this->stackPos]     = $state = $yyn;
-                        $this->yyastk[$this->stackPos]   = $tokenValue;
+                        $stateStack[$this->stackPos]     = $state = $action;
+                        $this->semStack[$this->stackPos] = $tokenValue;
                         $attributeStack[$this->stackPos] = $startAttributes;
                         $endAttributes = $nextEndAttributes;
-                        $tokenId = self::TOKEN_NONE;
+                        $symbol = self::SYMBOL_NONE;
 
-                        if ($yyn < static::YYNLSTATES)
+                        if ($action < $this->YYNLSTATES)
                             continue;
 
                         /* $yyn >= YYNLSTATES means shift-and-reduce */
-                        $yyn -= static::YYNLSTATES;
+                        $rule = $action - $this->YYNLSTATES;
                     } else {
-                        $yyn = -$yyn;
+                        $rule = -$action;
                     }
                 } else {
-                    $yyn = $this->yydefault[$state];
+                    $rule = $this->actionDefault[$state];
                 }
             }
 
             for (;;) {
-                /* reduce/error */
-                if ($yyn == 0) {
+                if ($rule === 0) {
                     /* accept */
-                    // $this->traceAccept();
-                    return $this->yyval;
-                } elseif ($yyn != static::YYUNEXPECTED) {
+                    //$this->traceAccept();
+                    return $this->semValue;
+                } elseif ($rule !== $this->unexpectedTokenRule) {
                     /* reduce */
-                    // $this->traceReduce($yyn);
+                    //$this->traceReduce($rule);
 
                     try {
-                        $this->{'yyn' . $yyn}(
-                            $attributeStack[$this->stackPos - $this->yylen[$yyn]]
+                        $this->{'reduceRule' . $rule}(
+                            $attributeStack[$this->stackPos - $this->ruleToLength[$rule]]
                             + $endAttributes
                         );
                     } catch (Error $e) {
@@ -182,75 +213,77 @@ abstract class ParserAbstract
                     }
 
                     /* Goto - shift nonterminal */
-                    $this->stackPos -= $this->yylen[$yyn];
-                    $yyn = $this->yylhs[$yyn];
-                    if (($yyp = $this->yygbase[$yyn] + $stateStack[$this->stackPos]) >= 0
-                         && $yyp < static::YYGLAST
-                         && $this->yygcheck[$yyp] == $yyn) {
-                        $state = $this->yygoto[$yyp];
+                    $this->stackPos -= $this->ruleToLength[$rule];
+                    $nonTerminal = $this->ruleToNonTerminal[$rule];
+                    $idx = $this->gotoBase[$nonTerminal] + $stateStack[$this->stackPos];
+                    if ($idx >= 0 && $idx < $this->gotoTableSize && $this->gotoCheck[$idx] == $nonTerminal) {
+                        $state = $this->goto[$idx];
                     } else {
-                        $state = $this->yygdefault[$yyn];
+                        $state = $this->gotoDefault[$nonTerminal];
                     }
 
                     ++$this->stackPos;
-
                     $stateStack[$this->stackPos]     = $state;
-                    $this->yyastk[$this->stackPos]   = $this->yyval;
+                    $this->semStack[$this->stackPos] = $this->semValue;
                     $attributeStack[$this->stackPos] = $startAttributes;
+
+                    if ($state < $this->YYNLSTATES)
+                        break;
+                    /* >= YYNLSTATES means shift-and-reduce */
+                    $rule = $state - $this->YYNLSTATES;
                 } else {
                     /* error */
-                    $expected = array();
-
-                    $base = $this->yybase[$state];
-                    for ($i = 0; $i < static::TOKEN_MAP_SIZE; ++$i) {
-                        $n = $base + $i;
-                        if ($n >= 0 && $n < static::YYLAST && $this->yycheck[$n] == $i
-                         || $state < static::YY2TBLSTATE
-                            && ($n = $this->yybase[$state + static::YYNLSTATES] + $i) >= 0
-                            && $n < static::YYLAST && $this->yycheck[$n] == $i
-                        ) {
-                            if ($this->yyaction[$n] != static::YYUNEXPECTED) {
-                                if (count($expected) == 4) {
-                                    /* Too many expected tokens */
-                                    $expected = array();
-                                    break;
-                                }
-
-                                $expected[] = $this->terminals[$i];
-                            }
-                        }
-                    }
-
-                    $expectedString = '';
-                    if ($expected) {
+                    if ($expected = $this->getExpectedTokens($state)) {
                         $expectedString = ', expecting ' . implode(' or ', $expected);
+                    } else {
+                        $expectedString = '';
                     }
 
                     throw new Error(
-                        'Syntax error, unexpected ' . $this->terminals[$tokenId] . $expectedString,
+                        'Syntax error, unexpected ' . $this->symbolToName[$symbol] . $expectedString,
                         $startAttributes['startLine']
                     );
                 }
-
-                if ($state < static::YYNLSTATES)
-                    break;
-                /* >= YYNLSTATES means shift-and-reduce */
-                $yyn = $state - static::YYNLSTATES;
             }
         }
     }
 
-    protected function traceNewState($state, $tokenId) {
+    protected function getExpectedTokens($state) {
+        $expected = array();
+
+        $base = $this->actionBase[$state];
+        foreach ($this->symbolToName as $symbol => $name) {
+            $idx = $base + $symbol;
+            if ($idx >= 0 && $idx < $this->actionTableSize && $this->actionCheck[$idx] === $symbol
+                || $state < $this->YY2TBLSTATE
+                && ($idx = $this->actionBase[$state + $this->YYNLSTATES] + $symbol) >= 0
+                && $idx < $this->actionTableSize && $this->actionCheck[$idx] === $symbol
+            ) {
+                if ($this->action[$idx] != $this->unexpectedTokenRule) {
+                    if (count($expected) == 4) {
+                        /* Too many expected tokens */
+                        return array();
+                    }
+
+                    $expected[] = $name;
+                }
+            }
+        }
+
+        return $expected;
+    }
+
+    protected function traceNewState($state, $symbol) {
         echo '% State ' . $state
-            . ', Lookahead ' . ($tokenId == self::TOKEN_NONE ? '--none--' : $this->terminals[$tokenId]) . "\n";
+            . ', Lookahead ' . ($symbol == self::SYMBOL_NONE ? '--none--' : $this->symbolToName[$symbol]) . "\n";
     }
 
-    protected function traceRead($tokenId) {
-        echo '% Reading ' . $this->terminals[$tokenId] . "\n";
+    protected function traceRead($symbol) {
+        echo '% Reading ' . $this->symbolToName[$symbol] . "\n";
     }
 
-    protected function traceShift($tokenId) {
-        echo '% Shift ' . $this->terminals[$tokenId] . "\n";
+    protected function traceShift($symbol) {
+        echo '% Shift ' . $this->symbolToName[$symbol] . "\n";
     }
 
     protected function traceAccept() {
@@ -258,6 +291,6 @@ abstract class ParserAbstract
     }
 
     protected function traceReduce($n) {
-        echo '% Reduce by (' . $n . ') ' . $this->yyproduction[$n] . "\n";
+        echo '% Reduce by (' . $n . ') ' . $this->productions[$n] . "\n";
     }
 }
