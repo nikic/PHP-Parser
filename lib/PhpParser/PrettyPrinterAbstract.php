@@ -87,7 +87,7 @@ abstract class PrettyPrinterAbstract
     public function prettyPrint(array $stmts) {
         $this->preprocessNodes($stmts);
 
-        return trim(str_replace("\n" . $this->noIndentToken, "\n", $this->pStmts($stmts, false)));
+        return ltrim(str_replace("\n" . $this->noIndentToken, "\n", $this->pStmts($stmts, false)));
     }
 
     /**
@@ -109,7 +109,7 @@ abstract class PrettyPrinterAbstract
      * @return string Pretty printed statements
      */
     public function prettyPrintFile(array $stmts) {
-        $p = $this->prettyPrint($stmts);
+        $p = rtrim($this->prettyPrint($stmts));
 
         $p = preg_replace('/^\?>\n?/', '', $p, -1, $count);
         $p = preg_replace('/<\?php$/', '', $p);
