@@ -11,3 +11,10 @@ namespace A {}
 echo 1;
 -----
 No code may exist outside of namespace {} on line 3
+-----
+<?php
+namespace A {}
+declare(ticks=1);
+namespace B {}
+-----
+No code may exist outside of namespace {} on line 3

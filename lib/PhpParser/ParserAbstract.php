@@ -302,82 +302,66 @@ abstract class ParserAbstract
      * Helper functions invoked by semantic actions
      */
 
+    /**
+     * Moves statements of semicolon-style namespaces into $ns->stmts and checks various error conditions.
+     *
+     * @param Node[] $stmts
+     * @return Node[]
+     */
     protected function handleNamespaces(array $stmts) {
-        // null = not in namespace, false = semicolon style, true = bracket style
-        $bracketed = null;
+        $style = $this->getNamespacingStyle($stmts);
+        if (null === $style) {
+            // not namespaced, nothing to do
+            return $stmts;
+        } elseif ('brace' === $style) {
+            // For braced namespaces we only have to check that there are no invalid statements between the namespaces
+            $afterFirstNamespace = false;
+            foreach ($stmts as $stmt) {
+                if ($stmt instanceof Node\Stmt\Namespace_) {
+                    $afterFirstNamespace = true;
+                } elseif (!$stmt instanceof Node\Stmt\HaltCompiler && $afterFirstNamespace) {
+                    throw new Error('No code may exist outside of namespace {}', $stmt->getLine());
+                }
+            }
+            return $stmts;
+        } else {
+            // For semicolon namespaces we have to move the statements after a namespace declaration into ->stmts
+            $resultStmts = array();
+            $targetStmts =& $resultStmts;
+            foreach ($stmts as $stmt) {
+                if ($stmt instanceof Node\Stmt\Namespace_) {
+                    $stmt->stmts = array();
+                    $targetStmts =& $stmt->stmts;
+                    $resultStmts[] = $stmt;
+                } elseif ($stmt instanceof Node\Stmt\HaltCompiler) {
+                    // __halt_compiler() is not moved into the namespace
+                    $resultStmts[] = $stmt;
+                } else {
+                    $targetStmts[] = $stmt;
+                }
+            }
+            return $resultStmts;
+        }
+    }
 
-        // whether any statements that aren't allowed before a namespace declaration are encountered
-        // (the only valid statement currently is a declare)
+    private function getNamespacingStyle(array $stmts) {
+        $style = null;
         $hasNotAllowedStmts = false;
-
-        // offsets for semicolon style namespaces
-        // (required for transplanting the following statements into their ->stmts property)
-        $nsOffsets = array();
-
-        foreach ($stmts as $i => $stmt) {
+        foreach ($stmts as $stmt) {
             if ($stmt instanceof Node\Stmt\Namespace_) {
-                // ->stmts is null if semicolon style is used
-                $currentBracketed = null !== $stmt->stmts;
-
-                // if no namespace statement has been encountered yet
-                if (!isset($bracketed)) {
-                    // set the namespacing style
-                    $bracketed = $currentBracketed;
-
-                    // and ensure that it isn't preceded by a not allowed statement
+                $currentStyle = null === $stmt->stmts ? 'semicolon' : 'brace';
+                if (null === $style) {
+                    $style = $currentStyle;
                     if ($hasNotAllowedStmts) {
                         throw new Error('Namespace declaration statement has to be the very first statement in the script', $stmt->getLine());
                     }
-                    // otherwise ensure that the style of the current namespace matches the style of
-                    // namespaceing used before in this document
-                } elseif ($bracketed !== $currentBracketed) {
+                } elseif ($style !== $currentStyle) {
                     throw new Error('Cannot mix bracketed namespace declarations with unbracketed namespace declarations', $stmt->getLine());
                 }
-
-                // for semicolon style namespaces remember the offset
-                if (!$bracketed) {
-                    $nsOffsets[] = $i;
-                }
-                // declare() and __halt_compiler() are the only valid statements outside of namespace declarations
-            } elseif (!$stmt instanceof Node\Stmt\Declare_
-                && !$stmt instanceof Node\Stmt\HaltCompiler
-            ) {
-                if (true === $bracketed) {
-                    throw new Error('No code may exist outside of namespace {}', $stmt->getLine());
-                }
-
+            } elseif (!$stmt instanceof Node\Stmt\Declare_ && !$stmt instanceof Node\Stmt\HaltCompiler) {
                 $hasNotAllowedStmts = true;
             }
         }
-
-        // if bracketed namespaces were used or no namespaces were used at all just return the
-        // original statements
-        if (!isset($bracketed) || true === $bracketed) {
-            return $stmts;
-            // for semicolon style transplant statements
-        } else {
-            // take all statements preceding the first namespace
-            $newStmts = array_slice($stmts, 0, $nsOffsets[0]);
-
-            // iterate over all following namespaces
-            for ($i = 0, $c = count($nsOffsets); $i < $c; ++$i) {
-                $newStmts[] = $nsStmt = $stmts[$nsOffsets[$i]];
-
-                // the last namespace takes all statements after it
-                if ($c === $i + 1) {
-                    $nsStmt->stmts = array_slice($stmts, $nsOffsets[$i] + 1);
-
-                    // if the last statement is __halt_compiler() put it outside the namespace
-                    if (end($nsStmt->stmts) instanceof Node\Stmt\HaltCompiler) {
-                        $newStmts[] = array_pop($nsStmt->stmts);
-                    }
-                    // and all the others take all statements between the current and the following one
-                } else {
-                    $nsStmt->stmts = array_slice($stmts, $nsOffsets[$i] + 1, $nsOffsets[$i + 1] - $nsOffsets[$i] - 1);
-                }
-            }
-
-            return $newStmts;
-        }
+        return $style;
     }
 }
