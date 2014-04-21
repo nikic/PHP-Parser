@@ -1001,7 +1001,7 @@ class Parser extends ParserAbstract
     }
 
     protected function reduceRule1($attributes) {
-         $this->semValue = Node\Stmt\Namespace_::postprocess($this->semStack[$this->stackPos-(1-1)]); 
+         $this->semValue = $this->handleNamespaces($this->semStack[$this->stackPos-(1-1)]); 
     }
 
     protected function reduceRule2($attributes) {

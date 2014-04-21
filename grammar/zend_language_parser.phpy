@@ -112,7 +112,7 @@
 %%
 
 start:
-    top_statement_list                                      { $$ = Stmt\Namespace_::postprocess($1); }
+    top_statement_list                                      { $$ = $this->handleNamespaces($1); }
 ;
 
 top_statement_list:
