@@ -1,4 +1,9 @@
+#!/usr/bin/php
 <?php
+
+if (php_sapi_name() !== 'cli') {
+    showHelp("Must be run in CLI mode.");
+}
 
 require __DIR__ . '/../lib/bootstrap.php';
 
