@@ -36,6 +36,11 @@ class Standard extends PrettyPrinterAbstract
     // Names
 
     public function pName(Name $node) {
+        // Transform predefined names
+        if ( $this->nameCallback && count($node->parts) == 1 &&
+            in_array(strtolower($node->parts[0]), array('true', 'false', 'null'))) {
+            return call_user_func($this->nameCallback, $node->parts[0]);
+        }
         return implode('\\', $node->parts);
     }
 
@@ -84,10 +89,31 @@ class Standard extends PrettyPrinterAbstract
     // Scalars
 
     public function pScalar_String(Scalar\String $node) {
+        // Process nowdoc string
+        if ($this->preserveHeredoc && ($heredoc = $node->getAttribute('heredoc'))) {
+            preg_match('/\w+/', $heredoc, $match);
+            $ident = $match[0];
+            $openQuote = "<<<'" . $ident . "'\n" . $this->noIndentToken;
+            $closeQuote = "\n" . $this->noIndentToken . $ident;
+            return $openQuote . $this->pNoIndent(addcslashes($node->value, '\\')) . $closeQuote;
+        }
+        // Allow some strings with embedded whitespace characters to be double-quoted, for example, "\n"
+        if ($this->shouldEncodeWhitespace($node->value)) {
+            return '"' . $this->pEncapsList(array($node->value), '"') . '"';
+        }
+        // Other strings do not allow embedded whitespace characters
         return '\'' . $this->pNoIndent(addcslashes($node->value, '\'\\')) . '\'';
     }
 
     public function pScalar_Encapsed(Scalar\Encapsed $node) {
+        // Process heredoc string
+        if ($this->preserveHeredoc && ($heredoc = $node->getAttribute('heredoc'))) {
+            preg_match('/\w+/', $heredoc, $match);
+            $ident = $match[0];
+            $openQuote = "<<<" . $ident . "\n" . $this->noIndentToken;
+            $closeQuote = "\n" . $this->noIndentToken . $ident;
+            return $openQuote . $this->pEncapsList($node->parts) . $closeQuote;
+        }
         return '"' . $this->pEncapsList($node->parts, '"') . '"';
     }
 
@@ -407,7 +433,15 @@ class Standard extends PrettyPrinterAbstract
     }
 
     public function pExpr_Array(Expr\Array_ $node) {
-        return 'array(' . $this->pCommaSeparated($node->items) . ')';
+        if (!$this->useArrayIndent || count($node->items) <= 1) {
+            return 'array(' . $this->pCommaSeparated($node->items) . ')';
+        }
+        $result = "array(\n";
+        foreach ($node->items as $node) {
+            $result .= $this->p($node) . ",\n";
+        }
+        $result .= ')';
+        return preg_replace('~\n(?!$|' . $this->noIndentToken . ')~', "\n" . $this->indentString, $result);
     }
 
     public function pExpr_ArrayItem(Expr\ArrayItem $node) {
@@ -445,7 +479,7 @@ class Standard extends PrettyPrinterAbstract
              . 'function ' . ($node->byRef ? '&' : '')
              . '(' . $this->pCommaSeparated($node->params) . ')'
              . (!empty($node->uses) ? ' use(' . $this->pCommaSeparated($node->uses) . ')': '')
-             . ' {' . $this->pStmts($node->stmts) . "\n" . '}';
+             . $this->openBrace('closure') . $this->pStmts($node->stmts) . $this->closeBrace();
     }
 
     public function pExpr_ClosureUse(Expr\ClosureUse $node) {
@@ -491,7 +525,7 @@ class Standard extends PrettyPrinterAbstract
             return 'namespace ' . $this->p($node->name) . ';' . "\n" . $this->pStmts($node->stmts, false);
         } else {
             return 'namespace' . (null !== $node->name ? ' ' . $this->p($node->name) : '')
-                 . ' {' . $this->pStmts($node->stmts) . "\n" . '}';
+                 . $this->openBrace('namespace') . $this->pStmts($node->stmts) . $this->closeBrace();
         }
     }
 
@@ -510,7 +544,7 @@ class Standard extends PrettyPrinterAbstract
     public function pStmt_Interface(Stmt\Interface_ $node) {
         return 'interface ' . $node->name
              . (!empty($node->extends) ? ' extends ' . $this->pCommaSeparated($node->extends) : '')
-             . "\n" . '{' . $this->pStmts($node->stmts) . "\n" . '}';
+             . $this->openBrace('interface') . $this->pStmts($node->stmts) . $this->closeBrace();
     }
 
     public function pStmt_Class(Stmt\Class_ $node) {
@@ -518,19 +552,19 @@ class Standard extends PrettyPrinterAbstract
              . 'class ' . $node->name
              . (null !== $node->extends ? ' extends ' . $this->p($node->extends) : '')
              . (!empty($node->implements) ? ' implements ' . $this->pCommaSeparated($node->implements) : '')
-             . "\n" . '{' . $this->pStmts($node->stmts) . "\n" . '}';
+             . $this->openBrace('class') . $this->pStmts($node->stmts) . $this->closeBrace();
     }
 
     public function pStmt_Trait(Stmt\Trait_ $node) {
         return 'trait ' . $node->name
-             . "\n" . '{' . $this->pStmts($node->stmts) . "\n" . '}';
+             . $this->openBrace('trait') . $this->pStmts($node->stmts) . $this->closeBrace();
     }
 
     public function pStmt_TraitUse(Stmt\TraitUse $node) {
         return 'use ' . $this->pCommaSeparated($node->traits)
              . (empty($node->adaptations)
                 ? ';'
-                : ' {' . $this->pStmts($node->adaptations) . "\n" . '}');
+                : $this->openBrace('use') . $this->pStmts($node->adaptations) . $this->closeBrace());
     }
 
     public function pStmt_TraitUseAdaptation_Precedence(Stmt\TraitUseAdaptation\Precedence $node) {
@@ -560,7 +594,7 @@ class Standard extends PrettyPrinterAbstract
              . 'function ' . ($node->byRef ? '&' : '') . $node->name
              . '(' . $this->pCommaSeparated($node->params) . ')'
              . (null !== $node->stmts
-                ? "\n" . '{' . $this->pStmts($node->stmts) . "\n" . '}'
+                ? $this->openBrace('method') . $this->pStmts($node->stmts) . $this->closeBrace()
                 : ';');
     }
 
@@ -571,7 +605,7 @@ class Standard extends PrettyPrinterAbstract
     public function pStmt_Function(Stmt\Function_ $node) {
         return 'function ' . ($node->byRef ? '&' : '') . $node->name
              . '(' . $this->pCommaSeparated($node->params) . ')'
-             . "\n" . '{' . $this->pStmts($node->stmts) . "\n" . '}';
+             . $this->openBrace('function') . $this->pStmts($node->stmts) . $this->closeBrace();
     }
 
     public function pStmt_Const(Stmt\Const_ $node) {
@@ -579,8 +613,8 @@ class Standard extends PrettyPrinterAbstract
     }
 
     public function pStmt_Declare(Stmt\Declare_ $node) {
-        return 'declare (' . $this->pCommaSeparated($node->declares) . ') {'
-             . $this->pStmts($node->stmts) . "\n" . '}';
+        return 'declare (' . $this->pCommaSeparated($node->declares) . ')'
+             . $this->openBrace('declare') . $this->pStmts($node->stmts) . $this->closeBrace();
     }
 
     public function pStmt_DeclareDeclare(Stmt\DeclareDeclare $node) {
@@ -590,19 +624,19 @@ class Standard extends PrettyPrinterAbstract
     // Control flow
 
     public function pStmt_If(Stmt\If_ $node) {
-        return 'if (' . $this->p($node->cond) . ') {'
-             . $this->pStmts($node->stmts) . "\n" . '}'
+        return 'if (' . $this->p($node->cond) . ')'
+             . $this->openBrace('if') . $this->pStmts($node->stmts) . $this->closeBrace()
              . $this->pImplode($node->elseifs)
              . (null !== $node->else ? $this->p($node->else) : '');
     }
 
     public function pStmt_ElseIf(Stmt\ElseIf_ $node) {
-        return ' elseif (' . $this->p($node->cond) . ') {'
-             . $this->pStmts($node->stmts) . "\n" . '}';
+        return $this->keyword('elseif') . ' (' . $this->p($node->cond) . ')'
+             . $this->openBrace('elseif') . $this->pStmts($node->stmts) . $this->closeBrace();
     }
 
     public function pStmt_Else(Stmt\Else_ $node) {
-        return ' else {' . $this->pStmts($node->stmts) . "\n" . '}';
+        return $this->keyword('else') . $this->openBrace('else') . $this->pStmts($node->stmts) . $this->closeBrace();
     }
 
     public function pStmt_For(Stmt\For_ $node) {
@@ -610,29 +644,29 @@ class Standard extends PrettyPrinterAbstract
              . $this->pCommaSeparated($node->init) . ';' . (!empty($node->cond) ? ' ' : '')
              . $this->pCommaSeparated($node->cond) . ';' . (!empty($node->loop) ? ' ' : '')
              . $this->pCommaSeparated($node->loop)
-             . ') {' . $this->pStmts($node->stmts) . "\n" . '}';
+             . ')' . $this->openBrace('for') . $this->pStmts($node->stmts) . $this->closeBrace();
     }
 
     public function pStmt_Foreach(Stmt\Foreach_ $node) {
         return 'foreach (' . $this->p($node->expr) . ' as '
              . (null !== $node->keyVar ? $this->p($node->keyVar) . ' => ' : '')
-             . ($node->byRef ? '&' : '') . $this->p($node->valueVar) . ') {'
-             . $this->pStmts($node->stmts) . "\n" . '}';
+             . ($node->byRef ? '&' : '') . $this->p($node->valueVar) . ')'
+             . $this->openBrace('foreach') . $this->pStmts($node->stmts) . $this->closeBrace();
     }
 
     public function pStmt_While(Stmt\While_ $node) {
-        return 'while (' . $this->p($node->cond) . ') {'
-             . $this->pStmts($node->stmts) . "\n" . '}';
+        return 'while (' . $this->p($node->cond) . ')'
+             . $this->openBrace('while') . $this->pStmts($node->stmts) . $this->closeBrace();
     }
 
     public function pStmt_Do(Stmt\Do_ $node) {
-        return 'do {' . $this->pStmts($node->stmts) . "\n"
-             . '} while (' . $this->p($node->cond) . ');';
+        return 'do' . $this->openBrace('do') . $this->pStmts($node->stmts) . $this->closeBrace()
+             . $this->keyword('while') . ' (' . $this->p($node->cond) . ');';
     }
 
     public function pStmt_Switch(Stmt\Switch_ $node) {
-        return 'switch (' . $this->p($node->cond) . ') {'
-             . $this->pStmts($node->cases) . "\n" . '}';
+        return 'switch (' . $this->p($node->cond) . ')'
+             . $this->openBrace('switch') . $this->pStmts($node->cases) . $this->closeBrace();
     }
 
     public function pStmt_Case(Stmt\Case_ $node) {
@@ -641,16 +675,17 @@ class Standard extends PrettyPrinterAbstract
     }
 
     public function pStmt_TryCatch(Stmt\TryCatch $node) {
-        return 'try {' . $this->pStmts($node->stmts) . "\n" . '}'
+        return 'try' . $this->openBrace('try') . $this->pStmts($node->stmts) . $this->closeBrace()
              . $this->pImplode($node->catches)
              . ($node->finallyStmts !== null
-                ? ' finally {' . $this->pStmts($node->finallyStmts) . "\n" . '}'
+                ? $this->keyword('finally') . $this->openBrace('finally') . $this->pStmts($node->finallyStmts)
+					 . $this->closeBrace()
                 : '');
     }
 
     public function pStmt_Catch(Stmt\Catch_ $node) {
-        return ' catch (' . $this->p($node->type) . ' $' . $node->var . ') {'
-             . $this->pStmts($node->stmts) . "\n" . '}';
+        return $this->keyword('catch') . ' (' . $this->p($node->type) . ' $' . $node->var . ')'
+             . $this->openBrace('catch') . $this->pStmts($node->stmts) . $this->closeBrace();
     }
 
     public function pStmt_Break(Stmt\Break_ $node) {
@@ -701,7 +736,7 @@ class Standard extends PrettyPrinterAbstract
     }
 
     public function pStmt_InlineHTML(Stmt\InlineHTML $node) {
-        return '?>' . $this->pNoIndent("\n" . $node->value) . '<?php ';
+        return '?>' . $this->pNoIndent($node->value) . '<?php ';
     }
 
     public function pStmt_HaltCompiler(Stmt\HaltCompiler $node) {
@@ -727,7 +762,7 @@ class Standard extends PrettyPrinterAbstract
              . ($modifiers & Stmt\Class_::MODIFIER_FINAL     ? 'final '     : '');
     }
 
-    public function pEncapsList(array $encapsList, $quote) {
+    public function pEncapsList(array $encapsList, $quote = '') {
         $return = '';
         foreach ($encapsList as $element) {
             if (is_string($element)) {

@@ -37,6 +37,7 @@ class Lexer
         $this->resetErrors();
         $this->tokens = @token_get_all($code);
         $this->handleErrors();
+        $this->fixTokens();
 
         ini_set('xdebug.scream', $scream);
 
@@ -195,5 +196,21 @@ class Lexer
         }
 
         return $tokenMap;
+    }
+
+    /**
+     * Do any post-processing of the tokens necessary to "fix" them, that is, to make them easier to work with.
+     *
+     * Currently the only fix is to move space from the PHP end tag to any following HTML, so it is preserved. 
+     */
+    protected function fixTokens() {
+        $tokenCnt = count($this->tokens);
+        foreach ($this->tokens as $i => $token) {
+            if (is_array($token) && $token[0] == T_CLOSE_TAG && preg_match('/^(\S+)(\s+)$/', $token[1], $match) &&
+                $i < $tokenCnt - 1 && is_array($this->tokens[$i + 1]) && $this->tokens[$i + 1][0] == T_INLINE_HTML) {
+                $this->tokens[$i][1] = $match[1];
+                $this->tokens[$i + 1][1] = $match[2] . $this->tokens[$i + 1][1];
+            }
+        }
     }
 }
