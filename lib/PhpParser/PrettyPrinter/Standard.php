@@ -95,7 +95,7 @@ class Standard extends PrettyPrinterAbstract
             $ident = $match[0];
             $openQuote = "<<<'" . $ident . "'\n" . $this->noIndentToken;
             $closeQuote = "\n" . $this->noIndentToken . $ident;
-            return $openQuote . $this->pNoIndent(addcslashes($node->value, '\\')) . $closeQuote;
+            return $openQuote . $this->pNoIndent($node->value) . $closeQuote;
         }
         // Allow some strings with embedded whitespace characters to be double-quoted, for example, "\n"
         if ($this->shouldEncodeWhitespace($node->value)) {
