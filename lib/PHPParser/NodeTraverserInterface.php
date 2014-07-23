@@ -10,13 +10,6 @@ interface PHPParser_NodeTraverserInterface
     function addVisitor(PHPParser_NodeVisitor $visitor);
 
     /**
-     * Removes an added visitor.
-     *
-     * @param PHPParser_NodeVisitor $visitor
-     */
-    function removeVisitor(PHPParser_NodeVisitor $visitor);
-
-    /**
      * Traverses an array of nodes using the registered visitors.
      *
      * @param PHPParser_Node[] $nodes Array of nodes

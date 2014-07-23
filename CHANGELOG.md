@@ -1,16 +1,18 @@
 Version 0.9.5-dev
 -----------------
 
-* Add `NodeTraverser::removeVisitor()` method, which removes a visitor from the node traverser. This also modifies the
-  corresponding `NodeTraverserInterface`.
+* Add `NodeTraverser::removeVisitor()` method, which removes a visitor from the node traverser. The method was not added
+  to the corresponding `NodeTraverserInterface` to avoid BC breaks with custom traversers (it is added in version 1.0).
 
 * Deprecated `PHPParser_Template` and `PHPParser_TemplateLoader`. This functionality does not belong in the main project
   and - as far as I know - nobody is using it.
 
 * Fix alias resolution in `NameResolver`: Class names are now correctly handled as case-insensitive.
 
-* The undefined variable error, which is used to the lexer to reset the error state, will no longer interfere with
+* The undefined variable error, which is used in the lexer to reset the error state, will no longer interfere with
   custom error handlers.
+
+* Make lexer compatible with `xdebug.scream`.
 
 Version 0.9.4 (25.08.2013)
 --------------------------
