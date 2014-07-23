@@ -15,7 +15,7 @@ Create a `composer.json` file in your project root and use it to define your dep
 
     {
         "require": {
-            "nikic/php-parser": "0.9.4"
+            "nikic/php-parser": "0.9.5"
         }
     }
 
@@ -33,7 +33,7 @@ Installing as a PEAR package
 Run the following two commands:
 
     pear channel-discover nikic.github.com/pear
-    pear install nikic/PHPParser-0.9.4
+    pear install nikic/PHPParser-0.9.5
 
 Installing as a Git Submodule
 -----------------------------
