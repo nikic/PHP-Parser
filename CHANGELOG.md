@@ -4,6 +4,15 @@ Version 1.0.0-dev
 * [PHP 5.6] Updated support for constant scalar expressions to comply with latest changes. This means that arrays
   and array dimension fetches are now supported as well.
 
+* The autoloader now only requires a file it exists. This allows usages like
+  ``class_exists('PhpParser\NotExistingClass')``.
+
+* Added experimental ``bin/php-parse.php`` script, which is intended to help exploring and debugging the node tree.
+
+* Separated the parser implemention (in ``lib/PhpParser/ParserAbstract.php``) and the generated data (in
+  ``lib/PhpParser/Parser.php``). Furthermore the parser now uses meaningful variable names and contains comments
+  explaining their usage.
+
 Version 1.0.0-beta1 (27.03.2014)
 --------------------------------
 
@@ -46,7 +55,7 @@ Version 1.0.0-beta1 (27.03.2014)
 
 * Added `Scalar\MagicConstant->getName()`, which returns the name of the magic constant (e.g. `__CLASS__`).
 
-**The following changes are also included in 0.9.5-dev**:
+**The following changes are also included in 0.9.5**:
 
 * [BC] Deprecated `PHPParser_Template` and `PHPParser_TemplateLoader`. This functionality does not belong in the main project
   and - as far as I know - nobody is using it.
