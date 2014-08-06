@@ -314,4 +314,37 @@ EOC;
 
         $this->assertEquals(array('Bar', 'Baz'), $stmt->stmts[1]->expr->class->parts);
     }
+
+    public function testSpecialClassNamesAreCaseInsensitive()
+    {
+        $source = <<<'EOC'
+<?php
+namespace Foo;
+
+class Bar
+{
+    public static function method()
+    {
+        SELF::method();
+        PARENT::method();
+        STATIC::method();
+    }
+}
+
+EOC;
+
+        $parser = new PhpParser\Parser(new PhpParser\Lexer\Emulative);
+        $stmts = $parser->parse($source);
+
+        $traverser = new PhpParser\NodeTraverser;
+        $traverser->addVisitor(new NameResolver);
+
+        $stmts = $traverser->traverse($stmts);
+        $stmt = $stmts[0];
+        $methodStmt = $stmt->stmts[1]->stmts[1];
+        
+        $this->assertEquals('SELF', (string)$methodStmt->stmts[0]->class);
+        $this->assertEquals('PARENT', (string)$methodStmt->stmts[1]->class);
+        $this->assertEquals('STATIC', (string)$methodStmt->stmts[2]->class);
+    }
 }
