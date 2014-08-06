@@ -341,7 +341,7 @@ EOC;
 
         $stmts = $traverser->traverse($stmts);
         $stmt = $stmts[0];
-        $methodStmt = $stmt->stmts[1]->stmts[1];
+        $methodStmt = $stmt->stmts[0]->stmts[0];
         
         $this->assertEquals('SELF', (string)$methodStmt->stmts[0]->class);
         $this->assertEquals('PARENT', (string)$methodStmt->stmts[1]->class);
