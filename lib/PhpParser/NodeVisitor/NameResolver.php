@@ -122,7 +122,7 @@ class NameResolver extends NodeVisitorAbstract
 
     protected function resolveClassName(Name $name) {
         // don't resolve special class names
-        if (in_array((string) $name, array('self', 'parent', 'static'))) {
+        if (in_array(strtolower($name), array('self', 'parent', 'static'))) {
             return $name;
         }
 
