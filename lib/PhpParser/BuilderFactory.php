@@ -9,7 +9,7 @@ use PhpParser\Builder;
  * _interface() and _function() in the class and are made available as class(), interface() and function()
  * through __call() magic.
  *
- * @method Builder\Class      class(string $name)     Creates a class builder.
+ * @method Builder\Class_     class(string $name)     Creates a class builder.
  * @method Builder\Function_  function(string $name)  Creates a function builder
  * @method Builder\Interface_ interface(string $name) Creates an interface builder.
  */
