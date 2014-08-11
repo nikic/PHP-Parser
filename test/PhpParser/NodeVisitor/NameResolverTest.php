@@ -343,6 +343,6 @@ EOC;
 
         $this->assertEquals('SELF', (string)$methodStmt->stmts[0]->class);
         $this->assertEquals('PARENT', (string)$methodStmt->stmts[1]->class);
-        $this->assertEquals('static', (string)$methodStmt->stmts[2]->class);
+        $this->assertEquals('STATIC', (string)$methodStmt->stmts[2]->class);
     }
 }

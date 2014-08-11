@@ -678,7 +678,7 @@ function_call:
 ;
 
 class_name:
-      T_STATIC                                              { $$ = Name['static']; }
+      T_STATIC                                              { $$ = Name[$1]; }
     | name                                                  { $$ = $1; }
 ;
 

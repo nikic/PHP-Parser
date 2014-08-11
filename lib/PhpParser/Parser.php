@@ -2167,7 +2167,7 @@ class Parser extends ParserAbstract
     }
 
     protected function reduceRule289($attributes) {
-         $this->semValue = new Node\Name('static', $attributes); 
+         $this->semValue = new Node\Name($this->semStack[$this->stackPos-(1-1)], $attributes); 
     }
 
     protected function reduceRule290($attributes) {
