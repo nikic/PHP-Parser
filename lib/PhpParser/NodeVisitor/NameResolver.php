@@ -123,6 +123,13 @@ class NameResolver extends NodeVisitorAbstract
     protected function resolveClassName(Name $name) {
         // don't resolve special class names
         if (in_array(strtolower($name), array('self', 'parent', 'static'))) {
+            if (!$name->isUnqualified()) {
+                throw new Error(
+                    sprintf("'\\%s' is an invalid class name", $name->toString()),
+                    $name->getLine()
+                );
+            }
+
             return $name;
         }
 
