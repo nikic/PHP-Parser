@@ -89,14 +89,6 @@ class Standard extends PrettyPrinterAbstract
     // Scalars
 
     public function pScalar_String(Scalar\String $node) {
-        // Process nowdoc string
-        if ($this->preserveHeredoc && ($heredoc = $node->getAttribute('heredoc'))) {
-            preg_match('/\w+/', $heredoc, $match);
-            $ident = $match[0];
-            $openQuote = "<<<'" . $ident . "'\n" . $this->noIndentToken;
-            $closeQuote = "\n" . $this->noIndentToken . $ident;
-            return $openQuote . $this->pNoIndent($node->value) . $closeQuote;
-        }
         // Allow some strings with embedded whitespace characters to be double-quoted, for example, "\n"
         if ($this->shouldEncodeWhitespace($node->value)) {
             return '"' . $this->pEncapsList(array($node->value), '"') . '"';
@@ -106,14 +98,6 @@ class Standard extends PrettyPrinterAbstract
     }
 
     public function pScalar_Encapsed(Scalar\Encapsed $node) {
-        // Process heredoc string
-        if ($this->preserveHeredoc && ($heredoc = $node->getAttribute('heredoc'))) {
-            preg_match('/\w+/', $heredoc, $match);
-            $ident = $match[0];
-            $openQuote = "<<<" . $ident . "\n" . $this->noIndentToken;
-            $closeQuote = "\n" . $this->noIndentToken . $ident;
-            return $openQuote . $this->pEncapsList($node->parts) . $closeQuote;
-        }
         return '"' . $this->pEncapsList($node->parts, '"') . '"';
     }
 

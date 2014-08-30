@@ -91,9 +91,6 @@ abstract class PrettyPrinterAbstract
     // Number of spaces a tab is used for to determine line length
     protected $tabStop = 8;
 
-    // Preserve heredoc and nowdoc strings where they are found in source input.
-    protected $preserveHeredoc = false;
-
     // Use indent within arrays
     protected $useArrayIndent = false;
 
@@ -241,15 +238,6 @@ abstract class PrettyPrinterAbstract
      */
     public function setNameCallback($nameCallback) {
         $this->nameCallback = $nameCallback;
-    }
-
-    /**
-     * Set to true to preserve heredoc and nowdoc strings.
-     *
-     * @param bool $preserveHeredoc
-     */
-    public function setPreserveHeredoc($preserveHeredoc) {
-        $this->preserveHeredoc = $preserveHeredoc;
     }
 
     /**

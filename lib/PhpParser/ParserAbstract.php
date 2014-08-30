@@ -110,7 +110,6 @@ abstract class ParserAbstract
         // the endAttributes. Both are merged using the array union operator (+).
         $startAttributes = array('startLine' => 1);
         $endAttributes   = array();
-        $heredoc = null;
 
         // In order to figure out the attributes for the starting token, we have to keep
         // them in a stack
@@ -138,11 +137,6 @@ abstract class ParserAbstract
                     // shifted (not during read). Otherwise you would sometimes get off-by-one errors, when a rule is
                     // reduced after a token was read but not yet shifted.
                     $tokenId = $this->lexer->getNextToken($tokenValue, $startAttributes, $nextEndAttributes);
-
-                    // Save heredoc and nowdoc tokens for later use
-                    if ($tokenId == Parser::T_START_HEREDOC) {
-                        $heredoc = $tokenValue;
-                    }
 
                     // map the lexer token id to the internally used symbols
                     $symbol = $tokenId >= 0 && $tokenId < $this->tokenToSymbolMapSize
@@ -210,11 +204,6 @@ abstract class ParserAbstract
                     $combinedAttributes = $attributeStack[$this->stackPos - $this->ruleToLength[$rule]]
                         + $endAttributes;
 
-                    // Preserve heredoc (rule 368) and nowdoc (rule 324)
-                    if (($rule == 368 || $rule == 324) && $heredoc) {
-                        $combinedAttributes += array('heredoc' => $heredoc);
-                        $heredoc = null;
-                    }
                     try {
                         $this->{'reduceRule' . $rule}($combinedAttributes);
                     } catch (Error $e) {
