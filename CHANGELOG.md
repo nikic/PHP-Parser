@@ -4,13 +4,23 @@ Version 1.0.0-dev
 * [PHP 5.6] Updated support for constant scalar expressions to comply with latest changes. This means that arrays
   and array dimension fetches are now supported as well.
 
-* The autoloader now only requires a file it exists. This allows usages like
-  ``class_exists('PhpParser\NotExistingClass')``.
+* [PHP 5.6] Direct array dereferencing of constants is supported now, i.e. both `FOO[0]` and `Foo::BAR[0]` are valid
+  now.
+
+* Fixed handling of special class names (`self`, `parent` and `static`) in the name resolver to be case insensitive.
+  Additionally the name resolver now enforces that special class names are only used as unqualified names, e.g. `\self`
+  is considered invalid.
+
+* The case of references to the `static` class name is now preserved. Previously `static` was always lowercased,
+  regardless of the case used in the source code.
+
+* The autoloader now only requires a file if it exists. This allows usages like
+  `class_exists('PhpParser\NotExistingClass')`.
 
 * Added experimental ``bin/php-parse.php`` script, which is intended to help exploring and debugging the node tree.
 
-* Separated the parser implemention (in ``lib/PhpParser/ParserAbstract.php``) and the generated data (in
-  ``lib/PhpParser/Parser.php``). Furthermore the parser now uses meaningful variable names and contains comments
+* Separated the parser implemention (in `lib/PhpParser/ParserAbstract.php`) and the generated data (in
+  `lib/PhpParser/Parser.php`). Furthermore the parser now uses meaningful variable names and contains comments
   explaining their usage.
 
 Version 1.0.0-beta1 (27.03.2014)
