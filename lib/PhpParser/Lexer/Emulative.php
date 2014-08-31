@@ -16,7 +16,7 @@ class Emulative extends \PhpParser\Lexer
     const T_POW       = 1002;
     const T_POW_EQUAL = 1003;
 
-    const PHP_5_6 = '5.6.0beta1';
+    const PHP_5_6 = '5.6.0rc1';
     const PHP_5_5 = '5.5.0beta1';
     const PHP_5_4 = '5.4.0beta1';
 
