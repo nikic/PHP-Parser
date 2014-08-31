@@ -4,6 +4,10 @@ require __DIR__ . '/../lib/bootstrap.php';
 
 ini_set('xdebug.max_nesting_level', 2000);
 
+/* The fancy var_dump function provided by XDebug will cut off the output way too
+ * early to be of use. */
+ini_set('xdebug.overload_var_dump', 0);
+
 list($operations, $files) = parseArgs($argv);
 
 /* Dump nodes by default */
