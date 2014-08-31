@@ -1,6 +1,11 @@
 Version 1.0.0-dev
 -----------------
 
+Nothing yet.
+
+Version 1.0.0-beta2 (31.08.2014)
+--------------------------------
+
 * [PHP 5.6] Updated support for constant scalar expressions to comply with latest changes. This means that arrays
   and array dimension fetches are now supported as well.
 
