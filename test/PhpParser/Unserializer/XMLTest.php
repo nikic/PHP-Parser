@@ -46,7 +46,7 @@ XML;
         $xml = <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <AST xmlns:node="http://nikic.github.com/PHPParser/XML/node">
- <node:Scalar_ClassConst />
+ <node:Scalar_MagicConst_Class />
 </AST>
 XML;
 
