@@ -64,8 +64,6 @@ class Autoloader
         'PHPParser_PrettyPrinter_Zend' => 'PhpParser\PrettyPrinter\Standard',
         'PHPParser_Serializer' => 'PhpParser\Serializer',
         'PHPParser_Serializer_XML' => 'PhpParser\Serializer\XML',
-        'PHPParser_Template' => 'PhpParser\Template',
-        'PHPParser_TemplateLoader' => 'PhpParser\TemplateLoader',
         'PHPParser_Unserializer' => 'PhpParser\Unserializer',
         'PHPParser_Unserializer_XML' => 'PhpParser\Unserializer\XML',
 
