@@ -141,6 +141,9 @@ class XML implements Unserializer
         if (!class_exists($className)) {
             $className .= '_';
         }
+        if (!class_exists($className)) {
+            throw new DomainException(sprintf('Unknown node type "%s"', $type));
+        }
         return $className;
     }
 }
