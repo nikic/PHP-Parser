@@ -1,7 +1,7 @@
 Other node tree representations
 ===============================
 
-It is possible to convert the AST in several textual representations, which serve different uses.
+It is possible to convert the AST into several textual representations, which serve different uses.
 
 Simple serialization
 --------------------
@@ -13,33 +13,34 @@ but PHP, but it is compact and generates fast. The main application thus is in c
 Human readable dumping
 ----------------------
 
-Furthermore it is possible to dump nodes into a human readable form using the `dump` method of
+Furthermore it is possible to dump nodes into a human readable format using the `dump` method of
 `PhpParser\NodeDumper`. This can be used for debugging.
 
 ```php
 <?php
 $code = <<<'CODE'
 <?php
-    function printLine($msg) {
-        echo $msg, "\n";
-    }
 
-    printLine('Hallo World!!!');
+function printLine($msg) {
+    echo $msg, "\n";
+}
+
+printLine('Hello World!!!');
 CODE;
 
-$parser     = new PhpParser\Parser(new PhpParser\Lexer);
+$parser = new PhpParser\Parser(new PhpParser\Lexer);
 $nodeDumper = new PhpParser\NodeDumper;
 
 try {
     $stmts = $parser->parse($code);
 
-    echo '<pre>' . htmlspecialchars($nodeDumper->dump($stmts)) . '</pre>';
+    echo $nodeDumper->dump($stmts), "\n";
 } catch (PhpParser\Error $e) {
     echo 'Parse Error: ', $e->getMessage();
 }
 ```
 
-The above output will have an output looking roughly like this:
+The above script will have an output looking roughly like this:
 
 ```
 array(
@@ -77,7 +78,7 @@ array(
         args: array(
             0: Arg(
                 value: Scalar_String(
-                    value: Hallo World!!!
+                    value: Hello World!!!
                 )
                 byRef: false
             )
@@ -97,20 +98,21 @@ interfacing with other languages and applications or for doing transformation us
 <?php
 $code = <<<'CODE'
 <?php
-    function printLine($msg) {
-        echo $msg, "\n";
-    }
 
-    printLine('Hallo World!!!');
+function printLine($msg) {
+    echo $msg, "\n";
+}
+
+printLine('Hello World!!!');
 CODE;
 
-$parser     = new PhpParser\Parser(new PhpParser\Lexer);
+$parser = new PhpParser\Parser(new PhpParser\Lexer);
 $serializer = new PhpParser\Serializer\XML;
 
 try {
     $stmts = $parser->parse($code);
 
-    echo '<pre>' . htmlspecialchars($serializer->serialize($stmts)) . '</pre>';
+    echo $serializer->serialize($stmts);
 } catch (PhpParser\Error $e) {
     echo 'Parse Error: ', $e->getMessage();
 }
@@ -185,7 +187,7 @@ Produces:
       <subNode:value>
        <node:Scalar_String line="6">
         <subNode:value>
-         <scalar:string>Hallo World!!!</scalar:string>
+         <scalar:string>Hello World!!!</scalar:string>
         </subNode:value>
        </node:Scalar_String>
       </subNode:value>

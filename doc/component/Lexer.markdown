@@ -42,7 +42,7 @@ getNextToken
 ------------
 
 `getNextToken` returns the ID of the next token and sets some additional information in the three variables which it
-accepts by-ref. If no more tokens are available it has to return `0`, which is the ID of the `EOF` token.
+accepts by-ref. If no more tokens are available it must return `0`, which is the ID of the `EOF` token.
 
 The first by-ref variable `$value` should contain the textual content of the token. It is what will be available as `$1`
 etc in the parser.

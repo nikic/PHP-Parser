@@ -26,31 +26,38 @@ This ensures that there will be no errors when traversing highly nested node tre
 Parsing
 -------
 
-In order to parse some source code you first have to create a `PhpParser\Parser` object (which
-needs to be passed a `PhpParser\Lexer` instance) and then pass the code (including `<?php` opening
-tags) to the `parse` method. If a syntax error is encountered `PhpParser\Error` is thrown, so this
-exception should be `catch`ed.
+In order to parse some source code you first have to create a `PhpParser\Parser` object, which
+needs to be passed a `PhpParser\Lexer` instance:
+
+```php
+<?php
+
+$parser = new PhpParser\Parser(new PhpParser\Lexer);
+// or
+$parser = new PhpParser\Parser(new PhpParser\Lexer\Emulative);
+```
+
+Use of the emulative lexer is required if you want to parse PHP code from newer versions than the one
+you're running on. For example it will allow you to parse PHP 5.6 code while running on PHP 5.3.
+
+Subsequently you can pass PHP code (including the opening `<?php` tag) to the `parse` method in order to
+create a syntax tree. If a syntax error is encountered, an `PhpParser\Error` exception will be thrown:
 
 ```php
 <?php
 $code = '<?php // some code';
 
-$parser = new PhpParser\Parser(new PhpParser\Lexer);
+$parser = new PhpParser\Parser(new PhpParser\Lexer\Emulative);
 
 try {
     $stmts = $parser->parse($code);
+    // $stmts is an array of statement nodes
 } catch (PhpParser\Error $e) {
     echo 'Parse Error: ', $e->getMessage();
 }
 ```
 
-The `parse` method will return an array of statement nodes (`$stmts`).
-
-### Emulative lexer
-
-Instead of `PhpParser\Lexer` one can also use `PhpParser\Lexer\Emulative`. This class will emulate tokens
-of newer PHP versions and as such allow parsing PHP 5.5 on PHP 5.2, for example. So if you want to parse
-PHP code of newer versions than the one you are running, you should use the emulative lexer.
+A parser instance can be reused to parse multiple files.
 
 Node tree
 ---------
@@ -104,7 +111,7 @@ with a PHP keyword.
 
 Every node has a (possibly zero) number of subnodes. You can access subnodes by writing
 `$node->subNodeName`. The `Stmt\Echo_` node has only one subnode `exprs`. So in order to access it
-in the above example you would write `$stmts[0]->exprs`. If you wanted to access name of the function
+in the above example you would write `$stmts[0]->exprs`. If you wanted to access the name of the function
 call, you would write `$stmts[0]->exprs[1]->name`.
 
 All nodes also define a `getType()` method that returns the node type. The type is the class name
@@ -131,7 +138,7 @@ namely `PhpParser\PrettyPrinter\Standard`.
 <?php
 $code = "<?php echo 'Hi ', hi\\getTarget();";
 
-$parser        = new PhpParser\Parser(new PhpParser\Lexer);
+$parser = new PhpParser\Parser(new PhpParser\Lexer);
 $prettyPrinter = new PhpParser\PrettyPrinter\Standard;
 
 try {
@@ -143,10 +150,10 @@ try {
           ->exprs     // sub expressions
           [0]         // the first of them (the string node)
           ->value     // it's value, i.e. 'Hi '
-          = 'Hallo '; // change to 'Hallo '
+          = 'Hello '; // change to 'Hello '
 
     // pretty print
-    $code = '<?php ' . $prettyPrinter->prettyPrint($stmts);
+    $code = $prettyPrinter->prettyPrint($stmts);
 
     echo $code;
 } catch (PhpParser\Error $e) {
@@ -156,7 +163,7 @@ try {
 
 The above code will output:
 
-    <?php echo 'Hallo ', hi\getTarget();
+    <?php echo 'Hello ', hi\getTarget();
 
 As you can see the source code was first parsed using `PhpParser\Parser->parse()`, then changed and then
 again converted to code using `PhpParser\PrettyPrinter\Standard->prettyPrint()`.
@@ -164,8 +171,8 @@ again converted to code using `PhpParser\PrettyPrinter\Standard->prettyPrint()`.
 The `prettyPrint()` method pretty prints a statements array. It is also possible to pretty print only a
 single expression using `prettyPrintExpr()`.
 
-The `prettyPrintFile()` method can be used to print an entire file. This will include the opening `<?php` tag and handle
-inline HTML as the first/last sentence more gracefully.
+The `prettyPrintFile()` method can be used to print an entire file. This will include the opening `<?php` tag
+and handle inline HTML as the first/last statement more gracefully.
 
 Node traversation
 -----------------
@@ -180,9 +187,8 @@ structure of a program using this `PhpParser\NodeTraverser` looks like this:
 
 ```php
 <?php
-$code = "<?php // some code";
 
-$parser        = new PhpParser\Parser(new PhpParser\Lexer);
+$parser        = new PhpParser\Parser(new PhpParser\Lexer\Emulative);
 $traverser     = new PhpParser\NodeTraverser;
 $prettyPrinter = new PhpParser\PrettyPrinter\Standard;
 
@@ -190,6 +196,8 @@ $prettyPrinter = new PhpParser\PrettyPrinter\Standard;
 $traverser->addVisitor(new MyNodeVisitor);
 
 try {
+    $code = file_get_contents($fileName);
+
     // parse
     $stmts = $parser->parse($code);
 
@@ -197,7 +205,7 @@ try {
     $stmts = $traverser->traverse($stmts);
 
     // pretty print
-    $code = '<?php ' . $prettyPrinter->prettyPrint($stmts);
+    $code = $prettyPrinter->prettyPrintFile($stmts);
 
     echo $code;
 } catch (PhpParser\Error $e) {
@@ -205,14 +213,16 @@ try {
 }
 ```
 
-A same node visitor for this code might look like this:
+The corresponding node visitor might look like this:
 
 ```php
 <?php
+use PhpParser\Node;
+
 class MyNodeVisitor extends PhpParser\NodeVisitorAbstract
 {
-    public function leaveNode(PhpParser\Node $node) {
-        if ($node instanceof PhpParser\Node\Scalar\String) {
+    public function leaveNode(Node $node) {
+        if ($node instanceof Node\Scalar\String) {
             $node->value = 'foo';
         }
     }
@@ -221,7 +231,7 @@ class MyNodeVisitor extends PhpParser\NodeVisitorAbstract
 
 The above node visitor would change all string literals in the program to `'foo'`.
 
-All visitors must implement the `PhpParser\NodeVisitor` interface, which defined the following four
+All visitors must implement the `PhpParser\NodeVisitor` interface, which defines the following four
 methods:
 
     public function beforeTraverse(array $nodes);
@@ -240,11 +250,12 @@ The `enterNode` and `leaveNode` methods are called on every node, the former whe
 i.e. before its subnodes are traversed, the latter when it is left.
 
 All four methods can either return the changed node or not return at all (i.e. `null`) in which
-case the current node is not changed. The `leaveNode` method can furthermore return two special
-values: If `false` is returned the current node will be removed from the parent array. If an `array`
-is returned the current node will be merged into the parent array at the offset of the current node.
-I.e. if in `array(A, B, C)` the node `B` should be replaced with `array(X, Y, Z)` the result will be
-`array(A, X, Y, Z, C)`.
+case the current node is not changed. The `leaveNode` method can additionally return two special
+values:
+
+If `false` is returned the current node will be removed from the parent array. If an array is returned
+it will be merged into the parent array at the offset of the current node. I.e. if in `array(A, B, C)`
+the node `B` should be replaced with `array(X, Y, Z)` the result will be `array(A, X, Y, Z, C)`.
 
 Instead of manually implementing the `NodeVisitor` interface you can also extend the `NodeVisitorAbstract`
 class, which will define empty default implementations for all the above methods.
@@ -283,10 +294,9 @@ We start off with the following base code:
 
 ```php
 <?php
-const IN_DIR  = '/some/path';
-const OUT_DIR = '/some/other/path';
+$inDir  = '/some/path';
+$outDir = '/some/other/path';
 
-// use the emulative lexer here, as we are running PHP 5.2 but want to parse PHP 5.3
 $parser        = new PhpParser\Parser(new PhpParser\Lexer\Emulative);
 $traverser     = new PhpParser\NodeTraverser;
 $prettyPrinter = new PhpParser\PrettyPrinter\Standard;
@@ -295,7 +305,7 @@ $traverser->addVisitor(new PhpParser\NodeVisitor\NameResolver); // we will need 
 $traverser->addVisitor(new NodeVisitor\NamespaceConverter);     // our own node visitor
 
 // iterate over all .php files in the directory
-$files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator(IN_DIR));
+$files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($inDir));
 $files = new RegexIterator($files, '/\.php$/');
 
 foreach ($files as $file) {
@@ -310,11 +320,11 @@ foreach ($files as $file) {
         $stmts = $traverser->traverse($stmts);
 
         // pretty print
-        $code = '<?php ' . $prettyPrinter->prettyPrint($stmts);
+        $code = $prettyPrinter->prettyPrintFile($stmts);
 
         // write the converted file to the target directory
         file_put_contents(
-            substr_replace($file->getPathname(), OUT_DIR, 0, strlen(IN_DIR)),
+            substr_replace($file->getPathname(), $outDir, 0, strlen($inDir)),
             $code
         );
     } catch (PhpParser\Error $e) {
@@ -323,7 +333,7 @@ foreach ($files as $file) {
 }
 ```
 
-Now lets start with the main code, the `NodeVisitor_NamespaceConverter`. One thing it needs to do
+Now lets start with the main code, the `NodeVisitor\NamespaceConverter`. One thing it needs to do
 is convert `A\\B` style names to `A_B` style ones.
 
 ```php
@@ -340,14 +350,14 @@ class NodeVisitor_NamespaceConverter extends PhpParser\NodeVisitorAbstract
 ```
 
 The above code profits from the fact that the `NameResolver` already resolved all names as far as
-possible, so we don't need to do that. All the need to create a string with the name parts separated
+possible, so we don't need to do that. We only need to create a string with the name parts separated
 by underscores instead of backslashes. This is what `$node->toString('_')` does. (If you want to
 create a name with backslashes either write `$node->toString()` or `(string) $node`.) Then we create
 a new name from the string and return it. Returning a new node replaces the old node.
 
 Another thing we need to do is change the class/function/const declarations. Currently they contain
-only the shortname (i.e. the last part of the name), but they need to contain the complete class
-name:
+only the shortname (i.e. the last part of the name), but they need to contain the complete name inclduing
+the namespace prefix:
 
 ```php
 <?php
