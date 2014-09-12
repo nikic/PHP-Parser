@@ -1,5 +1,5 @@
 Upgrading from PHP-Parser 0.9 to 1.0
-------------------------------------
+====================================
 
 ### PHP version requirements
 
@@ -15,7 +15,7 @@ further changes.
 Old (still works, but discouraged):
 
 ```php
-$parser = new \PHPParser_Parser(new PHPParser_Lexer_Emulative);
+$parser = new \PHPParser_Parser(new \PHPParser_Lexer_Emulative);
 $prettyPrinter = new \PHPParser_PrettyPrinter_Default;
 ```
 
@@ -39,7 +39,7 @@ not contain the trailing underscore that may be present in the class name. As su
 cases.
 
 However, some node classes have been moved to a different namespace or renamed, which will result in a different
-''Node::getType()'' output:
+`Node::getType()` output:
 
 ```
 Expr_AssignBitwiseAnd => Expr_AssignOp_BitwiseAnd
@@ -89,7 +89,7 @@ Scalar_NSConst        => Scalar_MagicConst_Namespace
 Scalar_TraitConst     => Scalar_MagicConst_Trait
 ```
 
-These changes may affect custom pretty printers and code comparing the return value of ''Node::getType()'' to specific
+These changes may affect custom pretty printers and code comparing the return value of `Node::getType()` to specific
 strings.
 
 ### Miscellaneous
