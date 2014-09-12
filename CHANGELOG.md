@@ -1,5 +1,10 @@
-Version 1.0.0-dev
+Version 1.0.1-dev
 -----------------
+
+Nothing yet.
+
+Version 1.0.0 (12.09.2014)
+--------------------------
 
 * [BC] Removed deprecated `Template` and `TemplateLoader` classes.
 
