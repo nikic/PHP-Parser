@@ -1,21 +1,18 @@
 PHP Parser
 ==========
 
-This is a PHP 5.6 (and older) parser written in PHP. It's purpose is to simplify static code analysis and
+This is a PHP 5.2 to PHP 5.6 parser written in PHP. It's purpose is to simplify static code analysis and
 manipulation.
 
-[Documentation for version 0.9.x][doc_0_9] (stable; for running on PHP 5.2).
-
 [**Documentation for version 1.0.x**][doc_master] (beta; for running on PHP >= 5.3).
+
+[Documentation for version 0.9.x][doc_0_9] (unsupported; for running on PHP 5.2).
 
 In a Nutshell
 -------------
 
-Basically, the parser does nothing more than turn some PHP code into an abstract syntax tree. ("nothing
-more" is kind of sarcastic here as PHP has a ... uhm, let's just say "not nice" ... grammar, which makes
-parsing PHP very hard.)
-
-For example, if you stick this code in the parser:
+The parser turns PHP source code into an abstract syntax tree. For example, if you pass the following code into the
+parser:
 
 ```php
 <?php
