@@ -54,6 +54,9 @@ foreach ($files as $file) {
         } elseif ('var-dump' === $operation) {
             echo "==> var_dump():\n";
             var_dump($stmts);
+        } elseif ('print-r' === $operation) {
+            echo "==> print_r():\n";
+            print_r($stmts);
         } elseif ('resolve-names' === $operation) {
             echo "==> Resolved names.\n";
             $stmts = $traverser->traverse($stmts);
@@ -74,6 +77,7 @@ Operations is a list of the following options (--dump by default):
     --pretty-print   -p  Pretty print file using PrettyPrinter\Standard
     --serialize-xml      Serialize nodes using Serializer\XML
     --var-dump           var_dump() nodes (for exact structure)
+    --print-r            print_r() nodes (for exact structure)
     --resolve-names  -N  Resolve names using NodeVisitor\NameResolver
 
 Example:
@@ -111,6 +115,9 @@ function parseArgs($args) {
                 break;
             case '--var-dump':
                 $operations[] = 'var-dump';
+                break;
+            case '--print-r':
+                $operations[] = 'print-r';
                 break;
             case '--resolve-names':
             case '-N';
