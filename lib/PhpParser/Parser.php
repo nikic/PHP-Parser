@@ -361,49 +361,49 @@ class Parser extends ParserAbstract
           235,  236,-32766,-32766,-32766,-32766,-32766,-32767,-32767,-32767,
         -32767,   66,   67,   58,  436,  237,  238,   68,  370,   69,
           290,  291,   70,   71,   72,   73,   74,   75,   76,   77,
-          306,   32,  300,   78,  403,  412,  410,  281,  408,  943,
-          944,  448,    0, 1036,  329,  679,  428,  449,   46,   27,
+          306,   32,  300,   78,  403,  412,  410,  281,  408,  942,
+          943,  448,    0, 1035,  329,  679,  428,  449,   46,   27,
           413,   31,  450,  797,  451,  126,  452,  215,  583,  414,
           758,  759,   54,   36,   37,  453,  419,  415,   38,  454,
-          348,  349,   79,  184,  321,  351,  352, 1036,  455,  456,
+          348,  349,   79,  184,  321,  351,  352, 1035,  455,  456,
            39,  293, -122,  457,  458,  459,  704,  661,  705,  460,
-          461,  297,  894,   35,  462,  463,  125,  949,  950,  951,
-          952,  946,  947,  307,   83,   84,   85,  204,  476,  953,
-          948,  416,  294,  685,  602,  407,   47,  733,  332,  319,
+          461,  297,  894,   35,  462,  463,  125,  948,  949,  950,
+          951,  945,  946,  307,   83,   84,   85,  204,  476,  952,
+          947,  416,  294,  685,  602,  407,   47,  733,  332,  319,
           425,  323,   40,  604,   86,   87,   88,   89,   90,   91,
            92,   93,   94,   95,   96,   97,   98,   99,  100,  101,
           102,  103,  104,  105,  106,  121,  301,-32766,  408,-32766,
         -32766,-32766,  332,  633,  329,  339,   22,-32766,  107,  334,
         -32766,-32766,-32766,  797,-32766,  429,-32766,-32766,-32766,-32766,
-        -32766,-32766,  213,  214,  215,-32766,-32766,-32766,  909, 1043,
-        -32766,-32766,  294,  433,-32766,  462,  350,-32766,  475, 1068,
-          184, 1070, 1069,  761,  894,-32766,  702,  213,  214,  215,
+        -32766,-32766,  213,  214,  215,-32766,-32766,-32766,  909, 1042,
+        -32766,-32766,  294,  433,-32766,  462,  350,-32766,  475, 1067,
+          184, 1069, 1068,  761,  894,-32766,  702,  213,  214,  215,
            41,  108,  109,  110,  111,  112,  113,  114,  115,  116,
-          117,  118,  119, 1030,  292,  184,  523,-32766,-32766,-32766,
-        -32766,-32766,-32766,  633,  129,-32766,-32766,-32766,  446, 1002,
+          117,  118,  119, 1029,  292,  184,  523,-32766,-32766,-32766,
+        -32766,-32766,-32766,  633,  129,-32766,-32766,-32766,  446, 1001,
         -32766,-32766,-32766,  431,-32766,  734,-32766,  358,-32766,  835,
           837,-32766,  213,  214,  215,-32766,-32766,-32766,  132,-32766,
         -32766,-32766,  279,  430,-32766,  633,  130,-32766,  475,-32766,
           184,  894,-32766,-32766,-32766,-32766,-32766,  296,-32766,  408,
         -32766,  601,  633,-32766,-32766,  329, -118,-32766,-32766,-32766,
-         1058,  282,-32766,-32766,  797,  770,-32766,  120,  340,-32766,
+         1057,  282,-32766,-32766,  797,  770,-32766,  120,  340,-32766,
           475,  237,  238,  894,  129,-32766,-32766,-32766,  415,  760,
         -32767,-32767,-32767,-32767,   99,  100,  101,  102,  103,  455,
-          456, -393,  592,  994,  435,   55,-32766,  703,  661,  705,
+          456, -392,  592,  993,  435,   55,-32766,  703,  661,  705,
           460,  461,  633,-32766,-32766,-32766,-32766,-32766,-32766,-32766,
-        -32766,-32766, 1065,-32766, 1058,-32766,  894,-32766, 1000,  476,
-        -32766,  993,  416,  789,-32766,-32766,-32766,  692,-32766,-32766,
+        -32766,-32766, 1064,-32766, 1057,-32766,  894,-32766,  999,  476,
+        -32766,  992,  416,  789,-32766,-32766,-32766,  692,-32766,-32766,
         -32766,  128,  243,-32766,  633,  380,-32766,  475,-32766,  239,
           283,-32766,-32766,-32766,-32766,-32766,  779,-32766,  633,-32766,
-         1036,  677,-32766,  214,  215,  676,-32766,-32766,-32766,  894,
-          184,-32766,-32766, 1040,  559,-32766,  784,  130,-32766,  475,
+         1035,  677,-32766,  214,  215,  676,-32766,-32766,-32766,  894,
+          184,-32766,-32766, 1039,  559,-32766,  784,  130,-32766,  475,
           184,-32766,  324,  242,-32766,-32766,-32766,  633,  122,  295,
-         1001,-32766,  207,  919,-32766,-32766,-32766,  206,-32766,  999,
+         1000,-32766,  207,  919,-32766,-32766,-32766,  206,-32766,  998,
         -32766,  894,-32766,  205,   57,-32766,-32766,-32766,-32766,-32766,
         -32766,-32766,-32766,-32766,-32766,-32766,-32766,-32766,-32766,  134,
           689,-32766,  475,  551,-32766,  476,-32766,-32766,  416,-32766,
-          633,-32766,  955,  420,-32766,  332, 1002,-32766,-32766,-32766,
-          955,-32766,  624,-32766,  894,-32766,  131,  617,-32766,  213,
+          633,-32766,  954,  420,-32766,  332, 1001,-32766,-32766,-32766,
+          954,-32766,  624,-32766,  894,-32766,  131,  617,-32766,  213,
           214,  215,-32766,-32766,-32766,  626,-32766,-32766,-32766,-32766,
         -32766,-32766,  633,  614,-32766,  475,-32766,  184,  241,-32766,
         -32766,-32766,-32766,-32766,  618,-32766,  894,-32766,  443,  565,
@@ -423,23 +423,23 @@ class Parser extends ParserAbstract
         -32766,-32766,  208,  209,-32766,  475,  415,-32766,  210,  589,
           211,  514,-32766,  634,  213,  214,  215,  455,  456,  513,
           650,  501,  202,  234,  235,  236,  661,  705,  460,  461,
-          943,  944,  184,  652,-32766,-32766, 1063, -167,  945,  237,
+          942,  943,  184,  652,-32766,-32766, 1062, -167,  944,  237,
           238,  633,  671,-32766,  584,-32766,  500,  591,-32766,-32766,
-        -32766, 1058,-32766,  338,-32766,  896,-32766,  337,  427,-32766,
+        -32766, 1057,-32766,  338,-32766,  896,-32766,  337,  427,-32766,
         -32766,-32766,-32766,-32766,-32766,-32766,  556,  330,-32766,-32766,
           299,  570,-32766,  516,  544,-32766,  475,  278,-32766, -164,
-        -32766,-32766,-32766,-32766,  568,  954,  541,  327,  949,  950,
-          951,  952,  946,  947,  386,  423,  208,  209,  445,  506,
-          953,  948,  210,  124,  211,  706, -393,  212,  328,-32766,
-          707,  700,  333,-32766,-32766,  790,  202,  936, -394,  320,
-          322,-32766,    0,   42,  943,  944,    0,  633,-32766,  462,
-            0,-32766,  945,  788,-32766,-32766,-32766,    0,-32766,  608,
+        -32766,-32766,-32766,-32766,  568,  953,  541,  327,  948,  949,
+          950,  951,  945,  946,  386,  423,  208,  209,  445,  506,
+          952,  947,  210,  124,  211,  706, -392,  212,  328,-32766,
+          707,  700,  333,-32766,-32766,  790,  202,  935, -393,  320,
+          322,-32766,    0,   42,  942,  943,    0,  633,-32766,  462,
+            0,-32766,  944,  788,-32766,-32766,-32766,    0,-32766,  608,
         -32766,  373,-32766,  597, -300,-32766,  360,  326,  310,-32766,
         -32766,-32766, -291, -299,-32766,-32766,  415,  404,-32766,  425,
           407,-32766,  475,  318,   45,  610,  611,  455,  456,-32766,
           805,  806,  807,  804,  803,  802,  639,  705,  460,  461,
-          541,  646,  949,  950,  951,  952,  946,  947,  386,-32766,
-        -32766,-32766,  675,  645,  953,  948,  717,  726,  331,-32766,
+          541,  646,  948,  949,  950,  951,  945,  946,  386,-32766,
+        -32766,-32766,  675,  645,  952,  947,  717,  726,  331,-32766,
         -32766,  212,  688,-32766,  666,  642,  681,-32766,  736,-32766,
         -32766,-32766,-32766,-32766,-32767,-32767,-32767,-32767,-32766,-32766,
         -32766,-32766,-32766,-32766,-32766,-32766,-32766,-32767,-32767,-32767,
@@ -449,12 +449,12 @@ class Parser extends ParserAbstract
           456,-32766,-32766,-32766,  621,  622,  415,  615,  639,  705,
           460,  461,  625,  331,  627,   82,  603,  455,  456,-32766,
           641,-32766,-32766,-32766,-32766,-32766,  661,  705,  460,  461,
-          331,  415,  620,  613,  127,  892,  415,  303,  442, 1064,
-         1037, 1066,  455,  456, 1067, 1021, 1035,  455,  456,  415,
-         1033,  661,  705,  460,  461,  694,  661,  705,  460,  461,
-          455,  456,  934, 1031, 1041,  725,  415,  772,  553,  661,
+          331,  415,  620,  613,  127,  892,  415,  303,  442, 1063,
+         1036, 1065,  455,  456, 1066, 1020, 1034,  455,  456,  415,
+         1032,  661,  705,  460,  461,  694,  661,  705,  460,  461,
+          455,  456,  933, 1030, 1040,  725,  415,  772,  553,  661,
           705,  460,  461,  302,  289,-32766,  304,  455,  456,  415,
-          895,  959,  305,  415,  599,  701,  661,  705,  460,  461,
+          895,  958,  305,  415,  599,  701,  661,  705,  460,  461,
           455,  456,  335,  288,  455,  456,  280,  415,  662,  661,
           705,  460,  461,  661,  705,  460,  461,  402,  455,  456,
           590,  406,  203,   81,  415,  612,  762,  661,  705,  460,
@@ -463,8 +463,8 @@ class Parser extends ParserAbstract
           577,  661,  705,  460,  461,  901,  898,-32766,    0,-32766,
         -32766,-32766,-32766,  596,  569,  536,  444,  439,  381,  361,
            25,   24,   23, -118,  873,    0,  545,  874,  897, -119,
-            0,    0,    0, 1015,  960,    0, 1062,  933, 1032, 1016,
-         1020, 1034,  918,  905,  906,  903,  904,  902
+            0,    0,    0, 1014,  959,    0, 1061,  932, 1031, 1015,
+         1019, 1033,  918,  905,  906,  903,  904,  902
     );
 
     protected $actionCheck = array(
@@ -690,9 +690,9 @@ class Parser extends ParserAbstract
             3,32767,32767,    1,32767,32767,32767,32767,32767,32767,
         32767,32767,32767,32767,32767,32767,  111,  103,  117,  102,
           113,32767,32767,32767,32767,32767,32767,32767,32767,32767,
-        32767,32767,  420,  420,32767,  377,32767,32767,32767,32767,
-        32767,32767,32767,  185,  185,  185,32767,32767,32767,  409,
-          409,  409,  409,  409,  409,  409,  409,  409,  409,  409,
+        32767,32767,  419,  419,32767,  376,32767,32767,32767,32767,
+        32767,32767,32767,  185,  185,  185,32767,32767,32767,  408,
+          408,  408,  408,  408,  408,  408,  408,  408,  408,  408,
         32767,32767,32767,32767,32767,  265,32767,32767,32767,32767,
         32767,32767,32767,32767,32767,32767,32767,32767,32767,32767,
         32767,32767,32767,32767,32767,32767,32767,32767,32767,32767,
@@ -700,52 +700,52 @@ class Parser extends ParserAbstract
         32767,32767,32767,32767,32767,32767,32767,32767,32767,32767,
         32767,32767,32767,32767,32767,32767,32767,32767,32767,32767,
         32767,32767,32767,32767,32767,32767,32767,32767,32767,32767,
-        32767,32767,32767,32767,32767,32767,32767,32767,  270,  425,
+        32767,32767,32767,32767,32767,32767,32767,32767,  270,  424,
         32767,32767,32767,32767,32767,32767,32767,32767,32767,32767,
-        32767,32767,32767,32767,32767,32767,32767,  381,32767,32767,
-        32767,32767,32767,  246,  247,  249,  250,  184,  410,  136,
-          271,  424,  183,   26,  147,  138,   95,  380,  182,  126,
-          212,  335,  214,  337,32767,  264,  213,  189,  194,  195,
+        32767,32767,32767,32767,32767,32767,32767,  380,32767,32767,
+        32767,32767,32767,  246,  247,  249,  250,  184,  409,  136,
+          271,  423,  183,   26,  147,  138,   95,  379,  182,  126,
+          212,  334,  214,  336,32767,  264,  213,  189,  194,  195,
           196,  197,  198,  199,  200,  201,  202,  203,  204,  205,
-          188,  336,  374,  374,  377,32767,32767,32767,32767,32767,
+          188,  335,  373,  373,  376,32767,32767,32767,32767,32767,
         32767,32767,32767,32767,32767,32767,32767,32767,32767,32767,
         32767,32767,32767,32767,32767,32767,32767,32767,32767,32767,
         32767,32767,32767,32767,32767,32767,32767,32767,32767,32767,
-        32767,32767,32767,32767,  243,  242,  363,  362,  210,  333,
-          211,  334,  215,  338,  217,  340,  216,  233,  234,  231,
-          232,  339,  356,  357,  354,  355,  187,  235,  236,  237,
-          238,  358,  359,  360,  361,  169,  169,  169,32767,32767,
-          419,  419,32767,32767,  224,  225,  347,  348,32767,32767,
+        32767,32767,32767,32767,  243,  242,  362,  361,  210,  332,
+          211,  333,  215,  337,  217,  339,  216,  233,  234,  231,
+          232,  338,  355,  356,  353,  354,  187,  235,  236,  237,
+          238,  357,  358,  359,  360,  169,  169,  169,32767,32767,
+          418,  418,32767,32767,  224,  225,  346,  347,32767,32767,
         32767,32767,32767,32767,32767,32767,32767,32767,  170,32767,
-          301,  301,  127,  127,  127,  127,  127,32767,32767,32767,
-        32767,  219,  220,  218,  342,  343,  341,32767,32767,  309,
-        32767,32767,32767,32767,32767,  311,32767,32767,32767,32767,
-        32767,32767,32767,32767,32767,32767,  382,  310,32767,32767,
-        32767,32767,32767,32767,32767,32767,  395,  297,32767,32767,
-        32767,32767,  290,  114,  116,   64,  366,32767,32767,32767,
-        32767,32767,  400,  229,32767,32767,32767,32767,32767,32767,
-          432,32767,  395,32767,32767,32767,32767,32767,32767,32767,
-        32767,  241,  221,  222,  223,32767,32767,  399,  393,  350,
-          351,  352,  353,  344,  345,  346,  349,32767,32767,32767,
-        32767,32767,   68,  306,32767,  312,32767,32767,32767,32767,
-           68,32767,32767,32767,32767,   68,32767,  398,  397,   68,
-        32767,  291,  376,   68,   81,32767,   79,32767,  100,  100,
-        32767,32767,   83,  372,  388,32767,32767,   68,32767,  279,
-           70,  376,32767,32767,  279,   68,32767,32767,    4,  316,
+        32767,32767,  127,  127,  127,  127,  127,32767,32767,32767,
+        32767,  219,  220,  218,  341,  342,  340,32767,32767,  308,
+        32767,32767,32767,32767,32767,  310,32767,32767,32767,32767,
+        32767,32767,32767,32767,32767,32767,  381,  309,32767,32767,
+        32767,32767,32767,32767,32767,32767,  394,  297,32767,32767,
+        32767,32767,  290,  114,  116,   64,  365,32767,32767,32767,
+        32767,32767,  399,  229,32767,32767,32767,32767,32767,32767,
+          431,32767,  394,32767,32767,32767,32767,32767,32767,32767,
+        32767,  241,  221,  222,  223,32767,32767,  398,  392,  349,
+          350,  351,  352,  343,  344,  345,  348,32767,32767,32767,
+        32767,32767,   68,  305,32767,  311,32767,32767,32767,32767,
+           68,32767,32767,32767,32767,   68,32767,  397,  396,   68,
+        32767,  291,  375,   68,   81,32767,   79,32767,  100,  100,
+        32767,32767,   83,  371,  387,32767,32767,   68,32767,  279,
+           70,  375,32767,32767,  279,   68,32767,32767,    4,  315,
         32767,32767,32767,32767,32767,32767,32767,32767,32767,32767,
         32767,32767,32767,32767,  292,32767,32767,32767,  261,  262,
-          369,  384,32767,  385,32767,  290,32767,  227,  228,  230,
+          368,  383,32767,  384,32767,  290,32767,  227,  228,  230,
           207,32767,  209,  251,  252,  253,  254,  255,  256,  257,
           259,32767,32767,  295,  298,32767,32767,32767,    6,   20,
-          146,32767,  293,32767,  192,32767,32767,32767,32767,  427,
+          146,32767,  293,32767,  192,32767,32767,32767,32767,  426,
         32767,32767,  186,32767,32767,   22,32767,  142,32767,   66,
-        32767,  417,32767,32767,  393,  294,  226,32767,32767,32767,
-        32767,32767,32767,32767,32767,32767,  394,32767,32767,32767,
-          121,32767,  329,32767,32767,32767,   82,32767,  190,  137,
-        32767,32767,  426,32767,32767,32767,32767,32767,32767,32767,
-        32767,   67,32767,32767,   84,32767,32767,  393,32767,32767,
+        32767,  416,32767,32767,  392,  294,  226,32767,32767,32767,
+        32767,32767,32767,32767,32767,32767,  393,32767,32767,32767,
+          121,32767,  328,32767,32767,32767,   82,32767,  190,  137,
+        32767,32767,  425,32767,32767,32767,32767,32767,32767,32767,
+        32767,   67,32767,32767,   84,32767,32767,  392,32767,32767,
         32767,32767,32767,32767,32767,32767,  181,32767,32767,32767,
-        32767,32767,  393,32767,  125,32767,32767,32767,32767,32767,
+        32767,32767,  392,32767,  125,32767,32767,32767,32767,32767,
         32767,32767,    4,32767,  163,32767,32767,32767,32767,32767,
         32767,32767,   28,   28,    3,   28,  108,   28,  149,    3,
           100,  100,   61,  149,   28,  149,   28,   28,   28,   28,
@@ -764,46 +764,46 @@ class Parser extends ParserAbstract
           190,  191,  192,  193,  194,  195,  196,  197,  198,  199,
           200,  150,  151,  152,  170,  153,  172,  154,  244,  175,
           155,  156,  159,  245,  160,  136,  542,  528,  529,  530,
-          531,  532,  533,  534,  535,  537,  563,  749,  749, 1047,
-         1047,  637,  637,  637,  542,  542,  542,  542,  542,  542,
+          531,  532,  533,  534,  535,  537,  563,  749,  749, 1046,
+         1046,  637,  637,  637,  542,  542,  542,  542,  542,  542,
           542,  542,  542,  542,  542,  542,  542,  542,  542,  542,
           542,  542,  542,  542,  542,  542,  542,  542,  542,  542,
           542,  542,  542,  542,  542,  542,  542,  542,  542,  542,
           542,  542,  542,  542,  542,  542,  481,  481,  481,  481,
-          481,  481,  504,  342, 1026, 1026,  481,  481,  481,  481,
+          481,  481,  504,  342, 1025, 1025,  481,  481,  481,  481,
           481,  481,  481,  481,  481,  481,  325,  683,  492,  492,
-          309, 1057, 1057,  522, 1042, 1042, 1042,  638,  638,  638,
-          421,  421,  421,  421,  421,  421, 1025, 1060, 1057,  764,
+          309, 1056, 1056,  522, 1041, 1041, 1041,  638,  638,  638,
+          421,  421,  421,  421,  421,  421, 1024, 1059, 1056,  764,
           421,  421,  421,  421,  421,  421,  421,  421,  421,  421,
-         1060, 1060,  920,  920,  757,  757,  757,  757,  757,  557,
+         1059, 1059,  920,  920,  757,  757,  757,  757,  757,  557,
           560,  598,  371,  372,  372,  372,  564,  345,  400,  593,
-          543,    1,  276, 1051,  277,  372,    2,  554,  580,  714,
+          543,    1,  276, 1050,  277,  372,    2,  554,  580,  714,
           714,  714,  714,  387,  573,  709,  715,  588,  543,  543,
           543,  543,  543,  543,  543,  543,  543,  543,  543,  543,
           543,  543,  543,  543,  543,  543,  543,  543,  543,  543,
           543,  543,  543,  543,  543,  543,  543,  543,  543,  543,
           543,  543,  543,  543,  543,  543,  543,  543,  543,  543,
-            5,  364,   16, 1007,    6,  801,  401,  581,  515, 1027,
-         1027,    7, 1044,   17,   18,    8,   19,    9,   10,   11,
-          868,   20,   12,   13,   14,   15,  494,  494,  378,  932,
-          931,  388,  582,  521,  521,  548,  517,  375,  376,  753,
-          956,  519,  519,  480,  482,  509,  524,  549,  552,  561,
-          567,  647,  768,  957,  343,  344,  493,  493,  956,  956,
-          956,  956,  956,  956,  956,  956,  956,  956,  956,  956,
-          956,  956,  956,  956,  956,  956,  956,  956,  956,  956,
-          956,  956,  956,  956,  956,  956,  956,  956,  956,  956,
-          956,  956,  956,  956,  956,  956,  956,  956,  956,  956,
-          161,  527,  616,  397,  653,  503,  911,  820, 1019,  773,
-         1004,  723,  585,  809,    0,    0,    0,    0,  503,  503,
+            5,  364,   16, 1006,    6,  801,  401,  581,  515, 1026,
+         1026,    7, 1043,   17,   18,    8,   19,    9,   10,   11,
+          868,   20,   12,   13,   14,   15,  494,  494,  378,  931,
+          930,  388,  582,  521,  521,  548,  517,  375,  376,  753,
+          955,  519,  519,  480,  482,  509,  524,  549,  552,  561,
+          567,  647,  768,  956,  343,  344,  493,  493,  955,  955,
+          955,  955,  955,  955,  955,  955,  955,  955,  955,  955,
+          955,  955,  955,  955,  955,  955,  955,  955,  955,  955,
+          955,  955,  955,  955,  955,  955,  955,  955,  955,  955,
+          955,  955,  955,  955,  955,  955,  955,  955,  955,  955,
+          161,  527,  616,  397,  653,  503,  911,  820, 1018,  773,
+         1003,  723,  585,  809,    0,    0,    0,    0,  503,  503,
             0,  173,  174,  176,  389,  390,  391,  392,  158,  181,
           183,  201,  249,  251,  253,  255,  261,  262,  263,  264,
           265,  271,  272,  273,  274,  286,  287,  314,  315,  316,
           393,  394,  395,  396,  162,  177,  246,  247,  178,  179,
           636,  636,  636,  498,    0,    0,    0,    0,    0,    0,
-            0,    0,    0,    0,    0,    0,  498,  942,    0,    0,
+            0,    0,    0,    0,    0,    0,  498,  941,    0,    0,
           735,  720,  718,  716,  718,  606,  495,  744,  739,  916,
-          917,  937,    0,  498,  498,  498,    0,    0,    0,  877,
-           26,   21,  357,    0,    0,  914, 1018,  914,  365,    0,
+          917,  936,    0,  498,  498,  498,    0,    0,    0,  877,
+           26,   21,  357,    0,    0,  914, 1017,  914,  365,    0,
             0,    0,  507,    0,  915,  538,  518,    0,    0,    0,
             0,    0,    0,    0,    0,    0,   29,    0,    0,    0,
           440,  578,    0,    0,    0,    0,    0,    0,  586,    0,
@@ -899,9 +899,9 @@ class Parser extends ParserAbstract
           385,  763,  769,  774,  777,  409,  398,  562,  781,  782,
           317,  786,  594,  595,  800,  298,  808,  821,  405,  887,
           889,  468,  469,  505,  571,  491,  510,  470,  907,  399,
-          910,  471,  472,  417,  418,  928,  925,  347, 1012,  346,
-          434,  308,  997,  996,  558,  961,  441, 1050, 1008,  336,
-          473,  474,  362,  379, 1045,  422, 1052, 1059,  547
+          910,  471,  472,  417,  418,  928,  925,  347, 1011,  346,
+          434,  308,  996,  995,  558,  960,  441, 1049, 1007,  336,
+          473,  474,  362,  379, 1044,  422, 1051, 1058,  547
     );
 
     protected $ruleToNonTerminal = array(
@@ -935,21 +935,21 @@ class Parser extends ParserAbstract
            26,   26,   81,   81,   82,   82,   82,   82,   77,   84,
            84,   89,   89,   90,   91,   91,   91,   91,   91,   91,
            95,   95,   39,   39,   39,   78,   78,   96,   96,   92,
-           92,   97,   97,   97,   97,   97,   79,   79,   79,   83,
-           83,   83,   88,   88,  102,  102,  102,  102,  102,  102,
-          102,  102,  102,  102,  102,  102,  102,   13,   13,   13,
-           13,   13,   13,  105,  105,  105,  105,  105,  105,  105,
+           92,   97,   97,   97,   97,   79,   79,   79,   83,   83,
+           83,   88,   88,  102,  102,  102,  102,  102,  102,  102,
+          102,  102,  102,  102,  102,  102,   13,   13,   13,   13,
+           13,   13,  105,  105,  105,  105,  105,  105,  105,  105,
           105,  105,  105,  105,  105,  105,  105,  105,  105,  105,
           105,  105,  105,  105,  105,  105,  105,  105,  105,  105,
-          105,  105,  105,  105,  105,  105,   87,   87,   80,   80,
-           80,   80,  103,  103,  104,  104,  107,  107,  106,  106,
-          108,  108,   33,   33,   33,   33,  110,  110,  109,  109,
-          109,  109,  109,  111,  111,   94,   94,   98,   98,   93,
-           93,  112,  112,  112,  112,   99,   99,   99,   99,   86,
-           86,  100,  100,  100,   55,  113,  113,  114,  114,  114,
-           85,   85,  115,  115,  116,  116,  116,  116,  101,  101,
-          101,  101,  117,  117,  117,  117,  117,  117,  117,  118,
-          118,  118
+          105,  105,  105,  105,  105,   87,   87,   80,   80,   80,
+           80,  103,  103,  104,  104,  107,  107,  106,  106,  108,
+          108,   33,   33,   33,   33,  110,  110,  109,  109,  109,
+          109,  109,  111,  111,   94,   94,   98,   98,   93,   93,
+          112,  112,  112,  112,   99,   99,   99,   99,   86,   86,
+          100,  100,  100,   55,  113,  113,  114,  114,  114,   85,
+           85,  115,  115,  116,  116,  116,  116,  101,  101,  101,
+          101,  117,  117,  117,  117,  117,  117,  117,  118,  118,
+          118
     );
 
     protected $ruleToLength = array(
@@ -983,21 +983,21 @@ class Parser extends ParserAbstract
             2,    4,    4,    3,    4,    4,    4,    4,    3,    0,
             4,    1,    3,    2,    2,    4,    6,    2,    2,    4,
             1,    1,    1,    2,    3,    1,    1,    1,    1,    1,
-            1,    0,    3,    3,    4,    4,    0,    2,    1,    0,
-            1,    1,    0,    1,    1,    1,    1,    1,    1,    1,
-            1,    1,    1,    1,    1,    3,    2,    1,    3,    1,
-            4,    3,    1,    3,    3,    3,    3,    3,    3,    3,
-            3,    3,    3,    3,    3,    3,    3,    3,    3,    3,
-            2,    2,    2,    2,    3,    3,    3,    3,    3,    3,
-            3,    3,    5,    4,    4,    3,    1,    3,    1,    1,
-            3,    3,    1,    1,    0,    2,    0,    1,    3,    1,
-            3,    1,    1,    1,    1,    1,    6,    4,    3,    4,
-            2,    4,    4,    1,    3,    1,    2,    1,    1,    4,
-            1,    3,    6,    4,    4,    4,    4,    1,    4,    0,
-            1,    1,    3,    1,    4,    3,    1,    1,    1,    0,
-            0,    2,    3,    1,    3,    1,    4,    2,    2,    2,
-            1,    2,    1,    4,    3,    3,    3,    6,    3,    1,
-            1,    1
+            1,    3,    3,    4,    4,    0,    2,    1,    0,    1,
+            1,    0,    1,    1,    1,    1,    1,    1,    1,    1,
+            1,    1,    1,    1,    3,    2,    1,    3,    1,    4,
+            3,    1,    3,    3,    3,    3,    3,    3,    3,    3,
+            3,    3,    3,    3,    3,    3,    3,    3,    3,    2,
+            2,    2,    2,    3,    3,    3,    3,    3,    3,    3,
+            3,    5,    4,    4,    3,    1,    3,    1,    1,    3,
+            3,    1,    1,    0,    2,    0,    1,    3,    1,    3,
+            1,    1,    1,    1,    1,    6,    4,    3,    4,    2,
+            4,    4,    1,    3,    1,    2,    1,    1,    4,    1,
+            3,    6,    4,    4,    4,    4,    1,    4,    0,    1,
+            1,    3,    1,    4,    3,    1,    1,    1,    0,    0,
+            2,    3,    1,    3,    1,    4,    2,    2,    2,    1,
+            2,    1,    4,    3,    3,    3,    6,    3,    1,    1,
+            1
     );
 
     protected function reduceRule0() {
@@ -2218,8 +2218,8 @@ class Parser extends ParserAbstract
          $this->semValue = $this->semStack[$this->stackPos-(1-1)]; 
     }
 
-    protected function reduceRule301() {
-        $this->semValue = $this->semStack[$this->stackPos];
+    protected function reduceRule301($attributes) {
+         $this->semValue = new Node\Expr\PropertyFetch($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
     protected function reduceRule302($attributes) {
@@ -2227,7 +2227,7 @@ class Parser extends ParserAbstract
     }
 
     protected function reduceRule303($attributes) {
-         $this->semValue = new Node\Expr\PropertyFetch($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-3)], $attributes); 
+         $this->semValue = new Node\Expr\ArrayDimFetch($this->semStack[$this->stackPos-(4-1)], $this->semStack[$this->stackPos-(4-3)], $attributes); 
     }
 
     protected function reduceRule304($attributes) {
@@ -2235,7 +2235,7 @@ class Parser extends ParserAbstract
     }
 
     protected function reduceRule305($attributes) {
-         $this->semValue = new Node\Expr\ArrayDimFetch($this->semStack[$this->stackPos-(4-1)], $this->semStack[$this->stackPos-(4-3)], $attributes); 
+         $this->semValue = null; 
     }
 
     protected function reduceRule306($attributes) {
@@ -2243,247 +2243,247 @@ class Parser extends ParserAbstract
     }
 
     protected function reduceRule307($attributes) {
-         $this->semValue = null; 
+         $this->semValue = $this->semStack[$this->stackPos-(1-1)]; 
     }
 
     protected function reduceRule308($attributes) {
-         $this->semValue = $this->semStack[$this->stackPos-(1-1)]; 
+         $this->semValue = array(); 
     }
 
     protected function reduceRule309($attributes) {
-         $this->semValue = array(); 
-    }
-
-    protected function reduceRule310($attributes) {
          $this->semValue = array(Node\Scalar\String::parseEscapeSequences($this->semStack[$this->stackPos-(1-1)], '`')); 
     }
 
-    protected function reduceRule311($attributes) {
+    protected function reduceRule310($attributes) {
          foreach ($this->semStack[$this->stackPos-(1-1)] as &$s) { if (is_string($s)) { $s = Node\Scalar\String::parseEscapeSequences($s, '`'); } }; $this->semValue = $this->semStack[$this->stackPos-(1-1)]; 
     }
 
-    protected function reduceRule312($attributes) {
+    protected function reduceRule311($attributes) {
          $this->semValue = array(); 
     }
 
-    protected function reduceRule313($attributes) {
+    protected function reduceRule312($attributes) {
          $this->semValue = $this->semStack[$this->stackPos-(1-1)]; 
     }
 
-    protected function reduceRule314($attributes) {
+    protected function reduceRule313($attributes) {
          $this->semValue = new Node\Scalar\LNumber(Node\Scalar\LNumber::parse($this->semStack[$this->stackPos-(1-1)]), $attributes); 
     }
 
-    protected function reduceRule315($attributes) {
+    protected function reduceRule314($attributes) {
          $this->semValue = new Node\Scalar\DNumber(Node\Scalar\DNumber::parse($this->semStack[$this->stackPos-(1-1)]), $attributes); 
     }
 
-    protected function reduceRule316($attributes) {
+    protected function reduceRule315($attributes) {
          $this->semValue = new Node\Scalar\String(Node\Scalar\String::parse($this->semStack[$this->stackPos-(1-1)]), $attributes); 
     }
 
-    protected function reduceRule317($attributes) {
+    protected function reduceRule316($attributes) {
          $this->semValue = new Node\Scalar\MagicConst\Line($attributes); 
     }
 
-    protected function reduceRule318($attributes) {
+    protected function reduceRule317($attributes) {
          $this->semValue = new Node\Scalar\MagicConst\File($attributes); 
     }
 
-    protected function reduceRule319($attributes) {
+    protected function reduceRule318($attributes) {
          $this->semValue = new Node\Scalar\MagicConst\Dir($attributes); 
     }
 
-    protected function reduceRule320($attributes) {
+    protected function reduceRule319($attributes) {
          $this->semValue = new Node\Scalar\MagicConst\Class_($attributes); 
     }
 
-    protected function reduceRule321($attributes) {
+    protected function reduceRule320($attributes) {
          $this->semValue = new Node\Scalar\MagicConst\Trait_($attributes); 
     }
 
-    protected function reduceRule322($attributes) {
+    protected function reduceRule321($attributes) {
          $this->semValue = new Node\Scalar\MagicConst\Method($attributes); 
     }
 
-    protected function reduceRule323($attributes) {
+    protected function reduceRule322($attributes) {
          $this->semValue = new Node\Scalar\MagicConst\Function_($attributes); 
     }
 
-    protected function reduceRule324($attributes) {
+    protected function reduceRule323($attributes) {
          $this->semValue = new Node\Scalar\MagicConst\Namespace_($attributes); 
     }
 
-    protected function reduceRule325($attributes) {
+    protected function reduceRule324($attributes) {
          $this->semValue = new Node\Scalar\String(Node\Scalar\String::parseDocString($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-2)]), $attributes); 
     }
 
-    protected function reduceRule326($attributes) {
+    protected function reduceRule325($attributes) {
          $this->semValue = new Node\Scalar\String('', $attributes); 
     }
 
-    protected function reduceRule327($attributes) {
+    protected function reduceRule326($attributes) {
          $this->semValue = $this->semStack[$this->stackPos-(1-1)]; 
+    }
+
+    protected function reduceRule327($attributes) {
+         $this->semValue = new Node\Expr\ClassConstFetch($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
     protected function reduceRule328($attributes) {
-         $this->semValue = new Node\Expr\ClassConstFetch($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-3)], $attributes); 
+         $this->semValue = new Node\Expr\ConstFetch($this->semStack[$this->stackPos-(1-1)], $attributes); 
     }
 
     protected function reduceRule329($attributes) {
-         $this->semValue = new Node\Expr\ConstFetch($this->semStack[$this->stackPos-(1-1)], $attributes); 
-    }
-
-    protected function reduceRule330($attributes) {
          $this->semValue = new Node\Expr\Array_($this->semStack[$this->stackPos-(4-3)], $attributes); 
     }
 
-    protected function reduceRule331($attributes) {
+    protected function reduceRule330($attributes) {
          $this->semValue = new Node\Expr\Array_($this->semStack[$this->stackPos-(3-2)], $attributes); 
     }
 
-    protected function reduceRule332($attributes) {
+    protected function reduceRule331($attributes) {
          $this->semValue = $this->semStack[$this->stackPos-(1-1)]; 
     }
 
-    protected function reduceRule333($attributes) {
+    protected function reduceRule332($attributes) {
          $this->semValue = new Node\Expr\BinaryOp\BooleanOr($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
-    protected function reduceRule334($attributes) {
+    protected function reduceRule333($attributes) {
          $this->semValue = new Node\Expr\BinaryOp\BooleanAnd($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
-    protected function reduceRule335($attributes) {
+    protected function reduceRule334($attributes) {
          $this->semValue = new Node\Expr\BinaryOp\LogicalOr($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
-    protected function reduceRule336($attributes) {
+    protected function reduceRule335($attributes) {
          $this->semValue = new Node\Expr\BinaryOp\LogicalAnd($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
-    protected function reduceRule337($attributes) {
+    protected function reduceRule336($attributes) {
          $this->semValue = new Node\Expr\BinaryOp\LogicalXor($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
-    protected function reduceRule338($attributes) {
+    protected function reduceRule337($attributes) {
          $this->semValue = new Node\Expr\BinaryOp\BitwiseOr($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
-    protected function reduceRule339($attributes) {
+    protected function reduceRule338($attributes) {
          $this->semValue = new Node\Expr\BinaryOp\BitwiseAnd($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
-    protected function reduceRule340($attributes) {
+    protected function reduceRule339($attributes) {
          $this->semValue = new Node\Expr\BinaryOp\BitwiseXor($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
-    protected function reduceRule341($attributes) {
+    protected function reduceRule340($attributes) {
          $this->semValue = new Node\Expr\BinaryOp\Concat($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
-    protected function reduceRule342($attributes) {
+    protected function reduceRule341($attributes) {
          $this->semValue = new Node\Expr\BinaryOp\Plus($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
-    protected function reduceRule343($attributes) {
+    protected function reduceRule342($attributes) {
          $this->semValue = new Node\Expr\BinaryOp\Minus($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
-    protected function reduceRule344($attributes) {
+    protected function reduceRule343($attributes) {
          $this->semValue = new Node\Expr\BinaryOp\Mul($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
-    protected function reduceRule345($attributes) {
+    protected function reduceRule344($attributes) {
          $this->semValue = new Node\Expr\BinaryOp\Div($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
-    protected function reduceRule346($attributes) {
+    protected function reduceRule345($attributes) {
          $this->semValue = new Node\Expr\BinaryOp\Mod($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
-    protected function reduceRule347($attributes) {
+    protected function reduceRule346($attributes) {
          $this->semValue = new Node\Expr\BinaryOp\ShiftLeft($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
-    protected function reduceRule348($attributes) {
+    protected function reduceRule347($attributes) {
          $this->semValue = new Node\Expr\BinaryOp\ShiftRight($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
-    protected function reduceRule349($attributes) {
+    protected function reduceRule348($attributes) {
          $this->semValue = new Node\Expr\BinaryOp\Pow($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
-    protected function reduceRule350($attributes) {
+    protected function reduceRule349($attributes) {
          $this->semValue = new Node\Expr\UnaryPlus($this->semStack[$this->stackPos-(2-2)], $attributes); 
     }
 
-    protected function reduceRule351($attributes) {
+    protected function reduceRule350($attributes) {
          $this->semValue = new Node\Expr\UnaryMinus($this->semStack[$this->stackPos-(2-2)], $attributes); 
     }
 
-    protected function reduceRule352($attributes) {
+    protected function reduceRule351($attributes) {
          $this->semValue = new Node\Expr\BooleanNot($this->semStack[$this->stackPos-(2-2)], $attributes); 
     }
 
-    protected function reduceRule353($attributes) {
+    protected function reduceRule352($attributes) {
          $this->semValue = new Node\Expr\BitwiseNot($this->semStack[$this->stackPos-(2-2)], $attributes); 
     }
 
-    protected function reduceRule354($attributes) {
+    protected function reduceRule353($attributes) {
          $this->semValue = new Node\Expr\BinaryOp\Identical($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
-    protected function reduceRule355($attributes) {
+    protected function reduceRule354($attributes) {
          $this->semValue = new Node\Expr\BinaryOp\NotIdentical($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
-    protected function reduceRule356($attributes) {
+    protected function reduceRule355($attributes) {
          $this->semValue = new Node\Expr\BinaryOp\Equal($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
-    protected function reduceRule357($attributes) {
+    protected function reduceRule356($attributes) {
          $this->semValue = new Node\Expr\BinaryOp\NotEqual($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
-    protected function reduceRule358($attributes) {
+    protected function reduceRule357($attributes) {
          $this->semValue = new Node\Expr\BinaryOp\Smaller($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
-    protected function reduceRule359($attributes) {
+    protected function reduceRule358($attributes) {
          $this->semValue = new Node\Expr\BinaryOp\SmallerOrEqual($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
-    protected function reduceRule360($attributes) {
+    protected function reduceRule359($attributes) {
          $this->semValue = new Node\Expr\BinaryOp\Greater($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
-    protected function reduceRule361($attributes) {
+    protected function reduceRule360($attributes) {
          $this->semValue = new Node\Expr\BinaryOp\GreaterOrEqual($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
-    protected function reduceRule362($attributes) {
+    protected function reduceRule361($attributes) {
          $this->semValue = new Node\Expr\Ternary($this->semStack[$this->stackPos-(5-1)], $this->semStack[$this->stackPos-(5-3)], $this->semStack[$this->stackPos-(5-5)], $attributes); 
     }
 
-    protected function reduceRule363($attributes) {
+    protected function reduceRule362($attributes) {
          $this->semValue = new Node\Expr\Ternary($this->semStack[$this->stackPos-(4-1)], null, $this->semStack[$this->stackPos-(4-4)], $attributes); 
     }
 
-    protected function reduceRule364($attributes) {
+    protected function reduceRule363($attributes) {
          $this->semValue = new Node\Expr\ArrayDimFetch($this->semStack[$this->stackPos-(4-1)], $this->semStack[$this->stackPos-(4-3)], $attributes); 
     }
 
-    protected function reduceRule365($attributes) {
+    protected function reduceRule364($attributes) {
          $this->semValue = $this->semStack[$this->stackPos-(3-2)]; 
     }
 
-    protected function reduceRule366($attributes) {
+    protected function reduceRule365($attributes) {
          $this->semValue = new Node\Expr\ConstFetch($this->semStack[$this->stackPos-(1-1)], $attributes); 
     }
 
-    protected function reduceRule367($attributes) {
+    protected function reduceRule366($attributes) {
          $this->semValue = new Node\Expr\ClassConstFetch($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-3)], $attributes); 
+    }
+
+    protected function reduceRule367($attributes) {
+         $this->semValue = $this->semStack[$this->stackPos-(1-1)]; 
     }
 
     protected function reduceRule368($attributes) {
@@ -2491,55 +2491,55 @@ class Parser extends ParserAbstract
     }
 
     protected function reduceRule369($attributes) {
-         $this->semValue = $this->semStack[$this->stackPos-(1-1)]; 
-    }
-
-    protected function reduceRule370($attributes) {
          foreach ($this->semStack[$this->stackPos-(3-2)] as &$s) { if (is_string($s)) { $s = Node\Scalar\String::parseEscapeSequences($s, '"'); } }; $this->semValue = new Node\Scalar\Encapsed($this->semStack[$this->stackPos-(3-2)], $attributes); 
     }
 
-    protected function reduceRule371($attributes) {
+    protected function reduceRule370($attributes) {
          foreach ($this->semStack[$this->stackPos-(3-2)] as &$s) { if (is_string($s)) { $s = Node\Scalar\String::parseEscapeSequences($s, null); } } $s = preg_replace('~(\r\n|\n|\r)$~', '', $s); if ('' === $s) array_pop($this->semStack[$this->stackPos-(3-2)]);; $this->semValue = new Node\Scalar\Encapsed($this->semStack[$this->stackPos-(3-2)], $attributes); 
     }
 
-    protected function reduceRule372($attributes) {
+    protected function reduceRule371($attributes) {
          $this->semValue = $this->semStack[$this->stackPos-(1-1)]; 
     }
 
-    protected function reduceRule373($attributes) {
+    protected function reduceRule372($attributes) {
          $this->semValue = 'class'; 
     }
 
-    protected function reduceRule374($attributes) {
+    protected function reduceRule373($attributes) {
          $this->semValue = array(); 
     }
 
-    protected function reduceRule375($attributes) {
+    protected function reduceRule374($attributes) {
          $this->semValue = $this->semStack[$this->stackPos-(2-1)]; 
+    }
+
+    protected function reduceRule375() {
+        $this->semValue = $this->semStack[$this->stackPos];
     }
 
     protected function reduceRule376() {
         $this->semValue = $this->semStack[$this->stackPos];
     }
 
-    protected function reduceRule377() {
-        $this->semValue = $this->semStack[$this->stackPos];
-    }
-
-    protected function reduceRule378($attributes) {
+    protected function reduceRule377($attributes) {
          $this->semStack[$this->stackPos-(3-1)][] = $this->semStack[$this->stackPos-(3-3)]; $this->semValue = $this->semStack[$this->stackPos-(3-1)]; 
     }
 
-    protected function reduceRule379($attributes) {
+    protected function reduceRule378($attributes) {
          $this->semValue = array($this->semStack[$this->stackPos-(1-1)]); 
     }
 
-    protected function reduceRule380($attributes) {
+    protected function reduceRule379($attributes) {
          $this->semValue = new Node\Expr\ArrayItem($this->semStack[$this->stackPos-(3-3)], $this->semStack[$this->stackPos-(3-1)], false, $attributes); 
     }
 
-    protected function reduceRule381($attributes) {
+    protected function reduceRule380($attributes) {
          $this->semValue = new Node\Expr\ArrayItem($this->semStack[$this->stackPos-(1-1)], null, false, $attributes); 
+    }
+
+    protected function reduceRule381($attributes) {
+         $this->semValue = $this->semStack[$this->stackPos-(1-1)]; 
     }
 
     protected function reduceRule382($attributes) {
@@ -2555,27 +2555,27 @@ class Parser extends ParserAbstract
     }
 
     protected function reduceRule385($attributes) {
-         $this->semValue = $this->semStack[$this->stackPos-(1-1)]; 
-    }
-
-    protected function reduceRule386($attributes) {
          $this->semValue = new Node\Expr\ArrayDimFetch($this->semStack[$this->stackPos-(6-2)], $this->semStack[$this->stackPos-(6-5)], $attributes); 
     }
 
-    protected function reduceRule387($attributes) {
+    protected function reduceRule386($attributes) {
          $this->semValue = new Node\Expr\ArrayDimFetch($this->semStack[$this->stackPos-(4-1)], $this->semStack[$this->stackPos-(4-3)], $attributes); 
     }
 
-    protected function reduceRule388($attributes) {
+    protected function reduceRule387($attributes) {
          $this->semValue = new Node\Expr\PropertyFetch($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-3)], $attributes); 
     }
 
-    protected function reduceRule389($attributes) {
+    protected function reduceRule388($attributes) {
          $this->semValue = new Node\Expr\MethodCall($this->semStack[$this->stackPos-(4-1)], $this->semStack[$this->stackPos-(4-3)], $this->semStack[$this->stackPos-(4-4)], $attributes); 
     }
 
-    protected function reduceRule390($attributes) {
+    protected function reduceRule389($attributes) {
          $this->semValue = new Node\Expr\FuncCall($this->semStack[$this->stackPos-(2-1)], $this->semStack[$this->stackPos-(2-2)], $attributes); 
+    }
+
+    protected function reduceRule390($attributes) {
+         $this->semValue = new Node\Expr\ArrayDimFetch($this->semStack[$this->stackPos-(4-1)], $this->semStack[$this->stackPos-(4-3)], $attributes); 
     }
 
     protected function reduceRule391($attributes) {
@@ -2583,23 +2583,23 @@ class Parser extends ParserAbstract
     }
 
     protected function reduceRule392($attributes) {
-         $this->semValue = new Node\Expr\ArrayDimFetch($this->semStack[$this->stackPos-(4-1)], $this->semStack[$this->stackPos-(4-3)], $attributes); 
+         $this->semValue = $this->semStack[$this->stackPos-(1-1)]; 
     }
 
     protected function reduceRule393($attributes) {
-         $this->semValue = $this->semStack[$this->stackPos-(1-1)]; 
-    }
-
-    protected function reduceRule394($attributes) {
          $this->semValue = $this->semStack[$this->stackPos-(3-2)]; 
     }
 
-    protected function reduceRule395($attributes) {
+    protected function reduceRule394($attributes) {
          $this->semValue = $this->semStack[$this->stackPos-(1-1)]; 
     }
 
-    protected function reduceRule396($attributes) {
+    protected function reduceRule395($attributes) {
          $this->semValue = new Node\Expr\Variable($this->semStack[$this->stackPos-(2-2)], $attributes); 
+    }
+
+    protected function reduceRule396($attributes) {
+         $this->semValue = $this->semStack[$this->stackPos-(1-1)]; 
     }
 
     protected function reduceRule397($attributes) {
@@ -2607,23 +2607,23 @@ class Parser extends ParserAbstract
     }
 
     protected function reduceRule398($attributes) {
-         $this->semValue = $this->semStack[$this->stackPos-(1-1)]; 
-    }
-
-    protected function reduceRule399($attributes) {
          $this->semValue = new Node\Expr\StaticPropertyFetch($this->semStack[$this->stackPos-(4-1)], $this->semStack[$this->stackPos-(4-4)], $attributes); 
     }
 
-    protected function reduceRule400($attributes) {
+    protected function reduceRule399($attributes) {
          $this->semValue = $this->semStack[$this->stackPos-(1-1)]; 
     }
 
-    protected function reduceRule401($attributes) {
+    protected function reduceRule400($attributes) {
          $this->semValue = new Node\Expr\StaticPropertyFetch($this->semStack[$this->stackPos-(3-1)], substr($this->semStack[$this->stackPos-(3-3)], 1), $attributes); 
     }
 
-    protected function reduceRule402($attributes) {
+    protected function reduceRule401($attributes) {
          $this->semValue = new Node\Expr\StaticPropertyFetch($this->semStack[$this->stackPos-(6-1)], $this->semStack[$this->stackPos-(6-5)], $attributes); 
+    }
+
+    protected function reduceRule402($attributes) {
+         $this->semValue = new Node\Expr\ArrayDimFetch($this->semStack[$this->stackPos-(4-1)], $this->semStack[$this->stackPos-(4-3)], $attributes); 
     }
 
     protected function reduceRule403($attributes) {
@@ -2639,19 +2639,19 @@ class Parser extends ParserAbstract
     }
 
     protected function reduceRule406($attributes) {
-         $this->semValue = new Node\Expr\ArrayDimFetch($this->semStack[$this->stackPos-(4-1)], $this->semStack[$this->stackPos-(4-3)], $attributes); 
-    }
-
-    protected function reduceRule407($attributes) {
          $this->semValue = new Node\Expr\Variable(substr($this->semStack[$this->stackPos-(1-1)], 1), $attributes); 
     }
 
-    protected function reduceRule408($attributes) {
+    protected function reduceRule407($attributes) {
          $this->semValue = new Node\Expr\Variable($this->semStack[$this->stackPos-(4-3)], $attributes); 
     }
 
-    protected function reduceRule409($attributes) {
+    protected function reduceRule408($attributes) {
          $this->semValue = null; 
+    }
+
+    protected function reduceRule409($attributes) {
+         $this->semValue = $this->semStack[$this->stackPos-(1-1)]; 
     }
 
     protected function reduceRule410($attributes) {
@@ -2659,27 +2659,27 @@ class Parser extends ParserAbstract
     }
 
     protected function reduceRule411($attributes) {
-         $this->semValue = $this->semStack[$this->stackPos-(1-1)]; 
-    }
-
-    protected function reduceRule412($attributes) {
          $this->semValue = $this->semStack[$this->stackPos-(3-2)]; 
     }
 
-    protected function reduceRule413($attributes) {
+    protected function reduceRule412($attributes) {
          $this->semValue = $this->semStack[$this->stackPos-(1-1)]; 
     }
 
-    protected function reduceRule414($attributes) {
+    protected function reduceRule413($attributes) {
          $this->semValue = new Node\Expr\List_($this->semStack[$this->stackPos-(4-3)], $attributes); 
     }
 
-    protected function reduceRule415($attributes) {
+    protected function reduceRule414($attributes) {
          $this->semStack[$this->stackPos-(3-1)][] = $this->semStack[$this->stackPos-(3-3)]; $this->semValue = $this->semStack[$this->stackPos-(3-1)]; 
     }
 
-    protected function reduceRule416($attributes) {
+    protected function reduceRule415($attributes) {
          $this->semValue = array($this->semStack[$this->stackPos-(1-1)]); 
+    }
+
+    protected function reduceRule416($attributes) {
+         $this->semValue = $this->semStack[$this->stackPos-(1-1)]; 
     }
 
     protected function reduceRule417($attributes) {
@@ -2687,43 +2687,43 @@ class Parser extends ParserAbstract
     }
 
     protected function reduceRule418($attributes) {
-         $this->semValue = $this->semStack[$this->stackPos-(1-1)]; 
-    }
-
-    protected function reduceRule419($attributes) {
          $this->semValue = null; 
     }
 
-    protected function reduceRule420($attributes) {
+    protected function reduceRule419($attributes) {
          $this->semValue = array(); 
     }
 
-    protected function reduceRule421($attributes) {
+    protected function reduceRule420($attributes) {
          $this->semValue = $this->semStack[$this->stackPos-(2-1)]; 
     }
 
-    protected function reduceRule422($attributes) {
+    protected function reduceRule421($attributes) {
          $this->semStack[$this->stackPos-(3-1)][] = $this->semStack[$this->stackPos-(3-3)]; $this->semValue = $this->semStack[$this->stackPos-(3-1)]; 
     }
 
-    protected function reduceRule423($attributes) {
+    protected function reduceRule422($attributes) {
          $this->semValue = array($this->semStack[$this->stackPos-(1-1)]); 
     }
 
-    protected function reduceRule424($attributes) {
+    protected function reduceRule423($attributes) {
          $this->semValue = new Node\Expr\ArrayItem($this->semStack[$this->stackPos-(3-3)], $this->semStack[$this->stackPos-(3-1)], false, $attributes); 
     }
 
-    protected function reduceRule425($attributes) {
+    protected function reduceRule424($attributes) {
          $this->semValue = new Node\Expr\ArrayItem($this->semStack[$this->stackPos-(1-1)], null, false, $attributes); 
     }
 
-    protected function reduceRule426($attributes) {
+    protected function reduceRule425($attributes) {
          $this->semValue = new Node\Expr\ArrayItem($this->semStack[$this->stackPos-(4-4)], $this->semStack[$this->stackPos-(4-1)], true, $attributes); 
     }
 
-    protected function reduceRule427($attributes) {
+    protected function reduceRule426($attributes) {
          $this->semValue = new Node\Expr\ArrayItem($this->semStack[$this->stackPos-(2-2)], null, true, $attributes); 
+    }
+
+    protected function reduceRule427($attributes) {
+         $this->semStack[$this->stackPos-(2-1)][] = $this->semStack[$this->stackPos-(2-2)]; $this->semValue = $this->semStack[$this->stackPos-(2-1)]; 
     }
 
     protected function reduceRule428($attributes) {
@@ -2731,27 +2731,27 @@ class Parser extends ParserAbstract
     }
 
     protected function reduceRule429($attributes) {
-         $this->semStack[$this->stackPos-(2-1)][] = $this->semStack[$this->stackPos-(2-2)]; $this->semValue = $this->semStack[$this->stackPos-(2-1)]; 
-    }
-
-    protected function reduceRule430($attributes) {
          $this->semValue = array($this->semStack[$this->stackPos-(1-1)]); 
     }
 
-    protected function reduceRule431($attributes) {
+    protected function reduceRule430($attributes) {
          $this->semValue = array($this->semStack[$this->stackPos-(2-1)], $this->semStack[$this->stackPos-(2-2)]); 
     }
 
-    protected function reduceRule432($attributes) {
+    protected function reduceRule431($attributes) {
          $this->semValue = new Node\Expr\Variable(substr($this->semStack[$this->stackPos-(1-1)], 1), $attributes); 
     }
 
-    protected function reduceRule433($attributes) {
+    protected function reduceRule432($attributes) {
          $this->semValue = new Node\Expr\ArrayDimFetch(new Node\Expr\Variable(substr($this->semStack[$this->stackPos-(4-1)], 1), $attributes), $this->semStack[$this->stackPos-(4-3)], $attributes); 
     }
 
-    protected function reduceRule434($attributes) {
+    protected function reduceRule433($attributes) {
          $this->semValue = new Node\Expr\PropertyFetch(new Node\Expr\Variable(substr($this->semStack[$this->stackPos-(3-1)], 1), $attributes), $this->semStack[$this->stackPos-(3-3)], $attributes); 
+    }
+
+    protected function reduceRule434($attributes) {
+         $this->semValue = new Node\Expr\Variable($this->semStack[$this->stackPos-(3-2)], $attributes); 
     }
 
     protected function reduceRule435($attributes) {
@@ -2759,15 +2759,15 @@ class Parser extends ParserAbstract
     }
 
     protected function reduceRule436($attributes) {
-         $this->semValue = new Node\Expr\Variable($this->semStack[$this->stackPos-(3-2)], $attributes); 
-    }
-
-    protected function reduceRule437($attributes) {
          $this->semValue = new Node\Expr\ArrayDimFetch(new Node\Expr\Variable($this->semStack[$this->stackPos-(6-2)], $attributes), $this->semStack[$this->stackPos-(6-4)], $attributes); 
     }
 
-    protected function reduceRule438($attributes) {
+    protected function reduceRule437($attributes) {
          $this->semValue = $this->semStack[$this->stackPos-(3-2)]; 
+    }
+
+    protected function reduceRule438($attributes) {
+         $this->semValue = new Node\Scalar\String($this->semStack[$this->stackPos-(1-1)], $attributes); 
     }
 
     protected function reduceRule439($attributes) {
@@ -2775,10 +2775,6 @@ class Parser extends ParserAbstract
     }
 
     protected function reduceRule440($attributes) {
-         $this->semValue = new Node\Scalar\String($this->semStack[$this->stackPos-(1-1)], $attributes); 
-    }
-
-    protected function reduceRule441($attributes) {
          $this->semValue = new Node\Expr\Variable(substr($this->semStack[$this->stackPos-(1-1)], 1), $attributes); 
     }
 }

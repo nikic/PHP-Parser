@@ -1,0 +1,6 @@
+New without a class
+-----
+<?php
+new;
+-----
+Syntax error, unexpected ';' on line 2

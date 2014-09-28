@@ -1,7 +1,7 @@
 Version 1.0.1-dev
 -----------------
 
-Nothing yet.
+* Disallow `new` expressions without a class name.
 
 Version 1.0.0 (12.09.2014)
 --------------------------
