@@ -11,7 +11,7 @@ use PhpParser\Node\Expr;
 class NameResolverTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @covers NameResolver
+     * @covers PhpParser\NodeVisitor\NameResolver
      */
     public function testResolveNames() {
         $code = <<<'EOC'
@@ -137,7 +137,7 @@ EOC;
     }
 
     /**
-     * @covers NameResolver
+     * @covers PhpParser\NodeVisitor\NameResolver
      */
     public function testResolveLocations() {
         $code = <<<'EOC'

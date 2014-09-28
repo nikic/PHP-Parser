@@ -6,7 +6,7 @@ class NodeDumperTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @dataProvider provideTestDump
-     * @covers NodeDumper::dump
+     * @covers PhpParser\NodeDumper::dump
      */
     public function testDump($node, $dump) {
         $dumper = new NodeDumper;

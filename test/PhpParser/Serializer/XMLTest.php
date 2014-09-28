@@ -7,7 +7,7 @@ use PhpParser;
 class XMLTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @covers XML<extended>
+     * @covers PhpParser\Serializer\XML<extended>
      */
     public function testSerialize() {
         $code = <<<CODE
