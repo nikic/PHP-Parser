@@ -29,13 +29,18 @@ $traverser = new PhpParser\NodeTraverser();
 $traverser->addVisitor(new PhpParser\NodeVisitor\NameResolver);
 
 foreach ($files as $file) {
-    if (!file_exists($file)) {
-        die("File $file does not exist.\n");
+    if (strpos($file, '<?php') === 0) {
+        $code = $file;
+        echo "====> Code $code\n";
+    } else {
+        if (!file_exists($file)) {
+            die("File $file does not exist.\n");
+        }
+
+        $code = file_get_contents($file);
+        echo "====> File $file:\n";
     }
 
-    echo "====> File $file:\n";
-
-    $code = file_get_contents($file);
     try {
         $stmts = $parser->parse($code);
     } catch (PhpParser\Error $e) {
@@ -68,6 +73,10 @@ function showHelp($error) {
 Usage:
 
     php php-parse.php [operations] file1.php [file2.php ...]
+
+The file arguments can also be replaced with a code string:
+
+    php php-parse.php [operations] "<?php code"
 
 Operations is a list of the following options (--dump by default):
 
