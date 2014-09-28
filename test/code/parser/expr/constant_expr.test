@@ -32,6 +32,13 @@ const T_25 = 1 + 2 * 3;
 const T_26 = "1" + 2 + "3";
 const T_27 = 2 ** 3;
 const T_28 = [1, 2, 3][1];
+const T_29 = 12 - 13;
+const T_30 = 12 ^ 13;
+const T_31 = 12 & 13;
+const T_32 = 12 | 13;
+const T_33 = 12 % 3;
+const T_34 = 100 >> 4;
+const T_35 = !false;
 -----
 array(
     0: Stmt_Const(
@@ -500,6 +507,112 @@ array(
                     )
                     dim: Scalar_LNumber(
                         value: 1
+                    )
+                )
+            )
+        )
+    )
+    28: Stmt_Const(
+        consts: array(
+            0: Const(
+                name: T_29
+                value: Expr_BinaryOp_Minus(
+                    left: Scalar_LNumber(
+                        value: 12
+                    )
+                    right: Scalar_LNumber(
+                        value: 13
+                    )
+                )
+            )
+        )
+    )
+    29: Stmt_Const(
+        consts: array(
+            0: Const(
+                name: T_30
+                value: Expr_BinaryOp_BitwiseXor(
+                    left: Scalar_LNumber(
+                        value: 12
+                    )
+                    right: Scalar_LNumber(
+                        value: 13
+                    )
+                )
+            )
+        )
+    )
+    30: Stmt_Const(
+        consts: array(
+            0: Const(
+                name: T_31
+                value: Expr_BinaryOp_BitwiseAnd(
+                    left: Scalar_LNumber(
+                        value: 12
+                    )
+                    right: Scalar_LNumber(
+                        value: 13
+                    )
+                )
+            )
+        )
+    )
+    31: Stmt_Const(
+        consts: array(
+            0: Const(
+                name: T_32
+                value: Expr_BinaryOp_BitwiseOr(
+                    left: Scalar_LNumber(
+                        value: 12
+                    )
+                    right: Scalar_LNumber(
+                        value: 13
+                    )
+                )
+            )
+        )
+    )
+    32: Stmt_Const(
+        consts: array(
+            0: Const(
+                name: T_33
+                value: Expr_BinaryOp_Mod(
+                    left: Scalar_LNumber(
+                        value: 12
+                    )
+                    right: Scalar_LNumber(
+                        value: 3
+                    )
+                )
+            )
+        )
+    )
+    33: Stmt_Const(
+        consts: array(
+            0: Const(
+                name: T_34
+                value: Expr_BinaryOp_ShiftRight(
+                    left: Scalar_LNumber(
+                        value: 100
+                    )
+                    right: Scalar_LNumber(
+                        value: 4
+                    )
+                )
+            )
+        )
+    )
+    34: Stmt_Const(
+        consts: array(
+            0: Const(
+                name: T_35
+                value: Expr_BooleanNot(
+                    expr: Expr_ConstFetch(
+                        name: Name(
+                            parts: array(
+                                0: false
+                            )
+                        )
                     )
                 )
             )
