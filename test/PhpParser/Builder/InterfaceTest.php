@@ -23,7 +23,7 @@ class InterfaceTest extends \PHPUnit_Framework_TestCase
     public function testEmpty() {
         $contract = $this->builder->getNode();
         $this->assertInstanceOf('PhpParser\Node\Stmt\Interface_', $contract);
-        $this->assertEquals('Contract', $contract->name);
+        $this->assertSame('Contract', $contract->name);
     }
 
     public function testExtending() {
@@ -41,7 +41,7 @@ class InterfaceTest extends \PHPUnit_Framework_TestCase
     public function testAddMethod() {
         $method = new Stmt\ClassMethod('doSomething');
         $contract = $this->builder->addStmt($method)->getNode();
-        $this->assertEquals(array($method), $contract->stmts);
+        $this->assertSame(array($method), $contract->stmts);
     }
 
     public function testAddConst() {
@@ -49,7 +49,7 @@ class InterfaceTest extends \PHPUnit_Framework_TestCase
             new Node\Const_('SPEED_OF_LIGHT', new DNumber(299792458))
         ));
         $contract = $this->builder->addStmt($const)->getNode();
-        $this->assertEquals(299792458, $contract->stmts[0]->consts[0]->value->value);
+        $this->assertSame(299792458, $contract->stmts[0]->consts[0]->value->value);
     }
 
     public function testOrder() {

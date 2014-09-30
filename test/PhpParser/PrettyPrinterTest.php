@@ -11,7 +11,7 @@ class PrettyPrinterTest extends CodeTestAbstract
         $prettyPrinter = new PrettyPrinter\Standard;
 
         $stmts = $parser->parse($code);
-        $this->assertEquals(
+        $this->assertSame(
             $this->canonicalize($dump),
             $this->canonicalize($prettyPrinter->$method($stmts)),
             $name

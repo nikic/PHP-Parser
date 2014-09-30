@@ -37,6 +37,6 @@ class ClassTest extends \PHPUnit_Framework_TestCase
             )
         ));
 
-        $this->assertEquals($methods, $class->getMethods());
+        $this->assertSame($methods, $class->getMethods());
     }
 }

@@ -133,7 +133,7 @@ EOC;
         $stmts = $parser->parse($code);
         $stmts = $traverser->traverse($stmts);
 
-        $this->assertEquals($expectedCode, $prettyPrinter->prettyPrint($stmts));
+        $this->assertSame($expectedCode, $prettyPrinter->prettyPrint($stmts));
     }
 
     /**
@@ -200,7 +200,7 @@ EOC;
         $stmts = $parser->parse($code);
         $stmts = $traverser->traverse($stmts);
 
-        $this->assertEquals($expectedCode, $prettyPrinter->prettyPrint($stmts));
+        $this->assertSame($expectedCode, $prettyPrinter->prettyPrint($stmts));
     }
 
     public function testNoResolveSpecialName() {
@@ -234,14 +234,14 @@ EOC;
 
         $stmts = $traverser->traverse($stmts);
 
-        $this->assertEquals('NS\\A', (string) $stmts[0]->stmts[0]->namespacedName);
-        $this->assertEquals('NS\\B', (string) $stmts[0]->stmts[1]->namespacedName);
-        $this->assertEquals('NS\\C', (string) $stmts[0]->stmts[2]->namespacedName);
-        $this->assertEquals('NS\\D', (string) $stmts[0]->stmts[3]->consts[0]->namespacedName);
-        $this->assertEquals('A',     (string) $stmts[1]->stmts[0]->namespacedName);
-        $this->assertEquals('B',     (string) $stmts[1]->stmts[1]->namespacedName);
-        $this->assertEquals('C',     (string) $stmts[1]->stmts[2]->namespacedName);
-        $this->assertEquals('D',     (string) $stmts[1]->stmts[3]->consts[0]->namespacedName);
+        $this->assertSame('NS\\A', (string) $stmts[0]->stmts[0]->namespacedName);
+        $this->assertSame('NS\\B', (string) $stmts[0]->stmts[1]->namespacedName);
+        $this->assertSame('NS\\C', (string) $stmts[0]->stmts[2]->namespacedName);
+        $this->assertSame('NS\\D', (string) $stmts[0]->stmts[3]->consts[0]->namespacedName);
+        $this->assertSame('A',     (string) $stmts[1]->stmts[0]->namespacedName);
+        $this->assertSame('B',     (string) $stmts[1]->stmts[1]->namespacedName);
+        $this->assertSame('C',     (string) $stmts[1]->stmts[2]->namespacedName);
+        $this->assertSame('D',     (string) $stmts[1]->stmts[3]->consts[0]->namespacedName);
     }
 
     public function testAddTraitNamespacedName() {
@@ -254,8 +254,8 @@ EOC;
 
         $stmts = $traverser->traverse($stmts);
 
-        $this->assertEquals('NS\\A', (string) $stmts[0]->stmts[0]->namespacedName);
-        $this->assertEquals('A',     (string) $stmts[1]->stmts[0]->namespacedName);
+        $this->assertSame('NS\\A', (string) $stmts[0]->stmts[0]->namespacedName);
+        $this->assertSame('A',     (string) $stmts[1]->stmts[0]->namespacedName);
     }
 
     /**
@@ -329,7 +329,7 @@ EOC;
         $stmts = $traverser->traverse($stmts);
         $stmt = $stmts[0];
 
-        $this->assertEquals(array('Bar', 'Baz'), $stmt->stmts[1]->expr->class->parts);
+        $this->assertSame(array('Bar', 'Baz'), $stmt->stmts[1]->expr->class->parts);
     }
 
     public function testSpecialClassNamesAreCaseInsensitive() {
@@ -358,8 +358,8 @@ EOC;
         $classStmt = $stmts[0];
         $methodStmt = $classStmt->stmts[0]->stmts[0];
 
-        $this->assertEquals('SELF', (string)$methodStmt->stmts[0]->class);
-        $this->assertEquals('PARENT', (string)$methodStmt->stmts[1]->class);
-        $this->assertEquals('STATIC', (string)$methodStmt->stmts[2]->class);
+        $this->assertSame('SELF', (string)$methodStmt->stmts[0]->class);
+        $this->assertSame('PARENT', (string)$methodStmt->stmts[1]->class);
+        $this->assertSame('STATIC', (string)$methodStmt->stmts[2]->class);
     }
 }

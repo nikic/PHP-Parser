@@ -18,7 +18,7 @@ class LexerTest extends \PHPUnit_Framework_TestCase
         try {
             $this->lexer->startLexing($code);
         } catch (Error $e) {
-            $this->assertEquals($message, $e->getMessage());
+            $this->assertSame($message, $e->getMessage());
 
             return;
         }
@@ -42,8 +42,8 @@ class LexerTest extends \PHPUnit_Framework_TestCase
         while ($id = $this->lexer->getNextToken($value, $startAttributes, $endAttributes)) {
             $token = array_shift($tokens);
 
-            $this->assertEquals($token[0], $id);
-            $this->assertEquals($token[1], $value);
+            $this->assertSame($token[0], $id);
+            $this->assertSame($token[1], $value);
             $this->assertEquals($token[2], $startAttributes);
             $this->assertEquals($token[3], $endAttributes);
         }
@@ -131,8 +131,8 @@ class LexerTest extends \PHPUnit_Framework_TestCase
 
         while (Parser::T_HALT_COMPILER !== $this->lexer->getNextToken());
 
-        $this->assertEquals($this->lexer->handleHaltCompiler(), $remaining);
-        $this->assertEquals(0, $this->lexer->getNextToken());
+        $this->assertSame($this->lexer->handleHaltCompiler(), $remaining);
+        $this->assertSame(0, $this->lexer->getNextToken());
     }
 
     public function provideTestHaltCompiler() {

@@ -7,16 +7,16 @@ class CommentTest extends \PHPUnit_Framework_TestCase
     public function testGetSet() {
         $comment = new Comment('/* Some comment */', 1);
 
-        $this->assertEquals('/* Some comment */', $comment->getText());
-        $this->assertEquals('/* Some comment */', (string) $comment);
-        $this->assertEquals(1, $comment->getLine());
+        $this->assertSame('/* Some comment */', $comment->getText());
+        $this->assertSame('/* Some comment */', (string) $comment);
+        $this->assertSame(1, $comment->getLine());
 
         $comment->setText('/* Some other comment */');
         $comment->setLine(10);
 
-        $this->assertEquals('/* Some other comment */', $comment->getText());
-        $this->assertEquals('/* Some other comment */', (string) $comment);
-        $this->assertEquals(10, $comment->getLine());
+        $this->assertSame('/* Some other comment */', $comment->getText());
+        $this->assertSame('/* Some other comment */', (string) $comment);
+        $this->assertSame(10, $comment->getLine());
     }
 
     /**
@@ -24,7 +24,7 @@ class CommentTest extends \PHPUnit_Framework_TestCase
      */
     public function testReformatting($commentText, $reformattedText) {
         $comment = new Comment($commentText);
-        $this->assertEquals($reformattedText, $comment->getReformattedText());
+        $this->assertSame($reformattedText, $comment->getReformattedText());
     }
 
     public function provideTestReformatting() {

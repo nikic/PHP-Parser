@@ -8,7 +8,7 @@ class StringTest extends \PHPUnit_Framework_TestCase
      * @dataProvider provideTestParseEscapeSequences
      */
     public function testParseEscapeSequences($expected, $string, $quote) {
-        $this->assertEquals(
+        $this->assertSame(
             $expected,
             String::parseEscapeSequences($string, $quote)
         );
@@ -18,7 +18,7 @@ class StringTest extends \PHPUnit_Framework_TestCase
      * @dataProvider provideTestParse
      */
     public function testCreate($expected, $string) {
-        $this->assertEquals(
+        $this->assertSame(
             $expected,
             String::parse($string)
         );

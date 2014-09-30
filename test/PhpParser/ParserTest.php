@@ -14,7 +14,7 @@ class ParserTest extends CodeTestAbstract
         $dumper = new NodeDumper;
 
         $stmts = $parser->parse($code);
-        $this->assertEquals(
+        $this->assertSame(
             $this->canonicalize($dump),
             $this->canonicalize($dumper->dump($stmts)),
             $name
@@ -36,7 +36,7 @@ class ParserTest extends CodeTestAbstract
 
             $this->fail(sprintf('"%s": Expected Error', $name));
         } catch (Error $e) {
-            $this->assertEquals($msg, $e->getMessage(), $name);
+            $this->assertSame($msg, $e->getMessage(), $name);
         }
     }
 

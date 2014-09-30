@@ -11,7 +11,7 @@ class NodeDumperTest extends \PHPUnit_Framework_TestCase
     public function testDump($node, $dump) {
         $dumper = new NodeDumper;
 
-        $this->assertEquals($dump, $dumper->dump($node));
+        $this->assertSame($dump, $dumper->dump($node));
     }
 
     public function provideTestDump() {
