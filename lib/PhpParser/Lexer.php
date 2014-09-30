@@ -194,6 +194,11 @@ class Lexer
             }
         }
 
+        // HHVM uses a special token for numbers that overflow to double
+        if (defined('T_ONUMBER')) {
+            $tokenMap[T_ONUMBER] = Parser::T_DNUMBER;
+        }
+
         return $tokenMap;
     }
 }
