@@ -25,6 +25,8 @@ class LNumber extends Scalar
     }
 
     /**
+     * @internal
+     *
      * Parses an LNUMBER token (dec, hex, oct and bin notations) like PHP would.
      *
      * @param string $str A string number

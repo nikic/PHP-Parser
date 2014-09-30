@@ -83,6 +83,9 @@ class Class_ extends Node\Stmt
         return $methods;
     }
 
+    /**
+     * @internal
+     */
     public static function verifyModifier($a, $b) {
         if ($a & 7 && $b & 7) {
             throw new Error('Multiple access type modifiers are not allowed');

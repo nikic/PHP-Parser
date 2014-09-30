@@ -25,6 +25,8 @@ class DNumber extends Scalar
     }
 
     /**
+     * @internal
+     *
      * Parses a DNUMBER token like PHP would.
      *
      * @param string $str A string number
