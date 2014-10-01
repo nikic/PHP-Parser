@@ -31,7 +31,7 @@ upwards (and maybe older).
 
 As the parser is based on the tokens returned by `token_get_all` (which is only able to lex the PHP
 version it runs on), additionally a wrapper for emulating new tokens from 5.3, 5.4, 5.5 and 5.6 is provided.
-his allows to parse PHP 5.6 source code running on PHP 5.3, for example. This emulation is very hacky and not
+This allows to parse PHP 5.6 source code running on PHP 5.3, for example. This emulation is very hacky and not
 perfect, but it should work well on any sane code.
 
 What output does it produce?
