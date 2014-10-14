@@ -1,5 +1,10 @@
-Version 1.0.1-dev
+Version 1.0.2-dev
 -----------------
+
+Nothing yet.
+
+Version 1.0.1 (14.10.2014)
+--------------------------
 
 * Disallow `new` expressions without a class name. Previously `new;` was accidentally considered to be valid code.
 
