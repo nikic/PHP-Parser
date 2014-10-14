@@ -1,7 +1,13 @@
 Version 1.0.1-dev
 -----------------
 
-* Disallow `new` expressions without a class name.
+* Disallow `new` expressions without a class name. Previously `new;` was accidentally considered to be valid code.
+
+* Support T_ONUMBER token used by HHVM.
+
+* Add ability to directly pass code to the `php-parse.php` script.
+
+* Prevent truncation of `var_dump()` output in the `php-parse.php` script if XDebug is used.
 
 Version 1.0.0 (12.09.2014)
 --------------------------
