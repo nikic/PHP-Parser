@@ -98,7 +98,7 @@ class MyNodeVisitor extends PhpParser\NodeVisitorAbstract {
 
     public function leaveNode(PhpParser\Node $node) {
         if ($node instanceof PhpParser\Node\Stmt\Property) {
-            var_dump(isImplicitlyPublicProperty($this->tokens, $node));
+            var_dump(isDeclaredUsingVar($this->tokens, $node));
         }
     }
 }
