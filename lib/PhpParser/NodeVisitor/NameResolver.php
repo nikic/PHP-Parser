@@ -77,10 +77,10 @@ class NameResolver extends NodeVisitorAbstract
             foreach ($node->traits as &$trait) {
                 $trait = $this->resolveClassName($trait);
             }
-            foreach($node->adaptations as $adaption) {
-                $adaption->trait = $this->resolveClassName($adaption->trait);
-                if ($adaption instanceof Stmt\TraitUseAdaptation\Precedence) {
-                    $adaption->insteadof = $this->resolveClassName($adaption->insteadof[0]);
+            foreach($node->adaptations as $adaptation) {
+                $adaptation->trait = $this->resolveClassName($adaptation->trait);
+                if ($adaptation instanceof Stmt\TraitUseAdaptation\Precedence) {
+                    $adaptation->insteadof = $this->resolveClassName($adaptation->insteadof[0]);
                 }
             }
 
