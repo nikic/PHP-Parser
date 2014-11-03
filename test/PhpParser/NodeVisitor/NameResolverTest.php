@@ -177,7 +177,7 @@ namespace NS;
 class A extends \NS\B implements \NS\C, \NS\D
 {
     use \NS\E, \NS\F, \NS\G {
-        f as private  g;
+        f as private g;
         \NS\E::h as i;
         \NS\E::j insteadof \NS\F, \NS\G;
     }

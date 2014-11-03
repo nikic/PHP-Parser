@@ -541,7 +541,7 @@ class Standard extends PrettyPrinterAbstract
     public function pStmt_TraitUseAdaptation_Alias(Stmt\TraitUseAdaptation\Alias $node) {
         return (null !== $node->trait ? $this->p($node->trait) . '::' : '')
              . $node->method . ' as'
-             . (null !== $node->newModifier ? ' ' . $this->pModifiers($node->newModifier) : '')
+             . (null !== $node->newModifier ? ' ' . rtrim($this->pModifiers($node->newModifier), ' ') : '')
              . (null !== $node->newName     ? ' ' . $node->newName                        : '')
              . ';';
     }
