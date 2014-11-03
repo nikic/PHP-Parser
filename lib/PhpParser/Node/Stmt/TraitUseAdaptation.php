@@ -2,8 +2,12 @@
 
 namespace PhpParser\Node\Stmt;
 
-use PhpParser\Node\Stmt;
+use PhpParser\Node;
 
-abstract class TraitUseAdaptation extends Stmt
+/**
+ * @property Node\Name $trait  Trait name
+ * @property string    $method Method name
+ */
+abstract class TraitUseAdaptation extends Node\Stmt
 {
 }

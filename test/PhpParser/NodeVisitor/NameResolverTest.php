@@ -144,11 +144,15 @@ EOC;
 <?php
 namespace NS;
 
-class A extends B implements C {
-    use A;
+class A extends B implements C, D {
+    use E, F, G {
+        f as private g;
+        E::h as i;
+        E::j insteadof F, G;
+    }
 }
 
-interface A extends C {
+interface A extends C, D {
     public function a(A $a);
 }
 
@@ -170,11 +174,15 @@ EOC;
         $expectedCode = <<<'EOC'
 namespace NS;
 
-class A extends \NS\B implements \NS\C
+class A extends \NS\B implements \NS\C, \NS\D
 {
-    use \NS\A;
+    use \NS\E, \NS\F, \NS\G {
+        f as private  g;
+        \NS\E::h as i;
+        \NS\E::j insteadof \NS\F, \NS\G;
+    }
 }
-interface A extends \NS\C
+interface A extends \NS\C, \NS\D
 {
     public function a(\NS\A $a);
 }
