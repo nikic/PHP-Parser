@@ -1,7 +1,14 @@
-Version 1.0.2-dev
+Version 1.0.3-dev
 -----------------
 
 Nothing yet.
+
+Version 1.0.2 (04.11.2014)
+--------------------------
+
+* The `NameResolver` visitor now also resolves names in trait adaptations (aliases and precedence declarations).
+
+* Remove stray whitespace when pretty-printing trait adaptations that only change visibility.
 
 Version 1.0.1 (14.10.2014)
 --------------------------

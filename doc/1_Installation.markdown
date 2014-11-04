@@ -10,7 +10,7 @@ Create a `composer.json` file in your project root and use it to define your dep
 
     {
         "require": {
-            "nikic/php-parser": "~1.0.1"
+            "nikic/php-parser": "~1.0.2"
         }
     }
 
