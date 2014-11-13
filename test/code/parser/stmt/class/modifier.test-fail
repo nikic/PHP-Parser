@@ -27,3 +27,11 @@ Cannot use the final modifier on an abstract class member on line 1
 <?php abstract final class A { }
 -----
 Syntax error, unexpected T_FINAL, expecting T_CLASS on line 1
+-----
+<?php class A { abstract $a; }
+-----
+Properties cannot be declared abstract on line 1
+-----
+<?php class A { final $a; }
+-----
+Properties cannot be declared final on line 1

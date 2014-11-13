@@ -3,6 +3,7 @@
 namespace PhpParser\Node\Stmt;
 
 use PhpParser\Node;
+use PhpParser\Error;
 
 /**
  * @property int                $type  Modifiers
@@ -21,6 +22,14 @@ class Property extends Node\Stmt
         if (0 === ($type & Class_::VISIBILITY_MODIFER_MASK)) {
             // If no visibility modifier given, PHP defaults to public
             $type |= Class_::MODIFIER_PUBLIC;
+        }
+
+        if ($type & Class_::MODIFIER_ABSTRACT) {
+            throw new Error('Properties cannot be declared abstract');
+        }
+
+        if ($type & Class_::MODIFIER_FINAL) {
+            throw new Error('Properties cannot be declared final');
         }
 
         parent::__construct(
