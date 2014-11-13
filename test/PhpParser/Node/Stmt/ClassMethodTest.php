@@ -15,13 +15,15 @@ class ClassMethodTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($node->{'is' . $modifier}());
     }
 
-    /**
-     * @dataProvider provideModifiers
-     */
-    public function testNoModifiers($modifier) {
+    public function testNoModifiers() {
         $node = new ClassMethod('foo', array('type' => 0));
 
-        $this->assertFalse($node->{'is' . $modifier}());
+        $this->assertTrue($node->isPublic());
+        $this->assertFalse($node->isProtected());
+        $this->assertFalse($node->isPrivate());
+        $this->assertFalse($node->isAbstract());
+        $this->assertFalse($node->isFinal());
+        $this->assertFalse($node->isStatic());
     }
 
     public function provideModifiers() {

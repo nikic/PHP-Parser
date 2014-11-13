@@ -16,13 +16,13 @@ class PropertyTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($node->{'is' . $modifier}());
     }
 
-    /**
-     * @dataProvider provideModifiers
-     */
-    public function testNoModifiers($modifier) {
+    public function testNoModifiers() {
         $node = new Property(0, array());
 
-        $this->assertFalse($node->{'is' . $modifier}());
+        $this->assertTrue($node->isPublic());
+        $this->assertFalse($node->isProtected());
+        $this->assertFalse($node->isPrivate());
+        $this->assertFalse($node->isStatic());
     }
 
     public function provideModifiers() {

@@ -21,6 +21,8 @@ class Class_ extends Node\Stmt
     const MODIFIER_ABSTRACT  = 16;
     const MODIFIER_FINAL     = 32;
 
+    const VISIBILITY_MODIFER_MASK = 7; // 1 | 2 | 4
+
     protected static $specialNames = array(
         'self'   => true,
         'parent' => true,
@@ -87,7 +89,7 @@ class Class_ extends Node\Stmt
      * @internal
      */
     public static function verifyModifier($a, $b) {
-        if ($a & 7 && $b & 7) {
+        if ($a & self::VISIBILITY_MODIFER_MASK && $b & self::VISIBILITY_MODIFER_MASK) {
             throw new Error('Multiple access type modifiers are not allowed');
         }
 

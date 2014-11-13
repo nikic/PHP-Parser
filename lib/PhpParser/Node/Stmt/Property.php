@@ -18,6 +18,11 @@ class Property extends Node\Stmt
      * @param array              $attributes Additional attributes
      */
     public function __construct($type, array $props, array $attributes = array()) {
+        if (0 === ($type & Class_::VISIBILITY_MODIFER_MASK)) {
+            // If no visibility modifier given, PHP defaults to public
+            $type |= Class_::MODIFIER_PUBLIC;
+        }
+
         parent::__construct(
             array(
                 'type'  => $type,
