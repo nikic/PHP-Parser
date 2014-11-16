@@ -23,6 +23,9 @@ CODE;
 <AST xmlns:node="http://nikic.github.com/PHPParser/XML/node" xmlns:subNode="http://nikic.github.com/PHPParser/XML/subNode" xmlns:attribute="http://nikic.github.com/PHPParser/XML/attribute" xmlns:scalar="http://nikic.github.com/PHPParser/XML/scalar">
  <scalar:array>
   <node:Stmt_Function>
+   <attribute:startPos>
+    <scalar:int>36</scalar:int>
+   </attribute:startPos>
    <attribute:comments>
     <scalar:array>
      <comment isDocComment="false" line="2">// comment
@@ -36,6 +39,9 @@ CODE;
    <attribute:endLine>
     <scalar:int>6</scalar:int>
    </attribute:endLine>
+   <attribute:endPos>
+    <scalar:int>96</scalar:int>
+   </attribute:endPos>
    <subNode:byRef>
     <scalar:false/>
    </subNode:byRef>
@@ -45,12 +51,18 @@ CODE;
    <subNode:params>
     <scalar:array>
      <node:Param>
+      <attribute:startPos>
+       <scalar:int>58</scalar:int>
+      </attribute:startPos>
       <attribute:startLine>
        <scalar:int>4</scalar:int>
       </attribute:startLine>
       <attribute:endLine>
        <scalar:int>4</scalar:int>
       </attribute:endLine>
+      <attribute:endPos>
+       <scalar:int>65</scalar:int>
+      </attribute:endPos>
       <subNode:type>
        <scalar:null/>
       </subNode:type>
@@ -65,12 +77,18 @@ CODE;
       </subNode:name>
       <subNode:default>
        <node:Scalar_LNumber>
+        <attribute:startPos>
+         <scalar:int>64</scalar:int>
+        </attribute:startPos>
         <attribute:startLine>
          <scalar:int>4</scalar:int>
         </attribute:startLine>
         <attribute:endLine>
          <scalar:int>4</scalar:int>
         </attribute:endLine>
+        <attribute:endPos>
+         <scalar:int>65</scalar:int>
+        </attribute:endPos>
         <subNode:value>
          <scalar:int>0</scalar:int>
         </subNode:value>
@@ -78,12 +96,18 @@ CODE;
       </subNode:default>
      </node:Param>
      <node:Param>
+      <attribute:startPos>
+       <scalar:int>67</scalar:int>
+      </attribute:startPos>
       <attribute:startLine>
        <scalar:int>4</scalar:int>
       </attribute:startLine>
       <attribute:endLine>
        <scalar:int>4</scalar:int>
       </attribute:endLine>
+      <attribute:endPos>
+       <scalar:int>75</scalar:int>
+      </attribute:endPos>
       <subNode:type>
        <scalar:null/>
       </subNode:type>
@@ -98,12 +122,18 @@ CODE;
       </subNode:name>
       <subNode:default>
        <node:Scalar_DNumber>
+        <attribute:startPos>
+         <scalar:int>72</scalar:int>
+        </attribute:startPos>
         <attribute:startLine>
          <scalar:int>4</scalar:int>
         </attribute:startLine>
         <attribute:endLine>
          <scalar:int>4</scalar:int>
         </attribute:endLine>
+        <attribute:endPos>
+         <scalar:int>75</scalar:int>
+        </attribute:endPos>
         <subNode:value>
          <scalar:float>1</scalar:float>
         </subNode:value>
@@ -115,21 +145,33 @@ CODE;
    <subNode:stmts>
     <scalar:array>
      <node:Stmt_Echo>
+      <attribute:startPos>
+       <scalar:int>83</scalar:int>
+      </attribute:startPos>
       <attribute:startLine>
        <scalar:int>5</scalar:int>
       </attribute:startLine>
       <attribute:endLine>
        <scalar:int>5</scalar:int>
       </attribute:endLine>
+      <attribute:endPos>
+       <scalar:int>94</scalar:int>
+      </attribute:endPos>
       <subNode:exprs>
        <scalar:array>
         <node:Scalar_String>
+         <attribute:startPos>
+          <scalar:int>88</scalar:int>
+         </attribute:startPos>
          <attribute:startLine>
           <scalar:int>5</scalar:int>
          </attribute:startLine>
          <attribute:endLine>
           <scalar:int>5</scalar:int>
          </attribute:endLine>
+         <attribute:endPos>
+          <scalar:int>93</scalar:int>
+         </attribute:endPos>
          <subNode:value>
           <scalar:string>Foo</scalar:string>
          </subNode:value>
