@@ -8,6 +8,7 @@ class Lexer
     protected $tokens;
     protected $pos;
     protected $line;
+    protected $byte;
 
     protected $tokenMap;
     protected $dropTokens;
@@ -43,6 +44,7 @@ class Lexer
         $this->code = $code; // keep the code around for __halt_compiler() handling
         $this->pos  = -1;
         $this->line =  1;
+        $this->byte =  0;
     }
 
     protected function resetErrors() {
@@ -93,10 +95,14 @@ class Lexer
 
         while (isset($this->tokens[++$this->pos])) {
             $token = $this->tokens[$this->pos];
+            $startAttributes['startPos'] = $this->byte;
 
             if (is_string($token)) {
+                $this->byte += strlen($token);
+
                 $startAttributes['startLine'] = $this->line;
                 $endAttributes['endLine']     = $this->line;
+                $endAttributes['endPos']      = $this->byte;
 
                 // bug in token_get_all
                 if ('b"' === $token) {
@@ -107,6 +113,7 @@ class Lexer
                     return ord($token);
                 }
             } else {
+                $this->byte += strlen($token[1]);
                 $this->line += substr_count($token[1], "\n");
 
                 if (T_COMMENT === $token[0]) {
@@ -117,6 +124,7 @@ class Lexer
                     $value = $token[1];
                     $startAttributes['startLine'] = $token[2];
                     $endAttributes['endLine']     = $this->line;
+                    $endAttributes['endPos']      = $this->byte;
 
                     return $this->tokenMap[$token[0]];
                 }

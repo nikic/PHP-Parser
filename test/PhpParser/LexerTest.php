@@ -41,7 +41,6 @@ class LexerTest extends \PHPUnit_Framework_TestCase
         $this->lexer->startLexing($code);
         while ($id = $this->lexer->getNextToken($value, $startAttributes, $endAttributes)) {
             $token = array_shift($tokens);
-
             $this->assertSame($token[0], $id);
             $this->assertSame($token[1], $value);
             $this->assertEquals($token[2], $startAttributes);
@@ -57,15 +56,18 @@ class LexerTest extends \PHPUnit_Framework_TestCase
                 array(
                     array(
                         Parser::T_STRING, 'tokens',
-                        array('startLine' => 1), array('endLine' => 1)
+                        array('startLine' => 1, 'startPos' => 6),
+                        array('endLine' => 1, 'endPos' => 12)
                     ),
                     array(
                         ord(';'), '?>',
-                        array('startLine' => 1), array('endLine' => 1)
+                        array('startLine' => 1, 'startPos' => 13),
+                        array('endLine' => 1, 'endPos' => 15)
                     ),
                     array(
                         Parser::T_INLINE_HTML, 'plaintext',
-                        array('startLine' => 1), array('endLine' => 1)
+                        array('startLine' => 1, 'startPos' => 15),
+                        array('endLine' => 1, 'endPos' => 24)
                     ),
                 )
             ),
@@ -75,19 +77,22 @@ class LexerTest extends \PHPUnit_Framework_TestCase
                 array(
                     array(
                         ord('$'), '$',
-                        array('startLine' => 2), array('endLine' => 2)
+                        array('startLine' => 2, 'startPos' => 6),
+                        array('endLine' => 2, 'endPos' => 7)
                     ),
                     array(
                         Parser::T_STRING, 'token',
-                        array('startLine' => 2), array('endLine' => 2)
+                        array('startLine' => 2, 'startPos' => 8),
+                        array('endLine' => 2, 'endPos' => 13)
                     ),
                     array(
                         ord('$'), '$',
                         array(
                             'startLine' => 3,
+                            'startPos' => 33,
                             'comments' => array(new Comment\Doc('/** doc' . "\n" . 'comment */', 2))
                         ),
-                        array('endLine' => 3)
+                        array('endLine' => 3, 'endPos' => 34)
                     ),
                 )
             ),
@@ -99,6 +104,7 @@ class LexerTest extends \PHPUnit_Framework_TestCase
                         Parser::T_STRING, 'token',
                         array(
                             'startLine' => 2,
+                            'startPos' => 70,
                             'comments' => array(
                                 new Comment('/* comment */', 1),
                                 new Comment('// comment' . "\n", 1),
@@ -106,7 +112,7 @@ class LexerTest extends \PHPUnit_Framework_TestCase
                                 new Comment\Doc('/** docComment 2 */', 2),
                             ),
                         ),
-                        array('endLine' => 2)
+                        array('endLine' => 2, 'endPos' => 75)
                     ),
                 )
             ),
@@ -116,7 +122,8 @@ class LexerTest extends \PHPUnit_Framework_TestCase
                 array(
                     array(
                         Parser::T_CONSTANT_ENCAPSED_STRING, '"foo' . "\n" . 'bar"',
-                        array('startLine' => 1), array('endLine' => 2)
+                        array('startLine' => 1, 'startPos' => 6),
+                        array('endLine' => 2, 'endPos' => 15)
                     ),
                 )
             ),
