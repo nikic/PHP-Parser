@@ -69,7 +69,20 @@ class NameResolver extends NodeVisitorAbstract
             $node->type = $this->resolveClassName($node->type);
         } elseif ($node instanceof Expr\FuncCall) {
             if ($node->name instanceof Name) {
-                $node->name = $this->resolveOtherName($node->name, Stmt\Use_::TYPE_FUNCTION);
+                if (strcasecmp($node->name->getFirst(), 'define') === 0) {
+                    $const = $node->args[0];
+                    $value = $const->value;
+                    if ($value instanceof Node\Scalar\String) {
+                        if (null !== $this->namespace) {
+                            $const->namespacedName = clone $this->namespace;
+                            $const->namespacedName->append($value->value);
+                        } else {
+                            $const->namespacedName = new Name($value->value, $node->getAttributes());
+                        }
+                    }
+                } else {
+                    $node->name = $this->resolveOtherName($node->name, Stmt\Use_::TYPE_FUNCTION);
+                }
             }
         } elseif ($node instanceof Expr\ConstFetch) {
             $node->name = $this->resolveOtherName($node->name, Stmt\Use_::TYPE_CONSTANT);
