@@ -5,6 +5,8 @@ namespace PhpParser\Lexer;
 use PhpParser\LexerTest;
 use PhpParser\Parser;
 
+require_once __DIR__ . '/../LexerTest.php';
+
 class EmulativeTest extends LexerTest
 {
     protected function getLexer(array $options = array()) {
