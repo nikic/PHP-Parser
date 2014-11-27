@@ -205,7 +205,7 @@ abstract class ParserAbstract
                             + $endAttributes
                         );
                     } catch (Error $e) {
-                        if (-1 === $e->getRawLine()) {
+                        if (-1 === $e->getRawLine() && isset($startAttributes['startLine'])) {
                             $e->setRawLine($startAttributes['startLine']);
                         }
 
