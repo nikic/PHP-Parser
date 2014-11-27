@@ -91,6 +91,8 @@ Example:
     php php-parse.php -d -p -N -d file.php
 
     Dumps nodes, pretty prints them, then resolves names and dumps them again.
+
+
 OUTPUT
     );
 }
