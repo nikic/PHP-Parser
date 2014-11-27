@@ -20,8 +20,8 @@ class Emulative extends \PhpParser\Lexer
     const PHP_5_5 = '5.5.0beta1';
     const PHP_5_4 = '5.4.0beta1';
 
-    public function __construct() {
-        parent::__construct();
+    public function __construct(array $options = array()) {
+        parent::__construct($options);
 
         $newKeywordsPerVersion = array(
             self::PHP_5_5 => array(
@@ -60,6 +60,10 @@ class Emulative extends \PhpParser\Lexer
         if ($preprocessedCode !== $code) {
             $this->postprocessTokens();
         }
+
+        // Set code property back to the original code, so __halt_compiler()
+        // handling and (start|end)FilePos attributes use the correct offsets
+        $this->code = $code;
     }
 
     /*

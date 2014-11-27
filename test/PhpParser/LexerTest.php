@@ -4,12 +4,16 @@ namespace PhpParser;
 
 class LexerTest extends \PHPUnit_Framework_TestCase
 {
+    /* To allow overwriting in parent class */
+    protected function getLexer(array $options = array()) {
+        return new Lexer($options);
+    }
 
     /**
      * @dataProvider provideTestError
      */
     public function testError($code, $message) {
-        $lexer = new Lexer;
+        $lexer = $this->getLexer();
         try {
             $lexer->startLexing($code);
         } catch (Error $e) {
@@ -33,7 +37,7 @@ class LexerTest extends \PHPUnit_Framework_TestCase
      * @dataProvider provideTestLex
      */
     public function testLex($code, $options, $tokens) {
-        $lexer = new Lexer($options);
+        $lexer = $this->getLexer($options);
         $lexer->startLexing($code);
         while ($id = $lexer->getNextToken($value, $startAttributes, $endAttributes)) {
             $token = array_shift($tokens);
@@ -165,12 +169,12 @@ class LexerTest extends \PHPUnit_Framework_TestCase
      * @dataProvider provideTestHaltCompiler
      */
     public function testHandleHaltCompiler($code, $remaining) {
-        $lexer = new Lexer;
+        $lexer = $this->getLexer();
         $lexer->startLexing($code);
 
         while (Parser::T_HALT_COMPILER !== $lexer->getNextToken());
 
-        $this->assertSame($lexer->handleHaltCompiler(), $remaining);
+        $this->assertSame($remaining, $lexer->handleHaltCompiler());
         $this->assertSame(0, $lexer->getNextToken());
     }
 

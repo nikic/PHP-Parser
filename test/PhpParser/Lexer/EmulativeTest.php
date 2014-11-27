@@ -2,36 +2,36 @@
 
 namespace PhpParser\Lexer;
 
+use PhpParser\LexerTest;
 use PhpParser\Parser;
 
-class EmulativeTest extends \PHPUnit_Framework_TestCase
+class EmulativeTest extends LexerTest
 {
-    /** @var Emulative */
-    protected $lexer;
-
-    protected function setUp() {
-        $this->lexer = new Emulative;
+    protected function getLexer(array $options = array()) {
+        return new Emulative($options);
     }
 
     /**
      * @dataProvider provideTestReplaceKeywords
      */
     public function testReplaceKeywords($keyword, $expectedToken) {
-        $this->lexer->startLexing('<?php ' . $keyword);
+        $lexer = $this->getLexer();
+        $lexer->startLexing('<?php ' . $keyword);
 
-        $this->assertSame($expectedToken, $this->lexer->getNextToken());
-        $this->assertSame(0, $this->lexer->getNextToken());
+        $this->assertSame($expectedToken, $lexer->getNextToken());
+        $this->assertSame(0, $lexer->getNextToken());
     }
 
     /**
      * @dataProvider provideTestReplaceKeywords
      */
     public function testNoReplaceKeywordsAfterObjectOperator($keyword) {
-        $this->lexer->startLexing('<?php ->' . $keyword);
+        $lexer = $this->getLexer();
+        $lexer->startLexing('<?php ->' . $keyword);
 
-        $this->assertSame(Parser::T_OBJECT_OPERATOR, $this->lexer->getNextToken());
-        $this->assertSame(Parser::T_STRING, $this->lexer->getNextToken());
-        $this->assertSame(0, $this->lexer->getNextToken());
+        $this->assertSame(Parser::T_OBJECT_OPERATOR, $lexer->getNextToken());
+        $this->assertSame(Parser::T_STRING, $lexer->getNextToken());
+        $this->assertSame(0, $lexer->getNextToken());
     }
 
     public function provideTestReplaceKeywords() {
@@ -58,14 +58,15 @@ class EmulativeTest extends \PHPUnit_Framework_TestCase
      * @dataProvider provideTestLexNewFeatures
      */
     public function testLexNewFeatures($code, array $expectedTokens) {
-        $this->lexer->startLexing('<?php ' . $code);
+        $lexer = $this->getLexer();
+        $lexer->startLexing('<?php ' . $code);
 
         foreach ($expectedTokens as $expectedToken) {
             list($expectedTokenType, $expectedTokenText) = $expectedToken;
-            $this->assertSame($expectedTokenType, $this->lexer->getNextToken($text));
+            $this->assertSame($expectedTokenType, $lexer->getNextToken($text));
             $this->assertSame($expectedTokenText, $text);
         }
-        $this->assertSame(0, $this->lexer->getNextToken());
+        $this->assertSame(0, $lexer->getNextToken());
     }
 
     /**
@@ -73,11 +74,13 @@ class EmulativeTest extends \PHPUnit_Framework_TestCase
      */
     public function testLeaveStuffAloneInStrings($code) {
         $stringifiedToken = '"' . addcslashes($code, '"\\') . '"';
-        $this->lexer->startLexing('<?php ' . $stringifiedToken);
 
-        $this->assertSame(Parser::T_CONSTANT_ENCAPSED_STRING, $this->lexer->getNextToken($text));
+        $lexer = $this->getLexer();
+        $lexer->startLexing('<?php ' . $stringifiedToken);
+
+        $this->assertSame(Parser::T_CONSTANT_ENCAPSED_STRING, $lexer->getNextToken($text));
         $this->assertSame($stringifiedToken, $text);
-        $this->assertSame(0, $this->lexer->getNextToken());
+        $this->assertSame(0, $lexer->getNextToken());
     }
 
     public function provideTestLexNewFeatures() {
