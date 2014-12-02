@@ -47,13 +47,6 @@ foreach ($files as $file) {
         die("==> Parse Error: {$e->getMessage()}\n");
     }
 
-    $N = 'resolve-names';
-    $key = array_search($N, $operations);
-    if ($key) {
-        unset($operations[$key]);
-        array_unshift($operations, $N);
-    }
-
     foreach ($operations as $operation) {
         if ('dump' === $operation) {
             echo "==> Node dump:\n";
