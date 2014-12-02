@@ -9,7 +9,7 @@ ini_set('xdebug.var_display_max_children', -1);
 ini_set('xdebug.var_display_max_data', -1);
 ini_set('xdebug.var_display_max_depth', -1);
 
-list($operations, $files) = parseArgs($argv);
+list($lexer, $operations, $files) = parseArgs($argv);
 
 /* Dump nodes by default */
 if (empty($operations)) {
@@ -20,7 +20,7 @@ if (empty($files)) {
     showHelp("Must specify at least one file.");
 }
 
-$parser = new PhpParser\Parser(new PhpParser\Lexer\Emulative);
+$parser = new PhpParser\Parser(new $lexer);
 $dumper = new PhpParser\NodeDumper;
 $prettyPrinter = new PhpParser\PrettyPrinter\Standard;
 $serializer = new PhpParser\Serializer\XML;
@@ -85,6 +85,7 @@ Operations is a list of the following options (--dump by default):
     --serialize-xml      Serialize nodes using Serializer\XML
     --var-dump           var_dump() nodes (for exact structure)
     --resolve-names  -N  Resolve names using NodeVisitor\NameResolver
+    --lexer              Use another lexer than standard Lexer\Emulative
 
 Example:
 
@@ -100,6 +101,7 @@ OUTPUT
 function parseArgs($args) {
     $operations = array();
     $files = array();
+    $lexer = 'PhpParser\Lexer\Emulative';
 
     array_shift($args);
     $parseOptions = true;
@@ -132,7 +134,10 @@ function parseArgs($args) {
                 $parseOptions = false;
                 break;
             default:
-                if ($arg[0] === '-') {
+                if (strpos($arg, '--lexer=') === 0) {
+                    $parts = explode('=', $arg);
+                    $lexer = $parts[1];
+                } elseif ($arg[0] === '-') {
                     showHelp("Invalid operation $arg.");
                 } else {
                     $files[] = $arg;
@@ -140,5 +145,5 @@ function parseArgs($args) {
         }
     }
 
-    return array($operations, $files);
+    return array($lexer, $operations, $files);
 }

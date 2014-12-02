@@ -32,6 +32,8 @@ class Autoloader
             if (isset(self::$oldToNewMap[$class])) {
                 self::registerLegacyAliases();
             }
+        } else if (stream_resolve_include_path($fileName = $class . '.php')) {
+            require $fileName;
         }
     }
 
