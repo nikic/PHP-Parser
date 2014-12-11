@@ -36,10 +36,11 @@ $node = $factory->class('SomeClass')
 ;
 
 $stmts = array($node);
+$prettyPrinter = new \PhpParser\PrettyPrinter\Standard();
 echo $prettyPrinter->prettyPrint($stmts);
 ```
 
-This will produce the following output with the default pretty printer:
+This will produce the following output with the standard pretty printer:
 
 ```php
 <?php
