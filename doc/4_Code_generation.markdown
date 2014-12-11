@@ -36,13 +36,15 @@ $node = $factory->class('SomeClass')
 ;
 
 $stmts = array($node);
-echo $prettyPrinter->prettyPrint($stmts);
+$prettyPrinter = new PhpParser\PrettyPrinter\Standard();
+echo $prettyPrinter->prettyPrintFile($stmts);
 ```
 
-This will produce the following output with the default pretty printer:
+This will produce the following output with the standard pretty printer:
 
 ```php
 <?php
+
 abstract class SomeClass extends SomeOtherClass implements A\Few, Interfaces
 {
     protected $someProperty;
