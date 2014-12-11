@@ -14,6 +14,8 @@ class BuilderFactoryTest extends \PHPUnit_Framework_TestCase
 
     public function provideTestFactory() {
         return array(
+            array('namespace', 'PhpParser\Builder\Namespace_'),
+            array('use',       'PhpParser\Builder\Use_'),
             array('class',     'PhpParser\Builder\Class_'),
             array('interface', 'PhpParser\Builder\Interface_'),
             array('method',    'PhpParser\Builder\Method'),

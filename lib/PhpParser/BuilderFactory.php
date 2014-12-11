@@ -5,16 +5,40 @@ namespace PhpParser;
 use PhpParser\Builder;
 
 /**
- * "class", "interface" and "function" are reserved keywords, so the methods are defined as _class(),
- * _interface() and _function() in the class and are made available as class(), interface() and function()
- * through __call() magic.
+ * "namespace", "class", "interface" and "function" are reserved keywords, so the methods are defined as
+ * _class(),  _interface() and _function() in the class and are made available as class(), interface() and
+ * function() through __call() magic.
  *
+ * @method Builder\Namespace_ namespace(string $name) Creates a namespace builder.
+ * @method Buidler\Use_       use(string $name)       Creates a use statement.
  * @method Builder\Class_     class(string $name)     Creates a class builder.
  * @method Builder\Function_  function(string $name)  Creates a function builder
  * @method Builder\Interface_ interface(string $name) Creates an interface builder.
  */
 class BuilderFactory
 {
+    /**
+     * Creates a namespace builder.
+     * 
+     * @param string $name Fully qualified namespace
+     *
+     * @return Builder\Namespace_ The created namespace builder
+     */
+    protected function _namespace($name) {
+        return new Builder\Namespace_($name);
+    }
+
+    /**
+     * Creates a use statement builder.
+     * 
+     * @param string $name Fully qualified classname
+     *
+     * @return Builder\Use_ The created use statement builder
+     */
+    protected function _use($name) {
+        return new Builder\Use_($name);
+    }
+
     /**
      * Creates a class builder.
      *
