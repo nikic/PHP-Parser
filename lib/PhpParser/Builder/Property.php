@@ -11,6 +11,7 @@ class Property extends PhpParser\BuilderAbstract
 
     protected $type;
     protected $default;
+    protected $attributes;
 
     /**
      * Creates a property builder.
@@ -22,6 +23,7 @@ class Property extends PhpParser\BuilderAbstract
 
         $this->type = 0;
         $this->default = null;
+        $this->attributes = array();
     }
 
     /**
@@ -82,6 +84,21 @@ class Property extends PhpParser\BuilderAbstract
     }
 
     /**
+     * Sets doc comment for the property.
+     *
+     * @param PhpParser\Comment\Doc|string $docComment Doc comment to set
+     *
+     * @return self The builder instance (for fluid interface)
+     */
+    public function setDocComment($docComment) {
+        $this->attributes = array(
+            'comments' => array($this->normalizeDocComment($docComment))
+        );
+
+        return $this;
+    }
+
+    /**
      * Returns the built class node.
      *
      * @return Stmt\Property The built property node
@@ -91,7 +108,8 @@ class Property extends PhpParser\BuilderAbstract
             $this->type !== 0 ? $this->type : Stmt\Class_::MODIFIER_PUBLIC,
             array(
                 new Stmt\PropertyProperty($this->name, $this->default)
-            )
+            ),
+            $this->attributes
         );
     }
 }

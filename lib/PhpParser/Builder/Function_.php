@@ -13,6 +13,7 @@ class Function_ extends PhpParser\BuilderAbstract
     protected $returnByRef;
     protected $params;
     protected $stmts;
+    protected $attributes;
 
     /**
      * Creates a function builder.
@@ -25,6 +26,7 @@ class Function_ extends PhpParser\BuilderAbstract
         $this->returnByRef = false;
         $this->params = array();
         $this->stmts = array();
+        $this->attributes = array();
     }
 
     /**
@@ -101,6 +103,21 @@ class Function_ extends PhpParser\BuilderAbstract
     }
 
     /**
+     * Sets doc comment for the function.
+     *
+     * @param PhpParser\Comment\Doc|string $docComment Doc comment to set
+     *
+     * @return self The builder instance (for fluid interface)
+     */
+    public function setDocComment($docComment) {
+        $this->attributes = array(
+            'comments' => array($this->normalizeDocComment($docComment))
+        );
+
+        return $this;
+    }
+
+    /**
      * Returns the built function node.
      *
      * @return Stmt\Function_ The built function node
@@ -110,6 +127,6 @@ class Function_ extends PhpParser\BuilderAbstract
             'byRef'  => $this->returnByRef,
             'params' => $this->params,
             'stmts'  => $this->stmts,
-        ));
+        ), $this->attributes);
     }
 }

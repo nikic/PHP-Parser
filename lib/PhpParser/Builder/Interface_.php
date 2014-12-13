@@ -12,6 +12,7 @@ class Interface_ extends PhpParser\BuilderAbstract
     protected $extends;
     protected $constants;
     protected $methods;
+    protected $attributes;
 
     /**
      * Creates an interface builder.
@@ -22,6 +23,7 @@ class Interface_ extends PhpParser\BuilderAbstract
         $this->name = $name;
         $this->extends = array();
         $this->constants = $this->methods = array();
+        $this->attributes = array();
     }
 
     /**
@@ -85,6 +87,21 @@ class Interface_ extends PhpParser\BuilderAbstract
     }
 
     /**
+     * Sets doc comment for the property.
+     *
+     * @param PhpParser\Comment\Doc|string $docComment Doc comment to set
+     *
+     * @return self The builder instance (for fluid interface)
+     */
+    public function setDocComment($docComment) {
+        $this->attributes = array(
+            'comments' => array($this->normalizeDocComment($docComment))
+        );
+
+        return $this;
+    }
+
+    /**
      * Returns the built class node.
      *
      * @return Stmt\Interface_ The built interface node
@@ -93,6 +110,6 @@ class Interface_ extends PhpParser\BuilderAbstract
         return new Stmt\Interface_($this->name, array(
             'extends' => $this->extends,
             'stmts' => array_merge($this->constants, $this->methods),
-        ));
+        ), $this->attributes);
     }
 }

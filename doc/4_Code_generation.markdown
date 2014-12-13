@@ -19,6 +19,11 @@ $node = $factory->class('SomeClass')
     ->addStmt($factory->method('someMethod')
         ->makeAbstract() // ->makeFinal()
         ->addParam($factory->param('someParam')->setTypeHint('SomeClass'))
+        ->setDocComment('/**
+                          * This method does something.
+                          *
+                          * @param SomeClass And takes a parameter
+                          */')
     )
 
     ->addStmt($factory->method('anotherMethod')
@@ -49,7 +54,12 @@ abstract class SomeClass extends SomeOtherClass implements A\Few, Interfaces
 {
     protected $someProperty;
     private $anotherProperty = array(1, 2, 3);
-    abstract function someMethod(SomeClass $someParam);
+    /**
+     * This method does something.
+     *
+     * @param SomeClass And takes a parameter
+     */
+    public abstract function someMethod(SomeClass $someParam);
     protected function anotherMethod($someParam = 'test')
     {
         print $someParam;

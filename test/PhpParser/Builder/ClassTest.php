@@ -2,10 +2,10 @@
 
 namespace PhpParser\Builder;
 
+use PhpParser\Comment;
 use PhpParser\Node;
 use PhpParser\Node\Name;
 use PhpParser\Node\Stmt;
-use PhpParser\NodeVisitorAbstract;
 
 class ClassTest extends \PHPUnit_Framework_TestCase
 {
@@ -86,6 +86,39 @@ class ClassTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    public function testDocComment() {
+        $docComment = <<<'DOC'
+/**
+ * Test
+ */
+DOC;
+        $class = $this->createClassBuilder('Test')
+            ->setDocComment($docComment)
+            ->getNode();
+
+        $this->assertEquals(
+            new Stmt\Class_('Test', array(), array(
+                'comments' => array(
+                    new Comment\Doc($docComment)
+                )
+            )),
+            $class
+        );
+
+        $class = $this->createClassBuilder('Test')
+            ->setDocComment(new Comment\Doc($docComment))
+            ->getNode();
+
+        $this->assertEquals(
+            new Stmt\Class_('Test', array(), array(
+                'comments' => array(
+                    new Comment\Doc($docComment)
+                )
+            )),
+            $class
+        );
+    }
+
     /**
      * @expectedException \LogicException
      * @expectedExceptionMessage Unexpected node of type "Stmt_Echo"
@@ -94,5 +127,14 @@ class ClassTest extends \PHPUnit_Framework_TestCase
         $this->createClassBuilder('Test')
             ->addStmt(new Stmt\Echo_(array()))
         ;
+    }
+
+    /**
+     * @expectedException \LogicException
+     * @expectedExceptionMessage Doc comment must be a string or an instance of PhpParser\Comment\Doc
+     */
+    public function testInvalidDocComment() {
+        $this->createClassBuilder('Test')
+            ->setDocComment(new Comment('Test'));
     }
 }

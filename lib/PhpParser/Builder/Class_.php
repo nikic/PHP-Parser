@@ -19,6 +19,8 @@ class Class_ extends PhpParser\BuilderAbstract
     protected $properties;
     protected $methods;
 
+    protected $attributes;
+
     /**
      * Creates a class builder.
      *
@@ -32,6 +34,7 @@ class Class_ extends PhpParser\BuilderAbstract
         $this->implements = array();
 
         $this->uses = $this->constants = $this->properties = $this->methods = array();
+        $this->attributes = array();
     }
 
     /**
@@ -128,6 +131,21 @@ class Class_ extends PhpParser\BuilderAbstract
     }
 
     /**
+     * Sets doc comment for the property.
+     *
+     * @param PhpParser\Comment\Doc|string $docComment Doc comment to set
+     *
+     * @return self The builder instance (for fluid interface)
+     */
+    public function setDocComment($docComment) {
+        $this->attributes = array(
+            'comments' => array($this->normalizeDocComment($docComment))
+        );
+
+        return $this;
+    }
+
+    /**
      * Returns the built class node.
      *
      * @return Stmt\Class_ The built class node
@@ -138,6 +156,6 @@ class Class_ extends PhpParser\BuilderAbstract
             'extends' => $this->extends,
             'implements' => $this->implements,
             'stmts' => array_merge($this->uses, $this->constants, $this->properties, $this->methods),
-        ));
+        ), $this->attributes);
     }
 }

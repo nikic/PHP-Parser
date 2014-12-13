@@ -6,6 +6,7 @@ use PhpParser\Node\Name;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Stmt;
 use PhpParser\Node\Scalar;
+use PhpParser\Comment;
 
 abstract class BuilderAbstract implements Builder {
     /**
@@ -86,6 +87,23 @@ abstract class BuilderAbstract implements Builder {
             return new Expr\Array_($items);
         } else {
             throw new \LogicException('Invalid value');
+        }
+    }
+
+    /**
+     * Normalizes a doc comment: Converts plain strings to PhpParser\Comment\Doc.
+     *
+     * @param Comment\Doc|string $docComment The doc comment to normalize
+     *
+     * @return Comment\Doc The normalized doc comment
+     */
+    protected function normalizeDocComment($docComment) {
+        if ($docComment instanceof Comment\Doc) {
+            return $docComment;
+        } else if (is_string($docComment)) {
+            return new Comment\Doc($docComment);
+        } else {
+            throw new \LogicException('Doc comment must be a string or an instance of PhpParser\Comment\Doc');
         }
     }
 

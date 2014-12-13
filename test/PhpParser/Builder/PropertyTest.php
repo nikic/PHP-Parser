@@ -6,6 +6,7 @@ use PhpParser\Node\Name;
 use PhpParser\Node\Stmt;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Scalar;
+use PhpParser\Comment;
 
 class PropertyTest extends \PHPUnit_Framework_TestCase
 {
@@ -60,6 +61,22 @@ class PropertyTest extends \PHPUnit_Framework_TestCase
             ),
             $node
         );
+    }
+
+    public function testDocComment() {
+        $node = $this->createPropertyBuilder('test')
+            ->setDocComment('/** Test */')
+            ->getNode();
+
+        $this->assertEquals(new Stmt\Property(
+            Stmt\Class_::MODIFIER_PUBLIC,
+            array(
+                new Stmt\PropertyProperty('test')
+            ),
+            array(
+                'comments' => array(new Comment\Doc('/** Test */'))
+            )
+        ), $node);
     }
 
     /**

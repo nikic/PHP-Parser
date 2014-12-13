@@ -5,6 +5,7 @@ namespace PhpParser\Builder;
 use PhpParser\Node;
 use PhpParser\Node\Stmt;
 use PhpParser\Node\Scalar\DNumber;
+use PhpParser\Comment;
 
 class InterfaceTest extends \PHPUnit_Framework_TestCase
 {
@@ -65,6 +66,16 @@ class InterfaceTest extends \PHPUnit_Framework_TestCase
 
         $this->assertInstanceOf('PhpParser\Node\Stmt\ClassConst', $contract->stmts[0]);
         $this->assertInstanceOf('PhpParser\Node\Stmt\ClassMethod', $contract->stmts[1]);
+    }
+
+    public function testDocComment() {
+        $node = $this->builder
+            ->setDocComment('/** Test */')
+            ->getNode();
+
+        $this->assertEquals(new Stmt\Interface_('Contract', array(), array(
+            'comments' => array(new Comment\Doc('/** Test */'))
+        )), $node);
     }
 
     /**

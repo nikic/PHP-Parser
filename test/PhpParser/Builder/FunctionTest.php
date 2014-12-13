@@ -2,6 +2,7 @@
 
 namespace PhpParser\Builder;
 
+use PhpParser\Comment;
 use PhpParser\Node;
 use PhpParser\Node\Stmt;
 use PhpParser\Node\Expr\Print_;
@@ -63,6 +64,16 @@ class FunctionTest extends \PHPUnit_Framework_TestCase
             )),
             $node
         );
+    }
+
+    public function testDocComment() {
+        $node = $this->createFunctionBuilder('test')
+            ->setDocComment('/** Test */')
+            ->getNode();
+
+        $this->assertEquals(new Stmt\Function_('test', array(), array(
+            'comments' => array(new Comment\Doc('/** Test */'))
+        )), $node);
     }
 
     /**
