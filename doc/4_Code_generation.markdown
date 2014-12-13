@@ -21,6 +21,16 @@ $node = $factory->class('SomeClass')
         ->addParam($factory->param('someParam')->setTypeHint('SomeClass'))
     )
 
+    // adding docblocks is possible, too
+    ->addStmt($factory->method('methodWithDoc')
+        ->getNode()
+        ->setAttribute('comments', [new \PhpParser\Comment\Doc(
+            "/**\n
+              * Wow, such docblock\n
+              */"
+        )])
+    )
+
     ->addStmt($factory->method('anotherMethod')
         ->makeProtected() // ->makePublic() [default], ->makePrivate()
         ->addParam($factory->param('someParam')->setDefault('test'))
@@ -50,6 +60,12 @@ abstract class SomeClass extends SomeOtherClass implements A\Few, Interfaces
     protected $someProperty;
     private $anotherProperty = array(1, 2, 3);
     abstract function someMethod(SomeClass $someParam);
+    /**
+     * Wow, such docblock
+     */
+    public function methodWithDoc()
+    {
+    }
     protected function anotherMethod($someParam = 'test')
     {
         print $someParam;

@@ -80,6 +80,8 @@ abstract class NodeAbstract implements Node, \IteratorAggregate
      */
     public function setAttribute($key, $value) {
         $this->attributes[$key] = $value;
+
+        return $this;
     }
 
     /**
