@@ -1,7 +1,7 @@
 PHP Parser
 ==========
 
-This is a PHP 5.2 to PHP 5.6 parser written in PHP. It's purpose is to simplify static code analysis and
+This is a PHP 5.2 to PHP 5.6 parser written in PHP. Its purpose is to simplify static code analysis and
 manipulation.
 
 [**Documentation for version 1.0.x**][doc_master] (stable; for running on PHP >= 5.3).
