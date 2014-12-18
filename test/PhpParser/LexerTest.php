@@ -131,19 +131,42 @@ class LexerTest extends \PHPUnit_Framework_TestCase
                 array(
                     array(
                         Parser::T_CONSTANT_ENCAPSED_STRING, '"a"',
-                        array('startFilePos' => 6), array('endFilePos' => 9)
+                        array('startFilePos' => 6), array('endFilePos' => 8)
                     ),
                     array(
                         ord(';'), ';',
-                        array('startFilePos' => 9), array('endFilePos' => 10)
+                        array('startFilePos' => 9), array('endFilePos' => 9)
                     ),
                     array(
                         Parser::T_CONSTANT_ENCAPSED_STRING, '"b"',
-                        array('startFilePos' => 18), array('endFilePos' => 21)
+                        array('startFilePos' => 18), array('endFilePos' => 20)
                     ),
                     array(
                         ord(';'), ';',
-                        array('startFilePos' => 21), array('endFilePos' => 22)
+                        array('startFilePos' => 21), array('endFilePos' => 21)
+                    ),
+                )
+            ),
+            // tests token offsets
+            array(
+                '<?php "a";' . "\n" . '// foo' . "\n" . '"b";',
+                array('usedAttributes' => array('startTokenPos', 'endTokenPos')),
+                array(
+                    array(
+                        Parser::T_CONSTANT_ENCAPSED_STRING, '"a"',
+                        array('startTokenPos' => 1), array('endTokenPos' => 1)
+                    ),
+                    array(
+                        ord(';'), ';',
+                        array('startTokenPos' => 2), array('endTokenPos' => 2)
+                    ),
+                    array(
+                        Parser::T_CONSTANT_ENCAPSED_STRING, '"b"',
+                        array('startTokenPos' => 5), array('endTokenPos' => 5)
+                    ),
+                    array(
+                        ord(';'), ';',
+                        array('startTokenPos' => 6), array('endTokenPos' => 6)
                     ),
                 )
             ),
@@ -186,5 +209,22 @@ class LexerTest extends \PHPUnit_Framework_TestCase
             //array('<?php ... __halt_compiler();' . "\0", "\0"),
             //array('<?php ... __halt_compiler /* */ ( ) ;Remaining Text', 'Remaining Text'),
         );
+    }
+
+    public function testGetTokens() {
+        $code = '<?php "a";' . "\n" . '// foo' . "\n" . '"b";';
+        $expectedTokens = array(
+            array(T_OPEN_TAG, '<?php ', 1),
+            array(T_CONSTANT_ENCAPSED_STRING, '"a"', 1),
+            ';',
+            array(T_WHITESPACE, "\n", 1),
+            array(T_COMMENT, '// foo' . "\n", 2),
+            array(T_CONSTANT_ENCAPSED_STRING, '"b"', 3),
+            ';',
+        );
+
+        $lexer = $this->getLexer();
+        $lexer->startLexing($code);
+        $this->assertSame($expectedTokens, $lexer->getTokens());
     }
 }
