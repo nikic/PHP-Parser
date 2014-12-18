@@ -104,13 +104,12 @@ class Lexer
      *  * 'comments'      => Array of PhpParser\Comment or PhpParser\Comment\Doc instances,
      *                       representing all comments that occurred between the previous
      *                       non-discarded token and the current one.
-     *  * 'startLine'     => Line in which the token starts.
-     *  * 'endLine'       => Line in which the token ends.
-     *  * 'startTokenPos' => Position in the token array of the first token in the node.
-     *  * 'endTokenPos'   => Position in the token array of the last token in the node.
-     *  * 'startFilePos'  => Offset into the code string at which the token starts.
-     *  * 'endFilePos'    => Offset into the code string at which the last character that
-     *                       is part of the token occurs.
+     *  * 'startLine'     => Line in which the node starts.
+     *  * 'endLine'       => Line in which the node ends.
+     *  * 'startTokenPos' => Offset into the token array of the first token in the node.
+     *  * 'endTokenPos'   => Offset into the token array of the last token in the node.
+     *  * 'startFilePos'  => Offset into the code string of the first character that is part of the node.
+     *  * 'endFilePos'    => Offset into the code string of the last character that is part of the node
      *
      * @param mixed $value           Variable to store token content in
      * @param mixed $startAttributes Variable to store start attributes in
