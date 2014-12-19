@@ -16,18 +16,18 @@ class NamespaceTest extends \PHPUnit_Framework_TestCase
         $stmt2 = new Stmt\Interface_('SomeInterface');
         $stmt3 = new Stmt\Function_('someFunction');
         $expected = new Stmt\Namespace_(
-            new Node\Name('Some\Namespace'),
+            new Node\Name('Name\Space'),
             array($stmt1, $stmt2, $stmt3)
         );
 
-        $node = $this->createNamespaceBuilder('Some\Namespace')
+        $node = $this->createNamespaceBuilder('Name\Space')
             ->addStmt($stmt1)
             ->addStmts(array($stmt2, $stmt3))
             ->getNode()
         ;
         $this->assertEquals($expected, $node);
 
-        $node = $this->createNamespaceBuilder(new Node\Name(array('Some', 'Namespace')))
+        $node = $this->createNamespaceBuilder(new Node\Name(array('Name', 'Space')))
             ->addStmts(array($stmt1, $stmt2))
             ->addStmt($stmt3)
             ->getNode()
