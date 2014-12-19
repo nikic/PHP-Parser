@@ -9,9 +9,9 @@ class Param extends PhpParser\BuilderAbstract
 {
     protected $name;
 
-    protected $default;
-    protected $type;
-    protected $byRef;
+    protected $default = null;
+    protected $type = null;
+    protected $byRef = false;
 
     /**
      * Creates a parameter builder.
@@ -20,10 +20,6 @@ class Param extends PhpParser\BuilderAbstract
      */
     public function __construct($name) {
         $this->name = $name;
-
-        $this->default = null;
-        $this->type = null;
-        $this->byRef = false;
     }
 
     /**
@@ -31,7 +27,7 @@ class Param extends PhpParser\BuilderAbstract
      *
      * @param mixed $value Default value to use
      *
-     * @return self The builder instance (for fluid interface)
+     * @return $this The builder instance (for fluid interface)
      */
     public function setDefault($value) {
         $this->default = $this->normalizeValue($value);
@@ -44,7 +40,7 @@ class Param extends PhpParser\BuilderAbstract
      *
      * @param string|Node\Name $type Type hint to use
      *
-     * @return self The builder instance (for fluid interface)
+     * @return $this The builder instance (for fluid interface)
      */
     public function setTypeHint($type) {
         if ($type === 'array' || $type === 'callable') {
@@ -59,7 +55,7 @@ class Param extends PhpParser\BuilderAbstract
     /**
      * Make the parameter accept the value by reference.
      *
-     * @return self The builder instance (for fluid interface)
+     * @return $this The builder instance (for fluid interface)
      */
     public function makeByRef() {
         $this->byRef = true;

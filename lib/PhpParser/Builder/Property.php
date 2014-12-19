@@ -9,9 +9,9 @@ class Property extends PhpParser\BuilderAbstract
 {
     protected $name;
 
-    protected $type;
-    protected $default;
-    protected $attributes;
+    protected $type = 0;
+    protected $default = null;
+    protected $attributes = array();
 
     /**
      * Creates a property builder.
@@ -20,16 +20,12 @@ class Property extends PhpParser\BuilderAbstract
      */
     public function __construct($name) {
         $this->name = $name;
-
-        $this->type = 0;
-        $this->default = null;
-        $this->attributes = array();
     }
 
     /**
      * Makes the property public.
      *
-     * @return self The builder instance (for fluid interface)
+     * @return $this The builder instance (for fluid interface)
      */
     public function makePublic() {
         $this->setModifier(Stmt\Class_::MODIFIER_PUBLIC);
@@ -40,7 +36,7 @@ class Property extends PhpParser\BuilderAbstract
     /**
      * Makes the property protected.
      *
-     * @return self The builder instance (for fluid interface)
+     * @return $this The builder instance (for fluid interface)
      */
     public function makeProtected() {
         $this->setModifier(Stmt\Class_::MODIFIER_PROTECTED);
@@ -51,7 +47,7 @@ class Property extends PhpParser\BuilderAbstract
     /**
      * Makes the property private.
      *
-     * @return self The builder instance (for fluid interface)
+     * @return $this The builder instance (for fluid interface)
      */
     public function makePrivate() {
         $this->setModifier(Stmt\Class_::MODIFIER_PRIVATE);
@@ -62,7 +58,7 @@ class Property extends PhpParser\BuilderAbstract
     /**
      * Makes the property static.
      *
-     * @return self The builder instance (for fluid interface)
+     * @return $this The builder instance (for fluid interface)
      */
     public function makeStatic() {
         $this->setModifier(Stmt\Class_::MODIFIER_STATIC);
@@ -75,7 +71,7 @@ class Property extends PhpParser\BuilderAbstract
      *
      * @param mixed $value Default value to use
      *
-     * @return self The builder instance (for fluid interface)
+     * @return $this The builder instance (for fluid interface)
      */
     public function setDefault($value) {
         $this->default = $this->normalizeValue($value);
@@ -88,7 +84,7 @@ class Property extends PhpParser\BuilderAbstract
      *
      * @param PhpParser\Comment\Doc|string $docComment Doc comment to set
      *
-     * @return self The builder instance (for fluid interface)
+     * @return $this The builder instance (for fluid interface)
      */
     public function setDocComment($docComment) {
         $this->attributes = array(
