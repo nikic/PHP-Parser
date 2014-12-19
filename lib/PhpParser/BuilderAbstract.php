@@ -36,6 +36,18 @@ abstract class BuilderAbstract implements Builder {
     protected function normalizeName($name) {
         if ($name instanceof Name) {
             return $name;
+        } elseif (is_string($name)) {
+            if (!$name) {
+                throw new \LogicException('Name cannot be empty');
+            }
+
+            if ($name[0] == '\\') {
+                return new Name\FullyQualified(substr($name, 1));
+            } elseif (0 === strpos($name, 'namespace\\')) {
+                return new Name\Relative(substr($name, strlen('namespace\\')));
+            } else {
+                return new Name($name);
+            }
         } else {
             return new Name($name);
         }

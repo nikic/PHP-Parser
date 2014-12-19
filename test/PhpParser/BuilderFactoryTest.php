@@ -33,7 +33,7 @@ class BuilderFactoryTest extends \PHPUnit_Framework_TestCase
             ->addStmt($factory
                 ->class('SomeClass')
                 ->extend('SomeOtherClass')
-                ->implement('A\Few', 'Interfaces')
+                ->implement('A\Few', '\Interfaces')
                 ->makeAbstract()
 
                 ->addStmt($factory->method('someMethod')
@@ -62,7 +62,7 @@ class BuilderFactoryTest extends \PHPUnit_Framework_TestCase
 
 namespace Name\Space;
 
-abstract class SomeClass extends SomeOtherClass implements A\Few, Interfaces
+abstract class SomeClass extends SomeOtherClass implements A\Few, \Interfaces
 {
     protected $someProperty;
     private $anotherProperty = array(1, 2, 3);

@@ -17,6 +17,7 @@ class ClassTest extends \PHPUnit_Framework_TestCase
         $node = $this->createClassBuilder('SomeLogger')
             ->extend('BaseLogger')
             ->implement('Namespaced\Logger', new Name('SomeInterface'))
+            ->implement('\Fully\Qualified', 'namespace\NamespaceRelative')
             ->getNode()
         ;
 
@@ -25,7 +26,9 @@ class ClassTest extends \PHPUnit_Framework_TestCase
                 'extends' => new Name('BaseLogger'),
                 'implements' => array(
                     new Name('Namespaced\Logger'),
-                    new Name('SomeInterface')
+                    new Name('SomeInterface'),
+                    new Name\FullyQualified('Fully\Qualified'),
+                    new Name\Relative('NamespaceRelative'),
                 ),
             )),
             $node
@@ -136,5 +139,14 @@ DOC;
     public function testInvalidDocComment() {
         $this->createClassBuilder('Test')
             ->setDocComment(new Comment('Test'));
+    }
+
+    /**
+     * @expectedException \LogicException
+     * @expectedExceptionMessage Name cannot be empty
+     */
+    public function testInvalidName() {
+        $this->createClassBuilder('Test')
+            ->extend('');
     }
 }
