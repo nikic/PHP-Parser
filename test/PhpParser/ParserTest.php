@@ -63,6 +63,7 @@ function test($a) {
     echo $a;
 }
 EOC;
+        $code = $this->canonicalize($code);
 
         $parser = new Parser($lexer);
         $stmts = $parser->parse($code);
