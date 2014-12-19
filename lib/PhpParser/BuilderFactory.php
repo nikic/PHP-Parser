@@ -12,14 +12,14 @@ use PhpParser\Builder;
  * @method Builder\Class_     class(string $name)     Creates a class builder.
  * @method Builder\Interface_ interface(string $name) Creates an interface builder.
  * @method Builder\Trait_     trait(string $name)     Creates a trait builder.
- * @method Builder\Function_  function(string $name)  Creates a function builder
+ * @method Builder\Function_  function(string $name)  Creates a function builder.
  */
 class BuilderFactory
 {
     /**
      * Creates a namespace builder.
      * 
-     * @param string $name Fully qualified namespace
+     * @param string|Node\Name $name Name of the namespace
      *
      * @return Builder\Namespace_ The created namespace builder
      */

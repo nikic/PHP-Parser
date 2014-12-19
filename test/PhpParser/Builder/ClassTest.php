@@ -156,6 +156,6 @@ DOC;
      */
     public function testInvalidName() {
         $this->createClassBuilder('Test')
-            ->extend(['Foo']);
+            ->extend(array('Foo'));
     }
 }
