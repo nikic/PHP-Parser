@@ -145,8 +145,17 @@ DOC;
      * @expectedException \LogicException
      * @expectedExceptionMessage Name cannot be empty
      */
-    public function testInvalidName() {
+    public function testEmptyName() {
         $this->createClassBuilder('Test')
             ->extend('');
+    }
+
+    /**
+     * @expectedException \LogicException
+     * @expectedExceptionMessage Name must be a string or an instance of PhpParser\Node\Name
+     */
+    public function testInvalidName() {
+        $this->createClassBuilder('Test')
+            ->extend(['Foo']);
     }
 }

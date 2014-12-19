@@ -48,9 +48,9 @@ abstract class BuilderAbstract implements Builder {
             } else {
                 return new Name($name);
             }
-        } else {
-            return new Name($name);
         }
+
+        throw new \LogicException('Name must be a string or an instance of PhpParser\Node\Name');
     }
 
     /**
