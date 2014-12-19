@@ -3,8 +3,8 @@ Code generation
 
 It is also possible to generate code using the parser, by first creating an Abstract Syntax Tree and then using the
 pretty printer to convert it to PHP code. To simplify code generation, the project comes with a set of builders for
-classes, interfaces, methods, functions, parameters and properties. The builders allow creating node trees using a
-fluid interface, instead of instantiating all nodes manually.
+classes, interfaces, traits, methods, functions, parameters and properties. The builders allow creating node trees using
+a fluid interface, instead of instantiating all nodes manually.
 
 Here is an example:
 

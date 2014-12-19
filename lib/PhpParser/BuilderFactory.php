@@ -27,7 +27,7 @@ class BuilderFactory
     }
 
     /**
-     * Creates a interface builder.
+     * Creates an interface builder.
      *
      * @param string $name Name of the interface
      *
@@ -35,6 +35,17 @@ class BuilderFactory
      */
     protected function _interface($name) {
         return new Builder\Interface_($name);
+    }
+
+    /**
+     * Creates a trait builder.
+     *
+     * @param string $name Name of the trait
+     *
+     * @return Builder\Trait_ The created trait builder
+     */
+    protected function _trait($name) {
+        return new Builder\Trait_($name);
     }
 
     /**
