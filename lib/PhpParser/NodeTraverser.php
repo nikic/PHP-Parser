@@ -73,13 +73,19 @@ class NodeTraverser implements NodeTraverserInterface
             if (is_array($subNode)) {
                 $subNode = $this->traverseArray($subNode);
             } elseif ($subNode instanceof Node) {
+                $traverseChildren = true;
                 foreach ($this->visitors as $visitor) {
-                    if (null !== $return = $visitor->enterNode($subNode)) {
+                    $return = $visitor->enterNode($subNode);
+                    if (self::DONT_TRAVERSE_CHILDREN === $return) {
+                        $traverseChildren = false;
+                    } else if (null !== $return) {
                         $subNode = $return;
                     }
                 }
 
-                $subNode = $this->traverseNode($subNode);
+                if ($traverseChildren) {
+                    $subNode = $this->traverseNode($subNode);
+                }
 
                 foreach ($this->visitors as $visitor) {
                     if (null !== $return = $visitor->leaveNode($subNode)) {
@@ -99,18 +105,24 @@ class NodeTraverser implements NodeTraverserInterface
             if (is_array($node)) {
                 $node = $this->traverseArray($node);
             } elseif ($node instanceof Node) {
+                $traverseChildren = true;
                 foreach ($this->visitors as $visitor) {
-                    if (null !== $return = $visitor->enterNode($node)) {
+                    $return = $visitor->enterNode($node);
+                    if (self::DONT_TRAVERSE_CHILDREN === $return) {
+                        $traverseChildren = false;
+                    } else if (null !== $return) {
                         $node = $return;
                     }
                 }
 
-                $node = $this->traverseNode($node);
+                if ($traverseChildren) {
+                    $node = $this->traverseNode($node);
+                }
 
                 foreach ($this->visitors as $visitor) {
                     $return = $visitor->leaveNode($node);
 
-                    if (false === $return) {
+                    if (self::REMOVE_NODE === $return) {
                         $doNodes[] = array($i, array());
                         break;
                     } elseif (is_array($return)) {
