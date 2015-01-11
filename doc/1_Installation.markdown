@@ -6,21 +6,13 @@ There are multiple ways to include the PHP parser into your project:
 Installing via Composer
 -----------------------
 
-Create a `composer.json` file in your project root and use it to define your dependencies:
+Run the following command inside your project:
 
-    {
-        "require": {
-            "nikic/php-parser": "~1.0.2"
-        }
-    }
+    php composer.phar require nikic/php-parser
 
-Then install Composer in your project (or [download the composer.phar][1] directly):
+If you haven't installed [Composer][1] yet, you can do so using:
 
     curl -s http://getcomposer.org/installer | php
-
-And finally ask Composer to install the dependencies:
-
-    php composer.phar install
 
 Installing as a Git Submodule
 -----------------------------
@@ -35,5 +27,5 @@ Installing from the Zip- or Tarball
 Download the latest version from [the download page][2], unpack it and move the files somewhere into your project.
 
 
- [1]: http://getcomposer.org/composer.phar
+ [1]: https://getcomposer.org/
  [2]: https://github.com/nikic/PHP-Parser/tags

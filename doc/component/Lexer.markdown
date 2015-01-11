@@ -67,7 +67,11 @@ class MyNodeVisitor extends PhpParser\NodeVisitorAbstract {
     }
 }
 
-$lexer = new TokenOffsetLexer();
+$lexer = new PhpParser\Lexer(array(
+    'usedAttributes' => array(
+        'comments', 'startLine', 'endLine', 'startTokenPos', 'endTokenPos'
+    )
+));
 $parser = new PhpParser\Parser($lexer);
 
 $visitor = new MyNodeVisitor();
