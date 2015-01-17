@@ -114,4 +114,21 @@ EOC;
             'endTokenPos' => 18,
         ), $var->getAttributes());
     }
+
+    /**
+     * @expectedException \RangeException
+     * @expectedExceptionMessage The lexer returned an invalid token (id=999, value=foobar)
+     */
+    public function testInvalidToken() {
+        $lexer = new InvalidTokenLexer;
+        $parser = new Parser($lexer);
+        $parser->parse('dummy');
+    }
+}
+
+class InvalidTokenLexer extends Lexer {
+    public function getNextToken(&$value = null, &$startAttributes = null, &$endAttributes = null) {
+        $value = 'foobar';
+        return 999;
+    }
 }
