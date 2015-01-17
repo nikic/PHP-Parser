@@ -8,7 +8,7 @@ use PhpParser\Node\Expr;
  * @property Expr $left  The left hand side expression
  * @property Expr $right The right hand side expression
  */
-class BinaryOp extends Expr
+abstract class BinaryOp extends Expr
 {
     /**
      * Constructs a bitwise and node.
