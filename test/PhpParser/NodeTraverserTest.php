@@ -131,9 +131,10 @@ class NodeTraverserTest extends \PHPUnit_Framework_TestCase
     public function testDontTraverseChildren() {
         $strNode = new String('str');
         $printNode = new Expr\Print_($strNode);
-        $argNode = new Node\Arg($strNode);
-        $callNode = new Expr\FuncCall(new Node\Name('test'), array($argNode));
-        $stmts = array($printNode, $callNode);
+        $varNode = new Expr\Variable('foo');
+        $mulNode = new Expr\BinaryOp\Mul($varNode, $varNode);
+        $negNode = new Expr\UnaryMinus($mulNode);
+        $stmts = array($printNode, $negNode);
 
         $visitor1 = $this->getMock('PhpParser\NodeVisitor');
         $visitor2 = $this->getMock('PhpParser\NodeVisitor');
@@ -145,18 +146,18 @@ class NodeTraverserTest extends \PHPUnit_Framework_TestCase
         $visitor1->expects($this->at(2))->method('leaveNode')->with($printNode);
         $visitor2->expects($this->at(2))->method('leaveNode')->with($printNode);
 
-        $visitor1->expects($this->at(3))->method('enterNode')->with($callNode);
-        $visitor2->expects($this->at(3))->method('enterNode')->with($callNode);
+        $visitor1->expects($this->at(3))->method('enterNode')->with($negNode);
+        $visitor2->expects($this->at(3))->method('enterNode')->with($negNode);
 
-        $visitor1->expects($this->at(6))->method('enterNode')->with($argNode);
-        $visitor2->expects($this->at(6))->method('enterNode')->with($argNode)
+        $visitor1->expects($this->at(4))->method('enterNode')->with($mulNode);
+        $visitor2->expects($this->at(4))->method('enterNode')->with($mulNode)
             ->will($this->returnValue(NodeTraverser::DONT_TRAVERSE_CHILDREN));
 
-        $visitor1->expects($this->at(7))->method('leaveNode')->with($argNode);
-        $visitor2->expects($this->at(7))->method('leaveNode')->with($argNode);
+        $visitor1->expects($this->at(5))->method('leaveNode')->with($mulNode);
+        $visitor2->expects($this->at(5))->method('leaveNode')->with($mulNode);
 
-        $visitor1->expects($this->at(8))->method('leaveNode')->with($callNode);
-        $visitor2->expects($this->at(8))->method('leaveNode')->with($callNode);
+        $visitor1->expects($this->at(6))->method('leaveNode')->with($negNode);
+        $visitor2->expects($this->at(6))->method('leaveNode')->with($negNode);
 
         $traverser = new NodeTraverser;
         $traverser->addVisitor($visitor1);
