@@ -1,7 +1,28 @@
 Version 1.0.3-dev
 -----------------
 
-Nothing yet.
+* Methods that do not specify an explicit visibility (e.g. `function method()`) will now have the `MODIFIER_PUBLIC`
+  flag set. This also means that their `isPublic()` method will return true.
+
+* Declaring a property as abstract or static is now an error.
+
+* The `Lexer` and `Lexer\Emulative` classes now accept an `$options` array in their constructors. Currently only the
+  `usedAttributes` option is supported, which determines which attributes will be added to AST nodes. In particular
+  it is now possible to add information on the token and file positions corresponding to a node. For more details see
+  the [Lexer component](https://github.com/nikic/PHP-Parser/blob/master/doc/component/Lexer.markdown) documentation.
+
+* Node visitors can now return `NodeTraverser::DONT_TRAVERSE_CHILDREN` from `enterNode()` in order to skip all children
+  of the current node, for all visitors.
+
+* Added builders for traits and namespaces.
+
+* The class, interface, trait, function, method and property builders now support adding doc comments using the
+  `setDocComment()` method.
+
+* Added support for fully-qualified and namespace-relative names in builders. No longer allow use of name component
+  arrays.
+
+* Do not add documentation and tests to distribution archive files.
 
 Version 1.0.2 (04.11.2014)
 --------------------------
