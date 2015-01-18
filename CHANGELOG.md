@@ -1,5 +1,10 @@
-Version 1.0.3-dev
+Version 1.1.1-dev
 -----------------
+
+Nothing yet.
+
+Version 1.1.0 (2015-01-18)
+--------------------------
 
 * Methods that do not specify an explicit visibility (e.g. `function method()`) will now have the `MODIFIER_PUBLIC`
   flag set. This also means that their `isPublic()` method will return true.
@@ -24,14 +29,14 @@ Version 1.0.3-dev
 
 * Do not add documentation and tests to distribution archive files.
 
-Version 1.0.2 (04.11.2014)
+Version 1.0.2 (2014-11-04)
 --------------------------
 
 * The `NameResolver` visitor now also resolves names in trait adaptations (aliases and precedence declarations).
 
 * Remove stray whitespace when pretty-printing trait adaptations that only change visibility.
 
-Version 1.0.1 (14.10.2014)
+Version 1.0.1 (2014-10-14)
 --------------------------
 
 * Disallow `new` expressions without a class name. Previously `new;` was accidentally considered to be valid code.
@@ -42,14 +47,14 @@ Version 1.0.1 (14.10.2014)
 
 * Prevent truncation of `var_dump()` output in the `php-parse.php` script if XDebug is used.
 
-Version 1.0.0 (12.09.2014)
+Version 1.0.0 (2014-09-12)
 --------------------------
 
 * [BC] Removed deprecated `Template` and `TemplateLoader` classes.
 
 * Fixed XML unserializer to properly work with new namespaced node names.
 
-Version 1.0.0-beta2 (31.08.2014)
+Version 1.0.0-beta2 (2014-08-31)
 --------------------------------
 
 * [PHP 5.6] Updated support for constant scalar expressions to comply with latest changes. This means that arrays
@@ -74,7 +79,7 @@ Version 1.0.0-beta2 (31.08.2014)
   `lib/PhpParser/Parser.php`). Furthermore the parser now uses meaningful variable names and contains comments
   explaining their usage.
 
-Version 1.0.0-beta1 (27.03.2014)
+Version 1.0.0-beta1 (2014-03-27)
 --------------------------------
 
 * [BC] PHP-Parser now requires PHP 5.3 or newer to run. It is however still possible to *parse* PHP 5.2 source code,
