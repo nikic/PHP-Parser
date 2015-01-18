@@ -2,13 +2,18 @@
 
 namespace PhpParser;
 
+use PhpParser\Node\Expr;
+use PhpParser\Node\Scalar\String;
+use PhpParser\Node\Stmt;
+use PhpParser\PrettyPrinter\Standard;
+
 require_once __DIR__ . '/CodeTestAbstract.php';
 
 class PrettyPrinterTest extends CodeTestAbstract
 {
     protected function doTestPrettyPrintMethod($method, $name, $code, $dump) {
         $parser = new Parser(new Lexer\Emulative);
-        $prettyPrinter = new PrettyPrinter\Standard;
+        $prettyPrinter = new Standard;
 
         $stmts = $parser->parse($code);
         $this->assertSame(
@@ -40,5 +45,19 @@ class PrettyPrinterTest extends CodeTestAbstract
 
     public function provideTestPrettyPrintFile() {
         return $this->getTests(__DIR__ . '/../code/prettyPrinter', 'file-test');
+    }
+
+    public function testPrettyPrintExpr() {
+        $prettyPrinter = new Standard;
+        $expr = new Expr\BinaryOp\Mul(
+            new Expr\BinaryOp\Plus(new Expr\Variable('a'), new Expr\Variable('b')),
+            new Expr\Variable('c')
+        );
+        $this->assertEquals('($a + $b) * $c', $prettyPrinter->prettyPrintExpr($expr));
+
+        $expr = new Expr\Closure(array(
+            'stmts' => array(new Stmt\Return_(new String("a\nb")))
+        ));
+        $this->assertEquals("function () {\n    return 'a\nb';\n}", $prettyPrinter->prettyPrintExpr($expr));
     }
 }

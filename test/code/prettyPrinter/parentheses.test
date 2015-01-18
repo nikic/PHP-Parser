@@ -21,13 +21,18 @@ $a ? $b : ($c ? $d : ($e ? $f : $g));
 $a ? $b ? $c : $d : $f;
 
 (1 > 0) > (1 < 0);
+++$a + $b;
+$a + $b++;
 
 $a ** $b ** $c;
 ($a ** $b) ** $c;
+-1 ** 2;
 
-// this will currently unnecessarily print !($a = $b). This is correct as far as operator precedence is concerned, but
-// the parentheses are not really necessary, because = takes only variables as the left hand side operator.
+// The following will currently add unnecessary parentheses, because the pretty printer is not aware that assignment
+// and incdec only work on variables.
 !$a = $b;
+++$a ** $b;
+$a ** $b++;
 -----
 echo 'abc' . 'cde' . 'fgh';
 echo 'abc' . ('cde' . 'fgh');
@@ -43,8 +48,13 @@ $a ? $b : $c ? $d : $e ? $f : $g;
 $a ? $b : ($c ? $d : ($e ? $f : $g));
 $a ? $b ? $c : $d : $f;
 (1 > 0) > (1 < 0);
+++$a + $b;
+$a + $b++;
 $a ** $b ** $c;
 ($a ** $b) ** $c;
-// this will currently unnecessarily print !($a = $b). This is correct as far as operator precedence is concerned, but
-// the parentheses are not really necessary, because = takes only variables as the left hand side operator.
+-1 ** 2;
+// The following will currently add unnecessary parentheses, because the pretty printer is not aware that assignment
+// and incdec only work on variables.
 !($a = $b);
+(++$a) ** $b;
+$a ** ($b++);

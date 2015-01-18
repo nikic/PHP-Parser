@@ -9,7 +9,7 @@ Version 1.1.0 (2015-01-18)
 * Methods that do not specify an explicit visibility (e.g. `function method()`) will now have the `MODIFIER_PUBLIC`
   flag set. This also means that their `isPublic()` method will return true.
 
-* Declaring a property as abstract or static is now an error.
+* Declaring a property as abstract or final is now an error.
 
 * The `Lexer` and `Lexer\Emulative` classes now accept an `$options` array in their constructors. Currently only the
   `usedAttributes` option is supported, which determines which attributes will be added to AST nodes. In particular
