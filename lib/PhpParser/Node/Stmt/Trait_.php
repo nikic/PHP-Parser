@@ -26,4 +26,14 @@ class Trait_ extends Node\Stmt
             $attributes
         );
     }
+
+    public function getMethods() {
+        $methods = array();
+        foreach ($this->stmts as $stmt) {
+            if ($stmt instanceof ClassMethod) {
+                $methods[] = $stmt;
+            }
+        }
+        return $methods;
+    }
 }

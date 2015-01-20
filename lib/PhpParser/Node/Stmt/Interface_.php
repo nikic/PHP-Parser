@@ -47,4 +47,14 @@ class Interface_ extends Node\Stmt
             }
         }
     }
+
+    public function getMethods() {
+        $methods = array();
+        foreach ($this->stmts as $stmt) {
+            if ($stmt instanceof ClassMethod) {
+                $methods[] = $stmt;
+            }
+        }
+        return $methods;
+    }
 }
