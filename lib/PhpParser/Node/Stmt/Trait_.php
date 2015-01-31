@@ -8,7 +8,7 @@ use PhpParser\Node;
  * @property string $name  Name
  * @property Node[] $stmts Statements
  */
-class Trait_ extends Node\Stmt
+class Trait_ extends ClassLike
 {
     /**
      * Constructs a trait node.

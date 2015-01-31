@@ -30,7 +30,7 @@ class ClassTest extends \PHPUnit_Framework_TestCase
             'stmts' => array(
                 new TraitUse(array()),
                 $methods[0],
-                new Const_(array()),
+                new ClassConst(array()),
                 $methods[1],
                 new Property(0, array()),
                 $methods[2],

@@ -12,7 +12,7 @@ use PhpParser\Error;
  * @property Node\Name[]    $implements Names of implemented interfaces
  * @property Node[]         $stmts      Statements
  */
-class Class_ extends Node\Stmt
+class Class_ extends ClassLike
 {
     const MODIFIER_PUBLIC    =  1;
     const MODIFIER_PROTECTED =  2;
@@ -73,16 +73,6 @@ class Class_ extends Node\Stmt
 
     public function isFinal() {
         return (bool) ($this->type & self::MODIFIER_FINAL);
-    }
-
-    public function getMethods() {
-        $methods = array();
-        foreach ($this->stmts as $stmt) {
-            if ($stmt instanceof ClassMethod) {
-                $methods[] = $stmt;
-            }
-        }
-        return $methods;
     }
 
     /**

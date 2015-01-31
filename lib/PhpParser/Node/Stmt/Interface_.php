@@ -10,7 +10,7 @@ use PhpParser\Error;
  * @property Node\Name[] $extends Extended interfaces
  * @property Node[]      $stmts   Statements
  */
-class Interface_ extends Node\Stmt
+class Interface_ extends ClassLike
 {
     protected static $specialNames = array(
         'self'   => true,
