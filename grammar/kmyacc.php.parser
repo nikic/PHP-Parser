@@ -20,7 +20,8 @@ class Parser extends ParserAbstract
     protected $actionTableSize = #(YYLAST);
     protected $gotoTableSize = #(YYGLAST);
 
-    protected $invalidToken = #(YYBADCH);
+    protected $invalidSymbol = #(YYBADCH);
+    protected $errorSymbol = #(YYINTERRTOK);
     protected $defaultAction = #(YYDEFAULT);
     protected $unexpectedTokenRule = #(YYUNEXPECTED);
 

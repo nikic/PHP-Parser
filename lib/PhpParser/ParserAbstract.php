@@ -23,6 +23,8 @@ abstract class ParserAbstract
 
     /** @var int Symbol number signifying an invalid token */
     protected $invalidSymbol;
+    /** @var int Symbol number of error recovery token */
+    protected $errorSymbol;
     /** @var int Action number signifying default action */
     protected $defaultAction;
     /** @var int Rule number signifying that an unexpected token was encountered */
@@ -81,13 +83,34 @@ abstract class ParserAbstract
     /** @var int Position in stacks (state stack, semantic value stack, attribute stack) */
     protected $stackPos;
 
+    /** @var bool Whether to throw on first error */
+    protected $throwOnError;
+    /** @var Error[] Errors collected during last parse */
+    protected $errors;
+
     /**
      * Creates a parser instance.
      *
      * @param Lexer $lexer A lexer
+     * @param array $options Options array. The boolean 'throwOnError' option determined whether an exception should be
+     *                       thrown on first error, or if the parser should try to continue parsing the remaining code
+     *                       and build a partial AST.
      */
-    public function __construct(Lexer $lexer) {
+    public function __construct(Lexer $lexer, array $options = array()) {
         $this->lexer = $lexer;
+        $this->errors = array();
+        $this->throwOnError = isset($options['throwOnError']) ? $options['throwOnError'] : true;
+    }
+
+    /**
+     * Get array of errors that occurred during the last parse.
+     *
+     * This method may only return multiple errors if the throwOnError option is disabled.
+     *
+     * @return Error[]
+     */
+    public function getErrors() {
+        return $this->errors;
     }
 
     /**
@@ -99,6 +122,7 @@ abstract class ParserAbstract
      */
     public function parse($code) {
         $this->lexer->startLexing($code);
+        $this->errors = array();
 
         // We start off with no lookahead-token
         $symbol = self::SYMBOL_NONE;
@@ -122,6 +146,8 @@ abstract class ParserAbstract
 
         // Current position in the stack(s)
         $this->stackPos = 0;
+
+        $errorState = 0;
 
         for (;;) {
             //$this->traceNewState($state, $symbol);
@@ -177,8 +203,13 @@ abstract class ParserAbstract
                         $endAttributes = $nextEndAttributes;
                         $symbol = self::SYMBOL_NONE;
 
-                        if ($action < $this->YYNLSTATES)
+                        if ($errorState) {
+                            --$errorState;
+                        }
+
+                        if ($action < $this->YYNLSTATES) {
                             continue;
+                        }
 
                         /* $yyn >= YYNLSTATES means shift-and-reduce */
                         $rule = $action - $this->YYNLSTATES;
@@ -226,26 +257,69 @@ abstract class ParserAbstract
                     $stateStack[$this->stackPos]     = $state;
                     $this->semStack[$this->stackPos] = $this->semValue;
                     $attributeStack[$this->stackPos] = $startAttributes;
-
-                    if ($state < $this->YYNLSTATES)
-                        break;
-                    /* >= YYNLSTATES means shift-and-reduce */
-                    $rule = $state - $this->YYNLSTATES;
                 } else {
                     /* error */
-                    if ($expected = $this->getExpectedTokens($state)) {
-                        $expectedString = ', expecting ' . implode(' or ', $expected);
-                    } else {
-                        $expectedString = '';
-                    }
+                    switch ($errorState) {
+                        case 0:
+                            $msg = $this->getErrorMessage($symbol, $state);
+                            $error = new Error($msg, $startAttributes + $nextEndAttributes);
+                            $this->errors[] = $error;
+                            if ($this->throwOnError) {
+                                throw $error;
+                            }
+                            // Break missing intentionally
+                        case 1:
+                        case 2:
+                            $errorState = 3;
 
-                    throw new Error(
-                        'Syntax error, unexpected ' . $this->symbolToName[$symbol] . $expectedString,
-                        $startAttributes + $nextEndAttributes
-                    );
+                            // Pop until error-expecting state uncovered
+                            while (!(
+                                (($idx = $this->actionBase[$state] + $this->errorSymbol) >= 0
+                                    && $idx < $this->actionTableSize && $this->actionCheck[$idx] == $this->errorSymbol)
+                                || ($state < $this->YY2TBLSTATE
+                                    && ($idx = $this->actionBase[$state + $this->YYNLSTATES] + $this->errorSymbol) >= 0
+                                    && $idx < $this->actionTableSize && $this->actionCheck[$idx] == $this->errorSymbol)
+                            ) || ($action = $this->action[$idx]) == $this->defaultAction) { // Not totally sure about this
+                                if ($this->stackPos <= 0) {
+                                    throw new Error('Could not recover from error');
+                                }
+                                $state = $stateStack[--$this->stackPos];
+                                //$this->tracePop($state);
+                            }
+
+                            //$this->traceShift($this->errorSymbol);
+                            $stateStack[++$this->stackPos] = $state = $action;
+                            break;
+
+                        case 3:
+                            if ($symbol === 0) {
+                                // Reached EOF
+                                throw new Error('Could not recover from error');
+                            }
+
+                            //$this->traceDiscard($symbol);
+                            $symbol = self::SYMBOL_NONE;
+                            break 2;
+                    }
                 }
+
+                if ($state < $this->YYNLSTATES) {
+                    break;
+                }
+
+                /* >= YYNLSTATES means shift-and-reduce */
+                $rule = $state - $this->YYNLSTATES;
             }
         }
+    }
+
+    protected function getErrorMessage($symbol, $state) {
+        $expectedString = '';
+        if ($expected = $this->getExpectedTokens($state)) {
+            $expectedString = ', expecting ' . implode(' or ', $expected);
+        }
+
+        return 'Syntax error, unexpected ' . $this->symbolToName[$symbol] . $expectedString;
     }
 
     protected function getExpectedTokens($state) {
@@ -296,6 +370,14 @@ abstract class ParserAbstract
 
     protected function traceReduce($n) {
         echo '% Reduce by (' . $n . ') ' . $this->productions[$n] . "\n";
+    }
+
+    protected function tracePop($state) {
+        echo '% Recovering, uncovered state ' . $state . "\n";
+    }
+
+    protected function traceDiscard($symbol) {
+        echo '% Discard ' . $this->symbolToName[$symbol] . "\n";
     }
 
     /*
