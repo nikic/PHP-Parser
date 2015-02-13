@@ -36,6 +36,6 @@ class NodeDumper
             }
         }
 
-        return $r . "\n" . ')';
+        return $r . "\n)";
     }
 }
