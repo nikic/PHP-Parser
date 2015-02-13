@@ -20,7 +20,7 @@ Additionally you may want to set the `xdebug.max_nesting_level` ini option to a 
 
 ```php
 <?php
-ini_set('xdebug.max_nesting_level', 2000);
+ini_set('xdebug.max_nesting_level', 3000);
 ```
 
 This ensures that there will be no errors when traversing highly nested node trees.
