@@ -18,7 +18,6 @@ Different float syntaxes
 18446744073709551615;
 0xFFFFFFFFFFFFFFFF;
 01777777777777777777777;
-0177777777777777777777787;
 0b1111111111111111111111111111111111111111111111111111111111111111;
 -----
 array(
@@ -62,9 +61,6 @@ array(
         value: @@{ 0xFFFFFFFFFFFFFFFF }@@
     )
     13: Scalar_DNumber(
-        value: @@{ 0xFFFFFFFFFFFFFFFF }@@
-    )
-    14: Scalar_DNumber(
         value: @@{ 0xFFFFFFFFFFFFFFFF }@@
     )
 )
