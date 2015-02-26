@@ -13,6 +13,10 @@ class LexerTest extends \PHPUnit_Framework_TestCase
      * @dataProvider provideTestError
      */
     public function testError($code, $message) {
+        if (defined('HHVM_VERSION')) {
+            $this->markTestSkipped('HHVM does not throw warnings from token_get_all()');
+        }
+
         $lexer = $this->getLexer();
         try {
             $lexer->startLexing($code);
