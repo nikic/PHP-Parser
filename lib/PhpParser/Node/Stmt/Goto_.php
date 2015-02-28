@@ -4,11 +4,11 @@ namespace PhpParser\Node\Stmt;
 
 use PhpParser\Node\Stmt;
 
-/**
- * @property string $name Name of label to jump to
- */
 class Goto_ extends Stmt
 {
+    /** @var string Name of label to jump to */
+    public $name;
+
     /**
      * Constructs a goto node.
      *
@@ -16,11 +16,11 @@ class Goto_ extends Stmt
      * @param array  $attributes Additional attributes
      */
     public function __construct($name, array $attributes = array()) {
-        parent::__construct(
-            array(
-                'name' => $name,
-            ),
-            $attributes
-        );
+        parent::__construct(null, $attributes);
+        $this->name = $name;
+    }
+
+    public function getSubNodeNames() {
+        return array('name');
     }
 }

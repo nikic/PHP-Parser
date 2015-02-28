@@ -4,14 +4,17 @@ namespace PhpParser\Node\Stmt;
 
 use PhpParser\Node;
 
-/**
- * @property Node\Expr[] $init  Init expressions
- * @property Node\Expr[] $cond  Loop conditions
- * @property Node\Expr[] $loop  Loop expressions
- * @property Node[]      $stmts Statements
- */
 class For_ extends Node\Stmt
 {
+    /** @var Node\Expr[] Init expressions */
+    public $init;
+    /** @var Node\Expr[] Loop conditions */
+    public $cond;
+    /** @var Node\Expr[] Loop expressions */
+    public $loop;
+    /** @var Node[] Statements */
+    public $stmts;
+
     /**
      * Constructs a for loop node.
      *
@@ -23,14 +26,14 @@ class For_ extends Node\Stmt
      * @param array $attributes Additional attributes
      */
     public function __construct(array $subNodes = array(), array $attributes = array()) {
-        parent::__construct(
-            array(
-                'init'  => isset($subNodes['init']) ? $subNodes['init'] : array(),
-                'cond'  => isset($subNodes['cond']) ? $subNodes['cond'] : array(),
-                'loop'  => isset($subNodes['loop']) ? $subNodes['loop'] : array(),
-                'stmts' => isset($subNodes['stmts']) ? $subNodes['stmts'] : array(),
-            ),
-            $attributes
-        );
+        parent::__construct(null, $attributes);
+        $this->init = isset($subNodes['init']) ? $subNodes['init'] : array();
+        $this->cond = isset($subNodes['cond']) ? $subNodes['cond'] : array();
+        $this->loop = isset($subNodes['loop']) ? $subNodes['loop'] : array();
+        $this->stmts = isset($subNodes['stmts']) ? $subNodes['stmts'] : array();
+    }
+
+    public function getSubNodeNames() {
+        return array('init', 'cond', 'loop', 'stmts');
     }
 }

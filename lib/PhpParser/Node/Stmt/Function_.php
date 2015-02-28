@@ -4,14 +4,17 @@ namespace PhpParser\Node\Stmt;
 
 use PhpParser\Node;
 
-/**
- * @property bool         $byRef  Whether returns by reference
- * @property string       $name   Name
- * @property Node\Param[] $params Parameters
- * @property Node[]       $stmts  Statements
- */
 class Function_ extends Node\Stmt
 {
+    /** @var bool Whether function returns by reference */
+    public $byRef;
+    /** @var string Name */
+    public $name;
+    /** @var Node\Param[] Parameters */
+    public $params;
+    /** @var Node[] Statements */
+    public $stmts;
+
     /**
      * Constructs a function node.
      *
@@ -23,15 +26,14 @@ class Function_ extends Node\Stmt
      * @param array  $attributes Additional attributes
      */
     public function __construct($name, array $subNodes = array(), array $attributes = array()) {
-        parent::__construct(
-            array(
-                'byRef'  => isset($subNodes['byRef'])  ? $subNodes['byRef']  : false,
-                'name'   => $name,
-                'params' => isset($subNodes['params']) ? $subNodes['params'] : array(),
-                'stmts'  => isset($subNodes['stmts'])  ? $subNodes['stmts']  : array(),
-            ),
-            $attributes
-        );
+        parent::__construct(null, $attributes);
+        $this->byRef = isset($subNodes['byRef']) ? $subNodes['byRef'] : false;
         $this->name = $name;
+        $this->params = isset($subNodes['params']) ? $subNodes['params'] : array();
+        $this->stmts = isset($subNodes['stmts']) ? $subNodes['stmts'] : array();
+    }
+
+    public function getSubNodeNames() {
+        return array('byRef', 'name', 'params', 'stmts');
     }
 }

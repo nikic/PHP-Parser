@@ -4,11 +4,11 @@ namespace PhpParser\Node\Stmt;
 
 use PhpParser\Node;
 
-/**
- * @property Node\Expr[] $vars Variables to unset
- */
 class Unset_ extends Node\Stmt
 {
+    /** @var Node\Expr[] Variables to unset */
+    public $vars;
+
     /**
      * Constructs an unset node.
      *
@@ -16,11 +16,11 @@ class Unset_ extends Node\Stmt
      * @param array       $attributes Additional attributes
      */
     public function __construct(array $vars, array $attributes = array()) {
-        parent::__construct(
-            array(
-                'vars' => $vars,
-            ),
-            $attributes
-        );
+        parent::__construct(null, $attributes);
+        $this->vars = $vars;
+    }
+
+    public function getSubNodeNames() {
+        return array('vars');
     }
 }

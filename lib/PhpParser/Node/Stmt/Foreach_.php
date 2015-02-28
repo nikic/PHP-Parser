@@ -4,15 +4,19 @@ namespace PhpParser\Node\Stmt;
 
 use PhpParser\Node;
 
-/**
- * @property Node\Expr      $expr     Expression to iterate
- * @property null|Node\Expr $keyVar   Variable to assign key to
- * @property bool                     $byRef    Whether to assign value by reference
- * @property Node\Expr      $valueVar Variable to assign value to
- * @property Node[]         $stmts    Statements
- */
 class Foreach_ extends Node\Stmt
 {
+    /** @var Node\Expr Expression to iterate */
+    public $expr;
+    /** @var null|Node\Expr Variable to assign key to */
+    public $keyVar;
+    /** @var bool Whether to assign value by reference */
+    public $byRef;
+    /** @var Node\Expr Variable to assign value to */
+    public $valueVar;
+    /** @var Node[] Statements */
+    public $stmts;
+
     /**
      * Constructs a foreach node.
      *
@@ -25,15 +29,15 @@ class Foreach_ extends Node\Stmt
      * @param array     $attributes Additional attributes
      */
     public function __construct(Node\Expr $expr, Node\Expr $valueVar, array $subNodes = array(), array $attributes = array()) {
-        parent::__construct(
-            array(
-                'expr'     => $expr,
-                'keyVar'   => isset($subNodes['keyVar']) ? $subNodes['keyVar'] : null,
-                'byRef'    => isset($subNodes['byRef'])  ? $subNodes['byRef']  : false,
-                'valueVar' => $valueVar,
-                'stmts'    => isset($subNodes['stmts'])  ? $subNodes['stmts']  : array(),
-            ),
-            $attributes
-        );
+        parent::__construct(null, $attributes);
+        $this->expr = $expr;
+        $this->keyVar = isset($subNodes['keyVar']) ? $subNodes['keyVar'] : null;
+        $this->byRef = isset($subNodes['byRef']) ? $subNodes['byRef'] : false;
+        $this->valueVar = $valueVar;
+        $this->stmts = isset($subNodes['stmts']) ? $subNodes['stmts'] : array();
+    }
+
+    public function getSubNodeNames() {
+        return array('expr', 'keyVar', 'byRef', 'valueVar', 'stmts');
     }
 }

@@ -4,11 +4,11 @@ namespace PhpParser\Node\Stmt;
 
 use PhpParser\Node;
 
-/**
- * @property null|Node\Expr $expr Expression
- */
 class Return_ extends Node\Stmt
 {
+    /** @var null|Node\Expr Expression */
+    public $expr;
+
     /**
      * Constructs a return node.
      *
@@ -16,11 +16,11 @@ class Return_ extends Node\Stmt
      * @param array          $attributes Additional attributes
      */
     public function __construct(Node\Expr $expr = null, array $attributes = array()) {
-        parent::__construct(
-            array(
-                'expr' => $expr,
-            ),
-            $attributes
-        );
+        parent::__construct(null, $attributes);
+        $this->expr = $expr;
+    }
+
+    public function getSubNodeNames() {
+        return array('expr');
     }
 }

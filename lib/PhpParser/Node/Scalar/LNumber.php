@@ -4,11 +4,11 @@ namespace PhpParser\Node\Scalar;
 
 use PhpParser\Node\Scalar;
 
-/**
- * @property int $value Number value
- */
 class LNumber extends Scalar
 {
+    /** @var int Number value */
+    public $value;
+
     /**
      * Constructs an integer number scalar node.
      *
@@ -16,12 +16,12 @@ class LNumber extends Scalar
      * @param array $attributes Additional attributes
      */
     public function __construct($value = 0, array $attributes = array()) {
-        parent::__construct(
-            array(
-                'value' => $value
-            ),
-            $attributes
-        );
+        parent::__construct(null, $attributes);
+        $this->value = $value;
+    }
+
+    public function getSubNodeNames() {
+        return array('value');
     }
 
     /**

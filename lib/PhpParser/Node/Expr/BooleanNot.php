@@ -4,11 +4,11 @@ namespace PhpParser\Node\Expr;
 
 use PhpParser\Node\Expr;
 
-/**
- * @property Expr $expr Expression
- */
 class BooleanNot extends Expr
 {
+    /** @var Expr Expression */
+    public $expr;
+
     /**
      * Constructs a boolean not node.
      *
@@ -16,11 +16,11 @@ class BooleanNot extends Expr
      * @param array               $attributes Additional attributes
      */
     public function __construct(Expr $expr, array $attributes = array()) {
-        parent::__construct(
-            array(
-                'expr' => $expr
-            ),
-            $attributes
-        );
+        parent::__construct(null, $attributes);
+        $this->expr = $expr;
+    }
+
+    public function getSubNodeNames() {
+        return array('expr');
     }
 }

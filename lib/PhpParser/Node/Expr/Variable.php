@@ -4,11 +4,11 @@ namespace PhpParser\Node\Expr;
 
 use PhpParser\Node\Expr;
 
-/**
- * @property string|Expr $name Name
- */
 class Variable extends Expr
 {
+    /** @var string|Expr Name */
+    public $name;
+
     /**
      * Constructs a variable node.
      *
@@ -16,11 +16,11 @@ class Variable extends Expr
      * @param array                      $attributes Additional attributes
      */
     public function __construct($name, array $attributes = array()) {
-        parent::__construct(
-            array(
-                 'name' => $name
-            ),
-            $attributes
-        );
+        parent::__construct(null, $attributes);
+        $this->name = $name;
+    }
+
+    public function getSubNodeNames() {
+        return array('name');
     }
 }

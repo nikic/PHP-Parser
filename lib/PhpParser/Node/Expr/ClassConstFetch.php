@@ -5,12 +5,13 @@ namespace PhpParser\Node\Expr;
 use PhpParser\Node\Name;
 use PhpParser\Node\Expr;
 
-/**
- * @property Name|Expr $class Class name
- * @property string    $name  Constant name
- */
 class ClassConstFetch extends Expr
 {
+    /** @var Name|Expr Class name */
+    public $class;
+    /** @var string Constant name */
+    public $name;
+
     /**
      * Constructs a class const fetch node.
      *
@@ -19,12 +20,12 @@ class ClassConstFetch extends Expr
      * @param array     $attributes Additional attributes
      */
     public function __construct($class, $name, array $attributes = array()) {
-        parent::__construct(
-            array(
-                'class' => $class,
-                'name'  => $name
-            ),
-            $attributes
-        );
+        parent::__construct(null, $attributes);
+        $this->class = $class;
+        $this->name = $name;
+    }
+
+    public function getSubNodeNames() {
+        return array('class', 'name');
     }
 }

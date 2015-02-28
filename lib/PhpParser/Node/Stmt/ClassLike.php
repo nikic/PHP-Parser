@@ -4,13 +4,12 @@ namespace PhpParser\Node\Stmt;
 
 use PhpParser\Node;
 
-/**
- * Class, interface or trait.
- *
- * @property string $name  Name
- * @property Node[] $stmts Statements
- */
 abstract class ClassLike extends Node\Stmt {
+    /** @var string Name */
+    public $name;
+    /** @var Node[] Statements */
+    public $stmts;
+
     public function getMethods() {
         $methods = array();
         foreach ($this->stmts as $stmt) {

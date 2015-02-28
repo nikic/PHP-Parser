@@ -4,12 +4,13 @@ namespace PhpParser\Node\Expr;
 
 use PhpParser\Node\Expr;
 
-/**
- * @property Expr $left  The left hand side expression
- * @property Expr $right The right hand side expression
- */
 abstract class BinaryOp extends Expr
 {
+    /** @var Expr The left hand side expression */
+    public $left;
+    /** @var Expr The right hand side expression */
+    public $right;
+
     /**
      * Constructs a bitwise and node.
      *
@@ -18,12 +19,12 @@ abstract class BinaryOp extends Expr
      * @param array $attributes Additional attributes
      */
     public function __construct(Expr $left, Expr $right, array $attributes = array()) {
-        parent::__construct(
-            array(
-                'left'  => $left,
-                'right' => $right
-            ),
-            $attributes
-        );
+        parent::__construct(null, $attributes);
+        $this->left = $left;
+        $this->right = $right;
+    }
+
+    public function getSubNodeNames() {
+        return array('left', 'right');
     }
 }

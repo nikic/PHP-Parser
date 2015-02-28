@@ -5,15 +5,19 @@ namespace PhpParser\Node\Expr;
 use PhpParser\Node;
 use PhpParser\Node\Expr;
 
-/**
- * @property Node[]       $stmts  Statements
- * @property Node\Param[] $params Parameters
- * @property ClosureUse[] $uses   use()s
- * @property bool         $byRef  Whether to return by reference
- * @property bool         $static Whether the closure is static
- */
 class Closure extends Expr
 {
+    /** @var bool Whether the closure is static */
+    public $static;
+    /** @var bool Whether to return by reference */
+    public $byRef;
+    /** @var Node\Param[] Parameters */
+    public $params;
+    /** @var ClosureUse[] use()s */
+    public $uses;
+    /** @var Node[] Statements */
+    public $stmts;
+
     /**
      * Constructs a lambda function node.
      *
@@ -26,15 +30,15 @@ class Closure extends Expr
      * @param array $attributes Additional attributes
      */
     public function __construct(array $subNodes = array(), array $attributes = array()) {
-        parent::__construct(
-            array(
-                'static' => isset($subNodes['static']) ? $subNodes['static'] : false,
-                'byRef'  => isset($subNodes['byRef'])  ? $subNodes['byRef']  : false,
-                'params' => isset($subNodes['params']) ? $subNodes['params'] : array(),
-                'uses'   => isset($subNodes['uses'])   ? $subNodes['uses']   : array(),
-                'stmts'  => isset($subNodes['stmts'])  ? $subNodes['stmts']  : array(),
-            ),
-            $attributes
-        );
+        parent::__construct(null, $attributes);
+        $this->static = isset($subNodes['static']) ? $subNodes['static'] : false;
+        $this->byRef = isset($subNodes['byRef'])  ? $subNodes['byRef']  : false;
+        $this->params = isset($subNodes['params']) ? $subNodes['params'] : array();
+        $this->uses = isset($subNodes['uses'])   ? $subNodes['uses']   : array();
+        $this->stmts = isset($subNodes['stmts'])  ? $subNodes['stmts']  : array();
+    }
+
+    public function getSubNodeNames() {
+        return array('static', 'byRef', 'params', 'uses', 'stmts');
     }
 }

@@ -4,11 +4,11 @@ namespace PhpParser\Node\Stmt;
 
 use PhpParser\Node\Stmt;
 
-/**
- * @property StaticVar[] $vars Variable definitions
- */
 class Static_ extends Stmt
 {
+    /** @var StaticVar[] Variable definitions */
+    public $vars;
+
     /**
      * Constructs a static variables list node.
      *
@@ -16,11 +16,11 @@ class Static_ extends Stmt
      * @param array       $attributes Additional attributes
      */
     public function __construct(array $vars, array $attributes = array()) {
-        parent::__construct(
-            array(
-                'vars' => $vars,
-            ),
-            $attributes
-        );
+        parent::__construct(null, $attributes);
+        $this->vars = $vars;
+    }
+
+    public function getSubNodeNames() {
+        return array('vars');
     }
 }

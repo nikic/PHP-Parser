@@ -4,12 +4,13 @@ namespace PhpParser\Node\Stmt;
 
 use PhpParser\Node;
 
-/**
- * @property Node\Expr $cond  Condition
- * @property Node[]    $stmts Statements
- */
 class While_ extends Node\Stmt
 {
+    /** @var Node\Expr Condition */
+    public $cond;
+    /** @var Node[] Statements */
+    public $stmts;
+
     /**
      * Constructs a while node.
      *
@@ -18,12 +19,12 @@ class While_ extends Node\Stmt
      * @param array     $attributes Additional attributes
      */
     public function __construct(Node\Expr $cond, array $stmts = array(), array $attributes = array()) {
-        parent::__construct(
-            array(
-                'cond'  => $cond,
-                'stmts' => $stmts,
-            ),
-            $attributes
-        );
+        parent::__construct(null, $attributes);
+        $this->cond = $cond;
+        $this->stmts = $stmts;
+    }
+
+    public function getSubNodeNames() {
+        return array('cond', 'stmts');
     }
 }

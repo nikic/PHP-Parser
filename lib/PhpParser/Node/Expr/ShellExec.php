@@ -4,11 +4,11 @@ namespace PhpParser\Node\Expr;
 
 use PhpParser\Node\Expr;
 
-/**
- * @property array $parts Encapsed string array
- */
 class ShellExec extends Expr
 {
+    /** @var array Encapsed string array */
+    public $parts;
+
     /**
      * Constructs a shell exec (backtick) node.
      *
@@ -16,11 +16,11 @@ class ShellExec extends Expr
      * @param array $attributes Additional attributes
      */
     public function __construct($parts, array $attributes = array()) {
-        parent::__construct(
-            array(
-                'parts' => $parts
-            ),
-            $attributes
-        );
+        parent::__construct(null, $attributes);
+        $this->parts = $parts;
+    }
+
+    public function getSubNodeNames() {
+        return array('parts');
     }
 }

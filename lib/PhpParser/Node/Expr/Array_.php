@@ -4,11 +4,11 @@ namespace PhpParser\Node\Expr;
 
 use PhpParser\Node\Expr;
 
-/**
- * @property ArrayItem[] $items Items
- */
 class Array_ extends Expr
 {
+    /** @var ArrayItem[] Items */
+    public $items;
+
     /**
      * Constructs an array node.
      *
@@ -16,11 +16,11 @@ class Array_ extends Expr
      * @param array       $attributes Additional attributes
      */
     public function __construct(array $items = array(), array $attributes = array()) {
-        parent::__construct(
-            array(
-                'items' => $items
-            ),
-            $attributes
-        );
+        parent::__construct(null, $attributes);
+        $this->items = $items;
+    }
+
+    public function getSubNodeNames() {
+        return array('items');
     }
 }

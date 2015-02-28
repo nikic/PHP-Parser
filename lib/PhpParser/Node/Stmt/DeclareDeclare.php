@@ -4,12 +4,13 @@ namespace PhpParser\Node\Stmt;
 
 use PhpParser\Node;
 
-/**
- * @property string    $key   Key
- * @property Node\Expr $value Value
- */
 class DeclareDeclare extends Node\Stmt
 {
+    /** @var string Key */
+    public $key;
+    /** @var Node\Expr Value */
+    public $value;
+
     /**
      * Constructs a declare key=>value pair node.
      *
@@ -18,12 +19,12 @@ class DeclareDeclare extends Node\Stmt
      * @param array     $attributes Additional attributes
      */
     public function __construct($key, Node\Expr $value, array $attributes = array()) {
-        parent::__construct(
-            array(
-                'key'   => $key,
-                'value' => $value,
-            ),
-            $attributes
-        );
+        parent::__construct(null, $attributes);
+        $this->key = $key;
+        $this->value = $value;
+    }
+
+    public function getSubNodeNames() {
+        return array('key', 'value');
     }
 }

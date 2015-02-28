@@ -4,11 +4,11 @@ namespace PhpParser\Node\Stmt;
 
 use PhpParser\Node;
 
-/**
- * @property Node[] $stmts Statements
- */
 class Else_ extends Node\Stmt
 {
+    /** @var Node[] Statements */
+    public $stmts;
+
     /**
      * Constructs an else node.
      *
@@ -16,11 +16,11 @@ class Else_ extends Node\Stmt
      * @param array  $attributes Additional attributes
      */
     public function __construct(array $stmts = array(), array $attributes = array()) {
-        parent::__construct(
-            array(
-                'stmts' => $stmts,
-            ),
-            $attributes
-        );
+        parent::__construct(null, $attributes);
+        $this->stmts = $stmts;
+    }
+
+    public function getSubNodeNames() {
+        return array('stmts');
     }
 }

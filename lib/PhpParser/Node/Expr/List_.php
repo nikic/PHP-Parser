@@ -4,11 +4,11 @@ namespace PhpParser\Node\Expr;
 
 use PhpParser\Node\Expr;
 
-/**
- * @property Expr[] $vars List of variables to assign to
- */
 class List_ extends Expr
 {
+    /** @var Expr[] List of variables to assign to */
+    public $vars;
+
     /**
      * Constructs a list() destructuring node.
      *
@@ -16,11 +16,11 @@ class List_ extends Expr
      * @param array  $attributes Additional attributes
      */
     public function __construct(array $vars, array $attributes = array()) {
-        parent::__construct(
-            array(
-                'vars' => $vars,
-            ),
-            $attributes
-        );
+        parent::__construct(null, $attributes);
+        $this->vars = $vars;
+    }
+
+    public function getSubNodeNames() {
+        return array('vars');
     }
 }

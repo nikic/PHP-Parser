@@ -4,10 +4,6 @@ namespace PhpParser\Node\Stmt;
 
 use PhpParser\Node;
 
-/**
- * @property string $name  Name
- * @property Node[] $stmts Statements
- */
 class Trait_ extends ClassLike
 {
     /**
@@ -18,12 +14,12 @@ class Trait_ extends ClassLike
      * @param array  $attributes Additional attributes
      */
     public function __construct($name, array $stmts = array(), array $attributes = array()) {
-        parent::__construct(
-            array(
-                'name'  => $name,
-                'stmts' => $stmts,
-            ),
-            $attributes
-        );
+        parent::__construct(null, $attributes);
+        $this->name = $name;
+        $this->stmts = $stmts;
+    }
+
+    public function getSubNodeNames() {
+        return array('name', 'stmts');
     }
 }

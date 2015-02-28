@@ -4,11 +4,11 @@ namespace PhpParser\Node\Stmt;
 
 use PhpParser\Node;
 
-/**
- * @property Node\Const_[] $consts Constant declarations
- */
 class Const_ extends Node\Stmt
 {
+    /** @var Node\Const_[] Constant declarations */
+    public $consts;
+
     /**
      * Constructs a const list node.
      *
@@ -16,11 +16,11 @@ class Const_ extends Node\Stmt
      * @param array         $attributes Additional attributes
      */
     public function __construct(array $consts, array $attributes = array()) {
-        parent::__construct(
-            array(
-                'consts' => $consts,
-            ),
-            $attributes
-        );
+        parent::__construct(null, $attributes);
+        $this->consts = $consts;
+    }
+
+    public function getSubNodeNames() {
+        return array('consts');
     }
 }

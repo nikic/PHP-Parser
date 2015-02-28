@@ -4,11 +4,11 @@ namespace PhpParser\Node\Stmt;
 
 use PhpParser\Node\Stmt;
 
-/**
- * @property string $value String
- */
 class InlineHTML extends Stmt
 {
+    /** @var string String */
+    public $value;
+
     /**
      * Constructs an inline HTML node.
      *
@@ -16,11 +16,11 @@ class InlineHTML extends Stmt
      * @param array  $attributes Additional attributes
      */
     public function __construct($value, array $attributes = array()) {
-        parent::__construct(
-            array(
-                'value' => $value,
-            ),
-            $attributes
-        );
+        parent::__construct(null, $attributes);
+        $this->value = $value;
+    }
+
+    public function getSubNodeNames() {
+        return array('value');
     }
 }

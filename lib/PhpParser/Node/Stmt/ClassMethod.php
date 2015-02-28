@@ -5,15 +5,18 @@ namespace PhpParser\Node\Stmt;
 use PhpParser\Node;
 use PhpParser\Error;
 
-/**
- * @property int          $type   Type
- * @property bool         $byRef  Whether to return by reference
- * @property string       $name   Name
- * @property Node\Param[] $params Parameters
- * @property Node[]       $stmts  Statements
- */
 class ClassMethod extends Node\Stmt
 {
+    /** @var int Type */
+    public $type;
+    /** @var bool Whether to return by reference */
+    public $byRef;
+    /** @var string Name */
+    public $name;
+    /** @var Node\Param[] Parameters */
+    public $params;
+    /** @var Node[] Statements */
+    public $stmts;
 
     /**
      * Constructs a class method node.
@@ -27,18 +30,12 @@ class ClassMethod extends Node\Stmt
      * @param array       $attributes Additional attributes
      */
     public function __construct($name, array $subNodes = array(), array $attributes = array()) {
-        $type = isset($subNodes['type']) ? $subNodes['type'] : 0;
-
-        parent::__construct(
-            array(
-                'type'   => $type,
-                'byRef'  => isset($subNodes['byRef'])  ? $subNodes['byRef']  : false,
-                'name'   => $name,
-                'params' => isset($subNodes['params']) ? $subNodes['params'] : array(),
-                'stmts'  => array_key_exists('stmts', $subNodes) ? $subNodes['stmts'] : array(),
-            ),
-            $attributes
-        );
+        parent::__construct(null, $attributes);
+        $this->type = isset($subNodes['type']) ? $subNodes['type'] : 0;
+        $this->byRef = isset($subNodes['byRef'])  ? $subNodes['byRef']  : false;
+        $this->name = $name;
+        $this->params = isset($subNodes['params']) ? $subNodes['params'] : array();
+        $this->stmts = array_key_exists('stmts', $subNodes) ? $subNodes['stmts'] : array();
 
         if ($this->type & Class_::MODIFIER_STATIC) {
             switch (strtolower($this->name)) {
@@ -50,6 +47,10 @@ class ClassMethod extends Node\Stmt
                     throw new Error(sprintf('Clone method %s() cannot be static', $this->name));
             }
         }
+    }
+
+    public function getSubNodeNames() {
+        return array('type', 'byRef', 'name', 'params', 'stmts');
     }
 
     public function isPublic() {

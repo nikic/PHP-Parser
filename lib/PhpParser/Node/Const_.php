@@ -4,12 +4,13 @@ namespace PhpParser\Node;
 
 use PhpParser\NodeAbstract;
 
-/**
- * @property string              $name  Name
- * @property Expr $value Value
- */
 class Const_ extends NodeAbstract
 {
+    /** @var string Name */
+    public $name;
+    /** @var Expr Value */
+    public $value;
+
     /**
      * Constructs a const node for use in class const and const statements.
      *
@@ -18,12 +19,12 @@ class Const_ extends NodeAbstract
      * @param array   $attributes Additional attributes
      */
     public function __construct($name, Expr $value, array $attributes = array()) {
-        parent::__construct(
-            array(
-                'name'  => $name,
-                'value' => $value,
-            ),
-            $attributes
-        );
+        parent::__construct(null, $attributes);
+        $this->name = $name;
+        $this->value = $value;
+    }
+
+    public function getSubNodeNames() {
+        return array('name', 'value');
     }
 }

@@ -4,11 +4,11 @@ namespace PhpParser\Node\Scalar;
 
 use PhpParser\Node\Scalar;
 
-/**
- * @property string $value String value
- */
 class String extends Scalar
 {
+    /** @var string String value */
+    public $value;
+
     protected static $replacements = array(
         '\\' => '\\',
         '$'  =>  '$',
@@ -27,12 +27,12 @@ class String extends Scalar
      * @param array  $attributes Additional attributes
      */
     public function __construct($value = '', array $attributes = array()) {
-        parent::__construct(
-            array(
-                'value' => $value
-            ),
-            $attributes
-        );
+        parent::__construct(null, $attributes);
+        $this->value = $value;
+    }
+
+    public function getSubNodeNames() {
+        return array('value');
     }
 
     /**

@@ -10,6 +10,11 @@ use PhpParser\Node\Expr;
  */
 abstract class AssignOp extends Expr
 {
+    /** @var Expr Variable */
+    public $var;
+    /** @var Expr Expression */
+    public $expr;
+
     /**
      * Constructs a compound assignment operation node.
      *
@@ -18,12 +23,12 @@ abstract class AssignOp extends Expr
      * @param array $attributes Additional attributes
      */
     public function __construct(Expr $var, Expr $expr, array $attributes = array()) {
-        parent::__construct(
-            array(
-                'var'  => $var,
-                'expr' => $expr
-            ),
-            $attributes
-        );
+        parent::__construct(null, $attributes);
+        $this->var = $var;
+        $this->expr = $expr;
+    }
+
+    public function getSubNodeNames() {
+        return array('var', 'expr');
     }
 }

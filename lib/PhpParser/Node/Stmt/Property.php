@@ -5,12 +5,13 @@ namespace PhpParser\Node\Stmt;
 use PhpParser\Node;
 use PhpParser\Error;
 
-/**
- * @property int                $type  Modifiers
- * @property PropertyProperty[] $props Properties
- */
 class Property extends Node\Stmt
 {
+    /** @var int Modifiers */
+    public $type;
+    /** @var PropertyProperty[] Properties */
+    public $props;
+
     /**
      * Constructs a class property list node.
      *
@@ -27,13 +28,13 @@ class Property extends Node\Stmt
             throw new Error('Properties cannot be declared final');
         }
 
-        parent::__construct(
-            array(
-                'type'  => $type,
-                'props' => $props,
-            ),
-            $attributes
-        );
+        parent::__construct(null, $attributes);
+        $this->type = $type;
+        $this->props = $props;
+    }
+
+    public function getSubNodeNames() {
+        return array('type', 'props');
     }
 
     public function isPublic() {

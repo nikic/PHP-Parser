@@ -5,15 +5,19 @@ namespace PhpParser\Node;
 use PhpParser\Error;
 use PhpParser\NodeAbstract;
 
-/**
- * @property null|string|Name $type     Typehint
- * @property bool             $byRef    Whether is passed by reference
- * @property bool             $variadic Whether this is a variadic argument
- * @property string           $name     Name
- * @property null|Expr        $default  Default value
- */
 class Param extends NodeAbstract
 {
+    /** @var null|string|Name Typehint */
+    public $type;
+    /** @var bool Whether parameter is passed by reference */
+    public $byRef;
+    /** @var bool Whether this is a variadic argument */
+    public $variadic;
+    /** @var string Name */
+    public $name;
+    /** @var null|Expr Default value */
+    public $default;
+
     /**
      * Constructs a parameter node.
      *
@@ -25,19 +29,19 @@ class Param extends NodeAbstract
      * @param array            $attributes Additional attributes
      */
     public function __construct($name, $default = null, $type = null, $byRef = false, $variadic = false, array $attributes = array()) {
-        parent::__construct(
-            array(
-                'type'     => $type,
-                'byRef'    => $byRef,
-                'variadic' => $variadic,
-                'name'     => $name,
-                'default'  => $default,
-            ),
-            $attributes
-        );
+        parent::__construct(null, $attributes);
+        $this->type = $type;
+        $this->byRef = $byRef;
+        $this->variadic = $variadic;
+        $this->name = $name;
+        $this->default = $default;
 
         if ($variadic && null !== $default) {
             throw new Error('Variadic parameter cannot have a default value');
         }
+    }
+
+    public function getSubNodeNames() {
+        return array('type', 'byRef', 'variadic', 'name', 'default');
     }
 }

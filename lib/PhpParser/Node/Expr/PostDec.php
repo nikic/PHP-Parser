@@ -4,11 +4,11 @@ namespace PhpParser\Node\Expr;
 
 use PhpParser\Node\Expr;
 
-/**
- * @property Expr $var Variable
- */
 class PostDec extends Expr
 {
+    /** @var Expr Variable */
+    public $var;
+
     /**
      * Constructs a post decrement node.
      *
@@ -16,11 +16,11 @@ class PostDec extends Expr
      * @param array $attributes Additional attributes
      */
     public function __construct(Expr $var, array $attributes = array()) {
-        parent::__construct(
-            array(
-                'var' => $var
-            ),
-            $attributes
-        );
+        parent::__construct(null, $attributes);
+        $this->var = $var;
+    }
+
+    public function getSubNodeNames() {
+        return array('var');
     }
 }
