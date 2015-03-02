@@ -28,10 +28,6 @@ class ClassMethod extends Node\Stmt
      */
     public function __construct($name, array $subNodes = array(), array $attributes = array()) {
         $type = isset($subNodes['type']) ? $subNodes['type'] : 0;
-        if (0 === ($type & Class_::VISIBILITY_MODIFER_MASK)) {
-            // If no visibility modifier given, PHP defaults to public
-            $type |= Class_::MODIFIER_PUBLIC;
-        }
 
         parent::__construct(
             array(
@@ -57,7 +53,7 @@ class ClassMethod extends Node\Stmt
     }
 
     public function isPublic() {
-        return (bool) ($this->type & Class_::MODIFIER_PUBLIC);
+        return (bool) ($this->type & Class_::MODIFIER_PUBLIC || $this->type === 0);
     }
 
     public function isProtected() {

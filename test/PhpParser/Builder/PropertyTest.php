@@ -16,6 +16,20 @@ class PropertyTest extends \PHPUnit_Framework_TestCase
 
     public function testModifiers() {
         $node = $this->createPropertyBuilder('test')
+            ->getNode()
+        ;
+
+        $this->assertEquals(
+            new Stmt\Property(
+                0,
+                array(
+                    new Stmt\PropertyProperty('test')
+                )
+            ),
+            $node
+        );
+
+        $node = $this->createPropertyBuilder('test')
             ->makePrivate()
             ->makeStatic()
             ->getNode()
@@ -69,7 +83,7 @@ class PropertyTest extends \PHPUnit_Framework_TestCase
             ->getNode();
 
         $this->assertEquals(new Stmt\Property(
-            Stmt\Class_::MODIFIER_PUBLIC,
+            0,
             array(
                 new Stmt\PropertyProperty('test')
             ),

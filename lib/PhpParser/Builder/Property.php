@@ -101,7 +101,7 @@ class Property extends PhpParser\BuilderAbstract
      */
     public function getNode() {
         return new Stmt\Property(
-            $this->type !== 0 ? $this->type : Stmt\Class_::MODIFIER_PUBLIC,
+            $this->type,
             array(
                 new Stmt\PropertyProperty($this->name, $this->default)
             ),

@@ -514,7 +514,7 @@ class Standard extends PrettyPrinterAbstract
     }
 
     public function pStmt_Class(Stmt\Class_ $node) {
-        return $this->pModifiers($node->type)
+        return $this->pModifiers($node->type, $node)
              . 'class ' . $node->name
              . (null !== $node->extends ? ' extends ' . $this->p($node->extends) : '')
              . (!empty($node->implements) ? ' implements ' . $this->pCommaSeparated($node->implements) : '')
@@ -541,13 +541,13 @@ class Standard extends PrettyPrinterAbstract
     public function pStmt_TraitUseAdaptation_Alias(Stmt\TraitUseAdaptation\Alias $node) {
         return (null !== $node->trait ? $this->p($node->trait) . '::' : '')
              . $node->method . ' as'
-             . (null !== $node->newModifier ? ' ' . rtrim($this->pModifiers($node->newModifier), ' ') : '')
+             . (null !== $node->newModifier ? ' ' . rtrim($this->pModifiers($node->newModifier, $node), ' ') : '')
              . (null !== $node->newName     ? ' ' . $node->newName                        : '')
              . ';';
     }
 
     public function pStmt_Property(Stmt\Property $node) {
-        return $this->pModifiers($node->type) . $this->pCommaSeparated($node->props) . ';';
+        return $this->pModifiers($node->type, $node) . $this->pCommaSeparated($node->props) . ';';
     }
 
     public function pStmt_PropertyProperty(Stmt\PropertyProperty $node) {
@@ -556,7 +556,7 @@ class Standard extends PrettyPrinterAbstract
     }
 
     public function pStmt_ClassMethod(Stmt\ClassMethod $node) {
-        return $this->pModifiers($node->type)
+        return $this->pModifiers($node->type, $node)
              . 'function ' . ($node->byRef ? '&' : '') . $node->name
              . '(' . $this->pCommaSeparated($node->params) . ')'
              . (null !== $node->stmts
@@ -718,8 +718,9 @@ class Standard extends PrettyPrinterAbstract
         }
     }
 
-    public function pModifiers($modifiers) {
-        return ($modifiers & Stmt\Class_::MODIFIER_PUBLIC    ? 'public '    : '')
+    public function pModifiers($modifiers, $node) {
+        return ($modifiers === 0 ? ($node instanceof Stmt\Property ? 'var ' : '') : '')
+             . ($modifiers & Stmt\Class_::MODIFIER_PUBLIC    ? 'public '    : '')
              . ($modifiers & Stmt\Class_::MODIFIER_PROTECTED ? 'protected ' : '')
              . ($modifiers & Stmt\Class_::MODIFIER_PRIVATE   ? 'private '   : '')
              . ($modifiers & Stmt\Class_::MODIFIER_STATIC    ? 'static '    : '')
