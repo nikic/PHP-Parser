@@ -9,6 +9,7 @@ abstract class A {
     final function d() {}
     static function e() {}
     final static function f() {}
+    function g() {}
 }
 -----
 array(
@@ -20,7 +21,7 @@ array(
         )
         stmts: array(
             0: Stmt_Property(
-                type: 1
+                type: 0
                 props: array(
                     0: Stmt_PropertyProperty(
                         name: a
@@ -29,7 +30,7 @@ array(
                 )
             )
             1: Stmt_Property(
-                type: 9
+                type: 8
                 props: array(
                     0: Stmt_PropertyProperty(
                         name: b
@@ -38,7 +39,7 @@ array(
                 )
             )
             2: Stmt_ClassMethod(
-                type: 17
+                type: 16
                 byRef: false
                 name: c
                 params: array(
@@ -46,7 +47,7 @@ array(
                 stmts: null
             )
             3: Stmt_ClassMethod(
-                type: 33
+                type: 32
                 byRef: false
                 name: d
                 params: array(
@@ -55,7 +56,7 @@ array(
                 )
             )
             4: Stmt_ClassMethod(
-                type: 9
+                type: 8
                 byRef: false
                 name: e
                 params: array(
@@ -64,9 +65,18 @@ array(
                 )
             )
             5: Stmt_ClassMethod(
-                type: 41
+                type: 40
                 byRef: false
                 name: f
+                params: array(
+                )
+                stmts: array(
+                )
+            )
+            6: Stmt_ClassMethod(
+                type: 0
+                byRef: false
+                name: g
                 params: array(
                 )
                 stmts: array(

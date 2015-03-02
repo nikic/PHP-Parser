@@ -36,7 +36,10 @@ class BuilderFactoryTest extends \PHPUnit_Framework_TestCase
                 ->implement('A\Few', '\Interfaces')
                 ->makeAbstract()
 
+                ->addStmt($factory->method('firstMethod'))
+
                 ->addStmt($factory->method('someMethod')
+                    ->makePublic()
                     ->makeAbstract()
                     ->addParam($factory->param('someParam')->setTypeHint('SomeClass'))
                     ->setDocComment('/**
@@ -66,6 +69,9 @@ abstract class SomeClass extends SomeOtherClass implements A\Few, \Interfaces
 {
     protected $someProperty;
     private $anotherProperty = array(1, 2, 3);
+    function firstMethod()
+    {
+    }
     /**
      * This method does something.
      *

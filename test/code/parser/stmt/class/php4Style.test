@@ -5,6 +5,7 @@ PHP 4 style declarations
 class A {
     var $foo;
     function bar() {}
+    static abstract function baz() {}
 }
 -----
 array(
@@ -16,7 +17,7 @@ array(
         )
         stmts: array(
             0: Stmt_Property(
-                type: 1
+                type: 0
                 props: array(
                     0: Stmt_PropertyProperty(
                         name: foo
@@ -25,9 +26,18 @@ array(
                 )
             )
             1: Stmt_ClassMethod(
-                type: 1
+                type: 0
                 byRef: false
                 name: bar
+                params: array(
+                )
+                stmts: array(
+                )
+            )
+            2: Stmt_ClassMethod(
+                type: 24
+                byRef: false
+                name: baz
                 params: array(
                 )
                 stmts: array(

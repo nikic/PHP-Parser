@@ -547,7 +547,7 @@ class Standard extends PrettyPrinterAbstract
     }
 
     public function pStmt_Property(Stmt\Property $node) {
-        return $this->pModifiers($node->type) . $this->pCommaSeparated($node->props) . ';';
+        return (0 === $node->type ? 'var ' : $this->pModifiers($node->type)) . $this->pCommaSeparated($node->props) . ';';
     }
 
     public function pStmt_PropertyProperty(Stmt\PropertyProperty $node) {

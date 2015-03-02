@@ -1673,11 +1673,11 @@ class Parser extends ParserAbstract
     }
 
     protected function reduceRule168($attributes) {
-         $this->semValue = Node\Stmt\Class_::MODIFIER_PUBLIC; 
+         $this->semValue = 0; 
     }
 
     protected function reduceRule169($attributes) {
-         $this->semValue = Node\Stmt\Class_::MODIFIER_PUBLIC; 
+         $this->semValue = 0; 
     }
 
     protected function reduceRule170($attributes) {

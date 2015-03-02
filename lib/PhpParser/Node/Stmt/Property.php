@@ -19,11 +19,6 @@ class Property extends Node\Stmt
      * @param array              $attributes Additional attributes
      */
     public function __construct($type, array $props, array $attributes = array()) {
-        if (0 === ($type & Class_::VISIBILITY_MODIFER_MASK)) {
-            // If no visibility modifier given, PHP defaults to public
-            $type |= Class_::MODIFIER_PUBLIC;
-        }
-
         if ($type & Class_::MODIFIER_ABSTRACT) {
             throw new Error('Properties cannot be declared abstract');
         }
@@ -42,7 +37,7 @@ class Property extends Node\Stmt
     }
 
     public function isPublic() {
-        return (bool) ($this->type & Class_::MODIFIER_PUBLIC);
+        return ($this->type & Class_::MODIFIER_PUBLIC) !== 0 || $this->type === 0;
     }
 
     public function isProtected() {

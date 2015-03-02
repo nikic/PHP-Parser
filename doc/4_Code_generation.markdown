@@ -18,6 +18,7 @@ $node = $factory->namespace('Name\Space')
         ->makeAbstract() // ->makeFinal()
 
         ->addStmt($factory->method('someMethod')
+            ->makePublic()
             ->makeAbstract() // ->makeFinal()
             ->addParam($factory->param('someParam')->setTypeHint('SomeClass'))
             ->setDocComment('/**
