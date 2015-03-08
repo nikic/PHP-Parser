@@ -480,11 +480,11 @@ method_body:
 
 variable_modifiers:
       non_empty_member_modifiers                            { $$ = $1; }
-    | T_VAR                                                 { $$ = Stmt\Class_::MODIFIER_PUBLIC; }
+    | T_VAR                                                 { $$ = 0; }
 ;
 
 method_modifiers:
-      /* empty */                                           { $$ = Stmt\Class_::MODIFIER_PUBLIC; }
+      /* empty */                                           { $$ = 0; }
     | non_empty_member_modifiers                            { $$ = $1; }
 ;
 
