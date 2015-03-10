@@ -33,5 +33,9 @@ class NamespaceTest extends \PHPUnit_Framework_TestCase
             ->getNode()
         ;
         $this->assertEquals($expected, $node);
+
+        $node = $this->createNamespaceBuilder(null)->getNode();
+        $this->assertNull($node->name);
+        $this->assertEmpty($node->stmts);
     }
 }

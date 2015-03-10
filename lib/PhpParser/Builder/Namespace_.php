@@ -14,10 +14,10 @@ class Namespace_ extends PhpParser\BuilderAbstract
     /**
      * Creates a namespace builder.
      *
-     * @param Node\Name|string $name Name of the namespace
+     * @param Node\Name|string|null $name Name of the namespace
      */
     public function __construct($name) {
-        $this->name = $this->normalizeName($name);
+        $this->name = null !== $name ? $this->normalizeName($name) : null;
     }
 
     /**
