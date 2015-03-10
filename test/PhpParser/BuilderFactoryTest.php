@@ -24,12 +24,15 @@ class BuilderFactoryTest extends \PHPUnit_Framework_TestCase
             array('function',  'PhpParser\Builder\Function_'),
             array('property',  'PhpParser\Builder\Property'),
             array('param',     'PhpParser\Builder\Param'),
+            array('use',       'PhpParser\Builder\Use_'),
         );
     }
 
     public function testIntegration() {
         $factory = new BuilderFactory;
         $node = $factory->namespace('Name\Space')
+            ->addStmt($factory->use('Foo\Bar\SomeOtherClass'))
+            ->addStmt($factory->use('Foo\Bar')->as('A'))
             ->addStmt($factory
                 ->class('SomeClass')
                 ->extend('SomeOtherClass')
@@ -65,6 +68,8 @@ class BuilderFactoryTest extends \PHPUnit_Framework_TestCase
 
 namespace Name\Space;
 
+use Foo\Bar\SomeOtherClass;
+use Foo\Bar as A;
 abstract class SomeClass extends SomeOtherClass implements A\Few, \Interfaces
 {
     protected $someProperty;

@@ -2,9 +2,14 @@ Code generation
 ===============
 
 It is also possible to generate code using the parser, by first creating an Abstract Syntax Tree and then using the
-pretty printer to convert it to PHP code. To simplify code generation, the project comes with a set of builders for
-namespaces, classes, interfaces, traits, methods, functions, parameters and properties. The builders allow creating node
-trees using a fluid interface, instead of instantiating all nodes manually.
+pretty printer to convert it to PHP code. To simplify code generation, the project comes with builders which allow
+creating node trees using a fluid interface, instead of instantiating all nodes manually. Builders are available for
+the following syntactic elements:
+
+ * namespaces and use statements
+ * classes, interfaces and traits
+ * methods, functions and parameters
+ * properties
 
 Here is an example:
 
@@ -12,6 +17,7 @@ Here is an example:
 <?php
 $factory = new PhpParser\BuilderFactory;
 $node = $factory->namespace('Name\Space')
+    ->addStmt($factory->use('Some\Other\Thingy')->as('SomeOtherClass'))
     ->addStmt($factory->class('SomeClass')
         ->extend('SomeOtherClass')
         ->implement('A\Few', '\Interfaces')
@@ -55,6 +61,7 @@ This will produce the following output with the standard pretty printer:
 
 namespace Name\Space;
 
+use Some\Other\Thingy as SomeClass;
 abstract class SomeClass extends SomeOtherClass implements A\Few, \Interfaces
 {
     protected $someProperty;
