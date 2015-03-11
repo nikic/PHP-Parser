@@ -11,7 +11,7 @@ namespace PhpParser;
 /* This is an automatically GENERATED file, which should not be manually edited.
  * Instead edit one of the following:
  *  * the grammar file grammar/zend_language_parser.phpy
- *  * the skeleton file grammar/kymacc.php.parser
+ *  * the skeleton file grammar/kmyacc.php.parser
  *  * the preprocessing script grammar/rebuildParser.php
  */
 class Parser extends ParserAbstract

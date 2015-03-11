@@ -2,6 +2,8 @@
 
 namespace PhpParser;
 
+use PhpParser\Parser;
+
 /*
  * This parser is based on a skeleton written by Moriyoshi Koizumi, which in
  * turn is based on work by Masato Bito.
@@ -199,11 +201,11 @@ abstract class ParserAbstract
                     /* reduce */
                     //$this->traceReduce($rule);
 
+                    $combinedAttributes = $attributeStack[$this->stackPos - $this->ruleToLength[$rule]]
+                        + $endAttributes;
+
                     try {
-                        $this->{'reduceRule' . $rule}(
-                            $attributeStack[$this->stackPos - $this->ruleToLength[$rule]]
-                            + $endAttributes
-                        );
+                        $this->{'reduceRule' . $rule}($combinedAttributes);
                     } catch (Error $e) {
                         if (-1 === $e->getRawLine() && isset($startAttributes['startLine'])) {
                             $e->setRawLine($startAttributes['startLine']);
