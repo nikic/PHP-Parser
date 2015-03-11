@@ -13,6 +13,12 @@ Encapsed strings
 "${A}";
 "${A['B']}";
 "${$A}";
+"\{$A}";
+"\{ $A }";
+"\\{$A}";
+"\\{ $A }";
+"{$$A}[B]";
+"$$A[B]";
 "A $B C";
 b"$A";
 -----
@@ -131,6 +137,64 @@ array(
     )
     11: Scalar_Encapsed(
         parts: array(
+            0: \{
+            1: Expr_Variable(
+                name: A
+            )
+            2: }
+        )
+    )
+    12: Scalar_Encapsed(
+        parts: array(
+            0: \{
+            1: Expr_Variable(
+                name: A
+            )
+            2:  }
+        )
+    )
+    13: Scalar_Encapsed(
+        parts: array(
+            0: \
+            1: Expr_Variable(
+                name: A
+            )
+        )
+    )
+    14: Scalar_Encapsed(
+        parts: array(
+            0: \{
+            1: Expr_Variable(
+                name: A
+            )
+            2:  }
+        )
+    )
+    15: Scalar_Encapsed(
+        parts: array(
+            0: Expr_Variable(
+                name: Expr_Variable(
+                    name: A
+                )
+            )
+            1: [B]
+        )
+    )
+    16: Scalar_Encapsed(
+        parts: array(
+            0: $
+            1: Expr_ArrayDimFetch(
+                var: Expr_Variable(
+                    name: A
+                )
+                dim: Scalar_String(
+                    value: B
+                )
+            )
+        )
+    )
+    17: Scalar_Encapsed(
+        parts: array(
             0: A
             1: Expr_Variable(
                 name: B
@@ -138,7 +202,7 @@ array(
             2:  C
         )
     )
-    12: Scalar_Encapsed(
+    18: Scalar_Encapsed(
         parts: array(
             0: Expr_Variable(
                 name: A

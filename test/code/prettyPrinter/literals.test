@@ -55,9 +55,17 @@ STR;
 // strings (normalized to double quoted)
 "$a";
 "a$b";
+"$a$b";
+"$a $b";
 "a${b}c";
 "a{$b}c";
 "a$a[b]c";
+"\{$A}";
+"\{ $A }";
+"\\{$A}";
+"\\{ $A }";
+"{$$A}[B]";
+"$$A[B]";
 <<<STR
 a\nb$a\n{$b}
 STR;
@@ -119,9 +127,17 @@ b';
 // strings (normalized to double quoted)
 "{$a}";
 "a{$b}";
+"{$a}{$b}";
+"{$a} {$b}";
 "a{$b}c";
 "a{$b}c";
 "a{$a['b']}c";
+"\\{{$A}}";
+"\\{ {$A} }";
+"\\{$A}";
+"\\{ {$A} }";
+"{${$A}}[B]";
+"\${$A['B']}";
 "a\nb{$a}\n{$b}";
 // make sure indentation doesn't mess anything up
 function foo()
