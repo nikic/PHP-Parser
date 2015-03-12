@@ -20,7 +20,7 @@ class Standard extends PrettyPrinterAbstract
     public function pParam(Node\Param $node) {
         return ($node->type ? $this->pType($node->type) . ' ' : '')
              . ($node->byRef ? '&' : '')
-             . ($node->variadic ? '... ' : '')
+             . ($node->variadic ? '...' : '')
              . '$' . $node->name
              . ($node->default ? ' = ' . $this->p($node->default) : '');
     }
