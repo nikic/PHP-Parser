@@ -43,6 +43,7 @@ abstract class PrettyPrinterAbstract
         'Expr_BinaryOp_NotEqual'       => array( 80,  0),
         'Expr_BinaryOp_Identical'      => array( 80,  0),
         'Expr_BinaryOp_NotIdentical'   => array( 80,  0),
+        'Expr_BinaryOp_Spaceship'      => array( 80,  0),
         'Expr_BinaryOp_BitwiseAnd'     => array( 90, -1),
         'Expr_BinaryOp_BitwiseXor'     => array(100, -1),
         'Expr_BinaryOp_BitwiseOr'      => array(110, -1),

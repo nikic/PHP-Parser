@@ -246,6 +246,10 @@ class Standard extends PrettyPrinterAbstract
         return $this->pInfixOp('Expr_BinaryOp_NotIdentical', $node->left, ' !== ', $node->right);
     }
 
+    public function pExpr_BinaryOp_Spaceship(BinaryOp\Spaceship $node) {
+        return $this->pInfixOp('Expr_BinaryOp_Spaceship', $node->left, ' <=> ', $node->right);
+    }
+
     public function pExpr_BinaryOp_Greater(BinaryOp\Greater $node) {
         return $this->pInfixOp('Expr_BinaryOp_Greater', $node->left, ' > ', $node->right);
     }

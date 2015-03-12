@@ -16,6 +16,7 @@ class Emulative extends \PhpParser\Lexer
     const T_POW       = 1002;
     const T_POW_EQUAL = 1003;
     const T_COALESCE  = 1004;
+    const T_SPACESHIP = 1005;
 
     const PHP_7_0 = '7.0.0dev';
     const PHP_5_6 = '5.6.0rc1';
@@ -51,6 +52,7 @@ class Emulative extends \PhpParser\Lexer
             return;
         }
         $this->tokenMap[self::T_COALESCE] = Parser::T_COALESCE;
+        $this->tokenMap[self::T_SPACESHIP] = Parser::T_SPACESHIP;
 
         if (version_compare(PHP_VERSION, self::PHP_5_6, '>=')) {
             return;
@@ -88,6 +90,7 @@ class Emulative extends \PhpParser\Lexer
         }
 
         $code = str_replace('??', '~__EMU__COALESCE__~', $code);
+        $code = str_replace('<=>', '~__EMU__SPACESHIP__~', $code);
 
         if (version_compare(PHP_VERSION, self::PHP_5_6, '>=')) {
             return $code;
@@ -143,6 +146,10 @@ class Emulative extends \PhpParser\Lexer
                     $replace = array(
                         array(self::T_COALESCE, '??', $this->tokens[$i + 1][2])
                     );
+                } else if ('SPACESHIP' === $matches[1]) {
+                    $replace = array(
+                        array(self::T_SPACESHIP, '<=>', $this->tokens[$i + 1][2]),
+                    );
                 } else {
                     // just ignore all other __EMU__ sequences
                     continue;
@@ -179,6 +186,8 @@ class Emulative extends \PhpParser\Lexer
             return '**=';
         } else if ('COALESCE' === $matches[1]) {
             return '??';
+        } else if ('SPACESHIP' === $matches[1]) {
+            return '<=>';
         } else {
             return $matches[0];
         }

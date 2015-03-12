@@ -9,6 +9,7 @@ $a == $b;
 $a === $b;
 $a != $b;
 $a !== $b;
+$a <=> $b;
 $a instanceof B;
 $a instanceof $b;
 -----
@@ -77,7 +78,15 @@ array(
             name: b
         )
     )
-    8: Expr_Instanceof(
+    8: Expr_BinaryOp_Spaceship(
+        left: Expr_Variable(
+            name: a
+        )
+        right: Expr_Variable(
+            name: b
+        )
+    )
+    9: Expr_Instanceof(
         expr: Expr_Variable(
             name: a
         )
@@ -87,7 +96,7 @@ array(
             )
         )
     )
-    9: Expr_Instanceof(
+    10: Expr_Instanceof(
         expr: Expr_Variable(
             name: a
         )
