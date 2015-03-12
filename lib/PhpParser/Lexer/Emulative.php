@@ -15,7 +15,9 @@ class Emulative extends \PhpParser\Lexer
     const T_ELLIPSIS  = 1001;
     const T_POW       = 1002;
     const T_POW_EQUAL = 1003;
+    const T_COALESCE  = 1004;
 
+    const PHP_7_0 = '7.0.0dev';
     const PHP_5_6 = '5.6.0rc1';
     const PHP_5_5 = '5.5.0beta1';
     const PHP_5_4 = '5.4.0beta1';
@@ -45,11 +47,17 @@ class Emulative extends \PhpParser\Lexer
             $this->newKeywords += $newKeywords;
         }
 
-        if (version_compare(PHP_VERSION, self::PHP_5_6, '<')) {
-            $this->tokenMap[self::T_ELLIPSIS]  = Parser::T_ELLIPSIS;
-            $this->tokenMap[self::T_POW]       = Parser::T_POW;
-            $this->tokenMap[self::T_POW_EQUAL] = Parser::T_POW_EQUAL;
+        if (version_compare(PHP_VERSION, self::PHP_7_0, '>=')) {
+            return;
         }
+        $this->tokenMap[self::T_COALESCE] = Parser::T_COALESCE;
+
+        if (version_compare(PHP_VERSION, self::PHP_5_6, '>=')) {
+            return;
+        }
+        $this->tokenMap[self::T_ELLIPSIS]  = Parser::T_ELLIPSIS;
+        $this->tokenMap[self::T_POW]       = Parser::T_POW;
+        $this->tokenMap[self::T_POW_EQUAL] = Parser::T_POW_EQUAL;
     }
 
     public function startLexing($code) {
@@ -75,6 +83,12 @@ class Emulative extends \PhpParser\Lexer
      * inside a string, i.e. a place where they don't have a special meaning).
      */
     protected function preprocessCode($code) {
+        if (version_compare(PHP_VERSION, self::PHP_7_0, '>=')) {
+            return $code;
+        }
+
+        $code = str_replace('??', '~__EMU__COALESCE__~', $code);
+
         if (version_compare(PHP_VERSION, self::PHP_5_6, '>=')) {
             return $code;
         }
@@ -125,6 +139,10 @@ class Emulative extends \PhpParser\Lexer
                     $replace = array(
                         array(self::T_POW_EQUAL, '**=', $this->tokens[$i + 1][2])
                     );
+                } else if ('COALESCE' === $matches[1]) {
+                    $replace = array(
+                        array(self::T_COALESCE, '??', $this->tokens[$i + 1][2])
+                    );
                 } else {
                     // just ignore all other __EMU__ sequences
                     continue;
@@ -159,6 +177,8 @@ class Emulative extends \PhpParser\Lexer
             return '**';
         } else if ('POWEQUAL' === $matches[1]) {
             return '**=';
+        } else if ('COALESCE' === $matches[1]) {
+            return '??';
         } else {
             return $matches[0];
         }

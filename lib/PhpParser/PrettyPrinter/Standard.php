@@ -262,6 +262,10 @@ class Standard extends PrettyPrinterAbstract
         return $this->pInfixOp('Expr_BinaryOp_SmallerOrEqual', $node->left, ' <= ', $node->right);
     }
 
+    public function pExpr_BinaryOp_Coalesce(BinaryOp\Coalesce $node) {
+        return $this->pInfixOp('Expr_BinaryOp_Coalesce', $node->left, ' ?? ', $node->right);
+    }
+
     public function pExpr_Instanceof(Expr\Instanceof_ $node) {
         return $this->pInfixOp('Expr_Instanceof', $node->expr, ' instanceof ', $node->class);
     }

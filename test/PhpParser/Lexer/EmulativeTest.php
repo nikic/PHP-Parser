@@ -96,6 +96,9 @@ class EmulativeTest extends LexerTest
             array('**=', array(
                 array(Parser::T_POW_EQUAL, '**='),
             )),
+            array('??', array(
+                array(Parser::T_COALESCE, '??'),
+            )),
             array('0b1010110', array(
                 array(Parser::T_LNUMBER, '0b1010110'),
             )),
