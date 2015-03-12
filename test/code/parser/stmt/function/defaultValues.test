@@ -141,6 +141,7 @@ array(
                 )
             )
         )
+        returnType: null
         stmts: array(
         )
     )

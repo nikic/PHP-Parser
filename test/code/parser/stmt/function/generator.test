@@ -33,6 +33,7 @@ array(
         name: gen
         params: array(
         )
+        returnType: null
         stmts: array(
             0: Expr_Yield(
                 key: null

@@ -25,7 +25,8 @@ abstract class CodeTestAbstract extends \PHPUnit_Framework_TestCase
             $parts = array_map('trim', explode('-----', $fileContents));
 
             // first part is the name
-            $name = array_shift($parts);
+            $fileName = realpath($file->getPathname());
+            $name = array_shift($parts) . ' (' . $fileName . ')';
 
             // multiple sections possible with always two forming a pair
             foreach (array_chunk($parts, 2) as $chunk) {

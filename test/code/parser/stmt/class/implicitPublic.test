@@ -44,6 +44,7 @@ array(
                 name: c
                 params: array(
                 )
+                returnType: null
                 stmts: null
             )
             3: Stmt_ClassMethod(
@@ -52,6 +53,7 @@ array(
                 name: d
                 params: array(
                 )
+                returnType: null
                 stmts: array(
                 )
             )
@@ -61,6 +63,7 @@ array(
                 name: e
                 params: array(
                 )
+                returnType: null
                 stmts: array(
                 )
             )
@@ -70,6 +73,7 @@ array(
                 name: f
                 params: array(
                 )
+                returnType: null
                 stmts: array(
                 )
             )
@@ -79,6 +83,7 @@ array(
                 name: g
                 params: array(
                 )
+                returnType: null
                 stmts: array(
                 )
             )

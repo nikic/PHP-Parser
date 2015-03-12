@@ -21,6 +21,7 @@ array(
                 name: a
                 params: array(
                 )
+                returnType: null
                 stmts: array(
                 )
             )
@@ -30,6 +31,7 @@ array(
                 name: b
                 params: array(
                 )
+                returnType: null
                 stmts: null
             )
         )

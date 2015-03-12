@@ -21,6 +21,7 @@ array(
                 name: A
                 params: array(
                 )
+                returnType: null
                 stmts: array(
                 )
             )

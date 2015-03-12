@@ -153,8 +153,12 @@ class A extends B implements C, D {
 }
 
 interface A extends C, D {
-    public function a(A $a);
+    public function a(A $a) : A;
 }
+
+function fn() : A {}
+function fn2() : array {}
+function() : A {};
 
 A::b();
 A::$b;
@@ -184,8 +188,16 @@ class A extends \NS\B implements \NS\C, \NS\D
 }
 interface A extends \NS\C, \NS\D
 {
-    public function a(\NS\A $a);
+    public function a(\NS\A $a) : \NS\A;
 }
+function fn() : \NS\A
+{
+}
+function fn2() : array
+{
+}
+function () : \NS\A {
+};
 \NS\A::b();
 \NS\A::$b;
 \NS\A::B;

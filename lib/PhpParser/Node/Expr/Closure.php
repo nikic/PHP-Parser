@@ -15,6 +15,8 @@ class Closure extends Expr
     public $params;
     /** @var ClosureUse[] use()s */
     public $uses;
+    /** @var null|string|Node\Name[] Return type */
+    public $returnType;
     /** @var Node[] Statements */
     public $stmts;
 
@@ -22,23 +24,25 @@ class Closure extends Expr
      * Constructs a lambda function node.
      *
      * @param array $subNodes   Array of the following optional subnodes:
-     *                          'static' => false  : Whether the closure is static
-     *                          'byRef'  => false  : Whether to return by reference
-     *                          'params' => array(): Parameters
-     *                          'uses'   => array(): use()s
-     *                          'stmts'  => array(): Statements
+     *                          'static'     => false  : Whether the closure is static
+     *                          'byRef'      => false  : Whether to return by reference
+     *                          'params'     => array(): Parameters
+     *                          'uses'       => array(): use()s
+     *                          'returnType' => null   : Return type
+     *                          'stmts'      => array(): Statements
      * @param array $attributes Additional attributes
      */
     public function __construct(array $subNodes = array(), array $attributes = array()) {
         parent::__construct(null, $attributes);
         $this->static = isset($subNodes['static']) ? $subNodes['static'] : false;
-        $this->byRef = isset($subNodes['byRef'])  ? $subNodes['byRef']  : false;
+        $this->byRef = isset($subNodes['byRef']) ? $subNodes['byRef'] : false;
         $this->params = isset($subNodes['params']) ? $subNodes['params'] : array();
-        $this->uses = isset($subNodes['uses'])   ? $subNodes['uses']   : array();
-        $this->stmts = isset($subNodes['stmts'])  ? $subNodes['stmts']  : array();
+        $this->uses = isset($subNodes['uses']) ? $subNodes['uses'] : array();
+        $this->returnType = isset($subNodes['returnType']) ? $subNodes['returnType'] : null;
+        $this->stmts = isset($subNodes['stmts']) ? $subNodes['stmts'] : array();
     }
 
     public function getSubNodeNames() {
-        return array('static', 'byRef', 'params', 'uses', 'stmts');
+        return array('static', 'byRef', 'params', 'uses', 'returnType', 'stmts');
     }
 }

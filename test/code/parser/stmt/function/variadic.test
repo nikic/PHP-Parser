@@ -26,6 +26,7 @@ array(
                 default: null
             )
         )
+        returnType: null
         stmts: array(
         )
     )
@@ -48,6 +49,7 @@ array(
                 default: null
             )
         )
+        returnType: null
         stmts: array(
         )
     )
@@ -74,6 +76,7 @@ array(
                 default: null
             )
         )
+        returnType: null
         stmts: array(
         )
     )
@@ -100,6 +103,7 @@ array(
                 default: null
             )
         )
+        returnType: null
         stmts: array(
         )
     )

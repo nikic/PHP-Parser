@@ -31,6 +31,7 @@ array(
                 name: a
                 params: array(
                 )
+                returnType: null
                 stmts: array(
                 )
             )

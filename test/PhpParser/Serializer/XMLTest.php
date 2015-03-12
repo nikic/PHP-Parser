@@ -112,6 +112,9 @@ CODE;
      </node:Param>
     </scalar:array>
    </subNode:params>
+   <subNode:returnType>
+     <scalar:null/>
+   </subNode:returnType>
    <subNode:stmts>
     <scalar:array>
      <node:Stmt_Echo>

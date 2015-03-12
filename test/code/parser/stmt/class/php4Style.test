@@ -31,6 +31,7 @@ array(
                 name: bar
                 params: array(
                 )
+                returnType: null
                 stmts: array(
                 )
             )
@@ -40,6 +41,7 @@ array(
                 name: baz
                 params: array(
                 )
+                returnType: null
                 stmts: array(
                 )
             )

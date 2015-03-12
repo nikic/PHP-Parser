@@ -15,6 +15,8 @@ class ClassMethod extends Node\Stmt
     public $name;
     /** @var Node\Param[] Parameters */
     public $params;
+    /** @var null|string|Node\Name[] Return type */
+    public $returnType;
     /** @var Node[] Statements */
     public $stmts;
 
@@ -23,10 +25,11 @@ class ClassMethod extends Node\Stmt
      *
      * @param string      $name       Name
      * @param array       $subNodes   Array of the following optional subnodes:
-     *                                'type'   => MODIFIER_PUBLIC: Type
-     *                                'byRef'  => false          : Whether to return by reference
-     *                                'params' => array()        : Parameters
-     *                                'stmts'  => array()        : Statements
+     *                                'type'       => MODIFIER_PUBLIC: Type
+     *                                'byRef'      => false          : Whether to return by reference
+     *                                'params'     => array()        : Parameters
+     *                                'returnType' => null           : Return type
+     *                                'stmts'      => array()        : Statements
      * @param array       $attributes Additional attributes
      */
     public function __construct($name, array $subNodes = array(), array $attributes = array()) {
@@ -35,6 +38,7 @@ class ClassMethod extends Node\Stmt
         $this->byRef = isset($subNodes['byRef'])  ? $subNodes['byRef']  : false;
         $this->name = $name;
         $this->params = isset($subNodes['params']) ? $subNodes['params'] : array();
+        $this->returnType = isset($subNodes['returnType']) ? $subNodes['returnType'] : null;
         $this->stmts = array_key_exists('stmts', $subNodes) ? $subNodes['stmts'] : array();
 
         if ($this->type & Class_::MODIFIER_STATIC) {
@@ -50,7 +54,7 @@ class ClassMethod extends Node\Stmt
     }
 
     public function getSubNodeNames() {
-        return array('type', 'byRef', 'name', 'params', 'stmts');
+        return array('type', 'byRef', 'name', 'params', 'returnType', 'stmts');
     }
 
     public function isPublic() {

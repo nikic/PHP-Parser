@@ -42,6 +42,7 @@ array(
                 default: null
             )
         )
+        returnType: null
         stmts: array(
         )
     )

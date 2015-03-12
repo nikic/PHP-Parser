@@ -245,8 +245,8 @@ optional_ellipsis:
 ;
 
 function_declaration_statement:
-    T_FUNCTION optional_ref T_STRING '(' parameter_list ')' '{' inner_statement_list '}'
-        { $$ = Stmt\Function_[$3, [byRef: $2, params: $5, stmts: $8]]; }
+    T_FUNCTION optional_ref T_STRING '(' parameter_list ')' optional_return_type '{' inner_statement_list '}'
+        { $$ = Stmt\Function_[$3, [byRef: $2, params: $5, returnType: $7, stmts: $9]]; }
 ;
 
 class_declaration_statement:
@@ -380,17 +380,26 @@ non_empty_parameter_list:
 ;
 
 parameter:
-      optional_class_type optional_ref optional_ellipsis T_VARIABLE
+      optional_param_type optional_ref optional_ellipsis T_VARIABLE
           { $$ = Param[parseVar($4), null, $1, $2, $3]; }
-    | optional_class_type optional_ref optional_ellipsis T_VARIABLE '=' static_scalar
+    | optional_param_type optional_ref optional_ellipsis T_VARIABLE '=' static_scalar
           { $$ = Param[parseVar($4), $6, $1, $2, $3]; }
 ;
 
-optional_class_type:
-      /* empty */                                           { $$ = null; }
-    | name                                                  { $$ = $1; }
+type:
+      name                                                  { $$ = $1; }
     | T_ARRAY                                               { $$ = 'array'; }
     | T_CALLABLE                                            { $$ = 'callable'; }
+;
+
+optional_param_type:
+      /* empty */                                           { $$ = null; }
+    | type                                                  { $$ = $1; }
+;
+
+optional_return_type:
+      /* empty */                                           { $$ = null; }
+    | ':' type                                              { $$ = $2; }
 ;
 
 argument_list:
@@ -439,8 +448,8 @@ class_statement_list:
 class_statement:
       variable_modifiers property_declaration_list ';'      { $$ = Stmt\Property[$1, $2]; }
     | T_CONST constant_declaration_list ';'                 { $$ = Stmt\ClassConst[$2]; }
-    | method_modifiers T_FUNCTION optional_ref T_STRING '(' parameter_list ')' method_body
-          { $$ = Stmt\ClassMethod[$4, [type: $1, byRef: $3, params: $6, stmts: $8]]; }
+    | method_modifiers T_FUNCTION optional_ref T_STRING '(' parameter_list ')' optional_return_type method_body
+          { $$ = Stmt\ClassMethod[$4, [type: $1, byRef: $3, params: $6, returnType: $8, stmts: $9]]; }
     | T_USE name_list trait_adaptations                     { $$ = Stmt\TraitUse[$2, $3]; }
 ;
 
@@ -603,10 +612,12 @@ expr:
     | '`' backticks_expr '`'                                { $$ = Expr\ShellExec[$2]; }
     | T_PRINT expr                                          { $$ = Expr\Print_[$2]; }
     | T_YIELD                                               { $$ = Expr\Yield_[null, null]; }
-    | T_FUNCTION optional_ref '(' parameter_list ')' lexical_vars '{' inner_statement_list '}'
-          { $$ = Expr\Closure[[static: false, byRef: $2, params: $4, uses: $6, stmts: $8]]; }
-    | T_STATIC T_FUNCTION optional_ref '(' parameter_list ')' lexical_vars '{' inner_statement_list '}'
-          { $$ = Expr\Closure[[static: true, byRef: $3, params: $5, uses: $7, stmts: $9]]; }
+    | T_FUNCTION optional_ref '(' parameter_list ')' lexical_vars optional_return_type
+      '{' inner_statement_list '}'
+          { $$ = Expr\Closure[[static: false, byRef: $2, params: $4, uses: $6, returnType: $7, stmts: $9]]; }
+    | T_STATIC T_FUNCTION optional_ref '(' parameter_list ')' lexical_vars optional_return_type
+      '{' inner_statement_list '}'
+          { $$ = Expr\Closure[[static: true, byRef: $3, params: $5, uses: $7, returnType: $8, stmts: $10]]; }
 ;
 
 parentheses_expr:

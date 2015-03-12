@@ -11,14 +11,10 @@ use PhpParser\Node\Stmt;
 
 class NameResolver extends NodeVisitorAbstract
 {
-    /**
-     * @var null|Name Current namespace
-     */
+    /** @var null|Name Current namespace */
     protected $namespace;
 
-    /**
-     * @var array Map of format [aliasType => [aliasName => originalName]]
-     */
+    /** @var array Map of format [aliasType => [aliasName => originalName]] */
     protected $aliases;
 
     public function beforeTraverse(array $nodes) {
@@ -52,6 +48,15 @@ class NameResolver extends NodeVisitorAbstract
             $this->addNamespacedName($node);
         } elseif ($node instanceof Stmt\Function_) {
             $this->addNamespacedName($node);
+            if ($node->returnType instanceof Name) {
+                $node->returnType = $this->resolveClassName($node->returnType);
+            }
+        } elseif ($node instanceof Stmt\ClassMethod
+                  || $node instanceof Expr\Closure
+        ) {
+            if ($node->returnType instanceof Name) {
+                $node->returnType = $this->resolveClassName($node->returnType);
+            }
         } elseif ($node instanceof Stmt\Const_) {
             foreach ($node->consts as $const) {
                 $this->addNamespacedName($const);
