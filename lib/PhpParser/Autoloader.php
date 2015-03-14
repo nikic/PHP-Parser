@@ -8,13 +8,24 @@ namespace PhpParser;
 class Autoloader
 {
     /**
+     * Whether the autoloader has been registered.
+     *
+     * @var boolean
+     */
+    protected static $registered = false;
+
+    /**
      * Registers PhpParser\Autoloader as an SPL autoloader.
      *
      * @param bool $prepend Whether to prepend the autoloader instead of appending
      */
     static public function register($prepend = false) {
+        if (static::$registered === true) {
+            return;
+        }
         ini_set('unserialize_callback_func', 'spl_autoload_call');
         spl_autoload_register(array(__CLASS__, 'autoload'), true, $prepend);
+        static::$registered = true;
     }
 
     /**
