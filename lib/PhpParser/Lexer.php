@@ -258,20 +258,23 @@ class Lexer
         // 256 is the minimum possible token number, as everything below
         // it is an ASCII value
         for ($i = 256; $i < 1000; ++$i) {
-            // T_DOUBLE_COLON is equivalent to T_PAAMAYIM_NEKUDOTAYIM
             if (T_DOUBLE_COLON === $i) {
+                // T_DOUBLE_COLON is equivalent to T_PAAMAYIM_NEKUDOTAYIM
                 $tokenMap[$i] = Parser::T_PAAMAYIM_NEKUDOTAYIM;
-            // T_OPEN_TAG_WITH_ECHO with dropped T_OPEN_TAG results in T_ECHO
             } elseif(T_OPEN_TAG_WITH_ECHO === $i) {
+                // T_OPEN_TAG_WITH_ECHO with dropped T_OPEN_TAG results in T_ECHO
                 $tokenMap[$i] = Parser::T_ECHO;
-            // T_CLOSE_TAG is equivalent to ';'
             } elseif(T_CLOSE_TAG === $i) {
+                // T_CLOSE_TAG is equivalent to ';'
                 $tokenMap[$i] = ord(';');
-            // and the others can be mapped directly
-            } elseif ('UNKNOWN' !== ($name = token_name($i))
-                      && defined($name = 'PhpParser\Parser::' . $name)
-            ) {
-                $tokenMap[$i] = constant($name);
+            } elseif ('UNKNOWN' !== $name = token_name($i)) {
+                if ('T_HASHBANG' === $name) {
+                    // HHVM uses a special token for #! hashbang lines
+                    $tokenMap[$i] = Parser::T_INLINE_HTML;
+                } else if (defined($name = 'PhpParser\Parser::' . $name)) {
+                    // Other tokens can be mapped directly
+                    $tokenMap[$i] = constant($name);
+                }
             }
         }
 
