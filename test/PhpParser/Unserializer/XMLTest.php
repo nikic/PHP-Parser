@@ -31,7 +31,7 @@ XML;
 
         $unserializer  = new XML;
         $this->assertEquals(
-            new Scalar\String('Test', array(
+            new Scalar\String_('Test', array(
                 'startLine' => 1,
                 'comments'  => array(
                     new Comment('// comment' . "\n", 2),

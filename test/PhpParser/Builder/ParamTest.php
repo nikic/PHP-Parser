@@ -48,7 +48,7 @@ class ParamTest extends \PHPUnit_Framework_TestCase
             ),
             array(
                 'Hallo World',
-                new Scalar\String('Hallo World')
+                new Scalar\String_('Hallo World')
             ),
             array(
                 array(1, 2, 3),
@@ -62,12 +62,12 @@ class ParamTest extends \PHPUnit_Framework_TestCase
                 array('foo' => 'bar', 'bar' => 'foo'),
                 new Expr\Array_(array(
                     new Expr\ArrayItem(
-                        new Scalar\String('bar'),
-                        new Scalar\String('foo')
+                        new Scalar\String_('bar'),
+                        new Scalar\String_('foo')
                     ),
                     new Expr\ArrayItem(
-                        new Scalar\String('foo'),
-                        new Scalar\String('bar')
+                        new Scalar\String_('foo'),
+                        new Scalar\String_('bar')
                     ),
                 ))
             ),

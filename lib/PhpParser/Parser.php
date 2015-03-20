@@ -2039,7 +2039,7 @@ class Parser extends ParserAbstract
     }
 
     protected function reduceRule256($attributes) {
-         $this->semValue = new Node\Expr\Cast\Int($this->semStack[$this->stackPos-(2-2)], $attributes); 
+         $this->semValue = new Node\Expr\Cast\Int_($this->semStack[$this->stackPos-(2-2)], $attributes); 
     }
 
     protected function reduceRule257($attributes) {
@@ -2047,7 +2047,7 @@ class Parser extends ParserAbstract
     }
 
     protected function reduceRule258($attributes) {
-         $this->semValue = new Node\Expr\Cast\String($this->semStack[$this->stackPos-(2-2)], $attributes); 
+         $this->semValue = new Node\Expr\Cast\String_($this->semStack[$this->stackPos-(2-2)], $attributes); 
     }
 
     protected function reduceRule259($attributes) {
@@ -2059,7 +2059,7 @@ class Parser extends ParserAbstract
     }
 
     protected function reduceRule261($attributes) {
-         $this->semValue = new Node\Expr\Cast\Bool($this->semStack[$this->stackPos-(2-2)], $attributes); 
+         $this->semValue = new Node\Expr\Cast\Bool_($this->semStack[$this->stackPos-(2-2)], $attributes); 
     }
 
     protected function reduceRule262($attributes) {
@@ -2135,7 +2135,7 @@ class Parser extends ParserAbstract
     }
 
     protected function reduceRule280($attributes) {
-         $this->semValue = new Node\Expr\ArrayDimFetch(new Node\Scalar\String(Node\Scalar\String::parse($this->semStack[$this->stackPos-(4-1)]), $attributes), $this->semStack[$this->stackPos-(4-3)], $attributes); 
+         $this->semValue = new Node\Expr\ArrayDimFetch(new Node\Scalar\String_(Node\Scalar\String_::parse($this->semStack[$this->stackPos-(4-1)]), $attributes), $this->semStack[$this->stackPos-(4-3)], $attributes); 
     }
 
     protected function reduceRule281($attributes) {
@@ -2285,7 +2285,7 @@ class Parser extends ParserAbstract
     }
 
     protected function reduceRule314($attributes) {
-         $this->semValue = array(Node\Scalar\String::parseEscapeSequences($this->semStack[$this->stackPos-(1-1)], '`')); 
+         $this->semValue = array(Node\Scalar\String_::parseEscapeSequences($this->semStack[$this->stackPos-(1-1)], '`')); 
     }
 
     protected function reduceRule315($attributes) {
@@ -2309,7 +2309,7 @@ class Parser extends ParserAbstract
     }
 
     protected function reduceRule320($attributes) {
-         $this->semValue = new Node\Scalar\String(Node\Scalar\String::parse($this->semStack[$this->stackPos-(1-1)]), $attributes); 
+         $this->semValue = new Node\Scalar\String(Node\Scalar\String_::parse($this->semStack[$this->stackPos-(1-1)]), $attributes); 
     }
 
     protected function reduceRule321($attributes) {
@@ -2345,11 +2345,11 @@ class Parser extends ParserAbstract
     }
 
     protected function reduceRule329($attributes) {
-         $this->semValue = new Node\Scalar\String(Node\Scalar\String::parseDocString($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-2)]), $attributes); 
+         $this->semValue = new Node\Scalar\String_(Node\Scalar\String_::parseDocString($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-2)]), $attributes); 
     }
 
     protected function reduceRule330($attributes) {
-         $this->semValue = new Node\Scalar\String('', $attributes); 
+         $this->semValue = new Node\Scalar\String_('', $attributes); 
     }
 
     protected function reduceRule331($attributes) {
@@ -2801,11 +2801,11 @@ class Parser extends ParserAbstract
     }
 
     protected function reduceRule443($attributes) {
-         $this->semValue = new Node\Scalar\String($this->semStack[$this->stackPos-(1-1)], $attributes); 
+         $this->semValue = new Node\Scalar\String_($this->semStack[$this->stackPos-(1-1)], $attributes); 
     }
 
     protected function reduceRule444($attributes) {
-         $this->semValue = new Node\Scalar\String($this->semStack[$this->stackPos-(1-1)], $attributes); 
+         $this->semValue = new Node\Scalar\String_($this->semStack[$this->stackPos-(1-1)], $attributes); 
     }
 
     protected function reduceRule445($attributes) {

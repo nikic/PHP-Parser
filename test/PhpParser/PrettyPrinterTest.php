@@ -3,7 +3,7 @@
 namespace PhpParser;
 
 use PhpParser\Node\Expr;
-use PhpParser\Node\Scalar\String;
+use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt;
 use PhpParser\PrettyPrinter\Standard;
 
@@ -56,7 +56,7 @@ class PrettyPrinterTest extends CodeTestAbstract
         $this->assertEquals('($a + $b) * $c', $prettyPrinter->prettyPrintExpr($expr));
 
         $expr = new Expr\Closure(array(
-            'stmts' => array(new Stmt\Return_(new String("a\nb")))
+            'stmts' => array(new Stmt\Return_(new String_("a\nb")))
         ));
         $this->assertEquals("function () {\n    return 'a\nb';\n}", $prettyPrinter->prettyPrintExpr($expr));
     }

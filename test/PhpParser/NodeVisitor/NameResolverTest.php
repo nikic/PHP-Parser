@@ -245,7 +245,7 @@ EOC;
             new Stmt\Interface_('B'),
             new Stmt\Function_('C'),
             new Stmt\Const_(array(
-                new Node\Const_('D', new Node\Scalar\String('E'))
+                new Node\Const_('D', new Node\Scalar\String_('E'))
             )),
         ));
 

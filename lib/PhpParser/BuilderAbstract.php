@@ -77,7 +77,7 @@ abstract class BuilderAbstract implements Builder {
         } elseif (is_float($value)) {
             return new Scalar\DNumber($value);
         } elseif (is_string($value)) {
-            return new Scalar\String($value);
+            return new Scalar\String_($value);
         } elseif (is_array($value)) {
             $items = array();
             $lastKey = -1;

@@ -4,7 +4,7 @@ namespace PhpParser\Node\Scalar;
 
 use PhpParser\Node\Scalar;
 
-class String extends Scalar
+class String_ extends Scalar
 {
     /** @var string String value */
     public $value;

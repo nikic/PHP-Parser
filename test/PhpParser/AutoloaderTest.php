@@ -2,6 +2,9 @@
 
 namespace PhpParser;
 
+use PhpParser\Node\Expr;
+use PhpParser\Node\Scalar;
+
 /* The autoloader is already active at this point, so we only check effects here. */
 
 class AutoloaderTest extends \PHPUnit_Framework_TestCase {
@@ -13,6 +16,17 @@ class AutoloaderTest extends \PHPUnit_Framework_TestCase {
         $this->assertInstanceof('PhpParser\Lexer', $lexer);
         $this->assertInstanceof('PhpParser\Parser', $parser);
         $this->assertInstanceof('PhpParser\PrettyPrinter\Standard', $prettyPrinter);
+    }
+
+    public function testPhp7ReservedNames() {
+        if (version_compare(PHP_VERSION, '7.0-dev', '>=')) {
+            $this->markTestSkipped('Cannot create aliases to reserved names on PHP 7');
+        }
+
+        $this->assertInstanceof('PhpParser\Node\Expr\Cast\Bool_', new Expr\Cast\Bool(new Expr\Variable('foo')));
+        $this->assertInstanceof('PhpParser\Node\Expr\Cast\Int_', new Expr\Cast\Int(new Expr\Variable('foo')));
+        $this->assertInstanceof('PhpParser\Node\Expr\Cast\String_', new Expr\Cast\String(new Expr\Variable('foo')));
+        $this->assertInstanceof('PhpParser\Node\Scalar\String_', new Scalar\String('foobar'));
     }
 
     public function testClassExists() {

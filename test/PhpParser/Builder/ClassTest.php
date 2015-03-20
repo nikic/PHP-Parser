@@ -70,7 +70,7 @@ class ClassTest extends \PHPUnit_Framework_TestCase
             array(new Stmt\PropertyProperty('testProperty'))
         );
         $const = new Stmt\ClassConst(array(
-            new Node\Const_('TEST_CONST', new Node\Scalar\String('ABC'))
+            new Node\Const_('TEST_CONST', new Node\Scalar\String_('ABC'))
         ));
         $use = new Stmt\TraitUse(array(new Name('SomeTrait')));
 
