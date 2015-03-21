@@ -747,7 +747,7 @@ ctor_arguments:
 common_scalar:
       T_LNUMBER                                             { $$ = Scalar\LNumber[Scalar\LNumber::parse($1)]; }
     | T_DNUMBER                                             { $$ = Scalar\DNumber[Scalar\DNumber::parse($1)]; }
-    | T_CONSTANT_ENCAPSED_STRING                            { $$ = Scalar\String[Scalar\String_::parse($1)]; }
+    | T_CONSTANT_ENCAPSED_STRING                            { $$ = Scalar\String_[Scalar\String_::parse($1)]; }
     | T_LINE                                                { $$ = Scalar\MagicConst\Line[]; }
     | T_FILE                                                { $$ = Scalar\MagicConst\File[]; }
     | T_DIR                                                 { $$ = Scalar\MagicConst\Dir[]; }

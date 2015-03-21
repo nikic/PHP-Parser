@@ -2309,7 +2309,7 @@ class Parser extends ParserAbstract
     }
 
     protected function reduceRule320($attributes) {
-         $this->semValue = new Node\Scalar\String(Node\Scalar\String_::parse($this->semStack[$this->stackPos-(1-1)]), $attributes); 
+         $this->semValue = new Node\Scalar\String_(Node\Scalar\String_::parse($this->semStack[$this->stackPos-(1-1)]), $attributes); 
     }
 
     protected function reduceRule321($attributes) {
