@@ -61,6 +61,7 @@ class Autoloader
     private static $php7CompatAliases = array(
         'PhpParser\Node\Expr\Cast\Bool' => 'PhpParser\Node\Expr\Cast\Bool_',
         'PhpParser\Node\Expr\Cast\Int' => 'PhpParser\Node\Expr\Cast\Int_',
+        'PhpParser\Node\Expr\Cast\Object' => 'PhpParser\Node\Expr\Cast\Object_',
         'PhpParser\Node\Expr\Cast\String' => 'PhpParser\Node\Expr\Cast\String_',
         'PhpParser\Node\Scalar\String' => 'PhpParser\Node\Scalar\String_',
     );
@@ -168,7 +169,7 @@ class Autoloader
         'PHPParser_Node_Expr_Cast_Bool' => 'PhpParser\Node\Expr\Cast\Bool_',
         'PHPParser_Node_Expr_Cast_Double' => 'PhpParser\Node\Expr\Cast\Double',
         'PHPParser_Node_Expr_Cast_Int' => 'PhpParser\Node\Expr\Cast\Int_',
-        'PHPParser_Node_Expr_Cast_Object' => 'PhpParser\Node\Expr\Cast\Object',
+        'PHPParser_Node_Expr_Cast_Object' => 'PhpParser\Node\Expr\Cast\Object_',
         'PHPParser_Node_Expr_Cast_String' => 'PhpParser\Node\Expr\Cast\String_',
         'PHPParser_Node_Expr_Cast_Unset' => 'PhpParser\Node\Expr\Cast\Unset_',
 

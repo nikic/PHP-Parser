@@ -25,6 +25,7 @@ class AutoloaderTest extends \PHPUnit_Framework_TestCase {
 
         $this->assertInstanceof('PhpParser\Node\Expr\Cast\Bool_', new Expr\Cast\Bool(new Expr\Variable('foo')));
         $this->assertInstanceof('PhpParser\Node\Expr\Cast\Int_', new Expr\Cast\Int(new Expr\Variable('foo')));
+        $this->assertInstanceof('PhpParser\Node\Expr\Cast\Object_', new Expr\Cast\Object(new Expr\Variable('foo')));
         $this->assertInstanceof('PhpParser\Node\Expr\Cast\String_', new Expr\Cast\String(new Expr\Variable('foo')));
         $this->assertInstanceof('PhpParser\Node\Scalar\String_', new Scalar\String('foobar'));
     }

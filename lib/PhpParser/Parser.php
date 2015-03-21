@@ -2055,7 +2055,7 @@ class Parser extends ParserAbstract
     }
 
     protected function reduceRule260($attributes) {
-         $this->semValue = new Node\Expr\Cast\Object($this->semStack[$this->stackPos-(2-2)], $attributes); 
+         $this->semValue = new Node\Expr\Cast\Object_($this->semStack[$this->stackPos-(2-2)], $attributes); 
     }
 
     protected function reduceRule261($attributes) {

@@ -330,7 +330,7 @@ class Standard extends PrettyPrinterAbstract
         return $this->pPrefixOp('Expr_Cast_Array', '(array) ', $node->expr);
     }
 
-    public function pExpr_Cast_Object(Cast\Object $node) {
+    public function pExpr_Cast_Object(Cast\Object_ $node) {
         return $this->pPrefixOp('Expr_Cast_Object', '(object) ', $node->expr);
     }
 

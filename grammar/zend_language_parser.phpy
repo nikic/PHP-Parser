@@ -604,7 +604,7 @@ expr:
     | T_DOUBLE_CAST expr                                    { $$ = Expr\Cast\Double  [$2]; }
     | T_STRING_CAST expr                                    { $$ = Expr\Cast\String_ [$2]; }
     | T_ARRAY_CAST expr                                     { $$ = Expr\Cast\Array_  [$2]; }
-    | T_OBJECT_CAST expr                                    { $$ = Expr\Cast\Object  [$2]; }
+    | T_OBJECT_CAST expr                                    { $$ = Expr\Cast\Object_ [$2]; }
     | T_BOOL_CAST expr                                      { $$ = Expr\Cast\Bool_   [$2]; }
     | T_UNSET_CAST expr                                     { $$ = Expr\Cast\Unset_  [$2]; }
     | T_EXIT exit_expr                                      { $$ = Expr\Exit_        [$2]; }
