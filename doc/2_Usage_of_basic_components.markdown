@@ -102,7 +102,7 @@ with them easier they are grouped into three categories:
    and thus can occur in other expressions. Examples of expressions are `$var`
    (`PhpParser\Node\Expr\Variable`) and `func()` (`PhpParser\Node\Expr\FuncCall`).
  * `PhpParser\Node\Scalar`s are nodes representing scalar values, like `'string'`
-   (`PhpParser\Node\Scalar\String`), `0` (`PhpParser\Node\Scalar\LNumber`) or magic constants
+   (`PhpParser\Node\Scalar\String_`), `0` (`PhpParser\Node\Scalar\LNumber`) or magic constants
    like `__FILE__` (`PhpParser\Node\Scalar\MagicConst\File`). All `PhpParser\Node\Scalar`s extend
    `PhpParser\Node\Expr`, as scalars are expressions, too.
  * There are some nodes not in either of these groups, for example names (`PhpParser\Node\Name`)
@@ -224,7 +224,7 @@ use PhpParser\Node;
 class MyNodeVisitor extends PhpParser\NodeVisitorAbstract
 {
     public function leaveNode(Node $node) {
-        if ($node instanceof Node\Scalar\String) {
+        if ($node instanceof Node\Scalar\String_) {
             $node->value = 'foo';
         }
     }

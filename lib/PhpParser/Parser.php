@@ -2289,7 +2289,7 @@ class Parser extends ParserAbstract
     }
 
     protected function reduceRule315($attributes) {
-         foreach ($this->semStack[$this->stackPos-(1-1)] as &$s) { if (is_string($s)) { $s = Node\Scalar\String::parseEscapeSequences($s, '`'); } }; $this->semValue = $this->semStack[$this->stackPos-(1-1)]; 
+         foreach ($this->semStack[$this->stackPos-(1-1)] as &$s) { if (is_string($s)) { $s = Node\Scalar\String_::parseEscapeSequences($s, '`'); } }; $this->semValue = $this->semStack[$this->stackPos-(1-1)]; 
     }
 
     protected function reduceRule316($attributes) {
@@ -2525,11 +2525,11 @@ class Parser extends ParserAbstract
     }
 
     protected function reduceRule374($attributes) {
-         foreach ($this->semStack[$this->stackPos-(3-2)] as &$s) { if (is_string($s)) { $s = Node\Scalar\String::parseEscapeSequences($s, '"'); } }; $this->semValue = new Node\Scalar\Encapsed($this->semStack[$this->stackPos-(3-2)], $attributes); 
+         foreach ($this->semStack[$this->stackPos-(3-2)] as &$s) { if (is_string($s)) { $s = Node\Scalar\String_::parseEscapeSequences($s, '"'); } }; $this->semValue = new Node\Scalar\Encapsed($this->semStack[$this->stackPos-(3-2)], $attributes); 
     }
 
     protected function reduceRule375($attributes) {
-         foreach ($this->semStack[$this->stackPos-(3-2)] as &$s) { if (is_string($s)) { $s = Node\Scalar\String::parseEscapeSequences($s, null); } } $s = preg_replace('~(\r\n|\n|\r)$~', '', $s); if ('' === $s) array_pop($this->semStack[$this->stackPos-(3-2)]);; $this->semValue = new Node\Scalar\Encapsed($this->semStack[$this->stackPos-(3-2)], $attributes); 
+         foreach ($this->semStack[$this->stackPos-(3-2)] as &$s) { if (is_string($s)) { $s = Node\Scalar\String_::parseEscapeSequences($s, null); } } $s = preg_replace('~(\r\n|\n|\r)$~', '', $s); if ('' === $s) array_pop($this->semStack[$this->stackPos-(3-2)]);; $this->semValue = new Node\Scalar\Encapsed($this->semStack[$this->stackPos-(3-2)], $attributes); 
     }
 
     protected function reduceRule376($attributes) {
