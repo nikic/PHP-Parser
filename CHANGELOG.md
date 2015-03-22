@@ -1,7 +1,52 @@
-Version 1.1.1-dev
+Version 1.2.0-dev
 -----------------
 
-Nothing yet.
+### Changed
+
+* To ensure compatibility with PHP 7, the following node classes have been renamed:
+
+      OLD                             => NEW
+      PhpParser\Node\Expr\Cast\Bool   => PhpParser\Node\Expr\Cast\Bool_
+      PhpParser\Node\Expr\Cast\Int    => PhpParser\Node\Expr\Cast\Int_
+      PhpParser\Node\Expr\Cast\Object => PhpParser\Node\Expr\Cast\Object_
+      PhpParser\Node\Expr\Cast\String => PhpParser\Node\Expr\Cast\String_
+      PhpParser\Node\Scalar\String    => PhpParser\Node\Scalar\String_
+
+  **The previous class names are still supported as aliases.** However it is strongly encouraged to use the new names
+  in order to make your code compatible with PHP 7.
+
+* Subnodes are now stored using real properties instead of an array. This improves performance and memory usage of the
+  initial parse and subsequent node tree operations. The `NodeAbstract` class still supports the old way of specifying
+  subnodes, however this is *deprecated*. In any case properties that are assigned to a node after creation will no
+  longer be considered as subnodes.
+
+* Methods and property declarations will no longer set the `Stmt\Class_::MODIFIER_PUBLIC` flag if no visibility is
+  explicitly given. However the `isPublic()` method will continue to return true. This allows you to distinguish whether
+  a method/property is explicitly or implicitly public and control the pretty printer output more precisely.
+
+* The `Stmt\Class_`, `Stmt\Interface_` and `Stmt\Trait_` nodes now inherit from `Stmt\ClassLike`, which provides a
+  `getMethods()` method. Previously this method was only available on `Stmt\Class_`.
+
+* Support including the `bootstrap.php` file multiple times.
+
+* Make documentation and tests part of the release tarball again.
+
+* Improve support for HHVM and PHP 7.
+
+### Added
+
+* Added support for PHP 7 return type declarations. This adds an additional `returnType` subnode to `Stmt\Function_`,
+  `Stmt\ClassMethod` and `Expr\Closure`.
+
+* Added support for the PHP 7 null coalesce operator `??`. The operator is represented by `Expr\BinaryOp\Coalesce`.
+
+* Added support for the PHP 7 spaceship operator `<=>`. The operator is represented by `Expr\BinaryOp\Spaceship`.
+
+* Added use builder.
+
+* Added global namespace support to the namespace builder.
+
+* Added a constructor flag to `NodeTraverser`, which disables cloning of nodes.
 
 Version 1.1.0 (2015-01-18)
 --------------------------
