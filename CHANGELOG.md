@@ -1,16 +1,21 @@
-Version 1.2.0-dev
+Version 1.2.1-dev
 -----------------
+
+Nothing yet.
+
+Version 1.2.0 (2015-03-22)
+--------------------------
 
 ### Changed
 
 * To ensure compatibility with PHP 7, the following node classes have been renamed:
 
-      OLD                             => NEW
-      PhpParser\Node\Expr\Cast\Bool   => PhpParser\Node\Expr\Cast\Bool_
-      PhpParser\Node\Expr\Cast\Int    => PhpParser\Node\Expr\Cast\Int_
-      PhpParser\Node\Expr\Cast\Object => PhpParser\Node\Expr\Cast\Object_
-      PhpParser\Node\Expr\Cast\String => PhpParser\Node\Expr\Cast\String_
-      PhpParser\Node\Scalar\String    => PhpParser\Node\Scalar\String_
+        OLD                             => NEW
+        PhpParser\Node\Expr\Cast\Bool   => PhpParser\Node\Expr\Cast\Bool_
+        PhpParser\Node\Expr\Cast\Int    => PhpParser\Node\Expr\Cast\Int_
+        PhpParser\Node\Expr\Cast\Object => PhpParser\Node\Expr\Cast\Object_
+        PhpParser\Node\Expr\Cast\String => PhpParser\Node\Expr\Cast\String_
+        PhpParser\Node\Scalar\String    => PhpParser\Node\Scalar\String_
 
   **The previous class names are still supported as aliases.** However it is strongly encouraged to use the new names
   in order to make your code compatible with PHP 7.
