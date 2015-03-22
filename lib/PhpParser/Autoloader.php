@@ -7,12 +7,11 @@ namespace PhpParser;
  */
 class Autoloader
 {
-    /**
-     * Whether the autoloader has been registered.
-     *
-     * @var boolean
-     */
-    protected static $registered = false;
+    /** @var bool Whether the autoloader has been registered. */
+    private static $registered = false;
+
+    /** @var bool Whether we're running on PHP 7. */
+    private static $runningOnPhp7;
 
     /**
      * Registers PhpParser\Autoloader as an SPL autoloader.
@@ -20,12 +19,14 @@ class Autoloader
      * @param bool $prepend Whether to prepend the autoloader instead of appending
      */
     static public function register($prepend = false) {
-        if (static::$registered === true) {
+        if (self::$registered === true) {
             return;
         }
+
         ini_set('unserialize_callback_func', 'spl_autoload_call');
         spl_autoload_register(array(__CLASS__, 'autoload'), true, $prepend);
-        static::$registered = true;
+        self::$registered = true;
+        self::$runningOnPhp7 = version_compare(PHP_VERSION, '7.0-dev', '>=');
     }
 
     /**
@@ -36,8 +37,10 @@ class Autoloader
     static public function autoload($class) {
         if (0 === strpos($class, 'PhpParser\\')) {
             if (isset(self::$php7CompatAliases[$class])) {
-                // This call will fatal on PHP 7
-                class_alias(self::$php7CompatAliases[$class], $class);
+                if (!self::$runningOnPhp7) {
+                    // Register aliases only on PHP 5.x, otherwise this call will fatal
+                    class_alias(self::$php7CompatAliases[$class], $class);
+                }
             }
 
             $fileName = dirname(__DIR__) . '/' . strtr($class, '\\', '/') . '.php';
