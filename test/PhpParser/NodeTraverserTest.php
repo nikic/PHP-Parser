@@ -184,4 +184,20 @@ class NodeTraverserTest extends \PHPUnit_Framework_TestCase
         $postExpected = array(0 => $visitor1, 2 => $visitor3);
         $this->assertAttributeSame($postExpected, 'visitors', $traverser, 'The appropriate visitors are not present after removal');
     }
+
+    public function testCloneNodesByDefault() {
+        $stmts = array(new Node\Stmt\Echo_(array(new String_('Foo'), new String_('Bar'))));
+
+        $traverser = new NodeTraverser;
+
+        $this->assertNotSame($stmts, $traverser->traverse($stmts));
+    }
+
+    public function testCloneNodesDisabled() {
+        $stmts = array(new Node\Stmt\Echo_(array(new String_('Foo'), new String_('Bar'))));
+
+        $traverser = new NodeTraverser(false);
+
+        $this->assertSame($stmts, $traverser->traverse($stmts));
+    }
 }
