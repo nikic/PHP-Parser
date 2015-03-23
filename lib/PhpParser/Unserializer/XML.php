@@ -102,11 +102,7 @@ class XML implements Unserializer
             case 'string':
                 return $this->reader->readString();
             case 'int':
-                $text = $this->reader->readString();
-                if (false === $int = filter_var($text, FILTER_VALIDATE_INT)) {
-                    throw new DomainException(sprintf('"%s" is not a valid integer', $text));
-                }
-                return $int;
+                return $this->parseInt($this->reader->readString());
             case 'float':
                 $text = $this->reader->readString();
                 if (false === $float = filter_var($text, FILTER_VALIDATE_FLOAT)) {
@@ -125,6 +121,13 @@ class XML implements Unserializer
         }
     }
 
+    private function parseInt($text) {
+        if (false === $int = filter_var($text, FILTER_VALIDATE_INT)) {
+            throw new DomainException(sprintf('"%s" is not a valid integer', $text));
+        }
+        return $int;
+    }
+
     protected function readComment() {
         $className = $this->reader->getAttribute('isDocComment') === 'true'
             ? 'PhpParser\Comment\Doc'
@@ -132,7 +135,7 @@ class XML implements Unserializer
         ;
         return new $className(
             $this->reader->readString(),
-            $this->reader->getAttribute('line')
+            $this->parseInt($this->reader->getAttribute('line'))
         );
     }
 

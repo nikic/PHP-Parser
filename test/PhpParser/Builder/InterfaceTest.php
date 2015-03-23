@@ -47,10 +47,10 @@ class InterfaceTest extends \PHPUnit_Framework_TestCase
 
     public function testAddConst() {
         $const = new Stmt\ClassConst(array(
-            new Node\Const_('SPEED_OF_LIGHT', new DNumber(299792458))
+            new Node\Const_('SPEED_OF_LIGHT', new DNumber(299792458.0))
         ));
         $contract = $this->builder->addStmt($const)->getNode();
-        $this->assertSame(299792458, $contract->stmts[0]->consts[0]->value->value);
+        $this->assertSame(299792458.0, $contract->stmts[0]->consts[0]->value->value);
     }
 
     public function testOrder() {

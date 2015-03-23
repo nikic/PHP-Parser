@@ -57,7 +57,7 @@ class XML implements Serializer
         } elseif ($node instanceof Comment) {
             $this->writer->startElement('comment');
             $this->writer->writeAttribute('isDocComment', $node instanceof Comment\Doc ? 'true' : 'false');
-            $this->writer->writeAttribute('line', $node->getLine());
+            $this->writer->writeAttribute('line', (string) $node->getLine());
             $this->writer->text($node->getText());
             $this->writer->endElement();
         } elseif (is_array($node)) {
@@ -69,9 +69,10 @@ class XML implements Serializer
         } elseif (is_string($node)) {
             $this->writer->writeElement('scalar:string', $node);
         } elseif (is_int($node)) {
-            $this->writer->writeElement('scalar:int', $node);
+            $this->writer->writeElement('scalar:int', (string) $node);
         } elseif (is_float($node)) {
-            $this->writer->writeElement('scalar:float', $node);
+            // TODO Higher precision conversion?
+            $this->writer->writeElement('scalar:float', (string) $node);
         } elseif (true === $node) {
             $this->writer->writeElement('scalar:true');
         } elseif (false === $node) {

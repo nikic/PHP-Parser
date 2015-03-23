@@ -22,7 +22,7 @@ class Namespace_ extends Node\Stmt
      * Constructs a namespace node.
      *
      * @param null|Node\Name $name       Name
-     * @param Node[]         $stmts      Statements
+     * @param null|Node[]    $stmts      Statements
      * @param array          $attributes Additional attributes
      */
     public function __construct(Node\Name $name = null, $stmts = array(), array $attributes = array()) {

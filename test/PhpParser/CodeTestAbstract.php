@@ -11,8 +11,8 @@ abstract class CodeTestAbstract extends \PHPUnit_Framework_TestCase
 
         $tests = array();
         foreach ($it as $file) {
-            // read file
-            $fileContents = file_get_contents($file);
+            $fileName = realpath($file->getPathname());
+            $fileContents = file_get_contents($fileName);
 
             // evaluate @@{expr}@@ expressions
             $fileContents = preg_replace_callback(
@@ -25,7 +25,6 @@ abstract class CodeTestAbstract extends \PHPUnit_Framework_TestCase
             $parts = array_map('trim', explode('-----', $fileContents));
 
             // first part is the name
-            $fileName = realpath($file->getPathname());
             $name = array_shift($parts) . ' (' . $fileName . ')';
 
             // multiple sections possible with always two forming a pair

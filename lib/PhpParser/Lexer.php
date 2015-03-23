@@ -48,13 +48,15 @@ class Lexer
      * @throws Error on lexing errors (unterminated comment or unexpected character)
      */
     public function startLexing($code) {
-        $scream = ini_set('xdebug.scream', 0);
+        $scream = ini_set('xdebug.scream', '0');
 
         $this->resetErrors();
         $this->tokens = @token_get_all($code);
         $this->handleErrors();
 
-        ini_set('xdebug.scream', $scream);
+        if (false !== $scream) {
+            ini_set('xdebug.scream', $scream);
+        }
 
         $this->code = $code; // keep the code around for __halt_compiler() handling
         $this->pos  = -1;
@@ -76,7 +78,7 @@ class Lexer
             '~^Unterminated comment starting line ([0-9]+)$~',
             $error['message'], $matches
         )) {
-            throw new Error('Unterminated comment', $matches[1]);
+            throw new Error('Unterminated comment', (int) $matches[1]);
         }
 
         if (preg_match(
