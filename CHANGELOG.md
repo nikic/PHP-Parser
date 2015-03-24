@@ -1,7 +1,13 @@
-Version 1.2.1-dev
+Version 1.2.2-dev
 -----------------
 
 Nothing yet.
+
+Version 1.2.1 (2015-03-24)
+--------------------------
+
+* Fixed registration of the aliases introduced in 1.2.0. Previously the old class names could not be used in
+  `instanceof` checks under some circumstances.
 
 Version 1.2.0 (2015-03-22)
 --------------------------
