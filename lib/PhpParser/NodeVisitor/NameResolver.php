@@ -48,15 +48,11 @@ class NameResolver extends NodeVisitorAbstract
             $this->addNamespacedName($node);
         } elseif ($node instanceof Stmt\Function_) {
             $this->addNamespacedName($node);
-            if ($node->returnType instanceof Name) {
-                $node->returnType = $this->resolveClassName($node->returnType);
-            }
+            $this->resolveSignature($node);
         } elseif ($node instanceof Stmt\ClassMethod
                   || $node instanceof Expr\Closure
         ) {
-            if ($node->returnType instanceof Name) {
-                $node->returnType = $this->resolveClassName($node->returnType);
-            }
+            $this->resolveSignature($node);
         } elseif ($node instanceof Stmt\Const_) {
             foreach ($node->consts as $const) {
                 $this->addNamespacedName($const);
@@ -83,7 +79,7 @@ class NameResolver extends NodeVisitorAbstract
                 $trait = $this->resolveClassName($trait);
             }
 
-            foreach($node->adaptations as $adaptation) {
+            foreach ($node->adaptations as $adaptation) {
                 if (null !== $adaptation->trait) {
                     $adaptation->trait = $this->resolveClassName($adaptation->trait);
                 }
@@ -95,10 +91,6 @@ class NameResolver extends NodeVisitorAbstract
                 }
             }
 
-        } elseif ($node instanceof Node\Param
-                  && $node->type instanceof Name
-        ) {
-            $node->type = $this->resolveClassName($node->type);
         }
     }
 
@@ -136,6 +128,18 @@ class NameResolver extends NodeVisitorAbstract
         }
 
         $this->aliases[$type][$aliasName] = $use->name;
+    }
+
+    /** @param Stmt\Function_|Stmt\ClassMethod|Expr\Closure $node */
+    private function resolveSignature($node) {
+        foreach ($node->params as $param) {
+            if ($param->type instanceof Name) {
+                $param->type = $this->resolveClassName($param->type);
+            }
+        }
+        if ($node->returnType instanceof Name) {
+            $node->returnType = $this->resolveClassName($node->returnType);
+        }
     }
 
     protected function resolveClassName(Name $name) {
