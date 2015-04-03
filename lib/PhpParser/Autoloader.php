@@ -40,15 +40,8 @@ class Autoloader
                     return;
                 }
 
-                $newClass = self::$php7AliasesOldToNew[$class];
-                if (class_exists($newClass, false)) {
-                    // If the new class is already loaded, alias it right away
-                    class_alias($class, $newClass);
-                    return;
-                }
-
-                // Otherwise load the new class and create the alias afterwards
-                $class = $newClass;
+                // Load the new class, alias will be registered afterwards
+                $class = self::$php7AliasesOldToNew[$class];
             }
 
             $fileName = dirname(__DIR__) . '/' . strtr($class, '\\', '/') . '.php';
