@@ -23,7 +23,6 @@ class Autoloader
             return;
         }
 
-        ini_set('unserialize_callback_func', 'spl_autoload_call');
         spl_autoload_register(array(__CLASS__, 'autoload'), true, $prepend);
         self::$registered = true;
         self::$runningOnPhp7 = version_compare(PHP_VERSION, '7.0-dev', '>=');
