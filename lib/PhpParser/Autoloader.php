@@ -36,10 +36,19 @@ class Autoloader
     static public function autoload($class) {
         if (0 === strpos($class, 'PhpParser\\')) {
             if (isset(self::$php7AliasesOldToNew[$class])) {
-                // Old class name was used, register alias to new one (which will
-                // be autoloaded, if it wasn't yet).
-                self::registerPhp7Alias(self::$php7AliasesOldToNew[$class], $class);
-                return;
+                if (self::$runningOnPhp7) {
+                    return;
+                }
+
+                $newClass = self::$php7AliasesOldToNew[$class];
+                if (class_exists($newClass, false)) {
+                    // If the new class is already loaded, alias it right away
+                    class_alias($class, $newClass);
+                    return;
+                }
+
+                // Otherwise load the new class and create the alias afterwards
+                $class = $newClass;
             }
 
             $fileName = dirname(__DIR__) . '/' . strtr($class, '\\', '/') . '.php';
@@ -50,21 +59,15 @@ class Autoloader
             if (isset(self::$php7AliasesNewToOld[$class])) {
                 // New class name was used, register alias for old one, otherwise
                 // it won't be usable in "instanceof" and other non-autoloading places.
-                self::registerPhp7Alias($class, self::$php7AliasesNewToOld[$class]);
+                if (!self::$runningOnPhp7) {
+                    class_alias($class, self::$php7AliasesNewToOld[$class]);
+                }
             }
         } else if (0 === strpos($class, 'PHPParser_')) {
             if (isset(self::$nonNamespacedAliases[$class])) {
                 // Register all aliases at once to avoid dependency issues
                 self::registerNonNamespacedAliases();
             }
-        }
-    }
-
-    private static function registerPhp7Alias($old, $new) {
-        // Registering these aliases would throw a fatal error on PHP 7,
-        // we want to avoid that.
-        if (!self::$runningOnPhp7) {
-            class_alias($old, $new);
         }
     }
 
