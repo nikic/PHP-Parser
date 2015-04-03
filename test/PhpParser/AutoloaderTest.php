@@ -38,4 +38,19 @@ class AutoloaderTest extends \PHPUnit_Framework_TestCase {
         $this->assertFalse(class_exists('PhpParser\FooBar'));
         $this->assertFalse(class_exists('PHPParser_FooBar'));
     }
+    
+    /**
+     * @test
+     * @runInSeparateProcess
+     * @dataProvider provideTestRunInSeparateProcess
+     */
+    public function testRunInSeparateProcess($mock) {
+        $this->assertTrue(true);
+    }
+    
+    public function provideTestRunInSeparateProcess() {
+        return array(
+            array($this->getMock("PhpParser\\AutoloaderTest"))
+        );
+    }
 }
