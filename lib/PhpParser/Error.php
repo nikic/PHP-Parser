@@ -6,6 +6,7 @@ class Error extends \RuntimeException
 {
     protected $rawMessage;
     protected $rawLine;
+    protected $columns;
 
     /**
      * Creates an Exception signifying a parse error.
@@ -13,9 +14,10 @@ class Error extends \RuntimeException
      * @param string $message Error message
      * @param int    $line    Error line in PHP file
      */
-    public function __construct($message, $line = -1) {
+    public function __construct($message, $line = -1, array $columns=array()) {
         $this->rawMessage = (string) $message;
         $this->rawLine    = (int) $line;
+        $this->columns    = $columns;
         $this->updateMessage();
     }
 
@@ -67,6 +69,13 @@ class Error extends \RuntimeException
             $this->message .= ' on unknown line';
         } else {
             $this->message .= ' on line ' . $this->rawLine;
+        }
+
+        if(isset($this->columns[0]) && isset($this->columns[1])){
+            $this->message .= ', column ' . $this->columns[0];
+            if($this->columns[1] > $this->columns[0]){
+                $this->message .= ' to ' . $this->columns[1];
+            }
         }
     }
 }

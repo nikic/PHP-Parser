@@ -239,9 +239,36 @@ abstract class ParserAbstract
                         $expectedString = '';
                     }
 
+                    // calculate begin and end column-numbers for error
+                    $tokens = $this->lexer->getTokens();
+                    $startColumn = 0;
+                    $endColumn = 0;
+                    $errorPosition = $this->lexer->getPosition();
+                    for($i=$errorPosition;$i>=0;$i--){
+                        if(is_string($tokens[$i])){
+                            $endColumn += strlen($tokens[$i]);
+
+                        }elseif(isset($tokens[$i][1])){
+                            $endColumn += strlen($tokens[$i][1]);
+                            if(strpos($tokens[$i][1], "\n")!==false){
+                                $endColumn -= strpos($tokens[$i][1], "\n")+1;
+                                break;
+                            }
+                        }
+                    }
+                    if(isset($tokens[$errorPosition][1])){
+                        $endColumn++;
+                        $startColumn = $endColumn;
+                        $startColumn -= strlen($tokens[$errorPosition][1]);
+                    }else{
+                        $startColumn = $endColumn;
+                        $endColumn++;
+                    }
+
                     throw new Error(
                         'Syntax error, unexpected ' . $this->symbolToName[$symbol] . $expectedString,
-                        $startAttributes['startLine']
+                        $startAttributes['startLine'],
+                        array($startColumn, $endColumn)
                     );
                 }
             }
