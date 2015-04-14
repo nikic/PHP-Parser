@@ -239,9 +239,14 @@ abstract class ParserAbstract
                         $expectedString = '';
                     }
 
+                    $tokens = $this->lexer->getTokens();
+                    $errorPosition = $this->lexer->getPosition();
+
                     throw new Error(
                         'Syntax error, unexpected ' . $this->symbolToName[$symbol] . $expectedString,
-                        $startAttributes['startLine']
+                        $startAttributes['startLine'],
+                        $tokens,
+                        $errorPosition
                     );
                 }
             }
