@@ -32,4 +32,33 @@ class ErrorTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(-1, $error->getRawLine());
         $this->assertSame('Some error on unknown line', $error->getMessage());
     }
+
+    /**
+     * @depends testConstruct
+     */
+    public function testColumnNumbers() {
+
+        $faultyCode = "<?php \$foo = bar baz; ?>";
+
+        $tokens = token_get_all($faultyCode);
+
+        $error = new Error('Some error', 1, $tokens, 5);
+
+        $this->assertSame(true, $error->hasTokenAttributes());
+        $this->assertSame(13, $error->getBeginColumn());
+        $this->assertSame(16, $error->getEndColumn());
+
+    }
+
+    /**
+     * @depends testConstruct
+     */
+    public function testTokenInformationMissing(){
+
+        $error = new Error('Some error', 3);
+
+        $this->assertSame(false, $error->hasTokenAttributes());
+        $this->assertSame(null, $error->getBeginColumn());
+        $this->assertSame(null, $error->getEndColumn());
+    }
 }

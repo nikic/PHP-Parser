@@ -10,7 +10,7 @@ ini_set('xdebug.var_display_max_children', -1);
 ini_set('xdebug.var_display_max_data', -1);
 ini_set('xdebug.var_display_max_depth', -1);
 
-list($operations, $files) = parseArgs($argv);
+list($operations, $files, $attributes) = parseArgs($argv);
 
 /* Dump nodes by default */
 if (empty($operations)) {
@@ -45,7 +45,16 @@ foreach ($files as $file) {
     try {
         $stmts = $parser->parse($code);
     } catch (PhpParser\Error $e) {
-        die("==> Parse Error: {$e->getMessage()}\n");
+
+        $message = $e->getMessage();
+
+        if($attributes['with-column-info'] && $e->hasTokenAttributes()){
+            $beginColumn = $e->getBeginColumn();
+            $endColumn   = $e->getEndColumn();
+            $message .= ", column {$beginColumn} to {$endColumn}";
+        }
+
+        die($message . "\n");
     }
 
     foreach ($operations as $operation) {
@@ -81,11 +90,12 @@ The file arguments can also be replaced with a code string:
 
 Operations is a list of the following options (--dump by default):
 
-    --dump           -d  Dump nodes using NodeDumper
-    --pretty-print   -p  Pretty print file using PrettyPrinter\Standard
-    --serialize-xml      Serialize nodes using Serializer\XML
-    --var-dump           var_dump() nodes (for exact structure)
-    --resolve-names  -N  Resolve names using NodeVisitor\NameResolver
+    --dump             -d  Dump nodes using NodeDumper
+    --pretty-print     -p  Pretty print file using PrettyPrinter\Standard
+    --serialize-xml        Serialize nodes using Serializer\XML
+    --var-dump             var_dump() nodes (for exact structure)
+    --resolve-names    -N  Resolve names using NodeVisitor\NameResolver
+    --with-column-info -c  Show column-numbers for occoured errors. (if any)
 
 Example:
 
@@ -101,6 +111,9 @@ OUTPUT
 function parseArgs($args) {
     $operations = array();
     $files = array();
+    $attributes = array(
+        'with-column-info' => false,
+    );
 
     array_shift($args);
     $parseOptions = true;
@@ -129,6 +142,10 @@ function parseArgs($args) {
             case '-N';
                 $operations[] = 'resolve-names';
                 break;
+            case '--with-column-info':
+            case '-c';
+                $attributes['with-column-info'] = true;
+                break;
             case '--':
                 $parseOptions = false;
                 break;
@@ -141,5 +158,5 @@ function parseArgs($args) {
         }
     }
 
-    return array($operations, $files);
+    return array($operations, $files, $attributes);
 }

@@ -3,4 +3,4 @@ New without a class
 <?php
 new;
 -----
-Syntax error, unexpected ';' on line 2, column 4 to 5
+Syntax error, unexpected ';' on line 2
