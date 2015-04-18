@@ -93,7 +93,7 @@ class Error extends \RuntimeException
     }
 
     /**
-     * Gets the start column (0-based) into the line where the error started.
+     * Gets the start column (1-based) into the line where the error started.
      *
      * @param string $code Source code of the file
      * @return int
@@ -107,7 +107,7 @@ class Error extends \RuntimeException
     }
 
     /**
-     * Gets the end column (0-based) into the line where the error ended.
+     * Gets the end column (1-based) into the line where the error ended.
      *
      * @param string $code Source code of the file
      * @return int
@@ -130,7 +130,7 @@ class Error extends \RuntimeException
             $lineStartPos = -1;
         }
 
-        return $pos - $lineStartPos - 1;
+        return $pos - $lineStartPos;
     }
 
     /**
