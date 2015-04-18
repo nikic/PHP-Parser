@@ -3,4 +3,4 @@ Invalid variadic function
 <?php
 function foo(...$foo = []) {}
 -----
-Variadic parameter cannot have a default value on line 2
+Variadic parameter cannot have a default value from 2:23 to 2:24

@@ -37,7 +37,10 @@ class Interface_ extends ClassLike
 
         foreach ($this->extends as $interface) {
             if (isset(self::$specialNames[(string) $interface])) {
-                throw new Error(sprintf('Cannot use \'%s\' as interface name as it is reserved', $interface));
+                throw new Error(
+                    sprintf('Cannot use \'%s\' as interface name as it is reserved', $interface),
+                    $interface->getAttributes()
+                );
             }
         }
     }

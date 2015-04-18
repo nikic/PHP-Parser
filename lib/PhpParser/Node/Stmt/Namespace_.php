@@ -31,13 +31,16 @@ class Namespace_ extends Node\Stmt
         $this->stmts = $stmts;
 
         if (isset(self::$specialNames[(string) $this->name])) {
-            throw new Error(sprintf('Cannot use \'%s\' as namespace name', $this->name));
+            throw new Error(
+                sprintf('Cannot use \'%s\' as namespace name', $this->name),
+                $this->name->getAttributes()
+            );
         }
 
         if (null !== $this->stmts) {
             foreach ($this->stmts as $stmt) {
                 if ($stmt instanceof self) {
-                    throw new Error('Namespace declarations cannot be nested', $stmt->getLine());
+                    throw new Error('Namespace declarations cannot be nested', $stmt->getAttributes());
                 }
             }
         }

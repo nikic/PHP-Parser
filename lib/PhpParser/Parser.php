@@ -1143,7 +1143,7 @@ class Parser extends ParserAbstract
     }
 
     protected function reduceRule32($attributes) {
-         throw new Error('__HALT_COMPILER() can only be used from the outermost scope'); 
+         throw new Error('__HALT_COMPILER() can only be used from the outermost scope', $attributes);
     }
 
     protected function reduceRule33($attributes) {

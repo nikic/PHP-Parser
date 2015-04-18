@@ -37,7 +37,7 @@ class Param extends NodeAbstract
         $this->default = $default;
 
         if ($variadic && null !== $default) {
-            throw new Error('Variadic parameter cannot have a default value');
+            throw new Error('Variadic parameter cannot have a default value', $default->getAttributes());
         }
     }
 

@@ -5,4 +5,4 @@ if (true) {
     __halt_compiler();
 }
 -----
-__HALT_COMPILER() can only be used from the outermost scope on line 3
+__HALT_COMPILER() can only be used from the outermost scope from 3:4 to 3:18

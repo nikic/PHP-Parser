@@ -2,11 +2,11 @@ Invalid namespace names
 -----
 <?php namespace self;
 -----
-Cannot use 'self' as namespace name on line 1
+Cannot use 'self' as namespace name from 1:16 to 1:19
 -----
 <?php namespace parent;
 -----
-Cannot use 'parent' as namespace name on line 1
+Cannot use 'parent' as namespace name from 1:16 to 1:21
 -----
 <?php namespace static;
 -----

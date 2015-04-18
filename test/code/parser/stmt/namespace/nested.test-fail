@@ -7,4 +7,4 @@ namespace A {
     }
 }
 -----
-Namespace declarations cannot be nested on line 3
+Namespace declarations cannot be nested from 3:4 to 5:4

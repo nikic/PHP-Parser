@@ -14,11 +14,11 @@ Syntax error, unexpected T_STATIC, expecting T_STRING from 1:12 to 1:17
 -----
 <?php class A extends self {}
 -----
-Cannot use 'self' as class name as it is reserved on line 1
+Cannot use 'self' as class name as it is reserved from 1:22 to 1:25
 -----
 <?php class A extends parent {}
 -----
-Cannot use 'parent' as class name as it is reserved on line 1
+Cannot use 'parent' as class name as it is reserved from 1:22 to 1:27
 -----
 <?php class A extends static {}
 -----
@@ -26,11 +26,11 @@ Syntax error, unexpected T_STATIC, expecting T_STRING or T_NAMESPACE or T_NS_SEP
 -----
 <?php class A implements self {}
 -----
-Cannot use 'self' as interface name as it is reserved on line 1
+Cannot use 'self' as interface name as it is reserved from 1:25 to 1:28
 -----
 <?php class A implements parent {}
 -----
-Cannot use 'parent' as interface name as it is reserved on line 1
+Cannot use 'parent' as interface name as it is reserved from 1:25 to 1:30
 -----
 <?php class A implements static {}
 -----
@@ -50,11 +50,11 @@ Syntax error, unexpected T_STATIC, expecting T_STRING from 1:16 to 1:21
 -----
 <?php interface A extends self {}
 -----
-Cannot use 'self' as interface name as it is reserved on line 1
+Cannot use 'self' as interface name as it is reserved from 1:26 to 1:29
 -----
 <?php interface A extends parent {}
 -----
-Cannot use 'parent' as interface name as it is reserved on line 1
+Cannot use 'parent' as interface name as it is reserved from 1:26 to 1:31
 -----
 <?php interface A extends static {}
 -----
