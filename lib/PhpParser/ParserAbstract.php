@@ -205,8 +205,8 @@ abstract class ParserAbstract
                             + $endAttributes
                         );
                     } catch (Error $e) {
-                        if (-1 === $e->getRawLine() && isset($startAttributes['startLine'])) {
-                            $e->setRawLine($startAttributes['startLine']);
+                        if (-1 === $e->getStartLine() && isset($startAttributes['startLine'])) {
+                            $e->setStartLine($startAttributes['startLine']);
                         }
 
                         throw $e;
@@ -239,14 +239,9 @@ abstract class ParserAbstract
                         $expectedString = '';
                     }
 
-                    $tokens = $this->lexer->getTokens();
-                    $errorPosition = $this->lexer->getPosition();
-
                     throw new Error(
                         'Syntax error, unexpected ' . $this->symbolToName[$symbol] . $expectedString,
-                        $startAttributes['startLine'],
-                        $tokens,
-                        $errorPosition
+                        $startAttributes + $endAttributes
                     );
                 }
             }

@@ -33,32 +33,55 @@ class ErrorTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('Some error on unknown line', $error->getMessage());
     }
 
-    /**
-     * @depends testConstruct
-     */
-    public function testColumnNumbers() {
+    /** @dataProvider provideTestColumnInfo */
+    public function testColumnInfo($code, $startPos, $endPos, $startColumn, $endColumn) {
+        $error = new Error('Some error', array(
+            'startFilePos' => $startPos,
+            'endFilePos' => $endPos,
+        ));
 
-        $faultyCode = "<?php \$foo = bar baz; ?>";
-
-        $tokens = token_get_all($faultyCode);
-
-        $error = new Error('Some error', 1, $tokens, 5);
-
-        $this->assertSame(true, $error->hasTokenAttributes());
-        $this->assertSame(13, $error->getBeginColumn());
-        $this->assertSame(16, $error->getEndColumn());
+        $this->assertSame(true, $error->hasColumnInfo());
+        $this->assertSame($startColumn, $error->getStartColumn($code));
+        $this->assertSame($endColumn, $error->getEndColumn($code));
 
     }
 
-    /**
-     * @depends testConstruct
-     */
-    public function testTokenInformationMissing(){
+    public function provideTestColumnInfo() {
+        return array(
+            // Error at "bar"
+            array("<?php foo bar baz", 10, 12, 10, 12),
+            array("<?php\nfoo bar baz", 10, 12, 4, 6),
+            array("<?php foo\nbar baz", 10, 12, 0, 2),
+            array("<?php foo bar\nbaz", 10, 12, 10, 12),
+            array("<?php\r\nfoo bar baz", 11, 13, 4, 6),
+            // Error at "baz"
+            array("<?php foo bar baz", 14, 16, 14, 16),
+            array("<?php foo bar\nbaz", 14, 16, 0, 2),
+            // Error at string literal
+            array("<?php foo 'bar\nbaz' xyz", 10, 18, 10, 3),
+            array("<?php\nfoo 'bar\nbaz' xyz", 10, 18, 4, 3),
+            array("<?php foo\n'\nbarbaz\n'\nxyz", 10, 19, 0, 0),
+            // Error over full string
+            array("<?php", 0, 4, 0, 4),
+            array("<?\nphp", 0, 5, 0, 2),
+        );
+    }
 
+    public function testNoColumnInfo(){
         $error = new Error('Some error', 3);
 
-        $this->assertSame(false, $error->hasTokenAttributes());
-        $this->assertSame(null, $error->getBeginColumn());
-        $this->assertSame(null, $error->getEndColumn());
+        $this->assertSame(false, $error->hasColumnInfo());
+        try {
+            $error->getStartColumn('');
+            $this->fail('Expected RuntimeException');
+        } catch (\RuntimeException $e) {
+            $this->assertEquals('Error does not have column information', $e->getMessage());
+        }
+        try {
+            $error->getEndColumn('');
+            $this->fail('Expected RuntimeException');
+        } catch (\RuntimeException $e) {
+            $this->assertEquals('Error does not have column information', $e->getMessage());
+        }
     }
 }
