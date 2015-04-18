@@ -241,7 +241,7 @@ abstract class ParserAbstract
 
                     throw new Error(
                         'Syntax error, unexpected ' . $this->symbolToName[$symbol] . $expectedString,
-                        $startAttributes + $endAttributes
+                        $startAttributes + $nextEndAttributes
                     );
                 }
             }

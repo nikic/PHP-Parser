@@ -30,15 +30,24 @@ class ParserTest extends CodeTestAbstract
     /**
      * @dataProvider provideTestParseFail
      */
-    public function testParseFail($name, $code, $msg) {
-        $parser = new Parser(new Lexer\Emulative);
+    public function testParseFail($name, $code, $expectedMsg) {
+        $lexer = new Lexer\Emulative(array('usedAttributes' => array(
+            'startLine', 'endLine', 'startFilePos', 'endFilePos'
+        )));
+        $parser = new Parser($lexer);
 
         try {
             $parser->parse($code);
 
             $this->fail(sprintf('"%s": Expected Error', $name));
         } catch (Error $e) {
-            $this->assertSame($msg, $e->getMessage(), $name);
+            if ($e->hasColumnInfo()) {
+                $msg = $e->getRawMessage() . ' from ' . $e->getStartLine() . ':' . $e->getStartColumn($code)
+                    . ' to ' . $e->getEndLine() . ':' . $e->getEndColumn($code);
+            } else {
+                $msg = $e->getMessage();
+            }
+            $this->assertSame($expectedMsg, $msg, $name);
         }
     }
 

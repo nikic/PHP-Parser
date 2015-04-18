@@ -21,7 +21,10 @@ if (empty($files)) {
     showHelp("Must specify at least one file.");
 }
 
-$parser = new PhpParser\Parser(new PhpParser\Lexer\Emulative);
+$lexer = new PhpParser\Lexer\Emulative(array('usedAttributes' => array(
+    'startLine', 'endLine', 'startFilePos', 'endFilePos'
+)));
+$parser = new PhpParser\Parser($lexer);
 $dumper = new PhpParser\NodeDumper;
 $prettyPrinter = new PhpParser\PrettyPrinter\Standard;
 $serializer = new PhpParser\Serializer\XML;
@@ -45,13 +48,14 @@ foreach ($files as $file) {
     try {
         $stmts = $parser->parse($code);
     } catch (PhpParser\Error $e) {
-
-        $message = $e->getMessage();
-
-        if($attributes['with-column-info'] && $e->hasTokenAttributes()){
-            $beginColumn = $e->getBeginColumn();
-            $endColumn   = $e->getEndColumn();
-            $message .= ", column {$beginColumn} to {$endColumn}";
+        if ($attributes['with-column-info'] && $e->hasColumnInfo()) {
+            $startLine = $e->getStartLine();
+            $endLine = $e->getEndLine();
+            $startColumn = $e->getStartColumn($code);
+            $endColumn   = $e->getEndColumn($code);
+            $message .= $e->getRawMessage() . " from $startLine:$startColumn to $endLine:$endColumn";
+        } else {
+            $message = $e->getMessage();
         }
 
         die($message . "\n");
@@ -95,7 +99,7 @@ Operations is a list of the following options (--dump by default):
     --serialize-xml        Serialize nodes using Serializer\XML
     --var-dump             var_dump() nodes (for exact structure)
     --resolve-names    -N  Resolve names using NodeVisitor\NameResolver
-    --with-column-info -c  Show column-numbers for occoured errors. (if any)
+    --with-column-info -c  Show column-numbers for errors (if available)
 
 Example:
 
