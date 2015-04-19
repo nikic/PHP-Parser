@@ -175,7 +175,8 @@ inner_statement:
       statement                                             { $$ = $1; }
     | function_declaration_statement                        { $$ = $1; }
     | class_declaration_statement                           { $$ = $1; }
-    | T_HALT_COMPILER                                       { error('__HALT_COMPILER() can only be used from the outermost scope'); }
+    | T_HALT_COMPILER
+          { throw new Error('__HALT_COMPILER() can only be used from the outermost scope', $attributes); }
 ;
 
 statement:

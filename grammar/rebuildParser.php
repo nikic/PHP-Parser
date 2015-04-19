@@ -102,12 +102,6 @@ function resolveMacros($code) {
                 $matches['args']
             );
 
-            if ('error' == $name) {
-                assertArgs(1, $args, $name);
-
-                return 'throw new Error(' . $args[0] . ')';
-            }
-
             if ('init' == $name) {
                 return '$$ = array(' . implode(', ', $args) . ')';
             }

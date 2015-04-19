@@ -14,7 +14,8 @@ class Parser extends ParserAbstract
     protected $actionTableSize = 1118;
     protected $gotoTableSize = 573;
 
-    protected $invalidToken = 156;
+    protected $invalidSymbol = 156;
+    protected $errorSymbol = 1;
     protected $defaultAction = -32766;
     protected $unexpectedTokenRule = 32767;
 
@@ -1143,7 +1144,7 @@ class Parser extends ParserAbstract
     }
 
     protected function reduceRule32($attributes) {
-         throw new Error('__HALT_COMPILER() can only be used from the outermost scope', $attributes);
+         throw new Error('__HALT_COMPILER() can only be used from the outermost scope', $attributes); 
     }
 
     protected function reduceRule33($attributes) {
