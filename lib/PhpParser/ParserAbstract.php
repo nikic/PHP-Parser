@@ -78,10 +78,14 @@ abstract class ParserAbstract
     protected $lexer;
     /** @var mixed Temporary value containing the result of last semantic action (reduction) */
     protected $semValue;
-    /** @var array Semantic value stack (contains values of tokens and semantic action results) */
-    protected $semStack;
     /** @var int Position in stacks (state stack, semantic value stack, attribute stack) */
     protected $stackPos;
+    /** @var array Semantic value stack (contains values of tokens and semantic action results) */
+    protected $semStack;
+    /** @var array[] Start attribute stack */
+    protected $startAttributeStack;
+    /** @var array End attributes of last *shifted* token */
+    protected $endAttributes;
 
     /** @var bool Whether to throw on first error */
     protected $throwOnError;
@@ -131,11 +135,11 @@ abstract class ParserAbstract
         // From the first token only the startAttributes are taken and from the last only
         // the endAttributes. Both are merged using the array union operator (+).
         $startAttributes = array('startLine' => 1);
-        $endAttributes   = array();
+        $this->endAttributes = array();
 
         // In order to figure out the attributes for the starting token, we have to keep
         // them in a stack
-        $attributeStack = array($startAttributes);
+        $this->startAttributeStack = array($startAttributes);
 
         // Start off in the initial state and keep a stack of previous states
         $state = 0;
@@ -174,7 +178,7 @@ abstract class ParserAbstract
                         ));
                     }
 
-                    $attributeStack[$this->stackPos] = $startAttributes;
+                    $this->startAttributeStack[$this->stackPos] = $startAttributes;
 
                     //$this->traceRead($symbol);
                 }
@@ -197,10 +201,10 @@ abstract class ParserAbstract
                         //$this->traceShift($symbol);
 
                         ++$this->stackPos;
-                        $stateStack[$this->stackPos]     = $state = $action;
+                        $stateStack[$this->stackPos] = $state = $action;
                         $this->semStack[$this->stackPos] = $tokenValue;
-                        $attributeStack[$this->stackPos] = $startAttributes;
-                        $endAttributes = $nextEndAttributes;
+                        $this->startAttributeStack[$this->stackPos] = $startAttributes;
+                        $this->endAttributes = $nextEndAttributes;
                         $symbol = self::SYMBOL_NONE;
 
                         if ($errorState) {
@@ -231,10 +235,7 @@ abstract class ParserAbstract
                     //$this->traceReduce($rule);
 
                     try {
-                        $this->{'reduceRule' . $rule}(
-                            $attributeStack[$this->stackPos - $this->ruleToLength[$rule]]
-                            + $endAttributes
-                        );
+                        $this->{'reduceRule' . $rule}();
                     } catch (Error $e) {
                         if (-1 === $e->getStartLine() && isset($startAttributes['startLine'])) {
                             $e->setStartLine($startAttributes['startLine']);
@@ -256,7 +257,7 @@ abstract class ParserAbstract
                     ++$this->stackPos;
                     $stateStack[$this->stackPos]     = $state;
                     $this->semStack[$this->stackPos] = $this->semValue;
-                    $attributeStack[$this->stackPos] = $startAttributes;
+                    $this->startAttributeStack[$this->stackPos] = $startAttributes;
                 } else {
                     /* error */
                     switch ($errorState) {

@@ -43,6 +43,7 @@ $grammarCode = resolveConstants($grammarCode);
 $grammarCode = resolveNodes($grammarCode);
 $grammarCode = resolveMacros($grammarCode);
 $grammarCode = resolveArrays($grammarCode);
+$grammarCode = resolveStackAccess($grammarCode);
 
 file_put_contents($tmpGrammarFile, $grammarCode);
 
@@ -83,7 +84,7 @@ function resolveNodes($code) {
                 $paramCode .= $param . ', ';
             }
 
-            return 'new Node\\' . $matches['name'] . '(' . $paramCode . '$attributes)';
+            return 'new Node\\' . $matches['name'] . '(' . $paramCode . 'attributes())';
         },
         $code
     );
@@ -101,6 +102,11 @@ function resolveMacros($code) {
                 '(?:' . PARAMS . '|' . ARGS . ')(*SKIP)(*FAIL)|,',
                 $matches['args']
             );
+
+            if ('attributes' == $name) {
+                assertArgs(0, $args, $name);
+                return '$this->startAttributeStack[#0] + $this->endAttributes';
+            }
 
             if ('init' == $name) {
                 return '$$ = array(' . implode(', ', $args) . ')';
@@ -183,6 +189,12 @@ function resolveArrays($code) {
         },
         $code
     );
+}
+
+function resolveStackAccess($code) {
+    $code = preg_replace('/\$\d+/', '$this->semStack[$0]', $code);
+    $code = preg_replace('/#(\d+)/', '$$1', $code);
+    return $code;
 }
 
 function moveFileWithDirCheck($fromPath, $toPath) {
