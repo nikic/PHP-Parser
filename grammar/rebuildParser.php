@@ -105,7 +105,7 @@ function resolveMacros($code) {
 
             if ('attributes' == $name) {
                 assertArgs(0, $args, $name);
-                return '$this->startAttributeStack[#0] + $this->endAttributes';
+                return '$this->startAttributeStack[#1] + $this->endAttributes';
             }
 
             if ('init' == $name) {

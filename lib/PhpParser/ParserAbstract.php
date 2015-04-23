@@ -178,7 +178,9 @@ abstract class ParserAbstract
                         ));
                     }
 
-                    $this->startAttributeStack[$this->stackPos] = $startAttributes;
+                    // This is necessary to assign some meaningful attributes to /* empty */ productions. They'll get
+                    // the attributes of the next token, even though they don't contain it themselves.
+                    $this->startAttributeStack[$this->stackPos+1] = $startAttributes;
 
                     //$this->traceRead($symbol);
                 }
@@ -257,7 +259,6 @@ abstract class ParserAbstract
                     ++$this->stackPos;
                     $stateStack[$this->stackPos]     = $state;
                     $this->semStack[$this->stackPos] = $this->semValue;
-                    $this->startAttributeStack[$this->stackPos] = $startAttributes;
                 } else {
                     /* error */
                     switch ($errorState) {
