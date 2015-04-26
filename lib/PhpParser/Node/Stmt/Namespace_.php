@@ -30,7 +30,7 @@ class Namespace_ extends Node\Stmt
         $this->name = $name;
         $this->stmts = $stmts;
 
-        if (isset(self::$specialNames[(string) $this->name])) {
+        if (isset(self::$specialNames[strtolower($this->name)])) {
             throw new Error(
                 sprintf('Cannot use \'%s\' as namespace name', $this->name),
                 $this->name->getAttributes()

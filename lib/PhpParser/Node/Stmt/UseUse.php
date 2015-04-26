@@ -24,7 +24,7 @@ class UseUse extends Node\Stmt
             $alias = $name->getLast();
         }
 
-        if ('self' == $alias || 'parent' == $alias) {
+        if ('self' == strtolower($alias) || 'parent' == strtolower($alias)) {
             throw new Error(sprintf(
                 'Cannot use %s as %s because \'%2$s\' is a special class name',
                 $name, $alias

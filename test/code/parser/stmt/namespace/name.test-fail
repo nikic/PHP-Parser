@@ -4,9 +4,9 @@ Invalid namespace names
 -----
 Cannot use 'self' as namespace name from 1:17 to 1:20
 -----
-<?php namespace parent;
+<?php namespace PARENT;
 -----
-Cannot use 'parent' as namespace name from 1:17 to 1:22
+Cannot use 'PARENT' as namespace name from 1:17 to 1:22
 -----
 <?php namespace static;
 -----
@@ -16,9 +16,9 @@ Syntax error, unexpected T_STATIC, expecting T_STRING or T_NS_SEPARATOR or '{' f
 -----
 Cannot use A as self because 'self' is a special class name on line 1
 -----
-<?php use B as parent;
+<?php use B as PARENT;
 -----
-Cannot use B as parent because 'parent' is a special class name on line 1
+Cannot use B as PARENT because 'PARENT' is a special class name on line 1
 -----
 <?php use C as static;
 -----

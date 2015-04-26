@@ -48,11 +48,11 @@ class Class_ extends ClassLike
         $this->implements = isset($subNodes['implements']) ? $subNodes['implements'] : array();
         $this->stmts = isset($subNodes['stmts']) ? $subNodes['stmts'] : array();
 
-        if (null !== $this->name && isset(self::$specialNames[$this->name])) {
+        if (null !== $this->name && isset(self::$specialNames[strtolower($this->name)])) {
             throw new Error(sprintf('Cannot use \'%s\' as class name as it is reserved', $this->name));
         }
 
-        if (isset(self::$specialNames[(string) $this->extends])) {
+        if (isset(self::$specialNames[strtolower($this->extends)])) {
             throw new Error(
                 sprintf('Cannot use \'%s\' as class name as it is reserved', $this->extends),
                 $this->extends->getAttributes()
@@ -60,7 +60,7 @@ class Class_ extends ClassLike
         }
 
         foreach ($this->implements as $interface) {
-            if (isset(self::$specialNames[(string) $interface])) {
+            if (isset(self::$specialNames[strtolower($interface)])) {
                 throw new Error(
                     sprintf('Cannot use \'%s\' as interface name as it is reserved', $interface),
                     $interface->getAttributes()

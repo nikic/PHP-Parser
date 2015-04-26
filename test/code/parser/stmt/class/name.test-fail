@@ -4,9 +4,9 @@ Invalid class name
 -----
 Cannot use 'self' as class name as it is reserved on line 1
 -----
-<?php class parent {}
+<?php class PARENT {}
 -----
-Cannot use 'parent' as class name as it is reserved on line 1
+Cannot use 'PARENT' as class name as it is reserved on line 1
 -----
 <?php class static {}
 -----
@@ -16,9 +16,9 @@ Syntax error, unexpected T_STATIC, expecting T_STRING from 1:13 to 1:18
 -----
 Cannot use 'self' as class name as it is reserved from 1:23 to 1:26
 -----
-<?php class A extends parent {}
+<?php class A extends PARENT {}
 -----
-Cannot use 'parent' as class name as it is reserved from 1:23 to 1:28
+Cannot use 'PARENT' as class name as it is reserved from 1:23 to 1:28
 -----
 <?php class A extends static {}
 -----
@@ -28,9 +28,9 @@ Syntax error, unexpected T_STATIC, expecting T_STRING or T_NAMESPACE or T_NS_SEP
 -----
 Cannot use 'self' as interface name as it is reserved from 1:26 to 1:29
 -----
-<?php class A implements parent {}
+<?php class A implements PARENT {}
 -----
-Cannot use 'parent' as interface name as it is reserved from 1:26 to 1:31
+Cannot use 'PARENT' as interface name as it is reserved from 1:26 to 1:31
 -----
 <?php class A implements static {}
 -----
@@ -40,9 +40,9 @@ Syntax error, unexpected T_STATIC, expecting T_STRING or T_NAMESPACE or T_NS_SEP
 -----
 Cannot use 'self' as class name as it is reserved on line 1
 -----
-<?php interface parent {}
+<?php interface PARENT {}
 -----
-Cannot use 'parent' as class name as it is reserved on line 1
+Cannot use 'PARENT' as class name as it is reserved on line 1
 -----
 <?php interface static {}
 -----
@@ -52,9 +52,9 @@ Syntax error, unexpected T_STATIC, expecting T_STRING from 1:17 to 1:22
 -----
 Cannot use 'self' as interface name as it is reserved from 1:27 to 1:30
 -----
-<?php interface A extends parent {}
+<?php interface A extends PARENT {}
 -----
-Cannot use 'parent' as interface name as it is reserved from 1:27 to 1:32
+Cannot use 'PARENT' as interface name as it is reserved from 1:27 to 1:32
 -----
 <?php interface A extends static {}
 -----
