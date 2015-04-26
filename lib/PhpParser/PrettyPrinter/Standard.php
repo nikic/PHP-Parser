@@ -316,6 +316,10 @@ class Standard extends PrettyPrinterAbstract
         return $this->pPrefixOp('Expr_YieldFrom', 'yield from ', $node->expr);
     }
 
+    public function pExpr_Print(Expr\Print_ $node) {
+        return $this->pPrefixOp('Expr_Print', 'print ', $node->expr);
+    }
+
     // Casts
 
     public function pExpr_Cast_Int(Cast\Int_ $node) {
@@ -374,10 +378,6 @@ class Standard extends PrettyPrinterAbstract
 
     public function pExpr_Isset(Expr\Isset_ $node) {
         return 'isset(' . $this->pCommaSeparated($node->vars) . ')';
-    }
-
-    public function pExpr_Print(Expr\Print_ $node) {
-        return 'print ' . $this->p($node->expr);
     }
 
     public function pExpr_Eval(Expr\Eval_ $node) {
