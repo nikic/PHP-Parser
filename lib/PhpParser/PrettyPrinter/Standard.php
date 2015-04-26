@@ -466,6 +466,10 @@ class Standard extends PrettyPrinterAbstract
     }
 
     public function pExpr_New(Expr\New_ $node) {
+        if ($node->class instanceof Stmt\Class_) {
+            $args = $node->args ? '(' . $this->pCommaSeparated($node->args) . ')' : '';
+            return 'new ' . $this->pClassCommon($node->class, $args);
+        }
         return 'new ' . $this->p($node->class) . '(' . $this->pCommaSeparated($node->args) . ')';
     }
 
@@ -527,11 +531,7 @@ class Standard extends PrettyPrinterAbstract
     }
 
     public function pStmt_Class(Stmt\Class_ $node) {
-        return $this->pModifiers($node->type)
-             . 'class ' . $node->name
-             . (null !== $node->extends ? ' extends ' . $this->p($node->extends) : '')
-             . (!empty($node->implements) ? ' implements ' . $this->pCommaSeparated($node->implements) : '')
-             . "\n" . '{' . $this->pStmts($node->stmts) . "\n" . '}';
+        return $this->pClassCommon($node, ' ' . $node->name);
     }
 
     public function pStmt_Trait(Stmt\Trait_ $node) {
@@ -727,6 +727,14 @@ class Standard extends PrettyPrinterAbstract
 
     protected function pType($node) {
         return is_string($node) ? $node : $this->p($node);
+    }
+
+    protected function pClassCommon(Stmt\Class_ $node, $afterClassToken) {
+        return $this->pModifiers($node->type)
+        . 'class' . $afterClassToken
+        . (null !== $node->extends ? ' extends ' . $this->p($node->extends) : '')
+        . (!empty($node->implements) ? ' implements ' . $this->pCommaSeparated($node->implements) : '')
+        . "\n" . '{' . $this->pStmts($node->stmts) . "\n" . '}';
     }
 
     /** @internal */

@@ -37,7 +37,9 @@ class NameResolver extends NodeVisitorAbstract
                 $interface = $this->resolveClassName($interface);
             }
 
-            $this->addNamespacedName($node);
+            if (null !== $node->name) {
+                $this->addNamespacedName($node);
+            }
         } elseif ($node instanceof Stmt\Interface_) {
             foreach ($node->extends as &$interface) {
                 $interface = $this->resolveClassName($interface);
