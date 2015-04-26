@@ -312,6 +312,10 @@ class Standard extends PrettyPrinterAbstract
         return $this->pPrefixOp('Expr_ErrorSuppress', '@', $node->expr);
     }
 
+    public function pExpr_YieldFrom(Expr\YieldFrom $node) {
+        return $this->pPrefixOp('Expr_YieldFrom', 'yield from ', $node->expr);
+    }
+
     // Casts
 
     public function pExpr_Cast_Int(Cast\Int_ $node) {

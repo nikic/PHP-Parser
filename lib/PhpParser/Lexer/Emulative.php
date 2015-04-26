@@ -12,11 +12,12 @@ class Emulative extends \PhpParser\Lexer
     protected $newKeywords;
     protected $inObjectAccess;
 
-    const T_ELLIPSIS  = 1001;
-    const T_POW       = 1002;
-    const T_POW_EQUAL = 1003;
-    const T_COALESCE  = 1004;
-    const T_SPACESHIP = 1005;
+    const T_ELLIPSIS   = 1001;
+    const T_POW        = 1002;
+    const T_POW_EQUAL  = 1003;
+    const T_COALESCE   = 1004;
+    const T_SPACESHIP  = 1005;
+    const T_YIELD_FROM = 1006;
 
     const PHP_7_0 = '7.0.0dev';
     const PHP_5_6 = '5.6.0rc1';
@@ -53,6 +54,7 @@ class Emulative extends \PhpParser\Lexer
         }
         $this->tokenMap[self::T_COALESCE] = Parser::T_COALESCE;
         $this->tokenMap[self::T_SPACESHIP] = Parser::T_SPACESHIP;
+        $this->tokenMap[self::T_YIELD_FROM] = Parser::T_YIELD_FROM;
 
         if (version_compare(PHP_VERSION, self::PHP_5_6, '>=')) {
             return;
@@ -91,6 +93,10 @@ class Emulative extends \PhpParser\Lexer
 
         $code = str_replace('??', '~__EMU__COALESCE__~', $code);
         $code = str_replace('<=>', '~__EMU__SPACESHIP__~', $code);
+        $code = preg_replace_callback('(yield[ \n\r\t]+from)', function($matches) {
+            // Encoding $0 in order to preserve exact whitespace
+            return '~__EMU__YIELDFROM__' . bin2hex($matches[0]) . '__~';
+        }, $code);
 
         if (version_compare(PHP_VERSION, self::PHP_5_6, '>=')) {
             return $code;
@@ -127,8 +133,9 @@ class Emulative extends \PhpParser\Lexer
                 if ('BINARY' === $matches[1]) {
                     // the binary number can either be an integer or a double, so return a LNUMBER
                     // or DNUMBER respectively
+                    $isInt = is_int(bindec($matches[2]));
                     $replace = array(
-                        array(is_int(bindec($matches[2])) ? T_LNUMBER : T_DNUMBER, $matches[2], $this->tokens[$i + 1][2])
+                        array($isInt ? T_LNUMBER : T_DNUMBER, $matches[2], $this->tokens[$i + 1][2])
                     );
                 } else if ('ELLIPSIS' === $matches[1]) {
                     $replace = array(
@@ -150,9 +157,13 @@ class Emulative extends \PhpParser\Lexer
                     $replace = array(
                         array(self::T_SPACESHIP, '<=>', $this->tokens[$i + 1][2]),
                     );
+                } else if ('YIELDFROM' === $matches[1]) {
+                    $content = $this->hex2bin($matches[2]);
+                    $replace = array(
+                        array(self::T_YIELD_FROM, $content, $this->tokens[$i + 1][2] - substr_count($content, "\n"))
+                    );
                 } else {
-                    // just ignore all other __EMU__ sequences
-                    continue;
+                    throw new \RuntimeException('Invalid __EMU__ sequence');
                 }
 
                 array_splice($this->tokens, $i, 3, $replace);
@@ -188,9 +199,16 @@ class Emulative extends \PhpParser\Lexer
             return '??';
         } else if ('SPACESHIP' === $matches[1]) {
             return '<=>';
+        } else if ('YIELDFROM' === $matches[1]) {
+            return $this->hex2bin($matches[2]);
         } else {
             return $matches[0];
         }
+    }
+
+    private function hex2bin($str) {
+        // TODO Drop when removing support for PHP 5.3
+        return pack('H*', $str);
     }
 
     public function getNextToken(&$value = null, &$startAttributes = null, &$endAttributes = null) {
@@ -203,11 +221,9 @@ class Emulative extends \PhpParser\Lexer
             if (isset($this->newKeywords[strtolower($value)])) {
                 return $this->newKeywords[strtolower($value)];
             }
-        // keep track of whether we currently are in an object access (after ->)
-        } elseif (Parser::T_OBJECT_OPERATOR === $token) {
-            $this->inObjectAccess = true;
         } else {
-            $this->inObjectAccess = false;
+            // keep track of whether we currently are in an object access (after ->)
+            $this->inObjectAccess = Parser::T_OBJECT_OPERATOR === $token;
         }
 
         return $token;

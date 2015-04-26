@@ -66,6 +66,7 @@ abstract class PrettyPrinterAbstract
         'Expr_AssignOp_ShiftLeft'      => array(160,  1),
         'Expr_AssignOp_ShiftRight'     => array(160,  1),
         'Expr_AssignOp_Pow'            => array(160,  1),
+        'Expr_YieldFrom'               => array(165,  1),
         'Expr_BinaryOp_LogicalAnd'     => array(170, -1),
         'Expr_BinaryOp_LogicalXor'     => array(180, -1),
         'Expr_BinaryOp_LogicalOr'      => array(190, -1),

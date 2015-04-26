@@ -1,4 +1,4 @@
-Generators (yield expression
+Generators (yield expression)
 -----
 <?php
 
@@ -25,6 +25,10 @@ function gen() {
     func(yield $foo);
     $foo->func(yield $foo);
     new Foo(yield $foo);
+
+    yield from $foo;
+    yield from $foo and yield from $bar;
+    yield from $foo + $bar;
 }
 -----
 array(
@@ -223,6 +227,33 @@ array(
                         )
                         byRef: false
                         unpack: false
+                    )
+                )
+            )
+            15: Expr_YieldFrom(
+                expr: Expr_Variable(
+                    name: foo
+                )
+            )
+            16: Expr_BinaryOp_LogicalAnd(
+                left: Expr_YieldFrom(
+                    expr: Expr_Variable(
+                        name: foo
+                    )
+                )
+                right: Expr_YieldFrom(
+                    expr: Expr_Variable(
+                        name: bar
+                    )
+                )
+            )
+            17: Expr_YieldFrom(
+                expr: Expr_BinaryOp_Plus(
+                    left: Expr_Variable(
+                        name: foo
+                    )
+                    right: Expr_Variable(
+                        name: bar
                     )
                 )
             )

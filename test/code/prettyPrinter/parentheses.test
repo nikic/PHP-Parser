@@ -33,6 +33,9 @@ $a ** $b ** $c;
 ($a ** $b) ** $c;
 -1 ** 2;
 
+yield from $a and yield from $b;
+yield from ($a and yield from $b);
+
 // The following will currently add unnecessary parentheses, because the pretty printer is not aware that assignment
 // and incdec only work on variables.
 !$a = $b;
@@ -62,6 +65,8 @@ $a + $b++;
 $a ** $b ** $c;
 ($a ** $b) ** $c;
 -1 ** 2;
+yield from $a and yield from $b;
+yield from ($a and yield from $b);
 // The following will currently add unnecessary parentheses, because the pretty printer is not aware that assignment
 // and incdec only work on variables.
 !($a = $b);
