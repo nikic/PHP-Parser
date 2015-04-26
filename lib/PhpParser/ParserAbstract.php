@@ -134,12 +134,13 @@ abstract class ParserAbstract
         // The attributes for a node are taken from the first and last token of the node.
         // From the first token only the startAttributes are taken and from the last only
         // the endAttributes. Both are merged using the array union operator (+).
-        $startAttributes = array('startLine' => 1);
-        $this->endAttributes = array();
+        $startAttributes = '*POISON';
+        $endAttributes = '*POISON';
+        $this->endAttributes = $endAttributes;
 
         // In order to figure out the attributes for the starting token, we have to keep
         // them in a stack
-        $this->startAttributeStack = array($startAttributes);
+        $this->startAttributeStack = array();
 
         // Start off in the initial state and keep a stack of previous states
         $state = 0;
@@ -164,7 +165,7 @@ abstract class ParserAbstract
                     // The end attributes are fetched into a temporary variable and only set once the token is really
                     // shifted (not during read). Otherwise you would sometimes get off-by-one errors, when a rule is
                     // reduced after a token was read but not yet shifted.
-                    $tokenId = $this->lexer->getNextToken($tokenValue, $startAttributes, $nextEndAttributes);
+                    $tokenId = $this->lexer->getNextToken($tokenValue, $startAttributes, $endAttributes);
 
                     // map the lexer token id to the internally used symbols
                     $symbol = $tokenId >= 0 && $tokenId < $this->tokenToSymbolMapSize
@@ -206,7 +207,7 @@ abstract class ParserAbstract
                         $stateStack[$this->stackPos] = $state = $action;
                         $this->semStack[$this->stackPos] = $tokenValue;
                         $this->startAttributeStack[$this->stackPos] = $startAttributes;
-                        $this->endAttributes = $nextEndAttributes;
+                        $this->endAttributes = $endAttributes;
                         $symbol = self::SYMBOL_NONE;
 
                         if ($errorState) {
@@ -264,7 +265,7 @@ abstract class ParserAbstract
                     switch ($errorState) {
                         case 0:
                             $msg = $this->getErrorMessage($symbol, $state);
-                            $error = new Error($msg, $startAttributes + $nextEndAttributes);
+                            $error = new Error($msg, $startAttributes + $endAttributes);
                             $this->errors[] = $error;
                             if ($this->throwOnError) {
                                 throw $error;
