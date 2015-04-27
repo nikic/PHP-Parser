@@ -123,8 +123,13 @@ class Lexer
         $startAttributes = array();
         $endAttributes   = array();
 
-        while (isset($this->tokens[++$this->pos])) {
-            $token = $this->tokens[$this->pos];
+        while (1) {
+            if (isset($this->tokens[++$this->pos])) {
+                $token = $this->tokens[$this->pos];
+            } else {
+                // EOF token with ID 0
+                $token = "\0";
+            }
 
             if (isset($this->usedAttributes['startTokenPos'])) {
                 $startAttributes['startTokenPos'] = $this->pos;
@@ -192,10 +197,7 @@ class Lexer
             }
         }
 
-        $startAttributes['startLine'] = $this->line;
-
-        // 0 is the EOF token
-        return 0;
+        throw new \RuntimeException('Reached end of lexer loop');
     }
 
     /**

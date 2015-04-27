@@ -121,7 +121,7 @@ class Error extends \RuntimeException
     }
 
     private function toColumn($code, $pos) {
-        if ($pos >= strlen($code)) {
+        if ($pos > strlen($code)) {
             throw new \RuntimeException('Invalid position information');
         }
 
