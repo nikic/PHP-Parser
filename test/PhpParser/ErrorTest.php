@@ -5,9 +5,14 @@ namespace PhpParser;
 class ErrorTest extends \PHPUnit_Framework_TestCase
 {
     public function testConstruct() {
-        $error = new Error('Some error', 10);
+        $error = new Error('Some error', array(
+            'startLine' => 10,
+            'endLine' => 11,
+        ));
 
         $this->assertSame('Some error', $error->getRawMessage());
+        $this->assertSame(10, $error->getStartLine());
+        $this->assertSame(11, $error->getEndLine());
         $this->assertSame(10, $error->getRawLine());
         $this->assertSame('Some error on line 10', $error->getMessage());
 
@@ -19,16 +24,22 @@ class ErrorTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetMessageAndLine(Error $error) {
         $error->setRawMessage('Some other error');
-        $error->setRawLine(15);
-
         $this->assertSame('Some other error', $error->getRawMessage());
-        $this->assertSame(15, $error->getRawLine());
+
+        $error->setStartLine(15);
+        $this->assertSame(15, $error->getStartLine());
         $this->assertSame('Some other error on line 15', $error->getMessage());
+
+        $error->setStartLine(17);
+        $this->assertSame(17, $error->getRawLine());
+        $this->assertSame('Some other error on line 17', $error->getMessage());
     }
 
     public function testUnknownLine() {
         $error = new Error('Some error');
 
+        $this->assertSame(-1, $error->getStartLine());
+        $this->assertSame(-1, $error->getEndLine());
         $this->assertSame(-1, $error->getRawLine());
         $this->assertSame('Some error on unknown line', $error->getMessage());
     }
