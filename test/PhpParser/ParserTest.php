@@ -30,24 +30,36 @@ class ParserTest extends CodeTestAbstract
     /**
      * @dataProvider provideTestParseFail
      */
-    public function testParseFail($name, $code, $expectedMsg) {
+    public function testParseFail($name, $code, $expected) {
         $lexer = new Lexer\Emulative(array('usedAttributes' => array(
             'startLine', 'endLine', 'startFilePos', 'endFilePos'
         )));
-        $parser = new Parser($lexer);
+        $parser = new Parser($lexer, array(
+            'throwOnError' => false,
+        ));
 
-        try {
-            $parser->parse($code);
+        $stmts = $parser->parse($code);
+        $errors = $parser->getErrors();
 
-            $this->fail(sprintf('"%s": Expected Error', $name));
-        } catch (Error $e) {
-            if ($e->hasColumnInfo()) {
-                $msg = $e->getRawMessage() . ' from ' . $e->getStartLine() . ':' . $e->getStartColumn($code)
-                    . ' to ' . $e->getEndLine() . ':' . $e->getEndColumn($code);
-            } else {
-                $msg = $e->getMessage();
-            }
-            $this->assertSame($expectedMsg, $msg, $name);
+        $output = '';
+        foreach ($errors as $error) {
+            $output .= $this->formatErrorMessage($error, $code) . "\n";
+        }
+
+        if (null !== $stmts) {
+            $dumper = new NodeDumper;
+            $output .= $dumper->dump($stmts);
+        }
+
+        $this->assertSame($this->canonicalize($expected), $this->canonicalize($output), $name);
+    }
+
+    private function formatErrorMessage(Error $e, $code) {
+        if ($e->hasColumnInfo()) {
+            return $e->getRawMessage() . ' from ' . $e->getStartLine() . ':' . $e->getStartColumn($code)
+                . ' to ' . $e->getEndLine() . ':' . $e->getEndColumn($code);
+        } else {
+            return $e->getMessage();
         }
     }
 

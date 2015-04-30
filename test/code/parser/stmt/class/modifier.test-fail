@@ -25,8 +25,20 @@ Multiple final modifiers are not allowed on line 1
 Cannot use the final modifier on an abstract class member on line 1
 -----
 <?php abstract final class A { }
+// Type in the partial parse could conceivably be any of 0, 16 or 32
 -----
 Syntax error, unexpected T_FINAL, expecting T_CLASS from 1:16 to 1:20
+array(
+    0: Stmt_Class(
+        type: 32
+        name: A
+        extends: null
+        implements: array(
+        )
+        stmts: array(
+        )
+    )
+)
 -----
 <?php class A { abstract $a; }
 -----

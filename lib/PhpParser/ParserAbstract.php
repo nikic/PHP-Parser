@@ -96,7 +96,7 @@ abstract class ParserAbstract
      * Creates a parser instance.
      *
      * @param Lexer $lexer A lexer
-     * @param array $options Options array. The boolean 'throwOnError' option determined whether an exception should be
+     * @param array $options Options array. The boolean 'throwOnError' option determines whether an exception should be
      *                       thrown on first error, or if the parser should try to continue parsing the remaining code
      *                       and build a partial AST.
      */
@@ -109,7 +109,7 @@ abstract class ParserAbstract
     /**
      * Get array of errors that occurred during the last parse.
      *
-     * This method may only return multiple errors if the throwOnError option is disabled.
+     * This method may only return multiple errors if the 'throwOnError' option is disabled.
      *
      * @return Error[]
      */
@@ -122,7 +122,8 @@ abstract class ParserAbstract
      *
      * @param string $code The source code to parse
      *
-     * @return Node[] Array of statements
+     * @return Node[]|null Array of statements (or null if the 'throwOnError' option is disabled and the parser was
+     *                     unable to recover from an error).
      */
     public function parse($code) {
         $this->lexer->startLexing($code);
@@ -244,7 +245,13 @@ abstract class ParserAbstract
                             $e->setStartLine($startAttributes['startLine']);
                         }
 
-                        throw $e;
+                        $this->errors[] = $e;
+                        if ($this->throwOnError) {
+                            throw $e;
+                        } else {
+                            // Currently can't recover from "special" errors
+                            return null;
+                        }
                     }
 
                     /* Goto - shift nonterminal */
@@ -284,7 +291,8 @@ abstract class ParserAbstract
                                     && $idx < $this->actionTableSize && $this->actionCheck[$idx] == $this->errorSymbol)
                             ) || ($action = $this->action[$idx]) == $this->defaultAction) { // Not totally sure about this
                                 if ($this->stackPos <= 0) {
-                                    throw new Error('Could not recover from error');
+                                    // Could not recover from error
+                                    return null;
                                 }
                                 $state = $stateStack[--$this->stackPos];
                                 //$this->tracePop($state);
@@ -296,8 +304,8 @@ abstract class ParserAbstract
 
                         case 3:
                             if ($symbol === 0) {
-                                // Reached EOF
-                                throw new Error('Could not recover from error');
+                                // Reached EOF without recovering from error
+                                return null;
                             }
 
                             //$this->traceDiscard($symbol);
@@ -314,6 +322,8 @@ abstract class ParserAbstract
                 $rule = $state - $this->YYNLSTATES;
             }
         }
+
+        throw new \RuntimeException('Reached end of parser loop');
     }
 
     protected function getErrorMessage($symbol, $state) {
