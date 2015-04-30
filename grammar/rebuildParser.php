@@ -39,7 +39,6 @@ echo 'Building temporary preproprocessed grammar file.', "\n";
 
 $grammarCode = file_get_contents($grammarFile);
 
-$grammarCode = resolveConstants($grammarCode);
 $grammarCode = resolveNodes($grammarCode);
 $grammarCode = resolveMacros($grammarCode);
 $grammarCode = resolveArrays($grammarCode);
@@ -53,7 +52,12 @@ echo "Building parser.\n";
 $output = trim(shell_exec("$kmyacc $additionalArgs -l -m $skeletonFile $tmpGrammarFile 2>&1"));
 echo "Output: \"$output\"\n";
 
-moveFileWithDirCheck($tmpResultFile, $parserResultFile);
+$resultCode = file_get_contents($tmpResultFile);
+$resultCode = removeTrailingWhitespace($resultCode);
+
+ensureDirExists(dirname($parserResultFile));
+file_put_contents($parserResultFile, $resultCode);
+unlink($tmpResultFile);
 
 if (!$optionKeepTmpGrammar) {
     unlink($tmpGrammarFile);
@@ -62,10 +66,6 @@ if (!$optionKeepTmpGrammar) {
 ///////////////////////////////
 /// Preprocessing functions ///
 ///////////////////////////////
-
-function resolveConstants($code) {
-    return preg_replace('~[A-Z][a-zA-Z_\\\\]++::~', 'Node\\\\$0', $code);
-}
 
 function resolveNodes($code) {
     return preg_replace_callback(
@@ -84,7 +84,7 @@ function resolveNodes($code) {
                 $paramCode .= $param . ', ';
             }
 
-            return 'new Node\\' . $matches['name'] . '(' . $paramCode . 'attributes())';
+            return 'new ' . $matches['name'] . '(' . $paramCode . 'attributes())';
         },
         $code
     );
@@ -197,12 +197,16 @@ function resolveStackAccess($code) {
     return $code;
 }
 
-function moveFileWithDirCheck($fromPath, $toPath) {
-    $dir = dirname($toPath);
+function removeTrailingWhitespace($code) {
+    $lines = explode("\n", $code);
+    $lines = array_map('rtrim', $lines);
+    return implode("\n", $lines);
+}
+
+function ensureDirExists($dir) {
     if (!is_dir($dir)) {
         mkdir($dir, 0777, true);
     }
-    rename($fromPath, $toPath);
 }
 
 //////////////////////////////

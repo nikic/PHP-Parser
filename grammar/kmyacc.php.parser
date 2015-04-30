@@ -4,9 +4,9 @@ $meta #
 #semval($,%t) $this->semValue
 #semval(%n) $this->stackPos-(%l-%n)
 #semval(%n,%t) $this->stackPos-(%l-%n)
-#include;
 
 namespace PhpParser;
+#include;
 
 /* This is an automatically GENERATED file, which should not be manually edited.
  * Instead edit one of the following:
