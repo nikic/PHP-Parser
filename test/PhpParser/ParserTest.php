@@ -11,26 +11,7 @@ class ParserTest extends CodeTestAbstract
     /**
      * @dataProvider provideTestParse
      */
-    public function testParse($name, $code, $dump) {
-        $parser = new Parser(new Lexer\Emulative);
-        $dumper = new NodeDumper;
-
-        $stmts = $parser->parse($code);
-        $this->assertSame(
-            $this->canonicalize($dump),
-            $this->canonicalize($dumper->dump($stmts)),
-            $name
-        );
-    }
-
-    public function provideTestParse() {
-        return $this->getTests(__DIR__ . '/../code/parser', 'test');
-    }
-
-    /**
-     * @dataProvider provideTestParseFail
-     */
-    public function testParseFail($name, $code, $expected) {
+    public function testParse($name, $code, $expected) {
         $lexer = new Lexer\Emulative(array('usedAttributes' => array(
             'startLine', 'endLine', 'startFilePos', 'endFilePos'
         )));
@@ -54,6 +35,10 @@ class ParserTest extends CodeTestAbstract
         $this->assertSame($this->canonicalize($expected), $this->canonicalize($output), $name);
     }
 
+    public function provideTestParse() {
+        return $this->getTests(__DIR__ . '/../code/parser', 'test');
+    }
+
     private function formatErrorMessage(Error $e, $code) {
         if ($e->hasColumnInfo()) {
             return $e->getRawMessage() . ' from ' . $e->getStartLine() . ':' . $e->getStartColumn($code)
@@ -61,10 +46,6 @@ class ParserTest extends CodeTestAbstract
         } else {
             return $e->getMessage();
         }
-    }
-
-    public function provideTestParseFail() {
-        return $this->getTests(__DIR__ . '/../code/parser', 'test-fail');
     }
 
     public function testAttributeAssignment() {
