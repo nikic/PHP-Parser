@@ -96,7 +96,7 @@ class Standard extends PrettyPrinterAbstract
     }
 
     public function pScalar_DNumber(Scalar\DNumber $node) {
-        $stringValue = (string) $node->value;
+        $stringValue = sprintf('%.16G', $node->value);
 
         // ensure that number is really printed as float
         return preg_match('/^-?[0-9]+$/', $stringValue) ? $stringValue . '.0' : $stringValue;
