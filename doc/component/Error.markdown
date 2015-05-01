@@ -27,7 +27,7 @@ try {
 }
 ```
 
-Before using column information it's availability needs to be checked with `$e->hasColumnInfo()`, as the precise
+Before using column information its availability needs to be checked with `$e->hasColumnInfo()`, as the precise
 location of an error cannot always be determined. The methods for retrieving column information also have to be passed
 the source code of the parsed file. An example for printing an error:
 
@@ -40,7 +40,7 @@ if ($e->hasColumnInfo()) {
 }
 ```
 
-Both line numbers and column numbers are 1-based. EOF errors will be positioned at the position one past the end of the
+Both line numbers and column numbers are 1-based. EOF errors will be located at the position one past the end of the
 file.
 
 Error recovery
@@ -48,9 +48,8 @@ Error recovery
 
 > **EXPERIMENTAL**
 
-By default the parser will stop throw an exception upon encountering the first error during parsing. The parser also
-supports an alternative mode, in which the parser will remember the error, but try to continue parsing the rest of the
-source code.
+By default the parser will throw an exception upon encountering the first error during parsing. An alternative mode is
+also supported, in which the parser will remember the error, but try to continue parsing the rest of the source code.
 
 To enable this mode the `throwOnError` parser option needs to be disabled. Any errors that occurred during parsing can
 then be retrieved using `$parser->getErrors()`. The `$parser->parse()` method will either return a partial syntax tree

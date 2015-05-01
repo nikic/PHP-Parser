@@ -5,20 +5,20 @@ Version 1.3.0-dev
 
 * Errors can now store the attributes of the node/token where the error occurred. Previously only the start line was
   stored.
-* If file positions are enabled in the lexer, errors can now provide column information if it is available.
-  TODO/link
+* If file positions are enabled in the lexer, errors can now provide column information if it is available. See
+  [documentation](https://github.com/nikic/PHP-Parser/blob/master/doc/component/Error.markdown#column-information).
 * The parser now provides an experimental error recovery mode, which can be enabled by disabling the `throwOnError`
-  parser option. In this mode the parser will try to construct a partial AST even if the code is not valid PHP.
-  TODO/link
+  parser option. In this mode the parser will try to construct a partial AST even if the code is not valid PHP. See
+  [documentation](https://github.com/nikic/PHP-Parser/blob/master/doc/component/Error.markdown#error-recovery).
 * Added support for PHP 7 `yield from` expression. It is represented by `Expr\YieldFrom`.
 * Added support for PHP 7 anonymous classes. These are represented by ordinary `Stmt\Class_` nodes with the name set to
   `null`. Furthermore this implies that `Expr\New_` can now contain a `Stmt\Class_` in its `class` subnode.
-
 
 ### Fixed
 
 * Fixed registration of PHP 7 aliases, for the case where the old name was used before the new name.
 * Fixed handling of precedence when pretty-printing `print` expressions.
+* Floating point numbers are now pretty-printed with a higher precision.
 * Checks for special class names like `self` are now case-insensitive.
 
 Version 1.2.2 (2015-04-03)
