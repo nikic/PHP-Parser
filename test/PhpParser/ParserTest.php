@@ -48,6 +48,24 @@ class ParserTest extends CodeTestAbstract
         }
     }
 
+    /**
+     * @expectedException \PhpParser\Error
+     * @expectedExceptionMessage Syntax error, unexpected EOF on line 1
+     */
+    public function testParserThrowsSyntaxError() {
+        $parser = new Parser(new Lexer());
+        $parser->parse('<?php foo');
+    }
+
+    /**
+     * @expectedException \PhpParser\Error
+     * @expectedExceptionMessage Cannot use foo as self because 'self' is a special class name on line 1
+     */
+    public function testParserThrowsSpecialError() {
+        $parser = new Parser(new Lexer());
+        $parser->parse('<?php use foo as self;');
+    }
+
     public function testAttributeAssignment() {
         $lexer = new Lexer(array(
             'usedAttributes' => array(

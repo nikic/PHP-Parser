@@ -5,12 +5,14 @@ namespace PhpParser;
 class ErrorTest extends \PHPUnit_Framework_TestCase
 {
     public function testConstruct() {
-        $error = new Error('Some error', array(
+        $attributes = array(
             'startLine' => 10,
             'endLine' => 11,
-        ));
+        );
+        $error = new Error('Some error', $attributes);
 
         $this->assertSame('Some error', $error->getRawMessage());
+        $this->assertSame($attributes, $error->getAttributes());
         $this->assertSame(10, $error->getStartLine());
         $this->assertSame(11, $error->getEndLine());
         $this->assertSame(10, $error->getRawLine());
@@ -30,7 +32,7 @@ class ErrorTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(15, $error->getStartLine());
         $this->assertSame('Some other error on line 15', $error->getMessage());
 
-        $error->setStartLine(17);
+        $error->setRawLine(17);
         $this->assertSame(17, $error->getRawLine());
         $this->assertSame('Some other error on line 17', $error->getMessage());
     }
@@ -78,7 +80,7 @@ class ErrorTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testNoColumnInfo(){
+    public function testNoColumnInfo() {
         $error = new Error('Some error', 3);
 
         $this->assertSame(false, $error->hasColumnInfo());
@@ -86,13 +88,25 @@ class ErrorTest extends \PHPUnit_Framework_TestCase
             $error->getStartColumn('');
             $this->fail('Expected RuntimeException');
         } catch (\RuntimeException $e) {
-            $this->assertEquals('Error does not have column information', $e->getMessage());
+            $this->assertSame('Error does not have column information', $e->getMessage());
         }
         try {
             $error->getEndColumn('');
             $this->fail('Expected RuntimeException');
         } catch (\RuntimeException $e) {
-            $this->assertEquals('Error does not have column information', $e->getMessage());
+            $this->assertSame('Error does not have column information', $e->getMessage());
         }
+    }
+
+    /**
+     * @expectedException \RuntimeException
+     * @expectedExceptionMessage Invalid position information
+     */
+    public function testInvalidPosInfo() {
+        $error = new Error('Some error', array(
+            'startFilePos' => 10,
+            'endFilePos' => 11,
+        ));
+        $error->getStartColumn('code');
     }
 }

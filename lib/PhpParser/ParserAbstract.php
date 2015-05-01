@@ -364,6 +364,7 @@ abstract class ParserAbstract
      * Tracing functions used for debugging the parser.
      */
 
+    /*
     protected function traceNewState($state, $symbol) {
         echo '% State ' . $state
             . ', Lookahead ' . ($symbol == self::SYMBOL_NONE ? '--none--' : $this->symbolToName[$symbol]) . "\n";
@@ -392,6 +393,7 @@ abstract class ParserAbstract
     protected function traceDiscard($symbol) {
         echo '% Discard ' . $this->symbolToName[$symbol] . "\n";
     }
+    */
 
     /*
      * Helper functions invoked by semantic actions
