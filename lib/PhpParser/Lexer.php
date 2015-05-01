@@ -215,15 +215,6 @@ class Lexer
     }
 
     /**
-     * Get's the current token-index (position in tokens).
-     * 
-     * @return int
-     */
-    public function getPosition() {
-        return $this->pos;
-    }
-
-    /**
      * Handles __halt_compiler() by returning the text after it.
      *
      * @return string Remaining text
