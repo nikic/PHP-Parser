@@ -1179,11 +1179,11 @@ class Parser extends ParserAbstract
     }
 
     protected function reduceRule34() {
-         $this->semValue = new Stmt\If_($this->semStack[$this->stackPos-(5-2)], array('stmts' => is_array($this->semStack[$this->stackPos-(5-3)]) ? $this->semStack[$this->stackPos-(5-3)] : array($this->semStack[$this->stackPos-(5-3)]), 'elseifs' => $this->semStack[$this->stackPos-(5-4)], 'else' => $this->semStack[$this->stackPos-(5-5)]), $this->startAttributeStack[$this->stackPos-(5-1)] + $this->endAttributes);
+         $this->semValue = new Stmt\If_($this->semStack[$this->stackPos-(5-2)], ['stmts' => is_array($this->semStack[$this->stackPos-(5-3)]) ? $this->semStack[$this->stackPos-(5-3)] : array($this->semStack[$this->stackPos-(5-3)]), 'elseifs' => $this->semStack[$this->stackPos-(5-4)], 'else' => $this->semStack[$this->stackPos-(5-5)]], $this->startAttributeStack[$this->stackPos-(5-1)] + $this->endAttributes);
     }
 
     protected function reduceRule35() {
-         $this->semValue = new Stmt\If_($this->semStack[$this->stackPos-(8-2)], array('stmts' => $this->semStack[$this->stackPos-(8-4)], 'elseifs' => $this->semStack[$this->stackPos-(8-5)], 'else' => $this->semStack[$this->stackPos-(8-6)]), $this->startAttributeStack[$this->stackPos-(8-1)] + $this->endAttributes);
+         $this->semValue = new Stmt\If_($this->semStack[$this->stackPos-(8-2)], ['stmts' => $this->semStack[$this->stackPos-(8-4)], 'elseifs' => $this->semStack[$this->stackPos-(8-5)], 'else' => $this->semStack[$this->stackPos-(8-6)]], $this->startAttributeStack[$this->stackPos-(8-1)] + $this->endAttributes);
     }
 
     protected function reduceRule36() {
@@ -1195,7 +1195,7 @@ class Parser extends ParserAbstract
     }
 
     protected function reduceRule38() {
-         $this->semValue = new Stmt\For_(array('init' => $this->semStack[$this->stackPos-(9-3)], 'cond' => $this->semStack[$this->stackPos-(9-5)], 'loop' => $this->semStack[$this->stackPos-(9-7)], 'stmts' => $this->semStack[$this->stackPos-(9-9)]), $this->startAttributeStack[$this->stackPos-(9-1)] + $this->endAttributes);
+         $this->semValue = new Stmt\For_(['init' => $this->semStack[$this->stackPos-(9-3)], 'cond' => $this->semStack[$this->stackPos-(9-5)], 'loop' => $this->semStack[$this->stackPos-(9-7)], 'stmts' => $this->semStack[$this->stackPos-(9-9)]], $this->startAttributeStack[$this->stackPos-(9-1)] + $this->endAttributes);
     }
 
     protected function reduceRule39() {
@@ -1255,11 +1255,11 @@ class Parser extends ParserAbstract
     }
 
     protected function reduceRule53() {
-         $this->semValue = new Stmt\Foreach_($this->semStack[$this->stackPos-(7-3)], $this->semStack[$this->stackPos-(7-5)][0], array('keyVar' => null, 'byRef' => $this->semStack[$this->stackPos-(7-5)][1], 'stmts' => $this->semStack[$this->stackPos-(7-7)]), $this->startAttributeStack[$this->stackPos-(7-1)] + $this->endAttributes);
+         $this->semValue = new Stmt\Foreach_($this->semStack[$this->stackPos-(7-3)], $this->semStack[$this->stackPos-(7-5)][0], ['keyVar' => null, 'byRef' => $this->semStack[$this->stackPos-(7-5)][1], 'stmts' => $this->semStack[$this->stackPos-(7-7)]], $this->startAttributeStack[$this->stackPos-(7-1)] + $this->endAttributes);
     }
 
     protected function reduceRule54() {
-         $this->semValue = new Stmt\Foreach_($this->semStack[$this->stackPos-(9-3)], $this->semStack[$this->stackPos-(9-7)][0], array('keyVar' => $this->semStack[$this->stackPos-(9-5)], 'byRef' => $this->semStack[$this->stackPos-(9-7)][1], 'stmts' => $this->semStack[$this->stackPos-(9-9)]), $this->startAttributeStack[$this->stackPos-(9-1)] + $this->endAttributes);
+         $this->semValue = new Stmt\Foreach_($this->semStack[$this->stackPos-(9-3)], $this->semStack[$this->stackPos-(9-7)][0], ['keyVar' => $this->semStack[$this->stackPos-(9-5)], 'byRef' => $this->semStack[$this->stackPos-(9-7)][1], 'stmts' => $this->semStack[$this->stackPos-(9-9)]], $this->startAttributeStack[$this->stackPos-(9-1)] + $this->endAttributes);
     }
 
     protected function reduceRule55() {
@@ -1335,15 +1335,15 @@ class Parser extends ParserAbstract
     }
 
     protected function reduceRule73() {
-         $this->semValue = new Stmt\Function_($this->semStack[$this->stackPos-(10-3)], array('byRef' => $this->semStack[$this->stackPos-(10-2)], 'params' => $this->semStack[$this->stackPos-(10-5)], 'returnType' => $this->semStack[$this->stackPos-(10-7)], 'stmts' => $this->semStack[$this->stackPos-(10-9)]), $this->startAttributeStack[$this->stackPos-(10-1)] + $this->endAttributes);
+         $this->semValue = new Stmt\Function_($this->semStack[$this->stackPos-(10-3)], ['byRef' => $this->semStack[$this->stackPos-(10-2)], 'params' => $this->semStack[$this->stackPos-(10-5)], 'returnType' => $this->semStack[$this->stackPos-(10-7)], 'stmts' => $this->semStack[$this->stackPos-(10-9)]], $this->startAttributeStack[$this->stackPos-(10-1)] + $this->endAttributes);
     }
 
     protected function reduceRule74() {
-         $this->semValue = new Stmt\Class_($this->semStack[$this->stackPos-(7-2)], array('type' => $this->semStack[$this->stackPos-(7-1)], 'extends' => $this->semStack[$this->stackPos-(7-3)], 'implements' => $this->semStack[$this->stackPos-(7-4)], 'stmts' => $this->semStack[$this->stackPos-(7-6)]), $this->startAttributeStack[$this->stackPos-(7-1)] + $this->endAttributes);
+         $this->semValue = new Stmt\Class_($this->semStack[$this->stackPos-(7-2)], ['type' => $this->semStack[$this->stackPos-(7-1)], 'extends' => $this->semStack[$this->stackPos-(7-3)], 'implements' => $this->semStack[$this->stackPos-(7-4)], 'stmts' => $this->semStack[$this->stackPos-(7-6)]], $this->startAttributeStack[$this->stackPos-(7-1)] + $this->endAttributes);
     }
 
     protected function reduceRule75() {
-         $this->semValue = new Stmt\Interface_($this->semStack[$this->stackPos-(6-2)], array('extends' => $this->semStack[$this->stackPos-(6-3)], 'stmts' => $this->semStack[$this->stackPos-(6-5)]), $this->startAttributeStack[$this->stackPos-(6-1)] + $this->endAttributes);
+         $this->semValue = new Stmt\Interface_($this->semStack[$this->stackPos-(6-2)], ['extends' => $this->semStack[$this->stackPos-(6-3)], 'stmts' => $this->semStack[$this->stackPos-(6-5)]], $this->startAttributeStack[$this->stackPos-(6-1)] + $this->endAttributes);
     }
 
     protected function reduceRule76() {
@@ -1667,7 +1667,7 @@ class Parser extends ParserAbstract
     }
 
     protected function reduceRule156() {
-         $this->semValue = new Stmt\ClassMethod($this->semStack[$this->stackPos-(9-4)], array('type' => $this->semStack[$this->stackPos-(9-1)], 'byRef' => $this->semStack[$this->stackPos-(9-3)], 'params' => $this->semStack[$this->stackPos-(9-6)], 'returnType' => $this->semStack[$this->stackPos-(9-8)], 'stmts' => $this->semStack[$this->stackPos-(9-9)]), $this->startAttributeStack[$this->stackPos-(9-1)] + $this->endAttributes);
+         $this->semValue = new Stmt\ClassMethod($this->semStack[$this->stackPos-(9-4)], ['type' => $this->semStack[$this->stackPos-(9-1)], 'byRef' => $this->semStack[$this->stackPos-(9-3)], 'params' => $this->semStack[$this->stackPos-(9-6)], 'returnType' => $this->semStack[$this->stackPos-(9-8)], 'stmts' => $this->semStack[$this->stackPos-(9-9)]], $this->startAttributeStack[$this->stackPos-(9-1)] + $this->endAttributes);
     }
 
     protected function reduceRule157() {
@@ -2135,11 +2135,11 @@ class Parser extends ParserAbstract
     }
 
     protected function reduceRule273() {
-         $this->semValue = new Expr\Closure(array('static' => false, 'byRef' => $this->semStack[$this->stackPos-(10-2)], 'params' => $this->semStack[$this->stackPos-(10-4)], 'uses' => $this->semStack[$this->stackPos-(10-6)], 'returnType' => $this->semStack[$this->stackPos-(10-7)], 'stmts' => $this->semStack[$this->stackPos-(10-9)]), $this->startAttributeStack[$this->stackPos-(10-1)] + $this->endAttributes);
+         $this->semValue = new Expr\Closure(['static' => false, 'byRef' => $this->semStack[$this->stackPos-(10-2)], 'params' => $this->semStack[$this->stackPos-(10-4)], 'uses' => $this->semStack[$this->stackPos-(10-6)], 'returnType' => $this->semStack[$this->stackPos-(10-7)], 'stmts' => $this->semStack[$this->stackPos-(10-9)]], $this->startAttributeStack[$this->stackPos-(10-1)] + $this->endAttributes);
     }
 
     protected function reduceRule274() {
-         $this->semValue = new Expr\Closure(array('static' => true, 'byRef' => $this->semStack[$this->stackPos-(11-3)], 'params' => $this->semStack[$this->stackPos-(11-5)], 'uses' => $this->semStack[$this->stackPos-(11-7)], 'returnType' => $this->semStack[$this->stackPos-(11-8)], 'stmts' => $this->semStack[$this->stackPos-(11-10)]), $this->startAttributeStack[$this->stackPos-(11-1)] + $this->endAttributes);
+         $this->semValue = new Expr\Closure(['static' => true, 'byRef' => $this->semStack[$this->stackPos-(11-3)], 'params' => $this->semStack[$this->stackPos-(11-5)], 'uses' => $this->semStack[$this->stackPos-(11-7)], 'returnType' => $this->semStack[$this->stackPos-(11-8)], 'stmts' => $this->semStack[$this->stackPos-(11-10)]], $this->startAttributeStack[$this->stackPos-(11-1)] + $this->endAttributes);
     }
 
     protected function reduceRule275() {
@@ -2183,7 +2183,7 @@ class Parser extends ParserAbstract
     }
 
     protected function reduceRule285() {
-         $this->semValue = array(new Stmt\Class_(null, array('type' => 0, 'extends' => $this->semStack[$this->stackPos-(7-3)], 'implements' => $this->semStack[$this->stackPos-(7-4)], 'stmts' => $this->semStack[$this->stackPos-(7-6)]), $this->startAttributeStack[$this->stackPos-(7-1)] + $this->endAttributes), $this->semStack[$this->stackPos-(7-2)]);
+         $this->semValue = array(new Stmt\Class_(null, ['type' => 0, 'extends' => $this->semStack[$this->stackPos-(7-3)], 'implements' => $this->semStack[$this->stackPos-(7-4)], 'stmts' => $this->semStack[$this->stackPos-(7-6)]], $this->startAttributeStack[$this->stackPos-(7-1)] + $this->endAttributes), $this->semStack[$this->stackPos-(7-2)]);
     }
 
     protected function reduceRule286() {

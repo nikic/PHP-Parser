@@ -41,7 +41,6 @@ $grammarCode = file_get_contents($grammarFile);
 
 $grammarCode = resolveNodes($grammarCode);
 $grammarCode = resolveMacros($grammarCode);
-$grammarCode = resolveArrays($grammarCode);
 $grammarCode = resolveStackAccess($grammarCode);
 
 file_put_contents($tmpGrammarFile, $grammarCode);
@@ -158,37 +157,6 @@ function assertArgs($num, $args, $name) {
     if ($num != count($args)) {
         die('Wrong argument count for ' . $name . '().');
     }
-}
-
-function resolveArrays($code) {
-    return preg_replace_callback(
-        '~' . PARAMS . '~',
-        function ($matches) {
-            $elements = magicSplit(
-                '(?:' . PARAMS . '|' . ARGS . ')(*SKIP)(*FAIL)|,',
-                $matches['params']
-            );
-
-            // don't convert [] to array, it might have different meaning
-            if (empty($elements)) {
-                return $matches[0];
-            }
-
-            $elementCodes = array();
-            foreach ($elements as $element) {
-                // convert only arrays where all elements have keys
-                if (false === strpos($element, ':')) {
-                    return $matches[0];
-                }
-
-                list($key, $value) = explode(':', $element, 2);
-                $elementCodes[] = "'" . $key . "' =>" . $value;
-            }
-
-            return 'array(' . implode(', ', $elementCodes) . ')';
-        },
-        $code
-    );
 }
 
 function resolveStackAccess($code) {
