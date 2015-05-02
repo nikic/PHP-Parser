@@ -1,5 +1,5 @@
 %pure_parser
-%expect 2
+%expect 6
 
 %left T_INCLUDE T_INCLUDE_ONCE T_EVAL T_REQUIRE T_REQUIRE_ONCE
 %left ','
