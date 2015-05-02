@@ -4,7 +4,7 @@ PHP Parser
 This is a PHP 5.2 to PHP 5.6 parser written in PHP. Its purpose is to simplify static code analysis and
 manipulation.
 
-[**Documentation for version 1.x**][doc_master] (stable; for running on PHP >= 5.3).
+[**Documentation for version 1.x**][doc_1_x] (stable; for running on PHP >= 5.3).
 
 [Documentation for version 0.9.x][doc_0_9] (unsupported; for running on PHP 5.2).
 
@@ -84,4 +84,4 @@ Component documentation:
  1. [Lexer](doc/component/Lexer.markdown)
 
  [doc_0_9]: https://github.com/nikic/PHP-Parser/tree/0.9/doc
- [doc_master]: https://github.com/nikic/PHP-Parser/tree/master/doc
+ [doc_1_x]: https://github.com/nikic/PHP-Parser/tree/1.x/doc
