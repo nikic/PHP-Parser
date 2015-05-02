@@ -8,19 +8,6 @@ use PhpParser\Node\Scalar;
 /* The autoloader is already active at this point, so we only check effects here. */
 
 class AutoloaderTest extends \PHPUnit_Framework_TestCase {
-    public function testPhp7ReservedNames() {
-        if (version_compare(PHP_VERSION, '7.0-dev', '>=')) {
-            $this->markTestSkipped('Cannot create aliases to reserved names on PHP 7');
-        }
-
-        $this->assertTrue(new Expr\Cast\Bool_(new Expr\Variable('foo')) instanceof Expr\Cast\Bool);
-        $this->assertTrue(new Expr\Cast\Int_(new Expr\Variable('foo')) instanceof Expr\Cast\Int);
-
-        $this->assertInstanceof('PhpParser\Node\Expr\Cast\Object_', new Expr\Cast\Object(new Expr\Variable('foo')));
-        $this->assertInstanceof('PhpParser\Node\Expr\Cast\String_', new Expr\Cast\String(new Expr\Variable('foo')));
-        $this->assertInstanceof('PhpParser\Node\Scalar\String_', new Scalar\String('foobar'));
-    }
-
     public function testClassExists() {
         $this->assertTrue(class_exists('PhpParser\NodeVisitorAbstract'));
         $this->assertFalse(class_exists('PHPParser_NodeVisitor_NameResolver'));
