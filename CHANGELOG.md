@@ -1,5 +1,10 @@
-Version 1.3.0-dev
+Version 1.3.1-dev
 -----------------
+
+Nothing yet.
+
+Version 1.3.0 (2015-05-02)
+--------------------------
 
 ### Added
 
