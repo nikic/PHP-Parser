@@ -33,7 +33,7 @@ class ClassMethod extends Node\Stmt
      * @param array       $attributes Additional attributes
      */
     public function __construct($name, array $subNodes = array(), array $attributes = array()) {
-        parent::__construct(null, $attributes);
+        parent::__construct($attributes);
         $this->type = isset($subNodes['type']) ? $subNodes['type'] : 0;
         $this->byRef = isset($subNodes['byRef'])  ? $subNodes['byRef']  : false;
         $this->name = $name;

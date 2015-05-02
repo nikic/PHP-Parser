@@ -29,7 +29,7 @@ class Foreach_ extends Node\Stmt
      * @param array     $attributes Additional attributes
      */
     public function __construct(Node\Expr $expr, Node\Expr $valueVar, array $subNodes = array(), array $attributes = array()) {
-        parent::__construct(null, $attributes);
+        parent::__construct($attributes);
         $this->expr = $expr;
         $this->keyVar = isset($subNodes['keyVar']) ? $subNodes['keyVar'] : null;
         $this->byRef = isset($subNodes['byRef']) ? $subNodes['byRef'] : false;

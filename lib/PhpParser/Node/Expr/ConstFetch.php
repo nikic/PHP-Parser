@@ -17,7 +17,7 @@ class ConstFetch extends Expr
      * @param array $attributes Additional attributes
      */
     public function __construct(Name $name, array $attributes = array()) {
-        parent::__construct(null, $attributes);
+        parent::__construct($attributes);
         $this->name = $name;
     }
 

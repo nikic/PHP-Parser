@@ -21,7 +21,7 @@ class Alias extends Node\Stmt\TraitUseAdaptation
      * @param array          $attributes  Additional attributes
      */
     public function __construct($trait, $method, $newModifier, $newName, array $attributes = array()) {
-        parent::__construct(null, $attributes);
+        parent::__construct($attributes);
         $this->trait = $trait;
         $this->method = $method;
         $this->newModifier = $newModifier;

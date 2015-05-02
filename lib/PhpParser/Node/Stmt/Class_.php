@@ -41,7 +41,7 @@ class Class_ extends ClassLike
      * @param array       $attributes Additional attributes
      */
     public function __construct($name, array $subNodes = array(), array $attributes = array()) {
-        parent::__construct(null, $attributes);
+        parent::__construct($attributes);
         $this->type = isset($subNodes['type']) ? $subNodes['type'] : 0;
         $this->name = $name;
         $this->extends = isset($subNodes['extends']) ? $subNodes['extends'] : null;

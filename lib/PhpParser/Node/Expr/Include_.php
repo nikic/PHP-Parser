@@ -24,7 +24,7 @@ class Include_ extends Expr
      * @param array $attributes Additional attributes
      */
     public function __construct(Expr $expr, $type, array $attributes = array()) {
-        parent::__construct(null, $attributes);
+        parent::__construct($attributes);
         $this->expr = $expr;
         $this->type = $type;
     }

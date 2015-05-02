@@ -26,7 +26,7 @@ class For_ extends Node\Stmt
      * @param array $attributes Additional attributes
      */
     public function __construct(array $subNodes = array(), array $attributes = array()) {
-        parent::__construct(null, $attributes);
+        parent::__construct($attributes);
         $this->init = isset($subNodes['init']) ? $subNodes['init'] : array();
         $this->cond = isset($subNodes['cond']) ? $subNodes['cond'] : array();
         $this->loop = isset($subNodes['loop']) ? $subNodes['loop'] : array();

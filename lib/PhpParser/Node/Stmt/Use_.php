@@ -23,7 +23,7 @@ class Use_ extends Stmt
      * @param array    $attributes Additional attributes
      */
     public function __construct(array $uses, $type = self::TYPE_NORMAL, array $attributes = array()) {
-        parent::__construct(null, $attributes);
+        parent::__construct($attributes);
         $this->type = $type;
         $this->uses = $uses;
     }

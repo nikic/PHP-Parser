@@ -19,7 +19,7 @@ class ClosureUse extends Expr
      * @param array       $attributes Additional attributes
      */
     public function __construct($var, $byRef = false, array $attributes = array()) {
-        parent::__construct(null, $attributes);
+        parent::__construct($attributes);
         $this->var = $var;
         $this->byRef = $byRef;
     }

@@ -22,7 +22,7 @@ class Arg extends NodeAbstract
      * @param array $attributes Additional attributes
      */
     public function __construct(Expr $value, $byRef = false, $unpack = false, array $attributes = array()) {
-        parent::__construct(null, $attributes);
+        parent::__construct($attributes);
         $this->value = $value;
         $this->byRef = $byRef;
         $this->unpack = $unpack;

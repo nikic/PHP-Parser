@@ -27,7 +27,7 @@ class TryCatch extends Node\Stmt
             throw new Error('Cannot use try without catch or finally');
         }
 
-        parent::__construct(null, $attributes);
+        parent::__construct($attributes);
         $this->stmts = $stmts;
         $this->catches = $catches;
         $this->finallyStmts = $finallyStmts;

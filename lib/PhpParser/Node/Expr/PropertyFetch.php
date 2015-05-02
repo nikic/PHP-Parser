@@ -19,7 +19,7 @@ class PropertyFetch extends Expr
      * @param array       $attributes Additional attributes
      */
     public function __construct(Expr $var, $name, array $attributes = array()) {
-        parent::__construct(null, $attributes);
+        parent::__construct($attributes);
         $this->var = $var;
         $this->name = $name;
     }

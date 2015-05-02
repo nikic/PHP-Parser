@@ -16,7 +16,7 @@ class Encapsed extends Scalar
      * @param array $attributes Additional attributes
      */
     public function __construct(array $parts = array(), array $attributes = array()) {
-        parent::__construct(null, $attributes);
+        parent::__construct($attributes);
         $this->parts = $parts;
     }
 

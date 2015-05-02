@@ -14,7 +14,7 @@ class Trait_ extends ClassLike
      * @param array  $attributes Additional attributes
      */
     public function __construct($name, array $stmts = array(), array $attributes = array()) {
-        parent::__construct(null, $attributes);
+        parent::__construct($attributes);
         $this->name = $name;
         $this->stmts = $stmts;
     }

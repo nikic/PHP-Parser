@@ -20,7 +20,7 @@ class Name extends NodeAbstract
             $parts = explode('\\', $parts);
         }
 
-        parent::__construct(null, $attributes);
+        parent::__construct($attributes);
         $this->parts = $parts;
     }
 

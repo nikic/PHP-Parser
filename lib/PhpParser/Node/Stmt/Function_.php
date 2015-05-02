@@ -29,7 +29,7 @@ class Function_ extends Node\Stmt
      * @param array  $attributes Additional attributes
      */
     public function __construct($name, array $subNodes = array(), array $attributes = array()) {
-        parent::__construct(null, $attributes);
+        parent::__construct($attributes);
         $this->byRef = isset($subNodes['byRef']) ? $subNodes['byRef'] : false;
         $this->name = $name;
         $this->params = isset($subNodes['params']) ? $subNodes['params'] : array();

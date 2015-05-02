@@ -19,7 +19,7 @@ class While_ extends Node\Stmt
      * @param array     $attributes Additional attributes
      */
     public function __construct(Node\Expr $cond, array $stmts = array(), array $attributes = array()) {
-        parent::__construct(null, $attributes);
+        parent::__construct($attributes);
         $this->cond = $cond;
         $this->stmts = $stmts;
     }

@@ -16,7 +16,7 @@ class DNumber extends Scalar
      * @param array $attributes Additional attributes
      */
     public function __construct($value = 0.0, array $attributes = array()) {
-        parent::__construct(null, $attributes);
+        parent::__construct($attributes);
         $this->value = $value;
     }
 

@@ -31,7 +31,7 @@ class UseUse extends Node\Stmt
             ));
         }
 
-        parent::__construct(null, $attributes);
+        parent::__construct($attributes);
         $this->name = $name;
         $this->alias = $alias;
     }
