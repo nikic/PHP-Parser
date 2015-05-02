@@ -5,7 +5,7 @@ $meta #
 #semval(%n) $this->stackPos-(%l-%n)
 #semval(%n,%t) $this->stackPos-(%l-%n)
 
-namespace PhpParser;
+namespace PhpParser\Parser;
 #include;
 
 /* This is an automatically GENERATED file, which should not be manually edited.
@@ -14,7 +14,7 @@ namespace PhpParser;
  *  * the skeleton file grammar/kymacc.php.parser
  *  * the preprocessing script grammar/rebuildParser.php
  */
-class Parser extends ParserAbstract
+class Php5 extends \PhpParser\ParserAbstract
 {
     protected $tokenToSymbolMapSize = #(YYMAXLEX);
     protected $actionTableSize = #(YYLAST);

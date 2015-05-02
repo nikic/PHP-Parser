@@ -1,10 +1,10 @@
 <?php
 
-$grammarFile           = __DIR__ . '/zend_language_parser.phpy';
+$grammarFile           = __DIR__ . '/php5.y';
 $skeletonFile          = __DIR__ . '/kmyacc.php.parser';
 $tmpGrammarFile        = __DIR__ . '/tmp_parser.phpy';
 $tmpResultFile         = __DIR__ . '/tmp_parser.php';
-$parserResultFile      = __DIR__ . '/../lib/PhpParser/Parser.php';
+$parserResultFile      = __DIR__ . '/../lib/PhpParser/Parser/Php5.php';
 
 // check for kmyacc.exe binary in this directory, otherwise fall back to global name
 $kmyacc = __DIR__ . '/kmyacc.exe';
