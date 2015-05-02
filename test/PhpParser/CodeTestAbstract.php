@@ -17,7 +17,9 @@ abstract class CodeTestAbstract extends \PHPUnit_Framework_TestCase
             // evaluate @@{expr}@@ expressions
             $fileContents = preg_replace_callback(
                 '/@@\{(.*?)\}@@/',
-                array($this, 'evalCallback'),
+                function($matches) {
+                    return eval('return ' . $matches[1] . ';');
+                },
                 $fileContents
             );
 
@@ -34,10 +36,6 @@ abstract class CodeTestAbstract extends \PHPUnit_Framework_TestCase
         }
 
         return $tests;
-    }
-
-    protected function evalCallback($matches) {
-        return eval('return ' . $matches[1] . ';');
     }
 
     protected function canonicalize($str) {
