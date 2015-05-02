@@ -22,7 +22,6 @@ class Emulative extends \PhpParser\Lexer
     const PHP_7_0 = '7.0.0dev';
     const PHP_5_6 = '5.6.0rc1';
     const PHP_5_5 = '5.5.0beta1';
-    const PHP_5_4 = '5.4.0beta1';
 
     public function __construct(array $options = array()) {
         parent::__construct($options);
@@ -31,12 +30,6 @@ class Emulative extends \PhpParser\Lexer
             self::PHP_5_5 => array(
                 'finally'       => Parser::T_FINALLY,
                 'yield'         => Parser::T_YIELD,
-            ),
-            self::PHP_5_4 => array(
-                'callable'      => Parser::T_CALLABLE,
-                'insteadof'     => Parser::T_INSTEADOF,
-                'trait'         => Parser::T_TRAIT,
-                '__trait__'     => Parser::T_TRAIT_C,
             ),
         );
 
@@ -106,12 +99,7 @@ class Emulative extends \PhpParser\Lexer
         $code = preg_replace('((?<!/)\*\*=)', '~__EMU__POWEQUAL__~', $code);
         $code = preg_replace('((?<!/)\*\*(?!/))', '~__EMU__POW__~', $code);
 
-        if (version_compare(PHP_VERSION, self::PHP_5_4, '>=')) {
-            return $code;
-        }
-
-        // binary notation (0b010101101001...)
-        return preg_replace('(\b0b[01]+\b)', '~__EMU__BINARY__$0__~', $code);
+        return $code;
     }
 
     /*
@@ -130,14 +118,7 @@ class Emulative extends \PhpParser\Lexer
                 && T_STRING === $this->tokens[$i + 1][0]
                 && preg_match('(^__EMU__([A-Z]++)__(?:([A-Za-z0-9]++)__)?$)', $this->tokens[$i + 1][1], $matches)
             ) {
-                if ('BINARY' === $matches[1]) {
-                    // the binary number can either be an integer or a double, so return a LNUMBER
-                    // or DNUMBER respectively
-                    $isInt = is_int(bindec($matches[2]));
-                    $replace = array(
-                        array($isInt ? T_LNUMBER : T_DNUMBER, $matches[2], $this->tokens[$i + 1][2])
-                    );
-                } else if ('ELLIPSIS' === $matches[1]) {
+                if ('ELLIPSIS' === $matches[1]) {
                     $replace = array(
                         array(self::T_ELLIPSIS, '...', $this->tokens[$i + 1][2])
                     );
@@ -158,7 +139,7 @@ class Emulative extends \PhpParser\Lexer
                         array(self::T_SPACESHIP, '<=>', $this->tokens[$i + 1][2]),
                     );
                 } else if ('YIELDFROM' === $matches[1]) {
-                    $content = $this->hex2bin($matches[2]);
+                    $content = hex2bin($matches[2]);
                     $replace = array(
                         array(self::T_YIELD_FROM, $content, $this->tokens[$i + 1][2] - substr_count($content, "\n"))
                     );
@@ -187,9 +168,7 @@ class Emulative extends \PhpParser\Lexer
      * multichar tokens (like strings) to their original value.
      */
     public function restoreContentCallback(array $matches) {
-        if ('BINARY' === $matches[1]) {
-            return $matches[2];
-        } else if ('ELLIPSIS' === $matches[1]) {
+        if ('ELLIPSIS' === $matches[1]) {
             return '...';
         } else if ('POW' === $matches[1]) {
             return '**';
@@ -200,15 +179,10 @@ class Emulative extends \PhpParser\Lexer
         } else if ('SPACESHIP' === $matches[1]) {
             return '<=>';
         } else if ('YIELDFROM' === $matches[1]) {
-            return $this->hex2bin($matches[2]);
+            return hex2bin($matches[2]);
         } else {
             return $matches[0];
         }
-    }
-
-    private function hex2bin($str) {
-        // TODO Drop when removing support for PHP 5.3
-        return pack('H*', $str);
     }
 
     public function getNextToken(&$value = null, &$startAttributes = null, &$endAttributes = null) {
