@@ -84,25 +84,20 @@ foreach ($files as $file) {
 function showHelp($error) {
     die($error . "\n\n" .
         <<<OUTPUT
-Usage:
-
-    php php-parse.php [operations] file1.php [file2.php ...]
-
-The file arguments can also be replaced with a code string:
-
-    php php-parse.php [operations] "<?php code"
+Usage: php php-parse.php [operations] file1.php [file2.php ...]
+   or: php php-parse.php [operations] "<?php code"
+Turn PHP source code into an abstract syntax tree.
 
 Operations is a list of the following options (--dump by default):
 
-    --dump             -d  Dump nodes using NodeDumper
-    --pretty-print     -p  Pretty print file using PrettyPrinter\Standard
-    --serialize-xml        Serialize nodes using Serializer\XML
-    --var-dump             var_dump() nodes (for exact structure)
-    --resolve-names    -N  Resolve names using NodeVisitor\NameResolver
-    --with-column-info -c  Show column-numbers for errors (if available)
+    -d, --dump              Dump nodes using NodeDumper
+    -p, --pretty-print      Pretty print file using PrettyPrinter\Standard
+        --serialize-xml     Serialize nodes using Serializer\XML
+        --var-dump          var_dump() nodes (for exact structure)
+    -N, --resolve-names     Resolve names using NodeVisitor\NameResolver
+    -c, --with-column-info  Show column-numbers for errors (if available)
 
 Example:
-
     php php-parse.php -d -p -N -d file.php
 
     Dumps nodes, pretty prints them, then resolves names and dumps them again.
