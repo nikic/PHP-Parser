@@ -3,9 +3,10 @@
 namespace PhpParser\Node\Stmt;
 
 use PhpParser\Node;
+use PhpParser\Node\FunctionLike;
 use PhpParser\Error;
 
-class ClassMethod extends Node\Stmt
+class ClassMethod extends Node\Stmt implements FunctionLike
 {
     /** @var int Type */
     public $type;
@@ -55,6 +56,22 @@ class ClassMethod extends Node\Stmt
 
     public function getSubNodeNames() {
         return array('type', 'byRef', 'name', 'params', 'returnType', 'stmts');
+    }
+
+    public function returnsByRef() {
+        return $this->byRef;
+    }
+
+    public function getParams() {
+        return $this->params;
+    }
+
+    public function getReturnType() {
+        return $this->returnType;
+    }
+
+    public function getStmts() {
+        return $this->stmts;
     }
 
     public function isPublic() {
