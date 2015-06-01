@@ -3,9 +3,10 @@
 namespace PhpParser\Node\Stmt;
 
 use PhpParser\Node;
+use PhpParser\Node\FunctionLike;
 use PhpParser\Error;
 
-class ClassMethod extends Node\Stmt
+class ClassMethod extends Node\Stmt implements FunctionLike
 {
     /** @var int Type */
     public $type;
@@ -51,6 +52,34 @@ class ClassMethod extends Node\Stmt
                     throw new Error(sprintf('Clone method %s() cannot be static', $this->name));
             }
         }
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public function returnsByRef() {
+        return $this->byRef;
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public function getParams() {
+        return $this->params;
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public function getReturnType() {
+        return $this->returnType;
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public function getStmts() {
+        return $this->stmts;
     }
 
     public function getSubNodeNames() {
