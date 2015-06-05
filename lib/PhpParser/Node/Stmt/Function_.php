@@ -3,8 +3,9 @@
 namespace PhpParser\Node\Stmt;
 
 use PhpParser\Node;
+use PhpParser\Node\FunctionLike;
 
-class Function_ extends Node\Stmt
+class Function_ extends Node\Stmt implements FunctionLike
 {
     /** @var bool Whether function returns by reference */
     public $byRef;
@@ -39,5 +40,21 @@ class Function_ extends Node\Stmt
 
     public function getSubNodeNames() {
         return array('byRef', 'name', 'params', 'returnType', 'stmts');
+    }
+
+    public function returnsByRef() {
+        return $this->byRef;
+    }
+
+    public function getParams() {
+        return $this->params;
+    }
+
+    public function getReturnType() {
+        return $this->returnType;
+    }
+
+    public function getStmts() {
+        return $this->stmts;
     }
 }
