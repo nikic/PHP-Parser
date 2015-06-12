@@ -63,23 +63,14 @@ abstract class NodeAbstract implements Node
         return $lastComment;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function setAttribute($key, $value) {
         $this->attributes[$key] = $value;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function hasAttribute($key) {
         return array_key_exists($key, $this->attributes);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function &getAttribute($key, $default = null) {
         if (!array_key_exists($key, $this->attributes)) {
             return $default;
@@ -88,9 +79,6 @@ abstract class NodeAbstract implements Node
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getAttributes() {
         return $this->attributes;
     }
