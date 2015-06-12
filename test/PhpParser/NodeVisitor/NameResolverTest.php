@@ -76,6 +76,20 @@ namespace Bar {
     BAR\FOO;
     BAZ\FOO;
 }
+namespace Baz {
+    use A\T\{B\C, D\E};
+    use function X\T\{b\c, d\e};
+    use const Y\T\{B\C, D\E};
+
+    new C;
+    new E;
+    new C\D;
+    new E\F;
+    c();
+    e();
+    C;
+    E;
+}
 EOC;
         $expectedCode = <<<'EOC'
 namespace Foo {
@@ -126,6 +140,19 @@ namespace Bar {
     \foo\BAR;
     \foo\FOO;
     \Bar\BAZ\FOO;
+}
+namespace Baz {
+    use A\T\{B\C, D\E};
+    use function X\T\{b\c, d\e};
+    use const Y\T\{B\C, D\E};
+    new \A\T\B\C();
+    new \A\T\D\E();
+    new \A\T\B\C\D();
+    new \A\T\D\E\F();
+    \X\T\b\c();
+    \X\T\d\e();
+    \Y\T\B\C;
+    \Y\T\D\E;
 }
 EOC;
 

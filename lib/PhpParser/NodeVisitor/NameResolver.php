@@ -26,7 +26,11 @@ class NameResolver extends NodeVisitorAbstract
             $this->resetState($node->name);
         } elseif ($node instanceof Stmt\Use_) {
             foreach ($node->uses as $use) {
-                $this->addAlias($use, $node->type);
+                $this->addAlias($use, $node->type, null);
+            }
+        } elseif ($node instanceof Stmt\GroupUse) {
+            foreach ($node->uses as $use) {
+                $this->addAlias($use, $node->type, $node->prefix);
             }
         } elseif ($node instanceof Stmt\Class_) {
             if (null !== $node->extends) {
@@ -105,13 +109,16 @@ class NameResolver extends NodeVisitorAbstract
         );
     }
 
-    protected function addAlias(Stmt\UseUse $use, $type) {
+    protected function addAlias(Stmt\UseUse $use, $type, Name $prefix = null) {
         // Constant names are case sensitive, everything else case insensitive
         if ($type === Stmt\Use_::TYPE_CONSTANT) {
             $aliasName = $use->alias;
         } else {
             $aliasName = strtolower($use->alias);
         }
+
+        // Add prefix for group uses
+        $name = $prefix ? Name::concat($prefix, $use->name) : $use->name;
 
         if (isset($this->aliases[$type][$aliasName])) {
             $typeStringMap = array(
@@ -123,13 +130,13 @@ class NameResolver extends NodeVisitorAbstract
             throw new Error(
                 sprintf(
                     'Cannot use %s%s as %s because the name is already in use',
-                    $typeStringMap[$type], $use->name, $use->alias
+                    $typeStringMap[$type], $name, $use->alias
                 ),
                 $use->getLine()
             );
         }
 
-        $this->aliases[$type][$aliasName] = $use->name;
+        $this->aliases[$type][$aliasName] = $name;
     }
 
     /** @param Stmt\Function_|Stmt\ClassMethod|Expr\Closure $node */

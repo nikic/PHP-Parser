@@ -109,7 +109,7 @@ class Name extends NodeAbstract
      * @param string|array|self $name The name to set the whole name to
      */
     public function set($name) {
-        $this->parts = $this->prepareName($name);
+        $this->parts = self::prepareName($name);
     }
 
     /**
@@ -118,7 +118,7 @@ class Name extends NodeAbstract
      * @param string|array|self $name Name to prepend
      */
     public function prepend($name) {
-        $this->parts = array_merge($this->prepareName($name), $this->parts);
+        $this->parts = array_merge(self::prepareName($name), $this->parts);
     }
 
     /**
@@ -127,7 +127,7 @@ class Name extends NodeAbstract
      * @param string|array|self $name Name to append
      */
     public function append($name) {
-        $this->parts = array_merge($this->parts, $this->prepareName($name));
+        $this->parts = array_merge($this->parts, self::prepareName($name));
     }
 
     /**
@@ -136,7 +136,7 @@ class Name extends NodeAbstract
      * @param string|array|self $name The name to set the first part to
      */
     public function setFirst($name) {
-        array_splice($this->parts, 0, 1, $this->prepareName($name));
+        array_splice($this->parts, 0, 1, self::prepareName($name));
     }
 
     /**
@@ -145,7 +145,18 @@ class Name extends NodeAbstract
      * @param string|array|self $name The name to set the last part to
      */
     public function setLast($name) {
-        array_splice($this->parts, -1, 1, $this->prepareName($name));
+        array_splice($this->parts, -1, 1, self::prepareName($name));
+    }
+
+    /**
+     * Concatenate two names, yielding a new Name instance
+     *
+     * @param string|array|self The first name
+     * @param string|array|self The second name
+     * @return Name Concatenated name
+     */
+    public static function concat($name1, $name2) {
+        return new Name(array_merge(self::prepareName($name1), self::prepareName($name2)));
     }
 
     /**
@@ -156,7 +167,7 @@ class Name extends NodeAbstract
      *
      * @return array Prepared name
      */
-    protected function prepareName($name) {
+    private static function prepareName($name) {
         if (is_string($name)) {
             return explode('\\', $name);
         } elseif (is_array($name)) {

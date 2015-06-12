@@ -150,9 +150,22 @@ top_statement:
     | T_NAMESPACE namespace_name '{' top_statement_list '}' { $$ = Stmt\Namespace_[$2, $4]; }
     | T_NAMESPACE '{' top_statement_list '}'                { $$ = Stmt\Namespace_[null,     $3]; }
     | T_USE use_declarations ';'                            { $$ = Stmt\Use_[$2, Stmt\Use_::TYPE_NORMAL]; }
-    | T_USE T_FUNCTION use_declarations ';'                 { $$ = Stmt\Use_[$3, Stmt\Use_::TYPE_FUNCTION]; }
-    | T_USE T_CONST use_declarations ';'                    { $$ = Stmt\Use_[$3, Stmt\Use_::TYPE_CONSTANT]; }
+    | T_USE use_type use_declarations ';'                   { $$ = Stmt\Use_[$3, $2]; }
+    | group_use_declaration                                 { $$ = $1; }
     | T_CONST constant_declaration_list ';'                 { $$ = Stmt\Const_[$2]; }
+;
+
+use_type:
+      T_FUNCTION                                            { $$ = Stmt\Use_::TYPE_FUNCTION; }
+    | T_CONST                                               { $$ = Stmt\Use_::TYPE_CONSTANT; }
+;
+
+/* Using namespace_name_parts here to avoid s/r conflict on T_NS_SEPARATOR */
+group_use_declaration:
+      T_USE namespace_name_parts T_NS_SEPARATOR '{' use_declarations '}'
+          { $$ = Stmt\GroupUse[Name[$2], $5, Stmt\Use_::TYPE_NORMAL]; }
+    | T_USE use_type namespace_name_parts T_NS_SEPARATOR '{' use_declarations '}'
+          { $$ = Stmt\GroupUse[Name[$3], $6, $2]; }
 ;
 
 use_declarations:
