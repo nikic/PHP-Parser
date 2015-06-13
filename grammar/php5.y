@@ -131,6 +131,25 @@ top_statement_list:
     | /* empty */                                           { init(); }
 ;
 
+reserved_non_modifiers:
+      T_INCLUDE | T_INCLUDE_ONCE | T_EVAL | T_REQUIRE | T_REQUIRE_ONCE | T_LOGICAL_OR | T_LOGICAL_XOR | T_LOGICAL_AND
+    | T_INSTANCEOF | T_NEW | T_CLONE | T_EXIT | T_IF | T_ELSEIF | T_ELSE | T_ENDIF | T_ECHO | T_DO | T_WHILE
+    | T_ENDWHILE | T_FOR | T_ENDFOR | T_FOREACH | T_ENDFOREACH | T_DECLARE | T_ENDDECLARE | T_AS | T_TRY | T_CATCH
+    | T_FINALLY | T_THROW | T_USE | T_INSTEADOF | T_GLOBAL | T_VAR | T_UNSET | T_ISSET | T_EMPTY | T_CONTINUE | T_GOTO
+    | T_FUNCTION | T_CONST | T_RETURN | T_PRINT | T_YIELD | T_LIST | T_SWITCH | T_ENDSWITCH | T_CASE | T_DEFAULT
+    | T_BREAK | T_ARRAY | T_CALLABLE | T_EXTENDS | T_IMPLEMENTS | T_NAMESPACE | T_TRAIT | T_INTERFACE | T_CLASS
+;
+
+semi_reserved:
+      reserved_non_modifiers
+    | T_STATIC | T_ABSTRACT | T_FINAL | T_PRIVATE | T_PROTECTED | T_PUBLIC
+;
+
+identifier:
+      T_STRING                                              { $$ = $1; }
+    | semi_reserved                                         { $$ = $1; }
+;
+
 namespace_name_parts:
       T_STRING                                              { init($1); }
     | namespace_name_parts T_NS_SEPARATOR T_STRING          { push($1, $3); }
@@ -197,6 +216,15 @@ constant_declaration_list:
 
 constant_declaration:
     T_STRING '=' static_scalar                              { $$ = Node\Const_[$1, $3]; }
+;
+
+class_const_list:
+      class_const_list ',' class_const                      { push($1, $3); }
+    | class_const                                           { init($1); }
+;
+
+class_const:
+    identifier '=' static_scalar                            { $$ = Node\Const_[$1, $3]; }
 ;
 
 inner_statement_list:
@@ -483,8 +511,8 @@ class_statement_list:
 
 class_statement:
       variable_modifiers property_declaration_list ';'      { $$ = Stmt\Property[$1, $2]; }
-    | T_CONST constant_declaration_list ';'                 { $$ = Stmt\ClassConst[$2]; }
-    | method_modifiers T_FUNCTION optional_ref T_STRING '(' parameter_list ')' optional_return_type method_body
+    | T_CONST class_const_list ';'                          { $$ = Stmt\ClassConst[$2]; }
+    | method_modifiers T_FUNCTION optional_ref identifier '(' parameter_list ')' optional_return_type method_body
           { $$ = Stmt\ClassMethod[$4, ['type' => $1, 'byRef' => $3, 'params' => $6, 'returnType' => $8, 'stmts' => $9]]; }
     | T_USE name_list trait_adaptations                     { $$ = Stmt\TraitUse[$2, $3]; }
 ;
@@ -502,20 +530,22 @@ trait_adaptation_list:
 trait_adaptation:
       trait_method_reference_fully_qualified T_INSTEADOF name_list ';'
           { $$ = Stmt\TraitUseAdaptation\Precedence[$1[0], $1[1], $3]; }
-    | trait_method_reference T_AS member_modifier T_STRING ';'
+    | trait_method_reference T_AS member_modifier identifier ';'
           { $$ = Stmt\TraitUseAdaptation\Alias[$1[0], $1[1], $3, $4]; }
     | trait_method_reference T_AS member_modifier ';'
           { $$ = Stmt\TraitUseAdaptation\Alias[$1[0], $1[1], $3, null]; }
     | trait_method_reference T_AS T_STRING ';'
           { $$ = Stmt\TraitUseAdaptation\Alias[$1[0], $1[1], null, $3]; }
+    | trait_method_reference T_AS reserved_non_modifiers ';'
+          { $$ = Stmt\TraitUseAdaptation\Alias[$1[0], $1[1], null, $3]; }
 ;
 
 trait_method_reference_fully_qualified:
-      name T_PAAMAYIM_NEKUDOTAYIM T_STRING                  { $$ = array($1, $3); }
+      name T_PAAMAYIM_NEKUDOTAYIM identifier                { $$ = array($1, $3); }
 ;
 trait_method_reference:
       trait_method_reference_fully_qualified                { $$ = $1; }
-    | T_STRING                                              { $$ = array(null, $1); }
+    | identifier                                            { $$ = array(null, $1); }
 ;
 
 method_body:
@@ -709,7 +739,7 @@ lexical_var:
 
 function_call:
       name argument_list                                    { $$ = Expr\FuncCall[$1, $2]; }
-    | class_name_or_var T_PAAMAYIM_NEKUDOTAYIM T_STRING argument_list
+    | class_name_or_var T_PAAMAYIM_NEKUDOTAYIM identifier argument_list
           { $$ = Expr\StaticCall[$1, $3, $4]; }
     | class_name_or_var T_PAAMAYIM_NEKUDOTAYIM '{' expr '}' argument_list
           { $$ = Expr\StaticCall[$1, $4, $6]; }
@@ -806,7 +836,7 @@ common_scalar:
 
 static_scalar:
       common_scalar                                         { $$ = $1; }
-    | class_name T_PAAMAYIM_NEKUDOTAYIM class_const_name    { $$ = Expr\ClassConstFetch[$1, $3]; }
+    | class_name T_PAAMAYIM_NEKUDOTAYIM identifier          { $$ = Expr\ClassConstFetch[$1, $3]; }
     | name                                                  { $$ = Expr\ConstFetch[$1]; }
     | T_ARRAY '(' static_array_pair_list ')'                { $$ = Expr\Array_[$3]; }
     | '[' static_array_pair_list ']'                        { $$ = Expr\Array_[$2]; }
@@ -851,7 +881,7 @@ static_operation:
 
 constant:
       name                                                  { $$ = Expr\ConstFetch[$1]; }
-    | class_name_or_var T_PAAMAYIM_NEKUDOTAYIM class_const_name
+    | class_name_or_var T_PAAMAYIM_NEKUDOTAYIM identifier
           { $$ = Expr\ClassConstFetch[$1, $3]; }
 ;
 
@@ -862,11 +892,6 @@ scalar:
           { parseEncapsed($2, '"'); $$ = Scalar\Encapsed[$2]; }
     | T_START_HEREDOC encaps_list T_END_HEREDOC
           { parseEncapsedDoc($2); $$ = Scalar\Encapsed[$2]; }
-;
-
-class_const_name:
-      T_STRING                                              { $$ = $1; }
-    | T_CLASS                                               { $$ = 'class'; }
 ;
 
 static_array_pair_list:
