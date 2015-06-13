@@ -11,11 +11,11 @@ use PhpParser\Node\Stmt;
 
 /* This is an automatically GENERATED file, which should not be manually edited.
  * Instead edit one of the following:
- *  * the grammar file grammar/zend_language_parser.phpy
+ *  * the grammar files grammar/php5.y or grammar/php7.y
  *  * the skeleton file grammar/kymacc.php.parser
- *  * the preprocessing script grammar/rebuildParser.php
+ *  * the preprocessing script grammar/rebuildParsers.php
  */
-class Php5 extends \PhpParser\ParserAbstract
+class Php7 extends \PhpParser\ParserAbstract
 {
     protected $tokenToSymbolMapSize = 392;
     protected $actionTableSize = 1313;

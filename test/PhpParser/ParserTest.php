@@ -15,10 +15,21 @@ class ParserTest extends CodeTestAbstract
         $lexer = new Lexer\Emulative(array('usedAttributes' => array(
             'startLine', 'endLine', 'startFilePos', 'endFilePos'
         )));
-        $parser = new Parser($lexer, array(
+        $parser5 = new Parser\Php5($lexer, array(
+            'throwOnError' => false,
+        ));
+        $parser7 = new Parser\Php7($lexer, array(
             'throwOnError' => false,
         ));
 
+        $output5 = $this->getParseOutput($parser5, $code);
+        $output7 = $this->getParseOutput($parser7, $code);
+
+        $this->assertSame($this->canonicalize($expected), $output5, $name);
+        $this->assertSame($this->canonicalize($expected), $output7, $name);
+    }
+
+    private function getParseOutput(ParserInterface $parser, $code) {
         $stmts = $parser->parse($code);
         $errors = $parser->getErrors();
 
@@ -32,7 +43,7 @@ class ParserTest extends CodeTestAbstract
             $output .= $dumper->dump($stmts);
         }
 
-        $this->assertSame($this->canonicalize($expected), $this->canonicalize($output), $name);
+        return $this->canonicalize($output);
     }
 
     public function provideTestParse() {

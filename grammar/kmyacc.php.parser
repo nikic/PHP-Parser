@@ -14,7 +14,7 @@ namespace PhpParser\Parser;
  *  * the skeleton file grammar/kymacc.php.parser
  *  * the preprocessing script grammar/rebuildParsers.php
  */
-class Php5 extends \PhpParser\ParserAbstract
+class #(-p) extends \PhpParser\ParserAbstract
 {
     protected $tokenToSymbolMapSize = #(YYMAXLEX);
     protected $actionTableSize = #(YYLAST);

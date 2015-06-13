@@ -1,13 +1,14 @@
 <?php
 
-$grammarToResultFile = [
-    __DIR__ . '/php5.y' => __DIR__ . '/../lib/PhpParser/Parser/Php5.php',
-    __DIR__ . '/php7.y' => __DIR__ . '/../lib/PhpParser/Parser/Php7.php',
+$grammarFileToName = [
+    __DIR__ . '/php5.y' => 'Php5',
+    __DIR__ . '/php7.y' => 'Php7',
 ];
 
 $skeletonFile   = __DIR__ . '/kmyacc.php.parser';
 $tmpGrammarFile = __DIR__ . '/tmp_parser.phpy';
 $tmpResultFile  = __DIR__ . '/tmp_parser.php';
+$resultDir = __DIR__ . '/../lib/PhpParser/Parser';
 
 // check for kmyacc.exe binary in this directory, otherwise fall back to global name
 $kmyacc = __DIR__ . '/kmyacc.exe';
@@ -38,8 +39,8 @@ const ARGS   = '\((?<args>[^()]*+(?:\((?&args)\)[^()]*+)*+)\)';
 /// Main script ///
 ///////////////////
 
-foreach ($grammarToResultFile as $grammarFile => $resultFile) {
-    echo 'Building temporary preproprocessed grammar file.', "\n";
+foreach ($grammarFileToName as $grammarFile => $name) {
+    echo "Building temporary $name grammar file.\n";
 
     $grammarCode = file_get_contents($grammarFile);
 
@@ -51,15 +52,15 @@ foreach ($grammarToResultFile as $grammarFile => $resultFile) {
 
     $additionalArgs = $optionDebug ? '-t -v' : '';
 
-    echo "Building parser.\n";
-    $output = trim(shell_exec("$kmyacc $additionalArgs -l -m $skeletonFile $tmpGrammarFile 2>&1"));
+    echo "Building $name parser.\n";
+    $output = trim(shell_exec("$kmyacc $additionalArgs -l -m $skeletonFile -p $name $tmpGrammarFile 2>&1"));
     echo "Output: \"$output\"\n";
 
     $resultCode = file_get_contents($tmpResultFile);
     $resultCode = removeTrailingWhitespace($resultCode);
 
-    ensureDirExists(dirname($resultFile));
-    file_put_contents($resultFile, $resultCode);
+    ensureDirExists($resultDir);
+    file_put_contents("$resultDir/$name.php", $resultCode);
     unlink($tmpResultFile);
 
     if (!$optionKeepTmpGrammar) {
