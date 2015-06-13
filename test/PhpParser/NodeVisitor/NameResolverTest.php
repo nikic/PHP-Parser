@@ -165,7 +165,7 @@ namespace Baz {
 }
 EOC;
 
-        $parser        = new PhpParser\Parser(new PhpParser\Lexer\Emulative);
+        $parser        = new PhpParser\Parser\Php7(new PhpParser\Lexer\Emulative);
         $prettyPrinter = new PhpParser\PrettyPrinter\Standard;
         $traverser     = new PhpParser\NodeTraverser;
         $traverser->addVisitor(new NameResolver);
@@ -255,7 +255,7 @@ try {
 }
 EOC;
 
-        $parser        = new PhpParser\Parser(new PhpParser\Lexer\Emulative);
+        $parser        = new PhpParser\Parser\Php7(new PhpParser\Lexer\Emulative);
         $prettyPrinter = new PhpParser\PrettyPrinter\Standard;
         $traverser     = new PhpParser\NodeTraverser;
         $traverser->addVisitor(new NameResolver);
@@ -389,7 +389,7 @@ use Bar\Baz;
 $test = new baz();
 EOC;
 
-        $parser = new PhpParser\Parser(new PhpParser\Lexer\Emulative);
+        $parser = new PhpParser\Parser\Php7(new PhpParser\Lexer\Emulative);
         $stmts = $parser->parse($source);
 
         $traverser = new PhpParser\NodeTraverser;
@@ -417,7 +417,7 @@ class Bar
 }
 EOC;
 
-        $parser = new PhpParser\Parser(new PhpParser\Lexer\Emulative);
+        $parser = new PhpParser\Parser\Php7(new PhpParser\Lexer\Emulative);
         $stmts = $parser->parse($source);
 
         $traverser = new PhpParser\NodeTraverser;
