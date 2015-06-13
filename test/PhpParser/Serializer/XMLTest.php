@@ -150,6 +150,7 @@ XML;
         $parser     = new PhpParser\Parser(new PhpParser\Lexer);
         $serializer = new XML;
 
+        $code = str_replace("\r\n", "\n", $code);
         $stmts = $parser->parse($code);
         $this->assertXmlStringEqualsXmlString($xml, $serializer->serialize($stmts));
     }
