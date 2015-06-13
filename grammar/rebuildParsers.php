@@ -137,7 +137,8 @@ function resolveMacros($code) {
             if ('pushNormalizing' == $name) {
                 assertArgs(2, $args, $name);
 
-                return 'if (is_array(' . $args[1] . ')) { $$ = array_merge(' . $args[0] . ', ' . $args[1] . '); } else { ' . $args[0] . '[] = ' . $args[1] . '; $$ = ' . $args[0] . '; }';
+                return 'if (is_array(' . $args[1] . ')) { $$ = array_merge(' . $args[0] . ', ' . $args[1] . '); }'
+                     . ' else { ' . $args[0] . '[] = ' . $args[1] . '; $$ = ' . $args[0] . '; }';
             }
 
             if ('toArray' == $name) {
@@ -153,15 +154,19 @@ function resolveMacros($code) {
             }
 
             if ('parseEncapsed' == $name) {
-                assertArgs(2, $args, $name);
+                assertArgs(3, $args, $name);
 
-                return 'foreach (' . $args[0] . ' as &$s) { if (is_string($s)) { $s = Node\Scalar\String_::parseEscapeSequences($s, ' . $args[1] . '); } }';
+                return 'foreach (' . $args[0] . ' as &$s) { if (is_string($s)) {'
+                     . ' $s = Node\Scalar\String_::parseEscapeSequences($s, ' . $args[1] . ', ' . $args[2] . '); } }';
             }
 
             if ('parseEncapsedDoc' == $name) {
-                assertArgs(1, $args, $name);
+                assertArgs(2, $args, $name);
 
-                return 'foreach (' . $args[0] . ' as &$s) { if (is_string($s)) { $s = Node\Scalar\String_::parseEscapeSequences($s, null); } } $s = preg_replace(\'~(\r\n|\n|\r)$~\', \'\', $s); if (\'\' === $s) array_pop(' . $args[0] . ');';
+                return 'foreach (' . $args[0] . ' as &$s) { if (is_string($s)) {'
+                     . ' $s = Node\Scalar\String_::parseEscapeSequences($s, null, ' . $args[1] . '); } }'
+                     . ' $s = preg_replace(\'~(\r\n|\n|\r)$~\', \'\', $s);'
+                     . ' if (\'\' === $s) array_pop(' . $args[0] . ');';
             }
 
             return $matches[0];

@@ -590,7 +590,7 @@ array_expr:
 scalar_dereference:
       array_expr '[' dim_offset ']'                         { $$ = Expr\ArrayDimFetch[$1, $3]; }
     | T_CONSTANT_ENCAPSED_STRING '[' dim_offset ']'
-          { $$ = Expr\ArrayDimFetch[Scalar\String_[Scalar\String_::parse($1)], $3]; }
+          { $$ = Expr\ArrayDimFetch[Scalar\String_[Scalar\String_::parse($1, false)], $3]; }
     | constant '[' dim_offset ']'                           { $$ = Expr\ArrayDimFetch[$1, $3]; }
     | scalar_dereference '[' dim_offset ']'                 { $$ = Expr\ArrayDimFetch[$1, $3]; }
     /* alternative array syntax missing intentionally */
@@ -690,8 +690,9 @@ exit_expr:
 
 backticks_expr:
       /* empty */                                           { $$ = array(); }
-    | T_ENCAPSED_AND_WHITESPACE                             { $$ = array(Scalar\String_::parseEscapeSequences($1, '`')); }
-    | encaps_list                                           { parseEncapsed($1, '`'); $$ = $1; }
+    | T_ENCAPSED_AND_WHITESPACE
+          { $$ = array(Scalar\String_::parseEscapeSequences($1, '`', false)); }
+    | encaps_list                                           { parseEncapsed($1, '`', false); $$ = $1; }
 ;
 
 ctor_arguments:
@@ -702,7 +703,7 @@ ctor_arguments:
 common_scalar:
       T_LNUMBER                                             { $$ = Scalar\LNumber[Scalar\LNumber::parse($1)]; }
     | T_DNUMBER                                             { $$ = Scalar\DNumber[Scalar\DNumber::parse($1)]; }
-    | T_CONSTANT_ENCAPSED_STRING                            { $$ = Scalar\String_[Scalar\String_::parse($1)]; }
+    | T_CONSTANT_ENCAPSED_STRING                            { $$ = Scalar\String_[Scalar\String_::parse($1, false)]; }
     | T_LINE                                                { $$ = Scalar\MagicConst\Line[]; }
     | T_FILE                                                { $$ = Scalar\MagicConst\File[]; }
     | T_DIR                                                 { $$ = Scalar\MagicConst\Dir[]; }
@@ -712,7 +713,7 @@ common_scalar:
     | T_FUNC_C                                              { $$ = Scalar\MagicConst\Function_[]; }
     | T_NS_C                                                { $$ = Scalar\MagicConst\Namespace_[]; }
     | T_START_HEREDOC T_ENCAPSED_AND_WHITESPACE T_END_HEREDOC
-          { $$ = Scalar\String_[Scalar\String_::parseDocString($1, $2)]; }
+          { $$ = Scalar\String_[Scalar\String_::parseDocString($1, $2, false)]; }
     | T_START_HEREDOC T_END_HEREDOC
           { $$ = Scalar\String_['']; }
 ;
@@ -772,9 +773,9 @@ scalar:
       common_scalar                                         { $$ = $1; }
     | constant                                              { $$ = $1; }
     | '"' encaps_list '"'
-          { parseEncapsed($2, '"'); $$ = Scalar\Encapsed[$2]; }
+          { parseEncapsed($2, '"', false); $$ = Scalar\Encapsed[$2]; }
     | T_START_HEREDOC encaps_list T_END_HEREDOC
-          { parseEncapsedDoc($2); $$ = Scalar\Encapsed[$2]; }
+          { parseEncapsedDoc($2, false); $$ = Scalar\Encapsed[$2]; }
 ;
 
 static_array_pair_list:

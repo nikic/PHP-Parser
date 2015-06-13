@@ -623,7 +623,7 @@ exit_expr:
 backticks_expr:
       /* empty */                                           { $$ = array(); }
     | T_ENCAPSED_AND_WHITESPACE                             { $$ = array(Scalar\String_::parseEscapeSequences($1, '`')); }
-    | encaps_list                                           { parseEncapsed($1, '`'); $$ = $1; }
+    | encaps_list                                           { parseEncapsed($1, '`', true); $$ = $1; }
 ;
 
 ctor_arguments:
@@ -661,9 +661,9 @@ scalar:
     | T_START_HEREDOC T_END_HEREDOC
           { $$ = Scalar\String_['']; }
     | '"' encaps_list '"'
-          { parseEncapsed($2, '"'); $$ = Scalar\Encapsed[$2]; }
+          { parseEncapsed($2, '"', true); $$ = Scalar\Encapsed[$2]; }
     | T_START_HEREDOC encaps_list T_END_HEREDOC
-          { parseEncapsedDoc($2); $$ = Scalar\Encapsed[$2]; }
+          { parseEncapsedDoc($2, true); $$ = Scalar\Encapsed[$2]; }
 ;
 
 optional_comma:

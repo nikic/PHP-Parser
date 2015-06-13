@@ -2392,7 +2392,7 @@ class Php5 extends \PhpParser\ParserAbstract
     }
 
     protected function reduceRule362() {
-         $this->semValue = new Expr\ArrayDimFetch(new Scalar\String_(Scalar\String_::parse($this->semStack[$this->stackPos-(4-1)]), $this->startAttributeStack[$this->stackPos-(4-1)] + $this->endAttributes), $this->semStack[$this->stackPos-(4-3)], $this->startAttributeStack[$this->stackPos-(4-1)] + $this->endAttributes);
+         $this->semValue = new Expr\ArrayDimFetch(new Scalar\String_(Scalar\String_::parse($this->semStack[$this->stackPos-(4-1)], false), $this->startAttributeStack[$this->stackPos-(4-1)] + $this->endAttributes), $this->semStack[$this->stackPos-(4-3)], $this->startAttributeStack[$this->stackPos-(4-1)] + $this->endAttributes);
     }
 
     protected function reduceRule363() {
@@ -2550,11 +2550,11 @@ class Php5 extends \PhpParser\ParserAbstract
     }
 
     protected function reduceRule398() {
-         $this->semValue = array(Scalar\String_::parseEscapeSequences($this->semStack[$this->stackPos-(1-1)], '`'));
+         $this->semValue = array(Scalar\String_::parseEscapeSequences($this->semStack[$this->stackPos-(1-1)], '`', false));
     }
 
     protected function reduceRule399() {
-         foreach ($this->semStack[$this->stackPos-(1-1)] as &$s) { if (is_string($s)) { $s = Node\Scalar\String_::parseEscapeSequences($s, '`'); } }; $this->semValue = $this->semStack[$this->stackPos-(1-1)];
+         foreach ($this->semStack[$this->stackPos-(1-1)] as &$s) { if (is_string($s)) { $s = Node\Scalar\String_::parseEscapeSequences($s, '`', false); } }; $this->semValue = $this->semStack[$this->stackPos-(1-1)];
     }
 
     protected function reduceRule400() {
@@ -2574,7 +2574,7 @@ class Php5 extends \PhpParser\ParserAbstract
     }
 
     protected function reduceRule404() {
-         $this->semValue = new Scalar\String_(Scalar\String_::parse($this->semStack[$this->stackPos-(1-1)]), $this->startAttributeStack[$this->stackPos-(1-1)] + $this->endAttributes);
+         $this->semValue = new Scalar\String_(Scalar\String_::parse($this->semStack[$this->stackPos-(1-1)], false), $this->startAttributeStack[$this->stackPos-(1-1)] + $this->endAttributes);
     }
 
     protected function reduceRule405() {
@@ -2610,7 +2610,7 @@ class Php5 extends \PhpParser\ParserAbstract
     }
 
     protected function reduceRule413() {
-         $this->semValue = new Scalar\String_(Scalar\String_::parseDocString($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-2)]), $this->startAttributeStack[$this->stackPos-(3-1)] + $this->endAttributes);
+         $this->semValue = new Scalar\String_(Scalar\String_::parseDocString($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-2)], false), $this->startAttributeStack[$this->stackPos-(3-1)] + $this->endAttributes);
     }
 
     protected function reduceRule414() {
@@ -2790,11 +2790,11 @@ class Php5 extends \PhpParser\ParserAbstract
     }
 
     protected function reduceRule458() {
-         foreach ($this->semStack[$this->stackPos-(3-2)] as &$s) { if (is_string($s)) { $s = Node\Scalar\String_::parseEscapeSequences($s, '"'); } }; $this->semValue = new Scalar\Encapsed($this->semStack[$this->stackPos-(3-2)], $this->startAttributeStack[$this->stackPos-(3-1)] + $this->endAttributes);
+         foreach ($this->semStack[$this->stackPos-(3-2)] as &$s) { if (is_string($s)) { $s = Node\Scalar\String_::parseEscapeSequences($s, '"', false); } }; $this->semValue = new Scalar\Encapsed($this->semStack[$this->stackPos-(3-2)], $this->startAttributeStack[$this->stackPos-(3-1)] + $this->endAttributes);
     }
 
     protected function reduceRule459() {
-         foreach ($this->semStack[$this->stackPos-(3-2)] as &$s) { if (is_string($s)) { $s = Node\Scalar\String_::parseEscapeSequences($s, null); } } $s = preg_replace('~(\r\n|\n|\r)$~', '', $s); if ('' === $s) array_pop($this->semStack[$this->stackPos-(3-2)]);; $this->semValue = new Scalar\Encapsed($this->semStack[$this->stackPos-(3-2)], $this->startAttributeStack[$this->stackPos-(3-1)] + $this->endAttributes);
+         foreach ($this->semStack[$this->stackPos-(3-2)] as &$s) { if (is_string($s)) { $s = Node\Scalar\String_::parseEscapeSequences($s, null, false); } } $s = preg_replace('~(\r\n|\n|\r)$~', '', $s); if ('' === $s) array_pop($this->semStack[$this->stackPos-(3-2)]);; $this->semValue = new Scalar\Encapsed($this->semStack[$this->stackPos-(3-2)], $this->startAttributeStack[$this->stackPos-(3-1)] + $this->endAttributes);
     }
 
     protected function reduceRule460() {
