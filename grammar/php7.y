@@ -1,115 +1,7 @@
 %pure_parser
 %expect 2
 
-%left T_INCLUDE T_INCLUDE_ONCE T_EVAL T_REQUIRE T_REQUIRE_ONCE
-%left ','
-%left T_LOGICAL_OR
-%left T_LOGICAL_XOR
-%left T_LOGICAL_AND
-%right T_PRINT
-%right T_YIELD
-%right T_YIELD_FROM
-%left '=' T_PLUS_EQUAL T_MINUS_EQUAL T_MUL_EQUAL T_DIV_EQUAL T_CONCAT_EQUAL T_MOD_EQUAL T_AND_EQUAL T_OR_EQUAL T_XOR_EQUAL T_SL_EQUAL T_SR_EQUAL T_POW_EQUAL
-%left '?' ':'
-%right T_COALESCE
-%left T_BOOLEAN_OR
-%left T_BOOLEAN_AND
-%left '|'
-%left '^'
-%left '&'
-%nonassoc T_IS_EQUAL T_IS_NOT_EQUAL T_IS_IDENTICAL T_IS_NOT_IDENTICAL T_SPACESHIP
-%nonassoc '<' T_IS_SMALLER_OR_EQUAL '>' T_IS_GREATER_OR_EQUAL
-%left T_SL T_SR
-%left '+' '-' '.'
-%left '*' '/' '%'
-%right '!'
-%nonassoc T_INSTANCEOF
-%right '~' T_INC T_DEC T_INT_CAST T_DOUBLE_CAST T_STRING_CAST T_ARRAY_CAST T_OBJECT_CAST T_BOOL_CAST T_UNSET_CAST '@'
-%right T_POW
-%right '['
-%nonassoc T_NEW T_CLONE
-%token T_EXIT
-%token T_IF
-%left T_ELSEIF
-%left T_ELSE
-%left T_ENDIF
-%token T_LNUMBER
-%token T_DNUMBER
-%token T_STRING
-%token T_STRING_VARNAME
-%token T_VARIABLE
-%token T_NUM_STRING
-%token T_INLINE_HTML
-%token T_CHARACTER
-%token T_BAD_CHARACTER
-%token T_ENCAPSED_AND_WHITESPACE
-%token T_CONSTANT_ENCAPSED_STRING
-%token T_ECHO
-%token T_DO
-%token T_WHILE
-%token T_ENDWHILE
-%token T_FOR
-%token T_ENDFOR
-%token T_FOREACH
-%token T_ENDFOREACH
-%token T_DECLARE
-%token T_ENDDECLARE
-%token T_AS
-%token T_SWITCH
-%token T_ENDSWITCH
-%token T_CASE
-%token T_DEFAULT
-%token T_BREAK
-%token T_CONTINUE
-%token T_GOTO
-%token T_FUNCTION
-%token T_CONST
-%token T_RETURN
-%token T_TRY
-%token T_CATCH
-%token T_FINALLY
-%token T_THROW
-%token T_USE
-%token T_INSTEADOF
-%token T_GLOBAL
-%right T_STATIC T_ABSTRACT T_FINAL T_PRIVATE T_PROTECTED T_PUBLIC
-%token T_VAR
-%token T_UNSET
-%token T_ISSET
-%token T_EMPTY
-%token T_HALT_COMPILER
-%token T_CLASS
-%token T_TRAIT
-%token T_INTERFACE
-%token T_EXTENDS
-%token T_IMPLEMENTS
-%token T_OBJECT_OPERATOR
-%token T_DOUBLE_ARROW
-%token T_LIST
-%token T_ARRAY
-%token T_CALLABLE
-%token T_CLASS_C
-%token T_TRAIT_C
-%token T_METHOD_C
-%token T_FUNC_C
-%token T_LINE
-%token T_FILE
-%token T_COMMENT
-%token T_DOC_COMMENT
-%token T_OPEN_TAG
-%token T_OPEN_TAG_WITH_ECHO
-%token T_CLOSE_TAG
-%token T_WHITESPACE
-%token T_START_HEREDOC
-%token T_END_HEREDOC
-%token T_DOLLAR_OPEN_CURLY_BRACES
-%token T_CURLY_OPEN
-%token T_PAAMAYIM_NEKUDOTAYIM
-%token T_NAMESPACE
-%token T_NS_C
-%token T_DIR
-%token T_NS_SEPARATOR
-%token T_ELLIPSIS
+%tokens
 
 %{
 use PhpParser\Error;
@@ -242,19 +134,18 @@ inner_statement:
 
 statement:
       '{' inner_statement_list '}'                          { $$ = $2; }
-    | T_IF parentheses_expr statement elseif_list else_single
-          { $$ = Stmt\If_[$2, ['stmts' => toArray($3), 'elseifs' => $4, 'else' => $5]]; }
-    | T_IF parentheses_expr ':' inner_statement_list new_elseif_list new_else_single T_ENDIF ';'
-          { $$ = Stmt\If_[$2, ['stmts' => $4, 'elseifs' => $5, 'else' => $6]]; }
-    | T_WHILE parentheses_expr while_statement              { $$ = Stmt\While_[$2, $3]; }
-    | T_DO statement T_WHILE parentheses_expr ';'           { $$ = Stmt\Do_   [$4, toArray($2)]; }
+    | T_IF '(' expr ')' statement elseif_list else_single
+          { $$ = Stmt\If_[$3, ['stmts' => toArray($5), 'elseifs' => $6, 'else' => $7]]; }
+    | T_IF '(' expr ')' ':' inner_statement_list new_elseif_list new_else_single T_ENDIF ';'
+          { $$ = Stmt\If_[$3, ['stmts' => $6, 'elseifs' => $7, 'else' => $8]]; }
+    | T_WHILE '(' expr ')' while_statement                  { $$ = Stmt\While_[$3, $5]; }
+    | T_DO statement T_WHILE '(' expr ')' ';'               { $$ = Stmt\Do_   [$5, toArray($2)]; }
     | T_FOR '(' for_expr ';'  for_expr ';' for_expr ')' for_statement
           { $$ = Stmt\For_[['init' => $3, 'cond' => $5, 'loop' => $7, 'stmts' => $9]]; }
-    | T_SWITCH parentheses_expr switch_case_list            { $$ = Stmt\Switch_[$2, $3]; }
+    | T_SWITCH '(' expr ')' switch_case_list                { $$ = Stmt\Switch_[$3, $5]; }
     | T_BREAK optional_expr ';'                             { $$ = Stmt\Break_[$2]; }
     | T_CONTINUE optional_expr ';'                          { $$ = Stmt\Continue_[$2]; }
     | T_RETURN optional_expr ';'                            { $$ = Stmt\Return_[$2]; }
-    | yield_expr ';'                                        { $$ = $1; }
     | T_GLOBAL global_var_list ';'                          { $$ = Stmt\Global_[$2]; }
     | T_STATIC static_var_list ';'                          { $$ = Stmt\Static_[$2]; }
     | T_ECHO expr_list ';'                                  { $$ = Stmt\Echo_[$2]; }
@@ -402,7 +293,7 @@ elseif_list:
 ;
 
 elseif:
-      T_ELSEIF parentheses_expr statement                   { $$ = Stmt\ElseIf_[$2, toArray($3)]; }
+      T_ELSEIF '(' expr ')' statement                       { $$ = Stmt\ElseIf_[$3, toArray($5)]; }
 ;
 
 new_elseif_list:
@@ -411,7 +302,7 @@ new_elseif_list:
 ;
 
 new_elseif:
-     T_ELSEIF parentheses_expr ':' inner_statement_list     { $$ = Stmt\ElseIf_[$2, $4]; }
+     T_ELSEIF '(' expr ')' ':' inner_statement_list         { $$ = Stmt\ElseIf_[$3, $6]; }
 ;
 
 else_single:
@@ -466,7 +357,6 @@ optional_return_type:
 argument_list:
       '(' ')'                                               { $$ = array(); }
     | '(' non_empty_argument_list ')'                       { $$ = $2; }
-    | '(' yield_expr ')'                                    { $$ = array(Node\Arg[$2, false, false]); }
 ;
 
 non_empty_argument_list:
@@ -647,7 +537,7 @@ expr:
     | expr '>' expr                                         { $$ = Expr\BinaryOp\Greater       [$1, $3]; }
     | expr T_IS_GREATER_OR_EQUAL expr                       { $$ = Expr\BinaryOp\GreaterOrEqual[$1, $3]; }
     | expr T_INSTANCEOF class_name_reference                { $$ = Expr\Instanceof_[$1, $3]; }
-    | parentheses_expr                                      { $$ = $1; }
+    | '(' expr ')'                                          { $$ = $2; }
     | expr '?' expr ':' expr                                { $$ = Expr\Ternary[$1, $3,   $5]; }
     | expr '?' ':' expr                                     { $$ = Expr\Ternary[$1, null, $4]; }
     | expr T_COALESCE expr                                  { $$ = Expr\BinaryOp\Coalesce[$1, $3]; }
@@ -655,7 +545,7 @@ expr:
     | T_EMPTY '(' expr ')'                                  { $$ = Expr\Empty_[$3]; }
     | T_INCLUDE expr                                        { $$ = Expr\Include_[$2, Expr\Include_::TYPE_INCLUDE]; }
     | T_INCLUDE_ONCE expr                                   { $$ = Expr\Include_[$2, Expr\Include_::TYPE_INCLUDE_ONCE]; }
-    | T_EVAL parentheses_expr                               { $$ = Expr\Eval_[$2]; }
+    | T_EVAL '(' expr ')'                                   { $$ = Expr\Eval_[$3]; }
     | T_REQUIRE expr                                        { $$ = Expr\Include_[$2, Expr\Include_::TYPE_REQUIRE]; }
     | T_REQUIRE_ONCE expr                                   { $$ = Expr\Include_[$2, Expr\Include_::TYPE_REQUIRE_ONCE]; }
     | T_INT_CAST expr                                       { $$ = Expr\Cast\Int_    [$2]; }
@@ -671,6 +561,8 @@ expr:
     | '`' backticks_expr '`'                                { $$ = Expr\ShellExec[$2]; }
     | T_PRINT expr                                          { $$ = Expr\Print_[$2]; }
     | T_YIELD                                               { $$ = Expr\Yield_[null, null]; }
+    | T_YIELD expr                                          { $$ = Expr\Yield_[$2, null]; }
+    | T_YIELD expr T_DOUBLE_ARROW expr                      { $$ = Expr\Yield_[$4, $2]; }
     | T_YIELD_FROM expr                                     { $$ = Expr\YieldFrom[$2]; }
     | T_FUNCTION optional_ref '(' parameter_list ')' lexical_vars optional_return_type
       '{' inner_statement_list '}'
@@ -678,16 +570,6 @@ expr:
     | T_STATIC T_FUNCTION optional_ref '(' parameter_list ')' lexical_vars optional_return_type
       '{' inner_statement_list '}'
           { $$ = Expr\Closure[['static' => true, 'byRef' => $3, 'params' => $5, 'uses' => $7, 'returnType' => $8, 'stmts' => $10]]; }
-;
-
-parentheses_expr:
-      '(' expr ')'                                          { $$ = $2; }
-    | '(' yield_expr ')'                                    { $$ = $2; }
-;
-
-yield_expr:
-      T_YIELD expr                                          { $$ = Expr\Yield_[$2, null]; }
-    | T_YIELD expr T_DOUBLE_ARROW expr                      { $$ = Expr\Yield_[$4, $2]; }
 ;
 
 anonymous_class:
@@ -744,8 +626,7 @@ class_name_or_var:
 
 exit_expr:
       /* empty */                                           { $$ = null; }
-    | '(' ')'                                               { $$ = null; }
-    | parentheses_expr                                      { $$ = $1; }
+    | '(' optional_expr ')'                                 { $$ = $2; }
 ;
 
 backticks_expr:

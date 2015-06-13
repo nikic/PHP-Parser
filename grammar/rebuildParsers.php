@@ -5,6 +5,7 @@ $grammarFileToName = [
     __DIR__ . '/php7.y' => 'Php7',
 ];
 
+$tokensFile     = __DIR__ . '/tokens.y';
 $skeletonFile   = __DIR__ . '/kmyacc.php.parser';
 $tmpGrammarFile = __DIR__ . '/tmp_parser.phpy';
 $tmpResultFile  = __DIR__ . '/tmp_parser.php';
@@ -39,10 +40,13 @@ const ARGS   = '\((?<args>[^()]*+(?:\((?&args)\)[^()]*+)*+)\)';
 /// Main script ///
 ///////////////////
 
+$tokens = file_get_contents($tokensFile);
+
 foreach ($grammarFileToName as $grammarFile => $name) {
     echo "Building temporary $name grammar file.\n";
 
     $grammarCode = file_get_contents($grammarFile);
+    $grammarCode = str_replace('%tokens', $tokens, $grammarCode);
 
     $grammarCode = resolveNodes($grammarCode);
     $grammarCode = resolveMacros($grammarCode);

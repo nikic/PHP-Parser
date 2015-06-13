@@ -24,7 +24,7 @@ if (empty($files)) {
 $lexer = new PhpParser\Lexer\Emulative(array('usedAttributes' => array(
     'startLine', 'endLine', 'startFilePos', 'endFilePos'
 )));
-$parser = new PhpParser\Parser($lexer);
+$parser = new PhpParser\Parser\Php5($lexer);
 $dumper = new PhpParser\NodeDumper;
 $prettyPrinter = new PhpParser\PrettyPrinter\Standard;
 $serializer = new PhpParser\Serializer\XML;
