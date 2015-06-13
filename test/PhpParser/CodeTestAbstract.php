@@ -42,7 +42,7 @@ abstract class CodeTestAbstract extends \PHPUnit_Framework_TestCase
     private function extractMode($expected) {
         $firstNewLine = strpos($expected, "\n");
         if (false === $firstNewLine) {
-            return [$expected, null];
+            $firstNewLine = strlen($expected);
         }
 
         $firstLine = substr($expected, 0, $firstNewLine);
@@ -50,7 +50,8 @@ abstract class CodeTestAbstract extends \PHPUnit_Framework_TestCase
             return [$expected, null];
         }
 
-        return [substr($expected, $firstNewLine + 1), substr($firstLine, 2)];
+        $expected = (string) substr($expected, $firstNewLine + 1);
+        return [$expected, substr($firstLine, 2)];
     }
 
     protected function canonicalize($str) {

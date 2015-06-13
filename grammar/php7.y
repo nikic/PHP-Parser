@@ -486,9 +486,7 @@ global_var_list:
 ;
 
 global_var:
-      T_VARIABLE                                            { $$ = Expr\Variable[parseVar($1)]; }
-    | '$' variable                                          { $$ = Expr\Variable[$2]; }
-    | '$' '{' expr '}'                                      { $$ = Expr\Variable[$3]; }
+      simple_variable                                       { $$ = Expr\Variable[$1]; }
 ;
 
 static_var_list:

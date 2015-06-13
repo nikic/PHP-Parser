@@ -22,16 +22,17 @@ class ParserTest extends CodeTestAbstract
             'throwOnError' => false,
         ));
 
+        $output5 = $this->getParseOutput($parser5, $code);
+        $output7 = $this->getParseOutput($parser7, $code);
+
         if ($mode === 'php5') {
-            $output5 = $this->getParseOutput($parser5, $code);
             $this->assertSame($expected, $output5, $name);
+            $this->assertNotSame($expected, $output7, $name);
         } else if ($mode === 'php7') {
-            $output7 = $this->getParseOutput($parser7, $code);
+            $this->assertNotSame($expected, $output5, $name);
             $this->assertSame($expected, $output7, $name);
         } else {
-            $output5 = $this->getParseOutput($parser5, $code);
             $this->assertSame($expected, $output5, $name);
-            $output7 = $this->getParseOutput($parser7, $code);
             $this->assertSame($expected, $output7, $name);
         }
     }
