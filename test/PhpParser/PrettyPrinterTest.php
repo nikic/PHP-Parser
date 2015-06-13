@@ -11,32 +11,52 @@ require_once __DIR__ . '/CodeTestAbstract.php';
 
 class PrettyPrinterTest extends CodeTestAbstract
 {
-    protected function doTestPrettyPrintMethod($method, $name, $code, $expected) {
-        $parser = new Parser(new Lexer\Emulative);
+    protected function doTestPrettyPrintMethod($method, $name, $code, $expected, $mode) {
+        $lexer = new Lexer\Emulative;
+        $parser5 = new Parser\Php5($lexer);
+        $parser7 = new Parser\Php7($lexer);
         $prettyPrinter = new Standard;
 
-        $stmts = $parser->parse($code);
-        $this->assertSame(
-            $expected,
-            $this->canonicalize($prettyPrinter->$method($stmts)),
-            $name
-        );
+        try {
+            $output5 = $this->canonicalize($prettyPrinter->$method($parser5->parse($code)));
+        } catch (Error $e) {
+            $output5 = null;
+            $this->assertEquals('php7', $mode);
+        }
+
+        try {
+            $output7 = $this->canonicalize($prettyPrinter->$method($parser7->parse($code)));
+        } catch (Error $e) {
+            $output7 = null;
+            $this->assertEquals('php5', $mode);
+        }
+
+        if ('php5' === $mode) {
+            $this->assertSame($expected, $output5, $name);
+            $this->assertNotSame($expected, $output7, $name);
+        } else if ('php7' === $mode) {
+            $this->assertSame($expected, $output7, $name);
+            $this->assertNotSame($expected, $output5, $name);
+        } else {
+            $this->assertSame($expected, $output5, $name);
+            $this->assertSame($expected, $output7, $name);
+        }
     }
 
     /**
      * @dataProvider provideTestPrettyPrint
      * @covers PhpParser\PrettyPrinter\Standard<extended>
      */
-    public function testPrettyPrint($name, $code, $expected) {
-        $this->doTestPrettyPrintMethod('prettyPrint', $name, $code, $expected);
+    public function testPrettyPrint($name, $code, $expected, $mode) {
+        $this->doTestPrettyPrintMethod('prettyPrint', $name, $code, $expected, $mode);
     }
 
     /**
      * @dataProvider provideTestPrettyPrintFile
      * @covers PhpParser\PrettyPrinter\Standard<extended>
      */
-    public function testPrettyPrintFile($name, $code, $expected) {
-        $this->doTestPrettyPrintMethod('prettyPrintFile', $name, $code, $expected);
+    public function testPrettyPrintFile($name, $code, $expected, $mode) {
+        $this->doTestPrettyPrintMethod('prettyPrintFile', $name, $code, $expected, $mode);
     }
 
     public function provideTestPrettyPrint() {
