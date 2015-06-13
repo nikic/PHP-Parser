@@ -9,6 +9,7 @@ $$a;
 $$$a;
 $$a['b'];
 -----
+!!php5
 array(
     0: Expr_Variable(
         name: a
