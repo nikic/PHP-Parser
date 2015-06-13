@@ -11,7 +11,7 @@ class ParserTest extends CodeTestAbstract
     /**
      * @dataProvider provideTestParse
      */
-    public function testParse($name, $code, $expected) {
+    public function testParse($name, $code, $expected, $mode) {
         $lexer = new Lexer\Emulative(array('usedAttributes' => array(
             'startLine', 'endLine', 'startFilePos', 'endFilePos'
         )));
@@ -22,29 +22,17 @@ class ParserTest extends CodeTestAbstract
             'throwOnError' => false,
         ));
 
-        $expected = $this->canonicalize($expected);
-        $mode = null;
-
-        $firstNewLine = strpos($expected, "\n");
-        if (false !== $firstNewLine) {
-            $firstLine = substr($expected, 0, $firstNewLine);
-            if (substr($firstLine, 0, 2) === '!!') {
-                $mode = substr($firstLine, 2);
-                $expected = substr($expected, $firstNewLine + 1);
-            }
-        }
-
         if ($mode === 'php5') {
             $output5 = $this->getParseOutput($parser5, $code);
-            $this->assertSame($this->canonicalize($expected), $output5, $name);
+            $this->assertSame($expected, $output5, $name);
         } else if ($mode === 'php7') {
             $output7 = $this->getParseOutput($parser7, $code);
-            $this->assertSame($this->canonicalize($expected), $output7, $name);
+            $this->assertSame($expected, $output7, $name);
         } else {
             $output5 = $this->getParseOutput($parser5, $code);
-            $this->assertSame($this->canonicalize($expected), $output5, $name);
+            $this->assertSame($expected, $output5, $name);
             $output7 = $this->getParseOutput($parser7, $code);
-            $this->assertSame($this->canonicalize($expected), $output7, $name);
+            $this->assertSame($expected, $output7, $name);
         }
     }
 

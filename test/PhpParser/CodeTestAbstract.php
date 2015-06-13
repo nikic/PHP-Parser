@@ -31,11 +31,26 @@ abstract class CodeTestAbstract extends \PHPUnit_Framework_TestCase
 
             // multiple sections possible with always two forming a pair
             foreach (array_chunk($parts, 2) as $chunk) {
-                $tests[] = array($name, $chunk[0], $chunk[1]);
+                list($expected, $mode) = $this->extractMode($this->canonicalize($chunk[1]));
+                $tests[] = array($name, $chunk[0], $expected, $mode);
             }
         }
 
         return $tests;
+    }
+
+    private function extractMode($expected) {
+        $firstNewLine = strpos($expected, "\n");
+        if (false === $firstNewLine) {
+            return [$expected, null];
+        }
+
+        $firstLine = substr($expected, 0, $firstNewLine);
+        if (0 !== strpos($firstLine, '!!')) {
+            return [$expected, null];
+        }
+
+        return [substr($expected, $firstNewLine + 1), substr($firstLine, 2)];
     }
 
     protected function canonicalize($str) {

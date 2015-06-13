@@ -11,13 +11,13 @@ require_once __DIR__ . '/CodeTestAbstract.php';
 
 class PrettyPrinterTest extends CodeTestAbstract
 {
-    protected function doTestPrettyPrintMethod($method, $name, $code, $dump) {
+    protected function doTestPrettyPrintMethod($method, $name, $code, $expected) {
         $parser = new Parser(new Lexer\Emulative);
         $prettyPrinter = new Standard;
 
         $stmts = $parser->parse($code);
         $this->assertSame(
-            $this->canonicalize($dump),
+            $expected,
             $this->canonicalize($prettyPrinter->$method($stmts)),
             $name
         );
@@ -27,16 +27,16 @@ class PrettyPrinterTest extends CodeTestAbstract
      * @dataProvider provideTestPrettyPrint
      * @covers PhpParser\PrettyPrinter\Standard<extended>
      */
-    public function testPrettyPrint($name, $code, $dump) {
-        $this->doTestPrettyPrintMethod('prettyPrint', $name, $code, $dump);
+    public function testPrettyPrint($name, $code, $expected) {
+        $this->doTestPrettyPrintMethod('prettyPrint', $name, $code, $expected);
     }
 
     /**
      * @dataProvider provideTestPrettyPrintFile
      * @covers PhpParser\PrettyPrinter\Standard<extended>
      */
-    public function testPrettyPrintFile($name, $code, $dump) {
-        $this->doTestPrettyPrintMethod('prettyPrintFile', $name, $code, $dump);
+    public function testPrettyPrintFile($name, $code, $expected) {
+        $this->doTestPrettyPrintMethod('prettyPrintFile', $name, $code, $expected);
     }
 
     public function provideTestPrettyPrint() {
