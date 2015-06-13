@@ -1,10 +1,11 @@
 What do all those files mean?
 =============================
 
- * `php5.y`:            PHP 5 grammer written in a pseudo language
+ * `php5.y`:            PHP 5 grammar written in a pseudo language
+ * `php7.y`:            PHP 7 grammar written in a pseudo language
  * `analyze.php`:       Analyzes the grammer and outputs some info about it
  * `rebuildParser.php`: Preprocesses the grammar and builds the parser using `kmyacc`
- * `kmyacc.php.parser`: A `kmyacc` parser prototype file for PHP
+ * `parser.template`:   A `kmyacc` parser prototype file for PHP
 
 .phpy pseudo language
 =====================

@@ -2,6 +2,8 @@
 
 namespace PhpParser;
 
+use PhpParser\Parser\Tokens;
+
 class Lexer
 {
     protected $code;
@@ -264,18 +266,18 @@ class Lexer
         for ($i = 256; $i < 1000; ++$i) {
             if (T_DOUBLE_COLON === $i) {
                 // T_DOUBLE_COLON is equivalent to T_PAAMAYIM_NEKUDOTAYIM
-                $tokenMap[$i] = Parser::T_PAAMAYIM_NEKUDOTAYIM;
+                $tokenMap[$i] = Tokens::T_PAAMAYIM_NEKUDOTAYIM;
             } elseif(T_OPEN_TAG_WITH_ECHO === $i) {
                 // T_OPEN_TAG_WITH_ECHO with dropped T_OPEN_TAG results in T_ECHO
-                $tokenMap[$i] = Parser::T_ECHO;
+                $tokenMap[$i] = Tokens::T_ECHO;
             } elseif(T_CLOSE_TAG === $i) {
                 // T_CLOSE_TAG is equivalent to ';'
                 $tokenMap[$i] = ord(';');
             } elseif ('UNKNOWN' !== $name = token_name($i)) {
                 if ('T_HASHBANG' === $name) {
                     // HHVM uses a special token for #! hashbang lines
-                    $tokenMap[$i] = Parser::T_INLINE_HTML;
-                } else if (defined($name = 'PhpParser\Parser::' . $name)) {
+                    $tokenMap[$i] = Tokens::T_INLINE_HTML;
+                } else if (defined($name = 'PhpParser\Parser\Tokens::' . $name)) {
                     // Other tokens can be mapped directly
                     $tokenMap[$i] = constant($name);
                 }
@@ -284,7 +286,7 @@ class Lexer
 
         // HHVM uses a special token for numbers that overflow to double
         if (defined('T_ONUMBER')) {
-            $tokenMap[T_ONUMBER] = Parser::T_DNUMBER;
+            $tokenMap[T_ONUMBER] = Tokens::T_DNUMBER;
         }
 
         return $tokenMap;

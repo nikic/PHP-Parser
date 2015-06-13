@@ -6,10 +6,12 @@ $grammarFileToName = [
 ];
 
 $tokensFile     = __DIR__ . '/tokens.y';
-$skeletonFile   = __DIR__ . '/kmyacc.php.parser';
+$tokensTemplate = __DIR__ . '/tokens.template';
+$skeletonFile   = __DIR__ . '/parser.template';
 $tmpGrammarFile = __DIR__ . '/tmp_parser.phpy';
 $tmpResultFile  = __DIR__ . '/tmp_parser.php';
 $resultDir = __DIR__ . '/../lib/PhpParser/Parser';
+$tokensResultsFile = $resultDir . '/Tokens.php';
 
 // check for kmyacc.exe binary in this directory, otherwise fall back to global name
 $kmyacc = __DIR__ . '/kmyacc.exe';
@@ -66,6 +68,11 @@ foreach ($grammarFileToName as $grammarFile => $name) {
     ensureDirExists($resultDir);
     file_put_contents("$resultDir/$name.php", $resultCode);
     unlink($tmpResultFile);
+
+    echo "Building token definition.\n";
+    $output = trim(shell_exec("$kmyacc -l -m $tokensTemplate $tmpGrammarFile 2>&1"));
+    assert($output === '');
+    rename($tmpResultFile, $tokensResultsFile);
 
     if (!$optionKeepTmpGrammar) {
         unlink($tmpGrammarFile);

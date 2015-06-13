@@ -2,7 +2,7 @@
 
 namespace PhpParser\Lexer;
 
-use PhpParser\Parser;
+use PhpParser\Parser\Tokens;
 
 /**
  * ATTENTION: This code is WRITE-ONLY. Do not try to read it.
@@ -28,8 +28,8 @@ class Emulative extends \PhpParser\Lexer
 
         $newKeywordsPerVersion = array(
             self::PHP_5_5 => array(
-                'finally'       => Parser::T_FINALLY,
-                'yield'         => Parser::T_YIELD,
+                'finally'       => Tokens::T_FINALLY,
+                'yield'         => Tokens::T_YIELD,
             ),
         );
 
@@ -45,16 +45,16 @@ class Emulative extends \PhpParser\Lexer
         if (version_compare(PHP_VERSION, self::PHP_7_0, '>=')) {
             return;
         }
-        $this->tokenMap[self::T_COALESCE] = Parser::T_COALESCE;
-        $this->tokenMap[self::T_SPACESHIP] = Parser::T_SPACESHIP;
-        $this->tokenMap[self::T_YIELD_FROM] = Parser::T_YIELD_FROM;
+        $this->tokenMap[self::T_COALESCE]   = Tokens::T_COALESCE;
+        $this->tokenMap[self::T_SPACESHIP]  = Tokens::T_SPACESHIP;
+        $this->tokenMap[self::T_YIELD_FROM] = Tokens::T_YIELD_FROM;
 
         if (version_compare(PHP_VERSION, self::PHP_5_6, '>=')) {
             return;
         }
-        $this->tokenMap[self::T_ELLIPSIS]  = Parser::T_ELLIPSIS;
-        $this->tokenMap[self::T_POW]       = Parser::T_POW;
-        $this->tokenMap[self::T_POW_EQUAL] = Parser::T_POW_EQUAL;
+        $this->tokenMap[self::T_ELLIPSIS]  = Tokens::T_ELLIPSIS;
+        $this->tokenMap[self::T_POW]       = Tokens::T_POW;
+        $this->tokenMap[self::T_POW_EQUAL] = Tokens::T_POW_EQUAL;
     }
 
     public function startLexing($code) {
@@ -191,13 +191,13 @@ class Emulative extends \PhpParser\Lexer
         // replace new keywords by their respective tokens. This is not done
         // if we currently are in an object access (e.g. in $obj->namespace
         // "namespace" stays a T_STRING tokens and isn't converted to T_NAMESPACE)
-        if (Parser::T_STRING === $token && !$this->inObjectAccess) {
+        if (Tokens::T_STRING === $token && !$this->inObjectAccess) {
             if (isset($this->newKeywords[strtolower($value)])) {
                 return $this->newKeywords[strtolower($value)];
             }
         } else {
             // keep track of whether we currently are in an object access (after ->)
-            $this->inObjectAccess = Parser::T_OBJECT_OPERATOR === $token;
+            $this->inObjectAccess = Tokens::T_OBJECT_OPERATOR === $token;
         }
 
         return $token;
