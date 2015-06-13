@@ -110,15 +110,17 @@ class NameResolver extends NodeVisitorAbstract
     }
 
     protected function addAlias(Stmt\UseUse $use, $type, Name $prefix = null) {
+        // Add prefix for group uses
+        $name = $prefix ? Name::concat($prefix, $use->name) : $use->name;
+        // Type is determined either by individual element or whole use declaration
+        $type |= $use->type;
+
         // Constant names are case sensitive, everything else case insensitive
         if ($type === Stmt\Use_::TYPE_CONSTANT) {
             $aliasName = $use->alias;
         } else {
             $aliasName = strtolower($use->alias);
         }
-
-        // Add prefix for group uses
-        $name = $prefix ? Name::concat($prefix, $use->name) : $use->name;
 
         if (isset($this->aliases[$type][$aliasName])) {
             $typeStringMap = array(

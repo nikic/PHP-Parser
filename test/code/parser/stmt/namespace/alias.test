@@ -21,6 +21,7 @@ array(
         type: 1
         uses: array(
             0: Stmt_UseUse(
+                type: 0
                 name: Name(
                     parts: array(
                         0: A
@@ -35,6 +36,7 @@ array(
         type: 1
         uses: array(
             0: Stmt_UseUse(
+                type: 0
                 name: Name(
                     parts: array(
                         0: C
@@ -49,6 +51,7 @@ array(
         type: 1
         uses: array(
             0: Stmt_UseUse(
+                type: 0
                 name: Name(
                     parts: array(
                         0: F
@@ -58,6 +61,7 @@ array(
                 alias: H
             )
             1: Stmt_UseUse(
+                type: 0
                 name: Name(
                     parts: array(
                         0: J
@@ -71,6 +75,7 @@ array(
         type: 1
         uses: array(
             0: Stmt_UseUse(
+                type: 0
                 name: Name(
                     parts: array(
                         0: A
@@ -84,6 +89,7 @@ array(
         type: 1
         uses: array(
             0: Stmt_UseUse(
+                type: 0
                 name: Name(
                     parts: array(
                         0: A
@@ -97,6 +103,7 @@ array(
         type: 2
         uses: array(
             0: Stmt_UseUse(
+                type: 0
                 name: Name(
                     parts: array(
                         0: foo
@@ -111,6 +118,7 @@ array(
         type: 2
         uses: array(
             0: Stmt_UseUse(
+                type: 0
                 name: Name(
                     parts: array(
                         0: foo
@@ -125,6 +133,7 @@ array(
         type: 3
         uses: array(
             0: Stmt_UseUse(
+                type: 0
                 name: Name(
                     parts: array(
                         0: foo
@@ -139,6 +148,7 @@ array(
         type: 3
         uses: array(
             0: Stmt_UseUse(
+                type: 0
                 name: Name(
                     parts: array(
                         0: foo

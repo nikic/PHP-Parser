@@ -526,13 +526,13 @@ class Standard extends PrettyPrinterAbstract
     }
 
     public function pStmt_UseUse(Stmt\UseUse $node) {
-        return $this->p($node->name)
+        return $this->pUseType($node->type) . $this->p($node->name)
              . ($node->name->getLast() !== $node->alias ? ' as ' . $node->alias : '');
     }
 
     private function pUseType($type) {
-        return ($type === Stmt\Use_::TYPE_FUNCTION ? 'function ' : '')
-        . ($type === Stmt\Use_::TYPE_CONSTANT ? 'const ' : '');
+        return $type === Stmt\Use_::TYPE_FUNCTION ? 'function '
+            : ($type === Stmt\Use_::TYPE_CONSTANT ? 'const ' : '');
     }
 
     public function pStmt_Interface(Stmt\Interface_ $node) {

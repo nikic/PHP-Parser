@@ -162,10 +162,10 @@ use_type:
 
 /* Using namespace_name_parts here to avoid s/r conflict on T_NS_SEPARATOR */
 group_use_declaration:
-      T_USE namespace_name_parts T_NS_SEPARATOR '{' use_declarations '}'
-          { $$ = Stmt\GroupUse[Name[$2], $5, Stmt\Use_::TYPE_NORMAL]; }
-    | T_USE use_type namespace_name_parts T_NS_SEPARATOR '{' use_declarations '}'
+      T_USE use_type namespace_name_parts T_NS_SEPARATOR '{' use_declarations '}'
           { $$ = Stmt\GroupUse[Name[$3], $6, $2]; }
+    | T_USE namespace_name_parts T_NS_SEPARATOR '{' inline_use_declarations '}'
+          { $$ = Stmt\GroupUse[Name[$2], $5, Stmt\Use_::TYPE_UNKNOWN]; }
 ;
 
 use_declarations:
@@ -174,10 +174,20 @@ use_declarations:
 ;
 
 use_declaration:
-      namespace_name                                        { $$ = Stmt\UseUse[$1, null]; }
-    | namespace_name T_AS T_STRING                          { $$ = Stmt\UseUse[$1, $3]; }
-    | T_NS_SEPARATOR namespace_name                         { $$ = Stmt\UseUse[$2, null]; }
-    | T_NS_SEPARATOR namespace_name T_AS T_STRING           { $$ = Stmt\UseUse[$2, $4]; }
+      namespace_name                                        { $$ = Stmt\UseUse[$1, null, Stmt\Use_::TYPE_UNKNOWN]; }
+    | namespace_name T_AS T_STRING                          { $$ = Stmt\UseUse[$1, $3, Stmt\Use_::TYPE_UNKNOWN]; }
+    | T_NS_SEPARATOR namespace_name                         { $$ = Stmt\UseUse[$2, null, Stmt\Use_::TYPE_UNKNOWN]; }
+    | T_NS_SEPARATOR namespace_name T_AS T_STRING           { $$ = Stmt\UseUse[$2, $4, Stmt\Use_::TYPE_UNKNOWN]; }
+;
+
+inline_use_declarations:
+      inline_use_declarations ',' inline_use_declaration    { push($1, $3); }
+    | inline_use_declaration                                { init($1); }
+;
+
+inline_use_declaration:
+      use_declaration                                       { $$ = $1; $$->type = Stmt\Use_::TYPE_NORMAL; }
+    | use_type use_declaration                              { $$ = $2; $$->type = $1; }
 ;
 
 constant_declaration_list:

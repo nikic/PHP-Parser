@@ -192,5 +192,9 @@ function magicSplit($regex, $string) {
         $piece = trim($piece);
     }
 
-    return array_filter($pieces);
+    if ($pieces === ['']) {
+        return [];
+    }
+
+    return $pieces;
 }

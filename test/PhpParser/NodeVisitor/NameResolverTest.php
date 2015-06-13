@@ -80,15 +80,20 @@ namespace Baz {
     use A\T\{B\C, D\E};
     use function X\T\{b\c, d\e};
     use const Y\T\{B\C, D\E};
+    use Z\T\{G, function f, const K};
 
     new C;
     new E;
     new C\D;
     new E\F;
+    new G;
+
     c();
     e();
+    f();
     C;
     E;
+    K;
 }
 EOC;
         $expectedCode = <<<'EOC'
@@ -145,14 +150,18 @@ namespace Baz {
     use A\T\{B\C, D\E};
     use function X\T\{b\c, d\e};
     use const Y\T\{B\C, D\E};
+    use Z\T\{G, function f, const K};
     new \A\T\B\C();
     new \A\T\D\E();
     new \A\T\B\C\D();
     new \A\T\D\E\F();
+    new \Z\T\G();
     \X\T\b\c();
     \X\T\d\e();
+    \Z\T\f();
     \Y\T\B\C;
     \Y\T\D\E;
+    \Z\T\K;
 }
 EOC;
 
@@ -272,7 +281,7 @@ EOC;
     protected function createNamespacedAndNonNamespaced(array $stmts) {
         return array(
             new Stmt\Namespace_(new Name('NS'), $stmts),
-            new Stmt\Namespace_(null,                          $stmts),
+            new Stmt\Namespace_(null, $stmts),
         );
     }
 
@@ -333,22 +342,22 @@ EOC;
         return array(
             array(
                 new Stmt\Use_(array(
-                    new Stmt\UseUse(new Name('A\B'), 'B', array('startLine' => 1)),
-                    new Stmt\UseUse(new Name('C\D'), 'B', array('startLine' => 2)),
+                    new Stmt\UseUse(new Name('A\B'), 'B', 0, array('startLine' => 1)),
+                    new Stmt\UseUse(new Name('C\D'), 'B', 0, array('startLine' => 2)),
                 ), Stmt\Use_::TYPE_NORMAL),
                 'Cannot use C\D as B because the name is already in use on line 2'
             ),
             array(
                 new Stmt\Use_(array(
-                    new Stmt\UseUse(new Name('a\b'), 'b', array('startLine' => 1)),
-                    new Stmt\UseUse(new Name('c\d'), 'B', array('startLine' => 2)),
+                    new Stmt\UseUse(new Name('a\b'), 'b', 0, array('startLine' => 1)),
+                    new Stmt\UseUse(new Name('c\d'), 'B', 0, array('startLine' => 2)),
                 ), Stmt\Use_::TYPE_FUNCTION),
                 'Cannot use function c\d as B because the name is already in use on line 2'
             ),
             array(
                 new Stmt\Use_(array(
-                    new Stmt\UseUse(new Name('A\B'), 'B', array('startLine' => 1)),
-                    new Stmt\UseUse(new Name('C\D'), 'B', array('startLine' => 2)),
+                    new Stmt\UseUse(new Name('A\B'), 'B', 0, array('startLine' => 1)),
+                    new Stmt\UseUse(new Name('C\D'), 'B', 0, array('startLine' => 2)),
                 ), Stmt\Use_::TYPE_CONSTANT),
                 'Cannot use const C\D as B because the name is already in use on line 2'
             ),
