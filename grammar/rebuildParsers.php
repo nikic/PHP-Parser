@@ -1,10 +1,13 @@
 <?php
 
-$grammarFile           = __DIR__ . '/php5.y';
-$skeletonFile          = __DIR__ . '/kmyacc.php.parser';
-$tmpGrammarFile        = __DIR__ . '/tmp_parser.phpy';
-$tmpResultFile         = __DIR__ . '/tmp_parser.php';
-$parserResultFile      = __DIR__ . '/../lib/PhpParser/Parser/Php5.php';
+$grammarToResultFile = [
+    __DIR__ . '/php5.y' => __DIR__ . '/../lib/PhpParser/Parser/Php5.php',
+    __DIR__ . '/php7.y' => __DIR__ . '/../lib/PhpParser/Parser/Php7.php',
+];
+
+$skeletonFile   = __DIR__ . '/kmyacc.php.parser';
+$tmpGrammarFile = __DIR__ . '/tmp_parser.phpy';
+$tmpResultFile  = __DIR__ . '/tmp_parser.php';
 
 // check for kmyacc.exe binary in this directory, otherwise fall back to global name
 $kmyacc = __DIR__ . '/kmyacc.exe';
@@ -35,31 +38,33 @@ const ARGS   = '\((?<args>[^()]*+(?:\((?&args)\)[^()]*+)*+)\)';
 /// Main script ///
 ///////////////////
 
-echo 'Building temporary preproprocessed grammar file.', "\n";
+foreach ($grammarToResultFile as $grammarFile => $resultFile) {
+    echo 'Building temporary preproprocessed grammar file.', "\n";
 
-$grammarCode = file_get_contents($grammarFile);
+    $grammarCode = file_get_contents($grammarFile);
 
-$grammarCode = resolveNodes($grammarCode);
-$grammarCode = resolveMacros($grammarCode);
-$grammarCode = resolveStackAccess($grammarCode);
+    $grammarCode = resolveNodes($grammarCode);
+    $grammarCode = resolveMacros($grammarCode);
+    $grammarCode = resolveStackAccess($grammarCode);
 
-file_put_contents($tmpGrammarFile, $grammarCode);
+    file_put_contents($tmpGrammarFile, $grammarCode);
 
-$additionalArgs = $optionDebug ? '-t -v' : '';
+    $additionalArgs = $optionDebug ? '-t -v' : '';
 
-echo "Building parser.\n";
-$output = trim(shell_exec("$kmyacc $additionalArgs -l -m $skeletonFile $tmpGrammarFile 2>&1"));
-echo "Output: \"$output\"\n";
+    echo "Building parser.\n";
+    $output = trim(shell_exec("$kmyacc $additionalArgs -l -m $skeletonFile $tmpGrammarFile 2>&1"));
+    echo "Output: \"$output\"\n";
 
-$resultCode = file_get_contents($tmpResultFile);
-$resultCode = removeTrailingWhitespace($resultCode);
+    $resultCode = file_get_contents($tmpResultFile);
+    $resultCode = removeTrailingWhitespace($resultCode);
 
-ensureDirExists(dirname($parserResultFile));
-file_put_contents($parserResultFile, $resultCode);
-unlink($tmpResultFile);
+    ensureDirExists(dirname($resultFile));
+    file_put_contents($resultFile, $resultCode);
+    unlink($tmpResultFile);
 
-if (!$optionKeepTmpGrammar) {
-    unlink($tmpGrammarFile);
+    if (!$optionKeepTmpGrammar) {
+        unlink($tmpGrammarFile);
+    }
 }
 
 ///////////////////////////////

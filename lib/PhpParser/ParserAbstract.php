@@ -6,7 +6,7 @@ namespace PhpParser;
  * This parser is based on a skeleton written by Moriyoshi Koizumi, which in
  * turn is based on work by Masato Bito.
  */
-abstract class ParserAbstract
+abstract class ParserAbstract implements ParserInterface
 {
     const SYMBOL_NONE = -1;
 
