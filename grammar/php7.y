@@ -330,7 +330,7 @@ parameter:
 ;
 
 type:
-      name                                                  { $$ = $1; }
+      name                                                  { $$ = $this->handleScalarTypes($1); }
     | T_ARRAY                                               { $$ = 'array'; }
     | T_CALLABLE                                            { $$ = 'callable'; }
 ;

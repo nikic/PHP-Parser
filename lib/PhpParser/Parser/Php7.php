@@ -1623,7 +1623,7 @@ class Php7 extends \PhpParser\ParserAbstract
     }
 
     protected function reduceRule203() {
-         $this->semValue = $this->semStack[$this->stackPos-(1-1)];
+         $this->semValue = $this->handleScalarTypes($this->semStack[$this->stackPos-(1-1)]);
     }
 
     protected function reduceRule204() {
