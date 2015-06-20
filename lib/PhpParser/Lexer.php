@@ -222,23 +222,13 @@ class Lexer
      * @return string Remaining text
      */
     public function handleHaltCompiler() {
-        // get the length of the text before the T_HALT_COMPILER token
-        $textBefore = '';
-        for ($i = 0; $i <= $this->pos; ++$i) {
-            if (is_string($this->tokens[$i])) {
-                $textBefore .= $this->tokens[$i];
-            } else {
-                $textBefore .= $this->tokens[$i][1];
-            }
-        }
-
         // text after T_HALT_COMPILER, still including ();
-        $textAfter = substr($this->code, strlen($textBefore));
+        $textAfter = substr($this->code, $this->filePos);
 
         // ensure that it is followed by ();
         // this simplifies the situation, by not allowing any comments
         // in between of the tokens.
-        if (!preg_match('~\s*\(\s*\)\s*(?:;|\?>\r?\n?)~', $textAfter, $matches)) {
+        if (!preg_match('~^\s*\(\s*\)\s*(?:;|\?>\r?\n?)~', $textAfter, $matches)) {
             throw new Error('__HALT_COMPILER must be followed by "();"');
         }
 
