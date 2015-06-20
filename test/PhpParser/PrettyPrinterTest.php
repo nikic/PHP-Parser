@@ -18,14 +18,14 @@ class PrettyPrinterTest extends CodeTestAbstract
         $prettyPrinter = new Standard;
 
         try {
-            $output5 = $this->canonicalize($prettyPrinter->$method($parser5->parse($code)));
+            $output5 = canonicalize($prettyPrinter->$method($parser5->parse($code)));
         } catch (Error $e) {
             $output5 = null;
             $this->assertEquals('php7', $mode);
         }
 
         try {
-            $output7 = $this->canonicalize($prettyPrinter->$method($parser7->parse($code)));
+            $output7 = canonicalize($prettyPrinter->$method($parser7->parse($code)));
         } catch (Error $e) {
             $output7 = null;
             $this->assertEquals('php5', $mode);

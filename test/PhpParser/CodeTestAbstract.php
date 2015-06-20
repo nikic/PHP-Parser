@@ -31,7 +31,7 @@ abstract class CodeTestAbstract extends \PHPUnit_Framework_TestCase
 
             // multiple sections possible with always two forming a pair
             foreach (array_chunk($parts, 2) as $chunk) {
-                list($expected, $mode) = $this->extractMode($this->canonicalize($chunk[1]));
+                list($expected, $mode) = $this->extractMode(canonicalize($chunk[1]));
                 $tests[] = array($name, $chunk[0], $expected, $mode);
             }
         }
@@ -52,16 +52,5 @@ abstract class CodeTestAbstract extends \PHPUnit_Framework_TestCase
 
         $expected = (string) substr($expected, $firstNewLine + 1);
         return [$expected, substr($firstLine, 2)];
-    }
-
-    protected function canonicalize($str) {
-        // trim from both sides
-        $str = trim($str);
-
-        // normalize EOL to \n
-        $str = str_replace(array("\r\n", "\r"), "\n", $str);
-
-        // trim right side of all lines
-        return implode("\n", array_map('rtrim', explode("\n", $str)));
     }
 }

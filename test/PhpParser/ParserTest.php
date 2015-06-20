@@ -4,75 +4,17 @@ namespace PhpParser;
 
 use PhpParser\Comment;
 
-require_once __DIR__ . '/CodeTestAbstract.php';
-
-class ParserTest extends CodeTestAbstract
+abstract class ParserTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @dataProvider provideTestParse
-     */
-    public function testParse($name, $code, $expected, $mode) {
-        $lexer = new Lexer\Emulative(array('usedAttributes' => array(
-            'startLine', 'endLine', 'startFilePos', 'endFilePos'
-        )));
-        $parser5 = new Parser\Php5($lexer, array(
-            'throwOnError' => false,
-        ));
-        $parser7 = new Parser\Php7($lexer, array(
-            'throwOnError' => false,
-        ));
-
-        $output5 = $this->getParseOutput($parser5, $code);
-        $output7 = $this->getParseOutput($parser7, $code);
-
-        if ($mode === 'php5') {
-            $this->assertSame($expected, $output5, $name);
-            $this->assertNotSame($expected, $output7, $name);
-        } else if ($mode === 'php7') {
-            $this->assertNotSame($expected, $output5, $name);
-            $this->assertSame($expected, $output7, $name);
-        } else {
-            $this->assertSame($expected, $output5, $name);
-            $this->assertSame($expected, $output7, $name);
-        }
-    }
-
-    private function getParseOutput(ParserInterface $parser, $code) {
-        $stmts = $parser->parse($code);
-        $errors = $parser->getErrors();
-
-        $output = '';
-        foreach ($errors as $error) {
-            $output .= $this->formatErrorMessage($error, $code) . "\n";
-        }
-
-        if (null !== $stmts) {
-            $dumper = new NodeDumper;
-            $output .= $dumper->dump($stmts);
-        }
-
-        return $this->canonicalize($output);
-    }
-
-    public function provideTestParse() {
-        return $this->getTests(__DIR__ . '/../code/parser', 'test');
-    }
-
-    private function formatErrorMessage(Error $e, $code) {
-        if ($e->hasColumnInfo()) {
-            return $e->getRawMessage() . ' from ' . $e->getStartLine() . ':' . $e->getStartColumn($code)
-                . ' to ' . $e->getEndLine() . ':' . $e->getEndColumn($code);
-        } else {
-            return $e->getMessage();
-        }
-    }
+    /** @returns ParserInterface */
+    abstract protected function getParser(Lexer $lexer);
 
     /**
      * @expectedException \PhpParser\Error
      * @expectedExceptionMessage Syntax error, unexpected EOF on line 1
      */
     public function testParserThrowsSyntaxError() {
-        $parser = new Parser(new Lexer());
+        $parser = $this->getParser(new Lexer());
         $parser->parse('<?php foo');
     }
 
@@ -81,7 +23,7 @@ class ParserTest extends CodeTestAbstract
      * @expectedExceptionMessage Cannot use foo as self because 'self' is a special class name on line 1
      */
     public function testParserThrowsSpecialError() {
-        $parser = new Parser(new Lexer());
+        $parser = $this->getParser(new Lexer());
         $parser->parse('<?php use foo as self;');
     }
 
@@ -102,9 +44,9 @@ function test($a) {
     echo $a;
 }
 EOC;
-        $code = $this->canonicalize($code);
+        $code = canonicalize($code);
 
-        $parser = new Parser($lexer);
+        $parser = $this->getParser($lexer);
         $stmts = $parser->parse($code);
 
         /** @var \PhpParser\Node\Stmt\Function_ $fn */
@@ -160,7 +102,7 @@ EOC;
      */
     public function testInvalidToken() {
         $lexer = new InvalidTokenLexer;
-        $parser = new Parser($lexer);
+        $parser = $this->getParser($lexer);
         $parser->parse('dummy');
     }
 
@@ -169,7 +111,7 @@ EOC;
             $this->markTestSkipped('Cannot parse invalid octal numbers on PHP 7');
         }
 
-        $parser = new Parser(new Lexer);
+        $parser = $this->getParser(new Lexer);
         $stmts = $parser->parse('<?php 0787; 0177777777777777777777787;');
         $this->assertInstanceof('PhpParser\Node\Scalar\LNumber', $stmts[0]);
         $this->assertInstanceof('PhpParser\Node\Scalar\DNumber', $stmts[1]);
