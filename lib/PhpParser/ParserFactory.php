@@ -10,7 +10,7 @@ class ParserFactory {
 
     /**
      * @param int $kind
-     * @return ParserInterface
+     * @return Parser
      */
     public function create($kind) {
         $lexer = new Lexer\Emulative();

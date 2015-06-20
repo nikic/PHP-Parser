@@ -3,10 +3,10 @@
 namespace PhpParser\Parser;
 
 use PhpParser\Error;
-use PhpParser\ParserInterface;
+use PhpParser\Parser;
 
-class Multiple implements ParserInterface {
-    /** @var ParserInterface[] List of parsers to try, in order of preference */
+class Multiple implements Parser {
+    /** @var Parser[] List of parsers to try, in order of preference */
     private $parsers;
     /** @var Error[] Errors collected during last parse */
     private $errors;
@@ -18,7 +18,7 @@ class Multiple implements ParserInterface {
      * errors, it's output is returned. Otherwise the errors (and PhpParser\Error exception) of the first parser are
      * used.
      *
-     * @param ParserInterface[] $parsers
+     * @param Parser[] $parsers
      */
     public function __construct(array $parsers) {
         $this->parsers = $parsers;
@@ -51,7 +51,7 @@ class Multiple implements ParserInterface {
         return $this->errors;
     }
 
-    private function tryParse(ParserInterface $parser, $code) {
+    private function tryParse(Parser $parser, $code) {
         $stmts = null;
         $error = null;
         try {

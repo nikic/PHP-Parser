@@ -37,7 +37,7 @@ class CodeParsingTest extends CodeTestAbstract
         }
     }
 
-    private function getParseOutput(ParserInterface $parser, $code) {
+    private function getParseOutput(Parser $parser, $code) {
         $stmts = $parser->parse($code);
         $errors = $parser->getErrors();
 

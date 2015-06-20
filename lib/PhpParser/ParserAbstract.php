@@ -8,7 +8,7 @@ namespace PhpParser;
  */
 use PhpParser\Node\Name;
 
-abstract class ParserAbstract implements ParserInterface
+abstract class ParserAbstract implements Parser
 {
     const SYMBOL_NONE = -1;
 

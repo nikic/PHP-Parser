@@ -6,7 +6,7 @@ use PhpParser\Comment;
 
 abstract class ParserTest extends \PHPUnit_Framework_TestCase
 {
-    /** @returns ParserInterface */
+    /** @returns Parser */
     abstract protected function getParser(Lexer $lexer);
 
     /**
