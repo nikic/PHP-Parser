@@ -215,6 +215,18 @@ class LexerTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    /**
+     * @expectedException \PhpParser\Error
+     * @expectedExceptionMessage __HALT_COMPILER must be followed by "();"
+     */
+    public function testHandleHaltCompilerError() {
+        $lexer = $this->getLexer();
+        $lexer->startLexing('<?php ... __halt_compiler invalid ();');
+
+        while (Parser::T_HALT_COMPILER !== $lexer->getNextToken());
+        $lexer->handleHaltCompiler();
+    }
+
     public function testGetTokens() {
         $code = '<?php "a";' . "\n" . '// foo' . "\n" . '"b";';
         $expectedTokens = array(
