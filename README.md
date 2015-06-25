@@ -22,7 +22,7 @@ hello\world('foo', 'bar' . 'baz');
 
 You'll get a syntax tree looking roughly like this:
 
-```
+```php
 array(
     0: Stmt_Echo(
         exprs: array(
