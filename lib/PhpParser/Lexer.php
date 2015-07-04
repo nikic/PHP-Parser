@@ -276,6 +276,10 @@ class Lexer
         if (defined('T_ONUMBER')) {
             $tokenMap[T_ONUMBER] = Parser::T_DNUMBER;
         }
+        // HHVM also has a separate token for the __COMPILER_HALT_OFFSET__ constant
+        if (defined('T_COMPILER_HALT_OFFSET')) {
+            $tokenMap[T_COMPILER_HALT_OFFSET] = Parser::T_STRING;
+        }
 
         return $tokenMap;
     }
