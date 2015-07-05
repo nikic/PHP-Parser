@@ -36,4 +36,28 @@ class ClassMethodTest extends \PHPUnit_Framework_TestCase
             array('static'),
         );
     }
+
+    /**
+     * Checks that implicit public modifier detection for method is working
+     *
+     * @dataProvider implicitPublicModifiers
+     *
+     * @param integer $modifier Node type modifier
+     */
+    public function testImplicitPublic($modifier)
+    {
+        $node = new ClassMethod('foo', array(
+            'type' => constant('PhpParser\Node\Stmt\Class_::MODIFIER_' . strtoupper($modifier))
+        ));
+
+        $this->assertTrue($node->isPublic(), 'Node should be implicitly public');
+    }
+
+    public function implicitPublicModifiers() {
+        return array(
+            array('abstract'),
+            array('final'),
+            array('static'),
+        );
+    }
 }

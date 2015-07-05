@@ -25,6 +25,14 @@ class PropertyTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($node->isStatic());
     }
 
+    public function testStaticImplicitlyPublic() {
+        $node = new Property(Class_::MODIFIER_STATIC, array());
+        $this->assertTrue($node->isPublic());
+        $this->assertFalse($node->isProtected());
+        $this->assertFalse($node->isPrivate());
+        $this->assertTrue($node->isStatic());
+    }
+
     public function provideModifiers() {
         return array(
             array('public'),

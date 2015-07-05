@@ -38,7 +38,8 @@ class Property extends Node\Stmt
     }
 
     public function isPublic() {
-        return ($this->type & Class_::MODIFIER_PUBLIC) !== 0 || $this->type === 0;
+        return ($this->type & Class_::MODIFIER_PUBLIC) !== 0
+            || ($this->type & Class_::VISIBILITY_MODIFER_MASK) === 0;
     }
 
     public function isProtected() {
