@@ -75,7 +75,7 @@ class ClassMethod extends Node\Stmt implements FunctionLike
     }
 
     public function isPublic() {
-        return ($this->type & Class_::MODIFIER_PUBLIC) !== 0 || $this->type === 0;
+        return ($this->type & Class_::MODIFIER_PUBLIC) !== 0 || (!$this->isPrivate() && !$this->isProtected());
     }
 
     public function isProtected() {
