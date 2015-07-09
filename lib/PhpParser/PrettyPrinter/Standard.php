@@ -788,6 +788,9 @@ class Standard extends PrettyPrinterAbstract
             || $node instanceof Expr\MethodCall
             || $node instanceof Expr\StaticCall
             || $node instanceof Expr\Array_
+            || $node instanceof Scalar\String_
+            || $node instanceof Expr\ConstFetch
+            || $node instanceof Expr\ClassConstFetch
         ) {
             return $this->p($node);
         } else  {
