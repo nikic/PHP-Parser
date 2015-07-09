@@ -14,11 +14,12 @@ This script has to be called with the following signature:
 
     php run.php [--no-progress] testType pathToTestFiles
 
-The test type can be either "Symfony" or "PHP".
+The test type must be one of: PHP5, PHP7 or Symfony.
 
 The following options are available:
 
     --no-progress    Disables showing which file is currently tested.
+
 OUTPUT
     );
 }
@@ -99,7 +100,7 @@ switch ($testType) {
         };
         break;
     default:
-        showHelp('Test type must be either "Symfony" or "PHP"!');
+        showHelp('Test type must be one of: PHP5, PHP7 or Symfony');
 }
 
 require_once dirname(__FILE__) . '/../lib/PhpParser/Autoloader.php';
