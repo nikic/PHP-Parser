@@ -17,13 +17,17 @@ class TraitTest extends \PHPUnit_Framework_TestCase
         $method1 = new Stmt\ClassMethod('test1');
         $method2 = new Stmt\ClassMethod('test2');
         $method3 = new Stmt\ClassMethod('test3');
+        $prop = new Stmt\Property(Stmt\Class_::MODIFIER_PUBLIC, array(
+            new Stmt\PropertyProperty('test')
+        ));
         $trait = $this->createTraitBuilder('TestTrait')
             ->setDocComment('/** Nice trait */')
             ->addStmt($method1)
             ->addStmts(array($method2, $method3))
+            ->addStmt($prop)
             ->getNode();
         $this->assertEquals(new Stmt\Trait_('TestTrait', array(
-            $method1, $method2, $method3
+            $prop, $method1, $method2, $method3
         ), array(
             'comments' => array(
                 new Comment\Doc('/** Nice trait */')
