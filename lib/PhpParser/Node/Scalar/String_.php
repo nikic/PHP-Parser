@@ -27,7 +27,7 @@ class String_ extends Scalar
      * @param string $value      Value of the string
      * @param array  $attributes Additional attributes
      */
-    public function __construct($value = '', array $attributes = array()) {
+    public function __construct($value, array $attributes = array()) {
         parent::__construct($attributes);
         $this->value = $value;
     }
