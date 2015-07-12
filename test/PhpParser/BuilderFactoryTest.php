@@ -28,6 +28,12 @@ class BuilderFactoryTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    public function testNonExistingMethod() {
+        $this->setExpectedException('LogicException', 'Method "foo" does not exist');
+        $factory = new BuilderFactory();
+        $factory->foo();
+    }
+
     public function testIntegration() {
         $factory = new BuilderFactory;
         $node = $factory->namespace('Name\Space')

@@ -26,4 +26,10 @@ class UseTest extends \PHPUnit_Framework_TestCase
             new Stmt\UseUse(new Name('foo\bar'), 'foo')
         ), Stmt\Use_::TYPE_FUNCTION), $node);
     }
+
+    public function testNonExistingMethod() {
+        $this->setExpectedException('LogicException', 'Method "foo" does not exist');
+        $builder = $this->createUseBuilder('Test');
+        $builder->foo();
+    }
 }
