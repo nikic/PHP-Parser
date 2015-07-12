@@ -106,6 +106,8 @@ class Name extends NodeAbstract
     /**
      * Sets the whole name.
      *
+     * @deprecated Create a new Name instead, or manually modify the $parts property
+     *
      * @param string|array|self $name The name to set the whole name to
      */
     public function set($name) {
@@ -114,6 +116,8 @@ class Name extends NodeAbstract
 
     /**
      * Prepends a name to this name.
+     *
+     * @deprecated Use Name::concat($name1, $name2) instead
      *
      * @param string|array|self $name Name to prepend
      */
@@ -124,6 +128,8 @@ class Name extends NodeAbstract
     /**
      * Appends a name to this name.
      *
+     * @deprecated Use Name::concat($name1, $name2) instead
+     *
      * @param string|array|self $name Name to append
      */
     public function append($name) {
@@ -132,6 +138,8 @@ class Name extends NodeAbstract
 
     /**
      * Sets the first part of the name.
+     *
+     * @deprecated Use concat($first, $name->slice(1)) instead
      *
      * @param string|array|self $name The name to set the first part to
      */
@@ -149,14 +157,43 @@ class Name extends NodeAbstract
     }
 
     /**
-     * Concatenate two names, yielding a new Name instance
+     * Gets a slice of a name (similar to array_slice).
      *
-     * @param string|array|self The first name
-     * @param string|array|self The second name
-     * @return Name Concatenated name
+     * This method returns a new instance of the same type as the original and with the same
+     * attributes.
+     *
+     * If the slice is empty, a Name with an empty parts array is returned. While this is
+     * meaningless in itself, it works correctly in conjunction with concat().
+     *
+     * @param int $offset Offset to start the slice at
+     *
+     * @return static Sliced name
      */
-    public static function concat($name1, $name2) {
-        return new Name(array_merge(self::prepareName($name1), self::prepareName($name2)));
+    public function slice($offset) {
+        // TODO negative offset and length
+        if ($offset < 0 || $offset > count($this->parts)) {
+            throw new \OutOfBoundsException(sprintf('Offset %d is out of bounds', $offset));
+        }
+
+        return new static(array_slice($this->parts, $offset), $this->attributes);
+    }
+
+    /**
+     * Concatenate two names, yielding a new Name instance.
+     *
+     * The type of the generated instance depends on which class this method is called on, for
+     * example Name\FullyQualified::concat() will yield a Name\FullyQualified instance.
+     *
+     * @param string|array|self $name1      The first name
+     * @param string|array|self $name2      The second name
+     * @param array             $attributes Attributes to assign to concatenated name
+     *
+     * @return static Concatenated name
+     */
+    public static function concat($name1, $name2, array $attributes = []) {
+        return new static(
+            array_merge(self::prepareName($name1), self::prepareName($name2)), $attributes
+        );
     }
 
     /**

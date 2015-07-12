@@ -95,6 +95,38 @@ class NameTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('foo\bar\bar\foo', $name->toString());
     }
 
+    public function testSlice() {
+        $name = new Name('foo\bar');
+        $this->assertEquals(new Name('foo\bar'), $name->slice(0));
+        $this->assertEquals(new Name('bar'), $name->slice(1));
+        $this->assertEquals(new Name([]), $name->slice(2));
+    }
+
+    /**
+     * @expectedException \OutOfBoundsException
+     * @expectedExceptionMessage Offset 4 is out of bounds
+     */
+    public function testSliceException() {
+        (new Name('foo\bar\baz'))->slice(4);
+    }
+
+    public function testConcat() {
+        $this->assertEquals(new Name('foo\bar\baz'), Name::concat('foo', 'bar\baz'));
+        $this->assertEquals(
+            new Name\FullyQualified('foo\bar'),
+            Name\FullyQualified::concat(['foo'], new Name('bar'))
+        );
+
+        $attributes = ['foo' => 'bar'];
+        $this->assertEquals(
+            new Name\Relative('foo\bar\baz', $attributes),
+            Name\Relative::concat(new Name\FullyQualified('foo\bar'), 'baz', $attributes)
+        );
+
+        $this->assertEquals(new Name('foo'), Name::concat([], 'foo'));
+        $this->assertEquals(new Name([]), Name::concat([], []));
+    }
+
     public function testIs() {
         $name = new Name('foo');
         $this->assertTrue ($name->isUnqualified());

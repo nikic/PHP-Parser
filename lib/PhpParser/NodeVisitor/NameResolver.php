@@ -6,6 +6,7 @@ use PhpParser\NodeVisitorAbstract;
 use PhpParser\Error;
 use PhpParser\Node;
 use PhpParser\Node\Name;
+use PhpParser\Node\Name\FullyQualified;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Stmt;
 
@@ -174,13 +175,16 @@ class NameResolver extends NodeVisitorAbstract
         $aliasName = strtolower($name->getFirst());
         if (!$name->isRelative() && isset($this->aliases[Stmt\Use_::TYPE_NORMAL][$aliasName])) {
             // resolve aliases (for non-relative names)
-            $name->setFirst($this->aliases[Stmt\Use_::TYPE_NORMAL][$aliasName]);
-        } elseif (null !== $this->namespace) {
-            // if no alias exists prepend current namespace
-            $name->prepend($this->namespace);
+            $alias = $this->aliases[Stmt\Use_::TYPE_NORMAL][$aliasName];
+            return FullyQualified::concat($alias, $name->slice(1), $name->getAttributes());
         }
 
-        return new Name\FullyQualified($name->parts, $name->getAttributes());
+        if (null !== $this->namespace) {
+            // if no alias exists prepend current namespace
+            return FullyQualified::concat($this->namespace, $name, $name->getAttributes());
+        }
+
+        return new FullyQualified($name->parts, $name->getAttributes());
     }
 
     protected function resolveOtherName(Name $name, $type) {
@@ -192,34 +196,38 @@ class NameResolver extends NodeVisitorAbstract
         // resolve aliases for qualified names
         $aliasName = strtolower($name->getFirst());
         if ($name->isQualified() && isset($this->aliases[Stmt\Use_::TYPE_NORMAL][$aliasName])) {
-            $name->setFirst($this->aliases[Stmt\Use_::TYPE_NORMAL][$aliasName]);
-        } elseif ($name->isUnqualified()) {
+            $alias = $this->aliases[Stmt\Use_::TYPE_NORMAL][$aliasName];
+            return FullyQualified::concat($alias, $name->slice(1), $name->getAttributes());
+        }
+
+        if ($name->isUnqualified()) {
             if ($type === Stmt\Use_::TYPE_CONSTANT) {
                 // constant aliases are case-sensitive, function aliases case-insensitive
                 $aliasName = $name->getFirst();
             }
 
-            if (isset($this->aliases[$type][$aliasName])) {
-                // resolve unqualified aliases
-                $name->set($this->aliases[$type][$aliasName]);
-            } else {
+            if (!isset($this->aliases[$type][$aliasName])) {
                 // unqualified, unaliased names cannot be resolved at compile-time
                 return $name;
             }
-        } elseif (null !== $this->namespace) {
-            // if no alias exists prepend current namespace
-            $name->prepend($this->namespace);
+
+            // resolve unqualified aliases
+            return new FullyQualified($this->aliases[$type][$aliasName], $name->getAttributes());
         }
 
-        return new Name\FullyQualified($name->parts, $name->getAttributes());
+        if (null !== $this->namespace) {
+            // if no alias exists prepend current namespace
+            return FullyQualified::concat($this->namespace, $name, $name->getAttributes());
+        }
+
+        return new FullyQualified($name->parts, $name->getAttributes());
     }
 
     protected function addNamespacedName(Node $node) {
         if (null !== $this->namespace) {
-            $node->namespacedName = clone $this->namespace;
-            $node->namespacedName->append($node->name);
+            $node->namespacedName = Name::concat($this->namespace, $node->name);
         } else {
-            $node->namespacedName = new Name($node->name, $node->getAttributes());
+            $node->namespacedName = new Name($node->name);
         }
     }
 }
