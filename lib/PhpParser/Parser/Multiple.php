@@ -14,9 +14,9 @@ class Multiple implements Parser {
     /**
      * Create a parser which will try multiple parsers in an order of preference.
      *
-     * Parsers will be invoked in the order they're provided to the constructor. If one of the parsers runs without
-     * errors, it's output is returned. Otherwise the errors (and PhpParser\Error exception) of the first parser are
-     * used.
+     * Parsers will be invoked in the order they're provided to the constructor. If one of the
+     * parsers runs without errors, it's output is returned. Otherwise the errors (and
+     * PhpParser\Error exception) of the first parser are used.
      *
      * @param Parser[] $parsers
      */
