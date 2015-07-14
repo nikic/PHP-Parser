@@ -1,7 +1,24 @@
-Version 1.3.1-dev
+Version 1.4.1-dev
 -----------------
 
 Nothing yet.
+
+Version 1.4.0 (2015-07-14)
+--------------------------
+
+### Added
+
+* Added interface `PhpParser\Node\FunctionLike`, which is implemented by `Stmt\ClassMethod`,
+  `Stmt\Function_` and `Expr\Closure` nodes. This interface provides getters for their common
+  subnodes.
+* Added `Node\Stmt\ClassLike::getMethod()` to look up a specific method on a class/interface/trait.
+
+### Fixed
+
+* Fixed `isPublic()` return value for implicitly public properties and methods that define and
+  additional modifier like `static` or `abstract`.
+* Properties are now accepted by the trait builder.
+* Fixed `__HALT_COMPILER_OFFSET__` support on HHVM.
 
 Version 1.3.0 (2015-05-02)
 --------------------------
