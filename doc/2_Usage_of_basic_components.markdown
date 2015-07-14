@@ -34,7 +34,7 @@ $parser = new ParserFactory(ParserFactory::PREFER_PHP7);
 The factory accepts a kind argument, that determines how different PHP versions are treated:
 
 Kind | Behavior
----------------
+-----|---------
 `ParserFactory::PREFER_PHP7` | Try to parse code as PHP 7. If this fails, try to parse it as PHP 5.
 `ParserFactory::PREFER_PHP5` | Try to parse code as PHP 5. If this fails, try to parse it as PHP 7.
 `ParserFactory::ONLY_PHP7` | Parse code as PHP 7.
@@ -43,7 +43,7 @@ Kind | Behavior
 Unless you have strong reason to use something else, `PREFER_PHP7` is a reasonable default.
 
 Many advanced use-cases require configuration or modification of the lexer, which is described in
-the [lexer documentation](doc/component/Lexer.markdown).
+the [lexer documentation](component/Lexer.markdown).
 
 Subsequently you can pass PHP code (including the opening `<?php` tag) to the `parse` method in order to
 create a syntax tree. If a syntax error is encountered, an `PhpParser\Error` exception will be thrown:

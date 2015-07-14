@@ -1,7 +1,40 @@
 Version 2.0.0-dev
 -----------------
 
-Nothing yet.
+A more detailed description of backwards incompatible changes can be found in the
+[upgrading guide](UPGRADE-2.0.md).
+
+### Removed
+
+* Removed support for running on PHP 5.4. It is however still possible to parse PHP 5.2 and PHP 5.3
+  code while running on a newer version.
+* Removed legacy class name aliases. This includes the old non-namespaced class names and the old
+  names for classes that were renamed for PHP 7 compatibility.
+* Removed support for legacy node format. All nodes must have a `getSubNodeNames()` method now.
+
+### Added
+
+* Added support for remaining PHP 7 features that were not present in 1.x:
+  * Group use declarations. These are represented using `Stmt\GroupUse` nodes. Furthermore a `type`
+    attribute was added to `Stmt\UseUse` to handle mixed group use declarations.
+  * Uniform variable syntax.
+  * Generalized yield operator.
+  * Scalar type declarations. These are presented using `'bool'`, `'int'`, `'float'` and `'string'`
+    as the type. The PHP 5 parser also accepts these, however they'll be `Name` instances there.
+  * Unicode escape sequences.
+* Added `PhpParser\ParserFactory` class, which should be used to create parser instances.
+* Added `Name::concat()` which concatenates two names.
+* Added `Name->slice()` which takes a subslice of a name.
+
+### Changed
+
+* `PhpParser\Parser` is now an interface, implemented by `Parser\Php5`, `Parser\Php7` and
+  `Parser\Multiple`. The `Multiple` parser will try multiple parsers, until one succeeds.
+* Token constants are now defined on `PhpParser\Tokens` rather than `PhpParser\Parser`.
+* The `Name->set()`, `Name->append()`, `Name->prepend()` and `Name->setFirst()` methods are
+  deprecated in favor of `Name::concat()` and `Name->slice()`.
+* The `NodeTraverser` no longer clones nodes by default. The old behavior can be restored by
+  passing `true` to the constructor.
 
 Version 1.4.0 (2015-07-14)
 --------------------------
@@ -240,6 +273,5 @@ Version 1.0.0-beta1 (2014-03-27)
 
 ---
 
-**This changelog only includes changes from the 1.0 series. For older changes see the [0.9 series changelog][1].**
-
- [1]: https://github.com/nikic/PHP-Parser/blob/0.9/CHANGELOG.md
+**This changelog only includes changes from the 1.0 and 2.0 series. For older changes see the
+[0.9 series changelog][https://github.com/nikic/PHP-Parser/blob/0.9/CHANGELOG.md].**
