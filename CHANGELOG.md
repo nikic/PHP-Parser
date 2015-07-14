@@ -1,5 +1,10 @@
-Version 2.0.0-dev
------------------
+Version 2.0.0-dev-dev
+---------------------
+
+Nothing yet.
+
+Version 2.0.0-alpha1 (2015-07-14)
+---------------------------------
 
 A more detailed description of backwards incompatible changes can be found in the
 [upgrading guide](UPGRADE-2.0.md).
