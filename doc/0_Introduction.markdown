@@ -26,13 +26,12 @@ programmatic PHP code analysis are incidentally PHP developers, not C developers
 What can it parse?
 ------------------
 
-The parser uses a PHP 5.6 compliant grammar, which is backwards compatible with all PHP version from PHP 5.2
-upwards (and maybe older).
+The parser supports parsing PHP 5.2-5.6 and PHP 7.
 
 As the parser is based on the tokens returned by `token_get_all` (which is only able to lex the PHP
-version it runs on), additionally a wrapper for emulating new tokens from 5.3, 5.4, 5.5 and 5.6 is provided.
-This allows to parse PHP 5.6 source code running on PHP 5.3, for example. This emulation is very hacky and not
-perfect, but it should work well on any sane code.
+version it runs on), additionally a wrapper for emulating new tokens from 5.5, 5.6 and 7.0 is
+provided. This allows to parse PHP 7.0 source code running on PHP 5.4, for example. This emulation
+is somewhat hacky and not perfect, but it should work well on any sane code.
 
 What output does it produce?
 ----------------------------

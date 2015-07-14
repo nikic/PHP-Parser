@@ -14,8 +14,11 @@ the following syntactic elements:
 Here is an example:
 
 ```php
-<?php
-$factory = new PhpParser\BuilderFactory;
+use PhpParser\BuilderFactory;
+use PhpParser\PrettyPrinter;
+use PhpParser\Node;
+
+$factory = new BuilderFactory;
 $node = $factory->namespace('Name\Space')
     ->addStmt($factory->use('Some\Other\Thingy')->as('SomeOtherClass'))
     ->addStmt($factory->class('SomeClass')
@@ -38,7 +41,7 @@ $node = $factory->namespace('Name\Space')
             ->makeProtected() // ->makePublic() [default], ->makePrivate()
             ->addParam($factory->param('someParam')->setDefault('test'))
             // it is possible to add manually created nodes
-            ->addStmt(new PhpParser\Node\Expr\Print_(new PhpParser\Node\Expr\Variable('someParam')))
+            ->addStmt(new Node\Expr\Print_(new Node\Expr\Variable('someParam')))
         )
 
         // properties will be correctly reordered above the methods
@@ -50,7 +53,7 @@ $node = $factory->namespace('Name\Space')
 ;
 
 $stmts = array($node);
-$prettyPrinter = new PhpParser\PrettyPrinter\Standard();
+$prettyPrinter = new PrettyPrinter\Standard();
 echo $prettyPrinter->prettyPrintFile($stmts);
 ```
 
