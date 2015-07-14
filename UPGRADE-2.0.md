@@ -34,7 +34,7 @@ possible values are:
  * `ParserFactory::ONLY_PHP5`: Parse code as PHP 5.
 
 For most practical purposes the difference between `PREFER_PHP7` and `PREFER_PHP5` is mainly whether
-a scalar type hint like `'string'` will be stored as `'string'` (PHP 7) or as `new Name('string')`
+a scalar type hint like `string` will be stored as `'string'` (PHP 7) or as `new Name('string')`
 (PHP 5).
 
 To use a custom lexer, pass it as the second argument to the `create()` method:
@@ -48,8 +48,8 @@ $parser = (new ParserFactory)->create(ParserFactory::PREFER_PHP7, $lexer);
 ### Rename of the `PhpParser\Parser` class
 
 `PhpParser\Parser` is now an interface, which is implemented by `Parser\Php5`, `Parser\Php7` and
-`Parser\Multiple`. If you use the `ParserFactory` described above to create your parser instance,
-this change should have no further impact on you.
+`Parser\Multiple`. Parser tokens are now defined in `Parser\Tokens`. If you use the `ParserFactory`
+described above to create your parser instance, these changes should have no further impact on you.
 
 ### Removal of legacy aliases
 

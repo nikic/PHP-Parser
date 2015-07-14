@@ -17,7 +17,7 @@ position attributes in the lexer need to be enabled:
 $lexer = new PhpParser\Lexer(array(
     'usedAttributes' => array('comments', 'startLine', 'endLine', 'startFilePos', 'endFilePos'),
 ));
-$parser = new PhpParser\Parser($lexer);
+$parser = (new PhpParser\ParserFactory)->create(PhpParser\ParserFactory::PREFER_PHP7, $lexer);
 
 try {
     $stmts = $parser->parse($code);
@@ -58,7 +58,7 @@ or `null` if recovery fails.
 A usage example:
 
 ```php
-$parser = new PhpParser\Parser(new PhpParser\Lexer, array(
+$parser = (new PhpParser\ParserFactory)->create(PhpParser\ParserFactory::PREFER_PHP7, null, array(
     'throwOnError' => false,
 ));
 

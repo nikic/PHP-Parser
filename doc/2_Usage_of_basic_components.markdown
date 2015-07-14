@@ -24,11 +24,11 @@ This ensures that there will be no errors when traversing highly nested node tre
 Parsing
 -------
 
-In order to parse some source code you first have to create a parser instance:
+In order to parse code, you first have to create a parser instance:
 
 ```php
 use PhpParser\ParserFactory;
-$parser = new ParserFactory(ParserFactory::PREFER_PHP7);
+$parser = (new ParserFactory)->create(ParserFactory::PREFER_PHP7);
 ```
 
 The factory accepts a kind argument, that determines how different PHP versions are treated:
@@ -42,8 +42,8 @@ Kind | Behavior
 
 Unless you have strong reason to use something else, `PREFER_PHP7` is a reasonable default.
 
-Many advanced use-cases require configuration or modification of the lexer, which is described in
-the [lexer documentation](component/Lexer.markdown).
+The `create()` method optionally accepts a `Lexer` instance as the second argument. Some use cases
+that require customized lexers are discussed in the [lexer documentation](component/Lexer.markdown).
 
 Subsequently you can pass PHP code (including the opening `<?php` tag) to the `parse` method in order to
 create a syntax tree. If a syntax error is encountered, an `PhpParser\Error` exception will be thrown:
@@ -53,7 +53,7 @@ use PhpParser\Error;
 use PhpParser\ParserFactory;
 
 $code = '<?php // some code';
-$parser = new ParserFactory(ParserFactory::PREFER_PHP7);
+$parser = (new ParserFactory)->create(ParserFactory::PREFER_PHP7);
 
 try {
     $stmts = $parser->parse($code);

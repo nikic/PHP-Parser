@@ -72,7 +72,7 @@ $lexer = new PhpParser\Lexer(array(
         'comments', 'startLine', 'endLine', 'startTokenPos', 'endTokenPos'
     )
 ));
-$parser = new PhpParser\Parser($lexer);
+$parser = (new PhpParser\ParserFactory)->create(PhpParser\ParserFactory::PREFER_PHP7, $lexer);
 
 $visitor = new MyNodeVisitor();
 $traverser = new PhpParser\NodeTraverser();
@@ -127,14 +127,17 @@ information about the formatting of integers (like decimal vs. hexadecimal) or s
 escape sequences). This can be remedied by storing the original value in an attribute:
 
 ```php
-class KeepOriginalValueLexer extends PHPParser\Lexer // or PHPParser\Lexer\Emulative
+use PhpParser\Lexer;
+use PhpParser\Parser\Tokens;
+
+class KeepOriginalValueLexer extends Lexer // or Lexer\Emulative
 {
     public function getNextToken(&$value = null, &$startAttributes = null, &$endAttributes = null) {
         $tokenId = parent::getNextToken($value, $startAttributes, $endAttributes);
 
-        if ($tokenId == PHPParser\Parser::T_CONSTANT_ENCAPSED_STRING // non-interpolated string
-            || $tokenId == PHPParser\Parser::T_LNUMBER               // integer
-            || $tokenId == PHPParser\Parser::T_DNUMBER               // floating point number
+        if ($tokenId == Tokens::T_CONSTANT_ENCAPSED_STRING // non-interpolated string
+            || $tokenId == Tokens::T_LNUMBER               // integer
+            || $tokenId == Tokens::T_DNUMBER               // floating point number
         ) {
             // could also use $startAttributes, doesn't really matter here
             $endAttributes['originalValue'] = $value;
