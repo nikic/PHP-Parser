@@ -19,7 +19,7 @@ class NodeTraverser implements NodeTraverserInterface
      *
      * @param bool $cloneNodes Should the traverser clone the nodes when traversing the AST
      */
-    public function __construct($cloneNodes = true) {
+    public function __construct($cloneNodes = false) {
         $this->visitors = array();
         $this->cloneNodes = $cloneNodes;
     }

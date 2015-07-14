@@ -278,53 +278,36 @@ EOC;
         $this->assertEquals($stmts, $traverser->traverse($stmts));
     }
 
-    protected function createNamespacedAndNonNamespaced(array $stmts) {
-        return array(
-            new Stmt\Namespace_(new Name('NS'), $stmts),
-            new Stmt\Namespace_(null, $stmts),
-        );
-    }
-
     public function testAddNamespacedName() {
-        $stmts = $this->createNamespacedAndNonNamespaced(array(
+        $nsStmts = array(
             new Stmt\Class_('A'),
             new Stmt\Interface_('B'),
             new Stmt\Function_('C'),
             new Stmt\Const_(array(
-                new Node\Const_('D', new Node\Scalar\String_('E'))
+                new Node\Const_('D', new Node\Scalar\LNumber(42))
             )),
+            new Stmt\Trait_('E'),
             new Expr\New_(new Stmt\Class_(null)),
-        ));
+        );
 
         $traverser = new PhpParser\NodeTraverser;
         $traverser->addVisitor(new NameResolver);
 
-        $stmts = $traverser->traverse($stmts);
-
+        $stmts = $traverser->traverse([new Stmt\Namespace_(new Name('NS'), $nsStmts)]);
         $this->assertSame('NS\\A', (string) $stmts[0]->stmts[0]->namespacedName);
         $this->assertSame('NS\\B', (string) $stmts[0]->stmts[1]->namespacedName);
         $this->assertSame('NS\\C', (string) $stmts[0]->stmts[2]->namespacedName);
         $this->assertSame('NS\\D', (string) $stmts[0]->stmts[3]->consts[0]->namespacedName);
-        $this->assertObjectNotHasAttribute('namespacedName', $stmts[0]->stmts[4]->class);
-        $this->assertSame('A',     (string) $stmts[1]->stmts[0]->namespacedName);
-        $this->assertSame('B',     (string) $stmts[1]->stmts[1]->namespacedName);
-        $this->assertSame('C',     (string) $stmts[1]->stmts[2]->namespacedName);
-        $this->assertSame('D',     (string) $stmts[1]->stmts[3]->consts[0]->namespacedName);
-        $this->assertObjectNotHasAttribute('namespacedName', $stmts[1]->stmts[4]->class);
-    }
+        $this->assertSame('NS\\E', (string) $stmts[0]->stmts[4]->namespacedName);
+        $this->assertObjectNotHasAttribute('namespacedName', $stmts[0]->stmts[5]->class);
 
-    public function testAddTraitNamespacedName() {
-        $stmts = $this->createNamespacedAndNonNamespaced(array(
-            new Stmt\Trait_('A')
-        ));
-
-        $traverser = new PhpParser\NodeTraverser;
-        $traverser->addVisitor(new NameResolver);
-
-        $stmts = $traverser->traverse($stmts);
-
-        $this->assertSame('NS\\A', (string) $stmts[0]->stmts[0]->namespacedName);
-        $this->assertSame('A',     (string) $stmts[1]->stmts[0]->namespacedName);
+        $stmts = $traverser->traverse([new Stmt\Namespace_(null, $nsStmts)]);
+        $this->assertSame('A',     (string) $stmts[0]->stmts[0]->namespacedName);
+        $this->assertSame('B',     (string) $stmts[0]->stmts[1]->namespacedName);
+        $this->assertSame('C',     (string) $stmts[0]->stmts[2]->namespacedName);
+        $this->assertSame('D',     (string) $stmts[0]->stmts[3]->consts[0]->namespacedName);
+        $this->assertSame('E',     (string) $stmts[0]->stmts[4]->namespacedName);
+        $this->assertObjectNotHasAttribute('namespacedName', $stmts[0]->stmts[5]->class);
     }
 
     /**
