@@ -105,19 +105,6 @@ EOC;
         $parser = $this->getParser($lexer);
         $parser->parse('dummy');
     }
-
-    public function testInvalidOctals() {
-        if (version_compare(PHP_VERSION, '7.0-dev', '>=')) {
-            $this->markTestSkipped('Cannot parse invalid octal numbers on PHP 7');
-        }
-
-        $parser = $this->getParser(new Lexer);
-        $stmts = $parser->parse('<?php 0787; 0177777777777777777777787;');
-        $this->assertInstanceof('PhpParser\Node\Scalar\LNumber', $stmts[0]);
-        $this->assertInstanceof('PhpParser\Node\Scalar\DNumber', $stmts[1]);
-        $this->assertSame(7, $stmts[0]->value);
-        $this->assertSame(0xFFFFFFFFFFFFFFFF, $stmts[1]->value);
-    }
 }
 
 class InvalidTokenLexer extends Lexer {
