@@ -2,7 +2,7 @@
 
 namespace PhpParser;
 
-require __DIR__ . '/../lib/bootstrap.php';
+require __DIR__ . '/../vendor/autoload.php';
 
 function canonicalize($str) {
     // trim from both sides
