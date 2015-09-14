@@ -11,3 +11,10 @@ matrix:
   allow_failures:
     - php: 7.0
   fast_finish: true
+
+install:
+  - composer self-update
+  - composer --prefer-source install
+
+script:
+  - ./vendor/bin/phpunit -v --debug
