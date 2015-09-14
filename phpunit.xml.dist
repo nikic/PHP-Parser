@@ -21,4 +21,8 @@
             <directory suffix=".php">./lib/PhpParser/</directory>
         </whitelist>
     </filter>
+    
+    <logging>
+        <log type="coverage-text" target="php://stdout" showUncoveredFiles="true"/>
+    </logging>
 </phpunit>
