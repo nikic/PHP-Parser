@@ -14,3 +14,10 @@ matrix:
   allow_failures:
     - php: nightly
   fast_finish: true
+
+install:
+  - composer self-update
+  - composer --prefer-source install
+
+script:
+  - ./vendor/bin/phpunit -v --debug

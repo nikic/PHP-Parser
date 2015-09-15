@@ -13,8 +13,13 @@
         "php": ">=5.4",
         "ext-tokenizer": "*"
     },
+    "require-dev": {
+        "phpunit/phpunit": "~4.5"
+    },
     "autoload": {
-        "files": ["lib/bootstrap.php"]
+        "psr-4": {
+            "PhpParser\\": "lib/PhpParser"
+        }
     },
     "extra": {
         "branch-alias": {
