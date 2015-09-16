@@ -70,18 +70,25 @@ programming errors or security issues).
 Additionally, you can convert a syntax tree back to PHP code. This allows you to do code preprocessing
 (like automatedly porting code to older PHP versions).
 
+Installation
+------------
+
+The preferred installation method is [composer](https://getcomposer.org):
+
+    php composer.phar require nikic/php-parser
+
 Documentation
 -------------
 
  1. [Introduction](doc/0_Introduction.markdown)
- 2. [Installation](doc/1_Installation.markdown)
- 3. [Usage of basic components](doc/2_Usage_of_basic_components.markdown)
- 4. [Other node tree representations](doc/3_Other_node_tree_representations.markdown)
- 5. [Code generation](doc/4_Code_generation.markdown)
+ 2. [Usage of basic components](doc/2_Usage_of_basic_components.markdown)
+ 3. [Other node tree representations](doc/3_Other_node_tree_representations.markdown)
+ 4. [Code generation](doc/4_Code_generation.markdown)
 
 Component documentation:
 
- 1. [Lexer](doc/component/Lexer.markdown)
+ 1. [Error](doc/component/Error.markdown)
+ 2. [Lexer](doc/component/Lexer.markdown)
 
  [doc_1_x]: https://github.com/nikic/PHP-Parser/tree/1.x/doc
  [doc_master]: https://github.com/nikic/PHP-Parser/tree/master/doc
