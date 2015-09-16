@@ -14,7 +14,9 @@
         "ext-tokenizer": "*"
     },
     "autoload": {
-        "files": ["lib/bootstrap.php"]
+        "psr-4": {
+            "PhpParser\\": "lib/PhpParser"
+        }
     },
     "extra": {
         "branch-alias": {

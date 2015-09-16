@@ -10,6 +10,8 @@ php:
   - nightly
   - hhvm
 
+install: composer install
+
 matrix:
   allow_failures:
     - php: nightly
