@@ -1,7 +1,15 @@
-Version 1.4.1-dev
+Version 1.4.2-dev
 -----------------
 
 Nothing yet.
+
+Version 1.4.1 (2015-09-19)
+--------------------------
+
+### Fixed
+
+* Fixed issue with too many newlines being stripped at the end of heredoc/nowdoc strings in some
+  cases. (#227)
 
 Version 1.4.0 (2015-07-14)
 --------------------------
