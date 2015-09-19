@@ -145,7 +145,7 @@ function resolveMacros($code) {
             if ('parseEncapsedDoc' == $name) {
                 assertArgs(1, $args, $name);
 
-                return 'foreach (' . $args[0] . ' as &$s) { if (is_string($s)) { $s = Node\Scalar\String_::parseEscapeSequences($s, null); } } $s = preg_replace(\'~(\r\n|\n|\r)$~\', \'\', $s); if (\'\' === $s) array_pop(' . $args[0] . ');';
+                return 'foreach (' . $args[0] . ' as &$s) { if (is_string($s)) { $s = Node\Scalar\String_::parseEscapeSequences($s, null); } } $s = preg_replace(\'~(\r\n|\n|\r)\z~\', \'\', $s); if (\'\' === $s) array_pop(' . $args[0] . ');';
             }
 
             return $matches[0];
