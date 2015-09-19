@@ -135,7 +135,7 @@ class String_ extends Scalar
      */
     public static function parseDocString($startToken, $str, $parseUnicodeEscape = true) {
         // strip last newline (thanks tokenizer for sticking it into the string!)
-        $str = preg_replace('~(\r\n|\n|\r)$~', '', $str);
+        $str = preg_replace('~(\r\n|\n|\r)\z~', '', $str);
 
         // nowdoc string
         if (false !== strpos($startToken, '\'')) {

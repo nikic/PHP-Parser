@@ -165,7 +165,7 @@ function resolveMacros($code) {
 
                 return 'foreach (' . $args[0] . ' as &$s) { if (is_string($s)) {'
                      . ' $s = Node\Scalar\String_::parseEscapeSequences($s, null, ' . $args[1] . '); } }'
-                     . ' $s = preg_replace(\'~(\r\n|\n|\r)$~\', \'\', $s);'
+                     . ' $s = preg_replace(\'~(\r\n|\n|\r)\z~\', \'\', $s);'
                      . ' if (\'\' === $s) array_pop(' . $args[0] . ');';
             }
 
