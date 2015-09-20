@@ -10,9 +10,11 @@ php:
   - nightly
   - hhvm
 
-install: composer install
+install: composer install --prefer-source
 
 matrix:
   allow_failures:
     - php: nightly
   fast_finish: true
+
+script: vendor/bin/phpunit
