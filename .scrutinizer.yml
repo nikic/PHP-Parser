@@ -2,14 +2,6 @@
 before_commands:
     - "composer install --no-dev --prefer-source"
 
-filter:
-    excluded_paths:
-        - test/code/*
-        - test_old/*
-        - grammar/*
-        - doc/*
-        - vendor/*
-
 checks:
     php: true
 
