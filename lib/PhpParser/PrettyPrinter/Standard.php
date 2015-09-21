@@ -422,7 +422,11 @@ class Standard extends PrettyPrinterAbstract
     }
 
     public function pExpr_Array(Expr\Array_ $node) {
-        return 'array(' . $this->pCommaSeparated($node->items) . ')';
+        if ($this->options['shortArraySyntax']) {
+            return '[' . $this->pCommaSeparated($node->items) . ']';
+        } else {
+            return 'array(' . $this->pCommaSeparated($node->items) . ')';
+        }
     }
 
     public function pExpr_ArrayItem(Expr\ArrayItem $node) {

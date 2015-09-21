@@ -11,30 +11,32 @@ require_once __DIR__ . '/CodeTestAbstract.php';
 
 class PrettyPrinterTest extends CodeTestAbstract
 {
-    protected function doTestPrettyPrintMethod($method, $name, $code, $expected, $mode) {
+    protected function doTestPrettyPrintMethod($method, $name, $code, $expected, $modeLine) {
         $lexer = new Lexer\Emulative;
         $parser5 = new Parser\Php5($lexer);
         $parser7 = new Parser\Php7($lexer);
-        $prettyPrinter = new Standard;
+
+        list($version, $options) = $this->parseModeLine($modeLine);
+        $prettyPrinter = new Standard($options);
 
         try {
             $output5 = canonicalize($prettyPrinter->$method($parser5->parse($code)));
         } catch (Error $e) {
             $output5 = null;
-            $this->assertEquals('php7', $mode);
+            $this->assertEquals('php7', $version);
         }
 
         try {
             $output7 = canonicalize($prettyPrinter->$method($parser7->parse($code)));
         } catch (Error $e) {
             $output7 = null;
-            $this->assertEquals('php5', $mode);
+            $this->assertEquals('php5', $version);
         }
 
-        if ('php5' === $mode) {
+        if ('php5' === $version) {
             $this->assertSame($expected, $output5, $name);
             $this->assertNotSame($expected, $output7, $name);
-        } else if ('php7' === $mode) {
+        } else if ('php7' === $version) {
             $this->assertSame($expected, $output7, $name);
             $this->assertNotSame($expected, $output5, $name);
         } else {
@@ -79,5 +81,12 @@ class PrettyPrinterTest extends CodeTestAbstract
             'stmts' => array(new Stmt\Return_(new String_("a\nb")))
         ));
         $this->assertEquals("function () {\n    return 'a\nb';\n}", $prettyPrinter->prettyPrintExpr($expr));
+    }
+
+    private function parseModeLine($modeLine) {
+        $parts = explode(' ', $modeLine, 2);
+        $version = isset($parts[0]) ? $parts[0] : 'both';
+        $options = isset($parts[1]) ? json_decode($parts[1], true) : [];
+        return [$version, $options];
     }
 }
