@@ -113,7 +113,7 @@ CODE;
     </scalar:array>
    </subNode:params>
    <subNode:returnType>
-     <scalar:null/>
+    <scalar:null/>
    </subNode:returnType>
    <subNode:stmts>
     <scalar:array>
