@@ -17,4 +17,8 @@ matrix:
     - php: nightly
   fast_finish: true
 
-script: vendor/bin/phpunit
+script: vendor/bin/phpunit --coverage-clover=coverage.clover
+
+after_script:
+  - if [ "$TRAVIS_PHP_VERSION" == "5.6" ]; then wget https://scrutinizer-ci.com/ocular.phar; fi
+  - if [ "$TRAVIS_PHP_VERSION" == "5.6" ]; then php ocular.phar code-coverage:upload --format=php-clover coverage.clover; fi
