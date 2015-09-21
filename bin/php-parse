@@ -1,7 +1,12 @@
 #!/usr/bin/env php
 <?php
 
-require __DIR__ . '/../lib/bootstrap.php';
+foreach ([__DIR__ . '/../../autoload.php', __DIR__ . '/../vendor/autoload.php'] as $file) {
+    if (file_exists($file)) {
+        require $file;
+        break;
+    }
+}
 
 ini_set('xdebug.max_nesting_level', 3000);
 
@@ -84,8 +89,8 @@ foreach ($files as $file) {
 function showHelp($error) {
     die($error . "\n\n" .
         <<<OUTPUT
-Usage: php php-parse.php [operations] file1.php [file2.php ...]
-   or: php php-parse.php [operations] "<?php code"
+Usage: php-parse [operations] file1.php [file2.php ...]
+   or: php-parse [operations] "<?php code"
 Turn PHP source code into an abstract syntax tree.
 
 Operations is a list of the following options (--dump by default):
@@ -98,7 +103,7 @@ Operations is a list of the following options (--dump by default):
     -c, --with-column-info  Show column-numbers for errors (if available)
 
 Example:
-    php php-parse.php -d -p -N -d file.php
+    php-parse -d -p -N -d file.php
 
     Dumps nodes, pretty prints them, then resolves names and dumps them again.
 
