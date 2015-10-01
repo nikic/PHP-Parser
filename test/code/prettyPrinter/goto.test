@@ -1,0 +1,7 @@
+goto
+-----
+<?php
+
+goto marker;
+-----
+goto marker;
