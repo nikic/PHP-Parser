@@ -5,6 +5,9 @@ For loop
 // "classical" loop
 for ($i = 0; $i < $c; ++$i) {}
 
+// "classical" loop + multiple init
+for ($i = 0, $j = 0; $i < $c; ++$i) {}
+
 // multiple expressions
 for (;$a,$b;) {}
 
@@ -49,6 +52,45 @@ array(
     )
     1: Stmt_For(
         init: array(
+            0: Expr_Assign(
+                var: Expr_Variable(
+                    name: i
+                )
+                expr: Scalar_LNumber(
+                    value: 0
+                )
+            )
+            1: Expr_Assign(
+                var: Expr_Variable(
+                    name: j
+                )
+                expr: Scalar_LNumber(
+                    value: 0
+                )
+            )
+        )
+        cond: array(
+            0: Expr_BinaryOp_Smaller(
+                left: Expr_Variable(
+                    name: i
+                )
+                right: Expr_Variable(
+                    name: c
+                )
+            )
+        )
+        loop: array(
+            0: Expr_PreInc(
+                var: Expr_Variable(
+                    name: i
+                )
+            )
+        )
+        stmts: array(
+        )
+    )
+    2: Stmt_For(
+        init: array(
         )
         cond: array(
             0: Expr_Variable(
@@ -63,7 +105,7 @@ array(
         stmts: array(
         )
     )
-    2: Stmt_For(
+    3: Stmt_For(
         init: array(
         )
         cond: array(
@@ -73,7 +115,7 @@ array(
         stmts: array(
         )
     )
-    3: Stmt_For(
+    4: Stmt_For(
         init: array(
         )
         cond: array(
