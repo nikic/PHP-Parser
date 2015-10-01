@@ -1,0 +1,9 @@
+continue
+-----
+<?php
+
+continue;
+continue 2;
+-----
+continue;
+continue 2;
