@@ -95,4 +95,9 @@ array(
         )
         else: null
     )
+    4: Stmt_Nop(
+        comments: array(
+            0: // without else
+        )
+    )
 )

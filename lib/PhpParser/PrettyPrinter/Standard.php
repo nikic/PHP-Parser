@@ -738,6 +738,10 @@ class Standard extends PrettyPrinterAbstract
         return '__halt_compiler();' . $node->remaining;
     }
 
+    public function pStmt_Nop(Stmt\Nop $node) {
+        return '';
+    }
+
     // Helpers
 
     protected function pType($node) {

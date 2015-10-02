@@ -169,6 +169,15 @@ function resolveMacros($code) {
                      . ' if (\'\' === $s->value) array_pop(' . $args[0] . ');';
             }
 
+            if ('makeNop' == $name) {
+                assertArgs(2, $args, $name);
+
+                return '$startAttributes = $this->startAttributeStack[' . $args[1] . '];'
+                . ' if (isset($startAttributes[\'comments\']))'
+                . ' { ' . $args[0] . ' = new Stmt\Nop([\'comments\' => $startAttributes[\'comments\']]); }'
+                . ' else { ' . $args[0] . ' = null; }';
+            }
+
             return $matches[0];
         },
         $code

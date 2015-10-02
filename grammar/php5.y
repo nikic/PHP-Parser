@@ -9,9 +9,14 @@ start:
     top_statement_list                                      { $$ = $this->handleNamespaces($1); }
 ;
 
-top_statement_list:
-      top_statement_list top_statement                      { pushNormalizing($1, $2); }
+top_statement_list_ex:
+      top_statement_list_ex top_statement                   { pushNormalizing($1, $2); }
     | /* empty */                                           { init(); }
+;
+
+top_statement_list:
+      top_statement_list_ex
+          { makeNop($nop, #1+1); if ($nop !== null) { $1[] = $nop; } $$ = $1; }
 ;
 
 reserved_non_modifiers:
@@ -124,9 +129,14 @@ class_const:
     identifier '=' static_scalar                            { $$ = Node\Const_[$1, $3]; }
 ;
 
-inner_statement_list:
-      inner_statement_list inner_statement                  { pushNormalizing($1, $2); }
+inner_statement_list_ex:
+      inner_statement_list_ex inner_statement               { pushNormalizing($1, $2); }
     | /* empty */                                           { init(); }
+;
+
+inner_statement_list:
+      inner_statement_list_ex
+          { makeNop($nop, #1+1); if ($nop !== null) { $1[] = $nop; } $$ = $1; }
 ;
 
 inner_statement:
@@ -176,7 +186,8 @@ non_empty_statement:
 
 statement:
       non_empty_statement                                   { $$ = $1; }
-    | ';'                                                   { $$ = array(); /* means: no statement */ }
+    | ';'
+          { makeNop($$, #1); if ($$ === null) $$ = array(); /* means: no statement */ }
 ;
 
 catches:

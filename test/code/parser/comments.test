@@ -1,0 +1,71 @@
+Comments
+-----
+<?php
+
+/** doc */
+/* foobar */
+// foo
+// bar
+$var;
+
+if ($cond) {
+    /** doc */
+    /* foobar */
+    // foo
+    // bar
+}
+
+/** doc */
+/* foobar */
+// foo
+// bar
+-----
+array(
+    0: Expr_Variable(
+        name: var
+        comments: array(
+            0: /** doc */
+            1: /* foobar */
+            2: // foo
+            3: // bar
+        )
+    )
+    1: Stmt_If(
+        cond: Expr_Variable(
+            name: cond
+        )
+        stmts: array(
+            0: Stmt_Nop(
+                comments: array(
+                    0: /** doc */
+                    1: /* foobar */
+                    2: // foo
+                    3: // bar
+                )
+            )
+        )
+        elseifs: array(
+        )
+        else: null
+    )
+)
+-----
+<?php
+
+/** doc */
+/* foobar */
+// foo
+// bar
+
+?>
+-----
+array(
+    0: Stmt_Nop(
+        comments: array(
+            0: /** doc */
+            1: /* foobar */
+            2: // foo
+            3: // bar
+        )
+    )
+)

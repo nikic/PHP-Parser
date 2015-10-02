@@ -137,4 +137,9 @@ array(
             value: c
         )
     )
+    9: Stmt_Nop(
+        comments: array(
+            0: // invalid PHP: drop Support?
+        )
+    )
 )

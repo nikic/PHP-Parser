@@ -27,7 +27,6 @@ function justForIndentation()
        Even more text. */
     $foo;
 }
-
 -----
 function justForIndentation()
 {
@@ -53,4 +52,17 @@ function justForIndentation()
        More text.
        Even more text. */
     $foo;
+}
+-----
+<?php
+
+function test()
+{
+    // empty
+}
+-----
+function test()
+{
+    // empty
+
 }

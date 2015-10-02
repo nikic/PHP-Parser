@@ -59,4 +59,9 @@ array(
             )
         )
     )
+    8: Stmt_Nop(
+        comments: array(
+            0: // comment to force line break before EOF
+        )
+    )
 )

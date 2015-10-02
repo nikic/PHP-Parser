@@ -172,6 +172,11 @@ array(
             value: 2
         )
     )
+    3: Stmt_Nop(
+        comments: array(
+            0: // The output here drops the loop - would require Error node to handle this
+        )
+    )
 )
 -----
 <?php
