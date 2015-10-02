@@ -9,8 +9,19 @@ if ($expr) {
 } else {
 
 }
+
+if ($expr) {
+} else if ($expr2) {
+} else {
+}
 -----
 if ($expr) {
 } elseif ($expr2) {
 } else {
+}
+if ($expr) {
+} else {
+    if ($expr2) {
+    } else {
+    }
 }

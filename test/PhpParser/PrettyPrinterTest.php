@@ -23,14 +23,18 @@ class PrettyPrinterTest extends CodeTestAbstract
             $output5 = canonicalize($prettyPrinter->$method($parser5->parse($code)));
         } catch (Error $e) {
             $output5 = null;
-            $this->assertEquals('php7', $version);
+            if ('php7' !== $version) {
+                throw $e;
+            }
         }
 
         try {
             $output7 = canonicalize($prettyPrinter->$method($parser7->parse($code)));
         } catch (Error $e) {
             $output7 = null;
-            $this->assertEquals('php5', $version);
+            if ('php5' !== $version) {
+                throw $e;
+            }
         }
 
         if ('php5' === $version) {
