@@ -1,7 +1,26 @@
-Version 2.0.0-dev-dev
----------------------
+Version 2.0.0-dev
+-----------------------
 
 Nothing yet.
+
+Version 2.0.0-beta1 (2015-10-21)
+--------------------------------
+
+### Fixed
+
+* Fixed issue with too many newlines being stripped at the end of heredoc/nowdoc strings in some
+  cases. (#227)
+
+### Changed
+
+* Update group use support to be in line with recent PHP 7.0 builds.
+* Renamed `php-parse.php` to `php-parse` and registered it as a composer bin.
+* Use composer PSR-4 autoloader instead of custom autoloader.
+* Specify phpunit as a dev dependency.
+
+### Added
+
+* Added `shortArraySyntax` option to pretty printer, to print all arrays using short syntax.
 
 Version 2.0.0-alpha1 (2015-07-14)
 ---------------------------------
