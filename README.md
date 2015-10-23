@@ -89,6 +89,7 @@ Component documentation:
 
  1. [Error](doc/component/Error.markdown)
  2. [Lexer](doc/component/Lexer.markdown)
+ 3. [ScopeResolver](doc/component/ScopeResolver.markdown)
 
  [doc_1_x]: https://github.com/nikic/PHP-Parser/tree/1.x/doc
  [doc_master]: https://github.com/nikic/PHP-Parser/tree/master/doc
