@@ -67,14 +67,21 @@ class Lexer
     }
 
     protected function resetErrors() {
-        // set error_get_last() to defined state by forcing an undefined variable error
-        set_error_handler(function() { return false; }, 0);
-        @$undefinedVariable;
-        restore_error_handler();
+        if (function_exists('error_clear_last')) {
+            error_clear_last();
+        } else {
+            // set error_get_last() to defined state by forcing an undefined variable error
+            set_error_handler(function() { return false; }, 0);
+            @$undefinedVariable;
+            restore_error_handler();
+        }
     }
 
     protected function handleErrors() {
         $error = error_get_last();
+        if (null === $error) {
+            return;
+        }
 
         if (preg_match(
             '~^Unterminated comment starting line ([0-9]+)$~',
