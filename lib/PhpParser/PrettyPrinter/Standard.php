@@ -772,8 +772,8 @@ class Standard extends PrettyPrinterAbstract
     protected function pEncapsList(array $encapsList, $quote) {
         $return = '';
         foreach ($encapsList as $element) {
-            if (is_string($element)) {
-                $return .= addcslashes($element, "\n\r\t\f\v$" . $quote . "\\");
+            if ($element instanceof Scalar\EncapsedStringPart) {
+                $return .= addcslashes($element->value, "\n\r\t\f\v$" . $quote . "\\");
             } else {
                 $return .= '{' . $this->p($element) . '}';
             }

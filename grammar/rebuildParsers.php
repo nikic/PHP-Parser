@@ -156,17 +156,17 @@ function resolveMacros($code) {
             if ('parseEncapsed' == $name) {
                 assertArgs(3, $args, $name);
 
-                return 'foreach (' . $args[0] . ' as &$s) { if (is_string($s)) {'
-                     . ' $s = Node\Scalar\String_::parseEscapeSequences($s, ' . $args[1] . ', ' . $args[2] . '); } }';
+                return 'foreach (' . $args[0] . ' as $s) { if ($s instanceof Node\Scalar\EncapsedStringPart) {'
+                     . ' $s->value = Node\Scalar\String_::parseEscapeSequences($s->value, ' . $args[1] . ', ' . $args[2] . '); } }';
             }
 
             if ('parseEncapsedDoc' == $name) {
                 assertArgs(2, $args, $name);
 
-                return 'foreach (' . $args[0] . ' as &$s) { if (is_string($s)) {'
-                     . ' $s = Node\Scalar\String_::parseEscapeSequences($s, null, ' . $args[1] . '); } }'
-                     . ' $s = preg_replace(\'~(\r\n|\n|\r)\z~\', \'\', $s);'
-                     . ' if (\'\' === $s) array_pop(' . $args[0] . ');';
+                return 'foreach (' . $args[0] . ' as $s) { if ($s instanceof Node\Scalar\EncapsedStringPart) {'
+                     . ' $s->value = Node\Scalar\String_::parseEscapeSequences($s->value, null, ' . $args[1] . '); } }'
+                     . ' $s->value = preg_replace(\'~(\r\n|\n|\r)\z~\', \'\', $s->value);'
+                     . ' if (\'\' === $s->value) array_pop(' . $args[0] . ');';
             }
 
             return $matches[0];

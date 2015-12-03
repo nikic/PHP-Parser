@@ -31,8 +31,10 @@ array(
             0: Expr_Variable(
                 name: var
             )
-            1:
+            1: Scalar_EncapsedStringPart(
+                value:
 
+            )
         )
     )
     4: Scalar_String(
@@ -51,8 +53,10 @@ array(
             0: Expr_Variable(
                 name: var
             )
-            1:
+            1: Scalar_EncapsedStringPart(
+                value:
 
+            )
         )
     )
 )

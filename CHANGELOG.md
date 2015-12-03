@@ -1,7 +1,12 @@
 Version 2.0.0-dev
 -----------------------
 
-Nothing yet.
+### Changed
+
+* String parts of encapsed strings are now represented using `Scalar\EncapsStringPart` nodes.
+  Previously raw strings were used. This affects the `parts` child of `Scalar\Encaps` and
+  `Expr\ShellExec`. The change has been done to allow assignment of attributes to encapsed string
+  parts.
 
 Version 2.0.0-beta1 (2015-10-21)
 --------------------------------

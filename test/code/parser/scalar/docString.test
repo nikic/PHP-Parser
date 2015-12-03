@@ -42,7 +42,9 @@ array(
     )
     4: Scalar_Encapsed(
         parts: array(
-            0: Test
+            0: Scalar_EncapsedStringPart(
+                value: Test
+            )
             1: Expr_Variable(
                 name: a
             )
@@ -50,18 +52,24 @@ array(
     )
     5: Scalar_Encapsed(
         parts: array(
-            0: Test
+            0: Scalar_EncapsedStringPart(
+                value: Test
+            )
             1: Expr_Variable(
                 name: a
             )
-            2:  and
+            2: Scalar_EncapsedStringPart(
+                value:  and
+            )
             3: Expr_PropertyFetch(
                 var: Expr_Variable(
                     name: b
                 )
                 name: c
             )
-            4:  test
+            4: Scalar_EncapsedStringPart(
+                value:  test
+            )
         )
     )
 )

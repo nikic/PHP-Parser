@@ -14,12 +14,16 @@ array(
     )
     1: Expr_ShellExec(
         parts: array(
-            0: test
+            0: Scalar_EncapsedStringPart(
+                value: test
+            )
         )
     )
     2: Expr_ShellExec(
         parts: array(
-            0: test
+            0: Scalar_EncapsedStringPart(
+                value: test
+            )
             1: Expr_Variable(
                 name: A
             )
@@ -27,12 +31,16 @@ array(
     )
     3: Expr_ShellExec(
         parts: array(
-            0: test `
+            0: Scalar_EncapsedStringPart(
+                value: test `
+            )
         )
     )
     4: Expr_ShellExec(
         parts: array(
-            0: test \"
+            0: Scalar_EncapsedStringPart(
+                value: test \"
+            )
         )
     )
 )

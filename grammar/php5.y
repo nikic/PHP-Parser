@@ -704,7 +704,7 @@ exit_expr:
 backticks_expr:
       /* empty */                                           { $$ = array(); }
     | T_ENCAPSED_AND_WHITESPACE
-          { $$ = array(Scalar\String_::parseEscapeSequences($1, '`', false)); }
+          { $$ = array(Scalar\EncapsedStringPart[Scalar\String_::parseEscapeSequences($1, '`', false)]); }
     | encaps_list                                           { parseEncapsed($1, '`', false); $$ = $1; }
 ;
 
@@ -916,9 +916,13 @@ array_pair:
 
 encaps_list:
       encaps_list encaps_var                                { push($1, $2); }
-    | encaps_list T_ENCAPSED_AND_WHITESPACE                 { push($1, $2); }
+    | encaps_list encaps_string_part                        { push($1, $2); }
     | encaps_var                                            { init($1); }
-    | T_ENCAPSED_AND_WHITESPACE encaps_var                  { init($1, $2); }
+    | encaps_string_part encaps_var                         { init($1, $2); }
+;
+
+encaps_string_part:
+      T_ENCAPSED_AND_WHITESPACE                             { $$ = Scalar\EncapsedStringPart[$1]; }
 ;
 
 encaps_var:
