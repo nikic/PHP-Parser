@@ -69,3 +69,6 @@ deprecated. Instead `Name::concat()` and `Name->slice()` should be used.
   implement a `getSubNodeNames()` method.
 * The default value for `Scalar` node constructors was removed. This means that something like
   `new LNumber()` should be replaced by `new LNumber(0)`.
+* String parts of encapsed strings are now represented using `Scalar\EncapsStringPart` nodes, while
+  previously raw strings were used. This affects the `parts` child of `Scalar\Encaps` and
+  `Expr\ShellExec`.
