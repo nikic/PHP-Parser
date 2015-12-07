@@ -19,8 +19,7 @@ array(
                 )
             )
         )
-        stmts: array(
-        )
+        stmts: null
     )
     1: Stmt_Namespace(
         name: Name(

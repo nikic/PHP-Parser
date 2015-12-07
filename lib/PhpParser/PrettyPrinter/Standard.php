@@ -609,12 +609,12 @@ class Standard extends PrettyPrinterAbstract
     }
 
     public function pStmt_Declare(Stmt\Declare_ $node) {
-        return 'declare (' . $this->pCommaSeparated($node->declares) . ') {'
-             . $this->pStmts($node->stmts) . "\n" . '}';
+        return 'declare (' . $this->pCommaSeparated($node->declares) . ')'
+             . (null !== $node->stmts ? ' {' . $this->pStmts($node->stmts) . "\n" . '}' : ';');
     }
 
     public function pStmt_DeclareDeclare(Stmt\DeclareDeclare $node) {
-        return $node->key . ' = ' . $this->p($node->value);
+        return $node->key . '=' . $this->p($node->value);
     }
 
     // Control flow
