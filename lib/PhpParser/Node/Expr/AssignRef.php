@@ -4,10 +4,6 @@ namespace PhpParser\Node\Expr;
 
 use PhpParser\Node\Expr;
 
-/**
- * @property Expr $var  Variable reference is assigned to
- * @property Expr $expr Variable which is referenced
- */
 class AssignRef extends Expr
 {
     /** @var Expr Variable reference is assigned to */
