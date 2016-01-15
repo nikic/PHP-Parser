@@ -446,7 +446,7 @@ abstract class ParserAbstract implements Parser
     private function getNamespacingStyle(array $stmts) {
         $style = null;
         $hasNotAllowedStmts = false;
-        foreach ($stmts as $stmt) {
+        foreach ($stmts as $i => $stmt) {
             if ($stmt instanceof Node\Stmt\Namespace_) {
                 $currentStyle = null === $stmt->stmts ? 'semicolon' : 'brace';
                 if (null === $style) {
@@ -457,9 +457,21 @@ abstract class ParserAbstract implements Parser
                 } elseif ($style !== $currentStyle) {
                     throw new Error('Cannot mix bracketed namespace declarations with unbracketed namespace declarations', $stmt->getLine());
                 }
-            } elseif (!$stmt instanceof Node\Stmt\Declare_ && !$stmt instanceof Node\Stmt\HaltCompiler) {
-                $hasNotAllowedStmts = true;
+                continue;
             }
+
+            /* declare() and __halt_compiler() can be used before a namespace declaration */
+            if ($stmt instanceof Node\Stmt\Declare_ || $stmt instanceof Node\Stmt\HaltCompiler) {
+                continue;
+            }
+
+            /* There may be a hashbang line at the very start of the file */
+            if ($i == 0 && $stmt instanceof Node\Stmt\InlineHTML && preg_match('/\A#!.*\r?\n\z/', $stmt->value)) {
+                continue;
+            }
+
+            /* Everything else if forbidden before namespace declarations */
+            $hasNotAllowedStmts = true;
         }
         return $style;
     }
