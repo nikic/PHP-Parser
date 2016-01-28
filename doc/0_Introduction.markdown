@@ -18,7 +18,7 @@ For example an AST abstracts away the fact that in PHP variables can be written 
 as `$$bar`, `${'foobar'}` or even `${!${''}=barfoo()}`. You don't have to worry about recognizing
 all the different syntaxes from a stream of tokens.
 
-Another questions is: Why would I want to have a PHP parser *written in PHP*? Well, PHP might not be
+Another question is: Why would I want to have a PHP parser *written in PHP*? Well, PHP might not be
 a language especially suited for fast parsing, but processing the AST is much easier in PHP than it
 would be in other, faster languages like C. Furthermore the people most probably wanting to do
 programmatic PHP code analysis are incidentally PHP developers, not C developers.
