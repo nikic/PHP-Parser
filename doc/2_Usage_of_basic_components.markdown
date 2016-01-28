@@ -268,7 +268,7 @@ The `enterNode()` method can additionally return the value `NodeTraverser::DONT_
 which instructs the traverser to skip all children of the current node.
 
 The `leaveNode()` method can additionally return the value `NodeTraverser::REMOVE_NODE`, in which
-case the current node will be removed from the parent array. Furthermove it is possible to return
+case the current node will be removed from the parent array. Furthermore it is possible to return
 an array of nodes, which will be merged into the parent array at the offset of the current node.
 I.e. if in `array(A, B, C)` the node `B` should be replaced with `array(X, Y, Z)` the result will
 be `array(A, X, Y, Z, C)`.
@@ -376,7 +376,7 @@ create a name with backslashes either write `$node->toString()` or `(string) $no
 a new name from the string and return it. Returning a new node replaces the old node.
 
 Another thing we need to do is change the class/function/const declarations. Currently they contain
-only the shortname (i.e. the last part of the name), but they need to contain the complete name inclduing
+only the shortname (i.e. the last part of the name), but they need to contain the complete name including
 the namespace prefix:
 
 ```php
