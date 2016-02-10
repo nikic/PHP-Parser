@@ -1,0 +1,26 @@
+# language: php
+before_commands:
+    - "composer install --no-dev --prefer-source"
+
+checks:
+    php: true
+
+tools:
+    external_code_coverage:
+        timeout: 600
+    php_code_sniffer:
+        enabled: false
+    php_cpd:
+        enabled: true
+    php_loc:
+        enabled: true
+    php_mess_detector:
+        enabled: true
+        config:
+            ruleset: phpmd.xml.dist
+            design_rules: { eval_expression: false }
+    php_pdepend:
+        enabled: true
+    php_analyzer:
+        enabled: true
+    sensiolabs_security_checker: false
