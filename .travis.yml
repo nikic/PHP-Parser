@@ -11,8 +11,8 @@ php:
   - hhvm
 
 install:
-  if [ $TRAVIS_PHP_VERSION = '5.6' ]; composer require satooshi/php-coveralls '~1.0'; fi
-  composer install --prefer-source
+  - if [ $TRAVIS_PHP_VERSION = '5.6' ]; composer require satooshi/php-coveralls '~1.0'; fi
+  - composer install --prefer-source
 
 matrix:
   allow_failures:
