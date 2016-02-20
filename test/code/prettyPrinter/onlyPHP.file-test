@@ -9,3 +9,8 @@ echo 'Bar Foo';
 
 echo 'Foo Bar';
 echo 'Bar Foo';
+-----
+<?php
+// avoid trim
+-----
+<?php
