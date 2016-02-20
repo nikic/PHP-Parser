@@ -264,12 +264,19 @@ abstract class PrettyPrinterAbstract
      *
      * @param string $string Not to be indented string
      *
-     * @return mixed String marked with $this->noIndentToken's.
+     * @return string String marked with $this->noIndentToken's.
      */
     protected function pNoIndent($string) {
         return str_replace("\n", "\n" . $this->noIndentToken, $string);
     }
 
+    /**
+     * Prints reformatted text of the passed comments.
+     *
+     * @param Comment[] $comments List of comments
+     *
+     * @return string Reformatted text of comments
+     */
     protected function pComments(array $comments) {
         $result = '';
 

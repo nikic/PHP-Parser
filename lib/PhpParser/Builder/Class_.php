@@ -44,8 +44,7 @@ class Class_ extends Declaration
     /**
      * Implements one or more interfaces.
      *
-     * @param Name|string $interface Name of interface to implement
-     * @param Name|string $...       More interfaces to implement
+     * @param Name|string ...$interfaces Names of interfaces to implement
      *
      * @return $this The builder instance (for fluid interface)
      */
