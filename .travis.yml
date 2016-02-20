@@ -10,11 +10,17 @@ php:
   - nightly
   - hhvm
 
-install: composer install --prefer-source
+install:
+  if [ $TRAVIS_PHP_VERSION = '5.6' ]; composer require satooshi/php-coveralls '~1.0'; fi
+  composer install --prefer-source
 
 matrix:
   allow_failures:
     - php: nightly
   fast_finish: true
 
-script: vendor/bin/phpunit
+script:
+  if [ $TRAVIS_PHP_VERSION = '5.6' ]; then vendor/bin/phpunit --coverage-clover build/logs/clover.xml; else vendor/bin/phpunit; fi
+
+after_success:
+  if [ $TRAVIS_PHP_VERSION = '5.6' ]; then php vendor/bin/coveralls; fi
