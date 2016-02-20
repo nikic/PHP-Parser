@@ -125,13 +125,20 @@ abstract class PrettyPrinterAbstract
      * @return string Pretty printed statements
      */
     public function prettyPrintFile(array $stmts) {
-        $p = rtrim($this->prettyPrint($stmts));
+        if (!$stmts) {
+            return "<?php\n\n";
+        }
 
-        $p = preg_replace('/^\?>\n?/', '', $p, -1, $count);
-        $p = preg_replace('/<\?php$/', '', $p);
+        $p = $this->prettyPrint($stmts);
 
-        if (!$count) {
+        if ($stmts[0] instanceof Stmt\InlineHTML) {
+            $p = preg_replace('/^\?>\n?/', '', $p);
+        } else {
             $p = "<?php\n\n" . $p;
+        }
+
+        if ($stmts[count($stmts) - 1] instanceof Stmt\InlineHTML) {
+            $p = preg_replace('/<\?php$/', '', rtrim($p));
         }
 
         return $p;
