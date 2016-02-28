@@ -1,7 +1,23 @@
-Version 2.0.1-dev
+Version 2.0.2-dev
 -----------------
 
 Nothing yet.
+
+Version 2.0.1 (2016-02-28)
+--------------------------
+
+### Fixed
+
+* `declare() {}` and `declare();` are not semantically equivalent and will now result in different
+  ASTs. The format case will have an empty `stmts` array, while the latter will set `stmts` to
+  `null`.
+* Magic constants are now supported as semi-reserved keywords.
+* A shebang line like `#!/usr/bin/env php` is now allowed at the start of a namespaced file.
+  Previously this generated an exception.
+* The `prettyPrintFile()` method will not strip a trailing `?>` from the raw data that follows a
+  `__halt_compiler()` statement.
+* The `prettyPrintFile()` method will not strip an opening `<?php` if the file starts with a
+  comment followed by InlineHTML.
 
 Version 2.0.0 (2015-12-04)
 --------------------------
