@@ -2,6 +2,7 @@
 
 namespace PhpParser;
 
+use PhpParser\Comment;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt;
@@ -85,6 +86,14 @@ class PrettyPrinterTest extends CodeTestAbstract
             'stmts' => array(new Stmt\Return_(new String_("a\nb")))
         ));
         $this->assertEquals("function () {\n    return 'a\nb';\n}", $prettyPrinter->prettyPrintExpr($expr));
+    }
+
+    public function testCommentBeforeInlineHTML() {
+        $prettyPrinter = new PrettyPrinter\Standard;
+        $comment = new Comment\Doc("/**\n * This is a comment\n */");
+        $stmts = [new Stmt\InlineHTML('Hello World!', ['comments' => [$comment]])];
+        $expected = "<?php\n\n/**\n * This is a comment\n */\n?>\nHello World!";
+        $this->assertSame($expected, $prettyPrinter->prettyPrintFile($stmts));
     }
 
     private function parseModeLine($modeLine) {

@@ -129,14 +129,11 @@ abstract class PrettyPrinterAbstract
             return "<?php\n\n";
         }
 
-        $p = $this->prettyPrint($stmts);
+        $p = "<?php\n\n" . $this->prettyPrint($stmts);
 
         if ($stmts[0] instanceof Stmt\InlineHTML) {
-            $p = preg_replace('/^\?>\n?/', '', $p);
-        } else {
-            $p = "<?php\n\n" . $p;
+            $p = preg_replace('/^<\?php\s+\?>\n?/', '', $p);
         }
-
         if ($stmts[count($stmts) - 1] instanceof Stmt\InlineHTML) {
             $p = preg_replace('/<\?php$/', '', rtrim($p));
         }
