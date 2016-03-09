@@ -201,6 +201,10 @@ class Lexer
                         $endAttributes['endFilePos'] = $this->filePos - 1;
                     }
 
+                    if ($token[0] === T_EXIT) {
+                        $startAttributes['kind'] = strtolower($token[1]);
+                    }
+
                     return $this->tokenMap[$token[0]];
                 }
             }
