@@ -432,7 +432,9 @@ class Standard extends PrettyPrinterAbstract
     }
 
     public function pExpr_Array(Expr\Array_ $node) {
-        if ($this->options['shortArraySyntax']) {
+        $syntax = $node->getAttribute('kind',
+            $this->options['shortArraySyntax'] ? Expr\Array_::KIND_SHORT : Expr\Array_::KIND_LONG);
+        if ($syntax === Expr\Array_::KIND_SHORT) {
             return '[' . $this->pCommaSeparated($node->items) . ']';
         } else {
             return 'array(' . $this->pCommaSeparated($node->items) . ')';

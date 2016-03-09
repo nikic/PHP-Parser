@@ -102,4 +102,13 @@ class PrettyPrinterTest extends CodeTestAbstract
         $options = isset($parts[1]) ? json_decode($parts[1], true) : [];
         return [$version, $options];
     }
+
+    public function testArraySyntaxDefault() {
+        $prettyPrinter = new Standard(['shortArraySyntax' => true]);
+        $expr = new Expr\Array_([
+            new Expr\ArrayItem(new String_('val'), new String_('key'))
+        ]);
+        $expected = "['key' => 'val']";
+        $this->assertSame($expected, $prettyPrinter->prettyPrintExpr($expr));
+    }
 }

@@ -2412,11 +2412,13 @@ class Php5 extends \PhpParser\ParserAbstract
     }
 
     protected function reduceRule376() {
-         $this->semValue = new Expr\Array_($this->semStack[$this->stackPos-(4-3)], $this->startAttributeStack[$this->stackPos-(4-1)] + $this->endAttributes);
+         $attrs = $this->startAttributeStack[$this->stackPos-(4-1)] + $this->endAttributes; $attrs['kind'] = Expr\Array_::KIND_LONG;
+            $this->semValue = new Expr\Array_($this->semStack[$this->stackPos-(4-3)], $attrs);
     }
 
     protected function reduceRule377() {
-         $this->semValue = new Expr\Array_($this->semStack[$this->stackPos-(3-2)], $this->startAttributeStack[$this->stackPos-(3-1)] + $this->endAttributes);
+         $attrs = $this->startAttributeStack[$this->stackPos-(3-1)] + $this->endAttributes; $attrs['kind'] = Expr\Array_::KIND_SHORT;
+            $this->semValue = new Expr\Array_($this->semStack[$this->stackPos-(3-2)], $attrs);
     }
 
     protected function reduceRule378() {

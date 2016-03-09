@@ -82,7 +82,8 @@ abstract class PrettyPrinterAbstract
      * Creates a pretty printer instance using the given options.
      *
      * Supported options:
-     *  * bool $shortArraySyntax = false: Whether to use [] instead of array()
+     *  * bool $shortArraySyntax = false: Whether to use [] instead of array() as the default array
+     *                                    syntax, if the node does not specify a format.
      *
      * @param array $options Dictionary of formatting options
      */

@@ -669,8 +669,12 @@ constant:
 ;
 
 dereferencable_scalar:
-      T_ARRAY '(' array_pair_list ')'                       { $$ = Expr\Array_[$3]; }
-    | '[' array_pair_list ']'                               { $$ = Expr\Array_[$2]; }
+      T_ARRAY '(' array_pair_list ')'
+          { $attrs = attributes(); $attrs['kind'] = Expr\Array_::KIND_LONG;
+            $$ = new Expr\Array_($3, $attrs); }
+    | '[' array_pair_list ']'
+          { $attrs = attributes(); $attrs['kind'] = Expr\Array_::KIND_SHORT;
+            $$ = new Expr\Array_($2, $attrs); }
     | T_CONSTANT_ENCAPSED_STRING                            { $$ = Scalar\String_[Scalar\String_::parse($1)]; }
 ;
 

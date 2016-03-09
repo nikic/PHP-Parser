@@ -613,8 +613,12 @@ yield_expr:
 ;
 
 array_expr:
-      T_ARRAY '(' array_pair_list ')'                       { $$ = Expr\Array_[$3]; }
-    | '[' array_pair_list ']'                               { $$ = Expr\Array_[$2]; }
+      T_ARRAY '(' array_pair_list ')'
+          { $attrs = attributes(); $attrs['kind'] = Expr\Array_::KIND_LONG;
+            $$ = new Expr\Array_($3, $attrs); }
+    | '[' array_pair_list ']'
+          { $attrs = attributes(); $attrs['kind'] = Expr\Array_::KIND_SHORT;
+            $$ = new Expr\Array_($2, $attrs); }
 ;
 
 scalar_dereference:
