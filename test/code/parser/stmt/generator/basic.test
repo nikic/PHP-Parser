@@ -42,6 +42,9 @@ array(
             0: Expr_Yield(
                 key: null
                 value: null
+                comments: array(
+                    0: // statements
+                )
             )
             1: Expr_Yield(
                 key: null
@@ -60,10 +63,16 @@ array(
             3: Expr_Assign(
                 var: Expr_Variable(
                     name: data
+                    comments: array(
+                        0: // expressions
+                    )
                 )
                 expr: Expr_Yield(
                     key: null
                     value: null
+                )
+                comments: array(
+                    0: // expressions
                 )
             )
             4: Expr_Assign(
@@ -112,6 +121,9 @@ array(
                     )
                 )
                 else: null
+                comments: array(
+                    0: // yield in language constructs with their own parentheses
+                )
             )
             7: Stmt_If(
                 cond: Expr_Yield(
@@ -179,6 +191,9 @@ array(
                     parts: array(
                         0: func
                     )
+                    comments: array(
+                        0: // yield in function calls
+                    )
                 )
                 args: array(
                     0: Arg(
@@ -191,6 +206,9 @@ array(
                         byRef: false
                         unpack: false
                     )
+                )
+                comments: array(
+                    0: // yield in function calls
                 )
             )
             13: Expr_MethodCall(

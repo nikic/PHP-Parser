@@ -40,17 +40,29 @@ array(
     0: Expr_Assign(
         var: Expr_Variable(
             name: a
+            comments: array(
+                0: // simple assign
+            )
         )
         expr: Expr_Variable(
             name: b
+        )
+        comments: array(
+            0: // simple assign
         )
     )
     1: Expr_AssignOp_BitwiseAnd(
         var: Expr_Variable(
             name: a
+            comments: array(
+                0: // combined assign
+            )
         )
         expr: Expr_Variable(
             name: b
+        )
+        comments: array(
+            0: // combined assign
         )
     )
     2: Expr_AssignOp_BitwiseOr(
@@ -144,6 +156,9 @@ array(
     13: Expr_Assign(
         var: Expr_Variable(
             name: a
+            comments: array(
+                0: // chained assign
+            )
         )
         expr: Expr_AssignOp_Mul(
             var: Expr_Variable(
@@ -158,13 +173,22 @@ array(
                 )
             )
         )
+        comments: array(
+            0: // chained assign
+        )
     )
     14: Expr_AssignRef(
         var: Expr_Variable(
             name: a
+            comments: array(
+                0: // by ref assign
+            )
         )
         expr: Expr_Variable(
             name: b
+        )
+        comments: array(
+            0: // by ref assign
         )
     )
     15: Expr_AssignRef(
@@ -188,9 +212,15 @@ array(
                     name: a
                 )
             )
+            comments: array(
+                0: // list() assign
+            )
         )
         expr: Expr_Variable(
             name: b
+        )
+        comments: array(
+            0: // list() assign
         )
     )
     17: Expr_Assign(
@@ -235,6 +265,9 @@ array(
     19: Expr_PreInc(
         var: Expr_Variable(
             name: a
+        )
+        comments: array(
+            0: // inc/dec
         )
     )
     20: Expr_PostInc(

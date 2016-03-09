@@ -81,6 +81,9 @@ array(
             stmts: array(
             )
         )
+        comments: array(
+            0: // without else
+        )
     )
     3: Stmt_If(
         cond: Expr_Variable(

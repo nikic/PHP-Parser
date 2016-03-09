@@ -21,8 +21,14 @@ array(
             parts: array(
                 0: a
             )
+            comments: array(
+                0: // function name variations
+            )
         )
         args: array(
+        )
+        comments: array(
+            0: // function name variations
         )
     )
     1: Expr_FuncCall(
@@ -106,12 +112,21 @@ array(
                 parts: array(
                     0: a
                 )
+                comments: array(
+                    0: // array dereferencing
+                )
             )
             args: array(
+            )
+            comments: array(
+                0: // array dereferencing
             )
         )
         dim: Scalar_String(
             value: b
+        )
+        comments: array(
+            0: // array dereferencing
         )
     )
 )

@@ -25,9 +25,15 @@ array(
             parts: array(
                 0: A
             )
+            comments: array(
+                0: // method name variations
+            )
         )
         name: b
         args: array(
+        )
+        comments: array(
+            0: // method name variations
         )
     )
     1: Expr_StaticCall(
@@ -99,13 +105,22 @@ array(
                 parts: array(
                     0: A
                 )
+                comments: array(
+                    0: // array dereferencing
+                )
             )
             name: b
             args: array(
             )
+            comments: array(
+                0: // array dereferencing
+            )
         )
         dim: Scalar_String(
             value: c
+        )
+        comments: array(
+            0: // array dereferencing
         )
     )
     6: Expr_StaticCall(
@@ -113,9 +128,15 @@ array(
             parts: array(
                 0: static
             )
+            comments: array(
+                0: // class name variations
+            )
         )
         name: b
         args: array(
+        )
+        comments: array(
+            0: // class name variations
         )
     )
     7: Expr_StaticCall(

@@ -84,6 +84,9 @@ array(
                 alias: A
             )
         )
+        comments: array(
+            0: // evil alias notation - Do Not Use!
+        )
     )
     4: Stmt_Use(
         type: 1
@@ -112,6 +115,9 @@ array(
                 )
                 alias: bar
             )
+        )
+        comments: array(
+            0: // function and constant aliases
         )
     )
     6: Stmt_Use(

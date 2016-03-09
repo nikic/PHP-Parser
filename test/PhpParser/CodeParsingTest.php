@@ -13,7 +13,7 @@ class CodeParsingTest extends CodeTestAbstract
      */
     public function testParse($name, $code, $expected, $mode) {
         $lexer = new Lexer\Emulative(array('usedAttributes' => array(
-            'startLine', 'endLine', 'startFilePos', 'endFilePos'
+            'startLine', 'endLine', 'startFilePos', 'endFilePos', 'comments'
         )));
         $parser5 = new Parser\Php5($lexer, array(
             'throwOnError' => false,
@@ -47,7 +47,7 @@ class CodeParsingTest extends CodeTestAbstract
         }
 
         if (null !== $stmts) {
-            $dumper = new NodeDumper;
+            $dumper = new NodeDumper(['dumpComments' => true]);
             $output .= $dumper->dump($stmts);
         }
 

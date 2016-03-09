@@ -29,6 +29,9 @@ array(
         )
         stmts: array(
         )
+        comments: array(
+            0: // foreach on variable
+        )
     )
     1: Stmt_Foreach(
         expr: Expr_Variable(
@@ -123,6 +126,9 @@ array(
         )
         stmts: array(
         )
+        comments: array(
+            0: // foreach on expression
+        )
     )
     7: Stmt_Foreach(
         expr: Expr_Variable(
@@ -134,6 +140,9 @@ array(
             name: b
         )
         stmts: array(
+        )
+        comments: array(
+            0: // alternative syntax
         )
     )
 )

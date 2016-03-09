@@ -19,8 +19,14 @@ array(
             parts: array(
                 0: A
             )
+            comments: array(
+                0: // property name variations
+            )
         )
         name: b
+        comments: array(
+            0: // property name variations
+        )
     )
     1: Expr_StaticPropertyFetch(
         class: Name(
@@ -48,11 +54,20 @@ array(
                 parts: array(
                     0: A
                 )
+                comments: array(
+                    0: // array access
+                )
             )
             name: b
+            comments: array(
+                0: // array access
+            )
         )
         dim: Scalar_String(
             value: c
+        )
+        comments: array(
+            0: // array access
         )
     )
     4: Expr_ArrayDimFetch(
