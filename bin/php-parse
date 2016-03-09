@@ -27,7 +27,7 @@ if (empty($files)) {
 }
 
 $lexer = new PhpParser\Lexer\Emulative(array('usedAttributes' => array(
-    'startLine', 'endLine', 'startFilePos', 'endFilePos', 'comments'
+    'startLine', 'endLine', 'startFilePos', 'endFilePos', 'comments', 'kind'
 )));
 $parser = (new PhpParser\ParserFactory)->create(PhpParser\ParserFactory::PREFER_PHP7, $lexer);
 $dumper = new PhpParser\NodeDumper(['dumpComments' => true]);

@@ -92,7 +92,17 @@ class Standard extends PrettyPrinterAbstract
     }
 
     public function pScalar_LNumber(Scalar\LNumber $node) {
-        return (string) $node->value;
+        $str = (string) $node->value;
+        switch ($node->getAttribute('kind', Scalar\LNumber::KIND_DEC)) {
+            case Scalar\LNumber::KIND_BIN:
+                return '0b' . base_convert($str, 10, 2);
+            case Scalar\LNumber::KIND_OCT:
+                return '0' . base_convert($str, 10, 8);
+            case Scalar\LNumber::KIND_DEC:
+                return $str;
+            case Scalar\LNumber::KIND_HEX:
+                return '0x' . base_convert($str, 10, 16);
+        }
     }
 
     public function pScalar_DNumber(Scalar\DNumber $node) {

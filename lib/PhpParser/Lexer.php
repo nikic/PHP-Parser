@@ -2,6 +2,7 @@
 
 namespace PhpParser;
 
+use PhpParser\Node\Scalar\LNumber;
 use PhpParser\Parser\Tokens;
 
 class Lexer
@@ -21,10 +22,10 @@ class Lexer
      * Creates a Lexer.
      *
      * @param array $options Options array. Currently only the 'usedAttributes' option is supported,
-     *                       which is an array of attributes to add to the AST nodes. Possible attributes
-     *                       are: 'comments', 'startLine', 'endLine', 'startTokenPos', 'endTokenPos',
-     *                       'startFilePos', 'endFilePos'. The option defaults to the first three.
-     *                       For more info see getNextToken() docs.
+     *                       which is an array of attributes to add to the AST nodes. Possible
+     *                       attributes are: 'comments', 'kind', 'startLine', 'endLine',
+     *                       'startTokenPos', 'endTokenPos', 'startFilePos', 'endFilePos'. The
+     *                       option defaults to the first four. For more info see getNextToken() docs.
      */
     public function __construct(array $options = array()) {
         // map from internal tokens to PhpParser tokens
@@ -37,7 +38,7 @@ class Lexer
         // the usedAttributes member is a map of the used attribute names to a dummy
         // value (here "true")
         $options += array(
-            'usedAttributes' => array('comments', 'startLine', 'endLine'),
+            'usedAttributes' => array('comments', 'kind', 'startLine', 'endLine'),
         );
         $this->usedAttributes = array_fill_keys($options['usedAttributes'], true);
     }
@@ -115,12 +116,14 @@ class Lexer
      *  * 'comments'      => Array of PhpParser\Comment or PhpParser\Comment\Doc instances,
      *                       representing all comments that occurred between the previous
      *                       non-discarded token and the current one.
+     *  * 'kind'          => For some tokens, this will provide additional information about the
+     *                       formatting of the node (e.g. whether a numeric literal is binary/...)
      *  * 'startLine'     => Line in which the node starts.
      *  * 'endLine'       => Line in which the node ends.
      *  * 'startTokenPos' => Offset into the token array of the first token in the node.
      *  * 'endTokenPos'   => Offset into the token array of the last token in the node.
      *  * 'startFilePos'  => Offset into the code string of the first character that is part of the node.
-     *  * 'endFilePos'    => Offset into the code string of the last character that is part of the node
+     *  * 'endFilePos'    => Offset into the code string of the last character that is part of the node.
      *
      * @param mixed $value           Variable to store token content in
      * @param mixed $startAttributes Variable to store start attributes in
@@ -201,8 +204,20 @@ class Lexer
                         $endAttributes['endFilePos'] = $this->filePos - 1;
                     }
 
-                    if ($token[0] === T_EXIT) {
-                        $startAttributes['kind'] = strtolower($token[1]);
+                    if (isset($this->usedAttributes['kind'])) {
+                        if ($token[0] === T_EXIT) {
+                            $startAttributes['kind'] = strtolower($value);
+                        } elseif ($token[0] === T_LNUMBER) {
+                            if ($value === '0' || $value[0] !== '0') {
+                                $startAttributes['kind'] = LNumber::KIND_DEC;
+                            } elseif ($value[1] === 'x' || $value[1] === 'X') {
+                                $startAttributes['kind'] = LNumber::KIND_HEX;
+                            } elseif ($value[1] === 'b' || $value[1] === 'B') {
+                                $startAttributes['kind'] = LNumber::KIND_BIN;
+                            } else {
+                                $startAttributes['kind'] = LNumber::KIND_OCT;
+                            }
+                        }
                     }
 
                     return $this->tokenMap[$token[0]];

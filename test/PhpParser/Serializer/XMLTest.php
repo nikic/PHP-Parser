@@ -68,6 +68,9 @@ CODE;
         <attribute:startLine>
          <scalar:int>4</scalar:int>
         </attribute:startLine>
+        <attribute:kind>
+          <scalar:int>10</scalar:int>
+        </attribute:kind>
         <attribute:endLine>
          <scalar:int>4</scalar:int>
         </attribute:endLine>

@@ -107,9 +107,9 @@ FALSE;
 // integers (normalized to decimal)
 0;
 11;
-9;
-17;
-3;
+011;
+0x11;
+0b11;
 // floats (normalized to ... something)
 0.0;
 0.0;

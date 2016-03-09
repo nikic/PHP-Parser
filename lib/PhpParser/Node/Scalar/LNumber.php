@@ -6,6 +6,12 @@ use PhpParser\Node\Scalar;
 
 class LNumber extends Scalar
 {
+    /* For use in "kind" attribute */
+    const KIND_BIN = 2;
+    const KIND_OCT = 8;
+    const KIND_DEC = 10;
+    const KIND_HEX = 16;
+
     /** @var int Number value */
     public $value;
 
