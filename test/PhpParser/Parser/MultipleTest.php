@@ -61,7 +61,7 @@ class MultipleTest extends ParserTest {
                 $this->getPrefer5(),
                 [
                     new Expr\Variable(
-                        new Expr\ArrayDimFetch(new Expr\Variable('a'), new LNumber(0))
+                        new Expr\ArrayDimFetch(new Expr\Variable('a'), LNumber::fromString('0'))
                     )
                 ]
             ],
@@ -71,7 +71,7 @@ class MultipleTest extends ParserTest {
                 $this->getPrefer7(),
                 [
                     new Expr\ArrayDimFetch(
-                        new Expr\Variable(new Expr\Variable('a')), new LNumber(0)
+                        new Expr\Variable(new Expr\Variable('a')), LNumber::fromString('0')
                     )
                 ]
             ],

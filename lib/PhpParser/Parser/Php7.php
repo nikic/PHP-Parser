@@ -2202,7 +2202,7 @@ class Php7 extends \PhpParser\ParserAbstract
     }
 
     protected function reduceRule353() {
-         $this->semValue = new Expr\Exit_($this->semStack[$this->stackPos-(2-2)], $this->startAttributeStack[$this->stackPos-(2-1)] + $this->endAttributes);
+         $attrs = $this->startAttributeStack[$this->stackPos-(2-1)] + $this->endAttributes; $attrs['kind'] = strtolower($this->semStack[$this->stackPos-(2-1)]); $this->semValue = new Expr\Exit_($this->semStack[$this->stackPos-(2-2)], $attrs);
     }
 
     protected function reduceRule354() {
@@ -2376,7 +2376,7 @@ class Php7 extends \PhpParser\ParserAbstract
     }
 
     protected function reduceRule396() {
-         $this->semValue = new Scalar\LNumber(Scalar\LNumber::parse($this->semStack[$this->stackPos-(1-1)]), $this->startAttributeStack[$this->stackPos-(1-1)] + $this->endAttributes);
+         $this->semValue = Scalar\LNumber::fromString($this->semStack[$this->stackPos-(1-1)], $this->startAttributeStack[$this->stackPos-(1-1)] + $this->endAttributes);
     }
 
     protected function reduceRule397() {

@@ -585,7 +585,8 @@ expr:
     | T_OBJECT_CAST expr                                    { $$ = Expr\Cast\Object_ [$2]; }
     | T_BOOL_CAST expr                                      { $$ = Expr\Cast\Bool_   [$2]; }
     | T_UNSET_CAST expr                                     { $$ = Expr\Cast\Unset_  [$2]; }
-    | T_EXIT exit_expr                                      { $$ = Expr\Exit_        [$2]; }
+    | T_EXIT exit_expr
+          { $attrs = attributes(); $attrs['kind'] = strtolower($1); $$ = new Expr\Exit_($2, $attrs); }
     | '@' expr                                              { $$ = Expr\ErrorSuppress[$2]; }
     | scalar                                                { $$ = $1; }
     | array_expr                                            { $$ = $1; }
@@ -735,7 +736,7 @@ ctor_arguments:
 ;
 
 common_scalar:
-      T_LNUMBER                                             { $$ = Scalar\LNumber[Scalar\LNumber::parse($1)]; }
+      T_LNUMBER                                             { $$ = Scalar\LNumber::fromString($1, attributes()); }
     | T_DNUMBER                                             { $$ = Scalar\DNumber[Scalar\DNumber::parse($1)]; }
     | T_CONSTANT_ENCAPSED_STRING                            { $$ = Scalar\String_[Scalar\String_::parse($1, false)]; }
     | T_LINE                                                { $$ = Scalar\MagicConst\Line[]; }

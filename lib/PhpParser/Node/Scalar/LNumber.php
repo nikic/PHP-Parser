@@ -31,6 +31,27 @@ class LNumber extends Scalar
     }
 
     /**
+     * Constructs an LNumber node from a string number literal.
+     *
+     * @param string $str        String number literal (decimal, octal, hex or binary)
+     * @param array  $attributes Additional attributes
+     *
+     * @return LNumber The constructed LNumber, including kind attribute
+     */
+    public static function fromString($str, array $attributes = array()) {
+        if ($str === '0' || $str[0] !== '0') {
+            $attributes['kind'] = LNumber::KIND_DEC;
+        } elseif ($str[1] === 'x' || $str[1] === 'X') {
+            $attributes['kind'] = LNumber::KIND_HEX;
+        } elseif ($str[1] === 'b' || $str[1] === 'B') {
+            $attributes['kind'] = LNumber::KIND_BIN;
+        } else {
+            $attributes['kind'] = LNumber::KIND_OCT;
+        }
+        return new self(self::parse($str), $attributes);
+    }
+
+    /**
      * @internal
      *
      * Parses an LNUMBER token (dec, hex, oct and bin notations) like PHP would.
