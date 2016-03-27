@@ -200,4 +200,19 @@ class NodeTraverserTest extends \PHPUnit_Framework_TestCase
 
         $this->assertSame($stmts, $traverser->traverse($stmts));
     }
+
+    /**
+     * @expectedException \LogicException
+     * @expectedExceptionMessage leaveNode() may only return an array if the parent structure is an array
+     */
+    public function testReplaceByArrayOnlyAllowedIfParentIsArray() {
+        $stmts = array(new Node\Expr\UnaryMinus(new Node\Scalar\LNumber(42)));
+
+        $visitor = $this->getMock('PhpParser\NodeVisitor');
+        $visitor->method('leaveNode')->willReturn(array(new Node\Scalar\DNumber(42.0)));
+
+        $traverser = new NodeTraverser();
+        $traverser->addVisitor($visitor);
+        $traverser->traverse($stmts);
+    }
 }
