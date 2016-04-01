@@ -72,7 +72,7 @@ CODE;
          <scalar:int>4</scalar:int>
         </attribute:endLine>
         <attribute:kind>
-          <scalar:int>10</scalar:int>
+         <scalar:int>10</scalar:int>
         </attribute:kind>
         <subNode:value>
          <scalar:int>0</scalar:int>
