@@ -33,7 +33,9 @@ class Lexer
 
         // map of tokens to drop while lexing (the map is only used for isset lookup,
         // that's why the value is simply set to 1; the value is never actually used.)
-        $this->dropTokens = array_fill_keys(array(T_WHITESPACE, T_OPEN_TAG), 1);
+        $this->dropTokens = array_fill_keys(
+            array(T_WHITESPACE, T_OPEN_TAG, T_COMMENT, T_DOC_COMMENT), 1
+        );
 
         // the usedAttributes member is a map of the used attribute names to a dummy
         // value (here "true")
@@ -174,36 +176,38 @@ class Lexer
                 }
 
                 return $id;
+            } elseif (!isset($this->dropTokens[$token[0]])) {
+                $value = $token[1];
+
+                $this->line += substr_count($value, "\n");
+                $this->filePos += strlen($value);
+
+                if (isset($this->usedAttributes['startLine'])) {
+                    $startAttributes['startLine'] = $token[2];
+                }
+                if (isset($this->usedAttributes['endLine'])) {
+                    $endAttributes['endLine'] = $this->line;
+                }
+                if (isset($this->usedAttributes['endTokenPos'])) {
+                    $endAttributes['endTokenPos'] = $this->pos;
+                }
+                if (isset($this->usedAttributes['endFilePos'])) {
+                    $endAttributes['endFilePos'] = $this->filePos - 1;
+                }
+
+                return $this->tokenMap[$token[0]];
             } else {
+                if (T_COMMENT === $token[0] || T_DOC_COMMENT === $token[0]) {
+                    if (isset($this->usedAttributes['comments'])) {
+                        $comment = T_DOC_COMMENT === $token[0]
+                            ? new Comment\Doc($token[1], $this->line, $this->filePos)
+                            : new Comment($token[1], $this->line, $this->filePos);
+                        $startAttributes['comments'][] = $comment;
+                    }
+                }
+
                 $this->line += substr_count($token[1], "\n");
                 $this->filePos += strlen($token[1]);
-
-                if (T_COMMENT === $token[0]) {
-                    if (isset($this->usedAttributes['comments'])) {
-                        $startAttributes['comments'][] = new Comment($token[1], $token[2]);
-                    }
-                } elseif (T_DOC_COMMENT === $token[0]) {
-                    if (isset($this->usedAttributes['comments'])) {
-                        $startAttributes['comments'][] = new Comment\Doc($token[1], $token[2]);
-                    }
-                } elseif (!isset($this->dropTokens[$token[0]])) {
-                    $value = $token[1];
-
-                    if (isset($this->usedAttributes['startLine'])) {
-                        $startAttributes['startLine'] = $token[2];
-                    }
-                    if (isset($this->usedAttributes['endLine'])) {
-                        $endAttributes['endLine'] = $this->line;
-                    }
-                    if (isset($this->usedAttributes['endTokenPos'])) {
-                        $endAttributes['endTokenPos'] = $this->pos;
-                    }
-                    if (isset($this->usedAttributes['endFilePos'])) {
-                        $endAttributes['endFilePos'] = $this->filePos - 1;
-                    }
-
-                    return $this->tokenMap[$token[0]];
-                }
             }
         }
 

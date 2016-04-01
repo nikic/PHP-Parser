@@ -6,16 +6,19 @@ class Comment
 {
     protected $text;
     protected $line;
+    protected $filePos;
 
     /**
      * Constructs a comment node.
      *
-     * @param string $text Comment text (including comment delimiters like /*)
-     * @param int    $line Line number the comment started on
+     * @param string $text         Comment text (including comment delimiters like /*)
+     * @param int    $startLine    Line number the comment started on
+     * @param int    $startFilePos File offset the comment started on
      */
-    public function __construct($text, $line = -1) {
+    public function __construct($text, $startLine = -1, $startFilePos = -1) {
         $this->text = $text;
-        $this->line = $line;
+        $this->line = $startLine;
+        $this->filePos = $startFilePos;
     }
 
     /**
@@ -52,6 +55,15 @@ class Comment
      */
     public function setLine($line) {
         $this->line = $line;
+    }
+
+    /**
+     * Gets the file offset the comment started on.
+     *
+     * @return int File offset
+     */
+    public function getFilePos() {
+        return $this->filePos;
     }
 
     /**

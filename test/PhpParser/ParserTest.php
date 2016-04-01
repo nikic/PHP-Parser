@@ -54,7 +54,7 @@ EOC;
         $this->assertInstanceOf('PhpParser\Node\Stmt\Function_', $fn);
         $this->assertEquals(array(
             'comments' => array(
-                new Comment\Doc('/** Doc comment */', 2),
+                new Comment\Doc('/** Doc comment */', 2, 6),
             ),
             'startLine' => 3,
             'endLine' => 7,
@@ -76,8 +76,8 @@ EOC;
         $this->assertInstanceOf('PhpParser\Node\Stmt\Echo_', $echo);
         $this->assertEquals(array(
             'comments' => array(
-                new Comment("// Line\n", 4),
-                new Comment("// Comments\n", 5),
+                new Comment("// Line\n", 4, 49),
+                new Comment("// Comments\n", 5, 61),
             ),
             'startLine' => 6,
             'endLine' => 6,

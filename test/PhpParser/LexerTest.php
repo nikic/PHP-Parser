@@ -93,7 +93,9 @@ class LexerTest extends \PHPUnit_Framework_TestCase
                         ord('$'), '$',
                         array(
                             'startLine' => 3,
-                            'comments' => array(new Comment\Doc('/** doc' . "\n" . 'comment */', 2))
+                            'comments' => array(
+                                new Comment\Doc('/** doc' . "\n" . 'comment */', 2, 14),
+                            )
                         ),
                         array('endLine' => 3)
                     ),
@@ -109,10 +111,10 @@ class LexerTest extends \PHPUnit_Framework_TestCase
                         array(
                             'startLine' => 2,
                             'comments' => array(
-                                new Comment('/* comment */', 1),
-                                new Comment('// comment' . "\n", 1),
-                                new Comment\Doc('/** docComment 1 */', 2),
-                                new Comment\Doc('/** docComment 2 */', 2),
+                                new Comment('/* comment */', 1, 6),
+                                new Comment('// comment' . "\n", 1, 20),
+                                new Comment\Doc('/** docComment 1 */', 2, 31),
+                                new Comment\Doc('/** docComment 2 */', 2, 50),
                             ),
                         ),
                         array('endLine' => 2)
