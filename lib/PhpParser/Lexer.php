@@ -143,6 +143,9 @@ class Lexer
                 $token = "\0";
             }
 
+            if (isset($this->usedAttributes['startLine'])) {
+                $startAttributes['startLine'] = $this->line;
+            }
             if (isset($this->usedAttributes['startTokenPos'])) {
                 $startAttributes['startTokenPos'] = $this->pos;
             }
@@ -150,7 +153,7 @@ class Lexer
                 $startAttributes['startFilePos'] = $this->filePos;
             }
 
-            if (is_string($token)) {
+            if (\is_string($token)) {
                 // bug in token_get_all
                 if ('b"' === $token) {
                     $value = 'b"';
@@ -161,41 +164,12 @@ class Lexer
                     $this->filePos += 1;
                     $id = ord($token);
                 }
-
-                if (isset($this->usedAttributes['startLine'])) {
-                    $startAttributes['startLine'] = $this->line;
-                }
-                if (isset($this->usedAttributes['endLine'])) {
-                    $endAttributes['endLine'] = $this->line;
-                }
-                if (isset($this->usedAttributes['endTokenPos'])) {
-                    $endAttributes['endTokenPos'] = $this->pos;
-                }
-                if (isset($this->usedAttributes['endFilePos'])) {
-                    $endAttributes['endFilePos'] = $this->filePos - 1;
-                }
-
-                return $id;
             } elseif (!isset($this->dropTokens[$token[0]])) {
                 $value = $token[1];
+                $id = $this->tokenMap[$token[0]];
 
                 $this->line += substr_count($value, "\n");
-                $this->filePos += strlen($value);
-
-                if (isset($this->usedAttributes['startLine'])) {
-                    $startAttributes['startLine'] = $token[2];
-                }
-                if (isset($this->usedAttributes['endLine'])) {
-                    $endAttributes['endLine'] = $this->line;
-                }
-                if (isset($this->usedAttributes['endTokenPos'])) {
-                    $endAttributes['endTokenPos'] = $this->pos;
-                }
-                if (isset($this->usedAttributes['endFilePos'])) {
-                    $endAttributes['endFilePos'] = $this->filePos - 1;
-                }
-
-                return $this->tokenMap[$token[0]];
+                $this->filePos += \strlen($value);
             } else {
                 if (T_COMMENT === $token[0] || T_DOC_COMMENT === $token[0]) {
                     if (isset($this->usedAttributes['comments'])) {
@@ -207,8 +181,21 @@ class Lexer
                 }
 
                 $this->line += substr_count($token[1], "\n");
-                $this->filePos += strlen($token[1]);
+                $this->filePos += \strlen($token[1]);
+                continue;
             }
+
+            if (isset($this->usedAttributes['endLine'])) {
+                $endAttributes['endLine'] = $this->line;
+            }
+            if (isset($this->usedAttributes['endTokenPos'])) {
+                $endAttributes['endTokenPos'] = $this->pos;
+            }
+            if (isset($this->usedAttributes['endFilePos'])) {
+                $endAttributes['endFilePos'] = $this->filePos - 1;
+            }
+
+            return $id;
         }
 
         throw new \RuntimeException('Reached end of lexer loop');
