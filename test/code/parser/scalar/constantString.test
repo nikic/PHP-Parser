@@ -8,8 +8,10 @@ b'';
 b"";
 'Hi';
 b'Hi';
+B'Hi';
 "Hi";
 b"Hi";
+B"Hi";
 '!\'!\\!\a!';
 "!\"!\\!\$!\n!\r!\t!\f!\v!\e!\a";
 "!\xFF!\377!\400!\0!";
@@ -40,14 +42,20 @@ array(
         value: Hi
     )
     8: Scalar_String(
-        value: !'!\!\a!
+        value: Hi
     )
     9: Scalar_String(
+        value: Hi
+    )
+    10: Scalar_String(
+        value: !'!\!\a!
+    )
+    11: Scalar_String(
         value: !"!\!$!
     !
 !@@{ "\t" }@@!@@{ "\f" }@@!@@{ "\v" }@@!@@{ chr(27) /* "\e" */ }@@!\a
     )
-    10: Scalar_String(
+    12: Scalar_String(
         value: !@@{ chr(255) }@@!@@{ chr(255) }@@!@@{ chr(0) }@@!@@{ chr(0) }@@!
     )
 )

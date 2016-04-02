@@ -24,6 +24,10 @@ EOS;
 Test $a and $b->c test
 EOS;
 
+b<<<EOS
+Binary
+EOS;
+
 // comment to force line break before EOF
 -----
 array(
@@ -81,7 +85,10 @@ array(
             )
         )
     )
-    6: Stmt_Nop(
+    6: Scalar_String(
+        value: Binary
+    )
+    7: Stmt_Nop(
         comments: array(
             0: // comment to force line break before EOF
         )

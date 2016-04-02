@@ -48,7 +48,7 @@ class String_ extends Scalar
      */
     public static function parse($str, $parseUnicodeEscape = true) {
         $bLength = 0;
-        if ('b' === $str[0]) {
+        if ('b' === $str[0] || 'B' === $str[0]) {
             $bLength = 1;
         }
 
