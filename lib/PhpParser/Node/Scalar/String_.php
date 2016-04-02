@@ -7,6 +7,12 @@ use PhpParser\Node\Scalar;
 
 class String_ extends Scalar
 {
+    /* For use in "kind" attribute */
+    const KIND_SINGLE_QUOTED = 1;
+    const KIND_DOUBLE_QUOTED = 2;
+    const KIND_HEREDOC = 3;
+    const KIND_NOWDOC = 4;
+
     /** @var string String value */
     public $value;
 

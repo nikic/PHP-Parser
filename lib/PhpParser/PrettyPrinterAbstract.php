@@ -75,6 +75,7 @@ abstract class PrettyPrinterAbstract
     );
 
     protected $noIndentToken;
+    protected $docStringEndToken;
     protected $canUseSemicolonNamespaces;
     protected $options;
 
@@ -89,6 +90,7 @@ abstract class PrettyPrinterAbstract
      */
     public function __construct(array $options = []) {
         $this->noIndentToken = '_NO_INDENT_' . mt_rand();
+        $this->docStringEndToken = '_DOC_STRING_END_' . mt_rand();
 
         $defaultOptions = ['shortArraySyntax' => false];
         $this->options = $options + $defaultOptions;
@@ -104,7 +106,7 @@ abstract class PrettyPrinterAbstract
     public function prettyPrint(array $stmts) {
         $this->preprocessNodes($stmts);
 
-        return ltrim(str_replace("\n" . $this->noIndentToken, "\n", $this->pStmts($stmts, false)));
+        return ltrim($this->handleMagicTokens($this->pStmts($stmts, false)));
     }
 
     /**
@@ -115,7 +117,7 @@ abstract class PrettyPrinterAbstract
      * @return string Pretty printed node
      */
     public function prettyPrintExpr(Expr $node) {
-        return str_replace("\n" . $this->noIndentToken, "\n", $this->p($node));
+        return $this->handleMagicTokens($this->p($node));
     }
 
     /**
@@ -155,6 +157,17 @@ abstract class PrettyPrinterAbstract
                 $this->canUseSemicolonNamespaces = false;
             }
         }
+    }
+
+    protected function handleMagicTokens($str) {
+        // Drop no-indent tokens
+        $str = str_replace($this->noIndentToken, '', $str);
+
+        // Replace doc-string-end tokens with nothing or a newline
+        $str = str_replace($this->docStringEndToken . ";\n", ";\n", $str);
+        $str = str_replace($this->docStringEndToken, "\n", $str);
+
+        return $str;
     }
 
     /**

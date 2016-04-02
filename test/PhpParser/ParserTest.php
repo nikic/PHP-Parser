@@ -3,6 +3,9 @@
 namespace PhpParser;
 
 use PhpParser\Comment;
+use PhpParser\Node\Expr;
+use PhpParser\Node\Scalar;
+use PhpParser\Node\Scalar\String_;
 
 abstract class ParserTest extends \PHPUnit_Framework_TestCase
 {
@@ -104,6 +107,52 @@ EOC;
         $lexer = new InvalidTokenLexer;
         $parser = $this->getParser($lexer);
         $parser->parse('dummy');
+    }
+
+    /**
+     * @dataProvider provideTestKindAttributes
+     */
+    public function testKindAttributes($code, $expectedAttributes) {
+        $parser = $this->getParser(new Lexer);
+        $stmts = $parser->parse("<?php $code;");
+        $attributes = $stmts[0]->getAttributes();
+        foreach ($expectedAttributes as $name => $value) {
+            $this->assertSame($value, $attributes[$name]);
+        }
+    }
+
+    public function provideTestKindAttributes() {
+        return array(
+            array('0', ['kind' => Scalar\LNumber::KIND_DEC]),
+            array('9', ['kind' => Scalar\LNumber::KIND_DEC]),
+            array('07', ['kind' => Scalar\LNumber::KIND_OCT]),
+            array('0xf', ['kind' => Scalar\LNumber::KIND_HEX]),
+            array('0XF', ['kind' => Scalar\LNumber::KIND_HEX]),
+            array('0b1', ['kind' => Scalar\LNumber::KIND_BIN]),
+            array('0B1', ['kind' => Scalar\LNumber::KIND_BIN]),
+            array('[]', ['kind' => Expr\Array_::KIND_SHORT]),
+            array('array()', ['kind' => Expr\Array_::KIND_LONG]),
+            array("'foo'", ['kind' => String_::KIND_SINGLE_QUOTED]),
+            array("b'foo'", ['kind' => String_::KIND_SINGLE_QUOTED]),
+            array("B'foo'", ['kind' => String_::KIND_SINGLE_QUOTED]),
+            array('"foo"', ['kind' => String_::KIND_DOUBLE_QUOTED]),
+            array('b"foo"', ['kind' => String_::KIND_DOUBLE_QUOTED]),
+            array('B"foo"', ['kind' => String_::KIND_DOUBLE_QUOTED]),
+            array('"foo$bar"', ['kind' => String_::KIND_DOUBLE_QUOTED]),
+            array('b"foo$bar"', ['kind' => String_::KIND_DOUBLE_QUOTED]),
+            array('B"foo$bar"', ['kind' => String_::KIND_DOUBLE_QUOTED]),
+            array("<<<'STR'\nSTR\n", ['kind' => String_::KIND_NOWDOC, 'docLabel' => 'STR']),
+            array("<<<STR\nSTR\n", ['kind' => String_::KIND_HEREDOC, 'docLabel' => 'STR']),
+            array("<<<\"STR\"\nSTR\n", ['kind' => String_::KIND_HEREDOC, 'docLabel' => 'STR']),
+            array("b<<<'STR'\nSTR\n", ['kind' => String_::KIND_NOWDOC, 'docLabel' => 'STR']),
+            array("B<<<'STR'\nSTR\n", ['kind' => String_::KIND_NOWDOC, 'docLabel' => 'STR']),
+            array("<<< \t 'STR'\nSTR\n", ['kind' => String_::KIND_NOWDOC, 'docLabel' => 'STR']),
+            array("<<<'\xff'\n\xff\n", ['kind' => String_::KIND_NOWDOC, 'docLabel' => "\xff"]),
+            array("<<<\"STR\"\n\$a\nSTR\n", ['kind' => String_::KIND_HEREDOC, 'docLabel' => 'STR']),
+            array("b<<<\"STR\"\n\$a\nSTR\n", ['kind' => String_::KIND_HEREDOC, 'docLabel' => 'STR']),
+            array("B<<<\"STR\"\n\$a\nSTR\n", ['kind' => String_::KIND_HEREDOC, 'docLabel' => 'STR']),
+            array("<<< \t \"STR\"\n\$a\nSTR\n", ['kind' => String_::KIND_HEREDOC, 'docLabel' => 'STR']),
+        );
     }
 }
 

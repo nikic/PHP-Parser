@@ -11,7 +11,7 @@ exit();
 exit(1);
 die;
 die();
-die("foo");
+die('foo');
 clone $foo;
 eval('str');
 -----

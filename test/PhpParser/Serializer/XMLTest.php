@@ -136,6 +136,9 @@ CODE;
          <attribute:endLine>
           <scalar:int>5</scalar:int>
          </attribute:endLine>
+         <attribute:kind>
+          <scalar:int>1</scalar:int>
+         </attribute:kind>
          <subNode:value>
           <scalar:string>Foo</scalar:string>
          </subNode:value>

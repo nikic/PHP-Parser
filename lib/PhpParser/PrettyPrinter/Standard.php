@@ -84,10 +84,55 @@ class Standard extends PrettyPrinterAbstract
     // Scalars
 
     public function pScalar_String(Scalar\String_ $node) {
-        return '\'' . $this->pNoIndent(addcslashes($node->value, '\'\\')) . '\'';
+        $kind = $node->getAttribute('kind', Scalar\String_::KIND_SINGLE_QUOTED);
+        switch ($kind) {
+            case Scalar\String_::KIND_NOWDOC:
+                $label = $node->getAttribute('docLabel');
+                if ($label && !$this->containsEndLabel($node->value, $label)) {
+                    if ($node->value === '') {
+                        return $this->pNoIndent("<<<'$label'\n$label") . $this->docStringEndToken;
+                    }
+
+                    return $this->pNoIndent("<<<'$label'\n$node->value\n$label")
+                         . $this->docStringEndToken;
+                }
+                /* break missing intentionally */
+            case Scalar\String_::KIND_SINGLE_QUOTED:
+                return '\'' . $this->pNoIndent(addcslashes($node->value, '\'\\')) . '\'';
+            case Scalar\String_::KIND_HEREDOC:
+                $label = $node->getAttribute('docLabel');
+                if ($label && !$this->containsEndLabel($node->value, $label)) {
+                    if ($node->value === '') {
+                        return $this->pNoIndent("<<<$label\n$label") . $this->docStringEndToken;
+                    }
+
+                    $escaped = $this->escapeString($node->value, null);
+                    return $this->pNoIndent("<<<$label\n" . $escaped ."\n$label")
+                         . $this->docStringEndToken;
+                }
+            /* break missing intentionally */
+            case Scalar\String_::KIND_DOUBLE_QUOTED:
+                return '"' . $this->escapeString($node->value, '"') . '"';
+        }
+        throw new \Exception('Invalid string kind');
     }
 
     public function pScalar_Encapsed(Scalar\Encapsed $node) {
+        if ($node->getAttribute('kind') === Scalar\String_::KIND_HEREDOC) {
+            $label = $node->getAttribute('docLabel');
+            if ($label && !$this->encapsedContainsEndLabel($node->parts, $label)) {
+                if (count($node->parts) === 1
+                    && $node->parts[0] instanceof Scalar\EncapsedStringPart
+                    && $node->parts[0]->value === ''
+                ) {
+                    return $this->pNoIndent("<<<$label\n$label") . $this->docStringEndToken;
+                }
+
+                return $this->pNoIndent(
+                    "<<<$label\n" . $this->pEncapsList($node->parts, null) . "\n$label"
+                ) . $this->docStringEndToken;
+            }
+        }
         return '"' . $this->pEncapsList($node->parts, '"') . '"';
     }
 
@@ -103,6 +148,7 @@ class Standard extends PrettyPrinterAbstract
             case Scalar\LNumber::KIND_HEX:
                 return '0x' . base_convert($str, 10, 16);
         }
+        throw new \Exception('Invalid number kind');
     }
 
     public function pScalar_DNumber(Scalar\DNumber $node) {
@@ -790,13 +836,41 @@ class Standard extends PrettyPrinterAbstract
         $return = '';
         foreach ($encapsList as $element) {
             if ($element instanceof Scalar\EncapsedStringPart) {
-                $return .= addcslashes($element->value, "\n\r\t\f\v$" . $quote . "\\");
+                $return .= $this->escapeString($element->value, $quote);
             } else {
                 $return .= '{' . $this->p($element) . '}';
             }
         }
 
         return $return;
+    }
+
+    protected function escapeString($string, $quote) {
+        if (null === $quote) {
+            // For doc strings, don't escape newlines
+            return addcslashes($string, "\t\f\v$\\");
+        }
+        return addcslashes($string, "\n\r\t\f\v$" . $quote . "\\");
+    }
+
+    protected function containsEndLabel($string, $label, $atStart = true, $atEnd = true) {
+        $start = $atStart ? '(?:^|[\r\n])' : '[\r\n]';
+        $end = $atEnd ? '(?:$|[;\r\n])' : '[;\r\n]';
+        return false !== strpos($string, $label)
+            && preg_match('/' . $start . $label . $end . '/', $string);
+    }
+
+    protected function encapsedContainsEndLabel(array $parts, $label) {
+        foreach ($parts as $i => $part) {
+            $atStart = $i === 0;
+            $atEnd = $i === count($parts) - 1;
+            if ($part instanceof Scalar\EncapsedStringPart
+                && $this->containsEndLabel($part->value, $label, $atStart, $atEnd)
+            ) {
+                return true;
+            }
+        }
+        return false;
     }
 
     protected function pDereferenceLhs(Node $node) {

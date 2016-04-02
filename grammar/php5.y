@@ -628,7 +628,8 @@ array_expr:
 scalar_dereference:
       array_expr '[' dim_offset ']'                         { $$ = Expr\ArrayDimFetch[$1, $3]; }
     | T_CONSTANT_ENCAPSED_STRING '[' dim_offset ']'
-          { $$ = Expr\ArrayDimFetch[Scalar\String_[Scalar\String_::parse($1, false)], $3]; }
+          { $attrs = attributes(); $attrs['kind'] = strKind($1);
+            $$ = Expr\ArrayDimFetch[new Scalar\String_(Scalar\String_::parse($1), $attrs), $3]; }
     | constant '[' dim_offset ']'                           { $$ = Expr\ArrayDimFetch[$1, $3]; }
     | scalar_dereference '[' dim_offset ']'                 { $$ = Expr\ArrayDimFetch[$1, $3]; }
     /* alternative array syntax missing intentionally */
@@ -741,7 +742,9 @@ ctor_arguments:
 common_scalar:
       T_LNUMBER                                             { $$ = Scalar\LNumber::fromString($1, attributes()); }
     | T_DNUMBER                                             { $$ = Scalar\DNumber[Scalar\DNumber::parse($1)]; }
-    | T_CONSTANT_ENCAPSED_STRING                            { $$ = Scalar\String_[Scalar\String_::parse($1, false)]; }
+    | T_CONSTANT_ENCAPSED_STRING
+          { $attrs = attributes(); $attrs['kind'] = strKind($1);
+            $$ = new Scalar\String_(Scalar\String_::parse($1, false), $attrs); }
     | T_LINE                                                { $$ = Scalar\MagicConst\Line[]; }
     | T_FILE                                                { $$ = Scalar\MagicConst\File[]; }
     | T_DIR                                                 { $$ = Scalar\MagicConst\Dir[]; }
@@ -751,9 +754,11 @@ common_scalar:
     | T_FUNC_C                                              { $$ = Scalar\MagicConst\Function_[]; }
     | T_NS_C                                                { $$ = Scalar\MagicConst\Namespace_[]; }
     | T_START_HEREDOC T_ENCAPSED_AND_WHITESPACE T_END_HEREDOC
-          { $$ = Scalar\String_[Scalar\String_::parseDocString($1, $2, false)]; }
+          { $attrs = attributes(); setDocStringAttrs($attrs, $1);
+            $$ = new Scalar\String_(Scalar\String_::parseDocString($1, $2, false), $attrs); }
     | T_START_HEREDOC T_END_HEREDOC
-          { $$ = Scalar\String_['']; }
+          { $attrs = attributes(); setDocStringAttrs($attrs, $1);
+            $$ = new Scalar\String_('', $attrs); }
 ;
 
 static_scalar:
@@ -811,9 +816,11 @@ scalar:
       common_scalar                                         { $$ = $1; }
     | constant                                              { $$ = $1; }
     | '"' encaps_list '"'
-          { parseEncapsed($2, '"', false); $$ = Scalar\Encapsed[$2]; }
+          { $attrs = attributes(); $attrs['kind'] = Scalar\String_::KIND_DOUBLE_QUOTED;
+            parseEncapsed($2, '"', true); $$ = new Scalar\Encapsed($2, $attrs); }
     | T_START_HEREDOC encaps_list T_END_HEREDOC
-          { parseEncapsedDoc($2, false); $$ = Scalar\Encapsed[$2]; }
+          { $attrs = attributes(); setDocStringAttrs($attrs, $1);
+            parseEncapsedDoc($2, true); $$ = new Scalar\Encapsed($2, $attrs); }
 ;
 
 static_array_pair_list:

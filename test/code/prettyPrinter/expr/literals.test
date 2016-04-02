@@ -40,21 +40,17 @@ FALSE;
 378282246310005.0;
 10000000000000002.0;
 
-// strings (normalized to single quoted)
+// strings (single quoted)
 'a';
 'a
 b';
 "a";
 "a\nb";
 'a\'b';
+
+// strings (double quoted)
 "a'b";
 "a\b";
-<<<'STR'
-a\nb$a
-{$b}
-STR;
-
-// strings (normalized to double quoted)
 "$a";
 "a$b";
 "$a$b";
@@ -68,9 +64,6 @@ STR;
 "\\{ $A }";
 "{$$A}[B]";
 "$$A[B]";
-<<<STR
-a\nb$a\n{$b}
-STR;
 
 // make sure indentation doesn't mess anything up
 function foo()
@@ -122,19 +115,16 @@ INF;
 1.0E+84;
 378282246310005.0;
 10000000000000002.0;
-// strings (normalized to single quoted)
+// strings (single quoted)
 'a';
 'a
 b';
-'a';
-'a
-b';
+"a";
+"a\nb";
 'a\'b';
-'a\'b';
-'a\\b';
-'a\\nb$a
-{$b}';
-// strings (normalized to double quoted)
+// strings (double quoted)
+"a'b";
+"a\\b";
 "{$a}";
 "a{$b}";
 "{$a}{$b}";
@@ -148,12 +138,10 @@ b';
 "\\{ {$A} }";
 "{${$A}}[B]";
 "\${$A['B']}";
-"a\nb{$a}\n{$b}";
 // make sure indentation doesn't mess anything up
 function foo()
 {
-    'a
-b';
+    "a\nb";
     'a
 b';
     'a
