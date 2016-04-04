@@ -21,6 +21,7 @@ Encapsed strings
 "$$A[B]";
 "A $B C";
 b"$A";
+B"$A";
 -----
 array(
     0: Scalar_Encapsed(
@@ -225,6 +226,13 @@ array(
         )
     )
     18: Scalar_Encapsed(
+        parts: array(
+            0: Expr_Variable(
+                name: A
+            )
+        )
+    )
+    19: Scalar_Encapsed(
         parts: array(
             0: Expr_Variable(
                 name: A

@@ -154,13 +154,12 @@ class Lexer
             }
 
             if (\is_string($token)) {
-                // bug in token_get_all
-                if ('b"' === $token) {
-                    $value = 'b"';
+                $value = $token;
+                if (isset($token[1])) {
+                    // bug in token_get_all
                     $this->filePos += 2;
                     $id = ord('"');
                 } else {
-                    $value = $token;
                     $this->filePos += 1;
                     $id = ord($token);
                 }
