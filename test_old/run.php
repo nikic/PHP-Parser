@@ -43,9 +43,12 @@ if (count($arguments) !== 2) {
 }
 
 $showProgress = true;
-if (count($options) > 0) {
-    if (count($options) === 1 && $options[0] === '--no-progress') {
+$verbose = false;
+foreach ($options as $option) {
+    if ($option === '--no-progress') {
         $showProgress = false;
+    } elseif ($option === '--verbose') {
+        $verbose = true;
     } else {
         showHelp('Invalid option passed!');
     }
@@ -160,11 +163,17 @@ foreach (new RecursiveIteratorIterator(
 
             if (!$same) {
                 echo $file, ":\n    Result of initial parse and parse after pretty print differ\n";
+                if ($verbose) {
+                    echo "Pretty printer output:\n=====\n$code\n=====\n\n";
+                }
 
                 ++$compareFail;
             }
         } catch (PhpParser\Error $e) {
             echo $file, ":\n    Parse of pretty print failed with message: {$e->getMessage()}\n";
+            if ($verbose) {
+                echo "Pretty printer output:\n=====\n$code\n=====\n\n";
+            }
 
             ++$ppFail;
         }
