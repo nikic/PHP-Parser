@@ -85,7 +85,7 @@ foreach ($grammarFileToName as $grammarFile => $name) {
 
 function resolveNodes($code) {
     return preg_replace_callback(
-        '~(?<name>[A-Z][a-zA-Z_\\\\]++)\s*' . PARAMS . '~',
+        '~\b(?<name>[A-Z][a-zA-Z_\\\\]++)\s*' . PARAMS . '~',
         function($matches) {
             // recurse
             $matches['params'] = resolveNodes($matches['params']);
@@ -172,7 +172,7 @@ function resolveMacros($code) {
             if ('makeNop' == $name) {
                 assertArgs(2, $args, $name);
 
-                return '$startAttributes = $this->startAttributeStack[' . $args[1] . '];'
+                return '$startAttributes = ' . $args[1] . ';'
                 . ' if (isset($startAttributes[\'comments\']))'
                 . ' { ' . $args[0] . ' = new Stmt\Nop([\'comments\' => $startAttributes[\'comments\']]); }'
                 . ' else { ' . $args[0] . ' = null; }';

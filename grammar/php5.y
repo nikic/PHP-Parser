@@ -16,7 +16,8 @@ top_statement_list_ex:
 
 top_statement_list:
       top_statement_list_ex
-          { makeNop($nop, #1+1); if ($nop !== null) { $1[] = $nop; } $$ = $1; }
+          { makeNop($nop, $this->lookaheadStartAttributes);
+            if ($nop !== null) { $1[] = $nop; } $$ = $1; }
 ;
 
 reserved_non_modifiers:
@@ -136,7 +137,8 @@ inner_statement_list_ex:
 
 inner_statement_list:
       inner_statement_list_ex
-          { makeNop($nop, #1+1); if ($nop !== null) { $1[] = $nop; } $$ = $1; }
+          { makeNop($nop, $this->lookaheadStartAttributes);
+            if ($nop !== null) { $1[] = $nop; } $$ = $1; }
 ;
 
 inner_statement:
@@ -187,7 +189,8 @@ non_empty_statement:
 statement:
       non_empty_statement                                   { $$ = $1; }
     | ';'
-          { makeNop($$, #1); if ($$ === null) $$ = array(); /* means: no statement */ }
+          { makeNop($$, $this->startAttributeStack[#1]);
+            if ($$ === null) $$ = array(); /* means: no statement */ }
 ;
 
 catches:

@@ -88,6 +88,8 @@ abstract class ParserAbstract implements Parser
     protected $startAttributeStack;
     /** @var array End attributes of last *shifted* token */
     protected $endAttributes;
+    /** @var array Start attributes of last *read* token */
+    protected $lookaheadStartAttributes;
 
     /** @var bool Whether to throw on first error */
     protected $throwOnError;
@@ -185,6 +187,7 @@ abstract class ParserAbstract implements Parser
                     // This is necessary to assign some meaningful attributes to /* empty */ productions. They'll get
                     // the attributes of the next token, even though they don't contain it themselves.
                     $this->startAttributeStack[$this->stackPos+1] = $startAttributes;
+                    $this->lookaheadStartAttributes = $startAttributes;
 
                     //$this->traceRead($symbol);
                 }

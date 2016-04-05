@@ -10,4 +10,9 @@ array(
 -----
 Syntax error, unexpected EOF from 1:20 to 1:20
 array(
+    0: Stmt_Nop(
+        comments: array(
+            0: /* bar */
+        )
+    )
 )

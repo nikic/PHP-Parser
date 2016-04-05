@@ -924,7 +924,8 @@ class Php5 extends \PhpParser\ParserAbstract
     }
 
     protected function reduceRule4() {
-         $startAttributes = $this->startAttributeStack[$this->stackPos-(1-1)+1]; if (isset($startAttributes['comments'])) { $nop = new Stmt\Nop(['comments' => $startAttributes['comments']]); } else { $nop = null; }; if ($nop !== null) { $this->semStack[$this->stackPos-(1-1)][] = $nop; } $this->semValue = $this->semStack[$this->stackPos-(1-1)];
+         $startAttributes = $this->lookaheadStartAttributes; if (isset($startAttributes['comments'])) { $nop = new Stmt\Nop(['comments' => $startAttributes['comments']]); } else { $nop = null; };
+            if ($nop !== null) { $this->semStack[$this->stackPos-(1-1)][] = $nop; } $this->semValue = $this->semStack[$this->stackPos-(1-1)];
     }
 
     protected function reduceRule5() {
@@ -1396,7 +1397,8 @@ class Php5 extends \PhpParser\ParserAbstract
     }
 
     protected function reduceRule122() {
-         $startAttributes = $this->startAttributeStack[$this->stackPos-(1-1)+1]; if (isset($startAttributes['comments'])) { $nop = new Stmt\Nop(['comments' => $startAttributes['comments']]); } else { $nop = null; }; if ($nop !== null) { $this->semStack[$this->stackPos-(1-1)][] = $nop; } $this->semValue = $this->semStack[$this->stackPos-(1-1)];
+         $startAttributes = $this->lookaheadStartAttributes; if (isset($startAttributes['comments'])) { $nop = new Stmt\Nop(['comments' => $startAttributes['comments']]); } else { $nop = null; };
+            if ($nop !== null) { $this->semStack[$this->stackPos-(1-1)][] = $nop; } $this->semValue = $this->semStack[$this->stackPos-(1-1)];
     }
 
     protected function reduceRule123() {
@@ -1532,7 +1534,8 @@ class Php5 extends \PhpParser\ParserAbstract
     }
 
     protected function reduceRule156() {
-         $startAttributes = $this->startAttributeStack[$this->stackPos-(1-1)]; if (isset($startAttributes['comments'])) { $this->semValue = new Stmt\Nop(['comments' => $startAttributes['comments']]); } else { $this->semValue = null; }; if ($this->semValue === null) $this->semValue = array(); /* means: no statement */
+         $startAttributes = $this->startAttributeStack[$this->stackPos-(1-1)]; if (isset($startAttributes['comments'])) { $this->semValue = new Stmt\Nop(['comments' => $startAttributes['comments']]); } else { $this->semValue = null; };
+            if ($this->semValue === null) $this->semValue = array(); /* means: no statement */
     }
 
     protected function reduceRule157() {
