@@ -12,7 +12,6 @@ Trailing newlines in doc strings
 <<<'EOF'@@{ "\r\nFoo\r\n\r\n" }@@EOF;
 <<<EOF@@{ "\r\n\$var\r\n\r\n" }@@EOF;
 
-// comment to force line break before EOF
 -----
 array(
     0: Scalar_String(
@@ -57,11 +56,6 @@ array(
                 value:
 
             )
-        )
-    )
-    8: Stmt_Nop(
-        comments: array(
-            0: // comment to force line break before EOF
         )
     )
 )

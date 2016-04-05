@@ -13,6 +13,7 @@ abstract class CodeTestAbstract extends \PHPUnit_Framework_TestCase
         foreach ($it as $file) {
             $fileName = realpath($file->getPathname());
             $fileContents = file_get_contents($fileName);
+            $fileContents = canonicalize($fileContents);
 
             // evaluate @@{expr}@@ expressions
             $fileContents = preg_replace_callback(
@@ -24,7 +25,7 @@ abstract class CodeTestAbstract extends \PHPUnit_Framework_TestCase
             );
 
             // parse sections
-            $parts = array_map('trim', explode('-----', $fileContents));
+            $parts = explode("\n-----\n", $fileContents);
 
             // first part is the name
             $name = array_shift($parts) . ' (' . $fileName . ')';
@@ -34,7 +35,7 @@ abstract class CodeTestAbstract extends \PHPUnit_Framework_TestCase
             $chunks = array_chunk($parts, 2);
             foreach ($chunks as $i => $chunk) {
                 $dataSetName = $shortName . (count($chunks) > 1 ? '#' . $i : '');
-                list($expected, $mode) = $this->extractMode(canonicalize($chunk[1]));
+                list($expected, $mode) = $this->extractMode($chunk[1]);
                 $tests[$dataSetName] = array($name, $chunk[0], $expected, $mode);
             }
         }

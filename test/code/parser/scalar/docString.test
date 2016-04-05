@@ -28,7 +28,6 @@ b<<<EOS
 Binary
 EOS;
 
-// comment to force line break before EOF
 -----
 array(
     0: Scalar_String(
@@ -87,10 +86,5 @@ array(
     )
     6: Scalar_String(
         value: Binary
-    )
-    7: Stmt_Nop(
-        comments: array(
-            0: // comment to force line break before EOF
-        )
     )
 )
