@@ -91,6 +91,10 @@ switch ($testType) {
 # pretty print difference due to nop statements
 | ext.mbstring.tests.htmlent
 | ext.standard.tests.file.fread_basic
+# tests using __halt_compiler as semi reserved keyword
+| Zend.tests.grammar.semi_reserved_001
+| Zend.tests.grammar.semi_reserved_002
+| Zend.tests.grammar.semi_reserved_005
 )\.phpt$~x', $file)) {
                 return null;
             }
@@ -188,8 +192,10 @@ foreach (new RecursiveIteratorIterator(
 }
 
 if (0 === $parseFail && 0 === $ppFail && 0 === $compareFail) {
+    $exit = 0;
     echo "\n\n", 'All tests passed.', "\n";
 } else {
+    $exit = 1;
     echo "\n\n", '==========', "\n\n", 'There were: ', "\n";
     if (0 !== $parseFail) {
         echo '    ', $parseFail,   ' parse failures.',        "\n";
@@ -213,3 +219,5 @@ echo "\n",
      "\n",
      'Total time:           ', microtime(true) - $totalStartTime, "\n",
      'Maximum memory usage: ', memory_get_peak_usage(true), "\n";
+
+exit($exit);
