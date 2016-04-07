@@ -60,6 +60,14 @@ class CommentTest extends \PHPUnit_Framework_TestCase
    More text.
    Even more text. */'
             ),
+            array(
+                '/* Some text.
+       More text.
+         Indented text. */',
+                '/* Some text.
+   More text.
+     Indented text. */',
+            ),
             // invalid comment -> no reformatting
             array(
                 'hallo
