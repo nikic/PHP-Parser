@@ -88,6 +88,9 @@ switch ($testType) {
 # pretty print difference due to INF vs 1e1000
 | ext.standard.tests.general_functions.bug27678
 | tests.lang.bug24640
+# pretty print difference due to nop statements
+| ext.mbstring.tests.htmlent
+| ext.standard.tests.file.fread_basic
 )\.phpt$~x', $file)) {
                 return null;
             }
