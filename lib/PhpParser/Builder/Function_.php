@@ -40,9 +40,10 @@ class Function_ extends FunctionLike
      */
     public function getNode() {
         return new Stmt\Function_($this->name, array(
-            'byRef'  => $this->returnByRef,
-            'params' => $this->params,
-            'stmts'  => $this->stmts,
+            'byRef'      => $this->returnByRef,
+            'params'     => $this->params,
+            'returnType' => $this->returnType,
+            'stmts'      => $this->stmts,
         ), $this->attributes);
     }
 }

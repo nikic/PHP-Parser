@@ -20,7 +20,7 @@ class BuilderFactory
 {
     /**
      * Creates a namespace builder.
-     * 
+     *
      * @param null|string|Node\Name $name Name of the namespace
      *
      * @return Builder\Namespace_ The created namespace builder
