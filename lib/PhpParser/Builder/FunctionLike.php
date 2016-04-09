@@ -58,10 +58,10 @@ abstract class FunctionLike extends Declaration
     }
 
     /**
-     * set the return type for php7
+     * Sets the return type for PHP 7.
      *
-     * @param string $type support string, int, float, bool, array,
-     *        class names, interface and callable.
+     * @param string|Node\Name $type One of array, callable, string, int, float, bool,
+     *                               or a class/interface name.
      *
      * @return $this The builder instance (for fluid interface)
      */
