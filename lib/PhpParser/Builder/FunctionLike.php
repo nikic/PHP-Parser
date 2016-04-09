@@ -58,7 +58,7 @@ abstract class FunctionLike extends Declaration
     }
 
     /**
-     * set the return type for php7
+     * Set the return type for PHP 7.
      *
      * @param string $type support string, int, float, bool, array,
      *        class names, interface and callable.
