@@ -10,6 +10,7 @@ abstract class FunctionLike extends Declaration
 {
     protected $returnByRef = false;
     protected $params = array();
+    protected $returnType = null;
 
     /**
      * Make the function return by reference.
@@ -51,6 +52,25 @@ abstract class FunctionLike extends Declaration
     public function addParams(array $params) {
         foreach ($params as $param) {
             $this->addParam($param);
+        }
+
+        return $this;
+    }
+
+    /**
+     * set the return type for php7
+     *
+     * @param string $type support string, int, float, bool, array,
+     *        class names, interface and callable.
+     *
+     * @return $this The builder instance (for fluid interface)
+     */
+    public function setReturnType($type)
+    {
+        if (in_array($type, array('array', 'callable', 'string', 'int', 'float', 'bool'))) {
+            $this->returnType = $type;
+        } else {
+            $this->returnType = $this->normalizeName($type);
         }
 
         return $this;
