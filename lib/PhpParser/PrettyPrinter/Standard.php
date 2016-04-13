@@ -98,7 +98,7 @@ class Standard extends PrettyPrinterAbstract
                 }
                 /* break missing intentionally */
             case Scalar\String_::KIND_SINGLE_QUOTED:
-                return '\'' . $this->pNoIndent(addcslashes($node->value, '\'')) . '\'';
+                return '\'' . $this->pNoIndent(addcslashes($node->value, '\'\\')) . '\'';
             case Scalar\String_::KIND_HEREDOC:
                 $label = $node->getAttribute('docLabel');
                 if ($label && !$this->containsEndLabel($node->value, $label)) {
