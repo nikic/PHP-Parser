@@ -849,9 +849,20 @@ class Standard extends PrettyPrinterAbstract
     protected function escapeString($string, $quote) {
         if (null === $quote) {
             // For doc strings, don't escape newlines
-            return addcslashes($string, "\t\f\v$\\");
+            $escaped = addcslashes($string, "\t\f\v$\\");
+        } else {
+            $escaped = addcslashes($string, "\n\r\t\f\v$" . $quote . "\\");
         }
-        return addcslashes($string, "\n\r\t\f\v$" . $quote . "\\");
+
+        // Escape other control characters
+        return preg_replace_callback('/([\0-\10\16-\37])(?=([0-7]?))/', function ($matches) {
+            $oct = decoct(ord($matches[1]));
+            if ($matches[2] !== '') {
+                // If there is a trailing digit, use the full three character form
+                return '\\' . str_pad($oct, 3, '0', STR_PAD_LEFT);
+            }
+            return '\\' . $oct;
+        }, $escaped);
     }
 
     protected function containsEndLabel($string, $label, $atStart = true, $atEnd = true) {
