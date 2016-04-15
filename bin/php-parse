@@ -86,9 +86,11 @@ foreach ($files as $file) {
     }
 }
 
-function showHelp($error) {
-    die($error . "\n\n" .
-        <<<OUTPUT
+function showHelp($error = '') {
+    if ($error) {
+        echo $error . "\n\n";
+    }
+    die(<<<OUTPUT
 Usage: php-parse [operations] file1.php [file2.php ...]
    or: php-parse [operations] "<?php code"
 Turn PHP source code into an abstract syntax tree.
@@ -153,7 +155,7 @@ function parseArgs($args) {
                 break;
             case '--help':
             case '-h';
-                showHelp('');
+                showHelp();
                 break;
             case '--':
                 $parseOptions = false;
