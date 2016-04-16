@@ -25,7 +25,7 @@ abstract class CodeTestAbstract extends \PHPUnit_Framework_TestCase
             );
 
             // parse sections
-            $parts = explode("\n-----\n", $fileContents);
+            $parts = preg_split("/\n-----(?:\n|$)/", $fileContents);
 
             // first part is the name
             $name = array_shift($parts) . ' (' . $fileName . ')';

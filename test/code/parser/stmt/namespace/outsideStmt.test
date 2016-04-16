@@ -34,3 +34,25 @@ array(
         remaining: Hi!
     )
 )
+-----
+<?php
+/* Comment */
+;
+namespace Foo;
+-----
+array(
+    0: Stmt_Nop(
+        comments: array(
+            0: /* Comment */
+        )
+    )
+    1: Stmt_Namespace(
+        name: Name(
+            parts: array(
+                0: Foo
+            )
+        )
+        stmts: array(
+        )
+    )
+)

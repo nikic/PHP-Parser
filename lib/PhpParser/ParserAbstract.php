@@ -463,8 +463,10 @@ abstract class ParserAbstract implements Parser
                 continue;
             }
 
-            /* declare() and __halt_compiler() can be used before a namespace declaration */
-            if ($stmt instanceof Node\Stmt\Declare_ || $stmt instanceof Node\Stmt\HaltCompiler) {
+            /* declare(), __halt_compiler() and nops can be used before a namespace declaration */
+            if ($stmt instanceof Node\Stmt\Declare_
+                || $stmt instanceof Node\Stmt\HaltCompiler
+                || $stmt instanceof Node\Stmt\Nop) {
                 continue;
             }
 
