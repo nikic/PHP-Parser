@@ -2604,7 +2604,7 @@ class Php5 extends \PhpParser\ParserAbstract
     }
 
     protected function reduceRule419() {
-         $this->semValue = Scalar\LNumber::fromString($this->semStack[$this->stackPos-(1-1)], $this->startAttributeStack[$this->stackPos-(1-1)] + $this->endAttributes);
+         $this->semValue = Scalar\LNumber::fromString($this->semStack[$this->stackPos-(1-1)], $this->startAttributeStack[$this->stackPos-(1-1)] + $this->endAttributes, true);
     }
 
     protected function reduceRule420() {

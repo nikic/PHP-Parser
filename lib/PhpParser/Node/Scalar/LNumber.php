@@ -2,6 +2,7 @@
 
 namespace PhpParser\Node\Scalar;
 
+use PhpParser\Error;
 use PhpParser\Node\Scalar;
 
 class LNumber extends Scalar
@@ -33,12 +34,13 @@ class LNumber extends Scalar
     /**
      * Constructs an LNumber node from a string number literal.
      *
-     * @param string $str        String number literal (decimal, octal, hex or binary)
-     * @param array  $attributes Additional attributes
+     * @param string $str               String number literal (decimal, octal, hex or binary)
+     * @param array  $attributes        Additional attributes
+     * @param bool   $allowInvalidOctal Whether to allow invalid octal numbers (PHP 5)
      *
      * @return LNumber The constructed LNumber, including kind attribute
      */
-    public static function fromString($str, array $attributes = array()) {
+    public static function fromString($str, array $attributes = array(), $allowInvalidOctal = false) {
         if ('0' !== $str[0] || '0' === $str) {
             $attributes['kind'] = LNumber::KIND_DEC;
             return new LNumber((int) $str, $attributes);
@@ -52,6 +54,10 @@ class LNumber extends Scalar
         if ('b' === $str[1] || 'B' === $str[1]) {
             $attributes['kind'] = LNumber::KIND_BIN;
             return new LNumber(bindec($str), $attributes);
+        }
+
+        if (!$allowInvalidOctal && strpbrk($str, '89')) {
+            throw new Error('Invalid numeric literal', $attributes);
         }
 
         // use intval instead of octdec to get proper cutting behavior with malformed numbers

@@ -10,7 +10,6 @@ Different integer syntaxes
 0xfff;
 0XfFf;
 0777;
-0787;
 0b111000111000;
 -----
 array(
@@ -39,9 +38,6 @@ array(
         value: 511
     )
     8: Scalar_LNumber(
-        value: 7
-    )
-    9: Scalar_LNumber(
         value: 3640
     )
 )
