@@ -1,7 +1,45 @@
-Version 2.0.2-dev
+Version 2.1.0-dev
 -----------------
 
-Nothing yet.
+### Fixed
+
+* Properly support `B""` strings (with uppercase `B`) in a number of places.
+* Fixed reformatting of indented parts in a certain non-standard comment style.
+
+### Added
+
+* Added `dumpComments` option to node dumper, to enable dumping of comments associated with nodes.
+* Added `Stmt\Nop` node, that is used to collect comments located at the end of a block or at the
+  end of a file (without a following node with which they could otherwise be associated).
+* Added `kind` attribute to `Expr\Exit` to distinguish between `exit` and `die`.
+* Added `kind` attribute to `Scalar\LNumber` to distinguish between decimal, binary, octal and
+  hexadecimal numbers.
+* Added `kind` attribtue to `Expr\Array` to distinguish between `array()` and `[]`.
+* Added `kind` attribute to `Scalar\String` and `Scalar\Encapsed` to distinguish between
+  single-quoted, double-quoted, heredoc and nowdoc string.
+* Added `docLabel` attribute to `Scalar\String` and `Scalar\Encapsed`, if it is a heredoc or
+  nowdoc string.
+* Added start file offset information to `Comment` nodes.
+* Added `setReturnType()` method to function and method builders.
+* Added `-h` and `--help` options to `php-parse` script.
+
+### Changed
+
+* Invalid octal literals now throw a parse error in PHP 7 mode.
+* The pretty printer takes all the new attributes mentioned in the previous section into account.
+* The protected `AbstractPrettyPrinter::pComments()` method no longer returns a trailing newline.
+* The bundled autoloader supports library files being stored in a different directory than
+  `PhpParser` for easier downstream distribution.
+
+### Deprecated
+
+* The `Comment::setLine()` and `Comment::setText()` methods have been deprecated. Construct new
+  objects instead.
+
+### Removed
+
+* The internal (but public) method `Scalar\LNumber::parse()` has been removed. A non-internal
+  `LNumber::fromString()` method has been added instead.
 
 Version 2.0.1 (2016-02-28)
 --------------------------
