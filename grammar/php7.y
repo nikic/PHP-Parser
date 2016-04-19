@@ -580,7 +580,9 @@ expr:
     | T_BOOL_CAST expr                                      { $$ = Expr\Cast\Bool_   [$2]; }
     | T_UNSET_CAST expr                                     { $$ = Expr\Cast\Unset_  [$2]; }
     | T_EXIT exit_expr
-          { $attrs = attributes(); $attrs['kind'] = strtolower($1); $$ = new Expr\Exit_($2, $attrs); }
+          { $attrs = attributes();
+            $attrs['kind'] = strtolower($1) === 'exit' ? Expr\Exit_::KIND_EXIT : Expr\Exit_::KIND_DIE;
+            $$ = new Expr\Exit_($2, $attrs); }
     | '@' expr                                              { $$ = Expr\ErrorSuppress[$2]; }
     | scalar                                                { $$ = $1; }
     | '`' backticks_expr '`'                                { $$ = Expr\ShellExec[$2]; }

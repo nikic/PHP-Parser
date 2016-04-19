@@ -154,6 +154,10 @@ EOC;
             array("b<<<\"STR\"\n\$a\nSTR\n", ['kind' => String_::KIND_HEREDOC, 'docLabel' => 'STR']),
             array("B<<<\"STR\"\n\$a\nSTR\n", ['kind' => String_::KIND_HEREDOC, 'docLabel' => 'STR']),
             array("<<< \t \"STR\"\n\$a\nSTR\n", ['kind' => String_::KIND_HEREDOC, 'docLabel' => 'STR']),
+            array("die", ['kind' => Expr\Exit_::KIND_DIE]),
+            array("die('done')", ['kind' => Expr\Exit_::KIND_DIE]),
+            array("exit", ['kind' => Expr\Exit_::KIND_EXIT]),
+            array("exit(1)", ['kind' => Expr\Exit_::KIND_EXIT]),
         );
     }
 }

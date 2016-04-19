@@ -2205,7 +2205,9 @@ class Php7 extends \PhpParser\ParserAbstract
     }
 
     protected function reduceRule353() {
-         $attrs = $this->startAttributeStack[$this->stackPos-(2-1)] + $this->endAttributes; $attrs['kind'] = strtolower($this->semStack[$this->stackPos-(2-1)]); $this->semValue = new Expr\Exit_($this->semStack[$this->stackPos-(2-2)], $attrs);
+         $attrs = $this->startAttributeStack[$this->stackPos-(2-1)] + $this->endAttributes;
+            $attrs['kind'] = strtolower($this->semStack[$this->stackPos-(2-1)]) === 'exit' ? Expr\Exit_::KIND_EXIT : Expr\Exit_::KIND_DIE;
+            $this->semValue = new Expr\Exit_($this->semStack[$this->stackPos-(2-2)], $attrs);
     }
 
     protected function reduceRule354() {

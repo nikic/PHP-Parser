@@ -551,7 +551,8 @@ class Standard extends PrettyPrinterAbstract
     }
 
     public function pExpr_Exit(Expr\Exit_ $node) {
-        return $node->getAttribute('kind', 'die')
+        $kind = $node->getAttribute('kind', Expr\Exit_::KIND_DIE);
+        return ($kind === Expr\Exit_::KIND_EXIT ? 'exit' : 'die')
              . (null !== $node->expr ? '(' . $this->p($node->expr) . ')' : '');
     }
 
