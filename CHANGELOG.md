@@ -1,5 +1,10 @@
-Version 2.1.0-dev
+Version 2.1.1-dev
 -----------------
+
+Nothing yet.
+
+Version 2.1.0 (2016-04-19)
+--------------------------
 
 ### Fixed
 
