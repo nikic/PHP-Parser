@@ -181,10 +181,15 @@ abstract class PrettyPrinterAbstract
     protected function pStmts(array $nodes, $indent = true) {
         $result = '';
         foreach ($nodes as $node) {
-            $result .= "\n"
-                    . $this->pComments($node->getAttribute('comments', array()))
-                    . $this->p($node)
-                    . ($node instanceof Expr ? ';' : '');
+            $comments = $node->getAttribute('comments', array());
+            if ($comments) {
+                $result .= "\n" . $this->pComments($comments);
+                if ($node instanceof Stmt\Nop) {
+                    continue;
+                }
+            }
+
+            $result .= "\n" . $this->p($node) . ($node instanceof Expr ? ';' : '');
         }
 
         if ($indent) {
@@ -296,12 +301,12 @@ abstract class PrettyPrinterAbstract
      * @return string Reformatted text of comments
      */
     protected function pComments(array $comments) {
-        $result = '';
+        $formattedComments = [];
 
         foreach ($comments as $comment) {
-            $result .= $comment->getReformattedText() . "\n";
+            $formattedComments[] = $comment->getReformattedText();
         }
 
-        return $result;
+        return implode("\n", $formattedComments);
     }
 }
