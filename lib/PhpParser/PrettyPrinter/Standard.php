@@ -851,7 +851,11 @@ class Standard extends PrettyPrinterAbstract
             // For doc strings, don't escape newlines
             return addcslashes($string, "\t\f\v$\\");
         }
-        return addcslashes($string, "\n\r\t\f\v$" . $quote . "\\");
+        return preg_replace(
+            array('/\\0(?![0-7])/', '/\\0/'),
+            array('\\\\0', '\\\\000'),
+            addcslashes($string, "\n\r\t\f\v$" . $quote . "\\")
+        );
     }
 
     protected function containsEndLabel($string, $label, $atStart = true, $atEnd = true) {
