@@ -10,6 +10,33 @@ Syntax error, unexpected T_STRING from 4:1 to 4:3
 Syntax error, unexpected T_STRING from 5:1 to 5:3
 Syntax error, unexpected EOF from 5:6 to 5:6
 array(
+    0: Expr_FuncCall(
+        name: Name(
+            parts: array(
+                0: foo
+            )
+        )
+        args: array(
+        )
+    )
+    1: Expr_FuncCall(
+        name: Name(
+            parts: array(
+                0: bar
+            )
+        )
+        args: array(
+        )
+    )
+    2: Expr_FuncCall(
+        name: Name(
+            parts: array(
+                0: baz
+            )
+        )
+        args: array(
+        )
+    )
 )
 -----
 <?php
@@ -23,13 +50,22 @@ array(
     0: Expr_FuncCall(
         name: Name(
             parts: array(
-                0: bar
+                0: foo
             )
         )
         args: array(
         )
     )
     1: Expr_FuncCall(
+        name: Name(
+            parts: array(
+                0: bar
+            )
+        )
+        args: array(
+        )
+    )
+    2: Expr_FuncCall(
         name: Name(
             parts: array(
                 0: baz
@@ -60,6 +96,15 @@ array(
     1: Expr_FuncCall(
         name: Name(
             parts: array(
+                0: bar
+            )
+        )
+        args: array(
+        )
+    )
+    2: Expr_FuncCall(
+        name: Name(
+            parts: array(
                 0: baz
             )
         )
@@ -81,6 +126,9 @@ array(
             )
         )
     )
+    1: Scalar_LNumber(
+        value: 1
+    )
 )
 -----
 <?php
@@ -97,6 +145,9 @@ array(
         )
         returnType: null
         stmts: array(
+            0: Scalar_LNumber(
+                value: 1
+            )
         )
     )
 )

@@ -34,6 +34,20 @@ use Foo {Bar, Baz};
 -----
 Syntax error, unexpected '{', expecting ',' or ';' from 3:9 to 3:9
 array(
+    0: Expr_ConstFetch(
+        name: Name(
+            parts: array(
+                0: Bar
+            )
+        )
+    )
+    1: Expr_ConstFetch(
+        name: Name(
+            parts: array(
+                0: Baz
+            )
+        )
+    )
 )
 -----
 <?php
@@ -42,4 +56,11 @@ use Foo\{\Bar};
 -----
 Syntax error, unexpected T_NS_SEPARATOR, expecting T_STRING or T_FUNCTION or T_CONST from 3:10 to 3:10
 array(
+    0: Expr_ConstFetch(
+        name: Name_FullyQualified(
+            parts: array(
+                0: Bar
+            )
+        )
+    )
 )

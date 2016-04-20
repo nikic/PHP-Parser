@@ -183,6 +183,7 @@ non_empty_statement:
     | T_THROW expr ';'                                      { $$ = Stmt\Throw_[$2]; }
     | T_GOTO T_STRING ';'                                   { $$ = Stmt\Goto_[$2]; }
     | T_STRING ':'                                          { $$ = Stmt\Label[$1]; }
+    | expr error                                            { $$ = $1; }
     | error                                                 { $$ = array(); /* means: no statement */ }
 ;
 
