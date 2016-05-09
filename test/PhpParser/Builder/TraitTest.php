@@ -22,9 +22,9 @@ class TraitTest extends \PHPUnit_Framework_TestCase
         ));
         $trait = $this->createTraitBuilder('TestTrait')
             ->setDocComment('/** Nice trait */')
-            ->addStmt($method1)
+            ->addStatement($method1)
             ->addStmts(array($method2, $method3))
-            ->addStmt($prop)
+            ->addStatement($prop)
             ->getNode();
         $this->assertEquals(new Stmt\Trait_('TestTrait', array(
             $prop, $method1, $method2, $method3
@@ -41,7 +41,7 @@ class TraitTest extends \PHPUnit_Framework_TestCase
      */
     public function testInvalidStmtError() {
         $this->createTraitBuilder('Test')
-            ->addStmt(new Stmt\Echo_(array()))
+            ->addStatement(new Stmt\Echo_(array()))
         ;
     }
 }

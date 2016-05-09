@@ -10,7 +10,7 @@ abstract class Declaration extends PhpParser\BuilderAbstract
 {
     protected $attributes = array();
 
-    abstract public function addStmt($stmt);
+    abstract public function addStatement($statement);
 
     /**
      * Adds multiple statements.
@@ -21,7 +21,7 @@ abstract class Declaration extends PhpParser\BuilderAbstract
      */
     public function addStmts(array $stmts) {
         foreach ($stmts as $stmt) {
-            $this->addStmt($stmt);
+            $this->addStatement($stmt);
         }
 
         return $this;

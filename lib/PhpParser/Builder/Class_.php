@@ -43,10 +43,8 @@ class Class_ extends Declaration
 
     /**
      * Implements one or more interfaces.
-     *
-     * @param Name|string ...$interfaces Names of interfaces to implement
-     *
      * @return $this The builder instance (for fluid interface)
+     *
      */
     public function implement() {
         foreach (func_get_args() as $interface) {
@@ -81,26 +79,21 @@ class Class_ extends Declaration
     /**
      * Adds a statement.
      *
-     * @param Stmt|PhpParser\Builder $stmt The statement to add
+     * @param Stmt|PhpParser\Builder $statement The statement to add
      *
      * @return $this The builder instance (for fluid interface)
      */
-    public function addStmt($stmt) {
-        $stmt = $this->normalizeNode($stmt);
+    public function addStatement($statement) {
+        $statement = $this->normalizeNode($statement);
 
-        $targets = array(
-            'Stmt_TraitUse'    => &$this->uses,
-            'Stmt_ClassConst'  => &$this->constants,
-            'Stmt_Property'    => &$this->properties,
-            'Stmt_ClassMethod' => &$this->methods,
-        );
+        $targets = $this->getTargets();
 
-        $type = $stmt->getType();
+        $type = $statement->getType();
         if (!isset($targets[$type])) {
             throw new \LogicException(sprintf('Unexpected node of type "%s"', $type));
         }
 
-        $targets[$type][] = $stmt;
+        $targets[$type][] = $statement;
 
         return $this;
     }
@@ -117,5 +110,18 @@ class Class_ extends Declaration
             'implements' => $this->implements,
             'stmts' => array_merge($this->uses, $this->constants, $this->properties, $this->methods),
         ), $this->attributes);
+    }
+
+    /**
+     * @return array
+     */
+    private function getTargets()
+    {
+        return array(
+            'Stmt_TraitUse'    => &$this->uses,
+            'Stmt_ClassConst'  => &$this->constants,
+            'Stmt_Property'    => &$this->properties,
+            'Stmt_ClassMethod' => &$this->methods,
+        );
     }
 }

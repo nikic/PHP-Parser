@@ -26,17 +26,17 @@ class Multiple implements Parser {
     }
 
     public function parse($code) {
-        list($firstStmts, $firstErrors, $firstError) = $this->tryParse($this->parsers[0], $code);
+        list($firstStatements, $firstErrors, $firstError) = $this->tryParse($this->parsers[0], $code);
         if ($firstErrors === []) {
             $this->errors = [];
-            return $firstStmts;
+            return $firstStatements;
         }
 
-        for ($i = 1, $c = count($this->parsers); $i < $c; ++$i) {
-            list($stmts, $errors) = $this->tryParse($this->parsers[$i], $code);
+        for ($index = 1, $parserCount = count($this->parsers); $index < $parserCount; ++$index) {
+            list($statements, $errors) = $this->tryParse($this->parsers[$index], $code);
             if ($errors === []) {
                 $this->errors = [];
-                return $stmts;
+                return $statements;
             }
         }
 
@@ -44,7 +44,7 @@ class Multiple implements Parser {
         if ($firstError) {
             throw $firstError;
         }
-        return $firstStmts;
+        return $firstStatements;
     }
 
     public function getErrors() {
@@ -52,12 +52,12 @@ class Multiple implements Parser {
     }
 
     private function tryParse(Parser $parser, $code) {
-        $stmts = null;
+        $statements = null;
         $error = null;
         try {
-            $stmts = $parser->parse($code);
+            $statements = $parser->parse($code);
         } catch (Error $error) {}
         $errors = $parser->getErrors();
-        return [$stmts, $errors, $error];
+        return [$statements, $errors, $error];
     }
 }

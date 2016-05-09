@@ -53,7 +53,7 @@ class FunctionTest extends \PHPUnit_Framework_TestCase
         $stmt3 = new Print_(new String_('test3'));
 
         $node = $this->createFunctionBuilder('test')
-            ->addStmt($stmt1)
+            ->addStatement($stmt1)
             ->addStmts(array($stmt2, $stmt3))
             ->getNode()
         ;
