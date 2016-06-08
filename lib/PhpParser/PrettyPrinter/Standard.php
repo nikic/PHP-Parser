@@ -791,7 +791,7 @@ class Standard extends PrettyPrinterAbstract
     }
 
     public function pStmt_InlineHTML(Stmt\InlineHTML $node) {
-        return '?>' . $this->pNoIndent("\n" . $node->value) . '<?php ';
+        return '?>' . $this->pNoIndent($node->value) . '<?php ';
     }
 
     public function pStmt_HaltCompiler(Stmt\HaltCompiler $node) {
