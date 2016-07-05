@@ -364,7 +364,7 @@ parameter:
 ;
 
 type:
-      name                                                  { $$ = $this->handleScalarTypes($1); }
+      name                                                  { $$ = $this->handleBuiltinTypes($1); }
     | T_ARRAY                                               { $$ = 'array'; }
     | T_CALLABLE                                            { $$ = 'callable'; }
 ;

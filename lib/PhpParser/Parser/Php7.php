@@ -1677,7 +1677,7 @@ class Php7 extends \PhpParser\ParserAbstract
     }
 
     protected function reduceRule221() {
-         $this->semValue = $this->handleScalarTypes($this->semStack[$this->stackPos-(1-1)]);
+         $this->semValue = $this->handleBuiltinTypes($this->semStack[$this->stackPos-(1-1)]);
     }
 
     protected function reduceRule222() {

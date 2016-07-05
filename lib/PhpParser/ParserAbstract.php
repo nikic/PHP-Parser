@@ -481,12 +481,14 @@ abstract class ParserAbstract implements Parser
         return $style;
     }
 
-    protected function handleScalarTypes(Name $name) {
+    protected function handleBuiltinTypes(Name $name) {
         $scalarTypes = [
-            'bool'   => true,
-            'int'    => true,
-            'float'  => true,
-            'string' => true,
+            'bool'     => true,
+            'int'      => true,
+            'float'    => true,
+            'string'   => true,
+            'iterable' => true,
+            'void'     => true,
         ];
 
         if (!$name->isUnqualified()) {
