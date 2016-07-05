@@ -1,4 +1,4 @@
-Version 2.1.1-dev
+Version 3.0.0-dev
 -----------------
 
 Nothing yet.
