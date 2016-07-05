@@ -1,0 +1,32 @@
+Invalid class constant modifiers
+-----
+<?php
+class A {
+    static const X = 1;
+}
+-----
+!!php7
+Cannot use 'static' as constant modifier on line 3
+-----
+<?php
+class A {
+    abstract const X = 1;
+}
+-----
+!!php7
+Cannot use 'abstract' as constant modifier on line 3
+-----
+<?php
+class A {
+    final const X = 1;
+}
+-----
+!!php7
+Cannot use 'final' as constant modifier on line 3
+-----
+<?php
+class A {
+    public public const X = 1;
+}
+-----
+Multiple access type modifiers are not allowed on line 3

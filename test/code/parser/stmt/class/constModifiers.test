@@ -1,0 +1,67 @@
+Class constant modifiers
+-----
+<?php
+
+class Foo {
+    const A = 1;
+    public const B = 2;
+    protected const C = 3;
+    private const D = 4;
+}
+-----
+!!php7
+array(
+    0: Stmt_Class(
+        type: 0
+        name: Foo
+        extends: null
+        implements: array(
+        )
+        stmts: array(
+            0: Stmt_ClassConst(
+                type: 0
+                consts: array(
+                    0: Const(
+                        name: A
+                        value: Scalar_LNumber(
+                            value: 1
+                        )
+                    )
+                )
+            )
+            1: Stmt_ClassConst(
+                type: 1
+                consts: array(
+                    0: Const(
+                        name: B
+                        value: Scalar_LNumber(
+                            value: 2
+                        )
+                    )
+                )
+            )
+            2: Stmt_ClassConst(
+                type: 2
+                consts: array(
+                    0: Const(
+                        name: C
+                        value: Scalar_LNumber(
+                            value: 3
+                        )
+                    )
+                )
+            )
+            3: Stmt_ClassConst(
+                type: 4
+                consts: array(
+                    0: Const(
+                        name: D
+                        value: Scalar_LNumber(
+                            value: 4
+                        )
+                    )
+                )
+            )
+        )
+    )
+)

@@ -1921,7 +1921,7 @@ class Php5 extends \PhpParser\ParserAbstract
     }
 
     protected function reduceRule252() {
-         $this->semValue = new Stmt\ClassConst($this->semStack[$this->stackPos-(3-2)], $this->startAttributeStack[$this->stackPos-(3-1)] + $this->endAttributes);
+         $this->semValue = new Stmt\ClassConst($this->semStack[$this->stackPos-(3-2)], 0, $this->startAttributeStack[$this->stackPos-(3-1)] + $this->endAttributes);
     }
 
     protected function reduceRule253() {

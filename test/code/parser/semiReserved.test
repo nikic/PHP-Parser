@@ -119,6 +119,7 @@ array(
                 )
             )
             6: Stmt_ClassConst(
+                type: 0
                 consts: array(
                     0: Const(
                         name: TRAIT
@@ -135,6 +136,7 @@ array(
                 )
             )
             7: Stmt_ClassConst(
+                type: 0
                 consts: array(
                     0: Const(
                         name: __CLASS__

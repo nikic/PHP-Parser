@@ -39,6 +39,7 @@ array(
         )
         stmts: array(
             0: Stmt_ClassConst(
+                type: 0
                 consts: array(
                     0: Const(
                         name: A

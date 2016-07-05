@@ -421,7 +421,7 @@ class_statement_list:
 
 class_statement:
       variable_modifiers property_declaration_list ';'      { $$ = Stmt\Property[$1, $2]; }
-    | T_CONST class_const_list ';'                          { $$ = Stmt\ClassConst[$2]; }
+    | method_modifiers T_CONST class_const_list ';'         { $$ = Stmt\ClassConst[$3, $1]; }
     | method_modifiers T_FUNCTION optional_ref identifier '(' parameter_list ')' optional_return_type method_body
           { $$ = Stmt\ClassMethod[$4, ['type' => $1, 'byRef' => $3, 'params' => $6, 'returnType' => $8, 'stmts' => $9]]; }
     | T_USE name_list trait_adaptations                     { $$ = Stmt\TraitUse[$2, $3]; }
