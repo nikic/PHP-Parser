@@ -21,16 +21,12 @@ class Emulative extends \PhpParser\Lexer
 
     const PHP_7_0 = '7.0.0dev';
     const PHP_5_6 = '5.6.0rc1';
-    const PHP_5_5 = '5.5.0beta1';
 
     public function __construct(array $options = array()) {
         parent::__construct($options);
 
         $newKeywordsPerVersion = array(
-            self::PHP_5_5 => array(
-                'finally'       => Tokens::T_FINALLY,
-                'yield'         => Tokens::T_YIELD,
-            ),
+            // No new keywords since PHP 5.5
         );
 
         $this->newKeywords = array();
