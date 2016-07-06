@@ -363,6 +363,11 @@ parameter:
           { $$ = Node\Param[parseVar($4), $6, $1, $2, $3]; }
 ;
 
+type_expr:
+      type                                                  { $$ = $1; }
+    | '?' type                                              { $$ = Node\NullableType[$2]; }
+;
+
 type:
       name                                                  { $$ = $this->handleBuiltinTypes($1); }
     | T_ARRAY                                               { $$ = 'array'; }
@@ -371,12 +376,12 @@ type:
 
 optional_param_type:
       /* empty */                                           { $$ = null; }
-    | type                                                  { $$ = $1; }
+    | type_expr                                             { $$ = $1; }
 ;
 
 optional_return_type:
       /* empty */                                           { $$ = null; }
-    | ':' type                                              { $$ = $2; }
+    | ':' type_expr                                         { $$ = $2; }
 ;
 
 argument_list:

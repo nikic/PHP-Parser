@@ -33,6 +33,10 @@ class Standard extends PrettyPrinterAbstract
         return $node->name . ' = ' . $this->p($node->value);
     }
 
+    public function pNullableType(Node\NullableType $node) {
+        return '?' . $node->type;
+    }
+
     // Names
 
     public function pName(Name $node) {
