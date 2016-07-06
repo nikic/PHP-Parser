@@ -1,0 +1,144 @@
+Array destructuring
+-----
+<?php
+
+[$a, $b] = [$c, $d];
+[, $a, , , $b, ,] = $foo;
+[, [[$a]], $b] = $bar;
+['a' => $b, 'b' => $a] = $baz;
+-----
+!!php7
+array(
+    0: Expr_Assign(
+        var: Expr_Array(
+            items: array(
+                0: Expr_ArrayItem(
+                    key: null
+                    value: Expr_Variable(
+                        name: a
+                    )
+                    byRef: false
+                )
+                1: Expr_ArrayItem(
+                    key: null
+                    value: Expr_Variable(
+                        name: b
+                    )
+                    byRef: false
+                )
+            )
+        )
+        expr: Expr_Array(
+            items: array(
+                0: Expr_ArrayItem(
+                    key: null
+                    value: Expr_Variable(
+                        name: c
+                    )
+                    byRef: false
+                )
+                1: Expr_ArrayItem(
+                    key: null
+                    value: Expr_Variable(
+                        name: d
+                    )
+                    byRef: false
+                )
+            )
+        )
+    )
+    1: Expr_Assign(
+        var: Expr_Array(
+            items: array(
+                0: null
+                1: Expr_ArrayItem(
+                    key: null
+                    value: Expr_Variable(
+                        name: a
+                    )
+                    byRef: false
+                )
+                2: null
+                3: null
+                4: Expr_ArrayItem(
+                    key: null
+                    value: Expr_Variable(
+                        name: b
+                    )
+                    byRef: false
+                )
+                5: null
+            )
+        )
+        expr: Expr_Variable(
+            name: foo
+        )
+    )
+    2: Expr_Assign(
+        var: Expr_Array(
+            items: array(
+                0: null
+                1: Expr_ArrayItem(
+                    key: null
+                    value: Expr_Array(
+                        items: array(
+                            0: Expr_ArrayItem(
+                                key: null
+                                value: Expr_Array(
+                                    items: array(
+                                        0: Expr_ArrayItem(
+                                            key: null
+                                            value: Expr_Variable(
+                                                name: a
+                                            )
+                                            byRef: false
+                                        )
+                                    )
+                                )
+                                byRef: false
+                            )
+                        )
+                    )
+                    byRef: false
+                )
+                2: Expr_ArrayItem(
+                    key: null
+                    value: Expr_Variable(
+                        name: b
+                    )
+                    byRef: false
+                )
+            )
+        )
+        expr: Expr_Variable(
+            name: bar
+        )
+    )
+    3: Expr_Assign(
+        var: Expr_Array(
+            items: array(
+                0: Expr_ArrayItem(
+                    key: Scalar_String(
+                        value: a
+                    )
+                    value: Expr_Variable(
+                        name: b
+                    )
+                    byRef: false
+                )
+                1: Expr_ArrayItem(
+                    key: Scalar_String(
+                        value: b
+                    )
+                    value: Expr_Variable(
+                        name: a
+                    )
+                    byRef: false
+                )
+            )
+        )
+        expr: Expr_Variable(
+            name: baz
+        )
+    )
+)

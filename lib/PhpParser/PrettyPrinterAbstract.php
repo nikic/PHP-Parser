@@ -265,7 +265,11 @@ abstract class PrettyPrinterAbstract
     protected function pImplode(array $nodes, $glue = '') {
         $pNodes = array();
         foreach ($nodes as $node) {
-            $pNodes[] = $this->p($node);
+            if (null === $node) {
+                $pNodes[] = null;
+            } else {
+                $pNodes[] = $this->p($node);
+            }
         }
 
         return implode($glue, $pNodes);

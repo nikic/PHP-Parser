@@ -344,6 +344,7 @@ foreach_variable:
       variable                                              { $$ = array($1, false); }
     | '&' variable                                          { $$ = array($2, true); }
     | list_expr                                             { $$ = array($1, false); }
+    | array_short_syntax                                    { $$ = array($1, false); }
 ;
 
 parameter_list:
@@ -515,6 +516,7 @@ for_expr:
 expr:
       variable                                              { $$ = $1; }
     | list_expr '=' expr                                    { $$ = Expr\Assign[$1, $3]; }
+    | array_short_syntax '=' expr                           { $$ = Expr\Assign[$1, $3]; }
     | variable '=' expr                                     { $$ = Expr\Assign[$1, $3]; }
     | variable '=' '&' variable                             { $$ = Expr\AssignRef[$1, $4]; }
     | variable '=' '&' new_expr                             { $$ = Expr\AssignRef[$1, $4]; }
@@ -680,13 +682,17 @@ constant:
           { $$ = Expr\ClassConstFetch[$1, $3]; }
 ;
 
+array_short_syntax:
+      '[' array_pair_list ']'
+          { $attrs = attributes(); $attrs['kind'] = Expr\Array_::KIND_SHORT;
+            $$ = new Expr\Array_($2, $attrs); }
+;
+
 dereferencable_scalar:
       T_ARRAY '(' array_pair_list ')'
           { $attrs = attributes(); $attrs['kind'] = Expr\Array_::KIND_LONG;
             $$ = new Expr\Array_($3, $attrs); }
-    | '[' array_pair_list ']'
-          { $attrs = attributes(); $attrs['kind'] = Expr\Array_::KIND_SHORT;
-            $$ = new Expr\Array_($2, $attrs); }
+    | array_short_syntax                                    { $$ = $1; }
     | T_CONSTANT_ENCAPSED_STRING
           { $attrs = attributes(); $attrs['kind'] = strKind($1);
             $$ = new Scalar\String_(Scalar\String_::parse($1), $attrs); }
@@ -717,11 +723,6 @@ scalar:
     | T_START_HEREDOC encaps_list T_END_HEREDOC
           { $attrs = attributes(); setDocStringAttrs($attrs, $1);
             parseEncapsedDoc($2, true); $$ = new Scalar\Encapsed($2, $attrs); }
-;
-
-optional_comma:
-      /* empty */
-    | ','
 ;
 
 optional_expr:
@@ -805,12 +806,12 @@ list_expr_element:
 ;
 
 array_pair_list:
-      /* empty */                                           { $$ = array(); }
-    | non_empty_array_pair_list optional_comma              { $$ = $1; }
+      inner_array_pair_list
+          { $$ = $1; $end = count($$)-1; if ($$[$end] === null) unset($$[$end]); }
 ;
 
-non_empty_array_pair_list:
-      non_empty_array_pair_list ',' array_pair              { push($1, $3); }
+inner_array_pair_list:
+      inner_array_pair_list ',' array_pair                  { push($1, $3); }
     | array_pair                                            { init($1); }
 ;
 
@@ -819,6 +820,7 @@ array_pair:
     | expr                                                  { $$ = Expr\ArrayItem[$1, null, false]; }
     | expr T_DOUBLE_ARROW '&' variable                      { $$ = Expr\ArrayItem[$4, $1,   true]; }
     | '&' variable                                          { $$ = Expr\ArrayItem[$2, null, true]; }
+    | /* empty */                                           { $$ = null; }
 ;
 
 encaps_list:
