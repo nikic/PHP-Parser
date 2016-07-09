@@ -31,34 +31,12 @@ class Comment
     }
 
     /**
-     * Sets the comment text.
-     *
-     * @param string $text The comment text (including comment delimiters like /*)
-     *
-     * @deprecated Construct a new comment instead
-     */
-    public function setText($text) {
-        $this->text = $text;
-    }
-
-    /**
      * Gets the line number the comment started on.
      *
      * @return int Line number
      */
     public function getLine() {
         return $this->line;
-    }
-
-    /**
-     * Sets the line number the comment started on.
-     *
-     * @param int $line Line number
-     *
-     * @deprecated Construct a new comment instead
-     */
-    public function setLine($line) {
-        $this->line = $line;
     }
 
     /**
