@@ -1,0 +1,75 @@
+List destructing with keys
+-----
+<?php
+
+list('a' => $b) = ['a' => 'b'];
+list('a' => list($b => $c), 'd' => $e) = $x;
+-----
+!!php7
+array(
+    0: Expr_Assign(
+        var: Expr_List(
+            items: array(
+                0: Expr_ArrayItem(
+                    key: Scalar_String(
+                        value: a
+                    )
+                    value: Expr_Variable(
+                        name: b
+                    )
+                    byRef: false
+                )
+            )
+        )
+        expr: Expr_Array(
+            items: array(
+                0: Expr_ArrayItem(
+                    key: Scalar_String(
+                        value: a
+                    )
+                    value: Scalar_String(
+                        value: b
+                    )
+                    byRef: false
+                )
+            )
+        )
+    )
+    1: Expr_Assign(
+        var: Expr_List(
+            items: array(
+                0: Expr_ArrayItem(
+                    key: Scalar_String(
+                        value: a
+                    )
+                    value: Expr_List(
+                        items: array(
+                            0: Expr_ArrayItem(
+                                key: Expr_Variable(
+                                    name: b
+                                )
+                                value: Expr_Variable(
+                                    name: c
+                                )
+                                byRef: false
+                            )
+                        )
+                    )
+                    byRef: false
+                )
+                1: Expr_ArrayItem(
+                    key: Scalar_String(
+                        value: d
+                    )
+                    value: Expr_Variable(
+                        name: e
+                    )
+                    byRef: false
+                )
+            )
+        )
+        expr: Expr_Variable(
+            name: x
+        )
+    )
+)

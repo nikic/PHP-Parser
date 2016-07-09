@@ -459,7 +459,7 @@ class Standard extends PrettyPrinterAbstract
     }
 
     public function pExpr_List(Expr\List_ $node) {
-        return 'list(' . $this->pCommaSeparated($node->vars) . ')';
+        return 'list(' . $this->pCommaSeparated($node->items) . ')';
     }
 
     // Other

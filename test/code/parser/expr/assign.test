@@ -207,9 +207,13 @@ array(
     )
     16: Expr_Assign(
         var: Expr_List(
-            vars: array(
-                0: Expr_Variable(
-                    name: a
+            items: array(
+                0: Expr_ArrayItem(
+                    key: null
+                    value: Expr_Variable(
+                        name: a
+                    )
+                    byRef: false
                 )
             )
             comments: array(
@@ -225,13 +229,21 @@ array(
     )
     17: Expr_Assign(
         var: Expr_List(
-            vars: array(
-                0: Expr_Variable(
-                    name: a
+            items: array(
+                0: Expr_ArrayItem(
+                    key: null
+                    value: Expr_Variable(
+                        name: a
+                    )
+                    byRef: false
                 )
                 1: null
-                2: Expr_Variable(
-                    name: b
+                2: Expr_ArrayItem(
+                    key: null
+                    value: Expr_Variable(
+                        name: b
+                    )
+                    byRef: false
                 )
             )
         )
@@ -241,20 +253,32 @@ array(
     )
     18: Expr_Assign(
         var: Expr_List(
-            vars: array(
-                0: Expr_Variable(
-                    name: a
+            items: array(
+                0: Expr_ArrayItem(
+                    key: null
+                    value: Expr_Variable(
+                        name: a
+                    )
+                    byRef: false
                 )
                 1: Expr_List(
-                    vars: array(
+                    items: array(
                         0: null
-                        1: Expr_Variable(
-                            name: c
+                        1: Expr_ArrayItem(
+                            key: null
+                            value: Expr_Variable(
+                                name: c
+                            )
+                            byRef: false
                         )
                     )
                 )
-                2: Expr_Variable(
-                    name: d
+                2: Expr_ArrayItem(
+                    key: null
+                    value: Expr_Variable(
+                        name: d
+                    )
+                    byRef: false
                 )
             )
         )

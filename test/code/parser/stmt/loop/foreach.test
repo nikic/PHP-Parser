@@ -80,12 +80,20 @@ array(
         keyVar: null
         byRef: false
         valueVar: Expr_List(
-            vars: array(
-                0: Expr_Variable(
-                    name: a
+            items: array(
+                0: Expr_ArrayItem(
+                    key: null
+                    value: Expr_Variable(
+                        name: a
+                    )
+                    byRef: false
                 )
-                1: Expr_Variable(
-                    name: b
+                1: Expr_ArrayItem(
+                    key: null
+                    value: Expr_Variable(
+                        name: b
+                    )
+                    byRef: false
                 )
             )
         )
@@ -101,13 +109,21 @@ array(
         )
         byRef: false
         valueVar: Expr_List(
-            vars: array(
-                0: Expr_Variable(
-                    name: b
+            items: array(
+                0: Expr_ArrayItem(
+                    key: null
+                    value: Expr_Variable(
+                        name: b
+                    )
+                    byRef: false
                 )
                 1: null
-                2: Expr_Variable(
-                    name: c
+                2: Expr_ArrayItem(
+                    key: null
+                    value: Expr_Variable(
+                        name: c
+                    )
+                    byRef: false
                 )
             )
         )

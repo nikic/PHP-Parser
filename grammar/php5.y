@@ -927,7 +927,7 @@ list_expr_elements:
 ;
 
 list_expr_element:
-      variable                                              { $$ = $1; }
+      variable                                              { $$ = Expr\ArrayItem[$1, null, false]; }
     | list_expr                                             { $$ = $1; }
     | /* empty */                                           { $$ = null; }
 ;

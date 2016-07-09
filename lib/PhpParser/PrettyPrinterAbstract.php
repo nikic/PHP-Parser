@@ -266,7 +266,7 @@ abstract class PrettyPrinterAbstract
         $pNodes = array();
         foreach ($nodes as $node) {
             if (null === $node) {
-                $pNodes[] = null;
+                $pNodes[] = '';
             } else {
                 $pNodes[] = $this->p($node);
             }
