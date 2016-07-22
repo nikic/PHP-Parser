@@ -201,7 +201,7 @@ catches:
 
 catch:
     T_CATCH '(' name T_VARIABLE ')' '{' inner_statement_list '}'
-        { $$ = Stmt\Catch_[$3, parseVar($4), $7]; }
+        { $$ = Stmt\Catch_[array($3), parseVar($4), $7]; }
 ;
 
 optional_finally:

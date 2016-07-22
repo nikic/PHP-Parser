@@ -36,9 +36,11 @@ array(
         )
         catches: array(
             0: Stmt_Catch(
-                type: Name(
-                    parts: array(
-                        0: A
+                types: array(
+                    0: Name(
+                        parts: array(
+                            0: A
+                        )
                     )
                 )
                 var: b
@@ -55,9 +57,11 @@ array(
                 )
             )
             1: Stmt_Catch(
-                type: Name(
-                    parts: array(
-                        0: B
+                types: array(
+                    0: Name(
+                        parts: array(
+                            0: B
+                        )
                     )
                 )
                 var: c
@@ -91,9 +95,11 @@ array(
         )
         catches: array(
             0: Stmt_Catch(
-                type: Name(
-                    parts: array(
-                        0: A
+                types: array(
+                    0: Name(
+                        parts: array(
+                            0: A
+                        )
                     )
                 )
                 var: b

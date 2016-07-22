@@ -1553,7 +1553,7 @@ class Php5 extends \PhpParser\ParserAbstract
     }
 
     protected function reduceRule160() {
-         $this->semValue = new Stmt\Catch_($this->semStack[$this->stackPos-(8-3)], substr($this->semStack[$this->stackPos-(8-4)], 1), $this->semStack[$this->stackPos-(8-7)], $this->startAttributeStack[$this->stackPos-(8-1)] + $this->endAttributes);
+         $this->semValue = new Stmt\Catch_(array($this->semStack[$this->stackPos-(8-3)]), substr($this->semStack[$this->stackPos-(8-4)], 1), $this->semStack[$this->stackPos-(8-7)], $this->startAttributeStack[$this->stackPos-(8-1)] + $this->endAttributes);
     }
 
     protected function reduceRule161() {
