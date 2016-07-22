@@ -3,6 +3,41 @@ Version 3.0.0-dev
 
 Nothing yet.
 
+### Added
+
+* [7.1] Added support for `void` and `iterable` types. These will now be represented as strings
+  (instead of `Name` instances) similar to other builtin types.
+* [7.1] Added support for class constant visibility. The `ClassConst` node now has a `type` subnode
+  holding the visibility modifier, as well as `isPublic()`, `isProtected()` and `isPrivate()`
+  methods. The constructor changed to accept the additional subnode.
+* [7.1] Added support for nullable types. These are represented using a new `NullableType` node
+  with a single `type` subnode.
+* [7.1] Added support for short array destructuring syntax. This means that `Array` nodes may now
+  appear as the left-hand-side of assignments and foreach value targets. Additionally the array
+  items may now contain `null` values if elements are skipped.
+* [7.1] Added support for keys in list() destructuring. The `List` subnode `vars` has been renamed
+  to `items` and now contains `ArrayItem`s instead of plain variables.
+* [7.1] Added support for multi-catch. The `Catch` subnode `type` has been renamed to `types` and
+  is now an array of `Name`s.
+
+### Changed
+
+Due to PHP 7.1 support additions described above, the following backwards incompatible changes were
+made:
+
+* `void` and `iterable` types are now stored as strings if the PHP 7 parser is used.
+* The `ClassConst` constructor changed to accept an additional `type` subnode.
+* The `Array` subnode `items` may now contain `null` elements (destructuring).
+* The `List` subnode `vars` has been renamed to `items` and now contains `ArrayItem`s instead of
+  plain variables.
+* The `Catch` subnode `type` has been renamed to `types` and is now an array of `Name`s.
+
+### Removed
+
+* Removed support for running on PHP 5.4. It is however still possible to parse PHP 5.2-5.4 code
+  while running on a newer version.
+* The deprecated `Comment::setLine()` and `Comment::setText()` methods have been removed.
+
 Version 2.1.0 (2016-04-19)
 --------------------------
 
@@ -99,7 +134,7 @@ A more detailed description of backwards incompatible changes can be found in th
 
 ### Removed
 
-* Removed support for running on PHP 5.4. It is however still possible to parse PHP 5.2 and PHP 5.3
+* Removed support for running on PHP 5.3. It is however still possible to parse PHP 5.2 and PHP 5.3
   code while running on a newer version.
 * Removed legacy class name aliases. This includes the old non-namespaced class names and the old
   names for classes that were renamed for PHP 7 compatibility.
