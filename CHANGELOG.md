@@ -22,8 +22,7 @@ Nothing yet.
 
 ### Changed
 
-Due to PHP 7.1 support additions described above, the following backwards incompatible changes were
-made:
+Due to PHP 7.1 support additions described above, the node structure changed as follows:
 
 * `void` and `iterable` types are now stored as strings if the PHP 7 parser is used.
 * The `ClassConst` constructor changed to accept an additional `type` subnode.
@@ -31,6 +30,11 @@ made:
 * The `List` subnode `vars` has been renamed to `items` and now contains `ArrayItem`s instead of
   plain variables.
 * The `Catch` subnode `type` has been renamed to `types` and is now an array of `Name`s.
+
+Additionally the following changes were made:
+
+* The `Trait` constructor now has the same form as the `Class` and `Interface` constructors: It
+  takes an array of subnodes. Unlike classes/interfaces, traits can only have a `stmts` subnode.
 
 ### Removed
 

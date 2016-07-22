@@ -235,7 +235,7 @@ class_declaration_statement:
     | T_INTERFACE T_STRING interface_extends_list '{' class_statement_list '}'
           { $$ = Stmt\Interface_[$2, ['extends' => $3, 'stmts' => $5]]; }
     | T_TRAIT T_STRING '{' class_statement_list '}'
-          { $$ = Stmt\Trait_[$2, $4]; }
+          { $$ = Stmt\Trait_[$2, ['stmts' => $4]]; }
 ;
 
 class_entry_type:

@@ -1601,7 +1601,7 @@ class Php5 extends \PhpParser\ParserAbstract
     }
 
     protected function reduceRule172() {
-         $this->semValue = new Stmt\Trait_($this->semStack[$this->stackPos-(5-2)], $this->semStack[$this->stackPos-(5-4)], $this->startAttributeStack[$this->stackPos-(5-1)] + $this->endAttributes);
+         $this->semValue = new Stmt\Trait_($this->semStack[$this->stackPos-(5-2)], ['stmts' => $this->semStack[$this->stackPos-(5-4)]], $this->startAttributeStack[$this->stackPos-(5-1)] + $this->endAttributes);
     }
 
     protected function reduceRule173() {

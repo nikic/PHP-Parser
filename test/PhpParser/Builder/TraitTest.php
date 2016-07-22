@@ -27,7 +27,7 @@ class TraitTest extends \PHPUnit_Framework_TestCase
             ->addStmt($prop)
             ->getNode();
         $this->assertEquals(new Stmt\Trait_('TestTrait', array(
-            $prop, $method1, $method2, $method3
+            'stmts' => array($prop, $method1, $method2, $method3)
         ), array(
             'comments' => array(
                 new Comment\Doc('/** Nice trait */')
