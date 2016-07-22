@@ -1,7 +1,7 @@
 Introduction
 ============
 
-This project is a PHP 5.2 to PHP 7.0 parser **written in PHP itself**.
+This project is a PHP 5.2 to PHP 7.1 parser **written in PHP itself**.
 
 What is this for?
 -----------------
@@ -29,9 +29,9 @@ What can it parse?
 The parser supports parsing PHP 5.2-5.6 and PHP 7.
 
 As the parser is based on the tokens returned by `token_get_all` (which is only able to lex the PHP
-version it runs on), additionally a wrapper for emulating new tokens from 5.5, 5.6 and 7.0 is
-provided. This allows to parse PHP 7.0 source code running on PHP 5.4, for example. This emulation
-is somewhat hacky and not perfect, but it should work well on any sane code.
+version it runs on), additionally a wrapper for emulating tokens from newer versions is provided.
+This allows to parse PHP 7.1 source code running on PHP 5.5, for example. This emulation is somewhat
+hacky and not perfect, but it should work well on any sane code.
 
 What output does it produce?
 ----------------------------
