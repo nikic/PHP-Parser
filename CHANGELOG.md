@@ -34,8 +34,12 @@ Additionally the following changes were made:
 * The `type` subnode on `Class`, `ClassMethod` and `Property` has been renamed to `flags`. The
   `type` subnode has retained for backwards compatibility and is populated to the same value as
   `flags`. However, writes to `type` will not update `flags`.
+* The `TryCatch::$finallyStmts` subnode has been replaced with a `$finally` subnode that holds an
+  explicit `Finally` node. This allows for more accurate attribute assignment.
 * The `Trait` constructor now has the same form as the `Class` and `Interface` constructors: It
   takes an array of subnodes. Unlike classes/interfaces, traits can only have a `stmts` subnode.
+* The `NodeDumper` now prints class/method/property/constant modifiers, as well as the include and
+  use type in a textual representation, instead of only showing the number.
 
 ### Removed
 

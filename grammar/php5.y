@@ -206,7 +206,7 @@ catch:
 
 optional_finally:
       /* empty */                                           { $$ = null; }
-    | T_FINALLY '{' inner_statement_list '}'                { $$ = $3; }
+    | T_FINALLY '{' inner_statement_list '}'                { $$ = Stmt\Finally_[$3]; }
 ;
 
 variables_list:

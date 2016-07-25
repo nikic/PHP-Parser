@@ -1438,7 +1438,7 @@ class Php7 extends \PhpParser\ParserAbstract
     }
 
     protected function reduceRule160() {
-         $this->semValue = $this->semStack[$this->stackPos-(4-3)];
+         $this->semValue = new Stmt\Finally_($this->semStack[$this->stackPos-(4-3)], $this->startAttributeStack[$this->stackPos-(4-1)] + $this->endAttributes);
     }
 
     protected function reduceRule161() {

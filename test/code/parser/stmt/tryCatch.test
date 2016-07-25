@@ -78,14 +78,16 @@ array(
                 )
             )
         )
-        finallyStmts: array(
-            0: Expr_FuncCall(
-                name: Name(
-                    parts: array(
-                        0: doFinally
+        finally: Stmt_Finally(
+            stmts: array(
+                0: Expr_FuncCall(
+                    name: Name(
+                        parts: array(
+                            0: doFinally
+                        )
                     )
-                )
-                args: array(
+                    args: array(
+                    )
                 )
             )
         )
@@ -107,7 +109,7 @@ array(
                 )
             )
         )
-        finallyStmts: null
+        finally: null
         comments: array(
             0: // no finally
         )
@@ -117,7 +119,9 @@ array(
         )
         catches: array(
         )
-        finallyStmts: array(
+        finally: Stmt_Finally(
+            stmts: array(
+            )
         )
         comments: array(
             0: // no catch

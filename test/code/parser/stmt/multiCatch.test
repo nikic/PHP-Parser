@@ -60,6 +60,6 @@ array(
                 )
             )
         )
-        finallyStmts: null
+        finally: null
     )
 )

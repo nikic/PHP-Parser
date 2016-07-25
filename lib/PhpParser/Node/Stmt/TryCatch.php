@@ -11,29 +11,29 @@ class TryCatch extends Node\Stmt
     public $stmts;
     /** @var Catch_[] Catches */
     public $catches;
-    /** @var null|Node[] Finally statements */
-    public $finallyStmts;
+    /** @var null|Finally_ Optional finally node */
+    public $finally;
 
     /**
      * Constructs a try catch node.
      *
-     * @param Node[]      $stmts        Statements
-     * @param Catch_[]    $catches      Catches
-     * @param null|Node[] $finallyStmts Finally statements (null means no finally clause)
-     * @param array|null  $attributes   Additional attributes
+     * @param Node[]        $stmts      Statements
+     * @param Catch_[]      $catches    Catches
+     * @param null|Finally_ $finally    Optionaly finally node
+     * @param array|null    $attributes Additional attributes
      */
-    public function __construct(array $stmts, array $catches, array $finallyStmts = null, array $attributes = array()) {
-        if (empty($catches) && null === $finallyStmts) {
+    public function __construct(array $stmts, array $catches, Finally_ $finally = null, array $attributes = array()) {
+        if (empty($catches) && null === $finally) {
             throw new Error('Cannot use try without catch or finally');
         }
 
         parent::__construct($attributes);
         $this->stmts = $stmts;
         $this->catches = $catches;
-        $this->finallyStmts = $finallyStmts;
+        $this->finally = $finally;
     }
 
     public function getSubNodeNames() {
-        return array('stmts', 'catches', 'finallyStmts');
+        return array('stmts', 'catches', 'finally');
     }
 }
