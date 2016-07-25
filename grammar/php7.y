@@ -793,6 +793,7 @@ property_name:
       T_STRING                                              { $$ = $1; }
     | '{' expr '}'	                                        { $$ = $2; }
     | simple_variable	                                    { $$ = Expr\Variable[$1]; }
+    | error                                                 { $$ = Expr\Error[]; }
 ;
 
 list_expr:

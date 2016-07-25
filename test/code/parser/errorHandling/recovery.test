@@ -240,3 +240,18 @@ while (true) {
     $i = 2;
 -----
 Syntax error, unexpected EOF from 8:12 to 8:12
+-----
+<?php
+$foo->
+;
+-----
+Syntax error, unexpected ';' from 3:1 to 3:1
+array(
+    0: Expr_PropertyFetch(
+        var: Expr_Variable(
+            name: foo
+        )
+        name: Expr_Error(
+        )
+    )
+)
