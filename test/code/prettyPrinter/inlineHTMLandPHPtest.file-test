@@ -50,3 +50,9 @@ HTML
 echo 'PHP';
 ?>
 HTML
+-----
+HTML<?php echo 'PHP'; ?>HTML
+-----
+HTML<?php
+echo 'PHP';
+?>HTML

@@ -110,9 +110,9 @@ EOC;
     }
 
     /**
-     * @dataProvider provideTestKindAttributes
+     * @dataProvider provideTestExtraAttributes
      */
-    public function testKindAttributes($code, $expectedAttributes) {
+    public function testExtraAttributes($code, $expectedAttributes) {
         $parser = $this->getParser(new Lexer);
         $stmts = $parser->parse("<?php $code;");
         $attributes = $stmts[0]->getAttributes();
@@ -121,7 +121,7 @@ EOC;
         }
     }
 
-    public function provideTestKindAttributes() {
+    public function provideTestExtraAttributes() {
         return array(
             array('0', ['kind' => Scalar\LNumber::KIND_DEC]),
             array('9', ['kind' => Scalar\LNumber::KIND_DEC]),
@@ -158,6 +158,8 @@ EOC;
             array("die('done')", ['kind' => Expr\Exit_::KIND_DIE]),
             array("exit", ['kind' => Expr\Exit_::KIND_EXIT]),
             array("exit(1)", ['kind' => Expr\Exit_::KIND_EXIT]),
+            array("?>Foo", ['hasLeadingNewline' => false]),
+            array("?>\nFoo", ['hasLeadingNewline' => true]),
         );
     }
 }

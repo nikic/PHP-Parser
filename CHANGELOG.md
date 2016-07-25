@@ -1,7 +1,10 @@
 Version 3.0.0-dev
 -----------------
 
-Nothing yet.
+### Added
+
+* The `InlineHTML` node now has an `hasLeadingNewline` attribute, that specifies whether the
+  preceding closing tag contained a newline. The pretty printer honors this attribute.
 
 Version 3.0.0-alpha1 (2016-07-25)
 ---------------------------------

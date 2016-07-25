@@ -72,7 +72,8 @@ class LexerTest extends \PHPUnit_Framework_TestCase
                     ),
                     array(
                         Tokens::T_INLINE_HTML, 'plaintext',
-                        array('startLine' => 1), array('endLine' => 1)
+                        array('startLine' => 1, 'hasLeadingNewline' => false),
+                        array('endLine' => 1)
                     ),
                 )
             ),
