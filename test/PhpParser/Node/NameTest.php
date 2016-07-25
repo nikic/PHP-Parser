@@ -96,18 +96,51 @@ class NameTest extends \PHPUnit_Framework_TestCase
     }
 
     public function testSlice() {
-        $name = new Name('foo\bar');
-        $this->assertEquals(new Name('foo\bar'), $name->slice(0));
-        $this->assertEquals(new Name('bar'), $name->slice(1));
-        $this->assertEquals(new Name([]), $name->slice(2));
+        $name = new Name('foo\bar\baz');
+        $this->assertEquals(new Name('foo\bar\baz'), $name->slice(0));
+        $this->assertEquals(new Name('bar\baz'), $name->slice(1));
+        $this->assertEquals(new Name([]), $name->slice(3));
+        $this->assertEquals(new Name('foo\bar\baz'), $name->slice(-3));
+        $this->assertEquals(new Name('bar\baz'), $name->slice(-2));
+        $this->assertEquals(new Name('foo\bar'), $name->slice(0, -1));
+        $this->assertEquals(new Name([]), $name->slice(0, -3));
+        $this->assertEquals(new Name('bar'), $name->slice(1, -1));
+        $this->assertEquals(new Name([]), $name->slice(1, -2));
+        $this->assertEquals(new Name('bar'), $name->slice(-2, 1));
+        $this->assertEquals(new Name('bar'), $name->slice(-2, -1));
+        $this->assertEquals(new Name([]), $name->slice(-2, -2));
     }
 
     /**
      * @expectedException \OutOfBoundsException
      * @expectedExceptionMessage Offset 4 is out of bounds
      */
-    public function testSliceException() {
+    public function testSliceOffsetTooLarge() {
         (new Name('foo\bar\baz'))->slice(4);
+    }
+
+    /**
+     * @expectedException \OutOfBoundsException
+     * @expectedExceptionMessage Offset -4 is out of bounds
+     */
+    public function testSliceOffsetTooSmall() {
+        (new Name('foo\bar\baz'))->slice(-4);
+    }
+
+    /**
+     * @expectedException \OutOfBoundsException
+     * @expectedExceptionMessage Length 4 is out of bounds
+     */
+    public function testSliceLengthTooLarge() {
+        (new Name('foo\bar\baz'))->slice(0, 4);
+    }
+
+    /**
+     * @expectedException \OutOfBoundsException
+     * @expectedExceptionMessage Length -4 is out of bounds
+     */
+    public function testSliceLengthTooSmall() {
+        (new Name('foo\bar\baz'))->slice(0, -4);
     }
 
     public function testConcat() {

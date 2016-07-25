@@ -165,17 +165,31 @@ class Name extends NodeAbstract
      * If the slice is empty, a Name with an empty parts array is returned. While this is
      * meaningless in itself, it works correctly in conjunction with concat().
      *
-     * @param int $offset Offset to start the slice at
+     * Offset and length have the same meaning as in array_slice().
+     *
+     * @param int      $offset Offset to start the slice at (may be negative)
+     * @param int|null $length Length of the slice (may be negative)
      *
      * @return static Sliced name
      */
-    public function slice($offset) {
-        // TODO negative offset and length
-        if ($offset < 0 || $offset > count($this->parts)) {
+    public function slice($offset, $length = null) {
+        $numParts = count($this->parts);
+
+        $realOffset = $offset < 0 ? $offset + $numParts : $offset;
+        if ($realOffset < 0 || $realOffset > $numParts) {
             throw new \OutOfBoundsException(sprintf('Offset %d is out of bounds', $offset));
         }
 
-        return new static(array_slice($this->parts, $offset), $this->attributes);
+        if (null === $length) {
+            $realLength = $numParts - $realOffset;
+        } else {
+            $realLength = $length < 0 ? $length + $numParts - $realOffset : $length;
+            if ($realLength < 0 || $realLength > $numParts) {
+                throw new \OutOfBoundsException(sprintf('Length %d is out of bounds', $length));
+            }
+        }
+
+        return new static(array_slice($this->parts, $realOffset, $realLength), $this->attributes);
     }
 
     /**
