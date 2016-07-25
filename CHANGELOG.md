@@ -40,6 +40,7 @@ Additionally the following changes were made:
   takes an array of subnodes. Unlike classes/interfaces, traits can only have a `stmts` subnode.
 * The `NodeDumper` now prints class/method/property/constant modifiers, as well as the include and
   use type in a textual representation, instead of only showing the number.
+* All methods on `PrettyPrinter\Standard` are now protected. Previoulsy most of them were public.
 
 ### Removed
 
