@@ -10,7 +10,7 @@ use A\B\{C\D, function b\c, const D};
 -----
 array(
     0: Stmt_GroupUse(
-        type: 0
+        type: TYPE_UNKNOWN (0)
         prefix: Name(
             parts: array(
                 0: A
@@ -18,7 +18,7 @@ array(
         )
         uses: array(
             0: Stmt_UseUse(
-                type: 1
+                type: TYPE_NORMAL (1)
                 name: Name(
                     parts: array(
                         0: B
@@ -29,7 +29,7 @@ array(
         )
     )
     1: Stmt_GroupUse(
-        type: 0
+        type: TYPE_UNKNOWN (0)
         prefix: Name(
             parts: array(
                 0: A
@@ -37,7 +37,7 @@ array(
         )
         uses: array(
             0: Stmt_UseUse(
-                type: 1
+                type: TYPE_NORMAL (1)
                 name: Name(
                     parts: array(
                         0: B
@@ -47,7 +47,7 @@ array(
                 alias: C
             )
             1: Stmt_UseUse(
-                type: 1
+                type: TYPE_NORMAL (1)
                 name: Name(
                     parts: array(
                         0: D
@@ -58,7 +58,7 @@ array(
         )
     )
     2: Stmt_GroupUse(
-        type: 0
+        type: TYPE_UNKNOWN (0)
         prefix: Name(
             parts: array(
                 0: A
@@ -67,7 +67,7 @@ array(
         )
         uses: array(
             0: Stmt_UseUse(
-                type: 1
+                type: TYPE_NORMAL (1)
                 name: Name(
                     parts: array(
                         0: C
@@ -77,7 +77,7 @@ array(
                 alias: D
             )
             1: Stmt_UseUse(
-                type: 1
+                type: TYPE_NORMAL (1)
                 name: Name(
                     parts: array(
                         0: E
@@ -88,7 +88,7 @@ array(
         )
     )
     3: Stmt_GroupUse(
-        type: 2
+        type: TYPE_FUNCTION (2)
         prefix: Name(
             parts: array(
                 0: A
@@ -96,7 +96,7 @@ array(
         )
         uses: array(
             0: Stmt_UseUse(
-                type: 0
+                type: TYPE_UNKNOWN (0)
                 name: Name(
                     parts: array(
                         0: b
@@ -106,7 +106,7 @@ array(
                 alias: c
             )
             1: Stmt_UseUse(
-                type: 0
+                type: TYPE_UNKNOWN (0)
                 name: Name(
                     parts: array(
                         0: d
@@ -117,7 +117,7 @@ array(
         )
     )
     4: Stmt_GroupUse(
-        type: 3
+        type: TYPE_CONSTANT (3)
         prefix: Name(
             parts: array(
                 0: A
@@ -125,7 +125,7 @@ array(
         )
         uses: array(
             0: Stmt_UseUse(
-                type: 0
+                type: TYPE_UNKNOWN (0)
                 name: Name(
                     parts: array(
                         0: B
@@ -135,7 +135,7 @@ array(
                 alias: C
             )
             1: Stmt_UseUse(
-                type: 0
+                type: TYPE_UNKNOWN (0)
                 name: Name(
                     parts: array(
                         0: D
@@ -146,7 +146,7 @@ array(
         )
     )
     5: Stmt_GroupUse(
-        type: 0
+        type: TYPE_UNKNOWN (0)
         prefix: Name(
             parts: array(
                 0: A
@@ -155,7 +155,7 @@ array(
         )
         uses: array(
             0: Stmt_UseUse(
-                type: 1
+                type: TYPE_NORMAL (1)
                 name: Name(
                     parts: array(
                         0: C
@@ -165,7 +165,7 @@ array(
                 alias: D
             )
             1: Stmt_UseUse(
-                type: 2
+                type: TYPE_FUNCTION (2)
                 name: Name(
                     parts: array(
                         0: b
@@ -175,7 +175,7 @@ array(
                 alias: c
             )
             2: Stmt_UseUse(
-                type: 3
+                type: TYPE_CONSTANT (3)
                 name: Name(
                     parts: array(
                         0: D

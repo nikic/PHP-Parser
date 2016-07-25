@@ -8,7 +8,7 @@ use Bar\{Foo};
 Syntax error, unexpected T_USE, expecting ';' from 4:1 to 4:3
 array(
     0: Stmt_GroupUse(
-        type: 0
+        type: TYPE_UNKNOWN (0)
         prefix: Name(
             parts: array(
                 0: Bar
@@ -16,7 +16,7 @@ array(
         )
         uses: array(
             0: Stmt_UseUse(
-                type: 1
+                type: TYPE_NORMAL (1)
                 name: Name(
                     parts: array(
                         0: Foo

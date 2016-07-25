@@ -12,25 +12,25 @@ array(
         expr: Scalar_String(
             value: A.php
         )
-        type: 1
+        type: TYPE_INCLUDE (1)
     )
     1: Expr_Include(
         expr: Scalar_String(
             value: A.php
         )
-        type: 2
+        type: TYPE_INCLUDE_ONCE (2)
     )
     2: Expr_Include(
         expr: Scalar_String(
             value: A.php
         )
-        type: 3
+        type: TYPE_REQUIRE (3)
     )
     3: Expr_Include(
         expr: Scalar_String(
             value: A.php
         )
-        type: 4
+        type: TYPE_REQURE_ONCE (4)
     )
     4: Expr_Eval(
         expr: Scalar_String(
