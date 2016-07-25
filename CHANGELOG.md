@@ -25,7 +25,7 @@ Version 3.0.0-dev
 Due to PHP 7.1 support additions described above, the node structure changed as follows:
 
 * `void` and `iterable` types are now stored as strings if the PHP 7 parser is used.
-* The `ClassConst` constructor changed to accept an additional `type` subnode.
+* The `ClassConst` constructor changed to accept an additional `flags` subnode.
 * The `Array` subnode `items` may now contain `null` elements (destructuring).
 * The `List` subnode `vars` has been renamed to `items` and now contains `ArrayItem`s instead of
   plain variables.
@@ -36,7 +36,7 @@ Additionally the following changes were made:
 * The `type` subnode on `Class`, `ClassMethod` and `Property` has been renamed to `flags`. The
   `type` subnode has retained for backwards compatibility and is populated to the same value as
   `flags`. However, writes to `type` will not update `flags`.
-* The `TryCatch::$finallyStmts` subnode has been replaced with a `$finally` subnode that holds an
+* The `TryCatch` subnode `finallyStmts` has been replaced with a `finally` subnode that holds an
   explicit `Finally` node. This allows for more accurate attribute assignment.
 * The `Trait` constructor now has the same form as the `Class` and `Interface` constructors: It
   takes an array of subnodes. Unlike classes/interfaces, traits can only have a `stmts` subnode.
