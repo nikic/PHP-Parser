@@ -1,6 +1,11 @@
 Version 3.0.0-dev
 -----------------
 
+Nothing yet.
+
+Version 3.0.0-alpha1 (2016-07-25)
+---------------------------------
+
 ### Added
 
 * [7.1] Added support for `void` and `iterable` types. These will now be represented as strings
