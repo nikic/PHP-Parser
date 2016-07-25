@@ -2,7 +2,7 @@
 
 namespace PhpParser;
 
-class Comment
+class Comment implements \JsonSerializable
 {
     protected $text;
     protected $line;
@@ -125,5 +125,16 @@ class Comment
             }
         }
         return $shortestPrefixLen;
+    }
+
+    public function jsonSerialize() {
+        // Technically not a node, but we make it look like one anyway
+        $type = $this instanceof Comment\Doc ? 'Comment_Doc' : 'Comment';
+        return [
+            'nodeType' => $type,
+            'text' => $this->text,
+            'line' => $this->line,
+            'filePos' => $this->filePos,
+        ];
     }
 }

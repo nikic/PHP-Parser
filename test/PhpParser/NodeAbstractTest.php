@@ -144,4 +144,109 @@ class NodeAbstractTest extends \PHPUnit_Framework_TestCase
             $node->getAttributes()
         );
     }
+
+    public function testJsonSerialization() {
+        $code = <<<'PHP'
+<?php
+// comment
+/** doc comment */
+function functionName(&$a = 0, $b = 1.0) {
+    echo 'Foo';
+}
+PHP;
+        $expected = <<<'JSON'
+[
+    {
+        "nodeType": "Stmt_Function",
+        "byRef": false,
+        "name": "functionName",
+        "params": [
+            {
+                "nodeType": "Param",
+                "type": null,
+                "byRef": true,
+                "variadic": false,
+                "name": "a",
+                "default": {
+                    "nodeType": "Scalar_LNumber",
+                    "value": 0,
+                    "attributes": {
+                        "startLine": 4,
+                        "endLine": 4,
+                        "kind": 10
+                    }
+                },
+                "attributes": {
+                    "startLine": 4,
+                    "endLine": 4
+                }
+            },
+            {
+                "nodeType": "Param",
+                "type": null,
+                "byRef": false,
+                "variadic": false,
+                "name": "b",
+                "default": {
+                    "nodeType": "Scalar_DNumber",
+                    "value": 1,
+                    "attributes": {
+                        "startLine": 4,
+                        "endLine": 4
+                    }
+                },
+                "attributes": {
+                    "startLine": 4,
+                    "endLine": 4
+                }
+            }
+        ],
+        "returnType": null,
+        "stmts": [
+            {
+                "nodeType": "Stmt_Echo",
+                "exprs": [
+                    {
+                        "nodeType": "Scalar_String",
+                        "value": "Foo",
+                        "attributes": {
+                            "startLine": 5,
+                            "endLine": 5,
+                            "kind": 1
+                        }
+                    }
+                ],
+                "attributes": {
+                    "startLine": 5,
+                    "endLine": 5
+                }
+            }
+        ],
+        "attributes": {
+            "startLine": 4,
+            "comments": [
+                {
+                    "nodeType": "Comment",
+                    "text": "\/\/ comment\r\n",
+                    "line": 2,
+                    "filePos": 7
+                },
+                {
+                    "nodeType": "Comment_Doc",
+                    "text": "\/** doc comment *\/",
+                    "line": 3,
+                    "filePos": 19
+                }
+            ],
+            "endLine": 6
+        }
+    }
+]
+JSON;
+
+        $parser = new Parser\Php7(new Lexer());
+        $stmts = $parser->parse($code);
+        $json = json_encode($stmts, JSON_PRETTY_PRINT);
+        $this->assertEquals(canonicalize($expected), canonicalize($json));
+    }
 }
