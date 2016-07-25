@@ -227,15 +227,15 @@ PHP;
             "comments": [
                 {
                     "nodeType": "Comment",
-                    "text": "\/\/ comment\r\n",
+                    "text": "\/\/ comment\n",
                     "line": 2,
-                    "filePos": 7
+                    "filePos": 6
                 },
                 {
                     "nodeType": "Comment_Doc",
                     "text": "\/** doc comment *\/",
                     "line": 3,
-                    "filePos": 19
+                    "filePos": 17
                 }
             ],
             "endLine": 6
@@ -245,7 +245,7 @@ PHP;
 JSON;
 
         $parser = new Parser\Php7(new Lexer());
-        $stmts = $parser->parse($code);
+        $stmts = $parser->parse(canonicalize($code));
         $json = json_encode($stmts, JSON_PRETTY_PRINT);
         $this->assertEquals(canonicalize($expected), canonicalize($json));
     }
