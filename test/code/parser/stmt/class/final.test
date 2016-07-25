@@ -6,7 +6,7 @@ final class A {}
 -----
 array(
     0: Stmt_Class(
-        type: 32
+        flags: 32
         name: A
         extends: null
         implements: array(

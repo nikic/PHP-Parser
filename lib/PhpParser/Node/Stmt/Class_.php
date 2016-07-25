@@ -17,11 +17,14 @@ class Class_ extends ClassLike
     const VISIBILITY_MODIFER_MASK = 7; // 1 | 2 | 4
 
     /** @var int Type */
-    public $type;
+    public $flags;
     /** @var null|Node\Name Name of extended class */
     public $extends;
     /** @var Node\Name[] Names of implemented interfaces */
     public $implements;
+
+    /** @deprecated Use $flags instead */
+    public $type;
 
     protected static $specialNames = array(
         'self'   => true,
@@ -34,7 +37,7 @@ class Class_ extends ClassLike
      *
      * @param string|null $name       Name
      * @param array       $subNodes   Array of the following optional subnodes:
-     *                                'type'       => 0      : Type
+     *                                'flags'      => 0      : Flags
      *                                'extends'    => null   : Name of extended class
      *                                'implements' => array(): Names of implemented interfaces
      *                                'stmts'      => array(): Statements
@@ -42,7 +45,9 @@ class Class_ extends ClassLike
      */
     public function __construct($name, array $subNodes = array(), array $attributes = array()) {
         parent::__construct($attributes);
-        $this->type = isset($subNodes['type']) ? $subNodes['type'] : 0;
+        $this->flags = isset($subNodes['flags']) ? $subNodes['flags']
+            : (isset($subNodes['type']) ? $subNodes['type'] : 0);
+        $this->type = $this->flags;
         $this->name = $name;
         $this->extends = isset($subNodes['extends']) ? $subNodes['extends'] : null;
         $this->implements = isset($subNodes['implements']) ? $subNodes['implements'] : array();
@@ -70,15 +75,15 @@ class Class_ extends ClassLike
     }
 
     public function getSubNodeNames() {
-        return array('type', 'name', 'extends', 'implements', 'stmts');
+        return array('flags', 'name', 'extends', 'implements', 'stmts');
     }
 
     public function isAbstract() {
-        return (bool) ($this->type & self::MODIFIER_ABSTRACT);
+        return (bool) ($this->flags & self::MODIFIER_ABSTRACT);
     }
 
     public function isFinal() {
-        return (bool) ($this->type & self::MODIFIER_FINAL);
+        return (bool) ($this->flags & self::MODIFIER_FINAL);
     }
 
     public function isAnonymous() {

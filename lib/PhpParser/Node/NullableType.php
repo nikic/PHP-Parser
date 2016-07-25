@@ -12,12 +12,12 @@ class NullableType extends NodeAbstract
     /**
      * Constructs a nullable type (wrapping another type).
      *
-     * @param string|Name $type       Type
+     * @param string|Name $flags       Type
      * @param array       $attributes Additional attributes
      */
-    public function __construct($type, array $attributes = array()) {
+    public function __construct($flags, array $attributes = array()) {
         parent::__construct($attributes);
-        $this->type = $type;
+        $this->type = $flags;
     }
 
     public function getSubNodeNames() {

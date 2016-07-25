@@ -125,7 +125,7 @@ abstract class BuilderAbstract implements Builder {
      * @param int $modifier Modifier to set
      */
     protected function setModifier($modifier) {
-        Stmt\Class_::verifyModifier($this->type, $modifier);
-        $this->type |= $modifier;
+        Stmt\Class_::verifyModifier($this->flags, $modifier);
+        $this->flags |= $modifier;
     }
 }

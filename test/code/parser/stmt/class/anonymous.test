@@ -24,14 +24,14 @@ class A {
 array(
     0: Expr_New(
         class: Stmt_Class(
-            type: 0
+            flags: 0
             name: null
             extends: null
             implements: array(
             )
             stmts: array(
                 0: Stmt_ClassMethod(
-                    type: 1
+                    flags: 1
                     byRef: false
                     name: test
                     params: array(
@@ -47,7 +47,7 @@ array(
     )
     1: Expr_New(
         class: Stmt_Class(
-            type: 0
+            flags: 0
             name: null
             extends: Name(
                 parts: array(
@@ -74,14 +74,14 @@ array(
     )
     2: Expr_New(
         class: Stmt_Class(
-            type: 0
+            flags: 0
             name: null
             extends: null
             implements: array(
             )
             stmts: array(
                 0: Stmt_Property(
-                    type: 1
+                    flags: 1
                     props: array(
                         0: Stmt_PropertyProperty(
                             name: foo
@@ -96,7 +96,7 @@ array(
     )
     3: Expr_New(
         class: Stmt_Class(
-            type: 0
+            flags: 0
             name: null
             extends: Name(
                 parts: array(
@@ -137,14 +137,14 @@ array(
         )
     )
     4: Stmt_Class(
-        type: 0
+        flags: 0
         name: A
         extends: null
         implements: array(
         )
         stmts: array(
             0: Stmt_ClassMethod(
-                type: 1
+                flags: 1
                 byRef: false
                 name: test
                 params: array(
@@ -154,7 +154,7 @@ array(
                     0: Stmt_Return(
                         expr: Expr_New(
                             class: Stmt_Class(
-                                type: 0
+                                flags: 0
                                 name: null
                                 extends: Name(
                                     parts: array(
@@ -165,7 +165,7 @@ array(
                                 )
                                 stmts: array(
                                     0: Stmt_ClassConst(
-                                        type: 0
+                                        flags: 0
                                         consts: array(
                                             0: Const(
                                                 name: A

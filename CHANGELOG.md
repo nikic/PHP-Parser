@@ -5,7 +5,7 @@ Version 3.0.0-dev
 
 * [7.1] Added support for `void` and `iterable` types. These will now be represented as strings
   (instead of `Name` instances) similar to other builtin types.
-* [7.1] Added support for class constant visibility. The `ClassConst` node now has a `type` subnode
+* [7.1] Added support for class constant visibility. The `ClassConst` node now has a `flags` subnode
   holding the visibility modifier, as well as `isPublic()`, `isProtected()` and `isPrivate()`
   methods. The constructor changed to accept the additional subnode.
 * [7.1] Added support for nullable types. These are represented using a new `NullableType` node
@@ -31,6 +31,9 @@ Due to PHP 7.1 support additions described above, the node structure changed as 
 
 Additionally the following changes were made:
 
+* The `type` subnode on `Class`, `ClassMethod` and `Property` has been renamed to `flags`. The
+  `type` subnode has retained for backwards compatibility and is populated to the same value as
+  `flags`. However, writes to `type` will not update `flags`.
 * The `Trait` constructor now has the same form as the `Class` and `Interface` constructors: It
   takes an array of subnodes. Unlike classes/interfaces, traits can only have a `stmts` subnode.
 

@@ -630,7 +630,7 @@ class Standard extends PrettyPrinterAbstract
     }
 
     public function pStmt_Property(Stmt\Property $node) {
-        return (0 === $node->type ? 'var ' : $this->pModifiers($node->type)) . $this->pCommaSeparated($node->props) . ';';
+        return (0 === $node->flags ? 'var ' : $this->pModifiers($node->flags)) . $this->pCommaSeparated($node->props) . ';';
     }
 
     public function pStmt_PropertyProperty(Stmt\PropertyProperty $node) {
@@ -639,7 +639,7 @@ class Standard extends PrettyPrinterAbstract
     }
 
     public function pStmt_ClassMethod(Stmt\ClassMethod $node) {
-        return $this->pModifiers($node->type)
+        return $this->pModifiers($node->flags)
              . 'function ' . ($node->byRef ? '&' : '') . $node->name
              . '(' . $this->pCommaSeparated($node->params) . ')'
              . (null !== $node->returnType ? ' : ' . $this->pType($node->returnType) : '')
@@ -649,7 +649,7 @@ class Standard extends PrettyPrinterAbstract
     }
 
     public function pStmt_ClassConst(Stmt\ClassConst $node) {
-        return $this->pModifiers($node->type)
+        return $this->pModifiers($node->flags)
              . 'const ' . $this->pCommaSeparated($node->consts) . ';';
     }
 
@@ -805,7 +805,7 @@ class Standard extends PrettyPrinterAbstract
     }
 
     protected function pClassCommon(Stmt\Class_ $node, $afterClassToken) {
-        return $this->pModifiers($node->type)
+        return $this->pModifiers($node->flags)
         . 'class' . $afterClassToken
         . (null !== $node->extends ? ' extends ' . $this->p($node->extends) : '')
         . (!empty($node->implements) ? ' implements ' . $this->pCommaSeparated($node->implements) : '')

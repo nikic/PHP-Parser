@@ -54,14 +54,14 @@ class Foo {
 -----
 array(
     0: Stmt_Class(
-        type: 0
+        flags: 0
         name: Test
         extends: null
         implements: array(
         )
         stmts: array(
             0: Stmt_ClassMethod(
-                type: 0
+                flags: 0
                 byRef: false
                 name: array
                 params: array(
@@ -71,7 +71,7 @@ array(
                 )
             )
             1: Stmt_ClassMethod(
-                type: 0
+                flags: 0
                 byRef: false
                 name: public
                 params: array(
@@ -81,7 +81,7 @@ array(
                 )
             )
             2: Stmt_ClassMethod(
-                type: 8
+                flags: 8
                 byRef: false
                 name: list
                 params: array(
@@ -91,7 +91,7 @@ array(
                 )
             )
             3: Stmt_ClassMethod(
-                type: 8
+                flags: 8
                 byRef: false
                 name: protected
                 params: array(
@@ -101,7 +101,7 @@ array(
                 )
             )
             4: Stmt_Property(
-                type: 1
+                flags: 1
                 props: array(
                     0: Stmt_PropertyProperty(
                         name: class
@@ -110,7 +110,7 @@ array(
                 )
             )
             5: Stmt_Property(
-                type: 1
+                flags: 1
                 props: array(
                     0: Stmt_PropertyProperty(
                         name: private
@@ -119,7 +119,7 @@ array(
                 )
             )
             6: Stmt_ClassConst(
-                type: 0
+                flags: 0
                 consts: array(
                     0: Const(
                         name: TRAIT
@@ -136,7 +136,7 @@ array(
                 )
             )
             7: Stmt_ClassConst(
-                type: 0
+                flags: 0
                 consts: array(
                     0: Const(
                         name: __CLASS__
@@ -269,7 +269,7 @@ array(
         name: FINAL
     )
     10: Stmt_Class(
-        type: 0
+        flags: 0
         name: Foo
         extends: null
         implements: array(

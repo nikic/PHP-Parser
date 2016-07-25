@@ -26,7 +26,7 @@ array(
         name: A
         stmts: array(
             0: Stmt_ClassMethod(
-                type: 1
+                flags: 1
                 byRef: false
                 name: a
                 params: array(
@@ -38,7 +38,7 @@ array(
         )
     )
     1: Stmt_Class(
-        type: 0
+        flags: 0
         name: B
         extends: null
         implements: array(

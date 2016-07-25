@@ -18,7 +18,7 @@ class A extends B implements C, D {
 -----
 array(
     0: Stmt_Class(
-        type: 0
+        flags: 0
         name: A
         extends: Name(
             parts: array(
@@ -39,7 +39,7 @@ array(
         )
         stmts: array(
             0: Stmt_ClassConst(
-                type: 0
+                flags: 0
                 consts: array(
                     0: Const(
                         name: A
@@ -56,7 +56,7 @@ array(
                 )
             )
             1: Stmt_Property(
-                type: 1
+                flags: 1
                 props: array(
                     0: Stmt_PropertyProperty(
                         name: a
@@ -73,7 +73,7 @@ array(
                 )
             )
             2: Stmt_Property(
-                type: 2
+                flags: 2
                 props: array(
                     0: Stmt_PropertyProperty(
                         name: e
@@ -82,7 +82,7 @@ array(
                 )
             )
             3: Stmt_Property(
-                type: 4
+                flags: 4
                 props: array(
                     0: Stmt_PropertyProperty(
                         name: f
@@ -91,7 +91,7 @@ array(
                 )
             )
             4: Stmt_ClassMethod(
-                type: 1
+                flags: 1
                 byRef: false
                 name: a
                 params: array(
@@ -101,7 +101,7 @@ array(
                 )
             )
             5: Stmt_ClassMethod(
-                type: 9
+                flags: 9
                 byRef: false
                 name: b
                 params: array(
@@ -118,7 +118,7 @@ array(
                 )
             )
             6: Stmt_ClassMethod(
-                type: 33
+                flags: 33
                 byRef: false
                 name: c
                 params: array(
@@ -132,7 +132,7 @@ array(
                 )
             )
             7: Stmt_ClassMethod(
-                type: 2
+                flags: 2
                 byRef: false
                 name: d
                 params: array(
@@ -142,7 +142,7 @@ array(
                 )
             )
             8: Stmt_ClassMethod(
-                type: 4
+                flags: 4
                 byRef: false
                 name: e
                 params: array(

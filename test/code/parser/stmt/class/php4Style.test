@@ -10,14 +10,14 @@ class A {
 -----
 array(
     0: Stmt_Class(
-        type: 0
+        flags: 0
         name: A
         extends: null
         implements: array(
         )
         stmts: array(
             0: Stmt_Property(
-                type: 0
+                flags: 0
                 props: array(
                     0: Stmt_PropertyProperty(
                         name: foo
@@ -26,7 +26,7 @@ array(
                 )
             )
             1: Stmt_ClassMethod(
-                type: 0
+                flags: 0
                 byRef: false
                 name: bar
                 params: array(
@@ -36,7 +36,7 @@ array(
                 )
             )
             2: Stmt_ClassMethod(
-                type: 24
+                flags: 24
                 byRef: false
                 name: baz
                 params: array(

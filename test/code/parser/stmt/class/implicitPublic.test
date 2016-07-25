@@ -14,14 +14,14 @@ abstract class A {
 -----
 array(
     0: Stmt_Class(
-        type: 16
+        flags: 16
         name: A
         extends: null
         implements: array(
         )
         stmts: array(
             0: Stmt_Property(
-                type: 0
+                flags: 0
                 props: array(
                     0: Stmt_PropertyProperty(
                         name: a
@@ -30,7 +30,7 @@ array(
                 )
             )
             1: Stmt_Property(
-                type: 8
+                flags: 8
                 props: array(
                     0: Stmt_PropertyProperty(
                         name: b
@@ -39,7 +39,7 @@ array(
                 )
             )
             2: Stmt_ClassMethod(
-                type: 16
+                flags: 16
                 byRef: false
                 name: c
                 params: array(
@@ -48,7 +48,7 @@ array(
                 stmts: null
             )
             3: Stmt_ClassMethod(
-                type: 32
+                flags: 32
                 byRef: false
                 name: d
                 params: array(
@@ -58,7 +58,7 @@ array(
                 )
             )
             4: Stmt_ClassMethod(
-                type: 8
+                flags: 8
                 byRef: false
                 name: e
                 params: array(
@@ -68,7 +68,7 @@ array(
                 )
             )
             5: Stmt_ClassMethod(
-                type: 40
+                flags: 40
                 byRef: false
                 name: f
                 params: array(
@@ -78,7 +78,7 @@ array(
                 )
             )
             6: Stmt_ClassMethod(
-                type: 0
+                flags: 0
                 byRef: false
                 name: g
                 params: array(

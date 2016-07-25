@@ -12,14 +12,14 @@ class Foo {
 !!php7
 array(
     0: Stmt_Class(
-        type: 0
+        flags: 0
         name: Foo
         extends: null
         implements: array(
         )
         stmts: array(
             0: Stmt_ClassConst(
-                type: 0
+                flags: 0
                 consts: array(
                     0: Const(
                         name: A
@@ -30,7 +30,7 @@ array(
                 )
             )
             1: Stmt_ClassConst(
-                type: 1
+                flags: 1
                 consts: array(
                     0: Const(
                         name: B
@@ -41,7 +41,7 @@ array(
                 )
             )
             2: Stmt_ClassConst(
-                type: 2
+                flags: 2
                 consts: array(
                     0: Const(
                         name: C
@@ -52,7 +52,7 @@ array(
                 )
             )
             3: Stmt_ClassConst(
-                type: 4
+                flags: 4
                 consts: array(
                     0: Const(
                         name: D
