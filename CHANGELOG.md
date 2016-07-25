@@ -17,6 +17,8 @@ Version 3.0.0-dev
   to `items` and now contains `ArrayItem`s instead of plain variables.
 * [7.1] Added support for multi-catch. The `Catch` subnode `type` has been renamed to `types` and
   is now an array of `Name`s.
+* `Name::slice()` now supports lengths and negative offsets. This brings it in line with
+  `array_slice()` functionality.
 
 ### Changed
 
@@ -47,6 +49,7 @@ Additionally the following changes were made:
 * Removed support for running on PHP 5.4. It is however still possible to parse PHP 5.2-5.4 code
   while running on a newer version.
 * The deprecated `Comment::setLine()` and `Comment::setText()` methods have been removed.
+* The deprecated `Name::set()`, `Name::setFirst()` and `Name::setLast()` methods have been removed.
 
 Version 2.1.0 (2016-04-19)
 --------------------------

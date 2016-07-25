@@ -30,51 +30,6 @@ class NameTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('foo_bar', $name->toString('_'));
     }
 
-    public function testSet() {
-        $name = new Name('foo');
-
-        $name->set('foo\bar');
-        $this->assertSame('foo\bar', $name->toString());
-
-        $name->set(array('foo', 'bar'));
-        $this->assertSame('foo\bar', $name->toString());
-
-        $name->set(new Name('foo\bar'));
-        $this->assertSame('foo\bar', $name->toString());
-    }
-
-    public function testSetFirst() {
-        $name = new Name('foo');
-
-        $name->setFirst('bar');
-        $this->assertSame('bar', $name->toString());
-
-        $name->setFirst('A\B');
-        $this->assertSame('A\B', $name->toString());
-
-        $name->setFirst('C');
-        $this->assertSame('C\B', $name->toString());
-
-        $name->setFirst('D\E');
-        $this->assertSame('D\E\B', $name->toString());
-    }
-
-    public function testSetLast() {
-        $name = new Name('foo');
-
-        $name->setLast('bar');
-        $this->assertSame('bar', $name->toString());
-
-        $name->setLast('A\B');
-        $this->assertSame('A\B', $name->toString());
-
-        $name->setLast('C');
-        $this->assertSame('A\C', $name->toString());
-
-        $name->setLast('D\E');
-        $this->assertSame('A\D\E', $name->toString());
-    }
-
     public function testAppend() {
         $name = new Name('foo');
 
@@ -192,6 +147,6 @@ class NameTest extends \PHPUnit_Framework_TestCase
      */
     public function testInvalidArg() {
         $name = new Name('foo');
-        $name->set(new \stdClass);
+        $name->append(new \stdClass);
     }
 }

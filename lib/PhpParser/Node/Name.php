@@ -104,17 +104,6 @@ class Name extends NodeAbstract
     }
 
     /**
-     * Sets the whole name.
-     *
-     * @deprecated Create a new Name instead, or manually modify the $parts property
-     *
-     * @param string|array|self $name The name to set the whole name to
-     */
-    public function set($name) {
-        $this->parts = self::prepareName($name);
-    }
-
-    /**
      * Prepends a name to this name.
      *
      * @deprecated Use Name::concat($name1, $name2) instead
@@ -134,26 +123,6 @@ class Name extends NodeAbstract
      */
     public function append($name) {
         $this->parts = array_merge($this->parts, self::prepareName($name));
-    }
-
-    /**
-     * Sets the first part of the name.
-     *
-     * @deprecated Use concat($first, $name->slice(1)) instead
-     *
-     * @param string|array|self $name The name to set the first part to
-     */
-    public function setFirst($name) {
-        array_splice($this->parts, 0, 1, self::prepareName($name));
-    }
-
-    /**
-     * Sets the last part of the name.
-     *
-     * @param string|array|self $name The name to set the last part to
-     */
-    public function setLast($name) {
-        array_splice($this->parts, -1, 1, self::prepareName($name));
     }
 
     /**
