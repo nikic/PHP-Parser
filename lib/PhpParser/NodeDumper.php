@@ -2,6 +2,8 @@
 
 namespace PhpParser;
 
+use PhpParser\Node\Stmt\Class_;
+
 class NodeDumper
 {
     private $dumpComments;
@@ -38,7 +40,11 @@ class NodeDumper
                 } elseif (true === $value) {
                     $r .= 'true';
                 } elseif (is_scalar($value)) {
-                    $r .= $value;
+                    if ('flags' === $key || 'newModifier' === $key) {
+                        $r .= $this->dumpFlags($value);
+                    } else {
+                        $r .= $value;
+                    }
                 } else {
                     $r .= str_replace("\n", "\n    ", $this->dump($value));
                 }
@@ -72,5 +78,33 @@ class NodeDumper
         }
 
         return $r . "\n)";
+    }
+
+    protected function dumpFlags($flags) {
+        $strs = [];
+        if ($flags & Class_::MODIFIER_PUBLIC) {
+            $strs[] = 'MODIFIER_PUBLIC';
+        }
+        if ($flags & Class_::MODIFIER_PROTECTED) {
+            $strs[] = 'MODIFIER_PROTECTED';
+        }
+        if ($flags & Class_::MODIFIER_PRIVATE) {
+            $strs[] = 'MODIFIER_PRIVATE';
+        }
+        if ($flags & Class_::MODIFIER_ABSTRACT) {
+            $strs[] = 'MODIFIER_ABSTRACT';
+        }
+        if ($flags & Class_::MODIFIER_STATIC) {
+            $strs[] = 'MODIFIER_STATIC';
+        }
+        if ($flags & Class_::MODIFIER_FINAL) {
+            $strs[] = 'MODIFIER_FINAL';
+        }
+
+        if ($strs) {
+            return implode(' | ', $strs) . ' (' . $flags . ')';
+        } else {
+            return $flags;
+        }
     }
 }

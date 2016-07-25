@@ -14,7 +14,7 @@ abstract class A {
 -----
 array(
     0: Stmt_Class(
-        flags: 16
+        flags: MODIFIER_ABSTRACT (16)
         name: A
         extends: null
         implements: array(
@@ -30,7 +30,7 @@ array(
                 )
             )
             1: Stmt_Property(
-                flags: 8
+                flags: MODIFIER_STATIC (8)
                 props: array(
                     0: Stmt_PropertyProperty(
                         name: b
@@ -39,7 +39,7 @@ array(
                 )
             )
             2: Stmt_ClassMethod(
-                flags: 16
+                flags: MODIFIER_ABSTRACT (16)
                 byRef: false
                 name: c
                 params: array(
@@ -48,7 +48,7 @@ array(
                 stmts: null
             )
             3: Stmt_ClassMethod(
-                flags: 32
+                flags: MODIFIER_FINAL (32)
                 byRef: false
                 name: d
                 params: array(
@@ -58,7 +58,7 @@ array(
                 )
             )
             4: Stmt_ClassMethod(
-                flags: 8
+                flags: MODIFIER_STATIC (8)
                 byRef: false
                 name: e
                 params: array(
@@ -68,7 +68,7 @@ array(
                 )
             )
             5: Stmt_ClassMethod(
-                flags: 40
+                flags: MODIFIER_STATIC | MODIFIER_FINAL (40)
                 byRef: false
                 name: f
                 params: array(

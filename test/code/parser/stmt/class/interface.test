@@ -23,7 +23,7 @@ array(
         )
         stmts: array(
             0: Stmt_ClassMethod(
-                flags: 1
+                flags: MODIFIER_PUBLIC (1)
                 byRef: false
                 name: a
                 params: array(

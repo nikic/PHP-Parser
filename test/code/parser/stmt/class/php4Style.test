@@ -36,7 +36,7 @@ array(
                 )
             )
             2: Stmt_ClassMethod(
-                flags: 24
+                flags: MODIFIER_ABSTRACT | MODIFIER_STATIC (24)
                 byRef: false
                 name: baz
                 params: array(

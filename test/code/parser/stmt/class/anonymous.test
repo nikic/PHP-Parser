@@ -31,7 +31,7 @@ array(
             )
             stmts: array(
                 0: Stmt_ClassMethod(
-                    flags: 1
+                    flags: MODIFIER_PUBLIC (1)
                     byRef: false
                     name: test
                     params: array(
@@ -81,7 +81,7 @@ array(
             )
             stmts: array(
                 0: Stmt_Property(
-                    flags: 1
+                    flags: MODIFIER_PUBLIC (1)
                     props: array(
                         0: Stmt_PropertyProperty(
                             name: foo
@@ -144,7 +144,7 @@ array(
         )
         stmts: array(
             0: Stmt_ClassMethod(
-                flags: 1
+                flags: MODIFIER_PUBLIC (1)
                 byRef: false
                 name: test
                 params: array(

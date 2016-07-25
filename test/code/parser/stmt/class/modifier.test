@@ -30,7 +30,7 @@ Cannot use the final modifier on an abstract class member on line 1
 Syntax error, unexpected T_FINAL, expecting T_CLASS from 1:16 to 1:20
 array(
     0: Stmt_Class(
-        flags: 32
+        flags: MODIFIER_FINAL (32)
         name: A
         extends: null
         implements: array(

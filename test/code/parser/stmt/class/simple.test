@@ -56,7 +56,7 @@ array(
                 )
             )
             1: Stmt_Property(
-                flags: 1
+                flags: MODIFIER_PUBLIC (1)
                 props: array(
                     0: Stmt_PropertyProperty(
                         name: a
@@ -73,7 +73,7 @@ array(
                 )
             )
             2: Stmt_Property(
-                flags: 2
+                flags: MODIFIER_PROTECTED (2)
                 props: array(
                     0: Stmt_PropertyProperty(
                         name: e
@@ -82,7 +82,7 @@ array(
                 )
             )
             3: Stmt_Property(
-                flags: 4
+                flags: MODIFIER_PRIVATE (4)
                 props: array(
                     0: Stmt_PropertyProperty(
                         name: f
@@ -91,7 +91,7 @@ array(
                 )
             )
             4: Stmt_ClassMethod(
-                flags: 1
+                flags: MODIFIER_PUBLIC (1)
                 byRef: false
                 name: a
                 params: array(
@@ -101,7 +101,7 @@ array(
                 )
             )
             5: Stmt_ClassMethod(
-                flags: 9
+                flags: MODIFIER_PUBLIC | MODIFIER_STATIC (9)
                 byRef: false
                 name: b
                 params: array(
@@ -118,7 +118,7 @@ array(
                 )
             )
             6: Stmt_ClassMethod(
-                flags: 33
+                flags: MODIFIER_PUBLIC | MODIFIER_FINAL (33)
                 byRef: false
                 name: c
                 params: array(
@@ -132,7 +132,7 @@ array(
                 )
             )
             7: Stmt_ClassMethod(
-                flags: 2
+                flags: MODIFIER_PROTECTED (2)
                 byRef: false
                 name: d
                 params: array(
@@ -142,7 +142,7 @@ array(
                 )
             )
             8: Stmt_ClassMethod(
-                flags: 4
+                flags: MODIFIER_PRIVATE (4)
                 byRef: false
                 name: e
                 params: array(

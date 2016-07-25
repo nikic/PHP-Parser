@@ -30,7 +30,7 @@ array(
                 )
             )
             1: Stmt_ClassConst(
-                flags: 1
+                flags: MODIFIER_PUBLIC (1)
                 consts: array(
                     0: Const(
                         name: B
@@ -41,7 +41,7 @@ array(
                 )
             )
             2: Stmt_ClassConst(
-                flags: 2
+                flags: MODIFIER_PROTECTED (2)
                 consts: array(
                     0: Const(
                         name: C
@@ -52,7 +52,7 @@ array(
                 )
             )
             3: Stmt_ClassConst(
-                flags: 4
+                flags: MODIFIER_PRIVATE (4)
                 consts: array(
                     0: Const(
                         name: D

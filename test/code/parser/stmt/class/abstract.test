@@ -9,14 +9,14 @@ abstract class A {
 -----
 array(
     0: Stmt_Class(
-        flags: 16
+        flags: MODIFIER_ABSTRACT (16)
         name: A
         extends: null
         implements: array(
         )
         stmts: array(
             0: Stmt_ClassMethod(
-                flags: 1
+                flags: MODIFIER_PUBLIC (1)
                 byRef: false
                 name: a
                 params: array(
@@ -26,7 +26,7 @@ array(
                 )
             )
             1: Stmt_ClassMethod(
-                flags: 17
+                flags: MODIFIER_PUBLIC | MODIFIER_ABSTRACT (17)
                 byRef: false
                 name: b
                 params: array(

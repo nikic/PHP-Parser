@@ -81,7 +81,7 @@ array(
                 )
             )
             2: Stmt_ClassMethod(
-                flags: 8
+                flags: MODIFIER_STATIC (8)
                 byRef: false
                 name: list
                 params: array(
@@ -91,7 +91,7 @@ array(
                 )
             )
             3: Stmt_ClassMethod(
-                flags: 8
+                flags: MODIFIER_STATIC (8)
                 byRef: false
                 name: protected
                 params: array(
@@ -101,7 +101,7 @@ array(
                 )
             )
             4: Stmt_Property(
-                flags: 1
+                flags: MODIFIER_PUBLIC (1)
                 props: array(
                     0: Stmt_PropertyProperty(
                         name: class
@@ -110,7 +110,7 @@ array(
                 )
             )
             5: Stmt_Property(
-                flags: 1
+                flags: MODIFIER_PUBLIC (1)
                 props: array(
                     0: Stmt_PropertyProperty(
                         name: private
@@ -321,7 +321,7 @@ array(
                             )
                         )
                         method: throw
-                        newModifier: 2
+                        newModifier: MODIFIER_PROTECTED (2)
                         newName: public
                     )
                     3: Stmt_TraitUseAdaptation_Alias(
@@ -331,7 +331,7 @@ array(
                             )
                         )
                         method: self
-                        newModifier: 2
+                        newModifier: MODIFIER_PROTECTED (2)
                         newName: null
                     )
                     4: Stmt_TraitUseAdaptation_Alias(
