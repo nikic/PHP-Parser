@@ -2619,7 +2619,7 @@ class Php7 extends \PhpParser\ParserAbstract
     }
 
     protected function reduceRule453() {
-         $this->semValue = new Expr\Error($this->startAttributeStack[$this->stackPos-(1-1)] + $this->endAttributes);
+         $this->semValue = new Expr\Error($this->startAttributeStack[$this->stackPos-(1-1)] + $this->endAttributes); $this->errorState = 2;
     }
 
     protected function reduceRule454() {

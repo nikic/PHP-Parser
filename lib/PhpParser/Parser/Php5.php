@@ -3009,7 +3009,7 @@ class Php5 extends \PhpParser\ParserAbstract
     }
 
     protected function reduceRule518() {
-         $this->semValue = new Expr\Error($this->startAttributeStack[$this->stackPos-(1-1)] + $this->endAttributes);
+         $this->semValue = new Expr\Error($this->startAttributeStack[$this->stackPos-(1-1)] + $this->endAttributes); $this->errorState = 2;
     }
 
     protected function reduceRule519() {

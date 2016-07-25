@@ -255,3 +255,28 @@ array(
         )
     )
 )
+-----
+<?php
+function foo() {
+    $bar->
+}
+-----
+Syntax error, unexpected '}' from 4:1 to 4:1
+array(
+    0: Stmt_Function(
+        byRef: false
+        name: foo
+        params: array(
+        )
+        returnType: null
+        stmts: array(
+            0: Expr_PropertyFetch(
+                var: Expr_Variable(
+                    name: bar
+                )
+                name: Expr_Error(
+                )
+            )
+        )
+    )
+)

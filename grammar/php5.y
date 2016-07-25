@@ -915,7 +915,7 @@ object_property:
       T_STRING                                              { $$ = $1; }
     | '{' expr '}'                                          { $$ = $2; }
     | variable_without_objects                              { $$ = $1; }
-    | error                                                 { $$ = Expr\Error[]; }
+    | error                                                 { $$ = Expr\Error[]; $this->errorState = 2; }
 ;
 
 list_expr:

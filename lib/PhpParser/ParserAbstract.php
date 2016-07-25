@@ -95,6 +95,8 @@ abstract class ParserAbstract implements Parser
     protected $throwOnError;
     /** @var Error[] Errors collected during last parse */
     protected $errors;
+    /** @var int Error state, used to avoid error floods */
+    protected $errorState;
 
     /**
      * Creates a parser instance.
@@ -157,7 +159,7 @@ abstract class ParserAbstract implements Parser
         // Current position in the stack(s)
         $this->stackPos = 0;
 
-        $errorState = 0;
+        $this->errorState = 0;
 
         for (;;) {
             //$this->traceNewState($state, $symbol);
@@ -216,8 +218,8 @@ abstract class ParserAbstract implements Parser
                         $this->endAttributes = $endAttributes;
                         $symbol = self::SYMBOL_NONE;
 
-                        if ($errorState) {
-                            --$errorState;
+                        if ($this->errorState) {
+                            --$this->errorState;
                         }
 
                         if ($action < $this->YYNLSTATES) {
@@ -274,7 +276,7 @@ abstract class ParserAbstract implements Parser
                     $this->semStack[$this->stackPos] = $this->semValue;
                 } else {
                     /* error */
-                    switch ($errorState) {
+                    switch ($this->errorState) {
                         case 0:
                             $msg = $this->getErrorMessage($symbol, $state);
                             $error = new Error($msg, $startAttributes + $endAttributes);
@@ -285,7 +287,7 @@ abstract class ParserAbstract implements Parser
                             // Break missing intentionally
                         case 1:
                         case 2:
-                            $errorState = 3;
+                            $this->errorState = 3;
 
                             // Pop until error-expecting state uncovered
                             while (!(
