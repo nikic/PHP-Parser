@@ -23,7 +23,6 @@ $a = $b *= $c **= $d;
 
 // by ref assign
 $a =& $b;
-$a =& new B;
 
 // list() assign
 list($a) = $b;
@@ -191,21 +190,7 @@ array(
             0: // by ref assign
         )
     )
-    15: Expr_AssignRef(
-        var: Expr_Variable(
-            name: a
-        )
-        expr: Expr_New(
-            class: Name(
-                parts: array(
-                    0: B
-                )
-            )
-            args: array(
-            )
-        )
-    )
-    16: Expr_Assign(
+    15: Expr_Assign(
         var: Expr_List(
             vars: array(
                 0: Expr_Variable(
@@ -223,7 +208,7 @@ array(
             0: // list() assign
         )
     )
-    17: Expr_Assign(
+    16: Expr_Assign(
         var: Expr_List(
             vars: array(
                 0: Expr_Variable(
@@ -239,7 +224,7 @@ array(
             name: c
         )
     )
-    18: Expr_Assign(
+    17: Expr_Assign(
         var: Expr_List(
             vars: array(
                 0: Expr_Variable(
@@ -262,7 +247,7 @@ array(
             name: e
         )
     )
-    19: Expr_PreInc(
+    18: Expr_PreInc(
         var: Expr_Variable(
             name: a
         )
@@ -270,17 +255,17 @@ array(
             0: // inc/dec
         )
     )
-    20: Expr_PostInc(
+    19: Expr_PostInc(
         var: Expr_Variable(
             name: a
         )
     )
-    21: Expr_PreDec(
+    20: Expr_PreDec(
         var: Expr_Variable(
             name: a
         )
     )
-    22: Expr_PostDec(
+    21: Expr_PostDec(
         var: Expr_Variable(
             name: a
         )
