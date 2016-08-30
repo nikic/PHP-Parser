@@ -150,7 +150,7 @@ inner_statement:
 ;
 
 non_empty_statement:
-      '{' inner_statement_list '}'                          { $$ = $2; }
+      '{' inner_statement_list '}'                          { $$ = $2; prependLeadingComments($$); }
     | T_IF '(' expr ')' statement elseif_list else_single
           { $$ = Stmt\If_[$3, ['stmts' => toArray($5), 'elseifs' => $6, 'else' => $7]]; }
     | T_IF '(' expr ')' ':' inner_statement_list new_elseif_list new_else_single T_ENDIF ';'
