@@ -1,0 +1,23 @@
+Comments on blocks
+-----
+<?php
+
+// foo
+{
+    // bar
+    {
+        // baz
+        $a;
+    }
+}
+-----
+array(
+    0: Expr_Variable(
+        name: a
+        comments: array(
+            0: // foo
+            1: // bar
+            2: // baz
+        )
+    )
+)

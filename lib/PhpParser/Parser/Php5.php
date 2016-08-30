@@ -1420,7 +1420,7 @@ class Php5 extends \PhpParser\ParserAbstract
     }
 
     protected function reduceRule127() {
-         $this->semValue = $this->semStack[$this->stackPos-(3-2)];
+         $this->semValue = $this->semStack[$this->stackPos-(3-2)]; $attrs = $this->startAttributeStack[$this->stackPos-(3-1)]; $stmts = $this->semValue; if (!empty($attrs['comments']) && isset($stmts[0])) {$stmts[0]->setAttribute('comments', array_merge($attrs['comments'], $stmts[0]->getAttribute('comments', []))); };
     }
 
     protected function reduceRule128() {
