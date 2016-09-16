@@ -43,10 +43,9 @@ class Param extends PhpParser\BuilderAbstract
      * @return $this The builder instance (for fluid interface)
      */
     public function setTypeHint($type) {
-        if (in_array($type, array('array', 'callable', 'string', 'int', 'float', 'bool'))) {
-            $this->type = $type;
-        } else {
-            $this->type = $this->normalizeName($type);
+        $this->type = $this->normalizeType($type);
+        if ($this->type === 'void') {
+            throw new \LogicException('Parameter type cannot be void');
         }
 
         return $this;

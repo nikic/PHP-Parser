@@ -78,12 +78,20 @@ class FunctionTest extends \PHPUnit_Framework_TestCase
 
     public function testReturnType() {
         $node = $this->createFunctionBuilder('test')
-            ->setReturnType('bool')
+            ->setReturnType('void')
             ->getNode();
 
         $this->assertEquals(new Stmt\Function_('test', array(
-            'returnType' => 'bool'
+            'returnType' => 'void'
         ), array()), $node);
+    }
+
+    /**
+     * @expectedException \LogicException
+     * @expectedExceptionMessage void type cannot be nullable
+     */
+    public function testInvalidNullableVoidType() {
+        $this->createFunctionBuilder('test')->setReturnType('?void');
     }
 
     /**

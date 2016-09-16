@@ -60,18 +60,14 @@ abstract class FunctionLike extends Declaration
     /**
      * Sets the return type for PHP 7.
      *
-     * @param string|Node\Name $type One of array, callable, string, int, float, bool,
+     * @param string|Node\Name $type One of array, callable, string, int, float, bool, iterable,
      *                               or a class/interface name.
      *
      * @return $this The builder instance (for fluid interface)
      */
     public function setReturnType($type)
     {
-        if (in_array($type, array('array', 'callable', 'string', 'int', 'float', 'bool'))) {
-            $this->returnType = $type;
-        } else {
-            $this->returnType = $this->normalizeName($type);
-        }
+        $this->returnType = $this->normalizeType($type);
 
         return $this;
     }

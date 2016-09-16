@@ -4,6 +4,7 @@ namespace PhpParser;
 
 use PhpParser\Node\Name;
 use PhpParser\Node\Expr;
+use PhpParser\Node\NullableType;
 use PhpParser\Node\Stmt;
 use PhpParser\Node\Scalar;
 use PhpParser\Comment;
@@ -51,6 +52,49 @@ abstract class BuilderAbstract implements Builder {
         }
 
         throw new \LogicException('Name must be a string or an instance of PhpParser\Node\Name');
+    }
+
+    /**
+     * Normalizes a type: Converts plain-text type names into proper AST representation.
+     *
+     * In particular, builtin types are left as strings, custom types become Names and nullables
+     * are wrapped in NullableType nodes.
+     *
+     * @param Name|string $type The type to normalize
+     *
+     * @return Name|string The normalized type
+     */
+    protected function normalizeType($type) {
+        if (!is_string($type)) {
+            if (!$type instanceof Name && !$type instanceof NullableType) {
+                throw new \LogicException(
+                    'Type must be a string, or an instance of Name or NullableType');
+            }
+            return $type;
+        }
+
+        $nullable = false;
+        if (strlen($type) > 0 && $type[0] === '?') {
+            $nullable = true;
+            $type = substr($type, 1);
+        }
+
+        $builtinTypes = array(
+            'array', 'callable', 'string', 'int', 'float', 'bool', 'iterable', 'void'
+        );
+
+        $lowerType = strtolower($type);
+        if (in_array($lowerType, $builtinTypes)) {
+            $type = $lowerType;
+        } else {
+            $type = $this->normalizeName($type);
+        }
+
+        if ($nullable && $type === 'void') {
+            throw new \LogicException('void type cannot be nullable');
+        }
+
+        return $nullable ? new Node\NullableType($type) : $type;
     }
 
     /**
