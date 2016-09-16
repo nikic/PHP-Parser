@@ -1,7 +1,20 @@
-Version 2.1.1-dev
+Version 2.1.2-dev
 -----------------
 
 Nothing yet.
+
+Version 2.1.1 (2016-09-16)
+--------------------------
+
+### Changed
+
+* The pretty printer will now escape all control characters in the range `\x00-\x1F` inside double
+  quoted strings. If no special escape sequence is available, an octal escape will be used.
+* The quality of the error recovery has been improved. In particular unterminated expressions should
+  be handled more gracefully.
+* The PHP 7 parser will now generate a parse error for `$var =& new Obj` assignments.
+* Comments on free-standing code blocks will no be retained as comments on the first statement in
+  the code block.
 
 Version 2.1.0 (2016-04-19)
 --------------------------
