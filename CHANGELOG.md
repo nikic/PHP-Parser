@@ -1,10 +1,15 @@
 Version 3.0.0-dev
------------------
 
 ### Added
 
 * The `InlineHTML` node now has an `hasLeadingNewline` attribute, that specifies whether the
   preceding closing tag contained a newline. The pretty printer honors this attribute.
+
+The following changes are also part of PHP-Parser 2.1.1:
+
+* The PHP 7 parser will now generate a parse error for `$var =& new Obj` assignments.
+* Comments on free-standing code blocks will no be retained as comments on the first statement in
+  the code block.
 
 Version 3.0.0-alpha1 (2016-07-25)
 ---------------------------------
@@ -58,6 +63,19 @@ Additionally the following changes were made:
   while running on a newer version.
 * The deprecated `Comment::setLine()` and `Comment::setText()` methods have been removed.
 * The deprecated `Name::set()`, `Name::setFirst()` and `Name::setLast()` methods have been removed.
+
+Version 2.1.1 (2016-09-16)
+--------------------------
+
+### Changed
+
+* The pretty printer will now escape all control characters in the range `\x00-\x1F` inside double
+  quoted strings. If no special escape sequence is available, an octal escape will be used.
+* The quality of the error recovery has been improved. In particular unterminated expressions should
+  be handled more gracefully.
+* The PHP 7 parser will now generate a parse error for `$var =& new Obj` assignments.
+* Comments on free-standing code blocks will no be retained as comments on the first statement in
+  the code block.
 
 Version 2.1.0 (2016-04-19)
 --------------------------
