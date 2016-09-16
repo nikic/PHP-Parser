@@ -1,9 +1,21 @@
 Version 3.0.0-dev
+-----------------
 
+Nothing yet.
+
+Version 3.0.0-beta1 (2016-09-16)
+--------------------------------
 ### Added
 
+* [7.1] Function/method and parameter builders now support PHP 7.1 type hints (void, iterable and
+  nullable types).
+* Nodes and Comments now implement `JsonSerializable`. The node kind is stored in a `nodeType`
+  property.
 * The `InlineHTML` node now has an `hasLeadingNewline` attribute, that specifies whether the
   preceding closing tag contained a newline. The pretty printer honors this attribute.
+* Partial parsing of `$obj->` (with missing property name) is now supported in error recovery mode.
+* The error recovery mode is now exposed in the `php-parse` script through the `--with-recovery`
+  or `-r` flags.
 
 The following changes are also part of PHP-Parser 2.1.1:
 
