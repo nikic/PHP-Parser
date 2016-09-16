@@ -24,9 +24,9 @@ class MethodTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             new Stmt\ClassMethod('test', array(
-                'type' => Stmt\Class_::MODIFIER_PUBLIC
-                        | Stmt\Class_::MODIFIER_ABSTRACT
-                        | Stmt\Class_::MODIFIER_STATIC,
+                'flags' => Stmt\Class_::MODIFIER_PUBLIC
+                         | Stmt\Class_::MODIFIER_ABSTRACT
+                         | Stmt\Class_::MODIFIER_STATIC,
                 'stmts' => null,
             )),
             $node
@@ -40,8 +40,8 @@ class MethodTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             new Stmt\ClassMethod('test', array(
-                'type' => Stmt\Class_::MODIFIER_PROTECTED
-                        | Stmt\Class_::MODIFIER_FINAL
+                'flags' => Stmt\Class_::MODIFIER_PROTECTED
+                         | Stmt\Class_::MODIFIER_FINAL
             )),
             $node
         );

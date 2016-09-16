@@ -43,7 +43,7 @@ class ClassTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             new Stmt\Class_('Test', array(
-                'type' => Stmt\Class_::MODIFIER_ABSTRACT
+                'flags' => Stmt\Class_::MODIFIER_ABSTRACT
             )),
             $node
         );
@@ -57,7 +57,7 @@ class ClassTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             new Stmt\Class_('Test', array(
-                'type' => Stmt\Class_::MODIFIER_FINAL
+                'flags' => Stmt\Class_::MODIFIER_FINAL
             )),
             $node
         );
