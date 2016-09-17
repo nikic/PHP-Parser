@@ -70,6 +70,28 @@ class NodeAbstractTest extends \PHPUnit_Framework_TestCase
         $this->assertNull($node->getDocComment());
     }
 
+    public function testSetDocComment() {
+        $node = new DummyNode(null, null, []);
+
+        // Add doc comment to node without comments
+        $docComment = new Comment\Doc('/** doc */');
+        $node->setDocComment($docComment);
+        $this->assertSame($docComment, $node->getDocComment());
+
+        // Replace it
+        $docComment = new Comment\Doc('/** doc 2 */');
+        $node->setDocComment($docComment);
+        $this->assertSame($docComment, $node->getDocComment());
+
+        // Add docmment to node with other comments
+        $c1 = new Comment('/* foo */');
+        $c2 = new Comment('/* bar */');
+        $docComment = new Comment\Doc('/** baz */');
+        $node->setAttribute('comments', [$c1, $c2]);
+        $node->setDocComment($docComment);
+        $this->assertSame([$c1, $c2, $docComment], $node->getAttribute('comments'));
+    }
+
     /**
      * @dataProvider provideNodes
      */

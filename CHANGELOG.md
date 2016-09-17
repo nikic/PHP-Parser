@@ -1,10 +1,13 @@
 Version 3.0.0-dev
 -----------------
 
-Nothing yet.
+### Added
+
+* Added `NodeAbstract::setDocComment()` method.
 
 Version 3.0.0-beta1 (2016-09-16)
 --------------------------------
+
 ### Added
 
 * [7.1] Function/method and parameter builders now support PHP 7.1 type hints (void, iterable and
@@ -20,7 +23,7 @@ Version 3.0.0-beta1 (2016-09-16)
 The following changes are also part of PHP-Parser 2.1.1:
 
 * The PHP 7 parser will now generate a parse error for `$var =& new Obj` assignments.
-* Comments on free-standing code blocks will no be retained as comments on the first statement in
+* Comments on free-standing code blocks will now be retained as comments on the first statement in
   the code block.
 
 Version 3.0.0-alpha1 (2016-07-25)
