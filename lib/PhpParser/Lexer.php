@@ -159,9 +159,24 @@ class Lexer
             $line += substr_count($tokenValue, "\n");
         }
 
-        // Invalid characters at the end of the input
         if ($filePos !== \strlen($this->code)) {
-            $this->handleInvalidCharacterRange($filePos, \strlen($this->code), $line);
+            if (substr($this->code, $filePos, 2) === '/*') {
+                // Unlike PHP, HHVM will drop unterminated comments entirely
+                $comment = substr($this->code, $filePos);
+                $this->errors[] = new Error('Unterminated comment', [
+                    'startLine' => $line,
+                    'endLine' => $line + substr_count($comment, "\n"),
+                    'startFilePos' => $filePos,
+                    'endFilePos' => $filePos + \strlen($comment),
+                ]);
+
+                // Emulate the PHP behavior
+                $isDocComment = isset($comment[3]) && $comment[3] === '*';
+                $this->tokens[] = [$isDocComment ? T_DOC_COMMENT : T_COMMENT, $comment, $line];
+            } else {
+                // Invalid characters at the end of the input
+                $this->handleInvalidCharacterRange($filePos, \strlen($this->code), $line);
+            }
         }
 
         // Check for unterminated comment
