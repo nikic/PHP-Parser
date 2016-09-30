@@ -15,7 +15,6 @@ class ErrorTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($attributes, $error->getAttributes());
         $this->assertSame(10, $error->getStartLine());
         $this->assertSame(11, $error->getEndLine());
-        $this->assertSame(10, $error->getRawLine());
         $this->assertSame('Some error on line 10', $error->getMessage());
 
         return $error;
@@ -31,10 +30,6 @@ class ErrorTest extends \PHPUnit_Framework_TestCase
         $error->setStartLine(15);
         $this->assertSame(15, $error->getStartLine());
         $this->assertSame('Some other error on line 15', $error->getMessage());
-
-        $error->setRawLine(17);
-        $this->assertSame(17, $error->getRawLine());
-        $this->assertSame('Some other error on line 17', $error->getMessage());
     }
 
     public function testUnknownLine() {
@@ -42,7 +37,6 @@ class ErrorTest extends \PHPUnit_Framework_TestCase
 
         $this->assertSame(-1, $error->getStartLine());
         $this->assertSame(-1, $error->getEndLine());
-        $this->assertSame(-1, $error->getRawLine());
         $this->assertSame('Some error on unknown line', $error->getMessage());
     }
 

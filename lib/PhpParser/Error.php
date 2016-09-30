@@ -153,14 +153,4 @@ class Error extends \RuntimeException
             $this->message .= ' on line ' . $this->getStartLine();
         }
     }
-
-    /** @deprecated Use getStartLine() instead */
-    public function getRawLine() {
-        return $this->getStartLine();
-    }
-
-    /** @deprecated Use setStartLine() instead */
-    public function setRawLine($line) {
-        $this->setStartLine($line);
-    }
 }
