@@ -177,6 +177,7 @@ class Lexer
                 // Invalid characters at the end of the input
                 $this->handleInvalidCharacterRange($filePos, \strlen($this->code), $line);
             }
+            return;
         }
 
         // Check for unterminated comment
