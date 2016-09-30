@@ -1,0 +1,25 @@
+Lexer errors
+-----
+<?php
+
+$a = 42;
+/*
+$b = 24;
+-----
+Unterminated comment on line 4
+-----
+<?php
+
+$a = 42;
+@@{ "\1" }@@
+$b = 24;
+-----
+Unexpected character "@@{ "\1" }@@" (ASCII 1) on unknown line
+-----
+<?php
+
+$a = 42;
+@@{ "\0" }@@
+$b = 24;
+-----
+Unexpected null byte on unknown line

@@ -132,8 +132,20 @@ abstract class ParserAbstract implements Parser
      *                     unable to recover from an error).
      */
     public function parse($code) {
-        $this->lexer->startLexing($code);
         $this->errors = array();
+
+        // Initialize the lexer
+        try {
+            $this->lexer->startLexing($code);
+        } catch (Error $e) {
+            $this->errors[] = $e;
+            if ($this->throwOnError) {
+                throw $e;
+            } else {
+                // Currently can't recover from lexer errors
+                return null;
+            }
+        }
 
         // We start off with no lookahead-token
         $symbol = self::SYMBOL_NONE;
