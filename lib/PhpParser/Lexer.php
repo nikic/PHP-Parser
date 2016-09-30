@@ -91,6 +91,11 @@ class Lexer
     private function handleInvalidCharacterRange($start, $end, $line) {
         for ($i = $start; $i < $end; $i++) {
             $chr = $this->code[$i];
+            if ($chr === 'b' || $chr === 'B') {
+                // HHVM does not treat b" tokens correctly, so ignore these
+                continue;
+            }
+
             if ($chr === "\0") {
                 // PHP cuts error message after null byte, so need special case
                 $errorMsg = 'Unexpected null byte';
@@ -99,6 +104,7 @@ class Lexer
                     'Unexpected character "%s" (ASCII %d)', $chr, ord($chr)
                 );
             }
+
             $this->errors[] = new Error($errorMsg, [
                 'startLine' => $line,
                 'endLine' => $line,
