@@ -67,7 +67,7 @@ class Emulative extends \PhpParser\Lexer
             return false;
         }
 
-        if (preg_match('/\?\?|<=>|yield[ \n\r\t]+from/', $code)) {
+        if (preg_match('(\?\?|<=>|yield[ \n\r\t]+from)', $code)) {
             return true;
         }
 
@@ -75,7 +75,7 @@ class Emulative extends \PhpParser\Lexer
             return false;
         }
 
-        return preg_match('/\.\.\.|(?<!/)\*\*(?!/)/', $code);
+        return preg_match('(\.\.\.|(?<!/)\*\*(?!/))', $code);
     }
 
     /*
