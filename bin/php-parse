@@ -90,11 +90,7 @@ foreach ($files as $file) {
 
 function formatErrorMessage(PhpParser\Error $e, $code, $withColumnInfo) {
     if ($withColumnInfo && $e->hasColumnInfo()) {
-        $startLine = $e->getStartLine();
-        $endLine = $e->getEndLine();
-        $startColumn = $e->getStartColumn($code);
-        $endColumn   = $e->getEndColumn($code);
-        return $e->getRawMessage() . " from $startLine:$startColumn to $endLine:$endColumn";
+        return $e->getMessageWithColumnInfo($code);
     } else {
         return $e->getMessage();
     }

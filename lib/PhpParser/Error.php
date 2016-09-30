@@ -120,6 +120,14 @@ class Error extends \RuntimeException
         return $this->toColumn($code, $this->attributes['endFilePos']);
     }
 
+    public function getMessageWithColumnInfo($code) {
+        return sprintf(
+            '%s from %d:%d to %d:%d', $this->getRawMessage(),
+            $this->getStartLine(), $this->getStartColumn($code),
+            $this->getEndLine(), $this->getEndColumn($code)
+        );
+    }
+
     private function toColumn($code, $pos) {
         if ($pos > strlen($code)) {
             throw new \RuntimeException('Invalid position information');

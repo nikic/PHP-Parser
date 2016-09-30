@@ -60,8 +60,7 @@ class CodeParsingTest extends CodeTestAbstract
 
     private function formatErrorMessage(Error $e, $code) {
         if ($e->hasColumnInfo()) {
-            return $e->getRawMessage() . ' from ' . $e->getStartLine() . ':' . $e->getStartColumn($code)
-                . ' to ' . $e->getEndLine() . ':' . $e->getEndColumn($code);
+            return $e->getMessageWithColumnInfo($code);
         } else {
             return $e->getMessage();
         }
