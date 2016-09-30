@@ -14,28 +14,35 @@ class LexerTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider provideTestError
      */
-    public function testError($code, $message) {
+    public function testError($code, $messages) {
         if (defined('HHVM_VERSION')) {
             $this->markTestSkipped('HHVM does not throw warnings from token_get_all()');
         }
 
-        $lexer = $this->getLexer();
-        try {
-            $lexer->startLexing($code);
-        } catch (Error $e) {
-            $this->assertSame($message, $e->getMessage());
+        $lexer = $this->getLexer(['usedAttributes' => [
+            'comments', 'startLine', 'endLine', 'startFilePos', 'endFilePos'
+        ]]);
+        $lexer->startLexing($code);
+        $errors = $lexer->getErrors();
 
-            return;
+        $this->assertSame(count($messages), count($errors));
+        for ($i = 0; $i < count($messages); $i++) {
+            $this->assertSame($messages[$i], $errors[$i]->getMessageWithColumnInfo($code));
         }
-
-        $this->fail('Expected PhpParser\Error');
     }
 
     public function provideTestError() {
         return array(
-            array('<?php /*', 'Unterminated comment on line 1'),
-            array('<?php ' . "\1", 'Unexpected character "' . "\1" . '" (ASCII 1) on unknown line'),
-            array('<?php ' . "\0", 'Unexpected null byte on unknown line'),
+            array("<?php /*", array("Unterminated comment from 1:7 to 1:9")),
+            array("<?php \1", array("Unexpected character \"\1\" (ASCII 1) from 1:7 to 1:7")),
+            array("<?php \0", array("Unexpected null byte from 1:7 to 1:7")),
+            // Error with potentially emulated token
+            array("<?php ?? \0", array("Unexpected null byte from 1:10 to 1:10")),
+            array("<?php\n\0\1 foo /* bar", array(
+                "Unexpected null byte from 2:1 to 2:1",
+                "Unexpected character \"\1\" (ASCII 1) from 2:2 to 2:2",
+                "Unterminated comment from 2:8 to 2:14"
+            )),
         );
     }
 

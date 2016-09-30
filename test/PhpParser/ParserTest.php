@@ -30,6 +30,15 @@ abstract class ParserTest extends \PHPUnit_Framework_TestCase
         $parser->parse('<?php use foo as self;');
     }
 
+    /**
+     * @expectedException \PhpParser\Error
+     * @expectedExceptionMessage Unterminated comment on line 1
+     */
+    public function testParserThrowsLexerError() {
+        $parser = $this->getParser(new Lexer());
+        $parser->parse('<?php /*');
+    }
+
     public function testAttributeAssignment() {
         $lexer = new Lexer(array(
             'usedAttributes' => array(

@@ -9,6 +9,7 @@ class Lexer
 {
     protected $code;
     protected $tokens;
+    protected $errors;
     protected $pos;
     protected $line;
     protected $filePos;
@@ -49,11 +50,22 @@ class Lexer
     /**
      * Initializes the lexer for lexing the provided source code.
      *
-     * @param string $code The source code to lex
+     * This function does not throw if lexing errors occur. Instead, errors may be retrieved using
+     * the getErrors() method.
      *
-     * @throws Error on lexing errors (unterminated comment or unexpected character)
+     * @param string $code The source code to lex
      */
     public function startLexing($code) {
+        $this->code = $code; // keep the code around for __halt_compiler() handling
+        $this->pos  = -1;
+        $this->line =  1;
+        $this->filePos = 0;
+        $this->errors = [];
+
+        // If inline HTML occurs without preceding code, treat it as if it had a leading newline.
+        // This ensures proper composability, because having a newline is the "safe" assumption.
+        $this->prevCloseTagHasNewline = true;
+
         $scream = ini_set('xdebug.scream', '0');
 
         $this->resetErrors();
@@ -63,15 +75,6 @@ class Lexer
         if (false !== $scream) {
             ini_set('xdebug.scream', $scream);
         }
-
-        $this->code = $code; // keep the code around for __halt_compiler() handling
-        $this->pos  = -1;
-        $this->line =  1;
-        $this->filePos = 0;
-
-        // If inline HTML occurs without preceding code, treat it as if it had a leading newline.
-        // This ensures proper composability, because having a newline is the "safe" assumption.
-        $this->prevCloseTagHasNewline = true;
     }
 
     protected function resetErrors() {
@@ -85,32 +88,85 @@ class Lexer
         }
     }
 
-    protected function handleErrors() {
+    private function handleInvalidCharacterRange($start, $end, $line) {
+        for ($i = $start; $i < $end; $i++) {
+            $chr = $this->code[$i];
+            if ($chr === "\0") {
+                // PHP cuts error message after null byte, so need special case
+                $errorMsg = 'Unexpected null byte';
+            } else {
+                $errorMsg = sprintf(
+                    'Unexpected character "%s" (ASCII %d)', $chr, ord($chr)
+                );
+            }
+            $this->errors[] = new Error($errorMsg, [
+                'startLine' => $line,
+                'endLine' => $line,
+                'startFilePos' => $i,
+                'endFilePos' => $i,
+            ]);
+        }
+    }
+
+    private function isUnterminatedComment($token) {
+        return ($token[0] === T_COMMENT || $token[0] === T_DOC_COMMENT)
+            && substr($token[1], 0, 2) === '/*'
+            && substr($token[1], -2) !== '*/';
+    }
+
+    private function errorMayHaveOccurred() {
+        if (defined('HHVM_VERSION')) {
+            // In HHVM token_get_all() does not throw warnings, so we need to conservatively
+            // assume that an error occurred
+            return true;
+        }
+
         $error = error_get_last();
-        if (null === $error) {
+        return null !== $error
+            && false === strpos($error['message'], 'Undefined variable');
+    }
+
+    protected function handleErrors() {
+        if (!$this->errorMayHaveOccurred()) {
             return;
         }
 
-        if (preg_match(
-            '~^Unterminated comment starting line ([0-9]+)$~',
-            $error['message'], $matches
-        )) {
-            throw new Error('Unterminated comment', (int) $matches[1]);
+        // PHP's error handling for token_get_all() is rather bad, so if we want detailed
+        // error information we need to compute it ourselves. Invalid character errors are
+        // detected by finding "gaps" in the token array. Unterminated comments are detected
+        // by checking if a trailing comment has a "*/" at the end.
+
+        $filePos = 0;
+        $line = 1;
+        foreach ($this->tokens as $i => $token) {
+            $tokenValue = \is_string($token) ? $token : $token[1];
+            $tokenLen = \strlen($tokenValue);
+
+            if (substr($this->code, $filePos, $tokenLen) !== $tokenValue) {
+                // Something is missing, must be an invalid character
+                $nextFilePos = strpos($this->code, $tokenValue, $filePos);
+                $this->handleInvalidCharacterRange($filePos, $nextFilePos, $line);
+                $filePos = $nextFilePos;
+            }
+
+            $filePos += $tokenLen;
+            $line += substr_count($tokenValue, "\n");
         }
 
-        if (preg_match(
-            '~^Unexpected character in input:  \'(.)\' \(ASCII=([0-9]+)\)~s',
-            $error['message'], $matches
-        )) {
-            throw new Error(sprintf(
-                'Unexpected character "%s" (ASCII %d)',
-                $matches[1], $matches[2]
-            ));
+        // Invalid characters at the end of the input
+        if ($filePos !== \strlen($this->code)) {
+            $this->handleInvalidCharacterRange($filePos, \strlen($this->code), $line);
         }
 
-        // PHP cuts error message after null byte, so need special case
-        if (preg_match('~^Unexpected character in input:  \'$~', $error['message'])) {
-            throw new Error('Unexpected null byte');
+        // Check for unterminated comment
+        $lastToken = $this->tokens[count($this->tokens) - 1];
+        if ($this->isUnterminatedComment($lastToken)) {
+            $this->errors[] = new Error('Unterminated comment', [
+                'startLine' => $line - substr_count($lastToken[1], "\n"),
+                'endLine' => $line,
+                'startFilePos' => $filePos - \strlen($lastToken[1]),
+                'endFilePos' => $filePos,
+            ]);
         }
     }
 
@@ -222,6 +278,15 @@ class Lexer
      */
     public function getTokens() {
         return $this->tokens;
+    }
+
+    /**
+     * Returns errors that occurred during lexing.
+     *
+     * @return Error[] Array of lexer errors
+     */
+    public function getErrors() {
+        return $this->errors;
     }
 
     /**
