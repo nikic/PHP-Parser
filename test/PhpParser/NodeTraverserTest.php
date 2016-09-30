@@ -13,7 +13,7 @@ class NodeTraverserTest extends \PHPUnit_Framework_TestCase
         $echoNode = new Node\Stmt\Echo_(array($str1Node, $str2Node));
         $stmts    = array($echoNode);
 
-        $visitor = $this->getMock('PhpParser\NodeVisitor');
+        $visitor = $this->getMockBuilder('PhpParser\NodeVisitor')->getMock();
 
         $visitor->expects($this->at(0))->method('beforeTraverse')->with($stmts);
         $visitor->expects($this->at(1))->method('enterNode')->with($echoNode);
@@ -36,8 +36,8 @@ class NodeTraverserTest extends \PHPUnit_Framework_TestCase
         $printNode = new Expr\Print_($str1Node);
 
         // first visitor changes the node, second verifies the change
-        $visitor1 = $this->getMock('PhpParser\NodeVisitor');
-        $visitor2 = $this->getMock('PhpParser\NodeVisitor');
+        $visitor1 = $this->getMockBuilder('PhpParser\NodeVisitor')->getMock();
+        $visitor2 = $this->getMockBuilder('PhpParser\NodeVisitor')->getMock();
 
         // replace empty statements with string1 node
         $visitor1->expects($this->at(0))->method('beforeTraverse')->with(array())
@@ -81,7 +81,7 @@ class NodeTraverserTest extends \PHPUnit_Framework_TestCase
         $str1Node = new String_('Foo');
         $str2Node = new String_('Bar');
 
-        $visitor = $this->getMock('PhpParser\NodeVisitor');
+        $visitor = $this->getMockBuilder('PhpParser\NodeVisitor')->getMock();
 
         // remove the string1 node, leave the string2 node
         $visitor->expects($this->at(2))->method('leaveNode')->with($str1Node)
@@ -100,7 +100,7 @@ class NodeTraverserTest extends \PHPUnit_Framework_TestCase
         $strR1     = new String_('Replacement 1');
         $strR2     = new String_('Replacement 2');
 
-        $visitor = $this->getMock('PhpParser\NodeVisitor');
+        $visitor = $this->getMockBuilder('PhpParser\NodeVisitor')->getMock();
 
         // replace strMiddle with strR1 and strR2 by merge
         $visitor->expects($this->at(4))->method('leaveNode')->with($strMiddle)
@@ -119,7 +119,7 @@ class NodeTraverserTest extends \PHPUnit_Framework_TestCase
         $strNode = new String_('Foo');
         $stmts = array(array(array($strNode)));
 
-        $visitor = $this->getMock('PhpParser\NodeVisitor');
+        $visitor = $this->getMockBuilder('PhpParser\NodeVisitor')->getMock();
         $visitor->expects($this->at(1))->method('enterNode')->with($strNode);
 
         $traverser = new NodeTraverser;
@@ -136,8 +136,8 @@ class NodeTraverserTest extends \PHPUnit_Framework_TestCase
         $negNode = new Expr\UnaryMinus($mulNode);
         $stmts = array($printNode, $negNode);
 
-        $visitor1 = $this->getMock('PhpParser\NodeVisitor');
-        $visitor2 = $this->getMock('PhpParser\NodeVisitor');
+        $visitor1 = $this->getMockBuilder('PhpParser\NodeVisitor')->getMock();
+        $visitor2 = $this->getMockBuilder('PhpParser\NodeVisitor')->getMock();
 
         $visitor1->expects($this->at(1))->method('enterNode')->with($printNode)
             ->will($this->returnValue(NodeTraverser::DONT_TRAVERSE_CHILDREN));
@@ -167,9 +167,9 @@ class NodeTraverserTest extends \PHPUnit_Framework_TestCase
     }
 
     public function testRemovingVisitor() {
-        $visitor1 = $this->getMock('PhpParser\NodeVisitor');
-        $visitor2 = $this->getMock('PhpParser\NodeVisitor');
-        $visitor3 = $this->getMock('PhpParser\NodeVisitor');
+        $visitor1 = $this->getMockBuilder('PhpParser\NodeVisitor')->getMock();
+        $visitor2 = $this->getMockBuilder('PhpParser\NodeVisitor')->getMock();
+        $visitor3 = $this->getMockBuilder('PhpParser\NodeVisitor')->getMock();
 
         $traverser = new NodeTraverser;
         $traverser->addVisitor($visitor1);
@@ -208,7 +208,7 @@ class NodeTraverserTest extends \PHPUnit_Framework_TestCase
     public function testReplaceByArrayOnlyAllowedIfParentIsArray() {
         $stmts = array(new Node\Expr\UnaryMinus(new Node\Scalar\LNumber(42)));
 
-        $visitor = $this->getMock('PhpParser\NodeVisitor');
+        $visitor = $this->getMockBuilder('PhpParser\NodeVisitor')->getMock();
         $visitor->method('leaveNode')->willReturn(array(new Node\Scalar\DNumber(42.0)));
 
         $traverser = new NodeTraverser();
