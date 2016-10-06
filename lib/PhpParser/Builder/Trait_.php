@@ -24,19 +24,19 @@ class Trait_ extends Declaration
     /**
      * Adds a statement.
      *
-     * @param Stmt|PhpParser\Builder $stmt The statement to add
+     * @param Stmt|PhpParser\Builder $statement The statement to add
      *
      * @return $this The builder instance (for fluid interface)
      */
-    public function addStmt($stmt) {
-        $stmt = $this->normalizeNode($stmt);
+    public function addStatement($statement) {
+        $statement = $this->normalizeNode($statement);
 
-        if ($stmt instanceof Stmt\Property) {
-            $this->properties[] = $stmt;
-        } else if ($stmt instanceof Stmt\ClassMethod) {
-            $this->methods[] = $stmt;
+        if ($statement instanceof Stmt\Property) {
+            $this->properties[] = $statement;
+        } else if ($statement instanceof Stmt\ClassMethod) {
+            $this->methods[] = $statement;
         } else {
-            throw new \LogicException(sprintf('Unexpected node of type "%s"', $stmt->getType()));
+            throw new \LogicException(sprintf('Unexpected node of type "%s"', $statement->getType()));
         }
 
         return $this;

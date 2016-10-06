@@ -23,12 +23,12 @@ class Function_ extends FunctionLike
     /**
      * Adds a statement.
      *
-     * @param Node|PhpParser\Builder $stmt The statement to add
+     * @param Node|PhpParser\Builder $statement The statement to add
      *
      * @return $this The builder instance (for fluid interface)
      */
-    public function addStmt($stmt) {
-        $this->stmts[] = $this->normalizeNode($stmt);
+    public function addStatement($statement) {
+        $this->stmts[] = $this->normalizeNode($statement);
 
         return $this;
     }

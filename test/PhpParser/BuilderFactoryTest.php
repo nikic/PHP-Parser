@@ -37,35 +37,35 @@ class BuilderFactoryTest extends \PHPUnit_Framework_TestCase
     public function testIntegration() {
         $factory = new BuilderFactory;
         $node = $factory->namespace('Name\Space')
-            ->addStmt($factory->use('Foo\Bar\SomeOtherClass'))
-            ->addStmt($factory->use('Foo\Bar')->as('A'))
-            ->addStmt($factory
+            ->addStatement($factory->use('Foo\Bar\SomeOtherClass'))
+            ->addStatement($factory->use('Foo\Bar')->as('A'))
+            ->addStatement($factory
                 ->class('SomeClass')
                 ->extend('SomeOtherClass')
                 ->implement('A\Few', '\Interfaces')
                 ->makeAbstract()
 
-                ->addStmt($factory->method('firstMethod'))
+                ->addStatement($factory->method('firstMethod'))
 
-                ->addStmt($factory->method('someMethod')
-                    ->makePublic()
-                    ->makeAbstract()
-                    ->addParam($factory->param('someParam')->setTypeHint('SomeClass'))
-                    ->setDocComment('/**
+                ->addStatement($factory->method('someMethod')
+                                       ->makePublic()
+                                       ->makeAbstract()
+                                       ->addParam($factory->param('someParam')->setTypeHint('SomeClass'))
+                                       ->setDocComment('/**
                                       * This method does something.
                                       *
                                       * @param SomeClass And takes a parameter
                                       */'))
 
-                ->addStmt($factory->method('anotherMethod')
-                    ->makeProtected()
-                    ->addParam($factory->param('someParam')->setDefault('test'))
-                    ->addStmt(new Expr\Print_(new Expr\Variable('someParam'))))
+                ->addStatement($factory->method('anotherMethod')
+                                       ->makeProtected()
+                                       ->addParam($factory->param('someParam')->setDefault('test'))
+                                       ->addStatement(new Expr\Print_(new Expr\Variable('someParam'))))
 
-                ->addStmt($factory->property('someProperty')->makeProtected())
-                ->addStmt($factory->property('anotherProperty')
-                    ->makePrivate()
-                    ->setDefault(array(1, 2, 3))))
+                ->addStatement($factory->property('someProperty')->makeProtected())
+                ->addStatement($factory->property('anotherProperty')
+                                       ->makePrivate()
+                                       ->setDefault(array(1, 2, 3))))
             ->getNode()
         ;
 

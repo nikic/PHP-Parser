@@ -21,15 +21,15 @@ class NamespaceTest extends \PHPUnit_Framework_TestCase
         );
 
         $node = $this->createNamespaceBuilder('Name\Space')
-            ->addStmt($stmt1)
-            ->addStmts(array($stmt2, $stmt3))
+            ->addStatement($stmt1)
+            ->addStatements(array($stmt2, $stmt3))
             ->getNode()
         ;
         $this->assertEquals($expected, $node);
 
         $node = $this->createNamespaceBuilder(new Node\Name(array('Name', 'Space')))
-            ->addStmts(array($stmt1, $stmt2))
-            ->addStmt($stmt3)
+            ->addStatements(array($stmt1, $stmt2))
+            ->addStatement($stmt3)
             ->getNode()
         ;
         $this->assertEquals($expected, $node);

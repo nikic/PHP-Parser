@@ -98,7 +98,7 @@ class MethodTest extends \PHPUnit_Framework_TestCase
         $stmt3 = new Print_(new String_('test3'));
 
         $node = $this->createMethodBuilder('test')
-            ->addStmt($stmt1)
+            ->addStatement($stmt1)
             ->addStmts(array($stmt2, $stmt3))
             ->getNode()
         ;
@@ -136,7 +136,7 @@ class MethodTest extends \PHPUnit_Framework_TestCase
     public function testAddStmtToAbstractMethodError() {
         $this->createMethodBuilder('test')
             ->makeAbstract()
-            ->addStmt(new Print_(new String_('test')))
+            ->addStatement(new Print_(new String_('test')))
         ;
     }
 
@@ -146,7 +146,7 @@ class MethodTest extends \PHPUnit_Framework_TestCase
      */
     public function testMakeMethodWithStmtsAbstractError() {
         $this->createMethodBuilder('test')
-            ->addStmt(new Print_(new String_('test')))
+            ->addStatement(new Print_(new String_('test')))
             ->makeAbstract()
         ;
     }

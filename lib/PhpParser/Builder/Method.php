@@ -95,16 +95,16 @@ class Method extends FunctionLike
     /**
      * Adds a statement.
      *
-     * @param Node|PhpParser\Builder $stmt The statement to add
+     * @param Node|PhpParser\Builder $statement The statement to add
      *
      * @return $this The builder instance (for fluid interface)
      */
-    public function addStmt($stmt) {
+    public function addStatement($statement) {
         if (null === $this->stmts) {
             throw new \LogicException('Cannot add statements to an abstract method');
         }
 
-        $this->stmts[] = $this->normalizeNode($stmt);
+        $this->stmts[] = $this->normalizeNode($statement);
 
         return $this;
     }

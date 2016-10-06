@@ -9,7 +9,7 @@ use PhpParser\Node\Stmt;
 class Namespace_ extends PhpParser\BuilderAbstract
 {
     private $name;
-    private $stmts = array();
+    private $statements = array();
 
     /**
      * Creates a namespace builder.
@@ -23,12 +23,12 @@ class Namespace_ extends PhpParser\BuilderAbstract
     /**
      * Adds a statement.
      *
-     * @param Node|PhpParser\Builder $stmt The statement to add
+     * @param Node|PhpParser\Builder $statement The statement to add
      *
      * @return $this The builder instance (for fluid interface)
      */
-    public function addStmt($stmt) {
-        $this->stmts[] = $this->normalizeNode($stmt);
+    public function addStatement($statement) {
+        $this->statements[] = $this->normalizeNode($statement);
 
         return $this;
     }
@@ -36,13 +36,13 @@ class Namespace_ extends PhpParser\BuilderAbstract
     /**
      * Adds multiple statements.
      *
-     * @param array $stmts The statements to add
+     * @param array $statements The statements to add
      *
      * @return $this The builder instance (for fluid interface)
      */
-    public function addStmts(array $stmts) {
-        foreach ($stmts as $stmt) {
-            $this->addStmt($stmt);
+    public function addStatements(array $statements) {
+        foreach ($statements as $stmt) {
+            $this->addStatement($stmt);
         }
 
         return $this;
@@ -54,6 +54,6 @@ class Namespace_ extends PhpParser\BuilderAbstract
      * @return Node The built node
      */
     public function getNode() {
-        return new Stmt\Namespace_($this->name, $this->stmts);
+        return new Stmt\Namespace_($this->name, $this->statements);
     }
 }

@@ -40,23 +40,23 @@ class Interface_ extends Declaration
     /**
      * Adds a statement.
      *
-     * @param Stmt|PhpParser\Builder $stmt The statement to add
+     * @param Stmt|PhpParser\Builder $statement The statement to add
      *
      * @return $this The builder instance (for fluid interface)
      */
-    public function addStmt($stmt) {
-        $stmt = $this->normalizeNode($stmt);
+    public function addStatement($statement) {
+        $statement = $this->normalizeNode($statement);
 
-        $type = $stmt->getType();
+        $type = $statement->getType();
         switch ($type) {
             case 'Stmt_ClassConst':
-                $this->constants[] = $stmt;
+                $this->constants[] = $statement;
                 break;
 
             case 'Stmt_ClassMethod':
                 // we erase all statements in the body of an interface method
-                $stmt->stmts = null;
-                $this->methods[] = $stmt;
+                $statement->stmts = null;
+                $this->methods[]  = $statement;
                 break;
 
             default:

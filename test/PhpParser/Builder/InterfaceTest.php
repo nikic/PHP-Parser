@@ -41,7 +41,7 @@ class InterfaceTest extends \PHPUnit_Framework_TestCase
 
     public function testAddMethod() {
         $method = new Stmt\ClassMethod('doSomething');
-        $contract = $this->builder->addStmt($method)->getNode();
+        $contract = $this->builder->addStatement($method)->getNode();
         $this->assertSame(array($method), $contract->stmts);
     }
 
@@ -49,7 +49,7 @@ class InterfaceTest extends \PHPUnit_Framework_TestCase
         $const = new Stmt\ClassConst(array(
             new Node\Const_('SPEED_OF_LIGHT', new DNumber(299792458.0))
         ));
-        $contract = $this->builder->addStmt($const)->getNode();
+        $contract = $this->builder->addStatement($const)->getNode();
         $this->assertSame(299792458.0, $contract->stmts[0]->consts[0]->value->value);
     }
 
@@ -59,8 +59,8 @@ class InterfaceTest extends \PHPUnit_Framework_TestCase
         ));
         $method = new Stmt\ClassMethod('doSomething');
         $contract = $this->builder
-            ->addStmt($method)
-            ->addStmt($const)
+            ->addStatement($method)
+            ->addStatement($const)
             ->getNode()
         ;
 
@@ -83,7 +83,7 @@ class InterfaceTest extends \PHPUnit_Framework_TestCase
      * @expectedExceptionMessage Unexpected node of type "Stmt_PropertyProperty"
      */
     public function testInvalidStmtError() {
-        $this->builder->addStmt(new Stmt\PropertyProperty('invalid'));
+        $this->builder->addStatement(new Stmt\PropertyProperty('invalid'));
     }
 
     public function testFullFunctional() {
@@ -92,8 +92,8 @@ class InterfaceTest extends \PHPUnit_Framework_TestCase
         ));
         $method = new Stmt\ClassMethod('doSomething');
         $contract = $this->builder
-            ->addStmt($method)
-            ->addStmt($const)
+            ->addStatement($method)
+            ->addStatement($const)
             ->getNode()
         ;
 

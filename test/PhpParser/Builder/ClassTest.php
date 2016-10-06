@@ -75,8 +75,8 @@ class ClassTest extends \PHPUnit_Framework_TestCase
         $use = new Stmt\TraitUse(array(new Name('SomeTrait')));
 
         $node = $this->createClassBuilder('Test')
-            ->addStmt($method)
-            ->addStmt($property)
+            ->addStatement($method)
+            ->addStatement($property)
             ->addStmts(array($const, $use))
             ->getNode()
         ;
@@ -128,7 +128,7 @@ DOC;
      */
     public function testInvalidStmtError() {
         $this->createClassBuilder('Test')
-            ->addStmt(new Stmt\Echo_(array()))
+            ->addStatement(new Stmt\Echo_(array()))
         ;
     }
 
