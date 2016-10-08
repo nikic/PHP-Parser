@@ -841,10 +841,14 @@ encaps_string_part:
       T_ENCAPSED_AND_WHITESPACE                             { $$ = Scalar\EncapsedStringPart[$1]; }
 ;
 
-encaps_var:
+encaps_base_var:
       T_VARIABLE                                            { $$ = Expr\Variable[parseVar($1)]; }
-    | T_VARIABLE '[' encaps_var_offset ']'                  { $$ = Expr\ArrayDimFetch[Expr\Variable[parseVar($1)], $3]; }
-    | T_VARIABLE T_OBJECT_OPERATOR T_STRING                 { $$ = Expr\PropertyFetch[Expr\Variable[parseVar($1)], $3]; }
+;
+
+encaps_var:
+      encaps_base_var                                       { $$ = $1; }
+    | encaps_base_var '[' encaps_var_offset ']'             { $$ = Expr\ArrayDimFetch[$1, $3]; }
+    | encaps_base_var T_OBJECT_OPERATOR T_STRING            { $$ = Expr\PropertyFetch[$1, $3]; }
     | T_DOLLAR_OPEN_CURLY_BRACES expr '}'                   { $$ = Expr\Variable[$2]; }
     | T_DOLLAR_OPEN_CURLY_BRACES T_STRING_VARNAME '}'       { $$ = Expr\Variable[$2]; }
     | T_DOLLAR_OPEN_CURLY_BRACES T_STRING_VARNAME '[' expr ']' '}'
