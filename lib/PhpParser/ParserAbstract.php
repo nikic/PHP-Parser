@@ -86,6 +86,8 @@ abstract class ParserAbstract implements Parser
     protected $semStack;
     /** @var array[] Start attribute stack */
     protected $startAttributeStack;
+    /** @var array[] End attribute stack */
+    protected $endAttributeStack;
     /** @var array End attributes of last *shifted* token */
     protected $endAttributes;
     /** @var array Start attributes of last *read* token */
@@ -149,9 +151,9 @@ abstract class ParserAbstract implements Parser
         $endAttributes = '*POISON';
         $this->endAttributes = $endAttributes;
 
-        // In order to figure out the attributes for the starting token, we have to keep
-        // them in a stack
+        // Keep stack of start and end attributes
         $this->startAttributeStack = array();
+        $this->endAttributeStack = array($endAttributes);
 
         // Start off in the initial state and keep a stack of previous states
         $state = 0;
@@ -193,6 +195,7 @@ abstract class ParserAbstract implements Parser
                     // This is necessary to assign some meaningful attributes to /* empty */ productions. They'll get
                     // the attributes of the next token, even though they don't contain it themselves.
                     $this->startAttributeStack[$this->stackPos+1] = $startAttributes;
+                    $this->endAttributeStack[$this->stackPos+1] = $endAttributes;
                     $this->lookaheadStartAttributes = $startAttributes;
 
                     //$this->traceRead($symbol);
@@ -219,6 +222,7 @@ abstract class ParserAbstract implements Parser
                         $stateStack[$this->stackPos] = $state = $action;
                         $this->semStack[$this->stackPos] = $tokenValue;
                         $this->startAttributeStack[$this->stackPos] = $startAttributes;
+                        $this->endAttributeStack[$this->stackPos] = $endAttributes;
                         $this->endAttributes = $endAttributes;
                         $symbol = self::SYMBOL_NONE;
 
@@ -266,6 +270,7 @@ abstract class ParserAbstract implements Parser
                     }
 
                     /* Goto - shift nonterminal */
+                    $lastEndAttributes = $this->endAttributeStack[$this->stackPos];
                     $this->stackPos -= $this->ruleToLength[$rule];
                     $nonTerminal = $this->ruleToNonTerminal[$rule];
                     $idx = $this->gotoBase[$nonTerminal] + $stateStack[$this->stackPos];
@@ -278,6 +283,7 @@ abstract class ParserAbstract implements Parser
                     ++$this->stackPos;
                     $stateStack[$this->stackPos]     = $state;
                     $this->semStack[$this->stackPos] = $this->semValue;
+                    $this->endAttributeStack[$this->stackPos] = $lastEndAttributes;
                 } else {
                     /* error */
                     switch ($this->errorState) {

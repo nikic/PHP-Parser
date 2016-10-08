@@ -171,6 +171,17 @@ EOC;
             array("?>\nFoo", ['hasLeadingNewline' => true]),
         );
     }
+
+    public function testGroupUsePrefixFileOffsets() {
+        $parser = $this->getParser(new Lexer(
+            ['usedAttributes' => ['startFilePos', 'endFilePos']]
+        ));
+        $stmts = $parser->parse('<?php use Foo\Bar\{Baz};');
+        /** @var Node\Stmt\GroupUse $groupUse */
+        $groupUse = $stmts[0];
+        $this->assertSame(10, $groupUse->prefix->getAttribute('startFilePos'));
+        $this->assertSame(16, $groupUse->prefix->getAttribute('endFilePos'));
+    }
 }
 
 class InvalidTokenLexer extends Lexer {

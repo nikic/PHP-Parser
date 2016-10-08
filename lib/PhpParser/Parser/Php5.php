@@ -1303,19 +1303,19 @@ class Php5 extends \PhpParser\ParserAbstract
     }
 
     protected function reduceRule98() {
-         $this->semValue = new Stmt\GroupUse(new Name($this->semStack[$this->stackPos-(7-3)], $this->startAttributeStack[$this->stackPos-(7-1)] + $this->endAttributes), $this->semStack[$this->stackPos-(7-6)], $this->semStack[$this->stackPos-(7-2)], $this->startAttributeStack[$this->stackPos-(7-1)] + $this->endAttributes);
+         $this->semValue = new Stmt\GroupUse(new Name($this->semStack[$this->stackPos-(7-3)], $this->startAttributeStack[$this->stackPos-(7-3)] + $this->endAttributeStack[$this->stackPos-(7-3)]), $this->semStack[$this->stackPos-(7-6)], $this->semStack[$this->stackPos-(7-2)], $this->startAttributeStack[$this->stackPos-(7-1)] + $this->endAttributes);
     }
 
     protected function reduceRule99() {
-         $this->semValue = new Stmt\GroupUse(new Name($this->semStack[$this->stackPos-(8-4)], $this->startAttributeStack[$this->stackPos-(8-1)] + $this->endAttributes), $this->semStack[$this->stackPos-(8-7)], $this->semStack[$this->stackPos-(8-2)], $this->startAttributeStack[$this->stackPos-(8-1)] + $this->endAttributes);
+         $this->semValue = new Stmt\GroupUse(new Name($this->semStack[$this->stackPos-(8-4)], $this->startAttributeStack[$this->stackPos-(8-4)] + $this->endAttributeStack[$this->stackPos-(8-4)]), $this->semStack[$this->stackPos-(8-7)], $this->semStack[$this->stackPos-(8-2)], $this->startAttributeStack[$this->stackPos-(8-1)] + $this->endAttributes);
     }
 
     protected function reduceRule100() {
-         $this->semValue = new Stmt\GroupUse(new Name($this->semStack[$this->stackPos-(6-2)], $this->startAttributeStack[$this->stackPos-(6-1)] + $this->endAttributes), $this->semStack[$this->stackPos-(6-5)], Stmt\Use_::TYPE_UNKNOWN, $this->startAttributeStack[$this->stackPos-(6-1)] + $this->endAttributes);
+         $this->semValue = new Stmt\GroupUse(new Name($this->semStack[$this->stackPos-(6-2)], $this->startAttributeStack[$this->stackPos-(6-2)] + $this->endAttributeStack[$this->stackPos-(6-2)]), $this->semStack[$this->stackPos-(6-5)], Stmt\Use_::TYPE_UNKNOWN, $this->startAttributeStack[$this->stackPos-(6-1)] + $this->endAttributes);
     }
 
     protected function reduceRule101() {
-         $this->semValue = new Stmt\GroupUse(new Name($this->semStack[$this->stackPos-(7-3)], $this->startAttributeStack[$this->stackPos-(7-1)] + $this->endAttributes), $this->semStack[$this->stackPos-(7-6)], Stmt\Use_::TYPE_UNKNOWN, $this->startAttributeStack[$this->stackPos-(7-1)] + $this->endAttributes);
+         $this->semValue = new Stmt\GroupUse(new Name($this->semStack[$this->stackPos-(7-3)], $this->startAttributeStack[$this->stackPos-(7-3)] + $this->endAttributeStack[$this->stackPos-(7-3)]), $this->semStack[$this->stackPos-(7-6)], Stmt\Use_::TYPE_UNKNOWN, $this->startAttributeStack[$this->stackPos-(7-1)] + $this->endAttributes);
     }
 
     protected function reduceRule102() {
