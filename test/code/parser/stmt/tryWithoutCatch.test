@@ -2,6 +2,26 @@ Cannot use try without catch or finally
 -----
 <?php
 
-try { }
+try {
+    foo();
+}
 -----
-Cannot use try without catch or finally on line 3
+Cannot use try without catch or finally from 3:1 to 5:1
+array(
+    0: Stmt_TryCatch(
+        stmts: array(
+            0: Expr_FuncCall(
+                name: Name(
+                    parts: array(
+                        0: foo
+                    )
+                )
+                args: array(
+                )
+            )
+        )
+        catches: array(
+        )
+        finally: null
+    )
+)

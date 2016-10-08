@@ -20,16 +20,6 @@ class ClassConst extends Node\Stmt
      * @param array         $attributes Additional attributes
      */
     public function __construct(array $consts, $flags = 0, array $attributes = array()) {
-        if ($flags & Class_::MODIFIER_STATIC) {
-            throw new Error("Cannot use 'static' as constant modifier");
-        }
-        if ($flags & Class_::MODIFIER_ABSTRACT) {
-            throw new Error("Cannot use 'abstract' as constant modifier");
-        }
-        if ($flags & Class_::MODIFIER_FINAL) {
-            throw new Error("Cannot use 'final' as constant modifier");
-        }
-
         parent::__construct($attributes);
         $this->flags = $flags;
         $this->consts = $consts;

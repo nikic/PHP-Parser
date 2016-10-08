@@ -46,17 +46,6 @@ class ClassMethod extends Node\Stmt implements FunctionLike
         $this->params = isset($subNodes['params']) ? $subNodes['params'] : array();
         $this->returnType = isset($subNodes['returnType']) ? $subNodes['returnType'] : null;
         $this->stmts = array_key_exists('stmts', $subNodes) ? $subNodes['stmts'] : array();
-
-        if ($this->flags & Class_::MODIFIER_STATIC) {
-            switch (strtolower($this->name)) {
-                case '__construct':
-                    throw new Error(sprintf('Constructor %s() cannot be static', $this->name));
-                case '__destruct':
-                    throw new Error(sprintf('Destructor %s() cannot be static', $this->name));
-                case '__clone':
-                    throw new Error(sprintf('Clone method %s() cannot be static', $this->name));
-            }
-        }
     }
 
     public function getSubNodeNames() {

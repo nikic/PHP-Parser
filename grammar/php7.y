@@ -55,9 +55,12 @@ top_statement:
     | class_declaration_statement                           { $$ = $1; }
     | T_HALT_COMPILER
           { $$ = Stmt\HaltCompiler[$this->lexer->handleHaltCompiler()]; }
-    | T_NAMESPACE namespace_name ';'                        { $$ = Stmt\Namespace_[$2, null]; }
-    | T_NAMESPACE namespace_name '{' top_statement_list '}' { $$ = Stmt\Namespace_[$2, $4]; }
-    | T_NAMESPACE '{' top_statement_list '}'                { $$ = Stmt\Namespace_[null,     $3]; }
+    | T_NAMESPACE namespace_name ';'
+          { $$ = Stmt\Namespace_[$2, null]; $this->checkNamespace($$); }
+    | T_NAMESPACE namespace_name '{' top_statement_list '}'
+          { $$ = Stmt\Namespace_[$2, $4]; $this->checkNamespace($$); }
+    | T_NAMESPACE '{' top_statement_list '}'
+          { $$ = Stmt\Namespace_[null, $3]; $this->checkNamespace($$); }
     | T_USE use_declarations ';'                            { $$ = Stmt\Use_[$2, Stmt\Use_::TYPE_NORMAL]; }
     | T_USE use_type use_declarations ';'                   { $$ = Stmt\Use_[$3, $2]; }
     | group_use_declaration ';'                             { $$ = $1; }
@@ -98,8 +101,10 @@ inline_use_declarations:
 ;
 
 unprefixed_use_declaration:
-      namespace_name                                        { $$ = Stmt\UseUse[$1, null, Stmt\Use_::TYPE_UNKNOWN]; }
-    | namespace_name T_AS T_STRING                          { $$ = Stmt\UseUse[$1, $3, Stmt\Use_::TYPE_UNKNOWN]; }
+      namespace_name
+          { $$ = Stmt\UseUse[$1, null, Stmt\Use_::TYPE_UNKNOWN]; $this->checkUseUse($$, #1); }
+    | namespace_name T_AS T_STRING
+          { $$ = Stmt\UseUse[$1, $3, Stmt\Use_::TYPE_UNKNOWN]; $this->checkUseUse($$, #3); }
 ;
 
 use_declaration:
@@ -175,7 +180,7 @@ non_empty_statement:
           { $$ = Stmt\Foreach_[$3, $7[0], ['keyVar' => $5, 'byRef' => $7[1], 'stmts' => $9]]; }
     | T_DECLARE '(' declare_list ')' declare_statement      { $$ = Stmt\Declare_[$3, $5]; }
     | T_TRY '{' inner_statement_list '}' catches optional_finally
-          { $$ = Stmt\TryCatch[$3, $5, $6]; }
+          { $$ = Stmt\TryCatch[$3, $5, $6]; $this->checkTryCatch($$); }
     | T_THROW expr ';'                                      { $$ = Stmt\Throw_[$2]; }
     | T_GOTO T_STRING ';'                                   { $$ = Stmt\Goto_[$2]; }
     | T_STRING ':'                                          { $$ = Stmt\Label[$1]; }
@@ -232,9 +237,11 @@ function_declaration_statement:
 
 class_declaration_statement:
       class_entry_type T_STRING extends_from implements_list '{' class_statement_list '}'
-          { $$ = Stmt\Class_[$2, ['type' => $1, 'extends' => $3, 'implements' => $4, 'stmts' => $6]]; }
+          { $$ = Stmt\Class_[$2, ['type' => $1, 'extends' => $3, 'implements' => $4, 'stmts' => $6]];
+            $this->checkClass($$, #2); }
     | T_INTERFACE T_STRING interface_extends_list '{' class_statement_list '}'
-          { $$ = Stmt\Interface_[$2, ['extends' => $3, 'stmts' => $5]]; }
+          { $$ = Stmt\Interface_[$2, ['extends' => $3, 'stmts' => $5]];
+            $this->checkInterface($$, #2); }
     | T_TRAIT T_STRING '{' class_statement_list '}'
           { $$ = Stmt\Trait_[$2, ['stmts' => $4]]; }
 ;
@@ -364,9 +371,9 @@ non_empty_parameter_list:
 
 parameter:
       optional_param_type optional_ref optional_ellipsis T_VARIABLE
-          { $$ = Node\Param[parseVar($4), null, $1, $2, $3]; }
+          { $$ = Node\Param[parseVar($4), null, $1, $2, $3]; $this->checkParam($$); }
     | optional_param_type optional_ref optional_ellipsis T_VARIABLE '=' expr
-          { $$ = Node\Param[parseVar($4), $6, $1, $2, $3]; }
+          { $$ = Node\Param[parseVar($4), $6, $1, $2, $3]; $this->checkParam($$); }
 ;
 
 type_expr:
@@ -431,10 +438,13 @@ class_statement_list:
 ;
 
 class_statement:
-      variable_modifiers property_declaration_list ';'      { $$ = Stmt\Property[$1, $2]; }
-    | method_modifiers T_CONST class_const_list ';'         { $$ = Stmt\ClassConst[$3, $1]; }
+      variable_modifiers property_declaration_list ';'
+          { $$ = Stmt\Property[$1, $2]; $this->checkProperty($$, #1); }
+    | method_modifiers T_CONST class_const_list ';'
+          { $$ = Stmt\ClassConst[$3, $1]; $this->checkClassConst($$, #1); }
     | method_modifiers T_FUNCTION optional_ref identifier '(' parameter_list ')' optional_return_type method_body
-          { $$ = Stmt\ClassMethod[$4, ['type' => $1, 'byRef' => $3, 'params' => $6, 'returnType' => $8, 'stmts' => $9]]; }
+          { $$ = Stmt\ClassMethod[$4, ['type' => $1, 'byRef' => $3, 'params' => $6, 'returnType' => $8, 'stmts' => $9]];
+            $this->checkClassMethod($$, #1); }
     | T_USE name_list trait_adaptations                     { $$ = Stmt\TraitUse[$2, $3]; }
 ;
 
@@ -486,7 +496,7 @@ method_modifiers:
 
 non_empty_member_modifiers:
       member_modifier                                       { $$ = $1; }
-    | non_empty_member_modifiers member_modifier            { Stmt\Class_::verifyModifier($1, $2); $$ = $1 | $2; }
+    | non_empty_member_modifiers member_modifier            { $this->checkModifier($1, $2, #2); $$ = $1 | $2; }
 ;
 
 member_modifier:
@@ -613,7 +623,8 @@ expr:
 
 anonymous_class:
       T_CLASS ctor_arguments extends_from implements_list '{' class_statement_list '}'
-          { $$ = array(Stmt\Class_[null, ['type' => 0, 'extends' => $3, 'implements' => $4, 'stmts' => $6]], $2); }
+          { $$ = array(Stmt\Class_[null, ['type' => 0, 'extends' => $3, 'implements' => $4, 'stmts' => $6]], $2);
+            $this->checkClass($$[0], -1); }
 
 new_expr:
       T_NEW class_name_reference ctor_arguments             { $$ = Expr\New_[$2, $3]; }
@@ -703,7 +714,7 @@ dereferencable_scalar:
 ;
 
 scalar:
-      T_LNUMBER                                             { $$ = Scalar\LNumber::fromString($1, attributes()); }
+      T_LNUMBER                                             { $$ = $this->parseLNumber($1, attributes()); }
     | T_DNUMBER                                             { $$ = Scalar\DNumber[Scalar\DNumber::parse($1)]; }
     | T_LINE                                                { $$ = Scalar\MagicConst\Line[]; }
     | T_FILE                                                { $$ = Scalar\MagicConst\File[]; }

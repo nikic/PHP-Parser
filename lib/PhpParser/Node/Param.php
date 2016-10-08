@@ -35,10 +35,6 @@ class Param extends NodeAbstract
         $this->variadic = $variadic;
         $this->name = $name;
         $this->default = $default;
-
-        if ($variadic && null !== $default) {
-            throw new Error('Variadic parameter cannot have a default value', $default->getAttributes());
-        }
     }
 
     public function getSubNodeNames() {

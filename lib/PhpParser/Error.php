@@ -62,6 +62,16 @@ class Error extends \RuntimeException
     }
 
     /**
+     * Sets the attributes of the node/token the error occured at.
+     *
+     * @param array $attributes
+     */
+    public function setAttributes(array $attributes) {
+        $this->attributes = $attributes;
+        $this->updateMessage();
+    }
+
+    /**
      * Sets the line of the PHP file the error occurred in.
      *
      * @param string $message Error message

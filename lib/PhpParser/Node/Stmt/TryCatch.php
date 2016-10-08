@@ -23,10 +23,6 @@ class TryCatch extends Node\Stmt
      * @param array|null    $attributes Additional attributes
      */
     public function __construct(array $stmts, array $catches, Finally_ $finally = null, array $attributes = array()) {
-        if (empty($catches) && null === $finally) {
-            throw new Error('Cannot use try without catch or finally');
-        }
-
         parent::__construct($attributes);
         $this->stmts = $stmts;
         $this->catches = $catches;

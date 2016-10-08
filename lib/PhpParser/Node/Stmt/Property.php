@@ -23,14 +23,6 @@ class Property extends Node\Stmt
      * @param array              $attributes Additional attributes
      */
     public function __construct($flags, array $props, array $attributes = array()) {
-        if ($flags & Class_::MODIFIER_ABSTRACT) {
-            throw new Error('Properties cannot be declared abstract');
-        }
-
-        if ($flags & Class_::MODIFIER_FINAL) {
-            throw new Error('Properties cannot be declared final');
-        }
-
         parent::__construct($attributes);
         $this->flags = $flags;
         $this->type = $flags;

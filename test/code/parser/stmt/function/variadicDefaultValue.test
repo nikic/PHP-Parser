@@ -4,3 +4,24 @@ Invalid variadic function
 function foo(...$foo = []) {}
 -----
 Variadic parameter cannot have a default value from 2:24 to 2:25
+array(
+    0: Stmt_Function(
+        byRef: false
+        name: foo
+        params: array(
+            0: Param(
+                type: null
+                byRef: false
+                variadic: true
+                name: foo
+                default: Expr_Array(
+                    items: array(
+                    )
+                )
+            )
+        )
+        returnType: null
+        stmts: array(
+        )
+    )
+)

@@ -2,11 +2,33 @@ Invalid class name
 -----
 <?php class self {}
 -----
-Cannot use 'self' as class name as it is reserved on line 1
+Cannot use 'self' as class name as it is reserved from 1:13 to 1:16
+array(
+    0: Stmt_Class(
+        flags: 0
+        name: self
+        extends: null
+        implements: array(
+        )
+        stmts: array(
+        )
+    )
+)
 -----
 <?php class PARENT {}
 -----
-Cannot use 'PARENT' as class name as it is reserved on line 1
+Cannot use 'PARENT' as class name as it is reserved from 1:13 to 1:18
+array(
+    0: Stmt_Class(
+        flags: 0
+        name: PARENT
+        extends: null
+        implements: array(
+        )
+        stmts: array(
+        )
+    )
+)
 -----
 <?php class static {}
 -----
@@ -17,10 +39,40 @@ array(
 <?php class A extends self {}
 -----
 Cannot use 'self' as class name as it is reserved from 1:23 to 1:26
+array(
+    0: Stmt_Class(
+        flags: 0
+        name: A
+        extends: Name(
+            parts: array(
+                0: self
+            )
+        )
+        implements: array(
+        )
+        stmts: array(
+        )
+    )
+)
 -----
 <?php class A extends PARENT {}
 -----
 Cannot use 'PARENT' as class name as it is reserved from 1:23 to 1:28
+array(
+    0: Stmt_Class(
+        flags: 0
+        name: A
+        extends: Name(
+            parts: array(
+                0: PARENT
+            )
+        )
+        implements: array(
+        )
+        stmts: array(
+        )
+    )
+)
 -----
 <?php class A extends static {}
 -----
@@ -31,10 +83,42 @@ array(
 <?php class A implements self {}
 -----
 Cannot use 'self' as interface name as it is reserved from 1:26 to 1:29
+array(
+    0: Stmt_Class(
+        flags: 0
+        name: A
+        extends: null
+        implements: array(
+            0: Name(
+                parts: array(
+                    0: self
+                )
+            )
+        )
+        stmts: array(
+        )
+    )
+)
 -----
 <?php class A implements PARENT {}
 -----
 Cannot use 'PARENT' as interface name as it is reserved from 1:26 to 1:31
+array(
+    0: Stmt_Class(
+        flags: 0
+        name: A
+        extends: null
+        implements: array(
+            0: Name(
+                parts: array(
+                    0: PARENT
+                )
+            )
+        )
+        stmts: array(
+        )
+    )
+)
 -----
 <?php class A implements static {}
 -----
@@ -44,11 +128,29 @@ array(
 -----
 <?php interface self {}
 -----
-Cannot use 'self' as class name as it is reserved on line 1
+Cannot use 'self' as class name as it is reserved from 1:17 to 1:20
+array(
+    0: Stmt_Interface(
+        name: self
+        extends: array(
+        )
+        stmts: array(
+        )
+    )
+)
 -----
 <?php interface PARENT {}
 -----
-Cannot use 'PARENT' as class name as it is reserved on line 1
+Cannot use 'PARENT' as class name as it is reserved from 1:17 to 1:22
+array(
+    0: Stmt_Interface(
+        name: PARENT
+        extends: array(
+        )
+        stmts: array(
+        )
+    )
+)
 -----
 <?php interface static {}
 -----
@@ -59,10 +161,38 @@ array(
 <?php interface A extends self {}
 -----
 Cannot use 'self' as interface name as it is reserved from 1:27 to 1:30
+array(
+    0: Stmt_Interface(
+        name: A
+        extends: array(
+            0: Name(
+                parts: array(
+                    0: self
+                )
+            )
+        )
+        stmts: array(
+        )
+    )
+)
 -----
 <?php interface A extends PARENT {}
 -----
 Cannot use 'PARENT' as interface name as it is reserved from 1:27 to 1:32
+array(
+    0: Stmt_Interface(
+        name: A
+        extends: array(
+            0: Name(
+                parts: array(
+                    0: PARENT
+                )
+            )
+        )
+        stmts: array(
+        )
+    )
+)
 -----
 <?php interface A extends static {}
 -----
