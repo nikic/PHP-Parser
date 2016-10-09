@@ -83,14 +83,13 @@ class Name extends NodeAbstract
     }
 
     /**
-     * Returns a string representation of the name by imploding the namespace parts with a separator.
-     *
-     * @param string $separator The separator to use (defaults to the namespace separator \)
+     * Returns a string representation of the name by imploding the namespace parts with the
+     * namespace separator.
      *
      * @return string String representation
      */
-    public function toString($separator = '\\') {
-        return implode($separator, $this->parts);
+    public function toString() {
+        return implode('\\', $this->parts);
     }
 
     /**

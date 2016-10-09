@@ -27,7 +27,6 @@ class NameTest extends \PHPUnit_Framework_TestCase
 
         $this->assertSame('foo\bar', (string) $name);
         $this->assertSame('foo\bar', $name->toString());
-        $this->assertSame('foo_bar', $name->toString('_'));
     }
 
     public function testAppend() {
