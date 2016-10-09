@@ -103,8 +103,8 @@ abstract class ParserAbstract implements Parser
     /** @var array Start attributes of last *read* token */
     protected $lookaheadStartAttributes;
 
-    /** @var bool Whether to throw on first error */
-    protected $throwOnError;
+    /** @var ErrorHandler Error handler */
+    protected $errorHandler;
     /** @var Error[] Errors collected during last parse */
     protected $errors;
     /** @var int Error state, used to avoid error floods */
@@ -114,42 +114,36 @@ abstract class ParserAbstract implements Parser
      * Creates a parser instance.
      *
      * @param Lexer $lexer A lexer
-     * @param array $options Options array. The boolean 'throwOnError' option determines whether an exception should be
-     *                       thrown on first error, or if the parser should try to continue parsing the remaining code
-     *                       and build a partial AST.
+     * @param array $options Options array. Currently no options are supported.
      */
     public function __construct(Lexer $lexer, array $options = array()) {
         $this->lexer = $lexer;
         $this->errors = array();
-        $this->throwOnError = isset($options['throwOnError']) ? $options['throwOnError'] : true;
-    }
 
-    /**
-     * Get array of errors that occurred during the last parse.
-     *
-     * This method may only return multiple errors if the 'throwOnError' option is disabled.
-     *
-     * @return Error[]
-     */
-    public function getErrors() {
-        return $this->errors;
+        if (isset($options['throwOnError'])) {
+            throw new \LogicException(
+                '"throwOnError" is no longer supported, use "errorHandler" instead');
+        }
     }
 
     /**
      * Parses PHP code into a node tree.
      *
+     * If a non-throwing error handler is used, the parser will continue parsing after an error
+     * occurred and attempt to build a partial AST.
+     *
      * @param string $code The source code to parse
+     * @param ErrorHandler|null $errorHandler Error handler to use for lexer/parser errors, defaults
+     *                                        to ErrorHandler\Throwing.
      *
      * @return Node[]|null Array of statements (or null if the 'throwOnError' option is disabled and the parser was
      *                     unable to recover from an error).
      */
-    public function parse($code) {
-        // Initialize the lexer and inherit lexing errors
-        $this->lexer->startLexing($code);
-        $this->errors = $this->lexer->getErrors();
-        if ($this->throwOnError && !empty($this->errors)) {
-            throw $this->errors[0];
-        }
+    public function parse($code, ErrorHandler $errorHandler = null) {
+        $this->errorHandler = $errorHandler ?: new ErrorHandler\Throwing;
+
+        // Initialize the lexer
+        $this->lexer->startLexing($code, $this->errorHandler);
 
         // We start off with no lookahead-token
         $symbol = self::SYMBOL_NONE;
@@ -346,10 +340,7 @@ abstract class ParserAbstract implements Parser
     }
 
     protected function emitError(Error $error) {
-        $this->errors[] = $error;
-        if ($this->throwOnError) {
-            throw $error;
-        }
+        $this->errorHandler->handleError($error);
     }
 
     protected function getErrorMessage($symbol, $state) {

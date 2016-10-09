@@ -30,7 +30,6 @@ class MultipleTest extends ParserTest {
     /** @dataProvider provideTestParse */
     public function testParse($code, Multiple $parser, $expected) {
         $this->assertEquals($expected, $parser->parse($code));
-        $this->assertSame([], $parser->getErrors());
     }
 
     public function provideTestParse() {
@@ -91,23 +90,5 @@ class MultipleTest extends ParserTest {
 
         $parser = new Multiple([$parserA, $parserB]);
         $parser->parse('dummy');
-    }
-
-    public function testGetErrors() {
-        $errorsA = [new Error('A1'), new Error('A2')];
-        $parserA = $this->getMockBuilder('PhpParser\Parser')->getMock();
-        $parserA->expects($this->at(0))->method('parse');
-        $parserA->expects($this->at(1))
-            ->method('getErrors')->will($this->returnValue($errorsA));
-
-        $errorsB = [new Error('B1'), new Error('B2')];
-        $parserB = $this->getMockBuilder('PhpParser\Parser')->getMock();
-        $parserB->expects($this->at(0))->method('parse');
-        $parserB->expects($this->at(1))
-            ->method('getErrors')->will($this->returnValue($errorsB));
-
-        $parser = new Multiple([$parserA, $parserB]);
-        $parser->parse('dummy');
-        $this->assertSame($errorsA, $parser->getErrors());
     }
 }

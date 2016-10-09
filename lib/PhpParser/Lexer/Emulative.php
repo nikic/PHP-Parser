@@ -2,6 +2,7 @@
 
 namespace PhpParser\Lexer;
 
+use PhpParser\ErrorHandler;
 use PhpParser\Parser\Tokens;
 
 class Emulative extends \PhpParser\Lexer
@@ -50,10 +51,10 @@ class Emulative extends \PhpParser\Lexer
         $this->tokenMap[self::T_POW_EQUAL] = Tokens::T_POW_EQUAL;
     }
 
-    public function startLexing($code) {
+    public function startLexing($code, ErrorHandler $errorHandler = null) {
         $this->inObjectAccess = false;
 
-        parent::startLexing($code);
+        parent::startLexing($code, $errorHandler);
         if ($this->requiresEmulation($code)) {
             $this->emulateTokens();
         }

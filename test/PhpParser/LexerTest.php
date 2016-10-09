@@ -19,11 +19,12 @@ class LexerTest extends \PHPUnit_Framework_TestCase
             $this->markTestSkipped('HHVM does not throw warnings from token_get_all()');
         }
 
+        $errorHandler = new ErrorHandler\Collecting();
         $lexer = $this->getLexer(['usedAttributes' => [
             'comments', 'startLine', 'endLine', 'startFilePos', 'endFilePos'
         ]]);
-        $lexer->startLexing($code);
-        $errors = $lexer->getErrors();
+        $lexer->startLexing($code, $errorHandler);
+        $errors = $errorHandler->getErrors();
 
         $this->assertSame(count($messages), count($errors));
         for ($i = 0; $i < count($messages); $i++) {

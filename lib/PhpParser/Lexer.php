@@ -9,7 +9,6 @@ class Lexer
 {
     protected $code;
     protected $tokens;
-    protected $errors;
     protected $pos;
     protected $line;
     protected $filePos;
@@ -54,13 +53,18 @@ class Lexer
      * the getErrors() method.
      *
      * @param string $code The source code to lex
+     * @param ErrorHandler|null $errorHandler Error handler to use for lexing errors. Defaults to
+     *                                        ErrorHandler\Throwing
      */
-    public function startLexing($code) {
+    public function startLexing($code, ErrorHandler $errorHandler = null) {
+        if (null === $errorHandler) {
+            $errorHandler = new ErrorHandler\Throwing();
+        }
+
         $this->code = $code; // keep the code around for __halt_compiler() handling
         $this->pos  = -1;
         $this->line =  1;
         $this->filePos = 0;
-        $this->errors = [];
 
         // If inline HTML occurs without preceding code, treat it as if it had a leading newline.
         // This ensures proper composability, because having a newline is the "safe" assumption.
@@ -70,7 +74,7 @@ class Lexer
 
         $this->resetErrors();
         $this->tokens = @token_get_all($code);
-        $this->handleErrors();
+        $this->handleErrors($errorHandler);
 
         if (false !== $scream) {
             ini_set('xdebug.scream', $scream);
@@ -88,7 +92,7 @@ class Lexer
         }
     }
 
-    private function handleInvalidCharacterRange($start, $end, $line) {
+    private function handleInvalidCharacterRange($start, $end, $line, ErrorHandler $errorHandler) {
         for ($i = $start; $i < $end; $i++) {
             $chr = $this->code[$i];
             if ($chr === 'b' || $chr === 'B') {
@@ -105,12 +109,12 @@ class Lexer
                 );
             }
 
-            $this->errors[] = new Error($errorMsg, [
+            $errorHandler->handleError(new Error($errorMsg, [
                 'startLine' => $line,
                 'endLine' => $line,
                 'startFilePos' => $i,
                 'endFilePos' => $i,
-            ]);
+            ]));
         }
     }
 
@@ -132,7 +136,7 @@ class Lexer
             && false === strpos($error['message'], 'Undefined variable');
     }
 
-    protected function handleErrors() {
+    protected function handleErrors(ErrorHandler $errorHandler) {
         if (!$this->errorMayHaveOccurred()) {
             return;
         }
@@ -151,7 +155,8 @@ class Lexer
             if (substr($this->code, $filePos, $tokenLen) !== $tokenValue) {
                 // Something is missing, must be an invalid character
                 $nextFilePos = strpos($this->code, $tokenValue, $filePos);
-                $this->handleInvalidCharacterRange($filePos, $nextFilePos, $line);
+                $this->handleInvalidCharacterRange(
+                    $filePos, $nextFilePos, $line, $errorHandler);
                 $filePos = $nextFilePos;
             }
 
@@ -163,19 +168,20 @@ class Lexer
             if (substr($this->code, $filePos, 2) === '/*') {
                 // Unlike PHP, HHVM will drop unterminated comments entirely
                 $comment = substr($this->code, $filePos);
-                $this->errors[] = new Error('Unterminated comment', [
+                $errorHandler->handleError(new Error('Unterminated comment', [
                     'startLine' => $line,
                     'endLine' => $line + substr_count($comment, "\n"),
                     'startFilePos' => $filePos,
                     'endFilePos' => $filePos + \strlen($comment),
-                ]);
+                ]));
 
                 // Emulate the PHP behavior
                 $isDocComment = isset($comment[3]) && $comment[3] === '*';
                 $this->tokens[] = [$isDocComment ? T_DOC_COMMENT : T_COMMENT, $comment, $line];
             } else {
                 // Invalid characters at the end of the input
-                $this->handleInvalidCharacterRange($filePos, \strlen($this->code), $line);
+                $this->handleInvalidCharacterRange(
+                    $filePos, \strlen($this->code), $line, $errorHandler);
             }
             return;
         }
@@ -183,12 +189,12 @@ class Lexer
         // Check for unterminated comment
         $lastToken = $this->tokens[count($this->tokens) - 1];
         if ($this->isUnterminatedComment($lastToken)) {
-            $this->errors[] = new Error('Unterminated comment', [
+            $errorHandler->handleError(new Error('Unterminated comment', [
                 'startLine' => $line - substr_count($lastToken[1], "\n"),
                 'endLine' => $line,
                 'startFilePos' => $filePos - \strlen($lastToken[1]),
                 'endFilePos' => $filePos,
-            ]);
+            ]));
         }
     }
 
@@ -300,15 +306,6 @@ class Lexer
      */
     public function getTokens() {
         return $this->tokens;
-    }
-
-    /**
-     * Returns errors that occurred during lexing.
-     *
-     * @return Error[] Array of lexer errors
-     */
-    public function getErrors() {
-        return $this->errors;
     }
 
     /**

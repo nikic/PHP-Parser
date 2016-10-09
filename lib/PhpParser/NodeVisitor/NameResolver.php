@@ -2,6 +2,7 @@
 
 namespace PhpParser\NodeVisitor;
 
+use PhpParser\ErrorHandler;
 use PhpParser\NodeVisitorAbstract;
 use PhpParser\Error;
 use PhpParser\Node;
@@ -17,6 +18,18 @@ class NameResolver extends NodeVisitorAbstract
 
     /** @var array Map of format [aliasType => [aliasName => originalName]] */
     protected $aliases;
+
+    /** @var ErrorHandler Error handler */
+    protected $errorHandler;
+
+    /**
+     * Constructs a name resolution visitor.
+     *
+     * @param ErrorHandler|null $errorHandler Error handler
+     */
+    public function __construct(ErrorHandler $errorHandler = null) {
+        $this->errorHandler = $errorHandler ?: new ErrorHandler\Throwing;
+    }
 
     public function beforeTraverse(array $nodes) {
         $this->resetState();
@@ -132,13 +145,14 @@ class NameResolver extends NodeVisitorAbstract
                 Stmt\Use_::TYPE_CONSTANT => 'const ',
             );
 
-            throw new Error(
+            $this->errorHandler->handleError(new Error(
                 sprintf(
                     'Cannot use %s%s as %s because the name is already in use',
                     $typeStringMap[$type], $name, $use->alias
                 ),
-                $use->getLine()
-            );
+                $use->getAttributes()
+            ));
+            return;
         }
 
         $this->aliases[$type][$aliasName] = $name;
@@ -160,10 +174,10 @@ class NameResolver extends NodeVisitorAbstract
         // don't resolve special class names
         if (in_array(strtolower($name->toString()), array('self', 'parent', 'static'))) {
             if (!$name->isUnqualified()) {
-                throw new Error(
+                $this->errorHandler->handleError(new Error(
                     sprintf("'\\%s' is an invalid class name", $name->toString()),
-                    $name->getLine()
-                );
+                    $name->getAttributes()
+                ));
             }
 
             return $name;

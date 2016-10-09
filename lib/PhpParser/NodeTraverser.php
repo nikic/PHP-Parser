@@ -4,9 +4,7 @@ namespace PhpParser;
 
 class NodeTraverser implements NodeTraverserInterface
 {
-    /**
-     * @var NodeVisitor[] Visitors
-     */
+    /** @var NodeVisitor[] Visitors */
     protected $visitors;
 
     /**
