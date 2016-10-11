@@ -208,13 +208,21 @@ class NameResolver extends NodeVisitorAbstract
                 $aliasName = $name->getFirst();
             }
 
-            if (!isset($this->aliases[$type][$aliasName])) {
-                // unqualified, unaliased names cannot be resolved at compile-time
-                return $name;
+            if (isset($this->aliases[$type][$aliasName])) {
+                // resolve unqualified aliases
+                return new FullyQualified($this->aliases[$type][$aliasName], $name->getAttributes());
             }
 
-            // resolve unqualified aliases
-            return new FullyQualified($this->aliases[$type][$aliasName], $name->getAttributes());
+            if (null === $this->namespace) {
+                // outside of a namespace unaliased unqualified is same as fully qualified
+                return new FullyQualified($name->parts, $name->getAttributes());
+            }
+
+            // unqualified names inside a namespace cannot be resolved at compile-time
+            // add the namespaced version of the name as an attribute
+            $name->setAttribute('namespacedName',
+                FullyQualified::concat($this->namespace, $name, $name->getAttributes()));
+            return $name;
         }
 
         if (null !== $this->namespace) {
