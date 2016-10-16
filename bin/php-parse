@@ -31,8 +31,7 @@ $lexer = new PhpParser\Lexer\Emulative(array('usedAttributes' => array(
 )));
 $parser = (new PhpParser\ParserFactory)->create(
     PhpParser\ParserFactory::PREFER_PHP7,
-    $lexer,
-    array('throwOnError' => !$attributes['with-recovery'])
+    $lexer
 );
 $dumper = new PhpParser\NodeDumper(['dumpComments' => true]);
 $prettyPrinter = new PhpParser\PrettyPrinter\Standard;
@@ -54,18 +53,23 @@ foreach ($files as $file) {
         echo "====> File $file:\n";
     }
 
-    try {
-        $stmts = $parser->parse($code);
-        foreach ($parser->getErrors() as $error) {
+    if ($attributes['with-recovery']) {
+        $errorHandler = new PhpParser\ErrorHandler\Collecting;
+        $stmts = $parser->parse($code, $errorHandler);
+        foreach ($errorHandler->getErrors() as $error) {
             $message = formatErrorMessage($error, $code, $attributes['with-column-info']);
             echo $message . "\n";
         }
         if (null === $stmts) {
             continue;
         }
-    } catch (PhpParser\Error $error) {
-        $message = formatErrorMessage($error, $code, $attributes['with-column-info']);
-        die($message . "\n");
+    } else {
+        try {
+            $stmts = $parser->parse($code);
+        } catch (PhpParser\Error $error) {
+            $message = formatErrorMessage($error, $code, $attributes['with-column-info']);
+            die($message . "\n");
+        }
     }
 
     foreach ($operations as $operation) {
