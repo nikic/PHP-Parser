@@ -1,9 +1,41 @@
 Version 3.0.0-dev
 -----------------
 
+This release primarily improves our support for error recovery.
+
 ### Added
 
 * Added `Node::setDocComment()` method.
+* Added `Error::getMessageWithColumnInfo()` method.
+* Added support for recovery from lexer errors.
+* Added support for recovering from "special" errors (i.e. non-syntax parse errors).
+* Added precise location information for lexer errors.
+* Added `ErrorHandler` interface, and `ErrorHandler\Throwing` and `ErrorHandler\Collecting` as
+  specific implementations. These provide a general mechanism for handling error recovery.
+* Added optional `ErrorHandler` argument to `Parser::parse()`, `Lexer::startLexing()` and
+  `NameResolver::__construct()`.
+* The `NameResolver` now adds a `namespacedName` attribute on name nodes that cannot be statically
+  resolved (unqualified unaliased function or constant names in namespaces).
+  
+### Fixed
+
+* Fixed attribute assignment for `GroupUse` prefix and variables in interpolated strings.
+
+### Changed
+
+* The constants on `NameTraverserInterface` have been moved into the `NameTraverser` class.
+* Due to the error handling changes, the `Parser` interface and `Lexer` API have changed.
+* The emulative lexer now directly postprocesses tokens, instead of using `~__EMU__~` sequences.
+  This changes the protected API of the lexer.
+
+### Removed
+
+* Removed `Error::getRawLine()` and `Error::setRawLine()`. These methods have been superseded by
+  `Error::getStartLine()` and `Error::setStartLine()`.
+* Removed support for node cloning in the `NodeTraverser`.
+* Removed `$separator` argument from `Name::toString()`.
+* Removed `throw_on_error` parser option and `Parser::getErrors()` method. Use the `ErrorHandler`
+  mechanism instead.
 
 Version 3.0.0-beta1 (2016-09-16)
 --------------------------------
