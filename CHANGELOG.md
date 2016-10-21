@@ -3,7 +3,7 @@ Version 3.0.0-dev
 
 ### Added
 
-* Added `NodeAbstract::setDocComment()` method.
+* Added `Node::setDocComment()` method.
 
 Version 3.0.0-beta1 (2016-09-16)
 --------------------------------
