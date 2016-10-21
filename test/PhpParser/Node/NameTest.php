@@ -29,26 +29,6 @@ class NameTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('foo\bar', $name->toString());
     }
 
-    public function testAppend() {
-        $name = new Name('foo');
-
-        $name->append('bar');
-        $this->assertSame('foo\bar', $name->toString());
-
-        $name->append('bar\foo');
-        $this->assertSame('foo\bar\bar\foo', $name->toString());
-    }
-
-    public function testPrepend() {
-        $name = new Name('foo');
-
-        $name->prepend('bar');
-        $this->assertSame('bar\foo', $name->toString());
-
-        $name->prepend('foo\bar');
-        $this->assertSame('foo\bar\bar\foo', $name->toString());
-    }
-
     public function testSlice() {
         $name = new Name('foo\bar\baz');
         $this->assertEquals(new Name('foo\bar\baz'), $name->slice(0));
@@ -145,7 +125,6 @@ class NameTest extends \PHPUnit_Framework_TestCase
      * @expectedExceptionMessage When changing a name you need to pass either a string, an array or a Name node
      */
     public function testInvalidArg() {
-        $name = new Name('foo');
-        $name->append(new \stdClass);
+        Name::concat('foo', new \stdClass);
     }
 }

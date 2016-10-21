@@ -30,6 +30,8 @@ This release primarily improves our support for error recovery.
 
 ### Removed
 
+* Removed `Name::append()` and `Name::prepend()`. These mutable methods have been superseded by
+  the immutable `Name::concat()`.
 * Removed `Error::getRawLine()` and `Error::setRawLine()`. These methods have been superseded by
   `Error::getStartLine()` and `Error::setStartLine()`.
 * Removed support for node cloning in the `NodeTraverser`.

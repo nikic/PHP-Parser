@@ -132,8 +132,8 @@ This means that certain error conditions are no longer checked for manually cons
 The following methods, arguments or options have been removed:
 
  * `Comment::setLine()`, `Comment::setText()`: Create new `Comment` instances instead.
- * `Name::set()`, `Name::setFirst()`, `Name::setLast()`: Create new `Name` instances instead. For
-   the latter two a combination of `Name::concat()` and `Name::slice()` can be used.
+ * `Name::set()`, `Name::setFirst()`, `Name::setLast()`, `Name::append()`, `Name::prepend()`:
+    Use `Name::concat()` in combination with `Name::slice()` instead.
  * `Error::getRawLine()`, `Error::setRawLine()`. Use `Error::getStartLine()` and
    `Error::setStartLine()` instead.
  * `Parser::getErrors()`. Use `ErrorHandler\Collecting` instead.

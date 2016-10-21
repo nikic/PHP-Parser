@@ -103,28 +103,6 @@ class Name extends NodeAbstract
     }
 
     /**
-     * Prepends a name to this name.
-     *
-     * @deprecated Use Name::concat($name1, $name2) instead
-     *
-     * @param string|array|self $name Name to prepend
-     */
-    public function prepend($name) {
-        $this->parts = array_merge(self::prepareName($name), $this->parts);
-    }
-
-    /**
-     * Appends a name to this name.
-     *
-     * @deprecated Use Name::concat($name1, $name2) instead
-     *
-     * @param string|array|self $name Name to append
-     */
-    public function append($name) {
-        $this->parts = array_merge($this->parts, self::prepareName($name));
-    }
-
-    /**
      * Gets a slice of a name (similar to array_slice).
      *
      * This method returns a new instance of the same type as the original and with the same
