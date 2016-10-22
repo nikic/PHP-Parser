@@ -200,7 +200,7 @@ class NameResolver extends NodeVisitorAbstract
             return FullyQualified::concat($this->namespace, $name, $name->getAttributes());
         }
 
-        return new FullyQualified($name->parts, $name->getAttributes());
+        return new FullyQualified($name, $name->getAttributes());
     }
 
     protected function resolveOtherName(Name $name, $type) {
@@ -229,7 +229,7 @@ class NameResolver extends NodeVisitorAbstract
 
             if (null === $this->namespace) {
                 // outside of a namespace unaliased unqualified is same as fully qualified
-                return new FullyQualified($name->parts, $name->getAttributes());
+                return new FullyQualified($name, $name->getAttributes());
             }
 
             // unqualified names inside a namespace cannot be resolved at compile-time
@@ -244,7 +244,7 @@ class NameResolver extends NodeVisitorAbstract
             return FullyQualified::concat($this->namespace, $name, $name->getAttributes());
         }
 
-        return new FullyQualified($name->parts, $name->getAttributes());
+        return new FullyQualified($name, $name->getAttributes());
     }
 
     protected function addNamespacedName(Node $node) {

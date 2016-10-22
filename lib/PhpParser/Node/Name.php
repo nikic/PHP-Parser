@@ -12,16 +12,12 @@ class Name extends NodeAbstract
     /**
      * Constructs a name node.
      *
-     * @param string|array $parts      Parts of the name (or name as string)
-     * @param array        $attributes Additional attributes
+     * @param string|array|self $name       Name as string, part array or Name instance (copy ctor)
+     * @param array             $attributes Additional attributes
      */
-    public function __construct($parts, array $attributes = array()) {
-        if (!is_array($parts)) {
-            $parts = explode('\\', $parts);
-        }
-
+    public function __construct($name, array $attributes = array()) {
         parent::__construct($attributes);
-        $this->parts = $parts;
+        $this->parts = self::prepareName($name);
     }
 
     public function getSubNodeNames() {
@@ -165,16 +161,16 @@ class Name extends NodeAbstract
      * @return array Prepared name
      */
     private static function prepareName($name) {
-        if (is_string($name)) {
+        if (\is_string($name)) {
             return explode('\\', $name);
-        } elseif (is_array($name)) {
+        } elseif (\is_array($name)) {
             return $name;
         } elseif ($name instanceof self) {
             return $name->parts;
         }
 
         throw new \InvalidArgumentException(
-            'When changing a name you need to pass either a string, an array or a Name node'
+            'Expected string, array of parts or Name instance'
         );
     }
 }

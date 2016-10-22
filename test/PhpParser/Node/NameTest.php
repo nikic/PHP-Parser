@@ -10,6 +10,9 @@ class NameTest extends \PHPUnit_Framework_TestCase
 
         $name = new Name('foo\bar');
         $this->assertSame(array('foo', 'bar'), $name->parts);
+
+        $name = new Name($name);
+        $this->assertSame(array('foo', 'bar'), $name->parts);
     }
 
     public function testGet() {
@@ -122,7 +125,7 @@ class NameTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException        \InvalidArgumentException
-     * @expectedExceptionMessage When changing a name you need to pass either a string, an array or a Name node
+     * @expectedExceptionMessage Expected string, array of parts or Name instance
      */
     public function testInvalidArg() {
         Name::concat('foo', new \stdClass);
