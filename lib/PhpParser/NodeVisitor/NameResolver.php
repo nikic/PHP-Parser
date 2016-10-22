@@ -195,12 +195,8 @@ class NameResolver extends NodeVisitorAbstract
             return FullyQualified::concat($alias, $name->slice(1), $name->getAttributes());
         }
 
-        if (null !== $this->namespace) {
-            // if no alias exists prepend current namespace
-            return FullyQualified::concat($this->namespace, $name, $name->getAttributes());
-        }
-
-        return new FullyQualified($name, $name->getAttributes());
+        // if no alias exists prepend current namespace
+        return FullyQualified::concat($this->namespace, $name, $name->getAttributes());
     }
 
     protected function resolveOtherName(Name $name, $type) {
@@ -239,19 +235,11 @@ class NameResolver extends NodeVisitorAbstract
             return $name;
         }
 
-        if (null !== $this->namespace) {
-            // if no alias exists prepend current namespace
-            return FullyQualified::concat($this->namespace, $name, $name->getAttributes());
-        }
-
-        return new FullyQualified($name, $name->getAttributes());
+        // if no alias exists prepend current namespace
+        return FullyQualified::concat($this->namespace, $name, $name->getAttributes());
     }
 
     protected function addNamespacedName(Node $node) {
-        if (null !== $this->namespace) {
-            $node->namespacedName = Name::concat($this->namespace, $node->name);
-        } else {
-            $node->namespacedName = new Name($node->name);
-        }
+        $node->namespacedName = Name::concat($this->namespace, $node->name);
     }
 }

@@ -36,16 +36,16 @@ class NameTest extends \PHPUnit_Framework_TestCase
         $name = new Name('foo\bar\baz');
         $this->assertEquals(new Name('foo\bar\baz'), $name->slice(0));
         $this->assertEquals(new Name('bar\baz'), $name->slice(1));
-        $this->assertEquals(new Name([]), $name->slice(3));
+        $this->assertNull($name->slice(3));
         $this->assertEquals(new Name('foo\bar\baz'), $name->slice(-3));
         $this->assertEquals(new Name('bar\baz'), $name->slice(-2));
         $this->assertEquals(new Name('foo\bar'), $name->slice(0, -1));
-        $this->assertEquals(new Name([]), $name->slice(0, -3));
+        $this->assertNull($name->slice(0, -3));
         $this->assertEquals(new Name('bar'), $name->slice(1, -1));
-        $this->assertEquals(new Name([]), $name->slice(1, -2));
+        $this->assertNull($name->slice(1, -2));
         $this->assertEquals(new Name('bar'), $name->slice(-2, 1));
         $this->assertEquals(new Name('bar'), $name->slice(-2, -1));
-        $this->assertEquals(new Name([]), $name->slice(-2, -2));
+        $this->assertNull($name->slice(-2, -2));
     }
 
     /**
@@ -93,8 +93,9 @@ class NameTest extends \PHPUnit_Framework_TestCase
             Name\Relative::concat(new Name\FullyQualified('foo\bar'), 'baz', $attributes)
         );
 
-        $this->assertEquals(new Name('foo'), Name::concat([], 'foo'));
-        $this->assertEquals(new Name([]), Name::concat([], []));
+        $this->assertEquals(new Name('foo'), Name::concat(null, 'foo'));
+        $this->assertEquals(new Name('foo'), Name::concat('foo', null));
+        $this->assertNull(Name::concat(null, null));
     }
 
     public function testIs() {

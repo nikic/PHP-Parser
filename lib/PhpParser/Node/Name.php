@@ -104,15 +104,15 @@ class Name extends NodeAbstract
      * This method returns a new instance of the same type as the original and with the same
      * attributes.
      *
-     * If the slice is empty, a Name with an empty parts array is returned. While this is
-     * meaningless in itself, it works correctly in conjunction with concat().
+     * If the slice is empty, null is returned. The null value will be correctly handled in
+     * concatenations using concat().
      *
      * Offset and length have the same meaning as in array_slice().
      *
      * @param int      $offset Offset to start the slice at (may be negative)
      * @param int|null $length Length of the slice (may be negative)
      *
-     * @return static Sliced name
+     * @return static|null Sliced name
      */
     public function slice($offset, $length = null) {
         $numParts = count($this->parts);
@@ -131,6 +131,11 @@ class Name extends NodeAbstract
             }
         }
 
+        if ($realLength === 0) {
+            // Empty slice is represented as null
+            return null;
+        }
+
         return new static(array_slice($this->parts, $realOffset, $realLength), $this->attributes);
     }
 
@@ -140,16 +145,29 @@ class Name extends NodeAbstract
      * The type of the generated instance depends on which class this method is called on, for
      * example Name\FullyQualified::concat() will yield a Name\FullyQualified instance.
      *
-     * @param string|array|self $name1      The first name
-     * @param string|array|self $name2      The second name
-     * @param array             $attributes Attributes to assign to concatenated name
+     * If one of the arguments is null, a new instance of the other name will be returned. If both
+     * arguments are null, null will be returned. As such, writing
+     *     Name::concat($namespace, $shortName)
+     * where $namespace is a Name node or null will work as expected.
      *
-     * @return static Concatenated name
+     * @param string|array|self|null $name1      The first name
+     * @param string|array|self|null $name2      The second name
+     * @param array                  $attributes Attributes to assign to concatenated name
+     *
+     * @return static|null Concatenated name
      */
     public static function concat($name1, $name2, array $attributes = []) {
-        return new static(
-            array_merge(self::prepareName($name1), self::prepareName($name2)), $attributes
-        );
+        if (null === $name1 && null === $name2) {
+            return null;
+        } elseif (null === $name1) {
+            return new static(self::prepareName($name2), $attributes);
+        } else if (null === $name2) {
+            return new static(self::prepareName($name1), $attributes);
+        } else {
+            return new static(
+                array_merge(self::prepareName($name1), self::prepareName($name2)), $attributes
+            );
+        }
     }
 
     /**
