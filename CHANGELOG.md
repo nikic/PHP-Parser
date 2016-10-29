@@ -27,6 +27,8 @@ This release primarily improves our support for error recovery.
 * Due to the error handling changes, the `Parser` interface and `Lexer` API have changed.
 * The emulative lexer now directly postprocesses tokens, instead of using `~__EMU__~` sequences.
   This changes the protected API of the lexer.
+* The `Name::slice()` method now returns `null` for empty slices, previously `new Name([])` was
+  used. `Name::concat()` now also supports concatenation with `null`.
 
 ### Removed
 

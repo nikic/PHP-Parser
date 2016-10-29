@@ -95,13 +95,14 @@ Lexer extension
 
 A lexer has to define the following public interface:
 
-    void startLexing(string $code);
+    void startLexing(string $code, ErrorHandler $errorHandler = null);
     array getTokens();
     string handleHaltCompiler();
     int getNextToken(string &$value = null, array &$startAttributes = null, array &$endAttributes = null);
 
 The `startLexing()` method is invoked with the source code that is to be lexed (including the opening tag) whenever the
-`parse()` method of the parser is called. It can be used to reset state or preprocess the source code or tokens.
+`parse()` method of the parser is called. It can be used to reset state or preprocess the source code or tokens. The
+passes `ErrorHandler` should be used to report lexing errors.
 
 The `getTokens()` method returns the current token array, in the usual `token_get_all()` format. This method is not
 used by the parser (which uses `getNextToken()`), but is useful in combination with the token position attributes.
@@ -122,9 +123,10 @@ node and the `$endAttributes` from the last token that is part of the node.
 E.g. if the tokens `T_FUNCTION T_STRING ... '{' ... '}'` constitute a node, then the `$startAttributes` from the
 `T_FUNCTION` token will be taken and the `$endAttributes` from the `'}'` token.
 
-An application of custom attributes is storing the original formatting of literals: The parser does not retain
-information about the formatting of integers (like decimal vs. hexadecimal) or strings (like used quote type or used
-escape sequences). This can be remedied by storing the original value in an attribute:
+An application of custom attributes is storing the exact original formatting of literals: While the parser does retain
+some information about the formatting of integers (like decimal vs. hexadecimal) or strings (like used quote type), it
+does not preserve the exact original formatting (e.g. leading zeros for integers or escape sequences in strings). This
+can be remedied by storing the original value in an attribute:
 
 ```php
 use PhpParser\Lexer;
@@ -135,9 +137,10 @@ class KeepOriginalValueLexer extends Lexer // or Lexer\Emulative
     public function getNextToken(&$value = null, &$startAttributes = null, &$endAttributes = null) {
         $tokenId = parent::getNextToken($value, $startAttributes, $endAttributes);
 
-        if ($tokenId == Tokens::T_CONSTANT_ENCAPSED_STRING // non-interpolated string
-            || $tokenId == Tokens::T_LNUMBER               // integer
-            || $tokenId == Tokens::T_DNUMBER               // floating point number
+        if ($tokenId == Tokens::T_CONSTANT_ENCAPSED_STRING   // non-interpolated string
+            || $tokenId == Tokens::T_ENCAPSED_AND_WHITESPACE // interpolated string
+            || $tokenId == Tokens::T_LNUMBER                 // integer
+            || $tokenId == Tokens::T_DNUMBER                 // floating point number
         ) {
             // could also use $startAttributes, doesn't really matter here
             $endAttributes['originalValue'] = $value;

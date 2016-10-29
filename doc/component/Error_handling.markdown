@@ -35,6 +35,8 @@ the source code of the parsed file. An example for printing an error:
 if ($e->hasColumnInfo()) {
     echo $e->getRawMessage() . ' from ' . $e->getStartLine() . ':' . $e->getStartColumn($code)
         . ' to ' . $e->getEndLine() . ':' . $e->getEndColumn($code);
+    // or:
+    echo $e->getMessageWithColumnInfo();
 } else {
     echo $e->getMessage();
 }
@@ -46,27 +48,23 @@ file.
 Error recovery
 --------------
 
-> **EXPERIMENTAL**
+The error behavior of the parser (and other components) is controlled by an `ErrorHandler`. Whenever an error is
+encountered, `ErrorHandler::handleError()` is invoked. The default error handling strategy is `ErrorHandler\Throwing`,
+which will immediately throw when an error is encountered.
 
-By default the parser will throw an exception upon encountering the first error during parsing. An alternative mode is
-also supported, in which the parser will remember the error, but try to continue parsing the rest of the source code.
-
-To enable this mode the `throwOnError` parser option needs to be disabled. Any errors that occurred during parsing can
-then be retrieved using `$parser->getErrors()`. The `$parser->parse()` method will either return a partial syntax tree
-or `null` if recovery fails.
-
-A usage example:
+To instead collect all encountered errors into an array, while trying to continue parsing the rest of the source code,
+an instance of `ErrorHandler\Collecting` can be passed to the `Parser::parse()` method. A usage example:
 
 ```php
-$parser = (new PhpParser\ParserFactory)->create(PhpParser\ParserFactory::PREFER_PHP7, null, array(
-    'throwOnError' => false,
-));
+$parser = (new PhpParser\ParserFactory)->create(PhpParser\ParserFactory::ONLY_PHP7);
+$errorHandler = new PhpParser\ErrorHandler\Collecting;
 
-$stmts = $parser->parse($code);
-$errors = $parser->getErrors();
+$stmts = $parser->parse($code, $errorHandler);
 
-foreach ($errors as $error) {
-    // $error is an ordinary PhpParser\Error
+if ($errorHandler->hasErrors()) {
+    foreach ($errorHandler->getErrors() as $error) {
+        // $error is an ordinary PhpParser\Error
+    }
 }
 
 if (null !== $stmts) {
@@ -74,4 +72,4 @@ if (null !== $stmts) {
 }
 ```
 
-The error recovery implementation is experimental -- it currently won't be able to recover from many types of errors.
+The `NameResolver` visitor also accepts an `ErrorHandler` as a constructor argument.

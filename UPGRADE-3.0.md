@@ -152,3 +152,5 @@ The following methods, arguments or options have been removed:
  * The constants on `NameTraverserInterface` have been moved into the `NameTraverser` class.
  * The emulative lexer now directly postprocesses tokens, instead of using `~__EMU__~` sequences.
    This changes the protected API of the emulative lexer.
+ * The `Name::slice()` method now returns `null` for empty slices, previously `new Name([])` was
+   used. `Name::concat()` now also supports concatenation with `null`.

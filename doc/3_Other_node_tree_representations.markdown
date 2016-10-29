@@ -8,7 +8,7 @@ Simple serialization
 
 It is possible to serialize the node tree using `serialize()` and also unserialize it using
 `unserialize()`. The output is not human readable and not easily processable from anything
-but PHP, but it is compact and generates fast. The main application thus is in caching.
+but PHP, but it is compact and generates quickly. The main application thus is in caching.
 
 Human readable dumping
 ----------------------
@@ -85,6 +85,134 @@ array(
     )
 )
 ```
+
+JSON encoding
+-------------
+
+Nodes (and comments) implement the `JsonSerializable` interface. As such, it is possible to JSON
+encode the AST directly using `json_encode()`:
+
+```php
+$code = <<<'CODE'
+<?php
+
+function printLine($msg) {
+    echo $msg, "\n";
+}
+
+printLine('Hello World!!!');
+CODE;
+
+$parser = (new PhpParser\ParserFactory)->create(PhpParser\ParserFactory::PREFER_PHP7);
+$nodeDumper = new PhpParser\NodeDumper;
+
+try {
+    $stmts = $parser->parse($code);
+
+    echo json_encode($stmts, JSON_PRETTY_PRINT), "\n";
+} catch (PhpParser\Error $e) {
+    echo 'Parse Error: ', $e->getMessage();
+}
+```
+
+This will result in the following output (which includes attributes):
+
+```json
+[
+    {
+        "nodeType": "Stmt_Function",
+        "byRef": false,
+        "name": "printLine",
+        "params": [
+            {
+                "nodeType": "Param",
+                "type": null,
+                "byRef": false,
+                "variadic": false,
+                "name": "msg",
+                "default": null,
+                "attributes": {
+                    "startLine": 3,
+                    "endLine": 3
+                }
+            }
+        ],
+        "returnType": null,
+        "stmts": [
+            {
+                "nodeType": "Stmt_Echo",
+                "exprs": [
+                    {
+                        "nodeType": "Expr_Variable",
+                        "name": "msg",
+                        "attributes": {
+                            "startLine": 4,
+                            "endLine": 4
+                        }
+                    },
+                    {
+                        "nodeType": "Scalar_String",
+                        "value": "\n",
+                        "attributes": {
+                            "startLine": 4,
+                            "endLine": 4,
+                            "kind": 2
+                        }
+                    }
+                ],
+                "attributes": {
+                    "startLine": 4,
+                    "endLine": 4
+                }
+            }
+        ],
+        "attributes": {
+            "startLine": 3,
+            "endLine": 5
+        }
+    },
+    {
+        "nodeType": "Expr_FuncCall",
+        "name": {
+            "nodeType": "Name",
+            "parts": [
+                "printLine"
+            ],
+            "attributes": {
+                "startLine": 7,
+                "endLine": 7
+            }
+        },
+        "args": [
+            {
+                "nodeType": "Arg",
+                "value": {
+                    "nodeType": "Scalar_String",
+                    "value": "Hello World!!!",
+                    "attributes": {
+                        "startLine": 7,
+                        "endLine": 7,
+                        "kind": 1
+                    }
+                },
+                "byRef": false,
+                "unpack": false,
+                "attributes": {
+                    "startLine": 7,
+                    "endLine": 7
+                }
+            }
+        ],
+        "attributes": {
+            "startLine": 7,
+            "endLine": 7
+        }
+    }
+]
+```
+
+There is currently no mechanism to convert JSON back into a node tree. Furthermore, not all ASTs
+can be JSON encoded. In particular, JSON only supports UTF-8 strings.
 
 Serialization to XML
 --------------------
