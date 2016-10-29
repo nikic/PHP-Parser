@@ -1,6 +1,11 @@
 Version 3.0.0-dev
 -----------------
 
+Nothing yet.
+
+Version 3.0.0-beta2 (2016-10-29)
+--------------------------------
+
 This release primarily improves our support for error recovery.
 
 ### Added
