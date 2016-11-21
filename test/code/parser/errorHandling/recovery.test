@@ -245,7 +245,7 @@ Syntax error, unexpected EOF from 8:12 to 8:12
 $foo->
 ;
 -----
-Syntax error, unexpected ';' from 3:1 to 3:1
+Syntax error, unexpected ';', expecting T_STRING or T_VARIABLE or '{' or '$' from 3:1 to 3:1
 array(
     0: Expr_PropertyFetch(
         var: Expr_Variable(
@@ -261,7 +261,7 @@ function foo() {
     $bar->
 }
 -----
-Syntax error, unexpected '}' from 4:1 to 4:1
+Syntax error, unexpected '}', expecting T_STRING or T_VARIABLE or '{' or '$' from 4:1 to 4:1
 array(
     0: Stmt_Function(
         byRef: false
@@ -322,6 +322,18 @@ array(
             name: foo
         )
         class: Expr_Error(
+        )
+    )
+)
+-----
+<?php
+$
+-----
+!!php7
+Syntax error, unexpected EOF, expecting T_VARIABLE or '{' or '$' from 2:2 to 2:2
+array(
+    0: Expr_Variable(
+        name: Expr_Error(
         )
     )
 )

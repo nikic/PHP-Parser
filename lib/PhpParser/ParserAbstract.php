@@ -365,6 +365,7 @@ abstract class ParserAbstract implements Parser
             ) {
                 if ($this->action[$idx] != $this->unexpectedTokenRule
                     && $this->action[$idx] != $this->defaultAction
+                    && $symbol != $this->errorSymbol
                 ) {
                     if (count($expected) == 4) {
                         /* Too many expected tokens */

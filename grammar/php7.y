@@ -778,6 +778,7 @@ simple_variable:
       T_VARIABLE                                            { $$ = parseVar($1); }
     | '$' '{' expr '}'                                      { $$ = $3; }
     | '$' simple_variable                                   { $$ = Expr\Variable[$2]; }
+    | '$' error                                             { $$ = Expr\Error[]; $this->errorState = 2; }
 ;
 
 static_member:
