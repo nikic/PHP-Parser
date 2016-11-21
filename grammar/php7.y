@@ -667,6 +667,7 @@ name:
 class_name_reference:
       class_name                                            { $$ = $1; }
     | new_variable                                          { $$ = $1; }
+    | error                                                 { $$ = Expr\Error[]; $this->errorState = 2; }
 ;
 
 class_name_or_var:
