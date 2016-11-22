@@ -696,6 +696,10 @@ constant:
       name                                                  { $$ = Expr\ConstFetch[$1]; }
     | class_name_or_var T_PAAMAYIM_NEKUDOTAYIM identifier
           { $$ = Expr\ClassConstFetch[$1, $3]; }
+    /* We interpret and isolated FOO:: as an unfinished class constant fetch. It could also be
+       an unfinished static property fetch or unfinished scoped call. */
+    | class_name_or_var T_PAAMAYIM_NEKUDOTAYIM error
+          { $$ = Expr\ClassConstFetch[$1, Expr\Error[]]; $this->errorState = 2; }
 ;
 
 array_short_syntax:

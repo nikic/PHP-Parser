@@ -337,3 +337,37 @@ array(
         )
     )
 )
+-----
+<?php
+Foo::$
+-----
+!!php7
+Syntax error, unexpected EOF, expecting T_VARIABLE or '{' or '$' from 2:7 to 2:7
+array(
+    0: Expr_StaticPropertyFetch(
+        class: Name(
+            parts: array(
+                0: Foo
+            )
+        )
+        name: Expr_Error(
+        )
+    )
+)
+-----
+<?php
+Foo::
+-----
+!!php7
+Syntax error, unexpected EOF from 2:6 to 2:6
+array(
+    0: Expr_ClassConstFetch(
+        class: Name(
+            parts: array(
+                0: Foo
+            )
+        )
+        name: Expr_Error(
+        )
+    )
+)
