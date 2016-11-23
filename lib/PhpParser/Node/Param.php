@@ -2,7 +2,6 @@
 
 namespace PhpParser\Node;
 
-use PhpParser\Error;
 use PhpParser\NodeAbstract;
 
 class Param extends NodeAbstract

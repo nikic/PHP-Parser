@@ -4,10 +4,10 @@ namespace PhpParser\Parser;
 
 use PhpParser\Error;
 use PhpParser\Lexer;
-use PhpParser\Node\Scalar\LNumber;
-use PhpParser\ParserTest;
 use PhpParser\Node\Expr;
+use PhpParser\Node\Scalar\LNumber;
 use PhpParser\Node\Stmt;
+use PhpParser\ParserTest;
 
 require_once __DIR__ . '/../ParserTest.php';
 

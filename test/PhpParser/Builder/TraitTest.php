@@ -3,8 +3,6 @@
 namespace PhpParser\Builder;
 
 use PhpParser\Comment;
-use PhpParser\Node;
-use PhpParser\Node\Name;
 use PhpParser\Node\Stmt;
 
 class TraitTest extends \PHPUnit_Framework_TestCase

@@ -2,8 +2,8 @@
 
 namespace PhpParser\Node\Stmt;
 
-use PhpParser\Node;
 use PhpParser\Error;
+use PhpParser\Node;
 
 class Class_ extends ClassLike
 {

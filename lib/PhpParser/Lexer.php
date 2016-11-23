@@ -2,7 +2,6 @@
 
 namespace PhpParser;
 
-use PhpParser\Node\Scalar\LNumber;
 use PhpParser\Parser\Tokens;
 
 class Lexer

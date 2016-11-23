@@ -2,8 +2,6 @@
 
 namespace PhpParser;
 
-use PhpParser\Comment;
-
 require_once __DIR__ . '/CodeTestAbstract.php';
 
 class CodeParsingTest extends CodeTestAbstract

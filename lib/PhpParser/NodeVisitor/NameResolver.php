@@ -2,14 +2,14 @@
 
 namespace PhpParser\NodeVisitor;
 
-use PhpParser\ErrorHandler;
-use PhpParser\NodeVisitorAbstract;
 use PhpParser\Error;
+use PhpParser\ErrorHandler;
 use PhpParser\Node;
+use PhpParser\Node\Expr;
 use PhpParser\Node\Name;
 use PhpParser\Node\Name\FullyQualified;
-use PhpParser\Node\Expr;
 use PhpParser\Node\Stmt;
+use PhpParser\NodeVisitorAbstract;
 
 class NameResolver extends NodeVisitorAbstract
 {

@@ -3,7 +3,6 @@
 namespace PhpParser\Builder;
 
 use PhpParser;
-use PhpParser\Node\Name;
 use PhpParser\Node\Stmt;
 
 class Trait_ extends Declaration

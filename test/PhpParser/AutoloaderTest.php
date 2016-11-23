@@ -2,9 +2,6 @@
 
 namespace PhpParser;
 
-use PhpParser\Node\Expr;
-use PhpParser\Node\Scalar;
-
 /* The autoloader is already active at this point, so we only check effects here. */
 
 class AutoloaderTest extends \PHPUnit_Framework_TestCase {

@@ -3,7 +3,6 @@
 namespace PhpParser\Node\Stmt;
 
 use PhpParser\Node;
-use PhpParser\Error;
 
 class Property extends Node\Stmt
 {

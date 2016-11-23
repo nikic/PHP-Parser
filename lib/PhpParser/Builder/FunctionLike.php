@@ -4,7 +4,6 @@ namespace PhpParser\Builder;
 
 use PhpParser;
 use PhpParser\Node;
-use PhpParser\Node\Stmt;
 
 abstract class FunctionLike extends Declaration
 {

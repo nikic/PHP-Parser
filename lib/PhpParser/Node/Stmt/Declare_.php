@@ -3,6 +3,7 @@
 namespace PhpParser\Node\Stmt;
 
 use PhpParser\Node;
+
 class Declare_ extends Node\Stmt
 {
     /** @var DeclareDeclare[] List of declares */

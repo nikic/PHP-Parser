@@ -2,8 +2,8 @@
 
 namespace PhpParser\Node\Expr;
 
-use PhpParser\Node\Name;
 use PhpParser\Node\Expr;
+use PhpParser\Node\Name;
 
 class ClassConstFetch extends Expr
 {

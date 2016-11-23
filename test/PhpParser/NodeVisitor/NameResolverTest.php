@@ -4,9 +4,9 @@ namespace PhpParser\NodeVisitor;
 
 use PhpParser;
 use PhpParser\Node;
+use PhpParser\Node\Expr;
 use PhpParser\Node\Name;
 use PhpParser\Node\Stmt;
-use PhpParser\Node\Expr;
 
 class NameResolverTest extends \PHPUnit_Framework_TestCase
 {

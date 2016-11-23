@@ -2,10 +2,10 @@
 
 namespace PhpParser\Builder;
 
-use PhpParser\Node;
-use PhpParser\Node\Stmt;
-use PhpParser\Node\Scalar\DNumber;
 use PhpParser\Comment;
+use PhpParser\Node;
+use PhpParser\Node\Scalar\DNumber;
+use PhpParser\Node\Stmt;
 
 class InterfaceTest extends \PHPUnit_Framework_TestCase
 {

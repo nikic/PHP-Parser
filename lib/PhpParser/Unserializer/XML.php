@@ -2,9 +2,9 @@
 
 namespace PhpParser\Unserializer;
 
-use XMLReader;
 use DomainException;
 use PhpParser\Unserializer;
+use XMLReader;
 
 class XML implements Unserializer
 {

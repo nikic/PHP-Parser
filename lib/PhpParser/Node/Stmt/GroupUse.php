@@ -2,8 +2,8 @@
 
 namespace PhpParser\Node\Stmt;
 
-use PhpParser\Node\Stmt;
 use PhpParser\Node\Name;
+use PhpParser\Node\Stmt;
 
 class GroupUse extends Stmt
 {

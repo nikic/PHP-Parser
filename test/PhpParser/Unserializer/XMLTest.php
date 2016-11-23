@@ -2,8 +2,8 @@
 
 namespace PhpParser\Unserializer;
 
-use PhpParser\Node\Scalar;
 use PhpParser\Comment;
+use PhpParser\Node\Scalar;
 
 class XMLTest extends \PHPUnit_Framework_TestCase
 {

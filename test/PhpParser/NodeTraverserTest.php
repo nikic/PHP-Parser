@@ -2,8 +2,8 @@
 
 namespace PhpParser;
 
-use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Expr;
+use PhpParser\Node\Scalar\String_;
 
 class NodeTraverserTest extends \PHPUnit_Framework_TestCase
 {
