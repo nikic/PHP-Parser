@@ -312,7 +312,9 @@ abstract class ParserAbstract implements Parser
                             }
 
                             //$this->traceShift($this->errorSymbol);
-                            $stateStack[++$this->stackPos] = $state = $action;
+                            ++$this->stackPos;
+                            $stateStack[$this->stackPos] = $state = $action;
+                            $this->endAttributes = $this->endAttributeStack[$this->stackPos];
                             break;
 
                         case 3:

@@ -2,8 +2,6 @@
 
 namespace PhpParser;
 
-use SebastianBergmann\Diff\Parser;
-
 class NodeDumperTest extends \PHPUnit_Framework_TestCase
 {
     private function canonicalize($string) {
