@@ -11,27 +11,46 @@ use PhpParser\Node\Stmt\UseUse;
 class NodeDumper
 {
     private $dumpComments;
+    private $dumpPositions;
+    private $code;
 
     /**
      * Constructs a NodeDumper.
      *
-     * @param array $options Boolean option 'dumpComments' controls whether comments should be
-     *                       dumped
+     * Supported options:
+     *  * bool dumpComments: Whether comments should be dumped.
+     *  * bool dumpPositions: Whether line/offset information should be dumped. To dump offset
+     *                        information, the code needs to be passed to dump().
+     *
+     * @param array $options Options (see description)
      */
     public function __construct(array $options = []) {
         $this->dumpComments = !empty($options['dumpComments']);
+        $this->dumpPositions = !empty($options['dumpPositions']);
     }
 
     /**
      * Dumps a node or array.
      *
-     * @param array|Node $node Node or array to dump
+     * @param array|Node  $node Node or array to dump
+     * @param string|null $code Code corresponding to dumped AST. This only needs to be passed if
+     *                          the dumpPositions option is enabled and the dumping of node offsets
+     *                          is desired.
      *
      * @return string Dumped value
      */
-    public function dump($node) {
+    public function dump($node, $code = null) {
+        $this->code = $code;
+        return $this->dumpRecursive($node);
+    }
+
+    protected function dumpRecursive($node) {
         if ($node instanceof Node) {
-            $r = $node->getType() . '(';
+            $r = $node->getType();
+            if ($this->dumpPositions && null !== $p = $this->dumpPosition($node)) {
+                $r .= $p;
+            }
+            $r .= '(';
 
             foreach ($node->getSubNodeNames() as $key) {
                 $r .= "\n    " . $key . ': ';
@@ -55,12 +74,12 @@ class NodeDumper
                         $r .= $value;
                     }
                 } else {
-                    $r .= str_replace("\n", "\n    ", $this->dump($value));
+                    $r .= str_replace("\n", "\n    ", $this->dumpRecursive($value));
                 }
             }
 
             if ($this->dumpComments && $comments = $node->getAttribute('comments')) {
-                $r .= "\n    comments: " . str_replace("\n", "\n    ", $this->dump($comments));
+                $r .= "\n    comments: " . str_replace("\n", "\n    ", $this->dumpRecursive($comments));
             }
         } elseif (is_array($node)) {
             $r = 'array(';
@@ -77,7 +96,7 @@ class NodeDumper
                 } elseif (is_scalar($value)) {
                     $r .= $value;
                 } else {
-                    $r .= str_replace("\n", "\n    ", $this->dump($value));
+                    $r .= str_replace("\n", "\n    ", $this->dumpRecursive($value));
                 }
             }
         } elseif ($node instanceof Comment) {
@@ -143,5 +162,35 @@ class NodeDumper
             return $type;
         }
         return $map[$type] . ' (' . $type . ')';
+    }
+
+    protected function dumpPosition(Node $node) {
+        if (!$node->hasAttribute('startLine') || !$node->hasAttribute('endLine')) {
+            return null;
+        }
+
+        $start = $node->getAttribute('startLine');
+        $end = $node->getAttribute('endLine');
+        if ($node->hasAttribute('startFilePos') && $node->hasAttribute('endFilePos')
+            && null !== $this->code
+        ) {
+            $start .= ':' . $this->toColumn($this->code, $node->getAttribute('startFilePos'));
+            $end .= ':' . $this->toColumn($this->code, $node->getAttribute('endFilePos'));
+        }
+        return "[$start - $end]";
+    }
+
+    // Copied from Error class
+    private function toColumn($code, $pos) {
+        if ($pos > strlen($code)) {
+            throw new \RuntimeException('Invalid position information');
+        }
+
+        $lineStartPos = strrpos($code, "\n", $pos - strlen($code));
+        if (false === $lineStartPos) {
+            $lineStartPos = -1;
+        }
+
+        return $pos - $lineStartPos;
     }
 }
