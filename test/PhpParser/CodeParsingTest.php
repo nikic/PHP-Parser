@@ -11,20 +11,28 @@ class CodeParsingTest extends CodeTestAbstract
     /**
      * @dataProvider provideTestParse
      */
-    public function testParse($name, $code, $expected, $mode) {
+    public function testParse($name, $code, $expected, $modeLine) {
+        if (null !== $modeLine) {
+            $modes = array_fill_keys(explode(',', $modeLine), true);
+        } else {
+            $modes = [];
+        }
+
+
         $lexer = new Lexer\Emulative(array('usedAttributes' => array(
             'startLine', 'endLine', 'startFilePos', 'endFilePos', 'comments'
         )));
         $parser5 = new Parser\Php5($lexer);
         $parser7 = new Parser\Php7($lexer);
 
-        $output5 = $this->getParseOutput($parser5, $code);
-        $output7 = $this->getParseOutput($parser7, $code);
+        $dumpPositions = isset($modes['positions']);
+        $output5 = $this->getParseOutput($parser5, $code, $dumpPositions);
+        $output7 = $this->getParseOutput($parser7, $code, $dumpPositions);
 
-        if ($mode === 'php5') {
+        if (isset($modes['php5'])) {
             $this->assertSame($expected, $output5, $name);
             $this->assertNotSame($expected, $output7, $name);
-        } else if ($mode === 'php7') {
+        } else if (isset($modes['php7'])) {
             $this->assertNotSame($expected, $output5, $name);
             $this->assertSame($expected, $output7, $name);
         } else {
@@ -33,7 +41,7 @@ class CodeParsingTest extends CodeTestAbstract
         }
     }
 
-    private function getParseOutput(Parser $parser, $code) {
+    private function getParseOutput(Parser $parser, $code, $dumpPositions) {
         $errors = new ErrorHandler\Collecting;
         $stmts = $parser->parse($code, $errors);
 
@@ -43,8 +51,8 @@ class CodeParsingTest extends CodeTestAbstract
         }
 
         if (null !== $stmts) {
-            $dumper = new NodeDumper(['dumpComments' => true]);
-            $output .= $dumper->dump($stmts);
+            $dumper = new NodeDumper(['dumpComments' => true, 'dumpPositions' => $dumpPositions]);
+            $output .= $dumper->dump($stmts, $code);
         }
 
         return canonicalize($output);
