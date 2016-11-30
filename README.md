@@ -6,9 +6,9 @@ PHP Parser
 This is a PHP 5.2 to PHP 7.1 parser written in PHP. Its purpose is to simplify static code analysis and
 manipulation.
 
-[Documentation for version 3.x][doc_master] (beta; for running on PHP >= 5.5; for parsing PHP 5.2 to PHP 7.1).
+[**Documentation for version 3.x**][doc_master] (stable; for running on PHP >= 5.5; for parsing PHP 5.2 to PHP 7.1).
 
-[**Documentation for version 2.x**][doc_2_x] (stable; for running on PHP >= 5.4; for parsing PHP 5.2 to PHP 7.0).
+[Documentation for version 2.x][doc_2_x] (stable; for running on PHP >= 5.4; for parsing PHP 5.2 to PHP 7.0).
 
 [Documentation for version 1.x][doc_1_x] (unsupported; for running on PHP >= 5.3; for parsing PHP 5.2 to PHP 5.6).
 

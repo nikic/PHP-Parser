@@ -1,7 +1,15 @@
-Version 3.0.0-dev
+Version 3.0.1-dev
 -----------------
 
 Nothing yet.
+
+Version 3.0.0 (2016-11-30)
+--------------------------
+
+### Added
+
+* Added support for dumping node positions in the NodeDumper through the `dumpPositions` option.
+* Added error recovery support for `$`, `new`, `Foo::`.
 
 Version 3.0.0-beta2 (2016-10-29)
 --------------------------------
