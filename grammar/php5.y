@@ -939,7 +939,7 @@ list_expr_elements:
 
 list_expr_element:
       variable                                              { $$ = Expr\ArrayItem[$1, null, false]; }
-    | list_expr                                             { $$ = $1; }
+    | list_expr                                             { $$ = Expr\ArrayItem[$1, null, false]; }
     | /* empty */                                           { $$ = null; }
 ;
 

@@ -823,7 +823,7 @@ list_expr_elements:
 
 list_expr_element:
       variable                                              { $$ = Expr\ArrayItem[$1, null, false]; }
-    | list_expr                                             { $$ = $1; }
+    | list_expr                                             { $$ = Expr\ArrayItem[$1, null, false]; }
     | expr T_DOUBLE_ARROW variable                          { $$ = Expr\ArrayItem[$3, $1, false]; }
     | expr T_DOUBLE_ARROW list_expr                         { $$ = Expr\ArrayItem[$3, $1, false]; }
     | /* empty */                                           { $$ = null; }

@@ -246,17 +246,21 @@ array(
                     )
                     byRef: false
                 )
-                1: Expr_List(
-                    items: array(
-                        0: null
-                        1: Expr_ArrayItem(
-                            key: null
-                            value: Expr_Variable(
-                                name: c
+                1: Expr_ArrayItem(
+                    key: null
+                    value: Expr_List(
+                        items: array(
+                            0: null
+                            1: Expr_ArrayItem(
+                                key: null
+                                value: Expr_Variable(
+                                    name: c
+                                )
+                                byRef: false
                             )
-                            byRef: false
                         )
                     )
+                    byRef: false
                 )
                 2: Expr_ArrayItem(
                     key: null
