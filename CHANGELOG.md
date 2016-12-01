@@ -1,7 +1,16 @@
-Version 3.0.1-dev
+Version 3.0.2-dev
 -----------------
 
 Nothing yet.
+
+Version 3.0.1 (2016-12-01)
+--------------------------
+
+### Fixed
+
+* Fixed handling of nested `list()`s: If the nested list was unkeyed, it was directly included in
+  the list items. If it was keyed, it was wrapped in `ArrayItem`. Now nested `List_` nodes are
+  always wrapped in `ArrayItem`s.
 
 Version 3.0.0 (2016-11-30)
 --------------------------
