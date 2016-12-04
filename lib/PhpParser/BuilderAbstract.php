@@ -62,7 +62,7 @@ abstract class BuilderAbstract implements Builder {
      *
      * @param Name|string|NullableType $type The type to normalize
      *
-     * @return Name|string The normalized type
+     * @return Name|string|NullableType The normalized type
      */
     protected function normalizeType($type) {
         if (!is_string($type)) {

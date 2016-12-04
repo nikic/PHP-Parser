@@ -9,6 +9,8 @@ abstract class FunctionLike extends Declaration
 {
     protected $returnByRef = false;
     protected $params = array();
+
+    /** @var string|Node\Name|Node\NullableType|null */
     protected $returnType = null;
 
     /**
@@ -59,7 +61,7 @@ abstract class FunctionLike extends Declaration
     /**
      * Sets the return type for PHP 7.
      *
-     * @param string|Node\Name $type One of array, callable, string, int, float, bool, iterable,
+     * @param string|Node\Name|Node\NullableType $type One of array, callable, string, int, float, bool, iterable,
      *                               or a class/interface name.
      *
      * @return $this The builder instance (for fluid interface)

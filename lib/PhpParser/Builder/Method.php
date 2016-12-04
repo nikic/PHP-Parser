@@ -10,6 +10,8 @@ class Method extends FunctionLike
 {
     protected $name;
     protected $flags = 0;
+
+    /** @var array|null */
     protected $stmts = array();
 
     /**
