@@ -6,7 +6,7 @@ use PhpParser\NodeAbstract;
 
 class Param extends NodeAbstract
 {
-    /** @var null|string|Name Typehint */
+    /** @var null|string|Name|NullableType Typehint */
     public $type;
     /** @var bool Whether parameter is passed by reference */
     public $byRef;
