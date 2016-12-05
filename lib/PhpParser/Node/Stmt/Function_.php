@@ -13,7 +13,7 @@ class Function_ extends Node\Stmt implements FunctionLike
     public $name;
     /** @var Node\Param[] Parameters */
     public $params;
-    /** @var null|string|Node\Name Return type */
+    /** @var null|string|Node\Name|Node\NullableType Return type */
     public $returnType;
     /** @var Node[] Statements */
     public $stmts;

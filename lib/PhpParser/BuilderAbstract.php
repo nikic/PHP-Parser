@@ -60,9 +60,9 @@ abstract class BuilderAbstract implements Builder {
      * In particular, builtin types are left as strings, custom types become Names and nullables
      * are wrapped in NullableType nodes.
      *
-     * @param Name|string $type The type to normalize
+     * @param Name|string|NullableType $type The type to normalize
      *
-     * @return Name|string The normalized type
+     * @return Name|string|NullableType The normalized type
      */
     protected function normalizeType($type) {
         if (!is_string($type)) {
