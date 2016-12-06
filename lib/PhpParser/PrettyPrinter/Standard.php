@@ -34,7 +34,7 @@ class Standard extends PrettyPrinterAbstract
     }
 
     protected function pNullableType(Node\NullableType $node) {
-        return '?' . $node->type;
+        return '?' . $this->pType($node->type);
     }
 
     // Names

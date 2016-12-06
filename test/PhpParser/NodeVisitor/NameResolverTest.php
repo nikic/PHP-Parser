@@ -244,7 +244,7 @@ function fn2(array $a) : array
 }
 function (\NS\A $a) : \NS\A {
 };
-function fn3(?NS\A $a) : ?NS\A
+function fn3(?\NS\A $a) : ?\NS\A
 {
 }
 function fn4(?array $a) : ?array
