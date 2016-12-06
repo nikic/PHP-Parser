@@ -1,7 +1,15 @@
-Version 3.0.2-dev
+Version 3.0.3-dev
 -----------------
 
 Nothing yet.
+
+Version 3.0.2 (2016-12-06)
+--------------------------
+
+### Fixed
+
+* Fixed name resolution of nullable types.
+* Fixed pretty-printing of nullable types.
 
 Version 3.0.1 (2016-12-01)
 --------------------------
