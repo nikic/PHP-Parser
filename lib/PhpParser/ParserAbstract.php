@@ -9,6 +9,7 @@ namespace PhpParser;
 use PhpParser\Node\Name;
 use PhpParser\Node\Param;
 use PhpParser\Node\Scalar\LNumber;
+use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassConst;
 use PhpParser\Node\Stmt\ClassMethod;
@@ -552,6 +553,19 @@ abstract class ParserAbstract implements Parser
             // Use dummy value
             return new LNumber(0, $attributes);
         }
+    }
+
+    protected function parseNumString($str, $attributes) {
+        if (!preg_match('/^(?:0|[1-9][0-9]*)$/', $str)) {
+            return new String_($str, $attributes);
+        }
+
+        $num = +$str;
+        if (!is_int($num)) {
+            return new String_($str, $attributes);
+        }
+
+        return new LNumber($num, $attributes);
     }
 
     protected function checkModifier($a, $b, $modifierPos) {

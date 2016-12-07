@@ -1,14 +1,16 @@
 Version 3.0.3-dev
 -----------------
 
-Nothing yet.
+### Fixed
+
+* In `"$foo[0]"` the `0` is now parsed as an `LNumber` rather than `String`. (#325)
 
 Version 3.0.2 (2016-12-06)
 --------------------------
 
 ### Fixed
 
-* Fixed name resolution of nullable types.
+* Fixed name resolution of nullable types. (#324)
 * Fixed pretty-printing of nullable types.
 
 Version 3.0.1 (2016-12-01)
@@ -18,7 +20,7 @@ Version 3.0.1 (2016-12-01)
 
 * Fixed handling of nested `list()`s: If the nested list was unkeyed, it was directly included in
   the list items. If it was keyed, it was wrapped in `ArrayItem`. Now nested `List_` nodes are
-  always wrapped in `ArrayItem`s.
+  always wrapped in `ArrayItem`s. (#321)
 
 Version 3.0.0 (2016-11-30)
 --------------------------
