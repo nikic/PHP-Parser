@@ -144,6 +144,10 @@ The following methods, arguments or options have been removed:
 
 ### Miscellaneous
 
+ * The `NameResolver` will now resolve unqualified function and constant names in the global
+   namespace into fully qualified names. For example `foo()` in the global namespace resolves to
+   `\foo()`. For names where no static resolution is possible, a `namespacedName` attribute is
+   added now, containing the namespaced variant of the name.
  * All methods on `PrettyPrinter\Standard` are now protected. Previoulsy most of them were public.
    The pretty printer should only be invoked using the `prettyPrint()`, `prettyPrintFile()` and
    `prettyPrintExpr()` methods.
