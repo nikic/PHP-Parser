@@ -33,7 +33,10 @@ $parser = (new PhpParser\ParserFactory)->create(
     PhpParser\ParserFactory::PREFER_PHP7,
     $lexer
 );
-$dumper = new PhpParser\NodeDumper(['dumpComments' => true]);
+$dumper = new PhpParser\NodeDumper([
+    'dumpComments' => true,
+    'dumpPositions' => $attributes['with-positions'],
+]);
 $prettyPrinter = new PhpParser\PrettyPrinter\Standard;
 $serializer = new PhpParser\Serializer\XML;
 
@@ -75,7 +78,7 @@ foreach ($files as $file) {
     foreach ($operations as $operation) {
         if ('dump' === $operation) {
             echo "==> Node dump:\n";
-            echo $dumper->dump($stmts), "\n";
+            echo $dumper->dump($stmts, $code), "\n";
         } elseif ('pretty-print' === $operation) {
             echo "==> Pretty print:\n";
             echo $prettyPrinter->prettyPrintFile($stmts), "\n";
@@ -117,6 +120,7 @@ Operations is a list of the following options (--dump by default):
         --var-dump          var_dump() nodes (for exact structure)
     -N, --resolve-names     Resolve names using NodeVisitor\NameResolver
     -c, --with-column-info  Show column-numbers for errors (if available)
+    -P, --with-positions    Show positions in node dumps
     -r, --with-recovery     Use parsing with error recovery
     -h, --help              Display this page
 
@@ -134,7 +138,8 @@ function parseArgs($args) {
     $operations = array();
     $files = array();
     $attributes = array(
-        'with-column-info'    => false,
+        'with-column-info' => false,
+        'with-posititions' => false,
         'with-recovery' => false,
     );
 
@@ -168,6 +173,10 @@ function parseArgs($args) {
             case '--with-column-info':
             case '-c';
                 $attributes['with-column-info'] = true;
+                break;
+            case '--with-positions':
+            case '-P':
+                $attributes['with-positions'] = true;
                 break;
             case '--with-recovery':
             case '-r':
