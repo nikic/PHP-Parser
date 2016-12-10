@@ -64,7 +64,8 @@ class NodeTraverser implements NodeTraverserInterface
      */
     public function traverse(array $nodes) {
         foreach ($this->visitors as $visitor) {
-            if (null !== $return = $visitor->beforeTraverse($nodes)) {
+            $return = $visitor->beforeTraverse($nodes);
+            if (null !== $return) {
                 $nodes = $return;
             }
         }
@@ -72,7 +73,8 @@ class NodeTraverser implements NodeTraverserInterface
         $nodes = $this->traverseArray($nodes);
 
         foreach ($this->visitors as $visitor) {
-            if (null !== $return = $visitor->afterTraverse($nodes)) {
+            $return = $visitor->afterTraverse($nodes);
+            if (null !== $return) {
                 $nodes = $return;
             }
         }
