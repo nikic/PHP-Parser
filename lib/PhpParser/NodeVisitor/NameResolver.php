@@ -33,6 +33,7 @@ class NameResolver extends NodeVisitorAbstract
 
     public function beforeTraverse(array $nodes) {
         $this->resetState();
+        return null;
     }
 
     public function enterNode(Node $node) {
@@ -117,6 +118,8 @@ class NameResolver extends NodeVisitorAbstract
                 $node->type = $this->resolveClassName($node->type);
             }
         }
+
+        return null;
     }
 
     protected function resetState(Name $namespace = null) {

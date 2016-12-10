@@ -8,7 +8,7 @@ class Declare_ extends Node\Stmt
 {
     /** @var DeclareDeclare[] List of declares */
     public $declares;
-    /** @var Node[] Statements */
+    /** @var Node[]|null Statements */
     public $stmts;
 
     /**
