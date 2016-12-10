@@ -687,7 +687,7 @@ abstract class ParserAbstract implements Parser
     }
 
     protected function checkNamespace(Namespace_ $node) {
-        if (isset(self::$specialNames[strtolower($node->name)])) {
+        if ($node->name && isset(self::$specialNames[strtolower($node->name)])) {
             $this->emitError(new Error(
                 sprintf('Cannot use \'%s\' as namespace name', $node->name),
                 $node->name->getAttributes()
@@ -713,7 +713,7 @@ abstract class ParserAbstract implements Parser
             ));
         }
 
-        if (isset(self::$specialNames[strtolower($node->extends)])) {
+        if ($node->extends && isset(self::$specialNames[strtolower($node->extends)])) {
             $this->emitError(new Error(
                 sprintf('Cannot use \'%s\' as class name as it is reserved', $node->extends),
                 $node->extends->getAttributes()

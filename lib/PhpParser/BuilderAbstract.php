@@ -10,6 +10,8 @@ use PhpParser\Node\Scalar;
 use PhpParser\Node\Stmt;
 
 abstract class BuilderAbstract implements Builder {
+    protected $flags;
+
     /**
      * Normalizes a node: Converts builder objects to nodes.
      *
@@ -123,12 +125,12 @@ abstract class BuilderAbstract implements Builder {
      * Normalizes a value: Converts nulls, booleans, integers,
      * floats, strings and arrays into their respective nodes
      *
-     * @param mixed $value The value to normalize
+     * @param Node\Expr|bool|null|int|float|string|array $value The value to normalize
      *
      * @return Expr The normalized value
      */
     protected function normalizeValue($value) {
-        if ($value instanceof Node) {
+        if ($value instanceof Node\Expr) {
             return $value;
         } elseif (is_null($value)) {
             return new Expr\ConstFetch(
