@@ -10,6 +10,8 @@ use PhpParser\Node\Scalar;
 use PhpParser\Node\Stmt;
 
 abstract class BuilderAbstract implements Builder {
+    protected $flags;
+
     /**
      * Normalizes a node: Converts builder objects to nodes.
      *
