@@ -4,8 +4,10 @@ namespace PhpParser;
 
 use PhpParser\Comment;
 use PhpParser\Node\Expr;
+use PhpParser\Node\Scalar\DNumber;
 use PhpParser\Node\Scalar\Encapsed;
 use PhpParser\Node\Scalar\EncapsedStringPart;
+use PhpParser\Node\Scalar\LNumber;
 use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt;
 use PhpParser\PrettyPrinter\Standard;
@@ -159,6 +161,26 @@ class PrettyPrinterTest extends CodeTestAbstract
             [new Encapsed([new Expr\Variable('y'), new EncapsedStringPart("\nSTR")], $heredoc), '"{$y}\\nSTR"'],
             [new Encapsed([new EncapsedStringPart("STR\n"), new Expr\Variable('y')], $heredoc), '"STR\\n{$y}"'],
             [new Encapsed([new EncapsedStringPart("STR")], $heredoc), '"STR"'],
+        ];
+    }
+
+    /** @dataProvider provideTestUnnaturalLiterals */
+    public function testUnnaturalLiterals($node, $expected) {
+        $prttyPrinter = new PrettyPrinter\Standard;
+        $result = $prttyPrinter->prettyPrintExpr($node);
+        $this->assertSame($expected, $result);
+    }
+
+    public function provideTestUnnaturalLiterals() {
+        return [
+            [new LNumber(-1), '-1'],
+            [new LNumber(-PHP_INT_MAX - 1), '(-' . PHP_INT_MAX . '-1)'],
+            [new LNumber(-1, ['kind' => LNumber::KIND_BIN]), '-0b1'],
+            [new LNumber(-1, ['kind' => LNumber::KIND_OCT]), '-01'],
+            [new LNumber(-1, ['kind' => LNumber::KIND_HEX]), '-0x1'],
+            [new DNumber(\INF), '\INF'],
+            [new DNumber(-\INF), '-\INF'],
+            [new DNumber(-\NAN), '\NAN'],
         ];
     }
 }

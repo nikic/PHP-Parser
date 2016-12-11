@@ -31,5 +31,5 @@ Number literals
 -42.5;
 1.0E+42;
 -1.0E+42;
-INF;
--INF;
+\INF;
+-\INF;

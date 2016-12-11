@@ -4,6 +4,11 @@ Version 3.0.3-dev
 ### Fixed
 
 * In `"$foo[0]"` the `0` is now parsed as an `LNumber` rather than `String`. (#325)
+* Ensure integers and floats are always pretty printed preserving semantics, even if the particular
+  value can only be manually constructed.
+
+### Added
+
 * [PHP 7.1] Added support for negative interpolated offsets: `"$foo[-1]"`
 
 Version 3.0.2 (2016-12-06)

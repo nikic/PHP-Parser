@@ -141,21 +141,42 @@ class Standard extends PrettyPrinterAbstract
     }
 
     protected function pScalar_LNumber(Scalar\LNumber $node) {
+        if ($node->value === -\PHP_INT_MAX-1) {
+            // PHP_INT_MIN cannot be represented as a literal,
+            // because the sign is not part of the literal
+            return '(-' . \PHP_INT_MAX . '-1)';
+        }
+
+        $kind = $node->getAttribute('kind', Scalar\LNumber::KIND_DEC);
+        if (Scalar\LNumber::KIND_DEC === $kind) {
+            return (string) $node->value;
+        }
+
+        $sign = $node->value < 0 ? '-' : '';
         $str = (string) $node->value;
-        switch ($node->getAttribute('kind', Scalar\LNumber::KIND_DEC)) {
+        switch ($kind) {
             case Scalar\LNumber::KIND_BIN:
-                return '0b' . base_convert($str, 10, 2);
+                return $sign . '0b' . base_convert($str, 10, 2);
             case Scalar\LNumber::KIND_OCT:
-                return '0' . base_convert($str, 10, 8);
-            case Scalar\LNumber::KIND_DEC:
-                return $str;
+                return $sign . '0' . base_convert($str, 10, 8);
             case Scalar\LNumber::KIND_HEX:
-                return '0x' . base_convert($str, 10, 16);
+                return $sign . '0x' . base_convert($str, 10, 16);
         }
         throw new \Exception('Invalid number kind');
     }
 
     protected function pScalar_DNumber(Scalar\DNumber $node) {
+        if (!is_finite($node->value)) {
+            if ($node->value === \INF) {
+                return '\INF';
+            } elseif ($node->value === -\INF) {
+                return '-\INF';
+            } else {
+                return '\NAN';
+            }
+        }
+
+        // Try to find a short full-precision representation
         $stringValue = sprintf('%.16G', $node->value);
         if ($node->value !== (double) $stringValue) {
             $stringValue = sprintf('%.17G', $node->value);
