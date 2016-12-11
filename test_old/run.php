@@ -83,18 +83,15 @@ switch ($testType) {
 | Zend.tests.multibyte.multibyte_encoding_001
 | Zend.tests.multibyte.multibyte_encoding_004
 | Zend.tests.multibyte.multibyte_encoding_005
-# token_get_all bug (https://bugs.php.net/bug.php?id=60097)
-| Zend.tests.bug47516
 # pretty print difference due to INF vs 1e1000
 | ext.standard.tests.general_functions.bug27678
 | tests.lang.bug24640
+# pretty print differences due to negative LNumbers
+| Zend.tests.neg_num_string
+| Zend.tests.bug72918
 # pretty print difference due to nop statements
 | ext.mbstring.tests.htmlent
 | ext.standard.tests.file.fread_basic
-# tests using __halt_compiler as semi reserved keyword
-| Zend.tests.grammar.semi_reserved_001
-| Zend.tests.grammar.semi_reserved_002
-| Zend.tests.grammar.semi_reserved_005
 )\.phpt$~x', $file)) {
                 return null;
             }
