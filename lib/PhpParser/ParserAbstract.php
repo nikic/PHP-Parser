@@ -556,7 +556,7 @@ abstract class ParserAbstract implements Parser
     }
 
     protected function parseNumString($str, $attributes) {
-        if (!preg_match('/^(?:0|[1-9][0-9]*)$/', $str)) {
+        if (!preg_match('/^(?:0|-?[1-9][0-9]*)$/', $str)) {
             return new String_($str, $attributes);
         }
 

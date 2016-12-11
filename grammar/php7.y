@@ -876,6 +876,7 @@ encaps_var:
 encaps_var_offset:
       T_STRING                                              { $$ = Scalar\String_[$1]; }
     | T_NUM_STRING                                          { $$ = $this->parseNumString($1, attributes()); }
+    | '-' T_NUM_STRING                                      { $$ = $this->parseNumString('-' . $2, attributes()); }
     | T_VARIABLE                                            { $$ = Expr\Variable[parseVar($1)]; }
 ;
 

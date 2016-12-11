@@ -4,6 +4,7 @@ Version 3.0.3-dev
 ### Fixed
 
 * In `"$foo[0]"` the `0` is now parsed as an `LNumber` rather than `String`. (#325)
+* [PHP 7.1] Added support for negative interpolated offsets: `"$foo[-1]"`
 
 Version 3.0.2 (2016-12-06)
 --------------------------
