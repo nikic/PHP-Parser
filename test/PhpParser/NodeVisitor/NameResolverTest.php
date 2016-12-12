@@ -446,4 +446,42 @@ EOC;
         $this->assertSame('PARENT', (string)$methodStmt->stmts[1]->class);
         $this->assertSame('STATIC', (string)$methodStmt->stmts[2]->class);
     }
+
+    public function testNullableTypesInResolveSignature()
+    {
+        $source = <<<'EOC'
+<?php
+namespace FooNamespace;
+
+function (?string $string, ?Foo $foo): ?iterable
+{
+
+};
+
+function (): ?Foo
+{
+
+};
+EOC;
+
+        $parser = new PhpParser\Parser\Php7(new PhpParser\Lexer\Emulative);
+        $stmts = $parser->parse($source);
+
+        $traverser = new PhpParser\NodeTraverser;
+        $traverser->addVisitor(new NameResolver);
+
+        $stmts = $traverser->traverse($stmts);
+        $firstClosureStmt = $stmts[0]->stmts[0];
+        $stringParam = $firstClosureStmt->params[0];
+        $this->assertInstanceof(Node\NullableType::class, $firstClosureStmt->params[0]->type);
+        $this->assertSame('string', (string) $firstClosureStmt->params[0]->type->type);
+        $this->assertInstanceof(Node\NullableType::class, $firstClosureStmt->params[1]->type);
+        $this->assertSame('FooNamespace\Foo', (string) $firstClosureStmt->params[1]->type->type);
+        $this->assertInstanceof(Node\NullableType::class, $firstClosureStmt->returnType);
+        $this->assertSame('iterable', (string) $firstClosureStmt->returnType->type);
+
+        $secondClosureStmt = $stmts[0]->stmts[1];
+        $this->assertInstanceof(Node\NullableType::class, $secondClosureStmt->returnType);
+        $this->assertSame('FooNamespace\Foo', (string) $secondClosureStmt->returnType->type);
+    }
 }

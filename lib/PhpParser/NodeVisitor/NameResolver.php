@@ -164,16 +164,26 @@ class NameResolver extends NodeVisitorAbstract
     /** @param Stmt\Function_|Stmt\ClassMethod|Expr\Closure $node */
     private function resolveSignature($node) {
         foreach ($node->params as $param) {
-            if ($param->type instanceof Name) {
-                $param->type = $this->resolveClassName($param->type);
-            }
+            $param->type = $this->resolveClassName($param->type);
         }
-        if ($node->returnType instanceof Name) {
-            $node->returnType = $this->resolveClassName($node->returnType);
-        }
+
+        $node->returnType = $this->resolveClassName($node->returnType);
     }
 
-    protected function resolveClassName(Name $name) {
+    /**
+     * @param Node\Name|Node\NullableType $name
+     * @return string|Node\NullableType|mixed
+     */
+    protected function resolveClassName($name) {
+        $nullableType = null;
+        if ($name instanceof Node\NullableType) {
+            $nullableType = $name;
+            $name = $name->type;
+        }
+        if (!$name instanceof Name) {
+            return $this->wrapName($name, $nullableType);
+        }
+
         // don't resolve special class names
         if (in_array(strtolower($name->toString()), array('self', 'parent', 'static'))) {
             if (!$name->isUnqualified()) {
@@ -183,23 +193,45 @@ class NameResolver extends NodeVisitorAbstract
                 ));
             }
 
-            return $name;
+            return $this->wrapName($name, $nullableType);
         }
 
         // fully qualified names are already resolved
         if ($name->isFullyQualified()) {
-            return $name;
+            return $this->wrapName($name, $nullableType);
         }
 
         $aliasName = strtolower($name->getFirst());
         if (!$name->isRelative() && isset($this->aliases[Stmt\Use_::TYPE_NORMAL][$aliasName])) {
             // resolve aliases (for non-relative names)
             $alias = $this->aliases[Stmt\Use_::TYPE_NORMAL][$aliasName];
-            return FullyQualified::concat($alias, $name->slice(1), $name->getAttributes());
+            return $this->wrapName(
+                FullyQualified::concat($alias, $name->slice(1), $name->getAttributes()),
+                $nullableType
+            );
         }
 
         // if no alias exists prepend current namespace
-        return FullyQualified::concat($this->namespace, $name, $name->getAttributes());
+        return $this->wrapName(
+            FullyQualified::concat($this->namespace, $name, $name->getAttributes()),
+            $nullableType
+        );
+    }
+
+    /**
+     * @param string|mixed $name
+     * @param Node\Name|Node\NullableType $nullableType
+     * @return string|Node\NullableType
+     */
+    protected function wrapName($name, Node\NullableType $nullableType = null)
+    {
+        if ($nullableType === null) {
+            return $name;
+        }
+
+        $nullableType->type = $name;
+
+        return $nullableType;
     }
 
     protected function resolveOtherName(Name $name, $type) {
