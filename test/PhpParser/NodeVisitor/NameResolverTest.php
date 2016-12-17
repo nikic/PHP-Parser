@@ -446,4 +446,23 @@ EOC;
         $this->assertSame('PARENT', (string)$methodStmt->stmts[1]->class);
         $this->assertSame('STATIC', (string)$methodStmt->stmts[2]->class);
     }
+
+    public function testAddOriginalNames() {
+        $traverser = new PhpParser\NodeTraverser;
+        $traverser->addVisitor(new NameResolver(null, ['preserveOriginalNames' => true]));
+
+        $n1 = new Name('Bar');
+        $n2 = new Name('bar');
+        $origStmts = [
+            new Stmt\Namespace_(new Name('Foo'), [
+                new Expr\ClassConstFetch($n1, 'FOO'),
+                new Expr\FuncCall($n2),
+            ])
+        ];
+
+        $stmts = $traverser->traverse($origStmts);
+
+        $this->assertSame($n1, $stmts[0]->stmts[0]->class->getAttribute('originalName'));
+        $this->assertSame($n2, $stmts[0]->stmts[1]->name->getAttribute('originalName'));
+    }
 }

@@ -22,13 +22,21 @@ class NameResolver extends NodeVisitorAbstract
     /** @var ErrorHandler Error handler */
     protected $errorHandler;
 
+    /** @var bool Whether to preserve original names */
+    protected $preserveOriginalNames;
+
     /**
      * Constructs a name resolution visitor.
      *
+     * Options: If "preserveOriginalNames" is enabled, an "originalName" attribute will be added to
+     * all name nodes that underwent resolution.
+     *
      * @param ErrorHandler|null $errorHandler Error handler
+     * @param array $options Options
      */
-    public function __construct(ErrorHandler $errorHandler = null) {
+    public function __construct(ErrorHandler $errorHandler = null, array $options = []) {
         $this->errorHandler = $errorHandler ?: new ErrorHandler\Throwing;
+        $this->preserveOriginalNames = !empty($options['preserveOriginalNames']);
     }
 
     public function beforeTraverse(array $nodes) {
@@ -174,6 +182,13 @@ class NameResolver extends NodeVisitorAbstract
     }
 
     protected function resolveClassName(Name $name) {
+        if ($this->preserveOriginalNames) {
+            // Save the original name
+            $originalName = $name;
+            $name = clone $originalName;
+            $name->setAttribute('originalName', $originalName);
+        }
+
         // don't resolve special class names
         if (in_array(strtolower($name->toString()), array('self', 'parent', 'static'))) {
             if (!$name->isUnqualified()) {
@@ -182,7 +197,6 @@ class NameResolver extends NodeVisitorAbstract
                     $name->getAttributes()
                 ));
             }
-
             return $name;
         }
 
@@ -203,6 +217,13 @@ class NameResolver extends NodeVisitorAbstract
     }
 
     protected function resolveOtherName(Name $name, $type) {
+        if ($this->preserveOriginalNames) {
+            // Save the original name
+            $originalName = $name;
+            $name = clone $originalName;
+            $name->setAttribute('originalName', $originalName);
+        }
+
         // fully qualified names are already resolved
         if ($name->isFullyQualified()) {
             return $name;

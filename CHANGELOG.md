@@ -10,6 +10,8 @@ Version 3.0.3-dev
 ### Added
 
 * [PHP 7.1] Added support for negative interpolated offsets: `"$foo[-1]"`
+* Added `preserveOriginalNames` option to `NameResolver`. If this option is enabled, an
+  `originalName` attribute, containing the unresolved name, will be added to each resolved name.
 
 Version 3.0.2 (2016-12-06)
 --------------------------
