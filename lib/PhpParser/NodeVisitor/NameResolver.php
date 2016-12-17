@@ -173,7 +173,11 @@ class NameResolver extends NodeVisitorAbstract
         }
     }
 
-    protected function resolveClassName(Name $name) {
+    protected function resolveClassName(Name $namespacedName) {
+        $name = clone $namespacedName;
+        // Save the original name
+        $name->setAttribute('namespacedName', $namespacedName);
+
         // don't resolve special class names
         if (in_array(strtolower($name->toString()), array('self', 'parent', 'static'))) {
             if (!$name->isUnqualified()) {
@@ -182,7 +186,6 @@ class NameResolver extends NodeVisitorAbstract
                     $name->getAttributes()
                 ));
             }
-
             return $name;
         }
 
