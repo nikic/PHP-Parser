@@ -205,7 +205,11 @@ class NameResolver extends NodeVisitorAbstract
         return FullyQualified::concat($this->namespace, $name, $name->getAttributes());
     }
 
-    protected function resolveOtherName(Name $name, $type) {
+    protected function resolveOtherName(Name $originalName, $type) {
+        $name = clone $originalName;
+        // Save the original name
+        $name->setAttribute('originalName', $originalName);
+
         // fully qualified names are already resolved
         if ($name->isFullyQualified()) {
             return $name;
