@@ -173,7 +173,11 @@ class NameResolver extends NodeVisitorAbstract
         }
     }
 
-    protected function resolveClassName(Name $name) {
+    protected function resolveClassName(Name $originalName) {
+        $name = clone $originalName;
+        // Save the original name
+        $name->setAttribute('originalName', $originalName);
+
         // don't resolve special class names
         if (in_array(strtolower($name->toString()), array('self', 'parent', 'static'))) {
             if (!$name->isUnqualified()) {
@@ -182,7 +186,6 @@ class NameResolver extends NodeVisitorAbstract
                     $name->getAttributes()
                 ));
             }
-
             return $name;
         }
 
@@ -202,7 +205,11 @@ class NameResolver extends NodeVisitorAbstract
         return FullyQualified::concat($this->namespace, $name, $name->getAttributes());
     }
 
-    protected function resolveOtherName(Name $name, $type) {
+    protected function resolveOtherName(Name $originalName, $type) {
+        $name = clone $originalName;
+        // Save the original name
+        $name->setAttribute('originalName', $originalName);
+
         // fully qualified names are already resolved
         if ($name->isFullyQualified()) {
             return $name;
