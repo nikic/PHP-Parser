@@ -173,10 +173,10 @@ class NameResolver extends NodeVisitorAbstract
         }
     }
 
-    protected function resolveClassName(Name $namespacedName) {
-        $name = clone $namespacedName;
+    protected function resolveClassName(Name $originalName) {
+        $name = clone $originalName;
         // Save the original name
-        $name->setAttribute('namespacedName', $namespacedName);
+        $name->setAttribute('originalName', $originalName);
 
         // don't resolve special class names
         if (in_array(strtolower($name->toString()), array('self', 'parent', 'static'))) {
