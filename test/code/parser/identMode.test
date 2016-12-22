@@ -12,6 +12,8 @@ class Foo {
         A::b as c;
         d as public e;
     }
+
+    public $foo, $bar = 42;
 }
 interface Bar {}
 trait Baz {}
@@ -123,6 +125,25 @@ array(
                         newModifier: MODIFIER_PUBLIC (1)
                         newName: Identifier(
                             name: e
+                        )
+                    )
+                )
+            )
+            3: Stmt_Property(
+                flags: MODIFIER_PUBLIC (1)
+                props: array(
+                    0: Stmt_PropertyProperty(
+                        name: Identifier(
+                            name: foo
+                        )
+                        default: null
+                    )
+                    1: Stmt_PropertyProperty(
+                        name: Identifier(
+                            name: bar
+                        )
+                        default: Scalar_LNumber(
+                            value: 42
                         )
                     )
                 )

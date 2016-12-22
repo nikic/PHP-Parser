@@ -521,9 +521,13 @@ property_declaration_list:
     | property_declaration_list ',' property_declaration    { push($1, $3); }
 ;
 
+property_decl_name:
+      T_VARIABLE                                            { $$ = maybeMakeIdent(parseVar($1)); }
+;
+
 property_declaration:
-      T_VARIABLE                                            { $$ = Stmt\PropertyProperty[parseVar($1), null]; }
-    | T_VARIABLE '=' expr                                   { $$ = Stmt\PropertyProperty[parseVar($1), $3]; }
+      property_decl_name                                    { $$ = Stmt\PropertyProperty[$1, null]; }
+    | property_decl_name '=' expr                           { $$ = Stmt\PropertyProperty[$1, $3]; }
 ;
 
 expr_list:
