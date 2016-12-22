@@ -113,20 +113,26 @@ abstract class ParserAbstract implements Parser
 
     /** @var bool Whether to create Identifier nodes for non-namespaced names */
     protected $useIdentifierNodes;
+    /** @var bool Whether to consistently use Variable nodes */
+    protected $useConsistentVariableNodes;
 
     /**
      * Creates a parser instance.
      *
-     * Options: If "useIdentifierNodes" is enabled, the parser will create Identifier nodes for
-     * non-namespaced names. Otherwise plain strings will be used.
+     * Options:
+     *  * useIdentifierNodes: If this option is enabled, the parser will create Identifier nodes for
+     *    non-namespaced names. Otherwise plain strings will be used.
+     *  * useConsistentVariableNodes: If this option is enabled, the parser will create Variable
+     *    nodes in more places (like function parameters, catch clause variables, etc.)
      *
      * @param Lexer $lexer A lexer
-     * @param array $options Options array. Currently only "useIdentifierNodes" is supporter.
+     * @param array $options Options array.
      */
     public function __construct(Lexer $lexer, array $options = array()) {
         $this->lexer = $lexer;
         $this->errors = array();
         $this->useIdentifierNodes = !empty($options['useIdentifierNodes']);
+        $this->useConsistentVariableNodes = !empty($options['useConsistentVariableNodes']);
 
         if (isset($options['throwOnError'])) {
             throw new \LogicException(

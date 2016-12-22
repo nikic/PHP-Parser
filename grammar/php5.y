@@ -36,12 +36,12 @@ semi_reserved:
 ;
 
 identifier_ex:
-      T_STRING                                              { $$ = makeIdent($1); }
-    | semi_reserved                                         { $$ = makeIdent($1); }
+      T_STRING                                              { $$ = maybeMakeIdent($1); }
+    | semi_reserved                                         { $$ = maybeMakeIdent($1); }
 ;
 
 identifier:
-      T_STRING                                              { $$ = makeIdent($1); }
+      T_STRING                                              { $$ = maybeMakeIdent($1); }
 ;
 
 namespace_name_parts:
@@ -51,6 +51,10 @@ namespace_name_parts:
 
 namespace_name:
       namespace_name_parts                                  { $$ = Name[$1]; }
+;
+
+plain_variable:
+      T_VARIABLE                                            { $$ = maybeMakeVar(parseVar($1)); }
 ;
 
 top_statement:
@@ -209,8 +213,8 @@ catches:
 ;
 
 catch:
-    T_CATCH '(' name T_VARIABLE ')' '{' inner_statement_list '}'
-        { $$ = Stmt\Catch_[array($3), parseVar($4), $7]; }
+    T_CATCH '(' name plain_variable ')' '{' inner_statement_list '}'
+        { $$ = Stmt\Catch_[array($3), $4, $7]; }
 ;
 
 optional_finally:
@@ -372,16 +376,16 @@ non_empty_parameter_list:
 ;
 
 parameter:
-      optional_param_type optional_ref optional_ellipsis T_VARIABLE
-          { $$ = Node\Param[parseVar($4), null, $1, $2, $3]; $this->checkParam($$); }
-    | optional_param_type optional_ref optional_ellipsis T_VARIABLE '=' static_scalar
-          { $$ = Node\Param[parseVar($4), $6, $1, $2, $3]; $this->checkParam($$); }
+      optional_param_type optional_ref optional_ellipsis plain_variable
+          { $$ = Node\Param[$4, null, $1, $2, $3]; $this->checkParam($$); }
+    | optional_param_type optional_ref optional_ellipsis plain_variable '=' static_scalar
+          { $$ = Node\Param[$4, $6, $1, $2, $3]; $this->checkParam($$); }
 ;
 
 type:
       name                                                  { $$ = $1; }
-    | T_ARRAY                                               { $$ = makeIdent('array'); }
-    | T_CALLABLE                                            { $$ = makeIdent('callable'); }
+    | T_ARRAY                                               { $$ = maybeMakeIdent('array'); }
+    | T_CALLABLE                                            { $$ = maybeMakeIdent('callable'); }
 ;
 
 optional_param_type:
@@ -428,8 +432,8 @@ static_var_list:
 ;
 
 static_var:
-      T_VARIABLE                                            { $$ = Stmt\StaticVar[parseVar($1), null]; }
-    | T_VARIABLE '=' static_scalar                          { $$ = Stmt\StaticVar[parseVar($1), $3]; }
+      plain_variable                                        { $$ = Stmt\StaticVar[$1, null]; }
+    | plain_variable '=' static_scalar                      { $$ = Stmt\StaticVar[$1, $3]; }
 ;
 
 class_statement_list:
@@ -673,7 +677,7 @@ lexical_var_list:
 ;
 
 lexical_var:
-      optional_ref T_VARIABLE                               { $$ = Expr\ClosureUse[parseVar($2), $1]; }
+      optional_ref plain_variable                           { $$ = Expr\ClosureUse[$2, $1]; }
 ;
 
 function_call:
