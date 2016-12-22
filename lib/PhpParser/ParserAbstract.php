@@ -111,15 +111,22 @@ abstract class ParserAbstract implements Parser
     /** @var int Error state, used to avoid error floods */
     protected $errorState;
 
+    /** @var bool Whether to create Identifier nodes for non-namespaced names */
+    protected $useIdentifierNodes;
+
     /**
      * Creates a parser instance.
      *
+     * Options: If "useIdentifierNodes" is enabled, the parser will create Identifier nodes for
+     * non-namespaced names. Otherwise plain strings will be used.
+     *
      * @param Lexer $lexer A lexer
-     * @param array $options Options array. Currently no options are supported.
+     * @param array $options Options array. Currently only "useIdentifierNodes" is supporter.
      */
     public function __construct(Lexer $lexer, array $options = array()) {
         $this->lexer = $lexer;
         $this->errors = array();
+        $this->useIdentifierNodes = !empty($options['useIdentifierNodes']);
 
         if (isset($options['throwOnError'])) {
             throw new \LogicException(

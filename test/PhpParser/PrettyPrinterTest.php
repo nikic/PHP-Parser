@@ -56,7 +56,7 @@ class PrettyPrinterTest extends CodeTestAbstract
 
     /**
      * @dataProvider provideTestPrettyPrint
-     * @covers PhpParser\PrettyPrinter\Standard<extended>
+     * @covers \PhpParser\PrettyPrinter\Standard<extended>
      */
     public function testPrettyPrint($name, $code, $expected, $mode) {
         $this->doTestPrettyPrintMethod('prettyPrint', $name, $code, $expected, $mode);
@@ -64,7 +64,7 @@ class PrettyPrinterTest extends CodeTestAbstract
 
     /**
      * @dataProvider provideTestPrettyPrintFile
-     * @covers PhpParser\PrettyPrinter\Standard<extended>
+     * @covers \PhpParser\PrettyPrinter\Standard<extended>
      */
     public function testPrettyPrintFile($name, $code, $expected, $mode) {
         $this->doTestPrettyPrintMethod('prettyPrintFile', $name, $code, $expected, $mode);

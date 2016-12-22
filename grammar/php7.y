@@ -35,9 +35,13 @@ semi_reserved:
     | T_STATIC | T_ABSTRACT | T_FINAL | T_PRIVATE | T_PROTECTED | T_PUBLIC
 ;
 
+identifier_ex:
+      T_STRING                                              { $$ = makeIdent($1); }
+    | semi_reserved                                         { $$ = makeIdent($1); }
+;
+
 identifier:
-      T_STRING                                              { $$ = $1; }
-    | semi_reserved                                         { $$ = $1; }
+      T_STRING                                              { $$ = makeIdent($1); }
 ;
 
 namespace_name_parts:
@@ -103,7 +107,7 @@ inline_use_declarations:
 unprefixed_use_declaration:
       namespace_name
           { $$ = Stmt\UseUse[$1, null, Stmt\Use_::TYPE_UNKNOWN]; $this->checkUseUse($$, #1); }
-    | namespace_name T_AS T_STRING
+    | namespace_name T_AS identifier
           { $$ = Stmt\UseUse[$1, $3, Stmt\Use_::TYPE_UNKNOWN]; $this->checkUseUse($$, #3); }
 ;
 
@@ -123,7 +127,7 @@ constant_declaration_list:
 ;
 
 constant_declaration:
-    T_STRING '=' expr                                       { $$ = Node\Const_[$1, $3]; }
+    identifier '=' expr                                     { $$ = Node\Const_[$1, $3]; }
 ;
 
 class_const_list:
@@ -132,7 +136,7 @@ class_const_list:
 ;
 
 class_const:
-    identifier '=' expr                                     { $$ = Node\Const_[$1, $3]; }
+    identifier_ex '=' expr                                  { $$ = Node\Const_[$1, $3]; }
 ;
 
 inner_statement_list_ex:
@@ -182,8 +186,8 @@ non_empty_statement:
     | T_TRY '{' inner_statement_list '}' catches optional_finally
           { $$ = Stmt\TryCatch[$3, $5, $6]; $this->checkTryCatch($$); }
     | T_THROW expr ';'                                      { $$ = Stmt\Throw_[$2]; }
-    | T_GOTO T_STRING ';'                                   { $$ = Stmt\Goto_[$2]; }
-    | T_STRING ':'                                          { $$ = Stmt\Label[$1]; }
+    | T_GOTO identifier ';'                                 { $$ = Stmt\Goto_[$2]; }
+    | identifier ':'                                        { $$ = Stmt\Label[$1]; }
     | expr error                                            { $$ = $1; }
     | error                                                 { $$ = array(); /* means: no statement */ }
 ;
@@ -231,18 +235,18 @@ optional_ellipsis:
 ;
 
 function_declaration_statement:
-    T_FUNCTION optional_ref T_STRING '(' parameter_list ')' optional_return_type '{' inner_statement_list '}'
+    T_FUNCTION optional_ref identifier '(' parameter_list ')' optional_return_type '{' inner_statement_list '}'
         { $$ = Stmt\Function_[$3, ['byRef' => $2, 'params' => $5, 'returnType' => $7, 'stmts' => $9]]; }
 ;
 
 class_declaration_statement:
-      class_entry_type T_STRING extends_from implements_list '{' class_statement_list '}'
+      class_entry_type identifier extends_from implements_list '{' class_statement_list '}'
           { $$ = Stmt\Class_[$2, ['type' => $1, 'extends' => $3, 'implements' => $4, 'stmts' => $6]];
             $this->checkClass($$, #2); }
-    | T_INTERFACE T_STRING interface_extends_list '{' class_statement_list '}'
+    | T_INTERFACE identifier interface_extends_list '{' class_statement_list '}'
           { $$ = Stmt\Interface_[$2, ['extends' => $3, 'stmts' => $5]];
             $this->checkInterface($$, #2); }
-    | T_TRAIT T_STRING '{' class_statement_list '}'
+    | T_TRAIT identifier '{' class_statement_list '}'
           { $$ = Stmt\Trait_[$2, ['stmts' => $4]]; }
 ;
 
@@ -294,7 +298,7 @@ declare_list:
 ;
 
 declare_list_element:
-      T_STRING '=' expr                                     { $$ = Stmt\DeclareDeclare[$1, $3]; }
+      identifier '=' expr                                   { $$ = Stmt\DeclareDeclare[$1, $3]; }
 ;
 
 switch_case_list:
@@ -442,7 +446,7 @@ class_statement:
           { $$ = Stmt\Property[$1, $2]; $this->checkProperty($$, #1); }
     | method_modifiers T_CONST class_const_list ';'
           { $$ = Stmt\ClassConst[$3, $1]; $this->checkClassConst($$, #1); }
-    | method_modifiers T_FUNCTION optional_ref identifier '(' parameter_list ')' optional_return_type method_body
+    | method_modifiers T_FUNCTION optional_ref identifier_ex '(' parameter_list ')' optional_return_type method_body
           { $$ = Stmt\ClassMethod[$4, ['type' => $1, 'byRef' => $3, 'params' => $6, 'returnType' => $8, 'stmts' => $9]];
             $this->checkClassMethod($$, #1); }
     | T_USE name_list trait_adaptations                     { $$ = Stmt\TraitUse[$2, $3]; }
@@ -461,22 +465,22 @@ trait_adaptation_list:
 trait_adaptation:
       trait_method_reference_fully_qualified T_INSTEADOF name_list ';'
           { $$ = Stmt\TraitUseAdaptation\Precedence[$1[0], $1[1], $3]; }
-    | trait_method_reference T_AS member_modifier identifier ';'
+    | trait_method_reference T_AS member_modifier identifier_ex ';'
           { $$ = Stmt\TraitUseAdaptation\Alias[$1[0], $1[1], $3, $4]; }
     | trait_method_reference T_AS member_modifier ';'
           { $$ = Stmt\TraitUseAdaptation\Alias[$1[0], $1[1], $3, null]; }
-    | trait_method_reference T_AS T_STRING ';'
+    | trait_method_reference T_AS identifier ';'
           { $$ = Stmt\TraitUseAdaptation\Alias[$1[0], $1[1], null, $3]; }
     | trait_method_reference T_AS reserved_non_modifiers ';'
           { $$ = Stmt\TraitUseAdaptation\Alias[$1[0], $1[1], null, $3]; }
 ;
 
 trait_method_reference_fully_qualified:
-      name T_PAAMAYIM_NEKUDOTAYIM identifier                { $$ = array($1, $3); }
+      name T_PAAMAYIM_NEKUDOTAYIM identifier_ex             { $$ = array($1, $3); }
 ;
 trait_method_reference:
       trait_method_reference_fully_qualified                { $$ = $1; }
-    | identifier                                            { $$ = array(null, $1); }
+    | identifier_ex                                         { $$ = array(null, $1); }
 ;
 
 method_body:
@@ -694,7 +698,7 @@ ctor_arguments:
 
 constant:
       name                                                  { $$ = Expr\ConstFetch[$1]; }
-    | class_name_or_var T_PAAMAYIM_NEKUDOTAYIM identifier
+    | class_name_or_var T_PAAMAYIM_NEKUDOTAYIM identifier_ex
           { $$ = Expr\ClassConstFetch[$1, $3]; }
     /* We interpret and isolated FOO:: as an unfinished class constant fetch. It could also be
        an unfinished static property fetch or unfinished scoped call. */
@@ -800,13 +804,13 @@ new_variable:
 ;
 
 member_name:
-      identifier                                            { $$ = $1; }
+      identifier_ex                                         { $$ = $1; }
     | '{' expr '}'	                                        { $$ = $2; }
     | simple_variable	                                    { $$ = Expr\Variable[$1]; }
 ;
 
 property_name:
-      T_STRING                                              { $$ = $1; }
+      identifier                                            { $$ = $1; }
     | '{' expr '}'	                                        { $$ = $2; }
     | simple_variable	                                    { $$ = Expr\Variable[$1]; }
     | error                                                 { $$ = Expr\Error[]; $this->errorState = 2; }
@@ -865,7 +869,7 @@ encaps_base_var:
 encaps_var:
       encaps_base_var                                       { $$ = $1; }
     | encaps_base_var '[' encaps_var_offset ']'             { $$ = Expr\ArrayDimFetch[$1, $3]; }
-    | encaps_base_var T_OBJECT_OPERATOR T_STRING            { $$ = Expr\PropertyFetch[$1, $3]; }
+    | encaps_base_var T_OBJECT_OPERATOR identifier          { $$ = Expr\PropertyFetch[$1, $3]; }
     | T_DOLLAR_OPEN_CURLY_BRACES expr '}'                   { $$ = Expr\Variable[$2]; }
     | T_DOLLAR_OPEN_CURLY_BRACES T_STRING_VARNAME '}'       { $$ = Expr\Variable[$2]; }
     | T_DOLLAR_OPEN_CURLY_BRACES T_STRING_VARNAME '[' expr ']' '}'
