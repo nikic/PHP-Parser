@@ -16,7 +16,7 @@ class Foo {
 interface Bar {}
 trait Baz {}
 
-function foo() {}
+function foo(array $x) : callable {}
 
 const FOO = 1;
 
@@ -148,8 +148,19 @@ array(
             name: foo
         )
         params: array(
+            0: Param(
+                type: Identifier(
+                    name: array
+                )
+                byRef: false
+                variadic: false
+                name: x
+                default: null
+            )
         )
-        returnType: null
+        returnType: Identifier(
+            name: callable
+        )
         stmts: array(
         )
     )
@@ -242,5 +253,35 @@ array(
     )
     14: Expr_Variable(
         name: foo
+    )
+)
+-----
+<?php
+
+function foo(int $bar) : bool {}
+-----
+!!php7,ident
+array(
+    0: Stmt_Function(
+        byRef: false
+        name: Identifier(
+            name: foo
+        )
+        params: array(
+            0: Param(
+                type: Identifier(
+                    name: int
+                )
+                byRef: false
+                variadic: false
+                name: bar
+                default: null
+            )
+        )
+        returnType: Identifier(
+            name: bool
+        )
+        stmts: array(
+        )
     )
 )

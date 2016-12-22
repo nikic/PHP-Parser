@@ -380,8 +380,8 @@ parameter:
 
 type:
       name                                                  { $$ = $1; }
-    | T_ARRAY                                               { $$ = 'array'; }
-    | T_CALLABLE                                            { $$ = 'callable'; }
+    | T_ARRAY                                               { $$ = makeIdent('array'); }
+    | T_CALLABLE                                            { $$ = makeIdent('callable'); }
 ;
 
 optional_param_type:

@@ -1726,11 +1726,11 @@ class Php7 extends \PhpParser\ParserAbstract
     }
 
     protected function reduceRule228() {
-         $this->semValue = 'array';
+         $this->semValue = ($this->useIdentifierNodes ? new Node\Identifier('array', $this->startAttributeStack[$this->stackPos-(1-1)] + $this->endAttributes) : 'array');
     }
 
     protected function reduceRule229() {
-         $this->semValue = 'callable';
+         $this->semValue = ($this->useIdentifierNodes ? new Node\Identifier('callable', $this->startAttributeStack[$this->stackPos-(1-1)] + $this->endAttributes) : 'callable');
     }
 
     protected function reduceRule230() {

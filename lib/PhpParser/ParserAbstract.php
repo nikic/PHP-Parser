@@ -539,7 +539,13 @@ abstract class ParserAbstract implements Parser
         }
 
         $lowerName = strtolower($name->toString());
-        return isset($scalarTypes[$lowerName]) ? $lowerName : $name;
+        if (!isset($scalarTypes[$lowerName])) {
+            return $name;
+        }
+
+        return $this->useIdentifierNodes
+            ? new Node\Identifier($lowerName, $name->getAttributes())
+            : $lowerName;
     }
 
     protected static $specialNames = array(
