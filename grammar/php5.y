@@ -908,9 +908,14 @@ static_property:
     | static_property_with_arrays                           { $$ = $1; }
 ;
 
+static_property_simple_name:
+      T_VARIABLE
+          { $var = parseVar($1); $$ = \is_string($var) ? maybeMakeIdent($var) : $var; }
+;
+
 static_property_with_arrays:
-      class_name_or_var T_PAAMAYIM_NEKUDOTAYIM T_VARIABLE
-          { $$ = Expr\StaticPropertyFetch[$1, parseVar($3)]; }
+      class_name_or_var T_PAAMAYIM_NEKUDOTAYIM static_property_simple_name
+          { $$ = Expr\StaticPropertyFetch[$1, $3]; }
     | class_name_or_var T_PAAMAYIM_NEKUDOTAYIM '$' '{' expr '}'
           { $$ = Expr\StaticPropertyFetch[$1, $5]; }
     | static_property_with_arrays '[' dim_offset ']'        { $$ = Expr\ArrayDimFetch[$1, $3]; }

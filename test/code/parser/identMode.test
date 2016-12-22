@@ -31,6 +31,9 @@ $foo->bar();
 Foo::bar();
 "$foo->bar";
 $foo;
+
+Foo::$bar;
+Foo::$$bar;
 -----
 !!ident
 array(
@@ -253,6 +256,26 @@ array(
     )
     14: Expr_Variable(
         name: foo
+    )
+    15: Expr_StaticPropertyFetch(
+        class: Name(
+            parts: array(
+                0: Foo
+            )
+        )
+        name: Identifier(
+            name: bar
+        )
+    )
+    16: Expr_StaticPropertyFetch(
+        class: Name(
+            parts: array(
+                0: Foo
+            )
+        )
+        name: Expr_Variable(
+            name: bar
+        )
     )
 )
 -----

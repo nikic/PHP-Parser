@@ -793,8 +793,13 @@ simple_variable:
     | '$' error                                             { $$ = Expr\Error[]; $this->errorState = 2; }
 ;
 
+static_member_prop_name:
+      simple_variable
+          { $var = $1; $$ = \is_string($var) ? maybeMakeIdent($var) : $var; }
+;
+
 static_member:
-      class_name_or_var T_PAAMAYIM_NEKUDOTAYIM simple_variable
+      class_name_or_var T_PAAMAYIM_NEKUDOTAYIM static_member_prop_name
           { $$ = Expr\StaticPropertyFetch[$1, $3]; }
 ;
 
@@ -803,8 +808,10 @@ new_variable:
     | new_variable '[' optional_expr ']'                    { $$ = Expr\ArrayDimFetch[$1, $3]; }
     | new_variable '{' expr '}'                             { $$ = Expr\ArrayDimFetch[$1, $3]; }
     | new_variable T_OBJECT_OPERATOR property_name          { $$ = Expr\PropertyFetch[$1, $3]; }
-    | class_name T_PAAMAYIM_NEKUDOTAYIM simple_variable     { $$ = Expr\StaticPropertyFetch[$1, $3]; }
-    | new_variable T_PAAMAYIM_NEKUDOTAYIM simple_variable   { $$ = Expr\StaticPropertyFetch[$1, $3]; }
+    | class_name T_PAAMAYIM_NEKUDOTAYIM static_member_prop_name
+          { $$ = Expr\StaticPropertyFetch[$1, $3]; }
+    | new_variable T_PAAMAYIM_NEKUDOTAYIM static_member_prop_name
+          { $$ = Expr\StaticPropertyFetch[$1, $3]; }
 ;
 
 member_name:

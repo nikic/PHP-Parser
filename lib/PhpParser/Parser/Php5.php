@@ -250,11 +250,11 @@ class Php5 extends \PhpParser\ParserAbstract
            55,  728,  739,  738,  420,   56,   57,  339,   58,-32766,
         -32766,-32766,-32766,-32766,-32766,-32766,-32766,-32766,    7,-32767,
         -32767,-32767,-32767,   50,  329, 1057,  589,  948,  949,  950,
-          947,  946,  945,  940, 1216,  306, 1218, 1217,  766,  767,
+          947,  946,  945,  940, 1217,  306, 1219, 1218,  766,  767,
           824,   59,   60,-32766,-32766,-32766,  921,   61, 1175,   62,
           291,  292,   63,   64,   65,   66,   67,   68,   69,   70,
-          357,   24,  299,   71,  415,-32766,-32766,-32766, 1188, 1090,
-         1091,  751,  750, 1181,  213,  214,  215,  473,-32766,-32766,
+          358,   24,  299,   71,  415,-32766,-32766,-32766, 1189, 1090,
+         1091,  751,  750, 1182,  213,  214,  215,  473,-32766,-32766,
         -32766,  825,  409, 1102,  309,-32766,  903,-32766,-32766,-32766,
         -32766,-32766,-32766, 1039,  200, -271,  435, 1039,-32766,  282,
         -32766,-32766,-32766,-32766,-32766,  120,  497,  948,  949,  950,
@@ -270,8 +270,8 @@ class Php5 extends \PhpParser\ParserAbstract
          1039,  811,  796,  843,  429,  430,-32767,-32767,-32767,-32767,
            94,   95,   96,   97,   98,-32766,  126,-32766,-32766,-32766,
         -32766, 1140,  213,  214,  215,  295,  424,  239,  827,  639,
-         -124, 1039,  472,  896,  897, 1208,  814, 1039, 1207,   38,
-           19,  425,  200,  474, 1189,  475,  498,  476,  127,  431,
+         -124, 1039,  472,  896,  897, 1209,  814, 1039, 1208,   38,
+           19,  425,  200,  474, 1190,  475,  498,  476,  127,  431,
           426,  213,  214,  215,   28,   29,  427,  428,  407,   30,
           477, 1039,  873,   72,  320,  825,  350,  349,  478,  479,
          1039,  200,  214,  215,  480,  419,  765,  758,  843,  429,
@@ -280,16 +280,16 @@ class Php5 extends \PhpParser\ParserAbstract
           335,  200,  241,  827,  639,   -4,   32,  414,   79,   80,
            81,   82,   83,   84,   85,   86,   87,   88,   89,   90,
            91,   92,   93,   94,   95,   96,   97,   98,   99,  100,
-          101, 1213,  301,   34,  825,  424,  804,  124,-32766,-32766,
+          101, 1214,  301,   34,  825,  424,  804,  124,-32766,-32766,
         -32766,  472,  902,  129,  102,  814,  912,  580,   38,   19,
-          425,  448,  474, 1181,  475,  119,  476,   46,-32766,  426,
+          425,  448,  474, 1182,  475,  119,  476,   46,-32766,  426,
         -32766,-32766,  643,   28,   29,  427,  825,  806,   30,  477,
           416,  117,   72,  808,   49,  350,  349,-32766,-32766,-32766,
         -32766,-32766,-32766,  480,  200, 1039,  234,  235,  236,  213,
           214,  215,-32766,-32766,  654, 1141,  124,-32766,-32766,-32766,
         -32766,-32766,  237,  238,  424,   96,   97,   98,  283,  200,
           472,  524,  827,  639,  814,  446,  812,   38,   19,  425,
-          284,  474,  823,  475,  751,  476, 1181,  332,  426,  231,
+          284,  474,  823,  475,  751,  476, 1182,  332,  426,  231,
           232,  233,   28,   29,  427,  825,  424,   30,  477,  116,
           922,   72,  472,  215,  350,  349,  814,  207, 1039,   38,
            19,  425,  480,  474,  243,  475,  118,  476, 1039, 1067,
@@ -297,7 +297,7 @@ class Php5 extends \PhpParser\ParserAbstract
           477,  296,  244,   72,  206,  123,  350,  349,-32766,-32766,
           498,  827,  639,  431,  480,  115,-32766,-32766,-32766,  441,
           498,  242,  641,  431,  205,  645,  237,  238,  436,-32766,
-          332,  455,   20,  460,  595,  424,-32766,  130,  358,  766,
+          332,  455,   20,  460,  595,  424,-32766,  130,  359,  766,
           767,  472,  651,  827,  639,  814,  925,  667,   38,   19,
           425,  -82,  474,  313,  475,  647,  476,  602,  603,  426,
           128,  759,  644,   28,   29,  427,  825,  424,   30,  477,
@@ -314,7 +314,7 @@ class Php5 extends \PhpParser\ParserAbstract
           477,  845, 1147,   72,  208,  209,  350,  349,  483,    0,
           210,  328,  211, -500,  480,  308,  310,    0,    0,    0,
             0,    0,    0,    0,  202,    9,    0,    0,    4,  208,
-          209,  370, 1090, 1091, -408,  210,-32766,  211, -400,    3,
+          209,  357, 1090, 1091, -408,  210,-32766,  211, -400,    3,
          1092,   11, -409,  827,  639,  838, -219,  411,  532,  202,
           441,  393,  385,  384,  372, 1043,    0, 1090, 1091,  813,
          -499,-32766,  662,  661,   37, 1092,   36,  763,  762,  929,
@@ -325,14 +325,14 @@ class Php5 extends \PhpParser\ParserAbstract
         -32766,  665,  569,  664, 1096, 1097, 1098, 1099, 1093, 1094,
           383,  659,  656,  655,  653,  652, 1100, 1095,  650,  640,
          1018,  938,  606,  212,  830,-32766,  865,  839,  864,  768,
-          769,  459, 1212, 1182, 1180, 1166, 1178, 1081,  914, 1186,
-         1176, 1053,  840,  841, 1042, 1041,  832, 1214,  760,  761,
-         1215,  797,  663,  771,  770,  842,    0,  305,  304,  303,
+          769,  459, 1213, 1183, 1181, 1166, 1179, 1081,  914, 1187,
+         1177, 1053,  840,  841, 1042, 1041,  832, 1215,  760,  761,
+         1216,  797,  663,  771,  770,  842,    0,  305,  304,  303,
           336,  302,  290,   22,   25,  289,  408,  413,  281,  203,
            26,   35,   40,   74,   73,-32766,    0,  573, 1083, 1106,
           904, 1047, 1044,  630,  563,  470,  464,  463,  456,  378,
            16,   15,   14, -218,    0,    0, -418,    0, 1161, 1160,
-         1107, 1210, 1080, 1177, 1048, 1165, 1179, 1066, 1051, 1052,
+         1107, 1211, 1080, 1178, 1048, 1165, 1180, 1066, 1051, 1052,
          1049, 1050,    0, 1146
     );
 
@@ -476,9 +476,9 @@ class Php5 extends \PhpParser\ParserAbstract
            76,  638,  296,  296,  547,  547,  547,  477,  477,  477,
           477,  483,  736,  639,  477,  477,  477,  362,   97,  334,
           657,  768,  648,  766,  508,  680,   96,  611,  681,  660,
-          407,  569,  571,  561,  676,  406,  800,  407,  254,  532,
-          447,  630,  691,  268,  700,  193,  408,  363,  523,  430,
-           -6,  137,  734,  699,  815,  758,  232,  321,  665,  630,
+          407,  569,  571,  561,  676,  406,  800,   -6,  407,  254,
+          532,  447,  630,  691,  268,  700,  193,  408,  363,  523,
+          430,  137,  734,  699,  815,  758,  232,  321,  665,  630,
           630,  630,   74,   84,  731,  738,  430,  273,  570,  570,
           570,  570,  794,  609,  570,  570,  570,  570,  793,  769,
           432,   38,  770,   13,  701,  631,  631,  626,  626,  631,
@@ -543,8 +543,8 @@ class Php5 extends \PhpParser\ParserAbstract
             0,    0,  631,  631,  631,  631,  631,  631,  631,  631,
           414,  296,  631,  631,  631,  802,    0,  414,  550,  550,
           550,  550,  433,  430,    0,  631,  631,  640,    0,    0,
-            0,    0,  802,    0,  626,    0,    0,    0,    0,  622,
-          119,    0,  246,    0,    0,    0,    0,    0,    0,    0,
+            0,    0,  802,    0,  626,    0,    0,    0,    0,    0,
+          622,  119,    0,  246,    0,    0,    0,    0,    0,    0,
           620,  246,  322,  322,    0,    0,  645,  622,  622,  622,
             0,    0,  620,  620,    0,    0,    0,    0,    0,    0,
           274,  620,    0,    0,    0,    0,  274,  440,    0,    0,
@@ -554,10 +554,10 @@ class Php5 extends \PhpParser\ParserAbstract
     protected $actionDefault = array(
             3,32767,32767,32767,32767,32767,32767,32767,32767,32767,
         32767,32767,32767,32767,32767,32767,32767,32767,32767,32767,
-        32767,32767,32767,32767,  527,  527,32767,  483,32767,32767,
+        32767,32767,32767,32767,  528,  528,32767,  483,32767,32767,
         32767,32767,32767,32767,32767,  289,  289,  289,32767,32767,
-        32767,  515,  515,  515,  515,  515,  515,  515,  515,  515,
-          515,  515,32767,32767,32767,32767,32767,  371,32767,32767,
+        32767,  516,  516,  516,  516,  516,  516,  516,  516,  516,
+          516,  516,32767,32767,32767,32767,32767,  371,32767,32767,
         32767,32767,32767,32767,32767,32767,32767,32767,32767,32767,
         32767,32767,32767,32767,32767,32767,32767,32767,32767,32767,
         32767,32767,32767,32767,32767,32767,32767,32767,32767,32767,
@@ -565,10 +565,10 @@ class Php5 extends \PhpParser\ParserAbstract
         32767,32767,32767,32767,32767,32767,32767,32767,32767,32767,
         32767,32767,32767,32767,32767,32767,32767,32767,32767,32767,
         32767,32767,32767,32767,32767,32767,32767,32767,32767,32767,
-        32767,32767,32767,  377,  532,32767,32767,32767,32767,32767,
+        32767,32767,32767,  377,  533,32767,32767,32767,32767,32767,
         32767,32767,32767,32767,32767,32767,32767,32767,32767,32767,
-        32767,32767,32767,32767,  352,  353,  355,  356,  288,  516,
-          239,  378,  531,  287,  241,  316,  487,32767,32767,32767,
+        32767,32767,32767,32767,  352,  353,  355,  356,  288,  517,
+          239,  378,  532,  287,  241,  316,  487,32767,32767,32767,
           318,  118,  250,  195,  486,  121,  286,  226,  370,  372,
           317,  293,  298,  299,  300,  301,  302,  303,  304,  305,
           306,  307,  308,  309,  292,  443,  349,  348,  347,  445,
@@ -580,7 +580,7 @@ class Php5 extends \PhpParser\ParserAbstract
           319,  442,  321,  446,  320,  337,  338,  335,  336,  339,
           448,  447,  464,  465,  462,  463,  291,  340,  341,  342,
           343,  466,  467,  468,  469,  273,  273,  273,  273,32767,
-        32767,  526,  526,32767,32767,  328,  329,  455,  456,32767,
+        32767,  527,  527,32767,32767,  328,  329,  455,  456,32767,
         32767,32767,32767,32767,32767,32767,32767,32767,32767,32767,
           274,32767,  230,  230,  230,  230,  230,32767,32767,32767,
         32767,32767,32767,32767,  323,  324,  322,  450,  451,  449,
@@ -588,8 +588,8 @@ class Php5 extends \PhpParser\ParserAbstract
         32767,32767,32767,32767,32767,32767,32767,  488,32767,32767,
         32767,32767,32767,32767,32767,  501,  406,32767,32767,  399,
         32767,  214,  216,  163,  474,32767,32767,32767,32767,32767,
-          506,  333,32767,32767,32767,32767,32767,  541,32767,  501,
-        32767,32767,32767,32767,32767,32767,32767,32767,  346,  325,
+        32767,  506,  333,32767,32767,32767,32767,32767,  542,32767,
+          501,32767,32767,32767,32767,32767,32767,32767,  346,  325,
           326,  327,32767,32767,32767,32767,  505,  499,  458,  459,
           460,  461,32767,32767,  452,  453,  454,  457,32767,32767,
         32767,32767,32767,32767,32767,32767,32767,32767,32767,32767,
@@ -604,13 +604,13 @@ class Php5 extends \PhpParser\ParserAbstract
           367,  368,  477,  490,32767,  491,32767,  399,32767,  331,
           332,  334,  311,32767,  313,  357,  358,  359,  360,  361,
           362,  363,  365,32767,32767,  404,  407,32767,32767,32767,
-           85,  110,  249,32767,  539,   85,  402,32767,32767,  296,
-          539,32767,32767,32767,32767,  534,32767,32767,  290,32767,
-        32767,32767,   85,   85,  245,32767,  165,32767,  524,32767,
+           85,  110,  249,32767,  540,   85,  402,32767,32767,  296,
+          540,32767,32767,32767,32767,  535,32767,32767,  290,32767,
+        32767,32767,   85,   85,  245,32767,  165,32767,  525,32767,
           499,  403,32767,  330,32767,32767,32767,32767,32767,32767,
         32767,32767,32767,  500,32767,32767,32767,32767,  221,32767,
           437,32767,   85,32767,  181,32767,32767,  294,  240,32767,
-        32767,  533,32767,32767,32767,32767,32767,32767,32767,32767,
+        32767,  534,32767,32767,32767,32767,32767,32767,32767,32767,
         32767,  166,32767,32767,  183,32767,32767,  499,32767,32767,
         32767,32767,32767,32767,32767,  285,32767,32767,32767,32767,
         32767,  499,32767,32767,  225,32767,32767,32767,32767,32767,
@@ -625,7 +625,7 @@ class Php5 extends \PhpParser\ParserAbstract
           160,  160,  134,  134,  139,  134,  135,  136,  137,  142,
           144,  181,  162,  158,  158,  158,  158,  139,  139,  159,
           159,  159,  159,  159,  159,  159,  159,  159,  159,  159,
-          154,  155,  156,  157,  178,  133,  179,  499,  500,  361,
+          154,  155,  156,  157,  178,  133,  179,  499,  500,  362,
           501,  505,  506,  507,  508,  509,  510,  511,  512,  965,
           138,  140,  141,  143,  165,  170,  180,  196,  245,  248,
           250,  252,  254,  255,  256,  257,  258,  259,  267,  268,
@@ -642,7 +642,7 @@ class Php5 extends \PhpParser\ParserAbstract
          1103, 1103, 1103, 1103, 1103, 1103, 1103, 1103, 1103, 1103,
          1103, 1103, 1103, 1103, 1103, 1103, 1103, 1103, 1103, 1103,
          1103, 1103, 1103, 1103, 1103, 1103, 1103, 1103, 1103, 1103,
-          635,  888,  888, 1193, 1193,  529, 1172,  168, 1172,  515,
+          635,  888,  888, 1194, 1194,  529, 1172,  168, 1172,  515,
           787,  515,  171,  172,  173,  388,  389,  390,  391,  167,
           195,  199,  201,  249,  251,  253,  260,  261,  262,  263,
           264,  265,  271,  272,  273,  274,  287,  288,  317,  318,
@@ -658,24 +658,24 @@ class Php5 extends \PhpParser\ParserAbstract
           570,  570,  570,  570,  570,  570,  570,  570,  570,  570,
           570,  570,  570,  570,  570,  570,  570,  570,  570,  555,
           556,  557,  558,  559,  560,  561,  562,  564,  593, 1079,
-         1078,  554,  520, 1164, 1197,  528,  525,  525,  525,  450,
+         1078,  554,  520, 1164, 1198,  528,  525,  525,  525,  450,
           452,  936,  637,  525,  549, 1104,  619,  934,  528,  528,
          1061,  323,  312,  437,  437,  437,  437,  437,  437,  543,
-          525,  362,  601,  437,  437,  437,  437,  437,  437,  437,
+          525,  363,  601,  437,  437,  437,  437,  437,  437,  437,
           437,  437,  437, 1068, 1152, 1068,  895,  895,  895,  895,
-          895,  610, 1190,  541,  780,  660,  566,  895,  598,  871,
+          895,  610, 1191,  541,  780,  660,  566,  895,  598,  871,
           885,  616,  870,  617,  881,  621,  622,  629,  631,  636,
           638,  852,  852,  852,  852, 1084,  375, 1012,  847,  853,
           469,  780,  780, 1022,   17,   13,  355,  525,  525,  963,
           892,  542,  572,  525,  525,  614,  525,  347,  356, 1064,
          1065, 1060,  623, 1061,  565,  533,  594,  344,  404,  545,
-          369,  369,  369,  526,  901,   21, 1062, 1163, 1062, 1171,
-          607, 1171,  398,  551,  457, 1063,  776,  368, 1187, 1187,
-         1187,  276,  277,  278,  369,   10, 1185, 1185, 1185,  773,
-          773,  386,  373,  781,  781,  781,  783,  774,  772, 1203,
-         1203,  646, 1170,  342,  343, 1204, 1204,  615,  402,  552,
-          618, 1203,  576,  516,  359,  516,  910, 1204, 1054,  915,
-         1059, 1206,  784,  862,  453,  582, 1149,  466,  952,    0,
+          370,  370,  370,  526,  901,   21, 1062, 1163, 1062, 1171,
+          607, 1171,  398,  551,  457, 1063,  776,  369, 1188, 1188,
+         1188,  276,  277,  278,  370,   10, 1186, 1186, 1186,  773,
+          773,  386,  373,  781,  781,  781,  783,  774,  772, 1204,
+         1204,  910, 1170,  342,  343, 1205, 1205,  615,  402,  552,
+          618, 1204,  576,  516,  360,  516,  646, 1205, 1054,  915,
+         1059, 1207,  784,  862,  453,  582, 1149,  466,  952,    0,
             0,    0,    0,    0,  540,    0,  944,    0,    0,    0,
             0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
             0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
@@ -685,7 +685,7 @@ class Php5 extends \PhpParser\ParserAbstract
             0,    0,  534,    0,    0,    0,  519,    0,  539,    0,
             0,    0,    0,    0,    0,  518,    0,  523,  440,    0,
           442,    0,    0,    0,    0,    0,    0,    0,    0,    0,
-            0,    0,    0,    0,    0,  779, 1211
+            0,    0,    0,    0,    0,  779, 1212
     );
 
     protected $gotoCheck = array(
@@ -725,12 +725,12 @@ class Php5 extends \PhpParser\ParserAbstract
            55,   55,   55,   55,   55,   55,   55,   55,   55,   55,
            55,   55,   55,   55,   55,   55,   55,   55,   55,  104,
           104,  104,  104,  104,  104,  104,  104,  104,  104,  119,
-          119,   42,    9,   77,  134,   42,    9,    9,    9,    7,
+          119,   42,    9,   77,  135,   42,    9,    9,    9,    7,
             7,    7,    7,    9,  103,    7,    7,    7,   42,   42,
            77,  120,  120,   55,   55,   55,   55,   55,   55,    9,
             9,   45,  122,   55,   55,   55,   55,   55,   55,   55,
            55,   55,   55,   55,  126,   55,   55,   55,   55,   55,
-           55,   47,  132,   30,   21,   30,   30,   55,   30,   30,
+           55,   47,  133,   30,   21,   30,   30,   55,   30,   30,
            30,   30,   30,   30,   30,   30,   30,   30,   30,   30,
            30,   55,   55,   55,   55,   32,   46,   96,   55,   55,
            55,   21,   21,   32,   32,   32,   32,    9,    9,   95,
@@ -739,10 +739,10 @@ class Php5 extends \PhpParser\ParserAbstract
           118,  118,  118,    9,   76,   32,   77,   77,   77,  113,
            32,  113,   20,    9,   56,   77,   23,   10,  113,  113,
           113,   63,   63,   63,  118,   56,    8,    8,    8,   21,
-           21,  118,   15,   21,   21,   21,   21,   22,   21,  135,
-          135,   69,  113,   67,   67,  136,  136,   59,   19,    2,
-           59,  135,    2,  117,   59,  117,   80,  136,  107,   81,
-          109,  135,   24,   66,   61,   62,  125,  102,   94,   -1,
+           21,  118,   15,   21,   21,   21,   21,   22,   21,  136,
+          136,   80,  113,   67,   67,  137,  137,   59,   19,    2,
+           59,  136,    2,  117,   59,  117,   69,  137,  107,   81,
+          109,  136,   24,   66,   61,   62,  125,  102,   94,   -1,
            -1,   -1,   -1,   -1,    8,   -1,   92,   -1,   -1,   -1,
            -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,
            -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,
@@ -762,22 +762,22 @@ class Php5 extends \PhpParser\ParserAbstract
          -227,  287,   20,    0,    0,    0,    0,    0,  245,    0,
             0,  -22,  339,    0,    0,  353,  146,  131,  280,   -4,
             0,    0,    0,    0,    0,  104,   30,    0,  -44,   54,
-            0,   91,   82, -173,    0,  138,  113, -148,    0,  153,
+            0,   91,   82, -173,    0,  138,  113, -148,    0,  167,
             0,    0,  -78,    0,  144,    0,  161,   26,    0,  277,
-          169,  110,    0,    0,    0,    0,    0,    0,    0,    0,
+          153,  110,    0,    0,    0,    0,    0,    0,    0,    0,
             0,    0,  246,    0,   71,  166,  136,    0,    0,    0,
             0,    0,   73,  349,  307,    0,    0,  111,    0,  108,
             0,  -27,  -93,  180,  -90,    0,    0,  224,  162,   50,
            60,  -45,  189,    0,    0,   78,  200,    0,    0,    0,
-            0,    0,  130,    0,  337,  198,  204,    0,    0
+            0,    0,    0,  130,    0,  337,  198,  204,    0,    0
     );
 
     protected $gotoDefault = array(
         -32768,  471,  669,    2,  670,  741,  749,  604,  485,  486,
-          521,  522,  856,  794,  795,  364,  412,  487,  363,  399,
+          521,  522,  856,  794,  795,  365,  412,  487,  364,  399,
           392,  782,  775,  777,  785,  166,  400,  788,    1,  790,
           527,  826, 1013,  351,  798,  352,  596,  800,  537,  802,
-          803,  132,  488,  365,  366,  538,  374,  585,  817,  266,
+          803,  132,  488,  366,  367,  538,  374,  585,  817,  266,
           371,  819,  353,  820,  829,  354,  468,  462,  567,  613,
           432,  449,  579,  275,  547,  574,  861,  340,  869,  649,
           877,  880,  489,  568,  891,  454,  899, 1089,  382,  905,
@@ -785,8 +785,8 @@ class Php5 extends \PhpParser\ParserAbstract
           627,  628,  943,  300,  951,  964,  417, 1032, 1034,  490,
           491,  531,  461,  513,  536,  492, 1055,  443,  403, 1058,
           493,  494,  433,  434, 1076, 1073,  346, 1157,  345,  451,
-          311, 1144,  588, 1108,  458, 1196, 1153,  337,  495,  496,
-          360,  376, 1191,  438, 1198, 1205,  333,  367,  575
+          311, 1144,  588, 1108,  458, 1197, 1153,  337,  495,  496,
+          361, 1176,  376, 1192,  438, 1199, 1206,  333,  368,  575
     );
 
     protected $ruleToNonTerminal = array(
@@ -840,12 +840,12 @@ class Php5 extends \PhpParser\ParserAbstract
           123,  123,  123,  123,  105,  105,   98,   98,   98,   98,
           122,  122,  125,  125,  124,  124,  126,  126,   49,   49,
            49,   49,  128,  128,  127,  127,  127,  127,  127,  129,
-          129,  113,  113,  117,  117,  112,  112,  130,  130,  130,
-          130,  118,  118,  118,  118,  104,  104,  119,  119,  119,
-          119,   72,  131,  131,  132,  132,  132,  103,  103,  133,
-          133,  134,  134,  134,  134,  120,  120,  120,  120,  136,
-          137,  135,  135,  135,  135,  135,  135,  135,  138,  138,
-          138
+          129,  113,  113,  117,  117,  112,  112,  131,  130,  130,
+          130,  130,  118,  118,  118,  118,  104,  104,  119,  119,
+          119,  119,   72,  132,  132,  133,  133,  133,  103,  103,
+          134,  134,  135,  135,  135,  135,  120,  120,  120,  120,
+          137,  138,  136,  136,  136,  136,  136,  136,  136,  139,
+          139,  139
     );
 
     protected $ruleToLength = array(
@@ -899,12 +899,12 @@ class Php5 extends \PhpParser\ParserAbstract
             5,    4,    4,    3,    1,    3,    1,    1,    3,    3,
             0,    2,    0,    1,    3,    1,    3,    1,    1,    1,
             1,    1,    6,    4,    3,    4,    2,    4,    4,    1,
-            3,    1,    2,    1,    1,    4,    1,    3,    6,    4,
-            4,    4,    4,    1,    4,    0,    1,    1,    3,    1,
-            1,    4,    3,    1,    1,    1,    0,    0,    2,    3,
-            1,    3,    1,    4,    2,    2,    2,    1,    2,    1,
-            1,    1,    4,    3,    3,    3,    6,    3,    1,    1,
-            1
+            3,    1,    2,    1,    1,    4,    1,    1,    3,    6,
+            4,    4,    4,    4,    1,    4,    0,    1,    1,    3,
+            1,    1,    4,    3,    1,    1,    1,    0,    0,    2,
+            3,    1,    3,    1,    4,    2,    2,    2,    1,    2,
+            1,    1,    1,    4,    3,    3,    3,    6,    3,    1,
+            1,    1
     );
 
     protected function reduceRule0() {
@@ -2967,15 +2967,15 @@ class Php5 extends \PhpParser\ParserAbstract
     }
 
     protected function reduceRule507() {
-         $this->semValue = new Expr\StaticPropertyFetch($this->semStack[$this->stackPos-(3-1)], substr($this->semStack[$this->stackPos-(3-3)], 1), $this->startAttributeStack[$this->stackPos-(3-1)] + $this->endAttributes);
+         $var = substr($this->semStack[$this->stackPos-(1-1)], 1); $this->semValue = \is_string($var) ? ($this->useIdentifierNodes ? new Node\Identifier($var, $this->startAttributeStack[$this->stackPos-(1-1)] + $this->endAttributes) : $var) : $var;
     }
 
     protected function reduceRule508() {
-         $this->semValue = new Expr\StaticPropertyFetch($this->semStack[$this->stackPos-(6-1)], $this->semStack[$this->stackPos-(6-5)], $this->startAttributeStack[$this->stackPos-(6-1)] + $this->endAttributes);
+         $this->semValue = new Expr\StaticPropertyFetch($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-3)], $this->startAttributeStack[$this->stackPos-(3-1)] + $this->endAttributes);
     }
 
     protected function reduceRule509() {
-         $this->semValue = new Expr\ArrayDimFetch($this->semStack[$this->stackPos-(4-1)], $this->semStack[$this->stackPos-(4-3)], $this->startAttributeStack[$this->stackPos-(4-1)] + $this->endAttributes);
+         $this->semValue = new Expr\StaticPropertyFetch($this->semStack[$this->stackPos-(6-1)], $this->semStack[$this->stackPos-(6-5)], $this->startAttributeStack[$this->stackPos-(6-1)] + $this->endAttributes);
     }
 
     protected function reduceRule510() {
@@ -2991,19 +2991,19 @@ class Php5 extends \PhpParser\ParserAbstract
     }
 
     protected function reduceRule513() {
-         $this->semValue = new Expr\Variable(substr($this->semStack[$this->stackPos-(1-1)], 1), $this->startAttributeStack[$this->stackPos-(1-1)] + $this->endAttributes);
+         $this->semValue = new Expr\ArrayDimFetch($this->semStack[$this->stackPos-(4-1)], $this->semStack[$this->stackPos-(4-3)], $this->startAttributeStack[$this->stackPos-(4-1)] + $this->endAttributes);
     }
 
     protected function reduceRule514() {
-         $this->semValue = new Expr\Variable($this->semStack[$this->stackPos-(4-3)], $this->startAttributeStack[$this->stackPos-(4-1)] + $this->endAttributes);
+         $this->semValue = new Expr\Variable(substr($this->semStack[$this->stackPos-(1-1)], 1), $this->startAttributeStack[$this->stackPos-(1-1)] + $this->endAttributes);
     }
 
     protected function reduceRule515() {
-         $this->semValue = null;
+         $this->semValue = new Expr\Variable($this->semStack[$this->stackPos-(4-3)], $this->startAttributeStack[$this->stackPos-(4-1)] + $this->endAttributes);
     }
 
     protected function reduceRule516() {
-         $this->semValue = $this->semStack[$this->stackPos-(1-1)];
+         $this->semValue = null;
     }
 
     protected function reduceRule517() {
@@ -3011,31 +3011,31 @@ class Php5 extends \PhpParser\ParserAbstract
     }
 
     protected function reduceRule518() {
-         $this->semValue = $this->semStack[$this->stackPos-(3-2)];
-    }
-
-    protected function reduceRule519() {
          $this->semValue = $this->semStack[$this->stackPos-(1-1)];
     }
 
+    protected function reduceRule519() {
+         $this->semValue = $this->semStack[$this->stackPos-(3-2)];
+    }
+
     protected function reduceRule520() {
-         $this->semValue = new Expr\Error($this->startAttributeStack[$this->stackPos-(1-1)] + $this->endAttributes); $this->errorState = 2;
+         $this->semValue = $this->semStack[$this->stackPos-(1-1)];
     }
 
     protected function reduceRule521() {
-         $this->semValue = new Expr\List_($this->semStack[$this->stackPos-(4-3)], $this->startAttributeStack[$this->stackPos-(4-1)] + $this->endAttributes);
+         $this->semValue = new Expr\Error($this->startAttributeStack[$this->stackPos-(1-1)] + $this->endAttributes); $this->errorState = 2;
     }
 
     protected function reduceRule522() {
-         $this->semStack[$this->stackPos-(3-1)][] = $this->semStack[$this->stackPos-(3-3)]; $this->semValue = $this->semStack[$this->stackPos-(3-1)];
+         $this->semValue = new Expr\List_($this->semStack[$this->stackPos-(4-3)], $this->startAttributeStack[$this->stackPos-(4-1)] + $this->endAttributes);
     }
 
     protected function reduceRule523() {
-         $this->semValue = array($this->semStack[$this->stackPos-(1-1)]);
+         $this->semStack[$this->stackPos-(3-1)][] = $this->semStack[$this->stackPos-(3-3)]; $this->semValue = $this->semStack[$this->stackPos-(3-1)];
     }
 
     protected function reduceRule524() {
-         $this->semValue = new Expr\ArrayItem($this->semStack[$this->stackPos-(1-1)], null, false, $this->startAttributeStack[$this->stackPos-(1-1)] + $this->endAttributes);
+         $this->semValue = array($this->semStack[$this->stackPos-(1-1)]);
     }
 
     protected function reduceRule525() {
@@ -3043,43 +3043,43 @@ class Php5 extends \PhpParser\ParserAbstract
     }
 
     protected function reduceRule526() {
-         $this->semValue = null;
-    }
-
-    protected function reduceRule527() {
-         $this->semValue = array();
-    }
-
-    protected function reduceRule528() {
-         $this->semValue = $this->semStack[$this->stackPos-(2-1)];
-    }
-
-    protected function reduceRule529() {
-         $this->semStack[$this->stackPos-(3-1)][] = $this->semStack[$this->stackPos-(3-3)]; $this->semValue = $this->semStack[$this->stackPos-(3-1)];
-    }
-
-    protected function reduceRule530() {
-         $this->semValue = array($this->semStack[$this->stackPos-(1-1)]);
-    }
-
-    protected function reduceRule531() {
-         $this->semValue = new Expr\ArrayItem($this->semStack[$this->stackPos-(3-3)], $this->semStack[$this->stackPos-(3-1)], false, $this->startAttributeStack[$this->stackPos-(3-1)] + $this->endAttributes);
-    }
-
-    protected function reduceRule532() {
          $this->semValue = new Expr\ArrayItem($this->semStack[$this->stackPos-(1-1)], null, false, $this->startAttributeStack[$this->stackPos-(1-1)] + $this->endAttributes);
     }
 
+    protected function reduceRule527() {
+         $this->semValue = null;
+    }
+
+    protected function reduceRule528() {
+         $this->semValue = array();
+    }
+
+    protected function reduceRule529() {
+         $this->semValue = $this->semStack[$this->stackPos-(2-1)];
+    }
+
+    protected function reduceRule530() {
+         $this->semStack[$this->stackPos-(3-1)][] = $this->semStack[$this->stackPos-(3-3)]; $this->semValue = $this->semStack[$this->stackPos-(3-1)];
+    }
+
+    protected function reduceRule531() {
+         $this->semValue = array($this->semStack[$this->stackPos-(1-1)]);
+    }
+
+    protected function reduceRule532() {
+         $this->semValue = new Expr\ArrayItem($this->semStack[$this->stackPos-(3-3)], $this->semStack[$this->stackPos-(3-1)], false, $this->startAttributeStack[$this->stackPos-(3-1)] + $this->endAttributes);
+    }
+
     protected function reduceRule533() {
-         $this->semValue = new Expr\ArrayItem($this->semStack[$this->stackPos-(4-4)], $this->semStack[$this->stackPos-(4-1)], true, $this->startAttributeStack[$this->stackPos-(4-1)] + $this->endAttributes);
+         $this->semValue = new Expr\ArrayItem($this->semStack[$this->stackPos-(1-1)], null, false, $this->startAttributeStack[$this->stackPos-(1-1)] + $this->endAttributes);
     }
 
     protected function reduceRule534() {
-         $this->semValue = new Expr\ArrayItem($this->semStack[$this->stackPos-(2-2)], null, true, $this->startAttributeStack[$this->stackPos-(2-1)] + $this->endAttributes);
+         $this->semValue = new Expr\ArrayItem($this->semStack[$this->stackPos-(4-4)], $this->semStack[$this->stackPos-(4-1)], true, $this->startAttributeStack[$this->stackPos-(4-1)] + $this->endAttributes);
     }
 
     protected function reduceRule535() {
-         $this->semStack[$this->stackPos-(2-1)][] = $this->semStack[$this->stackPos-(2-2)]; $this->semValue = $this->semStack[$this->stackPos-(2-1)];
+         $this->semValue = new Expr\ArrayItem($this->semStack[$this->stackPos-(2-2)], null, true, $this->startAttributeStack[$this->stackPos-(2-1)] + $this->endAttributes);
     }
 
     protected function reduceRule536() {
@@ -3087,35 +3087,35 @@ class Php5 extends \PhpParser\ParserAbstract
     }
 
     protected function reduceRule537() {
-         $this->semValue = array($this->semStack[$this->stackPos-(1-1)]);
+         $this->semStack[$this->stackPos-(2-1)][] = $this->semStack[$this->stackPos-(2-2)]; $this->semValue = $this->semStack[$this->stackPos-(2-1)];
     }
 
     protected function reduceRule538() {
-         $this->semValue = array($this->semStack[$this->stackPos-(2-1)], $this->semStack[$this->stackPos-(2-2)]);
+         $this->semValue = array($this->semStack[$this->stackPos-(1-1)]);
     }
 
     protected function reduceRule539() {
-         $this->semValue = new Scalar\EncapsedStringPart($this->semStack[$this->stackPos-(1-1)], $this->startAttributeStack[$this->stackPos-(1-1)] + $this->endAttributes);
+         $this->semValue = array($this->semStack[$this->stackPos-(2-1)], $this->semStack[$this->stackPos-(2-2)]);
     }
 
     protected function reduceRule540() {
-         $this->semValue = new Expr\Variable(substr($this->semStack[$this->stackPos-(1-1)], 1), $this->startAttributeStack[$this->stackPos-(1-1)] + $this->endAttributes);
+         $this->semValue = new Scalar\EncapsedStringPart($this->semStack[$this->stackPos-(1-1)], $this->startAttributeStack[$this->stackPos-(1-1)] + $this->endAttributes);
     }
 
     protected function reduceRule541() {
-         $this->semValue = $this->semStack[$this->stackPos-(1-1)];
+         $this->semValue = new Expr\Variable(substr($this->semStack[$this->stackPos-(1-1)], 1), $this->startAttributeStack[$this->stackPos-(1-1)] + $this->endAttributes);
     }
 
     protected function reduceRule542() {
-         $this->semValue = new Expr\ArrayDimFetch($this->semStack[$this->stackPos-(4-1)], $this->semStack[$this->stackPos-(4-3)], $this->startAttributeStack[$this->stackPos-(4-1)] + $this->endAttributes);
+         $this->semValue = $this->semStack[$this->stackPos-(1-1)];
     }
 
     protected function reduceRule543() {
-         $this->semValue = new Expr\PropertyFetch($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-3)], $this->startAttributeStack[$this->stackPos-(3-1)] + $this->endAttributes);
+         $this->semValue = new Expr\ArrayDimFetch($this->semStack[$this->stackPos-(4-1)], $this->semStack[$this->stackPos-(4-3)], $this->startAttributeStack[$this->stackPos-(4-1)] + $this->endAttributes);
     }
 
     protected function reduceRule544() {
-         $this->semValue = new Expr\Variable($this->semStack[$this->stackPos-(3-2)], $this->startAttributeStack[$this->stackPos-(3-1)] + $this->endAttributes);
+         $this->semValue = new Expr\PropertyFetch($this->semStack[$this->stackPos-(3-1)], $this->semStack[$this->stackPos-(3-3)], $this->startAttributeStack[$this->stackPos-(3-1)] + $this->endAttributes);
     }
 
     protected function reduceRule545() {
@@ -3123,22 +3123,26 @@ class Php5 extends \PhpParser\ParserAbstract
     }
 
     protected function reduceRule546() {
-         $this->semValue = new Expr\ArrayDimFetch(new Expr\Variable($this->semStack[$this->stackPos-(6-2)], $this->startAttributeStack[$this->stackPos-(6-1)] + $this->endAttributes), $this->semStack[$this->stackPos-(6-4)], $this->startAttributeStack[$this->stackPos-(6-1)] + $this->endAttributes);
+         $this->semValue = new Expr\Variable($this->semStack[$this->stackPos-(3-2)], $this->startAttributeStack[$this->stackPos-(3-1)] + $this->endAttributes);
     }
 
     protected function reduceRule547() {
-         $this->semValue = $this->semStack[$this->stackPos-(3-2)];
+         $this->semValue = new Expr\ArrayDimFetch(new Expr\Variable($this->semStack[$this->stackPos-(6-2)], $this->startAttributeStack[$this->stackPos-(6-1)] + $this->endAttributes), $this->semStack[$this->stackPos-(6-4)], $this->startAttributeStack[$this->stackPos-(6-1)] + $this->endAttributes);
     }
 
     protected function reduceRule548() {
-         $this->semValue = new Scalar\String_($this->semStack[$this->stackPos-(1-1)], $this->startAttributeStack[$this->stackPos-(1-1)] + $this->endAttributes);
+         $this->semValue = $this->semStack[$this->stackPos-(3-2)];
     }
 
     protected function reduceRule549() {
-         $this->semValue = $this->parseNumString($this->semStack[$this->stackPos-(1-1)], $this->startAttributeStack[$this->stackPos-(1-1)] + $this->endAttributes);
+         $this->semValue = new Scalar\String_($this->semStack[$this->stackPos-(1-1)], $this->startAttributeStack[$this->stackPos-(1-1)] + $this->endAttributes);
     }
 
     protected function reduceRule550() {
+         $this->semValue = $this->parseNumString($this->semStack[$this->stackPos-(1-1)], $this->startAttributeStack[$this->stackPos-(1-1)] + $this->endAttributes);
+    }
+
+    protected function reduceRule551() {
          $this->semValue = new Expr\Variable(substr($this->semStack[$this->stackPos-(1-1)], 1), $this->startAttributeStack[$this->stackPos-(1-1)] + $this->endAttributes);
     }
 }
