@@ -1951,7 +1951,7 @@ class Php7 extends \PhpParser\ParserAbstract
     }
 
     protected function reduceRule283() {
-         $this->semValue = ($this->useIdentifierNodes ? new Node\Identifier(substr($this->semStack[$this->stackPos-(1-1)], 1), $this->startAttributeStack[$this->stackPos-(1-1)] + $this->endAttributes) : substr($this->semStack[$this->stackPos-(1-1)], 1));
+         $this->semValue = ($this->useIdentifierNodes ? new Node\VarLikeIdentifier(substr($this->semStack[$this->stackPos-(1-1)], 1), $this->startAttributeStack[$this->stackPos-(1-1)] + $this->endAttributes) : substr($this->semStack[$this->stackPos-(1-1)], 1));
     }
 
     protected function reduceRule284() {
@@ -2609,7 +2609,7 @@ class Php7 extends \PhpParser\ParserAbstract
     }
 
     protected function reduceRule445() {
-         $var = $this->semStack[$this->stackPos-(1-1)]; $this->semValue = \is_string($var) ? ($this->useIdentifierNodes ? new Node\Identifier($var, $this->startAttributeStack[$this->stackPos-(1-1)] + $this->endAttributes) : $var) : $var;
+         $var = $this->semStack[$this->stackPos-(1-1)]; $this->semValue = \is_string($var) ? ($this->useIdentifierNodes ? new Node\VarLikeIdentifier($var, $this->startAttributeStack[$this->stackPos-(1-1)] + $this->endAttributes) : $var) : $var;
     }
 
     protected function reduceRule446() {

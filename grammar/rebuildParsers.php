@@ -217,6 +217,13 @@ function resolveMacros($code) {
                      . '$this->startAttributeStack[#1] + $this->endAttributes) : ' . $args[0] . ')';
             }
 
+            if ('maybeMakeVarIdent' == $name) {
+                assertArgs(1, $args, $name);
+
+                return '($this->useIdentifierNodes ? new Node\VarLikeIdentifier(' . $args[0] . ', '
+                     . '$this->startAttributeStack[#1] + $this->endAttributes) : ' . $args[0] . ')';
+            }
+
             if ('maybeMakeVar' == $name) {
                 assertArgs(1, $args, $name);
 

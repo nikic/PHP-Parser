@@ -133,13 +133,13 @@ array(
                 flags: MODIFIER_PUBLIC (1)
                 props: array(
                     0: Stmt_PropertyProperty(
-                        name: Identifier(
+                        name: VarLikeIdentifier(
                             name: foo
                         )
                         default: null
                     )
                     1: Stmt_PropertyProperty(
-                        name: Identifier(
+                        name: VarLikeIdentifier(
                             name: bar
                         )
                         default: Scalar_LNumber(
@@ -284,7 +284,7 @@ array(
                 0: Foo
             )
         )
-        name: Identifier(
+        name: VarLikeIdentifier(
             name: bar
         )
     )

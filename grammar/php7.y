@@ -522,7 +522,7 @@ property_declaration_list:
 ;
 
 property_decl_name:
-      T_VARIABLE                                            { $$ = maybeMakeIdent(parseVar($1)); }
+      T_VARIABLE                                            { $$ = maybeMakeVarIdent(parseVar($1)); }
 ;
 
 property_declaration:
@@ -799,7 +799,7 @@ simple_variable:
 
 static_member_prop_name:
       simple_variable
-          { $var = $1; $$ = \is_string($var) ? maybeMakeIdent($var) : $var; }
+          { $var = $1; $$ = \is_string($var) ? maybeMakeVarIdent($var) : $var; }
 ;
 
 static_member:
