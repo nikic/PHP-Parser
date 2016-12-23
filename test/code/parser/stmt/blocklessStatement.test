@@ -85,13 +85,13 @@ array(
         )
     )
     4: Stmt_Do(
-        cond: Expr_Variable(
-            name: a
-        )
         stmts: array(
             0: Expr_Variable(
                 name: A
             )
+        )
+        cond: Expr_Variable(
+            name: a
         )
     )
     5: Stmt_Declare(

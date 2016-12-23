@@ -4,7 +4,7 @@ namespace PhpParser;
 
 abstract class CodeTestAbstract extends \PHPUnit_Framework_TestCase
 {
-    protected function getTests($directory, $fileExtension) {
+    protected function getTests($directory, $fileExtension, $chunksPerTest = 2) {
         $directory = realpath($directory);
         $it = new \RecursiveDirectoryIterator($directory);
         $it = new \RecursiveIteratorIterator($it, \RecursiveIteratorIterator::LEAVES_ONLY);
@@ -33,11 +33,12 @@ abstract class CodeTestAbstract extends \PHPUnit_Framework_TestCase
             $shortName = ltrim(str_replace($directory, '', $fileName), '/\\');
 
             // multiple sections possible with always two forming a pair
-            $chunks = array_chunk($parts, 2);
+            $chunks = array_chunk($parts, $chunksPerTest);
             foreach ($chunks as $i => $chunk) {
                 $dataSetName = $shortName . (count($chunks) > 1 ? '#' . $i : '');
-                list($expected, $mode) = $this->extractMode($chunk[1]);
-                $tests[$dataSetName] = array($name, $chunk[0], $expected, $mode);
+                $lastPart = array_pop($chunk);
+                list($lastPart, $mode) = $this->extractMode($lastPart);
+                $tests[$dataSetName] = array_merge([$name], $chunk, [$lastPart, $mode]);
             }
         }
 

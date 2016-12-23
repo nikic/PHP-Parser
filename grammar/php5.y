@@ -690,21 +690,8 @@ function_call:
           { $$ = Expr\StaticCall[$1, $3, $4]; }
     | class_name_or_var T_PAAMAYIM_NEKUDOTAYIM '{' expr '}' argument_list
           { $$ = Expr\StaticCall[$1, $4, $6]; }
-    | static_property argument_list {
-            if ($1 instanceof Node\Expr\StaticPropertyFetch) {
-                $$ = Expr\StaticCall[$1->class, Expr\Variable[$1->name], $2];
-            } elseif ($1 instanceof Node\Expr\ArrayDimFetch) {
-                $tmp = $1;
-                while ($tmp->var instanceof Node\Expr\ArrayDimFetch) {
-                    $tmp = $tmp->var;
-                }
-
-                $$ = Expr\StaticCall[$tmp->var->class, $1, $2];
-                $tmp->var = Expr\Variable[$tmp->var->name];
-            } else {
-                throw new \Exception;
-            }
-          }
+    | static_property argument_list
+          { $$ = $this->fixupPhp5StaticPropCall($1, $2, attributes()); }
     | variable_without_objects argument_list
           { $$ = Expr\FuncCall[$1, $2]; }
     | function_call '[' dim_offset ']'                      { $$ = Expr\ArrayDimFetch[$1, $3]; }
@@ -992,14 +979,18 @@ encaps_base_var:
       T_VARIABLE                                            { $$ = Expr\Variable[parseVar($1)]; }
 ;
 
+encaps_str_varname:
+      T_STRING_VARNAME                                      { $$ = Expr\Variable[$1]; }
+;
+
 encaps_var:
       encaps_base_var                                       { $$ = $1; }
     | encaps_base_var '[' encaps_var_offset ']'             { $$ = Expr\ArrayDimFetch[$1, $3]; }
     | encaps_base_var T_OBJECT_OPERATOR identifier          { $$ = Expr\PropertyFetch[$1, $3]; }
     | T_DOLLAR_OPEN_CURLY_BRACES expr '}'                   { $$ = Expr\Variable[$2]; }
     | T_DOLLAR_OPEN_CURLY_BRACES T_STRING_VARNAME '}'       { $$ = Expr\Variable[$2]; }
-    | T_DOLLAR_OPEN_CURLY_BRACES T_STRING_VARNAME '[' expr ']' '}'
-          { $$ = Expr\ArrayDimFetch[Expr\Variable[$2], $4]; }
+    | T_DOLLAR_OPEN_CURLY_BRACES encaps_str_varname '[' expr ']' '}'
+          { $$ = Expr\ArrayDimFetch[$2, $4]; }
     | T_CURLY_OPEN variable '}'                             { $$ = $2; }
 ;
 

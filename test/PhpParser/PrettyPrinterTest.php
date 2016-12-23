@@ -19,7 +19,13 @@ class PrettyPrinterTest extends CodeTestAbstract
     protected function doTestPrettyPrintMethod($method, $name, $code, $expected, $modeLine) {
         $lexer = new Lexer\Emulative;
         $parser5 = new Parser\Php5($lexer);
-        $parser7 = new Parser\Php7($lexer);
+
+        // Use these options on one of the parsers ... don't want to write extra tests for them
+        $parser7 = new Parser\Php7($lexer, [
+            'useIdentifierNodes' => true,
+            'useConsistentVariableNodes' => true,
+            'useExpressionStatements' => true,
+        ]);
 
         list($version, $options) = $this->parseModeLine($modeLine);
         $prettyPrinter = new Standard($options);
@@ -182,5 +188,114 @@ class PrettyPrinterTest extends CodeTestAbstract
             [new DNumber(-\INF), '-\INF'],
             [new DNumber(-\NAN), '\NAN'],
         ];
+    }
+
+    /**
+     * @dataProvider provideTestFormatPreservingPrint
+     * @covers \PhpParser\PrettyPrinter\Standard<extended>
+     */
+    public function testFormatPreservingPrint($name, $code, $modification, $expected, $modeLine) {
+        $lexer = new Lexer\Emulative([
+            'usedAttributes' => [
+                'comments',
+                'startLine', 'endLine',
+                'startTokenPos', 'endTokenPos',
+            ],
+        ]);
+
+        $parser = new Parser\Php7($lexer, [
+            'useIdentifierNodes' => true,
+            'useConsistentVariableNodes' => true,
+            'useExpressionStatements' => true,
+            'useNopStatements' => false,
+        ]);
+
+        $traverser = new NodeTraverser();
+        $traverser->addVisitor(new NodeVisitor\CloningVisitor());
+
+        $printer = new PrettyPrinter\Standard();
+
+        $oldStmts = $parser->parse($code);
+        $oldTokens = $lexer->getTokens();
+
+        $newStmts = $traverser->traverse($oldStmts);
+
+        /** @var callable $fn */
+        eval(<<<CODE
+use PhpParser\Node;
+use PhpParser\Node\Expr;
+use PhpParser\Node\Scalar;
+use PhpParser\Node\Stmt;
+\$fn = function(&\$stmts) { $modification };
+CODE
+        );
+        $fn($newStmts);
+
+        $newCode = $printer->printFormatPreserving($newStmts, $oldStmts, $oldTokens);
+        $this->assertSame(canonicalize($expected), canonicalize($newCode), $name);
+    }
+
+    public function provideTestFormatPreservingPrint() {
+        return $this->getTests(__DIR__ . '/../code/formatPreservation', 'test', 3);
+    }
+
+    /**
+     * @dataProvider provideTestRoundTripPrint
+     * @covers \PhpParser\PrettyPrinter\Standard<extended>
+     */
+    public function testRoundTripPrint($name, $code, $expected, $modeLine) {
+        /**
+         * This test makes sure that the format-preserving pretty printer round-trips for all
+         * the pretty printer tests (i.e. returns the input if no changes occurred).
+         */
+        if (false !== strpos($code, 'new class')) {
+            // Can't preserve formatting on anon classes for now
+            return;
+        }
+
+        list($version) = $this->parseModeLine($modeLine);
+
+        $lexer = new Lexer\Emulative([
+            'usedAttributes' => [
+                'comments',
+                'startLine', 'endLine',
+                'startTokenPos', 'endTokenPos',
+            ],
+        ]);
+
+        $parserClass = $version === 'php5' ? Parser\Php5::class : Parser\Php7::class;
+        /** @var Parser $parser */
+        $parser = new $parserClass($lexer, [
+            'useIdentifierNodes' => true,
+            'useConsistentVariableNodes' => true,
+            'useExpressionStatements' => true,
+            'useNopStatements' => false,
+        ]);
+
+        $traverser = new NodeTraverser();
+        $traverser->addVisitor(new NodeVisitor\CloningVisitor());
+
+        $printer = new PrettyPrinter\Standard();
+
+        try {
+            $oldStmts = $parser->parse($code);
+        } catch (Error $e) {
+            // Can't do a format-preserving print on a file with errors
+            return;
+        }
+
+        $oldTokens = $lexer->getTokens();
+
+        $newStmts = $traverser->traverse($oldStmts);
+
+        $newCode = $printer->printFormatPreserving($newStmts, $oldStmts, $oldTokens);
+        $this->assertSame(canonicalize($code), canonicalize($newCode), $name);
+    }
+
+    public function provideTestRoundTripPrint() {
+        return array_merge(
+            $this->getTests(__DIR__ . '/../code/prettyPrinter', 'test'),
+            $this->getTests(__DIR__ . '/../code/parser', 'test')
+        );
     }
 }

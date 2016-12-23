@@ -3,12 +3,22 @@
 namespace PhpParser;
 
 use PhpParser\Node\Expr;
+use PhpParser\Node\Scalar;
 use PhpParser\Node\Stmt;
 
 abstract class PrettyPrinterAbstract
 {
+    const FIXUP_PREC_LEFT       = 0; // LHS operand affected by precedence
+    const FIXUP_PREC_RIGHT      = 1; // RHS operand affected by precedence
+    const FIXUP_CALL_LHS        = 2; // LHS of call
+    const FIXUP_DEREF_LHS       = 3; // LHS of dereferencing operation
+    const FIXUP_BRACED_NAME     = 4; // Name operand that may require bracing
+    const FIXUP_VAR_BRACED_NAME = 5; // Name operand that may require ${} bracing
+    const FIXUP_ENCAPSED        = 6; // Encapsed string part
+
     protected $precedenceMap = array(
-        // [precedence, associativity] where for the latter -1 is %left, 0 is %nonassoc and 1 is %right
+        // [precedence, associativity]
+        // where for precedence -1 is %left, 0 is %nonassoc and 1 is %right
         'Expr_BinaryOp_Pow'            => array(  0,  1),
         'Expr_BitwiseNot'              => array( 10,  1),
         'Expr_PreInc'                  => array( 10,  1),
@@ -74,10 +84,26 @@ abstract class PrettyPrinterAbstract
         'Expr_Include'                 => array(200, -1),
     );
 
+    /** @var string Token placed before newline to ensure it is not indented. */
     protected $noIndentToken;
+    /** @var string Token placed at end of doc string to ensure it is followed by a newline. */
     protected $docStringEndToken;
+    /** @var bool Whether semicolon namespaces can be used (i.e. no global namespace is used) */
     protected $canUseSemicolonNamespaces;
+    /** @var array Pretty printer options */
     protected $options;
+
+    /** @var array Original tokens for use in format-preserving pretty print */
+    protected $origTokens;
+    /** @var int Current indentation level during format-preserving pretty pting */
+    protected $indentLevel;
+    /** @var bool[] Map determining whether a certain character is a label character */
+    protected $labelCharMap;
+    /**
+     * @var int[][] Map from token types and subnode names to FIXUP_* constants. This is used
+     *              during format-preserving prints to place additional parens/braces if necessary.
+     */
+    protected $fixupMap;
 
     /**
      * Creates a pretty printer instance using the given options.
@@ -159,6 +185,12 @@ abstract class PrettyPrinterAbstract
         }
     }
 
+    /**
+     * Handles (and removes) no-indent and doc-string-end tokens.
+     *
+     * @param string $str
+     * @return string
+     */
     protected function handleMagicTokens($str) {
         // Drop no-indent tokens
         $str = str_replace($this->noIndentToken, '', $str);
@@ -199,17 +231,6 @@ abstract class PrettyPrinterAbstract
         }
     }
 
-    /**
-     * Pretty prints a node.
-     *
-     * @param Node $node Node to be pretty printed
-     *
-     * @return string Pretty printed node
-     */
-    protected function p(Node $node) {
-        return $this->{'p' . $node->getType()}($node);
-    }
-
     protected function pInfixOp($type, Node $leftNode, $operatorString, Node $rightNode) {
         list($precedence, $associativity) = $this->precedenceMap[$type];
 
@@ -247,11 +268,11 @@ abstract class PrettyPrinterAbstract
             if ($childPrecedence > $parentPrecedence
                 || ($parentPrecedence == $childPrecedence && $parentAssociativity != $childPosition)
             ) {
-                return '(' . $this->{'p' . $type}($node) . ')';
+                return '(' . $this->p($node) . ')';
             }
         }
 
-        return $this->{'p' . $type}($node);
+        return $this->p($node);
     }
 
     /**
@@ -312,5 +333,569 @@ abstract class PrettyPrinterAbstract
         }
 
         return implode("\n", $formattedComments);
+    }
+
+    /**
+     * Perform a format-preserving pretty print of an AST.
+     *
+     * The format preservation is best effort. For some changes to the AST the formatting will not
+     * be preserved (at least not locally).
+     *
+     * In order to use this method a number of prerequisites must be satisfied:
+     *  * The startTokenPos and endTokenPos attributes in the lexer must be enabled.
+     *  * The parser must be run with the options  useIdentifierNodes, useConsistentVariableNodes,
+     *    useExpressionStatements ENABLED and useNopStatements DISABLED.
+     *  * The CloningVisitor must be run on the AST prior to modification.
+     *  * The original tokens must be provided, using the getTokens() method on the lexer.
+     *
+     * @param Node[] $stmts      Modified AST with links to original AST
+     * @param Node[] $origStmts  Original AST with token offset information
+     * @param array  $origTokens Tokens of the original code
+     *
+     * @return string
+     */
+    public function printFormatPreserving(array $stmts, array $origStmts, array $origTokens) {
+        $this->initializeLabelCharMap();
+        $this->initializeFixupMap();
+
+        $this->origTokens = $origTokens;
+        $this->indentLevel = 0;
+
+        $this->preprocessNodes($stmts);
+
+        $pos = 0;
+        $result = $this->pArray($stmts, $origStmts, $pos, 0, null);
+        if (null !== $result) {
+            $result .= $this->getTokenCode($pos, count($this->origTokens), 0);
+        } else {
+            // Fallback
+            // TODO Add <?php properly
+            $result = "<?php\n" . $this->pStmts($stmts, false);
+        }
+
+        return ltrim($this->handleMagicTokens($result));
+    }
+
+    protected function pFallback(Node $node) {
+        return $this->{'p' . $node->getType()}($node);
+    }
+
+    /**
+     * Pretty prints a node.
+     *
+     * This method also handles formatting preservation for nodes.
+     *
+     * @param Node $node Node to be pretty printed
+     *
+     * @return string Pretty printed node
+     */
+    protected function p(Node $node) {
+        // No orig tokens means this is a normal pretty print without preservation of formatting
+        if (!$this->origTokens) {
+            return $this->{'p' . $node->getType()}($node);
+        }
+
+        /** @var Node $origNode */
+        $origNode = $node->getAttribute('origNode');
+        if (null === $origNode) {
+            return $this->pFallback($node);
+        }
+
+        if (get_class($node) != get_class($origNode)) {
+            // Shouldn't happen
+            return $this->pFallback($node);
+        }
+
+        $startPos = $origNode->getAttribute('startTokenPos', -1);
+        $endPos = $origNode->getAttribute('endTokenPos', -1);
+        if ($startPos < 0 || $endPos < 0) {
+            // Shouldn't happen
+            return $this->pFallback($node);
+        }
+
+        if ($node instanceof Expr\New_ && $node->class instanceof Stmt\Class_) {
+            // For anonymous classes the new and class nodes are intermixed, this would require
+            // special handling (or maybe a new node type just for this?)
+            return $this->pFallback($node);
+        }
+
+        $indentAdjustment = $this->indentLevel - $this->getIndentationBefore($startPos);
+
+        $type = $node->getType();
+        $fixupInfo = isset($this->fixupMap[$type]) ? $this->fixupMap[$type] : null;
+
+        $result = '';
+        $pos = $startPos;
+        foreach ($node->getSubNodeNames() as $i => $subNodeName) {
+            $subNode = $node->$subNodeName;
+            $origSubNode = $origNode->$subNodeName;
+
+            if (!$subNode instanceof Node || !$origSubNode instanceof Node) {
+                if ($subNode === $origSubNode) {
+                    // Unchanged, can reuse old code
+                    continue;
+                }
+
+                if (!is_array($subNode) || !is_array($origSubNode)) {
+                    // If a non-node, non-array subnode changed, we don't be able to do a partial
+                    // reconstructions, as we don't have enough offset information. Pretty print the
+                    // whole node instead.
+                    return $this->pFallback($node);
+                }
+
+                $fixup = isset($fixupInfo[$subNodeName]) ? $fixupInfo[$subNodeName] : null;
+                $listResult = $this->pArray(
+                    $subNode, $origSubNode, $pos, $indentAdjustment, $fixup
+                );
+                if (null === $listResult) {
+                    return $this->pFallback($node);
+                }
+
+                $result .= $listResult;
+                continue;
+            }
+
+            $subStartPos = $origSubNode->getAttribute('startTokenPos', -1);
+            $subEndPos = $origSubNode->getAttribute('endTokenPos', -1);
+            if ($subStartPos < 0 || $subEndPos < 0) {
+                // Shouldn't happen
+                return $this->pFallback($node);
+            }
+
+            $result .= $this->getTokenCode($pos, $subStartPos, $indentAdjustment);
+
+            $origIndentLevel = $this->indentLevel;
+            $this->indentLevel = $this->getIndentationBefore($subStartPos) + $indentAdjustment;
+
+            // If it's the same node that was previously in this position, it certainly doesn't need
+            // fixup. It's important to check this here, because our fixup checks are more
+            // conservative than strictly necessary.
+            if (isset($fixupInfo[$subNodeName])
+                && $subNode->getAttribute('origNode') !== $origSubNode
+            ) {
+                $fixup = $fixupInfo[$subNodeName];
+                $res = $this->pFixup($fixup, $subNode, $type, $subStartPos, $subEndPos);
+            } else {
+                $res = $this->p($subNode);
+            }
+
+            $this->safeAppend($result, $res);
+            $this->indentLevel = $origIndentLevel;
+
+            $pos = $subEndPos + 1;
+        }
+
+        $result .= $this->getTokenCode($pos, $endPos + 1, $indentAdjustment);
+        return $result;
+    }
+
+    /**
+     * Perform a format-preserving pretty print of an array
+     *
+     * @param array    $nodes            New nodes
+     * @param array    $origNodes        Original nodes
+     * @param int      $pos              Current token position (updated by reference)
+     * @param int      $indentAdjustment Adjustment for indentation
+     * @param null|int $fixup            Fixup information for array item nodes
+     *
+     * @return null|string Result of pretty print or null if cannot preserve formatting
+     */
+    protected function pArray(array $nodes, array $origNodes, &$pos, $indentAdjustment, $fixup) {
+        $len = count($nodes);
+        $origLen = count($origNodes);
+        if ($len !== $origLen) {
+            return null;
+        }
+
+        $result = '';
+        for ($i = 0; $i < $len; $i++) {
+            $arrItem = $nodes[$i];
+            $origArrItem = $origNodes[$i];
+            if ($arrItem === $origArrItem) {
+                // Unchanged, can reuse old code
+                continue;
+            }
+
+            if (!$arrItem instanceof Node || !$origArrItem instanceof Node) {
+                // We can only handle arrays of nodes meaningfully
+                return null;
+            }
+
+            $itemStartPos = $origArrItem->getAttribute('startTokenPos', -1);
+            $itemEndPos = $origArrItem->getAttribute('endTokenPos', -1);
+            if ($itemStartPos < 0 || $itemEndPos < 0) {
+                // Shouldn't happen
+                return null;
+            }
+
+            $result .= $this->getTokenCode($pos, $itemStartPos, $indentAdjustment);
+
+            $origIndentLevel = $this->indentLevel;
+            $this->indentLevel = $this->getIndentationBefore($itemStartPos) + $indentAdjustment;
+
+            if (null !== $fixup && $arrItem->getAttribute('origNode') !== $origArrItem) {
+                $res = $this->pFixup($fixup, $arrItem, null, $itemStartPos, $itemEndPos);
+            } else {
+                $res = $this->p($arrItem);
+            }
+            $this->safeAppend($result, $res);
+
+            $this->indentLevel = $origIndentLevel;
+            $pos = $itemEndPos + 1;
+        }
+        return $result;
+    }
+
+    /**
+     * Print node with fixups.
+     *
+     * Fixups here refer to the addition of extra parentheses, braces or other characters, that
+     * are required to preserve program semantics in a certain context (e.g. to maintain precedence
+     * or because only certain expressions are allowed in certain places).
+     *
+     * @param int    $fixup       Fixup type
+     * @param Node   $subNode     Subnode to print
+     * @param string $parentType  Type of parent node
+     * @param int    $subStartPos Original start pos of subnode
+     * @param int    $subEndPos   Original end pos of subnode
+     *
+     * @return string Result of fixed-up print of subnode
+     */
+    protected function pFixup($fixup, Node $subNode, $parentType, $subStartPos, $subEndPos) {
+        switch ($fixup) {
+            case self::FIXUP_PREC_LEFT:
+            case self::FIXUP_PREC_RIGHT:
+                if (!$this->haveParens($subStartPos, $subEndPos)) {
+                    list($precedence, $associativity) = $this->precedenceMap[$parentType];
+                    return $this->pPrec($subNode, $precedence, $associativity,
+                        $fixup === self::FIXUP_PREC_LEFT ? -1 : 1);
+                }
+                break;
+            case self::FIXUP_CALL_LHS:
+                if ($this->callLhsRequiresParens($subNode)
+                    && !$this->haveParens($subStartPos, $subEndPos)
+                ) {
+                    return '(' . $this->p($subNode) . ')';
+                }
+                break;
+            case self::FIXUP_DEREF_LHS:
+                if ($this->dereferenceLhsRequiresParens($subNode)
+                    && !$this->haveParens($subStartPos, $subEndPos)
+                ) {
+                    return '(' . $this->p($subNode) . ')';
+                }
+                break;
+            case self::FIXUP_BRACED_NAME:
+            case self::FIXUP_VAR_BRACED_NAME:
+                if ($subNode instanceof Expr
+                    && !$this->haveBraces($subStartPos, $subEndPos)
+                ) {
+                    return ($fixup === self::FIXUP_VAR_BRACED_NAME ? '$' : '')
+                        . '{' . $this->p($subNode) . '}';
+                }
+                break;
+            case self::FIXUP_ENCAPSED:
+                if (!$subNode instanceof Scalar\EncapsedStringPart
+                    && !$this->haveBraces($subStartPos, $subEndPos)
+                ) {
+                    return '{' . $this->p($subNode) . '}';
+                }
+                break;
+            default:
+                throw new \Exception('Cannot happen');
+        }
+
+        // Nothing special to do
+        return $this->p($subNode);
+    }
+
+    /**
+     * Appends to a string, ensuring whitespace between label characters.
+     *
+     * Example: "echo" and "$x" result in "echo$x", but "echo" and "x" result in "echo x".
+     * Without safeAppend the result would be "echox", which does not preserve semantics.
+     *
+     * @param string $str
+     * @param string $append
+     */
+    protected function safeAppend(&$str, $append) {
+        // $append must not be empty in this function
+        if ($str === "") {
+            $str = $append;
+            return;
+        }
+
+        if (!$this->labelCharMap[$append[0]]
+                || !$this->labelCharMap[$str[\strlen($str) - 1]]) {
+            $str .= $append;
+        } else {
+            $str .= " " . $append;
+        }
+    }
+
+    /**
+     * Get indentation before token position
+     *
+     * @param int $pos Token position
+     *
+     * @return int Indentation depth (in spaces)
+     */
+    protected function getIndentationBefore($pos) {
+        $tokens = $this->origTokens;
+        $indent = 0;
+        $pos--;
+        for (; $pos >= 0; $pos--) {
+            if ($tokens[$pos][0] !== T_WHITESPACE) {
+                $indent = 0;
+                continue;
+            }
+            $content = $tokens[$pos][1];
+            $newlinePos = \strrpos($content, "\n");
+            if (false !== $newlinePos) {
+                $indent += \strlen($content) - $newlinePos - 1;
+                return $indent;
+            }
+
+            $indent += \strlen($content);
+        }
+        return $indent;
+    }
+
+    protected function haveParens($startPos, $endPos) {
+        return $this->haveTokenImmediativelyBefore($startPos, '(')
+            && $this->haveTokenImmediatelyAfter($endPos, ')');
+    }
+
+    protected function haveBraces($startPos, $endPos) {
+        return $this->haveTokenImmediativelyBefore($startPos, '{')
+        && $this->haveTokenImmediatelyAfter($endPos, '}');
+    }
+
+    /**
+     * Check whether the position is directly preceded by a certain token type.
+     *
+     * During this check whitespace and comments are skipped.
+     *
+     * @param int        $pos               Position before which the token should occur
+     * @param int|string $expectedTokenType Token to check for
+     *
+     * @return bool Whether the expected token was found
+     */
+    protected function haveTokenImmediativelyBefore($pos, $expectedTokenType) {
+        $tokens = $this->origTokens;
+        $pos--;
+        for (; $pos >= 0; $pos--) {
+            $tokenType = $tokens[$pos][0];
+            if ($tokenType === $expectedTokenType) {
+                return true;
+            }
+            if ($tokenType !== T_WHITESPACE
+                    && $tokenType !== T_COMMENT && $tokenType !== T_DOC_COMMENT) {
+                break;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Check whether the position is directly followed by a certain token type.
+     *
+     * During this check whitespace and comments are skipped.
+     *
+     * @param int        $pos               Position after which the token should occur
+     * @param int|string $expectedTokenType Token to check for
+     *
+     * @return bool Whether the expected token was found
+     */
+    protected function haveTokenImmediatelyAfter($pos, $expectedTokenType) {
+        $tokens = $this->origTokens;
+        $pos++;
+        for (; $pos < \count($tokens); $pos++) {
+            $tokenType = $tokens[$pos][0];
+            if ($tokenType === $expectedTokenType) {
+                return true;
+            }
+            if ($tokenType !== T_WHITESPACE
+                && $tokenType !== T_COMMENT && $tokenType !== T_DOC_COMMENT) {
+                break;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Get the code corresponding to a token offset range, optionally adjusted for indentation.
+     *
+     * @param int $from   Token start position (inclusive)
+     * @param int $to     Token end position (exclusive)
+     * @param int $indent By how much the code should be indented (can be negative as well)
+     *
+     * @return string Code corresponding to token range, adjusted for indentation
+     */
+    protected function getTokenCode($from, $to, $indent) {
+        $tokens = $this->origTokens;
+        $result = '';
+        for ($pos = $from; $pos < $to; $pos++) {
+            $token = $tokens[$pos];
+            if (\is_array($token)) {
+                $type = $token[0];
+                $content = $token[1];
+                if ($type === T_CONSTANT_ENCAPSED_STRING || $type === T_ENCAPSED_AND_WHITESPACE) {
+                    $result .= $this->pNoIndent($content);
+                } else {
+                    // TODO Handle non-space indentation
+                    if ($indent < 0) {
+                        $result .= str_replace("\n" . str_repeat(" ", -$indent), "\n", $content);
+                    } else if ($indent > 0) {
+                        $result .= str_replace("\n", "\n" . str_repeat(" ", $indent), $content);
+                    } else {
+                        $result .= $content;
+                    }
+                }
+            } else {
+                $result .= $token;
+            }
+        }
+        return $result;
+    }
+
+    /**
+     * Determines whether the LHS of a call must be wrapped in parenthesis.
+     *
+     * @param Node $node LHS of a call
+     *
+     * @return bool Whether parentheses are required
+     */
+    protected function callLhsRequiresParens(Node $node) {
+        return !($node instanceof Node\Name
+            || $node instanceof Expr\Variable
+            || $node instanceof Expr\ArrayDimFetch
+            || $node instanceof Expr\FuncCall
+            || $node instanceof Expr\MethodCall
+            || $node instanceof Expr\StaticCall
+            || $node instanceof Expr\Array_);
+    }
+
+    /**
+     * Determines whether the LHS of a dereferencing operation must be wrapped in parenthesis.
+     *
+     * @param Node $node LHS of dereferencing operation
+     *
+     * @return bool Whether parentheses are required
+     */
+    protected function dereferenceLhsRequiresParens(Node $node) {
+        return !($node instanceof Expr\Variable
+            || $node instanceof Node\Name
+            || $node instanceof Expr\ArrayDimFetch
+            || $node instanceof Expr\PropertyFetch
+            || $node instanceof Expr\StaticPropertyFetch
+            || $node instanceof Expr\FuncCall
+            || $node instanceof Expr\MethodCall
+            || $node instanceof Expr\StaticCall
+            || $node instanceof Expr\Array_
+            || $node instanceof Scalar\String_
+            || $node instanceof Expr\ConstFetch
+            || $node instanceof Expr\ClassConstFetch);
+    }
+
+    /**
+     * Lazily initializes label char map.
+     *
+     * The label char map determines whether a certain character may occur in a label.
+     */
+    protected function initializeLabelCharMap() {
+        if ($this->labelCharMap) return;
+
+        $this->labelCharMap = [];
+        for ($i = 0; $i < 256; $i++) {
+            // Since PHP 7.1 The lower range is 0x80. However, we also want to support code for
+            // older versions.
+            $this->labelCharMap[chr($i)] = $i >= 0x7f || ctype_alnum($i);
+        }
+    }
+
+    /**
+     * Lazily initializes fixup map.
+     *
+     * The fixup map is used to determine whether a certain subnode of a certain node may require
+     * some kind of "fixup" operation, e.g. the addition of parenthesis or braces.
+     */
+    protected function initializeFixupMap() {
+        if ($this->fixupMap) return;
+
+        $this->fixupMap = [
+            'Expr_PreInc' => ['var' => self::FIXUP_PREC_RIGHT],
+            'Expr_PreDec' => ['var' => self::FIXUP_PREC_RIGHT],
+            'Expr_PostInc' => ['var' => self::FIXUP_PREC_LEFT],
+            'Expr_PostDec' => ['var' => self::FIXUP_PREC_LEFT],
+            'Expr_Instanceof' => [
+                'expr' => self::FIXUP_PREC_LEFT,
+                'class' => self::FIXUP_PREC_RIGHT,
+            ],
+            'Expr_Ternary' => [
+                'cond' => self::FIXUP_PREC_LEFT,
+                'else' => self::FIXUP_PREC_RIGHT,
+            ],
+
+            'Expr_FuncCall' => ['name' => self::FIXUP_CALL_LHS],
+            'Expr_StaticCall' => ['class' => self::FIXUP_DEREF_LHS],
+            'Expr_ArrayDimFetch' => ['var' => self::FIXUP_DEREF_LHS],
+            'Expr_MethodCall' => [
+                'var' => self::FIXUP_DEREF_LHS,
+                'name' => self::FIXUP_BRACED_NAME,
+            ],
+            'Expr_StaticPropertyFetch' => [
+                'class' => self::FIXUP_DEREF_LHS,
+                'name' => self::FIXUP_VAR_BRACED_NAME,
+            ],
+            'Expr_PropertyFetch' => [
+                'var' => self::FIXUP_DEREF_LHS,
+                'name' => self::FIXUP_BRACED_NAME,
+            ],
+            'Scalar_Encapsed' => [
+                'parts' => self::FIXUP_ENCAPSED,
+            ],
+        ];
+
+        $binaryOps = [
+            'Expr_BinaryOp_Pow', 'Expr_BinaryOp_Mul', 'Expr_BinaryOp_Div', 'Expr_BinaryOp_Mod',
+            'Expr_BinaryOp_Plus', 'Expr_BinaryOp_Minus', 'Expr_BinaryOp_Concat',
+            'Expr_BinaryOp_ShiftLeft', 'Expr_BinaryOp_ShiftRight', 'Expr_BinaryOp_Smaller',
+            'Expr_BinaryOp_SmallerOrEqual', 'Expr_BinaryOp_Greater', 'Expr_BinaryOp_GreaterOrEqual',
+            'Expr_BinaryOp_Equal', 'Expr_BinaryOp_NotEqual', 'Expr_BinaryOp_Identical',
+            'Expr_BinaryOp_NotIdentical', 'Expr_BinaryOp_Spaceship', 'Expr_BinaryOp_BitwiseAnd',
+            'Expr_BinaryOp_BitwiseXor', 'Expr_BinaryOp_BitwiseOr', 'Expr_BinaryOp_BooleanAnd',
+            'Expr_BinaryOp_BooleanOr', 'Expr_BinaryOp_Coalesce', 'Expr_BinaryOp_LogicalAnd',
+            'Expr_BinaryOp_LogicalXor', 'Expr_BinaryOp_LogicalOr',
+        ];
+        foreach ($binaryOps as $binaryOp) {
+            $this->fixupMap[$binaryOp] = [
+                'left' => self::FIXUP_PREC_LEFT,
+                'right' => self::FIXUP_PREC_RIGHT
+            ];
+        }
+
+        $assignOps = [
+            'Expr_Assign', 'Expr_AssignRef', 'Expr_AssignOp_Plus', 'Expr_AssignOp_Minus',
+            'Expr_AssignOp_Mul', 'Expr_AssignOp_Div', 'Expr_AssignOp_Concat', 'Expr_AssignOp_Mod',
+            'Expr_AssignOp_BitwiseAnd', 'Expr_AssignOp_BitwiseOr', 'Expr_AssignOp_BitwiseXor',
+            'Expr_AssignOp_ShiftLeft', 'Expr_AssignOp_ShiftRight', 'Expr_AssignOp_Pow',
+        ];
+        foreach ($assignOps as $assignOp) {
+            $this->fixupMap[$assignOp] = [
+                'var' => self::FIXUP_PREC_LEFT,
+                'expr' => self::FIXUP_PREC_RIGHT,
+            ];
+        }
+
+        $prefixOps = [
+            'Expr_BitwiseNot', 'Expr_BooleanNot', 'Expr_UnaryPlus', 'Expr_UnaryMinus',
+            'Expr_Cast_Int', 'Expr_Cast_Double', 'Expr_Cast_String', 'Expr_Cast_Array',
+            'Expr_Cast_Object', 'Expr_Cast_Bool', 'Expr_Cast_Unset', 'Expr_ErrorSuppress',
+            'Expr_YieldFrom', 'Expr_Print', 'Expr_Include',
+        ];
+        foreach ($prefixOps as $prefixOp) {
+            $this->fixupMap[$prefixOp] = ['expr' => self::FIXUP_PREC_RIGHT];
+        }
     }
 }
