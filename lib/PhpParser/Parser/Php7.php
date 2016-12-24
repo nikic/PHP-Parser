@@ -1387,7 +1387,7 @@ class Php7 extends \PhpParser\ParserAbstract
     }
 
     protected function reduceRule143() {
-         $this->semValue = $this->semStack[$this->stackPos-(2-1)];
+         $this->semValue = ($this->useExpressionStatements ? new Stmt\Expression($this->semStack[$this->stackPos-(2-1)], $this->startAttributeStack[$this->stackPos-(2-1)] + $this->endAttributes) : $this->semStack[$this->stackPos-(2-1)]);
     }
 
     protected function reduceRule144() {
@@ -1423,7 +1423,7 @@ class Php7 extends \PhpParser\ParserAbstract
     }
 
     protected function reduceRule152() {
-         $this->semValue = $this->semStack[$this->stackPos-(2-1)];
+         $this->semValue = ($this->useExpressionStatements ? new Stmt\Expression($this->semStack[$this->stackPos-(2-1)], $this->startAttributeStack[$this->stackPos-(2-1)] + $this->endAttributes) : $this->semStack[$this->stackPos-(2-1)]);
     }
 
     protected function reduceRule153() {

@@ -115,6 +115,8 @@ abstract class ParserAbstract implements Parser
     protected $useIdentifierNodes;
     /** @var bool Whether to consistently use Variable nodes */
     protected $useConsistentVariableNodes;
+    /** @var bool Whether to use Stmt\Expr nodes */
+    protected $useExpressionStatements;
 
     /**
      * Creates a parser instance.
@@ -124,6 +126,9 @@ abstract class ParserAbstract implements Parser
      *    non-namespaced names. Otherwise plain strings will be used.
      *  * useConsistentVariableNodes: If this option is enabled, the parser will create Variable
      *    nodes in more places (like function parameters, catch clause variables, etc.)
+     *  * useExpressionStatements: If this option is enabled, the parser will create Stmt\Expression
+     *    nodes for statements of type "expr;". Otherwise the expression is directly included in the
+     *    statement list.
      *
      * @param Lexer $lexer A lexer
      * @param array $options Options array.
@@ -133,6 +138,7 @@ abstract class ParserAbstract implements Parser
         $this->errors = array();
         $this->useIdentifierNodes = !empty($options['useIdentifierNodes']);
         $this->useConsistentVariableNodes = !empty($options['useConsistentVariableNodes']);
+        $this->useExpressionStatements = !empty($options['useExpressionStatements']);
 
         if (isset($options['throwOnError'])) {
             throw new \LogicException(

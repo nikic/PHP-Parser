@@ -231,6 +231,13 @@ function resolveMacros($code) {
                 . '$this->startAttributeStack[#1] + $this->endAttributes) : ' . $args[0] . ')';
             }
 
+            if ('maybeMakeExprStmt' == $name) {
+                assertArgs(1, $args, $name);
+
+                return '($this->useExpressionStatements ? new Stmt\Expression(' . $args[0] . ', '
+                . '$this->startAttributeStack[#1] + $this->endAttributes) : ' . $args[0] . ')';
+            }
+
             return $matches[0];
         },
         $code
