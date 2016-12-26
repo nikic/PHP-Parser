@@ -465,4 +465,26 @@ EOC;
         $this->assertSame($n1, $stmts[0]->stmts[0]->class->getAttribute('originalName'));
         $this->assertSame($n2, $stmts[0]->stmts[1]->name->getAttribute('originalName'));
     }
+
+    public function testAttributeOnlyMode() {
+        $traverser = new PhpParser\NodeTraverser;
+        $traverser->addVisitor(new NameResolver(null, ['replaceNodes' => false]));
+
+        $n1 = new Name('Bar');
+        $n2 = new Name('bar');
+        $origStmts = [
+            new Stmt\Namespace_(new Name('Foo'), [
+                new Expr\ClassConstFetch($n1, 'FOO'),
+                new Expr\FuncCall($n2),
+            ])
+        ];
+
+        $traverser->traverse($origStmts);
+
+        $this->assertEquals(
+            new Name\FullyQualified('Foo\Bar'), $n1->getAttribute('resolvedName'));
+        $this->assertFalse($n2->hasAttribute('resolvedName'));
+        $this->assertEquals(
+            new Name\FullyQualified('Foo\bar'), $n2->getAttribute('namespacedName'));
+    }
 }
