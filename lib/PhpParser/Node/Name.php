@@ -163,10 +163,8 @@ class Name extends NodeAbstract
         if (null === $name1 && null === $name2) {
             return null;
         } elseif (null === $name1) {
-            /** @var string|array|Name $name2 */
             return new static(self::prepareName($name2), $attributes);
         } else if (null === $name2) {
-            /** @var string|array|Name $name1 */
             return new static(self::prepareName($name1), $attributes);
         } else {
             return new static(
