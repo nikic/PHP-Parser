@@ -39,46 +39,19 @@ array(
         )
         returnType: null
         stmts: array(
-            0: Expr_Yield(
-                key: null
-                value: null
+            0: Stmt_Expression(
+                expr: Expr_Yield(
+                    key: null
+                    value: null
+                    comments: array(
+                        0: // statements
+                    )
+                )
                 comments: array(
                     0: // statements
                 )
             )
-            1: Expr_Yield(
-                key: null
-                value: Expr_Variable(
-                    name: value
-                )
-            )
-            2: Expr_Yield(
-                key: Expr_Variable(
-                    name: key
-                )
-                value: Expr_Variable(
-                    name: value
-                )
-            )
-            3: Expr_Assign(
-                var: Expr_Variable(
-                    name: data
-                    comments: array(
-                        0: // expressions
-                    )
-                )
-                expr: Expr_Yield(
-                    key: null
-                    value: null
-                )
-                comments: array(
-                    0: // expressions
-                )
-            )
-            4: Expr_Assign(
-                var: Expr_Variable(
-                    name: data
-                )
+            1: Stmt_Expression(
                 expr: Expr_Yield(
                     key: null
                     value: Expr_Variable(
@@ -86,16 +59,61 @@ array(
                     )
                 )
             )
-            5: Expr_Assign(
-                var: Expr_Variable(
-                    name: data
-                )
+            2: Stmt_Expression(
                 expr: Expr_Yield(
                     key: Expr_Variable(
                         name: key
                     )
                     value: Expr_Variable(
                         name: value
+                    )
+                )
+            )
+            3: Stmt_Expression(
+                expr: Expr_Assign(
+                    var: Expr_Variable(
+                        name: data
+                        comments: array(
+                            0: // expressions
+                        )
+                    )
+                    expr: Expr_Yield(
+                        key: null
+                        value: null
+                    )
+                    comments: array(
+                        0: // expressions
+                    )
+                )
+                comments: array(
+                    0: // expressions
+                )
+            )
+            4: Stmt_Expression(
+                expr: Expr_Assign(
+                    var: Expr_Variable(
+                        name: data
+                    )
+                    expr: Expr_Yield(
+                        key: null
+                        value: Expr_Variable(
+                            name: value
+                        )
+                    )
+                )
+            )
+            5: Stmt_Expression(
+                expr: Expr_Assign(
+                    var: Expr_Variable(
+                        name: data
+                    )
+                    expr: Expr_Yield(
+                        key: Expr_Variable(
+                            name: key
+                        )
+                        value: Expr_Variable(
+                            name: value
+                        )
                     )
                 )
             )
@@ -178,100 +196,117 @@ array(
                 cases: array(
                 )
             )
-            11: Expr_Exit(
-                expr: Expr_Yield(
-                    key: null
-                    value: Expr_Variable(
-                        name: foo
+            11: Stmt_Expression(
+                expr: Expr_Exit(
+                    expr: Expr_Yield(
+                        key: null
+                        value: Expr_Variable(
+                            name: foo
+                        )
                     )
                 )
             )
-            12: Expr_FuncCall(
-                name: Name(
-                    parts: array(
-                        0: func
+            12: Stmt_Expression(
+                expr: Expr_FuncCall(
+                    name: Name(
+                        parts: array(
+                            0: func
+                        )
+                        comments: array(
+                            0: // yield in function calls
+                        )
+                    )
+                    args: array(
+                        0: Arg(
+                            value: Expr_Yield(
+                                key: null
+                                value: Expr_Variable(
+                                    name: foo
+                                )
+                            )
+                            byRef: false
+                            unpack: false
+                        )
                     )
                     comments: array(
                         0: // yield in function calls
-                    )
-                )
-                args: array(
-                    0: Arg(
-                        value: Expr_Yield(
-                            key: null
-                            value: Expr_Variable(
-                                name: foo
-                            )
-                        )
-                        byRef: false
-                        unpack: false
                     )
                 )
                 comments: array(
                     0: // yield in function calls
                 )
             )
-            13: Expr_MethodCall(
-                var: Expr_Variable(
-                    name: foo
-                )
-                name: func
-                args: array(
-                    0: Arg(
-                        value: Expr_Yield(
-                            key: null
-                            value: Expr_Variable(
-                                name: foo
+            13: Stmt_Expression(
+                expr: Expr_MethodCall(
+                    var: Expr_Variable(
+                        name: foo
+                    )
+                    name: func
+                    args: array(
+                        0: Arg(
+                            value: Expr_Yield(
+                                key: null
+                                value: Expr_Variable(
+                                    name: foo
+                                )
                             )
+                            byRef: false
+                            unpack: false
                         )
-                        byRef: false
-                        unpack: false
                     )
                 )
             )
-            14: Expr_New(
-                class: Name(
-                    parts: array(
-                        0: Foo
+            14: Stmt_Expression(
+                expr: Expr_New(
+                    class: Name(
+                        parts: array(
+                            0: Foo
+                        )
                     )
-                )
-                args: array(
-                    0: Arg(
-                        value: Expr_Yield(
-                            key: null
-                            value: Expr_Variable(
-                                name: foo
+                    args: array(
+                        0: Arg(
+                            value: Expr_Yield(
+                                key: null
+                                value: Expr_Variable(
+                                    name: foo
+                                )
                             )
+                            byRef: false
+                            unpack: false
                         )
-                        byRef: false
-                        unpack: false
                     )
                 )
             )
-            15: Expr_YieldFrom(
-                expr: Expr_Variable(
-                    name: foo
-                )
-            )
-            16: Expr_BinaryOp_LogicalAnd(
-                left: Expr_YieldFrom(
+            15: Stmt_Expression(
+                expr: Expr_YieldFrom(
                     expr: Expr_Variable(
                         name: foo
                     )
                 )
-                right: Expr_YieldFrom(
-                    expr: Expr_Variable(
-                        name: bar
+            )
+            16: Stmt_Expression(
+                expr: Expr_BinaryOp_LogicalAnd(
+                    left: Expr_YieldFrom(
+                        expr: Expr_Variable(
+                            name: foo
+                        )
+                    )
+                    right: Expr_YieldFrom(
+                        expr: Expr_Variable(
+                            name: bar
+                        )
                     )
                 )
             )
-            17: Expr_YieldFrom(
-                expr: Expr_BinaryOp_Plus(
-                    left: Expr_Variable(
-                        name: foo
-                    )
-                    right: Expr_Variable(
-                        name: bar
+            17: Stmt_Expression(
+                expr: Expr_YieldFrom(
+                    expr: Expr_BinaryOp_Plus(
+                        left: Expr_Variable(
+                            name: foo
+                        )
+                        right: Expr_Variable(
+                            name: bar
+                        )
                     )
                 )
             )

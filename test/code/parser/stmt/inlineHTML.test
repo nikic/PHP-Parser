@@ -11,17 +11,23 @@ $c;
 $d;
 -----
 array(
-    0: Expr_Variable(
-        name: a
+    0: Stmt_Expression(
+        expr: Expr_Variable(
+            name: a
+        )
     )
     1: Stmt_InlineHTML(
         value: B
 
     )
-    2: Expr_Variable(
-        name: c
+    2: Stmt_Expression(
+        expr: Expr_Variable(
+            name: c
+        )
     )
-    3: Expr_Variable(
-        name: d
+    3: Stmt_Expression(
+        expr: Expr_Variable(
+            name: d
+        )
     )
 )

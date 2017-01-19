@@ -7,27 +7,33 @@ A::B;
 A::class;
 -----
 array(
-    0: Expr_ConstFetch(
-        name: Name(
-            parts: array(
-                0: A
+    0: Stmt_Expression(
+        expr: Expr_ConstFetch(
+            name: Name(
+                parts: array(
+                    0: A
+                )
             )
         )
     )
-    1: Expr_ClassConstFetch(
-        class: Name(
-            parts: array(
-                0: A
+    1: Stmt_Expression(
+        expr: Expr_ClassConstFetch(
+            class: Name(
+                parts: array(
+                    0: A
+                )
             )
+            name: B
         )
-        name: B
     )
-    2: Expr_ClassConstFetch(
-        class: Name(
-            parts: array(
-                0: A
+    2: Stmt_Expression(
+        expr: Expr_ClassConstFetch(
+            class: Name(
+                parts: array(
+                    0: A
+                )
             )
+            name: class
         )
-        name: class
     )
 )

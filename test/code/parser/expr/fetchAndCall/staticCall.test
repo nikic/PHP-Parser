@@ -20,71 +20,63 @@ $a['b']::c();
 -----
 !!php5
 array(
-    0: Expr_StaticCall(
-        class: Name(
-            parts: array(
-                0: A
+    0: Stmt_Expression(
+        expr: Expr_StaticCall(
+            class: Name(
+                parts: array(
+                    0: A
+                )
+                comments: array(
+                    0: // method name variations
+                )
+            )
+            name: b
+            args: array(
             )
             comments: array(
                 0: // method name variations
             )
         )
-        name: b
-        args: array(
-        )
         comments: array(
             0: // method name variations
         )
     )
-    1: Expr_StaticCall(
-        class: Name(
-            parts: array(
-                0: A
+    1: Stmt_Expression(
+        expr: Expr_StaticCall(
+            class: Name(
+                parts: array(
+                    0: A
+                )
             )
-        )
-        name: Scalar_String(
-            value: b
-        )
-        args: array(
+            name: Scalar_String(
+                value: b
+            )
+            args: array(
+            )
         )
     )
-    2: Expr_StaticCall(
-        class: Name(
-            parts: array(
-                0: A
+    2: Stmt_Expression(
+        expr: Expr_StaticCall(
+            class: Name(
+                parts: array(
+                    0: A
+                )
             )
-        )
-        name: Expr_Variable(
-            name: b
-        )
-        args: array(
-        )
-    )
-    3: Expr_StaticCall(
-        class: Name(
-            parts: array(
-                0: A
-            )
-        )
-        name: Expr_ArrayDimFetch(
-            var: Expr_Variable(
+            name: Expr_Variable(
                 name: b
             )
-            dim: Scalar_String(
-                value: c
+            args: array(
             )
-        )
-        args: array(
         )
     )
-    4: Expr_StaticCall(
-        class: Name(
-            parts: array(
-                0: A
+    3: Stmt_Expression(
+        expr: Expr_StaticCall(
+            class: Name(
+                parts: array(
+                    0: A
+                )
             )
-        )
-        name: Expr_ArrayDimFetch(
-            var: Expr_ArrayDimFetch(
+            name: Expr_ArrayDimFetch(
                 var: Expr_Variable(
                     name: b
                 )
@@ -92,82 +84,119 @@ array(
                     value: c
                 )
             )
-            dim: Scalar_String(
-                value: d
+            args: array(
             )
         )
-        args: array(
-        )
     )
-    5: Expr_ArrayDimFetch(
-        var: Expr_StaticCall(
+    4: Stmt_Expression(
+        expr: Expr_StaticCall(
             class: Name(
                 parts: array(
                     0: A
                 )
+            )
+            name: Expr_ArrayDimFetch(
+                var: Expr_ArrayDimFetch(
+                    var: Expr_Variable(
+                        name: b
+                    )
+                    dim: Scalar_String(
+                        value: c
+                    )
+                )
+                dim: Scalar_String(
+                    value: d
+                )
+            )
+            args: array(
+            )
+        )
+    )
+    5: Stmt_Expression(
+        expr: Expr_ArrayDimFetch(
+            var: Expr_StaticCall(
+                class: Name(
+                    parts: array(
+                        0: A
+                    )
+                    comments: array(
+                        0: // array dereferencing
+                    )
+                )
+                name: b
+                args: array(
+                )
                 comments: array(
                     0: // array dereferencing
+                )
+            )
+            dim: Scalar_String(
+                value: c
+            )
+            comments: array(
+                0: // array dereferencing
+            )
+        )
+        comments: array(
+            0: // array dereferencing
+        )
+    )
+    6: Stmt_Expression(
+        expr: Expr_StaticCall(
+            class: Name(
+                parts: array(
+                    0: static
+                )
+                comments: array(
+                    0: // class name variations
                 )
             )
             name: b
             args: array(
             )
             comments: array(
-                0: // array dereferencing
-            )
-        )
-        dim: Scalar_String(
-            value: c
-        )
-        comments: array(
-            0: // array dereferencing
-        )
-    )
-    6: Expr_StaticCall(
-        class: Name(
-            parts: array(
-                0: static
-            )
-            comments: array(
                 0: // class name variations
             )
-        )
-        name: b
-        args: array(
         )
         comments: array(
             0: // class name variations
         )
     )
-    7: Expr_StaticCall(
-        class: Expr_Variable(
-            name: a
-        )
-        name: b
-        args: array(
-        )
-    )
-    8: Expr_StaticCall(
-        class: Expr_Variable(
-            name: Scalar_String(
-                value: a
-            )
-        )
-        name: b
-        args: array(
-        )
-    )
-    9: Expr_StaticCall(
-        class: Expr_ArrayDimFetch(
-            var: Expr_Variable(
+    7: Stmt_Expression(
+        expr: Expr_StaticCall(
+            class: Expr_Variable(
                 name: a
             )
-            dim: Scalar_String(
-                value: b
+            name: b
+            args: array(
             )
         )
-        name: c
-        args: array(
+    )
+    8: Stmt_Expression(
+        expr: Expr_StaticCall(
+            class: Expr_Variable(
+                name: Scalar_String(
+                    value: a
+                )
+            )
+            name: b
+            args: array(
+            )
+        )
+    )
+    9: Stmt_Expression(
+        expr: Expr_StaticCall(
+            class: Expr_ArrayDimFetch(
+                var: Expr_Variable(
+                    name: a
+                )
+                dim: Scalar_String(
+                    value: b
+                )
+            )
+            name: c
+            args: array(
+            )
         )
     )
 )

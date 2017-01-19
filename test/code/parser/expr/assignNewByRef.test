@@ -5,17 +5,19 @@ $a =& new B;
 -----
 !!php5
 array(
-    0: Expr_AssignRef(
-        var: Expr_Variable(
-            name: a
-        )
-        expr: Expr_New(
-            class: Name(
-                parts: array(
-                    0: B
-                )
+    0: Stmt_Expression(
+        expr: Expr_AssignRef(
+            var: Expr_Variable(
+                name: a
             )
-            args: array(
+            expr: Expr_New(
+                class: Name(
+                    parts: array(
+                        0: B
+                    )
+                )
+                args: array(
+                )
             )
         )
     )
@@ -27,13 +29,15 @@ $a =& new B;
 !!php7
 Syntax error, unexpected T_NEW from 2:7 to 2:9
 array(
-    0: Expr_New(
-        class: Name(
-            parts: array(
-                0: B
+    0: Stmt_Expression(
+        expr: Expr_New(
+            class: Name(
+                parts: array(
+                    0: B
+                )
             )
-        )
-        args: array(
+            args: array(
+            )
         )
     )
 )

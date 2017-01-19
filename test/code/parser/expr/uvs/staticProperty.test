@@ -12,82 +12,98 @@ A::$A::$b;
 -----
 !!php7
 array(
-    0: Expr_StaticPropertyFetch(
-        class: Name(
-            parts: array(
-                0: A
+    0: Stmt_Expression(
+        expr: Expr_StaticPropertyFetch(
+            class: Name(
+                parts: array(
+                    0: A
+                )
             )
-        )
-        name: b
-    )
-    1: Expr_StaticPropertyFetch(
-        class: Expr_Variable(
-            name: A
-        )
-        name: b
-    )
-    2: Expr_StaticPropertyFetch(
-        class: Scalar_String(
-            value: A
-        )
-        name: b
-    )
-    3: Expr_StaticPropertyFetch(
-        class: Expr_BinaryOp_Concat(
-            left: Scalar_String(
-                value: A
-            )
-            right: Scalar_String(
-                value:
-            )
-        )
-        name: b
-    )
-    4: Expr_StaticPropertyFetch(
-        class: Expr_ArrayDimFetch(
-            var: Scalar_String(
-                value: A
-            )
-            dim: Scalar_LNumber(
-                value: 0
-            )
-        )
-        name: b
-    )
-    5: Expr_StaticPropertyFetch(
-        class: Name(
-            parts: array(
-                0: A
-            )
-        )
-        name: Expr_Variable(
             name: b
         )
     )
-    6: Expr_ArrayDimFetch(
-        var: Expr_StaticPropertyFetch(
+    1: Stmt_Expression(
+        expr: Expr_StaticPropertyFetch(
+            class: Expr_Variable(
+                name: A
+            )
+            name: b
+        )
+    )
+    2: Stmt_Expression(
+        expr: Expr_StaticPropertyFetch(
+            class: Scalar_String(
+                value: A
+            )
+            name: b
+        )
+    )
+    3: Stmt_Expression(
+        expr: Expr_StaticPropertyFetch(
+            class: Expr_BinaryOp_Concat(
+                left: Scalar_String(
+                    value: A
+                )
+                right: Scalar_String(
+                    value:
+                )
+            )
+            name: b
+        )
+    )
+    4: Stmt_Expression(
+        expr: Expr_StaticPropertyFetch(
+            class: Expr_ArrayDimFetch(
+                var: Scalar_String(
+                    value: A
+                )
+                dim: Scalar_LNumber(
+                    value: 0
+                )
+            )
+            name: b
+        )
+    )
+    5: Stmt_Expression(
+        expr: Expr_StaticPropertyFetch(
             class: Name(
                 parts: array(
                     0: A
                 )
             )
             name: Expr_Variable(
-                name: c
+                name: b
             )
-        )
-        dim: Scalar_LNumber(
-            value: 1
         )
     )
-    7: Expr_StaticPropertyFetch(
-        class: Expr_StaticPropertyFetch(
-            class: Name(
-                parts: array(
-                    0: A
+    6: Stmt_Expression(
+        expr: Expr_ArrayDimFetch(
+            var: Expr_StaticPropertyFetch(
+                class: Name(
+                    parts: array(
+                        0: A
+                    )
+                )
+                name: Expr_Variable(
+                    name: c
                 )
             )
-            name: A
+            dim: Scalar_LNumber(
+                value: 1
+            )
         )
-        name: b
+    )
+    7: Stmt_Expression(
+        expr: Expr_StaticPropertyFetch(
+            class: Expr_StaticPropertyFetch(
+                class: Name(
+                    parts: array(
+                        0: A
+                    )
+                )
+                name: A
+            )
+            name: b
+        )
     )
 )

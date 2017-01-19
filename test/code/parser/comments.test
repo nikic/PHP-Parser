@@ -21,8 +21,16 @@ if ($cond) {
 // bar 3
 -----
 array(
-    0: Expr_Variable(
-        name: var
+    0: Stmt_Expression(
+        expr: Expr_Variable(
+            name: var
+            comments: array(
+                0: /** doc 1 */
+                1: /* foobar 1 */
+                2: // foo 1
+                3: // bar 1
+            )
+        )
         comments: array(
             0: /** doc 1 */
             1: /* foobar 1 */

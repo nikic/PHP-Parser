@@ -8,38 +8,48 @@ Shell execution
 `test \"`;
 -----
 array(
-    0: Expr_ShellExec(
-        parts: array(
-        )
-    )
-    1: Expr_ShellExec(
-        parts: array(
-            0: Scalar_EncapsedStringPart(
-                value: test
+    0: Stmt_Expression(
+        expr: Expr_ShellExec(
+            parts: array(
             )
         )
     )
-    2: Expr_ShellExec(
-        parts: array(
-            0: Scalar_EncapsedStringPart(
-                value: test
-            )
-            1: Expr_Variable(
-                name: A
-            )
-        )
-    )
-    3: Expr_ShellExec(
-        parts: array(
-            0: Scalar_EncapsedStringPart(
-                value: test `
+    1: Stmt_Expression(
+        expr: Expr_ShellExec(
+            parts: array(
+                0: Scalar_EncapsedStringPart(
+                    value: test
+                )
             )
         )
     )
-    4: Expr_ShellExec(
-        parts: array(
-            0: Scalar_EncapsedStringPart(
-                value: test \"
+    2: Stmt_Expression(
+        expr: Expr_ShellExec(
+            parts: array(
+                0: Scalar_EncapsedStringPart(
+                    value: test
+                )
+                1: Expr_Variable(
+                    name: A
+                )
+            )
+        )
+    )
+    3: Stmt_Expression(
+        expr: Expr_ShellExec(
+            parts: array(
+                0: Scalar_EncapsedStringPart(
+                    value: test `
+                )
+            )
+        )
+    )
+    4: Stmt_Expression(
+        expr: Expr_ShellExec(
+            parts: array(
+                0: Scalar_EncapsedStringPart(
+                    value: test \"
+                )
             )
         )
     )

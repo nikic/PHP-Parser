@@ -4,9 +4,11 @@ Print
 print $a;
 -----
 array(
-    0: Expr_Print(
-        expr: Expr_Variable(
-            name: a
+    0: Stmt_Expression(
+        expr: Expr_Print(
+            expr: Expr_Variable(
+                name: a
+            )
         )
     )
 )

@@ -7,23 +7,25 @@ __halt_compiler();
 Foo
 -----
 array(
-    0: Expr_FuncCall(
-        name: Name(
-            parts: array(
-                0: var_dump
+    0: Stmt_Expression(
+        expr: Expr_FuncCall(
+            name: Name(
+                parts: array(
+                    0: var_dump
+                )
             )
-        )
-        args: array(
-            0: Arg(
-                value: Expr_ConstFetch(
-                    name: Name(
-                        parts: array(
-                            0: __HALT_COMPILER_OFFSET__
+            args: array(
+                0: Arg(
+                    value: Expr_ConstFetch(
+                        name: Name(
+                            parts: array(
+                                0: __HALT_COMPILER_OFFSET__
+                            )
                         )
                     )
+                    byRef: false
+                    unpack: false
                 )
-                byRef: false
-                unpack: false
             )
         )
     )

@@ -13,8 +13,10 @@ try {
 array(
     0: Stmt_TryCatch(
         stmts: array(
-            0: Expr_Variable(
-                name: x
+            0: Stmt_Expression(
+                expr: Expr_Variable(
+                    name: x
+                )
             )
         )
         catches: array(
@@ -33,8 +35,10 @@ array(
                 )
                 var: e1
                 stmts: array(
-                    0: Expr_Variable(
-                        name: y
+                    0: Stmt_Expression(
+                        expr: Expr_Variable(
+                            name: y
+                        )
                     )
                 )
             )
@@ -54,8 +58,10 @@ array(
                 )
                 var: e2
                 stmts: array(
-                    0: Expr_Variable(
-                        name: z
+                    0: Stmt_Expression(
+                        expr: Expr_Variable(
+                            name: z
+                        )
                     )
                 )
             )

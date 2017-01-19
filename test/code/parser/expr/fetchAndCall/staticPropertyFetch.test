@@ -14,73 +14,89 @@ A::$b{'c'};
 // class name variations can be found in staticCall.test
 -----
 array(
-    0: Expr_StaticPropertyFetch(
-        class: Name(
-            parts: array(
-                0: A
-            )
-            comments: array(
-                0: // property name variations
-            )
-        )
-        name: b
-        comments: array(
-            0: // property name variations
-        )
-    )
-    1: Expr_StaticPropertyFetch(
-        class: Name(
-            parts: array(
-                0: A
-            )
-        )
-        name: Expr_Variable(
-            name: b
-        )
-    )
-    2: Expr_StaticPropertyFetch(
-        class: Name(
-            parts: array(
-                0: A
-            )
-        )
-        name: Scalar_String(
-            value: b
-        )
-    )
-    3: Expr_ArrayDimFetch(
-        var: Expr_StaticPropertyFetch(
+    0: Stmt_Expression(
+        expr: Expr_StaticPropertyFetch(
             class: Name(
                 parts: array(
                     0: A
                 )
                 comments: array(
-                    0: // array access
+                    0: // property name variations
                 )
             )
             name: b
             comments: array(
-                0: // array access
+                0: // property name variations
             )
         )
-        dim: Scalar_String(
-            value: c
-        )
         comments: array(
-            0: // array access
+            0: // property name variations
         )
     )
-    4: Expr_ArrayDimFetch(
-        var: Expr_StaticPropertyFetch(
+    1: Stmt_Expression(
+        expr: Expr_StaticPropertyFetch(
             class: Name(
                 parts: array(
                     0: A
                 )
             )
-            name: b
+            name: Expr_Variable(
+                name: b
+            )
         )
-        dim: Scalar_String(
-            value: c
+    )
+    2: Stmt_Expression(
+        expr: Expr_StaticPropertyFetch(
+            class: Name(
+                parts: array(
+                    0: A
+                )
+            )
+            name: Scalar_String(
+                value: b
+            )
+        )
+    )
+    3: Stmt_Expression(
+        expr: Expr_ArrayDimFetch(
+            var: Expr_StaticPropertyFetch(
+                class: Name(
+                    parts: array(
+                        0: A
+                    )
+                    comments: array(
+                        0: // array access
+                    )
+                )
+                name: b
+                comments: array(
+                    0: // array access
+                )
+            )
+            dim: Scalar_String(
+                value: c
+            )
+            comments: array(
+                0: // array access
+            )
+        )
+        comments: array(
+            0: // array access
+        )
+    )
+    4: Stmt_Expression(
+        expr: Expr_ArrayDimFetch(
+            var: Expr_StaticPropertyFetch(
+                class: Name(
+                    parts: array(
+                        0: A
+                    )
+                )
+                name: b
+            )
+            dim: Scalar_String(
+                value: c
+            )
         )
     )
     5: Stmt_Nop(

@@ -190,83 +190,101 @@ array(
             )
         )
     )
-    1: Expr_Assign(
-        var: Expr_Variable(
-            name: t
+    1: Stmt_Expression(
+        expr: Expr_Assign(
+            var: Expr_Variable(
+                name: t
+            )
+            expr: Expr_New(
+                class: Name(
+                    parts: array(
+                        0: Test
+                    )
+                )
+                args: array(
+                )
+            )
         )
-        expr: Expr_New(
+    )
+    2: Stmt_Expression(
+        expr: Expr_MethodCall(
+            var: Expr_Variable(
+                name: t
+            )
+            name: array
+            args: array(
+            )
+        )
+    )
+    3: Stmt_Expression(
+        expr: Expr_MethodCall(
+            var: Expr_Variable(
+                name: t
+            )
+            name: public
+            args: array(
+            )
+        )
+    )
+    4: Stmt_Expression(
+        expr: Expr_StaticCall(
             class: Name(
                 parts: array(
                     0: Test
                 )
             )
+            name: list
             args: array(
             )
         )
     )
-    2: Expr_MethodCall(
-        var: Expr_Variable(
-            name: t
-        )
-        name: array
-        args: array(
-        )
-    )
-    3: Expr_MethodCall(
-        var: Expr_Variable(
-            name: t
-        )
-        name: public
-        args: array(
-        )
-    )
-    4: Expr_StaticCall(
-        class: Name(
-            parts: array(
-                0: Test
+    5: Stmt_Expression(
+        expr: Expr_StaticCall(
+            class: Name(
+                parts: array(
+                    0: Test
+                )
+            )
+            name: protected
+            args: array(
             )
         )
-        name: list
-        args: array(
-        )
     )
-    5: Expr_StaticCall(
-        class: Name(
-            parts: array(
-                0: Test
+    6: Stmt_Expression(
+        expr: Expr_PropertyFetch(
+            var: Expr_Variable(
+                name: t
             )
-        )
-        name: protected
-        args: array(
+            name: class
         )
     )
-    6: Expr_PropertyFetch(
-        var: Expr_Variable(
-            name: t
-        )
-        name: class
-    )
-    7: Expr_PropertyFetch(
-        var: Expr_Variable(
-            name: t
-        )
-        name: private
-    )
-    8: Expr_ClassConstFetch(
-        class: Name(
-            parts: array(
-                0: Test
+    7: Stmt_Expression(
+        expr: Expr_PropertyFetch(
+            var: Expr_Variable(
+                name: t
             )
+            name: private
         )
-        name: TRAIT
     )
-    9: Expr_ClassConstFetch(
-        class: Name(
-            parts: array(
-                0: Test
+    8: Stmt_Expression(
+        expr: Expr_ClassConstFetch(
+            class: Name(
+                parts: array(
+                    0: Test
+                )
             )
+            name: TRAIT
         )
-        name: FINAL
+    )
+    9: Stmt_Expression(
+        expr: Expr_ClassConstFetch(
+            class: Name(
+                parts: array(
+                    0: Test
+                )
+            )
+            name: FINAL
+        )
     )
     10: Stmt_Class(
         flags: 0

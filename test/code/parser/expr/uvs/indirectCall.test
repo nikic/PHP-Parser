@@ -17,35 +17,8 @@ id(['udef', 'id'])[1]()('var_dump')(5);
 -----
 !!php7
 array(
-    0: Expr_FuncCall(
-        name: Expr_FuncCall(
-            name: Name(
-                parts: array(
-                    0: id
-                )
-            )
-            args: array(
-                0: Arg(
-                    value: Scalar_String(
-                        value: var_dump
-                    )
-                    byRef: false
-                    unpack: false
-                )
-            )
-        )
-        args: array(
-            0: Arg(
-                value: Scalar_LNumber(
-                    value: 1
-                )
-                byRef: false
-                unpack: false
-            )
-        )
-    )
-    1: Expr_FuncCall(
-        name: Expr_FuncCall(
+    0: Stmt_Expression(
+        expr: Expr_FuncCall(
             name: Expr_FuncCall(
                 name: Name(
                     parts: array(
@@ -55,7 +28,7 @@ array(
                 args: array(
                     0: Arg(
                         value: Scalar_String(
-                            value: id
+                            value: var_dump
                         )
                         byRef: false
                         unpack: false
@@ -64,26 +37,17 @@ array(
             )
             args: array(
                 0: Arg(
-                    value: Scalar_String(
-                        value: var_dump
+                    value: Scalar_LNumber(
+                        value: 1
                     )
                     byRef: false
                     unpack: false
                 )
             )
         )
-        args: array(
-            0: Arg(
-                value: Scalar_LNumber(
-                    value: 2
-                )
-                byRef: false
-                unpack: false
-            )
-        )
     )
-    2: Expr_FuncCall(
-        name: Expr_FuncCall(
+    1: Stmt_Expression(
+        expr: Expr_FuncCall(
             name: Expr_FuncCall(
                 name: Expr_FuncCall(
                     name: Name(
@@ -92,123 +56,19 @@ array(
                         )
                     )
                     args: array(
-                    )
-                )
-                args: array(
-                )
-            )
-            args: array(
-                0: Arg(
-                    value: Scalar_String(
-                        value: var_dump
-                    )
-                    byRef: false
-                    unpack: false
-                )
-            )
-        )
-        args: array(
-            0: Arg(
-                value: Scalar_LNumber(
-                    value: 4
-                )
-                byRef: false
-                unpack: false
-            )
-        )
-    )
-    3: Expr_FuncCall(
-        name: Expr_FuncCall(
-            name: Expr_FuncCall(
-                name: Expr_ArrayDimFetch(
-                    var: Expr_FuncCall(
-                        name: Name(
-                            parts: array(
-                                0: id
+                        0: Arg(
+                            value: Scalar_String(
+                                value: id
                             )
-                        )
-                        args: array(
-                            0: Arg(
-                                value: Expr_Array(
-                                    items: array(
-                                        0: Expr_ArrayItem(
-                                            key: null
-                                            value: Scalar_String(
-                                                value: udef
-                                            )
-                                            byRef: false
-                                        )
-                                        1: Expr_ArrayItem(
-                                            key: null
-                                            value: Scalar_String(
-                                                value: id
-                                            )
-                                            byRef: false
-                                        )
-                                    )
-                                )
-                                byRef: false
-                                unpack: false
-                            )
-                        )
-                    )
-                    dim: Scalar_LNumber(
-                        value: 1
-                    )
-                )
-                args: array(
-                )
-            )
-            args: array(
-                0: Arg(
-                    value: Scalar_String(
-                        value: var_dump
-                    )
-                    byRef: false
-                    unpack: false
-                )
-            )
-        )
-        args: array(
-            0: Arg(
-                value: Scalar_LNumber(
-                    value: 5
-                )
-                byRef: false
-                unpack: false
-            )
-        )
-    )
-    4: Expr_FuncCall(
-        name: Expr_FuncCall(
-            name: Expr_FuncCall(
-                name: Expr_Closure(
-                    static: false
-                    byRef: false
-                    params: array(
-                        0: Param(
-                            type: null
                             byRef: false
-                            variadic: false
-                            name: x
-                            default: null
-                        )
-                    )
-                    uses: array(
-                    )
-                    returnType: null
-                    stmts: array(
-                        0: Stmt_Return(
-                            expr: Expr_Variable(
-                                name: x
-                            )
+                            unpack: false
                         )
                     )
                 )
                 args: array(
                     0: Arg(
                         value: Scalar_String(
-                            value: id
+                            value: var_dump
                         )
                         byRef: false
                         unpack: false
@@ -217,71 +77,23 @@ array(
             )
             args: array(
                 0: Arg(
-                    value: Scalar_String(
-                        value: var_dump
+                    value: Scalar_LNumber(
+                        value: 2
                     )
                     byRef: false
                     unpack: false
                 )
             )
         )
-        args: array(
-            0: Arg(
-                value: Scalar_LNumber(
-                    value: 8
-                )
-                byRef: false
-                unpack: false
-            )
-        )
     )
-    5: Expr_FuncCall(
-        name: Expr_FuncCall(
+    2: Stmt_Expression(
+        expr: Expr_FuncCall(
             name: Expr_FuncCall(
                 name: Expr_FuncCall(
                     name: Expr_FuncCall(
-                        name: Expr_Assign(
-                            var: Expr_Variable(
-                                name: f
-                            )
-                            expr: Expr_Closure(
-                                static: false
-                                byRef: false
-                                params: array(
-                                    0: Param(
-                                        type: null
-                                        byRef: false
-                                        variadic: false
-                                        name: x
-                                        default: Expr_ConstFetch(
-                                            name: Name(
-                                                parts: array(
-                                                    0: null
-                                                )
-                                            )
-                                        )
-                                    )
-                                )
-                                uses: array(
-                                    0: Expr_ClosureUse(
-                                        var: f
-                                        byRef: true
-                                    )
-                                )
-                                returnType: null
-                                stmts: array(
-                                    0: Stmt_Return(
-                                        expr: Expr_Ternary(
-                                            cond: Expr_Variable(
-                                                name: x
-                                            )
-                                            if: null
-                                            else: Expr_Variable(
-                                                name: f
-                                            )
-                                        )
-                                    )
-                                )
+                        name: Name(
+                            parts: array(
+                                0: id
                             )
                         )
                         args: array(
@@ -291,50 +103,303 @@ array(
                     )
                 )
                 args: array(
+                    0: Arg(
+                        value: Scalar_String(
+                            value: var_dump
+                        )
+                        byRef: false
+                        unpack: false
+                    )
                 )
             )
             args: array(
                 0: Arg(
-                    value: Scalar_String(
-                        value: var_dump
+                    value: Scalar_LNumber(
+                        value: 4
                     )
                     byRef: false
                     unpack: false
                 )
             )
         )
-        args: array(
-            0: Arg(
-                value: Scalar_LNumber(
-                    value: 9
+    )
+    3: Stmt_Expression(
+        expr: Expr_FuncCall(
+            name: Expr_FuncCall(
+                name: Expr_FuncCall(
+                    name: Expr_ArrayDimFetch(
+                        var: Expr_FuncCall(
+                            name: Name(
+                                parts: array(
+                                    0: id
+                                )
+                            )
+                            args: array(
+                                0: Arg(
+                                    value: Expr_Array(
+                                        items: array(
+                                            0: Expr_ArrayItem(
+                                                key: null
+                                                value: Scalar_String(
+                                                    value: udef
+                                                )
+                                                byRef: false
+                                            )
+                                            1: Expr_ArrayItem(
+                                                key: null
+                                                value: Scalar_String(
+                                                    value: id
+                                                )
+                                                byRef: false
+                                            )
+                                        )
+                                    )
+                                    byRef: false
+                                    unpack: false
+                                )
+                            )
+                        )
+                        dim: Scalar_LNumber(
+                            value: 1
+                        )
+                    )
+                    args: array(
+                    )
                 )
-                byRef: false
-                unpack: false
+                args: array(
+                    0: Arg(
+                        value: Scalar_String(
+                            value: var_dump
+                        )
+                        byRef: false
+                        unpack: false
+                    )
+                )
+            )
+            args: array(
+                0: Arg(
+                    value: Scalar_LNumber(
+                        value: 5
+                    )
+                    byRef: false
+                    unpack: false
+                )
             )
         )
     )
-    6: Expr_FuncCall(
-        name: Expr_FuncCall(
+    4: Stmt_Expression(
+        expr: Expr_FuncCall(
+            name: Expr_FuncCall(
+                name: Expr_FuncCall(
+                    name: Expr_Closure(
+                        static: false
+                        byRef: false
+                        params: array(
+                            0: Param(
+                                type: null
+                                byRef: false
+                                variadic: false
+                                name: x
+                                default: null
+                            )
+                        )
+                        uses: array(
+                        )
+                        returnType: null
+                        stmts: array(
+                            0: Stmt_Return(
+                                expr: Expr_Variable(
+                                    name: x
+                                )
+                            )
+                        )
+                    )
+                    args: array(
+                        0: Arg(
+                            value: Scalar_String(
+                                value: id
+                            )
+                            byRef: false
+                            unpack: false
+                        )
+                    )
+                )
+                args: array(
+                    0: Arg(
+                        value: Scalar_String(
+                            value: var_dump
+                        )
+                        byRef: false
+                        unpack: false
+                    )
+                )
+            )
+            args: array(
+                0: Arg(
+                    value: Scalar_LNumber(
+                        value: 8
+                    )
+                    byRef: false
+                    unpack: false
+                )
+            )
+        )
+    )
+    5: Stmt_Expression(
+        expr: Expr_FuncCall(
             name: Expr_FuncCall(
                 name: Expr_FuncCall(
                     name: Expr_FuncCall(
-                        name: Expr_Array(
-                            items: array(
-                                0: Expr_ArrayItem(
-                                    key: null
-                                    value: Expr_Variable(
-                                        name: obj
-                                    )
-                                    byRef: false
+                        name: Expr_FuncCall(
+                            name: Expr_Assign(
+                                var: Expr_Variable(
+                                    name: f
                                 )
-                                1: Expr_ArrayItem(
-                                    key: null
-                                    value: Scalar_String(
-                                        value: id
-                                    )
+                                expr: Expr_Closure(
+                                    static: false
                                     byRef: false
+                                    params: array(
+                                        0: Param(
+                                            type: null
+                                            byRef: false
+                                            variadic: false
+                                            name: x
+                                            default: Expr_ConstFetch(
+                                                name: Name(
+                                                    parts: array(
+                                                        0: null
+                                                    )
+                                                )
+                                            )
+                                        )
+                                    )
+                                    uses: array(
+                                        0: Expr_ClosureUse(
+                                            var: f
+                                            byRef: true
+                                        )
+                                    )
+                                    returnType: null
+                                    stmts: array(
+                                        0: Stmt_Return(
+                                            expr: Expr_Ternary(
+                                                cond: Expr_Variable(
+                                                    name: x
+                                                )
+                                                if: null
+                                                else: Expr_Variable(
+                                                    name: f
+                                                )
+                                            )
+                                        )
+                                    )
                                 )
                             )
+                            args: array(
+                            )
+                        )
+                        args: array(
+                        )
+                    )
+                    args: array(
+                    )
+                )
+                args: array(
+                    0: Arg(
+                        value: Scalar_String(
+                            value: var_dump
+                        )
+                        byRef: false
+                        unpack: false
+                    )
+                )
+            )
+            args: array(
+                0: Arg(
+                    value: Scalar_LNumber(
+                        value: 9
+                    )
+                    byRef: false
+                    unpack: false
+                )
+            )
+        )
+    )
+    6: Stmt_Expression(
+        expr: Expr_FuncCall(
+            name: Expr_FuncCall(
+                name: Expr_FuncCall(
+                    name: Expr_FuncCall(
+                        name: Expr_FuncCall(
+                            name: Expr_Array(
+                                items: array(
+                                    0: Expr_ArrayItem(
+                                        key: null
+                                        value: Expr_Variable(
+                                            name: obj
+                                        )
+                                        byRef: false
+                                    )
+                                    1: Expr_ArrayItem(
+                                        key: null
+                                        value: Scalar_String(
+                                            value: id
+                                        )
+                                        byRef: false
+                                    )
+                                )
+                            )
+                            args: array(
+                            )
+                        )
+                        args: array(
+                            0: Arg(
+                                value: Scalar_String(
+                                    value: id
+                                )
+                                byRef: false
+                                unpack: false
+                            )
+                        )
+                    )
+                    args: array(
+                        0: Arg(
+                            value: Expr_Variable(
+                                name: id
+                            )
+                            byRef: false
+                            unpack: false
+                        )
+                    )
+                )
+                args: array(
+                    0: Arg(
+                        value: Scalar_String(
+                            value: var_dump
+                        )
+                        byRef: false
+                        unpack: false
+                    )
+                )
+            )
+            args: array(
+                0: Arg(
+                    value: Scalar_LNumber(
+                        value: 10
+                    )
+                    byRef: false
+                    unpack: false
+                )
+            )
+        )
+    )
+    7: Stmt_Expression(
+        expr: Expr_FuncCall(
+            name: Expr_FuncCall(
+                name: Expr_FuncCall(
+                    name: Expr_FuncCall(
+                        name: Scalar_String(
+                            value: id
                         )
                         args: array(
                         )
@@ -351,8 +416,8 @@ array(
                 )
                 args: array(
                     0: Arg(
-                        value: Expr_Variable(
-                            name: id
+                        value: Scalar_String(
+                            value: var_dump
                         )
                         byRef: false
                         unpack: false
@@ -361,30 +426,26 @@ array(
             )
             args: array(
                 0: Arg(
-                    value: Scalar_String(
-                        value: var_dump
+                    value: Scalar_LNumber(
+                        value: 12
                     )
                     byRef: false
                     unpack: false
                 )
             )
         )
-        args: array(
-            0: Arg(
-                value: Scalar_LNumber(
-                    value: 10
-                )
-                byRef: false
-                unpack: false
-            )
-        )
     )
-    7: Expr_FuncCall(
-        name: Expr_FuncCall(
+    8: Stmt_Expression(
+        expr: Expr_FuncCall(
             name: Expr_FuncCall(
                 name: Expr_FuncCall(
-                    name: Scalar_String(
-                        value: id
+                    name: Expr_BinaryOp_Concat(
+                        left: Scalar_String(
+                            value: i
+                        )
+                        right: Scalar_String(
+                            value: d
+                        )
                     )
                     args: array(
                     )
@@ -392,7 +453,7 @@ array(
                 args: array(
                     0: Arg(
                         value: Scalar_String(
-                            value: id
+                            value: var_dump
                         )
                         byRef: false
                         unpack: false
@@ -401,80 +462,39 @@ array(
             )
             args: array(
                 0: Arg(
-                    value: Scalar_String(
-                        value: var_dump
+                    value: Scalar_LNumber(
+                        value: 13
                     )
                     byRef: false
                     unpack: false
                 )
             )
         )
-        args: array(
-            0: Arg(
-                value: Scalar_LNumber(
-                    value: 12
-                )
-                byRef: false
-                unpack: false
-            )
-        )
     )
-    8: Expr_FuncCall(
-        name: Expr_FuncCall(
+    9: Stmt_Expression(
+        expr: Expr_FuncCall(
             name: Expr_FuncCall(
-                name: Expr_BinaryOp_Concat(
-                    left: Scalar_String(
-                        value: i
-                    )
-                    right: Scalar_String(
-                        value: d
-                    )
+                name: Scalar_String(
+                    value: \id
                 )
                 args: array(
+                    0: Arg(
+                        value: Scalar_String(
+                            value: var_dump
+                        )
+                        byRef: false
+                        unpack: false
+                    )
                 )
             )
             args: array(
                 0: Arg(
-                    value: Scalar_String(
-                        value: var_dump
+                    value: Scalar_LNumber(
+                        value: 14
                     )
                     byRef: false
                     unpack: false
                 )
-            )
-        )
-        args: array(
-            0: Arg(
-                value: Scalar_LNumber(
-                    value: 13
-                )
-                byRef: false
-                unpack: false
-            )
-        )
-    )
-    9: Expr_FuncCall(
-        name: Expr_FuncCall(
-            name: Scalar_String(
-                value: \id
-            )
-            args: array(
-                0: Arg(
-                    value: Scalar_String(
-                        value: var_dump
-                    )
-                    byRef: false
-                    unpack: false
-                )
-            )
-        )
-        args: array(
-            0: Arg(
-                value: Scalar_LNumber(
-                    value: 14
-                )
-                byRef: false
-                unpack: false
             )
         )
     )

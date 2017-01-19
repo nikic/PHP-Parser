@@ -9,136 +9,144 @@ Array destructuring
 -----
 !!php7
 array(
-    0: Expr_Assign(
-        var: Expr_Array(
-            items: array(
-                0: Expr_ArrayItem(
-                    key: null
-                    value: Expr_Variable(
-                        name: a
+    0: Stmt_Expression(
+        expr: Expr_Assign(
+            var: Expr_Array(
+                items: array(
+                    0: Expr_ArrayItem(
+                        key: null
+                        value: Expr_Variable(
+                            name: a
+                        )
+                        byRef: false
                     )
-                    byRef: false
-                )
-                1: Expr_ArrayItem(
-                    key: null
-                    value: Expr_Variable(
-                        name: b
+                    1: Expr_ArrayItem(
+                        key: null
+                        value: Expr_Variable(
+                            name: b
+                        )
+                        byRef: false
                     )
-                    byRef: false
                 )
             )
-        )
-        expr: Expr_Array(
-            items: array(
-                0: Expr_ArrayItem(
-                    key: null
-                    value: Expr_Variable(
-                        name: c
+            expr: Expr_Array(
+                items: array(
+                    0: Expr_ArrayItem(
+                        key: null
+                        value: Expr_Variable(
+                            name: c
+                        )
+                        byRef: false
                     )
-                    byRef: false
-                )
-                1: Expr_ArrayItem(
-                    key: null
-                    value: Expr_Variable(
-                        name: d
+                    1: Expr_ArrayItem(
+                        key: null
+                        value: Expr_Variable(
+                            name: d
+                        )
+                        byRef: false
                     )
-                    byRef: false
                 )
             )
         )
     )
-    1: Expr_Assign(
-        var: Expr_Array(
-            items: array(
-                0: null
-                1: Expr_ArrayItem(
-                    key: null
-                    value: Expr_Variable(
-                        name: a
+    1: Stmt_Expression(
+        expr: Expr_Assign(
+            var: Expr_Array(
+                items: array(
+                    0: null
+                    1: Expr_ArrayItem(
+                        key: null
+                        value: Expr_Variable(
+                            name: a
+                        )
+                        byRef: false
                     )
-                    byRef: false
-                )
-                2: null
-                3: null
-                4: Expr_ArrayItem(
-                    key: null
-                    value: Expr_Variable(
-                        name: b
+                    2: null
+                    3: null
+                    4: Expr_ArrayItem(
+                        key: null
+                        value: Expr_Variable(
+                            name: b
+                        )
+                        byRef: false
                     )
-                    byRef: false
+                    5: null
                 )
-                5: null
+            )
+            expr: Expr_Variable(
+                name: foo
             )
         )
-        expr: Expr_Variable(
-            name: foo
-        )
     )
-    2: Expr_Assign(
-        var: Expr_Array(
-            items: array(
-                0: null
-                1: Expr_ArrayItem(
-                    key: null
-                    value: Expr_Array(
-                        items: array(
-                            0: Expr_ArrayItem(
-                                key: null
-                                value: Expr_Array(
-                                    items: array(
-                                        0: Expr_ArrayItem(
-                                            key: null
-                                            value: Expr_Variable(
-                                                name: a
+    2: Stmt_Expression(
+        expr: Expr_Assign(
+            var: Expr_Array(
+                items: array(
+                    0: null
+                    1: Expr_ArrayItem(
+                        key: null
+                        value: Expr_Array(
+                            items: array(
+                                0: Expr_ArrayItem(
+                                    key: null
+                                    value: Expr_Array(
+                                        items: array(
+                                            0: Expr_ArrayItem(
+                                                key: null
+                                                value: Expr_Variable(
+                                                    name: a
+                                                )
+                                                byRef: false
                                             )
-                                            byRef: false
                                         )
                                     )
+                                    byRef: false
                                 )
-                                byRef: false
                             )
                         )
+                        byRef: false
                     )
-                    byRef: false
-                )
-                2: Expr_ArrayItem(
-                    key: null
-                    value: Expr_Variable(
-                        name: b
+                    2: Expr_ArrayItem(
+                        key: null
+                        value: Expr_Variable(
+                            name: b
+                        )
+                        byRef: false
                     )
-                    byRef: false
                 )
             )
-        )
-        expr: Expr_Variable(
-            name: bar
+            expr: Expr_Variable(
+                name: bar
+            )
         )
     )
-    3: Expr_Assign(
-        var: Expr_Array(
-            items: array(
-                0: Expr_ArrayItem(
-                    key: Scalar_String(
-                        value: a
+    3: Stmt_Expression(
+        expr: Expr_Assign(
+            var: Expr_Array(
+                items: array(
+                    0: Expr_ArrayItem(
+                        key: Scalar_String(
+                            value: a
+                        )
+                        value: Expr_Variable(
+                            name: b
+                        )
+                        byRef: false
                     )
-                    value: Expr_Variable(
-                        name: b
+                    1: Expr_ArrayItem(
+                        key: Scalar_String(
+                            value: b
+                        )
+                        value: Expr_Variable(
+                            name: a
+                        )
+                        byRef: false
                     )
-                    byRef: false
-                )
-                1: Expr_ArrayItem(
-                    key: Scalar_String(
-                        value: b
-                    )
-                    value: Expr_Variable(
-                        name: a
-                    )
-                    byRef: false
                 )
             )
-        )
-        expr: Expr_Variable(
-            name: baz
+            expr: Expr_Variable(
+                name: baz
+            )
         )
     )
 )

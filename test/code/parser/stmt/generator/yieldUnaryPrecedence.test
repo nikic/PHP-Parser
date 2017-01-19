@@ -16,30 +16,36 @@ array(
         )
         returnType: null
         stmts: array(
-            0: Expr_Yield(
-                key: null
-                value: Expr_UnaryPlus(
-                    expr: Scalar_LNumber(
-                        value: 1
-                    )
-                )
-            )
-            1: Expr_Yield(
-                key: null
-                value: Expr_UnaryMinus(
-                    expr: Scalar_LNumber(
-                        value: 1
-                    )
-                )
-            )
-            2: Expr_BinaryOp_Mul(
-                left: Expr_Yield(
+            0: Stmt_Expression(
+                expr: Expr_Yield(
                     key: null
-                    value: null
+                    value: Expr_UnaryPlus(
+                        expr: Scalar_LNumber(
+                            value: 1
+                        )
+                    )
                 )
-                right: Expr_UnaryMinus(
-                    expr: Scalar_LNumber(
-                        value: 1
+            )
+            1: Stmt_Expression(
+                expr: Expr_Yield(
+                    key: null
+                    value: Expr_UnaryMinus(
+                        expr: Scalar_LNumber(
+                            value: 1
+                        )
+                    )
+                )
+            )
+            2: Stmt_Expression(
+                expr: Expr_BinaryOp_Mul(
+                    left: Expr_Yield(
+                        key: null
+                        value: null
+                    )
+                    right: Expr_UnaryMinus(
+                        expr: Scalar_LNumber(
+                            value: 1
+                        )
                     )
                 )
             )

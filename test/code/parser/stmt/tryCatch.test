@@ -24,13 +24,15 @@ finally { }
 array(
     0: Stmt_TryCatch(
         stmts: array(
-            0: Expr_FuncCall(
-                name: Name(
-                    parts: array(
-                        0: doTry
+            0: Stmt_Expression(
+                expr: Expr_FuncCall(
+                    name: Name(
+                        parts: array(
+                            0: doTry
+                        )
                     )
-                )
-                args: array(
+                    args: array(
+                    )
                 )
             )
         )
@@ -45,13 +47,15 @@ array(
                 )
                 var: b
                 stmts: array(
-                    0: Expr_FuncCall(
-                        name: Name(
-                            parts: array(
-                                0: doCatchA
+                    0: Stmt_Expression(
+                        expr: Expr_FuncCall(
+                            name: Name(
+                                parts: array(
+                                    0: doCatchA
+                                )
                             )
-                        )
-                        args: array(
+                            args: array(
+                            )
                         )
                     )
                 )
@@ -66,13 +70,15 @@ array(
                 )
                 var: c
                 stmts: array(
-                    0: Expr_FuncCall(
-                        name: Name(
-                            parts: array(
-                                0: doCatchB
+                    0: Stmt_Expression(
+                        expr: Expr_FuncCall(
+                            name: Name(
+                                parts: array(
+                                    0: doCatchB
+                                )
                             )
-                        )
-                        args: array(
+                            args: array(
+                            )
                         )
                     )
                 )
@@ -80,13 +86,15 @@ array(
         )
         finally: Stmt_Finally(
             stmts: array(
-                0: Expr_FuncCall(
-                    name: Name(
-                        parts: array(
-                            0: doFinally
+                0: Stmt_Expression(
+                    expr: Expr_FuncCall(
+                        name: Name(
+                            parts: array(
+                                0: doFinally
+                            )
                         )
-                    )
-                    args: array(
+                        args: array(
+                        )
                     )
                 )
             )

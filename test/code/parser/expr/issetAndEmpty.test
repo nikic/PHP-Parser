@@ -9,65 +9,75 @@ empty(foo());
 empty(array(1, 2, 3));
 -----
 array(
-    0: Expr_Isset(
-        vars: array(
-            0: Expr_Variable(
+    0: Stmt_Expression(
+        expr: Expr_Isset(
+            vars: array(
+                0: Expr_Variable(
+                    name: a
+                )
+            )
+        )
+    )
+    1: Stmt_Expression(
+        expr: Expr_Isset(
+            vars: array(
+                0: Expr_Variable(
+                    name: a
+                )
+                1: Expr_Variable(
+                    name: b
+                )
+                2: Expr_Variable(
+                    name: c
+                )
+            )
+        )
+    )
+    2: Stmt_Expression(
+        expr: Expr_Empty(
+            expr: Expr_Variable(
                 name: a
             )
         )
     )
-    1: Expr_Isset(
-        vars: array(
-            0: Expr_Variable(
-                name: a
-            )
-            1: Expr_Variable(
-                name: b
-            )
-            2: Expr_Variable(
-                name: c
+    3: Stmt_Expression(
+        expr: Expr_Empty(
+            expr: Expr_FuncCall(
+                name: Name(
+                    parts: array(
+                        0: foo
+                    )
+                )
+                args: array(
+                )
             )
         )
     )
-    2: Expr_Empty(
-        expr: Expr_Variable(
-            name: a
-        )
-    )
-    3: Expr_Empty(
-        expr: Expr_FuncCall(
-            name: Name(
-                parts: array(
-                    0: foo
-                )
-            )
-            args: array(
-            )
-        )
-    )
-    4: Expr_Empty(
-        expr: Expr_Array(
-            items: array(
-                0: Expr_ArrayItem(
-                    key: null
-                    value: Scalar_LNumber(
-                        value: 1
+    4: Stmt_Expression(
+        expr: Expr_Empty(
+            expr: Expr_Array(
+                items: array(
+                    0: Expr_ArrayItem(
+                        key: null
+                        value: Scalar_LNumber(
+                            value: 1
+                        )
+                        byRef: false
                     )
-                    byRef: false
-                )
-                1: Expr_ArrayItem(
-                    key: null
-                    value: Scalar_LNumber(
-                        value: 2
+                    1: Expr_ArrayItem(
+                        key: null
+                        value: Scalar_LNumber(
+                            value: 2
+                        )
+                        byRef: false
                     )
-                    byRef: false
-                )
-                2: Expr_ArrayItem(
-                    key: null
-                    value: Scalar_LNumber(
-                        value: 3
+                    2: Expr_ArrayItem(
+                        key: null
+                        value: Scalar_LNumber(
+                            value: 3
+                        )
+                        byRef: false
                     )
-                    byRef: false
                 )
             )
         )

@@ -30,61 +30,84 @@ EOS;
 
 -----
 array(
-    0: Scalar_String(
-        value:
+    0: Stmt_Expression(
+        expr: Scalar_String(
+            value:
+            comments: array(
+                0: // empty strings
+            )
+        )
         comments: array(
             0: // empty strings
         )
     )
-    1: Scalar_String(
-        value:
+    1: Stmt_Expression(
+        expr: Scalar_String(
+            value:
+        )
     )
-    2: Scalar_String(
-        value: Test '" $a \n
+    2: Stmt_Expression(
+        expr: Scalar_String(
+            value: Test '" $a \n
+            comments: array(
+                0: // constant encapsed strings
+            )
+        )
         comments: array(
             0: // constant encapsed strings
         )
     )
-    3: Scalar_String(
-        value: Test '" $a
+    3: Stmt_Expression(
+        expr: Scalar_String(
+            value: Test '" $a
 
+        )
     )
-    4: Scalar_Encapsed(
-        parts: array(
-            0: Scalar_EncapsedStringPart(
-                value: Test
+    4: Stmt_Expression(
+        expr: Scalar_Encapsed(
+            parts: array(
+                0: Scalar_EncapsedStringPart(
+                    value: Test
+                )
+                1: Expr_Variable(
+                    name: a
+                )
             )
-            1: Expr_Variable(
-                name: a
+            comments: array(
+                0: // encapsed strings
             )
         )
         comments: array(
             0: // encapsed strings
         )
     )
-    5: Scalar_Encapsed(
-        parts: array(
-            0: Scalar_EncapsedStringPart(
-                value: Test
-            )
-            1: Expr_Variable(
-                name: a
-            )
-            2: Scalar_EncapsedStringPart(
-                value:  and
-            )
-            3: Expr_PropertyFetch(
-                var: Expr_Variable(
-                    name: b
+    5: Stmt_Expression(
+        expr: Scalar_Encapsed(
+            parts: array(
+                0: Scalar_EncapsedStringPart(
+                    value: Test
                 )
-                name: c
-            )
-            4: Scalar_EncapsedStringPart(
-                value:  test
+                1: Expr_Variable(
+                    name: a
+                )
+                2: Scalar_EncapsedStringPart(
+                    value:  and
+                )
+                3: Expr_PropertyFetch(
+                    var: Expr_Variable(
+                        name: b
+                    )
+                    name: c
+                )
+                4: Scalar_EncapsedStringPart(
+                    value:  test
+                )
             )
         )
     )
-    6: Scalar_String(
-        value: Binary
+    6: Stmt_Expression(
+        expr: Scalar_String(
+            value: Binary
+        )
     )
 )

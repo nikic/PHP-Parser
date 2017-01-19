@@ -59,27 +59,29 @@ array(
             )
         )
     )
-    1: Expr_Closure(
-        static: false
-        byRef: false
-        params: array(
-        )
-        uses: array(
-            0: Expr_ClosureUse(
-                var: Expr_Variable(
-                    name: foo
-                )
-                byRef: false
+    1: Stmt_Expression(
+        expr: Expr_Closure(
+            static: false
+            byRef: false
+            params: array(
             )
-            1: Expr_ClosureUse(
-                var: Expr_Variable(
-                    name: bar
+            uses: array(
+                0: Expr_ClosureUse(
+                    var: Expr_Variable(
+                        name: foo
+                    )
+                    byRef: false
                 )
-                byRef: true
+                1: Expr_ClosureUse(
+                    var: Expr_Variable(
+                        name: bar
+                    )
+                    byRef: true
+                )
             )
-        )
-        returnType: null
-        stmts: array(
+            returnType: null
+            stmts: array(
+            )
         )
     )
     2: Stmt_TryCatch(

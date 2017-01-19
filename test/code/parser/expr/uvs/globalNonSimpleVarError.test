@@ -6,10 +6,12 @@ global $$foo->bar;
 !!php7
 Syntax error, unexpected T_OBJECT_OPERATOR, expecting ',' or ';' from 2:13 to 2:14
 array(
-    0: Expr_ConstFetch(
-        name: Name(
-            parts: array(
-                0: bar
+    0: Stmt_Expression(
+        expr: Expr_ConstFetch(
+            name: Name(
+                parts: array(
+                    0: bar
+                )
             )
         )
     )

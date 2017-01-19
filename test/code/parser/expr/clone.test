@@ -5,9 +5,11 @@ Clone
 clone $a;
 -----
 array(
-    0: Expr_Clone(
-        expr: Expr_Variable(
-            name: a
+    0: Stmt_Expression(
+        expr: Expr_Clone(
+            expr: Expr_Variable(
+                name: a
+            )
         )
     )
 )

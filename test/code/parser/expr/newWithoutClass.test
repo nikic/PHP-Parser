@@ -14,10 +14,12 @@ new;
 !!php7
 Syntax error, unexpected ';' from 2:4 to 2:4
 array(
-    0: Expr_New(
-        class: Expr_Error(
-        )
-        args: array(
+    0: Stmt_Expression(
+        expr: Expr_New(
+            class: Expr_Error(
+            )
+            args: array(
+            )
         )
     )
 )

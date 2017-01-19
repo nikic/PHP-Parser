@@ -8,8 +8,10 @@ __halt_compiler()
 Hallo World!
 -----
 array(
-    0: Expr_Variable(
-        name: a
+    0: Stmt_Expression(
+        expr: Expr_Variable(
+            name: a
+        )
     )
     1: Stmt_HaltCompiler(
         remaining: Hallo World!
@@ -22,8 +24,10 @@ $a;
 __halt_compiler();Hallo World!
 -----
 array(
-    0: Expr_Variable(
-        name: a
+    0: Stmt_Expression(
+        expr: Expr_Variable(
+            name: a
+        )
     )
     1: Stmt_HaltCompiler(
         remaining: Hallo World!
@@ -44,8 +48,10 @@ array(
             )
         )
         stmts: array(
-            0: Expr_Variable(
-                name: a
+            0: Stmt_Expression(
+                expr: Expr_Variable(
+                    name: a
+                )
             )
         )
     )

@@ -223,79 +223,95 @@ array(
             name: foo
         )
     )
-    9: Expr_ClassConstFetch(
-        class: Name(
-            parts: array(
-                0: Foo
-            )
-        )
-        name: Identifier(
-            name: BAR
-        )
-    )
-    10: Expr_PropertyFetch(
-        var: Expr_Variable(
-            name: foo
-        )
-        name: Identifier(
-            name: bar
-        )
-    )
-    11: Expr_MethodCall(
-        var: Expr_Variable(
-            name: foo
-        )
-        name: Identifier(
-            name: bar
-        )
-        args: array(
-        )
-    )
-    12: Expr_StaticCall(
-        class: Name(
-            parts: array(
-                0: Foo
-            )
-        )
-        name: Identifier(
-            name: bar
-        )
-        args: array(
-        )
-    )
-    13: Scalar_Encapsed(
-        parts: array(
-            0: Expr_PropertyFetch(
-                var: Expr_Variable(
-                    name: foo
-                )
-                name: Identifier(
-                    name: bar
+    9: Stmt_Expression(
+        expr: Expr_ClassConstFetch(
+            class: Name(
+                parts: array(
+                    0: Foo
                 )
             )
-        )
-    )
-    14: Expr_Variable(
-        name: foo
-    )
-    15: Expr_StaticPropertyFetch(
-        class: Name(
-            parts: array(
-                0: Foo
+            name: Identifier(
+                name: BAR
             )
         )
-        name: VarLikeIdentifier(
-            name: bar
-        )
     )
-    16: Expr_StaticPropertyFetch(
-        class: Name(
-            parts: array(
-                0: Foo
+    10: Stmt_Expression(
+        expr: Expr_PropertyFetch(
+            var: Expr_Variable(
+                name: foo
+            )
+            name: Identifier(
+                name: bar
             )
         )
-        name: Expr_Variable(
-            name: bar
+    )
+    11: Stmt_Expression(
+        expr: Expr_MethodCall(
+            var: Expr_Variable(
+                name: foo
+            )
+            name: Identifier(
+                name: bar
+            )
+            args: array(
+            )
+        )
+    )
+    12: Stmt_Expression(
+        expr: Expr_StaticCall(
+            class: Name(
+                parts: array(
+                    0: Foo
+                )
+            )
+            name: Identifier(
+                name: bar
+            )
+            args: array(
+            )
+        )
+    )
+    13: Stmt_Expression(
+        expr: Scalar_Encapsed(
+            parts: array(
+                0: Expr_PropertyFetch(
+                    var: Expr_Variable(
+                        name: foo
+                    )
+                    name: Identifier(
+                        name: bar
+                    )
+                )
+            )
+        )
+    )
+    14: Stmt_Expression(
+        expr: Expr_Variable(
+            name: foo
+        )
+    )
+    15: Stmt_Expression(
+        expr: Expr_StaticPropertyFetch(
+            class: Name(
+                parts: array(
+                    0: Foo
+                )
+            )
+            name: VarLikeIdentifier(
+                name: bar
+            )
+        )
+    )
+    16: Stmt_Expression(
+        expr: Expr_StaticPropertyFetch(
+            class: Name(
+                parts: array(
+                    0: Foo
+                )
+            )
+            name: Expr_Variable(
+                name: bar
+            )
         )
     )
 )

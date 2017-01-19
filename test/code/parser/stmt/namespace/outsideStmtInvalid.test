@@ -84,13 +84,15 @@ array(
         )
         stmts: null
     )
-    2: Expr_FuncCall(
-        name: Name(
-            parts: array(
-                0: foo
+    2: Stmt_Expression(
+        expr: Expr_FuncCall(
+            name: Name(
+                parts: array(
+                    0: foo
+                )
             )
-        )
-        args: array(
+            args: array(
+            )
         )
     )
     3: Stmt_Namespace(

@@ -8,48 +8,38 @@ New expression dereferencing
 (new A)['b']['c'];
 -----
 array(
-    0: Expr_PropertyFetch(
-        var: Expr_New(
-            class: Name(
-                parts: array(
-                    0: A
+    0: Stmt_Expression(
+        expr: Expr_PropertyFetch(
+            var: Expr_New(
+                class: Name(
+                    parts: array(
+                        0: A
+                    )
+                )
+                args: array(
                 )
             )
+            name: b
+        )
+    )
+    1: Stmt_Expression(
+        expr: Expr_MethodCall(
+            var: Expr_New(
+                class: Name(
+                    parts: array(
+                        0: A
+                    )
+                )
+                args: array(
+                )
+            )
+            name: b
             args: array(
             )
         )
-        name: b
     )
-    1: Expr_MethodCall(
-        var: Expr_New(
-            class: Name(
-                parts: array(
-                    0: A
-                )
-            )
-            args: array(
-            )
-        )
-        name: b
-        args: array(
-        )
-    )
-    2: Expr_ArrayDimFetch(
-        var: Expr_New(
-            class: Name(
-                parts: array(
-                    0: A
-                )
-            )
-            args: array(
-            )
-        )
-        dim: Scalar_String(
-            value: b
-        )
-    )
-    3: Expr_ArrayDimFetch(
-        var: Expr_ArrayDimFetch(
+    2: Stmt_Expression(
+        expr: Expr_ArrayDimFetch(
             var: Expr_New(
                 class: Name(
                     parts: array(
@@ -63,8 +53,26 @@ array(
                 value: b
             )
         )
-        dim: Scalar_String(
-            value: c
+    )
+    3: Stmt_Expression(
+        expr: Expr_ArrayDimFetch(
+            var: Expr_ArrayDimFetch(
+                var: Expr_New(
+                    class: Name(
+                        parts: array(
+                            0: A
+                        )
+                    )
+                    args: array(
+                    )
+                )
+                dim: Scalar_String(
+                    value: b
+                )
+            )
+            dim: Scalar_String(
+                value: c
+            )
         )
     )
 )

@@ -28,266 +28,314 @@ b"$A";
 B"$A";
 -----
 array(
-    0: Scalar_Encapsed(
-        parts: array(
-            0: Expr_Variable(
-                name: A
-            )
-        )
-    )
-    1: Scalar_Encapsed(
-        parts: array(
-            0: Expr_PropertyFetch(
-                var: Expr_Variable(
+    0: Stmt_Expression(
+        expr: Scalar_Encapsed(
+            parts: array(
+                0: Expr_Variable(
                     name: A
-                )
-                name: B
-            )
-        )
-    )
-    2: Scalar_Encapsed(
-        parts: array(
-            0: Expr_ArrayDimFetch(
-                var: Expr_Variable(
-                    name: A
-                )
-                dim: Scalar_String(
-                    value: B
                 )
             )
         )
     )
-    3: Scalar_Encapsed(
-        parts: array(
-            0: Expr_ArrayDimFetch(
-                var: Expr_Variable(
-                    name: A
-                )
-                dim: Scalar_LNumber(
-                    value: 0
-                )
-            )
-        )
-    )
-    4: Scalar_Encapsed(
-        parts: array(
-            0: Expr_ArrayDimFetch(
-                var: Expr_Variable(
-                    name: A
-                )
-                dim: Scalar_LNumber(
-                    value: 1234
-                )
-            )
-        )
-    )
-    5: Scalar_Encapsed(
-        parts: array(
-            0: Expr_ArrayDimFetch(
-                var: Expr_Variable(
-                    name: A
-                )
-                dim: Scalar_String(
-                    value: 9223372036854775808
-                )
-            )
-        )
-    )
-    6: Scalar_Encapsed(
-        parts: array(
-            0: Expr_ArrayDimFetch(
-                var: Expr_Variable(
-                    name: A
-                )
-                dim: Scalar_String(
-                    value: 000
-                )
-            )
-        )
-    )
-    7: Scalar_Encapsed(
-        parts: array(
-            0: Expr_ArrayDimFetch(
-                var: Expr_Variable(
-                    name: A
-                )
-                dim: Scalar_String(
-                    value: 0x0
-                )
-            )
-        )
-    )
-    8: Scalar_Encapsed(
-        parts: array(
-            0: Expr_ArrayDimFetch(
-                var: Expr_Variable(
-                    name: A
-                )
-                dim: Scalar_String(
-                    value: 0b0
-                )
-            )
-        )
-    )
-    9: Scalar_Encapsed(
-        parts: array(
-            0: Expr_ArrayDimFetch(
-                var: Expr_Variable(
-                    name: A
-                )
-                dim: Expr_Variable(
+    1: Stmt_Expression(
+        expr: Scalar_Encapsed(
+            parts: array(
+                0: Expr_PropertyFetch(
+                    var: Expr_Variable(
+                        name: A
+                    )
                     name: B
                 )
             )
         )
     )
-    10: Scalar_Encapsed(
-        parts: array(
-            0: Expr_Variable(
-                name: A
+    2: Stmt_Expression(
+        expr: Scalar_Encapsed(
+            parts: array(
+                0: Expr_ArrayDimFetch(
+                    var: Expr_Variable(
+                        name: A
+                    )
+                    dim: Scalar_String(
+                        value: B
+                    )
+                )
             )
         )
     )
-    11: Scalar_Encapsed(
-        parts: array(
-            0: Expr_ArrayDimFetch(
-                var: Expr_Variable(
+    3: Stmt_Expression(
+        expr: Scalar_Encapsed(
+            parts: array(
+                0: Expr_ArrayDimFetch(
+                    var: Expr_Variable(
+                        name: A
+                    )
+                    dim: Scalar_LNumber(
+                        value: 0
+                    )
+                )
+            )
+        )
+    )
+    4: Stmt_Expression(
+        expr: Scalar_Encapsed(
+            parts: array(
+                0: Expr_ArrayDimFetch(
+                    var: Expr_Variable(
+                        name: A
+                    )
+                    dim: Scalar_LNumber(
+                        value: 1234
+                    )
+                )
+            )
+        )
+    )
+    5: Stmt_Expression(
+        expr: Scalar_Encapsed(
+            parts: array(
+                0: Expr_ArrayDimFetch(
+                    var: Expr_Variable(
+                        name: A
+                    )
+                    dim: Scalar_String(
+                        value: 9223372036854775808
+                    )
+                )
+            )
+        )
+    )
+    6: Stmt_Expression(
+        expr: Scalar_Encapsed(
+            parts: array(
+                0: Expr_ArrayDimFetch(
+                    var: Expr_Variable(
+                        name: A
+                    )
+                    dim: Scalar_String(
+                        value: 000
+                    )
+                )
+            )
+        )
+    )
+    7: Stmt_Expression(
+        expr: Scalar_Encapsed(
+            parts: array(
+                0: Expr_ArrayDimFetch(
+                    var: Expr_Variable(
+                        name: A
+                    )
+                    dim: Scalar_String(
+                        value: 0x0
+                    )
+                )
+            )
+        )
+    )
+    8: Stmt_Expression(
+        expr: Scalar_Encapsed(
+            parts: array(
+                0: Expr_ArrayDimFetch(
+                    var: Expr_Variable(
+                        name: A
+                    )
+                    dim: Scalar_String(
+                        value: 0b0
+                    )
+                )
+            )
+        )
+    )
+    9: Stmt_Expression(
+        expr: Scalar_Encapsed(
+            parts: array(
+                0: Expr_ArrayDimFetch(
+                    var: Expr_Variable(
+                        name: A
+                    )
+                    dim: Expr_Variable(
+                        name: B
+                    )
+                )
+            )
+        )
+    )
+    10: Stmt_Expression(
+        expr: Scalar_Encapsed(
+            parts: array(
+                0: Expr_Variable(
                     name: A
                 )
-                dim: Scalar_String(
-                    value: B
+            )
+        )
+    )
+    11: Stmt_Expression(
+        expr: Scalar_Encapsed(
+            parts: array(
+                0: Expr_ArrayDimFetch(
+                    var: Expr_Variable(
+                        name: A
+                    )
+                    dim: Scalar_String(
+                        value: B
+                    )
                 )
             )
         )
     )
-    12: Scalar_Encapsed(
-        parts: array(
-            0: Expr_Variable(
-                name: A
-            )
-        )
-    )
-    13: Scalar_Encapsed(
-        parts: array(
-            0: Expr_ArrayDimFetch(
-                var: Expr_Variable(
-                    name: A
-                )
-                dim: Scalar_String(
-                    value: B
-                )
-            )
-        )
-    )
-    14: Scalar_Encapsed(
-        parts: array(
-            0: Expr_Variable(
-                name: Expr_Variable(
+    12: Stmt_Expression(
+        expr: Scalar_Encapsed(
+            parts: array(
+                0: Expr_Variable(
                     name: A
                 )
             )
         )
     )
-    15: Scalar_Encapsed(
-        parts: array(
-            0: Scalar_EncapsedStringPart(
-                value: \{
-            )
-            1: Expr_Variable(
-                name: A
-            )
-            2: Scalar_EncapsedStringPart(
-                value: }
-            )
-        )
-    )
-    16: Scalar_Encapsed(
-        parts: array(
-            0: Scalar_EncapsedStringPart(
-                value: \{
-            )
-            1: Expr_Variable(
-                name: A
-            )
-            2: Scalar_EncapsedStringPart(
-                value:  }
+    13: Stmt_Expression(
+        expr: Scalar_Encapsed(
+            parts: array(
+                0: Expr_ArrayDimFetch(
+                    var: Expr_Variable(
+                        name: A
+                    )
+                    dim: Scalar_String(
+                        value: B
+                    )
+                )
             )
         )
     )
-    17: Scalar_Encapsed(
-        parts: array(
-            0: Scalar_EncapsedStringPart(
-                value: \
-            )
-            1: Expr_Variable(
-                name: A
-            )
-        )
-    )
-    18: Scalar_Encapsed(
-        parts: array(
-            0: Scalar_EncapsedStringPart(
-                value: \{
-            )
-            1: Expr_Variable(
-                name: A
-            )
-            2: Scalar_EncapsedStringPart(
-                value:  }
+    14: Stmt_Expression(
+        expr: Scalar_Encapsed(
+            parts: array(
+                0: Expr_Variable(
+                    name: Expr_Variable(
+                        name: A
+                    )
+                )
             )
         )
     )
-    19: Scalar_Encapsed(
-        parts: array(
-            0: Expr_Variable(
-                name: Expr_Variable(
+    15: Stmt_Expression(
+        expr: Scalar_Encapsed(
+            parts: array(
+                0: Scalar_EncapsedStringPart(
+                    value: \{
+                )
+                1: Expr_Variable(
+                    name: A
+                )
+                2: Scalar_EncapsedStringPart(
+                    value: }
+                )
+            )
+        )
+    )
+    16: Stmt_Expression(
+        expr: Scalar_Encapsed(
+            parts: array(
+                0: Scalar_EncapsedStringPart(
+                    value: \{
+                )
+                1: Expr_Variable(
+                    name: A
+                )
+                2: Scalar_EncapsedStringPart(
+                    value:  }
+                )
+            )
+        )
+    )
+    17: Stmt_Expression(
+        expr: Scalar_Encapsed(
+            parts: array(
+                0: Scalar_EncapsedStringPart(
+                    value: \
+                )
+                1: Expr_Variable(
                     name: A
                 )
             )
-            1: Scalar_EncapsedStringPart(
-                value: [B]
-            )
         )
     )
-    20: Scalar_Encapsed(
-        parts: array(
-            0: Scalar_EncapsedStringPart(
-                value: $
-            )
-            1: Expr_ArrayDimFetch(
-                var: Expr_Variable(
+    18: Stmt_Expression(
+        expr: Scalar_Encapsed(
+            parts: array(
+                0: Scalar_EncapsedStringPart(
+                    value: \{
+                )
+                1: Expr_Variable(
                     name: A
                 )
-                dim: Scalar_String(
-                    value: B
+                2: Scalar_EncapsedStringPart(
+                    value:  }
                 )
             )
         )
     )
-    21: Scalar_Encapsed(
-        parts: array(
-            0: Scalar_EncapsedStringPart(
-                value: A
-            )
-            1: Expr_Variable(
-                name: B
-            )
-            2: Scalar_EncapsedStringPart(
-                value:  C
-            )
-        )
-    )
-    22: Scalar_Encapsed(
-        parts: array(
-            0: Expr_Variable(
-                name: A
+    19: Stmt_Expression(
+        expr: Scalar_Encapsed(
+            parts: array(
+                0: Expr_Variable(
+                    name: Expr_Variable(
+                        name: A
+                    )
+                )
+                1: Scalar_EncapsedStringPart(
+                    value: [B]
+                )
             )
         )
     )
-    23: Scalar_Encapsed(
-        parts: array(
-            0: Expr_Variable(
-                name: A
+    20: Stmt_Expression(
+        expr: Scalar_Encapsed(
+            parts: array(
+                0: Scalar_EncapsedStringPart(
+                    value: $
+                )
+                1: Expr_ArrayDimFetch(
+                    var: Expr_Variable(
+                        name: A
+                    )
+                    dim: Scalar_String(
+                        value: B
+                    )
+                )
+            )
+        )
+    )
+    21: Stmt_Expression(
+        expr: Scalar_Encapsed(
+            parts: array(
+                0: Scalar_EncapsedStringPart(
+                    value: A
+                )
+                1: Expr_Variable(
+                    name: B
+                )
+                2: Scalar_EncapsedStringPart(
+                    value:  C
+                )
+            )
+        )
+    )
+    22: Stmt_Expression(
+        expr: Scalar_Encapsed(
+            parts: array(
+                0: Expr_Variable(
+                    name: A
+                )
+            )
+        )
+    )
+    23: Stmt_Expression(
+        expr: Scalar_Encapsed(
+            parts: array(
+                0: Expr_Variable(
+                    name: A
+                )
             )
         )
     )

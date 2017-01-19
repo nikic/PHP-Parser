@@ -14,128 +14,147 @@ array('a', &$b, 'c' => 'd', 'e' => &$f);
 ['a' => 'b'];
 -----
 array(
-    0: Expr_Array(
-        items: array(
-        )
-    )
-    1: Expr_Array(
-        items: array(
-            0: Expr_ArrayItem(
-                key: null
-                value: Scalar_String(
-                    value: a
-                )
-                byRef: false
+    0: Stmt_Expression(
+        expr: Expr_Array(
+            items: array(
             )
         )
     )
-    2: Expr_Array(
-        items: array(
-            0: Expr_ArrayItem(
-                key: null
-                value: Scalar_String(
-                    value: a
+    1: Stmt_Expression(
+        expr: Expr_Array(
+            items: array(
+                0: Expr_ArrayItem(
+                    key: null
+                    value: Scalar_String(
+                        value: a
+                    )
+                    byRef: false
                 )
-                byRef: false
             )
         )
     )
-    3: Expr_Array(
-        items: array(
-            0: Expr_ArrayItem(
-                key: null
-                value: Scalar_String(
-                    value: a
+    2: Stmt_Expression(
+        expr: Expr_Array(
+            items: array(
+                0: Expr_ArrayItem(
+                    key: null
+                    value: Scalar_String(
+                        value: a
+                    )
+                    byRef: false
                 )
-                byRef: false
-            )
-            1: Expr_ArrayItem(
-                key: null
-                value: Scalar_String(
-                    value: b
-                )
-                byRef: false
             )
         )
     )
-    4: Expr_Array(
-        items: array(
-            0: Expr_ArrayItem(
-                key: null
-                value: Scalar_String(
-                    value: a
+    3: Stmt_Expression(
+        expr: Expr_Array(
+            items: array(
+                0: Expr_ArrayItem(
+                    key: null
+                    value: Scalar_String(
+                        value: a
+                    )
+                    byRef: false
                 )
-                byRef: false
-            )
-            1: Expr_ArrayItem(
-                key: null
-                value: Expr_Variable(
-                    name: b
+                1: Expr_ArrayItem(
+                    key: null
+                    value: Scalar_String(
+                        value: b
+                    )
+                    byRef: false
                 )
-                byRef: true
-            )
-            2: Expr_ArrayItem(
-                key: Scalar_String(
-                    value: c
-                )
-                value: Scalar_String(
-                    value: d
-                )
-                byRef: false
-            )
-            3: Expr_ArrayItem(
-                key: Scalar_String(
-                    value: e
-                )
-                value: Expr_Variable(
-                    name: f
-                )
-                byRef: true
             )
         )
     )
-    5: Expr_Array(
-        items: array(
+    4: Stmt_Expression(
+        expr: Expr_Array(
+            items: array(
+                0: Expr_ArrayItem(
+                    key: null
+                    value: Scalar_String(
+                        value: a
+                    )
+                    byRef: false
+                )
+                1: Expr_ArrayItem(
+                    key: null
+                    value: Expr_Variable(
+                        name: b
+                    )
+                    byRef: true
+                )
+                2: Expr_ArrayItem(
+                    key: Scalar_String(
+                        value: c
+                    )
+                    value: Scalar_String(
+                        value: d
+                    )
+                    byRef: false
+                )
+                3: Expr_ArrayItem(
+                    key: Scalar_String(
+                        value: e
+                    )
+                    value: Expr_Variable(
+                        name: f
+                    )
+                    byRef: true
+                )
+            )
+        )
+    )
+    5: Stmt_Expression(
+        expr: Expr_Array(
+            items: array(
+            )
+            comments: array(
+                0: // short array syntax
+            )
         )
         comments: array(
             0: // short array syntax
         )
     )
-    6: Expr_Array(
-        items: array(
-            0: Expr_ArrayItem(
-                key: null
-                value: Scalar_LNumber(
-                    value: 1
+    6: Stmt_Expression(
+        expr: Expr_Array(
+            items: array(
+                0: Expr_ArrayItem(
+                    key: null
+                    value: Scalar_LNumber(
+                        value: 1
+                    )
+                    byRef: false
                 )
-                byRef: false
-            )
-            1: Expr_ArrayItem(
-                key: null
-                value: Scalar_LNumber(
-                    value: 2
+                1: Expr_ArrayItem(
+                    key: null
+                    value: Scalar_LNumber(
+                        value: 2
+                    )
+                    byRef: false
                 )
-                byRef: false
-            )
-            2: Expr_ArrayItem(
-                key: null
-                value: Scalar_LNumber(
-                    value: 3
+                2: Expr_ArrayItem(
+                    key: null
+                    value: Scalar_LNumber(
+                        value: 3
+                    )
+                    byRef: false
                 )
-                byRef: false
             )
         )
     )
-    7: Expr_Array(
-        items: array(
-            0: Expr_ArrayItem(
-                key: Scalar_String(
-                    value: a
+    7: Stmt_Expression(
+        expr: Expr_Array(
+            items: array(
+                0: Expr_ArrayItem(
+                    key: Scalar_String(
+                        value: a
+                    )
+                    value: Scalar_String(
+                        value: b
+                    )
+                    byRef: false
                 )
-                value: Scalar_String(
-                    value: b
-                )
-                byRef: false
             )
         )
     )

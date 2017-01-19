@@ -14,94 +14,116 @@ $a instanceof B;
 $a instanceof $b;
 -----
 array(
-    0: Expr_BinaryOp_Smaller(
-        left: Expr_Variable(
-            name: a
-        )
-        right: Expr_Variable(
-            name: b
-        )
-    )
-    1: Expr_BinaryOp_SmallerOrEqual(
-        left: Expr_Variable(
-            name: a
-        )
-        right: Expr_Variable(
-            name: b
-        )
-    )
-    2: Expr_BinaryOp_Greater(
-        left: Expr_Variable(
-            name: a
-        )
-        right: Expr_Variable(
-            name: b
-        )
-    )
-    3: Expr_BinaryOp_GreaterOrEqual(
-        left: Expr_Variable(
-            name: a
-        )
-        right: Expr_Variable(
-            name: b
-        )
-    )
-    4: Expr_BinaryOp_Equal(
-        left: Expr_Variable(
-            name: a
-        )
-        right: Expr_Variable(
-            name: b
-        )
-    )
-    5: Expr_BinaryOp_Identical(
-        left: Expr_Variable(
-            name: a
-        )
-        right: Expr_Variable(
-            name: b
-        )
-    )
-    6: Expr_BinaryOp_NotEqual(
-        left: Expr_Variable(
-            name: a
-        )
-        right: Expr_Variable(
-            name: b
-        )
-    )
-    7: Expr_BinaryOp_NotIdentical(
-        left: Expr_Variable(
-            name: a
-        )
-        right: Expr_Variable(
-            name: b
-        )
-    )
-    8: Expr_BinaryOp_Spaceship(
-        left: Expr_Variable(
-            name: a
-        )
-        right: Expr_Variable(
-            name: b
-        )
-    )
-    9: Expr_Instanceof(
-        expr: Expr_Variable(
-            name: a
-        )
-        class: Name(
-            parts: array(
-                0: B
+    0: Stmt_Expression(
+        expr: Expr_BinaryOp_Smaller(
+            left: Expr_Variable(
+                name: a
+            )
+            right: Expr_Variable(
+                name: b
             )
         )
     )
-    10: Expr_Instanceof(
-        expr: Expr_Variable(
-            name: a
+    1: Stmt_Expression(
+        expr: Expr_BinaryOp_SmallerOrEqual(
+            left: Expr_Variable(
+                name: a
+            )
+            right: Expr_Variable(
+                name: b
+            )
         )
-        class: Expr_Variable(
-            name: b
+    )
+    2: Stmt_Expression(
+        expr: Expr_BinaryOp_Greater(
+            left: Expr_Variable(
+                name: a
+            )
+            right: Expr_Variable(
+                name: b
+            )
+        )
+    )
+    3: Stmt_Expression(
+        expr: Expr_BinaryOp_GreaterOrEqual(
+            left: Expr_Variable(
+                name: a
+            )
+            right: Expr_Variable(
+                name: b
+            )
+        )
+    )
+    4: Stmt_Expression(
+        expr: Expr_BinaryOp_Equal(
+            left: Expr_Variable(
+                name: a
+            )
+            right: Expr_Variable(
+                name: b
+            )
+        )
+    )
+    5: Stmt_Expression(
+        expr: Expr_BinaryOp_Identical(
+            left: Expr_Variable(
+                name: a
+            )
+            right: Expr_Variable(
+                name: b
+            )
+        )
+    )
+    6: Stmt_Expression(
+        expr: Expr_BinaryOp_NotEqual(
+            left: Expr_Variable(
+                name: a
+            )
+            right: Expr_Variable(
+                name: b
+            )
+        )
+    )
+    7: Stmt_Expression(
+        expr: Expr_BinaryOp_NotIdentical(
+            left: Expr_Variable(
+                name: a
+            )
+            right: Expr_Variable(
+                name: b
+            )
+        )
+    )
+    8: Stmt_Expression(
+        expr: Expr_BinaryOp_Spaceship(
+            left: Expr_Variable(
+                name: a
+            )
+            right: Expr_Variable(
+                name: b
+            )
+        )
+    )
+    9: Stmt_Expression(
+        expr: Expr_Instanceof(
+            expr: Expr_Variable(
+                name: a
+            )
+            class: Name(
+                parts: array(
+                    0: B
+                )
+            )
+        )
+    )
+    10: Stmt_Expression(
+        expr: Expr_Instanceof(
+            expr: Expr_Variable(
+                name: a
+            )
+            class: Expr_Variable(
+                name: b
+            )
         )
     )
 )

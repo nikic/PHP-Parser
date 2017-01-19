@@ -10,133 +10,149 @@ function($a) : array {};
 function() use($a) : \Foo\Bar {};
 -----
 array(
-    0: Expr_Closure(
-        static: false
-        byRef: false
-        params: array(
-            0: Param(
-                type: null
-                byRef: false
-                variadic: false
-                name: a
-                default: null
+    0: Stmt_Expression(
+        expr: Expr_Closure(
+            static: false
+            byRef: false
+            params: array(
+                0: Param(
+                    type: null
+                    byRef: false
+                    variadic: false
+                    name: a
+                    default: null
+                )
             )
-        )
-        uses: array(
-        )
-        returnType: null
-        stmts: array(
-            0: Expr_Variable(
-                name: a
+            uses: array(
+            )
+            returnType: null
+            stmts: array(
+                0: Stmt_Expression(
+                    expr: Expr_Variable(
+                        name: a
+                    )
+                )
             )
         )
     )
-    1: Expr_Closure(
-        static: false
-        byRef: false
-        params: array(
-            0: Param(
-                type: null
-                byRef: false
-                variadic: false
-                name: a
-                default: null
+    1: Stmt_Expression(
+        expr: Expr_Closure(
+            static: false
+            byRef: false
+            params: array(
+                0: Param(
+                    type: null
+                    byRef: false
+                    variadic: false
+                    name: a
+                    default: null
+                )
             )
-        )
-        uses: array(
-            0: Expr_ClosureUse(
-                var: b
-                byRef: false
+            uses: array(
+                0: Expr_ClosureUse(
+                    var: b
+                    byRef: false
+                )
             )
-        )
-        returnType: null
-        stmts: array(
+            returnType: null
+            stmts: array(
+            )
         )
     )
-    2: Expr_Closure(
-        static: false
-        byRef: false
-        params: array(
-        )
-        uses: array(
-            0: Expr_ClosureUse(
-                var: a
-                byRef: false
+    2: Stmt_Expression(
+        expr: Expr_Closure(
+            static: false
+            byRef: false
+            params: array(
             )
-            1: Expr_ClosureUse(
-                var: b
-                byRef: true
+            uses: array(
+                0: Expr_ClosureUse(
+                    var: a
+                    byRef: false
+                )
+                1: Expr_ClosureUse(
+                    var: b
+                    byRef: true
+                )
             )
-        )
-        returnType: null
-        stmts: array(
+            returnType: null
+            stmts: array(
+            )
         )
     )
-    3: Expr_Closure(
-        static: false
-        byRef: true
-        params: array(
-            0: Param(
-                type: null
-                byRef: false
-                variadic: false
-                name: a
-                default: null
+    3: Stmt_Expression(
+        expr: Expr_Closure(
+            static: false
+            byRef: true
+            params: array(
+                0: Param(
+                    type: null
+                    byRef: false
+                    variadic: false
+                    name: a
+                    default: null
+                )
             )
-        )
-        uses: array(
-        )
-        returnType: null
-        stmts: array(
+            uses: array(
+            )
+            returnType: null
+            stmts: array(
+            )
         )
     )
-    4: Expr_Closure(
-        static: true
-        byRef: false
-        params: array(
-        )
-        uses: array(
-        )
-        returnType: null
-        stmts: array(
+    4: Stmt_Expression(
+        expr: Expr_Closure(
+            static: true
+            byRef: false
+            params: array(
+            )
+            uses: array(
+            )
+            returnType: null
+            stmts: array(
+            )
         )
     )
-    5: Expr_Closure(
-        static: false
-        byRef: false
-        params: array(
-            0: Param(
-                type: null
-                byRef: false
-                variadic: false
-                name: a
-                default: null
+    5: Stmt_Expression(
+        expr: Expr_Closure(
+            static: false
+            byRef: false
+            params: array(
+                0: Param(
+                    type: null
+                    byRef: false
+                    variadic: false
+                    name: a
+                    default: null
+                )
             )
-        )
-        uses: array(
-        )
-        returnType: array
-        stmts: array(
+            uses: array(
+            )
+            returnType: array
+            stmts: array(
+            )
         )
     )
-    6: Expr_Closure(
-        static: false
-        byRef: false
-        params: array(
-        )
-        uses: array(
-            0: Expr_ClosureUse(
-                var: a
-                byRef: false
+    6: Stmt_Expression(
+        expr: Expr_Closure(
+            static: false
+            byRef: false
+            params: array(
             )
-        )
-        returnType: Name_FullyQualified(
-            parts: array(
-                0: Foo
-                1: Bar
+            uses: array(
+                0: Expr_ClosureUse(
+                    var: a
+                    byRef: false
+                )
             )
-        )
-        stmts: array(
+            returnType: Name_FullyQualified(
+                parts: array(
+                    0: Foo
+                    1: Bar
+                )
+            )
+            stmts: array(
+            )
         )
     )
 )

@@ -22,8 +22,10 @@ array(
             name: a
         )
         stmts: array(
-            0: Expr_Variable(
-                name: A
+            0: Stmt_Expression(
+                expr: Expr_Variable(
+                    name: A
+                )
             )
         )
         elseifs: array(
@@ -32,16 +34,20 @@ array(
                     name: b
                 )
                 stmts: array(
-                    0: Expr_Variable(
-                        name: B
+                    0: Stmt_Expression(
+                        expr: Expr_Variable(
+                            name: B
+                        )
                     )
                 )
             )
         )
         else: Stmt_Else(
             stmts: array(
-                0: Expr_Variable(
-                    name: C
+                0: Stmt_Expression(
+                    expr: Expr_Variable(
+                        name: C
+                    )
                 )
             )
         )
@@ -54,8 +60,10 @@ array(
         loop: array(
         )
         stmts: array(
-            0: Expr_Variable(
-                name: foo
+            0: Stmt_Expression(
+                expr: Expr_Variable(
+                    name: foo
+                )
             )
         )
     )
@@ -69,8 +77,10 @@ array(
             name: b
         )
         stmts: array(
-            0: Expr_Variable(
-                name: AB
+            0: Stmt_Expression(
+                expr: Expr_Variable(
+                    name: AB
+                )
             )
         )
     )
@@ -79,15 +89,19 @@ array(
             name: a
         )
         stmts: array(
-            0: Expr_Variable(
-                name: A
+            0: Stmt_Expression(
+                expr: Expr_Variable(
+                    name: A
+                )
             )
         )
     )
     4: Stmt_Do(
         stmts: array(
-            0: Expr_Variable(
-                name: A
+            0: Stmt_Expression(
+                expr: Expr_Variable(
+                    name: A
+                )
             )
         )
         cond: Expr_Variable(
@@ -104,8 +118,10 @@ array(
             )
         )
         stmts: array(
-            0: Expr_Variable(
-                name: C
+            0: Stmt_Expression(
+                expr: Expr_Variable(
+                    name: C
+                )
             )
         )
     )

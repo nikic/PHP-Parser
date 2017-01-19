@@ -17,10 +17,12 @@ array(
             )
         )
         stmts: array(
-            0: Expr_ConstFetch(
-                name: Name(
-                    parts: array(
-                        0: foo
+            0: Stmt_Expression(
+                expr: Expr_ConstFetch(
+                    name: Name(
+                        parts: array(
+                            0: foo
+                        )
                     )
                 )
             )
@@ -33,10 +35,12 @@ array(
             )
         )
         stmts: array(
-            0: Expr_ConstFetch(
-                name: Name(
-                    parts: array(
-                        0: bar
+            0: Stmt_Expression(
+                expr: Expr_ConstFetch(
+                    name: Name(
+                        parts: array(
+                            0: bar
+                        )
                     )
                 )
             )
