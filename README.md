@@ -6,7 +6,7 @@ PHP Parser
 This is a PHP 5.2 to PHP 7.1 parser written in PHP. Its purpose is to simplify static code analysis and
 manipulation.
 
-[**Documentation for version 3.x**][doc_master] (stable; for running on PHP >= 5.5; for parsing PHP 5.2 to PHP 7.1).
+[**Documentation for version 3.x**][doc_3_x] (stable; for running on PHP >= 5.5; for parsing PHP 5.2 to PHP 7.1).
 
 [Documentation for version 2.x][doc_2_x] (stable; for running on PHP >= 5.4; for parsing PHP 5.2 to PHP 7.0).
 
@@ -96,4 +96,5 @@ Component documentation:
 
  [doc_1_x]: https://github.com/nikic/PHP-Parser/tree/1.x/doc
  [doc_2_x]: https://github.com/nikic/PHP-Parser/tree/2.x/doc
+ [doc_3_x]: https://github.com/nikic/PHP-Parser/tree/3.x/doc
  [doc_master]: https://github.com/nikic/PHP-Parser/tree/master/doc
