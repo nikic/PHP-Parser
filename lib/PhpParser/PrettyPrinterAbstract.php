@@ -343,8 +343,8 @@ abstract class PrettyPrinterAbstract
      *
      * In order to use this method a number of prerequisites must be satisfied:
      *  * The startTokenPos and endTokenPos attributes in the lexer must be enabled.
-     *  * The parser must be run with the options  useIdentifierNodes, useConsistentVariableNodes
-     *    ENABLED and useNopStatements DISABLED.
+     *  * The parser must be run with the option useIdentifierNodes ENABLED and
+     *    useNopStatements DISABLED.
      *  * The CloningVisitor must be run on the AST prior to modification.
      *  * The original tokens must be provided, using the getTokens() method on the lexer.
      *

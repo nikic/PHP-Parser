@@ -23,7 +23,6 @@ class PrettyPrinterTest extends CodeTestAbstract
         // Use these options on one of the parsers ... don't want to write extra tests for them
         $parser7 = new Parser\Php7($lexer, [
             'useIdentifierNodes' => true,
-            'useConsistentVariableNodes' => true,
         ]);
 
         list($version, $options) = $this->parseModeLine($modeLine);
@@ -204,7 +203,6 @@ class PrettyPrinterTest extends CodeTestAbstract
 
         $parser = new Parser\Php7($lexer, [
             'useIdentifierNodes' => true,
-            'useConsistentVariableNodes' => true,
             'useNopStatements' => false,
         ]);
 
@@ -265,7 +263,6 @@ CODE
         /** @var Parser $parser */
         $parser = new $parserClass($lexer, [
             'useIdentifierNodes' => true,
-            'useConsistentVariableNodes' => true,
             'useNopStatements' => false,
         ]);
 

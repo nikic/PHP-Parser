@@ -54,7 +54,7 @@ namespace_name:
 ;
 
 plain_variable:
-      T_VARIABLE                                            { $$ = maybeMakeVar(parseVar($1)); }
+      T_VARIABLE                                            { $$ = Expr\Variable[parseVar($1)]; }
 ;
 
 top_statement:
@@ -877,18 +877,14 @@ encaps_string_part:
       T_ENCAPSED_AND_WHITESPACE                             { $$ = Scalar\EncapsedStringPart[$1]; }
 ;
 
-encaps_base_var:
-      T_VARIABLE                                            { $$ = Expr\Variable[parseVar($1)]; }
-;
-
 encaps_str_varname:
       T_STRING_VARNAME                                      { $$ = Expr\Variable[$1]; }
 ;
 
 encaps_var:
-      encaps_base_var                                       { $$ = $1; }
-    | encaps_base_var '[' encaps_var_offset ']'             { $$ = Expr\ArrayDimFetch[$1, $3]; }
-    | encaps_base_var T_OBJECT_OPERATOR identifier          { $$ = Expr\PropertyFetch[$1, $3]; }
+      plain_variable                                        { $$ = $1; }
+    | plain_variable '[' encaps_var_offset ']'              { $$ = Expr\ArrayDimFetch[$1, $3]; }
+    | plain_variable T_OBJECT_OPERATOR identifier           { $$ = Expr\PropertyFetch[$1, $3]; }
     | T_DOLLAR_OPEN_CURLY_BRACES expr '}'                   { $$ = Expr\Variable[$2]; }
     | T_DOLLAR_OPEN_CURLY_BRACES T_STRING_VARNAME '}'       { $$ = Expr\Variable[$2]; }
     | T_DOLLAR_OPEN_CURLY_BRACES encaps_str_varname '[' expr ']' '}'
@@ -900,7 +896,7 @@ encaps_var_offset:
       T_STRING                                              { $$ = Scalar\String_[$1]; }
     | T_NUM_STRING                                          { $$ = $this->parseNumString($1, attributes()); }
     | '-' T_NUM_STRING                                      { $$ = $this->parseNumString('-' . $2, attributes()); }
-    | T_VARIABLE                                            { $$ = Expr\Variable[parseVar($1)]; }
+    | plain_variable                                        { $$ = $1; }
 ;
 
 %%

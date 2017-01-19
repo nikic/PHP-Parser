@@ -35,7 +35,6 @@ class CodeParsingTest extends CodeTestAbstract
     public function createParsers(array $modes) {
         $parserOptions = [
             'useIdentifierNodes' => isset($modes['ident']),
-            'useConsistentVariableNodes' => isset($modes['consistentVars']),
         ];
 
         $lexer = new Lexer\Emulative(array('usedAttributes' => array(
