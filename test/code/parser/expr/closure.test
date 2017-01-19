@@ -19,7 +19,9 @@ array(
                     type: null
                     byRef: false
                     variadic: false
-                    name: a
+                    name: Expr_Variable(
+                        name: a
+                    )
                     default: null
                 )
             )
@@ -44,13 +46,17 @@ array(
                     type: null
                     byRef: false
                     variadic: false
-                    name: a
+                    name: Expr_Variable(
+                        name: a
+                    )
                     default: null
                 )
             )
             uses: array(
                 0: Expr_ClosureUse(
-                    var: b
+                    var: Expr_Variable(
+                        name: b
+                    )
                     byRef: false
                 )
             )
@@ -67,11 +73,15 @@ array(
             )
             uses: array(
                 0: Expr_ClosureUse(
-                    var: a
+                    var: Expr_Variable(
+                        name: a
+                    )
                     byRef: false
                 )
                 1: Expr_ClosureUse(
-                    var: b
+                    var: Expr_Variable(
+                        name: b
+                    )
                     byRef: true
                 )
             )
@@ -89,7 +99,9 @@ array(
                     type: null
                     byRef: false
                     variadic: false
-                    name: a
+                    name: Expr_Variable(
+                        name: a
+                    )
                     default: null
                 )
             )
@@ -122,7 +134,9 @@ array(
                     type: null
                     byRef: false
                     variadic: false
-                    name: a
+                    name: Expr_Variable(
+                        name: a
+                    )
                     default: null
                 )
             )
@@ -141,7 +155,9 @@ array(
             )
             uses: array(
                 0: Expr_ClosureUse(
-                    var: a
+                    var: Expr_Variable(
+                        name: a
+                    )
                     byRef: false
                 )
             )

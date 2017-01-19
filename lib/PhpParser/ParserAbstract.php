@@ -137,7 +137,7 @@ abstract class ParserAbstract implements Parser
         $this->lexer = $lexer;
         $this->errors = array();
         $this->useIdentifierNodes = !empty($options['useIdentifierNodes']);
-        $this->useConsistentVariableNodes = !empty($options['useConsistentVariableNodes']);
+        $this->useConsistentVariableNodes = true;
         $this->useNopStatements =
             isset($options['useNopStatements']) ? $options['useNopStatements'] : true;
 

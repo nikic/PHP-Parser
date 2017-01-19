@@ -199,7 +199,9 @@ array(
                                 type: null
                                 byRef: false
                                 variadic: false
-                                name: x
+                                name: Expr_Variable(
+                                    name: x
+                                )
                                 default: null
                             )
                         )
@@ -263,7 +265,9 @@ array(
                                             type: null
                                             byRef: false
                                             variadic: false
-                                            name: x
+                                            name: Expr_Variable(
+                                                name: x
+                                            )
                                             default: Expr_ConstFetch(
                                                 name: Name(
                                                     parts: array(
@@ -275,7 +279,9 @@ array(
                                     )
                                     uses: array(
                                         0: Expr_ClosureUse(
-                                            var: f
+                                            var: Expr_Variable(
+                                                name: f
+                                            )
                                             byRef: true
                                         )
                                     )

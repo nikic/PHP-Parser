@@ -35,11 +35,15 @@ array(
             1: Stmt_Static(
                 vars: array(
                     0: Stmt_StaticVar(
-                        name: c
+                        name: Expr_Variable(
+                            name: c
+                        )
                         default: null
                     )
                     1: Stmt_StaticVar(
-                        name: d
+                        name: Expr_Variable(
+                            name: d
+                        )
                         default: Scalar_String(
                             value: e
                         )

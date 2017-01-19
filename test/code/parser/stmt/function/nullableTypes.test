@@ -21,7 +21,9 @@ array(
                 )
                 byRef: false
                 variadic: false
-                name: bar
+                name: Expr_Variable(
+                    name: bar
+                )
                 default: null
             )
             1: Param(
@@ -30,7 +32,9 @@ array(
                 )
                 byRef: false
                 variadic: false
-                name: foo
+                name: Expr_Variable(
+                    name: foo
+                )
                 default: null
             )
         )

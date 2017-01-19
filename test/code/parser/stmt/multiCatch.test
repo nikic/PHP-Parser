@@ -33,7 +33,9 @@ array(
                         )
                     )
                 )
-                var: e1
+                var: Expr_Variable(
+                    name: e1
+                )
                 stmts: array(
                     0: Stmt_Expression(
                         expr: Expr_Variable(
@@ -56,7 +58,9 @@ array(
                         )
                     )
                 )
-                var: e2
+                var: Expr_Variable(
+                    name: e2
+                )
                 stmts: array(
                     0: Stmt_Expression(
                         expr: Expr_Variable(

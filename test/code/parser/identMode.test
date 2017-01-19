@@ -178,7 +178,9 @@ array(
                 )
                 byRef: false
                 variadic: false
-                name: x
+                name: Expr_Variable(
+                    name: x
+                )
                 default: null
             )
         )
@@ -334,7 +336,9 @@ array(
                 )
                 byRef: false
                 variadic: false
-                name: bar
+                name: Expr_Variable(
+                    name: bar
+                )
                 default: null
             )
         )

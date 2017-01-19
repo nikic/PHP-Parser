@@ -45,7 +45,9 @@ array(
                         )
                     )
                 )
-                var: b
+                var: Expr_Variable(
+                    name: b
+                )
                 stmts: array(
                     0: Stmt_Expression(
                         expr: Expr_FuncCall(
@@ -68,7 +70,9 @@ array(
                         )
                     )
                 )
-                var: c
+                var: Expr_Variable(
+                    name: c
+                )
                 stmts: array(
                     0: Stmt_Expression(
                         expr: Expr_FuncCall(
@@ -112,7 +116,9 @@ array(
                         )
                     )
                 )
-                var: b
+                var: Expr_Variable(
+                    name: b
+                )
                 stmts: array(
                 )
             )

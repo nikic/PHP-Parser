@@ -23,7 +23,9 @@ array(
                 type: null
                 byRef: false
                 variadic: false
-                name: b
+                name: Expr_Variable(
+                    name: b
+                )
                 default: Expr_ConstFetch(
                     name: Name(
                         parts: array(
@@ -36,7 +38,9 @@ array(
                 type: null
                 byRef: false
                 variadic: false
-                name: c
+                name: Expr_Variable(
+                    name: c
+                )
                 default: Scalar_String(
                     value: foo
                 )
@@ -45,7 +49,9 @@ array(
                 type: null
                 byRef: false
                 variadic: false
-                name: d
+                name: Expr_Variable(
+                    name: d
+                )
                 default: Expr_ClassConstFetch(
                     class: Name(
                         parts: array(
@@ -59,7 +65,9 @@ array(
                 type: null
                 byRef: false
                 variadic: false
-                name: f
+                name: Expr_Variable(
+                    name: f
+                )
                 default: Expr_UnaryPlus(
                     expr: Scalar_LNumber(
                         value: 1
@@ -70,7 +78,9 @@ array(
                 type: null
                 byRef: false
                 variadic: false
-                name: g
+                name: Expr_Variable(
+                    name: g
+                )
                 default: Expr_UnaryMinus(
                     expr: Scalar_DNumber(
                         value: 1
@@ -81,7 +91,9 @@ array(
                 type: null
                 byRef: false
                 variadic: false
-                name: h
+                name: Expr_Variable(
+                    name: h
+                )
                 default: Expr_Array(
                     items: array(
                     )
@@ -91,7 +103,9 @@ array(
                 type: null
                 byRef: false
                 variadic: false
-                name: i
+                name: Expr_Variable(
+                    name: i
+                )
                 default: Expr_Array(
                     items: array(
                     )
@@ -101,7 +115,9 @@ array(
                 type: null
                 byRef: false
                 variadic: false
-                name: j
+                name: Expr_Variable(
+                    name: j
+                )
                 default: Expr_Array(
                     items: array(
                         0: Expr_ArrayItem(
@@ -118,7 +134,9 @@ array(
                 type: null
                 byRef: false
                 variadic: false
-                name: k
+                name: Expr_Variable(
+                    name: k
+                )
                 default: Expr_Array(
                     items: array(
                         0: Expr_ArrayItem(

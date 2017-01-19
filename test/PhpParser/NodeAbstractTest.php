@@ -188,7 +188,14 @@ PHP;
                 "type": null,
                 "byRef": true,
                 "variadic": false,
-                "name": "a",
+                "name": {
+                    "nodeType": "Expr_Variable",
+                    "name": "a",
+                    "attributes": {
+                        "startLine": 4,
+                        "endLine": 4
+                    }
+                },
                 "default": {
                     "nodeType": "Scalar_LNumber",
                     "value": 0,
@@ -208,7 +215,14 @@ PHP;
                 "type": null,
                 "byRef": false,
                 "variadic": false,
-                "name": "b",
+                "name": {
+                    "nodeType": "Expr_Variable",
+                    "name": "b",
+                    "attributes": {
+                        "startLine": 4,
+                        "endLine": 4
+                    }
+                },
                 "default": {
                     "nodeType": "Scalar_DNumber",
                     "value": 1,

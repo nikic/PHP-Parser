@@ -13,7 +13,9 @@ array(
                 type: null
                 byRef: false
                 variadic: true
-                name: foo
+                name: Expr_Variable(
+                    name: foo
+                )
                 default: Expr_Array(
                     items: array(
                     )

@@ -13,21 +13,27 @@ array(
                 type: null
                 byRef: false
                 variadic: false
-                name: b
+                name: Expr_Variable(
+                    name: b
+                )
                 default: null
             )
             1: Param(
                 type: array
                 byRef: false
                 variadic: false
-                name: c
+                name: Expr_Variable(
+                    name: c
+                )
                 default: null
             )
             2: Param(
                 type: callable
                 byRef: false
                 variadic: false
-                name: d
+                name: Expr_Variable(
+                    name: d
+                )
                 default: null
             )
             3: Param(
@@ -38,7 +44,9 @@ array(
                 )
                 byRef: false
                 variadic: false
-                name: f
+                name: Expr_Variable(
+                    name: f
+                )
                 default: null
             )
         )

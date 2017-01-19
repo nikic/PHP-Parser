@@ -15,14 +15,18 @@ array(
                 type: null
                 byRef: false
                 variadic: false
-                name: a
+                name: Expr_Variable(
+                    name: a
+                )
                 default: null
             )
             1: Param(
                 type: null
                 byRef: false
                 variadic: true
-                name: b
+                name: Expr_Variable(
+                    name: b
+                )
                 default: null
             )
         )
@@ -38,14 +42,18 @@ array(
                 type: null
                 byRef: false
                 variadic: false
-                name: a
+                name: Expr_Variable(
+                    name: a
+                )
                 default: null
             )
             1: Param(
                 type: null
                 byRef: true
                 variadic: true
-                name: b
+                name: Expr_Variable(
+                    name: b
+                )
                 default: null
             )
         )
@@ -61,7 +69,9 @@ array(
                 type: null
                 byRef: false
                 variadic: false
-                name: a
+                name: Expr_Variable(
+                    name: a
+                )
                 default: null
             )
             1: Param(
@@ -72,7 +82,9 @@ array(
                 )
                 byRef: false
                 variadic: true
-                name: b
+                name: Expr_Variable(
+                    name: b
+                )
                 default: null
             )
         )
@@ -88,7 +100,9 @@ array(
                 type: null
                 byRef: false
                 variadic: false
-                name: a
+                name: Expr_Variable(
+                    name: a
+                )
                 default: null
             )
             1: Param(
@@ -99,7 +113,9 @@ array(
                 )
                 byRef: true
                 variadic: true
-                name: b
+                name: Expr_Variable(
+                    name: b
+                )
                 default: null
             )
         )

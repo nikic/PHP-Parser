@@ -109,7 +109,9 @@ array(
                         type: null
                         byRef: false
                         variadic: false
-                        name: a
+                        name: Expr_Variable(
+                            name: a
+                        )
                         default: null
                     )
                 )
