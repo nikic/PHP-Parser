@@ -10,6 +10,12 @@ source code, while running on a newer version.
 
 * Expression statements (`expr;`) are now represented using a `Stmt\Expression` node. Previously
   these statements were directly represented as their constituent expression.
+* The `name` subnode of `Param` has been renamed to `var` and now contains a `Variable` rather than
+  a plain string.
+* The `name` subnode of `StaticVar` has been renamed to `var` and now contains a `Variable` rather
+  than a plain string.
+* The `var` subnode of `ClosureUse` now contains a `Variable` rather than a plain string.
+* The `var` subnode of `Catch` now contains a `Variable` rather than a plain string.
 
 ### Removed functionality
 
