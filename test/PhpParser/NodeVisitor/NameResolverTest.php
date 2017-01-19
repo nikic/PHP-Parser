@@ -413,7 +413,8 @@ EOC;
         $stmts = $traverser->traverse($stmts);
         $stmt = $stmts[0];
 
-        $this->assertSame(array('Bar', 'Baz'), $stmt->stmts[1]->expr->class->parts);
+        $assign = $stmt->stmts[1]->expr;
+        $this->assertSame(array('Bar', 'Baz'), $assign->expr->class->parts);
     }
 
     public function testSpecialClassNamesAreCaseInsensitive() {
@@ -442,9 +443,9 @@ EOC;
         $classStmt = $stmts[0];
         $methodStmt = $classStmt->stmts[0]->stmts[0];
 
-        $this->assertSame('SELF', (string)$methodStmt->stmts[0]->class);
-        $this->assertSame('PARENT', (string)$methodStmt->stmts[1]->class);
-        $this->assertSame('STATIC', (string)$methodStmt->stmts[2]->class);
+        $this->assertSame('SELF', (string)$methodStmt->stmts[0]->expr->class);
+        $this->assertSame('PARENT', (string)$methodStmt->stmts[1]->expr->class);
+        $this->assertSame('STATIC', (string)$methodStmt->stmts[2]->expr->class);
     }
 
     public function testAddOriginalNames() {

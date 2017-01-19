@@ -1496,11 +1496,11 @@ class Php5 extends \PhpParser\ParserAbstract
     }
 
     protected function reduceRule146() {
-         $this->semValue = ($this->useExpressionStatements ? new Stmt\Expression($this->semStack[$this->stackPos-(2-1)], $this->startAttributeStack[$this->stackPos-(2-1)] + $this->endAttributes) : $this->semStack[$this->stackPos-(2-1)]);
+         $this->semValue = new Stmt\Expression($this->semStack[$this->stackPos-(2-1)], $this->startAttributeStack[$this->stackPos-(2-1)] + $this->endAttributes);
     }
 
     protected function reduceRule147() {
-         $this->semValue = ($this->useExpressionStatements ? new Stmt\Expression($this->semStack[$this->stackPos-(2-1)], $this->startAttributeStack[$this->stackPos-(2-1)] + $this->endAttributes) : $this->semStack[$this->stackPos-(2-1)]);
+         $this->semValue = new Stmt\Expression($this->semStack[$this->stackPos-(2-1)], $this->startAttributeStack[$this->stackPos-(2-1)] + $this->endAttributes);
     }
 
     protected function reduceRule148() {
@@ -1536,7 +1536,7 @@ class Php5 extends \PhpParser\ParserAbstract
     }
 
     protected function reduceRule156() {
-         $this->semValue = ($this->useExpressionStatements ? new Stmt\Expression($this->semStack[$this->stackPos-(2-1)], $this->startAttributeStack[$this->stackPos-(2-1)] + $this->endAttributes) : $this->semStack[$this->stackPos-(2-1)]);
+         $this->semValue = new Stmt\Expression($this->semStack[$this->stackPos-(2-1)], $this->startAttributeStack[$this->stackPos-(2-1)] + $this->endAttributes);
     }
 
     protected function reduceRule157() {

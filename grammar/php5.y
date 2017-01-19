@@ -183,8 +183,8 @@ non_empty_statement:
     | T_STATIC static_var_list ';'                          { $$ = Stmt\Static_[$2]; }
     | T_ECHO expr_list ';'                                  { $$ = Stmt\Echo_[$2]; }
     | T_INLINE_HTML                                         { $$ = Stmt\InlineHTML[$1]; }
-    | yield_expr ';'                                        { $$ = maybeMakeExprStmt($1); }
-    | expr ';'                                              { $$ = maybeMakeExprStmt($1); }
+    | yield_expr ';'                                        { $$ = Stmt\Expression[$1]; }
+    | expr ';'                                              { $$ = Stmt\Expression[$1]; }
     | T_UNSET '(' variables_list ')' ';'                    { $$ = Stmt\Unset_[$3]; }
     | T_FOREACH '(' expr T_AS foreach_variable ')' foreach_statement
           { $$ = Stmt\Foreach_[$3, $5[0], ['keyVar' => null, 'byRef' => $5[1], 'stmts' => $7]]; }
@@ -196,7 +196,7 @@ non_empty_statement:
     | T_THROW expr ';'                                      { $$ = Stmt\Throw_[$2]; }
     | T_GOTO identifier ';'                                 { $$ = Stmt\Goto_[$2]; }
     | identifier ':'                                        { $$ = Stmt\Label[$1]; }
-    | expr error                                            { $$ = maybeMakeExprStmt($1); }
+    | expr error                                            { $$ = Stmt\Expression[$1]; }
     | error                                                 { $$ = array(); /* means: no statement */ }
 ;
 

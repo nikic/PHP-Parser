@@ -70,12 +70,14 @@ class NodeDumperTest extends \PHPUnit_Framework_TestCase
         $code = "<?php\n\$a = 1;\necho \$a;";
         $expected = <<<'OUT'
 array(
-    0: Expr_Assign[2:1 - 2:6](
-        var: Expr_Variable[2:1 - 2:2](
-            name: a
-        )
-        expr: Scalar_LNumber[2:6 - 2:6](
-            value: 1
+    0: Stmt_Expression[2:1 - 2:7](
+        expr: Expr_Assign[2:1 - 2:6](
+            var: Expr_Variable[2:1 - 2:2](
+                name: a
+            )
+            expr: Scalar_LNumber[2:6 - 2:6](
+                value: 1
+            )
         )
     )
     1: Stmt_Echo[3:1 - 3:8](

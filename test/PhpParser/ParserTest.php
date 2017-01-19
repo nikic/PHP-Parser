@@ -124,7 +124,8 @@ EOC;
     public function testExtraAttributes($code, $expectedAttributes) {
         $parser = $this->getParser(new Lexer);
         $stmts = $parser->parse("<?php $code;");
-        $attributes = $stmts[0]->getAttributes();
+        $node = $stmts[0] instanceof Node\Stmt\Expression ? $stmts[0]->expr : $stmts[0];
+        $attributes = $node->getAttributes();
         foreach ($expectedAttributes as $name => $value) {
             $this->assertSame($value, $attributes[$name]);
         }

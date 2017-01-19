@@ -116,8 +116,6 @@ abstract class ParserAbstract implements Parser
     protected $useIdentifierNodes;
     /** @var bool Whether to consistently use Variable nodes */
     protected $useConsistentVariableNodes;
-    /** @var bool Whether to use Stmt\Expr nodes */
-    protected $useExpressionStatements;
     /** @var bool Whether to use Stmt\Nop nodes */
     protected $useNopStatements;
 
@@ -129,8 +127,6 @@ abstract class ParserAbstract implements Parser
      *    Otherwise plain strings will be used.
      *  * useConsistentVariableNodes (default false): Create Variable nodes in more places (like
      *    function parameters, catch clause variables, etc.)
-     *  * useExpressionStatements (default false): Create Stmt\Expression nodes for statements of
-     *    type "expr;". Otherwise the expression is directly included in the statement list
      *  * useNopStatements (default true): Create Stmt\Nop nodes for dangling comments at the end of
      *    statement lists.
      *
@@ -142,7 +138,6 @@ abstract class ParserAbstract implements Parser
         $this->errors = array();
         $this->useIdentifierNodes = !empty($options['useIdentifierNodes']);
         $this->useConsistentVariableNodes = !empty($options['useConsistentVariableNodes']);
-        $this->useExpressionStatements = !empty($options['useExpressionStatements']);
         $this->useNopStatements =
             isset($options['useNopStatements']) ? $options['useNopStatements'] : true;
 
