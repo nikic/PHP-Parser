@@ -119,7 +119,7 @@ class BuilderFactory
 
     public function __call($name, array $args) {
         if (method_exists($this, '_' . $name)) {
-            return call_user_func_array(array($this, '_' . $name), $args);
+            return $this->{'_' . $name}(...$args);
         }
 
         throw new \LogicException(sprintf('Method "%s" does not exist', $name));
