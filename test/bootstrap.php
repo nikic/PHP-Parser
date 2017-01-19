@@ -18,3 +18,14 @@ function canonicalize($str) {
     }, $lines);
     return implode("\n", $lines);
 }
+
+function filesInDir($directory, $fileExtension) {
+    $directory = realpath($directory);
+    $it = new \RecursiveDirectoryIterator($directory);
+    $it = new \RecursiveIteratorIterator($it, \RecursiveIteratorIterator::LEAVES_ONLY);
+    $it = new \RegexIterator($it, '(\.' . preg_quote($fileExtension) . '$)');
+    foreach ($it as $file) {
+        $fileName = $file->getPathname();
+        yield $fileName => file_get_contents($fileName);
+    }
+}

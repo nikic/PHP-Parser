@@ -16,20 +16,9 @@ class CodeParsingTest extends CodeTestAbstract
             $modes = [];
         }
 
-        $parserOptions = [
-            'useIdentifierNodes' => isset($modes['ident']),
-            'useConsistentVariableNodes' => isset($modes['consistentVars']),
-        ];
-
-        $lexer = new Lexer\Emulative(array('usedAttributes' => array(
-            'startLine', 'endLine', 'startFilePos', 'endFilePos', 'comments'
-        )));
-        $parser5 = new Parser\Php5($lexer, $parserOptions);
-        $parser7 = new Parser\Php7($lexer, $parserOptions);
-
-        $dumpPositions = isset($modes['positions']);
-        $output5 = $this->getParseOutput($parser5, $code, $dumpPositions);
-        $output7 = $this->getParseOutput($parser7, $code, $dumpPositions);
+        list($parser5, $parser7) = $this->createParsers($modes);
+        $output5 = $this->getParseOutput($parser5, $code, $modes);
+        $output7 = $this->getParseOutput($parser7, $code, $modes);
 
         if (isset($modes['php5'])) {
             $this->assertSame($expected, $output5, $name);
@@ -43,7 +32,25 @@ class CodeParsingTest extends CodeTestAbstract
         }
     }
 
-    private function getParseOutput(Parser $parser, $code, $dumpPositions) {
+    public function createParsers(array $modes) {
+        $parserOptions = [
+            'useIdentifierNodes' => isset($modes['ident']),
+            'useConsistentVariableNodes' => isset($modes['consistentVars']),
+        ];
+
+        $lexer = new Lexer\Emulative(array('usedAttributes' => array(
+            'startLine', 'endLine', 'startFilePos', 'endFilePos', 'comments'
+        )));
+
+        return [
+            new Parser\Php5($lexer, $parserOptions),
+            new Parser\Php7($lexer, $parserOptions),
+        ];
+    }
+
+    public function getParseOutput(Parser $parser, $code, array $modes) {
+        $dumpPositions = isset($modes['positions']);
+
         $errors = new ErrorHandler\Collecting;
         $stmts = $parser->parse($code, $errors);
 
