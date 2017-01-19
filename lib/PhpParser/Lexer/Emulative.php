@@ -112,7 +112,9 @@ class Emulative extends \PhpParser\Lexer
         }
     }
 
-    public function getNextToken(&$value = null, &$startAttributes = null, &$endAttributes = null) {
+    // This method is currently commented out, because there are no keywords to be emulated.
+    // Add it back once new keywords are added.
+    /*public function getNextToken(&$value = null, &$startAttributes = null, &$endAttributes = null) {
         $token = parent::getNextToken($value, $startAttributes, $endAttributes);
 
         // replace new keywords by their respective tokens. This is not done
@@ -128,5 +130,5 @@ class Emulative extends \PhpParser\Lexer
         }
 
         return $token;
-    }
+    }*/
 }
