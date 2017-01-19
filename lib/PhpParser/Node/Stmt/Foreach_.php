@@ -14,7 +14,7 @@ class Foreach_ extends Node\Stmt
     public $byRef;
     /** @var Node\Expr Variable to assign value to */
     public $valueVar;
-    /** @var Node[] Statements */
+    /** @var Node\Stmt[] Statements */
     public $stmts;
 
     /**

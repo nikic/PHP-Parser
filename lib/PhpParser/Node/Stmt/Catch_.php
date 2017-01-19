@@ -10,7 +10,7 @@ class Catch_ extends Node\Stmt
     public $types;
     /** @var string Variable for exception */
     public $var;
-    /** @var Node[] Statements */
+    /** @var Node\Stmt[] Statements */
     public $stmts;
 
     /**
@@ -18,7 +18,7 @@ class Catch_ extends Node\Stmt
      *
      * @param Node\Name[] $types      Types of exceptions to catch
      * @param string      $var        Variable for exception
-     * @param Node[]      $stmts      Statements
+     * @param Node\Stmt[] $stmts      Statements
      * @param array       $attributes Additional attributes
      */
     public function __construct(array $types, $var, array $stmts = array(), array $attributes = array()) {

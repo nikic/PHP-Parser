@@ -6,14 +6,14 @@ use PhpParser\Node;
 
 class Else_ extends Node\Stmt
 {
-    /** @var Node[] Statements */
+    /** @var Node\Stmt[] Statements */
     public $stmts;
 
     /**
      * Constructs an else node.
      *
-     * @param Node[] $stmts      Statements
-     * @param array  $attributes Additional attributes
+     * @param Node\Stmt[] $stmts      Statements
+     * @param array       $attributes Additional attributes
      */
     public function __construct(array $stmts = array(), array $attributes = array()) {
         parent::__construct($attributes);

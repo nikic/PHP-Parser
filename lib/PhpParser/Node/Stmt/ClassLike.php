@@ -7,7 +7,7 @@ use PhpParser\Node;
 abstract class ClassLike extends Node\Stmt {
     /** @var string|null Name */
     public $name;
-    /** @var Node[] Statements */
+    /** @var Node\Stmt[] Statements */
     public $stmts;
 
     /**

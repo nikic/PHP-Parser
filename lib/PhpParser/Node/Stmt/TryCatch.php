@@ -6,7 +6,7 @@ use PhpParser\Node;
 
 class TryCatch extends Node\Stmt
 {
-    /** @var Node[] Statements */
+    /** @var Node\Stmt[] Statements */
     public $stmts;
     /** @var Catch_[] Catches */
     public $catches;
@@ -16,7 +16,7 @@ class TryCatch extends Node\Stmt
     /**
      * Constructs a try catch node.
      *
-     * @param Node[]        $stmts      Statements
+     * @param Node\Stmt[]   $stmts      Statements
      * @param Catch_[]      $catches    Catches
      * @param null|Finally_ $finally    Optionaly finally node
      * @param array|null    $attributes Additional attributes

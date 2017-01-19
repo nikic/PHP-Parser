@@ -8,7 +8,7 @@ class If_ extends Node\Stmt
 {
     /** @var Node\Expr Condition expression */
     public $cond;
-    /** @var Node[] Statements */
+    /** @var Node\Stmt[] Statements */
     public $stmts;
     /** @var ElseIf_[] Elseif clauses */
     public $elseifs;

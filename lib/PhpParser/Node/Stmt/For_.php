@@ -12,7 +12,7 @@ class For_ extends Node\Stmt
     public $cond;
     /** @var Node\Expr[] Loop expressions */
     public $loop;
-    /** @var Node[] Statements */
+    /** @var Node\Stmt[] Statements */
     public $stmts;
 
     /**
