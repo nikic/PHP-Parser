@@ -60,7 +60,7 @@ CODE;
             <subNode:variadic>
               <scalar:false/>
             </subNode:variadic>
-            <subNode:name>
+            <subNode:var>
               <node:Expr_Variable>
                 <attribute:startLine>
                   <scalar:int>4</scalar:int>
@@ -72,7 +72,7 @@ CODE;
                   <scalar:string>a</scalar:string>
                 </subNode:name>
               </node:Expr_Variable>
-            </subNode:name>
+            </subNode:var>
             <subNode:default>
               <node:Scalar_LNumber>
                 <attribute:startLine>
@@ -106,7 +106,7 @@ CODE;
             <subNode:variadic>
               <scalar:false/>
             </subNode:variadic>
-            <subNode:name>
+            <subNode:var>
               <node:Expr_Variable>
                 <attribute:startLine>
                   <scalar:int>4</scalar:int>
@@ -118,7 +118,7 @@ CODE;
                   <scalar:string>b</scalar:string>
                 </subNode:name>
               </node:Expr_Variable>
-            </subNode:name>
+            </subNode:var>
             <subNode:default>
               <node:Scalar_DNumber>
                 <attribute:startLine>

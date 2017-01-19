@@ -188,7 +188,7 @@ PHP;
                 "type": null,
                 "byRef": true,
                 "variadic": false,
-                "name": {
+                "var": {
                     "nodeType": "Expr_Variable",
                     "name": "a",
                     "attributes": {
@@ -215,7 +215,7 @@ PHP;
                 "type": null,
                 "byRef": false,
                 "variadic": false,
-                "name": {
+                "var": {
                     "nodeType": "Expr_Variable",
                     "name": "b",
                     "attributes": {

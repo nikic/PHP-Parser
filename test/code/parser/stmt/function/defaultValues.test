@@ -23,7 +23,7 @@ array(
                 type: null
                 byRef: false
                 variadic: false
-                name: Expr_Variable(
+                var: Expr_Variable(
                     name: b
                 )
                 default: Expr_ConstFetch(
@@ -38,7 +38,7 @@ array(
                 type: null
                 byRef: false
                 variadic: false
-                name: Expr_Variable(
+                var: Expr_Variable(
                     name: c
                 )
                 default: Scalar_String(
@@ -49,7 +49,7 @@ array(
                 type: null
                 byRef: false
                 variadic: false
-                name: Expr_Variable(
+                var: Expr_Variable(
                     name: d
                 )
                 default: Expr_ClassConstFetch(
@@ -65,7 +65,7 @@ array(
                 type: null
                 byRef: false
                 variadic: false
-                name: Expr_Variable(
+                var: Expr_Variable(
                     name: f
                 )
                 default: Expr_UnaryPlus(
@@ -78,7 +78,7 @@ array(
                 type: null
                 byRef: false
                 variadic: false
-                name: Expr_Variable(
+                var: Expr_Variable(
                     name: g
                 )
                 default: Expr_UnaryMinus(
@@ -91,7 +91,7 @@ array(
                 type: null
                 byRef: false
                 variadic: false
-                name: Expr_Variable(
+                var: Expr_Variable(
                     name: h
                 )
                 default: Expr_Array(
@@ -103,7 +103,7 @@ array(
                 type: null
                 byRef: false
                 variadic: false
-                name: Expr_Variable(
+                var: Expr_Variable(
                     name: i
                 )
                 default: Expr_Array(
@@ -115,7 +115,7 @@ array(
                 type: null
                 byRef: false
                 variadic: false
-                name: Expr_Variable(
+                var: Expr_Variable(
                     name: j
                 )
                 default: Expr_Array(
@@ -134,7 +134,7 @@ array(
                 type: null
                 byRef: false
                 variadic: false
-                name: Expr_Variable(
+                var: Expr_Variable(
                     name: k
                 )
                 default: Expr_Array(

@@ -199,7 +199,7 @@ array(
                                 type: null
                                 byRef: false
                                 variadic: false
-                                name: Expr_Variable(
+                                var: Expr_Variable(
                                     name: x
                                 )
                                 default: null
@@ -265,7 +265,7 @@ array(
                                             type: null
                                             byRef: false
                                             variadic: false
-                                            name: Expr_Variable(
+                                            var: Expr_Variable(
                                                 name: x
                                             )
                                             default: Expr_ConstFetch(

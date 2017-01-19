@@ -21,7 +21,7 @@ class Standard extends PrettyPrinterAbstract
         return ($node->type ? $this->pType($node->type) . ' ' : '')
              . ($node->byRef ? '&' : '')
              . ($node->variadic ? '...' : '')
-             . $this->p($node->name)
+             . $this->p($node->var)
              . ($node->default ? ' = ' . $this->p($node->default) : '');
     }
 

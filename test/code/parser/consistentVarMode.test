@@ -20,7 +20,7 @@ array(
                 type: null
                 byRef: false
                 variadic: false
-                name: Expr_Variable(
+                var: Expr_Variable(
                     name: param1
                 )
                 default: null
@@ -29,7 +29,7 @@ array(
                 type: null
                 byRef: false
                 variadic: false
-                name: Expr_Variable(
+                var: Expr_Variable(
                     name: param2
                 )
                 default: Scalar_LNumber(

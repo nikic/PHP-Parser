@@ -14,7 +14,7 @@ array(
                 type: null
                 byRef: true
                 variadic: false
-                name: Expr_Variable(
+                var: Expr_Variable(
                     name: b
                 )
                 default: null
@@ -32,7 +32,7 @@ array(
                 type: null
                 byRef: false
                 variadic: false
-                name: Expr_Variable(
+                var: Expr_Variable(
                     name: b
                 )
                 default: null

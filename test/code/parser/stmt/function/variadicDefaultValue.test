@@ -13,7 +13,7 @@ array(
                 type: null
                 byRef: false
                 variadic: true
-                name: Expr_Variable(
+                var: Expr_Variable(
                     name: foo
                 )
                 default: Expr_Array(

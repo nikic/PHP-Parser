@@ -13,7 +13,7 @@ array(
                 type: null
                 byRef: false
                 variadic: false
-                name: Expr_Variable(
+                var: Expr_Variable(
                     name: b
                 )
                 default: null
@@ -22,7 +22,7 @@ array(
                 type: array
                 byRef: false
                 variadic: false
-                name: Expr_Variable(
+                var: Expr_Variable(
                     name: c
                 )
                 default: null
@@ -31,7 +31,7 @@ array(
                 type: callable
                 byRef: false
                 variadic: false
-                name: Expr_Variable(
+                var: Expr_Variable(
                     name: d
                 )
                 default: null
@@ -44,7 +44,7 @@ array(
                 )
                 byRef: false
                 variadic: false
-                name: Expr_Variable(
+                var: Expr_Variable(
                     name: f
                 )
                 default: null
