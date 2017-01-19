@@ -6,16 +6,12 @@ cache:
   directories:
     - $HOME/.composer/cache
 
-matrix:
-  include:
-    - php: 5.6
-    - php: 7.0
-    - php: 7.1
-    - php: nightly
-    - php: hhvm-3.15
-      sudo: required
-      dist: trusty
-      group: edge
+php:
+  - 5.6
+  - 7.0
+  - 7.1
+  - nightly
+  - hhvm
 
 install:
   - if [ $TRAVIS_PHP_VERSION = '5.6' ]; then composer require satooshi/php-coveralls '~1.0'; fi
@@ -24,6 +20,7 @@ install:
 matrix:
   allow_failures:
     - php: nightly
+    - php: hhvm
   fast_finish: true
 
 script:
