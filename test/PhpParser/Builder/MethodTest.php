@@ -105,7 +105,11 @@ class MethodTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             new Stmt\ClassMethod('test', array(
-                'stmts' => array($stmt1, $stmt2, $stmt3)
+                'stmts' => array(
+                    new Stmt\Expression($stmt1),
+                    new Stmt\Expression($stmt2),
+                    new Stmt\Expression($stmt3),
+                )
             )),
             $node
         );

@@ -60,7 +60,11 @@ class FunctionTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             new Stmt\Function_('test', array(
-                'stmts' => array($stmt1, $stmt2, $stmt3)
+                'stmts' => array(
+                    new Stmt\Expression($stmt1),
+                    new Stmt\Expression($stmt2),
+                    new Stmt\Expression($stmt3),
+                )
             )),
             $node
         );
@@ -102,5 +106,14 @@ class FunctionTest extends \PHPUnit_Framework_TestCase
         $this->createFunctionBuilder('test')
             ->addParam(new Node\Name('foo'))
         ;
+    }
+
+    /**
+     * @expectedException \LogicException
+     * @expectedExceptionMessage Expected statement or expression node
+     */
+    public function testAddNonStmt() {
+        $this->createFunctionBuilder('test')
+            ->addStmt(new Node\Name('Test'));
     }
 }

@@ -28,6 +28,28 @@ abstract class BuilderAbstract implements Builder {
     }
 
     /**
+     * Normalizes a node to a statement.
+     *
+     * Expressions are wrapped in a Stmt\Expression node.
+     *
+     * @param Node|Builder $node The node to normalize
+     *
+     * @return Stmt The normalized statement node
+     */
+    protected function normalizeStmt($node) {
+        $node = $this->normalizeNode($node);
+        if ($node instanceof Stmt) {
+            return $node;
+        }
+
+        if ($node instanceof Expr) {
+            return new Stmt\Expression($node);
+        }
+
+        throw new \LogicException('Expected statement or expression node');
+    }
+
+    /**
      * Normalizes a name: Converts plain string names to PhpParser\Node\Name.
      *
      * @param Name|string $name The name to normalize

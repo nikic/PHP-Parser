@@ -28,7 +28,7 @@ class Namespace_ extends PhpParser\BuilderAbstract
      * @return $this The builder instance (for fluid interface)
      */
     public function addStmt($stmt) {
-        $this->stmts[] = $this->normalizeNode($stmt);
+        $this->stmts[] = $this->normalizeStmt($stmt);
 
         return $this;
     }

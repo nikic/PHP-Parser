@@ -106,7 +106,7 @@ class Method extends FunctionLike
             throw new \LogicException('Cannot add statements to an abstract method');
         }
 
-        $this->stmts[] = $this->normalizeNode($stmt);
+        $this->stmts[] = $this->normalizeStmt($stmt);
 
         return $this;
     }
