@@ -11,9 +11,6 @@ class Property extends Node\Stmt
     /** @var PropertyProperty[] Properties */
     public $props;
 
-    /** @deprecated Use $flags instead */
-    public $type;
-
     /**
      * Constructs a class property list node.
      *
@@ -24,7 +21,6 @@ class Property extends Node\Stmt
     public function __construct($flags, array $props, array $attributes = array()) {
         parent::__construct($attributes);
         $this->flags = $flags;
-        $this->type = $flags;
         $this->props = $props;
     }
 

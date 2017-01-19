@@ -23,9 +23,6 @@ class Class_ extends ClassLike
     /** @var Node\Name[] Names of implemented interfaces */
     public $implements;
 
-    /** @deprecated Use $flags instead */
-    public $type;
-
     protected static $specialNames = array(
         'self'   => true,
         'parent' => true,
@@ -47,7 +44,6 @@ class Class_ extends ClassLike
         parent::__construct($attributes);
         $this->flags = isset($subNodes['flags']) ? $subNodes['flags']
             : (isset($subNodes['type']) ? $subNodes['type'] : 0);
-        $this->type = $this->flags;
         $this->name = $name;
         $this->extends = isset($subNodes['extends']) ? $subNodes['extends'] : null;
         $this->implements = isset($subNodes['implements']) ? $subNodes['implements'] : array();

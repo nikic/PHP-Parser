@@ -20,9 +20,6 @@ class ClassMethod extends Node\Stmt implements FunctionLike
     /** @var Node[] Statements */
     public $stmts;
 
-    /** @deprecated Use $flags instead */
-    public $type;
-
     /**
      * Constructs a class method node.
      *
@@ -39,7 +36,6 @@ class ClassMethod extends Node\Stmt implements FunctionLike
         parent::__construct($attributes);
         $this->flags = isset($subNodes['flags']) ? $subNodes['flags']
             : (isset($subNodes['type']) ? $subNodes['type'] : 0);
-        $this->type = $this->flags;
         $this->byRef = isset($subNodes['byRef'])  ? $subNodes['byRef']  : false;
         $this->name = $name;
         $this->params = isset($subNodes['params']) ? $subNodes['params'] : array();
