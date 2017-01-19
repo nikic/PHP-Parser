@@ -5,6 +5,7 @@ namespace PhpParser\Builder;
 use PhpParser\Comment;
 use PhpParser\Node;
 use PhpParser\Node\Expr\Print_;
+use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt;
 
@@ -29,9 +30,9 @@ class FunctionTest extends \PHPUnit_Framework_TestCase
     }
 
     public function testParams() {
-        $param1 = new Node\Param('test1');
-        $param2 = new Node\Param('test2');
-        $param3 = new Node\Param('test3');
+        $param1 = new Node\Param(new Variable('test1'));
+        $param2 = new Node\Param(new Variable('test2'));
+        $param3 = new Node\Param(new Variable('test3'));
 
         $node = $this->createFunctionBuilder('test')
             ->addParam($param1)

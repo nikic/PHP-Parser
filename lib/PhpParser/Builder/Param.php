@@ -72,7 +72,8 @@ class Param extends PhpParser\BuilderAbstract
      */
     public function getNode() {
         return new Node\Param(
-            $this->name, $this->default, $this->type, $this->byRef
+            new Node\Expr\Variable($this->name),
+            $this->default, $this->type, $this->byRef
         );
     }
 }

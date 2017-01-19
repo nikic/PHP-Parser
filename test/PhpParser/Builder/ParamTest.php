@@ -151,7 +151,7 @@ class ParamTest extends \PHPUnit_Framework_TestCase
         ;
 
         $this->assertEquals(
-            new Node\Param('test', null, null, true),
+            new Node\Param(new Expr\Variable('test'), null, null, true),
             $node
         );
     }

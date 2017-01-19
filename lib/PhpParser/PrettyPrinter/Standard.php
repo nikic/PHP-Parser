@@ -21,7 +21,7 @@ class Standard extends PrettyPrinterAbstract
         return ($node->type ? $this->pType($node->type) . ' ' : '')
              . ($node->byRef ? '&' : '')
              . ($node->variadic ? '...' : '')
-             . ($node->name instanceof Expr\Variable ? $this->p($node->name) : '$' . $node->name)
+             . $this->p($node->name)
              . ($node->default ? ' = ' . $this->p($node->default) : '');
     }
 
@@ -551,8 +551,7 @@ class Standard extends PrettyPrinterAbstract
     }
 
     protected function pExpr_ClosureUse(Expr\ClosureUse $node) {
-        return ($node->byRef ? '&' : '')
-             . ($node->var instanceof Expr\Variable ? $this->p($node->var) : '$' . $node->var);
+        return ($node->byRef ? '&' : '') . $this->p($node->var);
     }
 
     protected function pExpr_New(Expr\New_ $node) {
@@ -764,7 +763,7 @@ class Standard extends PrettyPrinterAbstract
 
     protected function pStmt_Catch(Stmt\Catch_ $node) {
         return ' catch (' . $this->pImplode($node->types, '|') . ' '
-             . ($node->var instanceof Expr\Variable ? $this->p($node->var) : '$' . $node->var)
+             . $this->p($node->var)
              . ') {' . $this->pStmts($node->stmts) . "\n" . '}';
     }
 
@@ -815,7 +814,7 @@ class Standard extends PrettyPrinterAbstract
     }
 
     protected function pStmt_StaticVar(Stmt\StaticVar $node) {
-        return ($node->name instanceof Expr\Variable ? $this->p($node->name) : '$' . $node->name)
+        return $this->p($node->name)
              . (null !== $node->default ? ' = ' . $this->p($node->default) : '');
     }
 
