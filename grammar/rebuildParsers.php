@@ -179,7 +179,7 @@ function resolveMacros($code) {
                 assertArgs(2, $args, $name);
 
                 return '$startAttributes = ' . $args[1] . ';'
-                . ' if (isset($startAttributes[\'comments\']))'
+                . ' if ($this->useNopStatements && isset($startAttributes[\'comments\']))'
                 . ' { ' . $args[0] . ' = new Stmt\Nop([\'comments\' => $startAttributes[\'comments\']]); }'
                 . ' else { ' . $args[0] . ' = null; }';
             }
@@ -208,6 +208,34 @@ function resolveMacros($code) {
                 . 'if (!empty($attrs[\'comments\']) && isset($stmts[0])) {'
                 . '$stmts[0]->setAttribute(\'comments\', '
                 . 'array_merge($attrs[\'comments\'], $stmts[0]->getAttribute(\'comments\', []))); }';
+            }
+
+            if ('maybeMakeIdent' == $name) {
+                assertArgs(1, $args, $name);
+
+                return '($this->useIdentifierNodes ? new Node\Identifier(' . $args[0] . ', '
+                     . '$this->startAttributeStack[#1] + $this->endAttributes) : ' . $args[0] . ')';
+            }
+
+            if ('maybeMakeVarIdent' == $name) {
+                assertArgs(1, $args, $name);
+
+                return '($this->useIdentifierNodes ? new Node\VarLikeIdentifier(' . $args[0] . ', '
+                     . '$this->startAttributeStack[#1] + $this->endAttributes) : ' . $args[0] . ')';
+            }
+
+            if ('maybeMakeVar' == $name) {
+                assertArgs(1, $args, $name);
+
+                return '($this->useConsistentVariableNodes ? new Expr\Variable(' . $args[0] . ', '
+                . '$this->startAttributeStack[#1] + $this->endAttributes) : ' . $args[0] . ')';
+            }
+
+            if ('maybeMakeExprStmt' == $name) {
+                assertArgs(1, $args, $name);
+
+                return '($this->useExpressionStatements ? new Stmt\Expression(' . $args[0] . ', '
+                . '$this->startAttributeStack[#1] + $this->endAttributes) : ' . $args[0] . ')';
             }
 
             return $matches[0];

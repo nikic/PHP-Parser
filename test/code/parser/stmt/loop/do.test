@@ -8,10 +8,10 @@ do {
 -----
 array(
     0: Stmt_Do(
+        stmts: array(
+        )
         cond: Expr_Variable(
             name: a
-        )
-        stmts: array(
         )
     )
 )

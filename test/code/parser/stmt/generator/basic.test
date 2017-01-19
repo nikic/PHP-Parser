@@ -159,13 +159,13 @@ array(
                 )
             )
             9: Stmt_Do(
+                stmts: array(
+                )
                 cond: Expr_Yield(
                     key: null
                     value: Expr_Variable(
                         name: foo
                     )
-                )
-                stmts: array(
                 )
             )
             10: Stmt_Switch(

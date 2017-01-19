@@ -16,12 +16,17 @@ class CodeParsingTest extends CodeTestAbstract
             $modes = [];
         }
 
+        $parserOptions = [
+            'useIdentifierNodes' => isset($modes['ident']),
+            'useConsistentVariableNodes' => isset($modes['consistentVars']),
+            'useExpressionStatements' => isset($modes['exprStmts']),
+        ];
 
         $lexer = new Lexer\Emulative(array('usedAttributes' => array(
             'startLine', 'endLine', 'startFilePos', 'endFilePos', 'comments'
         )));
-        $parser5 = new Parser\Php5($lexer);
-        $parser7 = new Parser\Php7($lexer);
+        $parser5 = new Parser\Php5($lexer, $parserOptions);
+        $parser7 = new Parser\Php7($lexer, $parserOptions);
 
         $dumpPositions = isset($modes['positions']);
         $output5 = $this->getParseOutput($parser5, $code, $dumpPositions);

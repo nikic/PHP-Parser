@@ -25,11 +25,18 @@ class NameResolver extends NodeVisitorAbstract
     /** @var bool Whether to preserve original names */
     protected $preserveOriginalNames;
 
+    /** @var bool Whether to replace resolved nodes in place, or to add resolvedNode attributes */
+    protected $replaceNodes;
+
     /**
      * Constructs a name resolution visitor.
      *
-     * Options: If "preserveOriginalNames" is enabled, an "originalName" attribute will be added to
-     * all name nodes that underwent resolution.
+     * Options:
+     *  * preserveOriginalNames (default false): An "originalName" attribute will be added to
+     *    all name nodes that underwent resolution.
+     *  * replaceNodes (default true): Resolved names are not replaced in-place. Instead a
+     *    resolvedName attribute is added. (Names that cannot be statically resolved receive a
+     *    namespacedName attribute, as usual.)
      *
      * @param ErrorHandler|null $errorHandler Error handler
      * @param array $options Options
@@ -37,6 +44,7 @@ class NameResolver extends NodeVisitorAbstract
     public function __construct(ErrorHandler $errorHandler = null, array $options = []) {
         $this->errorHandler = $errorHandler ?: new ErrorHandler\Throwing;
         $this->preserveOriginalNames = !empty($options['preserveOriginalNames']);
+        $this->replaceNodes = isset($options['replaceNodes']) ? $options['replaceNodes'] : true;
     }
 
     public function beforeTraverse(array $nodes) {
@@ -182,6 +190,11 @@ class NameResolver extends NodeVisitorAbstract
     }
 
     protected function resolveClassName(Name $name) {
+        if (!$this->replaceNodes) {
+            $name->setAttribute('resolvedName', $this->getResolvedClassName($name));
+            return $name;
+        }
+
         if ($this->preserveOriginalNames) {
             // Save the original name
             $originalName = $name;
@@ -189,6 +202,41 @@ class NameResolver extends NodeVisitorAbstract
             $name->setAttribute('originalName', $originalName);
         }
 
+        return $this->getResolvedClassName($name);
+    }
+
+    protected function resolveOtherName(Name $name, $type) {
+        if (!$this->replaceNodes) {
+            $resolvedName = $this->getResolvedOtherName($name, $type);
+            if (null !== $resolvedName) {
+                $name->setAttribute('resolvedName', $resolvedName);
+            } else {
+                $name->setAttribute('namespacedName',
+                    FullyQualified::concat($this->namespace, $name, $name->getAttributes()));
+            }
+            return $name;
+        }
+
+        if ($this->preserveOriginalNames) {
+            // Save the original name
+            $originalName = $name;
+            $name = clone $originalName;
+            $name->setAttribute('originalName', $originalName);
+        }
+
+        $resolvedName = $this->getResolvedOtherName($name, $type);
+        if (null !== $resolvedName) {
+            return $resolvedName;
+        }
+
+        // unqualified names inside a namespace cannot be resolved at compile-time
+        // add the namespaced version of the name as an attribute
+        $name->setAttribute('namespacedName',
+            FullyQualified::concat($this->namespace, $name, $name->getAttributes()));
+        return $name;
+    }
+
+    protected function getResolvedClassName(Name $name) {
         // don't resolve special class names
         if (in_array(strtolower($name->toString()), array('self', 'parent', 'static'))) {
             if (!$name->isUnqualified()) {
@@ -216,14 +264,7 @@ class NameResolver extends NodeVisitorAbstract
         return FullyQualified::concat($this->namespace, $name, $name->getAttributes());
     }
 
-    protected function resolveOtherName(Name $name, $type) {
-        if ($this->preserveOriginalNames) {
-            // Save the original name
-            $originalName = $name;
-            $name = clone $originalName;
-            $name->setAttribute('originalName', $originalName);
-        }
-
+    protected function getResolvedOtherName(Name $name, $type) {
         // fully qualified names are already resolved
         if ($name->isFullyQualified()) {
             return $name;
@@ -252,11 +293,8 @@ class NameResolver extends NodeVisitorAbstract
                 return new FullyQualified($name, $name->getAttributes());
             }
 
-            // unqualified names inside a namespace cannot be resolved at compile-time
-            // add the namespaced version of the name as an attribute
-            $name->setAttribute('namespacedName',
-                FullyQualified::concat($this->namespace, $name, $name->getAttributes()));
-            return $name;
+            // Cannot resolve statically
+            return null;
         }
 
         // if no alias exists prepend current namespace
@@ -264,6 +302,6 @@ class NameResolver extends NodeVisitorAbstract
     }
 
     protected function addNamespacedName(Node $node) {
-        $node->namespacedName = Name::concat($this->namespace, $node->name);
+        $node->namespacedName = Name::concat($this->namespace, (string) $node->name);
     }
 }

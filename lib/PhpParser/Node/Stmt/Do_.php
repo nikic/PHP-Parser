@@ -6,10 +6,10 @@ use PhpParser\Node;
 
 class Do_ extends Node\Stmt
 {
-    /** @var Node\Expr Condition */
-    public $cond;
     /** @var Node[] Statements */
     public $stmts;
+    /** @var Node\Expr Condition */
+    public $cond;
 
     /**
      * Constructs a do while node.
@@ -25,6 +25,6 @@ class Do_ extends Node\Stmt
     }
 
     public function getSubNodeNames() {
-        return array('cond', 'stmts');
+        return array('stmts', 'cond');
     }
 }

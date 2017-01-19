@@ -1,0 +1,106 @@
+Consistent variable mode
+-----
+<?php
+
+function test($param1, $param2 = 0) {
+    static $foo, $bar = 0;
+}
+
+function() use ($foo, &$bar) {};
+
+try {} catch (Exception $var) {}
+-----
+!!consistentVars
+array(
+    0: Stmt_Function(
+        byRef: false
+        name: test
+        params: array(
+            0: Param(
+                type: null
+                byRef: false
+                variadic: false
+                name: Expr_Variable(
+                    name: param1
+                )
+                default: null
+            )
+            1: Param(
+                type: null
+                byRef: false
+                variadic: false
+                name: Expr_Variable(
+                    name: param2
+                )
+                default: Scalar_LNumber(
+                    value: 0
+                )
+            )
+        )
+        returnType: null
+        stmts: array(
+            0: Stmt_Static(
+                vars: array(
+                    0: Stmt_StaticVar(
+                        name: Expr_Variable(
+                            name: foo
+                        )
+                        default: null
+                    )
+                    1: Stmt_StaticVar(
+                        name: Expr_Variable(
+                            name: bar
+                        )
+                        default: Scalar_LNumber(
+                            value: 0
+                        )
+                    )
+                )
+            )
+        )
+    )
+    1: Expr_Closure(
+        static: false
+        byRef: false
+        params: array(
+        )
+        uses: array(
+            0: Expr_ClosureUse(
+                var: Expr_Variable(
+                    name: foo
+                )
+                byRef: false
+            )
+            1: Expr_ClosureUse(
+                var: Expr_Variable(
+                    name: bar
+                )
+                byRef: true
+            )
+        )
+        returnType: null
+        stmts: array(
+        )
+    )
+    2: Stmt_TryCatch(
+        stmts: array(
+        )
+        catches: array(
+            0: Stmt_Catch(
+                types: array(
+                    0: Name(
+                        parts: array(
+                            0: Exception
+                        )
+                    )
+                )
+                var: Expr_Variable(
+                    name: var
+                )
+                stmts: array(
+                )
+            )
+        )
+        finally: null
+    )
+)

@@ -1,0 +1,57 @@
+Expression statement mode
+-----
+<?php
+$a = $b;
+yield $x;
+-----
+!!exprStmts
+array(
+    0: Stmt_Expression(
+        expr: Expr_Assign(
+            var: Expr_Variable(
+                name: a
+            )
+            expr: Expr_Variable(
+                name: b
+            )
+        )
+    )
+    1: Stmt_Expression(
+        expr: Expr_Yield(
+            key: null
+            value: Expr_Variable(
+                name: x
+            )
+        )
+    )
+)
+-----
+<?php
+$a = $b
+$c = $d
+-----
+!!exprStmts
+Syntax error, unexpected T_VARIABLE from 3:1 to 3:2
+Syntax error, unexpected EOF from 3:8 to 3:8
+array(
+    0: Stmt_Expression(
+        expr: Expr_Assign(
+            var: Expr_Variable(
+                name: a
+            )
+            expr: Expr_Variable(
+                name: b
+            )
+        )
+    )
+    1: Stmt_Expression(
+        expr: Expr_Assign(
+            var: Expr_Variable(
+                name: c
+            )
+            expr: Expr_Variable(
+                name: d
+            )
+        )
+    )
+)

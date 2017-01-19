@@ -6,6 +6,7 @@ namespace PhpParser;
  * This parser is based on a skeleton written by Moriyoshi Koizumi, which in
  * turn is based on work by Masato Bito.
  */
+use PhpParser\Node\Expr;
 use PhpParser\Node\Name;
 use PhpParser\Node\Param;
 use PhpParser\Node\Scalar\LNumber;
@@ -111,15 +112,39 @@ abstract class ParserAbstract implements Parser
     /** @var int Error state, used to avoid error floods */
     protected $errorState;
 
+    /** @var bool Whether to create Identifier nodes for non-namespaced names */
+    protected $useIdentifierNodes;
+    /** @var bool Whether to consistently use Variable nodes */
+    protected $useConsistentVariableNodes;
+    /** @var bool Whether to use Stmt\Expr nodes */
+    protected $useExpressionStatements;
+    /** @var bool Whether to use Stmt\Nop nodes */
+    protected $useNopStatements;
+
     /**
      * Creates a parser instance.
      *
+     * Options:
+     *  * useIdentifierNodes (default false): Create Identifier nodes for non-namespaced names.
+     *    Otherwise plain strings will be used.
+     *  * useConsistentVariableNodes (default false): Create Variable nodes in more places (like
+     *    function parameters, catch clause variables, etc.)
+     *  * useExpressionStatements (default false): Create Stmt\Expression nodes for statements of
+     *    type "expr;". Otherwise the expression is directly included in the statement list
+     *  * useNopStatements (default true): Create Stmt\Nop nodes for dangling comments at the end of
+     *    statement lists.
+     *
      * @param Lexer $lexer A lexer
-     * @param array $options Options array. Currently no options are supported.
+     * @param array $options Options array.
      */
     public function __construct(Lexer $lexer, array $options = array()) {
         $this->lexer = $lexer;
         $this->errors = array();
+        $this->useIdentifierNodes = !empty($options['useIdentifierNodes']);
+        $this->useConsistentVariableNodes = !empty($options['useConsistentVariableNodes']);
+        $this->useExpressionStatements = !empty($options['useExpressionStatements']);
+        $this->useNopStatements =
+            isset($options['useNopStatements']) ? $options['useNopStatements'] : true;
 
         if (isset($options['throwOnError'])) {
             throw new \LogicException(
@@ -452,8 +477,12 @@ abstract class ParserAbstract implements Parser
             // For semicolon namespaces we have to move the statements after a namespace declaration into ->stmts
             $resultStmts = array();
             $targetStmts =& $resultStmts;
+            $lastNs = null;
             foreach ($stmts as $stmt) {
                 if ($stmt instanceof Node\Stmt\Namespace_) {
+                    if ($lastNs !== null) {
+                        $this->fixupNamespaceAttributes($lastNs);
+                    }
                     if ($stmt->stmts === null) {
                         $stmt->stmts = array();
                         $targetStmts =& $stmt->stmts;
@@ -463,6 +492,7 @@ abstract class ParserAbstract implements Parser
                         $resultStmts[] = $stmt;
                         $targetStmts =& $resultStmts;
                     }
+                    $lastNs = $stmt;
                 } elseif ($stmt instanceof Node\Stmt\HaltCompiler) {
                     // __halt_compiler() is not moved into the namespace
                     $resultStmts[] = $stmt;
@@ -470,7 +500,28 @@ abstract class ParserAbstract implements Parser
                     $targetStmts[] = $stmt;
                 }
             }
+            if ($lastNs !== null) {
+                $this->fixupNamespaceAttributes($lastNs);
+            }
             return $resultStmts;
+        }
+    }
+
+    private function fixupNamespaceAttributes(Node\Stmt\Namespace_ $stmt) {
+        // We moved the statements into the namespace node, as such the end of the namespace node
+        // needs to be extended to the end of the statements.
+        if (empty($stmt->stmts)) {
+            return;
+        }
+
+        // We only move the builtin end attributes here. This is the best we can do with the
+        // knowledge we have.
+        $endAttributes = ['endLine', 'endFilePos', 'endTokenPos'];
+        $lastStmt = $stmt->stmts[count($stmt->stmts) - 1];
+        foreach ($endAttributes as $endAttribute) {
+            if ($lastStmt->hasAttribute($endAttribute)) {
+                $stmt->setAttribute($endAttribute, $lastStmt->getAttribute($endAttribute));
+            }
         }
     }
 
@@ -517,6 +568,56 @@ abstract class ParserAbstract implements Parser
         return $style;
     }
 
+    protected function fixupPhp5StaticPropCall($prop, array $args, array $attributes) {
+        if ($prop instanceof Node\Expr\StaticPropertyFetch) {
+            // Preserve attributes if possible
+            $var = is_string($prop->name)
+                    ? new Expr\Variable($prop->name)
+                    : new Expr\Variable($prop->name, $prop->name->getAttributes());
+                return new Expr\StaticCall($prop->class, $var, $args, $attributes);
+        } elseif ($prop instanceof Node\Expr\ArrayDimFetch) {
+            $tmp = $prop;
+            while ($tmp->var instanceof Node\Expr\ArrayDimFetch) {
+                $tmp = $tmp->var;
+            }
+
+            /** @var Expr\StaticPropertyFetch $staticProp */
+            $staticProp = $tmp->var;
+            if (is_string($staticProp->name)) {
+                // Conservatively remove all attributes, as they may be incorrect
+                $tmp = $prop;
+                $tmp->setAttributes([]);
+                while ($tmp->var instanceof Node\Expr\ArrayDimFetch) {
+                    $tmp = $tmp->var;
+                    $tmp->setAttributes([]);
+                }
+            } else {
+                // Set start attributes to attributes of innermost node
+                $tmp = $prop;
+                $this->fixupStartAttributes($tmp, $staticProp->name);
+                while ($tmp->var instanceof Node\Expr\ArrayDimFetch) {
+                    $tmp = $tmp->var;
+                    $this->fixupStartAttributes($tmp, $staticProp->name);
+                }
+            }
+
+            $result = new Expr\StaticCall($staticProp->class, $prop, $args, $attributes);
+            $tmp->var = new Expr\Variable($staticProp->name);
+            return $result;
+        } else {
+            throw new \Exception;
+        }
+    }
+
+    protected function fixupStartAttributes(Node $to, Node $from) {
+        $startAttributes = ['startLine', 'startFilePos', 'startTokenPos'];
+        foreach ($startAttributes as $startAttribute) {
+            if ($from->hasAttribute($startAttribute)) {
+                $to->setAttribute($startAttribute, $from->getAttribute($startAttribute));
+            }
+        }
+    }
+
     protected function handleBuiltinTypes(Name $name) {
         $scalarTypes = [
             'bool'     => true,
@@ -532,7 +633,13 @@ abstract class ParserAbstract implements Parser
         }
 
         $lowerName = strtolower($name->toString());
-        return isset($scalarTypes[$lowerName]) ? $lowerName : $name;
+        if (!isset($scalarTypes[$lowerName])) {
+            return $name;
+        }
+
+        return $this->useIdentifierNodes
+            ? new Node\Identifier($lowerName, $name->getAttributes())
+            : $lowerName;
     }
 
     protected static $specialNames = array(
