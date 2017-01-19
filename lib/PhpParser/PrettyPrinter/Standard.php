@@ -585,7 +585,7 @@ class Standard extends PrettyPrinterAbstract
     }
 
     // Declarations
-
+    /** @psalm-suppress NullReference */
     protected function pStmt_Namespace(Stmt\Namespace_ $node) {
         if ($this->canUseSemicolonNamespaces) {
             return 'namespace ' . $this->p($node->name) . ';' . "\n" . $this->pStmts($node->stmts, false);
@@ -637,6 +637,7 @@ class Standard extends PrettyPrinterAbstract
                 : ' {' . $this->pStmts($node->adaptations) . "\n" . '}');
     }
 
+    /** @psalm-suppress NullReference */
     protected function pStmt_TraitUseAdaptation_Precedence(Stmt\TraitUseAdaptation\Precedence $node) {
         return $this->p($node->trait) . '::' . $node->method
              . ' insteadof ' . $this->pCommaSeparated($node->insteadof) . ';';
