@@ -13,31 +13,49 @@ Different integer syntaxes
 0b111000111000;
 -----
 array(
-    0: Scalar_LNumber(
-        value: 0
+    0: Stmt_Expression(
+        expr: Scalar_LNumber(
+            value: 0
+        )
     )
-    1: Scalar_LNumber(
-        value: 1
+    1: Stmt_Expression(
+        expr: Scalar_LNumber(
+            value: 1
+        )
     )
-    2: Scalar_LNumber(
-        value: @@{ PHP_INT_MAX }@@
+    2: Stmt_Expression(
+        expr: Scalar_LNumber(
+            value: @@{ PHP_INT_MAX }@@
+        )
     )
-    3: Scalar_DNumber(
-        value: @@{ PHP_INT_MAX + 1 }@@
+    3: Stmt_Expression(
+        expr: Scalar_DNumber(
+            value: @@{ PHP_INT_MAX + 1 }@@
+        )
     )
-    4: Scalar_LNumber(
-        value: 4095
+    4: Stmt_Expression(
+        expr: Scalar_LNumber(
+            value: 4095
+        )
     )
-    5: Scalar_LNumber(
-        value: 4095
+    5: Stmt_Expression(
+        expr: Scalar_LNumber(
+            value: 4095
+        )
     )
-    6: Scalar_LNumber(
-        value: 4095
+    6: Stmt_Expression(
+        expr: Scalar_LNumber(
+            value: 4095
+        )
     )
-    7: Scalar_LNumber(
-        value: 511
+    7: Stmt_Expression(
+        expr: Scalar_LNumber(
+            value: 511
+        )
     )
-    8: Scalar_LNumber(
-        value: 3640
+    8: Stmt_Expression(
+        expr: Scalar_LNumber(
+            value: 3640
+        )
     )
 )

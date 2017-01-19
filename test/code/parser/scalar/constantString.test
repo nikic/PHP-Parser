@@ -17,44 +17,70 @@ B"Hi";
 "!\xFF!\377!\400!\0!";
 -----
 array(
-    0: Scalar_String(
-        value:
+    0: Stmt_Expression(
+        expr: Scalar_String(
+            value:
+        )
     )
-    1: Scalar_String(
-        value:
+    1: Stmt_Expression(
+        expr: Scalar_String(
+            value:
+        )
     )
-    2: Scalar_String(
-        value:
+    2: Stmt_Expression(
+        expr: Scalar_String(
+            value:
+        )
     )
-    3: Scalar_String(
-        value:
+    3: Stmt_Expression(
+        expr: Scalar_String(
+            value:
+        )
     )
-    4: Scalar_String(
-        value: Hi
+    4: Stmt_Expression(
+        expr: Scalar_String(
+            value: Hi
+        )
     )
-    5: Scalar_String(
-        value: Hi
+    5: Stmt_Expression(
+        expr: Scalar_String(
+            value: Hi
+        )
     )
-    6: Scalar_String(
-        value: Hi
+    6: Stmt_Expression(
+        expr: Scalar_String(
+            value: Hi
+        )
     )
-    7: Scalar_String(
-        value: Hi
+    7: Stmt_Expression(
+        expr: Scalar_String(
+            value: Hi
+        )
     )
-    8: Scalar_String(
-        value: Hi
+    8: Stmt_Expression(
+        expr: Scalar_String(
+            value: Hi
+        )
     )
-    9: Scalar_String(
-        value: Hi
+    9: Stmt_Expression(
+        expr: Scalar_String(
+            value: Hi
+        )
     )
-    10: Scalar_String(
-        value: !'!\!\a!
+    10: Stmt_Expression(
+        expr: Scalar_String(
+            value: !'!\!\a!
+        )
     )
-    11: Scalar_String(
-        value: !"!\!$!
-    !@@{ "\r" }@@!@@{ "\t" }@@!@@{ "\f" }@@!@@{ "\v" }@@!@@{ chr(27) /* "\e" */ }@@!\a
+    11: Stmt_Expression(
+        expr: Scalar_String(
+            value: !"!\!$!
+        !@@{ "\r" }@@!@@{ "\t" }@@!@@{ "\f" }@@!@@{ "\v" }@@!@@{ chr(27) /* "\e" */ }@@!\a
+        )
     )
-    12: Scalar_String(
-        value: !@@{ chr(255) }@@!@@{ chr(255) }@@!@@{ chr(0) }@@!@@{ chr(0) }@@!
+    12: Stmt_Expression(
+        expr: Scalar_String(
+            value: !@@{ chr(255) }@@!@@{ chr(255) }@@!@@{ chr(0) }@@!@@{ chr(0) }@@!
+        )
     )
 )

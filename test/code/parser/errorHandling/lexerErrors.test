@@ -8,12 +8,14 @@ $b = 24;
 -----
 Unterminated comment from 4:1 to 5:9
 array(
-    0: Expr_Assign(
-        var: Expr_Variable(
-            name: a
-        )
-        expr: Scalar_LNumber(
-            value: 42
+    0: Stmt_Expression(
+        expr: Expr_Assign(
+            var: Expr_Variable(
+                name: a
+            )
+            expr: Scalar_LNumber(
+                value: 42
+            )
         )
     )
     1: Stmt_Nop(
@@ -30,22 +32,26 @@ $a = 42;
 @@{ "\1" }@@
 $b = 24;
 -----
-Unexpected character "@@{ "\1" }@@" (ASCII 1) from 4:1 to 4:1
+Unexpected character "" (ASCII 1) from 4:1 to 4:1
 array(
-    0: Expr_Assign(
-        var: Expr_Variable(
-            name: a
-        )
-        expr: Scalar_LNumber(
-            value: 42
+    0: Stmt_Expression(
+        expr: Expr_Assign(
+            var: Expr_Variable(
+                name: a
+            )
+            expr: Scalar_LNumber(
+                value: 42
+            )
         )
     )
-    1: Expr_Assign(
-        var: Expr_Variable(
-            name: b
-        )
-        expr: Scalar_LNumber(
-            value: 24
+    1: Stmt_Expression(
+        expr: Expr_Assign(
+            var: Expr_Variable(
+                name: b
+            )
+            expr: Scalar_LNumber(
+                value: 24
+            )
         )
     )
 )
@@ -58,20 +64,24 @@ $b = 24;
 -----
 Unexpected null byte from 4:1 to 4:1
 array(
-    0: Expr_Assign(
-        var: Expr_Variable(
-            name: a
-        )
-        expr: Scalar_LNumber(
-            value: 42
+    0: Stmt_Expression(
+        expr: Expr_Assign(
+            var: Expr_Variable(
+                name: a
+            )
+            expr: Scalar_LNumber(
+                value: 42
+            )
         )
     )
-    1: Expr_Assign(
-        var: Expr_Variable(
-            name: b
-        )
-        expr: Scalar_LNumber(
-            value: 24
+    1: Stmt_Expression(
+        expr: Expr_Assign(
+            var: Expr_Variable(
+                name: b
+            )
+            expr: Scalar_LNumber(
+                value: 24
+            )
         )
     )
 )
@@ -87,28 +97,34 @@ $c = 3;
 Unexpected character "@@{ "\1" }@@" (ASCII 1) from 4:1 to 4:1
 Unexpected character "@@{ "\2" }@@" (ASCII 2) from 6:1 to 6:1
 array(
-    0: Expr_Assign(
-        var: Expr_Variable(
-            name: a
-        )
-        expr: Scalar_LNumber(
-            value: 1
-        )
-    )
-    1: Expr_Assign(
-        var: Expr_Variable(
-            name: b
-        )
-        expr: Scalar_LNumber(
-            value: 2
+    0: Stmt_Expression(
+        expr: Expr_Assign(
+            var: Expr_Variable(
+                name: a
+            )
+            expr: Scalar_LNumber(
+                value: 1
+            )
         )
     )
-    2: Expr_Assign(
-        var: Expr_Variable(
-            name: c
+    1: Stmt_Expression(
+        expr: Expr_Assign(
+            var: Expr_Variable(
+                name: b
+            )
+            expr: Scalar_LNumber(
+                value: 2
+            )
         )
-        expr: Scalar_LNumber(
-            value: 3
+    )
+    2: Stmt_Expression(
+        expr: Expr_Assign(
+            var: Expr_Variable(
+                name: c
+            )
+            expr: Scalar_LNumber(
+                value: 3
+            )
         )
     )
 )

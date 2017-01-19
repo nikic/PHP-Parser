@@ -14,47 +14,63 @@ Trailing newlines in doc strings
 
 -----
 array(
-    0: Scalar_String(
-        value:
+    0: Stmt_Expression(
+        expr: Scalar_String(
+            value:
+        )
     )
-    1: Scalar_String(
-        value:
+    1: Stmt_Expression(
+        expr: Scalar_String(
+            value:
 
+        )
     )
-    2: Scalar_String(
-        value: Foo
+    2: Stmt_Expression(
+        expr: Scalar_String(
+            value: Foo
 
+        )
     )
-    3: Scalar_Encapsed(
-        parts: array(
-            0: Expr_Variable(
-                name: var
-            )
-            1: Scalar_EncapsedStringPart(
-                value:
+    3: Stmt_Expression(
+        expr: Scalar_Encapsed(
+            parts: array(
+                0: Expr_Variable(
+                    name: var
+                )
+                1: Scalar_EncapsedStringPart(
+                    value:
 
+                )
             )
         )
     )
-    4: Scalar_String(
-        value:
+    4: Stmt_Expression(
+        expr: Scalar_String(
+            value:
+        )
     )
-    5: Scalar_String(
-        value:
+    5: Stmt_Expression(
+        expr: Scalar_String(
+            value:
 
+        )
     )
-    6: Scalar_String(
-        value: Foo
+    6: Stmt_Expression(
+        expr: Scalar_String(
+            value: Foo
 
+        )
     )
-    7: Scalar_Encapsed(
-        parts: array(
-            0: Expr_Variable(
-                name: var
-            )
-            1: Scalar_EncapsedStringPart(
-                value:
+    7: Stmt_Expression(
+        expr: Scalar_Encapsed(
+            parts: array(
+                0: Expr_Variable(
+                    name: var
+                )
+                1: Scalar_EncapsedStringPart(
+                    value:
 
+                )
             )
         )
     )

@@ -8,13 +8,19 @@ Unicode escape sequence
 -----
 !!php7
 array(
-    0: Scalar_String(
-        value: @@{"\0"}@@
+    0: Stmt_Expression(
+        expr: Scalar_String(
+            value: @@{"\0"}@@
+        )
     )
-    1: Scalar_String(
-        value: Ĕ
+    1: Stmt_Expression(
+        expr: Scalar_String(
+            value: Ĕ
+        )
     )
-    2: Scalar_String(
-        value: @@{"\xF0\x9F\x98\x82"}@@
+    2: Stmt_Expression(
+        expr: Scalar_String(
+            value: @@{"\xF0\x9F\x98\x82"}@@
+        )
     )
 )
