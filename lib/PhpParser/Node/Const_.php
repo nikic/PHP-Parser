@@ -4,6 +4,9 @@ namespace PhpParser\Node;
 
 use PhpParser\NodeAbstract;
 
+/**
+ * @property Name $namespacedName Namespaced name (for class constants, if using NameResolver)
+ */
 class Const_ extends NodeAbstract
 {
     /** @var string Name */

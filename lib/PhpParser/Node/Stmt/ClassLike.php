@@ -4,6 +4,9 @@ namespace PhpParser\Node\Stmt;
 
 use PhpParser\Node;
 
+/**
+ * @property Node\Name $namespacedName Namespaced name (if using NameResolver)
+ */
 abstract class ClassLike extends Node\Stmt {
     /** @var string|null Name */
     public $name;
