@@ -16,7 +16,7 @@ top_statement_list_ex:
 
 top_statement_list:
       top_statement_list_ex
-          { makeNop($nop, $this->lookaheadStartAttributes);
+          { makeNop($nop, $this->lookaheadStartAttributes, $this->endAttributes);
             if ($nop !== null) { $1[] = $nop; } $$ = $1; }
 ;
 
@@ -150,7 +150,7 @@ inner_statement_list_ex:
 
 inner_statement_list:
       inner_statement_list_ex
-          { makeNop($nop, $this->lookaheadStartAttributes);
+          { makeNop($nop, $this->lookaheadStartAttributes, $this->endAttributes);
             if ($nop !== null) { $1[] = $nop; } $$ = $1; }
 ;
 
@@ -199,7 +199,7 @@ non_empty_statement:
 statement:
       non_empty_statement                                   { $$ = $1; }
     | ';'
-          { makeNop($$, $this->startAttributeStack[#1]);
+          { makeNop($$, $this->startAttributeStack[#1], $this->endAttributes);
             if ($$ === null) $$ = array(); /* means: no statement */ }
 ;
 

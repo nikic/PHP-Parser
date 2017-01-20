@@ -829,7 +829,7 @@ class Php7 extends \PhpParser\ParserAbstract
     }
 
     protected function reduceRule4() {
-         $startAttributes = $this->lookaheadStartAttributes; if ($this->useNopStatements && isset($startAttributes['comments'])) { $nop = new Stmt\Nop(['comments' => $startAttributes['comments']]); } else { $nop = null; };
+         $startAttributes = $this->lookaheadStartAttributes; if ($this->useNopStatements && isset($startAttributes['comments'])) { $nop = new Stmt\Nop($startAttributes + $this->endAttributes); } else { $nop = null; };
             if ($nop !== null) { $this->semStack[$this->stackPos-(1-1)][] = $nop; } $this->semValue = $this->semStack[$this->stackPos-(1-1)];
     }
 
@@ -1310,7 +1310,7 @@ class Php7 extends \PhpParser\ParserAbstract
     }
 
     protected function reduceRule124() {
-         $startAttributes = $this->lookaheadStartAttributes; if ($this->useNopStatements && isset($startAttributes['comments'])) { $nop = new Stmt\Nop(['comments' => $startAttributes['comments']]); } else { $nop = null; };
+         $startAttributes = $this->lookaheadStartAttributes; if ($this->useNopStatements && isset($startAttributes['comments'])) { $nop = new Stmt\Nop($startAttributes + $this->endAttributes); } else { $nop = null; };
             if ($nop !== null) { $this->semStack[$this->stackPos-(1-1)][] = $nop; } $this->semValue = $this->semStack[$this->stackPos-(1-1)];
     }
 
@@ -1435,7 +1435,7 @@ class Php7 extends \PhpParser\ParserAbstract
     }
 
     protected function reduceRule155() {
-         $startAttributes = $this->startAttributeStack[$this->stackPos-(1-1)]; if ($this->useNopStatements && isset($startAttributes['comments'])) { $this->semValue = new Stmt\Nop(['comments' => $startAttributes['comments']]); } else { $this->semValue = null; };
+         $startAttributes = $this->startAttributeStack[$this->stackPos-(1-1)]; if ($this->useNopStatements && isset($startAttributes['comments'])) { $this->semValue = new Stmt\Nop($startAttributes + $this->endAttributes); } else { $this->semValue = null; };
             if ($this->semValue === null) $this->semValue = array(); /* means: no statement */
     }
 

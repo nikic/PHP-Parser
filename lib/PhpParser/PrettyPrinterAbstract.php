@@ -343,8 +343,7 @@ abstract class PrettyPrinterAbstract
      *
      * In order to use this method a number of prerequisites must be satisfied:
      *  * The startTokenPos and endTokenPos attributes in the lexer must be enabled.
-     *  * The parser must be run with the option useIdentifierNodes ENABLED and
-     *    useNopStatements DISABLED.
+     *  * The parser must be run with the option useIdentifierNodes ENABLED.
      *  * The CloningVisitor must be run on the AST prior to modification.
      *  * The original tokens must be provided, using the getTokens() method on the lexer.
      *
@@ -528,6 +527,13 @@ abstract class PrettyPrinterAbstract
                 return null;
             }
 
+            if ($itemEndPos < $itemStartPos) {
+                // End can be before start for Nop nodes, because offsets refer to non-whitespace
+                // locations, which for an "empty" node might result in an inverted order.
+                assert($origArrItem instanceof Stmt\Nop);
+                continue;
+            }
+
             $result .= $this->getTokenCode($pos, $itemStartPos, $indentAdjustment);
 
             $origIndentLevel = $this->indentLevel;
@@ -668,7 +674,7 @@ abstract class PrettyPrinterAbstract
 
     protected function haveBraces($startPos, $endPos) {
         return $this->haveTokenImmediativelyBefore($startPos, '{')
-        && $this->haveTokenImmediatelyAfter($endPos, '}');
+            && $this->haveTokenImmediatelyAfter($endPos, '}');
     }
 
     /**

@@ -203,7 +203,6 @@ class PrettyPrinterTest extends CodeTestAbstract
 
         $parser = new Parser\Php7($lexer, [
             'useIdentifierNodes' => true,
-            'useNopStatements' => false,
         ]);
 
         $traverser = new NodeTraverser();
@@ -263,7 +262,6 @@ CODE
         /** @var Parser $parser */
         $parser = new $parserClass($lexer, [
             'useIdentifierNodes' => true,
-            'useNopStatements' => false,
         ]);
 
         $traverser = new NodeTraverser();
