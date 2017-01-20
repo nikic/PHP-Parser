@@ -928,7 +928,7 @@ class Php5 extends \PhpParser\ParserAbstract
     }
 
     protected function reduceRule4() {
-         $startAttributes = $this->lookaheadStartAttributes; if ($this->useNopStatements && isset($startAttributes['comments'])) { $nop = new Stmt\Nop($startAttributes + $this->endAttributes); } else { $nop = null; };
+         $startAttributes = $this->lookaheadStartAttributes; if (isset($startAttributes['comments'])) { $nop = new Stmt\Nop($startAttributes + $this->endAttributes); } else { $nop = null; };
             if ($nop !== null) { $this->semStack[$this->stackPos-(1-1)][] = $nop; } $this->semValue = $this->semStack[$this->stackPos-(1-1)];
     }
 
@@ -1409,7 +1409,7 @@ class Php5 extends \PhpParser\ParserAbstract
     }
 
     protected function reduceRule124() {
-         $startAttributes = $this->lookaheadStartAttributes; if ($this->useNopStatements && isset($startAttributes['comments'])) { $nop = new Stmt\Nop($startAttributes + $this->endAttributes); } else { $nop = null; };
+         $startAttributes = $this->lookaheadStartAttributes; if (isset($startAttributes['comments'])) { $nop = new Stmt\Nop($startAttributes + $this->endAttributes); } else { $nop = null; };
             if ($nop !== null) { $this->semStack[$this->stackPos-(1-1)][] = $nop; } $this->semValue = $this->semStack[$this->stackPos-(1-1)];
     }
 
@@ -1550,7 +1550,7 @@ class Php5 extends \PhpParser\ParserAbstract
     }
 
     protected function reduceRule159() {
-         $startAttributes = $this->startAttributeStack[$this->stackPos-(1-1)]; if ($this->useNopStatements && isset($startAttributes['comments'])) { $this->semValue = new Stmt\Nop($startAttributes + $this->endAttributes); } else { $this->semValue = null; };
+         $startAttributes = $this->startAttributeStack[$this->stackPos-(1-1)]; if (isset($startAttributes['comments'])) { $this->semValue = new Stmt\Nop($startAttributes + $this->endAttributes); } else { $this->semValue = null; };
             if ($this->semValue === null) $this->semValue = array(); /* means: no statement */
     }
 

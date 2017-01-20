@@ -179,7 +179,7 @@ function resolveMacros($code) {
                 assertArgs(3, $args, $name);
 
                 return '$startAttributes = ' . $args[1] . ';'
-                . ' if ($this->useNopStatements && isset($startAttributes[\'comments\']))'
+                . ' if (isset($startAttributes[\'comments\']))'
                 . ' { ' . $args[0] . ' = new Stmt\Nop($startAttributes + ' . $args[2] . '); }'
                 . ' else { ' . $args[0] . ' = null; }';
             }

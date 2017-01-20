@@ -114,8 +114,6 @@ abstract class ParserAbstract implements Parser
 
     /** @var bool Whether to create Identifier nodes for non-namespaced names */
     protected $useIdentifierNodes;
-    /** @var bool Whether to use Stmt\Nop nodes */
-    protected $useNopStatements;
 
     /**
      * Creates a parser instance.
@@ -123,8 +121,6 @@ abstract class ParserAbstract implements Parser
      * Options:
      *  * useIdentifierNodes (default false): Create Identifier nodes for non-namespaced names.
      *    Otherwise plain strings will be used.
-     *  * useNopStatements (default true): Create Stmt\Nop nodes for dangling comments at the end of
-     *    statement lists.
      *
      * @param Lexer $lexer A lexer
      * @param array $options Options array.
@@ -133,8 +129,6 @@ abstract class ParserAbstract implements Parser
         $this->lexer = $lexer;
         $this->errors = array();
         $this->useIdentifierNodes = !empty($options['useIdentifierNodes']);
-        $this->useNopStatements =
-            isset($options['useNopStatements']) ? $options['useNopStatements'] : true;
 
         if (isset($options['throwOnError'])) {
             throw new \LogicException(
