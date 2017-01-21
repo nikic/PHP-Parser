@@ -110,6 +110,7 @@ abstract class PrettyPrinterAbstract
      *              this node.
      */
     protected $removalMap;
+    protected $insertionMap;
 
     /**
      * Creates a pretty printer instance using the given options.
@@ -363,6 +364,7 @@ abstract class PrettyPrinterAbstract
         $this->initializeLabelCharMap();
         $this->initializeFixupMap();
         $this->initializeRemovalMap();
+        $this->initializeInsertionMap();
 
         $this->origTokens = $origTokens;
         $this->indentLevel = 0;
@@ -436,7 +438,9 @@ abstract class PrettyPrinterAbstract
             $subNode = $node->$subNodeName;
             $origSubNode = $origNode->$subNodeName;
 
-            if (!$origSubNode instanceof Node || (!$subNode instanceof Node && $subNode !== null)) {
+            if ((!$subNode instanceof Node && $subNode !== null)
+                || (!$origSubNode instanceof Node && $origSubNode !== null)
+            ) {
                 if ($subNode === $origSubNode) {
                     // Unchanged, can reuse old code
                     continue;
@@ -462,11 +466,34 @@ abstract class PrettyPrinterAbstract
                 return $this->pFallback($node);
             }
 
-            $subStartPos = $origSubNode->getAttribute('startTokenPos', -1);
-            $subEndPos = $origSubNode->getAttribute('endTokenPos', -1);
-            if ($subStartPos < 0 || $subEndPos < 0) {
-                // Shouldn't happen
-                return $this->pFallback($node);
+            $extraLeft = '';
+            $extraRight = '';
+            if ($origSubNode !== null) {
+                $subStartPos = $origSubNode->getAttribute('startTokenPos', -1);
+                $subEndPos = $origSubNode->getAttribute('endTokenPos', -1);
+                if ($subStartPos < 0 || $subEndPos < 0) {
+                    // Shouldn't happen
+                    return $this->pFallback($node);
+                }
+            } else {
+                if ($subNode === null) {
+                    // Both null, nothing to do
+                    continue;
+                }
+
+                // A node has been inserted, check if we have insertion information for it
+                $key = $type . '->' . $subNodeName;
+                if (!isset($this->insertionMap[$key])) {
+                    return $this->pFallback($node);
+                }
+
+                list($findToken, $extraLeft, $extraRight) = $this->insertionMap[$key];
+                if (null !== $findToken) {
+                    $subStartPos = $this->findRight($pos, $findToken) + 1;
+                } else {
+                    $subStartPos = $pos;
+                }
+                $subEndPos = $subStartPos - 1;
             }
 
             if (null === $subNode) {
@@ -489,6 +516,8 @@ abstract class PrettyPrinterAbstract
             $result .= $this->getTokenCode($pos, $subStartPos, $indentAdjustment);
 
             if (null !== $subNode) {
+                $result .= $extraLeft;
+
                 $origIndentLevel = $this->indentLevel;
                 $this->indentLevel = $this->getIndentationBefore($subStartPos) + $indentAdjustment;
 
@@ -506,6 +535,8 @@ abstract class PrettyPrinterAbstract
 
                 $this->safeAppend($result, $res);
                 $this->indentLevel = $origIndentLevel;
+
+                $result .= $extraRight;
             }
 
             $pos = $subEndPos + 1;
@@ -848,6 +879,17 @@ abstract class PrettyPrinterAbstract
         return $pos;
     }
 
+    protected function findRight($pos, $findTokenType) {
+        $tokens = $this->origTokens;
+        for ($count = \count($tokens); $pos < $count; $pos++) {
+            $type = $tokens[$pos][0];
+            if ($type === $findTokenType) {
+                return $pos;
+            }
+        }
+        return -1;
+    }
+
     /**
      * Determines whether the LHS of a call must be wrapped in parenthesis.
      *
@@ -988,6 +1030,12 @@ abstract class PrettyPrinterAbstract
         }
     }
 
+    /**
+     * Lazily initializes the removal map.
+     *
+     * The removal map is used to determine which additional tokens should be returned when a
+     * certain node is replaced by null.
+     */
     protected function initializeRemovalMap() {
         if ($this->removalMap) return;
 
@@ -1024,6 +1072,41 @@ abstract class PrettyPrinterAbstract
             // 'Stmt_Class->name': Unclear what to do
             // 'Stmt_Declare->stmts': Not a plain node
             // 'Stmt_TraitUseAdaptation_Alias->newModifier': Not a plain node
+        ];
+    }
+
+    protected function initializeInsertionMap() {
+        if ($this->insertionMap) return;
+
+        // TODO: "yield" where both key and value are inserted doesn't work
+        $this->insertionMap = [
+            'Expr_ArrayDimFetch->dim' => ['[', null, null],
+            'Expr_ArrayItem->key' => [null, null, ' => '],
+            'Expr_Closure->returnType' => [')', ' : ', null],
+            'Expr_Ternary->if' => ['?', ' ', ' '],
+            'Expr_Yield->key' => [T_YIELD, ' ', ' => '],
+            'Expr_Yield->value' => [T_YIELD, ' ', null],
+            'Param->type' => [null, null, ' '],
+            'Param->default' => [null, ' = ', null],
+            'Stmt_Break->num' => [T_BREAK, ' ', null],
+            'Stmt_ClassMethod->returnType' => [')', ' : ', null],
+            'Stmt_Class->extends' => [null, ' extends ', null],
+            'Stmt_Continue->num' => [T_CONTINUE, ' ', null],
+            'Stmt_Foreach->keyVar' => [T_AS, ' ', ' => '],
+            'Stmt_Function->returnType' => [')', ' : ', null],
+            //'Stmt_If->else' => [null, ' ', null], // TODO
+            'Stmt_Namespace->name' => [T_NAMESPACE, ' ', null],
+            'Stmt_PropertyProperty->default' => [null, ' = ', null],
+            'Stmt_Return->expr' => [T_RETURN, ' ', null],
+            'Stmt_StaticVar->default' => [null, ' = ', null],
+            //'Stmt_TraitUseAdaptation_Alias->newName' => [T_AS, ' ', null], // TODO
+            'Stmt_TryCatch->finally' => [null, ' ', null],
+
+            // 'Expr_Exit->expr': Complicated due to optional ()
+            // 'Stmt_Case->cond': Conversion from default to case
+            // 'Stmt_Class->name': Unclear
+            // 'Stmt_Declare->stmts': Not a proper node
+            // 'Stmt_TraitUseAdaptation_Alias->newModifier': Not a proper node
         ];
     }
 }
