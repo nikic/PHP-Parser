@@ -757,18 +757,18 @@ class Standard extends PrettyPrinterAbstract
 
     protected function pStmt_TryCatch(Stmt\TryCatch $node) {
         return 'try {' . $this->pStmts($node->stmts) . "\n" . '}'
-             . $this->pImplode($node->catches)
-             . ($node->finally !== null ? $this->p($node->finally) : '');
+             . ($node->catches ? ' ' . $this->pImplode($node->catches, ' ') : '')
+             . ($node->finally !== null ? ' ' . $this->p($node->finally) : '');
     }
 
     protected function pStmt_Catch(Stmt\Catch_ $node) {
-        return ' catch (' . $this->pImplode($node->types, '|') . ' '
+        return 'catch (' . $this->pImplode($node->types, '|') . ' '
              . $this->p($node->var)
              . ') {' . $this->pStmts($node->stmts) . "\n" . '}';
     }
 
     protected function pStmt_Finally(Stmt\Finally_ $node) {
-        return ' finally {' . $this->pStmts($node->stmts) . "\n" . '}';
+        return 'finally {' . $this->pStmts($node->stmts) . "\n" . '}';
     }
 
     protected function pStmt_Break(Stmt\Break_ $node) {
