@@ -104,6 +104,12 @@ abstract class PrettyPrinterAbstract
      *              during format-preserving prints to place additional parens/braces if necessary.
      */
     protected $fixupMap;
+    /**
+     * @var int[][] Map from "{$node->getType()}->{$subNode}" to ['left' => $l, 'right' => $r],
+     *              where $l and $r specify the token type that needs to be stripped when removing
+     *              this node.
+     */
+    protected $removalMap;
 
     /**
      * Creates a pretty printer instance using the given options.
@@ -356,6 +362,7 @@ abstract class PrettyPrinterAbstract
     public function printFormatPreserving(array $stmts, array $origStmts, array $origTokens) {
         $this->initializeLabelCharMap();
         $this->initializeFixupMap();
+        $this->initializeRemovalMap();
 
         $this->origTokens = $origTokens;
         $this->indentLevel = 0;
@@ -429,29 +436,30 @@ abstract class PrettyPrinterAbstract
             $subNode = $node->$subNodeName;
             $origSubNode = $origNode->$subNodeName;
 
-            if (!$subNode instanceof Node || !$origSubNode instanceof Node) {
+            if (!$origSubNode instanceof Node || (!$subNode instanceof Node && $subNode !== null)) {
                 if ($subNode === $origSubNode) {
                     // Unchanged, can reuse old code
                     continue;
                 }
 
-                if (!is_array($subNode) || !is_array($origSubNode)) {
-                    // If a non-node, non-array subnode changed, we don't be able to do a partial
-                    // reconstructions, as we don't have enough offset information. Pretty print the
-                    // whole node instead.
-                    return $this->pFallback($node);
+                if (is_array($subNode) && is_array($origSubNode)) {
+                    // Array subnode changed, we might be able to reconstruct it
+                    $fixup = isset($fixupInfo[$subNodeName]) ? $fixupInfo[$subNodeName] : null;
+                    $listResult = $this->pArray(
+                        $subNode, $origSubNode, $pos, $indentAdjustment, $fixup
+                    );
+                    if (null === $listResult) {
+                        return $this->pFallback($node);
+                    }
+
+                    $result .= $listResult;
+                    continue;
                 }
 
-                $fixup = isset($fixupInfo[$subNodeName]) ? $fixupInfo[$subNodeName] : null;
-                $listResult = $this->pArray(
-                    $subNode, $origSubNode, $pos, $indentAdjustment, $fixup
-                );
-                if (null === $listResult) {
-                    return $this->pFallback($node);
-                }
-
-                $result .= $listResult;
-                continue;
+                // If a non-node, non-array subnode changed, we don't be able to do a partial
+                // reconstructions, as we don't have enough offset information. Pretty print the
+                // whole node instead.
+                return $this->pFallback($node);
             }
 
             $subStartPos = $origSubNode->getAttribute('startTokenPos', -1);
@@ -461,25 +469,44 @@ abstract class PrettyPrinterAbstract
                 return $this->pFallback($node);
             }
 
-            $result .= $this->getTokenCode($pos, $subStartPos, $indentAdjustment);
+            if (null === $subNode) {
+                // A node has been removed, check if we have removal information for it
+                $key = $type . '->' . $subNodeName;
+                if (!isset($this->removalMap[$key])) {
+                    return $this->pFallback($node);
+                }
 
-            $origIndentLevel = $this->indentLevel;
-            $this->indentLevel = $this->getIndentationBefore($subStartPos) + $indentAdjustment;
-
-            // If it's the same node that was previously in this position, it certainly doesn't need
-            // fixup. It's important to check this here, because our fixup checks are more
-            // conservative than strictly necessary.
-            if (isset($fixupInfo[$subNodeName])
-                && $subNode->getAttribute('origNode') !== $origSubNode
-            ) {
-                $fixup = $fixupInfo[$subNodeName];
-                $res = $this->pFixup($fixup, $subNode, $type, $subStartPos, $subEndPos);
-            } else {
-                $res = $this->p($subNode);
+                // Adjust positions to account for additional tokens that must be skipped
+                $removalInfo = $this->removalMap[$key];
+                if (isset($removalInfo['left'])) {
+                    $subStartPos = $this->skipLeft($subStartPos - 1, $removalInfo['left']) + 1;
+                }
+                if (isset($removalInfo['right'])) {
+                    $subEndPos = $this->skipRight($subEndPos + 1, $removalInfo['right']) - 1;
+                }
             }
 
-            $this->safeAppend($result, $res);
-            $this->indentLevel = $origIndentLevel;
+            $result .= $this->getTokenCode($pos, $subStartPos, $indentAdjustment);
+
+            if (null !== $subNode) {
+                $origIndentLevel = $this->indentLevel;
+                $this->indentLevel = $this->getIndentationBefore($subStartPos) + $indentAdjustment;
+
+                // If it's the same node that was previously in this position, it certainly doesn't
+                // need fixup. It's important to check this here, because our fixup checks are more
+                // conservative than strictly necessary.
+                if (isset($fixupInfo[$subNodeName])
+                    && $subNode->getAttribute('origNode') !== $origSubNode
+                ) {
+                    $fixup = $fixupInfo[$subNodeName];
+                    $res = $this->pFixup($fixup, $subNode, $type, $subStartPos, $subEndPos);
+                } else {
+                    $res = $this->p($subNode);
+                }
+
+                $this->safeAppend($result, $res);
+                $this->indentLevel = $origIndentLevel;
+            }
 
             $pos = $subEndPos + 1;
         }
@@ -765,6 +792,62 @@ abstract class PrettyPrinterAbstract
         return $result;
     }
 
+    protected function skipLeft($pos, $skipTokenType) {
+        $tokens = $this->origTokens;
+
+        $pos = $this->skipLeftWhitespace($pos);
+        if ($skipTokenType === T_WHITESPACE) {
+            return $pos;
+        }
+
+        if ($tokens[$pos][0] !== $skipTokenType) {
+            // Shouldn't happen. The skip token MUST be there
+            throw new \Exception('Encountered unexpected token');
+        }
+        $pos--;
+
+        return $this->skipLeftWhitespace($pos);
+    }
+
+    protected function skipRight($pos, $skipTokenType) {
+        $tokens = $this->origTokens;
+
+        $pos = $this->skipRightWhitespace($pos);
+        if ($skipTokenType === T_WHITESPACE) {
+            return $pos;
+        }
+
+        if ($tokens[$pos][0] !== $skipTokenType) {
+            // Shouldn't happen. The skip token MUST be there
+            throw new \Exception('Encountered unexpected token');
+        }
+        $pos++;
+
+        return $this->skipRightWhitespace($pos);
+    }
+
+    protected function skipLeftWhitespace($pos) {
+        $tokens = $this->origTokens;
+        for (; $pos >= 0; $pos--) {
+            $type = $tokens[$pos][0];
+            if ($type !== T_WHITESPACE && $type !== T_COMMENT && $type !== T_DOC_COMMENT) {
+                break;
+            }
+        }
+        return $pos;
+    }
+
+    protected function skipRightWhitespace($pos) {
+        $tokens = $this->origTokens;
+        for ($count = \count($tokens); $pos < $count; $pos++) {
+            $type = $tokens[$pos][0];
+            if ($type !== T_WHITESPACE && $type !== T_COMMENT && $type !== T_DOC_COMMENT) {
+                break;
+            }
+        }
+        return $pos;
+    }
+
     /**
      * Determines whether the LHS of a call must be wrapped in parenthesis.
      *
@@ -903,5 +986,44 @@ abstract class PrettyPrinterAbstract
         foreach ($prefixOps as $prefixOp) {
             $this->fixupMap[$prefixOp] = ['expr' => self::FIXUP_PREC_RIGHT];
         }
+    }
+
+    protected function initializeRemovalMap() {
+        if ($this->removalMap) return;
+
+        $stripBoth = ['left' => T_WHITESPACE, 'right' => T_WHITESPACE];
+        $stripLeft = ['left' => T_WHITESPACE];
+        $stripRight = ['right' => T_WHITESPACE];
+        $stripDoubleArrow = ['right' => T_DOUBLE_ARROW];
+        $stripColon = ['left' => ':'];
+        $stripEquals = ['left' => '='];
+        $this->removalMap = [
+            'Expr_ArrayDimFetch->dim' => $stripBoth,
+            'Expr_ArrayItem->key' => $stripDoubleArrow,
+            'Expr_Closure->returnType' => $stripColon,
+            'Expr_Exit->expr' => $stripBoth,
+            'Expr_Ternary->if' => $stripBoth,
+            'Expr_Yield->key' => $stripDoubleArrow,
+            'Expr_Yield->value' => $stripBoth,
+            'Param->type' => $stripRight,
+            'Param->default' => $stripEquals,
+            'Stmt_Break->num' => $stripBoth,
+            'Stmt_ClassMethod->returnType' => $stripColon,
+            'Stmt_Class->extends' => ['left' => T_EXTENDS],
+            'Stmt_Continue->num' => $stripBoth,
+            'Stmt_Foreach->keyVar' => $stripDoubleArrow,
+            'Stmt_Function->returnType' => $stripColon,
+            'Stmt_If->else' => $stripLeft,
+            'Stmt_Namespace->name' => $stripLeft,
+            'Stmt_PropertyProperty->default' => $stripEquals,
+            'Stmt_Return->expr' => $stripBoth,
+            'Stmt_StaticVar->default' => $stripEquals,
+            'Stmt_TraitUseAdaptation_Alias->newName' => $stripLeft,
+            'Stmt_TryCatch->finally' => $stripLeft,
+            // 'Stmt_Case->cond': Replace with "default"
+            // 'Stmt_Class->name': Unclear what to do
+            // 'Stmt_Declare->stmts': Not a plain node
+            // 'Stmt_TraitUseAdaptation_Alias->newModifier': Not a plain node
+        ];
     }
 }
