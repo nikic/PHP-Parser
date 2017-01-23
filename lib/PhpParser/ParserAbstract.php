@@ -161,8 +161,8 @@ abstract class ParserAbstract implements Parser
         // The attributes for a node are taken from the first and last token of the node.
         // From the first token only the startAttributes are taken and from the last only
         // the endAttributes. Both are merged using the array union operator (+).
-        $startAttributes = '*POISON';
-        $endAttributes = '*POISON';
+        $startAttributes = [];
+        $endAttributes = [];
         $this->endAttributes = $endAttributes;
 
         // Keep stack of start and end attributes
