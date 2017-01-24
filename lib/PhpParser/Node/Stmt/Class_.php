@@ -54,14 +54,23 @@ class Class_ extends ClassLike
         return array('flags', 'name', 'extends', 'implements', 'stmts');
     }
 
+    /**
+     * @return bool
+     */
     public function isAbstract() {
         return (bool) ($this->flags & self::MODIFIER_ABSTRACT);
     }
 
+    /**
+     * @return bool
+     */
     public function isFinal() {
         return (bool) ($this->flags & self::MODIFIER_FINAL);
     }
 
+    /**
+     * @return bool
+     */
     public function isAnonymous() {
         return null === $this->name;
     }

@@ -63,27 +63,45 @@ class ClassMethod extends Node\Stmt implements FunctionLike
         return $this->stmts;
     }
 
+    /**
+     * @return bool
+     */
     public function isPublic() {
         return ($this->flags & Class_::MODIFIER_PUBLIC) !== 0
             || ($this->flags & Class_::VISIBILITY_MODIFER_MASK) === 0;
     }
 
+    /**
+     * @return bool
+     */
     public function isProtected() {
         return (bool) ($this->flags & Class_::MODIFIER_PROTECTED);
     }
 
+    /**
+     * @return bool
+     */
     public function isPrivate() {
         return (bool) ($this->flags & Class_::MODIFIER_PRIVATE);
     }
 
+    /**
+     * @return bool
+     */
     public function isAbstract() {
         return (bool) ($this->flags & Class_::MODIFIER_ABSTRACT);
     }
 
+    /**
+     * @return bool
+     */
     public function isFinal() {
         return (bool) ($this->flags & Class_::MODIFIER_FINAL);
     }
 
+    /**
+     * @return bool
+     */
     public function isStatic() {
         return (bool) ($this->flags & Class_::MODIFIER_STATIC);
     }

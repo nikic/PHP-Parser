@@ -238,6 +238,9 @@ abstract class PrettyPrinterAbstract
         }
     }
 
+    /**
+     * @return string
+     */
     protected function pInfixOp($type, Node $leftNode, $operatorString, Node $rightNode) {
         list($precedence, $associativity) = $this->precedenceMap[$type];
 
@@ -246,11 +249,17 @@ abstract class PrettyPrinterAbstract
              . $this->pPrec($rightNode, $precedence, $associativity, 1);
     }
 
+    /**
+     * @return string
+     */
     protected function pPrefixOp($type, $operatorString, Node $node) {
         list($precedence, $associativity) = $this->precedenceMap[$type];
         return $operatorString . $this->pPrec($node, $precedence, $associativity, 1);
     }
 
+    /**
+     * @return string
+     */
     protected function pPostfixOp($type, Node $node, $operatorString) {
         list($precedence, $associativity) = $this->precedenceMap[$type];
         return $this->pPrec($node, $precedence, $associativity, -1) . $operatorString;
@@ -725,11 +734,17 @@ abstract class PrettyPrinterAbstract
         return $indent;
     }
 
+    /**
+     * @return bool
+     */
     protected function haveParens($startPos, $endPos) {
         return $this->haveTokenImmediativelyBefore($startPos, '(')
             && $this->haveTokenImmediatelyAfter($endPos, ')');
     }
 
+    /**
+     * @return bool
+     */
     protected function haveBraces($startPos, $endPos) {
         return $this->haveTokenImmediativelyBefore($startPos, '{')
             && $this->haveTokenImmediatelyAfter($endPos, '}');

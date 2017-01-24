@@ -109,6 +109,9 @@ abstract class NodeAbstract implements Node, \JsonSerializable
         $this->attributes = $attributes;
     }
 
+    /**
+     * @return array
+     */
     public function jsonSerialize() {
         return ['nodeType' => $this->getType()] + get_object_vars($this);
     }
