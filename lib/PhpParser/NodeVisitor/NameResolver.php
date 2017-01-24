@@ -192,6 +192,9 @@ class NameResolver extends NodeVisitorAbstract
         }
     }
 
+    /**
+     * @return null|Name
+     */
     protected function resolveClassName(Name $name) {
         if (!$this->replaceNodes) {
             $name->setAttribute('resolvedName', $this->getResolvedClassName($name));
@@ -208,6 +211,9 @@ class NameResolver extends NodeVisitorAbstract
         return $this->getResolvedClassName($name);
     }
 
+    /**
+     * @return Name
+     */
     protected function resolveOtherName(Name $name, $type) {
         if (!$this->replaceNodes) {
             $resolvedName = $this->getResolvedOtherName($name, $type);
@@ -239,6 +245,9 @@ class NameResolver extends NodeVisitorAbstract
         return $name;
     }
 
+    /**
+     * @return null|Name
+     */
     protected function getResolvedClassName(Name $name) {
         // don't resolve special class names
         if (in_array(strtolower($name->toString()), array('self', 'parent', 'static'))) {
@@ -267,6 +276,9 @@ class NameResolver extends NodeVisitorAbstract
         return FullyQualified::concat($this->namespace, $name, $name->getAttributes());
     }
 
+    /**
+     * @return null|Name
+     */
     protected function getResolvedOtherName(Name $name, $type) {
         // fully qualified names are already resolved
         if ($name->isFullyQualified()) {

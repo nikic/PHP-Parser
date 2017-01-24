@@ -111,6 +111,9 @@ class String_ extends Scalar
         );
     }
 
+    /**
+     * @return string
+     */
     private static function codePointToUtf8($num) {
         if ($num <= 0x7F) {
             return chr($num);

@@ -355,6 +355,9 @@ abstract class ParserAbstract implements Parser
         $this->errorHandler->handleError($error);
     }
 
+    /**
+     * @return string
+     */
     protected function getErrorMessage($symbol, $state) {
         $expectedString = '';
         if ($expected = $this->getExpectedTokens($state)) {
@@ -364,6 +367,10 @@ abstract class ParserAbstract implements Parser
         return 'Syntax error, unexpected ' . $this->symbolToName[$symbol] . $expectedString;
     }
 
+    /**
+     * @return       array
+     * @psalm-return array<int, mixed>
+     */
     protected function getExpectedTokens($state) {
         $expected = array();
 
@@ -509,6 +516,9 @@ abstract class ParserAbstract implements Parser
         }
     }
 
+    /**
+     * @return null|string
+     */
     private function getNamespacingStyle(array $stmts) {
         $style = null;
         $hasNotAllowedStmts = false;
@@ -552,6 +562,9 @@ abstract class ParserAbstract implements Parser
         return $style;
     }
 
+    /**
+     * @return \PhpParser\Node\Expr\StaticCall
+     */
     protected function fixupPhp5StaticPropCall($prop, array $args, array $attributes) {
         if ($prop instanceof Node\Expr\StaticPropertyFetch) {
             // Preserve attributes if possible
@@ -602,6 +615,9 @@ abstract class ParserAbstract implements Parser
         }
     }
 
+    /**
+     * @return string
+     */
     protected function handleBuiltinTypes(Name $name) {
         $scalarTypes = [
             'bool'     => true,
@@ -632,10 +648,16 @@ abstract class ParserAbstract implements Parser
         'static' => true,
     );
 
+    /**
+     * @return array
+     */
     protected function getAttributesAt($pos) {
         return $this->startAttributeStack[$pos] + $this->endAttributeStack[$pos];
     }
 
+    /**
+     * @return LNumber
+     */
     protected function parseLNumber($str, $attributes, $allowInvalidOctal = false) {
         try {
             return LNumber::fromString($str, $attributes, $allowInvalidOctal);
@@ -646,6 +668,9 @@ abstract class ParserAbstract implements Parser
         }
     }
 
+    /**
+     * @return LNumber|String_
+     */
     protected function parseNumString($str, $attributes) {
         if (!preg_match('/^(?:0|-?[1-9][0-9]*)$/', $str)) {
             return new String_($str, $attributes);

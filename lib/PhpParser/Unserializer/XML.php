@@ -139,6 +139,9 @@ class XML implements Unserializer
         );
     }
 
+    /**
+     * @return string
+     */
     protected function getClassNameFromType($type) {
         $className = 'PhpParser\\Node\\' . strtr($type, '_', '\\');
         if (!class_exists($className)) {

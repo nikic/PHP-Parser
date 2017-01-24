@@ -114,6 +114,9 @@ class Comment implements \JsonSerializable
         return $text;
     }
 
+    /**
+     * @return float
+     */
     private function getShortestWhitespacePrefixLen($str) {
         $lines = explode("\n", $str);
         $shortestPrefixLen = INF;
@@ -127,6 +130,10 @@ class Comment implements \JsonSerializable
         return $shortestPrefixLen;
     }
 
+    /**
+     * @return       array
+     * @psalm-return array{nodeType:string, text:mixed, line:mixed, filePos:mixed}
+     */
     public function jsonSerialize() {
         // Technically not a node, but we make it look like one anyway
         $type = $this instanceof Comment\Doc ? 'Comment_Doc' : 'Comment';

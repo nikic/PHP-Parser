@@ -164,6 +164,9 @@ class NodeDumper
         return $map[$type] . ' (' . $type . ')';
     }
 
+    /**
+     * @return string|null
+     */
     protected function dumpPosition(Node $node) {
         if (!$node->hasAttribute('startLine') || !$node->hasAttribute('endLine')) {
             return null;

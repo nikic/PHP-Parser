@@ -130,6 +130,9 @@ class Error extends \RuntimeException
         return $this->toColumn($code, $this->attributes['endFilePos']);
     }
 
+    /**
+     * @return string
+     */
     public function getMessageWithColumnInfo($code) {
         return sprintf(
             '%s from %d:%d to %d:%d', $this->getRawMessage(),
