@@ -64,6 +64,8 @@ class ClassMethod extends Node\Stmt implements FunctionLike
     }
 
     /**
+     * Whether the method is explicitly or implicitly public.
+     *
      * @return bool
      */
     public function isPublic() {
@@ -72,6 +74,8 @@ class ClassMethod extends Node\Stmt implements FunctionLike
     }
 
     /**
+     * Whether the method is protected.
+     *
      * @return bool
      */
     public function isProtected() {
@@ -79,6 +83,8 @@ class ClassMethod extends Node\Stmt implements FunctionLike
     }
 
     /**
+     * Whether the method is private.
+     *
      * @return bool
      */
     public function isPrivate() {
@@ -86,6 +92,8 @@ class ClassMethod extends Node\Stmt implements FunctionLike
     }
 
     /**
+     * Whether the method is abstract.
+     *
      * @return bool
      */
     public function isAbstract() {
@@ -93,6 +101,8 @@ class ClassMethod extends Node\Stmt implements FunctionLike
     }
 
     /**
+     * Whether the method is final.
+     * #
      * @return bool
      */
     public function isFinal() {
@@ -100,6 +110,8 @@ class ClassMethod extends Node\Stmt implements FunctionLike
     }
 
     /**
+     * Whether the method is static.
+     *
      * @return bool
      */
     public function isStatic() {

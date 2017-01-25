@@ -23,10 +23,6 @@ class Multiple implements Parser {
         $this->parsers = $parsers;
     }
 
-    /**
-     * @return       \PhpParser\Node\Stmt[]
-     * @psalm-return array<mixed, \PhpParser\Node\Stmt>
-     */
     public function parse($code, ErrorHandler $errorHandler = null) {
         if (null === $errorHandler) {
             $errorHandler = new ErrorHandler\Throwing;

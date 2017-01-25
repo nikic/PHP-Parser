@@ -140,7 +140,11 @@ class XML implements Unserializer
     }
 
     /**
-     * @return string
+     * Reconstruct the class name from the node type.
+     *
+     * @param string $type Node type
+     *
+     * @return string Node class name
      */
     protected function getClassNameFromType($type) {
         $className = 'PhpParser\\Node\\' . strtr($type, '_', '\\');

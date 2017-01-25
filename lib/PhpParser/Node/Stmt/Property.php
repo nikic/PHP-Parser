@@ -29,6 +29,8 @@ class Property extends Node\Stmt
     }
 
     /**
+     * Whether the property is explicitly or implicitly public.
+     *
      * @return bool
      */
     public function isPublic() {
@@ -37,6 +39,8 @@ class Property extends Node\Stmt
     }
 
     /**
+     * Whether the property is protected.
+     *
      * @return bool
      */
     public function isProtected() {
@@ -44,6 +48,8 @@ class Property extends Node\Stmt
     }
 
     /**
+     * Whether the property is private.
+     *
      * @return bool
      */
     public function isPrivate() {
@@ -51,6 +57,8 @@ class Property extends Node\Stmt
     }
 
     /**
+     * Whether the property is static.
+     *
      * @return bool
      */
     public function isStatic() {

@@ -239,7 +239,14 @@ abstract class PrettyPrinterAbstract
     }
 
     /**
-     * @return string
+     * Pretty-print an infix operation while taking precedence into account.
+     *
+     * @param string $type           Node type of operator
+     * @param Node   $leftNode       Left-hand side node
+     * @param string $operatorString String representation of the operator
+     * @param Node   $rightNode      Right-hand side node
+     *
+     * @return string Pretty printed infix operation
      */
     protected function pInfixOp($type, Node $leftNode, $operatorString, Node $rightNode) {
         list($precedence, $associativity) = $this->precedenceMap[$type];
@@ -250,7 +257,13 @@ abstract class PrettyPrinterAbstract
     }
 
     /**
-     * @return string
+     * Pretty-print a prefix operation while taking precedence into account.
+     *
+     * @param string $type           Node type of operator
+     * @param string $operatorString String representation of the operator
+     * @param Node   $node           Node
+     *
+     * @return string Pretty printed prefix operation
      */
     protected function pPrefixOp($type, $operatorString, Node $node) {
         list($precedence, $associativity) = $this->precedenceMap[$type];
@@ -258,7 +271,13 @@ abstract class PrettyPrinterAbstract
     }
 
     /**
-     * @return string
+     * Pretty-print a postfix operation while taking precedence into account.
+     *
+     * @param string $type           Node type of operator
+     * @param string $operatorString String representation of the operator
+     * @param Node   $node           Node
+     *
+     * @return string Pretty printed postfix operation
      */
     protected function pPostfixOp($type, Node $node, $operatorString) {
         list($precedence, $associativity) = $this->precedenceMap[$type];
@@ -735,6 +754,11 @@ abstract class PrettyPrinterAbstract
     }
 
     /**
+     * Whether the fiven position is immediately surrounded by parenthesis.
+     *
+     * @param int $startPos Start position
+     * @param int $endPos   End position
+     *
      * @return bool
      */
     protected function haveParens($startPos, $endPos) {
@@ -743,6 +767,11 @@ abstract class PrettyPrinterAbstract
     }
 
     /**
+     * Whether the fiven position is immediately surrounded by braces.
+     *
+     * @param int $startPos Start position
+     * @param int $endPos   End position
+     *
      * @return bool
      */
     protected function haveBraces($startPos, $endPos) {

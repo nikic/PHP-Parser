@@ -118,6 +118,8 @@ class Lexer
     }
 
     /**
+     * Check whether comment token is unterminated.
+     *
      * @return bool
      */
     private function isUnterminatedComment($token) {
@@ -127,6 +129,8 @@ class Lexer
     }
 
     /**
+     * Check whether an error *may* have occurred during tokenization.
+     *
      * @return bool
      */
     private function errorMayHaveOccurred() {

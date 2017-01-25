@@ -20,3 +20,4 @@ source code, while running on a newer version.
 ### Removed functionality
 
 * Removed `type` subnode on `Class`, `ClassMethod` and `Property` nodes. Use `flags` instead.
+* The `ClassConst::isStatic()` method has been removed. Constants cannot have a static modifier.

@@ -131,7 +131,11 @@ class Error extends \RuntimeException
     }
 
     /**
-     * @return string
+     * Formats message including line and column information.
+     *
+     * @param string $code Source code associated with the error, for calculation of the columns
+     *
+     * @return string Formatted message
      */
     public function getMessageWithColumnInfo($code) {
         return sprintf(
@@ -141,6 +145,14 @@ class Error extends \RuntimeException
         );
     }
 
+    /**
+     * Converts a file offset into a column.
+     *
+     * @param string $code Source code that $pos indexes into
+     * @param int    $pos  0-based position in $code
+     *
+     * @return int 1-based column (relative to start of line)
+     */
     private function toColumn($code, $pos) {
         if ($pos > strlen($code)) {
             throw new \RuntimeException('Invalid position information');

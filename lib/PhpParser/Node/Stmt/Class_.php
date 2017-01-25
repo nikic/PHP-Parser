@@ -55,6 +55,8 @@ class Class_ extends ClassLike
     }
 
     /**
+     * Whether the class is explicitly abstract.
+     *
      * @return bool
      */
     public function isAbstract() {
@@ -62,6 +64,8 @@ class Class_ extends ClassLike
     }
 
     /**
+     * Whether the class is final.
+     *
      * @return bool
      */
     public function isFinal() {
@@ -69,6 +73,8 @@ class Class_ extends ClassLike
     }
 
     /**
+     * Whether the class is anonymous.
+     *
      * @return bool
      */
     public function isAnonymous() {

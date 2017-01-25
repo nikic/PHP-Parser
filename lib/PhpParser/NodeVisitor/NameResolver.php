@@ -193,7 +193,11 @@ class NameResolver extends NodeVisitorAbstract
     }
 
     /**
-     * @return null|Name
+     * Resolve class name, according to name resolver options.
+     *
+     * @param Name $name Class ame to resolve
+     *
+     * @return Name Resolved name, or original name with attribute
      */
     protected function resolveClassName(Name $name) {
         if (!$this->replaceNodes) {
@@ -212,7 +216,12 @@ class NameResolver extends NodeVisitorAbstract
     }
 
     /**
-     * @return Name
+     * Resolve function or constant name, according to name resolver options.
+     *
+     * @param Name $name Function or constant name to resolve
+     * @param int  $type One of Stmt\Use_::TYPE_{FUNCTION|CONSTANT}
+     *
+     * @return Name Resolved name, or original name with attribute
      */
     protected function resolveOtherName(Name $name, $type) {
         if (!$this->replaceNodes) {
@@ -246,7 +255,11 @@ class NameResolver extends NodeVisitorAbstract
     }
 
     /**
-     * @return null|Name
+     * Get resolved class name.
+     *
+     * @param Name $name Class ame to resolve
+     *
+     * @return Name Resolved name
      */
     protected function getResolvedClassName(Name $name) {
         // don't resolve special class names
@@ -277,7 +290,12 @@ class NameResolver extends NodeVisitorAbstract
     }
 
     /**
-     * @return null|Name
+     * Get resolved function or constant name.
+     *
+     * @param Name $name Function or constant name to resolve
+     * @param int  $type One of Stmt\Use_::TYPE_{FUNCTION|CONSTANT}
+     *
+     * @return null|Name Resolved name, or null if static resolution is not possible
      */
     protected function getResolvedOtherName(Name $name, $type) {
         // fully qualified names are already resolved

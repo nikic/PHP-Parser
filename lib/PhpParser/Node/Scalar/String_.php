@@ -112,7 +112,11 @@ class String_ extends Scalar
     }
 
     /**
-     * @return string
+     * Converts a Unicode code point to its UTF-8 encoded representation.
+     *
+     * @param int $num Code point
+     *
+     * @return string UTF-8 representation of code point
      */
     private static function codePointToUtf8($num) {
         if ($num <= 0x7F) {

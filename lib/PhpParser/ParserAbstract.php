@@ -47,40 +47,40 @@ abstract class ParserAbstract implements Parser
     protected $YY2TBLSTATE;
     protected $YYNLSTATES;
 
-    /** @var array Map of lexer tokens to internal symbols */
+    /** @var int[] Map of lexer tokens to internal symbols */
     protected $tokenToSymbol;
-    /** @var array Map of symbols to their names */
+    /** @var string[] Map of symbols to their names */
     protected $symbolToName;
     /** @var array Names of the production rules (only necessary for debugging) */
     protected $productions;
 
-    /** @var array Map of states to a displacement into the $action table. The corresponding action for this
+    /** @var int[] Map of states to a displacement into the $action table. The corresponding action for this
      *             state/symbol pair is $action[$actionBase[$state] + $symbol]. If $actionBase[$state] is 0, the
                    action is defaulted, i.e. $actionDefault[$state] should be used instead. */
     protected $actionBase;
-    /** @var array Table of actions. Indexed according to $actionBase comment. */
+    /** @var int[] Table of actions. Indexed according to $actionBase comment. */
     protected $action;
-    /** @var array Table indexed analogously to $action. If $actionCheck[$actionBase[$state] + $symbol] != $symbol
+    /** @var int[] Table indexed analogously to $action. If $actionCheck[$actionBase[$state] + $symbol] != $symbol
      *             then the action is defaulted, i.e. $actionDefault[$state] should be used instead. */
     protected $actionCheck;
-    /** @var array Map of states to their default action */
+    /** @var int[]Map of states to their default action */
     protected $actionDefault;
 
-    /** @var array Map of non-terminals to a displacement into the $goto table. The corresponding goto state for this
+    /** @var int[] Map of non-terminals to a displacement into the $goto table. The corresponding goto state for this
      *             non-terminal/state pair is $goto[$gotoBase[$nonTerminal] + $state] (unless defaulted) */
     protected $gotoBase;
-    /** @var array Table of states to goto after reduction. Indexed according to $gotoBase comment. */
+    /** @var int[] Table of states to goto after reduction. Indexed according to $gotoBase comment. */
     protected $goto;
-    /** @var array Table indexed analogously to $goto. If $gotoCheck[$gotoBase[$nonTerminal] + $state] != $nonTerminal
+    /** @var int[] Table indexed analogously to $goto. If $gotoCheck[$gotoBase[$nonTerminal] + $state] != $nonTerminal
      *             then the goto state is defaulted, i.e. $gotoDefault[$nonTerminal] should be used. */
     protected $gotoCheck;
-    /** @var array Map of non-terminals to the default state to goto after their reduction */
+    /** @var int[] Map of non-terminals to the default state to goto after their reduction */
     protected $gotoDefault;
 
-    /** @var array Map of rules to the non-terminal on their left-hand side, i.e. the non-terminal to use for
+    /** @var int[] Map of rules to the non-terminal on their left-hand side, i.e. the non-terminal to use for
      *             determining the state to goto after reduction. */
     protected $ruleToNonTerminal;
-    /** @var array Map of rules to the length of their right-hand side, which is the number of elements that have to
+    /** @var int[] Map of rules to the length of their right-hand side, which is the number of elements that have to
      *             be popped from the stack(s) on reduction. */
     protected $ruleToLength;
 
@@ -356,7 +356,12 @@ abstract class ParserAbstract implements Parser
     }
 
     /**
-     * @return string
+     * Format error message including expected tokens.
+     *
+     * @param int $symbol Unexpected symbol
+     * @param int $state  State at time of error
+     *
+     * @return string Formatted error message
      */
     protected function getErrorMessage($symbol, $state) {
         $expectedString = '';
@@ -368,8 +373,11 @@ abstract class ParserAbstract implements Parser
     }
 
     /**
-     * @return       array
-     * @psalm-return array<int, mixed>
+     * Get limited number of expected tokens in given state.
+     *
+     * @param int $state State
+     *
+     * @return string[] Expected tokens. If too many, an empty array is returned.
      */
     protected function getExpectedTokens($state) {
         $expected = array();
@@ -517,7 +525,11 @@ abstract class ParserAbstract implements Parser
     }
 
     /**
-     * @return null|string
+     * Determine namespacing style (semicolon or brace)
+     *
+     * @param Node[] $stmts Top-level statements.
+     *
+     * @return null|string One of "semicolon", "brace" or null (no namespaces)
      */
     private function getNamespacingStyle(array $stmts) {
         $style = null;
@@ -562,9 +574,6 @@ abstract class ParserAbstract implements Parser
         return $style;
     }
 
-    /**
-     * @return \PhpParser\Node\Expr\StaticCall
-     */
     protected function fixupPhp5StaticPropCall($prop, array $args, array $attributes) {
         if ($prop instanceof Node\Expr\StaticPropertyFetch) {
             // Preserve attributes if possible
@@ -649,15 +658,16 @@ abstract class ParserAbstract implements Parser
     );
 
     /**
-     * @return array
+     * Get combined start and end attributes at a stack location
+     *
+     * @param int $pos Stack location
+     *
+     * @return array Combined start and end attributes
      */
     protected function getAttributesAt($pos) {
         return $this->startAttributeStack[$pos] + $this->endAttributeStack[$pos];
     }
 
-    /**
-     * @return LNumber
-     */
     protected function parseLNumber($str, $attributes, $allowInvalidOctal = false) {
         try {
             return LNumber::fromString($str, $attributes, $allowInvalidOctal);
@@ -669,7 +679,12 @@ abstract class ParserAbstract implements Parser
     }
 
     /**
-     * @return LNumber|String_
+     * Parse a T_NUM_STRING token into either an integer or string node.
+     *
+     * @param string $str        Number string
+     * @param array  $attributes Attributes
+     *
+     * @return LNumber|String_ Integer or string node.
      */
     protected function parseNumString($str, $attributes) {
         if (!preg_match('/^(?:0|-?[1-9][0-9]*)$/', $str)) {

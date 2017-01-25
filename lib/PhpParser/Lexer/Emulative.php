@@ -49,21 +49,22 @@ class Emulative extends \PhpParser\Lexer
         }
     }
 
-    /*
-     * Checks if the code is potentially using features that require emulation.
-     */
     /**
-     * @return int|false
+     * Checks if the code is potentially using features that require emulation.
+     *
+     * @param string $code Code to check
+     *
+     * @return bool
      */
     protected function requiresEmulation($code) {
         if (version_compare(PHP_VERSION, self::PHP_7_0, '>=')) {
             return false;
         }
 
-        return preg_match('(\?\?|<=>|yield[ \n\r\t]+from)', $code);
+        return (bool) preg_match('(\?\?|<=>|yield[ \n\r\t]+from)', $code);
     }
 
-    /*
+    /**
      * Emulates tokens for newer PHP versions.
      */
     protected function emulateTokens() {

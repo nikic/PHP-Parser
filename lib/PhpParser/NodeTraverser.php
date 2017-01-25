@@ -58,8 +58,9 @@ class NodeTraverser implements NodeTraverserInterface
     /**
      * Traverses an array of nodes using the registered visitors.
      *
-     * @param  Node[] $nodes Array of nodes
-     * @return array
+     * @param Node[] $nodes Array of nodes
+     *
+     * @return Node[] Traversed array of nodes
      */
     public function traverse(array $nodes) {
         foreach ($this->visitors as $visitor) {
@@ -80,7 +81,11 @@ class NodeTraverser implements NodeTraverserInterface
     }
 
     /**
-     * @return \PhpParser\Node
+     * Recursively traverse a node.
+     *
+     * @param Node $node Node to traverse.
+     *
+     * @return Node Result of traversal (may be original node or new one)
      */
     protected function traverseNode(Node $node) {
         foreach ($node->getSubNodeNames() as $name) {
@@ -121,7 +126,11 @@ class NodeTraverser implements NodeTraverserInterface
     }
 
     /**
-     * @return array
+     * Recursively traverse array (usually of nodes).
+     *
+     * @param array $nodes Array to traverse
+     *
+     * @return array Result of traversal (may be original array or changed one)
      */
     protected function traverseArray(array $nodes) {
         $doNodes = array();

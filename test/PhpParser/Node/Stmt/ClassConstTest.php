@@ -22,7 +22,6 @@ class ClassConstTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($node->isPublic());
         $this->assertFalse($node->isProtected());
         $this->assertFalse($node->isPrivate());
-        $this->assertFalse($node->isStatic());
     }
 
     public function provideModifiers() {
