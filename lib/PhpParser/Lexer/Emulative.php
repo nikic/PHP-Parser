@@ -52,6 +52,9 @@ class Emulative extends \PhpParser\Lexer
     /*
      * Checks if the code is potentially using features that require emulation.
      */
+    /**
+     * @return int|false
+     */
     protected function requiresEmulation($code) {
         if (version_compare(PHP_VERSION, self::PHP_7_0, '>=')) {
             return false;

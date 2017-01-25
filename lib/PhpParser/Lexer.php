@@ -117,12 +117,18 @@ class Lexer
         }
     }
 
+    /**
+     * @return bool
+     */
     private function isUnterminatedComment($token) {
         return ($token[0] === T_COMMENT || $token[0] === T_DOC_COMMENT)
             && substr($token[1], 0, 2) === '/*'
             && substr($token[1], -2) !== '*/';
     }
 
+    /**
+     * @return bool
+     */
     private function errorMayHaveOccurred() {
         if (defined('HHVM_VERSION')) {
             // In HHVM token_get_all() does not throw warnings, so we need to conservatively

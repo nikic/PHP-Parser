@@ -28,19 +28,31 @@ class Property extends Node\Stmt
         return array('flags', 'props');
     }
 
+    /**
+     * @return bool
+     */
     public function isPublic() {
         return ($this->flags & Class_::MODIFIER_PUBLIC) !== 0
             || ($this->flags & Class_::VISIBILITY_MODIFER_MASK) === 0;
     }
 
+    /**
+     * @return bool
+     */
     public function isProtected() {
         return (bool) ($this->flags & Class_::MODIFIER_PROTECTED);
     }
 
+    /**
+     * @return bool
+     */
     public function isPrivate() {
         return (bool) ($this->flags & Class_::MODIFIER_PRIVATE);
     }
 
+    /**
+     * @return bool
+     */
     public function isStatic() {
         return (bool) ($this->flags & Class_::MODIFIER_STATIC);
     }
