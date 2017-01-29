@@ -189,6 +189,18 @@ class PrettyPrinterTest extends CodeTestAbstract
     }
 
     /**
+     * @expectedException \LogicException
+     * @expectedExceptionMessage Cannot pretty-print AST with Error nodes
+     */
+    public function testPrettyPrintWithError() {
+        $stmts = [new Stmt\Expression(
+            new Expr\PropertyFetch(new Expr\Variable('a'), new Expr\Error())
+        )];
+        $prettyPrinter = new PrettyPrinter\Standard;
+        $prettyPrinter->prettyPrint($stmts);
+    }
+
+    /**
      * @dataProvider provideTestFormatPreservingPrint
      * @covers \PhpParser\PrettyPrinter\Standard<extended>
      */

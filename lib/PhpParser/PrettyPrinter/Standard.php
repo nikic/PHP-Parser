@@ -493,6 +493,10 @@ class Standard extends PrettyPrinterAbstract
 
     // Other
 
+    protected function pExpr_Error(Expr\Error $node) {
+        throw new \LogicException('Cannot pretty-print AST with Error nodes');
+    }
+
     protected function pExpr_Variable(Expr\Variable $node) {
         if ($node->name instanceof Expr) {
             return '${' . $this->p($node->name) . '}';
