@@ -9,7 +9,7 @@ use PhpParser\NodeVisitorAbstract;
  * This visitor can be used to find and collect all nodes satisfying some criterion determined by
  * a filter callback.
  */
-class FinderVisitor extends NodeVisitorAbstract {
+class FindingVisitor extends NodeVisitorAbstract {
     /** @var callable Filter callback */
     protected $filterCallback;
     /** @var Node[] Found nodes */
