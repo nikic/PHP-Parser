@@ -21,12 +21,18 @@ interface NodeVisitor
      * Called when entering a node.
      *
      * Return value semantics:
-     *  * null:      $node stays as-is
-     *  * otherwise: $node is set to the return value
+     *  * null
+     *        => $node stays as-is
+     *  * NodeTraverser::DONT_TRAVERSE_CHILDREN
+     *        => Children of $node are not traversed. $node stays as-is
+     *  * NodeTraverser::STOP_TRAVERSAL
+     *        => Traversal is aborted. $node stays as-is
+     *  * otherwise
+     *        => $node is set to the return value
      *
      * @param Node $node Node
      *
-     * @return null|Node Node
+     * @return null|int|Node Node
      */
     public function enterNode(Node $node);
 
@@ -34,14 +40,20 @@ interface NodeVisitor
      * Called when leaving a node.
      *
      * Return value semantics:
-     *  * null:      $node stays as-is
-     *  * false:     $node is removed from the parent array
-     *  * array:     The return value is merged into the parent array (at the position of the $node)
-     *  * otherwise: $node is set to the return value
+     *  * null
+     *        => $node stays as-is
+     *  * NodeTraverser::REMOVE_NODE
+     *        => $node is removed from the parent array
+     *  * NodeTraverser::STOP_TRAVERSAL
+     *        => Traversal is aborted. $node stays as-is
+     *  * array (of Nodes)
+     *        => The return value is merged into the parent array (at the position of the $node)
+     *  * otherwise
+     *        => $node is set to the return value
      *
      * @param Node $node Node
      *
-     * @return null|Node|false|Node[] Node
+     * @return null|false|int|Node|Node[] Node
      */
     public function leaveNode(Node $node);
 
