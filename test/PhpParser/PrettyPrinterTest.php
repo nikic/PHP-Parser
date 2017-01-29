@@ -183,4 +183,14 @@ class PrettyPrinterTest extends CodeTestAbstract
             [new DNumber(-\NAN), '\NAN'],
         ];
     }
+
+    /**
+     * @expectedException \LogicException
+     * @expectedExceptionMessage Cannot pretty-print AST with Error nodes
+     */
+    public function testPrettyPrintWithError() {
+        $stmts = [new Expr\PropertyFetch(new Expr\Variable('a'), new Expr\Error())];
+        $prettyPrinter = new PrettyPrinter\Standard;
+        $prettyPrinter->prettyPrint($stmts);
+    }
 }
