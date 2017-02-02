@@ -15,8 +15,8 @@ class Name extends NodeAbstract
     /**
      * Constructs a name node.
      *
-     * @param string|array|self $name       Name as string, part array or Name instance (copy ctor)
-     * @param array             $attributes Additional attributes
+     * @param string|string[]|self $name       Name as string, part array or Name instance (copy ctor)
+     * @param array                $attributes Additional attributes
      */
     public function __construct($name, array $attributes = array()) {
         parent::__construct($attributes);
@@ -153,9 +153,9 @@ class Name extends NodeAbstract
      *     Name::concat($namespace, $shortName)
      * where $namespace is a Name node or null will work as expected.
      *
-     * @param string|array|self|null $name1      The first name
-     * @param string|array|self|null $name2      The second name
-     * @param array                  $attributes Attributes to assign to concatenated name
+     * @param string|string[]|self|null $name1      The first name
+     * @param string|string[]|self|null $name2      The second name
+     * @param array                     $attributes Attributes to assign to concatenated name
      *
      * @return static|null Concatenated name
      */
@@ -177,9 +177,9 @@ class Name extends NodeAbstract
      * Prepares a (string, array or Name node) name for use in name changing methods by converting
      * it to an array.
      *
-     * @param string|array|self $name Name to prepare
+     * @param string|string[]|self $name Name to prepare
      *
-     * @return array Prepared name
+     * @return string[] Prepared name
      */
     private static function prepareName($name) {
         if (\is_string($name)) {

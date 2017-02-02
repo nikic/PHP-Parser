@@ -8,7 +8,7 @@ class Namespace_ extends Node\Stmt
 {
     /** @var null|Node\Name Name */
     public $name;
-    /** @var Node\Stmt[] Statements */
+    /** @var null|Node\Stmt[] Statements */
     public $stmts;
 
     /**
