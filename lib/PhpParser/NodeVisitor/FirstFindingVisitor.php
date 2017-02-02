@@ -33,6 +33,8 @@ class FirstFindingVisitor extends NodeVisitorAbstract {
 
     public function beforeTraverse(array $nodes) {
         $this->foundNode = null;
+
+        return null;
     }
 
     public function enterNode(Node $node) {

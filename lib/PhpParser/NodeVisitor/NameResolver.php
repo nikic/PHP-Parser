@@ -17,7 +17,7 @@ class NameResolver extends NodeVisitorAbstract
     protected $namespace;
 
     /** @var array Map of format [aliasType => [aliasName => originalName]] */
-    protected $aliases;
+    protected $aliases = [];
 
     /** @var ErrorHandler Error handler */
     protected $errorHandler;

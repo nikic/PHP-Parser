@@ -581,6 +581,20 @@ abstract class ParserAbstract implements Parser
         return $style;
     }
 
+    /**
+     * Fix up parsing of static property calls in PHP 5.
+     *
+     * In PHP 5 A::$b[c][d] and A::$b[c][d]() have very different interpretation. The former is
+     * interpreted as (A::$b)[c][d], while the latter is the same as A::{$b[c][d]}(). We parse the
+     * latter as the former initially and this method fixes the AST into the correct form when we
+     * encounter the "()".
+     *
+     * @param  Node\Expr\StaticPropertyFetch|Node\Expr\ArrayDimFetch $prop
+     * @param  Node\Arg[] $args
+     * @param  array      $attributes
+     *
+     * @return Expr\StaticCall
+     */
     protected function fixupPhp5StaticPropCall($prop, array $args, array $attributes) {
         if ($prop instanceof Node\Expr\StaticPropertyFetch) {
             // Preserve attributes if possible
@@ -631,9 +645,6 @@ abstract class ParserAbstract implements Parser
         }
     }
 
-    /**
-     * @return string
-     */
     protected function handleBuiltinTypes(Name $name) {
         $scalarTypes = [
             'bool'     => true,
