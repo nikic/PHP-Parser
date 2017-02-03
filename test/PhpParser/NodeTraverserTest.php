@@ -85,7 +85,7 @@ class NodeTraverserTest extends \PHPUnit_Framework_TestCase
 
         // remove the string1 node, leave the string2 node
         $visitor->expects($this->at(2))->method('leaveNode')->with($str1Node)
-                ->will($this->returnValue(false));
+                ->will($this->returnValue(NodeTraverser::REMOVE_NODE));
 
         $traverser = new NodeTraverser;
         $traverser->addVisitor($visitor);
@@ -280,7 +280,12 @@ class NodeTraverserTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue('foobar'));
 
         $visitor5 = $this->getMockBuilder('PhpParser\NodeVisitor')->getMock();
-        $visitor5->method('leaveNode')->willReturn(array(new Node\Scalar\DNumber(42.0)));
+        $visitor5->expects($this->at(3))->method('leaveNode')
+            ->willReturn(array(new Node\Scalar\DNumber(42.0)));
+
+        $visitor6 = $this->getMockBuilder('PhpParser\NodeVisitor')->getMock();
+        $visitor6->expects($this->at(4))->method('leaveNode')
+            ->willReturn(false);
 
         return [
             [$visitor1, 'enterNode() returned invalid value of type string'],
@@ -288,6 +293,7 @@ class NodeTraverserTest extends \PHPUnit_Framework_TestCase
             [$visitor3, 'leaveNode() returned invalid value of type string'],
             [$visitor4, 'leaveNode() returned invalid value of type string'],
             [$visitor5, 'leaveNode() may only return an array if the parent structure is an array'],
+            [$visitor6, 'bool(false) return from leaveNode() no longer supported. Return NodeTraverser::REMOVE_NODE instead'],
         ];
     }
 }

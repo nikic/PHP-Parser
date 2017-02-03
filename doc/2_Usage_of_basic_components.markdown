@@ -410,6 +410,7 @@ The last thing we need to do is remove the `namespace` and `use` statements:
 ```php
 use PhpParser\Node;
 use PhpParser\Node\Stmt;
+use PhpParser\NodeTraverser;
 
 class NodeVisitor_NamespaceConverter extends \PhpParser\NodeVisitorAbstract
 {
@@ -428,8 +429,8 @@ class NodeVisitor_NamespaceConverter extends \PhpParser\NodeVisitorAbstract
             // returning an array merges is into the parent array
             return $node->stmts;
         } elseif ($node instanceof Stmt\Use_) {
-            // returning false removed the node altogether
-            return false;
+            // return use nodes altogether
+            return NodeTraverser::REMOVE_NODE;
         }
     }
 }

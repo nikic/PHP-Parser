@@ -28,7 +28,7 @@ class NodeTraverser implements NodeTraverserInterface
      * For subsequent visitors leaveNode() will still be invoked for the
      * removed node.
      */
-    const REMOVE_NODE = false;
+    const REMOVE_NODE = 3;
 
     /** @var NodeVisitor[] Visitors */
     protected $visitors;
@@ -211,9 +211,14 @@ class NodeTraverser implements NodeTraverserInterface
                         } elseif (self::REMOVE_NODE === $return) {
                             $doNodes[] = array($i, array());
                             break;
-                        } else if (self::STOP_TRAVERSAL === $return) {
+                        } elseif (self::STOP_TRAVERSAL === $return) {
                             $this->stopTraversal = true;
                             break 2;
+                        } elseif (false === $return) {
+                            throw new \LogicException(
+                                'bool(false) return from leaveNode() no longer supported. ' .
+                                'Return NodeTraverser::REMOVE_NODE instead'
+                            );
                         } else {
                             throw new \LogicException(
                                 'leaveNode() returned invalid value of type ' . gettype($return)

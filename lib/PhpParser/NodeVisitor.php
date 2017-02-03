@@ -53,7 +53,7 @@ interface NodeVisitor
      *
      * @param Node $node Node
      *
-     * @return null|false|int|Node|Node[] Replacement node (or special return value)
+     * @return null|int|Node|Node[] Replacement node (or special return value)
      */
     public function leaveNode(Node $node);
 
