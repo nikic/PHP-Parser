@@ -4,6 +4,7 @@ namespace PhpParser;
 
 use PhpParser\Comment;
 use PhpParser\Node\Expr;
+use PhpParser\Node\Name;
 use PhpParser\Node\Scalar\DNumber;
 use PhpParser\Node\Scalar\Encapsed;
 use PhpParser\Node\Scalar\EncapsedStringPart;
@@ -190,6 +191,16 @@ class PrettyPrinterTest extends CodeTestAbstract
      */
     public function testPrettyPrintWithError() {
         $stmts = [new Expr\PropertyFetch(new Expr\Variable('a'), new Expr\Error())];
+        $prettyPrinter = new PrettyPrinter\Standard;
+        $prettyPrinter->prettyPrint($stmts);
+    }
+
+    /**
+     * @expectedException \LogicException
+     * @expectedExceptionMessage Cannot pretty-print AST with Error nodes
+     */
+    public function testPrettyPrintWithErrorInClassConstFetch() {
+        $stmts = [new Expr\ClassConstFetch(new Name('Foo'), new Expr\Error())];
         $prettyPrinter = new PrettyPrinter\Standard;
         $prettyPrinter->prettyPrint($stmts);
     }

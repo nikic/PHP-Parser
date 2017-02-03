@@ -522,7 +522,8 @@ class Standard extends PrettyPrinterAbstract
     }
 
     protected function pExpr_ClassConstFetch(Expr\ClassConstFetch $node) {
-        return $this->p($node->class) . '::' . $node->name;
+        return $this->p($node->class) . '::'
+             . (is_string($node->name) ? $node->name : $this->p($node->name));
     }
 
     protected function pExpr_PropertyFetch(Expr\PropertyFetch $node) {
