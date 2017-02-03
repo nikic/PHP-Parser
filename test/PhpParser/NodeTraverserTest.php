@@ -250,17 +250,44 @@ class NodeTraverserTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \LogicException
-     * @expectedExceptionMessage leaveNode() may only return an array if the parent structure is an array
+     * @dataProvider provideTestInvalidReturn
      */
-    public function testReplaceByArrayOnlyAllowedIfParentIsArray() {
-        $stmts = array(new Node\Expr\UnaryMinus(new Node\Scalar\LNumber(42)));
+    public function testInvalidReturn($visitor, $message) {
+        $this->setExpectedException(\LogicException::class, $message);
 
-        $visitor = $this->getMockBuilder('PhpParser\NodeVisitor')->getMock();
-        $visitor->method('leaveNode')->willReturn(array(new Node\Scalar\DNumber(42.0)));
+        $stmts = array(new Node\Expr\UnaryMinus(new Node\Scalar\LNumber(42)));
 
         $traverser = new NodeTraverser();
         $traverser->addVisitor($visitor);
         $traverser->traverse($stmts);
+    }
+
+    public function provideTestInvalidReturn() {
+        $visitor1 = $this->getMockBuilder('PhpParser\NodeVisitor')->getMock();
+        $visitor1->expects($this->at(1))->method('enterNode')
+            ->will($this->returnValue('foobar'));
+
+        $visitor2 = $this->getMockBuilder('PhpParser\NodeVisitor')->getMock();
+        $visitor2->expects($this->at(2))->method('enterNode')
+            ->will($this->returnValue('foobar'));
+
+        $visitor3 = $this->getMockBuilder('PhpParser\NodeVisitor')->getMock();
+        $visitor3->expects($this->at(3))->method('leaveNode')
+            ->will($this->returnValue('foobar'));
+
+        $visitor4 = $this->getMockBuilder('PhpParser\NodeVisitor')->getMock();
+        $visitor4->expects($this->at(4))->method('leaveNode')
+            ->will($this->returnValue('foobar'));
+
+        $visitor5 = $this->getMockBuilder('PhpParser\NodeVisitor')->getMock();
+        $visitor5->method('leaveNode')->willReturn(array(new Node\Scalar\DNumber(42.0)));
+
+        return [
+            [$visitor1, 'enterNode() returned invalid value of type string'],
+            [$visitor2, 'enterNode() returned invalid value of type string'],
+            [$visitor3, 'leaveNode() returned invalid value of type string'],
+            [$visitor4, 'leaveNode() returned invalid value of type string'],
+            [$visitor5, 'leaveNode() may only return an array if the parent structure is an array'],
+        ];
     }
 }
