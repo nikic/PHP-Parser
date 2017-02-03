@@ -6,6 +6,9 @@ use DomainException;
 use PhpParser\Unserializer;
 use XMLReader;
 
+/**
+ * @deprecated
+ */
 class XML implements Unserializer
 {
     protected $reader;
