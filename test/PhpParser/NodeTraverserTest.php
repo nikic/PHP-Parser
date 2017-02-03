@@ -115,16 +115,15 @@ class NodeTraverserTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testDeepArray() {
+    /**
+     * @expectedException \LogicException
+     * @expectedExceptionMessage Invalid node structure: Contains nested arrays
+     */
+    public function testInvalidDeepArray() {
         $strNode = new String_('Foo');
         $stmts = array(array(array($strNode)));
 
-        $visitor = $this->getMockBuilder('PhpParser\NodeVisitor')->getMock();
-        $visitor->expects($this->at(1))->method('enterNode')->with($strNode);
-
         $traverser = new NodeTraverser;
-        $traverser->addVisitor($visitor);
-
         $this->assertEquals($stmts, $traverser->traverse($stmts));
     }
 

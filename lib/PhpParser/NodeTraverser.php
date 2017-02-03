@@ -162,12 +162,7 @@ class NodeTraverser implements NodeTraverserInterface
         $doNodes = array();
 
         foreach ($nodes as $i => &$node) {
-            if (is_array($node)) {
-                $node = $this->traverseArray($node);
-                if ($this->stopTraversal) {
-                    break;
-                }
-            } elseif ($node instanceof Node) {
+            if ($node instanceof Node) {
                 $traverseChildren = true;
                 foreach ($this->visitors as $visitor) {
                     $return = $visitor->enterNode($node);
@@ -204,6 +199,8 @@ class NodeTraverser implements NodeTraverserInterface
                         $node = $return;
                     }
                 }
+            } else if (is_array($node)) {
+                throw new \LogicException('Invalid node structure: Contains nested arrays');
             }
         }
 
