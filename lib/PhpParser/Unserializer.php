@@ -2,6 +2,9 @@
 
 namespace PhpParser;
 
+/**
+ * @deprecated
+ */
 interface Unserializer
 {
     /**
