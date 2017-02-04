@@ -102,6 +102,7 @@ class NodeTraverser implements NodeTraverserInterface
      */
     protected function traverseNode(Node $node) {
         foreach ($node->getSubNodeNames() as $name) {
+            /** @var Node[] */
             $subNode =& $node->$name;
 
             if (\is_array($subNode)) {
@@ -127,10 +128,6 @@ class NodeTraverser implements NodeTraverserInterface
                             );
                         }
                     }
-                }
-
-                if (is_int($subNode)) {
-                    throw new \UnexpectedValueException('$subNode should not be an int');
                 }
 
                 if ($traverseChildren) {
@@ -169,11 +166,11 @@ class NodeTraverser implements NodeTraverserInterface
     /**
      * Recursively traverse array (usually of nodes).
      *
-     * @param (Node|Node[])[] $nodes Array to traverse
+     * @param Node[] $nodes Array to traverse
      *
      * @return Node[] Result of traversal (may be original array or changed one)
      * 
-     * @psalm-suppress MoreSpecificReturnType
+     * @psalm-suppress TypeDoesNotContainType
      */
     protected function traverseArray(array $nodes) {
         $doNodes = array();
@@ -197,10 +194,6 @@ class NodeTraverser implements NodeTraverserInterface
                             );
                         }
                     }
-                }
-
-                if (is_int($node)) {
-                    throw new \UnexpectedValueException('$node should not be an int');
                 }
 
                 if ($traverseChildren) {
