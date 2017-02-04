@@ -63,7 +63,7 @@ abstract class ParserAbstract implements Parser
     /** @var int[] Table indexed analogously to $action. If $actionCheck[$actionBase[$state] + $symbol] != $symbol
      *             then the action is defaulted, i.e. $actionDefault[$state] should be used instead. */
     protected $actionCheck;
-    /** @var int[]Map of states to their default action */
+    /** @var int[] Map of states to their default action */
     protected $actionDefault;
 
     /** @var int[] Map of non-terminals to a displacement into the $goto table. The corresponding goto state for this
