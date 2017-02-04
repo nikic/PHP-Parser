@@ -2,8 +2,8 @@
 $meta #
 #semval($) $this->semValue
 #semval($,%t) $this->semValue
-#semval(%n) $this->stackPos-(%l-%n)
-#semval(%n,%t) $this->stackPos-(%l-%n)
+#semval(%n) $stackPos-(%l-%n)
+#semval(%n,%t) $stackPos-(%l-%n)
 
 namespace PhpParser\Parser;
 
@@ -90,13 +90,13 @@ class #(-p) extends \PhpParser\ParserAbstract
 #endif
 #reduce
 
-    protected function reduceRule%n() {
+    protected function reduceRule%n($stackPos) {
         %b
     }
 #noact
 
-    protected function reduceRule%n() {
-        $this->semValue = $this->semStack[$this->stackPos];
+    protected function reduceRule%n($stackPos) {
+        $this->semValue = $this->semStack[$stackPos];
     }
 #endreduce
 }

@@ -92,8 +92,6 @@ abstract class ParserAbstract implements Parser
     protected $lexer;
     /** @var mixed Temporary value containing the result of last semantic action (reduction) */
     protected $semValue;
-    /** @var int Position in stacks (state stack, semantic value stack, attribute stack) */
-    protected $stackPos;
     /** @var array Semantic value stack (contains values of tokens and semantic action results) */
     protected $semStack;
     /** @var array[] Start attribute stack */
@@ -177,7 +175,7 @@ abstract class ParserAbstract implements Parser
         $this->semStack = array();
 
         // Current position in the stack(s)
-        $this->stackPos = 0;
+        $stackPos = 0;
 
         $this->errorState = 0;
 
@@ -208,8 +206,8 @@ abstract class ParserAbstract implements Parser
 
                     // This is necessary to assign some meaningful attributes to /* empty */ productions. They'll get
                     // the attributes of the next token, even though they don't contain it themselves.
-                    $this->startAttributeStack[$this->stackPos+1] = $startAttributes;
-                    $this->endAttributeStack[$this->stackPos+1] = $endAttributes;
+                    $this->startAttributeStack[$stackPos+1] = $startAttributes;
+                    $this->endAttributeStack[$stackPos+1] = $endAttributes;
                     $this->lookaheadStartAttributes = $startAttributes;
 
                     //$this->traceRead($symbol);
@@ -232,11 +230,11 @@ abstract class ParserAbstract implements Parser
                         /* shift */
                         //$this->traceShift($symbol);
 
-                        ++$this->stackPos;
-                        $stateStack[$this->stackPos] = $state = $action;
-                        $this->semStack[$this->stackPos] = $tokenValue;
-                        $this->startAttributeStack[$this->stackPos] = $startAttributes;
-                        $this->endAttributeStack[$this->stackPos] = $endAttributes;
+                        ++$stackPos;
+                        $stateStack[$stackPos] = $state = $action;
+                        $this->semStack[$stackPos] = $tokenValue;
+                        $this->startAttributeStack[$stackPos] = $startAttributes;
+                        $this->endAttributeStack[$stackPos] = $endAttributes;
                         $this->endAttributes = $endAttributes;
                         $symbol = self::SYMBOL_NONE;
 
@@ -268,7 +266,7 @@ abstract class ParserAbstract implements Parser
                     //$this->traceReduce($rule);
 
                     try {
-                        $this->{'reduceRule' . $rule}();
+                        $this->{'reduceRule' . $rule}($stackPos);
                     } catch (Error $e) {
                         if (-1 === $e->getStartLine() && isset($startAttributes['startLine'])) {
                             $e->setStartLine($startAttributes['startLine']);
@@ -280,20 +278,20 @@ abstract class ParserAbstract implements Parser
                     }
 
                     /* Goto - shift nonterminal */
-                    $lastEndAttributes = $this->endAttributeStack[$this->stackPos];
-                    $this->stackPos -= $this->ruleToLength[$rule];
+                    $lastEndAttributes = $this->endAttributeStack[$stackPos];
+                    $stackPos -= $this->ruleToLength[$rule];
                     $nonTerminal = $this->ruleToNonTerminal[$rule];
-                    $idx = $this->gotoBase[$nonTerminal] + $stateStack[$this->stackPos];
+                    $idx = $this->gotoBase[$nonTerminal] + $stateStack[$stackPos];
                     if ($idx >= 0 && $idx < $this->gotoTableSize && $this->gotoCheck[$idx] == $nonTerminal) {
                         $state = $this->goto[$idx];
                     } else {
                         $state = $this->gotoDefault[$nonTerminal];
                     }
 
-                    ++$this->stackPos;
-                    $stateStack[$this->stackPos]     = $state;
-                    $this->semStack[$this->stackPos] = $this->semValue;
-                    $this->endAttributeStack[$this->stackPos] = $lastEndAttributes;
+                    ++$stackPos;
+                    $stateStack[$stackPos]     = $state;
+                    $this->semStack[$stackPos] = $this->semValue;
+                    $this->endAttributeStack[$stackPos] = $lastEndAttributes;
                 } else {
                     /* error */
                     switch ($this->errorState) {
@@ -313,18 +311,18 @@ abstract class ParserAbstract implements Parser
                                     && ($idx = $this->actionBase[$state + $this->YYNLSTATES] + $this->errorSymbol) >= 0
                                     && $idx < $this->actionTableSize && $this->actionCheck[$idx] == $this->errorSymbol)
                             ) || ($action = $this->action[$idx]) == $this->defaultAction) { // Not totally sure about this
-                                if ($this->stackPos <= 0) {
+                                if ($stackPos <= 0) {
                                     // Could not recover from error
                                     return null;
                                 }
-                                $state = $stateStack[--$this->stackPos];
+                                $state = $stateStack[--$stackPos];
                                 //$this->tracePop($state);
                             }
 
                             //$this->traceShift($this->errorSymbol);
-                            ++$this->stackPos;
-                            $stateStack[$this->stackPos] = $state = $action;
-                            $this->endAttributes = $this->endAttributeStack[$this->stackPos];
+                            ++$stackPos;
+                            $stateStack[$stackPos] = $state = $action;
+                            $this->endAttributes = $this->endAttributeStack[$stackPos];
                             break;
 
                         case 3:
