@@ -577,7 +577,7 @@ abstract class ParserAbstract implements Parser
     /**
      * @param  Node\Expr\StaticPropertyFetch|Node\Expr\ArrayDimFetch $prop
      * @param  Node\Arg[]       $args
-     * @param  string[]         $attributes
+     * @param  array            $attributes
      * @return Expr\StaticCall
      */
     protected function fixupPhp5StaticPropCall($prop, array $args, array $attributes) {
