@@ -49,22 +49,27 @@ namespace_name:
       namespace_name_parts                                  { $$ = Name[$1]; }
 ;
 
+semi:
+      ';'                                                   { /* nothing */ }
+    | error                                                 { /* nothing */ }
+;
+
 top_statement:
       statement                                             { $$ = $1; }
     | function_declaration_statement                        { $$ = $1; }
     | class_declaration_statement                           { $$ = $1; }
     | T_HALT_COMPILER
           { $$ = Stmt\HaltCompiler[$this->lexer->handleHaltCompiler()]; }
-    | T_NAMESPACE namespace_name ';'
+    | T_NAMESPACE namespace_name semi
           { $$ = Stmt\Namespace_[$2, null]; $this->checkNamespace($$); }
     | T_NAMESPACE namespace_name '{' top_statement_list '}'
           { $$ = Stmt\Namespace_[$2, $4]; $this->checkNamespace($$); }
     | T_NAMESPACE '{' top_statement_list '}'
           { $$ = Stmt\Namespace_[null, $3]; $this->checkNamespace($$); }
-    | T_USE use_declarations ';'                            { $$ = Stmt\Use_[$2, Stmt\Use_::TYPE_NORMAL]; }
-    | T_USE use_type use_declarations ';'                   { $$ = Stmt\Use_[$3, $2]; }
-    | group_use_declaration ';'                             { $$ = $1; }
-    | T_CONST constant_declaration_list ';'                 { $$ = Stmt\Const_[$2]; }
+    | T_USE use_declarations semi                           { $$ = Stmt\Use_[$2, Stmt\Use_::TYPE_NORMAL]; }
+    | T_USE use_type use_declarations semi                  { $$ = Stmt\Use_[$3, $2]; }
+    | group_use_declaration semi                            { $$ = $1; }
+    | T_CONST constant_declaration_list semi                { $$ = Stmt\Const_[$2]; }
 ;
 
 use_type:
@@ -165,15 +170,15 @@ non_empty_statement:
     | T_FOR '(' for_expr ';'  for_expr ';' for_expr ')' for_statement
           { $$ = Stmt\For_[['init' => $3, 'cond' => $5, 'loop' => $7, 'stmts' => $9]]; }
     | T_SWITCH '(' expr ')' switch_case_list                { $$ = Stmt\Switch_[$3, $5]; }
-    | T_BREAK optional_expr ';'                             { $$ = Stmt\Break_[$2]; }
-    | T_CONTINUE optional_expr ';'                          { $$ = Stmt\Continue_[$2]; }
-    | T_RETURN optional_expr ';'                            { $$ = Stmt\Return_[$2]; }
-    | T_GLOBAL global_var_list ';'                          { $$ = Stmt\Global_[$2]; }
-    | T_STATIC static_var_list ';'                          { $$ = Stmt\Static_[$2]; }
-    | T_ECHO expr_list ';'                                  { $$ = Stmt\Echo_[$2]; }
+    | T_BREAK optional_expr semi                            { $$ = Stmt\Break_[$2]; }
+    | T_CONTINUE optional_expr semi                         { $$ = Stmt\Continue_[$2]; }
+    | T_RETURN optional_expr semi                           { $$ = Stmt\Return_[$2]; }
+    | T_GLOBAL global_var_list semi                         { $$ = Stmt\Global_[$2]; }
+    | T_STATIC static_var_list semi                         { $$ = Stmt\Static_[$2]; }
+    | T_ECHO expr_list semi                                 { $$ = Stmt\Echo_[$2]; }
     | T_INLINE_HTML                                         { $$ = Stmt\InlineHTML[$1]; }
-    | expr ';'                                              { $$ = $1; }
-    | T_UNSET '(' variables_list ')' ';'                    { $$ = Stmt\Unset_[$3]; }
+    | expr semi                                             { $$ = $1; }
+    | T_UNSET '(' variables_list ')' semi                   { $$ = Stmt\Unset_[$3]; }
     | T_FOREACH '(' expr T_AS foreach_variable ')' foreach_statement
           { $$ = Stmt\Foreach_[$3, $5[0], ['keyVar' => null, 'byRef' => $5[1], 'stmts' => $7]]; }
     | T_FOREACH '(' expr T_AS variable T_DOUBLE_ARROW foreach_variable ')' foreach_statement
@@ -181,10 +186,9 @@ non_empty_statement:
     | T_DECLARE '(' declare_list ')' declare_statement      { $$ = Stmt\Declare_[$3, $5]; }
     | T_TRY '{' inner_statement_list '}' catches optional_finally
           { $$ = Stmt\TryCatch[$3, $5, $6]; $this->checkTryCatch($$); }
-    | T_THROW expr ';'                                      { $$ = Stmt\Throw_[$2]; }
-    | T_GOTO T_STRING ';'                                   { $$ = Stmt\Goto_[$2]; }
+    | T_THROW expr semi                                     { $$ = Stmt\Throw_[$2]; }
+    | T_GOTO T_STRING semi                                  { $$ = Stmt\Goto_[$2]; }
     | T_STRING ':'                                          { $$ = Stmt\Label[$1]; }
-    | expr error                                            { $$ = $1; }
     | error                                                 { $$ = array(); /* means: no statement */ }
 ;
 

@@ -5,9 +5,32 @@ Invalid group use syntax
 use Foo\{Bar}
 use Bar\{Foo};
 -----
+!!php7
 Syntax error, unexpected T_USE, expecting ';' from 4:1 to 4:3
 array(
     0: Stmt_GroupUse(
+        type: TYPE_UNKNOWN (0)
+        prefix: Name(
+            parts: array(
+                0: Foo
+            )
+        )
+        uses: array(
+            0: Stmt_UseUse(
+                type: TYPE_NORMAL (1)
+                name: Name(
+                    parts: array(
+                        0: Bar
+                    )
+                )
+                alias: Bar
+            )
+        )
+        comments: array(
+            0: // Missing semicolon
+        )
+    )
+    1: Stmt_GroupUse(
         type: TYPE_UNKNOWN (0)
         prefix: Name(
             parts: array(
@@ -32,16 +55,34 @@ array(
 // Missing NS separator
 use Foo {Bar, Baz};
 -----
+!!php7
 Syntax error, unexpected '{', expecting ',' or ';' from 3:9 to 3:9
 array(
-    0: Expr_ConstFetch(
+    0: Stmt_Use(
+        type: TYPE_NORMAL (1)
+        uses: array(
+            0: Stmt_UseUse(
+                type: TYPE_UNKNOWN (0)
+                name: Name(
+                    parts: array(
+                        0: Foo
+                    )
+                )
+                alias: Foo
+            )
+        )
+        comments: array(
+            0: // Missing NS separator
+        )
+    )
+    1: Expr_ConstFetch(
         name: Name(
             parts: array(
                 0: Bar
             )
         )
     )
-    1: Expr_ConstFetch(
+    2: Expr_ConstFetch(
         name: Name(
             parts: array(
                 0: Baz
