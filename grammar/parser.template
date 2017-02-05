@@ -88,16 +88,19 @@ class #(-p) extends \PhpParser\ParserAbstract
         #production-strings;
     );
 #endif
+
+    protected function initReduceCallbacks() {
+        $this->reduceCallbacks = [
 #reduce
-
-    protected function reduceRule%n($stackPos) {
-        %b
-    }
+            %n => function ($stackPos) {
+                %b
+            },
 #noact
-
-    protected function reduceRule%n($stackPos) {
-        $this->semValue = $this->semStack[$stackPos];
-    }
+            %n => function ($stackPos) {
+                $this->semValue = $this->semStack[$stackPos];
+            },
 #endreduce
+        ];
+    }
 }
 #tailcode;

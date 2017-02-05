@@ -63,8 +63,10 @@ abstract class ParserAbstract implements Parser
     /** @var int[] Table indexed analogously to $action. If $actionCheck[$actionBase[$state] + $symbol] != $symbol
      *             then the action is defaulted, i.e. $actionDefault[$state] should be used instead. */
     protected $actionCheck;
-    /** @var int[]Map of states to their default action */
+    /** @var int[] Map of states to their default action */
     protected $actionDefault;
+    /** @var callable[] Semantic action callbacks */
+    protected $reduceCallbacks;
 
     /** @var int[] Map of non-terminals to a displacement into the $goto table. The corresponding goto state for this
      *             non-terminal/state pair is $goto[$gotoBase[$nonTerminal] + $state] (unless defaulted) */
@@ -114,6 +116,11 @@ abstract class ParserAbstract implements Parser
     protected $useIdentifierNodes;
 
     /**
+     * Initialize $reduceCallbacks map.
+     */
+    abstract protected function initReduceCallbacks();
+
+    /**
      * Creates a parser instance.
      *
      * Options:
@@ -132,6 +139,8 @@ abstract class ParserAbstract implements Parser
             throw new \LogicException(
                 '"throwOnError" is no longer supported, use "errorHandler" instead');
         }
+
+        $this->initReduceCallbacks();
     }
 
     /**
@@ -266,7 +275,7 @@ abstract class ParserAbstract implements Parser
                     //$this->traceReduce($rule);
 
                     try {
-                        $this->{'reduceRule' . $rule}($stackPos);
+                        $this->reduceCallbacks[$rule]($stackPos);
                     } catch (Error $e) {
                         if (-1 === $e->getStartLine() && isset($startAttributes['startLine'])) {
                             $e->setStartLine($startAttributes['startLine']);
