@@ -425,3 +425,141 @@ array(
         )
     )
 )
+-----
+<?php
+namespace Foo
+use A
+use function a
+use A\{B}
+const A = 1
+break
+break 2
+continue
+continue 2
+return
+return 2
+echo $a
+unset($a)
+throw $x
+goto label
+-----
+!!php7
+Syntax error, unexpected T_USE, expecting ';' or '{' from 3:1 to 3:3
+Syntax error, unexpected T_USE, expecting ',' or ';' from 5:1 to 5:3
+Syntax error, unexpected T_CONST, expecting ';' from 6:1 to 6:5
+Syntax error, unexpected T_BREAK, expecting ',' or ';' from 7:1 to 7:5
+Syntax error, unexpected T_THROW, expecting ';' from 15:1 to 15:5
+array(
+    0: Stmt_Namespace(
+        name: Name(
+            parts: array(
+                0: Foo
+            )
+        )
+        stmts: array(
+            0: Stmt_Use(
+                type: TYPE_NORMAL (1)
+                uses: array(
+                    0: Stmt_UseUse(
+                        type: TYPE_UNKNOWN (0)
+                        name: Name(
+                            parts: array(
+                                0: A
+                            )
+                        )
+                        alias: A
+                    )
+                )
+            )
+            1: Stmt_Use(
+                type: TYPE_FUNCTION (2)
+                uses: array(
+                    0: Stmt_UseUse(
+                        type: TYPE_UNKNOWN (0)
+                        name: Name(
+                            parts: array(
+                                0: a
+                            )
+                        )
+                        alias: a
+                    )
+                )
+            )
+            2: Stmt_GroupUse(
+                type: TYPE_UNKNOWN (0)
+                prefix: Name(
+                    parts: array(
+                        0: A
+                    )
+                )
+                uses: array(
+                    0: Stmt_UseUse(
+                        type: TYPE_NORMAL (1)
+                        name: Name(
+                            parts: array(
+                                0: B
+                            )
+                        )
+                        alias: B
+                    )
+                )
+            )
+            3: Stmt_Const(
+                consts: array(
+                    0: Const(
+                        name: A
+                        value: Scalar_LNumber(
+                            value: 1
+                        )
+                    )
+                )
+            )
+            4: Stmt_Break(
+                num: null
+            )
+            5: Stmt_Break(
+                num: Scalar_LNumber(
+                    value: 2
+                )
+            )
+            6: Stmt_Continue(
+                num: null
+            )
+            7: Stmt_Continue(
+                num: Scalar_LNumber(
+                    value: 2
+                )
+            )
+            8: Stmt_Return(
+                expr: null
+            )
+            9: Stmt_Return(
+                expr: Scalar_LNumber(
+                    value: 2
+                )
+            )
+            10: Stmt_Echo(
+                exprs: array(
+                    0: Expr_Variable(
+                        name: a
+                    )
+                )
+            )
+            11: Stmt_Unset(
+                vars: array(
+                    0: Expr_Variable(
+                        name: a
+                    )
+                )
+            )
+            12: Stmt_Throw(
+                expr: Expr_Variable(
+                    name: x
+                )
+            )
+            13: Stmt_Goto(
+                name: label
+            )
+        )
+    )
+)

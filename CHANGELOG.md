@@ -1,7 +1,9 @@
 Version 3.0.4-dev
 -----------------
 
-Nothing yet.
+### Added
+
+* Error recovery from missing semicolons is now supported in more cases.
 
 Version 3.0.3 (2017-02-03)
 --------------------------
