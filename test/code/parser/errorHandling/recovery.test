@@ -393,9 +393,9 @@ goto label
 -----
 !!php7
 Syntax error, unexpected T_USE, expecting ';' or '{' from 3:1 to 3:3
-Syntax error, unexpected T_USE, expecting ',' or ';' from 5:1 to 5:3
+Syntax error, unexpected T_USE, expecting ';' from 5:1 to 5:3
 Syntax error, unexpected T_CONST, expecting ';' from 6:1 to 6:5
-Syntax error, unexpected T_BREAK, expecting ',' or ';' from 7:1 to 7:5
+Syntax error, unexpected T_BREAK, expecting ';' from 7:1 to 7:5
 Syntax error, unexpected T_THROW, expecting ';' from 15:1 to 15:5
 array(
     0: Stmt_Namespace(
@@ -508,6 +508,330 @@ array(
             13: Stmt_Goto(
                 name: label
             )
+        )
+    )
+)
+-----
+<?php
+
+use A\{B, };
+use function A\{b, };
+use A, ;
+const A = 42, ;
+
+class X implements Y, {
+    use A, ;
+    use A, {
+        A::b insteadof C, ;
+    }
+    const A = 42, ;
+    public $x, ;
+}
+interface I extends J, {}
+
+unset($x, );
+isset($x, );
+
+declare(a=42, );
+
+function foo($a, ) {}
+foo($a, );
+global $a, ;
+static $a, ;
+echo $a, ;
+
+for ($a, ; $b, ; $c, );
+function ($a, ) use ($b, ) {};
+-----
+!!php7
+A trailing comma is not allowed here from 3:9 to 3:9
+A trailing comma is not allowed here from 4:18 to 4:18
+A trailing comma is not allowed here from 5:6 to 5:6
+A trailing comma is not allowed here from 6:13 to 6:13
+A trailing comma is not allowed here from 8:21 to 8:21
+A trailing comma is not allowed here from 9:10 to 9:10
+A trailing comma is not allowed here from 10:10 to 10:10
+A trailing comma is not allowed here from 11:25 to 11:25
+A trailing comma is not allowed here from 13:17 to 13:17
+A trailing comma is not allowed here from 14:14 to 14:14
+A trailing comma is not allowed here from 16:22 to 16:22
+A trailing comma is not allowed here from 18:9 to 18:9
+A trailing comma is not allowed here from 19:9 to 19:9
+A trailing comma is not allowed here from 21:13 to 21:13
+A trailing comma is not allowed here from 23:16 to 23:16
+A trailing comma is not allowed here from 24:7 to 24:7
+A trailing comma is not allowed here from 25:10 to 25:10
+A trailing comma is not allowed here from 26:10 to 26:10
+A trailing comma is not allowed here from 27:8 to 27:8
+A trailing comma is not allowed here from 29:8 to 29:8
+A trailing comma is not allowed here from 29:14 to 29:14
+A trailing comma is not allowed here from 29:20 to 29:20
+A trailing comma is not allowed here from 30:13 to 30:13
+A trailing comma is not allowed here from 30:24 to 30:24
+array(
+    0: Stmt_GroupUse(
+        type: TYPE_UNKNOWN (0)
+        prefix: Name(
+            parts: array(
+                0: A
+            )
+        )
+        uses: array(
+            0: Stmt_UseUse(
+                type: TYPE_NORMAL (1)
+                name: Name(
+                    parts: array(
+                        0: B
+                    )
+                )
+                alias: B
+            )
+        )
+    )
+    1: Stmt_GroupUse(
+        type: TYPE_FUNCTION (2)
+        prefix: Name(
+            parts: array(
+                0: A
+            )
+        )
+        uses: array(
+            0: Stmt_UseUse(
+                type: TYPE_UNKNOWN (0)
+                name: Name(
+                    parts: array(
+                        0: b
+                    )
+                )
+                alias: b
+            )
+        )
+    )
+    2: Stmt_Use(
+        type: TYPE_NORMAL (1)
+        uses: array(
+            0: Stmt_UseUse(
+                type: TYPE_UNKNOWN (0)
+                name: Name(
+                    parts: array(
+                        0: A
+                    )
+                )
+                alias: A
+            )
+        )
+    )
+    3: Stmt_Const(
+        consts: array(
+            0: Const(
+                name: A
+                value: Scalar_LNumber(
+                    value: 42
+                )
+            )
+        )
+    )
+    4: Stmt_Class(
+        flags: 0
+        name: X
+        extends: null
+        implements: array(
+            0: Name(
+                parts: array(
+                    0: Y
+                )
+            )
+        )
+        stmts: array(
+            0: Stmt_TraitUse(
+                traits: array(
+                    0: Name(
+                        parts: array(
+                            0: A
+                        )
+                    )
+                )
+                adaptations: array(
+                )
+            )
+            1: Stmt_TraitUse(
+                traits: array(
+                    0: Name(
+                        parts: array(
+                            0: A
+                        )
+                    )
+                )
+                adaptations: array(
+                    0: Stmt_TraitUseAdaptation_Precedence(
+                        trait: Name(
+                            parts: array(
+                                0: A
+                            )
+                        )
+                        method: b
+                        insteadof: array(
+                            0: Name(
+                                parts: array(
+                                    0: C
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+            2: Stmt_ClassConst(
+                flags: 0
+                consts: array(
+                    0: Const(
+                        name: A
+                        value: Scalar_LNumber(
+                            value: 42
+                        )
+                    )
+                )
+            )
+            3: Stmt_Property(
+                flags: MODIFIER_PUBLIC (1)
+                props: array(
+                    0: Stmt_PropertyProperty(
+                        name: x
+                        default: null
+                    )
+                )
+            )
+        )
+    )
+    5: Stmt_Interface(
+        name: I
+        extends: array(
+            0: Name(
+                parts: array(
+                    0: J
+                )
+            )
+        )
+        stmts: array(
+        )
+    )
+    6: Stmt_Unset(
+        vars: array(
+            0: Expr_Variable(
+                name: x
+            )
+        )
+    )
+    7: Expr_Isset(
+        vars: array(
+            0: Expr_Variable(
+                name: x
+            )
+        )
+    )
+    8: Stmt_Declare(
+        declares: array(
+            0: Stmt_DeclareDeclare(
+                key: a
+                value: Scalar_LNumber(
+                    value: 42
+                )
+            )
+        )
+        stmts: null
+    )
+    9: Stmt_Function(
+        byRef: false
+        name: foo
+        params: array(
+            0: Param(
+                type: null
+                byRef: false
+                variadic: false
+                name: a
+                default: null
+            )
+        )
+        returnType: null
+        stmts: array(
+        )
+    )
+    10: Expr_FuncCall(
+        name: Name(
+            parts: array(
+                0: foo
+            )
+        )
+        args: array(
+            0: Arg(
+                value: Expr_Variable(
+                    name: a
+                )
+                byRef: false
+                unpack: false
+            )
+        )
+    )
+    11: Stmt_Global(
+        vars: array(
+            0: Expr_Variable(
+                name: a
+            )
+        )
+    )
+    12: Stmt_Static(
+        vars: array(
+            0: Stmt_StaticVar(
+                name: a
+                default: null
+            )
+        )
+    )
+    13: Stmt_Echo(
+        exprs: array(
+            0: Expr_Variable(
+                name: a
+            )
+        )
+    )
+    14: Stmt_For(
+        init: array(
+            0: Expr_Variable(
+                name: a
+            )
+        )
+        cond: array(
+            0: Expr_Variable(
+                name: b
+            )
+        )
+        loop: array(
+            0: Expr_Variable(
+                name: c
+            )
+        )
+        stmts: array(
+        )
+    )
+    15: Expr_Closure(
+        static: false
+        byRef: false
+        params: array(
+            0: Param(
+                type: null
+                byRef: false
+                variadic: false
+                name: a
+                default: null
+            )
+        )
+        uses: array(
+            0: Expr_ClosureUse(
+                var: b
+                byRef: false
+            )
+        )
+        returnType: null
+        stmts: array(
         )
     )
 )

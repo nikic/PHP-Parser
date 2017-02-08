@@ -56,7 +56,7 @@ array(
 use Foo {Bar, Baz};
 -----
 !!php7
-Syntax error, unexpected '{', expecting ',' or ';' from 3:9 to 3:9
+Syntax error, unexpected '{', expecting ';' from 3:9 to 3:9
 array(
     0: Stmt_Use(
         type: TYPE_NORMAL (1)
