@@ -343,6 +343,28 @@ abstract class PrettyPrinterAbstract
     }
 
     /**
+     * Pretty-prints an array of nodes, comma separated, on separate lines.
+     *
+     * @param Node[] $nodes Array of Nodes to be printed.
+     *
+     * @param bool $comma_at_end TRUE (default) if there should be a comma
+     *                           at the end of the last element too.
+     *
+     * @return string Comma separated pretty printed nodes, with each on its
+     *                own line, indented.
+     */
+    protected function pCommaSeparatedMultiLine(array $nodes, $comma_at_end = TRUE) {
+        // Implode with commas and newlines.
+        $result = $this->pImplode($nodes, ",\n");
+        if ($comma_at_end && count($nodes)) {
+            $result .= ',';
+        }
+
+        // Indent the whole thing.
+        return '    ' . preg_replace('~\n(?!$|' . $this->noIndentToken . ')~', "\n    ", $result) . "\n";
+    }
+
+    /**
      * Signals the pretty printer that a string shall not be indented.
      *
      * @param string $string Not to be indented string
