@@ -247,11 +247,11 @@ abstract class PrettyPrinterAbstract
             if ($childPrecedence > $parentPrecedence
                 || ($parentPrecedence == $childPrecedence && $parentAssociativity != $childPosition)
             ) {
-                return '(' . $this->{'p' . $type}($node) . ')';
+                return '(' . $this->p($node) . ')';
             }
         }
 
-        return $this->{'p' . $type}($node);
+        return $this->p($node);
     }
 
     /**
