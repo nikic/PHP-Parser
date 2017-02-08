@@ -139,7 +139,7 @@ function parseArgs($args) {
     $files = array();
     $attributes = array(
         'with-column-info' => false,
-        'with-posititions' => false,
+        'with-positions' => false,
         'with-recovery' => false,
     );
 
