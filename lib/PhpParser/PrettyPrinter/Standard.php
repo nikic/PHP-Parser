@@ -615,7 +615,7 @@ class Standard extends PrettyPrinterAbstract
              . ($node->name->getLast() !== $node->alias ? ' as ' . $node->alias : '');
     }
 
-    private function pUseType($type) {
+    protected function pUseType($type) {
         return $type === Stmt\Use_::TYPE_FUNCTION ? 'function '
             : ($type === Stmt\Use_::TYPE_CONSTANT ? 'const ' : '');
     }
