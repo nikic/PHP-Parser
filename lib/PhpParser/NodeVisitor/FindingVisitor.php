@@ -32,6 +32,8 @@ class FindingVisitor extends NodeVisitorAbstract {
 
     public function beforeTraverse(array $nodes) {
         $this->foundNodes = [];
+
+        return null;
     }
 
     public function enterNode(Node $node) {
@@ -39,5 +41,7 @@ class FindingVisitor extends NodeVisitorAbstract {
         if ($filterCallback($node)) {
             $this->foundNodes[] = $node;
         }
+
+        return null;
     }
 }

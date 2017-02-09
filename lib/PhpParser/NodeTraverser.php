@@ -102,6 +102,7 @@ class NodeTraverser implements NodeTraverserInterface
      */
     protected function traverseNode(Node $node) {
         foreach ($node->getSubNodeNames() as $name) {
+            /** @var Node[] */
             $subNode =& $node->$name;
 
             if (\is_array($subNode)) {
@@ -165,9 +166,11 @@ class NodeTraverser implements NodeTraverserInterface
     /**
      * Recursively traverse array (usually of nodes).
      *
-     * @param array $nodes Array to traverse
+     * @param Node[] $nodes Array to traverse
      *
-     * @return array Result of traversal (may be original array or changed one)
+     * @return Node[] Result of traversal (may be original array or changed one)
+     * 
+     * @psalm-suppress TypeDoesNotContainType
      */
     protected function traverseArray(array $nodes) {
         $doNodes = array();

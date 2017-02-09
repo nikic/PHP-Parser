@@ -13,8 +13,8 @@ class Encapsed extends Scalar
     /**
      * Constructs an encapsed string node.
      *
-     * @param array $parts      Encaps list
-     * @param array $attributes Additional attributes
+     * @param Expr[] $parts      Encaps list
+     * @param array  $attributes Additional attributes
      */
     public function __construct(array $parts, array $attributes = array()) {
         parent::__construct($attributes);

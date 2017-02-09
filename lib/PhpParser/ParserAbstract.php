@@ -581,6 +581,12 @@ abstract class ParserAbstract implements Parser
         return $style;
     }
 
+    /**
+     * @param  Node\Expr\StaticPropertyFetch|Node\Expr\ArrayDimFetch $prop
+     * @param  Node\Arg[]       $args
+     * @param  array            $attributes
+     * @return Expr\StaticCall
+     */
     protected function fixupPhp5StaticPropCall($prop, array $args, array $attributes) {
         if ($prop instanceof Node\Expr\StaticPropertyFetch) {
             // Preserve attributes if possible
@@ -631,9 +637,6 @@ abstract class ParserAbstract implements Parser
         }
     }
 
-    /**
-     * @return string
-     */
     protected function handleBuiltinTypes(Name $name) {
         $scalarTypes = [
             'bool'     => true,
