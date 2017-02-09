@@ -4,7 +4,7 @@ Non-simple variables are forbidden in PHP 7
 global $$foo->bar;
 -----
 !!php7
-Syntax error, unexpected T_OBJECT_OPERATOR, expecting ',' or ';' from 2:13 to 2:14
+Syntax error, unexpected T_OBJECT_OPERATOR, expecting ';' from 2:13 to 2:14
 array(
     0: Stmt_Global(
         vars: array(

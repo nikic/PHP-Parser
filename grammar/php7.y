@@ -62,6 +62,11 @@ semi:
     | error                                                 { /* nothing */ }
 ;
 
+no_comma:
+      /* empty */ { /* nothing */ }
+    | ',' { $this->emitError(new Error('A trailing comma is not allowed here', attributes())); }
+;
+
 top_statement:
       statement                                             { $$ = $1; }
     | function_declaration_statement                        { $$ = $1; }
@@ -98,18 +103,31 @@ group_use_declaration:
 ;
 
 unprefixed_use_declarations:
-      unprefixed_use_declarations ',' unprefixed_use_declaration
+      non_empty_unprefixed_use_declarations no_comma        { $$ = $1; }
+;
+
+non_empty_unprefixed_use_declarations:
+      non_empty_unprefixed_use_declarations ',' unprefixed_use_declaration
           { push($1, $3); }
     | unprefixed_use_declaration                            { init($1); }
 ;
 
 use_declarations:
-      use_declarations ',' use_declaration                  { push($1, $3); }
+      non_empty_use_declarations no_comma                   { $$ = $1; }
+;
+
+non_empty_use_declarations:
+      non_empty_use_declarations ',' use_declaration        { push($1, $3); }
     | use_declaration                                       { init($1); }
 ;
 
 inline_use_declarations:
-      inline_use_declarations ',' inline_use_declaration    { push($1, $3); }
+      non_empty_inline_use_declarations no_comma            { $$ = $1; }
+;
+
+non_empty_inline_use_declarations:
+      non_empty_inline_use_declarations ',' inline_use_declaration
+          { push($1, $3); }
     | inline_use_declaration                                { init($1); }
 ;
 
@@ -131,7 +149,12 @@ inline_use_declaration:
 ;
 
 constant_declaration_list:
-      constant_declaration_list ',' constant_declaration    { push($1, $3); }
+      non_empty_constant_declaration_list no_comma          { $$ = $1; }
+;
+
+non_empty_constant_declaration_list:
+      non_empty_constant_declaration_list ',' constant_declaration
+          { push($1, $3); }
     | constant_declaration                                  { init($1); }
 ;
 
@@ -140,7 +163,11 @@ constant_declaration:
 ;
 
 class_const_list:
-      class_const_list ',' class_const                      { push($1, $3); }
+      non_empty_class_const_list no_comma                   { $$ = $1; }
+;
+
+non_empty_class_const_list:
+      non_empty_class_const_list ',' class_const            { push($1, $3); }
     | class_const                                           { init($1); }
 ;
 
@@ -228,8 +255,12 @@ optional_finally:
 ;
 
 variables_list:
+      non_empty_variables_list no_comma                     { $$ = $1; }
+;
+
+non_empty_variables_list:
       variable                                              { init($1); }
-    | variables_list ',' variable                           { push($1, $3); }
+    | non_empty_variables_list ',' variable                 { push($1, $3); }
 ;
 
 optional_ref:
@@ -266,22 +297,26 @@ class_entry_type:
 
 extends_from:
       /* empty */                                           { $$ = null; }
-    | T_EXTENDS name                                        { $$ = $2; }
+    | T_EXTENDS class_name                                  { $$ = $2; }
 ;
 
 interface_extends_list:
       /* empty */                                           { $$ = array(); }
-    | T_EXTENDS name_list                                   { $$ = $2; }
+    | T_EXTENDS class_name_list                             { $$ = $2; }
 ;
 
 implements_list:
       /* empty */                                           { $$ = array(); }
-    | T_IMPLEMENTS name_list                                { $$ = $2; }
+    | T_IMPLEMENTS class_name_list                          { $$ = $2; }
 ;
 
-name_list:
-      name                                                  { init($1); }
-    | name_list ',' name                                    { push($1, $3); }
+class_name_list:
+      non_empty_class_name_list no_comma                    { $$ = $1; }
+;
+
+non_empty_class_name_list:
+      class_name                                            { init($1); }
+    | non_empty_class_name_list ',' class_name              { push($1, $3); }
 ;
 
 for_statement:
@@ -301,8 +336,12 @@ declare_statement:
 ;
 
 declare_list:
+      non_empty_declare_list no_comma                       { $$ = $1; }
+;
+
+non_empty_declare_list:
       declare_list_element                                  { init($1); }
-    | declare_list ',' declare_list_element                 { push($1, $3); }
+    | non_empty_declare_list ',' declare_list_element       { push($1, $3); }
 ;
 
 declare_list_element:
@@ -372,7 +411,7 @@ foreach_variable:
 ;
 
 parameter_list:
-      non_empty_parameter_list                              { $$ = $1; }
+      non_empty_parameter_list no_comma                     { $$ = $1; }
     | /* empty */                                           { $$ = array(); }
 ;
 
@@ -411,7 +450,7 @@ optional_return_type:
 
 argument_list:
       '(' ')'                                               { $$ = array(); }
-    | '(' non_empty_argument_list ')'                       { $$ = $2; }
+    | '(' non_empty_argument_list no_comma ')'              { $$ = $2; }
 ;
 
 non_empty_argument_list:
@@ -426,7 +465,11 @@ argument:
 ;
 
 global_var_list:
-      global_var_list ',' global_var                        { push($1, $3); }
+      non_empty_global_var_list no_comma                    { $$ = $1; }
+;
+
+non_empty_global_var_list:
+      non_empty_global_var_list ',' global_var              { push($1, $3); }
     | global_var                                            { init($1); }
 ;
 
@@ -435,7 +478,11 @@ global_var:
 ;
 
 static_var_list:
-      static_var_list ',' static_var                        { push($1, $3); }
+      non_empty_static_var_list no_comma                    { $$ = $1; }
+;
+
+non_empty_static_var_list:
+      non_empty_static_var_list ',' static_var              { push($1, $3); }
     | static_var                                            { init($1); }
 ;
 
@@ -457,7 +504,7 @@ class_statement:
     | method_modifiers T_FUNCTION optional_ref identifier_ex '(' parameter_list ')' optional_return_type method_body
           { $$ = Stmt\ClassMethod[$4, ['type' => $1, 'byRef' => $3, 'params' => $6, 'returnType' => $8, 'stmts' => $9]];
             $this->checkClassMethod($$, #1); }
-    | T_USE name_list trait_adaptations                     { $$ = Stmt\TraitUse[$2, $3]; }
+    | T_USE class_name_list trait_adaptations               { $$ = Stmt\TraitUse[$2, $3]; }
 ;
 
 trait_adaptations:
@@ -471,7 +518,7 @@ trait_adaptation_list:
 ;
 
 trait_adaptation:
-      trait_method_reference_fully_qualified T_INSTEADOF name_list ';'
+      trait_method_reference_fully_qualified T_INSTEADOF class_name_list ';'
           { $$ = Stmt\TraitUseAdaptation\Precedence[$1[0], $1[1], $3]; }
     | trait_method_reference T_AS member_modifier identifier_ex ';'
           { $$ = Stmt\TraitUseAdaptation\Alias[$1[0], $1[1], $3, $4]; }
@@ -521,8 +568,13 @@ member_modifier:
 ;
 
 property_declaration_list:
+      non_empty_property_declaration_list no_comma          { $$ = $1; }
+;
+
+non_empty_property_declaration_list:
       property_declaration                                  { init($1); }
-    | property_declaration_list ',' property_declaration    { push($1, $3); }
+    | non_empty_property_declaration_list ',' property_declaration
+          { push($1, $3); }
 ;
 
 property_decl_name:
@@ -535,7 +587,11 @@ property_declaration:
 ;
 
 expr_list:
-      expr_list ',' expr                                    { push($1, $3); }
+      non_empty_expr_list no_comma                          { $$ = $1; }
+;
+
+non_empty_expr_list:
+      non_empty_expr_list ',' expr                          { push($1, $3); }
     | expr                                                  { init($1); }
 ;
 
@@ -654,8 +710,12 @@ lexical_vars:
 ;
 
 lexical_var_list:
+      non_empty_lexical_var_list no_comma                   { $$ = $1; }
+;
+
+non_empty_lexical_var_list:
       lexical_var                                           { init($1); }
-    | lexical_var_list ',' lexical_var                      { push($1, $3); }
+    | non_empty_lexical_var_list ',' lexical_var            { push($1, $3); }
 ;
 
 lexical_var:
