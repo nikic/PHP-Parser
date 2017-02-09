@@ -289,26 +289,26 @@ class_entry_type:
 
 extends_from:
       /* empty */                                           { $$ = null; }
-    | T_EXTENDS name                                        { $$ = $2; }
+    | T_EXTENDS class_name                                  { $$ = $2; }
 ;
 
 interface_extends_list:
       /* empty */                                           { $$ = array(); }
-    | T_EXTENDS name_list                                   { $$ = $2; }
+    | T_EXTENDS class_name_list                             { $$ = $2; }
 ;
 
 implements_list:
       /* empty */                                           { $$ = array(); }
-    | T_IMPLEMENTS name_list                                { $$ = $2; }
+    | T_IMPLEMENTS class_name_list                          { $$ = $2; }
 ;
 
-name_list:
-      non_empty_name_list no_comma                          { $$ = $1; }
+class_name_list:
+      non_empty_class_name_list no_comma                    { $$ = $1; }
 ;
 
-non_empty_name_list:
-      name                                                  { init($1); }
-    | non_empty_name_list ',' name                          { push($1, $3); }
+non_empty_class_name_list:
+      class_name                                            { init($1); }
+    | non_empty_class_name_list ',' class_name              { push($1, $3); }
 ;
 
 for_statement:
@@ -496,7 +496,7 @@ class_statement:
     | method_modifiers T_FUNCTION optional_ref identifier '(' parameter_list ')' optional_return_type method_body
           { $$ = Stmt\ClassMethod[$4, ['type' => $1, 'byRef' => $3, 'params' => $6, 'returnType' => $8, 'stmts' => $9]];
             $this->checkClassMethod($$, #1); }
-    | T_USE name_list trait_adaptations                     { $$ = Stmt\TraitUse[$2, $3]; }
+    | T_USE class_name_list trait_adaptations               { $$ = Stmt\TraitUse[$2, $3]; }
 ;
 
 trait_adaptations:
@@ -510,7 +510,7 @@ trait_adaptation_list:
 ;
 
 trait_adaptation:
-      trait_method_reference_fully_qualified T_INSTEADOF name_list ';'
+      trait_method_reference_fully_qualified T_INSTEADOF class_name_list ';'
           { $$ = Stmt\TraitUseAdaptation\Precedence[$1[0], $1[1], $3]; }
     | trait_method_reference T_AS member_modifier identifier ';'
           { $$ = Stmt\TraitUseAdaptation\Alias[$1[0], $1[1], $3, $4]; }
