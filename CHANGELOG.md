@@ -1,9 +1,21 @@
-Version 3.0.4-dev
+Version 3.0.5-dev
 -----------------
+
+Nothing yet.
+
+Version 3.0.4 (2017-02-10)
+--------------------------
+
+### Fixed
+
+* Fixed some extensibility issues in pretty printer (`pUseType()` is now public and `pPrec()` calls
+  into `p()`, instead of directly dispatching to the type-specific printing method).
+* Fixed notice in `bin/php-parse` script.
 
 ### Added
 
 * Error recovery from missing semicolons is now supported in more cases.
+* Error recovery from trailing commas in positions where PHP does not support them is now supported.
 
 Version 3.0.3 (2017-02-03)
 --------------------------
