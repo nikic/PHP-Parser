@@ -157,7 +157,7 @@ class Lexer
 
         $filePos = 0;
         $line = 1;
-        foreach ($this->tokens as $i => $token) {
+        foreach ($this->tokens as $token) {
             $tokenValue = \is_string($token) ? $token : $token[1];
             $tokenLen = \strlen($tokenValue);
 

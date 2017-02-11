@@ -72,7 +72,6 @@ class Emulative extends \PhpParser\Lexer
         // the tokens array on the way
         $line = 1;
         for ($i = 0, $c = count($this->tokens); $i < $c; ++$i) {
-            $replace = null;
             if (isset($this->tokens[$i + 1])) {
                 if ($this->tokens[$i] === '?' && $this->tokens[$i + 1] === '?') {
                     array_splice($this->tokens, $i, 2, array(
