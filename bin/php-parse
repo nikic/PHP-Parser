@@ -38,7 +38,6 @@ $dumper = new PhpParser\NodeDumper([
     'dumpPositions' => $attributes['with-positions'],
 ]);
 $prettyPrinter = new PhpParser\PrettyPrinter\Standard;
-$serializer = new PhpParser\Serializer\XML;
 
 $traverser = new PhpParser\NodeTraverser();
 $traverser->addVisitor(new PhpParser\NodeVisitor\NameResolver);
@@ -82,9 +81,6 @@ foreach ($files as $file) {
         } elseif ('pretty-print' === $operation) {
             echo "==> Pretty print:\n";
             echo $prettyPrinter->prettyPrintFile($stmts), "\n";
-        } elseif ('serialize-xml' === $operation) {
-            echo "==> Serialized XML:\n";
-            echo $serializer->serialize($stmts), "\n";
         } elseif ('var-dump' === $operation) {
             echo "==> var_dump():\n";
             var_dump($stmts);
@@ -116,7 +112,6 @@ Operations is a list of the following options (--dump by default):
 
     -d, --dump              Dump nodes using NodeDumper
     -p, --pretty-print      Pretty print file using PrettyPrinter\Standard
-        --serialize-xml     Serialize nodes using Serializer\XML
         --var-dump          var_dump() nodes (for exact structure)
     -N, --resolve-names     Resolve names using NodeVisitor\NameResolver
     -c, --with-column-info  Show column-numbers for errors (if available)
