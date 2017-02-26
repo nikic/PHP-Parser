@@ -248,11 +248,11 @@ $foo->
 !!positions
 Syntax error, unexpected ';', expecting T_STRING or T_VARIABLE or '{' or '$' from 3:1 to 3:1
 array(
-    0: Expr_PropertyFetch[2:1 - 3:1](
+    0: Expr_PropertyFetch[2:1 - 2:6](
         var: Expr_Variable[2:1 - 2:4](
             name: foo
         )
-        name: Expr_Error[3:1 - 3:1](
+        name: Expr_Error[3:1 - 2:6](
         )
     )
 )
@@ -272,11 +272,11 @@ array(
         )
         returnType: null
         stmts: array(
-            0: Expr_PropertyFetch[3:5 - 4:1](
+            0: Expr_PropertyFetch[3:5 - 3:10](
                 var: Expr_Variable[3:5 - 3:8](
                     name: bar
                 )
-                name: Expr_Error[4:1 - 4:1](
+                name: Expr_Error[4:1 - 3:10](
                 )
             )
         )
@@ -305,8 +305,8 @@ new
 !!php7,positions
 Syntax error, unexpected EOF from 2:4 to 2:4
 array(
-    0: Expr_New[2:1 - 2:4](
-        class: Expr_Error[2:4 - 2:4](
+    0: Expr_New[2:1 - 2:3](
+        class: Expr_Error[2:4 - 2:3](
         )
         args: array(
         )
@@ -850,8 +850,8 @@ array(
             )
         )
         args: array(
-            0: Arg[3:5 - 3:10](
-                value: Expr_ClassConstFetch[3:5 - 3:10](
+            0: Arg[3:5 - 3:9](
+                value: Expr_ClassConstFetch[3:5 - 3:9](
                     class: Name[3:5 - 3:7](
                         parts: array(
                             0: Bar
