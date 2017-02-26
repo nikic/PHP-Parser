@@ -310,7 +310,7 @@ array(
         )
         returnType: null
         stmts: array(
-            0: Stmt_Expression[3:5 - 4:1](
+            0: Stmt_Expression[3:5 - 3:10](
                 expr: Expr_PropertyFetch[3:5 - 3:10](
                     var: Expr_Variable[3:5 - 3:8](
                         name: bar
@@ -347,7 +347,7 @@ new
 !!php7,positions
 Syntax error, unexpected EOF from 2:4 to 2:4
 array(
-    0: Stmt_Expression[2:1 - 2:4](
+    0: Stmt_Expression[2:1 - 2:3](
         expr: Expr_New[2:1 - 2:3](
             class: Expr_Error[2:4 - 2:3](
             )
@@ -924,7 +924,7 @@ array(
                                 0: Bar
                             )
                         )
-                        name: Expr_Error[3:10 - 3:10](
+                        name: Expr_Error[3:10 - 3:9](
                         )
                     )
                     byRef: false

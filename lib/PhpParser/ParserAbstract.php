@@ -334,6 +334,7 @@ abstract class ParserAbstract implements Parser
 
                             // We treat the error symbol as being empty, so we reset the end attributes
                             // to the end attributes of the last non-error symbol
+                            $this->endAttributeStack[$stackPos] = $this->endAttributeStack[$stackPos - 1];
                             $this->endAttributes = $this->endAttributeStack[$stackPos - 1];
                             break;
 
