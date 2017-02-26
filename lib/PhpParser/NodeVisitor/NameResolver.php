@@ -172,13 +172,20 @@ class NameResolver extends NodeVisitorAbstract
     /** @param Stmt\Function_|Stmt\ClassMethod|Expr\Closure $node */
     private function resolveSignature($node) {
         foreach ($node->params as $param) {
-            if ($param->type instanceof Name) {
-                $param->type = $this->resolveClassName($param->type);
-            }
+            $param->type = $this->resolveType($param->type);
         }
-        if ($node->returnType instanceof Name) {
-            $node->returnType = $this->resolveClassName($node->returnType);
+        $node->returnType = $this->resolveType($node->returnType);
+    }
+
+    private function resolveType($node) {
+        if ($node instanceof Node\NullableType) {
+            $node->type = $this->resolveType($node->type);
+            return $node;
         }
+        if ($node instanceof Name) {
+            return $this->resolveClassName($node);
+        }
+        return $node;
     }
 
     protected function resolveClassName(Name $name) {
