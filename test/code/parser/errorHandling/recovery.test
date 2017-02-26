@@ -857,7 +857,7 @@ array(
                             0: Bar
                         )
                     )
-                    name: Expr_Error[3:10 - 3:10](
+                    name: Expr_Error[3:10 - 3:9](
                     )
                 )
                 byRef: false
