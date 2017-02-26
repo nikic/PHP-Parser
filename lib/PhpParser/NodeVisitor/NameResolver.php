@@ -129,10 +129,6 @@ class NameResolver extends NodeVisitorAbstract
                     }
                 }
             }
-        } elseif ($node instanceof Node\NullableType) {
-            if ($node->type instanceof Name) {
-                $node->type = $this->resolveClassName($node->type);
-            }
         }
 
         return null;
