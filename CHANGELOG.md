@@ -1,7 +1,18 @@
-Version 3.0.5-dev
+Version 3.0.6-dev
 -----------------
 
 Nothing yet.
+
+Version 3.0.5 (2017-03-05)
+--------------------------
+
+### Fixed
+
+* Name resolution of `NullableType`s is now performed earlier, so that a fully resolved signature is
+  available when a function is entered. (#360)
+* `Error` nodes are now considered empty, while previously they extended until the token where the
+  error occurred. This made some nodes larger than expected. (#359)
+* Fixed notices being thrown during error recovery in some situations. (#362)
 
 Version 3.0.4 (2017-02-10)
 --------------------------
