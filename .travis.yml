@@ -1,5 +1,5 @@
 language: php
-
+dist: trusty
 sudo: false
 
 cache:
@@ -16,6 +16,8 @@ php:
 install:
   - if [ $TRAVIS_PHP_VERSION = '5.6' ]; then composer require satooshi/php-coveralls '~1.0'; fi
   - composer install --prefer-dist
+  # Disable JIT compilation in hhvm, as the JIT is useless for short live scripts like tests.
+  - if [[ $TRAVIS_PHP_VERSION = hhvm* ]]; then echo 'hhvm.jit = 0' >> /etc/hhvm/php.ini; fi
 
 matrix:
   allow_failures:
@@ -29,4 +31,3 @@ script:
 
 after_success:
   if [ $TRAVIS_PHP_VERSION = '5.6' ]; then php vendor/bin/coveralls; fi
-
