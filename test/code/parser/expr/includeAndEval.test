@@ -37,7 +37,7 @@ array(
             expr: Scalar_String(
                 value: A.php
             )
-            type: TYPE_REQURE_ONCE (4)
+            type: TYPE_REQUIRE_ONCE (4)
         )
     )
     4: Stmt_Expression(
