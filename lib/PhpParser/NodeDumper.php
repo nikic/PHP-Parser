@@ -141,7 +141,7 @@ class NodeDumper
             Include_::TYPE_INCLUDE      => 'TYPE_INCLUDE',
             Include_::TYPE_INCLUDE_ONCE => 'TYPE_INCLUDE_ONCE',
             Include_::TYPE_REQUIRE      => 'TYPE_REQUIRE',
-            Include_::TYPE_REQUIRE_ONCE => 'TYPE_REQURE_ONCE',
+            Include_::TYPE_REQUIRE_ONCE => 'TYPE_REQUIRE_ONCE',
         ];
 
         if (!isset($map[$type])) {
