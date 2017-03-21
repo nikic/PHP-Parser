@@ -2,6 +2,8 @@
 
 namespace PhpParser;
 
+use PhpParser\Error;
+
 interface ErrorHandler
 {
     /**
