@@ -114,8 +114,8 @@ $x
 :
 $y;
 
-yield $k =>
-$v  ;
+yield
+$k => $v  ;
 yield $v  ;
 
 break 2
@@ -139,8 +139,8 @@ X extends \Bar
 
 foreach (
     $x
-    as $z =>
-    $y
+    as
+    $z => $y
 ) {}
 
 static

@@ -521,6 +521,10 @@ abstract class PrettyPrinterAbstract
                 } else {
                     $subStartPos = $pos;
                 }
+                if (null === $extraLeft && null !== $extraRight) {
+                    // If inserting on the right only, skipping whitespace looks better
+                    $subStartPos = $this->skipRightWhitespace($subStartPos);
+                }
                 $subEndPos = $subStartPos - 1;
             }
 
@@ -1128,7 +1132,7 @@ abstract class PrettyPrinterAbstract
             'Expr_ArrayItem->key' => [null, null, ' => '],
             'Expr_Closure->returnType' => [')', ' : ', null],
             'Expr_Ternary->if' => ['?', ' ', ' '],
-            'Expr_Yield->key' => [T_YIELD, ' ', ' => '],
+            'Expr_Yield->key' => [T_YIELD, null, ' => '],
             'Expr_Yield->value' => [T_YIELD, ' ', null],
             'Param->type' => [null, null, ' '],
             'Param->default' => [null, ' = ', null],
@@ -1136,7 +1140,7 @@ abstract class PrettyPrinterAbstract
             'Stmt_ClassMethod->returnType' => [')', ' : ', null],
             'Stmt_Class->extends' => [null, ' extends ', null],
             'Stmt_Continue->num' => [T_CONTINUE, ' ', null],
-            'Stmt_Foreach->keyVar' => [T_AS, ' ', ' => '],
+            'Stmt_Foreach->keyVar' => [T_AS, null, ' => '],
             'Stmt_Function->returnType' => [')', ' : ', null],
             //'Stmt_If->else' => [null, ' ', null], // TODO
             'Stmt_Namespace->name' => [T_NAMESPACE, ' ', null],
