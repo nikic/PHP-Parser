@@ -104,7 +104,6 @@ printLine('Hello World!!!');
 CODE;
 
 $parser = (new PhpParser\ParserFactory)->create(PhpParser\ParserFactory::PREFER_PHP7);
-$nodeDumper = new PhpParser\NodeDumper;
 
 try {
     $stmts = $parser->parse($code);
