@@ -86,6 +86,7 @@ Documentation
  2. [Usage of basic components](doc/2_Usage_of_basic_components.markdown)
  3. [Other node tree representations](doc/3_Other_node_tree_representations.markdown)
  4. [Code generation](doc/4_Code_generation.markdown)
+ 5. [Frequently asked questions](doc/5_FAQ.markdown)
 
 Component documentation:
 
