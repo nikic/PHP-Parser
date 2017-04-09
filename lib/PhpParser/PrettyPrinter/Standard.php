@@ -509,14 +509,19 @@ class Standard extends PrettyPrinterAbstract
         $syntax = $node->getAttribute('kind',
             $this->options['shortArraySyntax'] ? Expr\Array_::KIND_SHORT : Expr\Array_::KIND_LONG);
         if ($syntax === Expr\Array_::KIND_SHORT) {
-            return '[' . $this->pCommaSeparated($node->items) . ']';
+            return '[' . "\n" . $this->pCommaSeparatedMultiLine($node->items) . ']';
         } else {
-            return 'array(' . $this->pCommaSeparated($node->items) . ')';
+            return 'array(' . "\n" . $this->pCommaSeparatedMultiLine($node->items) . ')';
         }
     }
 
     protected function pExpr_ArrayItem(Expr\ArrayItem $node) {
-        return (null !== $node->key ? $this->p($node->key) . ' => ' : '')
+        $result = '';
+        $comments = $node->getAttribute('comments', array());
+        if ($comments) {
+            $result .= $this->pComments($comments) . "\n";
+        }
+        return $result . (null !== $node->key ? $this->p($node->key) . ' => ' : '')
              . ($node->byRef ? '&' : '') . $this->p($node->value);
     }
 
