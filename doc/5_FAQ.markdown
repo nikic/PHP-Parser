@@ -16,7 +16,7 @@ use PhpParser\NodeVisitorAbstract;
 
 class ParentConnector extends NodeVisitorAbstract {
     private $stack;
-    public function beginTraverse(array $nodes) {
+    public function beforeTraverse(array $nodes) {
         $this->stack = [];
     }
     public function enterNode(Node $node) {
@@ -46,7 +46,7 @@ use PhpParser\NodeVisitorAbstract;
 class NodeConnector extends NodeVisitorAbstract {
     private $stack;
     private $prev;
-    public function beginTraverse(array $nodes) {
+    public function beforeTraverse(array $nodes) {
         $this->stack = [];
         $this->prev = null;
     }
