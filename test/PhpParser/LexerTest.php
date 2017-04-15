@@ -56,7 +56,7 @@ class LexerTest extends \PHPUnit_Framework_TestCase
 
         $value = null;
         
-        do {
+        while (1) {
             $tokenContainer = $lexer->getNextToken($value);
 
             if (!$tokenContainer->id) {
@@ -69,7 +69,7 @@ class LexerTest extends \PHPUnit_Framework_TestCase
             $this->assertSame($token[1], $tokenContainer->value);
             $this->assertEquals($token[2], $tokenContainer->startAttributes);
             $this->assertEquals($token[3], $tokenContainer->endAttributes);
-        } while ($tokenContainer->id);
+        }
     }
 
     public function provideTestLex() {
