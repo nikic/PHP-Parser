@@ -175,8 +175,10 @@ EOC;
 }
 
 class InvalidTokenLexer extends Lexer {
-    public function getNextToken(&$value = null, &$startAttributes = null, &$endAttributes = null) {
-        $value = 'foobar';
-        return 999;
+    public function getNextToken() {
+        $tokenContainer = new \PhpParser\Lexer\TokenContainer();
+        $tokenContainer->value = 'foobar';
+        $tokenContainer->id = 999;
+        return $tokenContainer;
     }
 }

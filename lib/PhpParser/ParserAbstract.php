@@ -199,7 +199,12 @@ abstract class ParserAbstract implements Parser
                     // The end attributes are fetched into a temporary variable and only set once the token is really
                     // shifted (not during read). Otherwise you would sometimes get off-by-one errors, when a rule is
                     // reduced after a token was read but not yet shifted.
-                    $tokenId = $this->lexer->getNextToken($tokenValue, $startAttributes, $endAttributes);
+                    $tokenContainer = $this->lexer->getNextToken();
+
+                    $tokenId = $tokenContainer->id;
+                    $tokenValue = $tokenContainer->value;
+                    $startAttributes = $tokenContainer->startAttributes;
+                    $endAttributes = $tokenContainer->endAttributes;
 
                     // map the lexer token id to the internally used symbols
                     $symbol = $tokenId >= 0 && $tokenId < $this->tokenToSymbolMapSize

@@ -20,8 +20,10 @@ class EmulativeTest extends LexerTest
         $lexer = $this->getLexer();
         $lexer->startLexing('<?php ' . $keyword);
 
-        $this->assertSame($expectedToken, $lexer->getNextToken());
-        $this->assertSame(0, $lexer->getNextToken());
+        $tokenContainer = $lexer->getNextToken();
+        $this->assertSame($expectedToken, $tokenContainer->id);
+        $tokenContainer = $lexer->getNextToken();
+        $this->assertSame(0, $tokenContainer->id);
     }
 
     /**
@@ -31,9 +33,12 @@ class EmulativeTest extends LexerTest
         $lexer = $this->getLexer();
         $lexer->startLexing('<?php ->' . $keyword);
 
-        $this->assertSame(Tokens::T_OBJECT_OPERATOR, $lexer->getNextToken());
-        $this->assertSame(Tokens::T_STRING, $lexer->getNextToken());
-        $this->assertSame(0, $lexer->getNextToken());
+        $tokenContainer = $lexer->getNextToken();
+        $this->assertSame(Tokens::T_OBJECT_OPERATOR, $tokenContainer->id);
+        $tokenContainer = $lexer->getNextToken();
+        $this->assertSame(Tokens::T_STRING, $tokenContainer->id);
+        $tokenContainer = $lexer->getNextToken();
+        $this->assertSame(0, $tokenContainer->id);
     }
 
     public function provideTestReplaceKeywords() {
@@ -65,10 +70,13 @@ class EmulativeTest extends LexerTest
 
         foreach ($expectedTokens as $expectedToken) {
             list($expectedTokenType, $expectedTokenText) = $expectedToken;
-            $this->assertSame($expectedTokenType, $lexer->getNextToken($text));
-            $this->assertSame($expectedTokenText, $text);
+            $tokenContainer = $lexer->getNextToken();
+            $this->assertSame($expectedTokenType, $tokenContainer->id);
+            $this->assertSame($expectedTokenText, $tokenContainer->value);
         }
-        $this->assertSame(0, $lexer->getNextToken());
+
+        $tokenContainer = $lexer->getNextToken();
+        $this->assertSame(0, $tokenContainer->id);
     }
 
     /**
@@ -80,9 +88,12 @@ class EmulativeTest extends LexerTest
         $lexer = $this->getLexer();
         $lexer->startLexing('<?php ' . $stringifiedToken);
 
-        $this->assertSame(Tokens::T_CONSTANT_ENCAPSED_STRING, $lexer->getNextToken($text));
-        $this->assertSame($stringifiedToken, $text);
-        $this->assertSame(0, $lexer->getNextToken());
+        $tokenContainer = $lexer->getNextToken();
+        $this->assertSame(Tokens::T_CONSTANT_ENCAPSED_STRING, $tokenContainer->id);
+        $this->assertSame($stringifiedToken, $tokenContainer->value);
+
+        $tokenContainer = $lexer->getNextToken();
+        $this->assertSame(0, $tokenContainer->id);
     }
 
     public function provideTestLexNewFeatures() {

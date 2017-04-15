@@ -223,15 +223,11 @@ class Lexer
      *  * 'startFilePos'  => Offset into the code string of the first character that is part of the node.
      *  * 'endFilePos'    => Offset into the code string of the last character that is part of the node.
      *
-     * @param mixed $value           Variable to store token content in
-     * @param mixed $startAttributes Variable to store start attributes in
-     * @param mixed $endAttributes   Variable to store end attributes in
-     *
-     * @return int Token id
+     * @return Lexer\TokenContainer
      */
-    public function getNextToken(&$value = null, &$startAttributes = null, &$endAttributes = null) {
-        $startAttributes = array();
-        $endAttributes   = array();
+    public function getNextToken() {
+        $startAttributes = [];
+        $endAttributes = [];
 
         while (1) {
             if (isset($this->tokens[++$this->pos])) {
@@ -297,7 +293,13 @@ class Lexer
                 $endAttributes['endFilePos'] = $this->filePos - 1;
             }
 
-            return $id;
+            $tokenContainer = new Lexer\TokenContainer();
+            $tokenContainer->id = $id;
+            $tokenContainer->startAttributes = $startAttributes;
+            $tokenContainer->endAttributes = $endAttributes;
+            $tokenContainer->value = $value;
+
+            return $tokenContainer;
         }
 
         throw new \RuntimeException('Reached end of lexer loop');
