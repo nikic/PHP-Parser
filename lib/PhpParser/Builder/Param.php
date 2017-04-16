@@ -16,6 +16,8 @@ class Param extends PhpParser\BuilderAbstract
 
     protected $byRef = false;
 
+    protected $variadic = false;
+
     /**
      * Creates a parameter builder.
      *
@@ -66,6 +68,17 @@ class Param extends PhpParser\BuilderAbstract
     }
 
     /**
+     * Make the parameter variadic
+     *
+     * @return $this The builder instance (for fluid interface)
+     */
+    public function makeVariadic() {
+        $this->variadic = true;
+
+        return $this;
+    }
+
+    /**
      * Returns the built parameter node.
      *
      * @return Node\Param The built parameter node
@@ -73,7 +86,7 @@ class Param extends PhpParser\BuilderAbstract
     public function getNode() {
         return new Node\Param(
             new Node\Expr\Variable($this->name),
-            $this->default, $this->type, $this->byRef
+            $this->default, $this->type, $this->byRef, $this->variadic
         );
     }
 }
