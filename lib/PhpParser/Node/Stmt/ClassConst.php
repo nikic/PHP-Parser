@@ -30,7 +30,7 @@ class ClassConst extends Node\Stmt
 
     public function isPublic() {
         return ($this->flags & Class_::MODIFIER_PUBLIC) !== 0
-            || ($this->flags & Class_::VISIBILITY_MODIFER_MASK) === 0;
+            || ($this->flags & Class_::VISIBILITY_MODIFIER_MASK) === 0;
     }
 
     public function isProtected() {
