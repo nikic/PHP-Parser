@@ -7,6 +7,24 @@ use PhpParser\Node\FunctionLike;
 
 class ClassMethod extends Node\Stmt implements FunctionLike
 {
+    const MAGIC_NAMES = array(
+        '__construct',
+        '__destruct',
+        '__call',
+        '__callstatic',
+        '__get',
+        '__set',
+        '__isset',
+        '__unset',
+        '__sleep',
+        '__wakeup',
+        '__tostring',
+        '__set_state',
+        '__clone',
+        '__invoke',
+        '__debuginfo',
+    );
+
     /** @var int Flags */
     public $flags;
     /** @var bool Whether to return by reference */
@@ -116,5 +134,14 @@ class ClassMethod extends Node\Stmt implements FunctionLike
      */
     public function isStatic() {
         return (bool) ($this->flags & Class_::MODIFIER_STATIC);
+    }
+
+    /**
+     * Whether the method is magic.
+     *
+     * @return bool
+     */
+    public function isMagic() {
+        return (bool) in_array($this->name, static::MAGIC_NAMES);
     }
 }
