@@ -20,6 +20,24 @@ class ClassMethod extends Node\Stmt implements FunctionLike
     /** @var Node\Stmt[] Statements */
     public $stmts;
 
+    protected static $magicNames = array(
+        '__construct'  => true,
+        '__destruct'   => true,
+        '__call'       => true,
+        '__callstatic' => true,
+        '__get'        => true,
+        '__set'        => true,
+        '__isset'      => true,
+        '__unset'      => true,
+        '__sleep'      => true,
+        '__wakeup'     => true,
+        '__tostring'   => true,
+        '__set_state'  => true,
+        '__clone'      => true,
+        '__invoke'     => true,
+        '__debuginfo'  => true,
+    );
+
     /**
      * Constructs a class method node.
      *
@@ -116,5 +134,14 @@ class ClassMethod extends Node\Stmt implements FunctionLike
      */
     public function isStatic() {
         return (bool) ($this->flags & Class_::MODIFIER_STATIC);
+    }
+
+    /**
+     * Whether the method is magic.
+     *
+     * @return bool
+     */
+    public function isMagic() {
+        return (bool) isset(static::$magicNames[strtolower($this->name)]);
     }
 }
