@@ -7,24 +7,6 @@ use PhpParser\Node\FunctionLike;
 
 class ClassMethod extends Node\Stmt implements FunctionLike
 {
-    const MAGIC_NAMES = array(
-        '__construct',
-        '__destruct',
-        '__call',
-        '__callstatic',
-        '__get',
-        '__set',
-        '__isset',
-        '__unset',
-        '__sleep',
-        '__wakeup',
-        '__tostring',
-        '__set_state',
-        '__clone',
-        '__invoke',
-        '__debuginfo',
-    );
-
     /** @var int Flags */
     public $flags;
     /** @var bool Whether to return by reference */
@@ -37,6 +19,24 @@ class ClassMethod extends Node\Stmt implements FunctionLike
     public $returnType;
     /** @var Node\Stmt[] Statements */
     public $stmts;
+
+    protected static $magicNames = array(
+        '__construct'  => true,
+        '__destruct'   => true,
+        '__call'       => true,
+        '__callstatic' => true,
+        '__get'        => true,
+        '__set'        => true,
+        '__isset'      => true,
+        '__unset'      => true,
+        '__sleep'      => true,
+        '__wakeup'     => true,
+        '__tostring'   => true,
+        '__set_state'  => true,
+        '__clone'      => true,
+        '__invoke'     => true,
+        '__debuginfo'  => true,
+    );
 
     /**
      * Constructs a class method node.
@@ -142,6 +142,6 @@ class ClassMethod extends Node\Stmt implements FunctionLike
      * @return bool
      */
     public function isMagic() {
-        return (bool) in_array($this->name, static::MAGIC_NAMES);
+        return (bool) isset(static::$magicNames[strtolower($this->name)]);
     }
 }
