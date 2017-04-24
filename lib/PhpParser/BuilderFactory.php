@@ -3,6 +3,9 @@
 namespace PhpParser;
 
 use PhpParser\Builder;
+use PhpParser\Node\Expr;
+use PhpParser\Node\Expr\BinaryOp\Concat;
+use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt\Use_;
 
 /**
@@ -120,12 +123,32 @@ class BuilderFactory
     /**
      * Creates node a for a literal value.
      *
-     * @param Node\Expr|bool|null|int|float|string|array $value $value
+     * @param Expr|bool|null|int|float|string|array $value $value
      *
-     * @return Node\Expr
+     * @return Expr
      */
     public function val($value) {
         return BuilderHelpers::normalizeValue($value);
+    }
+
+    /**
+     * Creates nested Concat nodes from a list of expressions.
+     *
+     * @param Expr|string ...$exprs Expressions or literal strings
+     *
+     * @return Concat
+     */
+    public function concat(...$exprs) {
+        $numExprs = count($exprs);
+        if ($numExprs < 2) {
+            throw new \LogicException('Expected at least two expressions');
+        }
+
+        $lastConcat = $this->normalizeStringExpr($exprs[0]);
+        for ($i = 1; $i < $numExprs; $i++) {
+            $lastConcat = new Concat($lastConcat, $this->normalizeStringExpr($exprs[$i]));
+        }
+        return $lastConcat;
     }
 
     public function __call($name, array $args) {
@@ -134,5 +157,17 @@ class BuilderFactory
         }
 
         throw new \LogicException(sprintf('Method "%s" does not exist', $name));
+    }
+
+    private function normalizeStringExpr($expr) {
+        if ($expr instanceof Expr) {
+            return $expr;
+        }
+
+        if (is_string($expr)) {
+            return new String_($expr);
+        }
+
+        throw new \LogicException('Expected string or Expr');
     }
 }

@@ -3,6 +3,7 @@
 namespace PhpParser;
 
 use PhpParser\Node\Expr;
+use PhpParser\Node\Expr\BinaryOp\Concat;
 use PhpParser\Node\Scalar\String_;
 
 class BuilderFactoryTest extends \PHPUnit_Framework_TestCase
@@ -43,6 +44,42 @@ class BuilderFactoryTest extends \PHPUnit_Framework_TestCase
             new String_("foo"),
             $factory->val("foo")
         );
+    }
+
+    public function testConcat() {
+        $factory = new BuilderFactory();
+        $varA = new Expr\Variable('a');
+        $varB = new Expr\Variable('b');
+        $varC = new Expr\Variable('c');
+
+        $this->assertEquals(
+            new Concat($varA, $varB),
+            $factory->concat($varA, $varB)
+        );
+        $this->assertEquals(
+            new Concat(new Concat($varA, $varB), $varC),
+            $factory->concat($varA, $varB, $varC)
+        );
+        $this->assertEquals(
+            new Concat(new Concat(new String_("a"), $varB), new String_("c")),
+            $factory->concat("a", $varB, "c")
+        );
+    }
+
+    /**
+     * @expectedException \LogicException
+     * @expectedExceptionMessage Expected at least two expressions
+     */
+    public function testConcatOneError() {
+        (new BuilderFactory())->concat("a");
+    }
+
+    /**
+     * @expectedException \LogicException
+     * @expectedExceptionMessage Expected string or Expr
+     */
+    public function testConcatInvalidExpr() {
+        (new BuilderFactory())->concat("a", 42);
     }
 
     public function testIntegration() {
