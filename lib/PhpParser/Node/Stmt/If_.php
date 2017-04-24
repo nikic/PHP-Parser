@@ -28,9 +28,9 @@ class If_ extends Node\Stmt
     public function __construct(Node\Expr $cond, array $subNodes = array(), array $attributes = array()) {
         parent::__construct($attributes);
         $this->cond = $cond;
-        $this->stmts = isset($subNodes['stmts']) ? $subNodes['stmts'] : array();
-        $this->elseifs = isset($subNodes['elseifs']) ? $subNodes['elseifs'] : array();
-        $this->else = isset($subNodes['else']) ? $subNodes['else'] : null;
+        $this->stmts = $subNodes['stmts'] ?? array();
+        $this->elseifs = $subNodes['elseifs'] ?? array();
+        $this->else = $subNodes['else'] ?? null;
     }
 
     public function getSubNodeNames() {

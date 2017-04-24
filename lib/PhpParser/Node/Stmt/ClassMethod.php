@@ -52,12 +52,11 @@ class ClassMethod extends Node\Stmt implements FunctionLike
      */
     public function __construct($name, array $subNodes = array(), array $attributes = array()) {
         parent::__construct($attributes);
-        $this->flags = isset($subNodes['flags']) ? $subNodes['flags']
-            : (isset($subNodes['type']) ? $subNodes['type'] : 0);
-        $this->byRef = isset($subNodes['byRef'])  ? $subNodes['byRef']  : false;
+        $this->flags = $subNodes['flags'] ?? $subNodes['type'] ?? 0;
+        $this->byRef = $subNodes['byRef'] ?? false;
         $this->name = $name;
-        $this->params = isset($subNodes['params']) ? $subNodes['params'] : array();
-        $this->returnType = isset($subNodes['returnType']) ? $subNodes['returnType'] : null;
+        $this->params = $subNodes['params'] ?? array();
+        $this->returnType = $subNodes['returnType'] ?? null;
         $this->stmts = array_key_exists('stmts', $subNodes) ? $subNodes['stmts'] : array();
     }
 

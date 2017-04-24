@@ -43,8 +43,8 @@ class NameResolver extends NodeVisitorAbstract
      */
     public function __construct(ErrorHandler $errorHandler = null, array $options = []) {
         $this->errorHandler = $errorHandler ?: new ErrorHandler\Throwing;
-        $this->preserveOriginalNames = !empty($options['preserveOriginalNames']);
-        $this->replaceNodes = isset($options['replaceNodes']) ? $options['replaceNodes'] : true;
+        $this->preserveOriginalNames = $options['preserveOriginalNames'] ?? false;
+        $this->replaceNodes = $options['replaceNodes'] ?? true;
     }
 
     public function beforeTraverse(array $nodes) {

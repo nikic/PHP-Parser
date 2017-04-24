@@ -44,12 +44,11 @@ class Class_ extends ClassLike
      */
     public function __construct($name, array $subNodes = array(), array $attributes = array()) {
         parent::__construct($attributes);
-        $this->flags = isset($subNodes['flags']) ? $subNodes['flags']
-            : (isset($subNodes['type']) ? $subNodes['type'] : 0);
+        $this->flags = $subNodes['flags'] ?? $subNodes['type'] ?? 0;
         $this->name = $name;
-        $this->extends = isset($subNodes['extends']) ? $subNodes['extends'] : null;
-        $this->implements = isset($subNodes['implements']) ? $subNodes['implements'] : array();
-        $this->stmts = isset($subNodes['stmts']) ? $subNodes['stmts'] : array();
+        $this->extends = $subNodes['extends'] ?? null;
+        $this->implements = $subNodes['implements'] ?? array();
+        $this->stmts = $subNodes['stmts'] ?? array();
     }
 
     public function getSubNodeNames() {

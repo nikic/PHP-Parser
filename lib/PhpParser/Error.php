@@ -39,7 +39,7 @@ class Error extends \RuntimeException
      * @return int Error start line
      */
     public function getStartLine() {
-        return isset($this->attributes['startLine']) ? $this->attributes['startLine'] : -1;
+        return $this->attributes['startLine'] ?? -1;
     }
 
     /**
@@ -48,7 +48,7 @@ class Error extends \RuntimeException
      * @return int Error end line
      */
     public function getEndLine() {
-        return isset($this->attributes['endLine']) ? $this->attributes['endLine'] : -1;
+        return $this->attributes['endLine'] ?? -1;
     }
 
 

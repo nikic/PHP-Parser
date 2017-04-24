@@ -21,8 +21,8 @@ class Interface_ extends ClassLike
     public function __construct($name, array $subNodes = array(), array $attributes = array()) {
         parent::__construct($attributes);
         $this->name = $name;
-        $this->extends = isset($subNodes['extends']) ? $subNodes['extends'] : array();
-        $this->stmts = isset($subNodes['stmts']) ? $subNodes['stmts'] : array();
+        $this->extends = $subNodes['extends'] ?? array();
+        $this->stmts = $subNodes['stmts'] ?? array();
     }
 
     public function getSubNodeNames() {

@@ -35,12 +35,12 @@ class Closure extends Expr implements FunctionLike
      */
     public function __construct(array $subNodes = array(), array $attributes = array()) {
         parent::__construct($attributes);
-        $this->static = isset($subNodes['static']) ? $subNodes['static'] : false;
-        $this->byRef = isset($subNodes['byRef']) ? $subNodes['byRef'] : false;
-        $this->params = isset($subNodes['params']) ? $subNodes['params'] : array();
-        $this->uses = isset($subNodes['uses']) ? $subNodes['uses'] : array();
-        $this->returnType = isset($subNodes['returnType']) ? $subNodes['returnType'] : null;
-        $this->stmts = isset($subNodes['stmts']) ? $subNodes['stmts'] : array();
+        $this->static = $subNodes['static'] ?? false;
+        $this->byRef = $subNodes['byRef'] ?? false;
+        $this->params = $subNodes['params'] ?? array();
+        $this->uses = $subNodes['uses'] ?? array();
+        $this->returnType = $subNodes['returnType'] ?? null;
+        $this->stmts = $subNodes['stmts'] ?? array();
     }
 
     public function getSubNodeNames() {

@@ -34,11 +34,11 @@ class Function_ extends Node\Stmt implements FunctionLike
      */
     public function __construct($name, array $subNodes = array(), array $attributes = array()) {
         parent::__construct($attributes);
-        $this->byRef = isset($subNodes['byRef']) ? $subNodes['byRef'] : false;
+        $this->byRef = $subNodes['byRef'] ?? false;
         $this->name = $name;
-        $this->params = isset($subNodes['params']) ? $subNodes['params'] : array();
-        $this->returnType = isset($subNodes['returnType']) ? $subNodes['returnType'] : null;
-        $this->stmts = isset($subNodes['stmts']) ? $subNodes['stmts'] : array();
+        $this->params = $subNodes['params'] ?? array();
+        $this->returnType = $subNodes['returnType'] ?? null;
+        $this->stmts = $subNodes['stmts'] ?? array();
     }
 
     public function getSubNodeNames() {
