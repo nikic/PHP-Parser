@@ -49,8 +49,8 @@ class Class_ extends Declaration
      *
      * @return $this The builder instance (for fluid interface)
      */
-    public function implement() {
-        foreach (func_get_args() as $interface) {
+    public function implement(...$interfaces) {
+        foreach ($interfaces as $interface) {
             $this->implements[] = BuilderHelpers::normalizeName($interface);
         }
 
