@@ -9,7 +9,12 @@ use PhpParser\Node\NullableType;
 use PhpParser\Node\Scalar;
 use PhpParser\Node\Stmt;
 
-abstract class BuilderAbstract implements Builder {
+/**
+ * This class defines helpers used in the implementation of builders. Don't use it directly.
+ *
+ * @internal
+ */
+final class BuilderHelpers {
     /**
      * Normalizes a node: Converts builder objects to nodes.
      *
@@ -17,7 +22,7 @@ abstract class BuilderAbstract implements Builder {
      *
      * @return Node The normalized node
      */
-    protected function normalizeNode($node) {
+    public static function normalizeNode($node) {
         if ($node instanceof Builder) {
             return $node->getNode();
         } elseif ($node instanceof Node) {
@@ -36,8 +41,8 @@ abstract class BuilderAbstract implements Builder {
      *
      * @return Stmt The normalized statement node
      */
-    protected function normalizeStmt($node) {
-        $node = $this->normalizeNode($node);
+    public static function normalizeStmt($node) {
+        $node = self::normalizeNode($node);
         if ($node instanceof Stmt) {
             return $node;
         }
@@ -56,7 +61,7 @@ abstract class BuilderAbstract implements Builder {
      *
      * @return Name The normalized name
      */
-    protected function normalizeName($name) {
+    public static function normalizeName($name) {
         if ($name instanceof Name) {
             return $name;
         } elseif (is_string($name)) {
@@ -86,7 +91,7 @@ abstract class BuilderAbstract implements Builder {
      *
      * @return Name|string|NullableType The normalized type
      */
-    protected function normalizeType($type) {
+    public static function normalizeType($type) {
         if (!is_string($type)) {
             if (!$type instanceof Name && !$type instanceof NullableType) {
                 throw new \LogicException(
@@ -109,7 +114,7 @@ abstract class BuilderAbstract implements Builder {
         if (in_array($lowerType, $builtinTypes)) {
             $type = $lowerType;
         } else {
-            $type = $this->normalizeName($type);
+            $type = self::normalizeName($type);
         }
 
         if ($nullable && $type === 'void') {
@@ -127,7 +132,7 @@ abstract class BuilderAbstract implements Builder {
      *
      * @return Expr The normalized value
      */
-    protected function normalizeValue($value) {
+    public static function normalizeValue($value) {
         if ($value instanceof Node\Expr) {
             return $value;
         } elseif (is_null($value)) {
@@ -151,13 +156,13 @@ abstract class BuilderAbstract implements Builder {
                 // for consecutive, numeric keys don't generate keys
                 if (null !== $lastKey && ++$lastKey === $itemKey) {
                     $items[] = new Expr\ArrayItem(
-                        $this->normalizeValue($itemValue)
+                        self::normalizeValue($itemValue)
                     );
                 } else {
                     $lastKey = null;
                     $items[] = new Expr\ArrayItem(
-                        $this->normalizeValue($itemValue),
-                        $this->normalizeValue($itemKey)
+                        self::normalizeValue($itemValue),
+                        self::normalizeValue($itemKey)
                     );
                 }
             }
@@ -175,7 +180,7 @@ abstract class BuilderAbstract implements Builder {
      *
      * @return Comment\Doc The normalized doc comment
      */
-    protected function normalizeDocComment($docComment) {
+    public static function normalizeDocComment($docComment) {
         if ($docComment instanceof Comment\Doc) {
             return $docComment;
         } else if (is_string($docComment)) {
@@ -193,7 +198,7 @@ abstract class BuilderAbstract implements Builder {
      *
      * @return int New modifiers
      */
-    protected function addModifier($modifiers, $modifier) {
+    public static function addModifier($modifiers, $modifier) {
         Stmt\Class_::verifyModifier($modifiers, $modifier);
         return $modifiers | $modifier;
     }

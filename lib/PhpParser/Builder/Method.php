@@ -3,6 +3,7 @@
 namespace PhpParser\Builder;
 
 use PhpParser;
+use PhpParser\BuilderHelpers;
 use PhpParser\Node;
 use PhpParser\Node\Stmt;
 
@@ -29,7 +30,7 @@ class Method extends FunctionLike
      * @return $this The builder instance (for fluid interface)
      */
     public function makePublic() {
-        $this->flags = $this->addModifier($this->flags, Stmt\Class_::MODIFIER_PUBLIC);
+        $this->flags = BuilderHelpers::addModifier($this->flags, Stmt\Class_::MODIFIER_PUBLIC);
 
         return $this;
     }
@@ -40,7 +41,7 @@ class Method extends FunctionLike
      * @return $this The builder instance (for fluid interface)
      */
     public function makeProtected() {
-        $this->flags = $this->addModifier($this->flags, Stmt\Class_::MODIFIER_PROTECTED);
+        $this->flags = BuilderHelpers::addModifier($this->flags, Stmt\Class_::MODIFIER_PROTECTED);
 
         return $this;
     }
@@ -51,7 +52,7 @@ class Method extends FunctionLike
      * @return $this The builder instance (for fluid interface)
      */
     public function makePrivate() {
-        $this->flags = $this->addModifier($this->flags, Stmt\Class_::MODIFIER_PRIVATE);
+        $this->flags = BuilderHelpers::addModifier($this->flags, Stmt\Class_::MODIFIER_PRIVATE);
 
         return $this;
     }
@@ -62,7 +63,7 @@ class Method extends FunctionLike
      * @return $this The builder instance (for fluid interface)
      */
     public function makeStatic() {
-        $this->flags = $this->addModifier($this->flags, Stmt\Class_::MODIFIER_STATIC);
+        $this->flags = BuilderHelpers::addModifier($this->flags, Stmt\Class_::MODIFIER_STATIC);
 
         return $this;
     }
@@ -77,7 +78,7 @@ class Method extends FunctionLike
             throw new \LogicException('Cannot make method with statements abstract');
         }
 
-        $this->flags = $this->addModifier($this->flags, Stmt\Class_::MODIFIER_ABSTRACT);
+        $this->flags = BuilderHelpers::addModifier($this->flags, Stmt\Class_::MODIFIER_ABSTRACT);
         $this->stmts = null; // abstract methods don't have statements
 
         return $this;
@@ -89,7 +90,7 @@ class Method extends FunctionLike
      * @return $this The builder instance (for fluid interface)
      */
     public function makeFinal() {
-        $this->flags = $this->addModifier($this->flags, Stmt\Class_::MODIFIER_FINAL);
+        $this->flags = BuilderHelpers::addModifier($this->flags, Stmt\Class_::MODIFIER_FINAL);
 
         return $this;
     }
@@ -106,7 +107,7 @@ class Method extends FunctionLike
             throw new \LogicException('Cannot add statements to an abstract method');
         }
 
-        $this->stmts[] = $this->normalizeStmt($stmt);
+        $this->stmts[] = BuilderHelpers::normalizeStmt($stmt);
 
         return $this;
     }

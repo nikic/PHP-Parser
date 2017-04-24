@@ -3,6 +3,7 @@
 namespace PhpParser\Builder;
 
 use PhpParser;
+use PhpParser\BuilderHelpers;
 use PhpParser\Node\Stmt;
 
 class Trait_ extends Declaration
@@ -28,7 +29,7 @@ class Trait_ extends Declaration
      * @return $this The builder instance (for fluid interface)
      */
     public function addStmt($stmt) {
-        $stmt = $this->normalizeNode($stmt);
+        $stmt = BuilderHelpers::normalizeNode($stmt);
 
         if ($stmt instanceof Stmt\Property) {
             $this->properties[] = $stmt;

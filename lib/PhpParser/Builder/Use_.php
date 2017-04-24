@@ -2,14 +2,15 @@
 
 namespace PhpParser\Builder;
 
-use PhpParser\BuilderAbstract;
+use PhpParser\Builder;
+use PhpParser\BuilderHelpers;
 use PhpParser\Node;
 use PhpParser\Node\Stmt;
 
 /**
  * @method $this as(string $alias) Sets alias for used name.
  */
-class Use_ extends BuilderAbstract {
+class Use_ implements Builder {
     protected $name;
     protected $type;
     protected $alias = null;
@@ -21,7 +22,7 @@ class Use_ extends BuilderAbstract {
      * @param int              $type One of the Stmt\Use_::TYPE_* constants
      */
     public function __construct($name, $type) {
-        $this->name = $this->normalizeName($name);
+        $this->name = BuilderHelpers::normalizeName($name);
         $this->type = $type;
     }
 

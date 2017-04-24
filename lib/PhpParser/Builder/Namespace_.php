@@ -3,10 +3,11 @@
 namespace PhpParser\Builder;
 
 use PhpParser;
+use PhpParser\BuilderHelpers;
 use PhpParser\Node;
 use PhpParser\Node\Stmt;
 
-class Namespace_ extends PhpParser\BuilderAbstract
+class Namespace_ implements PhpParser\Builder
 {
     private $name;
     private $stmts = array();
@@ -17,7 +18,7 @@ class Namespace_ extends PhpParser\BuilderAbstract
      * @param Node\Name|string|null $name Name of the namespace
      */
     public function __construct($name) {
-        $this->name = null !== $name ? $this->normalizeName($name) : null;
+        $this->name = null !== $name ? BuilderHelpers::normalizeName($name) : null;
     }
 
     /**
@@ -28,7 +29,7 @@ class Namespace_ extends PhpParser\BuilderAbstract
      * @return $this The builder instance (for fluid interface)
      */
     public function addStmt($stmt) {
-        $this->stmts[] = $this->normalizeStmt($stmt);
+        $this->stmts[] = BuilderHelpers::normalizeStmt($stmt);
 
         return $this;
     }

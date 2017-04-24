@@ -3,6 +3,7 @@
 namespace PhpParser\Builder;
 
 use PhpParser;
+use PhpParser\BuilderHelpers;
 use PhpParser\Node;
 use PhpParser\Node\Stmt;
 
@@ -28,7 +29,7 @@ class Function_ extends FunctionLike
      * @return $this The builder instance (for fluid interface)
      */
     public function addStmt($stmt) {
-        $this->stmts[] = $this->normalizeStmt($stmt);
+        $this->stmts[] = BuilderHelpers::normalizeStmt($stmt);
 
         return $this;
     }

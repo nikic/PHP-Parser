@@ -3,6 +3,7 @@
 namespace PhpParser\Builder;
 
 use PhpParser;
+use PhpParser\BuilderHelpers;
 use PhpParser\Node;
 
 abstract class FunctionLike extends Declaration
@@ -32,7 +33,7 @@ abstract class FunctionLike extends Declaration
      * @return $this The builder instance (for fluid interface)
      */
     public function addParam($param) {
-        $param = $this->normalizeNode($param);
+        $param = BuilderHelpers::normalizeNode($param);
 
         if (!$param instanceof Node\Param) {
             throw new \LogicException(sprintf('Expected parameter node, got "%s"', $param->getType()));
@@ -61,14 +62,13 @@ abstract class FunctionLike extends Declaration
     /**
      * Sets the return type for PHP 7.
      *
-     * @param string|Node\Name|Node\NullableType $type One of array, callable, string, int, float, bool, iterable,
-     *                               or a class/interface name.
+     * @param string|Node\Name|Node\NullableType $type One of array, callable, string, int, float,
+     *                                                 bool, iterable, or a class/interface name.
      *
      * @return $this The builder instance (for fluid interface)
      */
-    public function setReturnType($type)
-    {
-        $this->returnType = $this->normalizeType($type);
+    public function setReturnType($type) {
+        $this->returnType = BuilderHelpers::normalizeType($type);
 
         return $this;
     }
