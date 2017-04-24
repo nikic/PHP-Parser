@@ -117,6 +117,17 @@ class BuilderFactory
         return new Builder\Use_($name, Use_::TYPE_NORMAL);
     }
 
+    /**
+     * Creates node a for a literal value.
+     *
+     * @param Node\Expr|bool|null|int|float|string|array $value $value
+     *
+     * @return Node\Expr
+     */
+    public function val($value) {
+        return BuilderHelpers::normalizeValue($value);
+    }
+
     public function __call($name, array $args) {
         if (method_exists($this, '_' . $name)) {
             return $this->{'_' . $name}(...$args);

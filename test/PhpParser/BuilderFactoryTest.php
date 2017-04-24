@@ -3,6 +3,7 @@
 namespace PhpParser;
 
 use PhpParser\Node\Expr;
+use PhpParser\Node\Scalar\String_;
 
 class BuilderFactoryTest extends \PHPUnit_Framework_TestCase
 {
@@ -32,6 +33,16 @@ class BuilderFactoryTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException('LogicException', 'Method "foo" does not exist');
         $factory = new BuilderFactory();
         $factory->foo();
+    }
+
+    public function testVal() {
+        // This method is a wrapper around BuilderHelpers::normalizeValue(),
+        // which is already tested elsewhere
+        $factory = new BuilderFactory();
+        $this->assertEquals(
+            new String_("foo"),
+            $factory->val("foo")
+        );
     }
 
     public function testIntegration() {
