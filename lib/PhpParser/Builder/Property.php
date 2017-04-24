@@ -28,7 +28,7 @@ class Property extends PhpParser\BuilderAbstract
      * @return $this The builder instance (for fluid interface)
      */
     public function makePublic() {
-        $this->setModifier(Stmt\Class_::MODIFIER_PUBLIC);
+        $this->flags = $this->addModifier($this->flags, Stmt\Class_::MODIFIER_PUBLIC);
 
         return $this;
     }
@@ -39,7 +39,7 @@ class Property extends PhpParser\BuilderAbstract
      * @return $this The builder instance (for fluid interface)
      */
     public function makeProtected() {
-        $this->setModifier(Stmt\Class_::MODIFIER_PROTECTED);
+        $this->flags = $this->addModifier($this->flags, Stmt\Class_::MODIFIER_PROTECTED);
 
         return $this;
     }
@@ -50,7 +50,7 @@ class Property extends PhpParser\BuilderAbstract
      * @return $this The builder instance (for fluid interface)
      */
     public function makePrivate() {
-        $this->setModifier(Stmt\Class_::MODIFIER_PRIVATE);
+        $this->flags = $this->addModifier($this->flags, Stmt\Class_::MODIFIER_PRIVATE);
 
         return $this;
     }
@@ -61,7 +61,7 @@ class Property extends PhpParser\BuilderAbstract
      * @return $this The builder instance (for fluid interface)
      */
     public function makeStatic() {
-        $this->setModifier(Stmt\Class_::MODIFIER_STATIC);
+        $this->flags = $this->addModifier($this->flags, Stmt\Class_::MODIFIER_STATIC);
 
         return $this;
     }

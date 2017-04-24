@@ -10,8 +10,6 @@ use PhpParser\Node\Scalar;
 use PhpParser\Node\Stmt;
 
 abstract class BuilderAbstract implements Builder {
-    protected $flags;
-
     /**
      * Normalizes a node: Converts builder objects to nodes.
      *
@@ -188,12 +186,15 @@ abstract class BuilderAbstract implements Builder {
     }
 
     /**
-     * Sets a modifier in the $this->type property.
+     * Adds a modifier and returns new modifier bitmask.
      *
-     * @param int $modifier Modifier to set
+     * @param int $modifiers Existing modifiers
+     * @param int $modifier  Modifier to set
+     *
+     * @return int New modifiers
      */
-    protected function setModifier($modifier) {
-        Stmt\Class_::verifyModifier($this->flags, $modifier);
-        $this->flags |= $modifier;
+    protected function addModifier($modifiers, $modifier) {
+        Stmt\Class_::verifyModifier($modifiers, $modifier);
+        return $modifiers | $modifier;
     }
 }

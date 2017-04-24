@@ -62,7 +62,7 @@ class Class_ extends Declaration
      * @return $this The builder instance (for fluid interface)
      */
     public function makeAbstract() {
-        $this->setModifier(Stmt\Class_::MODIFIER_ABSTRACT);
+        $this->flags = $this->addModifier($this->flags, Stmt\Class_::MODIFIER_ABSTRACT);
 
         return $this;
     }
@@ -73,7 +73,7 @@ class Class_ extends Declaration
      * @return $this The builder instance (for fluid interface)
      */
     public function makeFinal() {
-        $this->setModifier(Stmt\Class_::MODIFIER_FINAL);
+        $this->flags = $this->addModifier($this->flags, Stmt\Class_::MODIFIER_FINAL);
 
         return $this;
     }
