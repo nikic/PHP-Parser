@@ -2,7 +2,9 @@
 
 namespace PhpParser\Node\Scalar;
 
-class StringTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class StringTest extends TestCase
 {
     /**
      * @dataProvider provideTestParseEscapeSequences

@@ -3,8 +3,9 @@
 namespace PhpParser;
 
 use PhpParser\Parser\Tokens;
+use PHPUnit\Framework\TestCase;
 
-class LexerTest extends \PHPUnit_Framework_TestCase
+class LexerTest extends TestCase
 {
     /* To allow overwriting in parent class */
     protected function getLexer(array $options = array()) {

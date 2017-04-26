@@ -6,8 +6,9 @@ use PhpParser\Comment;
 use PhpParser\Node;
 use PhpParser\Node\Scalar\DNumber;
 use PhpParser\Node\Stmt;
+use PHPUnit\Framework\TestCase;
 
-class InterfaceTest extends \PHPUnit_Framework_TestCase
+class InterfaceTest extends TestCase
 {
     /** @var Interface_ */
     protected $builder;
