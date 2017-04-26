@@ -177,7 +177,7 @@ class NodeTraverserTest extends \PHPUnit_Framework_TestCase
         $visitor = $this->getMockBuilder('PhpParser\NodeVisitor')->getMock();
         $visitor->expects($this->at(1))->method('enterNode')->with($mulNode)
             ->will($this->returnValue(NodeTraverser::STOP_TRAVERSAL));
-        $visitor->expects($this->at(2))->method('afterTraversal');
+        $visitor->expects($this->at(2))->method('afterTraverse');
         $traverser = new NodeTraverser;
         $traverser->addVisitor($visitor);
         $this->assertEquals($stmts, $traverser->traverse($stmts));
@@ -186,7 +186,7 @@ class NodeTraverserTest extends \PHPUnit_Framework_TestCase
         $visitor = $this->getMockBuilder('PhpParser\NodeVisitor')->getMock();
         $visitor->expects($this->at(2))->method('enterNode')->with($varNode1)
             ->will($this->returnValue(NodeTraverser::STOP_TRAVERSAL));
-        $visitor->expects($this->at(3))->method('afterTraversal');
+        $visitor->expects($this->at(3))->method('afterTraverse');
         $traverser = new NodeTraverser;
         $traverser->addVisitor($visitor);
         $this->assertEquals($stmts, $traverser->traverse($stmts));
@@ -195,7 +195,7 @@ class NodeTraverserTest extends \PHPUnit_Framework_TestCase
         $visitor = $this->getMockBuilder('PhpParser\NodeVisitor')->getMock();
         $visitor->expects($this->at(3))->method('leaveNode')->with($varNode1)
             ->will($this->returnValue(NodeTraverser::STOP_TRAVERSAL));
-        $visitor->expects($this->at(4))->method('afterTraversal');
+        $visitor->expects($this->at(4))->method('afterTraverse');
         $traverser = new NodeTraverser;
         $traverser->addVisitor($visitor);
         $this->assertEquals($stmts, $traverser->traverse($stmts));
@@ -204,7 +204,7 @@ class NodeTraverserTest extends \PHPUnit_Framework_TestCase
         $visitor = $this->getMockBuilder('PhpParser\NodeVisitor')->getMock();
         $visitor->expects($this->at(6))->method('leaveNode')->with($mulNode)
             ->will($this->returnValue(NodeTraverser::STOP_TRAVERSAL));
-        $visitor->expects($this->at(7))->method('afterTraversal');
+        $visitor->expects($this->at(7))->method('afterTraverse');
         $traverser = new NodeTraverser;
         $traverser->addVisitor($visitor);
         $this->assertEquals($stmts, $traverser->traverse($stmts));
@@ -215,7 +215,7 @@ class NodeTraverserTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(NodeTraverser::REMOVE_NODE));
         $visitor->expects($this->at(7))->method('enterNode')->with($printNode)
             ->will($this->returnValue(NodeTraverser::STOP_TRAVERSAL));
-        $visitor->expects($this->at(8))->method('afterTraversal');
+        $visitor->expects($this->at(8))->method('afterTraverse');
         $traverser = new NodeTraverser;
         $traverser->addVisitor($visitor);
         $this->assertEquals([$printNode], $traverser->traverse($stmts));
