@@ -708,7 +708,7 @@ abstract class ParserAbstract implements Parser
      *
      * @return LNumber|String_ Integer or string node.
      */
-    protected function parseNumString($str, $attributes) {
+    protected function parseNumString($str, array $attributes) {
         if (!preg_match('/^(?:0|-?[1-9][0-9]*)$/', $str)) {
             return new String_($str, $attributes);
         }

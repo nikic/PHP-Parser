@@ -681,11 +681,11 @@ abstract class PrettyPrinterAbstract
      * are required to preserve program semantics in a certain context (e.g. to maintain precedence
      * or because only certain expressions are allowed in certain places).
      *
-     * @param int    $fixup       Fixup type
-     * @param Node   $subNode     Subnode to print
-     * @param string $parentType  Type of parent node
-     * @param int    $subStartPos Original start pos of subnode
-     * @param int    $subEndPos   Original end pos of subnode
+     * @param int         $fixup       Fixup type
+     * @param Node        $subNode     Subnode to print
+     * @param string|null $parentType  Type of parent node
+     * @param int         $subStartPos Original start pos of subnode
+     * @param int         $subEndPos   Original end pos of subnode
      *
      * @return string Result of fixed-up print of subnode
      */

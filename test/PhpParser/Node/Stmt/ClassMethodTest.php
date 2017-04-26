@@ -43,7 +43,7 @@ class ClassMethodTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider implicitPublicModifiers
      *
-     * @param integer $modifier Node type modifier
+     * @param string $modifier Node type modifier
      */
     public function testImplicitPublic($modifier)
     {
