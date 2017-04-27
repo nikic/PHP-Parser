@@ -9,6 +9,7 @@
          processIsolation="false"
          stopOnFailure="false"
          syntaxCheck="false"
+         beStrictAboutTestsThatDoNotTestAnything="false"
          bootstrap="./test/bootstrap.php">
     <testsuites>
         <testsuite name="PHPParser Test Suite">
