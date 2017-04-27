@@ -5,8 +5,9 @@ namespace PhpParser;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\BinaryOp\Concat;
 use PhpParser\Node\Scalar\String_;
+use PHPUnit\Framework\TestCase;
 
-class BuilderFactoryTest extends \PHPUnit_Framework_TestCase
+class BuilderFactoryTest extends TestCase
 {
     /**
      * @dataProvider provideTestFactory
@@ -31,7 +32,8 @@ class BuilderFactoryTest extends \PHPUnit_Framework_TestCase
     }
 
     public function testNonExistingMethod() {
-        $this->setExpectedException('LogicException', 'Method "foo" does not exist');
+        $this->expectException('LogicException');
+        $this->expectExceptionMessage('Method "foo" does not exist');
         $factory = new BuilderFactory();
         $factory->foo();
     }

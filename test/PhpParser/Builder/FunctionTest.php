@@ -8,8 +8,9 @@ use PhpParser\Node\Expr\Print_;
 use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt;
+use PHPUnit\Framework\TestCase;
 
-class FunctionTest extends \PHPUnit_Framework_TestCase
+class FunctionTest extends TestCase
 {
     public function createFunctionBuilder($name) {
         return new Function_($name);

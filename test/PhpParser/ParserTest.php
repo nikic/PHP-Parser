@@ -6,8 +6,9 @@ use PhpParser\Comment;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Scalar;
 use PhpParser\Node\Scalar\String_;
+use PHPUnit\Framework\TestCase;
 
-abstract class ParserTest extends \PHPUnit_Framework_TestCase
+abstract class ParserTest extends TestCase
 {
     /** @returns Parser */
     abstract protected function getParser(Lexer $lexer);

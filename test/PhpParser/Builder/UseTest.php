@@ -3,8 +3,9 @@
 use PhpParser\Builder;
 use PhpParser\Node\Name;
 use PhpParser\Node\Stmt;
+use PHPUnit\Framework\TestCase;
 
-class UseTest extends \PHPUnit_Framework_TestCase
+class UseTest extends TestCase
 {
     protected function createUseBuilder($name, $type = Stmt\Use_::TYPE_NORMAL) {
         return new Builder\Use_($name, $type);
@@ -28,7 +29,8 @@ class UseTest extends \PHPUnit_Framework_TestCase
     }
 
     public function testNonExistingMethod() {
-        $this->setExpectedException('LogicException', 'Method "foo" does not exist');
+        $this->expectException('LogicException');
+        $this->expectExceptionMessage('Method "foo" does not exist');
         $builder = $this->createUseBuilder('Test');
         $builder->foo();
     }

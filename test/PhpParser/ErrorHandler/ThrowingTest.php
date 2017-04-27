@@ -3,8 +3,10 @@
 namespace PhpParser\ErrorHandler;
 
 use PhpParser\Error;
+use PHPUnit\Framework\TestCase;
 
-class ThrowingTest extends \PHPUnit_Framework_TestCase {
+class ThrowingTest extends TestCase
+{
     /**
      * @expectedException \PhpParser\Error
      * @expectedExceptionMessage Test

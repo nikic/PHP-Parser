@@ -2,6 +2,8 @@
 
 namespace PhpParser;
 
+use PHPUnit\Framework\TestCase;
+
 class DummyNode extends NodeAbstract {
     public $subNode1;
     public $subNode2;
@@ -22,7 +24,7 @@ class DummyNode extends NodeAbstract {
     }
 }
 
-class NodeAbstractTest extends \PHPUnit_Framework_TestCase
+class NodeAbstractTest extends TestCase
 {
     public function provideNodes() {
         $attributes = array(

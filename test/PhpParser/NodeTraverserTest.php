@@ -4,8 +4,9 @@ namespace PhpParser;
 
 use PhpParser\Node\Expr;
 use PhpParser\Node\Scalar\String_;
+use PHPUnit\Framework\TestCase;
 
-class NodeTraverserTest extends \PHPUnit_Framework_TestCase
+class NodeTraverserTest extends TestCase
 {
     public function testNonModifying() {
         $str1Node = new String_('Foo');
@@ -253,7 +254,8 @@ class NodeTraverserTest extends \PHPUnit_Framework_TestCase
      * @dataProvider provideTestInvalidReturn
      */
     public function testInvalidReturn($visitor, $message) {
-        $this->setExpectedException(\LogicException::class, $message);
+        $this->expectException(\LogicException::class);
+        $this->expectExceptionMessage($message);
 
         $stmts = array(new Node\Expr\UnaryMinus(new Node\Scalar\LNumber(42)));
 
