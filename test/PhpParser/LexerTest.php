@@ -54,13 +54,22 @@ class LexerTest extends TestCase
     public function testLex($code, $options, $tokens) {
         $lexer = $this->getLexer($options);
         $lexer->startLexing($code);
-        while ($id = $lexer->getNextToken($value, $startAttributes, $endAttributes)) {
+
+        $value = null;
+        
+        while (1) {
+            $tokenContainer = $lexer->getNextToken($value);
+
+            if (!$tokenContainer->id) {
+                break;
+            }
+
             $token = array_shift($tokens);
 
-            $this->assertSame($token[0], $id);
-            $this->assertSame($token[1], $value);
-            $this->assertEquals($token[2], $startAttributes);
-            $this->assertEquals($token[3], $endAttributes);
+            $this->assertSame($token[0], $tokenContainer->id);
+            $this->assertSame($token[1], $tokenContainer->value);
+            $this->assertEquals($token[2], $tokenContainer->startAttributes);
+            $this->assertEquals($token[3], $tokenContainer->endAttributes);
         }
     }
 
@@ -213,10 +222,14 @@ class LexerTest extends TestCase
         $lexer = $this->getLexer();
         $lexer->startLexing($code);
 
-        while (Tokens::T_HALT_COMPILER !== $lexer->getNextToken());
+        do {
+            $tokenContainer = $lexer->getNextToken();
+        } while (Tokens::T_HALT_COMPILER !== $tokenContainer->id);
 
         $this->assertSame($remaining, $lexer->handleHaltCompiler());
-        $this->assertSame(0, $lexer->getNextToken());
+
+        $tokenContainer = $lexer->getNextToken();
+        $this->assertSame(0, $tokenContainer->id);
     }
 
     public function provideTestHaltCompiler() {
@@ -237,7 +250,10 @@ class LexerTest extends TestCase
         $lexer = $this->getLexer();
         $lexer->startLexing('<?php ... __halt_compiler invalid ();');
 
-        while (Tokens::T_HALT_COMPILER !== $lexer->getNextToken());
+        do {
+            $tokenContainer = $lexer->getNextToken();
+        } while (Tokens::T_HALT_COMPILER !== $tokenContainer->id);
+
         $lexer->handleHaltCompiler();
     }
 
