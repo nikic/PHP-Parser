@@ -34,7 +34,9 @@ function gen() {
 array(
     0: Stmt_Function(
         byRef: false
-        name: gen
+        name: Identifier(
+            name: gen
+        )
         params: array(
         )
         returnType: null
@@ -241,7 +243,9 @@ array(
                     var: Expr_Variable(
                         name: foo
                     )
-                    name: func
+                    name: Identifier(
+                        name: func
+                    )
                     args: array(
                         0: Arg(
                             value: Expr_Yield(

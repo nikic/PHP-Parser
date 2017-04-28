@@ -36,12 +36,12 @@ semi_reserved:
 ;
 
 identifier_ex:
-      T_STRING                                              { $$ = maybeMakeIdent($1); }
-    | semi_reserved                                         { $$ = maybeMakeIdent($1); }
+      T_STRING                                              { $$ = Node\Identifier[$1]; }
+    | semi_reserved                                         { $$ = Node\Identifier[$1]; }
 ;
 
 identifier:
-      T_STRING                                              { $$ = maybeMakeIdent($1); }
+      T_STRING                                              { $$ = Node\Identifier[$1]; }
 ;
 
 namespace_name_parts:
@@ -434,8 +434,8 @@ type_expr:
 
 type:
       name                                                  { $$ = $this->handleBuiltinTypes($1); }
-    | T_ARRAY                                               { $$ = maybeMakeIdent('array'); }
-    | T_CALLABLE                                            { $$ = maybeMakeIdent('callable'); }
+    | T_ARRAY                                               { $$ = Node\Identifier['array']; }
+    | T_CALLABLE                                            { $$ = Node\Identifier['callable']; }
 ;
 
 optional_param_type:
@@ -578,7 +578,7 @@ non_empty_property_declaration_list:
 ;
 
 property_decl_name:
-      T_VARIABLE                                            { $$ = maybeMakeVarIdent(parseVar($1)); }
+      T_VARIABLE                                            { $$ = Node\VarLikeIdentifier[parseVar($1)]; }
 ;
 
 property_declaration:
@@ -863,7 +863,7 @@ simple_variable:
 
 static_member_prop_name:
       simple_variable
-          { $var = $1; $$ = \is_string($var) ? maybeMakeVarIdent($var) : $var; }
+          { $var = $1; $$ = \is_string($var) ? Node\VarLikeIdentifier[$var] : $var; }
 ;
 
 static_member:

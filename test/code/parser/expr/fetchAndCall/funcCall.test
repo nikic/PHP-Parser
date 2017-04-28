@@ -115,7 +115,9 @@ array(
                     var: Expr_Variable(
                         name: a
                     )
-                    name: b
+                    name: Identifier(
+                        name: b
+                    )
                 )
                 dim: Scalar_String(
                     value: c

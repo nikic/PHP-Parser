@@ -12,7 +12,7 @@ class Interface_ extends ClassLike
     /**
      * Constructs a class node.
      *
-     * @param string $name       Name
+     * @param string|Node\Identifier $name Name
      * @param array  $subNodes   Array of the following optional subnodes:
      *                           'extends' => array(): Name of extended interfaces
      *                           'stmts'   => array(): Statements
@@ -20,7 +20,7 @@ class Interface_ extends ClassLike
      */
     public function __construct($name, array $subNodes = array(), array $attributes = array()) {
         parent::__construct($attributes);
-        $this->name = $name;
+        $this->name = \is_string($name) ? new Node\Identifier($name) : $name;
         $this->extends = $subNodes['extends'] ?? array();
         $this->stmts = $subNodes['stmts'] ?? array();
     }

@@ -1061,13 +1061,13 @@ class Php7 extends \PhpParser\ParserAbstract
                 $this->semValue = $this->semStack[$stackPos];
             },
             80 => function ($stackPos) {
-                 $this->semValue = ($this->useIdentifierNodes ? new Node\Identifier($this->semStack[$stackPos-(1-1)], $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes) : $this->semStack[$stackPos-(1-1)]);
+                 $this->semValue = new Node\Identifier($this->semStack[$stackPos-(1-1)], $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
             },
             81 => function ($stackPos) {
-                 $this->semValue = ($this->useIdentifierNodes ? new Node\Identifier($this->semStack[$stackPos-(1-1)], $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes) : $this->semStack[$stackPos-(1-1)]);
+                 $this->semValue = new Node\Identifier($this->semStack[$stackPos-(1-1)], $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
             },
             82 => function ($stackPos) {
-                 $this->semValue = ($this->useIdentifierNodes ? new Node\Identifier($this->semStack[$stackPos-(1-1)], $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes) : $this->semStack[$stackPos-(1-1)]);
+                 $this->semValue = new Node\Identifier($this->semStack[$stackPos-(1-1)], $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
             },
             83 => function ($stackPos) {
                  $this->semValue = array($this->semStack[$stackPos-(1-1)]);
@@ -1545,10 +1545,10 @@ class Php7 extends \PhpParser\ParserAbstract
                  $this->semValue = $this->handleBuiltinTypes($this->semStack[$stackPos-(1-1)]);
             },
             240 => function ($stackPos) {
-                 $this->semValue = ($this->useIdentifierNodes ? new Node\Identifier('array', $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes) : 'array');
+                 $this->semValue = new Node\Identifier('array', $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
             },
             241 => function ($stackPos) {
-                 $this->semValue = ($this->useIdentifierNodes ? new Node\Identifier('callable', $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes) : 'callable');
+                 $this->semValue = new Node\Identifier('callable', $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
             },
             242 => function ($stackPos) {
                  $this->semValue = null;
@@ -1717,7 +1717,7 @@ class Php7 extends \PhpParser\ParserAbstract
                  $this->semStack[$stackPos-(3-1)][] = $this->semStack[$stackPos-(3-3)]; $this->semValue = $this->semStack[$stackPos-(3-1)];
             },
             297 => function ($stackPos) {
-                 $this->semValue = ($this->useIdentifierNodes ? new Node\VarLikeIdentifier(substr($this->semStack[$stackPos-(1-1)], 1), $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes) : substr($this->semStack[$stackPos-(1-1)], 1));
+                 $this->semValue = new Node\VarLikeIdentifier(substr($this->semStack[$stackPos-(1-1)], 1), $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
             },
             298 => function ($stackPos) {
                  $this->semValue = new Stmt\PropertyProperty($this->semStack[$stackPos-(1-1)], null, $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
@@ -2219,7 +2219,7 @@ class Php7 extends \PhpParser\ParserAbstract
                  $this->semValue = new Expr\Error($this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes); $this->errorState = 2;
             },
             461 => function ($stackPos) {
-                 $var = $this->semStack[$stackPos-(1-1)]; $this->semValue = \is_string($var) ? ($this->useIdentifierNodes ? new Node\VarLikeIdentifier($var, $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes) : $var) : $var;
+                 $var = $this->semStack[$stackPos-(1-1)]; $this->semValue = \is_string($var) ? new Node\VarLikeIdentifier($var, $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes) : $var;
             },
             462 => function ($stackPos) {
                  $this->semValue = new Expr\StaticPropertyFetch($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);

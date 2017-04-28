@@ -8,7 +8,7 @@ use PhpParser\Node;
  * @property Node\Name $namespacedName Namespaced name (if using NameResolver)
  */
 abstract class ClassLike extends Node\Stmt {
-    /** @var string|null Name */
+    /** @var Node\Identifier|null Name */
     public $name;
     /** @var Node\Stmt[] Statements */
     public $stmts;

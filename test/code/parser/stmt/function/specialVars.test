@@ -10,7 +10,9 @@ function a() {
 array(
     0: Stmt_Function(
         byRef: false
-        name: a
+        name: Identifier(
+            name: a
+        )
         params: array(
         )
         returnType: null

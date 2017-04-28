@@ -16,7 +16,7 @@ class Closure extends Expr implements FunctionLike
     public $params;
     /** @var ClosureUse[] use()s */
     public $uses;
-    /** @var null|string|Node\Name|Node\NullableType Return type */
+    /** @var null|Node\Identifier|Node\Name|Node\NullableType Return type */
     public $returnType;
     /** @var Node\Stmt[] Statements */
     public $stmts;
@@ -39,7 +39,8 @@ class Closure extends Expr implements FunctionLike
         $this->byRef = $subNodes['byRef'] ?? false;
         $this->params = $subNodes['params'] ?? array();
         $this->uses = $subNodes['uses'] ?? array();
-        $this->returnType = $subNodes['returnType'] ?? null;
+        $returnType = $subNodes['returnType'] ?? null;
+        $this->returnType = \is_string($returnType) ? new Node\Identifier($returnType) : $returnType;
         $this->stmts = $subNodes['stmts'] ?? array();
     }
 

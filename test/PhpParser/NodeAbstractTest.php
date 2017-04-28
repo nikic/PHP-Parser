@@ -183,7 +183,14 @@ PHP;
     {
         "nodeType": "Stmt_Function",
         "byRef": false,
-        "name": "functionName",
+        "name": {
+            "nodeType": "Identifier",
+            "name": "functionName",
+            "attributes": {
+                "startLine": 4,
+                "endLine": 4
+            }
+        },
         "params": [
             {
                 "nodeType": "Param",

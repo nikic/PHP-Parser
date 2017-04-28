@@ -28,7 +28,9 @@ array(
                         1: B
                     )
                 )
-                alias: B
+                alias: Identifier(
+                    name: B
+                )
             )
         )
     )
@@ -43,7 +45,9 @@ array(
                         1: D
                     )
                 )
-                alias: E
+                alias: Identifier(
+                    name: E
+                )
             )
         )
     )
@@ -58,7 +62,9 @@ array(
                         1: G
                     )
                 )
-                alias: H
+                alias: Identifier(
+                    name: H
+                )
             )
             1: Stmt_UseUse(
                 type: TYPE_UNKNOWN (0)
@@ -67,7 +73,9 @@ array(
                         0: J
                     )
                 )
-                alias: J
+                alias: Identifier(
+                    name: J
+                )
             )
         )
     )
@@ -81,7 +89,9 @@ array(
                         0: A
                     )
                 )
-                alias: A
+                alias: Identifier(
+                    name: A
+                )
             )
         )
         comments: array(
@@ -98,7 +108,9 @@ array(
                         0: A
                     )
                 )
-                alias: B
+                alias: Identifier(
+                    name: B
+                )
             )
         )
     )
@@ -113,7 +125,9 @@ array(
                         1: bar
                     )
                 )
-                alias: bar
+                alias: Identifier(
+                    name: bar
+                )
             )
         )
         comments: array(
@@ -131,7 +145,9 @@ array(
                         1: bar
                     )
                 )
-                alias: baz
+                alias: Identifier(
+                    name: baz
+                )
             )
         )
     )
@@ -146,7 +162,9 @@ array(
                         1: BAR
                     )
                 )
-                alias: BAR
+                alias: Identifier(
+                    name: BAR
+                )
             )
         )
     )
@@ -161,7 +179,9 @@ array(
                         1: BAR
                     )
                 )
-                alias: BAZ
+                alias: Identifier(
+                    name: BAZ
+                )
             )
         )
     )

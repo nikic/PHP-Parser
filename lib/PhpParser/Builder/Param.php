@@ -50,7 +50,7 @@ class Param implements PhpParser\Builder
      */
     public function setTypeHint($type) {
         $this->type = BuilderHelpers::normalizeType($type);
-        if ($this->type === 'void') {
+        if ($this->type == 'void') {
             throw new \LogicException('Parameter type cannot be void');
         }
 

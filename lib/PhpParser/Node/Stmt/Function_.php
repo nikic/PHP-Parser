@@ -12,11 +12,11 @@ class Function_ extends Node\Stmt implements FunctionLike
 {
     /** @var bool Whether function returns by reference */
     public $byRef;
-    /** @var string Name */
+    /** @var Node\Identifier Name */
     public $name;
     /** @var Node\Param[] Parameters */
     public $params;
-    /** @var null|string|Node\Name|Node\NullableType Return type */
+    /** @var null|Node\Identifier|Node\Name|Node\NullableType Return type */
     public $returnType;
     /** @var Node\Stmt[] Statements */
     public $stmts;
@@ -24,7 +24,7 @@ class Function_ extends Node\Stmt implements FunctionLike
     /**
      * Constructs a function node.
      *
-     * @param string $name       Name
+     * @param string|Node\Identifier $name Name
      * @param array  $subNodes   Array of the following optional subnodes:
      *                           'byRef'      => false  : Whether to return by reference
      *                           'params'     => array(): Parameters
@@ -35,9 +35,10 @@ class Function_ extends Node\Stmt implements FunctionLike
     public function __construct($name, array $subNodes = array(), array $attributes = array()) {
         parent::__construct($attributes);
         $this->byRef = $subNodes['byRef'] ?? false;
-        $this->name = $name;
+        $this->name = \is_string($name) ? new Node\Identifier($name) : $name;
         $this->params = $subNodes['params'] ?? array();
-        $this->returnType = $subNodes['returnType'] ?? null;
+        $returnType = $subNodes['returnType'] ?? null;
+        $this->returnType = \is_string($returnType) ? new Node\Identifier($returnType) : $returnType;
         $this->stmts = $subNodes['stmts'] ?? array();
     }
 

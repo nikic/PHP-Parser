@@ -112,9 +112,6 @@ abstract class ParserAbstract implements Parser
     /** @var int Error state, used to avoid error floods */
     protected $errorState;
 
-    /** @var bool Whether to create Identifier nodes for non-namespaced names */
-    protected $useIdentifierNodes;
-
     /**
      * Initialize $reduceCallbacks map.
      */
@@ -123,9 +120,7 @@ abstract class ParserAbstract implements Parser
     /**
      * Creates a parser instance.
      *
-     * Options:
-     *  * useIdentifierNodes (default false): Create Identifier nodes for non-namespaced names.
-     *    Otherwise plain strings will be used.
+     * Options: Currently none.
      *
      * @param Lexer $lexer A lexer
      * @param array $options Options array.
@@ -133,7 +128,6 @@ abstract class ParserAbstract implements Parser
     public function __construct(Lexer $lexer, array $options = array()) {
         $this->lexer = $lexer;
         $this->errors = array();
-        $this->useIdentifierNodes = !empty($options['useIdentifierNodes']);
 
         if (isset($options['throwOnError'])) {
             throw new \LogicException(
@@ -601,11 +595,8 @@ abstract class ParserAbstract implements Parser
      */
     protected function fixupPhp5StaticPropCall($prop, array $args, array $attributes) {
         if ($prop instanceof Node\Expr\StaticPropertyFetch) {
-            // Preserve attributes if possible
-            $var = is_string($prop->name)
-                    ? new Expr\Variable($prop->name)
-                    : new Expr\Variable($prop->name, $prop->name->getAttributes());
-                return new Expr\StaticCall($prop->class, $var, $args, $attributes);
+            $var = new Expr\Variable($prop->name, $prop->name->getAttributes());
+            return new Expr\StaticCall($prop->class, $var, $args, $attributes);
         } elseif ($prop instanceof Node\Expr\ArrayDimFetch) {
             $tmp = $prop;
             while ($tmp->var instanceof Node\Expr\ArrayDimFetch) {
@@ -614,22 +605,13 @@ abstract class ParserAbstract implements Parser
 
             /** @var Expr\StaticPropertyFetch $staticProp */
             $staticProp = $tmp->var;
-            if (is_string($staticProp->name)) {
-                // Conservatively remove all attributes, as they may be incorrect
-                $tmp = $prop;
-                $tmp->setAttributes([]);
-                while ($tmp->var instanceof Node\Expr\ArrayDimFetch) {
-                    $tmp = $tmp->var;
-                    $tmp->setAttributes([]);
-                }
-            } else {
-                // Set start attributes to attributes of innermost node
-                $tmp = $prop;
+
+            // Set start attributes to attributes of innermost node
+            $tmp = $prop;
+            $this->fixupStartAttributes($tmp, $staticProp->name);
+            while ($tmp->var instanceof Node\Expr\ArrayDimFetch) {
+                $tmp = $tmp->var;
                 $this->fixupStartAttributes($tmp, $staticProp->name);
-                while ($tmp->var instanceof Node\Expr\ArrayDimFetch) {
-                    $tmp = $tmp->var;
-                    $this->fixupStartAttributes($tmp, $staticProp->name);
-                }
             }
 
             $result = new Expr\StaticCall($staticProp->class, $prop, $args, $attributes);
@@ -668,9 +650,7 @@ abstract class ParserAbstract implements Parser
             return $name;
         }
 
-        return $this->useIdentifierNodes
-            ? new Node\Identifier($lowerName, $name->getAttributes())
-            : $lowerName;
+        return new Node\Identifier($lowerName, $name->getAttributes());
     }
 
     protected static $specialNames = array(

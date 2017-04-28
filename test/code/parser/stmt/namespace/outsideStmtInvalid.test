@@ -76,7 +76,9 @@ array(
     1: Stmt_Declare(
         declares: array(
             0: Stmt_DeclareDeclare(
-                key: ticks
+                key: Identifier(
+                    name: ticks
+                )
                 value: Scalar_LNumber(
                     value: 1
                 )

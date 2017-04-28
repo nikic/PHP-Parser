@@ -20,11 +20,7 @@ class PrettyPrinterTest extends CodeTestAbstract
     protected function doTestPrettyPrintMethod($method, $name, $code, $expected, $modeLine) {
         $lexer = new Lexer\Emulative;
         $parser5 = new Parser\Php5($lexer);
-
-        // Use these options on one of the parsers ... don't want to write extra tests for them
-        $parser7 = new Parser\Php7($lexer, [
-            'useIdentifierNodes' => true,
-        ]);
+        $parser7 = new Parser\Php7($lexer);
 
         list($version, $options) = $this->parseModeLine($modeLine);
         $prettyPrinter = new Standard($options);
@@ -226,10 +222,7 @@ class PrettyPrinterTest extends CodeTestAbstract
             ],
         ]);
 
-        $parser = new Parser\Php7($lexer, [
-            'useIdentifierNodes' => true,
-        ]);
-
+        $parser = new Parser\Php7($lexer);
         $traverser = new NodeTraverser();
         $traverser->addVisitor(new NodeVisitor\CloningVisitor());
 
@@ -285,9 +278,7 @@ CODE
 
         $parserClass = $version === 'php5' ? Parser\Php5::class : Parser\Php7::class;
         /** @var Parser $parser */
-        $parser = new $parserClass($lexer, [
-            'useIdentifierNodes' => true,
-        ]);
+        $parser = new $parserClass($lexer);
 
         $traverser = new NodeTraverser();
         $traverser->addVisitor(new NodeVisitor\CloningVisitor());

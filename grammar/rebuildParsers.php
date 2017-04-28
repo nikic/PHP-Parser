@@ -210,20 +210,6 @@ function resolveMacros($code) {
                 . 'array_merge($attrs[\'comments\'], $stmts[0]->getAttribute(\'comments\', []))); }';
             }
 
-            if ('maybeMakeIdent' == $name) {
-                assertArgs(1, $args, $name);
-
-                return '($this->useIdentifierNodes ? new Node\Identifier(' . $args[0] . ', '
-                     . '$this->startAttributeStack[#1] + $this->endAttributes) : ' . $args[0] . ')';
-            }
-
-            if ('maybeMakeVarIdent' == $name) {
-                assertArgs(1, $args, $name);
-
-                return '($this->useIdentifierNodes ? new Node\VarLikeIdentifier(' . $args[0] . ', '
-                     . '$this->startAttributeStack[#1] + $this->endAttributes) : ' . $args[0] . ')';
-            }
-
             return $matches[0];
         },
         $code

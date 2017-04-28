@@ -8,6 +8,6 @@ abstract class TraitUseAdaptation extends Node\Stmt
 {
     /** @var Node\Name|null Trait name */
     public $trait;
-    /** @var string Method name */
+    /** @var Node\Identifier Method name */
     public $method;
 }

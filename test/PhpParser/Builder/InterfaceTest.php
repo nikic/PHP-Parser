@@ -25,7 +25,7 @@ class InterfaceTest extends TestCase
     public function testEmpty() {
         $contract = $this->builder->getNode();
         $this->assertInstanceOf('PhpParser\Node\Stmt\Interface_', $contract);
-        $this->assertSame('Contract', $contract->name);
+        $this->assertEquals(new Node\Identifier('Contract'), $contract->name);
     }
 
     public function testExtending() {

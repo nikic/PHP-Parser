@@ -19,7 +19,9 @@ array(
                     0: A
                 )
             )
-            name: b
+            name: VarLikeIdentifier(
+                name: b
+            )
         )
     )
     1: Stmt_Expression(
@@ -27,7 +29,9 @@ array(
             class: Expr_Variable(
                 name: A
             )
-            name: b
+            name: VarLikeIdentifier(
+                name: b
+            )
         )
     )
     2: Stmt_Expression(
@@ -35,7 +39,9 @@ array(
             class: Scalar_String(
                 value: A
             )
-            name: b
+            name: VarLikeIdentifier(
+                name: b
+            )
         )
     )
     3: Stmt_Expression(
@@ -48,7 +54,9 @@ array(
                     value:
                 )
             )
-            name: b
+            name: VarLikeIdentifier(
+                name: b
+            )
         )
     )
     4: Stmt_Expression(
@@ -61,7 +69,9 @@ array(
                     value: 0
                 )
             )
-            name: b
+            name: VarLikeIdentifier(
+                name: b
+            )
         )
     )
     5: Stmt_Expression(
@@ -101,9 +111,13 @@ array(
                         0: A
                     )
                 )
-                name: A
+                name: VarLikeIdentifier(
+                    name: A
+                )
             )
-            name: b
+            name: VarLikeIdentifier(
+                name: b
+            )
         )
     )
 )

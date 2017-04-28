@@ -97,7 +97,9 @@ array(
                     var: Expr_Variable(
                         name: b
                     )
-                    name: c
+                    name: Identifier(
+                        name: c
+                    )
                 )
                 4: Scalar_EncapsedStringPart(
                     value:  test

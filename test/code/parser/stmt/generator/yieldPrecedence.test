@@ -18,7 +18,9 @@ function gen() {
 array(
     0: Stmt_Function(
         byRef: false
-        name: gen
+        name: Identifier(
+            name: gen
+        )
         params: array(
         )
         returnType: null

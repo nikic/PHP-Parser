@@ -96,32 +96,31 @@ class ParamTest extends TestCase
             $type = $type->type;
         }
 
-        if ($expectedType instanceof Node\Name) {
-            $this->assertInstanceOf(get_class($expectedType), $type);
-            $this->assertEquals($expectedType, $type);
-        } else {
-            $this->assertSame($expectedType, $type);
-        }
+        $this->assertInstanceOf(get_class($expectedType), $type);
+        $this->assertEquals($expectedType, $type);
     }
 
     public function provideTestTypeHints() {
         return array(
-            array('array', 'array'),
-            array('callable', 'callable'),
-            array('bool', 'bool'),
-            array('int', 'int'),
-            array('float', 'float'),
-            array('string', 'string'),
-            array('iterable', 'iterable'),
-            array('Array', 'array'),
-            array('CALLABLE', 'callable'),
+            array('array', new Node\Identifier('array')),
+            array('callable', new Node\Identifier('callable')),
+            array('bool', new Node\Identifier('bool')),
+            array('int', new Node\Identifier('int')),
+            array('float', new Node\Identifier('float')),
+            array('string', new Node\Identifier('string')),
+            array('iterable', new Node\Identifier('iterable')),
+            array('Array', new Node\Identifier('array')),
+            array('CALLABLE', new Node\Identifier('callable')),
             array('Some\Class', new Node\Name('Some\Class')),
             array('\Foo', new Node\Name\FullyQualified('Foo')),
             array('self', new Node\Name('self')),
-            array('?array', new Node\NullableType('array')),
+            array('?array', new Node\NullableType(new Node\Identifier('array'))),
             array('?Some\Class', new Node\NullableType(new Node\Name('Some\Class'))),
             array(new Node\Name('Some\Class'), new Node\Name('Some\Class')),
-            array(new Node\NullableType('int'), new Node\NullableType('int')),
+            array(
+                new Node\NullableType(new Node\Identifier('int')),
+                new Node\NullableType(new Node\Identifier('int'))
+            ),
             array(
                 new Node\NullableType(new Node\Name('Some\Class')),
                 new Node\NullableType(new Node\Name('Some\Class'))
@@ -139,7 +138,7 @@ class ParamTest extends TestCase
 
     /**
      * @expectedException \LogicException
-     * @expectedExceptionMessage Type must be a string, or an instance of Name or NullableType
+     * @expectedExceptionMessage Type must be a string, or an instance of Name, Identifier or NullableType
      */
     public function testInvalidTypeError() {
         $this->createParamBuilder('test')->setTypeHint(new \stdClass);

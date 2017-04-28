@@ -24,7 +24,9 @@ array(
                         0: B
                     )
                 )
-                alias: B
+                alias: Identifier(
+                    name: B
+                )
             )
         )
     )
@@ -44,7 +46,9 @@ array(
                         1: C
                     )
                 )
-                alias: C
+                alias: Identifier(
+                    name: C
+                )
             )
             1: Stmt_UseUse(
                 type: TYPE_NORMAL (1)
@@ -53,7 +57,9 @@ array(
                         0: D
                     )
                 )
-                alias: D
+                alias: Identifier(
+                    name: D
+                )
             )
         )
     )
@@ -74,7 +80,9 @@ array(
                         1: D
                     )
                 )
-                alias: D
+                alias: Identifier(
+                    name: D
+                )
             )
             1: Stmt_UseUse(
                 type: TYPE_NORMAL (1)
@@ -83,7 +91,9 @@ array(
                         0: E
                     )
                 )
-                alias: E
+                alias: Identifier(
+                    name: E
+                )
             )
         )
     )
@@ -103,7 +113,9 @@ array(
                         1: c
                     )
                 )
-                alias: c
+                alias: Identifier(
+                    name: c
+                )
             )
             1: Stmt_UseUse(
                 type: TYPE_UNKNOWN (0)
@@ -112,7 +124,9 @@ array(
                         0: d
                     )
                 )
-                alias: d
+                alias: Identifier(
+                    name: d
+                )
             )
         )
     )
@@ -132,7 +146,9 @@ array(
                         1: C
                     )
                 )
-                alias: C
+                alias: Identifier(
+                    name: C
+                )
             )
             1: Stmt_UseUse(
                 type: TYPE_UNKNOWN (0)
@@ -141,7 +157,9 @@ array(
                         0: D
                     )
                 )
-                alias: D
+                alias: Identifier(
+                    name: D
+                )
             )
         )
     )
@@ -162,7 +180,9 @@ array(
                         1: D
                     )
                 )
-                alias: D
+                alias: Identifier(
+                    name: D
+                )
             )
             1: Stmt_UseUse(
                 type: TYPE_FUNCTION (2)
@@ -172,7 +192,9 @@ array(
                         1: c
                     )
                 )
-                alias: c
+                alias: Identifier(
+                    name: c
+                )
             )
             2: Stmt_UseUse(
                 type: TYPE_CONSTANT (3)
@@ -181,7 +203,9 @@ array(
                         0: D
                     )
                 )
-                alias: D
+                alias: Identifier(
+                    name: D
+                )
             )
         )
     )

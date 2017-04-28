@@ -19,7 +19,9 @@ array(
                 args: array(
                 )
             )
-            name: b
+            name: Identifier(
+                name: b
+            )
         )
     )
     1: Stmt_Expression(
@@ -33,7 +35,9 @@ array(
                 args: array(
                 )
             )
-            name: b
+            name: Identifier(
+                name: b
+            )
             args: array(
             )
         )

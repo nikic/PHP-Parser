@@ -4,6 +4,7 @@ namespace PhpParser;
 
 use PhpParser\Comment;
 use PhpParser\Node\Expr;
+use PhpParser\Node\Identifier;
 use PhpParser\Node\Name;
 use PhpParser\Node\NullableType;
 use PhpParser\Node\Scalar;
@@ -84,18 +85,19 @@ final class BuilderHelpers {
     /**
      * Normalizes a type: Converts plain-text type names into proper AST representation.
      *
-     * In particular, builtin types are left as strings, custom types become Names and nullables
+     * In particular, builtin types become Identifiers, custom types become Names and nullables
      * are wrapped in NullableType nodes.
      *
-     * @param Name|string|NullableType $type The type to normalize
+     * @param string|Name|Identifier|NullableType $type The type to normalize
      *
-     * @return Name|string|NullableType The normalized type
+     * @return Name|Identifier|NullableType The normalized type
      */
     public static function normalizeType($type) {
         if (!is_string($type)) {
-            if (!$type instanceof Name && !$type instanceof NullableType) {
+            if (!$type instanceof Name && !$type instanceof Identifier
+                    && !$type instanceof NullableType) {
                 throw new \LogicException(
-                    'Type must be a string, or an instance of Name or NullableType');
+                    'Type must be a string, or an instance of Name, Identifier or NullableType');
             }
             return $type;
         }
@@ -112,12 +114,12 @@ final class BuilderHelpers {
 
         $lowerType = strtolower($type);
         if (in_array($lowerType, $builtinTypes)) {
-            $type = $lowerType;
+            $type = new Identifier($lowerType);
         } else {
             $type = self::normalizeName($type);
         }
 
-        if ($nullable && $type === 'void') {
+        if ($nullable && (string) $type === 'void') {
             throw new \LogicException('void type cannot be nullable');
         }
 

@@ -30,7 +30,9 @@ array(
                     0: // method name variations
                 )
             )
-            name: b
+            name: Identifier(
+                name: b
+            )
             args: array(
             )
             comments: array(
@@ -63,7 +65,9 @@ array(
                 )
             )
             name: Expr_Variable(
-                name: b
+                name: VarLikeIdentifier(
+                    name: b
+                )
             )
             args: array(
             )
@@ -78,7 +82,9 @@ array(
             )
             name: Expr_ArrayDimFetch(
                 var: Expr_Variable(
-                    name: b
+                    name: VarLikeIdentifier(
+                        name: b
+                    )
                 )
                 dim: Scalar_String(
                     value: c
@@ -98,7 +104,9 @@ array(
             name: Expr_ArrayDimFetch(
                 var: Expr_ArrayDimFetch(
                     var: Expr_Variable(
-                        name: b
+                        name: VarLikeIdentifier(
+                            name: b
+                        )
                     )
                     dim: Scalar_String(
                         value: c
@@ -123,7 +131,9 @@ array(
                         0: // array dereferencing
                     )
                 )
-                name: b
+                name: Identifier(
+                    name: b
+                )
                 args: array(
                 )
                 comments: array(
@@ -151,7 +161,9 @@ array(
                     0: // class name variations
                 )
             )
-            name: b
+            name: Identifier(
+                name: b
+            )
             args: array(
             )
             comments: array(
@@ -167,7 +179,9 @@ array(
             class: Expr_Variable(
                 name: a
             )
-            name: b
+            name: Identifier(
+                name: b
+            )
             args: array(
             )
         )
@@ -179,7 +193,9 @@ array(
                     value: a
                 )
             )
-            name: b
+            name: Identifier(
+                name: b
+            )
             args: array(
             )
         )
@@ -194,7 +210,9 @@ array(
                     value: b
                 )
             )
-            name: c
+            name: Identifier(
+                name: c
+            )
             args: array(
             )
         )

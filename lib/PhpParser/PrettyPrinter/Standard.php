@@ -18,7 +18,7 @@ class Standard extends PrettyPrinterAbstract
     // Special nodes
 
     protected function pParam(Node\Param $node) {
-        return ($node->type ? $this->pType($node->type) . ' ' : '')
+        return ($node->type ? $this->p($node->type) . ' ' : '')
              . ($node->byRef ? '&' : '')
              . ($node->variadic ? '...' : '')
              . $this->p($node->var)
@@ -34,7 +34,7 @@ class Standard extends PrettyPrinterAbstract
     }
 
     protected function pNullableType(Node\NullableType $node) {
-        return '?' . $this->pType($node->type);
+        return '?' . $this->p($node->type);
     }
 
     protected function pIdentifier(Node\Identifier $node) {
@@ -530,8 +530,7 @@ class Standard extends PrettyPrinterAbstract
     }
 
     protected function pExpr_ClassConstFetch(Expr\ClassConstFetch $node) {
-        return $this->p($node->class) . '::'
-             . (is_string($node->name) ? $node->name : $this->p($node->name));
+        return $this->p($node->class) . '::' . $this->p($node->name);
     }
 
     protected function pExpr_PropertyFetch(Expr\PropertyFetch $node) {
@@ -551,7 +550,7 @@ class Standard extends PrettyPrinterAbstract
              . 'function ' . ($node->byRef ? '&' : '')
              . '(' . $this->pCommaSeparated($node->params) . ')'
              . (!empty($node->uses) ? ' use(' . $this->pCommaSeparated($node->uses) . ')': '')
-             . (null !== $node->returnType ? ' : ' . $this->pType($node->returnType) : '')
+             . (null !== $node->returnType ? ' : ' . $this->p($node->returnType) : '')
              . ' {' . $this->pStmts($node->stmts) . "\n" . '}';
     }
 
@@ -620,7 +619,7 @@ class Standard extends PrettyPrinterAbstract
 
     protected function pStmt_UseUse(Stmt\UseUse $node) {
         return $this->pUseType($node->type) . $this->p($node->name)
-             . ($node->name->getLast() !== $node->alias ? ' as ' . $node->alias : '');
+             . ($node->name->getLast() !== (string) $node->alias ? ' as ' . $node->alias : '');
     }
 
     protected function pUseType($type) {
@@ -676,7 +675,7 @@ class Standard extends PrettyPrinterAbstract
         return $this->pModifiers($node->flags)
              . 'function ' . ($node->byRef ? '&' : '') . $node->name
              . '(' . $this->pCommaSeparated($node->params) . ')'
-             . (null !== $node->returnType ? ' : ' . $this->pType($node->returnType) : '')
+             . (null !== $node->returnType ? ' : ' . $this->p($node->returnType) : '')
              . (null !== $node->stmts
                 ? "\n" . '{' . $this->pStmts($node->stmts) . "\n" . '}'
                 : ';');
@@ -690,7 +689,7 @@ class Standard extends PrettyPrinterAbstract
     protected function pStmt_Function(Stmt\Function_ $node) {
         return 'function ' . ($node->byRef ? '&' : '') . $node->name
              . '(' . $this->pCommaSeparated($node->params) . ')'
-             . (null !== $node->returnType ? ' : ' . $this->pType($node->returnType) : '')
+             . (null !== $node->returnType ? ' : ' . $this->p($node->returnType) : '')
              . "\n" . '{' . $this->pStmts($node->stmts) . "\n" . '}';
     }
 
@@ -841,10 +840,6 @@ class Standard extends PrettyPrinterAbstract
     }
 
     // Helpers
-
-    protected function pType($node) {
-        return is_string($node) ? $node : $this->p($node);
-    }
 
     protected function pClassCommon(Stmt\Class_ $node, $afterClassToken) {
         return $this->pModifiers($node->flags)

@@ -54,7 +54,9 @@ array(
                 var: Expr_Variable(
                     name: obj
                 )
-                name: className
+                name: Identifier(
+                    name: className
+                )
             )
             args: array(
             )
@@ -68,7 +70,9 @@ array(
                         0: Test
                     )
                 )
-                name: className
+                name: VarLikeIdentifier(
+                    name: className
+                )
             )
             args: array(
             )
@@ -80,7 +84,9 @@ array(
                 class: Expr_Variable(
                     name: test
                 )
-                name: className
+                name: VarLikeIdentifier(
+                    name: className
+                )
             )
             args: array(
             )
@@ -98,9 +104,13 @@ array(
                             value: 0
                         )
                     )
-                    name: foo
+                    name: Identifier(
+                        name: foo
+                    )
                 )
-                name: className
+                name: VarLikeIdentifier(
+                    name: className
+                )
             )
             args: array(
             )

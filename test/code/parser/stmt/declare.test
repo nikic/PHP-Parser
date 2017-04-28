@@ -13,7 +13,9 @@ array(
     0: Stmt_Declare(
         declares: array(
             0: Stmt_DeclareDeclare(
-                key: X
+                key: Identifier(
+                    name: X
+                )
                 value: Scalar_String(
                     value: Y
                 )
@@ -24,13 +26,17 @@ array(
     1: Stmt_Declare(
         declares: array(
             0: Stmt_DeclareDeclare(
-                key: A
+                key: Identifier(
+                    name: A
+                )
                 value: Scalar_String(
                     value: B
                 )
             )
             1: Stmt_DeclareDeclare(
-                key: C
+                key: Identifier(
+                    name: C
+                )
                 value: Scalar_String(
                     value: D
                 )
@@ -42,13 +48,17 @@ array(
     2: Stmt_Declare(
         declares: array(
             0: Stmt_DeclareDeclare(
-                key: A
+                key: Identifier(
+                    name: A
+                )
                 value: Scalar_String(
                     value: B
                 )
             )
             1: Stmt_DeclareDeclare(
-                key: C
+                key: Identifier(
+                    name: C
+                )
                 value: Scalar_String(
                     value: D
                 )

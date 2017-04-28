@@ -9,7 +9,9 @@ function test($a, Type &... $b) {}
 array(
     0: Stmt_Function(
         byRef: false
-        name: test
+        name: Identifier(
+            name: test
+        )
         params: array(
             0: Param(
                 type: null
@@ -36,7 +38,9 @@ array(
     )
     1: Stmt_Function(
         byRef: false
-        name: test
+        name: Identifier(
+            name: test
+        )
         params: array(
             0: Param(
                 type: null
@@ -63,7 +67,9 @@ array(
     )
     2: Stmt_Function(
         byRef: false
-        name: test
+        name: Identifier(
+            name: test
+        )
         params: array(
             0: Param(
                 type: null
@@ -94,7 +100,9 @@ array(
     )
     3: Stmt_Function(
         byRef: false
-        name: test
+        name: Identifier(
+            name: test
+        )
         params: array(
             0: Param(
                 type: null

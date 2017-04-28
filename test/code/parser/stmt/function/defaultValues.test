@@ -17,7 +17,9 @@ function a(
 array(
     0: Stmt_Function(
         byRef: false
-        name: a
+        name: Identifier(
+            name: a
+        )
         params: array(
             0: Param(
                 type: null
@@ -58,7 +60,9 @@ array(
                             0: A
                         )
                     )
-                    name: B
+                    name: Identifier(
+                        name: B
+                    )
                 )
             )
             3: Param(

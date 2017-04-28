@@ -23,7 +23,9 @@ array(
                     0: A
                 )
             )
-            name: B
+            name: Identifier(
+                name: B
+            )
         )
     )
     2: Stmt_Expression(
@@ -33,7 +35,9 @@ array(
                     0: A
                 )
             )
-            name: class
+            name: Identifier(
+                name: class
+            )
         )
     )
 )

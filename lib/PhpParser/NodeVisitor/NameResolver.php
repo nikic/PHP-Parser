@@ -144,7 +144,7 @@ class NameResolver extends NodeVisitorAbstract
         // Type is determined either by individual element or whole use declaration
         $type |= $use->type;
 
-        $this->nameContext->addAlias($name, $use->alias, $type, $use->getAttributes());
+        $this->nameContext->addAlias($name, (string) $use->alias, $type, $use->getAttributes());
     }
 
     /** @param Stmt\Function_|Stmt\ClassMethod|Expr\Closure $node */

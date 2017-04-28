@@ -11,11 +11,11 @@ class ClassMethod extends Node\Stmt implements FunctionLike
     public $flags;
     /** @var bool Whether to return by reference */
     public $byRef;
-    /** @var string Name */
+    /** @var Node\Identifier Name */
     public $name;
     /** @var Node\Param[] Parameters */
     public $params;
-    /** @var null|string|Node\Name|Node\NullableType Return type */
+    /** @var null|Node\Identifier|Node\Name|Node\NullableType Return type */
     public $returnType;
     /** @var Node\Stmt[] Statements */
     public $stmts;
@@ -41,22 +41,23 @@ class ClassMethod extends Node\Stmt implements FunctionLike
     /**
      * Constructs a class method node.
      *
-     * @param string      $name       Name
-     * @param array       $subNodes   Array of the following optional subnodes:
-     *                                'flags       => MODIFIER_PUBLIC: Flags
-     *                                'byRef'      => false          : Whether to return by reference
-     *                                'params'     => array()        : Parameters
-     *                                'returnType' => null           : Return type
-     *                                'stmts'      => array()        : Statements
-     * @param array       $attributes Additional attributes
+     * @param string|Node\Identifier $name Name
+     * @param array $subNodes   Array of the following optional subnodes:
+     *                          'flags       => MODIFIER_PUBLIC: Flags
+     *                          'byRef'      => false          : Whether to return by reference
+     *                          'params'     => array()        : Parameters
+     *                          'returnType' => null           : Return type
+     *                          'stmts'      => array()        : Statements
+     * @param array $attributes Additional attributes
      */
     public function __construct($name, array $subNodes = array(), array $attributes = array()) {
         parent::__construct($attributes);
         $this->flags = $subNodes['flags'] ?? $subNodes['type'] ?? 0;
         $this->byRef = $subNodes['byRef'] ?? false;
-        $this->name = $name;
+        $this->name = \is_string($name) ? new Node\Identifier($name) : $name;
         $this->params = $subNodes['params'] ?? array();
-        $this->returnType = $subNodes['returnType'] ?? null;
+        $returnType = $subNodes['returnType'] ?? null;
+        $this->returnType = \is_string($returnType) ? new Node\Identifier($returnType) : $returnType;
         $this->stmts = array_key_exists('stmts', $subNodes) ? $subNodes['stmts'] : array();
     }
 

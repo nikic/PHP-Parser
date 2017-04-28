@@ -34,7 +34,9 @@ array(
                     0: Stmt_ClassMethod(
                         flags: MODIFIER_PUBLIC (1)
                         byRef: false
-                        name: test
+                        name: Identifier(
+                            name: test
+                        )
                         params: array(
                         )
                         returnType: null
@@ -89,7 +91,9 @@ array(
                         flags: MODIFIER_PUBLIC (1)
                         props: array(
                             0: Stmt_PropertyProperty(
-                                name: foo
+                                name: VarLikeIdentifier(
+                                    name: foo
+                                )
                                 default: null
                             )
                         )
@@ -146,7 +150,9 @@ array(
     )
     4: Stmt_Class(
         flags: 0
-        name: A
+        name: Identifier(
+            name: A
+        )
         extends: null
         implements: array(
         )
@@ -154,7 +160,9 @@ array(
             0: Stmt_ClassMethod(
                 flags: MODIFIER_PUBLIC (1)
                 byRef: false
-                name: test
+                name: Identifier(
+                    name: test
+                )
                 params: array(
                 )
                 returnType: null
@@ -176,7 +184,9 @@ array(
                                         flags: 0
                                         consts: array(
                                             0: Const(
-                                                name: A
+                                                name: Identifier(
+                                                    name: A
+                                                )
                                                 value: Scalar_String(
                                                     value: B
                                                 )

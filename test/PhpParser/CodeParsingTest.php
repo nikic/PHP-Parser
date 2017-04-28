@@ -33,17 +33,13 @@ class CodeParsingTest extends CodeTestAbstract
     }
 
     public function createParsers(array $modes) {
-        $parserOptions = [
-            'useIdentifierNodes' => isset($modes['ident']),
-        ];
-
         $lexer = new Lexer\Emulative(array('usedAttributes' => array(
             'startLine', 'endLine', 'startFilePos', 'endFilePos', 'comments'
         )));
 
         return [
-            new Parser\Php5($lexer, $parserOptions),
-            new Parser\Php7($lexer, $parserOptions),
+            new Parser\Php5($lexer),
+            new Parser\Php7($lexer),
         ];
     }
 

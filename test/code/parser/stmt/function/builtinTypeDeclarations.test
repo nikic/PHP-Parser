@@ -7,10 +7,14 @@ function test(bool $a, Int $b, FLOAT $c, StRiNg $d, iterable $e) : void {}
 array(
     0: Stmt_Function(
         byRef: false
-        name: test
+        name: Identifier(
+            name: test
+        )
         params: array(
             0: Param(
-                type: bool
+                type: Identifier(
+                    name: bool
+                )
                 byRef: false
                 variadic: false
                 var: Expr_Variable(
@@ -19,7 +23,9 @@ array(
                 default: null
             )
             1: Param(
-                type: int
+                type: Identifier(
+                    name: int
+                )
                 byRef: false
                 variadic: false
                 var: Expr_Variable(
@@ -28,7 +34,9 @@ array(
                 default: null
             )
             2: Param(
-                type: float
+                type: Identifier(
+                    name: float
+                )
                 byRef: false
                 variadic: false
                 var: Expr_Variable(
@@ -37,7 +45,9 @@ array(
                 default: null
             )
             3: Param(
-                type: string
+                type: Identifier(
+                    name: string
+                )
                 byRef: false
                 variadic: false
                 var: Expr_Variable(
@@ -46,7 +56,9 @@ array(
                 default: null
             )
             4: Param(
-                type: iterable
+                type: Identifier(
+                    name: iterable
+                )
                 byRef: false
                 variadic: false
                 var: Expr_Variable(
@@ -55,7 +67,9 @@ array(
                 default: null
             )
         )
-        returnType: void
+        returnType: Identifier(
+            name: void
+        )
         stmts: array(
         )
     )

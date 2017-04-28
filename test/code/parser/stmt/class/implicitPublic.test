@@ -15,7 +15,9 @@ abstract class A {
 array(
     0: Stmt_Class(
         flags: MODIFIER_ABSTRACT (16)
-        name: A
+        name: Identifier(
+            name: A
+        )
         extends: null
         implements: array(
         )
@@ -24,7 +26,9 @@ array(
                 flags: 0
                 props: array(
                     0: Stmt_PropertyProperty(
-                        name: a
+                        name: VarLikeIdentifier(
+                            name: a
+                        )
                         default: null
                     )
                 )
@@ -33,7 +37,9 @@ array(
                 flags: MODIFIER_STATIC (8)
                 props: array(
                     0: Stmt_PropertyProperty(
-                        name: b
+                        name: VarLikeIdentifier(
+                            name: b
+                        )
                         default: null
                     )
                 )
@@ -41,7 +47,9 @@ array(
             2: Stmt_ClassMethod(
                 flags: MODIFIER_ABSTRACT (16)
                 byRef: false
-                name: c
+                name: Identifier(
+                    name: c
+                )
                 params: array(
                 )
                 returnType: null
@@ -50,7 +58,9 @@ array(
             3: Stmt_ClassMethod(
                 flags: MODIFIER_FINAL (32)
                 byRef: false
-                name: d
+                name: Identifier(
+                    name: d
+                )
                 params: array(
                 )
                 returnType: null
@@ -60,7 +70,9 @@ array(
             4: Stmt_ClassMethod(
                 flags: MODIFIER_STATIC (8)
                 byRef: false
-                name: e
+                name: Identifier(
+                    name: e
+                )
                 params: array(
                 )
                 returnType: null
@@ -70,7 +82,9 @@ array(
             5: Stmt_ClassMethod(
                 flags: MODIFIER_STATIC | MODIFIER_FINAL (40)
                 byRef: false
-                name: f
+                name: Identifier(
+                    name: f
+                )
                 params: array(
                 )
                 returnType: null
@@ -80,7 +94,9 @@ array(
             6: Stmt_ClassMethod(
                 flags: 0
                 byRef: false
-                name: g
+                name: Identifier(
+                    name: g
+                )
                 params: array(
                 )
                 returnType: null

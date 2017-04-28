@@ -142,7 +142,9 @@ array(
             )
             uses: array(
             )
-            returnType: array
+            returnType: Identifier(
+                name: array
+            )
             stmts: array(
             )
         )

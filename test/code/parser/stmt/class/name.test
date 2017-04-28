@@ -6,7 +6,9 @@ Cannot use 'self' as class name as it is reserved from 1:13 to 1:16
 array(
     0: Stmt_Class(
         flags: 0
-        name: self
+        name: Identifier(
+            name: self
+        )
         extends: null
         implements: array(
         )
@@ -21,7 +23,9 @@ Cannot use 'PARENT' as class name as it is reserved from 1:13 to 1:18
 array(
     0: Stmt_Class(
         flags: 0
-        name: PARENT
+        name: Identifier(
+            name: PARENT
+        )
         extends: null
         implements: array(
         )
@@ -42,7 +46,9 @@ Cannot use 'self' as class name as it is reserved from 1:23 to 1:26
 array(
     0: Stmt_Class(
         flags: 0
-        name: A
+        name: Identifier(
+            name: A
+        )
         extends: Name(
             parts: array(
                 0: self
@@ -61,7 +67,9 @@ Cannot use 'PARENT' as class name as it is reserved from 1:23 to 1:28
 array(
     0: Stmt_Class(
         flags: 0
-        name: A
+        name: Identifier(
+            name: A
+        )
         extends: Name(
             parts: array(
                 0: PARENT
@@ -80,7 +88,9 @@ Cannot use 'static' as class name as it is reserved from 1:23 to 1:28
 array(
     0: Stmt_Class(
         flags: 0
-        name: A
+        name: Identifier(
+            name: A
+        )
         extends: Name(
             parts: array(
                 0: static
@@ -99,7 +109,9 @@ Cannot use 'self' as interface name as it is reserved from 1:26 to 1:29
 array(
     0: Stmt_Class(
         flags: 0
-        name: A
+        name: Identifier(
+            name: A
+        )
         extends: null
         implements: array(
             0: Name(
@@ -119,7 +131,9 @@ Cannot use 'PARENT' as interface name as it is reserved from 1:26 to 1:31
 array(
     0: Stmt_Class(
         flags: 0
-        name: A
+        name: Identifier(
+            name: A
+        )
         extends: null
         implements: array(
             0: Name(
@@ -139,7 +153,9 @@ Cannot use 'static' as interface name as it is reserved from 1:26 to 1:31
 array(
     0: Stmt_Class(
         flags: 0
-        name: A
+        name: Identifier(
+            name: A
+        )
         extends: null
         implements: array(
             0: Name(
@@ -158,7 +174,9 @@ array(
 Cannot use 'self' as class name as it is reserved from 1:17 to 1:20
 array(
     0: Stmt_Interface(
-        name: self
+        name: Identifier(
+            name: self
+        )
         extends: array(
         )
         stmts: array(
@@ -171,7 +189,9 @@ array(
 Cannot use 'PARENT' as class name as it is reserved from 1:17 to 1:22
 array(
     0: Stmt_Interface(
-        name: PARENT
+        name: Identifier(
+            name: PARENT
+        )
         extends: array(
         )
         stmts: array(
@@ -190,7 +210,9 @@ array(
 Cannot use 'self' as interface name as it is reserved from 1:27 to 1:30
 array(
     0: Stmt_Interface(
-        name: A
+        name: Identifier(
+            name: A
+        )
         extends: array(
             0: Name(
                 parts: array(
@@ -208,7 +230,9 @@ array(
 Cannot use 'PARENT' as interface name as it is reserved from 1:27 to 1:32
 array(
     0: Stmt_Interface(
-        name: A
+        name: Identifier(
+            name: A
+        )
         extends: array(
             0: Name(
                 parts: array(
@@ -226,7 +250,9 @@ array(
 Cannot use 'static' as interface name as it is reserved from 1:27 to 1:32
 array(
     0: Stmt_Interface(
-        name: A
+        name: Identifier(
+            name: A
+        )
         extends: array(
             0: Name(
                 parts: array(

@@ -13,7 +13,9 @@ array(
     0: Stmt_Declare(
         declares: array(
             0: Stmt_DeclareDeclare(
-                key: A
+                key: Identifier(
+                    name: A
+                )
                 value: Scalar_String(
                     value: B
                 )

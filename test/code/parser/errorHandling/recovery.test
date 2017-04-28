@@ -162,7 +162,9 @@ Syntax error, unexpected '}' from 4:1 to 4:1
 array(
     0: Stmt_Function(
         byRef: false
-        name: test
+        name: Identifier(
+            name: test
+        )
         params: array(
         )
         returnType: null
@@ -305,7 +307,9 @@ Syntax error, unexpected '}', expecting T_STRING or T_VARIABLE or '{' or '$' fro
 array(
     0: Stmt_Function[2:1 - 4:1](
         byRef: false
-        name: foo
+        name: Identifier[2:10 - 2:12](
+            name: foo
+        )
         params: array(
         )
         returnType: null
@@ -467,7 +471,9 @@ array(
                                 0: A
                             )
                         )
-                        alias: A
+                        alias: Identifier(
+                            name: A
+                        )
                     )
                 )
             )
@@ -481,7 +487,9 @@ array(
                                 0: a
                             )
                         )
-                        alias: a
+                        alias: Identifier(
+                            name: a
+                        )
                     )
                 )
             )
@@ -500,14 +508,18 @@ array(
                                 0: B
                             )
                         )
-                        alias: B
+                        alias: Identifier(
+                            name: B
+                        )
                     )
                 )
             )
             3: Stmt_Const(
                 consts: array(
                     0: Const(
-                        name: A
+                        name: Identifier(
+                            name: A
+                        )
                         value: Scalar_LNumber(
                             value: 1
                         )
@@ -558,7 +570,9 @@ array(
                 )
             )
             13: Stmt_Goto(
-                name: label
+                name: Identifier(
+                    name: label
+                )
             )
         )
     )
@@ -636,7 +650,9 @@ array(
                         0: B
                     )
                 )
-                alias: B
+                alias: Identifier(
+                    name: B
+                )
             )
         )
     )
@@ -655,7 +671,9 @@ array(
                         0: b
                     )
                 )
-                alias: b
+                alias: Identifier(
+                    name: b
+                )
             )
         )
     )
@@ -669,14 +687,18 @@ array(
                         0: A
                     )
                 )
-                alias: A
+                alias: Identifier(
+                    name: A
+                )
             )
         )
     )
     3: Stmt_Const(
         consts: array(
             0: Const(
-                name: A
+                name: Identifier(
+                    name: A
+                )
                 value: Scalar_LNumber(
                     value: 42
                 )
@@ -685,7 +707,9 @@ array(
     )
     4: Stmt_Class(
         flags: 0
-        name: X
+        name: Identifier(
+            name: X
+        )
         extends: null
         implements: array(
             0: Name(
@@ -721,7 +745,9 @@ array(
                                 0: A
                             )
                         )
-                        method: b
+                        method: Identifier(
+                            name: b
+                        )
                         insteadof: array(
                             0: Name(
                                 parts: array(
@@ -736,7 +762,9 @@ array(
                 flags: 0
                 consts: array(
                     0: Const(
-                        name: A
+                        name: Identifier(
+                            name: A
+                        )
                         value: Scalar_LNumber(
                             value: 42
                         )
@@ -747,7 +775,9 @@ array(
                 flags: MODIFIER_PUBLIC (1)
                 props: array(
                     0: Stmt_PropertyProperty(
-                        name: x
+                        name: VarLikeIdentifier(
+                            name: x
+                        )
                         default: null
                     )
                 )
@@ -755,7 +785,9 @@ array(
         )
     )
     5: Stmt_Interface(
-        name: I
+        name: Identifier(
+            name: I
+        )
         extends: array(
             0: Name(
                 parts: array(
@@ -785,7 +817,9 @@ array(
     8: Stmt_Declare(
         declares: array(
             0: Stmt_DeclareDeclare(
-                key: a
+                key: Identifier(
+                    name: a
+                )
                 value: Scalar_LNumber(
                     value: 42
                 )
@@ -795,7 +829,9 @@ array(
     )
     9: Stmt_Function(
         byRef: false
-        name: foo
+        name: Identifier(
+            name: foo
+        )
         params: array(
             0: Param(
                 type: null

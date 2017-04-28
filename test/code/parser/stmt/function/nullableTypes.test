@@ -9,7 +9,9 @@ function test(?Foo $bar, ?string $foo) : ?Baz {
 array(
     0: Stmt_Function(
         byRef: false
-        name: test
+        name: Identifier(
+            name: test
+        )
         params: array(
             0: Param(
                 type: NullableType(
@@ -28,7 +30,9 @@ array(
             )
             1: Param(
                 type: NullableType(
-                    type: string
+                    type: Identifier(
+                        name: string
+                    )
                 )
                 byRef: false
                 variadic: false

@@ -50,7 +50,9 @@ array(
                         0: A
                     )
                 )
-                alias: self
+                alias: Identifier(
+                    name: self
+                )
             )
         )
     )
@@ -70,7 +72,9 @@ array(
                         0: B
                     )
                 )
-                alias: PARENT
+                alias: Identifier(
+                    name: PARENT
+                )
             )
         )
     )

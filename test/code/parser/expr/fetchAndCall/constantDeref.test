@@ -216,7 +216,9 @@ array(
                         0: Foo
                     )
                 )
-                name: BAR
+                name: Identifier(
+                    name: BAR
+                )
             )
             dim: Scalar_LNumber(
                 value: 1
@@ -231,7 +233,9 @@ array(
                         class: Expr_Variable(
                             name: foo
                         )
-                        name: BAR
+                        name: Identifier(
+                            name: BAR
+                        )
                     )
                     dim: Scalar_LNumber(
                         value: 2

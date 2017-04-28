@@ -18,7 +18,9 @@ array(
                         0: A
                     )
                 )
-                name: A
+                name: Identifier(
+                    name: A
+                )
             )
             dim: Scalar_LNumber(
                 value: 0
@@ -35,7 +37,9 @@ array(
                                 0: A
                             )
                         )
-                        name: A
+                        name: Identifier(
+                            name: A
+                        )
                     )
                     dim: Scalar_LNumber(
                         value: 0
@@ -55,7 +59,9 @@ array(
             var: Scalar_String(
                 value: string
             )
-            name: length
+            name: Identifier(
+                name: length
+            )
             args: array(
             )
         )
@@ -69,7 +75,9 @@ array(
                             name: obj
                         )
                     )
-                    name: b
+                    name: Identifier(
+                        name: b
+                    )
                 )
                 dim: Scalar_LNumber(
                     value: 0

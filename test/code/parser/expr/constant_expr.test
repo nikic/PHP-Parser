@@ -44,7 +44,9 @@ array(
     0: Stmt_Const(
         consts: array(
             0: Const(
-                name: T_1
+                name: Identifier(
+                    name: T_1
+                )
                 value: Expr_BinaryOp_ShiftLeft(
                     left: Scalar_LNumber(
                         value: 1
@@ -59,7 +61,9 @@ array(
     1: Stmt_Const(
         consts: array(
             0: Const(
-                name: T_2
+                name: Identifier(
+                    name: T_2
+                )
                 value: Expr_BinaryOp_Div(
                     left: Scalar_LNumber(
                         value: 1
@@ -74,7 +78,9 @@ array(
     2: Stmt_Const(
         consts: array(
             0: Const(
-                name: T_3
+                name: Identifier(
+                    name: T_3
+                )
                 value: Expr_BinaryOp_Plus(
                     left: Scalar_DNumber(
                         value: 1.5
@@ -89,7 +95,9 @@ array(
     3: Stmt_Const(
         consts: array(
             0: Const(
-                name: T_4
+                name: Identifier(
+                    name: T_4
+                )
                 value: Expr_BinaryOp_Concat(
                     left: Scalar_String(
                         value: foo
@@ -104,7 +112,9 @@ array(
     4: Stmt_Const(
         consts: array(
             0: Const(
-                name: T_5
+                name: Identifier(
+                    name: T_5
+                )
                 value: Expr_BinaryOp_Mul(
                     left: Expr_BinaryOp_Plus(
                         left: Scalar_DNumber(
@@ -124,7 +134,9 @@ array(
     5: Stmt_Const(
         consts: array(
             0: Const(
-                name: T_6
+                name: Identifier(
+                    name: T_6
+                )
                 value: Expr_BinaryOp_Concat(
                     left: Expr_BinaryOp_Concat(
                         left: Expr_BinaryOp_Concat(
@@ -149,7 +161,9 @@ array(
     6: Stmt_Const(
         consts: array(
             0: Const(
-                name: T_7
+                name: Identifier(
+                    name: T_7
+                )
                 value: Scalar_MagicConst_Line(
                 )
             )
@@ -158,7 +172,9 @@ array(
     7: Stmt_Const(
         consts: array(
             0: Const(
-                name: T_8
+                name: Identifier(
+                    name: T_8
+                )
                 value: Scalar_String(
                     value: This is a test string
                 )
@@ -168,7 +184,9 @@ array(
     8: Stmt_Const(
         consts: array(
             0: Const(
-                name: T_9
+                name: Identifier(
+                    name: T_9
+                )
                 value: Expr_BitwiseNot(
                     expr: Expr_UnaryMinus(
                         expr: Scalar_LNumber(
@@ -182,7 +200,9 @@ array(
     9: Stmt_Const(
         consts: array(
             0: Const(
-                name: T_10
+                name: Identifier(
+                    name: T_10
+                )
                 value: Expr_BinaryOp_Plus(
                     left: Expr_Ternary(
                         cond: Expr_UnaryMinus(
@@ -213,7 +233,9 @@ array(
     10: Stmt_Const(
         consts: array(
             0: Const(
-                name: T_11
+                name: Identifier(
+                    name: T_11
+                )
                 value: Expr_BinaryOp_BooleanAnd(
                     left: Scalar_LNumber(
                         value: 1
@@ -228,7 +250,9 @@ array(
     11: Stmt_Const(
         consts: array(
             0: Const(
-                name: T_12
+                name: Identifier(
+                    name: T_12
+                )
                 value: Expr_BinaryOp_LogicalAnd(
                     left: Scalar_LNumber(
                         value: 1
@@ -243,7 +267,9 @@ array(
     12: Stmt_Const(
         consts: array(
             0: Const(
-                name: T_13
+                name: Identifier(
+                    name: T_13
+                )
                 value: Expr_BinaryOp_BooleanOr(
                     left: Scalar_LNumber(
                         value: 0
@@ -258,7 +284,9 @@ array(
     13: Stmt_Const(
         consts: array(
             0: Const(
-                name: T_14
+                name: Identifier(
+                    name: T_14
+                )
                 value: Expr_BinaryOp_LogicalOr(
                     left: Scalar_LNumber(
                         value: 1
@@ -273,7 +301,9 @@ array(
     14: Stmt_Const(
         consts: array(
             0: Const(
-                name: T_15
+                name: Identifier(
+                    name: T_15
+                )
                 value: Expr_BinaryOp_LogicalXor(
                     left: Scalar_LNumber(
                         value: 1
@@ -288,7 +318,9 @@ array(
     15: Stmt_Const(
         consts: array(
             0: Const(
-                name: T_16
+                name: Identifier(
+                    name: T_16
+                )
                 value: Expr_BinaryOp_LogicalXor(
                     left: Scalar_LNumber(
                         value: 1
@@ -303,7 +335,9 @@ array(
     16: Stmt_Const(
         consts: array(
             0: Const(
-                name: T_17
+                name: Identifier(
+                    name: T_17
+                )
                 value: Expr_BinaryOp_Smaller(
                     left: Scalar_LNumber(
                         value: 1
@@ -318,7 +352,9 @@ array(
     17: Stmt_Const(
         consts: array(
             0: Const(
-                name: T_18
+                name: Identifier(
+                    name: T_18
+                )
                 value: Expr_BinaryOp_SmallerOrEqual(
                     left: Scalar_LNumber(
                         value: 0
@@ -333,7 +369,9 @@ array(
     18: Stmt_Const(
         consts: array(
             0: Const(
-                name: T_19
+                name: Identifier(
+                    name: T_19
+                )
                 value: Expr_BinaryOp_Greater(
                     left: Scalar_LNumber(
                         value: 1
@@ -348,7 +386,9 @@ array(
     19: Stmt_Const(
         consts: array(
             0: Const(
-                name: T_20
+                name: Identifier(
+                    name: T_20
+                )
                 value: Expr_BinaryOp_GreaterOrEqual(
                     left: Scalar_LNumber(
                         value: 1
@@ -363,7 +403,9 @@ array(
     20: Stmt_Const(
         consts: array(
             0: Const(
-                name: T_21
+                name: Identifier(
+                    name: T_21
+                )
                 value: Expr_BinaryOp_Identical(
                     left: Scalar_LNumber(
                         value: 1
@@ -378,7 +420,9 @@ array(
     21: Stmt_Const(
         consts: array(
             0: Const(
-                name: T_22
+                name: Identifier(
+                    name: T_22
+                )
                 value: Expr_BinaryOp_NotIdentical(
                     left: Scalar_LNumber(
                         value: 1
@@ -393,7 +437,9 @@ array(
     22: Stmt_Const(
         consts: array(
             0: Const(
-                name: T_23
+                name: Identifier(
+                    name: T_23
+                )
                 value: Expr_BinaryOp_NotEqual(
                     left: Scalar_LNumber(
                         value: 0
@@ -408,7 +454,9 @@ array(
     23: Stmt_Const(
         consts: array(
             0: Const(
-                name: T_24
+                name: Identifier(
+                    name: T_24
+                )
                 value: Expr_BinaryOp_Equal(
                     left: Scalar_LNumber(
                         value: 1
@@ -423,7 +471,9 @@ array(
     24: Stmt_Const(
         consts: array(
             0: Const(
-                name: T_25
+                name: Identifier(
+                    name: T_25
+                )
                 value: Expr_BinaryOp_Plus(
                     left: Scalar_LNumber(
                         value: 1
@@ -443,7 +493,9 @@ array(
     25: Stmt_Const(
         consts: array(
             0: Const(
-                name: T_26
+                name: Identifier(
+                    name: T_26
+                )
                 value: Expr_BinaryOp_Plus(
                     left: Expr_BinaryOp_Plus(
                         left: Scalar_String(
@@ -463,7 +515,9 @@ array(
     26: Stmt_Const(
         consts: array(
             0: Const(
-                name: T_27
+                name: Identifier(
+                    name: T_27
+                )
                 value: Expr_BinaryOp_Pow(
                     left: Scalar_LNumber(
                         value: 2
@@ -478,7 +532,9 @@ array(
     27: Stmt_Const(
         consts: array(
             0: Const(
-                name: T_28
+                name: Identifier(
+                    name: T_28
+                )
                 value: Expr_ArrayDimFetch(
                     var: Expr_Array(
                         items: array(
@@ -515,7 +571,9 @@ array(
     28: Stmt_Const(
         consts: array(
             0: Const(
-                name: T_29
+                name: Identifier(
+                    name: T_29
+                )
                 value: Expr_BinaryOp_Minus(
                     left: Scalar_LNumber(
                         value: 12
@@ -530,7 +588,9 @@ array(
     29: Stmt_Const(
         consts: array(
             0: Const(
-                name: T_30
+                name: Identifier(
+                    name: T_30
+                )
                 value: Expr_BinaryOp_BitwiseXor(
                     left: Scalar_LNumber(
                         value: 12
@@ -545,7 +605,9 @@ array(
     30: Stmt_Const(
         consts: array(
             0: Const(
-                name: T_31
+                name: Identifier(
+                    name: T_31
+                )
                 value: Expr_BinaryOp_BitwiseAnd(
                     left: Scalar_LNumber(
                         value: 12
@@ -560,7 +622,9 @@ array(
     31: Stmt_Const(
         consts: array(
             0: Const(
-                name: T_32
+                name: Identifier(
+                    name: T_32
+                )
                 value: Expr_BinaryOp_BitwiseOr(
                     left: Scalar_LNumber(
                         value: 12
@@ -575,7 +639,9 @@ array(
     32: Stmt_Const(
         consts: array(
             0: Const(
-                name: T_33
+                name: Identifier(
+                    name: T_33
+                )
                 value: Expr_BinaryOp_Mod(
                     left: Scalar_LNumber(
                         value: 12
@@ -590,7 +656,9 @@ array(
     33: Stmt_Const(
         consts: array(
             0: Const(
-                name: T_34
+                name: Identifier(
+                    name: T_34
+                )
                 value: Expr_BinaryOp_ShiftRight(
                     left: Scalar_LNumber(
                         value: 100
@@ -605,7 +673,9 @@ array(
     34: Stmt_Const(
         consts: array(
             0: Const(
-                name: T_35
+                name: Identifier(
+                    name: T_35
+                )
                 value: Expr_BooleanNot(
                     expr: Expr_ConstFetch(
                         name: Name(

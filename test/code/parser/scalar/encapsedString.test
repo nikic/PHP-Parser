@@ -44,7 +44,9 @@ array(
                     var: Expr_Variable(
                         name: A
                     )
-                    name: B
+                    name: Identifier(
+                        name: B
+                    )
                 )
             )
         )

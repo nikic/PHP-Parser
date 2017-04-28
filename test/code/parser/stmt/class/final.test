@@ -7,7 +7,9 @@ final class A {}
 array(
     0: Stmt_Class(
         flags: MODIFIER_FINAL (32)
-        name: A
+        name: Identifier(
+            name: A
+        )
         extends: null
         implements: array(
         )

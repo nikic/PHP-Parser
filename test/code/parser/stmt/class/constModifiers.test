@@ -13,7 +13,9 @@ class Foo {
 array(
     0: Stmt_Class(
         flags: 0
-        name: Foo
+        name: Identifier(
+            name: Foo
+        )
         extends: null
         implements: array(
         )
@@ -22,7 +24,9 @@ array(
                 flags: 0
                 consts: array(
                     0: Const(
-                        name: A
+                        name: Identifier(
+                            name: A
+                        )
                         value: Scalar_LNumber(
                             value: 1
                         )
@@ -33,7 +37,9 @@ array(
                 flags: MODIFIER_PUBLIC (1)
                 consts: array(
                     0: Const(
-                        name: B
+                        name: Identifier(
+                            name: B
+                        )
                         value: Scalar_LNumber(
                             value: 2
                         )
@@ -44,7 +50,9 @@ array(
                 flags: MODIFIER_PROTECTED (2)
                 consts: array(
                     0: Const(
-                        name: C
+                        name: Identifier(
+                            name: C
+                        )
                         value: Scalar_LNumber(
                             value: 3
                         )
@@ -55,7 +63,9 @@ array(
                 flags: MODIFIER_PRIVATE (4)
                 consts: array(
                     0: Const(
-                        name: D
+                        name: Identifier(
+                            name: D
+                        )
                         value: Scalar_LNumber(
                             value: 4
                         )

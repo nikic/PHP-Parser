@@ -6,7 +6,7 @@ use PhpParser\NodeAbstract;
 
 class Param extends NodeAbstract
 {
-    /** @var null|string|Name|NullableType Typehint */
+    /** @var null|Identifier|Name|NullableType Typehint */
     public $type;
     /** @var bool Whether parameter is passed by reference */
     public $byRef;
@@ -32,7 +32,7 @@ class Param extends NodeAbstract
         $byRef = false, $variadic = false, array $attributes = array()
     ) {
         parent::__construct($attributes);
-        $this->type = $type;
+        $this->type = \is_string($type) ? new Identifier($type) : $type;
         $this->byRef = $byRef;
         $this->variadic = $variadic;
         $this->var = $var;

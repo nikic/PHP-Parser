@@ -32,7 +32,7 @@ class Class_ extends ClassLike
     /**
      * Constructs a class node.
      *
-     * @param string|null $name       Name
+     * @param string|Node\Identifier|null $name Name
      * @param array       $subNodes   Array of the following optional subnodes:
      *                                'flags'      => 0      : Flags
      *                                'extends'    => null   : Name of extended class
@@ -43,7 +43,7 @@ class Class_ extends ClassLike
     public function __construct($name, array $subNodes = array(), array $attributes = array()) {
         parent::__construct($attributes);
         $this->flags = $subNodes['flags'] ?? $subNodes['type'] ?? 0;
-        $this->name = $name;
+        $this->name = \is_string($name) ? new Node\Identifier($name) : $name;
         $this->extends = $subNodes['extends'] ?? null;
         $this->implements = $subNodes['implements'] ?? array();
         $this->stmts = $subNodes['stmts'] ?? array();
