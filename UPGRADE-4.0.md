@@ -11,8 +11,9 @@ source code, while running on a newer version.
 * Many subnodes that previously held simple strings now store `Identifier` nodes instead (or
   `VarLikeIdentifier` nodes if they have form `$ident`). The constructors of the affected nodes will
   automatically convert strings to `Identifier`s and `Identifier`s implement `__toString()`. As such
-  some code continues without changes, but anything using `is_string()`, type-strict comparisons or
-  strict-mode may require adjustment. The following is an exhaustive list of all affected subnodes:
+  some code continues to work without changes, but anything using `is_string()`, type-strict
+  comparisons or strict-mode may require adjustment. The following is an exhaustive list of all
+  affected subnodes:
 
    * `Const::$name`
    * `NullableType::$type` (for simple types)
@@ -46,7 +47,7 @@ source code, while running on a newer version.
   than a plain string.
 * The `var` subnode of `ClosureUse` now contains a `Variable` rather than a plain string.
 * The `var` subnode of `Catch` now contains a `Variable` rather than a plain string.
-* The `alias` subnode of `UseUse` can is now `null` if no explicit alias is given. As such,
+* The `alias` subnode of `UseUse` is now `null` if no explicit alias is given. As such,
   `use Foo\Bar` and `use Foo\Bar as Bar` are now represented differently. The `getAlias()` method
   can be used to get the effective alias, even if it is not explicitly given.
 
