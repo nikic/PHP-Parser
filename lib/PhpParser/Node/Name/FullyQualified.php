@@ -39,4 +39,8 @@ class FullyQualified extends \PhpParser\Node\Name
     public function isRelative() {
         return false;
     }
+
+    public function toCodeString() {
+        return '\\' . $this->toString();
+    }
 }

@@ -100,30 +100,34 @@ class NameTest extends TestCase
         $this->assertNull(Name::concat(null, null));
     }
 
-    public function testIs() {
+    public function testNameTypes() {
         $name = new Name('foo');
         $this->assertTrue ($name->isUnqualified());
         $this->assertFalse($name->isQualified());
         $this->assertFalse($name->isFullyQualified());
         $this->assertFalse($name->isRelative());
+        $this->assertSame('foo', $name->toCodeString());
 
         $name = new Name('foo\bar');
         $this->assertFalse($name->isUnqualified());
         $this->assertTrue ($name->isQualified());
         $this->assertFalse($name->isFullyQualified());
         $this->assertFalse($name->isRelative());
+        $this->assertSame('foo\bar', $name->toCodeString());
 
         $name = new Name\FullyQualified('foo');
         $this->assertFalse($name->isUnqualified());
         $this->assertFalse($name->isQualified());
         $this->assertTrue ($name->isFullyQualified());
         $this->assertFalse($name->isRelative());
+        $this->assertSame('\foo', $name->toCodeString());
 
         $name = new Name\Relative('foo');
         $this->assertFalse($name->isUnqualified());
         $this->assertFalse($name->isQualified());
         $this->assertFalse($name->isFullyQualified());
         $this->assertTrue ($name->isRelative());
+        $this->assertSame('namespace\foo', $name->toCodeString());
     }
 
     /**

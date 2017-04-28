@@ -82,13 +82,23 @@ class Name extends NodeAbstract
     }
 
     /**
-     * Returns a string representation of the name by imploding the namespace parts with the
-     * namespace separator.
+     * Returns a string representation of the name itself, without taking taking the name type into
+     * account (e.g., not including a leading backslash for fully qualified names).
      *
      * @return string String representation
      */
     public function toString() {
         return implode('\\', $this->parts);
+    }
+
+    /**
+     * Returns a string representation of the name as it would occur in code (e.g., including
+     * leading backslash for fully qualified names.
+     *
+     * @return string String representation
+     */
+    public function toCodeString() {
+        return $this->toString();
     }
 
     /**
