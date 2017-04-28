@@ -28,9 +28,7 @@ array(
                         1: B
                     )
                 )
-                alias: Identifier(
-                    name: B
-                )
+                alias: null
             )
         )
     )
@@ -73,9 +71,7 @@ array(
                         0: J
                     )
                 )
-                alias: Identifier(
-                    name: J
-                )
+                alias: null
             )
         )
     )
@@ -89,9 +85,7 @@ array(
                         0: A
                     )
                 )
-                alias: Identifier(
-                    name: A
-                )
+                alias: null
             )
         )
         comments: array(
@@ -125,9 +119,7 @@ array(
                         1: bar
                     )
                 )
-                alias: Identifier(
-                    name: bar
-                )
+                alias: null
             )
         )
         comments: array(
@@ -162,9 +154,7 @@ array(
                         1: BAR
                     )
                 )
-                alias: Identifier(
-                    name: BAR
-                )
+                alias: null
             )
         )
     )

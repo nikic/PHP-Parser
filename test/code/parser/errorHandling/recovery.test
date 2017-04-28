@@ -471,9 +471,7 @@ array(
                                 0: A
                             )
                         )
-                        alias: Identifier(
-                            name: A
-                        )
+                        alias: null
                     )
                 )
             )
@@ -487,9 +485,7 @@ array(
                                 0: a
                             )
                         )
-                        alias: Identifier(
-                            name: a
-                        )
+                        alias: null
                     )
                 )
             )
@@ -508,9 +504,7 @@ array(
                                 0: B
                             )
                         )
-                        alias: Identifier(
-                            name: B
-                        )
+                        alias: null
                     )
                 )
             )
@@ -650,9 +644,7 @@ array(
                         0: B
                     )
                 )
-                alias: Identifier(
-                    name: B
-                )
+                alias: null
             )
         )
     )
@@ -671,9 +663,7 @@ array(
                         0: b
                     )
                 )
-                alias: Identifier(
-                    name: b
-                )
+                alias: null
             )
         )
     )
@@ -687,9 +677,7 @@ array(
                         0: A
                     )
                 )
-                alias: Identifier(
-                    name: A
-                )
+                alias: null
             )
         )
     )

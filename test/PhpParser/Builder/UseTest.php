@@ -14,7 +14,7 @@ class UseTest extends TestCase
     public function testCreation() {
         $node = $this->createUseBuilder('Foo\Bar')->getNode();
         $this->assertEquals(new Stmt\Use_(array(
-            new Stmt\UseUse(new Name('Foo\Bar'), 'Bar')
+            new Stmt\UseUse(new Name('Foo\Bar'), null)
         )), $node);
 
         $node = $this->createUseBuilder(new Name('Foo\Bar'))->as('XYZ')->getNode();

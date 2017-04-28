@@ -51,9 +51,8 @@ class Use_ implements Builder {
      * @return Node The built node
      */
     public function getNode() {
-        $alias = null !== $this->alias ? $this->alias : $this->name->getLast();
         return new Stmt\Use_(array(
-            new Stmt\UseUse($this->name, $alias)
+            new Stmt\UseUse($this->name, $this->alias)
         ), $this->type);
     }
 }

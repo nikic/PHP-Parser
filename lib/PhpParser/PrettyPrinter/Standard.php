@@ -619,7 +619,7 @@ class Standard extends PrettyPrinterAbstract
 
     protected function pStmt_UseUse(Stmt\UseUse $node) {
         return $this->pUseType($node->type) . $this->p($node->name)
-             . ($node->name->getLast() !== (string) $node->alias ? ' as ' . $node->alias : '');
+             . (null !== $node->alias ? ' as ' . $node->alias : '');
     }
 
     protected function pUseType($type) {

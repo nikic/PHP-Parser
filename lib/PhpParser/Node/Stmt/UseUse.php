@@ -11,7 +11,7 @@ class UseUse extends Node\Stmt
     public $type;
     /** @var Node\Name Namespace, class, function or constant to alias */
     public $name;
-    /** @var Identifier Alias */
+    /** @var Identifier|null Alias */
     public $alias;
 
     /**
@@ -23,10 +23,6 @@ class UseUse extends Node\Stmt
      * @param array                  $attributes Additional attributes
      */
     public function __construct(Node\Name $name, $alias = null, $type = Use_::TYPE_UNKNOWN, array $attributes = array()) {
-        if (null === $alias) {
-            $alias = $name->getLast();
-        }
-
         parent::__construct($attributes);
         $this->type = $type;
         $this->name = $name;
@@ -35,5 +31,18 @@ class UseUse extends Node\Stmt
 
     public function getSubNodeNames() {
         return array('type', 'name', 'alias');
+    }
+
+    /**
+     * Get alias. If not explicitly given this is the last component of the used name.
+     *
+     * @return Identifier
+     */
+    public function getAlias() {
+        if (null !== $this->alias) {
+            return $this->alias;
+        }
+
+        return new Identifier($this->name->getLast());
     }
 }

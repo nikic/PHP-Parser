@@ -21,9 +21,7 @@ array(
                         0: Baz
                     )
                 )
-                alias: Identifier(
-                    name: Baz
-                )
+                alias: null
             )
         )
     )
