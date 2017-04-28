@@ -3,6 +3,7 @@
 namespace PhpParser;
 
 use PhpParser\Builder;
+use PhpParser\Node\Arg;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\BinaryOp\Concat;
 use PhpParser\Node\Scalar\String_;
@@ -129,6 +130,27 @@ class BuilderFactory
      */
     public function val($value) {
         return BuilderHelpers::normalizeValue($value);
+    }
+
+    /**
+     * Normalizes an argument list.
+     *
+     * Creates Arg nodes for all arguments and converts literal values to expressions.
+     *
+     * @param array $args List of arguments to normalize
+     *
+     * @return Arg[]
+     */
+    public function args(array $args) {
+        $normalizedArgs = [];
+        foreach ($args as $arg) {
+            if ($arg instanceof Arg) {
+                $normalizedArgs[] = $arg;
+            } else {
+                $normalizedArgs[] = new Arg(BuilderHelpers::normalizeValue($arg));
+            }
+        }
+        return $normalizedArgs;
     }
 
     /**

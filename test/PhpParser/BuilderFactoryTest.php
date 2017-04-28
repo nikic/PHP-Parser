@@ -2,6 +2,7 @@
 
 namespace PhpParser;
 
+use PhpParser\Node\Arg;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\BinaryOp\Concat;
 use PhpParser\Node\Scalar\String_;
@@ -82,6 +83,19 @@ class BuilderFactoryTest extends TestCase
      */
     public function testConcatInvalidExpr() {
         (new BuilderFactory())->concat("a", 42);
+    }
+
+    public function testArgs() {
+        $factory = new BuilderFactory();
+        $unpack = new Arg(new Expr\Variable('c'), false, true);
+        $this->assertEquals(
+            [
+                new Arg(new Expr\Variable('a')),
+                new Arg(new String_('b')),
+                $unpack
+            ],
+            $factory->args([new Expr\Variable('a'), 'b', $unpack])
+        );
     }
 
     public function testIntegration() {
