@@ -113,10 +113,10 @@ class NameResolver extends NodeVisitorAbstract
             }
         } elseif ($node instanceof Expr\FuncCall) {
             if ($node->name instanceof Name) {
-                $node->name = $this->resolveOtherName($node->name, Stmt\Use_::TYPE_FUNCTION);
+                $node->name = $this->resolveName($node->name, Stmt\Use_::TYPE_FUNCTION);
             }
         } elseif ($node instanceof Expr\ConstFetch) {
-            $node->name = $this->resolveOtherName($node->name, Stmt\Use_::TYPE_CONSTANT);
+            $node->name = $this->resolveName($node->name, Stmt\Use_::TYPE_CONSTANT);
         } elseif ($node instanceof Stmt\TraitUse) {
             foreach ($node->traits as &$trait) {
                 $trait = $this->resolveClassName($trait);
@@ -167,39 +167,16 @@ class NameResolver extends NodeVisitorAbstract
     }
 
     /**
-     * Resolve class name, according to name resolver options.
-     *
-     * @param Name $name Class ame to resolve
-     *
-     * @return Name Resolved name, or original name with attribute
-     */
-    protected function resolveClassName(Name $name) {
-        if (!$this->replaceNodes) {
-            $name->setAttribute('resolvedName', $this->nameContext->getResolvedClassName($name));
-            return $name;
-        }
-
-        if ($this->preserveOriginalNames) {
-            // Save the original name
-            $originalName = $name;
-            $name = clone $originalName;
-            $name->setAttribute('originalName', $originalName);
-        }
-
-        return $this->nameContext->getResolvedClassName($name);
-    }
-
-    /**
-     * Resolve function or constant name, according to name resolver options.
+     * Resolve name, according to name resolver options.
      *
      * @param Name $name Function or constant name to resolve
-     * @param int  $type One of Stmt\Use_::TYPE_{FUNCTION|CONSTANT}
+     * @param int  $type One of Stmt\Use_::TYPE_*
      *
      * @return Name Resolved name, or original name with attribute
      */
-    protected function resolveOtherName(Name $name, $type) {
+    protected function resolveName(Name $name, $type) {
         if (!$this->replaceNodes) {
-            $resolvedName = $this->nameContext->getResolvedOtherName($name, $type);
+            $resolvedName = $this->nameContext->getResolvedName($name, $type);
             if (null !== $resolvedName) {
                 $name->setAttribute('resolvedName', $resolvedName);
             } else {
@@ -216,7 +193,7 @@ class NameResolver extends NodeVisitorAbstract
             $name->setAttribute('originalName', $originalName);
         }
 
-        $resolvedName = $this->nameContext->getResolvedOtherName($name, $type);
+        $resolvedName = $this->nameContext->getResolvedName($name, $type);
         if (null !== $resolvedName) {
             return $resolvedName;
         }
@@ -226,6 +203,10 @@ class NameResolver extends NodeVisitorAbstract
         $name->setAttribute('namespacedName', FullyQualified::concat(
             $this->nameContext->getNamespace(), $name, $name->getAttributes()));
         return $name;
+    }
+
+    protected function resolveClassName(Name $name) {
+        return $this->resolveName($name, Stmt\Use_::TYPE_NORMAL);
     }
 
     protected function addNamespacedName(Node $node) {

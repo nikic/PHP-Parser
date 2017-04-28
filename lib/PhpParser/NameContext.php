@@ -2,6 +2,7 @@
 
 namespace PhpParser;
 
+use PhpParser\Builder\Use_;
 use PhpParser\Node\Name;
 use PhpParser\Node\Name\FullyQualified;
 use PhpParser\Node\Stmt;
@@ -91,15 +92,17 @@ class NameContext {
     }
 
     /**
-     * Get resolved class name.
+     * Get resolved name.
      *
-     * @param Name $name Class ame to resolve
+     * @param Name $name Name to resolve
+     * @param int  $type One of Stmt\Use_::TYPE_{FUNCTION|CONSTANT}
      *
-     * @return Name Resolved name
+     * @return null|Name Resolved name, or null if static resolution is not possible
      */
-    public function getResolvedClassName(Name $name) {
+    public function getResolvedName(Name $name, $type) {
         // don't resolve special class names
-        if (in_array(strtolower($name->toString()), array('self', 'parent', 'static'))) {
+        if ($type === Stmt\Use_::TYPE_NORMAL
+                && in_array(strtolower($name->toString()), array('self', 'parent', 'static'))) {
             if (!$name->isUnqualified()) {
                 $this->errorHandler->handleError(new Error(
                     sprintf("'\\%s' is an invalid class name", $name->toString()),
@@ -115,34 +118,11 @@ class NameContext {
         }
 
         // Try to resolve aliases
-        if (null !== $resolvedName = $this->resolveAlias($name, Stmt\Use_::TYPE_NORMAL)) {
-            return $resolvedName;
-        }
-
-        // if no alias exists prepend current namespace
-        return FullyQualified::concat($this->namespace, $name, $name->getAttributes());
-    }
-
-    /**
-     * Get resolved function or constant name.
-     *
-     * @param Name $name Function or constant name to resolve
-     * @param int  $type One of Stmt\Use_::TYPE_{FUNCTION|CONSTANT}
-     *
-     * @return null|Name Resolved name, or null if static resolution is not possible
-     */
-    public function getResolvedOtherName(Name $name, $type) {
-        // fully qualified names are already resolved
-        if ($name->isFullyQualified()) {
-            return $name;
-        }
-
-        // Try to resolve aliases
         if (null !== $resolvedName = $this->resolveAlias($name, $type)) {
             return $resolvedName;
         }
 
-        if ($name->isUnqualified()) {
+        if ($type !== Stmt\Use_::TYPE_NORMAL && $name->isUnqualified()) {
             if (null === $this->namespace) {
                 // outside of a namespace unaliased unqualified is same as fully qualified
                 return new FullyQualified($name, $name->getAttributes());
@@ -154,6 +134,17 @@ class NameContext {
 
         // if no alias exists prepend current namespace
         return FullyQualified::concat($this->namespace, $name, $name->getAttributes());
+    }
+
+    /**
+     * Get resolved class name.
+     *
+     * @param Name $name Class ame to resolve
+     *
+     * @return Name Resolved name
+     */
+    public function getResolvedClassName(Name $name) {
+        return $this->getResolvedName($name, Stmt\Use_::TYPE_NORMAL);
     }
 
     /**
