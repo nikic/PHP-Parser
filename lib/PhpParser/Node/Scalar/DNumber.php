@@ -15,12 +15,12 @@ class DNumber extends Scalar
      * @param float $value      Value of the number
      * @param array $attributes Additional attributes
      */
-    public function __construct($value, array $attributes = array()) {
+    public function __construct(float $value, array $attributes = array()) {
         parent::__construct($attributes);
         $this->value = $value;
     }
 
-    public function getSubNodeNames() {
+    public function getSubNodeNames() : array {
         return array('value');
     }
 
@@ -33,7 +33,7 @@ class DNumber extends Scalar
      *
      * @return float The parsed number
      */
-    public static function parse($str) {
+    public static function parse(string $str) : float {
         // if string contains any of .eE just cast it to float
         if (false !== strpbrk($str, '.eE')) {
             return (float) $str;

@@ -136,7 +136,7 @@ abstract class PrettyPrinterAbstract
      *
      * @return string Pretty printed statements
      */
-    public function prettyPrint(array $stmts) {
+    public function prettyPrint(array $stmts) : string {
         $this->preprocessNodes($stmts);
 
         return ltrim($this->handleMagicTokens($this->pStmts($stmts, false)));
@@ -149,7 +149,7 @@ abstract class PrettyPrinterAbstract
      *
      * @return string Pretty printed node
      */
-    public function prettyPrintExpr(Expr $node) {
+    public function prettyPrintExpr(Expr $node) : string {
         return $this->handleMagicTokens($this->p($node));
     }
 
@@ -160,7 +160,7 @@ abstract class PrettyPrinterAbstract
      *
      * @return string Pretty printed statements
      */
-    public function prettyPrintFile(array $stmts) {
+    public function prettyPrintFile(array $stmts) : string {
         if (!$stmts) {
             return "<?php\n\n";
         }
@@ -198,7 +198,7 @@ abstract class PrettyPrinterAbstract
      * @param string $str
      * @return string
      */
-    protected function handleMagicTokens($str) {
+    protected function handleMagicTokens(string $str) : string {
         // Drop no-indent tokens
         $str = str_replace($this->noIndentToken, '', $str);
 
@@ -217,7 +217,7 @@ abstract class PrettyPrinterAbstract
      *
      * @return string Pretty printed statements
      */
-    protected function pStmts(array $nodes, $indent = true) {
+    protected function pStmts(array $nodes, bool $indent = true) : string {
         $result = '';
         foreach ($nodes as $node) {
             $comments = $node->getAttribute('comments', array());
@@ -248,7 +248,7 @@ abstract class PrettyPrinterAbstract
      *
      * @return string Pretty printed infix operation
      */
-    protected function pInfixOp($type, Node $leftNode, $operatorString, Node $rightNode) {
+    protected function pInfixOp(string $type, Node $leftNode, string $operatorString, Node $rightNode) : string {
         list($precedence, $associativity) = $this->precedenceMap[$type];
 
         return $this->pPrec($leftNode, $precedence, $associativity, -1)
@@ -265,7 +265,7 @@ abstract class PrettyPrinterAbstract
      *
      * @return string Pretty printed prefix operation
      */
-    protected function pPrefixOp($type, $operatorString, Node $node) {
+    protected function pPrefixOp(string $type, string $operatorString, Node $node) : string {
         list($precedence, $associativity) = $this->precedenceMap[$type];
         return $operatorString . $this->pPrec($node, $precedence, $associativity, 1);
     }
@@ -279,7 +279,7 @@ abstract class PrettyPrinterAbstract
      *
      * @return string Pretty printed postfix operation
      */
-    protected function pPostfixOp($type, Node $node, $operatorString) {
+    protected function pPostfixOp(string $type, Node $node, string $operatorString) : string {
         list($precedence, $associativity) = $this->precedenceMap[$type];
         return $this->pPrec($node, $precedence, $associativity, -1) . $operatorString;
     }
@@ -296,7 +296,7 @@ abstract class PrettyPrinterAbstract
      *
      * @return string The pretty printed node
      */
-    protected function pPrec(Node $node, $parentPrecedence, $parentAssociativity, $childPosition) {
+    protected function pPrec(Node $node, int $parentPrecedence, int $parentAssociativity, int $childPosition) : string {
         $type = $node->getType();
         if (isset($this->precedenceMap[$type])) {
             $childPrecedence = $this->precedenceMap[$type][0];
@@ -318,7 +318,7 @@ abstract class PrettyPrinterAbstract
      *
      * @return string Imploded pretty printed nodes
      */
-    protected function pImplode(array $nodes, $glue = '') {
+    protected function pImplode(array $nodes, string $glue = '') : string {
         $pNodes = array();
         foreach ($nodes as $node) {
             if (null === $node) {
@@ -338,7 +338,7 @@ abstract class PrettyPrinterAbstract
      *
      * @return string Comma separated pretty printed nodes
      */
-    protected function pCommaSeparated(array $nodes) {
+    protected function pCommaSeparated(array $nodes) : string {
         return $this->pImplode($nodes, ', ');
     }
 
@@ -352,7 +352,7 @@ abstract class PrettyPrinterAbstract
      *
      * @return string Comma separated pretty printed nodes in multiline style
      */
-    protected function pCommaSeparatedMultiline(array $nodes, $trailingComma) {
+    protected function pCommaSeparatedMultiline(array $nodes, bool $trailingComma) : string {
         $result = '';
         $lastIdx = count($nodes) - 1;
         foreach ($nodes as $idx => $node) {
@@ -381,7 +381,7 @@ abstract class PrettyPrinterAbstract
      *
      * @return string String marked with $this->noIndentToken's.
      */
-    protected function pNoIndent($string) {
+    protected function pNoIndent(string $string) : string {
         return str_replace("\n", "\n" . $this->noIndentToken, $string);
     }
 
@@ -392,7 +392,7 @@ abstract class PrettyPrinterAbstract
      *
      * @return string Reformatted text of comments
      */
-    protected function pComments(array $comments) {
+    protected function pComments(array $comments) : string {
         $formattedComments = [];
 
         foreach ($comments as $comment) {
@@ -419,7 +419,7 @@ abstract class PrettyPrinterAbstract
      *
      * @return string
      */
-    public function printFormatPreserving(array $stmts, array $origStmts, array $origTokens) {
+    public function printFormatPreserving(array $stmts, array $origStmts, array $origTokens) : string {
         $this->initializeLabelCharMap();
         $this->initializeFixupMap();
         $this->initializeRemovalMap();
@@ -456,7 +456,7 @@ abstract class PrettyPrinterAbstract
      *
      * @return string Pretty printed node
      */
-    protected function p(Node $node) {
+    protected function p(Node $node) : string {
         // No orig tokens means this is a normal pretty print without preservation of formatting
         if (!$this->origTokens) {
             return $this->{'p' . $node->getType()}($node);
@@ -620,7 +620,7 @@ abstract class PrettyPrinterAbstract
      *
      * @return null|string Result of pretty print or null if cannot preserve formatting
      */
-    protected function pArray(array $nodes, array $origNodes, &$pos, $indentAdjustment, $fixup) {
+    protected function pArray(array $nodes, array $origNodes, int &$pos, int $indentAdjustment, $fixup) {
         $len = count($nodes);
         $origLen = count($origNodes);
         if ($len !== $origLen) {
@@ -688,7 +688,7 @@ abstract class PrettyPrinterAbstract
      *
      * @return string Result of fixed-up print of subnode
      */
-    protected function pFixup($fixup, Node $subNode, $parentType, $subStartPos, $subEndPos) {
+    protected function pFixup(int $fixup, Node $subNode, $parentType, int $subStartPos, int $subEndPos) : string {
         switch ($fixup) {
             case self::FIXUP_PREC_LEFT:
             case self::FIXUP_PREC_RIGHT:
@@ -745,7 +745,7 @@ abstract class PrettyPrinterAbstract
      * @param string $str
      * @param string $append
      */
-    protected function safeAppend(&$str, $append) {
+    protected function safeAppend(string &$str, string $append) {
         // $append must not be empty in this function
         if ($str === "") {
             $str = $append;
@@ -767,7 +767,7 @@ abstract class PrettyPrinterAbstract
      *
      * @return int Indentation depth (in spaces)
      */
-    protected function getIndentationBefore($pos) {
+    protected function getIndentationBefore(int $pos) : int {
         $tokens = $this->origTokens;
         $indent = 0;
         $pos--;
@@ -796,7 +796,7 @@ abstract class PrettyPrinterAbstract
      *
      * @return bool
      */
-    protected function haveParens($startPos, $endPos) {
+    protected function haveParens(int $startPos, int $endPos) : bool {
         return $this->haveTokenImmediativelyBefore($startPos, '(')
             && $this->haveTokenImmediatelyAfter($endPos, ')');
     }
@@ -809,7 +809,7 @@ abstract class PrettyPrinterAbstract
      *
      * @return bool
      */
-    protected function haveBraces($startPos, $endPos) {
+    protected function haveBraces(int $startPos, int $endPos) : bool {
         return $this->haveTokenImmediativelyBefore($startPos, '{')
             && $this->haveTokenImmediatelyAfter($endPos, '}');
     }
@@ -824,7 +824,7 @@ abstract class PrettyPrinterAbstract
      *
      * @return bool Whether the expected token was found
      */
-    protected function haveTokenImmediativelyBefore($pos, $expectedTokenType) {
+    protected function haveTokenImmediativelyBefore(int $pos, $expectedTokenType) : bool {
         $tokens = $this->origTokens;
         $pos--;
         for (; $pos >= 0; $pos--) {
@@ -850,7 +850,7 @@ abstract class PrettyPrinterAbstract
      *
      * @return bool Whether the expected token was found
      */
-    protected function haveTokenImmediatelyAfter($pos, $expectedTokenType) {
+    protected function haveTokenImmediatelyAfter(int $pos, $expectedTokenType) : bool {
         $tokens = $this->origTokens;
         $pos++;
         for (; $pos < \count($tokens); $pos++) {
@@ -875,7 +875,7 @@ abstract class PrettyPrinterAbstract
      *
      * @return string Code corresponding to token range, adjusted for indentation
      */
-    protected function getTokenCode($from, $to, $indent) {
+    protected function getTokenCode(int $from, int $to, int $indent) : string {
         $tokens = $this->origTokens;
         $result = '';
         for ($pos = $from; $pos < $to; $pos++) {
@@ -976,7 +976,7 @@ abstract class PrettyPrinterAbstract
      *
      * @return bool Whether parentheses are required
      */
-    protected function callLhsRequiresParens(Node $node) {
+    protected function callLhsRequiresParens(Node $node) : bool {
         return !($node instanceof Node\Name
             || $node instanceof Expr\Variable
             || $node instanceof Expr\ArrayDimFetch
@@ -993,7 +993,7 @@ abstract class PrettyPrinterAbstract
      *
      * @return bool Whether parentheses are required
      */
-    protected function dereferenceLhsRequiresParens(Node $node) {
+    protected function dereferenceLhsRequiresParens(Node $node) : bool {
         return !($node instanceof Expr\Variable
             || $node instanceof Node\Name
             || $node instanceof Expr\ArrayDimFetch

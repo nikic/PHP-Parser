@@ -21,7 +21,7 @@ class Error extends Expr
         parent::__construct($attributes);
     }
 
-    public function getSubNodeNames() {
+    public function getSubNodeNames() : array {
         return array();
     }
 }

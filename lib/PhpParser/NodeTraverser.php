@@ -73,7 +73,7 @@ class NodeTraverser implements NodeTraverserInterface
      *
      * @return Node[] Traversed array of nodes
      */
-    public function traverse(array $nodes) {
+    public function traverse(array $nodes) : array {
         $this->stopTraversal = false;
 
         foreach ($this->visitors as $visitor) {
@@ -100,7 +100,7 @@ class NodeTraverser implements NodeTraverserInterface
      *
      * @return Node Result of traversal (may be original node or new one)
      */
-    protected function traverseNode(Node $node) {
+    protected function traverseNode(Node $node) : Node {
         foreach ($node->getSubNodeNames() as $name) {
             $subNode =& $node->$name;
 
@@ -169,7 +169,7 @@ class NodeTraverser implements NodeTraverserInterface
      *
      * @return array Result of traversal (may be original array or changed one)
      */
-    protected function traverseArray(array $nodes) {
+    protected function traverseArray(array $nodes) : array {
         $doNodes = array();
 
         foreach ($nodes as $i => &$node) {

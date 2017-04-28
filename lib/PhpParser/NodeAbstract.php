@@ -20,7 +20,7 @@ abstract class NodeAbstract implements Node, \JsonSerializable
      *
      * @return string Type of the node
      */
-    public function getType() {
+    public function getType() : string {
         return strtr(substr(rtrim(get_class($this), '_'), 15), '\\', '_');
     }
 
@@ -29,7 +29,7 @@ abstract class NodeAbstract implements Node, \JsonSerializable
      *
      * @return int Line
      */
-    public function getLine() {
+    public function getLine() : int {
         return $this->getAttribute('startLine', -1);
     }
 
@@ -38,7 +38,7 @@ abstract class NodeAbstract implements Node, \JsonSerializable
      *
      * @param int $line Line
      */
-    public function setLine($line) {
+    public function setLine(int $line) {
         $this->setAttribute('startLine', (int) $line);
     }
 
@@ -85,15 +85,15 @@ abstract class NodeAbstract implements Node, \JsonSerializable
         $this->setAttribute('comments', $comments);
     }
 
-    public function setAttribute($key, $value) {
+    public function setAttribute(string $key, $value) {
         $this->attributes[$key] = $value;
     }
 
-    public function hasAttribute($key) {
+    public function hasAttribute(string $key) : bool {
         return array_key_exists($key, $this->attributes);
     }
 
-    public function &getAttribute($key, $default = null) {
+    public function &getAttribute(string $key, $default = null) {
         if (!array_key_exists($key, $this->attributes)) {
             return $default;
         } else {
@@ -101,7 +101,7 @@ abstract class NodeAbstract implements Node, \JsonSerializable
         }
     }
 
-    public function getAttributes() {
+    public function getAttributes() : array {
         return $this->attributes;
     }
 
@@ -112,7 +112,7 @@ abstract class NodeAbstract implements Node, \JsonSerializable
     /**
      * @return array
      */
-    public function jsonSerialize() {
+    public function jsonSerialize() : array {
         return ['nodeType' => $this->getType()] + get_object_vars($this);
     }
 }

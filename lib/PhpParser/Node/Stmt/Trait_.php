@@ -20,7 +20,7 @@ class Trait_ extends ClassLike
         $this->stmts = isset($subNodes['stmts']) ? $subNodes['stmts'] : array();
     }
 
-    public function getSubNodeNames() {
+    public function getSubNodeNames() : array {
         return array('name', 'stmts');
     }
 }

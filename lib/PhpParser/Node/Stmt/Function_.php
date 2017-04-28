@@ -42,15 +42,15 @@ class Function_ extends Node\Stmt implements FunctionLike
         $this->stmts = $subNodes['stmts'] ?? array();
     }
 
-    public function getSubNodeNames() {
+    public function getSubNodeNames() : array {
         return array('byRef', 'name', 'params', 'returnType', 'stmts');
     }
 
-    public function returnsByRef() {
+    public function returnsByRef() : bool {
         return $this->byRef;
     }
 
-    public function getParams() {
+    public function getParams() : array {
         return $this->params;
     }
 
@@ -58,7 +58,7 @@ class Function_ extends Node\Stmt implements FunctionLike
         return $this->returnType;
     }
 
-    public function getStmts() {
+    public function getStmts() : array {
         return $this->stmts;
     }
 }

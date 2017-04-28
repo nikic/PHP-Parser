@@ -15,7 +15,7 @@ abstract class MagicConst extends Scalar
         parent::__construct($attributes);
     }
 
-    public function getSubNodeNames() {
+    public function getSubNodeNames() : array {
         return array();
     }
 
@@ -24,5 +24,5 @@ abstract class MagicConst extends Scalar
      *
      * @return string Name of magic constant
      */
-    abstract public function getName();
+    abstract public function getName() : string;
 }

@@ -20,7 +20,7 @@ class PreInc extends Expr
         $this->var = $var;
     }
 
-    public function getSubNodeNames() {
+    public function getSubNodeNames() : array {
         return array('var');
     }
 }

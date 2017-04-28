@@ -24,7 +24,7 @@ class Switch_ extends Node\Stmt
         $this->cases = $cases;
     }
 
-    public function getSubNodeNames() {
+    public function getSubNodeNames() : array {
         return array('cond', 'cases');
     }
 }

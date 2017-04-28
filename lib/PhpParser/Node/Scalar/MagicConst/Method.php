@@ -6,7 +6,7 @@ use PhpParser\Node\Scalar\MagicConst;
 
 class Method extends MagicConst
 {
-    public function getName() {
+    public function getName() : string {
         return '__METHOD__';
     }
 }

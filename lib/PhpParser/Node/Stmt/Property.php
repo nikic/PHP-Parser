@@ -18,13 +18,13 @@ class Property extends Node\Stmt
      * @param PropertyProperty[] $props      Properties
      * @param array              $attributes Additional attributes
      */
-    public function __construct($flags, array $props, array $attributes = array()) {
+    public function __construct(int $flags, array $props, array $attributes = array()) {
         parent::__construct($attributes);
         $this->flags = $flags;
         $this->props = $props;
     }
 
-    public function getSubNodeNames() {
+    public function getSubNodeNames() : array {
         return array('flags', 'props');
     }
 
@@ -33,7 +33,7 @@ class Property extends Node\Stmt
      *
      * @return bool
      */
-    public function isPublic() {
+    public function isPublic() : bool {
         return ($this->flags & Class_::MODIFIER_PUBLIC) !== 0
             || ($this->flags & Class_::VISIBILITY_MODIFIER_MASK) === 0;
     }
@@ -43,7 +43,7 @@ class Property extends Node\Stmt
      *
      * @return bool
      */
-    public function isProtected() {
+    public function isProtected() : bool {
         return (bool) ($this->flags & Class_::MODIFIER_PROTECTED);
     }
 
@@ -52,7 +52,7 @@ class Property extends Node\Stmt
      *
      * @return bool
      */
-    public function isPrivate() {
+    public function isPrivate() : bool {
         return (bool) ($this->flags & Class_::MODIFIER_PRIVATE);
     }
 
@@ -61,7 +61,7 @@ class Property extends Node\Stmt
      *
      * @return bool
      */
-    public function isStatic() {
+    public function isStatic() : bool {
         return (bool) ($this->flags & Class_::MODIFIER_STATIC);
     }
 }

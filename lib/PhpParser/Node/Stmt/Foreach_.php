@@ -37,7 +37,7 @@ class Foreach_ extends Node\Stmt
         $this->stmts = $subNodes['stmts'] ?? array();
     }
 
-    public function getSubNodeNames() {
+    public function getSubNodeNames() : array {
         return array('expr', 'keyVar', 'byRef', 'valueVar', 'stmts');
     }
 }

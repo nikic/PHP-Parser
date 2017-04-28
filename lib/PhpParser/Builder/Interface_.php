@@ -19,7 +19,7 @@ class Interface_ extends Declaration
      *
      * @param string $name Name of the interface
      */
-    public function __construct($name) {
+    public function __construct(string $name) {
         $this->name = $name;
     }
 
@@ -72,7 +72,7 @@ class Interface_ extends Declaration
      *
      * @return Stmt\Interface_ The built interface node
      */
-    public function getNode() {
+    public function getNode() : PhpParser\Node {
         return new Stmt\Interface_($this->name, array(
             'extends' => $this->extends,
             'stmts' => array_merge($this->constants, $this->methods),

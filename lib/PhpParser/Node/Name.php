@@ -23,7 +23,7 @@ class Name extends NodeAbstract
         $this->parts = self::prepareName($name);
     }
 
-    public function getSubNodeNames() {
+    public function getSubNodeNames() : array {
         return array('parts');
     }
 
@@ -32,7 +32,7 @@ class Name extends NodeAbstract
      *
      * @return string First part of the name
      */
-    public function getFirst() {
+    public function getFirst() : string {
         return $this->parts[0];
     }
 
@@ -41,7 +41,7 @@ class Name extends NodeAbstract
      *
      * @return string Last part of the name
      */
-    public function getLast() {
+    public function getLast() : string {
         return $this->parts[count($this->parts) - 1];
     }
 
@@ -50,7 +50,7 @@ class Name extends NodeAbstract
      *
      * @return bool Whether the name is unqualified
      */
-    public function isUnqualified() {
+    public function isUnqualified() : bool {
         return 1 == count($this->parts);
     }
 
@@ -59,7 +59,7 @@ class Name extends NodeAbstract
      *
      * @return bool Whether the name is qualified
      */
-    public function isQualified() {
+    public function isQualified() : bool {
         return 1 < count($this->parts);
     }
 
@@ -68,7 +68,7 @@ class Name extends NodeAbstract
      *
      * @return bool Whether the name is fully qualified
      */
-    public function isFullyQualified() {
+    public function isFullyQualified() : bool {
         return false;
     }
 
@@ -77,7 +77,7 @@ class Name extends NodeAbstract
      *
      * @return bool Whether the name is relative
      */
-    public function isRelative() {
+    public function isRelative() : bool {
         return false;
     }
 
@@ -87,7 +87,7 @@ class Name extends NodeAbstract
      *
      * @return string String representation
      */
-    public function toString() {
+    public function toString() : string {
         return implode('\\', $this->parts);
     }
 
@@ -97,7 +97,7 @@ class Name extends NodeAbstract
      *
      * @return string String representation
      */
-    public function toCodeString() {
+    public function toCodeString() : string {
         return $this->toString();
     }
 
@@ -107,7 +107,7 @@ class Name extends NodeAbstract
      *
      * @return string String representation
      */
-    public function __toString() {
+    public function __toString() : string {
         return implode('\\', $this->parts);
     }
 
@@ -127,7 +127,7 @@ class Name extends NodeAbstract
      *
      * @return static|null Sliced name
      */
-    public function slice($offset, $length = null) {
+    public function slice(int $offset, int $length = null) {
         $numParts = count($this->parts);
 
         $realOffset = $offset < 0 ? $offset + $numParts : $offset;
@@ -191,7 +191,7 @@ class Name extends NodeAbstract
      *
      * @return string[] Prepared name
      */
-    private static function prepareName($name) {
+    private static function prepareName($name) : array {
         if (\is_string($name)) {
             return explode('\\', $name);
         } elseif (\is_array($name)) {

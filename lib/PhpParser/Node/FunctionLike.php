@@ -11,14 +11,14 @@ interface FunctionLike extends Node
      *
      * @return bool
      */
-    public function returnsByRef();
+    public function returnsByRef() : bool;
 
     /**
      * List of parameters
      *
      * @return Node\Param[]
      */
-    public function getParams();
+    public function getParams() : array;
 
     /**
      * Get the declared return type or null
@@ -32,5 +32,5 @@ interface FunctionLike extends Node
      *
      * @return Node\Stmt[]
      */
-    public function getStmts();
+    public function getStmts() : array;
 }

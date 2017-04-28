@@ -54,7 +54,7 @@ class Namespace_ implements PhpParser\Builder
      *
      * @return Node The built node
      */
-    public function getNode() {
+    public function getNode() : Node {
         return new Stmt\Namespace_($this->name, $this->stmts);
     }
 }

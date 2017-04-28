@@ -14,12 +14,12 @@ class DummyNode extends NodeAbstract {
         $this->subNode2 = $subNode2;
     }
 
-    public function getSubNodeNames() {
+    public function getSubNodeNames() : array {
         return array('subNode1', 'subNode2');
     }
 
     // This method is only overwritten because the node is located in an unusual namespace
-    public function getType() {
+    public function getType() : string {
         return 'Dummy';
     }
 }

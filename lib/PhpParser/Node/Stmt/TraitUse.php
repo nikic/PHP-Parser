@@ -25,7 +25,7 @@ class TraitUse extends Node\Stmt
         $this->adaptations = $adaptations;
     }
 
-    public function getSubNodeNames() {
+    public function getSubNodeNames() : array {
         return array('traits', 'adaptations');
     }
 }

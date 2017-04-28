@@ -26,7 +26,7 @@ class StaticPropertyFetch extends Expr
         $this->name = \is_string($name) ? new VarLikeIdentifier($name) : $name;
     }
 
-    public function getSubNodeNames() {
+    public function getSubNodeNames() : array {
         return array('class', 'name');
     }
 }

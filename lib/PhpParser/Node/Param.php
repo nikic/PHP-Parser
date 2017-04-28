@@ -29,7 +29,7 @@ class Param extends NodeAbstract
      */
     public function __construct(
         Expr\Variable $var, Expr $default = null, $type = null,
-        $byRef = false, $variadic = false, array $attributes = array()
+        bool $byRef = false, bool $variadic = false, array $attributes = array()
     ) {
         parent::__construct($attributes);
         $this->type = \is_string($type) ? new Identifier($type) : $type;
@@ -39,7 +39,7 @@ class Param extends NodeAbstract
         $this->default = $default;
     }
 
-    public function getSubNodeNames() {
+    public function getSubNodeNames() : array {
         return array('type', 'byRef', 'variadic', 'var', 'default');
     }
 }

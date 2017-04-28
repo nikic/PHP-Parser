@@ -25,7 +25,7 @@ class FuncCall extends Expr
         $this->args = $args;
     }
 
-    public function getSubNodeNames() {
+    public function getSubNodeNames() : array {
         return array('name', 'args');
     }
 }

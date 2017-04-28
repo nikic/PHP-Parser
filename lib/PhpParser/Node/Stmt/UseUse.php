@@ -22,14 +22,14 @@ class UseUse extends Node\Stmt
      * @param int                    $type       Type of the use element (for mixed group use only)
      * @param array                  $attributes Additional attributes
      */
-    public function __construct(Node\Name $name, $alias = null, $type = Use_::TYPE_UNKNOWN, array $attributes = array()) {
+    public function __construct(Node\Name $name, $alias = null, int $type = Use_::TYPE_UNKNOWN, array $attributes = array()) {
         parent::__construct($attributes);
         $this->type = $type;
         $this->name = $name;
         $this->alias = \is_string($alias) ? new Identifier($alias) : $alias;
     }
 
-    public function getSubNodeNames() {
+    public function getSubNodeNames() : array {
         return array('type', 'name', 'alias');
     }
 
@@ -38,7 +38,7 @@ class UseUse extends Node\Stmt
      *
      * @return Identifier
      */
-    public function getAlias() {
+    public function getAlias() : Identifier {
         if (null !== $this->alias) {
             return $this->alias;
         }

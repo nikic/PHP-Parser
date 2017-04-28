@@ -20,7 +20,7 @@ class Global_ extends Node\Stmt
         $this->vars = $vars;
     }
 
-    public function getSubNodeNames() {
+    public function getSubNodeNames() : array {
         return array('vars');
     }
 }

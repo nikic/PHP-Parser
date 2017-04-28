@@ -24,7 +24,7 @@ class Yield_ extends Expr
         $this->value = $value;
     }
 
-    public function getSubNodeNames() {
+    public function getSubNodeNames() : array {
         return array('key', 'value');
     }
 }

@@ -24,7 +24,7 @@ class Precedence extends Node\Stmt\TraitUseAdaptation
         $this->insteadof = $insteadof;
     }
 
-    public function getSubNodeNames() {
+    public function getSubNodeNames() : array {
         return array('trait', 'method', 'insteadof');
     }
 }

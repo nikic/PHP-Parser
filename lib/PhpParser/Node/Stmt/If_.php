@@ -33,7 +33,7 @@ class If_ extends Node\Stmt
         $this->else = $subNodes['else'] ?? null;
     }
 
-    public function getSubNodeNames() {
+    public function getSubNodeNames() : array {
         return array('cond', 'stmts', 'elseifs', 'else');
     }
 }

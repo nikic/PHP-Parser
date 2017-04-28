@@ -26,7 +26,7 @@ class FindingVisitor extends NodeVisitorAbstract {
      *
      * @return Node[] Found nodes
      */
-    public function getFoundNodes() {
+    public function getFoundNodes() : array {
         return $this->foundNodes;
     }
 

@@ -17,7 +17,7 @@ class Function_ extends FunctionLike
      *
      * @param string $name Name of the function
      */
-    public function __construct($name) {
+    public function __construct(string $name) {
         $this->name = $name;
     }
 
@@ -39,7 +39,7 @@ class Function_ extends FunctionLike
      *
      * @return Stmt\Function_ The built function node
      */
-    public function getNode() {
+    public function getNode() : Node {
         return new Stmt\Function_($this->name, array(
             'byRef'      => $this->returnByRef,
             'params'     => $this->params,

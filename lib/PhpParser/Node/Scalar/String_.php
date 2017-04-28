@@ -33,12 +33,12 @@ class String_ extends Scalar
      * @param string $value      Value of the string
      * @param array  $attributes Additional attributes
      */
-    public function __construct($value, array $attributes = array()) {
+    public function __construct(string $value, array $attributes = array()) {
         parent::__construct($attributes);
         $this->value = $value;
     }
 
-    public function getSubNodeNames() {
+    public function getSubNodeNames() : array {
         return array('value');
     }
 
@@ -52,7 +52,7 @@ class String_ extends Scalar
      *
      * @return string The parsed string
      */
-    public static function parse($str, $parseUnicodeEscape = true) {
+    public static function parse(string $str, bool $parseUnicodeEscape = true) : string {
         $bLength = 0;
         if ('b' === $str[0] || 'B' === $str[0]) {
             $bLength = 1;
@@ -82,7 +82,7 @@ class String_ extends Scalar
      *
      * @return string String with escape sequences parsed
      */
-    public static function parseEscapeSequences($str, $quote, $parseUnicodeEscape = true) {
+    public static function parseEscapeSequences(string $str, $quote, bool $parseUnicodeEscape = true) : string {
         if (null !== $quote) {
             $str = str_replace('\\' . $quote, $quote, $str);
         }
@@ -118,7 +118,7 @@ class String_ extends Scalar
      *
      * @return string UTF-8 representation of code point
      */
-    private static function codePointToUtf8($num) {
+    private static function codePointToUtf8(int $num) : string {
         if ($num <= 0x7F) {
             return chr($num);
         }
@@ -146,7 +146,7 @@ class String_ extends Scalar
      *
      * @return string Parsed string
      */
-    public static function parseDocString($startToken, $str, $parseUnicodeEscape = true) {
+    public static function parseDocString(string $startToken, string $str, bool $parseUnicodeEscape = true) : string {
         // strip last newline (thanks tokenizer for sticking it into the string!)
         $str = preg_replace('~(\r\n|\n|\r)\z~', '', $str);
 

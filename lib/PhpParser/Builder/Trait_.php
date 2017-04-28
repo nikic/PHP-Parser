@@ -17,7 +17,7 @@ class Trait_ extends Declaration
      *
      * @param string $name Name of the interface
      */
-    public function __construct($name) {
+    public function __construct(string $name) {
         $this->name = $name;
     }
 
@@ -47,7 +47,7 @@ class Trait_ extends Declaration
      *
      * @return Stmt\Trait_ The built interface node
      */
-    public function getNode() {
+    public function getNode() : PhpParser\Node {
         return new Stmt\Trait_(
             $this->name, array(
                 'stmts' => array_merge($this->properties, $this->methods)

@@ -21,7 +21,7 @@ class Encapsed extends Scalar
         $this->parts = $parts;
     }
 
-    public function getSubNodeNames() {
+    public function getSubNodeNames() : array {
         return array('parts');
     }
 }

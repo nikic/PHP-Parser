@@ -19,7 +19,7 @@ class Property implements PhpParser\Builder
      *
      * @param string $name Name of the property
      */
-    public function __construct($name) {
+    public function __construct(string $name) {
         $this->name = $name;
     }
 
@@ -100,7 +100,7 @@ class Property implements PhpParser\Builder
      *
      * @return Stmt\Property The built property node
      */
-    public function getNode() {
+    public function getNode() : PhpParser\Node {
         return new Stmt\Property(
             $this->flags !== 0 ? $this->flags : Stmt\Class_::MODIFIER_PUBLIC,
             array(

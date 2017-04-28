@@ -47,7 +47,7 @@ class NameResolver extends NodeVisitorAbstract
      *
      * @return NameContext
      */
-    public function getNameContext() {
+    public function getNameContext() : NameContext {
         return $this->nameContext;
     }
 
@@ -176,7 +176,7 @@ class NameResolver extends NodeVisitorAbstract
      *
      * @return Name Resolved name, or original name with attribute
      */
-    protected function resolveName(Name $name, $type) {
+    protected function resolveName(Name $name, int $type) : Name {
         if (!$this->replaceNodes) {
             $resolvedName = $this->nameContext->getResolvedName($name, $type);
             if (null !== $resolvedName) {

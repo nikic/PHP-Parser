@@ -27,7 +27,7 @@ class Const_ extends NodeAbstract
         $this->value = $value;
     }
 
-    public function getSubNodeNames() {
+    public function getSubNodeNames() : array {
         return array('name', 'value');
     }
 }

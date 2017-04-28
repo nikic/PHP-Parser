@@ -23,7 +23,7 @@ final class BuilderHelpers {
      *
      * @return Node The normalized node
      */
-    public static function normalizeNode($node) {
+    public static function normalizeNode($node) : Node {
         if ($node instanceof Builder) {
             return $node->getNode();
         } elseif ($node instanceof Node) {
@@ -42,7 +42,7 @@ final class BuilderHelpers {
      *
      * @return Stmt The normalized statement node
      */
-    public static function normalizeStmt($node) {
+    public static function normalizeStmt($node) : Stmt {
         $node = self::normalizeNode($node);
         if ($node instanceof Stmt) {
             return $node;
@@ -62,7 +62,7 @@ final class BuilderHelpers {
      *
      * @return Name The normalized name
      */
-    public static function normalizeName($name) {
+    public static function normalizeName($name) : Name {
         if ($name instanceof Name) {
             return $name;
         } elseif (is_string($name)) {
@@ -134,7 +134,7 @@ final class BuilderHelpers {
      *
      * @return Expr The normalized value
      */
-    public static function normalizeValue($value) {
+    public static function normalizeValue($value) : Expr {
         if ($value instanceof Node\Expr) {
             return $value;
         } elseif (is_null($value)) {
@@ -182,7 +182,7 @@ final class BuilderHelpers {
      *
      * @return Comment\Doc The normalized doc comment
      */
-    public static function normalizeDocComment($docComment) {
+    public static function normalizeDocComment($docComment) : Comment\Doc {
         if ($docComment instanceof Comment\Doc) {
             return $docComment;
         } else if (is_string($docComment)) {
@@ -200,7 +200,7 @@ final class BuilderHelpers {
      *
      * @return int New modifiers
      */
-    public static function addModifier($modifiers, $modifier) {
+    public static function addModifier(int $modifiers, int $modifier) : int {
         Stmt\Class_::verifyModifier($modifiers, $modifier);
         return $modifiers | $modifier;
     }

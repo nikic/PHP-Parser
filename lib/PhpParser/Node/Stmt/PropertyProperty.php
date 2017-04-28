@@ -24,7 +24,7 @@ class PropertyProperty extends Node\Stmt
         $this->default = $default;
     }
 
-    public function getSubNodeNames() {
+    public function getSubNodeNames() : array {
         return array('name', 'default');
     }
 }

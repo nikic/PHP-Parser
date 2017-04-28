@@ -53,7 +53,7 @@ class NameContext {
      * @param int    $type        One of Stmt\Use_::TYPE_*
      * @param array  $errorAttrs Attributes to use to report an error
      */
-    public function addAlias(Name $name, $aliasName, $type, array $errorAttrs = []) {
+    public function addAlias(Name $name, string $aliasName, int $type, array $errorAttrs = []) {
         // Constant names are case sensitive, everything else case insensitive
         if ($type === Stmt\Use_::TYPE_CONSTANT) {
             $aliasLookupName = $aliasName;
@@ -99,7 +99,7 @@ class NameContext {
      *
      * @return null|Name Resolved name, or null if static resolution is not possible
      */
-    public function getResolvedName(Name $name, $type) {
+    public function getResolvedName(Name $name, int $type) {
         // don't resolve special class names
         if ($type === Stmt\Use_::TYPE_NORMAL
                 && in_array(strtolower($name->toString()), array('self', 'parent', 'static'))) {
@@ -143,7 +143,7 @@ class NameContext {
      *
      * @return Name Resolved name
      */
-    public function getResolvedClassName(Name $name) {
+    public function getResolvedClassName(Name $name) : Name {
         return $this->getResolvedName($name, Stmt\Use_::TYPE_NORMAL);
     }
 
@@ -155,7 +155,7 @@ class NameContext {
      *
      * @return Name[] Possible representations of the name
      */
-    public function getPossibleNames(FullyQualified $name, $type) {
+    public function getPossibleNames(FullyQualified $name, int $type) : array {
         $nameStr = (string) $name;
         $lcName = strtolower($name);
 
@@ -204,7 +204,7 @@ class NameContext {
      *
      * @return Name Shortest representation
      */
-    public function getShortName(Name\FullyQualified $name, $type) {
+    public function getShortName(Name\FullyQualified $name, int $type) : Name {
         $possibleNames = $this->getPossibleNames($name, $type);
 
         // Find shortest name

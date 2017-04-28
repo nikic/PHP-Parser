@@ -25,7 +25,7 @@ class Class_ extends Declaration
      *
      * @param string $name Name of the class
      */
-    public function __construct($name) {
+    public function __construct(string $name) {
         $this->name = $name;
     }
 
@@ -111,7 +111,7 @@ class Class_ extends Declaration
      *
      * @return Stmt\Class_ The built class node
      */
-    public function getNode() {
+    public function getNode() : PhpParser\Node {
         return new Stmt\Class_($this->name, array(
             'flags' => $this->flags,
             'extends' => $this->extends,

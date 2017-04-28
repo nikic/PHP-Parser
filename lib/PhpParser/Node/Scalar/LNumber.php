@@ -22,12 +22,12 @@ class LNumber extends Scalar
      * @param int   $value      Value of the number
      * @param array $attributes Additional attributes
      */
-    public function __construct($value, array $attributes = array()) {
+    public function __construct(int $value, array $attributes = array()) {
         parent::__construct($attributes);
         $this->value = $value;
     }
 
-    public function getSubNodeNames() {
+    public function getSubNodeNames() : array {
         return array('value');
     }
 
@@ -40,7 +40,7 @@ class LNumber extends Scalar
      *
      * @return LNumber The constructed LNumber, including kind attribute
      */
-    public static function fromString($str, array $attributes = array(), $allowInvalidOctal = false) {
+    public static function fromString(string $str, array $attributes = array(), bool $allowInvalidOctal = false) : LNumber {
         if ('0' !== $str[0] || '0' === $str) {
             $attributes['kind'] = LNumber::KIND_DEC;
             return new LNumber((int) $str, $attributes);

@@ -28,7 +28,7 @@ class Ternary extends Expr
         $this->else = $else;
     }
 
-    public function getSubNodeNames() {
+    public function getSubNodeNames() : array {
         return array('cond', 'if', 'else');
     }
 }

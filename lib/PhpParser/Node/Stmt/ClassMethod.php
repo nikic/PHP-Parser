@@ -61,15 +61,15 @@ class ClassMethod extends Node\Stmt implements FunctionLike
         $this->stmts = array_key_exists('stmts', $subNodes) ? $subNodes['stmts'] : array();
     }
 
-    public function getSubNodeNames() {
+    public function getSubNodeNames() : array {
         return array('flags', 'byRef', 'name', 'params', 'returnType', 'stmts');
     }
 
-    public function returnsByRef() {
+    public function returnsByRef() : bool {
         return $this->byRef;
     }
 
-    public function getParams() {
+    public function getParams() : array {
         return $this->params;
     }
 
@@ -77,7 +77,7 @@ class ClassMethod extends Node\Stmt implements FunctionLike
         return $this->returnType;
     }
 
-    public function getStmts() {
+    public function getStmts() : array {
         return $this->stmts;
     }
 
@@ -86,7 +86,7 @@ class ClassMethod extends Node\Stmt implements FunctionLike
      *
      * @return bool
      */
-    public function isPublic() {
+    public function isPublic() : bool {
         return ($this->flags & Class_::MODIFIER_PUBLIC) !== 0
             || ($this->flags & Class_::VISIBILITY_MODIFIER_MASK) === 0;
     }
@@ -96,7 +96,7 @@ class ClassMethod extends Node\Stmt implements FunctionLike
      *
      * @return bool
      */
-    public function isProtected() {
+    public function isProtected() : bool {
         return (bool) ($this->flags & Class_::MODIFIER_PROTECTED);
     }
 
@@ -105,7 +105,7 @@ class ClassMethod extends Node\Stmt implements FunctionLike
      *
      * @return bool
      */
-    public function isPrivate() {
+    public function isPrivate() : bool {
         return (bool) ($this->flags & Class_::MODIFIER_PRIVATE);
     }
 
@@ -114,7 +114,7 @@ class ClassMethod extends Node\Stmt implements FunctionLike
      *
      * @return bool
      */
-    public function isAbstract() {
+    public function isAbstract() : bool {
         return (bool) ($this->flags & Class_::MODIFIER_ABSTRACT);
     }
 
@@ -123,7 +123,7 @@ class ClassMethod extends Node\Stmt implements FunctionLike
      * #
      * @return bool
      */
-    public function isFinal() {
+    public function isFinal() : bool {
         return (bool) ($this->flags & Class_::MODIFIER_FINAL);
     }
 
@@ -132,7 +132,7 @@ class ClassMethod extends Node\Stmt implements FunctionLike
      *
      * @return bool
      */
-    public function isStatic() {
+    public function isStatic() : bool {
         return (bool) ($this->flags & Class_::MODIFIER_STATIC);
     }
 
@@ -141,7 +141,7 @@ class ClassMethod extends Node\Stmt implements FunctionLike
      *
      * @return bool
      */
-    public function isMagic() {
+    public function isMagic() : bool {
         return isset(self::$magicNames[strtolower($this->name)]);
     }
 }

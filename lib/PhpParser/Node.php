@@ -9,28 +9,28 @@ interface Node
      *
      * @return string Type of the node
      */
-    public function getType();
+    public function getType() : string;
 
     /**
      * Gets the names of the sub nodes.
      *
      * @return array Names of sub nodes
      */
-    public function getSubNodeNames();
+    public function getSubNodeNames() : array;
 
     /**
      * Gets line the node started in.
      *
      * @return int Line
      */
-    public function getLine();
+    public function getLine() : int;
 
     /**
      * Sets line the node started in.
      *
      * @param int $line Line
      */
-    public function setLine($line);
+    public function setLine(int $line);
 
     /**
      * Gets the doc comment of the node.
@@ -56,7 +56,7 @@ interface Node
      * @param string $key
      * @param mixed  $value
      */
-    public function setAttribute($key, $value);
+    public function setAttribute(string $key, $value);
 
     /**
      * Returns whether an attribute exists.
@@ -65,7 +65,7 @@ interface Node
      *
      * @return bool
      */
-    public function hasAttribute($key);
+    public function hasAttribute(string $key) : bool;
 
     /**
      * Returns the value of an attribute.
@@ -75,12 +75,12 @@ interface Node
      *
      * @return mixed
      */
-    public function &getAttribute($key, $default = null);
+    public function &getAttribute(string $key, $default = null);
 
     /**
      * Returns all attributes for the given node.
      *
      * @return array
      */
-    public function getAttributes();
+    public function getAttributes() : array;
 }

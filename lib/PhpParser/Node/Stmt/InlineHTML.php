@@ -15,12 +15,12 @@ class InlineHTML extends Stmt
      * @param string $value      String
      * @param array  $attributes Additional attributes
      */
-    public function __construct($value, array $attributes = array()) {
+    public function __construct(string $value, array $attributes = array()) {
         parent::__construct($attributes);
         $this->value = $value;
     }
 
-    public function getSubNodeNames() {
+    public function getSubNodeNames() : array {
         return array('value');
     }
 }

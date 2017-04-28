@@ -21,7 +21,7 @@ class Goto_ extends Stmt
         $this->name = \is_string($name) ? new Identifier($name) : $name;
     }
 
-    public function getSubNodeNames() {
+    public function getSubNodeNames() : array {
         return array('name');
     }
 }

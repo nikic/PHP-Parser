@@ -30,7 +30,7 @@ class StaticCall extends Expr
         $this->args = $args;
     }
 
-    public function getSubNodeNames() {
+    public function getSubNodeNames() : array {
         return array('class', 'name', 'args');
     }
 }

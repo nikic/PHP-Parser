@@ -47,7 +47,7 @@ class ClassMethodTest extends TestCase
      *
      * @param string $modifier Node type modifier
      */
-    public function testImplicitPublic($modifier)
+    public function testImplicitPublic(string $modifier)
     {
         $node = new ClassMethod('foo', array(
             'type' => constant('PhpParser\Node\Stmt\Class_::MODIFIER_' . strtoupper($modifier))
@@ -69,7 +69,7 @@ class ClassMethodTest extends TestCase
      *
      * @param string $name Node name
      */
-    public function testMagic($name) {
+    public function testMagic(string $name) {
         $node = new ClassMethod($name);
         $this->assertTrue($node->isMagic(), 'Method should be magic');
     }

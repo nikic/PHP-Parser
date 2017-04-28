@@ -20,7 +20,7 @@ class Isset_ extends Expr
         $this->vars = $vars;
     }
 
-    public function getSubNodeNames() {
+    public function getSubNodeNames() : array {
         return array('vars');
     }
 }

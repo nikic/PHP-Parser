@@ -20,7 +20,7 @@ class NullableType extends NodeAbstract
         $this->type = \is_string($type) ? new Identifier($type) : $type;
     }
 
-    public function getSubNodeNames() {
+    public function getSubNodeNames() : array {
         return array('type');
     }
 }

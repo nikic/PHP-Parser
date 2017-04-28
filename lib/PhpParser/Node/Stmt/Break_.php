@@ -20,7 +20,7 @@ class Break_ extends Node\Stmt
         $this->num = $num;
     }
 
-    public function getSubNodeNames() {
+    public function getSubNodeNames() : array {
         return array('num');
     }
 }

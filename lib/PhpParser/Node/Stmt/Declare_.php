@@ -24,7 +24,7 @@ class Declare_ extends Node\Stmt
         $this->stmts = $stmts;
     }
 
-    public function getSubNodeNames() {
+    public function getSubNodeNames() : array {
         return array('declares', 'stmts');
     }
 }

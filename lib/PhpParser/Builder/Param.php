@@ -24,7 +24,7 @@ class Param implements PhpParser\Builder
      *
      * @param string $name Name of the parameter
      */
-    public function __construct($name) {
+    public function __construct(string $name) {
         $this->name = $name;
     }
 
@@ -84,7 +84,7 @@ class Param implements PhpParser\Builder
      *
      * @return Node\Param The built parameter node
      */
-    public function getNode() {
+    public function getNode() : Node {
         return new Node\Param(
             new Node\Expr\Variable($this->name),
             $this->default, $this->type, $this->byRef, $this->variadic

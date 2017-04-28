@@ -55,7 +55,7 @@ class Lexer
      * @param ErrorHandler|null $errorHandler Error handler to use for lexing errors. Defaults to
      *                                        ErrorHandler\Throwing
      */
-    public function startLexing($code, ErrorHandler $errorHandler = null) {
+    public function startLexing(string $code, ErrorHandler $errorHandler = null) {
         if (null === $errorHandler) {
             $errorHandler = new ErrorHandler\Throwing();
         }
@@ -122,7 +122,7 @@ class Lexer
      *
      * @return bool
      */
-    private function isUnterminatedComment($token) {
+    private function isUnterminatedComment($token) : bool {
         return ($token[0] === T_COMMENT || $token[0] === T_DOC_COMMENT)
             && substr($token[1], 0, 2) === '/*'
             && substr($token[1], -2) !== '*/';
@@ -133,7 +133,7 @@ class Lexer
      *
      * @return bool
      */
-    private function errorMayHaveOccurred() {
+    private function errorMayHaveOccurred() : bool {
         if (defined('HHVM_VERSION')) {
             // In HHVM token_get_all() does not throw warnings, so we need to conservatively
             // assume that an error occurred
@@ -229,7 +229,7 @@ class Lexer
      *
      * @return int Token id
      */
-    public function getNextToken(&$value = null, &$startAttributes = null, &$endAttributes = null) {
+    public function getNextToken(&$value = null, &$startAttributes = null, &$endAttributes = null) : int {
         $startAttributes = array();
         $endAttributes   = array();
 
@@ -313,7 +313,7 @@ class Lexer
      *
      * @return array Array of tokens in token_get_all() format
      */
-    public function getTokens() {
+    public function getTokens() : array {
         return $this->tokens;
     }
 
@@ -322,7 +322,7 @@ class Lexer
      *
      * @return string Remaining text
      */
-    public function handleHaltCompiler() {
+    public function handleHaltCompiler() : string {
         // text after T_HALT_COMPILER, still including ();
         $textAfter = substr($this->code, $this->filePos);
 
@@ -349,7 +349,7 @@ class Lexer
      *
      * @return array The token map
      */
-    protected function createTokenMap() {
+    protected function createTokenMap() : array {
         $tokenMap = array();
 
         // 256 is the minimum possible token number, as everything below

@@ -49,7 +49,7 @@ class Class_ extends ClassLike
         $this->stmts = $subNodes['stmts'] ?? array();
     }
 
-    public function getSubNodeNames() {
+    public function getSubNodeNames() : array {
         return array('flags', 'name', 'extends', 'implements', 'stmts');
     }
 
@@ -58,7 +58,7 @@ class Class_ extends ClassLike
      *
      * @return bool
      */
-    public function isAbstract() {
+    public function isAbstract() : bool {
         return (bool) ($this->flags & self::MODIFIER_ABSTRACT);
     }
 
@@ -67,7 +67,7 @@ class Class_ extends ClassLike
      *
      * @return bool
      */
-    public function isFinal() {
+    public function isFinal() : bool {
         return (bool) ($this->flags & self::MODIFIER_FINAL);
     }
 
@@ -76,7 +76,7 @@ class Class_ extends ClassLike
      *
      * @return bool
      */
-    public function isAnonymous() {
+    public function isAnonymous() : bool {
         return null === $this->name;
     }
 

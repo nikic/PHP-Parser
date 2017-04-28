@@ -25,6 +25,6 @@ interface NodeTraverserInterface
      *
      * @return Node[] Traversed array of nodes
      */
-    function traverse(array $nodes);
+    function traverse(array $nodes) : array;
 }
 

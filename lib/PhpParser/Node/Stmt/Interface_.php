@@ -25,7 +25,7 @@ class Interface_ extends ClassLike
         $this->stmts = $subNodes['stmts'] ?? array();
     }
 
-    public function getSubNodeNames() {
+    public function getSubNodeNames() : array {
         return array('name', 'extends', 'stmts');
     }
 }

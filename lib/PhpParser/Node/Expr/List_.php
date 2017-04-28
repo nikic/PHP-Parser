@@ -20,7 +20,7 @@ class List_ extends Expr
         $this->items = $items;
     }
 
-    public function getSubNodeNames() {
+    public function getSubNodeNames() : array {
         return array('items');
     }
 }

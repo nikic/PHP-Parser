@@ -23,7 +23,7 @@ class Expression extends Node\Stmt
         $this->expr = $expr;
     }
 
-    public function getSubNodeNames() {
+    public function getSubNodeNames() : array {
         return array('expr');
     }
 }

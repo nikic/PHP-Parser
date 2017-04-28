@@ -20,7 +20,7 @@ class Method extends FunctionLike
      *
      * @param string $name Name of the method
      */
-    public function __construct($name) {
+    public function __construct(string $name) {
         $this->name = $name;
     }
 
@@ -117,7 +117,7 @@ class Method extends FunctionLike
      *
      * @return Stmt\ClassMethod The built method node
      */
-    public function getNode() {
+    public function getNode() : Node {
         return new Stmt\ClassMethod($this->name, array(
             'flags'      => $this->flags,
             'byRef'      => $this->returnByRef,

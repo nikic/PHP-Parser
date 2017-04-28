@@ -20,7 +20,7 @@ class ShellExec extends Expr
         $this->parts = $parts;
     }
 
-    public function getSubNodeNames() {
+    public function getSubNodeNames() : array {
         return array('parts');
     }
 }

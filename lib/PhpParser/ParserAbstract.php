@@ -150,7 +150,7 @@ abstract class ParserAbstract implements Parser
      * @return Node\Stmt[]|null Array of statements (or null non-throwing error handler is used and
      *                          the parser was unable to recover from an error).
      */
-    public function parse($code, ErrorHandler $errorHandler = null) {
+    public function parse(string $code, ErrorHandler $errorHandler = null) {
         $this->errorHandler = $errorHandler ?: new ErrorHandler\Throwing;
 
         // Initialize the lexer
@@ -368,7 +368,7 @@ abstract class ParserAbstract implements Parser
      *
      * @return string Formatted error message
      */
-    protected function getErrorMessage($symbol, $state) {
+    protected function getErrorMessage(int $symbol, int $state) : string {
         $expectedString = '';
         if ($expected = $this->getExpectedTokens($state)) {
             $expectedString = ', expecting ' . implode(' or ', $expected);
@@ -384,7 +384,7 @@ abstract class ParserAbstract implements Parser
      *
      * @return string[] Expected tokens. If too many, an empty array is returned.
      */
-    protected function getExpectedTokens($state) {
+    protected function getExpectedTokens(int $state) : array {
         $expected = array();
 
         $base = $this->actionBase[$state];
@@ -457,7 +457,7 @@ abstract class ParserAbstract implements Parser
      * @param Node\Stmt[] $stmts
      * @return Node\Stmt[]
      */
-    protected function handleNamespaces(array $stmts) {
+    protected function handleNamespaces(array $stmts) : array {
         $hasErrored = false;
         $style = $this->getNamespacingStyle($stmts);
         if (null === $style) {
@@ -593,7 +593,7 @@ abstract class ParserAbstract implements Parser
      *
      * @return Expr\StaticCall
      */
-    protected function fixupPhp5StaticPropCall($prop, array $args, array $attributes) {
+    protected function fixupPhp5StaticPropCall($prop, array $args, array $attributes) : Expr\StaticCall {
         if ($prop instanceof Node\Expr\StaticPropertyFetch) {
             $var = new Expr\Variable($prop->name, $prop->name->getAttributes());
             return new Expr\StaticCall($prop->class, $var, $args, $attributes);
@@ -666,7 +666,7 @@ abstract class ParserAbstract implements Parser
      *
      * @return array Combined start and end attributes
      */
-    protected function getAttributesAt($pos) {
+    protected function getAttributesAt(int $pos) : array {
         return $this->startAttributeStack[$pos] + $this->endAttributeStack[$pos];
     }
 
@@ -688,7 +688,7 @@ abstract class ParserAbstract implements Parser
      *
      * @return LNumber|String_ Integer or string node.
      */
-    protected function parseNumString($str, array $attributes) {
+    protected function parseNumString(string $str, array $attributes) {
         if (!preg_match('/^(?:0|-?[1-9][0-9]*)$/', $str)) {
             return new String_($str, $attributes);
         }

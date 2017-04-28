@@ -23,13 +23,13 @@ class Include_ extends Expr
      * @param int   $type       Type of include
      * @param array $attributes Additional attributes
      */
-    public function __construct(Expr $expr, $type, array $attributes = array()) {
+    public function __construct(Expr $expr, int $type, array $attributes = array()) {
         parent::__construct($attributes);
         $this->expr = $expr;
         $this->type = $type;
     }
 
-    public function getSubNodeNames() {
+    public function getSubNodeNames() : array {
         return array('expr', 'type');
     }
 }

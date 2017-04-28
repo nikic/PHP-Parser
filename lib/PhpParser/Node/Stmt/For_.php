@@ -33,7 +33,7 @@ class For_ extends Node\Stmt
         $this->stmts = $subNodes['stmts'] ?? array();
     }
 
-    public function getSubNodeNames() {
+    public function getSubNodeNames() : array {
         return array('init', 'cond', 'loop', 'stmts');
     }
 }

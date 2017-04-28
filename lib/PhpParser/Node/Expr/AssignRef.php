@@ -24,7 +24,7 @@ class AssignRef extends Expr
         $this->expr = $expr;
     }
 
-    public function getSubNodeNames() {
+    public function getSubNodeNames() : array {
         return array('var', 'expr');
     }
 }

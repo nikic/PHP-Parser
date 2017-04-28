@@ -20,7 +20,7 @@ class Const_ extends Node\Stmt
         $this->consts = $consts;
     }
 
-    public function getSubNodeNames() {
+    public function getSubNodeNames() : array {
         return array('consts');
     }
 }
