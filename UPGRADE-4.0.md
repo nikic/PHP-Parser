@@ -8,6 +8,36 @@ source code, while running on a newer version.
 
 ### Changes to the node structure
 
+* Many subnodes that previously held simple strings now store `Identifier` nodes instead (or
+  `VarLikeIdentifier` nodes if they have form `$ident`). The constructors of the affected nodes will
+  automatically convert strings to `Identifier`s and `Identifier`s implement `__toString()`. As such
+  some code continues without changes, but anything using `is_string()`, type-strict comparisons or
+  strict-mode may require adjustment. The following is an exhaustive list of all affected subnodes:
+
+   * `Const::$name`
+   * `NullableType::$type` (for simple types)
+   * `Param::$type` (for simple types)
+   * `Expr\ClassConstFetch::$name`
+   * `Expr\Closure::$returnType` (for simple types)
+   * `Expr\MethodCall::$name`
+   * `Expr\PropertyFetch::$name`
+   * `Expr\StaticCall::$name`
+   * `Expr\StaticPropertyFetch::$name` (uses `VarLikeIdentifier`)
+   * `Stmt\Class_::$name`
+   * `Stmt\ClassMethod::$name`
+   * `Stmt\ClassMethod::$returnType` (for simple types)
+   * `Stmt\Function::$name`
+   * `Stmt\Function::$returnType` (for simple types)
+   * `Stmt\Goto_::$name`
+   * `Stmt\Interface_::$name`
+   * `Stmt\Label::$name`
+   * `Stmt\PropertyProperty::$name` (uses `VarLikeIdentifier`)
+   * `Stmt\TraitUseAdaptation\Alias::$method`
+   * `Stmt\TraitUseAdaptation\Alias::$newName`
+   * `Stmt\TraitUseAdaptation\Precedence::$method`
+   * `Stmt\Trait_::$name`
+   * `Stmt\UseUse::$alias`
+
 * Expression statements (`expr;`) are now represented using a `Stmt\Expression` node. Previously
   these statements were directly represented as their constituent expression.
 * The `name` subnode of `Param` has been renamed to `var` and now contains a `Variable` rather than
@@ -16,6 +46,9 @@ source code, while running on a newer version.
   than a plain string.
 * The `var` subnode of `ClosureUse` now contains a `Variable` rather than a plain string.
 * The `var` subnode of `Catch` now contains a `Variable` rather than a plain string.
+* The `alias` subnode of `UseUse` can is now `null` if no explicit alias is given. As such,
+  `use Foo\Bar` and `use Foo\Bar as Bar` are now represented differently. The `getAlias()` method
+  can be used to get the effective alias, even if it is not explicitly given.
 
 ### Removed functionality
 
