@@ -34,17 +34,6 @@ abstract class NodeAbstract implements Node, \JsonSerializable
     }
 
     /**
-     * Sets line the node started in.
-     *
-     * @param int $line Line
-     *
-     * @deprecated
-     */
-    public function setLine(int $line) {
-        $this->setAttribute('startLine', (int) $line);
-    }
-
-    /**
      * Gets the doc comment of the node.
      *
      * The doc comment has to be the last comment associated with the node.

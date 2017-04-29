@@ -57,6 +57,8 @@ source code, while running on a newer version.
 * The `ClassConst::isStatic()` method has been removed. Constants cannot have a static modifier.
 * The `NodeTraverser` no longer accepts `false` as a return value from a `leaveNode()` method.
   `NodeTraverser::REMOVE_NODE` should be returned instead.
+* The `Node::setLine()` method has been removed. If you really need to, you can use `setAttribute()`
+  instead.
 * The misspelled `Class_::VISIBILITY_MODIFER_MASK` constant has been dropped in favor of
   `Class_::VISIBILITY_MODIFIER_MASK`.
 * The XML serializer has been removed. As such, the classes `Serializer\XML`, and

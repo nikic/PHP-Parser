@@ -26,15 +26,6 @@ interface Node
     public function getLine() : int;
 
     /**
-     * Sets line the node started in.
-     *
-     * @param int $line Line
-     *
-     * @deprecated
-     */
-    public function setLine(int $line);
-
-    /**
      * Gets the doc comment of the node.
      *
      * The doc comment has to be the last comment associated with the node.

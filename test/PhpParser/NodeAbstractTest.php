@@ -98,10 +98,6 @@ class NodeAbstractTest extends TestCase
      * @dataProvider provideNodes
      */
     public function testChange(array $attributes, Node $node) {
-        // change of line
-        $node->setLine(15);
-        $this->assertSame(15, $node->getLine());
-
         // direct modification
         $node->subNode = 'newValue';
         $this->assertSame('newValue', $node->subNode);
