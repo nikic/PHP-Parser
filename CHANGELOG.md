@@ -1,7 +1,9 @@
 Version 3.0.6-dev
 -----------------
 
-Nothing yet.
+### Deprecated
+
+* The `Node::setLine()` method has been deprecated.
 
 Version 3.0.5 (2017-03-05)
 --------------------------
