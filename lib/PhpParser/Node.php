@@ -29,6 +29,8 @@ interface Node
      * Sets line the node started in.
      *
      * @param int $line Line
+     *
+     * @deprecated
      */
     public function setLine($line);
 

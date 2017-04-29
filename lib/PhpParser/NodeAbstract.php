@@ -37,6 +37,8 @@ abstract class NodeAbstract implements Node, \JsonSerializable
      * Sets line the node started in.
      *
      * @param int $line Line
+     *
+     * @deprecated
      */
     public function setLine($line) {
         $this->setAttribute('startLine', (int) $line);
