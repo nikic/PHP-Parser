@@ -125,8 +125,23 @@ class BuilderFactoryTest extends TestCase
                     ->makeProtected()
                     ->addParam($factory->param('someParam')->setDefault('test'))
                     ->addStmt(new Expr\Print_(new Expr\Variable('someParam'))))
-
+                ->addStmt($factory->method('methodWithTryCatch')
+                    ->addStmt(
+                            new Node\Stmt\TryCatch(array(
+                                    new Node\Stmt\Foreach_(
+                                        new Expr\Variable('array'), new Expr\Variable('value'), array(
+                                            'stmts' => array(
+                                                new Node\Stmt\If_(
+                                                    new Expr\Isset_(array(new Expr\Variable("value['sasa']"))),
+                                                    array('stmts' => array(
+                                                            new Expr\Print_(new Expr\Variable('value'))),
+                                                        'else' => new Node\Stmt\Else_(array(
+                                                                new Node\Stmt\Continue_()))))))),
+                            new Expr\Print_(new Expr\Variable('someParam'))),
+                        array(new Node\Stmt\Catch_(new Node\Name('Exception'), 'someVar', 
+                                array(new Node\Stmt\Throw_(new Node\Expr\New_(new Node\Name('Exception')))))))))
                 ->addStmt($factory->property('someProperty')->makeProtected())
+                ->addStmt($factory->property('someStaticProperty')->makeStatic())
                 ->addStmt($factory->property('anotherProperty')
                     ->makePrivate()
                     ->setDefault(array(1, 2, 3))))
@@ -143,6 +158,7 @@ use Foo\Bar as A;
 abstract class SomeClass extends SomeOtherClass implements A\Few, \Interfaces
 {
     protected $someProperty;
+    public static $someStaticProperty;
     private $anotherProperty = array(1, 2, 3);
     function firstMethod()
     {
@@ -156,6 +172,21 @@ abstract class SomeClass extends SomeOtherClass implements A\Few, \Interfaces
     protected function anotherMethod($someParam = 'test')
     {
         print $someParam;
+    }
+    public function methodWithTryCatch()
+    {
+        try {
+            foreach ($array as $value) {
+                if (isset($value['sasa'])) {
+                    print $value;
+                } else {
+                    continue;
+                }
+            }
+            print $someParam;
+        } catch (Exception $someVar) {
+            throw new Exception();
+        }
     }
 }
 EOC;
