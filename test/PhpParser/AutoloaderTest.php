@@ -15,4 +15,19 @@ class AutoloaderTest extends TestCase
         $this->assertFalse(class_exists('PhpParser\FooBar'));
         $this->assertFalse(class_exists('PHPParser_FooBar'));
     }
+    
+    /**
+     * @test
+     * @runInSeparateProcess
+     * @dataProvider provideTestRunInSeparateProcess
+     */
+    public function testRunInSeparateProcess($mock) {
+        $this->assertTrue(true);
+    }
+    
+    public function provideTestRunInSeparateProcess() {
+        return array(
+            array($this->getMock("PhpParser\\AutoloaderTest"))
+        );
+    }
 }
