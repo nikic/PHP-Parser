@@ -71,9 +71,16 @@ interface Node
     public function &getAttribute(string $key, $default = null);
 
     /**
-     * Returns all attributes for the given node.
+     * Returns all the attributes of this node.
      *
      * @return array
      */
     public function getAttributes() : array;
+
+    /**
+     * Replaces all the attributes of this node.
+     *
+     * @param array $attributes
+     */
+    public function setAttributes(array $attributes);
 }
