@@ -163,6 +163,20 @@ class NodeAbstractTest extends TestCase
             ),
             $node->getAttributes()
         );
+
+        $node->setAttributes(
+            array(
+                'a' => 'b',
+                'c' => null,
+            )
+        );
+        $this->assertSame(
+            array(
+                'a' => 'b',
+                'c' => null,
+            ),
+            $node->getAttributes()
+        );
     }
 
     public function testJsonSerialization() {
