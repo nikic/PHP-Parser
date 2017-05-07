@@ -71,23 +71,12 @@ class Lexer
 
         $scream = ini_set('xdebug.scream', '0');
 
-        $this->resetErrors();
+        error_clear_last();
         $this->tokens = @token_get_all($code);
         $this->handleErrors($errorHandler);
 
         if (false !== $scream) {
             ini_set('xdebug.scream', $scream);
-        }
-    }
-
-    protected function resetErrors() {
-        if (function_exists('error_clear_last')) {
-            error_clear_last();
-        } else {
-            // set error_get_last() to defined state by forcing an undefined variable error
-            set_error_handler(function() { return false; }, 0);
-            @$undefinedVariable;
-            restore_error_handler();
         }
     }
 
@@ -140,9 +129,7 @@ class Lexer
             return true;
         }
 
-        $error = error_get_last();
-        return null !== $error
-            && false === strpos($error['message'], 'Undefined variable');
+        return null !== error_get_last();
     }
 
     protected function handleErrors(ErrorHandler $errorHandler) {
