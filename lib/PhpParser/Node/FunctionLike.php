@@ -30,7 +30,7 @@ interface FunctionLike extends Node
     /**
      * The function body
      *
-     * @return Node\Stmt[]
+     * @return Node\Stmt[]|null
      */
-    public function getStmts() : array;
+    public function getStmts();
 }

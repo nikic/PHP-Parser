@@ -60,6 +60,7 @@ class Closure extends Expr implements FunctionLike
         return $this->returnType;
     }
 
+    /** @return Node\Stmt[] */
     public function getStmts() : array {
         return $this->stmts;
     }

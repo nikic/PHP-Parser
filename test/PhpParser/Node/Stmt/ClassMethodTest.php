@@ -2,6 +2,9 @@
 
 namespace PhpParser\Node\Stmt;
 
+use PhpParser\Node\Expr\Variable;
+use PhpParser\Node\Name;
+use PhpParser\Node\Param;
 use PHPUnit\Framework\TestCase;
 
 class ClassMethodTest extends TestCase
@@ -92,5 +95,30 @@ class ClassMethodTest extends TestCase
              array('__invoke'),
              array('__debuginfo'),
         );
+    }
+
+    public function testFunctionLike() {
+        $param = new Param(new Variable('a'));
+        $type = new Name('Foo');
+        $return = new Return_(new Variable('a'));
+        $method = new ClassMethod('test', [
+            'byRef' => false,
+            'params' => [$param],
+            'returnType' => $type,
+            'stmts' => [$return],
+        ]);
+
+        $this->assertFalse($method->returnsByRef());
+        $this->assertSame([$param], $method->getParams());
+        $this->assertSame($type, $method->getReturnType());
+        $this->assertSame([$return], $method->getStmts());
+
+        $method = new ClassMethod('test', [
+            'byRef' => true,
+            'stmts' => null,
+        ]);
+
+        $this->assertTrue($method->returnsByRef());
+        $this->assertNull($method->getStmts());
     }
 }

@@ -58,6 +58,7 @@ class Function_ extends Node\Stmt implements FunctionLike
         return $this->returnType;
     }
 
+    /** @return Node\Stmt[] */
     public function getStmts() : array {
         return $this->stmts;
     }
