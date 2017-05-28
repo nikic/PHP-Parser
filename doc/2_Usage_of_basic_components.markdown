@@ -365,7 +365,7 @@ class NamespaceConverter extends \PhpParser\NodeVisitorAbstract
 {
     public function leaveNode(Node $node) {
         if ($node instanceof Node\Name) {
-            return new Node\Name($node->toString('_'));
+            return new Node\Name(str_replace('\\', '_', $node->toString()));
         }
     }
 }
@@ -373,7 +373,7 @@ class NamespaceConverter extends \PhpParser\NodeVisitorAbstract
 
 The above code profits from the fact that the `NameResolver` already resolved all names as far as
 possible, so we don't need to do that. We only need to create a string with the name parts separated
-by underscores instead of backslashes. This is what `$node->toString('_')` does. (If you want to
+by underscores instead of backslashes. This is what `str_replace('\\', '_', $node->toString())` does. (If you want to
 create a name with backslashes either write `$node->toString()` or `(string) $node`.) Then we create
 a new name from the string and return it. Returning a new node replaces the old node.
 
@@ -389,14 +389,14 @@ class NodeVisitor_NamespaceConverter extends \PhpParser\NodeVisitorAbstract
 {
     public function leaveNode(Node $node) {
         if ($node instanceof Node\Name) {
-            return new Node\Name($node->toString('_'));
+            return new Node\Name(str_replace('\\', '_', $node->toString()));
         } elseif ($node instanceof Stmt\Class_
                   || $node instanceof Stmt\Interface_
                   || $node instanceof Stmt\Function_) {
-            $node->name = $node->namespacedName->toString('_');
+            $node->name = str_replace('\\', '_', $node->namespacedName->toString());
         } elseif ($node instanceof Stmt\Const_) {
             foreach ($node->consts as $const) {
-                $const->name = $const->namespacedName->toString('_');
+                $const->name = str_replace('\\', '_', $const->namespacedName->toString());
             }
         }
     }
@@ -416,14 +416,14 @@ class NodeVisitor_NamespaceConverter extends \PhpParser\NodeVisitorAbstract
 {
     public function leaveNode(Node $node) {
         if ($node instanceof Node\Name) {
-            return new Node\Name($node->toString('_'));
+            return new Node\Name(str_replace('\\', '_', $node->toString()));
         } elseif ($node instanceof Stmt\Class_
                   || $node instanceof Stmt\Interface_
                   || $node instanceof Stmt\Function_) {
-            $node->name = $node->namespacedName->toString('_');
+            $node->name = str_replace('\\', '_', $node->namespacedName->toString();
         } elseif ($node instanceof Stmt\Const_) {
             foreach ($node->consts as $const) {
-                $const->name = $const->namespacedName->toString('_');
+                $const->name = str_replace('\\', '_', $const->namespacedName->toString());
             }
         } elseif ($node instanceof Stmt\Namespace_) {
             // returning an array merges is into the parent array
