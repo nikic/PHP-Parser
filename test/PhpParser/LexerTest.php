@@ -201,7 +201,13 @@ class LexerTest extends \PHPUnit_Framework_TestCase
                         array(), array()
                     )
                 )
-            )
+            ),
+            // tests no tokens
+            array(
+                '',
+                array(),
+                array()
+            ),
         );
     }
 

@@ -185,15 +185,17 @@ class Lexer
             return;
         }
 
-        // Check for unterminated comment
-        $lastToken = $this->tokens[count($this->tokens) - 1];
-        if ($this->isUnterminatedComment($lastToken)) {
-            $errorHandler->handleError(new Error('Unterminated comment', [
-                'startLine' => $line - substr_count($lastToken[1], "\n"),
-                'endLine' => $line,
-                'startFilePos' => $filePos - \strlen($lastToken[1]),
-                'endFilePos' => $filePos,
-            ]));
+        if (count($this->tokens) > 0) {
+            // Check for unterminated comment
+            $lastToken = $this->tokens[count($this->tokens) - 1];
+            if ($this->isUnterminatedComment($lastToken)) {
+                $errorHandler->handleError(new Error('Unterminated comment', [
+                    'startLine' => $line - substr_count($lastToken[1], "\n"),
+                    'endLine' => $line,
+                    'startFilePos' => $filePos - \strlen($lastToken[1]),
+                    'endFilePos' => $filePos,
+                ]));
+            }
         }
     }
 
