@@ -202,7 +202,13 @@ class LexerTest extends TestCase
                         array(), array()
                     )
                 )
-            )
+            ),
+            // tests no tokens
+            array(
+                '',
+                array(),
+                array()
+            ),
         );
     }
 
