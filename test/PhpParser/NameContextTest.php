@@ -18,8 +18,7 @@ class NameContextTest extends TestCase {
         $nameContext->addAlias(new Name('Foo\fn'), 'fn', Use_::TYPE_FUNCTION);
         $nameContext->addAlias(new Name('Foo\CN'), 'CN', Use_::TYPE_CONSTANT);
 
-        $fqName = new Name\FullyQualified($name);
-        $possibleNames = $nameContext->getPossibleNames($fqName, $type);
+        $possibleNames = $nameContext->getPossibleNames($name, $type);
         $possibleNames = array_map(function (Name $name) {
             return $name->toCodeString();
         }, $possibleNames);
@@ -30,7 +29,7 @@ class NameContextTest extends TestCase {
         $expectedShortName = $expectedPossibleNames[count($expectedPossibleNames) - 1];
         $this->assertSame(
             $expectedShortName,
-            $nameContext->getShortName($fqName, $type)->toCodeString()
+            $nameContext->getShortName($name, $type)->toCodeString()
         );
     }
 
@@ -53,6 +52,14 @@ class NameContextTest extends TestCase {
             [Use_::TYPE_CONSTANT, 'Foo\CN', ['\Foo\CN', 'Foo\CN', 'CN']],
             [Use_::TYPE_CONSTANT, 'foo\CN', ['\foo\CN', 'Foo\CN', 'CN']],
             [Use_::TYPE_CONSTANT, 'foo\cn', ['\foo\cn', 'Foo\cn']],
+            // self/parent/static must not be fully qualified
+            [Use_::TYPE_NORMAL, 'self', ['self']],
+            [Use_::TYPE_NORMAL, 'parent', ['parent']],
+            [Use_::TYPE_NORMAL, 'static', ['static']],
+            // true/false/null do not need to be fully qualified, even in namespaces
+            [Use_::TYPE_CONSTANT, 'true', ['\true', 'true']],
+            [Use_::TYPE_CONSTANT, 'false', ['\false', 'false']],
+            [Use_::TYPE_CONSTANT, 'null', ['\null', 'null']],
         ];
     }
 }

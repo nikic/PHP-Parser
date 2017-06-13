@@ -148,21 +148,27 @@ class NameContext {
     }
 
     /**
-     * Get possible ways of writing a fully qualified name (e.g., by making use of aliases)
+     * Get possible ways of writing a fully qualified name (e.g., by making use of aliases).
      *
-     * @param FullyQualified $name Fully-qualified name
-     * @param int            $type One of Stmt\Use_::TYPE_*
+     * @param string $name Fully-qualified name (without leading namespace separator)
+     * @param int    $type One of Stmt\Use_::TYPE_*
      *
      * @return Name[] Possible representations of the name
      */
-    public function getPossibleNames(FullyQualified $name, int $type) : array {
-        $nameStr = (string) $name;
+    public function getPossibleNames(string $name, int $type) : array {
         $lcName = strtolower($name);
 
-        // Collect possible ways to write this name, starting with the fully-qualified name
-        $possibleNames = [$name];
+        if ($type === Stmt\Use_::TYPE_NORMAL) {
+            // self, parent and static must always be unqualified
+            if ($lcName === "self" || $lcName === "parent" || $lcName === "static") {
+                return [new Name($name)];
+            }
+        }
 
-        if (null !== $nsRelativeName = $this->getNamespaceRelativeName($name, $nameStr, $lcName)) {
+        // Collect possible ways to write this name, starting with the fully-qualified name
+        $possibleNames = [new FullyQualified($name)];
+
+        if (null !== $nsRelativeName = $this->getNamespaceRelativeName($name, $lcName, $type)) {
             // Make sure there is no alias that makes the normally namespace-relative name
             // into something else
             if (null === $this->resolveAlias($nsRelativeName, $type)) {
@@ -182,7 +188,7 @@ class NameContext {
         foreach ($this->origAliases[$type] as $alias => $orig) {
             if ($type === Stmt\Use_::TYPE_CONSTANT) {
                 // Constants are are complicated-sensitive
-                if ($this->normalizeConstName($orig) === $this->normalizeConstName($nameStr)) {
+                if ($this->normalizeConstName($orig) === $this->normalizeConstName($name)) {
                     $possibleNames[] = new Name($alias);
                 }
             } else {
@@ -199,12 +205,12 @@ class NameContext {
     /**
      * Get shortest representation of this fully-qualified name.
      *
-     * @param FullyQualified $name Fully-qualified name to shorten
-     * @param int            $type One of Stmt\Use_::TYPE_*
+     * @param string $name Fully-qualified name (without leading namespace separator)
+     * @param int    $type One of Stmt\Use_::TYPE_*
      *
      * @return Name Shortest representation
      */
-    public function getShortName(Name\FullyQualified $name, int $type) : Name {
+    public function getShortName(string $name, int $type) : Name {
         $possibleNames = $this->getPossibleNames($name, $type);
 
         // Find shortest name
@@ -244,20 +250,28 @@ class NameContext {
         return null;
     }
 
-    private function getNamespaceRelativeName(Name\FullyQualified $name, $nameStr, $lcName) {
+    private function getNamespaceRelativeName(string $name, string $lcName, int $type) {
         if (null === $this->namespace) {
             return new Name($name);
         }
 
+        if ($type === Stmt\Use_::TYPE_CONSTANT) {
+            // The constants true/false/null always resolve to the global symbols, even inside a
+            // namespace, so they may be used without qualification
+            if ($lcName === "true" || $lcName === "false" || $lcName === "null") {
+                return new Name($name);
+            }
+        }
+
         $namespacePrefix = strtolower($this->namespace . '\\');
         if (0 === strpos($lcName, $namespacePrefix)) {
-            return new Name(substr($nameStr, strlen($namespacePrefix)));
+            return new Name(substr($name, strlen($namespacePrefix)));
         }
 
         return null;
     }
 
-    private function normalizeConstName($name) {
+    private function normalizeConstName(string $name) {
         $nsSep = strrpos($name, '\\');
         if (false === $nsSep) {
             return $name;
