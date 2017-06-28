@@ -80,7 +80,7 @@ abstract class BuilderAbstract implements Builder {
         }
 
         $builtinTypes = array(
-            'array', 'callable', 'string', 'int', 'float', 'bool', 'iterable', 'void'
+            'array', 'callable', 'string', 'int', 'float', 'bool', 'iterable', 'void', 'object'
         );
 
         $lowerType = strtolower($type);

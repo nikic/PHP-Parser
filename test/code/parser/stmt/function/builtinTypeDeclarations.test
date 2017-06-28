@@ -1,7 +1,7 @@
 Scalar type declarations
 -----
 <?php
-function test(bool $a, Int $b, FLOAT $c, StRiNg $d, iterable $e) : void {}
+function test(bool $a, Int $b, FLOAT $c, StRiNg $d, iterable $e, object $f) : void {}
 -----
 !!php7
 array(
@@ -42,6 +42,13 @@ array(
                 byRef: false
                 variadic: false
                 name: e
+                default: null
+            )
+            5: Param(
+                type: object
+                byRef: false
+                variadic: false
+                name: f
                 default: null
             )
         )

@@ -112,6 +112,7 @@ class ParamTest extends \PHPUnit_Framework_TestCase
             array('float', 'float'),
             array('string', 'string'),
             array('iterable', 'iterable'),
+            array('object', 'object'),
             array('Array', 'array'),
             array('CALLABLE', 'callable'),
             array('Some\Class', new Node\Name('Some\Class')),

@@ -4,6 +4,8 @@ Version 3.1.0-dev
 ### Added
 
 * [PHP 7.2] Added support for trailing comma in group use statements.
+* [PHP 7.2] Added support for `object` type. This means `object` types will now be represented as a
+  builtin type (a simple `"object"` string), rather than a class `Name`.
 
 Version 3.0.6 (2017-06-28)
 --------------------------
