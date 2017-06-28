@@ -544,8 +544,6 @@ for ($a, ; $b, ; $c, );
 function ($a, ) use ($b, ) {};
 -----
 !!php7
-A trailing comma is not allowed here from 3:9 to 3:9
-A trailing comma is not allowed here from 4:18 to 4:18
 A trailing comma is not allowed here from 5:6 to 5:6
 A trailing comma is not allowed here from 6:13 to 6:13
 A trailing comma is not allowed here from 8:21 to 8:21

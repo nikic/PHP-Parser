@@ -1,7 +1,9 @@
 Version 3.1.0-dev
 -----------------
 
-Nothing yet.
+### Added
+
+* [PHP 7.2] Added support for trailing comma in group use statements.
 
 Version 3.0.6 (2017-06-28)
 --------------------------
