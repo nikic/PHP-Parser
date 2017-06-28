@@ -67,6 +67,10 @@ no_comma:
     | ',' { $this->emitError(new Error('A trailing comma is not allowed here', attributes())); }
 ;
 
+optional_comma:
+      /* empty */
+    | ','
+
 top_statement:
       statement                                             { $$ = $1; }
     | function_declaration_statement                        { $$ = $1; }
@@ -103,7 +107,7 @@ group_use_declaration:
 ;
 
 unprefixed_use_declarations:
-      non_empty_unprefixed_use_declarations no_comma        { $$ = $1; }
+      non_empty_unprefixed_use_declarations optional_comma  { $$ = $1; }
 ;
 
 non_empty_unprefixed_use_declarations:
@@ -122,7 +126,7 @@ non_empty_use_declarations:
 ;
 
 inline_use_declarations:
-      non_empty_inline_use_declarations no_comma            { $$ = $1; }
+      non_empty_inline_use_declarations optional_comma      { $$ = $1; }
 ;
 
 non_empty_inline_use_declarations:
