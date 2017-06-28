@@ -109,6 +109,7 @@ class ParamTest extends TestCase
             array('float', new Node\Identifier('float')),
             array('string', new Node\Identifier('string')),
             array('iterable', new Node\Identifier('iterable')),
+            array('object', new Node\Identifier('object')),
             array('Array', new Node\Identifier('array')),
             array('CALLABLE', new Node\Identifier('callable')),
             array('Some\Class', new Node\Name('Some\Class')),

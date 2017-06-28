@@ -109,7 +109,7 @@ final class BuilderHelpers {
         }
 
         $builtinTypes = array(
-            'array', 'callable', 'string', 'int', 'float', 'bool', 'iterable', 'void'
+            'array', 'callable', 'string', 'int', 'float', 'bool', 'iterable', 'void', 'object'
         );
 
         $lowerType = strtolower($type);

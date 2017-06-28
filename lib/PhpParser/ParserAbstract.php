@@ -639,6 +639,7 @@ abstract class ParserAbstract implements Parser
             'string'   => true,
             'iterable' => true,
             'void'     => true,
+            'object'   => true,
         ];
 
         if (!$name->isUnqualified()) {
