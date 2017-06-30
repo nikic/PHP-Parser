@@ -489,7 +489,7 @@ abstract class PrettyPrinterAbstract
         $indentAdjustment = $this->indentLevel - $this->getIndentationBefore($startPos);
 
         $type = $node->getType();
-        $fixupInfo = isset($this->fixupMap[$type]) ? $this->fixupMap[$type] : null;
+        $fixupInfo = $this->fixupMap[$type] ?? null;
 
         $result = '';
         $pos = $startPos;
