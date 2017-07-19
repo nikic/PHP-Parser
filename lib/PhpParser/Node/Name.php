@@ -8,7 +8,6 @@ class Name extends NodeAbstract
 {
     /**
      * @var string[] Parts of the name
-     * @deprecated Avoid directly accessing $parts, use methods instead.
      */
     public $parts;
 
