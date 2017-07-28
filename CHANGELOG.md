@@ -1,11 +1,25 @@
-Version 3.1.0-dev
+Version 3.1.1-dev
 -----------------
+
+Nothing yet.
+
+Version 3.1.0 (2017-07-28)
+--------------------------
 
 ### Added
 
 * [PHP 7.2] Added support for trailing comma in group use statements.
 * [PHP 7.2] Added support for `object` type. This means `object` types will now be represented as a
   builtin type (a simple `"object"` string), rather than a class `Name`.
+  
+### Fixed
+
+* Floating-point numbers are now printed correctly if the LC_NUMERIC locale uses a comma as decimal
+  separator.
+
+### Changed
+
+* `Name::$parts` is no longer deprecated.
 
 Version 3.0.6 (2017-06-28)
 --------------------------
