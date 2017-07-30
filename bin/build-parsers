@@ -1,12 +1,12 @@
 #!/usr/bin/env php
 <?php
 
-if (false === file_exists(__DIR__ . '/../vendor/autoload.php')) {
-    echo "Run composer using `composer install` first.\n";
-    exit;
+foreach ([__DIR__ . '/../../../autoload.php', __DIR__ . '/../vendor/autoload.php'] as $file) {
+    if (file_exists($file)) {
+        require $file;
+        break;
+    }
 }
-
-require __DIR__ . '/../vendor/autoload.php';
 
 $grammarDir = __DIR__ . '/../grammar';
 
