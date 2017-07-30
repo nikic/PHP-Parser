@@ -1,0 +1,50 @@
+#!/usr/bin/env php
+<?php
+
+if (false === file_exists(__DIR__ . '/../vendor/autoload.php')) {
+    echo "Run composer using `composer install` first.\n";
+    exit;
+}
+
+require __DIR__ . '/../vendor/autoload.php';
+
+$grammarDir = __DIR__ . '/../grammar';
+
+$grammarFileToName = [
+    $grammarDir . '/php5.y' => 'Php5',
+    $grammarDir . '/php7.y' => 'Php7',
+];
+
+$tokensFile     = $grammarDir . '/tokens.y';
+$tokensTemplate = $grammarDir . '/tokens.template';
+$skeletonFile   = $grammarDir . '/parser.template';
+$tmpGrammarFile = $grammarDir . '/tmp_parser.phpy';
+$tmpResultFile  = $grammarDir . '/tmp_parser.php';
+$resultDir = $grammarDir . '/../lib/PhpParser/Parser';
+$tokensResultsFile = 'Tokens.php';
+
+// check for kmyacc.exe binary in this directory, otherwise fall back to global name
+$kmyacc = $grammarDir . '/kmyacc.exe';
+if (!file_exists($kmyacc)) {
+    $kmyacc = 'kmyacc';
+}
+
+$options = array_flip($argv);
+$optionDebug = isset($options['--debug']);
+$optionKeepTmpGrammar = isset($options['--keep-tmp-grammar']);
+
+$parserBuilder = \PhpParser\Builder\ParserBuilderFactory::create()
+    ->setBinaryPath($kmyacc)
+    ->setDebug($optionDebug)
+    ->setKeepTmpGrammar($optionKeepTmpGrammar)
+    ->setTokensTemplateFile($tokensTemplate)
+    ->setParserTemplateFile($skeletonFile)
+    ->setTmpGrammarFile($tmpGrammarFile)
+    ->setTmpResultFile($tmpResultFile)
+    ->setResultDir($resultDir)
+    ->setTokensResultFile($tokensResultsFile)
+    ->getParserBuilder();
+
+foreach ($grammarFileToName as $grammarFile => $parserName) {
+    $parserBuilder->build($parserName, $grammarFile, $tokensFile);
+}
