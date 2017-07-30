@@ -701,6 +701,7 @@ anonymous_class:
       T_CLASS ctor_arguments extends_from implements_list '{' class_statement_list '}'
           { $$ = array(Stmt\Class_[null, ['type' => 0, 'extends' => $3, 'implements' => $4, 'stmts' => $6]], $2);
             $this->checkClass($$[0], -1); }
+;
 
 new_expr:
       T_NEW class_name_reference ctor_arguments             { $$ = Expr\New_[$2, $3]; }
