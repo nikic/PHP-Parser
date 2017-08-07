@@ -96,10 +96,10 @@ Lexer extension
 A lexer has to define the following public interface:
 
 ```php
-startLexing(string $code, ErrorHandler $errorHandler = null): void;
-getTokens(): array;
-handleHaltCompiler(): string;
-getNextToken(string &$value = null, array &$startAttributes = null, array &$endAttributes = null): int;
+function startLexing(string $code, ErrorHandler $errorHandler = null): void;
+function getTokens(): array;
+function handleHaltCompiler(): string;
+function getNextToken(string &$value = null, array &$startAttributes = null, array &$endAttributes = null): int;
 ```
 
 The `startLexing()` method is invoked with the source code that is to be lexed (including the opening tag) whenever the
