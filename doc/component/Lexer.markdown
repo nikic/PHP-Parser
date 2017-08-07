@@ -95,10 +95,12 @@ Lexer extension
 
 A lexer has to define the following public interface:
 
-    void startLexing(string $code, ErrorHandler $errorHandler = null);
-    array getTokens();
-    string handleHaltCompiler();
-    int getNextToken(string &$value = null, array &$startAttributes = null, array &$endAttributes = null);
+```php
+startLexing(string $code, ErrorHandler $errorHandler = null): void;
+getTokens(): array;
+handleHaltCompiler(): string;
+getNextToken(string &$value = null, array &$startAttributes = null, array &$endAttributes = null): int;
+```
 
 The `startLexing()` method is invoked with the source code that is to be lexed (including the opening tag) whenever the
 `parse()` method of the parser is called. It can be used to reset state or preprocess the source code or tokens. The
