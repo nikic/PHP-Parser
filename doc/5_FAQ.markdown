@@ -2,7 +2,7 @@ Frequently Asked Questions
 ==========================
 
  * [How can the parent of a node be obtained?](#how-can-the-parent-of-a-node-be-obtained)
- * [How can the next/previous sibling of a node be obtained?](#how-can-the-next-previous-sibling-of-a-node-be-obtained)
+ * [How can the next/previous sibling of a node be obtained?](#how-can-the-nextprevious-sibling-of-a-node-be-obtained)
 
 How can the parent of a node be obtained?
 -----
