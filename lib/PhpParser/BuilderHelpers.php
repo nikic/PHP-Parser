@@ -69,7 +69,7 @@ final class BuilderHelpers {
                 throw new \LogicException('Name cannot be empty');
             }
 
-            if ($name[0] == '\\') {
+            if ($name[0] === '\\') {
                 return new Name\FullyQualified(substr($name, 1));
             } elseif (0 === strpos($name, 'namespace\\')) {
                 return new Name\Relative(substr($name, strlen('namespace\\')));

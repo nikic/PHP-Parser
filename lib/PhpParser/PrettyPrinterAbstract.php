@@ -301,7 +301,7 @@ abstract class PrettyPrinterAbstract
         if (isset($this->precedenceMap[$type])) {
             $childPrecedence = $this->precedenceMap[$type][0];
             if ($childPrecedence > $parentPrecedence
-                || ($parentPrecedence == $childPrecedence && $parentAssociativity != $childPosition)
+                || ($parentPrecedence === $childPrecedence && $parentAssociativity !== $childPosition)
             ) {
                 return '(' . $this->p($node) . ')';
             }
@@ -468,7 +468,7 @@ abstract class PrettyPrinterAbstract
             return $this->pFallback($node);
         }
 
-        if (get_class($node) != get_class($origNode)) {
+        if (get_class($node) !== get_class($origNode)) {
             // Shouldn't happen
             return $this->pFallback($node);
         }

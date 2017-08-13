@@ -185,7 +185,7 @@ abstract class ParserAbstract implements Parser
         for (;;) {
             //$this->traceNewState($state, $symbol);
 
-            if ($this->actionBase[$state] == 0) {
+            if ($this->actionBase[$state] === 0) {
                 $rule = $this->actionDefault[$state];
             } else {
                 if ($symbol === self::SYMBOL_NONE) {
@@ -217,11 +217,11 @@ abstract class ParserAbstract implements Parser
                 }
 
                 $idx = $this->actionBase[$state] + $symbol;
-                if ((($idx >= 0 && $idx < $this->actionTableSize && $this->actionCheck[$idx] == $symbol)
+                if ((($idx >= 0 && $idx < $this->actionTableSize && $this->actionCheck[$idx] === $symbol)
                      || ($state < $this->YY2TBLSTATE
                          && ($idx = $this->actionBase[$state + $this->YYNLSTATES] + $symbol) >= 0
-                         && $idx < $this->actionTableSize && $this->actionCheck[$idx] == $symbol))
-                    && ($action = $this->action[$idx]) != $this->defaultAction) {
+                         && $idx < $this->actionTableSize && $this->actionCheck[$idx] === $symbol))
+                    && ($action = $this->action[$idx]) !== $this->defaultAction) {
                     /*
                      * >= YYNLSTATES: shift and reduce
                      * > 0: shift
@@ -285,7 +285,7 @@ abstract class ParserAbstract implements Parser
                     $stackPos -= $this->ruleToLength[$rule];
                     $nonTerminal = $this->ruleToNonTerminal[$rule];
                     $idx = $this->gotoBase[$nonTerminal] + $stateStack[$stackPos];
-                    if ($idx >= 0 && $idx < $this->gotoTableSize && $this->gotoCheck[$idx] == $nonTerminal) {
+                    if ($idx >= 0 && $idx < $this->gotoTableSize && $this->gotoCheck[$idx] === $nonTerminal) {
                         $state = $this->goto[$idx];
                     } else {
                         $state = $this->gotoDefault[$nonTerminal];
@@ -309,11 +309,11 @@ abstract class ParserAbstract implements Parser
                             // Pop until error-expecting state uncovered
                             while (!(
                                 (($idx = $this->actionBase[$state] + $this->errorSymbol) >= 0
-                                    && $idx < $this->actionTableSize && $this->actionCheck[$idx] == $this->errorSymbol)
+                                    && $idx < $this->actionTableSize && $this->actionCheck[$idx] === $this->errorSymbol)
                                 || ($state < $this->YY2TBLSTATE
                                     && ($idx = $this->actionBase[$state + $this->YYNLSTATES] + $this->errorSymbol) >= 0
-                                    && $idx < $this->actionTableSize && $this->actionCheck[$idx] == $this->errorSymbol)
-                            ) || ($action = $this->action[$idx]) == $this->defaultAction) { // Not totally sure about this
+                                    && $idx < $this->actionTableSize && $this->actionCheck[$idx] === $this->errorSymbol)
+                            ) || ($action = $this->action[$idx]) === $this->defaultAction) { // Not totally sure about this
                                 if ($stackPos <= 0) {
                                     // Could not recover from error
                                     return null;
@@ -395,11 +395,11 @@ abstract class ParserAbstract implements Parser
                 && ($idx = $this->actionBase[$state + $this->YYNLSTATES] + $symbol) >= 0
                 && $idx < $this->actionTableSize && $this->actionCheck[$idx] === $symbol
             ) {
-                if ($this->action[$idx] != $this->unexpectedTokenRule
-                    && $this->action[$idx] != $this->defaultAction
-                    && $symbol != $this->errorSymbol
+                if ($this->action[$idx] !== $this->unexpectedTokenRule
+                    && $this->action[$idx] !== $this->defaultAction
+                    && $symbol !== $this->errorSymbol
                 ) {
-                    if (count($expected) == 4) {
+                    if (count($expected) === 4) {
                         /* Too many expected tokens */
                         return [];
                     }
@@ -569,7 +569,7 @@ abstract class ParserAbstract implements Parser
             }
 
             /* There may be a hashbang line at the very start of the file */
-            if ($i == 0 && $stmt instanceof Node\Stmt\InlineHTML && preg_match('/\A#!.*\r?\n\z/', $stmt->value)) {
+            if ($i === 0 && $stmt instanceof Node\Stmt\InlineHTML && preg_match('/\A#!.*\r?\n\z/', $stmt->value)) {
                 continue;
             }
 
@@ -844,7 +844,7 @@ abstract class ParserAbstract implements Parser
     }
 
     protected function checkUseUse(UseUse $node, $namePos) {
-        if ('self' == strtolower($node->alias) || 'parent' == strtolower($node->alias)) {
+        if ('self' === strtolower($node->alias) || 'parent' === strtolower($node->alias)) {
             $this->emitError(new Error(
                 sprintf(
                     'Cannot use %s as %s because \'%2$s\' is a special class name',
