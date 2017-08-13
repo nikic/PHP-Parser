@@ -26,9 +26,9 @@ if (empty($files)) {
     showHelp("Must specify at least one file.");
 }
 
-$lexer = new PhpParser\Lexer\Emulative(array('usedAttributes' => array(
+$lexer = new PhpParser\Lexer\Emulative(['usedAttributes' => [
     'startLine', 'endLine', 'startFilePos', 'endFilePos', 'comments'
-)));
+]]);
 $parser = (new PhpParser\ParserFactory)->create(
     PhpParser\ParserFactory::PREFER_PHP7,
     $lexer
@@ -130,13 +130,13 @@ OUTPUT
 }
 
 function parseArgs($args) {
-    $operations = array();
-    $files = array();
-    $attributes = array(
+    $operations = [];
+    $files = [];
+    $attributes = [
         'with-column-info' => false,
         'with-positions' => false,
         'with-recovery' => false,
-    );
+    ];
 
     array_shift($args);
     $parseOptions = true;
@@ -193,5 +193,5 @@ function parseArgs($args) {
         }
     }
 
-    return array($operations, $files, $attributes);
+    return [$operations, $files, $attributes];
 }
