@@ -50,7 +50,7 @@ class Name extends NodeAbstract
      * @return bool Whether the name is unqualified
      */
     public function isUnqualified() : bool {
-        return 1 == count($this->parts);
+        return 1 === count($this->parts);
     }
 
     /**
