@@ -25,4 +25,4 @@ script:
   - if [ $TRAVIS_PHP_VERSION = '7.1' ]; then test_old/run-php-src.sh; fi
 
 after_success:
-  if [ $TRAVIS_PHP_VERSION = '7.0' ]; then php vendor/bin/coveralls; fi
+  - if [ $TRAVIS_PHP_VERSION = '7.0' ]; then php vendor/bin/coveralls; fi
