@@ -10,7 +10,7 @@ use PhpParser\Node\Stmt;
 class Function_ extends FunctionLike
 {
     protected $name;
-    protected $stmts = array();
+    protected $stmts = [];
 
     /**
      * Creates a function builder.
@@ -40,11 +40,11 @@ class Function_ extends FunctionLike
      * @return Stmt\Function_ The built function node
      */
     public function getNode() : Node {
-        return new Stmt\Function_($this->name, array(
+        return new Stmt\Function_($this->name, [
             'byRef'      => $this->returnByRef,
             'params'     => $this->params,
             'returnType' => $this->returnType,
             'stmts'      => $this->stmts,
-        ), $this->attributes);
+        ], $this->attributes);
     }
 }

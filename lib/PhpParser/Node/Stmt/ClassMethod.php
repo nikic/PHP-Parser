@@ -20,7 +20,7 @@ class ClassMethod extends Node\Stmt implements FunctionLike
     /** @var Node\Stmt[] Statements */
     public $stmts;
 
-    private static $magicNames = array(
+    private static $magicNames = [
         '__construct'  => true,
         '__destruct'   => true,
         '__call'       => true,
@@ -36,7 +36,7 @@ class ClassMethod extends Node\Stmt implements FunctionLike
         '__clone'      => true,
         '__invoke'     => true,
         '__debuginfo'  => true,
-    );
+    ];
 
     /**
      * Constructs a class method node.
@@ -50,19 +50,19 @@ class ClassMethod extends Node\Stmt implements FunctionLike
      *                          'stmts'      => array()        : Statements
      * @param array $attributes Additional attributes
      */
-    public function __construct($name, array $subNodes = array(), array $attributes = array()) {
+    public function __construct($name, array $subNodes = [], array $attributes = []) {
         parent::__construct($attributes);
         $this->flags = $subNodes['flags'] ?? $subNodes['type'] ?? 0;
         $this->byRef = $subNodes['byRef'] ?? false;
         $this->name = \is_string($name) ? new Node\Identifier($name) : $name;
-        $this->params = $subNodes['params'] ?? array();
+        $this->params = $subNodes['params'] ?? [];
         $returnType = $subNodes['returnType'] ?? null;
         $this->returnType = \is_string($returnType) ? new Node\Identifier($returnType) : $returnType;
-        $this->stmts = array_key_exists('stmts', $subNodes) ? $subNodes['stmts'] : array();
+        $this->stmts = array_key_exists('stmts', $subNodes) ? $subNodes['stmts'] : [];
     }
 
     public function getSubNodeNames() : array {
-        return array('flags', 'byRef', 'name', 'params', 'returnType', 'stmts');
+        return ['flags', 'byRef', 'name', 'params', 'returnType', 'stmts'];
     }
 
     public function returnsByRef() : bool {

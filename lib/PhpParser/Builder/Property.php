@@ -12,7 +12,7 @@ class Property implements PhpParser\Builder
 
     protected $flags = 0;
     protected $default = null;
-    protected $attributes = array();
+    protected $attributes = [];
 
     /**
      * Creates a property builder.
@@ -88,9 +88,9 @@ class Property implements PhpParser\Builder
      * @return $this The builder instance (for fluid interface)
      */
     public function setDocComment($docComment) {
-        $this->attributes = array(
-            'comments' => array(BuilderHelpers::normalizeDocComment($docComment))
-        );
+        $this->attributes = [
+            'comments' => [BuilderHelpers::normalizeDocComment($docComment)]
+        ];
 
         return $this;
     }
@@ -103,9 +103,9 @@ class Property implements PhpParser\Builder
     public function getNode() : PhpParser\Node {
         return new Stmt\Property(
             $this->flags !== 0 ? $this->flags : Stmt\Class_::MODIFIER_PUBLIC,
-            array(
+            [
                 new Stmt\PropertyProperty($this->name, $this->default)
-            ),
+            ],
             $this->attributes
         );
     }

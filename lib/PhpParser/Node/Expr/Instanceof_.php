@@ -19,13 +19,13 @@ class Instanceof_ extends Expr
      * @param Name|Expr $class      Class name
      * @param array     $attributes Additional attributes
      */
-    public function __construct(Expr $expr, $class, array $attributes = array()) {
+    public function __construct(Expr $expr, $class, array $attributes = []) {
         parent::__construct($attributes);
         $this->expr = $expr;
         $this->class = $class;
     }
 
     public function getSubNodeNames() : array {
-        return array('expr', 'class');
+        return ['expr', 'class'];
     }
 }

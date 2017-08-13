@@ -23,7 +23,7 @@ class Catch_ extends Node\Stmt
      * @param array         $attributes Additional attributes
      */
     public function __construct(
-        array $types, Expr\Variable $var, array $stmts = array(), array $attributes = array()
+        array $types, Expr\Variable $var, array $stmts = [], array $attributes = []
     ) {
         parent::__construct($attributes);
         $this->types = $types;
@@ -32,6 +32,6 @@ class Catch_ extends Node\Stmt
     }
 
     public function getSubNodeNames() : array {
-        return array('types', 'var', 'stmts');
+        return ['types', 'var', 'stmts'];
     }
 }

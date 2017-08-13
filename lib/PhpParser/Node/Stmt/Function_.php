@@ -32,18 +32,18 @@ class Function_ extends Node\Stmt implements FunctionLike
      *                           'stmts'      => array(): Statements
      * @param array  $attributes Additional attributes
      */
-    public function __construct($name, array $subNodes = array(), array $attributes = array()) {
+    public function __construct($name, array $subNodes = [], array $attributes = []) {
         parent::__construct($attributes);
         $this->byRef = $subNodes['byRef'] ?? false;
         $this->name = \is_string($name) ? new Node\Identifier($name) : $name;
-        $this->params = $subNodes['params'] ?? array();
+        $this->params = $subNodes['params'] ?? [];
         $returnType = $subNodes['returnType'] ?? null;
         $this->returnType = \is_string($returnType) ? new Node\Identifier($returnType) : $returnType;
-        $this->stmts = $subNodes['stmts'] ?? array();
+        $this->stmts = $subNodes['stmts'] ?? [];
     }
 
     public function getSubNodeNames() : array {
-        return array('byRef', 'name', 'params', 'returnType', 'stmts');
+        return ['byRef', 'name', 'params', 'returnType', 'stmts'];
     }
 
     public function returnsByRef() : bool {

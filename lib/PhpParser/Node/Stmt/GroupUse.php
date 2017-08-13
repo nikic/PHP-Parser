@@ -22,7 +22,7 @@ class GroupUse extends Stmt
      * @param int      $type       Type of group use
      * @param array    $attributes Additional attributes
      */
-    public function __construct(Name $prefix, array $uses, int $type = Use_::TYPE_NORMAL, array $attributes = array()) {
+    public function __construct(Name $prefix, array $uses, int $type = Use_::TYPE_NORMAL, array $attributes = []) {
         parent::__construct($attributes);
         $this->type = $type;
         $this->prefix = $prefix;
@@ -30,6 +30,6 @@ class GroupUse extends Stmt
     }
 
     public function getSubNodeNames() : array {
-        return array('type', 'prefix', 'uses');
+        return ['type', 'prefix', 'uses'];
     }
 }

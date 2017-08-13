@@ -15,12 +15,12 @@ class BooleanNot extends Expr
      * @param Expr $expr       Expression
      * @param array               $attributes Additional attributes
      */
-    public function __construct(Expr $expr, array $attributes = array()) {
+    public function __construct(Expr $expr, array $attributes = []) {
         parent::__construct($attributes);
         $this->expr = $expr;
     }
 
     public function getSubNodeNames() : array {
-        return array('expr');
+        return ['expr'];
     }
 }

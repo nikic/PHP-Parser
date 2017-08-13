@@ -15,13 +15,13 @@ class DNumber extends Scalar
      * @param float $value      Value of the number
      * @param array $attributes Additional attributes
      */
-    public function __construct(float $value, array $attributes = array()) {
+    public function __construct(float $value, array $attributes = []) {
         parent::__construct($attributes);
         $this->value = $value;
     }
 
     public function getSubNodeNames() : array {
-        return array('value');
+        return ['value'];
     }
 
     /**

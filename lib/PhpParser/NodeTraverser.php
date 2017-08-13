@@ -40,7 +40,7 @@ class NodeTraverser implements NodeTraverserInterface
      * Constructs a node traverser.
      */
     public function __construct() {
-        $this->visitors = array();
+        $this->visitors = [];
     }
 
     /**
@@ -170,7 +170,7 @@ class NodeTraverser implements NodeTraverserInterface
      * @return array Result of traversal (may be original array or changed one)
      */
     protected function traverseArray(array $nodes) : array {
-        $doNodes = array();
+        $doNodes = [];
 
         foreach ($nodes as $i => &$node) {
             if ($node instanceof Node) {
@@ -206,10 +206,10 @@ class NodeTraverser implements NodeTraverserInterface
                         if ($return instanceof Node) {
                             $node = $return;
                         } elseif (\is_array($return)) {
-                            $doNodes[] = array($i, $return);
+                            $doNodes[] = [$i, $return];
                             break;
                         } elseif (self::REMOVE_NODE === $return) {
-                            $doNodes[] = array($i, array());
+                            $doNodes[] = [$i, []];
                             break;
                         } elseif (self::STOP_TRAVERSAL === $return) {
                             $this->stopTraversal = true;

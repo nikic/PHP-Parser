@@ -8,6 +8,6 @@ use PhpParser\Node;
 class Nop extends Node\Stmt
 {
     public function getSubNodeNames() : array {
-        return array();
+        return [];
     }
 }

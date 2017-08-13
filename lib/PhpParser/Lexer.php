@@ -27,21 +27,21 @@ class Lexer
      *                       'endTokenPos', 'startFilePos', 'endFilePos'. The option defaults to the
      *                       first three. For more info see getNextToken() docs.
      */
-    public function __construct(array $options = array()) {
+    public function __construct(array $options = []) {
         // map from internal tokens to PhpParser tokens
         $this->tokenMap = $this->createTokenMap();
 
         // map of tokens to drop while lexing (the map is only used for isset lookup,
         // that's why the value is simply set to 1; the value is never actually used.)
         $this->dropTokens = array_fill_keys(
-            array(T_WHITESPACE, T_OPEN_TAG, T_COMMENT, T_DOC_COMMENT), 1
+            [T_WHITESPACE, T_OPEN_TAG, T_COMMENT, T_DOC_COMMENT], 1
         );
 
         // the usedAttributes member is a map of the used attribute names to a dummy
         // value (here "true")
-        $options += array(
-            'usedAttributes' => array('comments', 'startLine', 'endLine'),
-        );
+        $options += [
+            'usedAttributes' => ['comments', 'startLine', 'endLine'],
+        ];
         $this->usedAttributes = array_fill_keys($options['usedAttributes'], true);
     }
 
@@ -219,8 +219,8 @@ class Lexer
      * @return int Token id
      */
     public function getNextToken(&$value = null, &$startAttributes = null, &$endAttributes = null) : int {
-        $startAttributes = array();
-        $endAttributes   = array();
+        $startAttributes = [];
+        $endAttributes   = [];
 
         while (1) {
             if (isset($this->tokens[++$this->pos])) {
@@ -339,7 +339,7 @@ class Lexer
      * @return array The token map
      */
     protected function createTokenMap() : array {
-        $tokenMap = array();
+        $tokenMap = [];
 
         // 256 is the minimum possible token number, as everything below
         // it is an ASCII value

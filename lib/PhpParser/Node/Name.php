@@ -17,13 +17,13 @@ class Name extends NodeAbstract
      * @param string|string[]|self $name       Name as string, part array or Name instance (copy ctor)
      * @param array                $attributes Additional attributes
      */
-    public function __construct($name, array $attributes = array()) {
+    public function __construct($name, array $attributes = []) {
         parent::__construct($attributes);
         $this->parts = self::prepareName($name);
     }
 
     public function getSubNodeNames() : array {
-        return array('parts');
+        return ['parts'];
     }
 
     /**

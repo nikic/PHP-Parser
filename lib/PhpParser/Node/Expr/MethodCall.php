@@ -23,7 +23,7 @@ class MethodCall extends Expr
      * @param Arg[]                  $args       Arguments
      * @param array                  $attributes Additional attributes
      */
-    public function __construct(Expr $var, $name, array $args = array(), array $attributes = array()) {
+    public function __construct(Expr $var, $name, array $args = [], array $attributes = []) {
         parent::__construct($attributes);
         $this->var = $var;
         $this->name = \is_string($name) ? new Identifier($name) : $name;
@@ -31,6 +31,6 @@ class MethodCall extends Expr
     }
 
     public function getSubNodeNames() : array {
-        return array('var', 'name', 'args');
+        return ['var', 'name', 'args'];
     }
 }

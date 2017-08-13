@@ -125,9 +125,9 @@ abstract class ParserAbstract implements Parser
      * @param Lexer $lexer A lexer
      * @param array $options Options array.
      */
-    public function __construct(Lexer $lexer, array $options = array()) {
+    public function __construct(Lexer $lexer, array $options = []) {
         $this->lexer = $lexer;
-        $this->errors = array();
+        $this->errors = [];
 
         if (isset($options['throwOnError'])) {
             throw new \LogicException(
@@ -167,15 +167,15 @@ abstract class ParserAbstract implements Parser
         $this->endAttributes = $endAttributes;
 
         // Keep stack of start and end attributes
-        $this->startAttributeStack = array();
-        $this->endAttributeStack = array($endAttributes);
+        $this->startAttributeStack = [];
+        $this->endAttributeStack = [$endAttributes];
 
         // Start off in the initial state and keep a stack of previous states
         $state = 0;
-        $stateStack = array($state);
+        $stateStack = [$state];
 
         // Semantic value stack (contains values of tokens and semantic action results)
-        $this->semStack = array();
+        $this->semStack = [];
 
         // Current position in the stack(s)
         $stackPos = 0;
@@ -385,7 +385,7 @@ abstract class ParserAbstract implements Parser
      * @return string[] Expected tokens. If too many, an empty array is returned.
      */
     protected function getExpectedTokens(int $state) : array {
-        $expected = array();
+        $expected = [];
 
         $base = $this->actionBase[$state];
         foreach ($this->symbolToName as $symbol => $name) {
@@ -401,7 +401,7 @@ abstract class ParserAbstract implements Parser
                 ) {
                     if (count($expected) == 4) {
                         /* Too many expected tokens */
-                        return array();
+                        return [];
                     }
 
                     $expected[] = $name;
@@ -479,7 +479,7 @@ abstract class ParserAbstract implements Parser
             return $stmts;
         } else {
             // For semicolon namespaces we have to move the statements after a namespace declaration into ->stmts
-            $resultStmts = array();
+            $resultStmts = [];
             $targetStmts =& $resultStmts;
             $lastNs = null;
             foreach ($stmts as $stmt) {
@@ -488,7 +488,7 @@ abstract class ParserAbstract implements Parser
                         $this->fixupNamespaceAttributes($lastNs);
                     }
                     if ($stmt->stmts === null) {
-                        $stmt->stmts = array();
+                        $stmt->stmts = [];
                         $targetStmts =& $stmt->stmts;
                         $resultStmts[] = $stmt;
                     } else {
@@ -654,11 +654,11 @@ abstract class ParserAbstract implements Parser
         return new Node\Identifier($lowerName, $name->getAttributes());
     }
 
-    protected static $specialNames = array(
+    protected static $specialNames = [
         'self'   => true,
         'parent' => true,
         'static' => true,
-    );
+    ];
 
     /**
      * Get combined start and end attributes at a stack location

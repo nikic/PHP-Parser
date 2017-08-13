@@ -17,11 +17,11 @@ class Error extends Expr
      *
      * @param array $attributes Additional attributes
      */
-    public function __construct(array $attributes = array()) {
+    public function __construct(array $attributes = []) {
         parent::__construct($attributes);
     }
 
     public function getSubNodeNames() : array {
-        return array();
+        return [];
     }
 }

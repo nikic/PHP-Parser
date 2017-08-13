@@ -21,7 +21,7 @@ class TryCatch extends Node\Stmt
      * @param null|Finally_ $finally    Optionaly finally node
      * @param array         $attributes Additional attributes
      */
-    public function __construct(array $stmts, array $catches, Finally_ $finally = null, array $attributes = array()) {
+    public function __construct(array $stmts, array $catches, Finally_ $finally = null, array $attributes = []) {
         parent::__construct($attributes);
         $this->stmts = $stmts;
         $this->catches = $catches;
@@ -29,6 +29,6 @@ class TryCatch extends Node\Stmt
     }
 
     public function getSubNodeNames() : array {
-        return array('stmts', 'catches', 'finally');
+        return ['stmts', 'catches', 'finally'];
     }
 }

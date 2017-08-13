@@ -107,9 +107,9 @@ final class BuilderHelpers {
             $type = substr($type, 1);
         }
 
-        $builtinTypes = array(
+        $builtinTypes = [
             'array', 'callable', 'string', 'int', 'float', 'bool', 'iterable', 'void', 'object'
-        );
+        ];
 
         $lowerType = strtolower($type);
         if (in_array($lowerType, $builtinTypes)) {
@@ -151,7 +151,7 @@ final class BuilderHelpers {
         } elseif (is_string($value)) {
             return new Scalar\String_($value);
         } elseif (is_array($value)) {
-            $items = array();
+            $items = [];
             $lastKey = -1;
             foreach ($value as $itemKey => $itemValue) {
                 // for consecutive, numeric keys don't generate keys

@@ -21,13 +21,13 @@ class Const_ extends NodeAbstract
      * @param Expr              $value      Value
      * @param array             $attributes Additional attributes
      */
-    public function __construct($name, Expr $value, array $attributes = array()) {
+    public function __construct($name, Expr $value, array $attributes = []) {
         parent::__construct($attributes);
         $this->name = \is_string($name) ? new Identifier($name) : $name;
         $this->value = $value;
     }
 
     public function getSubNodeNames() : array {
-        return array('name', 'value');
+        return ['name', 'value'];
     }
 }

@@ -18,14 +18,14 @@ class ClassConst extends Node\Stmt
      * @param int           $flags      Modifiers
      * @param array         $attributes Additional attributes
      */
-    public function __construct(array $consts, int $flags = 0, array $attributes = array()) {
+    public function __construct(array $consts, int $flags = 0, array $attributes = []) {
         parent::__construct($attributes);
         $this->flags = $flags;
         $this->consts = $consts;
     }
 
     public function getSubNodeNames() : array {
-        return array('flags', 'consts');
+        return ['flags', 'consts'];
     }
 
     /**

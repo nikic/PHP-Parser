@@ -18,13 +18,13 @@ abstract class BinaryOp extends Expr
      * @param Expr  $right      The right hand side expression
      * @param array $attributes Additional attributes
      */
-    public function __construct(Expr $left, Expr $right, array $attributes = array()) {
+    public function __construct(Expr $left, Expr $right, array $attributes = []) {
         parent::__construct($attributes);
         $this->left = $left;
         $this->right = $right;
     }
 
     public function getSubNodeNames() : array {
-        return array('left', 'right');
+        return ['left', 'right'];
     }
 }

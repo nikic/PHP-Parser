@@ -9,8 +9,8 @@ use PhpParser\Node\Stmt;
 class Trait_ extends Declaration
 {
     protected $name;
-    protected $properties = array();
-    protected $methods = array();
+    protected $properties = [];
+    protected $methods = [];
 
     /**
      * Creates an interface builder.
@@ -49,9 +49,9 @@ class Trait_ extends Declaration
      */
     public function getNode() : PhpParser\Node {
         return new Stmt\Trait_(
-            $this->name, array(
+            $this->name, [
                 'stmts' => array_merge($this->properties, $this->methods)
-            ), $this->attributes
+            ], $this->attributes
         );
     }
 }

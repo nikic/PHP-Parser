@@ -10,9 +10,9 @@ use PhpParser\Node\Stmt;
 class Interface_ extends Declaration
 {
     protected $name;
-    protected $extends = array();
-    protected $constants = array();
-    protected $methods = array();
+    protected $extends = [];
+    protected $constants = [];
+    protected $methods = [];
 
     /**
      * Creates an interface builder.
@@ -73,9 +73,9 @@ class Interface_ extends Declaration
      * @return Stmt\Interface_ The built interface node
      */
     public function getNode() : PhpParser\Node {
-        return new Stmt\Interface_($this->name, array(
+        return new Stmt\Interface_($this->name, [
             'extends' => $this->extends,
             'stmts' => array_merge($this->constants, $this->methods),
-        ), $this->attributes);
+        ], $this->attributes);
     }
 }

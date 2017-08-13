@@ -13,7 +13,7 @@ class Method extends FunctionLike
     protected $flags = 0;
 
     /** @var array|null */
-    protected $stmts = array();
+    protected $stmts = [];
 
     /**
      * Creates a method builder.
@@ -118,12 +118,12 @@ class Method extends FunctionLike
      * @return Stmt\ClassMethod The built method node
      */
     public function getNode() : Node {
-        return new Stmt\ClassMethod($this->name, array(
+        return new Stmt\ClassMethod($this->name, [
             'flags'      => $this->flags,
             'byRef'      => $this->returnByRef,
             'params'     => $this->params,
             'returnType' => $this->returnType,
             'stmts'      => $this->stmts,
-        ), $this->attributes);
+        ], $this->attributes);
     }
 }
