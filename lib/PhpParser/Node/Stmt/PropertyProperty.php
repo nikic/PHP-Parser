@@ -18,13 +18,13 @@ class PropertyProperty extends Node\Stmt
      * @param null|Node\Expr                $default    Default value
      * @param array                         $attributes Additional attributes
      */
-    public function __construct($name, Node\Expr $default = null, array $attributes = array()) {
+    public function __construct($name, Node\Expr $default = null, array $attributes = []) {
         parent::__construct($attributes);
         $this->name = \is_string($name) ? new Node\VarLikeIdentifier($name) : $name;
         $this->default = $default;
     }
 
     public function getSubNodeNames() : array {
-        return array('name', 'default');
+        return ['name', 'default'];
     }
 }

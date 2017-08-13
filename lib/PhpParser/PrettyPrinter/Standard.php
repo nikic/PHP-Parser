@@ -482,12 +482,12 @@ class Standard extends PrettyPrinterAbstract
     }
 
     protected function pExpr_Include(Expr\Include_ $node) {
-        static $map = array(
+        static $map = [
             Expr\Include_::TYPE_INCLUDE      => 'include',
             Expr\Include_::TYPE_INCLUDE_ONCE => 'include_once',
             Expr\Include_::TYPE_REQUIRE      => 'require',
             Expr\Include_::TYPE_REQUIRE_ONCE => 'require_once',
-        );
+        ];
 
         return $map[$node->type] . ' ' . $this->p($node->expr);
     }

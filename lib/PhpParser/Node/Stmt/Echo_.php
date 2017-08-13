@@ -15,12 +15,12 @@ class Echo_ extends Node\Stmt
      * @param Node\Expr[] $exprs      Expressions
      * @param array       $attributes Additional attributes
      */
-    public function __construct(array $exprs, array $attributes = array()) {
+    public function __construct(array $exprs, array $attributes = []) {
         parent::__construct($attributes);
         $this->exprs = $exprs;
     }
 
     public function getSubNodeNames() : array {
-        return array('exprs');
+        return ['exprs'];
     }
 }

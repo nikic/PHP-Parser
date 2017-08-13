@@ -15,12 +15,12 @@ class PreInc extends Expr
      * @param Expr  $var        Variable
      * @param array $attributes Additional attributes
      */
-    public function __construct(Expr $var, array $attributes = array()) {
+    public function __construct(Expr $var, array $attributes = []) {
         parent::__construct($attributes);
         $this->var = $var;
     }
 
     public function getSubNodeNames() : array {
-        return array('var');
+        return ['var'];
     }
 }

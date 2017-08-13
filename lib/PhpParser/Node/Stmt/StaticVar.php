@@ -20,7 +20,7 @@ class StaticVar extends Node\Stmt
      * @param array          $attributes Additional attributes
      */
     public function __construct(
-        Expr\Variable $var, Node\Expr $default = null, array $attributes = array()
+        Expr\Variable $var, Node\Expr $default = null, array $attributes = []
     ) {
         parent::__construct($attributes);
         $this->var = $var;
@@ -28,6 +28,6 @@ class StaticVar extends Node\Stmt
     }
 
     public function getSubNodeNames() : array {
-        return array('var', 'default');
+        return ['var', 'default'];
     }
 }

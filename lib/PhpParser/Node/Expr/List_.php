@@ -15,12 +15,12 @@ class List_ extends Expr
      * @param (ArrayItem|null)[] $items      List of items to assign to
      * @param array              $attributes Additional attributes
      */
-    public function __construct(array $items, array $attributes = array()) {
+    public function __construct(array $items, array $attributes = []) {
         parent::__construct($attributes);
         $this->items = $items;
     }
 
     public function getSubNodeNames() : array {
-        return array('items');
+        return ['items'];
     }
 }

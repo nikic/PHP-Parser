@@ -19,13 +19,13 @@ class PropertyFetch extends Expr
      * @param string|Identifier|Expr $name       Property name
      * @param array                  $attributes Additional attributes
      */
-    public function __construct(Expr $var, $name, array $attributes = array()) {
+    public function __construct(Expr $var, $name, array $attributes = []) {
         parent::__construct($attributes);
         $this->var = $var;
         $this->name = \is_string($name) ? new Identifier($name) : $name;
     }
 
     public function getSubNodeNames() : array {
-        return array('var', 'name');
+        return ['var', 'name'];
     }
 }

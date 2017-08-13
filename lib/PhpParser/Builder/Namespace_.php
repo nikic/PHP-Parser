@@ -10,7 +10,7 @@ use PhpParser\Node\Stmt;
 class Namespace_ implements PhpParser\Builder
 {
     private $name;
-    private $stmts = array();
+    private $stmts = [];
 
     /**
      * Creates a namespace builder.

@@ -18,14 +18,14 @@ class Property extends Node\Stmt
      * @param PropertyProperty[] $props      Properties
      * @param array              $attributes Additional attributes
      */
-    public function __construct(int $flags, array $props, array $attributes = array()) {
+    public function __construct(int $flags, array $props, array $attributes = []) {
         parent::__construct($attributes);
         $this->flags = $flags;
         $this->props = $props;
     }
 
     public function getSubNodeNames() : array {
-        return array('flags', 'props');
+        return ['flags', 'props'];
     }
 
     /**

@@ -8,7 +8,7 @@ use PhpParser\Node;
 abstract class FunctionLike extends Declaration
 {
     protected $returnByRef = false;
-    protected $params = array();
+    protected $params = [];
 
     /** @var string|Node\Name|Node\NullableType|null */
     protected $returnType = null;

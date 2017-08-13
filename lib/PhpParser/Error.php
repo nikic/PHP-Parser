@@ -14,12 +14,12 @@ class Error extends \RuntimeException
      * @param array|int $attributes Attributes of node/token where error occurred
      *                              (or start line of error -- deprecated)
      */
-    public function __construct(string $message, $attributes = array()) {
+    public function __construct(string $message, $attributes = []) {
         $this->rawMessage = (string) $message;
         if (is_array($attributes)) {
             $this->attributes = $attributes;
         } else {
-            $this->attributes = array('startLine' => $attributes);
+            $this->attributes = ['startLine' => $attributes];
         }
         $this->updateMessage();
     }

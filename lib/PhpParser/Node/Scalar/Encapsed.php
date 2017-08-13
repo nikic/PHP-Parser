@@ -16,12 +16,12 @@ class Encapsed extends Scalar
      * @param Expr[] $parts      Encaps list
      * @param array  $attributes Additional attributes
      */
-    public function __construct(array $parts, array $attributes = array()) {
+    public function __construct(array $parts, array $attributes = []) {
         parent::__construct($attributes);
         $this->parts = $parts;
     }
 
     public function getSubNodeNames() : array {
-        return array('parts');
+        return ['parts'];
     }
 }

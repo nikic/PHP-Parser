@@ -7,7 +7,7 @@ use PhpParser\BuilderHelpers;
 
 abstract class Declaration implements PhpParser\Builder
 {
-    protected $attributes = array();
+    protected $attributes = [];
 
     abstract public function addStmt($stmt);
 
@@ -34,9 +34,9 @@ abstract class Declaration implements PhpParser\Builder
      * @return $this The builder instance (for fluid interface)
      */
     public function setDocComment($docComment) {
-        $this->attributes['comments'] = array(
+        $this->attributes['comments'] = [
             BuilderHelpers::normalizeDocComment($docComment)
-        );
+        ];
 
         return $this;
     }

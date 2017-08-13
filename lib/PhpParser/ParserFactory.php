@@ -17,7 +17,7 @@ class ParserFactory {
      *
      * @return Parser The parser instance
      */
-    public function create(int $kind, Lexer $lexer = null, array $parserOptions = array()) : Parser {
+    public function create(int $kind, Lexer $lexer = null, array $parserOptions = []) : Parser {
         if (null === $lexer) {
             $lexer = new Lexer\Emulative();
         }

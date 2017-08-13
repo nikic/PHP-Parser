@@ -18,13 +18,13 @@ class Namespace_ extends Node\Stmt
      * @param null|Node\Stmt[] $stmts      Statements
      * @param array            $attributes Additional attributes
      */
-    public function __construct(Node\Name $name = null, $stmts = array(), array $attributes = array()) {
+    public function __construct(Node\Name $name = null, $stmts = [], array $attributes = []) {
         parent::__construct($attributes);
         $this->name = $name;
         $this->stmts = $stmts;
     }
 
     public function getSubNodeNames() : array {
-        return array('name', 'stmts');
+        return ['name', 'stmts'];
     }
 }

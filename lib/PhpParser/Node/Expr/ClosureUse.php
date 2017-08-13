@@ -18,13 +18,13 @@ class ClosureUse extends Expr
      * @param bool          $byRef      Whether to use by reference
      * @param array         $attributes Additional attributes
      */
-    public function __construct(Expr\Variable $var, bool $byRef = false, array $attributes = array()) {
+    public function __construct(Expr\Variable $var, bool $byRef = false, array $attributes = []) {
         parent::__construct($attributes);
         $this->var = $var;
         $this->byRef = $byRef;
     }
 
     public function getSubNodeNames() : array {
-        return array('var', 'byRef');
+        return ['var', 'byRef'];
     }
 }

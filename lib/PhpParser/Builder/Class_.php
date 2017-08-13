@@ -12,13 +12,13 @@ class Class_ extends Declaration
     protected $name;
 
     protected $extends = null;
-    protected $implements = array();
+    protected $implements = [];
     protected $flags = 0;
 
-    protected $uses = array();
-    protected $constants = array();
-    protected $properties = array();
-    protected $methods = array();
+    protected $uses = [];
+    protected $constants = [];
+    protected $properties = [];
+    protected $methods = [];
 
     /**
      * Creates a class builder.
@@ -89,12 +89,12 @@ class Class_ extends Declaration
     public function addStmt($stmt) {
         $stmt = BuilderHelpers::normalizeNode($stmt);
 
-        $targets = array(
+        $targets = [
             'Stmt_TraitUse'    => &$this->uses,
             'Stmt_ClassConst'  => &$this->constants,
             'Stmt_Property'    => &$this->properties,
             'Stmt_ClassMethod' => &$this->methods,
-        );
+        ];
 
         $type = $stmt->getType();
         if (!isset($targets[$type])) {
@@ -112,11 +112,11 @@ class Class_ extends Declaration
      * @return Stmt\Class_ The built class node
      */
     public function getNode() : PhpParser\Node {
-        return new Stmt\Class_($this->name, array(
+        return new Stmt\Class_($this->name, [
             'flags' => $this->flags,
             'extends' => $this->extends,
             'implements' => $this->implements,
             'stmts' => array_merge($this->uses, $this->constants, $this->properties, $this->methods),
-        ), $this->attributes);
+        ], $this->attributes);
     }
 }

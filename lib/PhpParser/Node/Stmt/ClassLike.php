@@ -19,7 +19,7 @@ abstract class ClassLike extends Node\Stmt {
      * @return ClassMethod[]
      */
     public function getMethods() : array {
-        $methods = array();
+        $methods = [];
         foreach ($this->stmts as $stmt) {
             if ($stmt instanceof ClassMethod) {
                 $methods[] = $stmt;

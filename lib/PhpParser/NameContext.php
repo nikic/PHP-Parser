@@ -61,11 +61,11 @@ class NameContext {
         }
 
         if (isset($this->aliases[$type][$aliasLookupName])) {
-            $typeStringMap = array(
+            $typeStringMap = [
                 Stmt\Use_::TYPE_NORMAL   => '',
                 Stmt\Use_::TYPE_FUNCTION => 'function ',
                 Stmt\Use_::TYPE_CONSTANT => 'const ',
-            );
+            ];
 
             $this->errorHandler->handleError(new Error(
                 sprintf(
@@ -101,7 +101,7 @@ class NameContext {
     public function getResolvedName(Name $name, int $type) {
         // don't resolve special class names
         if ($type === Stmt\Use_::TYPE_NORMAL
-                && in_array(strtolower($name->toString()), array('self', 'parent', 'static'))) {
+                && in_array(strtolower($name->toString()), ['self', 'parent', 'static'])) {
             if (!$name->isUnqualified()) {
                 $this->errorHandler->handleError(new Error(
                     sprintf("'\\%s' is an invalid class name", $name->toString()),

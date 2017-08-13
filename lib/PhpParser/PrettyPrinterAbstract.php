@@ -16,73 +16,73 @@ abstract class PrettyPrinterAbstract
     const FIXUP_VAR_BRACED_NAME = 5; // Name operand that may require ${} bracing
     const FIXUP_ENCAPSED        = 6; // Encapsed string part
 
-    protected $precedenceMap = array(
+    protected $precedenceMap = [
         // [precedence, associativity]
         // where for precedence -1 is %left, 0 is %nonassoc and 1 is %right
-        'Expr_BinaryOp_Pow'            => array(  0,  1),
-        'Expr_BitwiseNot'              => array( 10,  1),
-        'Expr_PreInc'                  => array( 10,  1),
-        'Expr_PreDec'                  => array( 10,  1),
-        'Expr_PostInc'                 => array( 10, -1),
-        'Expr_PostDec'                 => array( 10, -1),
-        'Expr_UnaryPlus'               => array( 10,  1),
-        'Expr_UnaryMinus'              => array( 10,  1),
-        'Expr_Cast_Int'                => array( 10,  1),
-        'Expr_Cast_Double'             => array( 10,  1),
-        'Expr_Cast_String'             => array( 10,  1),
-        'Expr_Cast_Array'              => array( 10,  1),
-        'Expr_Cast_Object'             => array( 10,  1),
-        'Expr_Cast_Bool'               => array( 10,  1),
-        'Expr_Cast_Unset'              => array( 10,  1),
-        'Expr_ErrorSuppress'           => array( 10,  1),
-        'Expr_Instanceof'              => array( 20,  0),
-        'Expr_BooleanNot'              => array( 30,  1),
-        'Expr_BinaryOp_Mul'            => array( 40, -1),
-        'Expr_BinaryOp_Div'            => array( 40, -1),
-        'Expr_BinaryOp_Mod'            => array( 40, -1),
-        'Expr_BinaryOp_Plus'           => array( 50, -1),
-        'Expr_BinaryOp_Minus'          => array( 50, -1),
-        'Expr_BinaryOp_Concat'         => array( 50, -1),
-        'Expr_BinaryOp_ShiftLeft'      => array( 60, -1),
-        'Expr_BinaryOp_ShiftRight'     => array( 60, -1),
-        'Expr_BinaryOp_Smaller'        => array( 70,  0),
-        'Expr_BinaryOp_SmallerOrEqual' => array( 70,  0),
-        'Expr_BinaryOp_Greater'        => array( 70,  0),
-        'Expr_BinaryOp_GreaterOrEqual' => array( 70,  0),
-        'Expr_BinaryOp_Equal'          => array( 80,  0),
-        'Expr_BinaryOp_NotEqual'       => array( 80,  0),
-        'Expr_BinaryOp_Identical'      => array( 80,  0),
-        'Expr_BinaryOp_NotIdentical'   => array( 80,  0),
-        'Expr_BinaryOp_Spaceship'      => array( 80,  0),
-        'Expr_BinaryOp_BitwiseAnd'     => array( 90, -1),
-        'Expr_BinaryOp_BitwiseXor'     => array(100, -1),
-        'Expr_BinaryOp_BitwiseOr'      => array(110, -1),
-        'Expr_BinaryOp_BooleanAnd'     => array(120, -1),
-        'Expr_BinaryOp_BooleanOr'      => array(130, -1),
-        'Expr_BinaryOp_Coalesce'       => array(140,  1),
-        'Expr_Ternary'                 => array(150, -1),
+        'Expr_BinaryOp_Pow'            => [  0,  1],
+        'Expr_BitwiseNot'              => [ 10,  1],
+        'Expr_PreInc'                  => [ 10,  1],
+        'Expr_PreDec'                  => [ 10,  1],
+        'Expr_PostInc'                 => [ 10, -1],
+        'Expr_PostDec'                 => [ 10, -1],
+        'Expr_UnaryPlus'               => [ 10,  1],
+        'Expr_UnaryMinus'              => [ 10,  1],
+        'Expr_Cast_Int'                => [ 10,  1],
+        'Expr_Cast_Double'             => [ 10,  1],
+        'Expr_Cast_String'             => [ 10,  1],
+        'Expr_Cast_Array'              => [ 10,  1],
+        'Expr_Cast_Object'             => [ 10,  1],
+        'Expr_Cast_Bool'               => [ 10,  1],
+        'Expr_Cast_Unset'              => [ 10,  1],
+        'Expr_ErrorSuppress'           => [ 10,  1],
+        'Expr_Instanceof'              => [ 20,  0],
+        'Expr_BooleanNot'              => [ 30,  1],
+        'Expr_BinaryOp_Mul'            => [ 40, -1],
+        'Expr_BinaryOp_Div'            => [ 40, -1],
+        'Expr_BinaryOp_Mod'            => [ 40, -1],
+        'Expr_BinaryOp_Plus'           => [ 50, -1],
+        'Expr_BinaryOp_Minus'          => [ 50, -1],
+        'Expr_BinaryOp_Concat'         => [ 50, -1],
+        'Expr_BinaryOp_ShiftLeft'      => [ 60, -1],
+        'Expr_BinaryOp_ShiftRight'     => [ 60, -1],
+        'Expr_BinaryOp_Smaller'        => [ 70,  0],
+        'Expr_BinaryOp_SmallerOrEqual' => [ 70,  0],
+        'Expr_BinaryOp_Greater'        => [ 70,  0],
+        'Expr_BinaryOp_GreaterOrEqual' => [ 70,  0],
+        'Expr_BinaryOp_Equal'          => [ 80,  0],
+        'Expr_BinaryOp_NotEqual'       => [ 80,  0],
+        'Expr_BinaryOp_Identical'      => [ 80,  0],
+        'Expr_BinaryOp_NotIdentical'   => [ 80,  0],
+        'Expr_BinaryOp_Spaceship'      => [ 80,  0],
+        'Expr_BinaryOp_BitwiseAnd'     => [ 90, -1],
+        'Expr_BinaryOp_BitwiseXor'     => [100, -1],
+        'Expr_BinaryOp_BitwiseOr'      => [110, -1],
+        'Expr_BinaryOp_BooleanAnd'     => [120, -1],
+        'Expr_BinaryOp_BooleanOr'      => [130, -1],
+        'Expr_BinaryOp_Coalesce'       => [140,  1],
+        'Expr_Ternary'                 => [150, -1],
         // parser uses %left for assignments, but they really behave as %right
-        'Expr_Assign'                  => array(160,  1),
-        'Expr_AssignRef'               => array(160,  1),
-        'Expr_AssignOp_Plus'           => array(160,  1),
-        'Expr_AssignOp_Minus'          => array(160,  1),
-        'Expr_AssignOp_Mul'            => array(160,  1),
-        'Expr_AssignOp_Div'            => array(160,  1),
-        'Expr_AssignOp_Concat'         => array(160,  1),
-        'Expr_AssignOp_Mod'            => array(160,  1),
-        'Expr_AssignOp_BitwiseAnd'     => array(160,  1),
-        'Expr_AssignOp_BitwiseOr'      => array(160,  1),
-        'Expr_AssignOp_BitwiseXor'     => array(160,  1),
-        'Expr_AssignOp_ShiftLeft'      => array(160,  1),
-        'Expr_AssignOp_ShiftRight'     => array(160,  1),
-        'Expr_AssignOp_Pow'            => array(160,  1),
-        'Expr_YieldFrom'               => array(165,  1),
-        'Expr_Print'                   => array(168,  1),
-        'Expr_BinaryOp_LogicalAnd'     => array(170, -1),
-        'Expr_BinaryOp_LogicalXor'     => array(180, -1),
-        'Expr_BinaryOp_LogicalOr'      => array(190, -1),
-        'Expr_Include'                 => array(200, -1),
-    );
+        'Expr_Assign'                  => [160,  1],
+        'Expr_AssignRef'               => [160,  1],
+        'Expr_AssignOp_Plus'           => [160,  1],
+        'Expr_AssignOp_Minus'          => [160,  1],
+        'Expr_AssignOp_Mul'            => [160,  1],
+        'Expr_AssignOp_Div'            => [160,  1],
+        'Expr_AssignOp_Concat'         => [160,  1],
+        'Expr_AssignOp_Mod'            => [160,  1],
+        'Expr_AssignOp_BitwiseAnd'     => [160,  1],
+        'Expr_AssignOp_BitwiseOr'      => [160,  1],
+        'Expr_AssignOp_BitwiseXor'     => [160,  1],
+        'Expr_AssignOp_ShiftLeft'      => [160,  1],
+        'Expr_AssignOp_ShiftRight'     => [160,  1],
+        'Expr_AssignOp_Pow'            => [160,  1],
+        'Expr_YieldFrom'               => [165,  1],
+        'Expr_Print'                   => [168,  1],
+        'Expr_BinaryOp_LogicalAnd'     => [170, -1],
+        'Expr_BinaryOp_LogicalXor'     => [180, -1],
+        'Expr_BinaryOp_LogicalOr'      => [190, -1],
+        'Expr_Include'                 => [200, -1],
+    ];
 
     /** @var string Token placed before newline to ensure it is not indented. */
     protected $noIndentToken;
@@ -220,7 +220,7 @@ abstract class PrettyPrinterAbstract
     protected function pStmts(array $nodes, bool $indent = true) : string {
         $result = '';
         foreach ($nodes as $node) {
-            $comments = $node->getAttribute('comments', array());
+            $comments = $node->getAttribute('comments', []);
             if ($comments) {
                 $result .= "\n" . $this->pComments($comments);
                 if ($node instanceof Stmt\Nop) {
@@ -319,7 +319,7 @@ abstract class PrettyPrinterAbstract
      * @return string Imploded pretty printed nodes
      */
     protected function pImplode(array $nodes, string $glue = '') : string {
-        $pNodes = array();
+        $pNodes = [];
         foreach ($nodes as $node) {
             if (null === $node) {
                 $pNodes[] = '';
@@ -357,7 +357,7 @@ abstract class PrettyPrinterAbstract
         $lastIdx = count($nodes) - 1;
         foreach ($nodes as $idx => $node) {
             if ($node !== null) {
-                $comments = $node->getAttribute('comments', array());
+                $comments = $node->getAttribute('comments', []);
                 if ($comments) {
                     $result .= "\n" . $this->pComments($comments);
                 }

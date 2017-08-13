@@ -15,12 +15,12 @@ class Static_ extends Stmt
      * @param StaticVar[] $vars       Variable definitions
      * @param array       $attributes Additional attributes
      */
-    public function __construct(array $vars, array $attributes = array()) {
+    public function __construct(array $vars, array $attributes = []) {
         parent::__construct($attributes);
         $this->vars = $vars;
     }
 
     public function getSubNodeNames() : array {
-        return array('vars');
+        return ['vars'];
     }
 }

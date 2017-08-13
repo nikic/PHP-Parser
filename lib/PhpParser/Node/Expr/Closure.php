@@ -33,19 +33,19 @@ class Closure extends Expr implements FunctionLike
      *                          'stmts'      => array(): Statements
      * @param array $attributes Additional attributes
      */
-    public function __construct(array $subNodes = array(), array $attributes = array()) {
+    public function __construct(array $subNodes = [], array $attributes = []) {
         parent::__construct($attributes);
         $this->static = $subNodes['static'] ?? false;
         $this->byRef = $subNodes['byRef'] ?? false;
-        $this->params = $subNodes['params'] ?? array();
-        $this->uses = $subNodes['uses'] ?? array();
+        $this->params = $subNodes['params'] ?? [];
+        $this->uses = $subNodes['uses'] ?? [];
         $returnType = $subNodes['returnType'] ?? null;
         $this->returnType = \is_string($returnType) ? new Node\Identifier($returnType) : $returnType;
-        $this->stmts = $subNodes['stmts'] ?? array();
+        $this->stmts = $subNodes['stmts'] ?? [];
     }
 
     public function getSubNodeNames() : array {
-        return array('static', 'byRef', 'params', 'uses', 'returnType', 'stmts');
+        return ['static', 'byRef', 'params', 'uses', 'returnType', 'stmts'];
     }
 
     public function returnsByRef() : bool {

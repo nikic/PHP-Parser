@@ -18,13 +18,13 @@ class Identifier extends NodeAbstract
      * @param string $name       Identifier as string
      * @param array  $attributes Additional attributes
      */
-    public function __construct(string $name, array $attributes = array()) {
+    public function __construct(string $name, array $attributes = []) {
         parent::__construct($attributes);
         $this->name = $name;
     }
 
     public function getSubNodeNames() : array {
-        return array('name');
+        return ['name'];
     }
 
     /**

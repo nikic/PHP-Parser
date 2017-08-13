@@ -19,12 +19,12 @@ class Exit_ extends Expr
      * @param null|Expr $expr       Expression
      * @param array                    $attributes Additional attributes
      */
-    public function __construct(Expr $expr = null, array $attributes = array()) {
+    public function __construct(Expr $expr = null, array $attributes = []) {
         parent::__construct($attributes);
         $this->expr = $expr;
     }
 
     public function getSubNodeNames() : array {
-        return array('expr');
+        return ['expr'];
     }
 }
