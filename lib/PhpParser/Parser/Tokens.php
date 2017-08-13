@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PhpParser\Parser;
 
 /* GENERATED file based on grammar/tokens.y */

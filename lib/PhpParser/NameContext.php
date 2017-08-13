@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PhpParser;
 
 use PhpParser\Node\Name;
@@ -187,7 +189,7 @@ class NameContext {
         foreach ($this->origAliases[$type] as $alias => $orig) {
             if ($type === Stmt\Use_::TYPE_CONSTANT) {
                 // Constants are are complicated-sensitive
-                if ($this->normalizeConstName($orig) === $this->normalizeConstName($name)) {
+                if ($this->normalizeConstName((string) $orig) === $this->normalizeConstName($name)) {
                     $possibleNames[] = new Name($alias);
                 }
             } else {

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PhpParser\Node\Stmt;
 
 use PhpParser\Node;
@@ -142,6 +144,6 @@ class ClassMethod extends Node\Stmt implements FunctionLike
      * @return bool
      */
     public function isMagic() : bool {
-        return isset(self::$magicNames[strtolower($this->name)]);
+        return isset(self::$magicNames[strtolower((string) $this->name)]);
     }
 }
