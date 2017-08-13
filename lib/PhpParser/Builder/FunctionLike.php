@@ -2,7 +2,6 @@
 
 namespace PhpParser\Builder;
 
-use PhpParser;
 use PhpParser\BuilderHelpers;
 use PhpParser\Node;
 

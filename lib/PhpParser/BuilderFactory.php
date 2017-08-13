@@ -2,7 +2,6 @@
 
 namespace PhpParser;
 
-use PhpParser\Builder;
 use PhpParser\Node\Arg;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\BinaryOp\Concat;
