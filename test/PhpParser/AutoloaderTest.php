@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PhpParser;
 
 /* The autoloader is already active at this point, so we only check effects here. */

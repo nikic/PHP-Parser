@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use PhpParser\Builder;
 use PhpParser\Node\Name;
 use PhpParser\Node\Stmt;

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PhpParser;
 
 require_once __DIR__ . '/CodeTestAbstract.php';
