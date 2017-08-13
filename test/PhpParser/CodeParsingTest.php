@@ -33,9 +33,9 @@ class CodeParsingTest extends CodeTestAbstract
     }
 
     public function createParsers(array $modes) {
-        $lexer = new Lexer\Emulative(array('usedAttributes' => array(
+        $lexer = new Lexer\Emulative(['usedAttributes' => [
             'startLine', 'endLine', 'startFilePos', 'endFilePos', 'comments'
-        )));
+        ]]);
 
         return [
             new Parser\Php5($lexer),

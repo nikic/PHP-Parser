@@ -13,15 +13,15 @@ class ClassMethodTest extends TestCase
      * @dataProvider provideModifiers
      */
     public function testModifiers($modifier) {
-        $node = new ClassMethod('foo', array(
+        $node = new ClassMethod('foo', [
             'type' => constant('PhpParser\Node\Stmt\Class_::MODIFIER_' . strtoupper($modifier))
-        ));
+        ]);
 
         $this->assertTrue($node->{'is' . $modifier}());
     }
 
     public function testNoModifiers() {
-        $node = new ClassMethod('foo', array('type' => 0));
+        $node = new ClassMethod('foo', ['type' => 0]);
 
         $this->assertTrue($node->isPublic());
         $this->assertFalse($node->isProtected());
@@ -33,14 +33,14 @@ class ClassMethodTest extends TestCase
     }
 
     public function provideModifiers() {
-        return array(
-            array('public'),
-            array('protected'),
-            array('private'),
-            array('abstract'),
-            array('final'),
-            array('static'),
-        );
+        return [
+            ['public'],
+            ['protected'],
+            ['private'],
+            ['abstract'],
+            ['final'],
+            ['static'],
+        ];
     }
 
     /**
@@ -52,19 +52,19 @@ class ClassMethodTest extends TestCase
      */
     public function testImplicitPublic(string $modifier)
     {
-        $node = new ClassMethod('foo', array(
+        $node = new ClassMethod('foo', [
             'type' => constant('PhpParser\Node\Stmt\Class_::MODIFIER_' . strtoupper($modifier))
-        ));
+        ]);
 
         $this->assertTrue($node->isPublic(), 'Node should be implicitly public');
     }
 
     public function implicitPublicModifiers() {
-        return array(
-            array('abstract'),
-            array('final'),
-            array('static'),
-        );
+        return [
+            ['abstract'],
+            ['final'],
+            ['static'],
+        ];
     }
 
     /**
@@ -78,23 +78,23 @@ class ClassMethodTest extends TestCase
     }
 
     public function provideMagics() {
-        return array(
-             array('__construct'),
-             array('__DESTRUCT'),
-             array('__caLL'),
-             array('__callstatic'),
-             array('__get'),
-             array('__set'),
-             array('__isset'),
-             array('__unset'),
-             array('__sleep'),
-             array('__wakeup'),
-             array('__tostring'),
-             array('__set_state'),
-             array('__clone'),
-             array('__invoke'),
-             array('__debuginfo'),
-        );
+        return [
+             ['__construct'],
+             ['__DESTRUCT'],
+             ['__caLL'],
+             ['__callstatic'],
+             ['__get'],
+             ['__set'],
+             ['__isset'],
+             ['__unset'],
+             ['__sleep'],
+             ['__wakeup'],
+             ['__tostring'],
+             ['__set_state'],
+             ['__clone'],
+             ['__invoke'],
+             ['__debuginfo'],
+        ];
     }
 
     public function testFunctionLike() {

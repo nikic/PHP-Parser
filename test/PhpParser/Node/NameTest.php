@@ -7,14 +7,14 @@ use PHPUnit\Framework\TestCase;
 class NameTest extends TestCase
 {
     public function testConstruct() {
-        $name = new Name(array('foo', 'bar'));
-        $this->assertSame(array('foo', 'bar'), $name->parts);
+        $name = new Name(['foo', 'bar']);
+        $this->assertSame(['foo', 'bar'], $name->parts);
 
         $name = new Name('foo\bar');
-        $this->assertSame(array('foo', 'bar'), $name->parts);
+        $this->assertSame(['foo', 'bar'], $name->parts);
 
         $name = new Name($name);
-        $this->assertSame(array('foo', 'bar'), $name->parts);
+        $this->assertSame(['foo', 'bar'], $name->parts);
     }
 
     public function testGet() {

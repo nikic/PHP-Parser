@@ -11,7 +11,7 @@ class ClassConstTest extends TestCase
      */
     public function testModifiers($modifier) {
         $node = new ClassConst(
-            array(), // invalid
+            [], // invalid
             constant('PhpParser\Node\Stmt\Class_::MODIFIER_' . strtoupper($modifier))
         );
 
@@ -19,7 +19,7 @@ class ClassConstTest extends TestCase
     }
 
     public function testNoModifiers() {
-        $node = new ClassConst(array(), 0);
+        $node = new ClassConst([], 0);
 
         $this->assertTrue($node->isPublic());
         $this->assertFalse($node->isProtected());
@@ -27,10 +27,10 @@ class ClassConstTest extends TestCase
     }
 
     public function provideModifiers() {
-        return array(
-            array('public'),
-            array('protected'),
-            array('private'),
-        );
+        return [
+            ['public'],
+            ['protected'],
+            ['private'],
+        ];
     }
 }

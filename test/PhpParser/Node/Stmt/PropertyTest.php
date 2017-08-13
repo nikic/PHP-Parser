@@ -12,14 +12,14 @@ class PropertyTest extends TestCase
     public function testModifiers($modifier) {
         $node = new Property(
             constant('PhpParser\Node\Stmt\Class_::MODIFIER_' . strtoupper($modifier)),
-            array() // invalid
+            [] // invalid
         );
 
         $this->assertTrue($node->{'is' . $modifier}());
     }
 
     public function testNoModifiers() {
-        $node = new Property(0, array());
+        $node = new Property(0, []);
 
         $this->assertTrue($node->isPublic());
         $this->assertFalse($node->isProtected());
@@ -28,7 +28,7 @@ class PropertyTest extends TestCase
     }
 
     public function testStaticImplicitlyPublic() {
-        $node = new Property(Class_::MODIFIER_STATIC, array());
+        $node = new Property(Class_::MODIFIER_STATIC, []);
         $this->assertTrue($node->isPublic());
         $this->assertFalse($node->isProtected());
         $this->assertFalse($node->isPrivate());
@@ -36,11 +36,11 @@ class PropertyTest extends TestCase
     }
 
     public function provideModifiers() {
-        return array(
-            array('public'),
-            array('protected'),
-            array('private'),
-            array('static'),
-        );
+        return [
+            ['public'],
+            ['protected'],
+            ['private'],
+            ['static'],
+        ];
     }
 }

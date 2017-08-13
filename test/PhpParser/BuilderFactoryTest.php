@@ -19,17 +19,17 @@ class BuilderFactoryTest extends TestCase
     }
 
     public function provideTestFactory() {
-        return array(
-            array('namespace', 'PhpParser\Builder\Namespace_'),
-            array('class',     'PhpParser\Builder\Class_'),
-            array('interface', 'PhpParser\Builder\Interface_'),
-            array('trait',     'PhpParser\Builder\Trait_'),
-            array('method',    'PhpParser\Builder\Method'),
-            array('function',  'PhpParser\Builder\Function_'),
-            array('property',  'PhpParser\Builder\Property'),
-            array('param',     'PhpParser\Builder\Param'),
-            array('use',       'PhpParser\Builder\Use_'),
-        );
+        return [
+            ['namespace', 'PhpParser\Builder\Namespace_'],
+            ['class',     'PhpParser\Builder\Class_'],
+            ['interface', 'PhpParser\Builder\Interface_'],
+            ['trait',     'PhpParser\Builder\Trait_'],
+            ['method',    'PhpParser\Builder\Method'],
+            ['function',  'PhpParser\Builder\Function_'],
+            ['property',  'PhpParser\Builder\Property'],
+            ['param',     'PhpParser\Builder\Param'],
+            ['use',       'PhpParser\Builder\Use_'],
+        ];
     }
 
     public function testNonExistingMethod() {
@@ -129,7 +129,7 @@ class BuilderFactoryTest extends TestCase
                 ->addStmt($factory->property('someProperty')->makeProtected())
                 ->addStmt($factory->property('anotherProperty')
                     ->makePrivate()
-                    ->setDefault(array(1, 2, 3))))
+                    ->setDefault([1, 2, 3])))
             ->getNode()
         ;
 
@@ -160,7 +160,7 @@ abstract class SomeClass extends SomeOtherClass implements A\Few, \Interfaces
 }
 EOC;
 
-        $stmts = array($node);
+        $stmts = [$node];
         $prettyPrinter = new PrettyPrinter\Standard();
         $generated = $prettyPrinter->prettyPrintFile($stmts);
 

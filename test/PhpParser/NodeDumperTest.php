@@ -20,33 +20,33 @@ class NodeDumperTest extends TestCase
     }
 
     public function provideTestDump() {
-        return array(
-            array(
-                array(),
+        return [
+            [
+                [],
 'array(
 )'
-            ),
-            array(
-                array('Foo', 'Bar', 'Key' => 'FooBar'),
+            ],
+            [
+                ['Foo', 'Bar', 'Key' => 'FooBar'],
 'array(
     0: Foo
     1: Bar
     Key: FooBar
 )'
-            ),
-            array(
-                new Node\Name(array('Hallo', 'World')),
+            ],
+            [
+                new Node\Name(['Hallo', 'World']),
 'Name(
     parts: array(
         0: Hallo
         1: World
     )
 )'
-            ),
-            array(
-                new Node\Expr\Array_(array(
+            ],
+            [
+                new Node\Expr\Array_([
                     new Node\Expr\ArrayItem(new Node\Scalar\String_('Foo'))
-                )),
+                ]),
 'Expr_Array(
     items: array(
         0: Expr_ArrayItem(
@@ -58,8 +58,8 @@ class NodeDumperTest extends TestCase
         )
     )
 )'
-            ),
-        );
+            ],
+        ];
     }
 
     public function testDumpWithPositions() {
