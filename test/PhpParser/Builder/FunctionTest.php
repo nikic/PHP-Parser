@@ -23,9 +23,9 @@ class FunctionTest extends TestCase
         ;
 
         $this->assertEquals(
-            new Stmt\Function_('test', array(
+            new Stmt\Function_('test', [
                 'byRef' => true
-            )),
+            ]),
             $node
         );
     }
@@ -37,14 +37,14 @@ class FunctionTest extends TestCase
 
         $node = $this->createFunctionBuilder('test')
             ->addParam($param1)
-            ->addParams(array($param2, $param3))
+            ->addParams([$param2, $param3])
             ->getNode()
         ;
 
         $this->assertEquals(
-            new Stmt\Function_('test', array(
-                'params' => array($param1, $param2, $param3)
-            )),
+            new Stmt\Function_('test', [
+                'params' => [$param1, $param2, $param3]
+            ]),
             $node
         );
     }
@@ -56,18 +56,18 @@ class FunctionTest extends TestCase
 
         $node = $this->createFunctionBuilder('test')
             ->addStmt($stmt1)
-            ->addStmts(array($stmt2, $stmt3))
+            ->addStmts([$stmt2, $stmt3])
             ->getNode()
         ;
 
         $this->assertEquals(
-            new Stmt\Function_('test', array(
-                'stmts' => array(
+            new Stmt\Function_('test', [
+                'stmts' => [
                     new Stmt\Expression($stmt1),
                     new Stmt\Expression($stmt2),
                     new Stmt\Expression($stmt3),
-                )
-            )),
+                ]
+            ]),
             $node
         );
     }
@@ -77,9 +77,9 @@ class FunctionTest extends TestCase
             ->setDocComment('/** Test */')
             ->getNode();
 
-        $this->assertEquals(new Stmt\Function_('test', array(), array(
-            'comments' => array(new Comment\Doc('/** Test */'))
-        )), $node);
+        $this->assertEquals(new Stmt\Function_('test', [], [
+            'comments' => [new Comment\Doc('/** Test */')]
+        ]), $node);
     }
 
     public function testReturnType() {
@@ -87,9 +87,9 @@ class FunctionTest extends TestCase
             ->setReturnType('void')
             ->getNode();
 
-        $this->assertEquals(new Stmt\Function_('test', array(
+        $this->assertEquals(new Stmt\Function_('test', [
             'returnType' => 'void'
-        ), array()), $node);
+        ], []), $node);
     }
 
     /**

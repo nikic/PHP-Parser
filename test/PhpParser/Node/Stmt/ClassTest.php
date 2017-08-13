@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 class ClassTest extends TestCase
 {
     public function testIsAbstract() {
-        $class = new Class_('Foo', array('type' => Class_::MODIFIER_ABSTRACT));
+        $class = new Class_('Foo', ['type' => Class_::MODIFIER_ABSTRACT]);
         $this->assertTrue($class->isAbstract());
 
         $class = new Class_('Foo');
@@ -15,7 +15,7 @@ class ClassTest extends TestCase
     }
 
     public function testIsFinal() {
-        $class = new Class_('Foo', array('type' => Class_::MODIFIER_FINAL));
+        $class = new Class_('Foo', ['type' => Class_::MODIFIER_FINAL]);
         $this->assertTrue($class->isFinal());
 
         $class = new Class_('Foo');
@@ -23,21 +23,21 @@ class ClassTest extends TestCase
     }
 
     public function testGetMethods() {
-        $methods = array(
+        $methods = [
             new ClassMethod('foo'),
             new ClassMethod('bar'),
             new ClassMethod('fooBar'),
-        );
-        $class = new Class_('Foo', array(
-            'stmts' => array(
-                new TraitUse(array()),
+        ];
+        $class = new Class_('Foo', [
+            'stmts' => [
+                new TraitUse([]),
                 $methods[0],
-                new ClassConst(array()),
+                new ClassConst([]),
                 $methods[1],
-                new Property(0, array()),
+                new Property(0, []),
                 $methods[2],
-            )
-        ));
+            ]
+        ]);
 
         $this->assertSame($methods, $class->getMethods());
     }
@@ -45,14 +45,14 @@ class ClassTest extends TestCase
     public function testGetMethod() {
         $methodConstruct = new ClassMethod('__CONSTRUCT');
         $methodTest = new ClassMethod('test');
-        $class = new Class_('Foo', array(
-            'stmts' => array(
-                new ClassConst(array()),
+        $class = new Class_('Foo', [
+            'stmts' => [
+                new ClassConst([]),
                 $methodConstruct,
-                new Property(0, array()),
+                new Property(0, []),
                 $methodTest,
-            )
-        ));
+            ]
+        ]);
 
         $this->assertSame($methodConstruct, $class->getMethod('__construct'));
         $this->assertSame($methodTest, $class->getMethod('test'));

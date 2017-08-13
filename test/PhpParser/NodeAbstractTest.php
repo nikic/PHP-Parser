@@ -15,7 +15,7 @@ class DummyNode extends NodeAbstract {
     }
 
     public function getSubNodeNames() : array {
-        return array('subNode1', 'subNode2');
+        return ['subNode1', 'subNode2'];
     }
 
     // This method is only overwritten because the node is located in an unusual namespace
@@ -27,20 +27,20 @@ class DummyNode extends NodeAbstract {
 class NodeAbstractTest extends TestCase
 {
     public function provideNodes() {
-        $attributes = array(
+        $attributes = [
             'startLine' => 10,
-            'comments'  => array(
+            'comments'  => [
                 new Comment('// Comment' . "\n"),
                 new Comment\Doc('/** doc comment */'),
-            ),
-        );
+            ],
+        ];
 
         $node = new DummyNode('value1', 'value2', $attributes);
         $node->notSubNode = 'value3';
 
-        return array(
-            array($attributes, $node),
-        );
+        return [
+            [$attributes, $node],
+        ];
     }
 
     /**
@@ -48,7 +48,7 @@ class NodeAbstractTest extends TestCase
      */
     public function testConstruct(array $attributes, Node $node) {
         $this->assertSame('Dummy', $node->getType());
-        $this->assertSame(array('subNode1', 'subNode2'), $node->getSubNodeNames());
+        $this->assertSame(['subNode1', 'subNode2'], $node->getSubNodeNames());
         $this->assertSame(10, $node->getLine());
         $this->assertSame('/** doc comment */', $node->getDocComment()->getText());
         $this->assertSame('value1', $node->subNode1);
@@ -157,24 +157,24 @@ class NodeAbstractTest extends TestCase
         $this->assertNull($node->getAttribute('null', 'default'));
 
         $this->assertSame(
-            array(
+            [
                 'key'  => 'value',
                 'null' => null,
-            ),
+            ],
             $node->getAttributes()
         );
 
         $node->setAttributes(
-            array(
+            [
                 'a' => 'b',
                 'c' => null,
-            )
+            ]
         );
         $this->assertSame(
-            array(
+            [
                 'a' => 'b',
                 'c' => null,
-            ),
+            ],
             $node->getAttributes()
         );
     }

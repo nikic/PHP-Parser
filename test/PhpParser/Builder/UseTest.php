@@ -13,19 +13,19 @@ class UseTest extends TestCase
 
     public function testCreation() {
         $node = $this->createUseBuilder('Foo\Bar')->getNode();
-        $this->assertEquals(new Stmt\Use_(array(
+        $this->assertEquals(new Stmt\Use_([
             new Stmt\UseUse(new Name('Foo\Bar'), null)
-        )), $node);
+        ]), $node);
 
         $node = $this->createUseBuilder(new Name('Foo\Bar'))->as('XYZ')->getNode();
-        $this->assertEquals(new Stmt\Use_(array(
+        $this->assertEquals(new Stmt\Use_([
             new Stmt\UseUse(new Name('Foo\Bar'), 'XYZ')
-        )), $node);
+        ]), $node);
 
         $node = $this->createUseBuilder('foo\bar', Stmt\Use_::TYPE_FUNCTION)->as('foo')->getNode();
-        $this->assertEquals(new Stmt\Use_(array(
+        $this->assertEquals(new Stmt\Use_([
             new Stmt\UseUse(new Name('foo\bar'), 'foo')
-        ), Stmt\Use_::TYPE_FUNCTION), $node);
+        ], Stmt\Use_::TYPE_FUNCTION), $node);
     }
 
     public function testNonExistingMethod() {
