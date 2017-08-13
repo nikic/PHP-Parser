@@ -119,7 +119,7 @@ class Standard extends PrettyPrinterAbstract
                     }
 
                     $escaped = $this->escapeString($node->value, null);
-                    return $this->pNoIndent("<<<$label\n" . $escaped ."\n$label")
+                    return $this->pNoIndent("<<<$label\n" . $escaped . "\n$label")
                          . $this->docStringEndToken;
                 }
             /* break missing intentionally */
