@@ -509,7 +509,7 @@ abstract class PrettyPrinterAbstract
 
                 if (is_array($subNode) && is_array($origSubNode)) {
                     // Array subnode changed, we might be able to reconstruct it
-                    $fixup = isset($fixupInfo[$subNodeName]) ? $fixupInfo[$subNodeName] : null;
+                    $fixup = $fixupInfo[$subNodeName] ?? null;
                     $listResult = $this->pArray(
                         $subNode, $origSubNode, $pos, $indentAdjustment, $fixup
                     );
