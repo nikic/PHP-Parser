@@ -142,6 +142,6 @@ class ClassMethod extends Node\Stmt implements FunctionLike
      * @return bool
      */
     public function isMagic() : bool {
-        return isset(self::$magicNames[strtolower($this->name)]);
+        return isset(self::$magicNames[$this->name->toLowerString()]);
     }
 }

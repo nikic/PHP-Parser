@@ -28,9 +28,18 @@ class Identifier extends NodeAbstract
     }
 
     /**
+     * Get lowercased identifier as string.
+     *
+     * @return string Lowercased identifier as string
+     */
+    public function toLowerString() : string {
+        return strtolower($this->name);
+    }
+
+    /**
      * Get identifier as string.
      *
-     * @return string Identifier as string.
+     * @return string Identifier as string
      */
     public function __toString() : string {
         return $this->name;

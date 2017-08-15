@@ -101,6 +101,16 @@ class Name extends NodeAbstract
     }
 
     /**
+     * Returns lowercased string representation of the name, without taking the name type into
+     * account (e.g., no leading backslash for fully qualified names).
+     *
+     * @return string Lowercased string representation
+     */
+    public function toLowerString() : string {
+        return strtolower(implode('\\', $this->parts));
+    }
+
+    /**
      * Returns a string representation of the name by imploding the namespace parts with the
      * namespace separator.
      *

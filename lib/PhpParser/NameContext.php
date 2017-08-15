@@ -10,10 +10,10 @@ class NameContext {
     /** @var null|Name Current namespace */
     protected $namespace;
 
-    /** @var array Map of format [aliasType => [aliasName => originalName]] */
+    /** @var Name[][] Map of format [aliasType => [aliasName => originalName]] */
     protected $aliases = [];
 
-    /** @var array Same as $aliases but preserving original case */
+    /** @var Name[][] Same as $aliases but preserving original case */
     protected $origAliases = [];
 
     /** @var ErrorHandler Error handler */
@@ -101,7 +101,7 @@ class NameContext {
     public function getResolvedName(Name $name, int $type) {
         // don't resolve special class names
         if ($type === Stmt\Use_::TYPE_NORMAL
-                && in_array(strtolower($name->toString()), ['self', 'parent', 'static'])) {
+                && in_array($name->toLowerString(), ['self', 'parent', 'static'])) {
             if (!$name->isUnqualified()) {
                 $this->errorHandler->handleError(new Error(
                     sprintf("'\\%s' is an invalid class name", $name->toString()),
@@ -177,7 +177,7 @@ class NameContext {
 
         // Check for relevant namespace use statements
         foreach ($this->origAliases[Stmt\Use_::TYPE_NORMAL] as $alias => $orig) {
-            $lcOrig = strtolower((string) $orig);
+            $lcOrig = $orig->toLowerString();
             if (0 === strpos($lcName, $lcOrig . '\\')) {
                 $possibleNames[] = new Name($alias . substr($name, strlen($lcOrig)));
             }
@@ -192,7 +192,7 @@ class NameContext {
                 }
             } else {
                 // Everything else is case-insensitive
-                if (strtolower((string) $orig) === $lcName) {
+                if ($orig->toLowerString() === $lcName) {
                     $possibleNames[] = new Name($alias);
                 }
             }

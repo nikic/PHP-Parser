@@ -646,7 +646,7 @@ abstract class ParserAbstract implements Parser
             return $name;
         }
 
-        $lowerName = strtolower($name->toString());
+        $lowerName = $name->toLowerString();
         if (!isset($scalarTypes[$lowerName])) {
             return $name;
         }
@@ -730,7 +730,7 @@ abstract class ParserAbstract implements Parser
     }
 
     protected function checkNamespace(Namespace_ $node) {
-        if ($node->name && isset(self::$specialNames[strtolower($node->name)])) {
+        if ($node->name && isset(self::$specialNames[$node->name->toLowerString()])) {
             $this->emitError(new Error(
                 sprintf('Cannot use \'%s\' as namespace name', $node->name),
                 $node->name->getAttributes()
@@ -749,14 +749,14 @@ abstract class ParserAbstract implements Parser
     }
 
     protected function checkClass(Class_ $node, $namePos) {
-        if (null !== $node->name && isset(self::$specialNames[strtolower($node->name)])) {
+        if (null !== $node->name && isset(self::$specialNames[$node->name->toLowerString()])) {
             $this->emitError(new Error(
                 sprintf('Cannot use \'%s\' as class name as it is reserved', $node->name),
                 $this->getAttributesAt($namePos)
             ));
         }
 
-        if ($node->extends && isset(self::$specialNames[strtolower($node->extends)])) {
+        if ($node->extends && isset(self::$specialNames[$node->extends->toLowerString()])) {
             $this->emitError(new Error(
                 sprintf('Cannot use \'%s\' as class name as it is reserved', $node->extends),
                 $node->extends->getAttributes()
@@ -764,7 +764,7 @@ abstract class ParserAbstract implements Parser
         }
 
         foreach ($node->implements as $interface) {
-            if (isset(self::$specialNames[strtolower($interface)])) {
+            if (isset(self::$specialNames[$interface->toLowerString()])) {
                 $this->emitError(new Error(
                     sprintf('Cannot use \'%s\' as interface name as it is reserved', $interface),
                     $interface->getAttributes()
@@ -774,7 +774,7 @@ abstract class ParserAbstract implements Parser
     }
 
     protected function checkInterface(Interface_ $node, $namePos) {
-        if (null !== $node->name && isset(self::$specialNames[strtolower($node->name)])) {
+        if (null !== $node->name && isset(self::$specialNames[$node->name->toLowerString()])) {
             $this->emitError(new Error(
                 sprintf('Cannot use \'%s\' as class name as it is reserved', $node->name),
                 $this->getAttributesAt($namePos)
@@ -782,7 +782,7 @@ abstract class ParserAbstract implements Parser
         }
 
         foreach ($node->extends as $interface) {
-            if (isset(self::$specialNames[strtolower($interface)])) {
+            if (isset(self::$specialNames[$interface->toLowerString()])) {
                 $this->emitError(new Error(
                     sprintf('Cannot use \'%s\' as interface name as it is reserved', $interface),
                     $interface->getAttributes()
@@ -793,7 +793,7 @@ abstract class ParserAbstract implements Parser
 
     protected function checkClassMethod(ClassMethod $node, $modifierPos) {
         if ($node->flags & Class_::MODIFIER_STATIC) {
-            switch (strtolower($node->name)) {
+            switch ($node->name->toLowerString()) {
                 case '__construct':
                     $this->emitError(new Error(
                         sprintf('Constructor %s() cannot be static', $node->name),
@@ -844,7 +844,9 @@ abstract class ParserAbstract implements Parser
     }
 
     protected function checkUseUse(UseUse $node, $namePos) {
-        if ('self' === strtolower($node->alias) || 'parent' === strtolower($node->alias)) {
+        if ($node->alias &&
+            ('self' === $node->alias->toLowerString() || 'parent' === $node->alias->toLowerString())
+        ) {
             $this->emitError(new Error(
                 sprintf(
                     'Cannot use %s as %s because \'%2$s\' is a special class name',
