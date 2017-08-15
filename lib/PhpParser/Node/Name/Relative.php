@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PhpParser\Node\Name;
 
 class Relative extends \PhpParser\Node\Name

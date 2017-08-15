@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PhpParser;
 
 /* This test is very weak, because PHPUnit's assertEquals assertion is way too slow dealing with the

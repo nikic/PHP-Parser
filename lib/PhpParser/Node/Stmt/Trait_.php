@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PhpParser\Node\Stmt;
 
 use PhpParser\Node;
@@ -17,7 +19,7 @@ class Trait_ extends ClassLike
     public function __construct($name, array $subNodes = [], array $attributes = []) {
         parent::__construct($attributes);
         $this->name = \is_string($name) ? new Node\Identifier($name) : $name;
-        $this->stmts = isset($subNodes['stmts']) ? $subNodes['stmts'] : [];
+        $this->stmts = $subNodes['stmts'] ?? [];
     }
 
     public function getSubNodeNames() : array {

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PhpParser\Node\Stmt;
 
 use PhpParser\Node;
@@ -38,7 +40,7 @@ abstract class ClassLike extends Node\Stmt {
     public function getMethod(string $name) {
         $lowerName = strtolower($name);
         foreach ($this->stmts as $stmt) {
-            if ($stmt instanceof ClassMethod && $lowerName === strtolower($stmt->name)) {
+            if ($stmt instanceof ClassMethod && $lowerName === strtolower((string) $stmt->name)) {
                 return $stmt;
             }
         }

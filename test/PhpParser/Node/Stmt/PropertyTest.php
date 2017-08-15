@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PhpParser\Node\Stmt;
 
 use PHPUnit\Framework\TestCase;

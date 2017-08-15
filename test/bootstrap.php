@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PhpParser;
 
 require __DIR__ . '/../vendor/autoload.php';
