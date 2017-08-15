@@ -12,6 +12,12 @@ class Identifier extends NodeAbstract
     /** @var string Identifier as string */
     public $name;
 
+    private static $specialClassNames = [
+        'self'   => true,
+        'parent' => true,
+        'static' => true,
+    ];
+
     /**
      * Constructs an identifier node.
      *
@@ -34,6 +40,15 @@ class Identifier extends NodeAbstract
      */
     public function toLowerString() : string {
         return strtolower($this->name);
+    }
+
+    /**
+     * Checks whether the identifier is a special class name (self, parent or static).
+     *
+     * @return bool Whether identifier is a special class name
+     */
+    public function isSpecialClassName() : bool {
+        return isset(self::$specialClassNames[strtolower($this->name)]);
     }
 
     /**

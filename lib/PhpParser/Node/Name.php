@@ -11,6 +11,12 @@ class Name extends NodeAbstract
      */
     public $parts;
 
+    private static $specialClassNames = [
+        'self'   => true,
+        'parent' => true,
+        'static' => true,
+    ];
+
     /**
      * Constructs a name node.
      *
@@ -108,6 +114,16 @@ class Name extends NodeAbstract
      */
     public function toLowerString() : string {
         return strtolower(implode('\\', $this->parts));
+    }
+
+    /**
+     * Checks whether the identifier is a special class name (self, parent or static).
+     *
+     * @return bool Whether identifier is a special class name
+     */
+    public function isSpecialClassName() : bool {
+        return count($this->parts) === 1
+            && isset(self::$specialClassNames[strtolower($this->parts[0])]);
     }
 
     /**

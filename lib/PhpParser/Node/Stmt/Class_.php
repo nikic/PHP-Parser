@@ -23,12 +23,6 @@ class Class_ extends ClassLike
     /** @var Node\Name[] Names of implemented interfaces */
     public $implements;
 
-    protected static $specialNames = [
-        'self'   => true,
-        'parent' => true,
-        'static' => true,
-    ];
-
     /**
      * Constructs a class node.
      *

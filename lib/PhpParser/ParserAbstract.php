@@ -654,12 +654,6 @@ abstract class ParserAbstract implements Parser
         return new Node\Identifier($lowerName, $name->getAttributes());
     }
 
-    protected static $specialNames = [
-        'self'   => true,
-        'parent' => true,
-        'static' => true,
-    ];
-
     /**
      * Get combined start and end attributes at a stack location
      *
@@ -730,7 +724,7 @@ abstract class ParserAbstract implements Parser
     }
 
     protected function checkNamespace(Namespace_ $node) {
-        if ($node->name && isset(self::$specialNames[$node->name->toLowerString()])) {
+        if ($node->name && $node->name->isSpecialClassName()) {
             $this->emitError(new Error(
                 sprintf('Cannot use \'%s\' as namespace name', $node->name),
                 $node->name->getAttributes()
@@ -749,14 +743,14 @@ abstract class ParserAbstract implements Parser
     }
 
     protected function checkClass(Class_ $node, $namePos) {
-        if (null !== $node->name && isset(self::$specialNames[$node->name->toLowerString()])) {
+        if (null !== $node->name && $node->name->isSpecialClassName()) {
             $this->emitError(new Error(
                 sprintf('Cannot use \'%s\' as class name as it is reserved', $node->name),
                 $this->getAttributesAt($namePos)
             ));
         }
 
-        if ($node->extends && isset(self::$specialNames[$node->extends->toLowerString()])) {
+        if ($node->extends && $node->extends->isSpecialClassName()) {
             $this->emitError(new Error(
                 sprintf('Cannot use \'%s\' as class name as it is reserved', $node->extends),
                 $node->extends->getAttributes()
@@ -764,7 +758,7 @@ abstract class ParserAbstract implements Parser
         }
 
         foreach ($node->implements as $interface) {
-            if (isset(self::$specialNames[$interface->toLowerString()])) {
+            if ($interface->isSpecialClassName()) {
                 $this->emitError(new Error(
                     sprintf('Cannot use \'%s\' as interface name as it is reserved', $interface),
                     $interface->getAttributes()
@@ -774,7 +768,7 @@ abstract class ParserAbstract implements Parser
     }
 
     protected function checkInterface(Interface_ $node, $namePos) {
-        if (null !== $node->name && isset(self::$specialNames[$node->name->toLowerString()])) {
+        if (null !== $node->name && $node->name->isSpecialClassName()) {
             $this->emitError(new Error(
                 sprintf('Cannot use \'%s\' as class name as it is reserved', $node->name),
                 $this->getAttributesAt($namePos)
@@ -782,7 +776,7 @@ abstract class ParserAbstract implements Parser
         }
 
         foreach ($node->extends as $interface) {
-            if (isset(self::$specialNames[$interface->toLowerString()])) {
+            if ($interface->isSpecialClassName()) {
                 $this->emitError(new Error(
                     sprintf('Cannot use \'%s\' as interface name as it is reserved', $interface),
                     $interface->getAttributes()
@@ -844,9 +838,7 @@ abstract class ParserAbstract implements Parser
     }
 
     protected function checkUseUse(UseUse $node, $namePos) {
-        if ($node->alias &&
-            ('self' === $node->alias->toLowerString() || 'parent' === $node->alias->toLowerString())
-        ) {
+        if ($node->alias && $node->alias->isSpecialClassName()) {
             $this->emitError(new Error(
                 sprintf(
                     'Cannot use %s as %s because \'%2$s\' is a special class name',

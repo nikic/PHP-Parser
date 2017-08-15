@@ -100,8 +100,7 @@ class NameContext {
      */
     public function getResolvedName(Name $name, int $type) {
         // don't resolve special class names
-        if ($type === Stmt\Use_::TYPE_NORMAL
-                && in_array($name->toLowerString(), ['self', 'parent', 'static'])) {
+        if ($type === Stmt\Use_::TYPE_NORMAL && $name->isSpecialClassName()) {
             if (!$name->isUnqualified()) {
                 $this->errorHandler->handleError(new Error(
                     sprintf("'\\%s' is an invalid class name", $name->toString()),
