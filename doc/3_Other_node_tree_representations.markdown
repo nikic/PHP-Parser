@@ -210,5 +210,19 @@ This will result in the following output (which includes attributes):
 ]
 ```
 
-There is currently no mechanism to convert JSON back into a node tree. Furthermore, not all ASTs
-can be JSON encoded. In particular, JSON only supports UTF-8 strings.
+The JSON representation may be converted back into a node tree using the `JsonDecoder`:
+
+```php
+<?php
+
+$nodeDecoder = new PhpParser\NodeDecoder();
+$ast = $nodeDecoder->decode($json);
+```
+
+Note that not all ASTs can be represented using JSON. In particular:
+
+ * JSON only supports UTF-8 strings.
+ * JSON does not support non-finite floating-point numbers. This can occur if the original source
+   code contains non-representable floating-pointing literals such as `1e1000`.
+
+If the node tree is not representable in JSON, the initial `json_encode()` call will fail.
