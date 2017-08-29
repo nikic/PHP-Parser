@@ -1,7 +1,9 @@
 Version 3.1.1-dev
 -----------------
 
-Nothing yet.
+### Fixed
+
+* Fixed syntax error on comment after brace-style namespace declaration. (#412)
 
 Version 3.1.0 (2017-07-28)
 --------------------------
