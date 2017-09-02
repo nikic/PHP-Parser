@@ -1,3 +1,61 @@
+Version 4.0.0-dev
+-----------------
+
+### Added
+
+* Added experimental support for format-preserving prettying. In this mode formatting will be
+  preserved for parts of the code which have not been modified.
+* Added `replaceNodes` option to `NameResolver`, defaulting to true. If this option is disabled,
+  resolved names will be added as `resolvedName` attributes, instead of replacing the original
+  names.
+* Added `NodeFinder` class, which can be used to find nodes based on a callback or class name. This
+  is a utility to avoid custom node visitor implementations for simple search operations.
+* Added `ClassMethod::isMagic()` method.
+* Added `BuilderFactory` methods: `val()` method for creating an AST for a simple value, `concat()`
+  for creating concatenation trees, `args()` for preparing function arguments.
+* Added `NameContext` class, which encapsulates the `NameResolver` logic independently of the actual
+  AST traversal. This facilitates use in other context, such as class names in doc comments.
+  Additionally it provides an API for getting the shortest representation of a name.
+* Added `Node::setAttributes()` method.
+* Added `JsonDecoder`. This allows convertion JSON back into an AST.
+* Added `Name` methods `toLowerString()` and `isSpecialClassName()`.
+* Added `Identifier` and `VarLikeIdentifier` nodes, which are used in place of simple strings in
+  many places.
+
+### Changed
+
+* Many subnodes that previously held simple strings now use `Identifier` (or `VarLikeIdentifier`)
+  nodes. Please see the UPGRADE-4.0 file for an exhaustive list of affected nodes and some notes on
+  possible impact.
+* Expression statements (`expr;`) are now represented using a `Stmt\Expression` node. Previously
+  these statements were directly represented as their constituent expression.
+* The `name` subnode of `Param` has been renamed to `var` and now contains a `Variable` rather than
+  a plain string.
+* The `name` subnode of `StaticVar` has been renamed to `var` and now contains a `Variable` rather
+  than a plain string.
+* The `var` subnode of `ClosureUse` now contains a `Variable` rather than a plain string.
+* The `var` subnode of `Catch` now contains a `Variable` rather than a plain string.
+* The `alias` subnode of `UseUse` is now `null` if no explicit alias is given. As such,
+  `use Foo\Bar` and `use Foo\Bar as Bar` are now represented differently. The `getAlias()` method
+  can be used to get the effective alias, even if it is not explicitly given.
+
+### Removed
+
+* Support for running on PHP 5 and HHVM has been removed. You can however still parse code of old
+  PHP versions (such as PHP 5.2), while running on PHP 7.
+* Removed `type` subnode on `Class`, `ClassMethod` and `Property` nodes. Use `flags` instead.
+* The `ClassConst::isStatic()` method has been removed. Constants cannot have a static modifier.
+* The `NodeTraverser` no longer accepts `false` as a return value from a `leaveNode()` method.
+  `NodeTraverser::REMOVE_NODE` should be returned instead.
+* The `Node::setLine()` method has been removed. If you really need to, you can use `setAttribute()`
+  instead.
+* The misspelled `Class_::VISIBILITY_MODIFER_MASK` constant has been dropped in favor of
+  `Class_::VISIBILITY_MODIFIER_MASK`.
+* The XML serializer has been removed. As such, the classes `Serializer\XML`, and
+  `Unserializer\XML`, as well as the interfaces `Serializer` and `Unserializer` no longer exist.
+* The `BuilderAbstract` class has been removed. It's functionality is moved into `BuilderHelpers`.
+  However, this is an internal class and should not be used directly.
+
 Version 3.1.2-dev
 -----------------
 

@@ -65,3 +65,5 @@ Because HHVM does not support PHP 7, HHVM is no longer supported.
   `Class_::VISIBILITY_MODIFIER_MASK`.
 * The XML serializer has been removed. As such, the classes `Serializer\XML`, and
   `Unserializer\XML`, as well as the interfaces `Serializer` and `Unserializer` no longer exist.
+* The `BuilderAbstract` class has been removed. It's functionality is moved into `BuilderHelpers`.
+  However, this is an internal class and should not be used directly.
