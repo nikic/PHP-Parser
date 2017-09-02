@@ -7,9 +7,6 @@ use PhpParser\BuilderHelpers;
 use PhpParser\Node;
 use PhpParser\Node\Stmt;
 
-/**
- * @method $this as(string $alias) Sets alias for used name.
- */
 class Use_ implements Builder {
     protected $name;
     protected $type;
@@ -33,16 +30,9 @@ class Use_ implements Builder {
      *
      * @return $this The builder instance (for fluid interface)
      */
-    protected function as_(string $alias) {
+    public function as(string $alias) {
         $this->alias = $alias;
         return $this;
-    }
-    public function __call($name, $args) {
-        if (method_exists($this, $name . '_')) {
-            return $this->{$name . '_'}(...$args);
-        }
-
-        throw new \LogicException(sprintf('Method "%s" does not exist', $name));
     }
 
     /**

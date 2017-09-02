@@ -32,13 +32,6 @@ class BuilderFactoryTest extends TestCase
         ];
     }
 
-    public function testNonExistingMethod() {
-        $this->expectException('LogicException');
-        $this->expectExceptionMessage('Method "foo" does not exist');
-        $factory = new BuilderFactory();
-        $factory->foo();
-    }
-
     public function testVal() {
         // This method is a wrapper around BuilderHelpers::normalizeValue(),
         // which is already tested elsewhere

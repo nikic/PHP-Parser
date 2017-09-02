@@ -8,17 +8,6 @@ use PhpParser\Node\Expr\BinaryOp\Concat;
 use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt\Use_;
 
-/**
- * The following methods use reserved keywords, so their implementation is defined with an underscore and made available
- * with the reserved name through __call() magic.
- *
- * @method Builder\Namespace_ namespace(string $name) Creates a namespace builder.
- * @method Builder\Class_     class(string $name)     Creates a class builder.
- * @method Builder\Interface_ interface(string $name) Creates an interface builder.
- * @method Builder\Trait_     trait(string $name)     Creates a trait builder.
- * @method Builder\Function_  function(string $name)  Creates a function builder.
- * @method Builder\Use_       use(string $name)       Creates a namespace/class use builder.
- */
 class BuilderFactory
 {
     /**
@@ -28,7 +17,7 @@ class BuilderFactory
      *
      * @return Builder\Namespace_ The created namespace builder
      */
-    protected function _namespace($name) : Builder\Namespace_ {
+    public function namespace($name) : Builder\Namespace_ {
         return new Builder\Namespace_($name);
     }
 
@@ -39,7 +28,7 @@ class BuilderFactory
      *
      * @return Builder\Class_ The created class builder
      */
-    protected function _class(string $name) : Builder\Class_ {
+    public function class(string $name) : Builder\Class_ {
         return new Builder\Class_($name);
     }
 
@@ -50,7 +39,7 @@ class BuilderFactory
      *
      * @return Builder\Interface_ The created interface builder
      */
-    protected function _interface(string $name) : Builder\Interface_ {
+    public function interface(string $name) : Builder\Interface_ {
         return new Builder\Interface_($name);
     }
 
@@ -61,7 +50,7 @@ class BuilderFactory
      *
      * @return Builder\Trait_ The created trait builder
      */
-    protected function _trait(string $name) : Builder\Trait_ {
+    public function trait(string $name) : Builder\Trait_ {
         return new Builder\Trait_($name);
     }
 
@@ -105,7 +94,7 @@ class BuilderFactory
      *
      * @return Builder\Function_ The created function builder
      */
-    protected function _function(string $name) : Builder\Function_ {
+    public function function(string $name) : Builder\Function_ {
         return new Builder\Function_($name);
     }
 
@@ -116,7 +105,7 @@ class BuilderFactory
      *
      * @return Builder\Use_ The create use builder
      */
-    protected function _use($name) : Builder\Use_ {
+    public function use($name) : Builder\Use_ {
         return new Builder\Use_($name, Use_::TYPE_NORMAL);
     }
 
@@ -170,14 +159,6 @@ class BuilderFactory
             $lastConcat = new Concat($lastConcat, $this->normalizeStringExpr($exprs[$i]));
         }
         return $lastConcat;
-    }
-
-    public function __call($name, array $args) {
-        if (method_exists($this, '_' . $name)) {
-            return $this->{'_' . $name}(...$args);
-        }
-
-        throw new \LogicException(sprintf('Method "%s" does not exist', $name));
     }
 
     private function normalizeStringExpr($expr) {

@@ -27,11 +27,4 @@ class UseTest extends TestCase
             new Stmt\UseUse(new Name('foo\bar'), 'foo')
         ], Stmt\Use_::TYPE_FUNCTION), $node);
     }
-
-    public function testNonExistingMethod() {
-        $this->expectException('LogicException');
-        $this->expectExceptionMessage('Method "foo" does not exist');
-        $builder = $this->createUseBuilder('Test');
-        $builder->foo();
-    }
 }
