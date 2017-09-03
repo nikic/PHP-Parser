@@ -95,7 +95,7 @@ abstract class PrettyPrinterAbstract
     /** @var array Pretty printer options */
     protected $options;
 
-    /** @var array Original tokens for use in format-preserving pretty print */
+    /** @var TokenStream Original tokens for use in format-preserving pretty print */
     protected $origTokens;
     /** @var int Current indentation level during format-preserving pretty printing */
     protected $fpIndentLevel;
@@ -447,7 +447,7 @@ abstract class PrettyPrinterAbstract
         $this->initializeInsertionMap();
 
         $this->resetState();
-        $this->origTokens = $origTokens;
+        $this->origTokens = new TokenStream($origTokens);
         $this->fpIndentLevel = 0;
 
         $this->preprocessNodes($stmts);
@@ -455,7 +455,7 @@ abstract class PrettyPrinterAbstract
         $pos = 0;
         $result = $this->pArray($stmts, $origStmts, $pos, 0, null);
         if (null !== $result) {
-            $result .= $this->getTokenCode($pos, count($this->origTokens), 0);
+            $result .= $this->origTokens->getTokenCode($pos, count($origTokens), 0);
         } else {
             // Fallback
             // TODO Add <?php properly
@@ -508,7 +508,7 @@ abstract class PrettyPrinterAbstract
             return $this->pFallback($node);
         }
 
-        $indentAdjustment = $this->fpIndentLevel - $this->getIndentationBefore($startPos);
+        $indentAdjustment = $this->fpIndentLevel - $this->origTokens->getIndentationBefore($startPos);
 
         $type = $node->getType();
         $fixupInfo = $this->fixupMap[$type] ?? null;
@@ -570,13 +570,13 @@ abstract class PrettyPrinterAbstract
 
                 list($findToken, $extraLeft, $extraRight) = $this->insertionMap[$key];
                 if (null !== $findToken) {
-                    $subStartPos = $this->findRight($pos, $findToken) + 1;
+                    $subStartPos = $this->origTokens->findRight($pos, $findToken) + 1;
                 } else {
                     $subStartPos = $pos;
                 }
                 if (null === $extraLeft && null !== $extraRight) {
                     // If inserting on the right only, skipping whitespace looks better
-                    $subStartPos = $this->skipRightWhitespace($subStartPos);
+                    $subStartPos = $this->origTokens->skipRightWhitespace($subStartPos);
                 }
                 $subEndPos = $subStartPos - 1;
             }
@@ -591,20 +591,20 @@ abstract class PrettyPrinterAbstract
                 // Adjust positions to account for additional tokens that must be skipped
                 $removalInfo = $this->removalMap[$key];
                 if (isset($removalInfo['left'])) {
-                    $subStartPos = $this->skipLeft($subStartPos - 1, $removalInfo['left']) + 1;
+                    $subStartPos = $this->origTokens->skipLeft($subStartPos - 1, $removalInfo['left']) + 1;
                 }
                 if (isset($removalInfo['right'])) {
-                    $subEndPos = $this->skipRight($subEndPos + 1, $removalInfo['right']) - 1;
+                    $subEndPos = $this->origTokens->skipRight($subEndPos + 1, $removalInfo['right']) - 1;
                 }
             }
 
-            $result .= $this->getTokenCode($pos, $subStartPos, $indentAdjustment);
+            $result .= $this->origTokens->getTokenCode($pos, $subStartPos, $indentAdjustment + $this->indentLevel);
 
             if (null !== $subNode) {
                 $result .= $extraLeft;
 
                 $origIndentLevel = $this->fpIndentLevel;
-                $this->fpIndentLevel = $this->getIndentationBefore($subStartPos) + $indentAdjustment;
+                $this->fpIndentLevel = $this->origTokens->getIndentationBefore($subStartPos) + $indentAdjustment;
 
                 // If it's the same node that was previously in this position, it certainly doesn't
                 // need fixup. It's important to check this here, because our fixup checks are more
@@ -627,7 +627,7 @@ abstract class PrettyPrinterAbstract
             $pos = $subEndPos + 1;
         }
 
-        $result .= $this->getTokenCode($pos, $endPos + 1, $indentAdjustment);
+        $result .= $this->origTokens->getTokenCode($pos, $endPos + 1, $indentAdjustment + $this->indentLevel);
         return $result;
     }
 
@@ -677,10 +677,10 @@ abstract class PrettyPrinterAbstract
                 continue;
             }
 
-            $result .= $this->getTokenCode($pos, $itemStartPos, $indentAdjustment);
+            $result .= $this->origTokens->getTokenCode($pos, $itemStartPos, $indentAdjustment + $this->indentLevel);
 
             $origIndentLevel = $this->fpIndentLevel;
-            $this->fpIndentLevel = $this->getIndentationBefore($itemStartPos) + $indentAdjustment;
+            $this->fpIndentLevel = $this->origTokens->getIndentationBefore($itemStartPos) + $indentAdjustment;
 
             if (null !== $fixup && $arrItem->getAttribute('origNode') !== $origArrItem) {
                 $res = $this->pFixup($fixup, $arrItem, null, $itemStartPos, $itemEndPos);
@@ -714,7 +714,7 @@ abstract class PrettyPrinterAbstract
         switch ($fixup) {
             case self::FIXUP_PREC_LEFT:
             case self::FIXUP_PREC_RIGHT:
-                if (!$this->haveParens($subStartPos, $subEndPos)) {
+                if (!$this->origTokens->haveParens($subStartPos, $subEndPos)) {
                     list($precedence, $associativity) = $this->precedenceMap[$parentType];
                     return $this->pPrec($subNode, $precedence, $associativity,
                         $fixup === self::FIXUP_PREC_LEFT ? -1 : 1);
@@ -722,14 +722,14 @@ abstract class PrettyPrinterAbstract
                 break;
             case self::FIXUP_CALL_LHS:
                 if ($this->callLhsRequiresParens($subNode)
-                    && !$this->haveParens($subStartPos, $subEndPos)
+                    && !$this->origTokens->haveParens($subStartPos, $subEndPos)
                 ) {
                     return '(' . $this->p($subNode) . ')';
                 }
                 break;
             case self::FIXUP_DEREF_LHS:
                 if ($this->dereferenceLhsRequiresParens($subNode)
-                    && !$this->haveParens($subStartPos, $subEndPos)
+                    && !$this->origTokens->haveParens($subStartPos, $subEndPos)
                 ) {
                     return '(' . $this->p($subNode) . ')';
                 }
@@ -737,7 +737,7 @@ abstract class PrettyPrinterAbstract
             case self::FIXUP_BRACED_NAME:
             case self::FIXUP_VAR_BRACED_NAME:
                 if ($subNode instanceof Expr
-                    && !$this->haveBraces($subStartPos, $subEndPos)
+                    && !$this->origTokens->haveBraces($subStartPos, $subEndPos)
                 ) {
                     return ($fixup === self::FIXUP_VAR_BRACED_NAME ? '$' : '')
                         . '{' . $this->p($subNode) . '}';
@@ -745,7 +745,7 @@ abstract class PrettyPrinterAbstract
                 break;
             case self::FIXUP_ENCAPSED:
                 if (!$subNode instanceof Scalar\EncapsedStringPart
-                    && !$this->haveBraces($subStartPos, $subEndPos)
+                    && !$this->origTokens->haveBraces($subStartPos, $subEndPos)
                 ) {
                     return '{' . $this->p($subNode) . '}';
                 }
@@ -780,215 +780,6 @@ abstract class PrettyPrinterAbstract
         } else {
             $str .= " " . $append;
         }
-    }
-
-    /**
-     * Get indentation before token position
-     *
-     * @param int $pos Token position
-     *
-     * @return int Indentation depth (in spaces)
-     */
-    protected function getIndentationBefore(int $pos) : int {
-        $tokens = $this->origTokens;
-        $indent = 0;
-        $pos--;
-        for (; $pos >= 0; $pos--) {
-            if ($tokens[$pos][0] !== T_WHITESPACE) {
-                $indent = 0;
-                continue;
-            }
-            $content = $tokens[$pos][1];
-            $newlinePos = \strrpos($content, "\n");
-            if (false !== $newlinePos) {
-                $indent += \strlen($content) - $newlinePos - 1;
-                return $indent;
-            }
-
-            $indent += \strlen($content);
-        }
-        return $indent;
-    }
-
-    /**
-     * Whether the fiven position is immediately surrounded by parenthesis.
-     *
-     * @param int $startPos Start position
-     * @param int $endPos   End position
-     *
-     * @return bool
-     */
-    protected function haveParens(int $startPos, int $endPos) : bool {
-        return $this->haveTokenImmediativelyBefore($startPos, '(')
-            && $this->haveTokenImmediatelyAfter($endPos, ')');
-    }
-
-    /**
-     * Whether the fiven position is immediately surrounded by braces.
-     *
-     * @param int $startPos Start position
-     * @param int $endPos   End position
-     *
-     * @return bool
-     */
-    protected function haveBraces(int $startPos, int $endPos) : bool {
-        return $this->haveTokenImmediativelyBefore($startPos, '{')
-            && $this->haveTokenImmediatelyAfter($endPos, '}');
-    }
-
-    /**
-     * Check whether the position is directly preceded by a certain token type.
-     *
-     * During this check whitespace and comments are skipped.
-     *
-     * @param int        $pos               Position before which the token should occur
-     * @param int|string $expectedTokenType Token to check for
-     *
-     * @return bool Whether the expected token was found
-     */
-    protected function haveTokenImmediativelyBefore(int $pos, $expectedTokenType) : bool {
-        $tokens = $this->origTokens;
-        $pos--;
-        for (; $pos >= 0; $pos--) {
-            $tokenType = $tokens[$pos][0];
-            if ($tokenType === $expectedTokenType) {
-                return true;
-            }
-            if ($tokenType !== T_WHITESPACE
-                    && $tokenType !== T_COMMENT && $tokenType !== T_DOC_COMMENT) {
-                break;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * Check whether the position is directly followed by a certain token type.
-     *
-     * During this check whitespace and comments are skipped.
-     *
-     * @param int        $pos               Position after which the token should occur
-     * @param int|string $expectedTokenType Token to check for
-     *
-     * @return bool Whether the expected token was found
-     */
-    protected function haveTokenImmediatelyAfter(int $pos, $expectedTokenType) : bool {
-        $tokens = $this->origTokens;
-        $pos++;
-        for (; $pos < \count($tokens); $pos++) {
-            $tokenType = $tokens[$pos][0];
-            if ($tokenType === $expectedTokenType) {
-                return true;
-            }
-            if ($tokenType !== T_WHITESPACE
-                && $tokenType !== T_COMMENT && $tokenType !== T_DOC_COMMENT) {
-                break;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * Get the code corresponding to a token offset range, optionally adjusted for indentation.
-     *
-     * @param int $from   Token start position (inclusive)
-     * @param int $to     Token end position (exclusive)
-     * @param int $indent By how much the code should be indented (can be negative as well)
-     *
-     * @return string Code corresponding to token range, adjusted for indentation
-     */
-    protected function getTokenCode(int $from, int $to, int $indent) : string {
-        $tokens = $this->origTokens;
-        $result = '';
-        for ($pos = $from; $pos < $to; $pos++) {
-            $token = $tokens[$pos];
-            if (\is_array($token)) {
-                $type = $token[0];
-                $content = $token[1];
-                if ($type === T_CONSTANT_ENCAPSED_STRING || $type === T_ENCAPSED_AND_WHITESPACE) {
-                    $result .= $content;
-                } else {
-                    // TODO Handle non-space indentation
-                    if ($indent < 0) {
-                        $result .= str_replace("\n" . str_repeat(" ", -$indent), $this->nl, $content);
-                    } else if ($indent > 0) {
-                        $result .= str_replace("\n", $this->nl . str_repeat(" ", $indent), $content);
-                    } else {
-                        $result .= $content;
-                    }
-                }
-            } else {
-                $result .= $token;
-            }
-        }
-        return $result;
-    }
-
-    protected function skipLeft($pos, $skipTokenType) {
-        $tokens = $this->origTokens;
-
-        $pos = $this->skipLeftWhitespace($pos);
-        if ($skipTokenType === T_WHITESPACE) {
-            return $pos;
-        }
-
-        if ($tokens[$pos][0] !== $skipTokenType) {
-            // Shouldn't happen. The skip token MUST be there
-            throw new \Exception('Encountered unexpected token');
-        }
-        $pos--;
-
-        return $this->skipLeftWhitespace($pos);
-    }
-
-    protected function skipRight($pos, $skipTokenType) {
-        $tokens = $this->origTokens;
-
-        $pos = $this->skipRightWhitespace($pos);
-        if ($skipTokenType === T_WHITESPACE) {
-            return $pos;
-        }
-
-        if ($tokens[$pos][0] !== $skipTokenType) {
-            // Shouldn't happen. The skip token MUST be there
-            throw new \Exception('Encountered unexpected token');
-        }
-        $pos++;
-
-        return $this->skipRightWhitespace($pos);
-    }
-
-    protected function skipLeftWhitespace($pos) {
-        $tokens = $this->origTokens;
-        for (; $pos >= 0; $pos--) {
-            $type = $tokens[$pos][0];
-            if ($type !== T_WHITESPACE && $type !== T_COMMENT && $type !== T_DOC_COMMENT) {
-                break;
-            }
-        }
-        return $pos;
-    }
-
-    protected function skipRightWhitespace($pos) {
-        $tokens = $this->origTokens;
-        for ($count = \count($tokens); $pos < $count; $pos++) {
-            $type = $tokens[$pos][0];
-            if ($type !== T_WHITESPACE && $type !== T_COMMENT && $type !== T_DOC_COMMENT) {
-                break;
-            }
-        }
-        return $pos;
-    }
-
-    protected function findRight($pos, $findTokenType) {
-        $tokens = $this->origTokens;
-        for ($count = \count($tokens); $pos < $count; $pos++) {
-            $type = $tokens[$pos][0];
-            if ($type === $findTokenType) {
-                return $pos;
-            }
-        }
-        return -1;
     }
 
     /**
