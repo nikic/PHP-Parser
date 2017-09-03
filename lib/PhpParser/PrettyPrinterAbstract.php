@@ -84,8 +84,10 @@ abstract class PrettyPrinterAbstract
         'Expr_Include'                 => [200, -1],
     ];
 
-    /** @var string Token placed before newline to ensure it is not indented. */
-    protected $noIndentToken;
+    /** @var int Current indentation level. */
+    protected $indentLevel;
+    /** @var string Newline including current indentation. */
+    protected $nl;
     /** @var string Token placed at end of doc string to ensure it is followed by a newline. */
     protected $docStringEndToken;
     /** @var bool Whether semicolon namespaces can be used (i.e. no global namespace is used) */
@@ -95,8 +97,8 @@ abstract class PrettyPrinterAbstract
 
     /** @var array Original tokens for use in format-preserving pretty print */
     protected $origTokens;
-    /** @var int Current indentation level during format-preserving pretty pting */
-    protected $indentLevel;
+    /** @var int Current indentation level during format-preserving pretty printing */
+    protected $fpIndentLevel;
     /** @var bool[] Map determining whether a certain character is a label character */
     protected $labelCharMap;
     /**
@@ -130,6 +132,30 @@ abstract class PrettyPrinterAbstract
     }
 
     /**
+     * Reset pretty printing state.
+     */
+    protected function resetState() {
+        $this->indentLevel = 0;
+        $this->nl = "\n";
+    }
+
+    /**
+     * Increase indentation level.
+     */
+    protected function indent() {
+        $this->indentLevel += 4;
+        $this->nl .= '    ';
+    }
+
+    /**
+     * Decrease indentation level.
+     */
+    protected function outdent() {
+        $this->indentLevel -= 4;
+        $this->nl = "\n" . str_repeat(' ', $this->indentLevel);
+    }
+
+    /**
      * Pretty prints an array of statements.
      *
      * @param Node[] $stmts Array of statements
@@ -137,6 +163,7 @@ abstract class PrettyPrinterAbstract
      * @return string Pretty printed statements
      */
     public function prettyPrint(array $stmts) : string {
+        $this->resetState();
         $this->preprocessNodes($stmts);
 
         return ltrim($this->handleMagicTokens($this->pStmts($stmts, false)));
@@ -150,6 +177,7 @@ abstract class PrettyPrinterAbstract
      * @return string Pretty printed node
      */
     public function prettyPrintExpr(Expr $node) : string {
+        $this->resetState();
         return $this->handleMagicTokens($this->p($node));
     }
 
@@ -199,9 +227,6 @@ abstract class PrettyPrinterAbstract
      * @return string
      */
     protected function handleMagicTokens(string $str) : string {
-        // Drop no-indent tokens
-        $str = str_replace($this->noIndentToken, '', $str);
-
         // Replace doc-string-end tokens with nothing or a newline
         $str = str_replace($this->docStringEndToken . ";\n", ";\n", $str);
         $str = str_replace($this->docStringEndToken, "\n", $str);
@@ -218,24 +243,28 @@ abstract class PrettyPrinterAbstract
      * @return string Pretty printed statements
      */
     protected function pStmts(array $nodes, bool $indent = true) : string {
+        if ($indent) {
+            $this->indent();
+        }
+
         $result = '';
         foreach ($nodes as $node) {
             $comments = $node->getAttribute('comments', []);
             if ($comments) {
-                $result .= "\n" . $this->pComments($comments);
+                $result .= $this->nl . $this->pComments($comments);
                 if ($node instanceof Stmt\Nop) {
                     continue;
                 }
             }
 
-            $result .= "\n" . $this->p($node);
+            $result .= $this->nl . $this->p($node);
         }
 
         if ($indent) {
-            return preg_replace('~\n(?!$|' . $this->noIndentToken . ')~', "\n    ", $result);
-        } else {
-            return $result;
+            $this->outdent();
         }
+
+        return $result;
     }
 
     /**
@@ -353,36 +382,28 @@ abstract class PrettyPrinterAbstract
      * @return string Comma separated pretty printed nodes in multiline style
      */
     protected function pCommaSeparatedMultiline(array $nodes, bool $trailingComma) : string {
+        $this->indent();
+
         $result = '';
         $lastIdx = count($nodes) - 1;
         foreach ($nodes as $idx => $node) {
             if ($node !== null) {
                 $comments = $node->getAttribute('comments', []);
                 if ($comments) {
-                    $result .= "\n" . $this->pComments($comments);
+                    $result .= $this->nl . $this->pComments($comments);
                 }
 
-                $result .= "\n" . $this->p($node);
+                $result .= $this->nl . $this->p($node);
             } else {
-                $result .= "\n";
+                $result .= $this->nl;
             }
             if ($trailingComma || $idx !== $lastIdx) {
                 $result .= ',';
             }
         }
 
-        return preg_replace('~\n(?!$|' . $this->noIndentToken . ')~', "\n    ", $result);
-    }
-
-    /**
-     * Signals the pretty printer that a string shall not be indented.
-     *
-     * @param string $string Not to be indented string
-     *
-     * @return string String marked with $this->noIndentToken's.
-     */
-    protected function pNoIndent(string $string) : string {
-        return str_replace("\n", "\n" . $this->noIndentToken, $string);
+        $this->outdent();
+        return $result;
     }
 
     /**
@@ -396,10 +417,10 @@ abstract class PrettyPrinterAbstract
         $formattedComments = [];
 
         foreach ($comments as $comment) {
-            $formattedComments[] = $comment->getReformattedText();
+            $formattedComments[] = str_replace("\n", $this->nl, $comment->getReformattedText());
         }
 
-        return implode("\n", $formattedComments);
+        return implode($this->nl, $formattedComments);
     }
 
     /**
@@ -425,8 +446,9 @@ abstract class PrettyPrinterAbstract
         $this->initializeRemovalMap();
         $this->initializeInsertionMap();
 
+        $this->resetState();
         $this->origTokens = $origTokens;
-        $this->indentLevel = 0;
+        $this->fpIndentLevel = 0;
 
         $this->preprocessNodes($stmts);
 
@@ -486,7 +508,7 @@ abstract class PrettyPrinterAbstract
             return $this->pFallback($node);
         }
 
-        $indentAdjustment = $this->indentLevel - $this->getIndentationBefore($startPos);
+        $indentAdjustment = $this->fpIndentLevel - $this->getIndentationBefore($startPos);
 
         $type = $node->getType();
         $fixupInfo = $this->fixupMap[$type] ?? null;
@@ -581,8 +603,8 @@ abstract class PrettyPrinterAbstract
             if (null !== $subNode) {
                 $result .= $extraLeft;
 
-                $origIndentLevel = $this->indentLevel;
-                $this->indentLevel = $this->getIndentationBefore($subStartPos) + $indentAdjustment;
+                $origIndentLevel = $this->fpIndentLevel;
+                $this->fpIndentLevel = $this->getIndentationBefore($subStartPos) + $indentAdjustment;
 
                 // If it's the same node that was previously in this position, it certainly doesn't
                 // need fixup. It's important to check this here, because our fixup checks are more
@@ -597,7 +619,7 @@ abstract class PrettyPrinterAbstract
                 }
 
                 $this->safeAppend($result, $res);
-                $this->indentLevel = $origIndentLevel;
+                $this->fpIndentLevel = $origIndentLevel;
 
                 $result .= $extraRight;
             }
@@ -657,8 +679,8 @@ abstract class PrettyPrinterAbstract
 
             $result .= $this->getTokenCode($pos, $itemStartPos, $indentAdjustment);
 
-            $origIndentLevel = $this->indentLevel;
-            $this->indentLevel = $this->getIndentationBefore($itemStartPos) + $indentAdjustment;
+            $origIndentLevel = $this->fpIndentLevel;
+            $this->fpIndentLevel = $this->getIndentationBefore($itemStartPos) + $indentAdjustment;
 
             if (null !== $fixup && $arrItem->getAttribute('origNode') !== $origArrItem) {
                 $res = $this->pFixup($fixup, $arrItem, null, $itemStartPos, $itemEndPos);
@@ -667,7 +689,7 @@ abstract class PrettyPrinterAbstract
             }
             $this->safeAppend($result, $res);
 
-            $this->indentLevel = $origIndentLevel;
+            $this->fpIndentLevel = $origIndentLevel;
             $pos = $itemEndPos + 1;
         }
         return $result;
@@ -884,13 +906,13 @@ abstract class PrettyPrinterAbstract
                 $type = $token[0];
                 $content = $token[1];
                 if ($type === T_CONSTANT_ENCAPSED_STRING || $type === T_ENCAPSED_AND_WHITESPACE) {
-                    $result .= $this->pNoIndent($content);
+                    $result .= $content;
                 } else {
                     // TODO Handle non-space indentation
                     if ($indent < 0) {
-                        $result .= str_replace("\n" . str_repeat(" ", -$indent), "\n", $content);
+                        $result .= str_replace("\n" . str_repeat(" ", -$indent), $this->nl, $content);
                     } else if ($indent > 0) {
-                        $result .= str_replace("\n", "\n" . str_repeat(" ", $indent), $content);
+                        $result .= str_replace("\n", $this->nl . str_repeat(" ", $indent), $content);
                     } else {
                         $result .= $content;
                     }
