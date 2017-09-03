@@ -832,7 +832,7 @@ class Standard extends PrettyPrinterAbstract
     }
 
     protected function pStmt_InlineHTML(Stmt\InlineHTML $node) {
-        $newline = $node->getAttribute('hasLeadingNewline', true) ? $this->nl : '';
+        $newline = $node->getAttribute('hasLeadingNewline', true) ? "\n" : '';
         return '?>' . $newline . $node->value . '<?php ';
     }
 
