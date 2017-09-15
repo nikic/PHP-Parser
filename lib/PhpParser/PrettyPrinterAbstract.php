@@ -216,6 +216,7 @@ abstract class PrettyPrinterAbstract
         foreach ($nodes as $node) {
             if ($node instanceof Stmt\Namespace_ && null === $node->name) {
                 $this->canUseSemicolonNamespaces = false;
+                break;
             }
         }
     }
