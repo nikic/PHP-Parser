@@ -88,6 +88,8 @@ abstract class PrettyPrinterAbstract
     protected $indentLevel;
     /** @var string Newline including current indentation. */
     protected $nl;
+    /** @var string */
+    protected $noIndentToken;
     /** @var string Token placed at end of doc string to ensure it is followed by a newline. */
     protected $docStringEndToken;
     /** @var bool Whether semicolon namespaces can be used (i.e. no global namespace is used) */
