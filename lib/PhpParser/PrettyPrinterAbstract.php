@@ -88,8 +88,6 @@ abstract class PrettyPrinterAbstract
     protected $indentLevel;
     /** @var string Newline including current indentation. */
     protected $nl;
-    /** @var string */
-    protected $noIndentToken;
     /** @var string Token placed at end of doc string to ensure it is followed by a newline. */
     protected $docStringEndToken;
     /** @var bool Whether semicolon namespaces can be used (i.e. no global namespace is used) */
@@ -126,7 +124,6 @@ abstract class PrettyPrinterAbstract
      * @param array $options Dictionary of formatting options
      */
     public function __construct(array $options = []) {
-        $this->noIndentToken = '_NO_INDENT_' . mt_rand();
         $this->docStringEndToken = '_DOC_STRING_END_' . mt_rand();
 
         $defaultOptions = ['shortArraySyntax' => false];
