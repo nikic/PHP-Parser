@@ -1,7 +1,10 @@
 Version 3.1.2-dev
 -----------------
 
-Nothing yet.
+### Added
+
+* Added `kind` attribute for `Stmt\Namespace_` node, which is one of `KIND_SEMICOLON` or
+  `KIND_BRACED`. (#417)
 
 Version 3.1.1 (2017-09-02)
 --------------------------

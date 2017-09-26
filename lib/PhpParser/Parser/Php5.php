@@ -1257,15 +1257,21 @@ class Php5 extends \PhpParser\ParserAbstract
     }
 
     protected function reduceRule89() {
-         $this->semValue = new Stmt\Namespace_($this->semStack[$this->stackPos-(3-2)], null, $this->startAttributeStack[$this->stackPos-(3-1)] + $this->endAttributes); $this->checkNamespace($this->semValue);
+         $this->semValue = new Stmt\Namespace_($this->semStack[$this->stackPos-(3-2)], null, $this->startAttributeStack[$this->stackPos-(3-1)] + $this->endAttributes);
+            $this->semValue->setAttribute('kind', Stmt\Namespace_::KIND_SEMICOLON);
+            $this->checkNamespace($this->semValue);
     }
 
     protected function reduceRule90() {
-         $this->semValue = new Stmt\Namespace_($this->semStack[$this->stackPos-(5-2)], $this->semStack[$this->stackPos-(5-4)], $this->startAttributeStack[$this->stackPos-(5-1)] + $this->endAttributes); $this->checkNamespace($this->semValue);
+         $this->semValue = new Stmt\Namespace_($this->semStack[$this->stackPos-(5-2)], $this->semStack[$this->stackPos-(5-4)], $this->startAttributeStack[$this->stackPos-(5-1)] + $this->endAttributes);
+            $this->semValue->setAttribute('kind', Stmt\Namespace_::KIND_BRACED);
+            $this->checkNamespace($this->semValue);
     }
 
     protected function reduceRule91() {
-         $this->semValue = new Stmt\Namespace_(null, $this->semStack[$this->stackPos-(4-3)], $this->startAttributeStack[$this->stackPos-(4-1)] + $this->endAttributes); $this->checkNamespace($this->semValue);
+         $this->semValue = new Stmt\Namespace_(null, $this->semStack[$this->stackPos-(4-3)], $this->startAttributeStack[$this->stackPos-(4-1)] + $this->endAttributes);
+            $this->semValue->setAttribute('kind', Stmt\Namespace_::KIND_BRACED);
+            $this->checkNamespace($this->semValue);
     }
 
     protected function reduceRule92() {

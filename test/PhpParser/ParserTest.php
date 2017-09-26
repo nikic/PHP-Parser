@@ -169,6 +169,9 @@ EOC;
             array("exit(1)", ['kind' => Expr\Exit_::KIND_EXIT]),
             array("?>Foo", ['hasLeadingNewline' => false]),
             array("?>\nFoo", ['hasLeadingNewline' => true]),
+            array("namespace Foo;", ['kind' => Node\Stmt\Namespace_::KIND_SEMICOLON]),
+            array("namespace Foo {}", ['kind' => Node\Stmt\Namespace_::KIND_BRACED]),
+            array("namespace {}", ['kind' => Node\Stmt\Namespace_::KIND_BRACED]),
         );
     }
 }

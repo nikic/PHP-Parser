@@ -56,11 +56,17 @@ top_statement:
     | T_HALT_COMPILER
           { $$ = Stmt\HaltCompiler[$this->lexer->handleHaltCompiler()]; }
     | T_NAMESPACE namespace_name ';'
-          { $$ = Stmt\Namespace_[$2, null]; $this->checkNamespace($$); }
+          { $$ = Stmt\Namespace_[$2, null];
+            $$->setAttribute('kind', Stmt\Namespace_::KIND_SEMICOLON);
+            $this->checkNamespace($$); }
     | T_NAMESPACE namespace_name '{' top_statement_list '}'
-          { $$ = Stmt\Namespace_[$2, $4]; $this->checkNamespace($$); }
+          { $$ = Stmt\Namespace_[$2, $4];
+            $$->setAttribute('kind', Stmt\Namespace_::KIND_BRACED);
+            $this->checkNamespace($$); }
     | T_NAMESPACE '{' top_statement_list '}'
-          { $$ = Stmt\Namespace_[null, $3]; $this->checkNamespace($$); }
+          { $$ = Stmt\Namespace_[null, $3];
+            $$->setAttribute('kind', Stmt\Namespace_::KIND_BRACED);
+            $this->checkNamespace($$); }
     | T_USE use_declarations ';'                            { $$ = Stmt\Use_[$2, Stmt\Use_::TYPE_NORMAL]; }
     | T_USE use_type use_declarations ';'                   { $$ = Stmt\Use_[$3, $2]; }
     | group_use_declaration ';'                             { $$ = $1; }
