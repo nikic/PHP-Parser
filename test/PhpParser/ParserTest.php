@@ -170,6 +170,9 @@ EOC;
             ["exit(1)", ['kind' => Expr\Exit_::KIND_EXIT]],
             ["?>Foo", ['hasLeadingNewline' => false]],
             ["?>\nFoo", ['hasLeadingNewline' => true]],
+            ["namespace Foo;", ['kind' => Node\Stmt\Namespace_::KIND_SEMICOLON]],
+            ["namespace Foo {}", ['kind' => Node\Stmt\Namespace_::KIND_BRACED]],
+            ["namespace {}", ['kind' => Node\Stmt\Namespace_::KIND_BRACED]],
         ];
     }
 }
