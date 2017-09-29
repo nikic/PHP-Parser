@@ -21,6 +21,9 @@ Version 4.0.0-dev
 * Added `Name` methods `toLowerString()` and `isSpecialClassName()`.
 * Added `Identifier` and `VarLikeIdentifier` nodes, which are used in place of simple strings in
   many places.
+* Added `getComments()`, `getStartLine()`, `getEndLine()`, `getStartTokenPos()`, `getEndTokenPos()`,
+  `getStartFilePos()` and `getEndFilePos()` methods to `Node`. These provide a more obvious access
+  point for the already existing attributes of the same name.
 
 ### Changed
 
