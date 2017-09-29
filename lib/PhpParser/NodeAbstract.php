@@ -30,7 +30,7 @@ abstract class NodeAbstract implements Node, \JsonSerializable
      * @return int Line
      */
     public function getLine() : int {
-        return $this->getAttribute('startLine', -1);
+        return $this->attributes['startLine'] ?? -1;
     }
 
     /**
@@ -95,7 +95,7 @@ abstract class NodeAbstract implements Node, \JsonSerializable
         return array_key_exists($key, $this->attributes);
     }
 
-    public function &getAttribute(string $key, $default = null) {
+    public function getAttribute(string $key, $default = null) {
         if (!array_key_exists($key, $this->attributes)) {
             return $default;
         } else {

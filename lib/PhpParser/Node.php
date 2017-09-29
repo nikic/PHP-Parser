@@ -77,7 +77,7 @@ interface Node
      *
      * @return mixed
      */
-    public function &getAttribute(string $key, $default = null);
+    public function getAttribute(string $key, $default = null);
 
     /**
      * Returns all the attributes of this node.

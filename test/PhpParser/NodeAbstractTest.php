@@ -67,9 +67,14 @@ class NodeAbstractTest extends TestCase
      */
     public function testGetDocComment(array $attributes, Node $node) {
         $this->assertSame('/** doc comment */', $node->getDocComment()->getText());
-        array_pop($node->getAttribute('comments')); // remove doc comment
+        $comments = $node->getComments();
+
+        array_pop($comments); // remove doc comment
+        $node->setAttribute('comments', $comments);
         $this->assertNull($node->getDocComment());
-        array_pop($node->getAttribute('comments')); // remove comment
+
+        array_pop($comments); // remove comment
+        $node->setAttribute('comments', $comments);
         $this->assertNull($node->getDocComment());
     }
 
