@@ -326,7 +326,7 @@ class Lexer
         $this->pos = count($this->tokens);
 
         // return with (); removed
-        return (string) substr($textAfter, strlen($matches[0])); // (string) converts false to ''
+        return substr($textAfter, strlen($matches[0]));
     }
 
     /**
