@@ -939,9 +939,13 @@ class Standard extends PrettyPrinterAbstract
         }
     }
 
+    /**
+     * @param Node[] $nodes
+     * @return bool
+     */
     private function hasNodeWithComments(array $nodes) {
         foreach ($nodes as $node) {
-            if ($node && $node->getAttribute('comments')) {
+            if ($node && $node->getComments()) {
                 return true;
             }
         }

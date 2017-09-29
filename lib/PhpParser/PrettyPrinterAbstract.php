@@ -249,7 +249,7 @@ abstract class PrettyPrinterAbstract
 
         $result = '';
         foreach ($nodes as $node) {
-            $comments = $node->getAttribute('comments', []);
+            $comments = $node->getComments();
             if ($comments) {
                 $result .= $this->nl . $this->pComments($comments);
                 if ($node instanceof Stmt\Nop) {
@@ -388,7 +388,7 @@ abstract class PrettyPrinterAbstract
         $lastIdx = count($nodes) - 1;
         foreach ($nodes as $idx => $node) {
             if ($node !== null) {
-                $comments = $node->getAttribute('comments', []);
+                $comments = $node->getComments();
                 if ($comments) {
                     $result .= $this->nl . $this->pComments($comments);
                 }

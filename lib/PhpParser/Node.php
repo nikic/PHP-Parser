@@ -26,6 +26,15 @@ interface Node
     public function getLine() : int;
 
     /**
+     * Gets all comments directly preceding this node.
+     *
+     * The comments are also available through the "comments" attribute.
+     *
+     * @return Comment[]
+     */
+    public function getComments(): array;
+
+    /**
      * Gets the doc comment of the node.
      *
      * The doc comment has to be the last comment associated with the node.

@@ -78,7 +78,7 @@ class NodeDumper
                 }
             }
 
-            if ($this->dumpComments && $comments = $node->getAttribute('comments')) {
+            if ($this->dumpComments && $comments = $node->getComments()) {
                 $r .= "\n    comments: " . str_replace("\n", "\n    ", $this->dumpRecursive($comments));
             }
         } elseif (is_array($node)) {

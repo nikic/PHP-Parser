@@ -34,6 +34,17 @@ abstract class NodeAbstract implements Node, \JsonSerializable
     }
 
     /**
+     * Gets all comments directly preceding this node.
+     *
+     * The comments are also available through the "comments" attribute.
+     *
+     * @return Comment[]
+     */
+    public function getComments(): array {
+        return $this->attributes['comments'] ?? [];
+    }
+
+    /**
      * Gets the doc comment of the node.
      *
      * The doc comment has to be the last comment associated with the node.
@@ -41,7 +52,7 @@ abstract class NodeAbstract implements Node, \JsonSerializable
      * @return null|Comment\Doc Doc comment object or null
      */
     public function getDocComment() {
-        $comments = $this->getAttribute('comments');
+        $comments = $this->getComments();
         if (!$comments) {
             return null;
         }
@@ -62,7 +73,7 @@ abstract class NodeAbstract implements Node, \JsonSerializable
      * @param Comment\Doc $docComment Doc comment to set
      */
     public function setDocComment(Comment\Doc $docComment) {
-        $comments = $this->getAttribute('comments', []);
+        $comments = $this->getComments();
 
         $numComments = count($comments);
         if ($numComments > 0 && $comments[$numComments - 1] instanceof Comment\Doc) {

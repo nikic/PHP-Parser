@@ -57,6 +57,7 @@ class NodeAbstractTest extends TestCase
         $this->assertTrue(isset($node->subNode2));
         $this->assertFalse(isset($node->subNode3));
         $this->assertSame($attributes, $node->getAttributes());
+        $this->assertSame($attributes['comments'], $node->getComments());
 
         return $node;
     }
