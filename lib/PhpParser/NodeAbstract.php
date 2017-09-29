@@ -25,12 +25,82 @@ abstract class NodeAbstract implements Node, \JsonSerializable
     }
 
     /**
-     * Gets line the node started in.
+     * Gets line the node started in (alias of getStartLine).
      *
-     * @return int Line
+     * @return int Start line (or -1 if not available)
      */
     public function getLine() : int {
         return $this->attributes['startLine'] ?? -1;
+    }
+
+    /**
+     * Gets line the node started in.
+     *
+     * Requires the 'startLine' attribute to be enabled in the lexer (enabled by default).
+     *
+     * @return int Start line (or -1 if not available)
+     */
+    public function getStartLine() : int {
+        return $this->attributes['startLine'] ?? -1;
+    }
+
+    /**
+     * Gets the line the node ended in.
+     *
+     * Requires the 'endLine' attribute to be enabled in the lexer (enabled by default).
+     *
+     * @return int End line (or -1 if not available)
+     */
+    public function getEndLine() : int {
+        return $this->attributes['endLine'] ?? -1;
+    }
+
+    /**
+     * Gets the token offset of the first token that is part of this node.
+     *
+     * The offset is an index into the array returned by Lexer::getTokens().
+     *
+     * Requires the 'startTokenPos' attribute to be enabled in the lexer (DISABLED by default).
+     *
+     * @return int Token start position (or -1 if not available)
+     */
+    public function getStartTokenPos() : int {
+        return $this->attributes['startTokenPos'] ?? -1;
+    }
+
+    /**
+     * Gets the token offset of the last token that is part of this node.
+     *
+     * The offset is an index into the array returned by Lexer::getTokens().
+     *
+     * Requires the 'endTokenPos' attribute to be enabled in the lexer (DISABLED by default).
+     *
+     * @return int Token end position (or -1 if not available)
+     */
+    public function getEndTokenPos() : int {
+        return $this->attributes['endTokenPos'] ?? -1;
+    }
+
+    /**
+     * Gets the file offset of the first character that is part of this node.
+     *
+     * Requires the 'startFilePos' attribute to be enabled in the lexer (DISABLED by default).
+     *
+     * @return int File start position (or -1 if not available)
+     */
+    public function getStartFilePos() : int {
+        return $this->attributes['startFilePos'] ?? -1;
+    }
+
+    /**
+     * Gets the file offset of the last character that is part of this node.
+     *
+     * Requires the 'endFilePos' attribute to be enabled in the lexer (DISABLED by default).
+     *
+     * @return int File end position (or -1 if not available)
+     */
+    public function getEndFilePos() : int {
+        return $this->attributes['endFilePos'] ?? -1;
     }
 
     /**

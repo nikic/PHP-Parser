@@ -495,8 +495,8 @@ abstract class PrettyPrinterAbstract
             return $this->pFallback($node);
         }
 
-        $startPos = $origNode->getAttribute('startTokenPos', -1);
-        $endPos = $origNode->getAttribute('endTokenPos', -1);
+        $startPos = $origNode->getStartTokenPos();
+        $endPos = $origNode->getEndTokenPos();
         if ($startPos < 0 || $endPos < 0) {
             // Shouldn't happen
             return $this->pFallback($node);
@@ -550,8 +550,8 @@ abstract class PrettyPrinterAbstract
             $extraLeft = '';
             $extraRight = '';
             if ($origSubNode !== null) {
-                $subStartPos = $origSubNode->getAttribute('startTokenPos', -1);
-                $subEndPos = $origSubNode->getAttribute('endTokenPos', -1);
+                $subStartPos = $origSubNode->getStartTokenPos();
+                $subEndPos = $origSubNode->getEndTokenPos();
                 if ($subStartPos < 0 || $subEndPos < 0) {
                     // Shouldn't happen
                     return $this->pFallback($node);
@@ -663,8 +663,8 @@ abstract class PrettyPrinterAbstract
                 return null;
             }
 
-            $itemStartPos = $origArrItem->getAttribute('startTokenPos', -1);
-            $itemEndPos = $origArrItem->getAttribute('endTokenPos', -1);
+            $itemStartPos = $origArrItem->getStartTokenPos();
+            $itemEndPos = $origArrItem->getEndTokenPos();
             if ($itemStartPos < 0 || $itemEndPos < 0) {
                 // Shouldn't happen
                 return null;

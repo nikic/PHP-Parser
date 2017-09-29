@@ -19,11 +19,69 @@ interface Node
     public function getSubNodeNames() : array;
 
     /**
-     * Gets line the node started in.
+     * Gets line the node started in (alias of getStartLine).
      *
-     * @return int Line
+     * @return int Start line (or -1 if not available)
      */
     public function getLine() : int;
+
+    /**
+     * Gets line the node started in.
+     *
+     * Requires the 'startLine' attribute to be enabled in the lexer (enabled by default).
+     *
+     * @return int Start line (or -1 if not available)
+     */
+    public function getStartLine() : int;
+
+    /**
+     * Gets the line the node ended in.
+     *
+     * Requires the 'endLine' attribute to be enabled in the lexer (enabled by default).
+     *
+     * @return int End line (or -1 if not available)
+     */
+    public function getEndLine() : int;
+
+    /**
+     * Gets the token offset of the first token that is part of this node.
+     *
+     * The offset is an index into the array returned by Lexer::getTokens().
+     *
+     * Requires the 'startTokenPos' attribute to be enabled in the lexer (DISABLED by default).
+     *
+     * @return int Token start position (or -1 if not available)
+     */
+    public function getStartTokenPos() : int;
+
+    /**
+     * Gets the token offset of the last token that is part of this node.
+     *
+     * The offset is an index into the array returned by Lexer::getTokens().
+     *
+     * Requires the 'endTokenPos' attribute to be enabled in the lexer (DISABLED by default).
+     *
+     * @return int Token end position (or -1 if not available)
+     */
+    public function getEndTokenPos() : int;
+
+    /**
+     * Gets the file offset of the first character that is part of this node.
+     *
+     * Requires the 'startFilePos' attribute to be enabled in the lexer (DISABLED by default).
+     *
+     * @return int File start position (or -1 if not available)
+     */
+    public function getStartFilePos() : int;
+
+    /**
+     * Gets the file offset of the last character that is part of this node.
+     *
+     * Requires the 'endFilePos' attribute to be enabled in the lexer (DISABLED by default).
+     *
+     * @return int File end position (or -1 if not available)
+     */
+    public function getEndFilePos() : int;
 
     /**
      * Gets all comments directly preceding this node.

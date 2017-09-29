@@ -29,6 +29,11 @@ class NodeAbstractTest extends TestCase
     public function provideNodes() {
         $attributes = [
             'startLine' => 10,
+            'endLine' => 11,
+            'startTokenPos' => 12,
+            'endTokenPos' => 13,
+            'startFilePos' => 14,
+            'endFilePos' => 15,
             'comments'  => [
                 new Comment('// Comment' . "\n"),
                 new Comment\Doc('/** doc comment */'),
@@ -50,6 +55,12 @@ class NodeAbstractTest extends TestCase
         $this->assertSame('Dummy', $node->getType());
         $this->assertSame(['subNode1', 'subNode2'], $node->getSubNodeNames());
         $this->assertSame(10, $node->getLine());
+        $this->assertSame(10, $node->getStartLine());
+        $this->assertSame(11, $node->getEndLine());
+        $this->assertSame(12, $node->getStartTokenPos());
+        $this->assertSame(13, $node->getEndTokenPos());
+        $this->assertSame(14, $node->getStartFilePos());
+        $this->assertSame(15, $node->getEndFilePos());
         $this->assertSame('/** doc comment */', $node->getDocComment()->getText());
         $this->assertSame('value1', $node->subNode1);
         $this->assertSame('value2', $node->subNode2);

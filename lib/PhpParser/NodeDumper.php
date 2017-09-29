@@ -176,13 +176,13 @@ class NodeDumper
             return null;
         }
 
-        $start = $node->getAttribute('startLine');
-        $end = $node->getAttribute('endLine');
+        $start = $node->getStartLine();
+        $end = $node->getEndLine();
         if ($node->hasAttribute('startFilePos') && $node->hasAttribute('endFilePos')
             && null !== $this->code
         ) {
-            $start .= ':' . $this->toColumn($this->code, $node->getAttribute('startFilePos'));
-            $end .= ':' . $this->toColumn($this->code, $node->getAttribute('endFilePos'));
+            $start .= ':' . $this->toColumn($this->code, $node->getStartFilePos());
+            $end .= ':' . $this->toColumn($this->code, $node->getEndFilePos());
         }
         return "[$start - $end]";
     }
