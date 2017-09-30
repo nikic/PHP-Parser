@@ -6,4 +6,7 @@ use PhpParser\Node\Expr\BinaryOp;
 
 class LogicalOr extends BinaryOp
 {
+    public function getOperatorSigil() : string {
+        return 'or';
+    }
 }

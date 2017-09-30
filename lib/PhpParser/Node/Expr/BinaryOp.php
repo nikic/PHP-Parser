@@ -27,4 +27,14 @@ abstract class BinaryOp extends Expr
     public function getSubNodeNames() : array {
         return ['left', 'right'];
     }
+
+    /**
+     * Get the operator sigil for this binary operation.
+     *
+     * In the case there are multiple possible sigils for an operator, this method does not
+     * necessarily return the one used in the parsed code.
+     *
+     * @return string
+     */
+    abstract public function getOperatorSigil() : string;
 }

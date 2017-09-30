@@ -24,6 +24,8 @@ Version 4.0.0-dev
 * Added `getComments()`, `getStartLine()`, `getEndLine()`, `getStartTokenPos()`, `getEndTokenPos()`,
   `getStartFilePos()` and `getEndFilePos()` methods to `Node`. These provide a more obvious access
   point for the already existing attributes of the same name.
+* Added `ConstExprEvaluator` to evaluate constant expressions to PHP values.
+* Added `Expr\BinaryOp::getOperatorSigil()`, returning `+` for `Expr\BinaryOp\Plus`, etc.
 
 ### Changed
 

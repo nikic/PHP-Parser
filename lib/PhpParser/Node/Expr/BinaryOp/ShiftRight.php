@@ -6,4 +6,7 @@ use PhpParser\Node\Expr\BinaryOp;
 
 class ShiftRight extends BinaryOp
 {
+    public function getOperatorSigil() : string {
+        return '>>';
+    }
 }
