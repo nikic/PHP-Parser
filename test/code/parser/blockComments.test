@@ -10,6 +10,9 @@ Comments on blocks
         $a;
     }
 }
+
+// empty
+{}
 -----
 array(
     0: Stmt_Expression(
@@ -23,6 +26,11 @@ array(
             0: // foo
             1: // bar
             2: // baz
+        )
+    )
+    1: Stmt_Nop(
+        comments: array(
+            0: // empty
         )
     )
 )

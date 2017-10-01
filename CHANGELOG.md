@@ -64,6 +64,10 @@ Version 4.0.0-dev
 Version 3.1.2-dev
 -----------------
 
+### Fixed
+
+* Comments on empty blocks are now preserved on a `Stmt\Nop` node. (#382)
+
 ### Added
 
 * Added `kind` attribute for `Stmt\Namespace_` node, which is one of `KIND_SEMICOLON` or
