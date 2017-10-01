@@ -1370,7 +1370,14 @@ class Php7 extends \PhpParser\ParserAbstract
     }
 
     protected function reduceRule138() {
-         $this->semValue = $this->semStack[$this->stackPos-(3-2)]; $attrs = $this->startAttributeStack[$this->stackPos-(3-1)]; $stmts = $this->semValue; if (!empty($attrs['comments']) && isset($stmts[0])) {$stmts[0]->setAttribute('comments', array_merge($attrs['comments'], $stmts[0]->getAttribute('comments', []))); };
+
+        if ($this->semStack[$this->stackPos-(3-2)]) {
+            $this->semValue = $this->semStack[$this->stackPos-(3-2)]; $attrs = $this->startAttributeStack[$this->stackPos-(3-1)]; $stmts = $this->semValue; if (!empty($attrs['comments'])) {$stmts[0]->setAttribute('comments', array_merge($attrs['comments'], $stmts[0]->getAttribute('comments', []))); };
+        } else {
+            $startAttributes = $this->startAttributeStack[$this->stackPos-(3-1)]; if (isset($startAttributes['comments'])) { $this->semValue = new Stmt\Nop(['comments' => $startAttributes['comments']]); } else { $this->semValue = null; };
+            if (null === $this->semValue) { $this->semValue = array(); }
+        }
+
     }
 
     protected function reduceRule139() {
