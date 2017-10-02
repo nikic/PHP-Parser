@@ -1,0 +1,11 @@
+Fallback on comment change (for now at least)
+-----
+<?php
+// Test
+foo();
+-----
+$stmts[0]->setAttribute('comments', []);
+-----
+<?php
+
+foo();

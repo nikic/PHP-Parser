@@ -663,6 +663,12 @@ abstract class PrettyPrinterAbstract
                 return null;
             }
 
+            if ($arrItem->getComments() !== $origArrItem->getComments()) {
+                // Comments changed, fall back
+                // TODO This should only reprint the changed comments
+                return null;
+            }
+
             $itemStartPos = $origArrItem->getStartTokenPos();
             $itemEndPos = $origArrItem->getEndTokenPos();
             if ($itemStartPos < 0 || $itemEndPos < 0) {
