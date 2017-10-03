@@ -3,12 +3,12 @@ PHP Parser
 
 [![Build Status](https://travis-ci.org/nikic/PHP-Parser.svg?branch=master)](https://travis-ci.org/nikic/PHP-Parser) [![Coverage Status](https://coveralls.io/repos/github/nikic/PHP-Parser/badge.svg?branch=master)](https://coveralls.io/github/nikic/PHP-Parser?branch=master)
 
-This is a PHP 5.2 to PHP 7.1 parser written in PHP. Its purpose is to simplify static code analysis and
+This is a PHP 5.2 to PHP 7.2 parser written in PHP. Its purpose is to simplify static code analysis and
 manipulation.
 
 [**Documentation for version 3.x**][doc_3_x] (stable; for running on PHP >= 5.5; for parsing PHP 5.2 to PHP 7.2).
 
-[Documentation for version 2.x][doc_2_x] (unsupported; for running on PHP >= 5.4; for parsing PHP 5.2 to PHP 7.0).
+[Documentation for version 4.x][doc_master] (development; for running on PHP >= 7.0; for parsing PHP 5.2 to PHP 7.2).
 
 In a Nutshell
 -------------
@@ -95,6 +95,5 @@ Component documentation:
  * [Lexer](doc/component/Lexer.markdown)
  * [Error handling](doc/component/Error_handling.markdown)
 
- [doc_2_x]: https://github.com/nikic/PHP-Parser/tree/2.x/doc
  [doc_3_x]: https://github.com/nikic/PHP-Parser/tree/3.x/doc
  [doc_master]: https://github.com/nikic/PHP-Parser/tree/master/doc

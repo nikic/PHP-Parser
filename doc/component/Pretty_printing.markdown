@@ -88,5 +88,5 @@ $newCode = $printer->printFormatPreserving($newStmts, $oldStmts, $oldTokens);
 
 This functionality is experimental and not yet fully implemented. It should not provide incorrect
 code, but it may sometimes reformat more code than necessary. Open issues are tracked in
-[issue #344][https://github.com/nikic/PHP-Parser/issues/344]. If you encounter problems while using
+[issue #344](https://github.com/nikic/PHP-Parser/issues/344). If you encounter problems while using
 this functionality, please open an issue, so we know what to prioritize.

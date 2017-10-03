@@ -69,7 +69,7 @@ Apart from the parser itself this package also bundles support for some other, r
  * Support for pretty printing, which is the act of converting an AST into PHP code. Please note
    that "pretty printing" does not imply that the output is especially pretty. It's just how it's
    called ;)
- * Support for serializing and unserializing the node tree to XML
+ * Support for serializing and unserializing the node tree to JSON
  * Support for dumping the node tree in a human readable form (see the section above for an
    example of how the output looks like)
  * Infrastructure for traversing and changing the AST (node traverser and node visitors)
