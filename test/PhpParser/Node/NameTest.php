@@ -28,10 +28,11 @@ class NameTest extends TestCase
     }
 
     public function testToString() {
-        $name = new Name('foo\bar');
+        $name = new Name('Foo\Bar');
 
-        $this->assertSame('foo\bar', (string) $name);
-        $this->assertSame('foo\bar', $name->toString());
+        $this->assertSame('Foo\Bar', (string) $name);
+        $this->assertSame('Foo\Bar', $name->toString());
+        $this->assertSame('foo\bar', $name->toLowerString());
     }
 
     public function testSlice() {
@@ -136,5 +137,21 @@ class NameTest extends TestCase
      */
     public function testInvalidArg() {
         Name::concat('foo', new \stdClass);
+    }
+
+    /** @dataProvider provideTestIsSpecialClassName */
+    public function testIsSpecialClassName($name, $expected) {
+        $name = new Name($name);
+        $this->assertSame($expected, $name->isSpecialClassName());
+    }
+
+    public function provideTestIsSpecialClassName() {
+        return [
+            ['self', true],
+            ['PARENT', true],
+            ['Static', true],
+            ['self\not', false],
+            ['not\self', false],
+        ];
     }
 }
