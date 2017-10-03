@@ -90,8 +90,10 @@ Documentation
 
 Component documentation:
 
- 1. [Error handling](doc/component/Error_handling.markdown)
- 2. [Lexer](doc/component/Lexer.markdown)
+ * [Name resolution](doc/component/Name_resolution.markdown)
+ * [Pretty printing](doc/component/Pretty_printing.markdown)
+ * [Lexer](doc/component/Lexer.markdown)
+ * [Error handling](doc/component/Error_handling.markdown)
 
  [doc_2_x]: https://github.com/nikic/PHP-Parser/tree/2.x/doc
  [doc_3_x]: https://github.com/nikic/PHP-Parser/tree/3.x/doc

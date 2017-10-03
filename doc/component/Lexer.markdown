@@ -27,17 +27,22 @@ The attributes used in this example match the default behavior of the lexer. The
 
  * `comments`: Array of `PhpParser\Comment` or `PhpParser\Comment\Doc` instances, representing all comments that occurred
    between the previous non-discarded token and the current one. Use of this attribute is required for the
-   `$node->getDocComment()` method to work. The attribute is also needed if you wish the pretty printer to retain
-   comments present in the original code.
+   `$node->getComments()` and `$node->getDocComment()` methods to work. The attribute is also needed if you wish the pretty
+   printer to retain comments present in the original code.
  * `startLine`: Line in which the node starts. This attribute is required for the `$node->getLine()` to work. It is also
    required if syntax errors should contain line number information.
- * `endLine`: Line in which the node ends.
- * `startTokenPos`: Offset into the token array of the first token in the node.
- * `endTokenPos`: Offset into the token array of the last token in the node.
- * `startFilePos`: Offset into the code string of the first character that is part of the node.
- * `endFilePos`: Offset into the code string of the last character that is part of the node.
+ * `endLine`: Line in which the node ends. Required for `$node->getEndLine()`.
+ * `startTokenPos`: Offset into the token array of the first token in the node. Required for `$node->getStartTokenPos()`.
+ * `endTokenPos`: Offset into the token array of the last token in the node. Required for `$node->getEndTokenPos()`.
+ * `startFilePos`: Offset into the code string of the first character that is part of the node. Required for `$node->getStartFilePos()`.
+ * `endFilePos`: Offset into the code string of the last character that is part of the node. Required for `$node->getEndFilePos()`.
 
 ### Using token positions
+
+> **Note:** The example in this section is outdated in that this information is directly available in the AST: While
+> `$property->isPublic()` does not distinguish between `public` and `var`, directly checking `$property->flags` for
+> the `$property->flags & Class_::VISIBILITY_MODIFIER_MASK) === 0` allows making this distinction without resorting to
+> tokens. However the general idea behind the example still applies in other cases.
 
 The token offset information is useful if you wish to examine the exact formatting used for a node. For example the AST
 does not distinguish whether a property was declared using `public` or using `var`, but you can retrieve this
@@ -72,7 +77,7 @@ $lexer = new PhpParser\Lexer(array(
         'comments', 'startLine', 'endLine', 'startTokenPos', 'endTokenPos'
     )
 ));
-$parser = (new PhpParser\ParserFactory)->create(PhpParser\ParserFactory::PREFER_PHP7, $lexer);
+$parser = (new PhpParser\ParserFactory)->create(PhpParser\ParserFactory::ONLY_PHP7, $lexer);
 
 $visitor = new MyNodeVisitor();
 $traverser = new PhpParser\NodeTraverser();
