@@ -653,13 +653,14 @@ abstract class PrettyPrinterAbstract
         for ($i = 0; $i < $len; $i++) {
             $arrItem = $nodes[$i];
             $origArrItem = $origNodes[$i];
-            if ($arrItem === $origArrItem) {
-                // Unchanged, can reuse old code
-                continue;
-            }
 
+            // We can only handle arrays of nodes meaningfully
             if (!$arrItem instanceof Node || !$origArrItem instanceof Node) {
-                // We can only handle arrays of nodes meaningfully
+                // Destructing can also contain null elements. If they occur symmetrically, this is
+                // fine as well
+                if ($arrItem === null && $origArrItem === null) {
+                    continue;
+                }
                 return null;
             }
 
