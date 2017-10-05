@@ -2,6 +2,7 @@
 
 namespace PhpParser;
 
+use PhpParser\Internal\DiffElem;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Scalar;
 use PhpParser\Node\Stmt;
@@ -99,6 +100,8 @@ abstract class PrettyPrinterAbstract
     protected $origTokens;
     /** @var int Current indentation level during format-preserving pretty printing */
     protected $fpIndentLevel;
+    /** @var Internal\Differ Differ for node lists */
+    protected $nodeListDiffer;
     /** @var bool[] Map determining whether a certain character is a label character */
     protected $labelCharMap;
     /**
@@ -441,6 +444,7 @@ abstract class PrettyPrinterAbstract
      * @return string
      */
     public function printFormatPreserving(array $stmts, array $origStmts, array $origTokens) : string {
+        $this->initializeNodeListDiffer();
         $this->initializeLabelCharMap();
         $this->initializeFixupMap();
         $this->initializeRemovalMap();
@@ -643,22 +647,24 @@ abstract class PrettyPrinterAbstract
      * @return null|string Result of pretty print or null if cannot preserve formatting
      */
     protected function pArray(array $nodes, array $origNodes, int &$pos, int $indentAdjustment, $fixup) {
-        $len = count($nodes);
-        $origLen = count($origNodes);
-        if ($len !== $origLen) {
-            return null;
-        }
+        $diff = $this->nodeListDiffer->diffWithReplacements($origNodes, $nodes);
 
         $result = '';
-        for ($i = 0; $i < $len; $i++) {
-            $arrItem = $nodes[$i];
-            $origArrItem = $origNodes[$i];
+        foreach ($diff as $diffElem) {
+            $diffType = $diffElem->type;
+            if ($diffType !== DiffElem::TYPE_KEEP && $diffType !== DiffElem::TYPE_REPLACE) {
+                // Only replace supported right now
+                return null;
+            }
 
-            // We can only handle arrays of nodes meaningfully
-            if (!$arrItem instanceof Node || !$origArrItem instanceof Node) {
-                // Destructing can also contain null elements. If they occur symmetrically, this is
-                // fine as well
-                if ($arrItem === null && $origArrItem === null) {
+            /** @var Node|null $arrItem */
+            $arrItem = $diffElem->new;
+            /** @var Node|null $origArrItem */
+            $origArrItem = $diffElem->old;
+
+            if ($origArrItem === null || $arrItem === null) {
+                // We can only handle the case where both are null
+                if ($origArrItem === $arrItem) {
                     continue;
                 }
                 return null;
@@ -842,6 +848,23 @@ abstract class PrettyPrinterAbstract
             // older versions.
             $this->labelCharMap[chr($i)] = $i >= 0x7f || ctype_alnum($i);
         }
+    }
+
+    /**
+     * Lazily initializes node list differ.
+     *
+     * The node list differ is used to determine differences between two array subnodes.
+     */
+    protected function initializeNodeListDiffer() {
+        if ($this->nodeListDiffer) return;
+
+        $this->nodeListDiffer = new Internal\Differ(function ($a, $b) {
+            if ($a instanceof Node && $b instanceof Node) {
+                return $a === $b->getAttribute('origNode');
+            }
+            // Can happen for array destructuring
+            return $a === null && $b === null;
+        });
     }
 
     /**

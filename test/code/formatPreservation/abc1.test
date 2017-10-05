@@ -227,18 +227,19 @@ function foo() {
 $tmp = $stmts[0];
 $stmts[0] = $stmts[1];
 $stmts[1] = $tmp;
+/* TODO This used to do two replacement operations, but with the node list diffing this is a
+ * remove, keep, add (which probably makes more sense). As such, this currently triggers a
+ * fallback. */
 -----
 <?php
-$x;
 
-{
-    function foo() {
-        foo();
-        /*
-         * bar
-         */
-        baz();
-    }
+$x;
+function foo() {
+    foo();
+    /*
+     * bar
+     */
+    baz();
 }
 -----
 <?php
