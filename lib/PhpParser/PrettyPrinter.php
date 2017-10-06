@@ -2,7 +2,7 @@
 
 namespace PhpParser;
 
-use Node\Expr;
+use PhpParser\Node\Expr;
 
 interface PrettyPrinter
 {
