@@ -1052,7 +1052,7 @@ abstract class PrettyPrinterAbstract
             'Stmt_Continue->num' => [T_CONTINUE, ' ', null],
             'Stmt_Foreach->keyVar' => [T_AS, null, ' => '],
             'Stmt_Function->returnType' => [')', ' : ', null],
-            //'Stmt_If->else' => [null, ' ', null], // TODO
+            'Stmt_If->else' => [null, ' ', null],
             'Stmt_Namespace->name' => [T_NAMESPACE, ' ', null],
             'Stmt_PropertyProperty->default' => [null, ' = ', null],
             'Stmt_Return->expr' => [T_RETURN, ' ', null],

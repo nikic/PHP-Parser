@@ -65,6 +65,10 @@ try {
 } catch (X
 $y) {
 }
+
+if ($cond) { // Foo
+} elseif ($cond2) { // Bar
+}
 -----
 $stmts[0]->returnType = new Node\Name('Foo');
 $stmts[0]->params[0]->type = new Node\Identifier('int');
@@ -85,6 +89,7 @@ $stmts[10]->stmts[1]->props[0]->default = new Scalar\DNumber(42.0);
 $stmts[11]->keyVar = new Expr\Variable('z');
 $stmts[12]->vars[0]->default = new Scalar\String_('abc');
 $stmts[13]->finally = new Stmt\Finally_([]);
+$stmts[14]->else = new Stmt\Else_([]);
 -----
 <?php
 
@@ -151,6 +156,11 @@ try {
 } catch (X
 $y) {
 } finally {
+}
+
+if ($cond) { // Foo
+} elseif ($cond2) { // Bar
+} else {
 }
 -----
 <?php

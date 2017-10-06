@@ -717,7 +717,7 @@ class Standard extends PrettyPrinterAbstract
         return 'if (' . $this->p($node->cond) . ') {'
              . $this->pStmts($node->stmts) . $this->nl . '}'
              . ($node->elseifs ? ' ' . $this->pImplode($node->elseifs, ' ') : '')
-             . (null !== $node->else ? $this->p($node->else) : '');
+             . (null !== $node->else ? ' ' . $this->p($node->else) : '');
     }
 
     protected function pStmt_ElseIf(Stmt\ElseIf_ $node) {
@@ -726,7 +726,7 @@ class Standard extends PrettyPrinterAbstract
     }
 
     protected function pStmt_Else(Stmt\Else_ $node) {
-        return ' else {' . $this->pStmts($node->stmts) . $this->nl . '}';
+        return 'else {' . $this->pStmts($node->stmts) . $this->nl . '}';
     }
 
     protected function pStmt_For(Stmt\For_ $node) {
