@@ -1076,7 +1076,7 @@ abstract class PrettyPrinterAbstract
             //'Expr_ShellExec->parts' => '', // TODO These need to be treated more carefully
             //'Scalar_Encapsed->parts' => '',
             'Stmt_Catch->types' => '|',
-            'Stmt_If->elseifs' => '', // TODO move space out of ElseIf printer?
+            'Stmt_If->elseifs' => ' ',
             'Stmt_TryCatch->catches' => ' ',
 
             // comma-separated lists
