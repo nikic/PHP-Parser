@@ -234,6 +234,7 @@ class PrettyPrinterTest extends CodeTestAbstract
 
         /** @var callable $fn */
         eval(<<<CODE
+use PhpParser\Comment;
 use PhpParser\Node;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Scalar;

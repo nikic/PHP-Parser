@@ -100,3 +100,32 @@ try {
 } catch (Foo $foo) {
 } catch (Bar $bar) {
 }
+-----
+<?php
+$foo; $bar;
+-----
+$node = new Stmt\Expression(new Expr\Variable('baz'));
+$node->setAttribute('comments', [new Comment('// Test')]);
+$stmts[] = $node;
+-----
+<?php
+$foo; $bar;
+// Test
+$baz;
+-----
+<?php
+function test() {
+    $foo; $bar;
+}
+-----
+$node = new Stmt\Expression(new Expr\Variable('baz'));
+$node->setAttribute('comments', [new Comment('// Test'), new Comment('// Test 2')]);
+$stmts[0]->stmts[] = $node;
+-----
+<?php
+function test() {
+    $foo; $bar;
+    // Test
+// Test 2
+    $baz;
+}

@@ -717,7 +717,14 @@ abstract class PrettyPrinterAbstract
                 if ($insertStr === "\n") {
                     // TODO Try to deduplicate this code
                     $indentLevel = $this->origTokens->getIndentationBefore($itemStartPos) + $indentAdjustment;
-                    $result .= $insertStr . str_repeat(' ', $indentLevel);
+
+                    $comments = $arrItem->getComments();
+                    if ($comments) {
+                        // TODO pComment here uses the wrong indentation level.
+                        // The FP/non-FP indentation levels need to be merged, to reduce this mess...
+                        $result .= "\n" . str_repeat(' ', $indentLevel) . $this->pComments($comments);
+                    }
+                    $result .= "\n" . str_repeat(' ', $indentLevel);
                 } else {
                     $result .= $insertStr;
                 }
