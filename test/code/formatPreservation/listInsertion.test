@@ -126,6 +126,6 @@ $stmts[0]->stmts[] = $node;
 function test() {
     $foo; $bar;
     // Test
-// Test 2
+    // Test 2
     $baz;
 }

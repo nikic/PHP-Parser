@@ -98,8 +98,6 @@ abstract class PrettyPrinterAbstract
 
     /** @var TokenStream Original tokens for use in format-preserving pretty print */
     protected $origTokens;
-    /** @var int Current indentation level during format-preserving pretty printing */
-    protected $fpIndentLevel;
     /** @var Internal\Differ Differ for node lists */
     protected $nodeListDiffer;
     /** @var bool[] Map determining whether a certain character is a label character */
@@ -150,6 +148,16 @@ abstract class PrettyPrinterAbstract
     }
 
     /**
+     * Set indentation level
+     *
+     * @param int $level Level in number of spaces
+     */
+    protected function setIndentLevel(int $level) {
+        $this->indentLevel = $level;
+        $this->nl = "\n" . \str_repeat(' ', $level);
+    }
+
+    /**
      * Increase indentation level.
      */
     protected function indent() {
@@ -161,6 +169,7 @@ abstract class PrettyPrinterAbstract
      * Decrease indentation level.
      */
     protected function outdent() {
+        assert($this->indentLevel >= 4);
         $this->indentLevel -= 4;
         $this->nl = "\n" . str_repeat(' ', $this->indentLevel);
     }
@@ -461,7 +470,6 @@ abstract class PrettyPrinterAbstract
 
         $this->resetState();
         $this->origTokens = new TokenStream($origTokens);
-        $this->fpIndentLevel = 0;
 
         $this->preprocessNodes($stmts);
 
@@ -521,7 +529,7 @@ abstract class PrettyPrinterAbstract
             return $this->pFallback($node);
         }
 
-        $indentAdjustment = $this->fpIndentLevel - $this->origTokens->getIndentationBefore($startPos);
+        $indentAdjustment = $this->indentLevel - $this->origTokens->getIndentationBefore($startPos);
 
         $type = $node->getType();
         $fixupInfo = $this->fixupMap[$type] ?? null;
@@ -612,13 +620,13 @@ abstract class PrettyPrinterAbstract
                 }
             }
 
-            $result .= $this->origTokens->getTokenCode($pos, $subStartPos, $indentAdjustment + $this->indentLevel);
+            $result .= $this->origTokens->getTokenCode($pos, $subStartPos, $indentAdjustment);
 
             if (null !== $subNode) {
                 $result .= $extraLeft;
 
-                $origIndentLevel = $this->fpIndentLevel;
-                $this->fpIndentLevel = $this->origTokens->getIndentationBefore($subStartPos) + $indentAdjustment;
+                $origIndentLevel = $this->indentLevel;
+                $this->setIndentLevel($this->origTokens->getIndentationBefore($subStartPos) + $indentAdjustment);
 
                 // If it's the same node that was previously in this position, it certainly doesn't
                 // need fixup. It's important to check this here, because our fixup checks are more
@@ -633,7 +641,7 @@ abstract class PrettyPrinterAbstract
                 }
 
                 $this->safeAppend($result, $res);
-                $this->fpIndentLevel = $origIndentLevel;
+                $this->setIndentLevel($origIndentLevel);
 
                 $result .= $extraRight;
             }
@@ -641,7 +649,7 @@ abstract class PrettyPrinterAbstract
             $pos = $subEndPos + 1;
         }
 
-        $result .= $this->origTokens->getTokenCode($pos, $endPos + 1, $indentAdjustment + $this->indentLevel);
+        $result .= $this->origTokens->getTokenCode($pos, $endPos + 1, $indentAdjustment);
         return $result;
     }
 
@@ -699,7 +707,10 @@ abstract class PrettyPrinterAbstract
                     continue;
                 }
 
-                $result .= $this->origTokens->getTokenCode($pos, $itemStartPos, $indentAdjustment + $this->indentLevel);
+                $result .= $this->origTokens->getTokenCode($pos, $itemStartPos, $indentAdjustment);
+
+                $origIndentLevel = $this->indentLevel;
+                $this->setIndentLevel($this->origTokens->getIndentationBefore($itemStartPos) + $indentAdjustment);
             } else if ($diffType === DiffElem::TYPE_ADD) {
                 if (null === $insertStr) {
                     // We don't have insertion information for this list type
@@ -714,17 +725,15 @@ abstract class PrettyPrinterAbstract
                 $itemStartPos = $pos;
                 $itemEndPos = $pos - 1;
 
-                if ($insertStr === "\n") {
-                    // TODO Try to deduplicate this code
-                    $indentLevel = $this->origTokens->getIndentationBefore($itemStartPos) + $indentAdjustment;
+                $origIndentLevel = $this->indentLevel;
+                $this->setIndentLevel($this->origTokens->getIndentationBefore($itemStartPos) + $indentAdjustment);
 
+                if ($insertStr === "\n") {
                     $comments = $arrItem->getComments();
                     if ($comments) {
-                        // TODO pComment here uses the wrong indentation level.
-                        // The FP/non-FP indentation levels need to be merged, to reduce this mess...
-                        $result .= "\n" . str_repeat(' ', $indentLevel) . $this->pComments($comments);
+                        $result .= $this->nl . $this->pComments($comments);
                     }
-                    $result .= "\n" . str_repeat(' ', $indentLevel);
+                    $result .= $this->nl;
                 } else {
                     $result .= $insertStr;
                 }
@@ -735,9 +744,6 @@ abstract class PrettyPrinterAbstract
                 throw new \Exception("Shouldn't happen");
             }
 
-            $origIndentLevel = $this->fpIndentLevel;
-            $this->fpIndentLevel = $this->origTokens->getIndentationBefore($itemStartPos) + $indentAdjustment;
-
             if (null !== $fixup && $arrItem->getAttribute('origNode') !== $origArrItem) {
                 $res = $this->pFixup($fixup, $arrItem, null, $itemStartPos, $itemEndPos);
             } else {
@@ -745,7 +751,7 @@ abstract class PrettyPrinterAbstract
             }
             $this->safeAppend($result, $res);
 
-            $this->fpIndentLevel = $origIndentLevel;
+            $this->setIndentLevel($origIndentLevel);
             $pos = $itemEndPos + 1;
         }
         return $result;
