@@ -1,0 +1,102 @@
+Insertion into list nodes
+-----
+<?php
+$foo;
+
+$bar;
+-----
+$stmts[] = new Stmt\Expression(new Expr\Variable('baz'));
+-----
+<?php
+$foo;
+
+$bar;
+$baz;
+-----
+<?php
+
+function test() {
+    $foo;
+
+    $bar;
+}
+-----
+$stmts[0]->stmts[] = new Stmt\Expression(new Expr\Variable('baz'));
+-----
+<?php
+
+function test() {
+    $foo;
+
+    $bar;
+    $baz;
+}
+-----
+<?php
+
+function test(Foo     $param1) {}
+-----
+$stmts[0]->params[] = new Node\Param(new Expr\Variable('param2'));
+-----
+<?php
+
+function test(Foo     $param1, $param2) {}
+-----
+<?php
+
+try {
+    /* stuff */
+} catch
+(Foo $x) {}
+-----
+$stmts[0]->catches[0]->types[] = new Node\Name('Bar');
+-----
+<?php
+
+try {
+    /* stuff */
+} catch
+(Foo|Bar $x) {}
+-----
+<?php
+
+function test(Foo     $param1) {}
+-----
+array_unshift($stmts[0]->params, new Node\Param(new Expr\Variable('param0')));
+/* Insertion at the start not handled yet */
+-----
+<?php
+
+function test($param0, Foo     $param1)
+{
+}
+-----
+<?php
+
+if ($cond) {
+} elseif ($cond2) {
+}
+-----
+$stmts[0]->elseifs[] = new Stmt\ElseIf_(new Expr\Variable('cond3'), []);
+-----
+<?php
+
+if ($cond) {
+} elseif ($cond2) {
+} elseif ($cond3) {
+}
+-----
+<?php
+
+try {
+} catch (Foo $foo) {
+}
+-----
+$stmts[0]->catches[] = new Stmt\Catch_([new Node\Name('Bar')], new Expr\Variable('bar'), []);
+-----
+<?php
+
+try {
+} catch (Foo $foo) {
+} catch (Bar $bar) {
+}

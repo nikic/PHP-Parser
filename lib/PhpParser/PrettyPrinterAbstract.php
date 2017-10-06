@@ -115,7 +115,15 @@ abstract class PrettyPrinterAbstract
      *              this node.
      */
     protected $removalMap;
+    /**
+     * @var mixed[] Map from "{$node->getType()}->{$subNode}" to TODO.
+     */
     protected $insertionMap;
+    /**
+     * @var string[] Map From "{$node->getType()}->{$subNode}" to string that should be inserted
+     *               between elements of this list subnode.
+     */
+    protected $listInsertionMap;
 
     /**
      * Creates a pretty printer instance using the given options.
@@ -449,6 +457,7 @@ abstract class PrettyPrinterAbstract
         $this->initializeFixupMap();
         $this->initializeRemovalMap();
         $this->initializeInsertionMap();
+        $this->initializeListInsertionMap();
 
         $this->resetState();
         $this->origTokens = new TokenStream($origTokens);
@@ -457,7 +466,7 @@ abstract class PrettyPrinterAbstract
         $this->preprocessNodes($stmts);
 
         $pos = 0;
-        $result = $this->pArray($stmts, $origStmts, $pos, 0, null);
+        $result = $this->pArray($stmts, $origStmts, $pos, 0, null, "\n");
         if (null !== $result) {
             $result .= $this->origTokens->getTokenCode($pos, count($origTokens), 0);
         } else {
@@ -533,9 +542,10 @@ abstract class PrettyPrinterAbstract
 
                 if (is_array($subNode) && is_array($origSubNode)) {
                     // Array subnode changed, we might be able to reconstruct it
-                    $fixup = isset($fixupInfo[$subNodeName]) ? $fixupInfo[$subNodeName] : null;
                     $listResult = $this->pArray(
-                        $subNode, $origSubNode, $pos, $indentAdjustment, $fixup
+                        $subNode, $origSubNode, $pos, $indentAdjustment,
+                        $fixupInfo[$subNodeName] ?? null,
+                        $this->listInsertionMap[$type . '->' . $subNodeName] ?? null
                     );
                     if (null === $listResult) {
                         return $this->pFallback($node);
@@ -638,59 +648,85 @@ abstract class PrettyPrinterAbstract
     /**
      * Perform a format-preserving pretty print of an array
      *
-     * @param array    $nodes            New nodes
-     * @param array    $origNodes        Original nodes
-     * @param int      $pos              Current token position (updated by reference)
-     * @param int      $indentAdjustment Adjustment for indentation
-     * @param null|int $fixup            Fixup information for array item nodes
+     * @param array       $nodes            New nodes
+     * @param array       $origNodes        Original nodes
+     * @param int         $pos              Current token position (updated by reference)
+     * @param int         $indentAdjustment Adjustment for indentation
+     * @param null|int    $fixup            Fixup information for array item nodes
+     * @param null|string $insertStr        Separator string to use for insertions
      *
      * @return null|string Result of pretty print or null if cannot preserve formatting
      */
-    protected function pArray(array $nodes, array $origNodes, int &$pos, int $indentAdjustment, $fixup) {
+    protected function pArray(
+        array $nodes, array $origNodes, int &$pos, int $indentAdjustment, $fixup, $insertStr
+    ) {
         $diff = $this->nodeListDiffer->diffWithReplacements($origNodes, $nodes);
 
         $result = '';
-        foreach ($diff as $diffElem) {
+        foreach ($diff as $i => $diffElem) {
             $diffType = $diffElem->type;
-            if ($diffType !== DiffElem::TYPE_KEEP && $diffType !== DiffElem::TYPE_REPLACE) {
-                // Only replace supported right now
-                return null;
-            }
-
             /** @var Node|null $arrItem */
             $arrItem = $diffElem->new;
             /** @var Node|null $origArrItem */
             $origArrItem = $diffElem->old;
 
-            if ($origArrItem === null || $arrItem === null) {
-                // We can only handle the case where both are null
-                if ($origArrItem === $arrItem) {
+            if ($diffType === DiffElem::TYPE_KEEP || $diffType === DiffElem::TYPE_REPLACE) {
+                if ($origArrItem === null || $arrItem === null) {
+                    // We can only handle the case where both are null
+                    if ($origArrItem === $arrItem) {
+                        continue;
+                    }
+                    return null;
+                }
+
+                if ($arrItem->getComments() !== $origArrItem->getComments()) {
+                    // Comments changed, fall back
+                    // TODO This should only reprint the changed comments
+                    return null;
+                }
+
+                $itemStartPos = $origArrItem->getStartTokenPos();
+                $itemEndPos = $origArrItem->getEndTokenPos();
+                if ($itemStartPos < 0 || $itemEndPos < 0) {
+                    // Shouldn't happen
+                    return null;
+                }
+
+                if ($itemEndPos < $itemStartPos) {
+                    // End can be before start for Nop nodes, because offsets refer to non-whitespace
+                    // locations, which for an "empty" node might result in an inverted order.
+                    assert($origArrItem instanceof Stmt\Nop);
                     continue;
                 }
+
+                $result .= $this->origTokens->getTokenCode($pos, $itemStartPos, $indentAdjustment + $this->indentLevel);
+            } else if ($diffType === DiffElem::TYPE_ADD) {
+                if (null === $insertStr) {
+                    // We don't have insertion information for this list type
+                    return null;
+                }
+
+                if ($i === 0) {
+                    // TODO Handle insertion at the start
+                    return null;
+                }
+
+                $itemStartPos = $pos;
+                $itemEndPos = $pos - 1;
+
+                if ($insertStr === "\n") {
+                    // TODO Try to deduplicate this code
+                    $indentLevel = $this->origTokens->getIndentationBefore($itemStartPos) + $indentAdjustment;
+                    $result .= $insertStr . str_repeat(' ', $indentLevel);
+                } else {
+                    $result .= $insertStr;
+                }
+            } else if ($diffType === DiffElem::TYPE_REMOVE) {
+                // TODO Support remove
                 return null;
+            } else {
+                throw new \Exception("Shouldn't happen");
             }
-
-            if ($arrItem->getComments() !== $origArrItem->getComments()) {
-                // Comments changed, fall back
-                // TODO This should only reprint the changed comments
-                return null;
-            }
-
-            $itemStartPos = $origArrItem->getStartTokenPos();
-            $itemEndPos = $origArrItem->getEndTokenPos();
-            if ($itemStartPos < 0 || $itemEndPos < 0) {
-                // Shouldn't happen
-                return null;
-            }
-
-            if ($itemEndPos < $itemStartPos) {
-                // End can be before start for Nop nodes, because offsets refer to non-whitespace
-                // locations, which for an "empty" node might result in an inverted order.
-                assert($origArrItem instanceof Stmt\Nop);
-                continue;
-            }
-
-            $result .= $this->origTokens->getTokenCode($pos, $itemStartPos, $indentAdjustment + $this->indentLevel);
 
             $origIndentLevel = $this->fpIndentLevel;
             $this->fpIndentLevel = $this->origTokens->getIndentationBefore($itemStartPos) + $indentAdjustment;
@@ -1029,6 +1065,72 @@ abstract class PrettyPrinterAbstract
             // 'Stmt_Class->name': Unclear
             // 'Stmt_Declare->stmts': Not a proper node
             // 'Stmt_TraitUseAdaptation_Alias->newModifier': Not a proper node
+        ];
+    }
+
+    protected function initializeListInsertionMap() {
+        if ($this->listInsertionMap) return;
+
+        $this->listInsertionMap = [
+            // special
+            //'Expr_ShellExec->parts' => '', // TODO These need to be treated more carefully
+            //'Scalar_Encapsed->parts' => '',
+            'Stmt_Catch->types' => '|',
+            'Stmt_If->elseifs' => '', // TODO move space out of ElseIf printer?
+            'Stmt_TryCatch->catches' => ' ',
+
+            // comma-separated lists
+            'Expr_Array->items' => ', ',
+            'Expr_Closure->params' => ', ',
+            'Expr_Closure->uses' => ', ',
+            'Expr_FuncCall->args' => ', ',
+            'Expr_Isset->vars' => ', ',
+            'Expr_List->items' => ', ',
+            'Expr_MethodCall->args' => ', ',
+            'Expr_New->args' => ', ',
+            'Expr_StaticCall->args' => ', ',
+            'Stmt_ClassConst->consts' => ', ',
+            'Stmt_ClassMethod->params' => ', ',
+            'Stmt_Class->implements' => ', ',
+            'Stmt_Const->consts' => ', ',
+            'Stmt_Declare->declares' => ', ',
+            'Stmt_Echo->exprs' => ', ',
+            'Stmt_For->init' => ', ',
+            'Stmt_For->cond' => ', ',
+            'Stmt_For->loop' => ', ',
+            'Stmt_Function->params' => ', ',
+            'Stmt_Global->vars' => ', ',
+            'Stmt_GroupUse->uses' => ', ',
+            'Stmt_Interface->extends' => ', ',
+            'Stmt_Property->props' => ', ',
+            'Stmt_StaticVar->vars' => ', ',
+            'Stmt_TraitUse->traits' => ', ',
+            'Stmt_TraitUseAdaptation_Precedence->insteadof' => ', ',
+            'Stmt_Unset->vars' => ', ',
+            'Stmt_Use->uses' => ', ',
+
+            // statement lists
+            'Expr_Closure->stmts' => "\n",
+            'Stmt_Case->stmts' => "\n",
+            'Stmt_Catch->stmts' => "\n",
+            'Stmt_Class->stmts' => "\n",
+            'Stmt_Interface->stmts' => "\n",
+            'Stmt_Trait->stmts' => "\n",
+            'Stmt_ClassMethod->stmts' => "\n",
+            'Stmt_Declare->stmts' => "\n",
+            'Stmt_Do->stmts' => "\n",
+            'Stmt_ElseIf->stmts' => "\n",
+            'Stmt_Else->stmts' => "\n",
+            'Stmt_Finally->stmts' => "\n",
+            'Stmt_Foreach->stmts' => "\n",
+            'Stmt_For->stmts' => "\n",
+            'Stmt_Function->stmts' => "\n",
+            'Stmt_If->stmts' => "\n",
+            'Stmt_Namespace->stmts' => "\n",
+            'Stmt_Switch->cases' => "\n",
+            'Stmt_TraitUse->adaptations' => "\n",
+            'Stmt_TryCatch->stmts' => "\n",
+            'Stmt_While->stmts' => "\n",
         ];
     }
 }
