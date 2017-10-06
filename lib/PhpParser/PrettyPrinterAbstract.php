@@ -6,7 +6,7 @@ use PhpParser\Node\Expr;
 use PhpParser\Node\Scalar;
 use PhpParser\Node\Stmt;
 
-abstract class PrettyPrinterAbstract
+abstract class PrettyPrinterAbstract implements PrettyPrinter
 {
     const FIXUP_PREC_LEFT       = 0; // LHS operand affected by precedence
     const FIXUP_PREC_RIGHT      = 1; // RHS operand affected by precedence
