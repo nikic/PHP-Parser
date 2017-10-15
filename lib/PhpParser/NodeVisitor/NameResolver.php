@@ -29,7 +29,7 @@ class NameResolver extends NodeVisitorAbstract
      * Options:
      *  * preserveOriginalNames (default false): An "originalName" attribute will be added to
      *    all name nodes that underwent resolution.
-     *  * replaceNodes (default true): Resolved names are not replaced in-place. Instead a
+     *  * replaceNodes (default true): Resolved names are replaced in-place. Otherwise, a
      *    resolvedName attribute is added. (Names that cannot be statically resolved receive a
      *    namespacedName attribute, as usual.)
      *
