@@ -687,6 +687,11 @@ abstract class PrettyPrinterAbstract
                     return null;
                 }
 
+                if (!$arrItem instanceof Node || !$origArrItem instanceof Node) {
+                    // We can only deal with nodes. This can occur for Names, which use string arrays.
+                    return null;
+                }
+
                 if ($arrItem->getComments() !== $origArrItem->getComments()) {
                     // Comments changed, fall back
                     // TODO This should only reprint the changed comments

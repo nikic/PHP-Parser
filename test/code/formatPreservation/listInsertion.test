@@ -129,3 +129,13 @@ function test() {
     // Test 2
     $baz;
 }
+-----
+<?php
+namespace
+Foo;
+-----
+$stmts[0]->name->parts[0] = 'Xyz';
+-----
+<?php
+namespace
+Xyz;
