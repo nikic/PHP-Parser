@@ -1,9 +1,14 @@
 Version 4.0.0-dev
 -----------------
 
+Nothing yet.
+
+Version 4.0.0-alpha1 (2017-10-18)
+---------------------------------
+
 ### Added
 
-* Added experimental support for format-preserving prettying. In this mode formatting will be
+* Added experimental support for format-preserving pretty-printing. In this mode formatting will be
   preserved for parts of the code which have not been modified.
 * Added `replaceNodes` option to `NameResolver`, defaulting to true. If this option is disabled,
   resolved names will be added as `resolvedName` attributes, instead of replacing the original
