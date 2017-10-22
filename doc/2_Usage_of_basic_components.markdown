@@ -429,7 +429,7 @@ class NodeVisitor_NamespaceConverter extends \PhpParser\NodeVisitorAbstract
             // returning an array merges is into the parent array
             return $node->stmts;
         } elseif ($node instanceof Stmt\Use_) {
-            // return use nodes altogether
+            // remove use nodes altogether
             return NodeTraverser::REMOVE_NODE;
         }
     }
