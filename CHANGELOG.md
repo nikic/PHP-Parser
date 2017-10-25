@@ -1,7 +1,9 @@
 Version 4.0.0-dev
 -----------------
 
-Nothing yet.
+### Fixed
+
+* Added support for changing modifiers to formating-preserving pretty printer.
 
 Version 4.0.0-alpha1 (2017-10-18)
 ---------------------------------

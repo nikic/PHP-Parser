@@ -114,7 +114,9 @@ abstract class PrettyPrinterAbstract
      */
     protected $removalMap;
     /**
-     * @var mixed[] Map from "{$node->getType()}->{$subNode}" to TODO.
+     * @var mixed[] Map from "{$node->getType()}->{$subNode}" to [$find, $extraLeft, $extraRight].
+     *              $find is an optional token after which the insertion occurs. $extraLeft/Right
+     *              are optionally added before/after the main insertions.
      */
     protected $insertionMap;
     /**
@@ -122,6 +124,9 @@ abstract class PrettyPrinterAbstract
      *               between elements of this list subnode.
      */
     protected $listInsertionMap;
+    /** @var int[] Map from "{$node->getType()}->{$subNode}" to token before which the modifiers
+     *             should be reprinted. */
+    protected $modifierChangeMap;
 
     /**
      * Creates a pretty printer instance using the given options.
@@ -467,6 +472,7 @@ abstract class PrettyPrinterAbstract
         $this->initializeRemovalMap();
         $this->initializeInsertionMap();
         $this->initializeListInsertionMap();
+        $this->initializeModifierChangeMap();
 
         $this->resetState();
         $this->origTokens = new TokenStream($origTokens);
@@ -560,6 +566,19 @@ abstract class PrettyPrinterAbstract
                     }
 
                     $result .= $listResult;
+                    continue;
+                }
+
+                if (is_int($subNode) && is_int($origSubNode)) {
+                    // Check if this is a modifier change
+                    $key = $type . '->' . $subNodeName;
+                    if (!isset($this->modifierChangeMap[$key])) {
+                        return $this->pFallback($node);
+                    }
+
+                    $findToken = $this->modifierChangeMap[$key];
+                    $result .= $this->pModifiers($subNode);
+                    $pos = $this->origTokens->findRight($pos, $findToken);
                     continue;
                 }
 
@@ -889,6 +908,22 @@ abstract class PrettyPrinterAbstract
     }
 
     /**
+     * Print modifiers, including trailing whitespace.
+     *
+     * @param int $modifiers Modifier mask to print
+     *
+     * @return string Printed modifiers
+     */
+    protected function pModifiers(int $modifiers) {
+        return ($modifiers & Stmt\Class_::MODIFIER_PUBLIC    ? 'public '    : '')
+             . ($modifiers & Stmt\Class_::MODIFIER_PROTECTED ? 'protected ' : '')
+             . ($modifiers & Stmt\Class_::MODIFIER_PRIVATE   ? 'private '   : '')
+             . ($modifiers & Stmt\Class_::MODIFIER_STATIC    ? 'static '    : '')
+             . ($modifiers & Stmt\Class_::MODIFIER_ABSTRACT  ? 'abstract '  : '')
+             . ($modifiers & Stmt\Class_::MODIFIER_FINAL     ? 'final '     : '');
+    }
+
+    /**
      * Lazily initializes label char map.
      *
      * The label char map determines whether a certain character may occur in a label.
@@ -1149,6 +1184,18 @@ abstract class PrettyPrinterAbstract
             'Stmt_TraitUse->adaptations' => "\n",
             'Stmt_TryCatch->stmts' => "\n",
             'Stmt_While->stmts' => "\n",
+        ];
+    }
+
+    protected function initializeModifierChangeMap() {
+        if ($this->modifierChangeMap) return;
+
+        $this->modifierChangeMap = [
+            'Stmt_ClassConst->flags' => T_CONST,
+            'Stmt_ClassMethod->flags' => T_FUNCTION,
+            'Stmt_Class->flags' => T_CLASS,
+            'Stmt_Property->flags' => T_VARIABLE,
+            //'Stmt_TraitUseAdaptation_Alias->newModifier' => 0, // TODO
         ];
     }
 }
