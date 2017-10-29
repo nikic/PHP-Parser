@@ -44,6 +44,10 @@ identifier:
       T_STRING                                              { $$ = Node\Identifier[$1]; }
 ;
 
+reserved_non_modifiers_identifier:
+      reserved_non_modifiers                                { $$ = Node\Identifier[$1]; }
+;
+
 namespace_name_parts:
       T_STRING                                              { init($1); }
     | namespace_name_parts T_NS_SEPARATOR T_STRING          { push($1, $3); }
@@ -544,7 +548,7 @@ trait_adaptation:
           { $$ = Stmt\TraitUseAdaptation\Alias[$1[0], $1[1], $3, null]; }
     | trait_method_reference T_AS identifier ';'
           { $$ = Stmt\TraitUseAdaptation\Alias[$1[0], $1[1], null, $3]; }
-    | trait_method_reference T_AS reserved_non_modifiers ';'
+    | trait_method_reference T_AS reserved_non_modifiers_identifier ';'
           { $$ = Stmt\TraitUseAdaptation\Alias[$1[0], $1[1], null, $3]; }
 ;
 
