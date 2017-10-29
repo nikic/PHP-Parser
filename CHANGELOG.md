@@ -3,7 +3,8 @@ Version 4.0.0-dev
 
 ### Fixed
 
-* Added support for changing modifiers to formating-preserving pretty printer.
+* Added support for changing modifiers to formatting-preserving pretty printer.
+* Added support for anonymous classes to formatting-preserving pretty printer.
 
 Version 4.0.0-alpha1 (2017-10-18)
 ---------------------------------

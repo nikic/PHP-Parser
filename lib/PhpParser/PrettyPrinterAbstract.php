@@ -3,7 +3,9 @@
 namespace PhpParser;
 
 use PhpParser\Internal\DiffElem;
+use PhpParser\Internal\PrintableNewAnonClassNode;
 use PhpParser\Node\Expr;
+use PhpParser\Node\Name;
 use PhpParser\Node\Scalar;
 use PhpParser\Node\Stmt;
 
@@ -529,10 +531,11 @@ abstract class PrettyPrinterAbstract
             return $this->pFallback($node);
         }
 
+        $fallbackNode = $node;
         if ($node instanceof Expr\New_ && $node->class instanceof Stmt\Class_) {
-            // For anonymous classes the new and class nodes are intermixed, this would require
-            // special handling (or maybe a new node type just for this?)
-            return $this->pFallback($node);
+            // Normalize node structure of anonymous classes
+            $node = PrintableNewAnonClassNode::fromNewNode($node);
+            $origNode = PrintableNewAnonClassNode::fromNewNode($origNode);
         }
 
         $indentAdjustment = $this->indentLevel - $this->origTokens->getIndentationBefore($startPos);
@@ -562,7 +565,7 @@ abstract class PrettyPrinterAbstract
                         $this->listInsertionMap[$type . '->' . $subNodeName] ?? null
                     );
                     if (null === $listResult) {
-                        return $this->pFallback($node);
+                        return $this->pFallback($fallbackNode);
                     }
 
                     $result .= $listResult;
@@ -573,7 +576,7 @@ abstract class PrettyPrinterAbstract
                     // Check if this is a modifier change
                     $key = $type . '->' . $subNodeName;
                     if (!isset($this->modifierChangeMap[$key])) {
-                        return $this->pFallback($node);
+                        return $this->pFallback($fallbackNode);
                     }
 
                     $findToken = $this->modifierChangeMap[$key];
@@ -585,7 +588,7 @@ abstract class PrettyPrinterAbstract
                 // If a non-node, non-array subnode changed, we don't be able to do a partial
                 // reconstructions, as we don't have enough offset information. Pretty print the
                 // whole node instead.
-                return $this->pFallback($node);
+                return $this->pFallback($fallbackNode);
             }
 
             $extraLeft = '';
@@ -595,7 +598,7 @@ abstract class PrettyPrinterAbstract
                 $subEndPos = $origSubNode->getEndTokenPos();
                 if ($subStartPos < 0 || $subEndPos < 0) {
                     // Shouldn't happen
-                    return $this->pFallback($node);
+                    return $this->pFallback($fallbackNode);
                 }
             } else {
                 if ($subNode === null) {
@@ -606,7 +609,7 @@ abstract class PrettyPrinterAbstract
                 // A node has been inserted, check if we have insertion information for it
                 $key = $type . '->' . $subNodeName;
                 if (!isset($this->insertionMap[$key])) {
-                    return $this->pFallback($node);
+                    return $this->pFallback($fallbackNode);
                 }
 
                 list($findToken, $extraLeft, $extraRight) = $this->insertionMap[$key];
@@ -626,7 +629,7 @@ abstract class PrettyPrinterAbstract
                 // A node has been removed, check if we have removal information for it
                 $key = $type . '->' . $subNodeName;
                 if (!isset($this->removalMap[$key])) {
-                    return $this->pFallback($node);
+                    return $this->pFallback($fallbackNode);
                 }
 
                 // Adjust positions to account for additional tokens that must be skipped
@@ -1069,6 +1072,7 @@ abstract class PrettyPrinterAbstract
             'Stmt_Break->num' => $stripBoth,
             'Stmt_ClassMethod->returnType' => $stripColon,
             'Stmt_Class->extends' => ['left' => T_EXTENDS],
+            'Expr_PrintableNewAnonClass->extends' => ['left' => T_EXTENDS],
             'Stmt_Continue->num' => $stripBoth,
             'Stmt_Foreach->keyVar' => $stripDoubleArrow,
             'Stmt_Function->returnType' => $stripColon,
@@ -1102,6 +1106,7 @@ abstract class PrettyPrinterAbstract
             'Stmt_Break->num' => [T_BREAK, ' ', null],
             'Stmt_ClassMethod->returnType' => [')', ' : ', null],
             'Stmt_Class->extends' => [null, ' extends ', null],
+            'Expr_PrintableNewAnonClass->extends' => [null, ' extends ', null],
             'Stmt_Continue->num' => [T_CONTINUE, ' ', null],
             'Stmt_Foreach->keyVar' => [T_AS, null, ' => '],
             'Stmt_Function->returnType' => [')', ' : ', null],
@@ -1141,10 +1146,12 @@ abstract class PrettyPrinterAbstract
             'Expr_List->items' => ', ',
             'Expr_MethodCall->args' => ', ',
             'Expr_New->args' => ', ',
+            'Expr_PrintableNewAnonClass->args' => ', ',
             'Expr_StaticCall->args' => ', ',
             'Stmt_ClassConst->consts' => ', ',
             'Stmt_ClassMethod->params' => ', ',
             'Stmt_Class->implements' => ', ',
+            'Expr_PrintableNewAnonClass->implements' => ', ',
             'Stmt_Const->consts' => ', ',
             'Stmt_Declare->declares' => ', ',
             'Stmt_Echo->exprs' => ', ',
@@ -1167,6 +1174,7 @@ abstract class PrettyPrinterAbstract
             'Stmt_Case->stmts' => "\n",
             'Stmt_Catch->stmts' => "\n",
             'Stmt_Class->stmts' => "\n",
+            'Expr_PrintableNewAnonClass->stmts' => "\n",
             'Stmt_Interface->stmts' => "\n",
             'Stmt_Trait->stmts' => "\n",
             'Stmt_ClassMethod->stmts' => "\n",
