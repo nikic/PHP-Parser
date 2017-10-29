@@ -152,6 +152,7 @@ abstract class PrettyPrinterAbstract
     protected function resetState() {
         $this->indentLevel = 0;
         $this->nl = "\n";
+        $this->origTokens = null;
     }
 
     /**
