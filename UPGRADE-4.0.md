@@ -55,9 +55,9 @@ Because HHVM does not support PHP 7, HHVM is no longer supported.
   
 ### Miscellaneous
 
-* The indenentation handling in the pretty printer has been changed (this is only relevant if you
+* The indentation handling in the pretty printer has been changed (this is only relevant if you
   extend the pretty printer). Previously indentation was automatic, and parts were excluded using
-  `pNoindent()`. Now no-indent is the default and newlins that require indentation should use
+  `pNoindent()`. Now no-indent is the default and newlines that require indentation should use
   `$this->nl`.
 
 ### Removed functionality

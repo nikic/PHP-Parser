@@ -25,7 +25,7 @@ Version 4.0.0-alpha1 (2017-10-18)
   AST traversal. This facilitates use in other context, such as class names in doc comments.
   Additionally it provides an API for getting the shortest representation of a name.
 * Added `Node::setAttributes()` method.
-* Added `JsonDecoder`. This allows convertion JSON back into an AST.
+* Added `JsonDecoder`. This allows conversion JSON back into an AST.
 * Added `Name` methods `toLowerString()` and `isSpecialClassName()`.
 * Added `Identifier` and `VarLikeIdentifier` nodes, which are used in place of simple strings in
   many places.
@@ -307,7 +307,7 @@ Additionally the following changes were made:
   takes an array of subnodes. Unlike classes/interfaces, traits can only have a `stmts` subnode.
 * The `NodeDumper` now prints class/method/property/constant modifiers, as well as the include and
   use type in a textual representation, instead of only showing the number.
-* All methods on `PrettyPrinter\Standard` are now protected. Previoulsy most of them were public.
+* All methods on `PrettyPrinter\Standard` are now protected. Previously most of them were public.
 
 ### Removed
 
@@ -345,7 +345,7 @@ Version 2.1.0 (2016-04-19)
 * Added `kind` attribute to `Expr\Exit` to distinguish between `exit` and `die`.
 * Added `kind` attribute to `Scalar\LNumber` to distinguish between decimal, binary, octal and
   hexadecimal numbers.
-* Added `kind` attribtue to `Expr\Array` to distinguish between `array()` and `[]`.
+* Added `kind` attribute to `Expr\Array` to distinguish between `array()` and `[]`.
 * Added `kind` attribute to `Scalar\String` and `Scalar\Encapsed` to distinguish between
   single-quoted, double-quoted, heredoc and nowdoc string.
 * Added `docLabel` attribute to `Scalar\String` and `Scalar\Encapsed`, if it is a heredoc or

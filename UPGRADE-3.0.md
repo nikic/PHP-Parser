@@ -115,7 +115,7 @@ public function startLexing($code);
 public function startLexing($code, ErrorHandler $errorHandler = null);
 ```
 
-If you use a custom lexer with overriden `startLexing()` method, it needs to be changed to accept
+If you use a custom lexer with overridden `startLexing()` method, it needs to be changed to accept
 the extra parameter. The value should be passed on to the parent method.
 
 #### Error checks in node constructors
@@ -148,7 +148,7 @@ The following methods, arguments or options have been removed:
    namespace into fully qualified names. For example `foo()` in the global namespace resolves to
    `\foo()`. For names where no static resolution is possible, a `namespacedName` attribute is
    added now, containing the namespaced variant of the name.
- * All methods on `PrettyPrinter\Standard` are now protected. Previoulsy most of them were public.
+ * All methods on `PrettyPrinter\Standard` are now protected. Previously most of them were public.
    The pretty printer should only be invoked using the `prettyPrint()`, `prettyPrintFile()` and
    `prettyPrintExpr()` methods.
  * The node dumper now prints numeric values that act as enums/flags in a string representation.
