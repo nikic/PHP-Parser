@@ -11,7 +11,7 @@ What do all those files mean?
 .phpy pseudo language
 =====================
 
-The `.y` file is a normal grammer in `kmyacc` (`yacc`) style, with some transformations
+The `.y` file is a normal grammar in `kmyacc` (`yacc`) style, with some transformations
 applied to it:
 
  * Nodes are created using the syntax `Name[..., ...]`. This is transformed into
