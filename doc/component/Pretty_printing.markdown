@@ -17,7 +17,7 @@ $stmts = $parser->parse($code);
 // MODIFY $stmts here
 
 $prettyPrinter = new PhpParser\PrettyPrinter\Standard;
-$newCode = $prettyPrinter->prettyPrintFile();
+$newCode = $prettyPrinter->prettyPrintFile($stmts);
 ```
 
 The pretty printer has three basic printing methods: `prettyPrint()`, `prettyPrintFile()` and
