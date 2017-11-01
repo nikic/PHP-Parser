@@ -17,7 +17,7 @@ class ClassMethod extends Node\Stmt implements FunctionLike
     public $params;
     /** @var null|Node\Identifier|Node\Name|Node\NullableType Return type */
     public $returnType;
-    /** @var Node\Stmt[] Statements */
+    /** @var Node\Stmt[]|null Statements */
     public $stmts;
 
     private static $magicNames = [
