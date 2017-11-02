@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace PhpParser;
 
@@ -101,7 +101,7 @@ class PrettyPrinterTest extends CodeTestAbstract
     }
 
     private function parseModeLine($modeLine) {
-        $parts = explode(' ', $modeLine, 2);
+        $parts = explode(' ', (string) $modeLine, 2);
         $version = isset($parts[0]) ? $parts[0] : 'both';
         $options = isset($parts[1]) ? json_decode($parts[1], true) : [];
         return [$version, $options];
