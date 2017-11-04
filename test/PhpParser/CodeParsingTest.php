@@ -2,6 +2,9 @@
 
 namespace PhpParser;
 
+use PhpParser\Node\Expr;
+use PhpParser\Node\Stmt;
+
 require_once __DIR__ . '/CodeTestAbstract.php';
 
 class CodeParsingTest extends CodeTestAbstract
@@ -17,8 +20,8 @@ class CodeParsingTest extends CodeTestAbstract
         }
 
         list($parser5, $parser7) = $this->createParsers($modes);
-        $output5 = $this->getParseOutput($parser5, $code, $modes);
-        $output7 = $this->getParseOutput($parser7, $code, $modes);
+        list($stmts5, $output5) = $this->getParseOutput($parser5, $code, $modes);
+        list($stmts7, $output7) = $this->getParseOutput($parser7, $code, $modes);
 
         if (isset($modes['php5'])) {
             $this->assertSame($expected, $output5, $name);
@@ -30,11 +33,17 @@ class CodeParsingTest extends CodeTestAbstract
             $this->assertSame($expected, $output5, $name);
             $this->assertSame($expected, $output7, $name);
         }
+
+        $this->checkAttributes($stmts5);
+        $this->checkAttributes($stmts7);
     }
 
     public function createParsers(array $modes) {
         $lexer = new Lexer\Emulative(['usedAttributes' => [
-            'startLine', 'endLine', 'startFilePos', 'endFilePos', 'comments'
+            'startLine', 'endLine',
+            'startFilePos', 'endFilePos',
+            'startTokenPos', 'endTokenPos',
+            'comments'
         ]]);
 
         return [
@@ -43,7 +52,7 @@ class CodeParsingTest extends CodeTestAbstract
         ];
     }
 
-    public function getParseOutput(Parser $parser, $code, array $modes) {
+    private function getParseOutput(Parser $parser, $code, array $modes) {
         $dumpPositions = isset($modes['positions']);
 
         $errors = new ErrorHandler\Collecting;
@@ -59,7 +68,7 @@ class CodeParsingTest extends CodeTestAbstract
             $output .= $dumper->dump($stmts, $code);
         }
 
-        return canonicalize($output);
+        return [$stmts, canonicalize($output)];
     }
 
     public function provideTestParse() {
@@ -72,5 +81,40 @@ class CodeParsingTest extends CodeTestAbstract
         } else {
             return $e->getMessage();
         }
+    }
+
+    private function checkAttributes($stmts) {
+        if ($stmts === null) {
+            return;
+        }
+
+        $traverser = new NodeTraverser();
+        $traverser->addVisitor(new class extends NodeVisitorAbstract {
+            public function enterNode(Node $node) {
+                $startLine = $node->getStartLine();
+                $endLine = $node->getEndLine();
+                $startFilePos = $node->getStartFilePos();
+                $endFilePos = $node->getEndFilePos();
+                $startTokenPos = $node->getStartTokenPos();
+                $endTokenPos = $node->getEndTokenPos();
+                if ($startLine < 0 || $endLine < 0 ||
+                    $startFilePos < 0 || $endFilePos < 0 ||
+                    $startTokenPos < 0 || $endTokenPos < 0
+                ) {
+                    throw new \Exception('Missing location information on ' . $node->getType());
+                }
+
+                if ($endLine < $startLine ||
+                    $endFilePos < $startFilePos ||
+                    $endTokenPos < $startTokenPos
+                ) {
+                    // Nops and error can have inverted order, if they are empty
+                    if (!$node instanceof Stmt\Nop && !$node instanceof Expr\Error) {
+                        throw new \Exception('End < start on ' . $node->getType());
+                    }
+                }
+            }
+        });
+        $traverser->traverse($stmts);
     }
 }

@@ -616,7 +616,7 @@ abstract class ParserAbstract implements Parser
             }
 
             $result = new Expr\StaticCall($staticProp->class, $prop, $args, $attributes);
-            $tmp->var = new Expr\Variable($staticProp->name);
+            $tmp->var = new Expr\Variable($staticProp->name, $staticProp->name->getAttributes());
             return $result;
         } else {
             throw new \Exception;
