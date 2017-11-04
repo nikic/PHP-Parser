@@ -101,11 +101,12 @@ call2(
 $tmp = $stmts[0]->stmts[0];
 $stmts[0]->stmts[0] = $stmts[1];
 $stmts[1] = $tmp;
-// Same test, but also appending to $stms, triggering fallback
-$stmts[] = new Stmt\Echo_([new Scalar\LNumber(42)]);
+// Same test, but also prepending to $stmts, triggering fallback
+array_unshift($stmts, new Stmt\Echo_([new Scalar\LNumber(42)]));
 -----
 <?php
 
+echo 42;
 function test() {
     call2(
         $foo
@@ -114,7 +115,6 @@ function test() {
 call1(
     $bar
 );
-echo 42;
 -----
 <?php
     echo 1;

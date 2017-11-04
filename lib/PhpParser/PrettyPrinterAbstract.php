@@ -766,8 +766,24 @@ abstract class PrettyPrinterAbstract
                     $result .= $insertStr;
                 }
             } else if ($diffType === DiffElem::TYPE_REMOVE) {
-                // TODO Support remove
-                return null;
+                if ($i === 0) {
+                    // TODO Handle removal at the start
+                    return null;
+                }
+
+                if (!$origArrItem instanceof Node) {
+                    // We only support removal for nodes
+                    return null;
+                }
+
+                $itemEndPos = $origArrItem->getEndTokenPos();
+                if ($itemEndPos < 0) {
+                    // Shouldn't happen
+                    return null;
+                }
+
+                $pos = $itemEndPos + 1;
+                continue;
             } else {
                 throw new \Exception("Shouldn't happen");
             }
@@ -1206,5 +1222,11 @@ abstract class PrettyPrinterAbstract
             'Stmt_Property->flags' => T_VARIABLE,
             //'Stmt_TraitUseAdaptation_Alias->newModifier' => 0, // TODO
         ];
+
+        // List of integer subnodes that are not modifiers:
+        // Expr_Include->type
+        // Stmt_GroupUse->type
+        // Stmt_Use->type
+        // Stmt_UseUse->type
     }
 }
