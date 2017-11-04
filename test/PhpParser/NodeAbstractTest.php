@@ -301,13 +301,15 @@ PHP;
                     "nodeType": "Comment",
                     "text": "\/\/ comment\n",
                     "line": 2,
-                    "filePos": 6
+                    "filePos": 6,
+                    "tokenPos": 1
                 },
                 {
                     "nodeType": "Comment_Doc",
                     "text": "\/** doc comment *\/",
                     "line": 3,
-                    "filePos": 17
+                    "filePos": 17,
+                    "tokenPos": 2
                 }
             ],
             "endLine": 6

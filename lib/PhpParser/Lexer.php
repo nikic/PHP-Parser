@@ -265,8 +265,8 @@ class Lexer
                 if (T_COMMENT === $token[0] || T_DOC_COMMENT === $token[0]) {
                     if (isset($this->usedAttributes['comments'])) {
                         $comment = T_DOC_COMMENT === $token[0]
-                            ? new Comment\Doc($token[1], $this->line, $this->filePos)
-                            : new Comment($token[1], $this->line, $this->filePos);
+                            ? new Comment\Doc($token[1], $this->line, $this->filePos, $this->pos)
+                            : new Comment($token[1], $this->line, $this->filePos, $this->pos);
                         $startAttributes['comments'][] = $comment;
                     }
                 }

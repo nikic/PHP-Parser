@@ -7,12 +7,13 @@ use PHPUnit\Framework\TestCase;
 class CommentTest extends TestCase
 {
     public function testGetSet() {
-        $comment = new Comment('/* Some comment */', 1, 10);
+        $comment = new Comment('/* Some comment */', 1, 10, 2);
 
         $this->assertSame('/* Some comment */', $comment->getText());
         $this->assertSame('/* Some comment */', (string) $comment);
         $this->assertSame(1, $comment->getLine());
         $this->assertSame(10, $comment->getFilePos());
+        $this->assertSame(2, $comment->getTokenPos());
     }
 
     /**

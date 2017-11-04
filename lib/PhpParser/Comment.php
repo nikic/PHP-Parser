@@ -7,18 +7,23 @@ class Comment implements \JsonSerializable
     protected $text;
     protected $line;
     protected $filePos;
+    protected $tokenPos;
 
     /**
      * Constructs a comment node.
      *
-     * @param string $text         Comment text (including comment delimiters like /*)
-     * @param int    $startLine    Line number the comment started on
-     * @param int    $startFilePos File offset the comment started on
+     * @param string $text          Comment text (including comment delimiters like /*)
+     * @param int    $startLine     Line number the comment started on
+     * @param int    $startFilePos  File offset the comment started on
+     * @param int    $startTokenPos Token offset the comment started on
      */
-    public function __construct(string $text, int $startLine = -1, int $startFilePos = -1) {
+    public function __construct(
+        string $text, int $startLine = -1, int $startFilePos = -1, int $startTokenPos = -1
+    ) {
         $this->text = $text;
         $this->line = $startLine;
         $this->filePos = $startFilePos;
+        $this->tokenPos = $startTokenPos;
     }
 
     /**
@@ -46,6 +51,15 @@ class Comment implements \JsonSerializable
      */
     public function getFilePos() : int {
         return $this->filePos;
+    }
+
+    /**
+     * Gets the token offset the comment started on.
+     *
+     * @return int Token offset
+     */
+    public function getTokenPos() : int {
+        return $this->tokenPos;
     }
 
     /**
@@ -147,6 +161,7 @@ class Comment implements \JsonSerializable
             'text' => $this->text,
             'line' => $this->line,
             'filePos' => $this->filePos,
+            'tokenPos' => $this->tokenPos,
         ];
     }
 }
