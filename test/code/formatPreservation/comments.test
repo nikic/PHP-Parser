@@ -1,0 +1,29 @@
+Comment changes
+-----
+<?php
+// Test
+foo();
+-----
+$stmts[0]->setAttribute('comments', []);
+-----
+<?php
+foo();
+-----
+<?php
+$foo;
+
+
+/* bar */
+$baz;
+-----
+$comments = $stmts[1]->getComments();
+$comments[] = new Comment("// foo");
+$stmts[1]->setAttribute('comments', $comments);
+-----
+<?php
+$foo;
+
+
+/* bar */
+// foo
+$baz;

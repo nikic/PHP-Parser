@@ -715,12 +715,6 @@ abstract class PrettyPrinterAbstract
                     return null;
                 }
 
-                if ($arrItem->getComments() !== $origArrItem->getComments()) {
-                    // Comments changed, fall back
-                    // TODO This should only reprint the changed comments
-                    return null;
-                }
-
                 $itemStartPos = $origArrItem->getStartTokenPos();
                 $itemEndPos = $origArrItem->getEndTokenPos();
                 if ($itemStartPos < 0 || $itemEndPos < 0) {
@@ -735,7 +729,29 @@ abstract class PrettyPrinterAbstract
                     continue;
                 }
 
-                $result .= $this->origTokens->getTokenCode($pos, $itemStartPos, $indentAdjustment);
+                $comments = $arrItem->getComments();
+                $origComments = $origArrItem->getComments();
+                if ($comments !== $origComments) {
+                    if ($origComments) {
+                        $commentStartPos = $origComments[0]->getTokenPos();
+                        if ($commentStartPos < 0) {
+                            // Shouldn't happen
+                            return null;
+                        }
+
+                        // Remove old comments
+                        $itemStartPos = $commentStartPos;
+                    }
+
+                    $result .= $this->origTokens->getTokenCode($pos, $itemStartPos, $indentAdjustment);
+
+                    if ($comments) {
+                        // Add new comments
+                        $result .= $this->pComments($comments) . $this->nl;
+                    }
+                } else {
+                    $result .= $this->origTokens->getTokenCode($pos, $itemStartPos, $indentAdjustment);
+                }
 
                 $origIndentLevel = $this->indentLevel;
                 $this->setIndentLevel($this->origTokens->getIndentationBefore($itemStartPos) + $indentAdjustment);
