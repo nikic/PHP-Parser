@@ -1,5 +1,10 @@
-Version 3.1.2-dev
+Version 3.1.3-dev
 -----------------
+
+Nothing yet.
+
+Version 3.1.2 (2017-11-04)
+--------------------------
 
 ### Fixed
 
