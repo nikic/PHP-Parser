@@ -10,6 +10,8 @@ namespace PhpParser;
 class TokenStream {
     /** @var array Tokens (in token_get_all format) */
     private $tokens;
+    /** @var int[] Map from position to indentation */
+    private $indentMap;
 
     /**
      * Create token stream instance.
@@ -18,6 +20,7 @@ class TokenStream {
      */
     public function __construct(array $tokens) {
         $this->tokens = $tokens;
+        $this->indentMap = $this->calcIndentMap();
     }
 
     /**
@@ -185,24 +188,7 @@ class TokenStream {
      * @return int Indentation depth (in spaces)
      */
     public function getIndentationBefore(int $pos) : int {
-        $tokens = $this->tokens;
-        $indent = 0;
-        $pos--;
-        for (; $pos >= 0; $pos--) {
-            if ($tokens[$pos][0] !== T_WHITESPACE) {
-                $indent = 0;
-                continue;
-            }
-            $content = $tokens[$pos][1];
-            $newlinePos = \strrpos($content, "\n");
-            if (false !== $newlinePos) {
-                $indent += \strlen($content) - $newlinePos - 1;
-                return $indent;
-            }
-
-            $indent += \strlen($content);
-        }
-        return $indent;
+        return $this->indentMap[$pos];
     }
 
     /**
@@ -239,5 +225,31 @@ class TokenStream {
             }
         }
         return $result;
+    }
+
+    /**
+     * Precalculate the indentation at every token position.
+     *
+     * @return int[] Token position to indentation map
+     */
+    private function calcIndentMap() {
+        $indentMap = [];
+        $indent = 0;
+        foreach ($this->tokens as $token) {
+            $indentMap[] = $indent;
+
+            if ($token[0] === T_WHITESPACE) {
+                $content = $token[1];
+                $newlinePos = \strrpos($content, "\n");
+                if (false !== $newlinePos) {
+                    $indent = \strlen($content) - $newlinePos - 1;
+                }
+            }
+        }
+
+        // Add a sentinel for one past end of the file
+        $indentMap[] = $indent;
+
+        return $indentMap;
     }
 }
