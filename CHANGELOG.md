@@ -1,10 +1,14 @@
 Version 4.0.0-dev
 -----------------
 
-### Fixed
+### Added
 
-* Added support for changing modifiers to formatting-preserving pretty printer.
-* Added support for anonymous classes to formatting-preserving pretty printer.
+* In the formatting-preserving pretty printer:
+  * Added support for changing modifiers.
+  * Added support for anonymous classes.
+  * Added support for removing from list nodes.
+  * Improved support for changing comments.
+* Added start token offsets to comments.
 
 Version 4.0.0-alpha1 (2017-10-18)
 ---------------------------------
