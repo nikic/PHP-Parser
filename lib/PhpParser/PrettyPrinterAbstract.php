@@ -520,17 +520,11 @@ abstract class PrettyPrinterAbstract
             return $this->pFallback($node);
         }
 
-        if (get_class($node) !== get_class($origNode)) {
-            // Shouldn't happen
-            return $this->pFallback($node);
-        }
+        \assert(\get_class($node) === \get_class($origNode));
 
         $startPos = $origNode->getStartTokenPos();
         $endPos = $origNode->getEndTokenPos();
-        if ($startPos < 0 || $endPos < 0) {
-            // Shouldn't happen
-            return $this->pFallback($node);
-        }
+        \assert($startPos >= 0 && $endPos >= 0);
 
         $fallbackNode = $node;
         if ($node instanceof Expr\New_ && $node->class instanceof Stmt\Class_) {
@@ -597,10 +591,7 @@ abstract class PrettyPrinterAbstract
             if ($origSubNode !== null) {
                 $subStartPos = $origSubNode->getStartTokenPos();
                 $subEndPos = $origSubNode->getEndTokenPos();
-                if ($subStartPos < 0 || $subEndPos < 0) {
-                    // Shouldn't happen
-                    return $this->pFallback($fallbackNode);
-                }
+                \assert($subStartPos >= 0 && $subEndPos >= 0);
             } else {
                 if ($subNode === null) {
                     // Both null, nothing to do
@@ -717,10 +708,7 @@ abstract class PrettyPrinterAbstract
 
                 $itemStartPos = $origArrItem->getStartTokenPos();
                 $itemEndPos = $origArrItem->getEndTokenPos();
-                if ($itemStartPos < 0 || $itemEndPos < 0) {
-                    // Shouldn't happen
-                    return null;
-                }
+                \assert($itemStartPos >= 0 && $itemEndPos >= 0);
 
                 if ($itemEndPos < $itemStartPos) {
                     // End can be before start for Nop nodes, because offsets refer to non-whitespace
@@ -734,10 +722,7 @@ abstract class PrettyPrinterAbstract
                 if ($comments !== $origComments) {
                     if ($origComments) {
                         $commentStartPos = $origComments[0]->getTokenPos();
-                        if ($commentStartPos < 0) {
-                            // Shouldn't happen
-                            return null;
-                        }
+                        \assert($commentStartPos >= 0);
 
                         // Remove old comments
                         $itemStartPos = $commentStartPos;
@@ -793,10 +778,7 @@ abstract class PrettyPrinterAbstract
                 }
 
                 $itemEndPos = $origArrItem->getEndTokenPos();
-                if ($itemEndPos < 0) {
-                    // Shouldn't happen
-                    return null;
-                }
+                \assert($itemEndPos >= 0);
 
                 $pos = $itemEndPos + 1;
                 continue;
