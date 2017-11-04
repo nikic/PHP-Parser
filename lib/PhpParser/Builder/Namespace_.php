@@ -7,7 +7,7 @@ use PhpParser\BuilderHelpers;
 use PhpParser\Node;
 use PhpParser\Node\Stmt;
 
-class Namespace_ implements PhpParser\Builder
+class Namespace_ extends Declaration
 {
     private $name;
     private $stmts = [];
@@ -35,26 +35,11 @@ class Namespace_ implements PhpParser\Builder
     }
 
     /**
-     * Adds multiple statements.
-     *
-     * @param array $stmts The statements to add
-     *
-     * @return $this The builder instance (for fluid interface)
-     */
-    public function addStmts(array $stmts) {
-        foreach ($stmts as $stmt) {
-            $this->addStmt($stmt);
-        }
-
-        return $this;
-    }
-
-    /**
      * Returns the built node.
      *
      * @return Node The built node
      */
     public function getNode() : Node {
-        return new Stmt\Namespace_($this->name, $this->stmts);
+        return new Stmt\Namespace_($this->name, $this->stmts, $this->attributes);
     }
 }
