@@ -27,3 +27,7 @@ Component documentation
   * [Error handling](component/Error_handling.markdown)
     * Column information for errors
     * Error recovery (parsing of syntactically incorrect code)
+  * [Performance](component/Performance.markdown)
+    * Disabling XDebug
+    * Reusing objects
+    * Garbage collection impact

@@ -193,6 +193,7 @@ Component documentation:
  * [Pretty printing](doc/component/Pretty_printing.markdown)
  * [Lexer](doc/component/Lexer.markdown)
  * [Error handling](doc/component/Error_handling.markdown)
+ * [Performance](doc/component/Performance.markdown)
 
  [doc_3_x]: https://github.com/nikic/PHP-Parser/tree/3.x/doc
  [doc_master]: https://github.com/nikic/PHP-Parser/tree/master/doc
