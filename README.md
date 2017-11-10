@@ -190,10 +190,23 @@ Documentation
 Component documentation:
 
  * [Name resolution](doc/component/Name_resolution.markdown)
+   * Name resolver options
+   * Name resolution context
  * [Pretty printing](doc/component/Pretty_printing.markdown)
+   * Converting AST back to PHP code
+   * Customizing formatting
+   * Formatting-preserving code transformations
  * [Lexer](doc/component/Lexer.markdown)
+   * Lexer options
+   * Token and file positions for nodes
+   * Custom attributes
  * [Error handling](doc/component/Error_handling.markdown)
+   * Column information for errors
+   * Error recovery (parsing of syntactically incorrect code)
  * [Performance](doc/component/Performance.markdown)
+   * Disabling XDebug
+   * Reusing objects
+   * Garbage collection impact
 
  [doc_3_x]: https://github.com/nikic/PHP-Parser/tree/3.x/doc
  [doc_master]: https://github.com/nikic/PHP-Parser/tree/master/doc
