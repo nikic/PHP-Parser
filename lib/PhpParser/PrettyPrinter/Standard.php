@@ -888,7 +888,7 @@ class Standard extends PrettyPrinterAbstract
             $oct = decoct(ord($matches[1]));
             if ($matches[2] !== '') {
                 // If there is a trailing digit, use the full three character form
-                return '\\' . str_pad($oct, 3, '0', STR_PAD_LEFT);
+                return '\\' . str_pad($oct, 3, '0', \STR_PAD_LEFT);
             }
             return '\\' . $oct;
         }, $escaped);

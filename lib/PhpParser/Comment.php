@@ -138,7 +138,7 @@ class Comment implements \JsonSerializable
      */
     private function getShortestWhitespacePrefixLen(string $str) : int {
         $lines = explode("\n", $str);
-        $shortestPrefixLen = INF;
+        $shortestPrefixLen = \INF;
         foreach ($lines as $line) {
             preg_match('(^\s*)', $line, $matches);
             $prefixLen = strlen($matches[0]);

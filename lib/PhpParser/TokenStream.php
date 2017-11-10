@@ -67,8 +67,8 @@ class TokenStream {
             if ($tokenType === $expectedTokenType) {
                 return true;
             }
-            if ($tokenType !== T_WHITESPACE
-                && $tokenType !== T_COMMENT && $tokenType !== T_DOC_COMMENT) {
+            if ($tokenType !== \T_WHITESPACE
+                && $tokenType !== \T_COMMENT && $tokenType !== \T_DOC_COMMENT) {
                 break;
             }
         }
@@ -93,8 +93,8 @@ class TokenStream {
             if ($tokenType === $expectedTokenType) {
                 return true;
             }
-            if ($tokenType !== T_WHITESPACE
-                && $tokenType !== T_COMMENT && $tokenType !== T_DOC_COMMENT) {
+            if ($tokenType !== \T_WHITESPACE
+                && $tokenType !== \T_COMMENT && $tokenType !== \T_DOC_COMMENT) {
                 break;
             }
         }
@@ -105,7 +105,7 @@ class TokenStream {
         $tokens = $this->tokens;
 
         $pos = $this->skipLeftWhitespace($pos);
-        if ($skipTokenType === T_WHITESPACE) {
+        if ($skipTokenType === \T_WHITESPACE) {
             return $pos;
         }
 
@@ -122,7 +122,7 @@ class TokenStream {
         $tokens = $this->tokens;
 
         $pos = $this->skipRightWhitespace($pos);
-        if ($skipTokenType === T_WHITESPACE) {
+        if ($skipTokenType === \T_WHITESPACE) {
             return $pos;
         }
 
@@ -145,7 +145,7 @@ class TokenStream {
         $tokens = $this->tokens;
         for (; $pos >= 0; $pos--) {
             $type = $tokens[$pos][0];
-            if ($type !== T_WHITESPACE && $type !== T_COMMENT && $type !== T_DOC_COMMENT) {
+            if ($type !== \T_WHITESPACE && $type !== \T_COMMENT && $type !== \T_DOC_COMMENT) {
                 break;
             }
         }
@@ -162,7 +162,7 @@ class TokenStream {
         $tokens = $this->tokens;
         for ($count = \count($tokens); $pos < $count; $pos++) {
             $type = $tokens[$pos][0];
-            if ($type !== T_WHITESPACE && $type !== T_COMMENT && $type !== T_DOC_COMMENT) {
+            if ($type !== \T_WHITESPACE && $type !== \T_COMMENT && $type !== \T_DOC_COMMENT) {
                 break;
             }
         }
@@ -208,7 +208,7 @@ class TokenStream {
             if (\is_array($token)) {
                 $type = $token[0];
                 $content = $token[1];
-                if ($type === T_CONSTANT_ENCAPSED_STRING || $type === T_ENCAPSED_AND_WHITESPACE) {
+                if ($type === \T_CONSTANT_ENCAPSED_STRING || $type === \T_ENCAPSED_AND_WHITESPACE) {
                     $result .= $content;
                 } else {
                     // TODO Handle non-space indentation
@@ -238,7 +238,7 @@ class TokenStream {
         foreach ($this->tokens as $token) {
             $indentMap[] = $indent;
 
-            if ($token[0] === T_WHITESPACE) {
+            if ($token[0] === \T_WHITESPACE) {
                 $content = $token[1];
                 $newlinePos = \strrpos($content, "\n");
                 if (false !== $newlinePos) {

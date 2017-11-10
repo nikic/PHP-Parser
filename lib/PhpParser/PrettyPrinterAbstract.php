@@ -1068,10 +1068,10 @@ abstract class PrettyPrinterAbstract
     protected function initializeRemovalMap() {
         if ($this->removalMap) return;
 
-        $stripBoth = ['left' => T_WHITESPACE, 'right' => T_WHITESPACE];
-        $stripLeft = ['left' => T_WHITESPACE];
-        $stripRight = ['right' => T_WHITESPACE];
-        $stripDoubleArrow = ['right' => T_DOUBLE_ARROW];
+        $stripBoth = ['left' => \T_WHITESPACE, 'right' => \T_WHITESPACE];
+        $stripLeft = ['left' => \T_WHITESPACE];
+        $stripRight = ['right' => \T_WHITESPACE];
+        $stripDoubleArrow = ['right' => \T_DOUBLE_ARROW];
         $stripColon = ['left' => ':'];
         $stripEquals = ['left' => '='];
         $this->removalMap = [
@@ -1086,8 +1086,8 @@ abstract class PrettyPrinterAbstract
             'Param->default' => $stripEquals,
             'Stmt_Break->num' => $stripBoth,
             'Stmt_ClassMethod->returnType' => $stripColon,
-            'Stmt_Class->extends' => ['left' => T_EXTENDS],
-            'Expr_PrintableNewAnonClass->extends' => ['left' => T_EXTENDS],
+            'Stmt_Class->extends' => ['left' => \T_EXTENDS],
+            'Expr_PrintableNewAnonClass->extends' => ['left' => \T_EXTENDS],
             'Stmt_Continue->num' => $stripBoth,
             'Stmt_Foreach->keyVar' => $stripDoubleArrow,
             'Stmt_Function->returnType' => $stripColon,
@@ -1114,21 +1114,21 @@ abstract class PrettyPrinterAbstract
             'Expr_ArrayItem->key' => [null, null, ' => '],
             'Expr_Closure->returnType' => [')', ' : ', null],
             'Expr_Ternary->if' => ['?', ' ', ' '],
-            'Expr_Yield->key' => [T_YIELD, null, ' => '],
-            'Expr_Yield->value' => [T_YIELD, ' ', null],
+            'Expr_Yield->key' => [\T_YIELD, null, ' => '],
+            'Expr_Yield->value' => [\T_YIELD, ' ', null],
             'Param->type' => [null, null, ' '],
             'Param->default' => [null, ' = ', null],
-            'Stmt_Break->num' => [T_BREAK, ' ', null],
+            'Stmt_Break->num' => [\T_BREAK, ' ', null],
             'Stmt_ClassMethod->returnType' => [')', ' : ', null],
             'Stmt_Class->extends' => [null, ' extends ', null],
             'Expr_PrintableNewAnonClass->extends' => [null, ' extends ', null],
-            'Stmt_Continue->num' => [T_CONTINUE, ' ', null],
-            'Stmt_Foreach->keyVar' => [T_AS, null, ' => '],
+            'Stmt_Continue->num' => [\T_CONTINUE, ' ', null],
+            'Stmt_Foreach->keyVar' => [\T_AS, null, ' => '],
             'Stmt_Function->returnType' => [')', ' : ', null],
             'Stmt_If->else' => [null, ' ', null],
-            'Stmt_Namespace->name' => [T_NAMESPACE, ' ', null],
+            'Stmt_Namespace->name' => [\T_NAMESPACE, ' ', null],
             'Stmt_PropertyProperty->default' => [null, ' = ', null],
-            'Stmt_Return->expr' => [T_RETURN, ' ', null],
+            'Stmt_Return->expr' => [\T_RETURN, ' ', null],
             'Stmt_StaticVar->default' => [null, ' = ', null],
             //'Stmt_TraitUseAdaptation_Alias->newName' => [T_AS, ' ', null], // TODO
             'Stmt_TryCatch->finally' => [null, ' ', null],
@@ -1214,10 +1214,10 @@ abstract class PrettyPrinterAbstract
         if ($this->modifierChangeMap) return;
 
         $this->modifierChangeMap = [
-            'Stmt_ClassConst->flags' => T_CONST,
-            'Stmt_ClassMethod->flags' => T_FUNCTION,
-            'Stmt_Class->flags' => T_CLASS,
-            'Stmt_Property->flags' => T_VARIABLE,
+            'Stmt_ClassConst->flags' => \T_CONST,
+            'Stmt_ClassMethod->flags' => \T_FUNCTION,
+            'Stmt_Class->flags' => \T_CLASS,
+            'Stmt_Property->flags' => \T_VARIABLE,
             //'Stmt_TraitUseAdaptation_Alias->newModifier' => 0, // TODO
         ];
 

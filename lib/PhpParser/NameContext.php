@@ -214,7 +214,7 @@ class NameContext {
 
         // Find shortest name
         $shortestName = null;
-        $shortestLength = INF;
+        $shortestLength = \INF;
         foreach ($possibleNames as $possibleName) {
             $length = strlen($possibleName->toCodeString());
             if ($length < $shortestLength) {

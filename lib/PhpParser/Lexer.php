@@ -34,7 +34,7 @@ class Lexer
         // map of tokens to drop while lexing (the map is only used for isset lookup,
         // that's why the value is simply set to 1; the value is never actually used.)
         $this->dropTokens = array_fill_keys(
-            [T_WHITESPACE, T_OPEN_TAG, T_COMMENT, T_DOC_COMMENT], 1
+            [\T_WHITESPACE, \T_OPEN_TAG, \T_COMMENT, \T_DOC_COMMENT], 1
         );
 
         // the usedAttributes member is a map of the used attribute names to a dummy
@@ -112,7 +112,7 @@ class Lexer
      * @return bool
      */
     private function isUnterminatedComment($token) : bool {
-        return ($token[0] === T_COMMENT || $token[0] === T_DOC_COMMENT)
+        return ($token[0] === \T_COMMENT || $token[0] === \T_DOC_COMMENT)
             && substr($token[1], 0, 2) === '/*'
             && substr($token[1], -2) !== '*/';
     }
@@ -173,7 +173,7 @@ class Lexer
 
                 // Emulate the PHP behavior
                 $isDocComment = isset($comment[3]) && $comment[3] === '*';
-                $this->tokens[] = [$isDocComment ? T_DOC_COMMENT : T_COMMENT, $comment, $line];
+                $this->tokens[] = [$isDocComment ? \T_DOC_COMMENT : \T_COMMENT, $comment, $line];
             } else {
                 // Invalid characters at the end of the input
                 $this->handleInvalidCharacterRange(
@@ -253,18 +253,18 @@ class Lexer
             } elseif (!isset($this->dropTokens[$token[0]])) {
                 $value = $token[1];
                 $id = $this->tokenMap[$token[0]];
-                if (T_CLOSE_TAG === $token[0]) {
+                if (\T_CLOSE_TAG === $token[0]) {
                     $this->prevCloseTagHasNewline = false !== strpos($token[1], "\n");
-                } else if (T_INLINE_HTML === $token[0]) {
+                } else if (\T_INLINE_HTML === $token[0]) {
                     $startAttributes['hasLeadingNewline'] = $this->prevCloseTagHasNewline;
                 }
 
                 $this->line += substr_count($value, "\n");
                 $this->filePos += \strlen($value);
             } else {
-                if (T_COMMENT === $token[0] || T_DOC_COMMENT === $token[0]) {
+                if (\T_COMMENT === $token[0] || \T_DOC_COMMENT === $token[0]) {
                     if (isset($this->usedAttributes['comments'])) {
-                        $comment = T_DOC_COMMENT === $token[0]
+                        $comment = \T_DOC_COMMENT === $token[0]
                             ? new Comment\Doc($token[1], $this->line, $this->filePos, $this->pos)
                             : new Comment($token[1], $this->line, $this->filePos, $this->pos);
                         $startAttributes['comments'][] = $comment;
@@ -344,13 +344,13 @@ class Lexer
         // 256 is the minimum possible token number, as everything below
         // it is an ASCII value
         for ($i = 256; $i < 1000; ++$i) {
-            if (T_DOUBLE_COLON === $i) {
+            if (\T_DOUBLE_COLON === $i) {
                 // T_DOUBLE_COLON is equivalent to T_PAAMAYIM_NEKUDOTAYIM
                 $tokenMap[$i] = Tokens::T_PAAMAYIM_NEKUDOTAYIM;
-            } elseif(T_OPEN_TAG_WITH_ECHO === $i) {
+            } elseif(\T_OPEN_TAG_WITH_ECHO === $i) {
                 // T_OPEN_TAG_WITH_ECHO with dropped T_OPEN_TAG results in T_ECHO
                 $tokenMap[$i] = Tokens::T_ECHO;
-            } elseif(T_CLOSE_TAG === $i) {
+            } elseif(\T_CLOSE_TAG === $i) {
                 // T_CLOSE_TAG is equivalent to ';'
                 $tokenMap[$i] = ord(';');
             } elseif ('UNKNOWN' !== $name = token_name($i)) {
@@ -366,11 +366,11 @@ class Lexer
 
         // HHVM uses a special token for numbers that overflow to double
         if (defined('T_ONUMBER')) {
-            $tokenMap[T_ONUMBER] = Tokens::T_DNUMBER;
+            $tokenMap[\T_ONUMBER] = Tokens::T_DNUMBER;
         }
         // HHVM also has a separate token for the __COMPILER_HALT_OFFSET__ constant
         if (defined('T_COMPILER_HALT_OFFSET')) {
-            $tokenMap[T_COMPILER_HALT_OFFSET] = Tokens::T_STRING;
+            $tokenMap[\T_COMPILER_HALT_OFFSET] = Tokens::T_STRING;
         }
 
         return $tokenMap;
