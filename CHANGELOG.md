@@ -1,6 +1,11 @@
 Version 4.0.0-dev
 -----------------
 
+Nothing yet.
+
+Version 4.0.0-alpha2 (2017-11-10)
+---------------------------------
+
 ### Added
 
 * In the formatting-preserving pretty printer:
