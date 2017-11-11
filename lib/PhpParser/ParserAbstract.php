@@ -154,9 +154,20 @@ abstract class ParserAbstract implements Parser
     public function parse(string $code, ErrorHandler $errorHandler = null) {
         $this->errorHandler = $errorHandler ?: new ErrorHandler\Throwing;
 
-        // Initialize the lexer
         $this->lexer->startLexing($code, $this->errorHandler);
+        $result = $this->doParse();
 
+        // Clear out some of the interior state, so we don't hold onto unnecessary
+        // memory between uses of the parser
+        $this->startAttributeStack = [];
+        $this->endAttributeStack = [];
+        $this->semStack = [];
+        $this->semValue = null;
+
+        return $result;
+    }
+
+    protected function doParse() {
         // We start off with no lookahead-token
         $symbol = self::SYMBOL_NONE;
 
