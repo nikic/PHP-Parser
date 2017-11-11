@@ -65,9 +65,7 @@ array(
                 )
             )
             name: Expr_Variable(
-                name: VarLikeIdentifier(
-                    name: b
-                )
+                name: b
             )
             args: array(
             )
@@ -82,9 +80,7 @@ array(
             )
             name: Expr_ArrayDimFetch(
                 var: Expr_Variable(
-                    name: VarLikeIdentifier(
-                        name: b
-                    )
+                    name: b
                 )
                 dim: Scalar_String(
                     value: c
@@ -104,9 +100,7 @@ array(
             name: Expr_ArrayDimFetch(
                 var: Expr_ArrayDimFetch(
                     var: Expr_Variable(
-                        name: VarLikeIdentifier(
-                            name: b
-                        )
+                        name: b
                     )
                     dim: Scalar_String(
                         value: c

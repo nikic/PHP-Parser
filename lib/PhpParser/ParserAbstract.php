@@ -19,6 +19,7 @@ use PhpParser\Node\Stmt\Namespace_;
 use PhpParser\Node\Stmt\Property;
 use PhpParser\Node\Stmt\TryCatch;
 use PhpParser\Node\Stmt\UseUse;
+use PhpParser\Node\VarLikeIdentifier;
 
 abstract class ParserAbstract implements Parser
 {
@@ -596,7 +597,9 @@ abstract class ParserAbstract implements Parser
      */
     protected function fixupPhp5StaticPropCall($prop, array $args, array $attributes) : Expr\StaticCall {
         if ($prop instanceof Node\Expr\StaticPropertyFetch) {
-            $var = new Expr\Variable($prop->name, $prop->name->getAttributes());
+            $name = $prop->name instanceof VarLikeIdentifier
+                ? $prop->name->toString() : $prop->name;
+            $var = new Expr\Variable($name, $prop->name->getAttributes());
             return new Expr\StaticCall($prop->class, $var, $args, $attributes);
         } elseif ($prop instanceof Node\Expr\ArrayDimFetch) {
             $tmp = $prop;
@@ -615,9 +618,10 @@ abstract class ParserAbstract implements Parser
                 $this->fixupStartAttributes($tmp, $staticProp->name);
             }
 
-            $result = new Expr\StaticCall($staticProp->class, $prop, $args, $attributes);
-            $tmp->var = new Expr\Variable($staticProp->name, $staticProp->name->getAttributes());
-            return $result;
+            $name = $staticProp->name instanceof VarLikeIdentifier
+                ? $staticProp->name->toString() : $staticProp->name;
+            $tmp->var = new Expr\Variable($name, $staticProp->name->getAttributes());
+            return new Expr\StaticCall($staticProp->class, $prop, $args, $attributes);
         } else {
             throw new \Exception;
         }
