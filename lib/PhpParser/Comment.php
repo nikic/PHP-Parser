@@ -150,7 +150,6 @@ class Comment implements \JsonSerializable
     }
 
     /**
-     * @return       array
      * @psalm-return array{nodeType:string, text:mixed, line:mixed, filePos:mixed}
      */
     public function jsonSerialize() : array {

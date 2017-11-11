@@ -113,8 +113,6 @@ class BuilderFactory
      * Creates node a for a literal value.
      *
      * @param Expr|bool|null|int|float|string|array $value $value
-     *
-     * @return Expr
      */
     public function val($value) : Expr {
         return BuilderHelpers::normalizeValue($value);
@@ -145,8 +143,6 @@ class BuilderFactory
      * Creates nested Concat nodes from a list of expressions.
      *
      * @param Expr|string ...$exprs Expressions or literal strings
-     *
-     * @return Concat
      */
     public function concat(...$exprs) : Concat {
         $numExprs = count($exprs);

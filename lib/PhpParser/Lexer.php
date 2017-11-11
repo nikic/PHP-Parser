@@ -108,8 +108,6 @@ class Lexer
 
     /**
      * Check whether comment token is unterminated.
-     *
-     * @return bool
      */
     private function isUnterminatedComment($token) : bool {
         return ($token[0] === \T_COMMENT || $token[0] === \T_DOC_COMMENT)
@@ -119,8 +117,6 @@ class Lexer
 
     /**
      * Check whether an error *may* have occurred during tokenization.
-     *
-     * @return bool
      */
     private function errorMayHaveOccurred() : bool {
         if (defined('HHVM_VERSION')) {

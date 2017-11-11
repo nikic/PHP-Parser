@@ -54,8 +54,6 @@ class NodeTraverser implements NodeTraverserInterface
 
     /**
      * Removes an added visitor.
-     *
-     * @param NodeVisitor $visitor
      */
     public function removeVisitor(NodeVisitor $visitor) {
         foreach ($this->visitors as $index => $storedVisitor) {

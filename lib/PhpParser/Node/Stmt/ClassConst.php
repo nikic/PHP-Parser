@@ -30,8 +30,6 @@ class ClassConst extends Node\Stmt
 
     /**
      * Whether constant is explicitly or implicitly public.
-     *
-     * @return bool
      */
     public function isPublic() : bool {
         return ($this->flags & Class_::MODIFIER_PUBLIC) !== 0
@@ -40,8 +38,6 @@ class ClassConst extends Node\Stmt
 
     /**
      * Whether constant is protected.
-     *
-     * @return bool
      */
     public function isProtected() : bool {
         return (bool) ($this->flags & Class_::MODIFIER_PROTECTED);
@@ -49,8 +45,6 @@ class ClassConst extends Node\Stmt
 
     /**
      * Whether constant is private.
-     *
-     * @return bool
      */
     public function isPrivate() : bool {
         return (bool) ($this->flags & Class_::MODIFIER_PRIVATE);

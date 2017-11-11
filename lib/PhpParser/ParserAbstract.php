@@ -591,7 +591,6 @@ abstract class ParserAbstract implements Parser
      *
      * @param  Node\Expr\StaticPropertyFetch|Node\Expr\ArrayDimFetch $prop
      * @param  Node\Arg[] $args
-     * @param  array      $attributes
      *
      * @return Expr\StaticCall
      */

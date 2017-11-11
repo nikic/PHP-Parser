@@ -30,8 +30,6 @@ class Collecting implements ErrorHandler
 
     /**
      * Check whether there are any errors.
-     *
-     * @return bool
      */
     public function hasErrors() : bool {
         return !empty($this->errors);

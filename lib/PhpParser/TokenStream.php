@@ -28,8 +28,6 @@ class TokenStream {
      *
      * @param int $startPos Start position
      * @param int $endPos   End position
-     *
-     * @return bool
      */
     public function haveParens(int $startPos, int $endPos) : bool {
         return $this->haveTokenImmediativelyBefore($startPos, '(')
@@ -41,8 +39,6 @@ class TokenStream {
      *
      * @param int $startPos Start position
      * @param int $endPos   End position
-     *
-     * @return bool
      */
     public function haveBraces(int $startPos, int $endPos) : bool {
         return $this->haveTokenImmediativelyBefore($startPos, '{')

@@ -44,8 +44,6 @@ class NameResolver extends NodeVisitorAbstract
 
     /**
      * Get name resolution context.
-     *
-     * @return NameContext
      */
     public function getNameContext() : NameContext {
         return $this->nameContext;
