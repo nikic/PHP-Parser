@@ -5,6 +5,9 @@ namespace PhpParser;
 use PhpParser\Internal\DiffElem;
 use PhpParser\Internal\PrintableNewAnonClassNode;
 use PhpParser\Node\Expr;
+use PhpParser\Node\Expr\AssignOp;
+use PhpParser\Node\Expr\BinaryOp;
+use PhpParser\Node\Expr\Cast;
 use PhpParser\Node\Name;
 use PhpParser\Node\Scalar;
 use PhpParser\Node\Stmt;
@@ -22,69 +25,69 @@ abstract class PrettyPrinterAbstract
     protected $precedenceMap = [
         // [precedence, associativity]
         // where for precedence -1 is %left, 0 is %nonassoc and 1 is %right
-        'Expr_BinaryOp_Pow'            => [  0,  1],
-        'Expr_BitwiseNot'              => [ 10,  1],
-        'Expr_PreInc'                  => [ 10,  1],
-        'Expr_PreDec'                  => [ 10,  1],
-        'Expr_PostInc'                 => [ 10, -1],
-        'Expr_PostDec'                 => [ 10, -1],
-        'Expr_UnaryPlus'               => [ 10,  1],
-        'Expr_UnaryMinus'              => [ 10,  1],
-        'Expr_Cast_Int'                => [ 10,  1],
-        'Expr_Cast_Double'             => [ 10,  1],
-        'Expr_Cast_String'             => [ 10,  1],
-        'Expr_Cast_Array'              => [ 10,  1],
-        'Expr_Cast_Object'             => [ 10,  1],
-        'Expr_Cast_Bool'               => [ 10,  1],
-        'Expr_Cast_Unset'              => [ 10,  1],
-        'Expr_ErrorSuppress'           => [ 10,  1],
-        'Expr_Instanceof'              => [ 20,  0],
-        'Expr_BooleanNot'              => [ 30,  1],
-        'Expr_BinaryOp_Mul'            => [ 40, -1],
-        'Expr_BinaryOp_Div'            => [ 40, -1],
-        'Expr_BinaryOp_Mod'            => [ 40, -1],
-        'Expr_BinaryOp_Plus'           => [ 50, -1],
-        'Expr_BinaryOp_Minus'          => [ 50, -1],
-        'Expr_BinaryOp_Concat'         => [ 50, -1],
-        'Expr_BinaryOp_ShiftLeft'      => [ 60, -1],
-        'Expr_BinaryOp_ShiftRight'     => [ 60, -1],
-        'Expr_BinaryOp_Smaller'        => [ 70,  0],
-        'Expr_BinaryOp_SmallerOrEqual' => [ 70,  0],
-        'Expr_BinaryOp_Greater'        => [ 70,  0],
-        'Expr_BinaryOp_GreaterOrEqual' => [ 70,  0],
-        'Expr_BinaryOp_Equal'          => [ 80,  0],
-        'Expr_BinaryOp_NotEqual'       => [ 80,  0],
-        'Expr_BinaryOp_Identical'      => [ 80,  0],
-        'Expr_BinaryOp_NotIdentical'   => [ 80,  0],
-        'Expr_BinaryOp_Spaceship'      => [ 80,  0],
-        'Expr_BinaryOp_BitwiseAnd'     => [ 90, -1],
-        'Expr_BinaryOp_BitwiseXor'     => [100, -1],
-        'Expr_BinaryOp_BitwiseOr'      => [110, -1],
-        'Expr_BinaryOp_BooleanAnd'     => [120, -1],
-        'Expr_BinaryOp_BooleanOr'      => [130, -1],
-        'Expr_BinaryOp_Coalesce'       => [140,  1],
-        'Expr_Ternary'                 => [150, -1],
+        BinaryOp\Pow::class            => [  0,  1],
+        Expr\BitwiseNot::class         => [ 10,  1],
+        Expr\PreInc::class             => [ 10,  1],
+        Expr\PreDec::class             => [ 10,  1],
+        Expr\PostInc::class            => [ 10, -1],
+        Expr\PostDec::class            => [ 10, -1],
+        Expr\UnaryPlus::class          => [ 10,  1],
+        Expr\UnaryMinus::class         => [ 10,  1],
+        Cast\Int_::class               => [ 10,  1],
+        Cast\Double::class             => [ 10,  1],
+        Cast\String_::class            => [ 10,  1],
+        Cast\Array_::class             => [ 10,  1],
+        Cast\Object_::class            => [ 10,  1],
+        Cast\Bool_::class              => [ 10,  1],
+        Cast\Unset_::class             => [ 10,  1],
+        Expr\ErrorSuppress::class      => [ 10,  1],
+        Expr\Instanceof_::class        => [ 20,  0],
+        Expr\BooleanNot::class         => [ 30,  1],
+        BinaryOp\Mul::class            => [ 40, -1],
+        BinaryOp\Div::class            => [ 40, -1],
+        BinaryOp\Mod::class            => [ 40, -1],
+        BinaryOp\Plus::class           => [ 50, -1],
+        BinaryOp\Minus::class          => [ 50, -1],
+        BinaryOp\Concat::class         => [ 50, -1],
+        BinaryOp\ShiftLeft::class      => [ 60, -1],
+        BinaryOp\ShiftRight::class     => [ 60, -1],
+        BinaryOp\Smaller::class        => [ 70,  0],
+        BinaryOp\SmallerOrEqual::class => [ 70,  0],
+        BinaryOp\Greater::class        => [ 70,  0],
+        BinaryOp\GreaterOrEqual::class => [ 70,  0],
+        BinaryOp\Equal::class          => [ 80,  0],
+        BinaryOp\NotEqual::class       => [ 80,  0],
+        BinaryOp\Identical::class      => [ 80,  0],
+        BinaryOp\NotIdentical::class   => [ 80,  0],
+        BinaryOp\Spaceship::class      => [ 80,  0],
+        BinaryOp\BitwiseAnd::class     => [ 90, -1],
+        BinaryOp\BitwiseXor::class     => [100, -1],
+        BinaryOp\BitwiseOr::class      => [110, -1],
+        BinaryOp\BooleanAnd::class     => [120, -1],
+        BinaryOp\BooleanOr::class      => [130, -1],
+        BinaryOp\Coalesce::class       => [140,  1],
+        Expr\Ternary::class            => [150, -1],
         // parser uses %left for assignments, but they really behave as %right
-        'Expr_Assign'                  => [160,  1],
-        'Expr_AssignRef'               => [160,  1],
-        'Expr_AssignOp_Plus'           => [160,  1],
-        'Expr_AssignOp_Minus'          => [160,  1],
-        'Expr_AssignOp_Mul'            => [160,  1],
-        'Expr_AssignOp_Div'            => [160,  1],
-        'Expr_AssignOp_Concat'         => [160,  1],
-        'Expr_AssignOp_Mod'            => [160,  1],
-        'Expr_AssignOp_BitwiseAnd'     => [160,  1],
-        'Expr_AssignOp_BitwiseOr'      => [160,  1],
-        'Expr_AssignOp_BitwiseXor'     => [160,  1],
-        'Expr_AssignOp_ShiftLeft'      => [160,  1],
-        'Expr_AssignOp_ShiftRight'     => [160,  1],
-        'Expr_AssignOp_Pow'            => [160,  1],
-        'Expr_YieldFrom'               => [165,  1],
-        'Expr_Print'                   => [168,  1],
-        'Expr_BinaryOp_LogicalAnd'     => [170, -1],
-        'Expr_BinaryOp_LogicalXor'     => [180, -1],
-        'Expr_BinaryOp_LogicalOr'      => [190, -1],
-        'Expr_Include'                 => [200, -1],
+        Expr\Assign::class             => [160,  1],
+        Expr\AssignRef::class          => [160,  1],
+        AssignOp\Plus::class           => [160,  1],
+        AssignOp\Minus::class          => [160,  1],
+        AssignOp\Mul::class            => [160,  1],
+        AssignOp\Div::class            => [160,  1],
+        AssignOp\Concat::class         => [160,  1],
+        AssignOp\Mod::class            => [160,  1],
+        AssignOp\BitwiseAnd::class     => [160,  1],
+        AssignOp\BitwiseOr::class      => [160,  1],
+        AssignOp\BitwiseXor::class     => [160,  1],
+        AssignOp\ShiftLeft::class      => [160,  1],
+        AssignOp\ShiftRight::class     => [160,  1],
+        AssignOp\Pow::class            => [160,  1],
+        Expr\YieldFrom::class          => [165,  1],
+        Expr\Print_::class             => [168,  1],
+        BinaryOp\LogicalAnd::class     => [170, -1],
+        BinaryOp\LogicalXor::class     => [180, -1],
+        BinaryOp\LogicalOr::class      => [190, -1],
+        Expr\Include_::class           => [200, -1],
     ];
 
     /** @var int Current indentation level. */
@@ -105,7 +108,7 @@ abstract class PrettyPrinterAbstract
     /** @var bool[] Map determining whether a certain character is a label character */
     protected $labelCharMap;
     /**
-     * @var int[][] Map from token types and subnode names to FIXUP_* constants. This is used
+     * @var int[][] Map from token classes and subnode names to FIXUP_* constants. This is used
      *              during format-preserving prints to place additional parens/braces if necessary.
      */
     protected $fixupMap;
@@ -298,15 +301,15 @@ abstract class PrettyPrinterAbstract
     /**
      * Pretty-print an infix operation while taking precedence into account.
      *
-     * @param string $type           Node type of operator
+     * @param string $class          Node class of operator
      * @param Node   $leftNode       Left-hand side node
      * @param string $operatorString String representation of the operator
      * @param Node   $rightNode      Right-hand side node
      *
      * @return string Pretty printed infix operation
      */
-    protected function pInfixOp(string $type, Node $leftNode, string $operatorString, Node $rightNode) : string {
-        list($precedence, $associativity) = $this->precedenceMap[$type];
+    protected function pInfixOp(string $class, Node $leftNode, string $operatorString, Node $rightNode) : string {
+        list($precedence, $associativity) = $this->precedenceMap[$class];
 
         return $this->pPrec($leftNode, $precedence, $associativity, -1)
              . $operatorString
@@ -316,28 +319,28 @@ abstract class PrettyPrinterAbstract
     /**
      * Pretty-print a prefix operation while taking precedence into account.
      *
-     * @param string $type           Node type of operator
+     * @param string $class          Node class of operator
      * @param string $operatorString String representation of the operator
      * @param Node   $node           Node
      *
      * @return string Pretty printed prefix operation
      */
-    protected function pPrefixOp(string $type, string $operatorString, Node $node) : string {
-        list($precedence, $associativity) = $this->precedenceMap[$type];
+    protected function pPrefixOp(string $class, string $operatorString, Node $node) : string {
+        list($precedence, $associativity) = $this->precedenceMap[$class];
         return $operatorString . $this->pPrec($node, $precedence, $associativity, 1);
     }
 
     /**
      * Pretty-print a postfix operation while taking precedence into account.
      *
-     * @param string $type           Node type of operator
+     * @param string $class          Node class of operator
      * @param string $operatorString String representation of the operator
      * @param Node   $node           Node
      *
      * @return string Pretty printed postfix operation
      */
-    protected function pPostfixOp(string $type, Node $node, string $operatorString) : string {
-        list($precedence, $associativity) = $this->precedenceMap[$type];
+    protected function pPostfixOp(string $class, Node $node, string $operatorString) : string {
+        list($precedence, $associativity) = $this->precedenceMap[$class];
         return $this->pPrec($node, $precedence, $associativity, -1) . $operatorString;
     }
 
@@ -354,9 +357,9 @@ abstract class PrettyPrinterAbstract
      * @return string The pretty printed node
      */
     protected function pPrec(Node $node, int $parentPrecedence, int $parentAssociativity, int $childPosition) : string {
-        $type = $node->getType();
-        if (isset($this->precedenceMap[$type])) {
-            $childPrecedence = $this->precedenceMap[$type][0];
+        $class = \get_class($node);
+        if (isset($this->precedenceMap[$class])) {
+            $childPrecedence = $this->precedenceMap[$class][0];
             if ($childPrecedence > $parentPrecedence
                 || ($parentPrecedence === $childPrecedence && $parentAssociativity !== $childPosition)
             ) {
@@ -520,7 +523,8 @@ abstract class PrettyPrinterAbstract
             return $this->pFallback($node);
         }
 
-        \assert(\get_class($node) === \get_class($origNode));
+        $class = \get_class($node);
+        \assert($class === \get_class($origNode));
 
         $startPos = $origNode->getStartTokenPos();
         $endPos = $origNode->getEndTokenPos();
@@ -536,7 +540,7 @@ abstract class PrettyPrinterAbstract
         $indentAdjustment = $this->indentLevel - $this->origTokens->getIndentationBefore($startPos);
 
         $type = $node->getType();
-        $fixupInfo = $this->fixupMap[$type] ?? null;
+        $fixupInfo = $this->fixupMap[$class] ?? null;
 
         $result = '';
         $pos = $startPos;
@@ -649,7 +653,7 @@ abstract class PrettyPrinterAbstract
                     && $subNode->getAttribute('origNode') !== $origSubNode
                 ) {
                     $fixup = $fixupInfo[$subNodeName];
-                    $res = $this->pFixup($fixup, $subNode, $type, $subStartPos, $subEndPos);
+                    $res = $this->pFixup($fixup, $subNode, $class, $subStartPos, $subEndPos);
                 } else {
                     $res = $this->p($subNode);
                 }
@@ -808,18 +812,18 @@ abstract class PrettyPrinterAbstract
      *
      * @param int         $fixup       Fixup type
      * @param Node        $subNode     Subnode to print
-     * @param string|null $parentType  Type of parent node
+     * @param string|null $parentClass Class of parent node
      * @param int         $subStartPos Original start pos of subnode
      * @param int         $subEndPos   Original end pos of subnode
      *
      * @return string Result of fixed-up print of subnode
      */
-    protected function pFixup(int $fixup, Node $subNode, $parentType, int $subStartPos, int $subEndPos) : string {
+    protected function pFixup(int $fixup, Node $subNode, $parentClass, int $subStartPos, int $subEndPos) : string {
         switch ($fixup) {
             case self::FIXUP_PREC_LEFT:
             case self::FIXUP_PREC_RIGHT:
                 if (!$this->origTokens->haveParens($subStartPos, $subEndPos)) {
-                    list($precedence, $associativity) = $this->precedenceMap[$parentType];
+                    list($precedence, $associativity) = $this->precedenceMap[$parentClass];
                     return $this->pPrec($subNode, $precedence, $associativity,
                         $fixup === self::FIXUP_PREC_LEFT ? -1 : 1);
                 }
@@ -984,49 +988,49 @@ abstract class PrettyPrinterAbstract
         if ($this->fixupMap) return;
 
         $this->fixupMap = [
-            'Expr_PreInc' => ['var' => self::FIXUP_PREC_RIGHT],
-            'Expr_PreDec' => ['var' => self::FIXUP_PREC_RIGHT],
-            'Expr_PostInc' => ['var' => self::FIXUP_PREC_LEFT],
-            'Expr_PostDec' => ['var' => self::FIXUP_PREC_LEFT],
-            'Expr_Instanceof' => [
+            Expr\PreInc::class => ['var' => self::FIXUP_PREC_RIGHT],
+            Expr\PreDec::class => ['var' => self::FIXUP_PREC_RIGHT],
+            Expr\PostInc::class => ['var' => self::FIXUP_PREC_LEFT],
+            Expr\PostDec::class => ['var' => self::FIXUP_PREC_LEFT],
+            Expr\Instanceof_::class => [
                 'expr' => self::FIXUP_PREC_LEFT,
                 'class' => self::FIXUP_PREC_RIGHT,
             ],
-            'Expr_Ternary' => [
+            Expr\Ternary::class => [
                 'cond' => self::FIXUP_PREC_LEFT,
                 'else' => self::FIXUP_PREC_RIGHT,
             ],
 
-            'Expr_FuncCall' => ['name' => self::FIXUP_CALL_LHS],
-            'Expr_StaticCall' => ['class' => self::FIXUP_DEREF_LHS],
-            'Expr_ArrayDimFetch' => ['var' => self::FIXUP_DEREF_LHS],
-            'Expr_MethodCall' => [
+            Expr\FuncCall::class => ['name' => self::FIXUP_CALL_LHS],
+            Expr\StaticCall::class => ['class' => self::FIXUP_DEREF_LHS],
+            Expr\ArrayDimFetch::class => ['var' => self::FIXUP_DEREF_LHS],
+            Expr\MethodCall::class => [
                 'var' => self::FIXUP_DEREF_LHS,
                 'name' => self::FIXUP_BRACED_NAME,
             ],
-            'Expr_StaticPropertyFetch' => [
+            Expr\StaticPropertyFetch::class => [
                 'class' => self::FIXUP_DEREF_LHS,
                 'name' => self::FIXUP_VAR_BRACED_NAME,
             ],
-            'Expr_PropertyFetch' => [
+            Expr\PropertyFetch::class => [
                 'var' => self::FIXUP_DEREF_LHS,
                 'name' => self::FIXUP_BRACED_NAME,
             ],
-            'Scalar_Encapsed' => [
+            Scalar\Encapsed::class => [
                 'parts' => self::FIXUP_ENCAPSED,
             ],
         ];
 
         $binaryOps = [
-            'Expr_BinaryOp_Pow', 'Expr_BinaryOp_Mul', 'Expr_BinaryOp_Div', 'Expr_BinaryOp_Mod',
-            'Expr_BinaryOp_Plus', 'Expr_BinaryOp_Minus', 'Expr_BinaryOp_Concat',
-            'Expr_BinaryOp_ShiftLeft', 'Expr_BinaryOp_ShiftRight', 'Expr_BinaryOp_Smaller',
-            'Expr_BinaryOp_SmallerOrEqual', 'Expr_BinaryOp_Greater', 'Expr_BinaryOp_GreaterOrEqual',
-            'Expr_BinaryOp_Equal', 'Expr_BinaryOp_NotEqual', 'Expr_BinaryOp_Identical',
-            'Expr_BinaryOp_NotIdentical', 'Expr_BinaryOp_Spaceship', 'Expr_BinaryOp_BitwiseAnd',
-            'Expr_BinaryOp_BitwiseXor', 'Expr_BinaryOp_BitwiseOr', 'Expr_BinaryOp_BooleanAnd',
-            'Expr_BinaryOp_BooleanOr', 'Expr_BinaryOp_Coalesce', 'Expr_BinaryOp_LogicalAnd',
-            'Expr_BinaryOp_LogicalXor', 'Expr_BinaryOp_LogicalOr',
+            BinaryOp\Pow::class, BinaryOp\Mul::class, BinaryOp\Div::class, BinaryOp\Mod::class,
+            BinaryOp\Plus::class, BinaryOp\Minus::class, BinaryOp\Concat::class,
+            BinaryOp\ShiftLeft::class, BinaryOp\ShiftRight::class, BinaryOp\Smaller::class,
+            BinaryOp\SmallerOrEqual::class, BinaryOp\Greater::class, BinaryOp\GreaterOrEqual::class,
+            BinaryOp\Equal::class, BinaryOp\NotEqual::class, BinaryOp\Identical::class,
+            BinaryOp\NotIdentical::class, BinaryOp\Spaceship::class, BinaryOp\BitwiseAnd::class,
+            BinaryOp\BitwiseXor::class, BinaryOp\BitwiseOr::class, BinaryOp\BooleanAnd::class,
+            BinaryOp\BooleanOr::class, BinaryOp\Coalesce::class, BinaryOp\LogicalAnd::class,
+            BinaryOp\LogicalXor::class, BinaryOp\LogicalOr::class,
         ];
         foreach ($binaryOps as $binaryOp) {
             $this->fixupMap[$binaryOp] = [
@@ -1036,10 +1040,10 @@ abstract class PrettyPrinterAbstract
         }
 
         $assignOps = [
-            'Expr_Assign', 'Expr_AssignRef', 'Expr_AssignOp_Plus', 'Expr_AssignOp_Minus',
-            'Expr_AssignOp_Mul', 'Expr_AssignOp_Div', 'Expr_AssignOp_Concat', 'Expr_AssignOp_Mod',
-            'Expr_AssignOp_BitwiseAnd', 'Expr_AssignOp_BitwiseOr', 'Expr_AssignOp_BitwiseXor',
-            'Expr_AssignOp_ShiftLeft', 'Expr_AssignOp_ShiftRight', 'Expr_AssignOp_Pow',
+            Expr\Assign::class, Expr\AssignRef::class, AssignOp\Plus::class, AssignOp\Minus::class,
+            AssignOp\Mul::class, AssignOp\Div::class, AssignOp\Concat::class, AssignOp\Mod::class,
+            AssignOp\BitwiseAnd::class, AssignOp\BitwiseOr::class, AssignOp\BitwiseXor::class,
+            AssignOp\ShiftLeft::class, AssignOp\ShiftRight::class, AssignOp\Pow::class,
         ];
         foreach ($assignOps as $assignOp) {
             $this->fixupMap[$assignOp] = [
@@ -1049,10 +1053,10 @@ abstract class PrettyPrinterAbstract
         }
 
         $prefixOps = [
-            'Expr_BitwiseNot', 'Expr_BooleanNot', 'Expr_UnaryPlus', 'Expr_UnaryMinus',
-            'Expr_Cast_Int', 'Expr_Cast_Double', 'Expr_Cast_String', 'Expr_Cast_Array',
-            'Expr_Cast_Object', 'Expr_Cast_Bool', 'Expr_Cast_Unset', 'Expr_ErrorSuppress',
-            'Expr_YieldFrom', 'Expr_Print', 'Expr_Include',
+            Expr\BitwiseNot::class, Expr\BooleanNot::class, Expr\UnaryPlus::class, Expr\UnaryMinus::class,
+            Cast\Int_::class, Cast\Double::class, Cast\String_::class, Cast\Array_::class,
+            Cast\Object_::class, Cast\Bool_::class, Cast\Unset_::class, Expr\ErrorSuppress::class,
+            Expr\YieldFrom::class, Expr\Print_::class, Expr\Include_::class,
         ];
         foreach ($prefixOps as $prefixOp) {
             $this->fixupMap[$prefixOp] = ['expr' => self::FIXUP_PREC_RIGHT];

@@ -201,249 +201,249 @@ class Standard extends PrettyPrinterAbstract
     // Assignments
 
     protected function pExpr_Assign(Expr\Assign $node) {
-        return $this->pInfixOp('Expr_Assign', $node->var, ' = ', $node->expr);
+        return $this->pInfixOp(Expr\Assign::class, $node->var, ' = ', $node->expr);
     }
 
     protected function pExpr_AssignRef(Expr\AssignRef $node) {
-        return $this->pInfixOp('Expr_AssignRef', $node->var, ' =& ', $node->expr);
+        return $this->pInfixOp(Expr\AssignRef::class, $node->var, ' =& ', $node->expr);
     }
 
     protected function pExpr_AssignOp_Plus(AssignOp\Plus $node) {
-        return $this->pInfixOp('Expr_AssignOp_Plus', $node->var, ' += ', $node->expr);
+        return $this->pInfixOp(AssignOp\Plus::class, $node->var, ' += ', $node->expr);
     }
 
     protected function pExpr_AssignOp_Minus(AssignOp\Minus $node) {
-        return $this->pInfixOp('Expr_AssignOp_Minus', $node->var, ' -= ', $node->expr);
+        return $this->pInfixOp(AssignOp\Minus::class, $node->var, ' -= ', $node->expr);
     }
 
     protected function pExpr_AssignOp_Mul(AssignOp\Mul $node) {
-        return $this->pInfixOp('Expr_AssignOp_Mul', $node->var, ' *= ', $node->expr);
+        return $this->pInfixOp(AssignOp\Mul::class, $node->var, ' *= ', $node->expr);
     }
 
     protected function pExpr_AssignOp_Div(AssignOp\Div $node) {
-        return $this->pInfixOp('Expr_AssignOp_Div', $node->var, ' /= ', $node->expr);
+        return $this->pInfixOp(AssignOp\Div::class, $node->var, ' /= ', $node->expr);
     }
 
     protected function pExpr_AssignOp_Concat(AssignOp\Concat $node) {
-        return $this->pInfixOp('Expr_AssignOp_Concat', $node->var, ' .= ', $node->expr);
+        return $this->pInfixOp(AssignOp\Concat::class, $node->var, ' .= ', $node->expr);
     }
 
     protected function pExpr_AssignOp_Mod(AssignOp\Mod $node) {
-        return $this->pInfixOp('Expr_AssignOp_Mod', $node->var, ' %= ', $node->expr);
+        return $this->pInfixOp(AssignOp\Mod::class, $node->var, ' %= ', $node->expr);
     }
 
     protected function pExpr_AssignOp_BitwiseAnd(AssignOp\BitwiseAnd $node) {
-        return $this->pInfixOp('Expr_AssignOp_BitwiseAnd', $node->var, ' &= ', $node->expr);
+        return $this->pInfixOp(AssignOp\BitwiseAnd::class, $node->var, ' &= ', $node->expr);
     }
 
     protected function pExpr_AssignOp_BitwiseOr(AssignOp\BitwiseOr $node) {
-        return $this->pInfixOp('Expr_AssignOp_BitwiseOr', $node->var, ' |= ', $node->expr);
+        return $this->pInfixOp(AssignOp\BitwiseOr::class, $node->var, ' |= ', $node->expr);
     }
 
     protected function pExpr_AssignOp_BitwiseXor(AssignOp\BitwiseXor $node) {
-        return $this->pInfixOp('Expr_AssignOp_BitwiseXor', $node->var, ' ^= ', $node->expr);
+        return $this->pInfixOp(AssignOp\BitwiseXor::class, $node->var, ' ^= ', $node->expr);
     }
 
     protected function pExpr_AssignOp_ShiftLeft(AssignOp\ShiftLeft $node) {
-        return $this->pInfixOp('Expr_AssignOp_ShiftLeft', $node->var, ' <<= ', $node->expr);
+        return $this->pInfixOp(AssignOp\ShiftLeft::class, $node->var, ' <<= ', $node->expr);
     }
 
     protected function pExpr_AssignOp_ShiftRight(AssignOp\ShiftRight $node) {
-        return $this->pInfixOp('Expr_AssignOp_ShiftRight', $node->var, ' >>= ', $node->expr);
+        return $this->pInfixOp(AssignOp\ShiftRight::class, $node->var, ' >>= ', $node->expr);
     }
 
     protected function pExpr_AssignOp_Pow(AssignOp\Pow $node) {
-        return $this->pInfixOp('Expr_AssignOp_Pow', $node->var, ' **= ', $node->expr);
+        return $this->pInfixOp(AssignOp\Pow::class, $node->var, ' **= ', $node->expr);
     }
 
     // Binary expressions
 
     protected function pExpr_BinaryOp_Plus(BinaryOp\Plus $node) {
-        return $this->pInfixOp('Expr_BinaryOp_Plus', $node->left, ' + ', $node->right);
+        return $this->pInfixOp(BinaryOp\Plus::class, $node->left, ' + ', $node->right);
     }
 
     protected function pExpr_BinaryOp_Minus(BinaryOp\Minus $node) {
-        return $this->pInfixOp('Expr_BinaryOp_Minus', $node->left, ' - ', $node->right);
+        return $this->pInfixOp(BinaryOp\Minus::class, $node->left, ' - ', $node->right);
     }
 
     protected function pExpr_BinaryOp_Mul(BinaryOp\Mul $node) {
-        return $this->pInfixOp('Expr_BinaryOp_Mul', $node->left, ' * ', $node->right);
+        return $this->pInfixOp(BinaryOp\Mul::class, $node->left, ' * ', $node->right);
     }
 
     protected function pExpr_BinaryOp_Div(BinaryOp\Div $node) {
-        return $this->pInfixOp('Expr_BinaryOp_Div', $node->left, ' / ', $node->right);
+        return $this->pInfixOp(BinaryOp\Div::class, $node->left, ' / ', $node->right);
     }
 
     protected function pExpr_BinaryOp_Concat(BinaryOp\Concat $node) {
-        return $this->pInfixOp('Expr_BinaryOp_Concat', $node->left, ' . ', $node->right);
+        return $this->pInfixOp(BinaryOp\Concat::class, $node->left, ' . ', $node->right);
     }
 
     protected function pExpr_BinaryOp_Mod(BinaryOp\Mod $node) {
-        return $this->pInfixOp('Expr_BinaryOp_Mod', $node->left, ' % ', $node->right);
+        return $this->pInfixOp(BinaryOp\Mod::class, $node->left, ' % ', $node->right);
     }
 
     protected function pExpr_BinaryOp_BooleanAnd(BinaryOp\BooleanAnd $node) {
-        return $this->pInfixOp('Expr_BinaryOp_BooleanAnd', $node->left, ' && ', $node->right);
+        return $this->pInfixOp(BinaryOp\BooleanAnd::class, $node->left, ' && ', $node->right);
     }
 
     protected function pExpr_BinaryOp_BooleanOr(BinaryOp\BooleanOr $node) {
-        return $this->pInfixOp('Expr_BinaryOp_BooleanOr', $node->left, ' || ', $node->right);
+        return $this->pInfixOp(BinaryOp\BooleanOr::class, $node->left, ' || ', $node->right);
     }
 
     protected function pExpr_BinaryOp_BitwiseAnd(BinaryOp\BitwiseAnd $node) {
-        return $this->pInfixOp('Expr_BinaryOp_BitwiseAnd', $node->left, ' & ', $node->right);
+        return $this->pInfixOp(BinaryOp\BitwiseAnd::class, $node->left, ' & ', $node->right);
     }
 
     protected function pExpr_BinaryOp_BitwiseOr(BinaryOp\BitwiseOr $node) {
-        return $this->pInfixOp('Expr_BinaryOp_BitwiseOr', $node->left, ' | ', $node->right);
+        return $this->pInfixOp(BinaryOp\BitwiseOr::class, $node->left, ' | ', $node->right);
     }
 
     protected function pExpr_BinaryOp_BitwiseXor(BinaryOp\BitwiseXor $node) {
-        return $this->pInfixOp('Expr_BinaryOp_BitwiseXor', $node->left, ' ^ ', $node->right);
+        return $this->pInfixOp(BinaryOp\BitwiseXor::class, $node->left, ' ^ ', $node->right);
     }
 
     protected function pExpr_BinaryOp_ShiftLeft(BinaryOp\ShiftLeft $node) {
-        return $this->pInfixOp('Expr_BinaryOp_ShiftLeft', $node->left, ' << ', $node->right);
+        return $this->pInfixOp(BinaryOp\ShiftLeft::class, $node->left, ' << ', $node->right);
     }
 
     protected function pExpr_BinaryOp_ShiftRight(BinaryOp\ShiftRight $node) {
-        return $this->pInfixOp('Expr_BinaryOp_ShiftRight', $node->left, ' >> ', $node->right);
+        return $this->pInfixOp(BinaryOp\ShiftRight::class, $node->left, ' >> ', $node->right);
     }
 
     protected function pExpr_BinaryOp_Pow(BinaryOp\Pow $node) {
-        return $this->pInfixOp('Expr_BinaryOp_Pow', $node->left, ' ** ', $node->right);
+        return $this->pInfixOp(BinaryOp\Pow::class, $node->left, ' ** ', $node->right);
     }
 
     protected function pExpr_BinaryOp_LogicalAnd(BinaryOp\LogicalAnd $node) {
-        return $this->pInfixOp('Expr_BinaryOp_LogicalAnd', $node->left, ' and ', $node->right);
+        return $this->pInfixOp(BinaryOp\LogicalAnd::class, $node->left, ' and ', $node->right);
     }
 
     protected function pExpr_BinaryOp_LogicalOr(BinaryOp\LogicalOr $node) {
-        return $this->pInfixOp('Expr_BinaryOp_LogicalOr', $node->left, ' or ', $node->right);
+        return $this->pInfixOp(BinaryOp\LogicalOr::class, $node->left, ' or ', $node->right);
     }
 
     protected function pExpr_BinaryOp_LogicalXor(BinaryOp\LogicalXor $node) {
-        return $this->pInfixOp('Expr_BinaryOp_LogicalXor', $node->left, ' xor ', $node->right);
+        return $this->pInfixOp(BinaryOp\LogicalXor::class, $node->left, ' xor ', $node->right);
     }
 
     protected function pExpr_BinaryOp_Equal(BinaryOp\Equal $node) {
-        return $this->pInfixOp('Expr_BinaryOp_Equal', $node->left, ' == ', $node->right);
+        return $this->pInfixOp(BinaryOp\Equal::class, $node->left, ' == ', $node->right);
     }
 
     protected function pExpr_BinaryOp_NotEqual(BinaryOp\NotEqual $node) {
-        return $this->pInfixOp('Expr_BinaryOp_NotEqual', $node->left, ' != ', $node->right);
+        return $this->pInfixOp(BinaryOp\NotEqual::class, $node->left, ' != ', $node->right);
     }
 
     protected function pExpr_BinaryOp_Identical(BinaryOp\Identical $node) {
-        return $this->pInfixOp('Expr_BinaryOp_Identical', $node->left, ' === ', $node->right);
+        return $this->pInfixOp(BinaryOp\Identical::class, $node->left, ' === ', $node->right);
     }
 
     protected function pExpr_BinaryOp_NotIdentical(BinaryOp\NotIdentical $node) {
-        return $this->pInfixOp('Expr_BinaryOp_NotIdentical', $node->left, ' !== ', $node->right);
+        return $this->pInfixOp(BinaryOp\NotIdentical::class, $node->left, ' !== ', $node->right);
     }
 
     protected function pExpr_BinaryOp_Spaceship(BinaryOp\Spaceship $node) {
-        return $this->pInfixOp('Expr_BinaryOp_Spaceship', $node->left, ' <=> ', $node->right);
+        return $this->pInfixOp(BinaryOp\Spaceship::class, $node->left, ' <=> ', $node->right);
     }
 
     protected function pExpr_BinaryOp_Greater(BinaryOp\Greater $node) {
-        return $this->pInfixOp('Expr_BinaryOp_Greater', $node->left, ' > ', $node->right);
+        return $this->pInfixOp(BinaryOp\Greater::class, $node->left, ' > ', $node->right);
     }
 
     protected function pExpr_BinaryOp_GreaterOrEqual(BinaryOp\GreaterOrEqual $node) {
-        return $this->pInfixOp('Expr_BinaryOp_GreaterOrEqual', $node->left, ' >= ', $node->right);
+        return $this->pInfixOp(BinaryOp\GreaterOrEqual::class, $node->left, ' >= ', $node->right);
     }
 
     protected function pExpr_BinaryOp_Smaller(BinaryOp\Smaller $node) {
-        return $this->pInfixOp('Expr_BinaryOp_Smaller', $node->left, ' < ', $node->right);
+        return $this->pInfixOp(BinaryOp\Smaller::class, $node->left, ' < ', $node->right);
     }
 
     protected function pExpr_BinaryOp_SmallerOrEqual(BinaryOp\SmallerOrEqual $node) {
-        return $this->pInfixOp('Expr_BinaryOp_SmallerOrEqual', $node->left, ' <= ', $node->right);
+        return $this->pInfixOp(BinaryOp\SmallerOrEqual::class, $node->left, ' <= ', $node->right);
     }
 
     protected function pExpr_BinaryOp_Coalesce(BinaryOp\Coalesce $node) {
-        return $this->pInfixOp('Expr_BinaryOp_Coalesce', $node->left, ' ?? ', $node->right);
+        return $this->pInfixOp(BinaryOp\Coalesce::class, $node->left, ' ?? ', $node->right);
     }
 
     protected function pExpr_Instanceof(Expr\Instanceof_ $node) {
-        return $this->pInfixOp('Expr_Instanceof', $node->expr, ' instanceof ', $node->class);
+        return $this->pInfixOp(Expr\Instanceof_::class, $node->expr, ' instanceof ', $node->class);
     }
 
     // Unary expressions
 
     protected function pExpr_BooleanNot(Expr\BooleanNot $node) {
-        return $this->pPrefixOp('Expr_BooleanNot', '!', $node->expr);
+        return $this->pPrefixOp(Expr\BooleanNot::class, '!', $node->expr);
     }
 
     protected function pExpr_BitwiseNot(Expr\BitwiseNot $node) {
-        return $this->pPrefixOp('Expr_BitwiseNot', '~', $node->expr);
+        return $this->pPrefixOp(Expr\BitwiseNot::class, '~', $node->expr);
     }
 
     protected function pExpr_UnaryMinus(Expr\UnaryMinus $node) {
-        return $this->pPrefixOp('Expr_UnaryMinus', '-', $node->expr);
+        return $this->pPrefixOp(Expr\UnaryMinus::class, '-', $node->expr);
     }
 
     protected function pExpr_UnaryPlus(Expr\UnaryPlus $node) {
-        return $this->pPrefixOp('Expr_UnaryPlus', '+', $node->expr);
+        return $this->pPrefixOp(Expr\UnaryPlus::class, '+', $node->expr);
     }
 
     protected function pExpr_PreInc(Expr\PreInc $node) {
-        return $this->pPrefixOp('Expr_PreInc', '++', $node->var);
+        return $this->pPrefixOp(Expr\PreInc::class, '++', $node->var);
     }
 
     protected function pExpr_PreDec(Expr\PreDec $node) {
-        return $this->pPrefixOp('Expr_PreDec', '--', $node->var);
+        return $this->pPrefixOp(Expr\PreDec::class, '--', $node->var);
     }
 
     protected function pExpr_PostInc(Expr\PostInc $node) {
-        return $this->pPostfixOp('Expr_PostInc', $node->var, '++');
+        return $this->pPostfixOp(Expr\PostInc::class, $node->var, '++');
     }
 
     protected function pExpr_PostDec(Expr\PostDec $node) {
-        return $this->pPostfixOp('Expr_PostDec', $node->var, '--');
+        return $this->pPostfixOp(Expr\PostDec::class, $node->var, '--');
     }
 
     protected function pExpr_ErrorSuppress(Expr\ErrorSuppress $node) {
-        return $this->pPrefixOp('Expr_ErrorSuppress', '@', $node->expr);
+        return $this->pPrefixOp(Expr\ErrorSuppress::class, '@', $node->expr);
     }
 
     protected function pExpr_YieldFrom(Expr\YieldFrom $node) {
-        return $this->pPrefixOp('Expr_YieldFrom', 'yield from ', $node->expr);
+        return $this->pPrefixOp(Expr\YieldFrom::class, 'yield from ', $node->expr);
     }
 
     protected function pExpr_Print(Expr\Print_ $node) {
-        return $this->pPrefixOp('Expr_Print', 'print ', $node->expr);
+        return $this->pPrefixOp(Expr\Print_::class, 'print ', $node->expr);
     }
 
     // Casts
 
     protected function pExpr_Cast_Int(Cast\Int_ $node) {
-        return $this->pPrefixOp('Expr_Cast_Int', '(int) ', $node->expr);
+        return $this->pPrefixOp(Cast\Int_::class, '(int) ', $node->expr);
     }
 
     protected function pExpr_Cast_Double(Cast\Double $node) {
-        return $this->pPrefixOp('Expr_Cast_Double', '(double) ', $node->expr);
+        return $this->pPrefixOp(Cast\Double::class, '(double) ', $node->expr);
     }
 
     protected function pExpr_Cast_String(Cast\String_ $node) {
-        return $this->pPrefixOp('Expr_Cast_String', '(string) ', $node->expr);
+        return $this->pPrefixOp(Cast\String_::class, '(string) ', $node->expr);
     }
 
     protected function pExpr_Cast_Array(Cast\Array_ $node) {
-        return $this->pPrefixOp('Expr_Cast_Array', '(array) ', $node->expr);
+        return $this->pPrefixOp(Cast\Array_::class, '(array) ', $node->expr);
     }
 
     protected function pExpr_Cast_Object(Cast\Object_ $node) {
-        return $this->pPrefixOp('Expr_Cast_Object', '(object) ', $node->expr);
+        return $this->pPrefixOp(Cast\Object_::class, '(object) ', $node->expr);
     }
 
     protected function pExpr_Cast_Bool(Cast\Bool_ $node) {
-        return $this->pPrefixOp('Expr_Cast_Bool', '(bool) ', $node->expr);
+        return $this->pPrefixOp(Cast\Bool_::class, '(bool) ', $node->expr);
     }
 
     protected function pExpr_Cast_Unset(Cast\Unset_ $node) {
-        return $this->pPrefixOp('Expr_Cast_Unset', '(unset) ', $node->expr);
+        return $this->pPrefixOp(Cast\Unset_::class, '(unset) ', $node->expr);
     }
 
     // Function calls and similar constructs
@@ -577,7 +577,7 @@ class Standard extends PrettyPrinterAbstract
     protected function pExpr_Ternary(Expr\Ternary $node) {
         // a bit of cheating: we treat the ternary as a binary op where the ?...: part is the operator.
         // this is okay because the part between ? and : never needs parentheses.
-        return $this->pInfixOp('Expr_Ternary',
+        return $this->pInfixOp(Expr\Ternary::class,
             $node->cond, ' ?' . (null !== $node->if ? ' ' . $this->p($node->if) . ' ' : '') . ': ', $node->else
         );
     }
