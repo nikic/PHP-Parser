@@ -9,4 +9,8 @@ class LogicalAnd extends BinaryOp
     public function getOperatorSigil() : string {
         return 'and';
     }
+    
+    function getType() : string {
+        return 'Expr_BinaryOp_LogicalAnd';
+    }
 }

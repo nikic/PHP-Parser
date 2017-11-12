@@ -27,4 +27,8 @@ class Switch_ extends Node\Stmt
     public function getSubNodeNames() : array {
         return ['cond', 'cases'];
     }
+    
+    function getType() : string {
+        return 'Stmt_Switch';
+    }
 }

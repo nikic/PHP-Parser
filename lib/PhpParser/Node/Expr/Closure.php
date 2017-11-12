@@ -64,4 +64,8 @@ class Closure extends Expr implements FunctionLike
     public function getStmts() : array {
         return $this->stmts;
     }
+    
+    function getType() : string {
+        return 'Expr_Closure';
+    }
 }

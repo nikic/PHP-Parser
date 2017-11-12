@@ -9,4 +9,8 @@ class BitwiseXor extends BinaryOp
     public function getOperatorSigil() : string {
         return '^';
     }
+    
+    function getType() : string {
+        return 'Expr_BinaryOp_BitwiseXor';
+    }
 }

@@ -27,4 +27,8 @@ class AssignRef extends Expr
     public function getSubNodeNames() : array {
         return ['var', 'expr'];
     }
+    
+    function getType() : string {
+        return 'Expr_AssignRef';
+    }
 }

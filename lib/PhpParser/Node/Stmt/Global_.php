@@ -23,4 +23,8 @@ class Global_ extends Node\Stmt
     public function getSubNodeNames() : array {
         return ['vars'];
     }
+    
+    function getType() : string {
+        return 'Stmt_Global';
+    }
 }

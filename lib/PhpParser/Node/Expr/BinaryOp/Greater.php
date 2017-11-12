@@ -9,4 +9,8 @@ class Greater extends BinaryOp
     public function getOperatorSigil() : string {
         return '>';
     }
+    
+    function getType() : string {
+        return 'Expr_BinaryOp_Greater';
+    }
 }

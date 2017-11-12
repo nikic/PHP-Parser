@@ -30,4 +30,8 @@ class Const_ extends NodeAbstract
     public function getSubNodeNames() : array {
         return ['name', 'value'];
     }
+    
+    function getType() : string {
+        return 'Const';
+    }
 }

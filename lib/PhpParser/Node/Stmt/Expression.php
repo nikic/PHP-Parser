@@ -26,4 +26,8 @@ class Expression extends Node\Stmt
     public function getSubNodeNames() : array {
         return ['expr'];
     }
+    
+    function getType() : string {
+        return 'Stmt_Expression';
+    }
 }

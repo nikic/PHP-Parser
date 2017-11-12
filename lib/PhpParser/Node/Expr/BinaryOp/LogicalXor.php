@@ -9,4 +9,8 @@ class LogicalXor extends BinaryOp
     public function getOperatorSigil() : string {
         return 'xor';
     }
+    
+    function getType() : string {
+        return 'Expr_BinaryOp_LogicalXor';
+    }
 }

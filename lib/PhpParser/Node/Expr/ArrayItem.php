@@ -31,4 +31,8 @@ class ArrayItem extends Expr
     public function getSubNodeNames() : array {
         return ['key', 'value', 'byRef'];
     }
+    
+    function getType() : string {
+        return 'Expr_ArrayItem';
+    }
 }

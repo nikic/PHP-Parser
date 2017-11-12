@@ -23,4 +23,8 @@ class Echo_ extends Node\Stmt
     public function getSubNodeNames() : array {
         return ['exprs'];
     }
+    
+    function getType() : string {
+        return 'Stmt_Echo';
+    }
 }

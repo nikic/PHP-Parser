@@ -23,4 +23,8 @@ class Print_ extends Expr
     public function getSubNodeNames() : array {
         return ['expr'];
     }
+    
+    function getType() : string {
+        return 'Expr_Print';
+    }
 }

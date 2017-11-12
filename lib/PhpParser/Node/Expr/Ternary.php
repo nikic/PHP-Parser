@@ -31,4 +31,8 @@ class Ternary extends Expr
     public function getSubNodeNames() : array {
         return ['cond', 'if', 'else'];
     }
+    
+    function getType() : string {
+        return 'Expr_Ternary';
+    }
 }

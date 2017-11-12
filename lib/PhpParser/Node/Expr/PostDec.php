@@ -23,4 +23,8 @@ class PostDec extends Expr
     public function getSubNodeNames() : array {
         return ['var'];
     }
+    
+    function getType() : string {
+        return 'Expr_PostDec';
+    }
 }

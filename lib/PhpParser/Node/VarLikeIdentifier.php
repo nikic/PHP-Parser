@@ -11,4 +11,7 @@ namespace PhpParser\Node;
  */
 class VarLikeIdentifier extends Identifier
 {
+    function getType() : string {
+        return 'VarLikeIdentifier';
+    }
 }

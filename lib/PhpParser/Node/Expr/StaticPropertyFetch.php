@@ -29,4 +29,8 @@ class StaticPropertyFetch extends Expr
     public function getSubNodeNames() : array {
         return ['class', 'name'];
     }
+    
+    function getType() : string {
+        return 'Expr_StaticPropertyFetch';
+    }
 }

@@ -34,4 +34,8 @@ class Catch_ extends Node\Stmt
     public function getSubNodeNames() : array {
         return ['types', 'var', 'stmts'];
     }
+    
+    function getType() : string {
+        return 'Stmt_Catch';
+    }
 }

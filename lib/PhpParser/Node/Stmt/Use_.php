@@ -40,4 +40,8 @@ class Use_ extends Stmt
     public function getSubNodeNames() : array {
         return ['type', 'uses'];
     }
+    
+    function getType() : string {
+        return 'Stmt_Use';
+    }
 }

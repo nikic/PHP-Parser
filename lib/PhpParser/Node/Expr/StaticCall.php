@@ -33,4 +33,8 @@ class StaticCall extends Expr
     public function getSubNodeNames() : array {
         return ['class', 'name', 'args'];
     }
+    
+    function getType() : string {
+        return 'Expr_StaticCall';
+    }
 }

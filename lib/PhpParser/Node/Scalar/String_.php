@@ -157,4 +157,8 @@ class String_ extends Scalar
 
         return self::parseEscapeSequences($str, null, $parseUnicodeEscape);
     }
+    
+    function getType() : string {
+        return 'Scalar_String';
+    }
 }

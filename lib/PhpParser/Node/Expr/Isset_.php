@@ -23,4 +23,8 @@ class Isset_ extends Expr
     public function getSubNodeNames() : array {
         return ['vars'];
     }
+    
+    function getType() : string {
+        return 'Expr_Isset';
+    }
 }

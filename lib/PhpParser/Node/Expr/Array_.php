@@ -27,4 +27,8 @@ class Array_ extends Expr
     public function getSubNodeNames() : array {
         return ['items'];
     }
+    
+    function getType() : string {
+        return 'Expr_Array';
+    }
 }

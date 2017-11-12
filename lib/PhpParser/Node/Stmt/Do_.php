@@ -27,4 +27,8 @@ class Do_ extends Node\Stmt
     public function getSubNodeNames() : array {
         return ['stmts', 'cond'];
     }
+    
+    function getType() : string {
+        return 'Stmt_Do';
+    }
 }

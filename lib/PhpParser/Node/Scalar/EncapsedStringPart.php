@@ -23,4 +23,8 @@ class EncapsedStringPart extends Scalar
     public function getSubNodeNames() : array {
         return ['value'];
     }
+    
+    function getType() : string {
+        return 'Scalar_EncapsedStringPart';
+    }
 }

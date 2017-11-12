@@ -43,4 +43,8 @@ class Relative extends \PhpParser\Node\Name
     public function toCodeString() : string {
         return 'namespace\\' . $this->toString();
     }
+    
+    function getType() : string {
+        return 'Name_Relative';
+    }
 }

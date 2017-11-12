@@ -23,4 +23,8 @@ class Return_ extends Node\Stmt
     public function getSubNodeNames() : array {
         return ['expr'];
     }
+    
+    function getType() : string {
+        return 'Stmt_Return';
+    }
 }

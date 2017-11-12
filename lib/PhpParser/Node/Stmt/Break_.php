@@ -23,4 +23,8 @@ class Break_ extends Node\Stmt
     public function getSubNodeNames() : array {
         return ['num'];
     }
+    
+    function getType() : string {
+        return 'Stmt_Break';
+    }
 }

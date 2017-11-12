@@ -33,4 +33,8 @@ class MethodCall extends Expr
     public function getSubNodeNames() : array {
         return ['var', 'name', 'args'];
     }
+    
+    function getType() : string {
+        return 'Expr_MethodCall';
+    }
 }

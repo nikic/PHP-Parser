@@ -43,4 +43,8 @@ class FullyQualified extends \PhpParser\Node\Name
     public function toCodeString() : string {
         return '\\' . $this->toString();
     }
+    
+    function getType() : string {
+        return 'Name_FullyQualified';
+    }
 }

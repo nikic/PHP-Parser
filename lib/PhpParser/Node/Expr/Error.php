@@ -24,4 +24,8 @@ class Error extends Expr
     public function getSubNodeNames() : array {
         return [];
     }
+    
+    function getType() : string {
+        return 'Expr_Error';
+    }
 }

@@ -28,4 +28,8 @@ class FuncCall extends Expr
     public function getSubNodeNames() : array {
         return ['name', 'args'];
     }
+    
+    function getType() : string {
+        return 'Expr_FuncCall';
+    }
 }

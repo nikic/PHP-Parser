@@ -144,4 +144,8 @@ class ClassMethod extends Node\Stmt implements FunctionLike
     public function isMagic() : bool {
         return isset(self::$magicNames[$this->name->toLowerString()]);
     }
+    
+    function getType() : string {
+        return 'Stmt_ClassMethod';
+    }
 }

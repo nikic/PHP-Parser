@@ -24,4 +24,8 @@ class Goto_ extends Stmt
     public function getSubNodeNames() : array {
         return ['name'];
     }
+    
+    function getType() : string {
+        return 'Stmt_Goto';
+    }
 }

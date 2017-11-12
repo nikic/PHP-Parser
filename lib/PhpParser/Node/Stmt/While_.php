@@ -27,4 +27,8 @@ class While_ extends Node\Stmt
     public function getSubNodeNames() : array {
         return ['cond', 'stmts'];
     }
+    
+    function getType() : string {
+        return 'Stmt_While';
+    }
 }

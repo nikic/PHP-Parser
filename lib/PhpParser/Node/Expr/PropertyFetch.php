@@ -28,4 +28,8 @@ class PropertyFetch extends Expr
     public function getSubNodeNames() : array {
         return ['var', 'name'];
     }
+    
+    function getType() : string {
+        return 'Expr_PropertyFetch';
+    }
 }

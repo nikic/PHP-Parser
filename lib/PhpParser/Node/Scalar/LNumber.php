@@ -64,4 +64,8 @@ class LNumber extends Scalar
         $attributes['kind'] = LNumber::KIND_OCT;
         return new LNumber(intval($str, 8), $attributes);
     }
+    
+    function getType() : string {
+        return 'Scalar_LNumber';
+    }
 }

@@ -24,4 +24,8 @@ class Label extends Stmt
     public function getSubNodeNames() : array {
         return ['name'];
     }
+    
+    function getType() : string {
+        return 'Stmt_Label';
+    }
 }

@@ -27,4 +27,8 @@ class Yield_ extends Expr
     public function getSubNodeNames() : array {
         return ['key', 'value'];
     }
+    
+    function getType() : string {
+        return 'Expr_Yield';
+    }
 }

@@ -27,4 +27,8 @@ class ClosureUse extends Expr
     public function getSubNodeNames() : array {
         return ['var', 'byRef'];
     }
+    
+    function getType() : string {
+        return 'Expr_ClosureUse';
+    }
 }

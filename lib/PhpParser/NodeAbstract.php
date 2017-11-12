@@ -16,23 +16,6 @@ abstract class NodeAbstract implements Node, \JsonSerializable
     }
 
     /**
-     * Gets the type of the node.
-     *
-     * @return string Type of the node
-     */
-    public function getType() : string {
-        $className = rtrim(get_class($this), '_');
-        return strtr(
-            substr(
-                $className,
-                strpos($className, 'PhpParser\Node') + 15
-            ),
-            '\\',
-            '_'
-        );
-    }
-
-    /**
      * Gets line the node started in (alias of getStartLine).
      *
      * @return int Start line (or -1 if not available)

@@ -23,4 +23,8 @@ class NullableType extends NodeAbstract
     public function getSubNodeNames() : array {
         return ['type'];
     }
+    
+    function getType() : string {
+        return 'NullableType';
+    }
 }

@@ -27,4 +27,8 @@ class DeclareDeclare extends Node\Stmt
     public function getSubNodeNames() : array {
         return ['key', 'value'];
     }
+    
+    function getType() : string {
+        return 'Stmt_DeclareDeclare';
+    }
 }

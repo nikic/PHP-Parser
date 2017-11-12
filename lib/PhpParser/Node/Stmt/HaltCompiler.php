@@ -23,4 +23,8 @@ class HaltCompiler extends Stmt
     public function getSubNodeNames() : array {
         return ['remaining'];
     }
+    
+    function getType() : string {
+        return 'Stmt_HaltCompiler';
+    }
 }

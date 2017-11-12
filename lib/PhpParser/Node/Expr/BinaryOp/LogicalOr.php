@@ -9,4 +9,8 @@ class LogicalOr extends BinaryOp
     public function getOperatorSigil() : string {
         return 'or';
     }
+    
+    function getType() : string {
+        return 'Expr_BinaryOp_LogicalOr';
+    }
 }

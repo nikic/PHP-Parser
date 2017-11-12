@@ -23,4 +23,8 @@ class ShellExec extends Expr
     public function getSubNodeNames() : array {
         return ['parts'];
     }
+    
+    function getType() : string {
+        return 'Expr_ShellExec';
+    }
 }

@@ -32,4 +32,8 @@ class Include_ extends Expr
     public function getSubNodeNames() : array {
         return ['expr', 'type'];
     }
+    
+    function getType() : string {
+        return 'Expr_Include';
+    }
 }

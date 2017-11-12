@@ -229,4 +229,8 @@ class Name extends NodeAbstract
             'Expected string, array of parts or Name instance'
         );
     }
+    
+    function getType() : string {
+        return 'Name';
+    }
 }

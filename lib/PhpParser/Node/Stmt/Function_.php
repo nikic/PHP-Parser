@@ -62,4 +62,8 @@ class Function_ extends Node\Stmt implements FunctionLike
     public function getStmts() : array {
         return $this->stmts;
     }
+    
+    function getType() : string {
+        return 'Stmt_Function';
+    }
 }

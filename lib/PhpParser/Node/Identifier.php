@@ -68,4 +68,8 @@ class Identifier extends NodeAbstract
     public function __toString() : string {
         return $this->name;
     }
+    
+    function getType() : string {
+        return 'Identifier';
+    }
 }

@@ -28,4 +28,8 @@ class New_ extends Expr
     public function getSubNodeNames() : array {
         return ['class', 'args'];
     }
+    
+    function getType() : string {
+        return 'Expr_New';
+    }
 }

@@ -27,4 +27,8 @@ class ArrayDimFetch extends Expr
     public function getSubNodeNames() : array {
         return ['var', 'dim'];
     }
+    
+    function getType() : string {
+        return 'Expr_ArrayDimFetch';
+    }
 }
