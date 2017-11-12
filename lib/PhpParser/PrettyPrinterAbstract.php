@@ -862,8 +862,6 @@ abstract class PrettyPrinterAbstract
      *
      * Example: "echo" and "$x" result in "echo$x", but "echo" and "x" result in "echo x".
      * Without safeAppend the result would be "echox", which does not preserve semantics.
-     *
-     * @param string $str
      */
     protected function safeAppend(string &$str, string $append) {
         // $append must not be empty in this function
