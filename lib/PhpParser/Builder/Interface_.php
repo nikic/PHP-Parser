@@ -48,20 +48,14 @@ class Interface_ extends Declaration
     public function addStmt($stmt) {
         $stmt = BuilderHelpers::normalizeNode($stmt);
 
-        $type = $stmt->getType();
-        switch ($type) {
-            case 'Stmt_ClassConst':
-                $this->constants[] = $stmt;
-                break;
-
-            case 'Stmt_ClassMethod':
-                // we erase all statements in the body of an interface method
-                $stmt->stmts = null;
-                $this->methods[] = $stmt;
-                break;
-
-            default:
-                throw new \LogicException(sprintf('Unexpected node of type "%s"', $type));
+        if ($stmt instanceof Stmt\ClassConst) {
+            $this->constants[] = $stmt;
+        } else if ($stmt instanceof Stmt\ClassMethod) {
+            // we erase all statements in the body of an interface method
+            $stmt->stmts = null;
+            $this->methods[] = $stmt;
+        } else {
+            throw new \LogicException(sprintf('Unexpected node of type "%s"', $stmt->getType()));
         }
 
         return $this;

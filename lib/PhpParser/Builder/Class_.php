@@ -90,18 +90,18 @@ class Class_ extends Declaration
         $stmt = BuilderHelpers::normalizeNode($stmt);
 
         $targets = [
-            'Stmt_TraitUse'    => &$this->uses,
-            'Stmt_ClassConst'  => &$this->constants,
-            'Stmt_Property'    => &$this->properties,
-            'Stmt_ClassMethod' => &$this->methods,
+            Stmt\TraitUse::class    => &$this->uses,
+            Stmt\ClassConst::class  => &$this->constants,
+            Stmt\Property::class    => &$this->properties,
+            Stmt\ClassMethod::class => &$this->methods,
         ];
 
-        $type = $stmt->getType();
-        if (!isset($targets[$type])) {
-            throw new \LogicException(sprintf('Unexpected node of type "%s"', $type));
+        $class = \get_class($stmt);
+        if (!isset($targets[$class])) {
+            throw new \LogicException(sprintf('Unexpected node of type "%s"', $stmt->getType()));
         }
 
-        $targets[$type][] = $stmt;
+        $targets[$class][] = $stmt;
 
         return $this;
     }
