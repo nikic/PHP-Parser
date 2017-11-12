@@ -26,8 +26,8 @@ class Php7 extends \PhpParser\ParserAbstract
     protected $defaultAction = -32766;
     protected $unexpectedTokenRule = 32767;
 
-    protected $YY2TBLSTATE  = 328;
-    protected $YYNLSTATES   = 578;
+    protected $YY2TBLSTATE = 328;
+    protected $numNonLeafStates = 578;
 
     protected $symbolToName = array(
         "EOF",

@@ -46,7 +46,8 @@ abstract class ParserAbstract implements Parser
     protected $unexpectedTokenRule;
 
     protected $YY2TBLSTATE;
-    protected $YYNLSTATES;
+    /** @var int Number of non-leaf states */
+    protected $numNonLeafStates;
 
     /** @var int[] Map of lexer tokens to internal symbols */
     protected $tokenToSymbol;
@@ -231,11 +232,11 @@ abstract class ParserAbstract implements Parser
                 $idx = $this->actionBase[$state] + $symbol;
                 if ((($idx >= 0 && $idx < $this->actionTableSize && $this->actionCheck[$idx] === $symbol)
                      || ($state < $this->YY2TBLSTATE
-                         && ($idx = $this->actionBase[$state + $this->YYNLSTATES] + $symbol) >= 0
+                         && ($idx = $this->actionBase[$state + $this->numNonLeafStates] + $symbol) >= 0
                          && $idx < $this->actionTableSize && $this->actionCheck[$idx] === $symbol))
                     && ($action = $this->action[$idx]) !== $this->defaultAction) {
                     /*
-                     * >= YYNLSTATES: shift and reduce
+                     * >= numNonLeafStates: shift and reduce
                      * > 0: shift
                      * = 0: accept
                      * < 0: reduce
@@ -257,12 +258,12 @@ abstract class ParserAbstract implements Parser
                             --$this->errorState;
                         }
 
-                        if ($action < $this->YYNLSTATES) {
+                        if ($action < $this->numNonLeafStates) {
                             continue;
                         }
 
-                        /* $yyn >= YYNLSTATES means shift-and-reduce */
-                        $rule = $action - $this->YYNLSTATES;
+                        /* $yyn >= numNonLeafStates means shift-and-reduce */
+                        $rule = $action - $this->numNonLeafStates;
                     } else {
                         $rule = -$action;
                     }
@@ -323,7 +324,7 @@ abstract class ParserAbstract implements Parser
                                 (($idx = $this->actionBase[$state] + $this->errorSymbol) >= 0
                                     && $idx < $this->actionTableSize && $this->actionCheck[$idx] === $this->errorSymbol)
                                 || ($state < $this->YY2TBLSTATE
-                                    && ($idx = $this->actionBase[$state + $this->YYNLSTATES] + $this->errorSymbol) >= 0
+                                    && ($idx = $this->actionBase[$state + $this->numNonLeafStates] + $this->errorSymbol) >= 0
                                     && $idx < $this->actionTableSize && $this->actionCheck[$idx] === $this->errorSymbol)
                             ) || ($action = $this->action[$idx]) === $this->defaultAction) { // Not totally sure about this
                                 if ($stackPos <= 0) {
@@ -356,12 +357,12 @@ abstract class ParserAbstract implements Parser
                     }
                 }
 
-                if ($state < $this->YYNLSTATES) {
+                if ($state < $this->numNonLeafStates) {
                     break;
                 }
 
-                /* >= YYNLSTATES means shift-and-reduce */
-                $rule = $state - $this->YYNLSTATES;
+                /* >= numNonLeafStates means shift-and-reduce */
+                $rule = $state - $this->numNonLeafStates;
             }
         }
 
@@ -404,7 +405,7 @@ abstract class ParserAbstract implements Parser
             $idx = $base + $symbol;
             if ($idx >= 0 && $idx < $this->actionTableSize && $this->actionCheck[$idx] === $symbol
                 || $state < $this->YY2TBLSTATE
-                && ($idx = $this->actionBase[$state + $this->YYNLSTATES] + $symbol) >= 0
+                && ($idx = $this->actionBase[$state + $this->numNonLeafStates] + $symbol) >= 0
                 && $idx < $this->actionTableSize && $this->actionCheck[$idx] === $symbol
             ) {
                 if ($this->action[$idx] !== $this->unexpectedTokenRule

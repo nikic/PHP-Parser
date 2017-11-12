@@ -26,8 +26,8 @@ class Php5 extends \PhpParser\ParserAbstract
     protected $defaultAction = -32766;
     protected $unexpectedTokenRule = 32767;
 
-    protected $YY2TBLSTATE  = 404;
-    protected $YYNLSTATES   = 669;
+    protected $YY2TBLSTATE = 404;
+    protected $numNonLeafStates = 669;
 
     protected $symbolToName = array(
         "EOF",

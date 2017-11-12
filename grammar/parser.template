@@ -32,8 +32,8 @@ class #(-p) extends \PhpParser\ParserAbstract
     protected $defaultAction = #(YYDEFAULT);
     protected $unexpectedTokenRule = #(YYUNEXPECTED);
 
-    protected $YY2TBLSTATE  = #(YY2TBLSTATE);
-    protected $YYNLSTATES   = #(YYNLSTATES);
+    protected $YY2TBLSTATE = #(YY2TBLSTATE);
+    protected $numNonLeafStates = #(YYNLSTATES);
 
     protected $symbolToName = array(
         #listvar terminals
