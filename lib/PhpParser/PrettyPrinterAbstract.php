@@ -721,6 +721,9 @@ abstract class PrettyPrinterAbstract
                     continue;
                 }
 
+                $origIndentLevel = $this->indentLevel;
+                $this->setIndentLevel($this->origTokens->getIndentationBefore($itemStartPos) + $indentAdjustment);
+
                 $comments = $arrItem->getComments();
                 $origComments = $origArrItem->getComments();
                 if ($comments !== $origComments) {
@@ -741,9 +744,6 @@ abstract class PrettyPrinterAbstract
                 } else {
                     $result .= $this->origTokens->getTokenCode($pos, $itemStartPos, $indentAdjustment);
                 }
-
-                $origIndentLevel = $this->indentLevel;
-                $this->setIndentLevel($this->origTokens->getIndentationBefore($itemStartPos) + $indentAdjustment);
             } else if ($diffType === DiffElem::TYPE_ADD) {
                 if (null === $insertStr) {
                     // We don't have insertion information for this list type

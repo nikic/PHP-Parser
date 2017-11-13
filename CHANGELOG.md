@@ -1,7 +1,9 @@
 Version 4.0.0-dev
 -----------------
 
-Nothing yet.
+### Fixed
+
+* Fixed comment indentation in formatting-preserving pretty printer.
 
 Version 4.0.0-alpha2 (2017-11-10)
 ---------------------------------

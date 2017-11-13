@@ -27,3 +27,26 @@ $foo;
 /* bar */
 // foo
 $baz;
+-----
+<?php
+class Test {
+    /**
+     * @expectedException \FooException
+     */
+    public function test() {
+        // some code
+    }
+}
+-----
+$method = $stmts[0]->stmts[0];
+$method->setAttribute('comments', [new Comment\Doc("/**\n *\n */")]);
+-----
+<?php
+class Test {
+    /**
+     *
+     */
+    public function test() {
+        // some code
+    }
+}
