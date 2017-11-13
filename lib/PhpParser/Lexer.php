@@ -360,7 +360,7 @@ class Lexer
                 if ('T_HASHBANG' === $name) {
                     // HHVM uses a special token for #! hashbang lines
                     $tokenMap[$i] = Tokens::T_INLINE_HTML;
-                } else if (defined($name = 'PhpParser\Parser\Tokens::' . $name)) {
+                } else if (defined($name = Tokens::class . '::' . $name)) {
                     // Other tokens can be mapped directly
                     $tokenMap[$i] = constant($name);
                 }
