@@ -215,7 +215,13 @@ class NameResolver extends NodeVisitorAbstract
             return FullyQualified::concat($alias, $name->slice(1), $name->getAttributes());
         }
 
-        // if no alias exists prepend current namespace
+        $isGlobalNamespace = $this->namespace !== null && $this->namespace->toString() === '';
+        if ($isGlobalNamespace) {
+            return new FullyQualified($name, $name->getAttributes());
+        }
+
+        // if no alias exists and it is not global namespace prepend current namespace
+
         return FullyQualified::concat($this->namespace, $name, $name->getAttributes());
     }
 
