@@ -132,11 +132,27 @@ class NameTest extends TestCase
     }
 
     /**
-     * @expectedException        \InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage Expected string, array of parts or Name instance
      */
     public function testInvalidArg() {
         Name::concat('foo', new \stdClass);
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage Name cannot be empty
+     */
+    public function testInvalidEmptyString() {
+        new Name('');
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage Name cannot be empty
+     */
+    public function testInvalidEmptyArray() {
+        new Name([]);
     }
 
     /** @dataProvider provideTestIsSpecialClassName */

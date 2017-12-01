@@ -218,8 +218,16 @@ class Name extends NodeAbstract
      */
     private static function prepareName($name) : array {
         if (\is_string($name)) {
+            if ('' === $name) {
+                throw new \InvalidArgumentException('Name cannot be empty');
+            }
+
             return explode('\\', $name);
         } elseif (\is_array($name)) {
+            if (empty($name)) {
+                throw new \InvalidArgumentException('Name cannot be empty');
+            }
+
             return $name;
         } elseif ($name instanceof self) {
             return $name->parts;
