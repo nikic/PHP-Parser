@@ -688,6 +688,10 @@ abstract class PrettyPrinterAbstract
     ) {
         $diff = $this->nodeListDiffer->diffWithReplacements($origNodes, $nodes);
 
+        /** @var Node|null $delayedAddNode Used for insertions at the start of the list */
+        $delayedAddNode = null;
+        $delayedAddInsertStr = '';
+
         $result = '';
         foreach ($diff as $i => $diffElem) {
             $diffType = $diffElem->type;
@@ -726,23 +730,46 @@ abstract class PrettyPrinterAbstract
 
                 $comments = $arrItem->getComments();
                 $origComments = $origArrItem->getComments();
-                if ($comments !== $origComments) {
-                    if ($origComments) {
-                        $commentStartPos = $origComments[0]->getTokenPos();
-                        \assert($commentStartPos >= 0);
+                $commentStartPos = $origComments ? $origComments[0]->getTokenPos() : $itemStartPos;
+                \assert($commentStartPos >= 0);
 
-                        // Remove old comments
-                        $itemStartPos = $commentStartPos;
+                $commentsChanged = $comments !== $origComments;
+                if ($commentsChanged) {
+                    // Remove old comments
+                    $itemStartPos = $commentStartPos;
+                }
+
+                if (null !== $delayedAddNode) {
+                    $result .= $this->origTokens->getTokenCode(
+                        $pos, $commentStartPos, $indentAdjustment);
+
+                    if ($delayedAddInsertStr === "\n") {
+                        $delayedAddComments = $delayedAddNode->getComments();
+                        if ($delayedAddComments) {
+                            $result .= $this->pComments($delayedAddComments) . $this->nl;
+                        }
                     }
 
-                    $result .= $this->origTokens->getTokenCode($pos, $itemStartPos, $indentAdjustment);
+                    $this->safeAppend($result, $this->p($delayedAddNode));
 
-                    if ($comments) {
-                        // Add new comments
-                        $result .= $this->pComments($comments) . $this->nl;
+                    if ($delayedAddInsertStr === "\n") {
+                        $result .= $this->nl;
+                    } else {
+                        $result .= $delayedAddInsertStr;
                     }
+
+                    $result .= $this->origTokens->getTokenCode(
+                        $commentStartPos, $itemStartPos, $indentAdjustment);
+
+                    $delayedAddNode = null;
                 } else {
-                    $result .= $this->origTokens->getTokenCode($pos, $itemStartPos, $indentAdjustment);
+                    $result .= $this->origTokens->getTokenCode(
+                        $pos, $itemStartPos, $indentAdjustment);
+                }
+
+                if ($commentsChanged && $comments) {
+                    // Add new comments
+                    $result .= $this->pComments($comments) . $this->nl;
                 }
             } else if ($diffType === DiffElem::TYPE_ADD) {
                 if (null === $insertStr) {
@@ -751,8 +778,15 @@ abstract class PrettyPrinterAbstract
                 }
 
                 if ($i === 0) {
-                    // TODO Handle insertion at the start
-                    return null;
+                    if (count($diff) === 1) {
+                        // TODO Handle insertion into empty list
+                        return null;
+                    }
+
+                    // These will be inserted at the next "replace" or "keep" element
+                    $delayedAddNode = $arrItem;
+                    $delayedAddInsertStr = $insertStr;
+                    continue;
                 }
 
                 $itemStartPos = $pos;

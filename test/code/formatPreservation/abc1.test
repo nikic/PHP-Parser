@@ -89,6 +89,7 @@ call1(
 );
 -----
 <?php
+x;
 function test() {
     call1(
         $bar
@@ -98,15 +99,14 @@ call2(
     $foo
 );
 -----
-$tmp = $stmts[0]->stmts[0];
-$stmts[0]->stmts[0] = $stmts[1];
-$stmts[1] = $tmp;
-// Same test, but also prepending to $stmts, triggering fallback
-array_unshift($stmts, new Stmt\Echo_([new Scalar\LNumber(42)]));
+$tmp = $stmts[1]->stmts[0];
+$stmts[1]->stmts[0] = $stmts[2];
+$stmts[2] = $tmp;
+// Same test, but also removing first statement, triggering fallback
+array_splice($stmts, 0, 1, []);
 -----
 <?php
 
-echo 42;
 function test() {
     call2(
         $foo

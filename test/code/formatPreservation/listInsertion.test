@@ -63,11 +63,21 @@ try {
 function test(Foo     $param1) {}
 -----
 array_unshift($stmts[0]->params, new Node\Param(new Expr\Variable('param0')));
-/* Insertion at the start not handled yet */
 -----
 <?php
 
-function test($param0, Foo     $param1)
+function test($param0, Foo     $param1) {}
+-----
+<?php
+
+function test() {}
+-----
+$stmts[0]->params[] = new Node\Param(new Expr\Variable('param0'));
+/* Insertion into empty list not handled yet */
+-----
+<?php
+
+function test($param0)
 {
 }
 -----
@@ -139,3 +149,94 @@ $stmts[0]->name->parts[0] = 'Xyz';
 <?php
 namespace
 Xyz;
+-----
+<?php
+function test() {
+    $foo; $bar;
+}
+-----
+$node = new Stmt\Expression(new Expr\Variable('baz'));
+array_unshift($stmts[0]->stmts, $node);
+-----
+<?php
+function test() {
+    $baz;
+    $foo; $bar;
+}
+-----
+<?php
+function test() {
+    $foo; $bar;
+}
+-----
+$node = new Stmt\Expression(new Expr\Variable('baz'));
+$node->setAttribute('comments', [new Comment('// Test')]);
+array_unshift($stmts[0]->stmts, $node);
+-----
+<?php
+function test() {
+    // Test
+    $baz;
+    $foo; $bar;
+}
+-----
+<?php
+function test() {
+
+    // Foo bar
+    $foo; $bar;
+}
+-----
+$node = new Stmt\Expression(new Expr\Variable('baz'));
+$node->setAttribute('comments', [new Comment('// Test')]);
+array_unshift($stmts[0]->stmts, $node);
+-----
+<?php
+function test() {
+
+    // Test
+    $baz;
+    // Foo bar
+    $foo; $bar;
+}
+-----
+<?php
+function test() {
+
+    // Foo bar
+    $foo; $bar;
+}
+-----
+$node = new Stmt\Expression(new Expr\Variable('baz'));
+$node->setAttribute('comments', [new Comment('// Test')]);
+array_unshift($stmts[0]->stmts, $node);
+$stmts[0]->stmts[1]->setAttribute('comments', [new Comment('// Bar foo')]);
+-----
+<?php
+function test() {
+
+    // Test
+    $baz;
+    // Bar foo
+    $foo; $bar;
+}
+-----
+<?php
+function test() {
+
+    // Foo bar
+    $foo; $bar;
+}
+-----
+$node = new Stmt\Expression(new Expr\Variable('baz'));
+$node->setAttribute('comments', [new Comment('// Test')]);
+array_unshift($stmts[0]->stmts, $node);
+$stmts[0]->stmts[1]->setAttribute('comments', []);
+-----
+<?php
+function test() {
+
+    // Test
+    $baz;
+    $foo; $bar;
+}

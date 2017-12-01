@@ -5,6 +5,10 @@ Version 4.0.0-dev
 
 * Fixed comment indentation in formatting-preserving pretty printer.
 
+### Added
+
+* Added support for inserting at the start of list nodes in formatting-preserving pretty printer.
+
 Version 4.0.0-alpha2 (2017-11-10)
 ---------------------------------
 
