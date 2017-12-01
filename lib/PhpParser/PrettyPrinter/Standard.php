@@ -110,7 +110,7 @@ class Standard extends PrettyPrinterAbstract
                 }
                 /* break missing intentionally */
             case Scalar\String_::KIND_SINGLE_QUOTED:
-                return '\'' . addcslashes($node->value, '\'\\') . '\'';
+                return $this->pSingleQuotedString($node->value);
             case Scalar\String_::KIND_HEREDOC:
                 $label = $node->getAttribute('docLabel');
                 if ($label && !$this->containsEndLabel($node->value, $label)) {
@@ -873,6 +873,10 @@ class Standard extends PrettyPrinterAbstract
         }
 
         return $return;
+    }
+
+    protected function pSingleQuotedString(string $string) {
+        return '\'' . addcslashes($string, '\'\\') . '\'';
     }
 
     protected function escapeString($string, $quote) {
