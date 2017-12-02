@@ -240,3 +240,40 @@ function test() {
     $baz;
     $foo; $bar;
 }
+-----
+<?php
+function test() {
+
+    // Foo bar
+    $foo; $bar;
+}
+-----
+array_unshift(
+    $stmts[0]->stmts,
+    new Stmt\Expression(new Expr\Variable('a')),
+    new Stmt\Expression(new Expr\Variable('b')));
+-----
+<?php
+function test() {
+
+    $a;
+    $b;
+    // Foo bar
+    $foo; $bar;
+}
+-----
+<?php
+function test() {}
+-----
+/* Insertion into empty list not handled yet */
+$stmts[0]->stmts = [
+    new Stmt\Expression(new Expr\Variable('a')),
+    new Stmt\Expression(new Expr\Variable('b')),
+];
+-----
+<?php
+function test()
+{
+    $a;
+    $b;
+}
