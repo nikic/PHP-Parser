@@ -27,7 +27,7 @@ class LexerTest extends TestCase
         $lexer->startLexing($code, $errorHandler);
         $errors = $errorHandler->getErrors();
 
-        $this->assertSame(count($messages), count($errors));
+        $this->assertCount(count($messages), $errors);
         for ($i = 0; $i < count($messages); $i++) {
             $this->assertSame($messages[$i], $errors[$i]->getMessageWithColumnInfo($code));
         }

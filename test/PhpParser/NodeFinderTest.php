@@ -47,7 +47,7 @@ class NodeFinderTest extends TestCase
         $this->assertSame($vars[0], $finder->findFirst($stmts[0], $varFilter));
 
         $noneFilter = function () { return false; };
-        $this->assertSame(null, $finder->findFirst($stmts, $noneFilter));
+        $this->assertNull($finder->findFirst($stmts, $noneFilter));
     }
 
     public function testFindFirstInstanceOf() {
@@ -55,6 +55,6 @@ class NodeFinderTest extends TestCase
         list($stmts, $vars) = $this->getStmtsAndVars();
         $this->assertSame($vars[0], $finder->findFirstInstanceOf($stmts, Expr\Variable::class));
         $this->assertSame($vars[0], $finder->findFirstInstanceOf($stmts[0], Expr\Variable::class));
-        $this->assertSame(null, $finder->findFirstInstanceOf($stmts, Expr\BinaryOp\Mul::class));
+        $this->assertNull($finder->findFirstInstanceOf($stmts, Expr\BinaryOp\Mul::class));
     }
 }
