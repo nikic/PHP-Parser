@@ -49,7 +49,7 @@ class ErrorTest extends TestCase
             'endFilePos' => $endPos,
         ]);
 
-        $this->assertSame(true, $error->hasColumnInfo());
+        $this->assertTrue($error->hasColumnInfo());
         $this->assertSame($startColumn, $error->getStartColumn($code));
         $this->assertSame($endColumn, $error->getEndColumn($code));
 
@@ -79,7 +79,7 @@ class ErrorTest extends TestCase
     public function testNoColumnInfo() {
         $error = new Error('Some error', 3);
 
-        $this->assertSame(false, $error->hasColumnInfo());
+        $this->assertFalse($error->hasColumnInfo());
         try {
             $error->getStartColumn('');
             $this->fail('Expected RuntimeException');
