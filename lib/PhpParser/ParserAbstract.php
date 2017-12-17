@@ -491,38 +491,38 @@ abstract class ParserAbstract implements Parser
                 }
             }
             return $stmts;
-        } else {
-            // For semicolon namespaces we have to move the statements after a namespace declaration into ->stmts
-            $resultStmts = [];
-            $targetStmts =& $resultStmts;
-            $lastNs = null;
-            foreach ($stmts as $stmt) {
-                if ($stmt instanceof Node\Stmt\Namespace_) {
-                    if ($lastNs !== null) {
-                        $this->fixupNamespaceAttributes($lastNs);
-                    }
-                    if ($stmt->stmts === null) {
-                        $stmt->stmts = [];
-                        $targetStmts =& $stmt->stmts;
-                        $resultStmts[] = $stmt;
-                    } else {
-                        // This handles the invalid case of mixed style namespaces
-                        $resultStmts[] = $stmt;
-                        $targetStmts =& $resultStmts;
-                    }
-                    $lastNs = $stmt;
-                } elseif ($stmt instanceof Node\Stmt\HaltCompiler) {
-                    // __halt_compiler() is not moved into the namespace
+        }
+
+        // For semicolon namespaces we have to move the statements after a namespace declaration into ->stmts
+        $resultStmts = [];
+        $targetStmts =& $resultStmts;
+        $lastNs = null;
+        foreach ($stmts as $stmt) {
+            if ($stmt instanceof Node\Stmt\Namespace_) {
+                if ($lastNs !== null) {
+                    $this->fixupNamespaceAttributes($lastNs);
+                }
+                if ($stmt->stmts === null) {
+                    $stmt->stmts = [];
+                    $targetStmts =& $stmt->stmts;
                     $resultStmts[] = $stmt;
                 } else {
-                    $targetStmts[] = $stmt;
+                    // This handles the invalid case of mixed style namespaces
+                    $resultStmts[] = $stmt;
+                    $targetStmts =& $resultStmts;
                 }
+                $lastNs = $stmt;
+            } elseif ($stmt instanceof Node\Stmt\HaltCompiler) {
+                // __halt_compiler() is not moved into the namespace
+                $resultStmts[] = $stmt;
+            } else {
+                $targetStmts[] = $stmt;
             }
-            if ($lastNs !== null) {
-                $this->fixupNamespaceAttributes($lastNs);
-            }
-            return $resultStmts;
         }
+        if ($lastNs !== null) {
+            $this->fixupNamespaceAttributes($lastNs);
+        }
+        return $resultStmts;
     }
 
     private function fixupNamespaceAttributes(Node\Stmt\Namespace_ $stmt) {
@@ -634,9 +634,9 @@ abstract class ParserAbstract implements Parser
                 ? $staticProp->name->toString() : $staticProp->name;
             $tmp->var = new Expr\Variable($name, $staticProp->name->getAttributes());
             return new Expr\StaticCall($staticProp->class, $prop, $args, $attributes);
-        } else {
-            throw new \Exception;
         }
+
+        throw new \Exception;
     }
 
     protected function fixupStartAttributes(Node $to, Node $from) {

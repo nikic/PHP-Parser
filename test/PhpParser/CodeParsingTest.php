@@ -78,9 +78,9 @@ class CodeParsingTest extends CodeTestAbstract
     private function formatErrorMessage(Error $e, $code) {
         if ($e->hasColumnInfo()) {
             return $e->getMessageWithColumnInfo($code);
-        } else {
-            return $e->getMessage();
         }
+
+        return $e->getMessage();
     }
 
     private function checkAttributes($stmts) {
