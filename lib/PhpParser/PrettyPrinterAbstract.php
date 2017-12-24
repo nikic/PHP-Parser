@@ -508,10 +508,11 @@ abstract class PrettyPrinterAbstract
      * This method also handles formatting preservation for nodes.
      *
      * @param Node $node Node to be pretty printed
+     * @param bool $parentFormatPreserved Whether parent node has preserved formatting
      *
      * @return string Pretty printed node
      */
-    protected function p(Node $node) : string {
+    protected function p(Node $node, $parentFormatPreserved = false) : string {
         // No orig tokens means this is a normal pretty print without preservation of formatting
         if (!$this->origTokens) {
             return $this->{'p' . $node->getType()}($node);
@@ -535,6 +536,13 @@ abstract class PrettyPrinterAbstract
             // Normalize node structure of anonymous classes
             $node = PrintableNewAnonClassNode::fromNewNode($node);
             $origNode = PrintableNewAnonClassNode::fromNewNode($origNode);
+        }
+
+        // InlineHTML node does not contain closing and opening PHP tags. If the parent formatting
+        // is not preserved, then we need to use the fallback code to make sure the tags are
+        // printed.
+        if ($node instanceof Stmt\InlineHTML && !$parentFormatPreserved) {
+            return $this->pFallback($fallbackNode);
         }
 
         $indentAdjustment = $this->indentLevel - $this->origTokens->getIndentationBefore($startPos);
@@ -655,7 +663,7 @@ abstract class PrettyPrinterAbstract
                     $fixup = $fixupInfo[$subNodeName];
                     $res = $this->pFixup($fixup, $subNode, $class, $subStartPos, $subEndPos);
                 } else {
-                    $res = $this->p($subNode);
+                    $res = $this->p($subNode, true);
                 }
 
                 $this->safeAppend($result, $res);
@@ -753,7 +761,7 @@ abstract class PrettyPrinterAbstract
                             }
                         }
 
-                        $this->safeAppend($result, $this->p($delayedAddNode));
+                        $this->safeAppend($result, $this->p($delayedAddNode, true));
 
                         if ($delayedAddInsertStr === "\n") {
                             $result .= $this->nl;
@@ -825,7 +833,7 @@ abstract class PrettyPrinterAbstract
             if (null !== $fixup && $arrItem->getAttribute('origNode') !== $origArrItem) {
                 $res = $this->pFixup($fixup, $arrItem, null, $itemStartPos, $itemEndPos);
             } else {
-                $res = $this->p($arrItem);
+                $res = $this->p($arrItem, true);
             }
             $this->safeAppend($result, $res);
 
