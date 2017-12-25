@@ -120,7 +120,7 @@ class ClassMethod extends Node\Stmt implements FunctionLike
 
     /**
      * Whether the method is final.
-     * #
+     * 
      * @return bool
      */
     public function isFinal() : bool {
