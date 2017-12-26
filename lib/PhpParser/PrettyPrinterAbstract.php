@@ -486,7 +486,7 @@ abstract class PrettyPrinterAbstract
         $this->preprocessNodes($stmts);
 
         $pos = 0;
-        $result = $this->pArray($stmts, $origStmts, $pos, 0, null, "\n");
+        $result = $this->pArray($stmts, $origStmts, $pos, 0, 'stmts', null, "\n");
         if (null !== $result) {
             $result .= $this->origTokens->getTokenCode($pos, count($origTokens), 0);
         } else {
@@ -567,7 +567,7 @@ abstract class PrettyPrinterAbstract
                 if (is_array($subNode) && is_array($origSubNode)) {
                     // Array subnode changed, we might be able to reconstruct it
                     $listResult = $this->pArray(
-                        $subNode, $origSubNode, $pos, $indentAdjustment,
+                        $subNode, $origSubNode, $pos, $indentAdjustment, $subNodeName,
                         $fixupInfo[$subNodeName] ?? null,
                         $this->listInsertionMap[$type . '->' . $subNodeName] ?? null
                     );
@@ -680,24 +680,39 @@ abstract class PrettyPrinterAbstract
     }
 
     /**
-     * Perform a format-preserving pretty print of an array
+     * Perform a format-preserving pretty print of an array.
      *
      * @param array       $nodes            New nodes
      * @param array       $origNodes        Original nodes
      * @param int         $pos              Current token position (updated by reference)
      * @param int         $indentAdjustment Adjustment for indentation
+     * @param string      $subNodeName      Name of array subnode.
      * @param null|int    $fixup            Fixup information for array item nodes
      * @param null|string $insertStr        Separator string to use for insertions
      *
      * @return null|string Result of pretty print or null if cannot preserve formatting
      */
     protected function pArray(
-        array $nodes, array $origNodes, int &$pos, int $indentAdjustment, $fixup, $insertStr
+        array $nodes, array $origNodes, int &$pos, int $indentAdjustment,
+        string $subNodeName, $fixup, $insertStr
     ) {
         $diff = $this->nodeListDiffer->diffWithReplacements($origNodes, $nodes);
 
         $beforeFirstKeepOrReplace = true;
         $delayedAdd = [];
+
+        if ($subNodeName === 'stmts' && count($origNodes) === 1 && count($nodes) !== 1) {
+            $startPos = $origNodes[0]->getStartTokenPos();
+            $endPos = $origNodes[0]->getEndTokenPos();
+            \assert($startPos >= 0 && $endPos >= 0);
+            if (!$this->origTokens->haveBraces($startPos, $endPos)) {
+                // This was a single statement without braces, but either additional statements
+                // have been added, or the single statement has been removed. This requires the
+                // addition of braces. For now fall back.
+                // TODO: Try to preserve formatting
+                return null;
+            }
+        }
 
         $result = '';
         foreach ($diff as $i => $diffElem) {
