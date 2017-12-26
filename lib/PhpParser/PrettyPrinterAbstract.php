@@ -768,8 +768,8 @@ abstract class PrettyPrinterAbstract
                         $pos, $commentStartPos, $indentAdjustment);
 
                     /** @var Node $delayedAddNode */
-                    foreach ($delayedAdd as list($delayedAddNode, $delayedAddInsertStr)) {
-                        if ($delayedAddInsertStr === "\n") {
+                    foreach ($delayedAdd as $delayedAddNode) {
+                        if ($insertStr === "\n") {
                             $delayedAddComments = $delayedAddNode->getComments();
                             if ($delayedAddComments) {
                                 $result .= $this->pComments($delayedAddComments) . $this->nl;
@@ -778,10 +778,10 @@ abstract class PrettyPrinterAbstract
 
                         $this->safeAppend($result, $this->p($delayedAddNode, true));
 
-                        if ($delayedAddInsertStr === "\n") {
+                        if ($insertStr === "\n") {
                             $result .= $this->nl;
                         } else {
-                            $result .= $delayedAddInsertStr;
+                            $result .= $insertStr;
                         }
                     }
 
@@ -805,8 +805,8 @@ abstract class PrettyPrinterAbstract
                 }
 
                 if ($beforeFirstKeepOrReplace) {
-                    // These will be inserted at the next "replace" or "keep" element
-                    $delayedAdd[] = [$arrItem, $insertStr];
+                    // Will be inserted at the next "replace" or "keep" element
+                    $delayedAdd[] = $arrItem;
                     continue;
                 }
 
