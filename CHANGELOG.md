@@ -1,7 +1,10 @@
 Version 4.0.0-dev
 -----------------
 
-Nothing yet.
+### Added
+
+* In formatting-preserving pretty printer:
+  * Improved formatting of elements inserted into multi-line arrays.
 
 Version 4.0.0-alpha3 (2017-12-26)
 ---------------------------------
@@ -9,9 +12,9 @@ Version 4.0.0-alpha3 (2017-12-26)
 ### Fixed
 
 * In the formatting-preserving pretty printer:
- * Fixed comment indentation.
- * Fixed handling of inline HTML in the fallback case.
- * Fixed insertion into list nodes that require creation of a code block.
+  * Fixed comment indentation.
+  * Fixed handling of inline HTML in the fallback case.
+  * Fixed insertion into list nodes that require creation of a code block.
 
 ### Added
 

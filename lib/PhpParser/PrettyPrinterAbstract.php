@@ -701,7 +701,13 @@ abstract class PrettyPrinterAbstract
         $beforeFirstKeepOrReplace = true;
         $delayedAdd = [];
 
-        if ($subNodeName === 'stmts' && count($origNodes) === 1 && count($nodes) !== 1) {
+        $insertNewline = false;
+        if ($insertStr === "\n") {
+            $insertStr = '';
+            $insertNewline = true;
+        }
+
+        if ($subNodeName === 'stmts' && \count($origNodes) === 1 && \count($nodes) !== 1) {
             $startPos = $origNodes[0]->getStartTokenPos();
             $endPos = $origNodes[0]->getEndTokenPos();
             \assert($startPos >= 0 && $endPos >= 0);
@@ -769,7 +775,7 @@ abstract class PrettyPrinterAbstract
 
                     /** @var Node $delayedAddNode */
                     foreach ($delayedAdd as $delayedAddNode) {
-                        if ($insertStr === "\n") {
+                        if ($insertNewline) {
                             $delayedAddComments = $delayedAddNode->getComments();
                             if ($delayedAddComments) {
                                 $result .= $this->pComments($delayedAddComments) . $this->nl;
@@ -778,8 +784,8 @@ abstract class PrettyPrinterAbstract
 
                         $this->safeAppend($result, $this->p($delayedAddNode, true));
 
-                        if ($insertStr === "\n") {
-                            $result .= $this->nl;
+                        if ($insertNewline) {
+                            $result .= $insertStr . $this->nl;
                         } else {
                             $result .= $insertStr;
                         }
@@ -804,6 +810,11 @@ abstract class PrettyPrinterAbstract
                     return null;
                 }
 
+                if ($insertStr === ', ' && $this->isMultiline($origNodes)) {
+                    $insertStr = ',';
+                    $insertNewline = true;
+                }
+
                 if ($beforeFirstKeepOrReplace) {
                     // Will be inserted at the next "replace" or "keep" element
                     $delayedAdd[] = $arrItem;
@@ -816,12 +827,12 @@ abstract class PrettyPrinterAbstract
                 $origIndentLevel = $this->indentLevel;
                 $this->setIndentLevel($this->origTokens->getIndentationBefore($itemStartPos) + $indentAdjustment);
 
-                if ($insertStr === "\n") {
+                if ($insertNewline) {
                     $comments = $arrItem->getComments();
                     if ($comments) {
                         $result .= $this->nl . $this->pComments($comments);
                     }
-                    $result .= $this->nl;
+                    $result .= $insertStr . $this->nl;
                 } else {
                     $result .= $insertStr;
                 }
@@ -1004,6 +1015,40 @@ abstract class PrettyPrinterAbstract
              . ($modifiers & Stmt\Class_::MODIFIER_STATIC    ? 'static '    : '')
              . ($modifiers & Stmt\Class_::MODIFIER_ABSTRACT  ? 'abstract '  : '')
              . ($modifiers & Stmt\Class_::MODIFIER_FINAL     ? 'final '     : '');
+    }
+
+    /**
+     * Determine whether a list of nodes uses multiline formatting.
+     *
+     * @param (Node|null)[] $nodes Node list
+     *
+     * @return bool Whether multiline formatting is used
+     */
+    protected function isMultiline(array $nodes) : bool {
+        if (\count($nodes) < 2) {
+            return false;
+        }
+
+        $pos = -1;
+        foreach ($nodes as $node) {
+            if (null === $node) {
+                continue;
+            }
+
+            $endPos = $node->getEndTokenPos() + 1;
+            if ($pos >= 0) {
+                $text = $this->origTokens->getTokenCode($pos, $endPos, 0);
+                if (false === strpos($text, "\n")) {
+                    // We require that a newline is present between *every* item. If the formatting
+                    // is inconsistent, with only some items having newlines, we don't consider it
+                    // as multiline
+                    return false;
+                }
+            }
+            $pos = $endPos;
+        }
+
+        return true;
     }
 
     /**

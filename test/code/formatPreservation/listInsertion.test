@@ -277,3 +277,37 @@ function test()
     $a;
     $b;
 }
+-----
+<?php
+$array = [
+    1,
+    2,
+    3,
+];
+-----
+array_unshift($stmts[0]->expr->expr->items, new Expr\ArrayItem(new Scalar\LNumber(42)));
+$stmts[0]->expr->expr->items[] = new Expr\ArrayItem(new Scalar\LNumber(24));
+-----
+<?php
+$array = [
+    42,
+    1,
+    2,
+    3,
+    24,
+];
+-----
+<?php
+$array = [
+    1, 2,
+    3,
+];
+-----
+// TODO Replace [3] workaround
+$stmts[0]->expr->expr->items[3] = new Expr\ArrayItem(new Scalar\LNumber(24));
+-----
+<?php
+$array = [
+    1, 2,
+    3, 24,
+];
