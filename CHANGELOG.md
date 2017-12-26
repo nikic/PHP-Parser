@@ -1,9 +1,17 @@
 Version 4.0.0-dev
 -----------------
 
+Nothing yet.
+
+Version 4.0.0-alpha3 (2017-12-26)
+---------------------------------
+
 ### Fixed
 
-* Fixed comment indentation in formatting-preserving pretty printer.
+* In the formatting-preserving pretty printer:
+ * Fixed comment indentation.
+ * Fixed handling of inline HTML in the fallback case.
+ * Fixed insertion into list nodes that require creation of a code block.
 
 ### Added
 
