@@ -937,7 +937,7 @@ list_expr_element:
 
 array_pair_list:
       inner_array_pair_list
-          { $$ = $1; $end = count($$)-1; if ($$[$end] === null) unset($$[$end]); }
+          { $$ = $1; $end = count($$)-1; if ($$[$end] === null) array_pop($$); }
 ;
 
 inner_array_pair_list:

@@ -303,8 +303,7 @@ $array = [
     3,
 ];
 -----
-// TODO Replace [3] workaround
-$stmts[0]->expr->expr->items[3] = new Expr\ArrayItem(new Scalar\LNumber(24));
+$stmts[0]->expr->expr->items[] = new Expr\ArrayItem(new Scalar\LNumber(24));
 -----
 <?php
 $array = [
