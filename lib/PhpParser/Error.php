@@ -99,7 +99,7 @@ class Error extends \RuntimeException
      * @return bool
      */
     public function hasColumnInfo() : bool {
-        return isset($this->attributes['startFilePos']) && isset($this->attributes['endFilePos']);
+        return isset($this->attributes['startFilePos'], $this->attributes['endFilePos']);
     }
 
     /**
