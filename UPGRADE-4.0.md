@@ -52,7 +52,7 @@ Because HHVM does not support PHP 7, HHVM is no longer supported.
 * The `alias` subnode of `UseUse` is now `null` if no explicit alias is given. As such,
   `use Foo\Bar` and `use Foo\Bar as Bar` are now represented differently. The `getAlias()` method
   can be used to get the effective alias, even if it is not explicitly given.
-  
+
 ### Miscellaneous
 
 * The indentation handling in the pretty printer has been changed (this is only relevant if you

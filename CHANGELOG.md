@@ -137,7 +137,7 @@ Version 3.1.0 (2017-07-28)
 * [PHP 7.2] Added support for trailing comma in group use statements.
 * [PHP 7.2] Added support for `object` type. This means `object` types will now be represented as a
   builtin type (a simple `"object"` string), rather than a class `Name`.
-  
+
 ### Fixed
 
 * Floating-point numbers are now printed correctly if the LC_NUMERIC locale uses a comma as decimal
@@ -257,7 +257,7 @@ This release primarily improves our support for error recovery.
   `NameResolver::__construct()`.
 * The `NameResolver` now adds a `namespacedName` attribute on name nodes that cannot be statically
   resolved (unqualified unaliased function or constant names in namespaces).
-  
+
 ### Fixed
 
 * Fixed attribute assignment for `GroupUse` prefix and variables in interpolated strings.
