@@ -110,7 +110,7 @@ switch ($testType) {
         showHelp('Test type must be one of: PHP5, PHP7 or Symfony');
 }
 
-require_once dirname(__FILE__) . '/../lib/PhpParser/Autoloader.php';
+require_once __DIR__ . '/../lib/PhpParser/Autoloader.php';
 PhpParser\Autoloader::register();
 
 $lexer = new PhpParser\Lexer\Emulative(['usedAttributes' => [
