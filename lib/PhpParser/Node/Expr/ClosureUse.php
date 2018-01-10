@@ -28,7 +28,7 @@ class ClosureUse extends Expr
         return ['var', 'byRef'];
     }
     
-    function getType() : string {
+    public function getType() : string {
         return 'Expr_ClosureUse';
     }
 }

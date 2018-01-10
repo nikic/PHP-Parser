@@ -28,7 +28,7 @@ class DeclareDeclare extends Node\Stmt
         return ['key', 'value'];
     }
     
-    function getType() : string {
+    public function getType() : string {
         return 'Stmt_DeclareDeclare';
     }
 }

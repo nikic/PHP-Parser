@@ -238,7 +238,7 @@ class Name extends NodeAbstract
         );
     }
     
-    function getType() : string {
+    public function getType() : string {
         return 'Name';
     }
 }

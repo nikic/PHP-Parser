@@ -32,7 +32,7 @@ class Alias extends Node\Stmt\TraitUseAdaptation
         return ['trait', 'method', 'newModifier', 'newName'];
     }
     
-    function getType() : string {
+    public function getType() : string {
         return 'Stmt_TraitUseAdaptation_Alias';
     }
 }

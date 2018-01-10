@@ -10,7 +10,7 @@ class LogicalOr extends BinaryOp
         return 'or';
     }
     
-    function getType() : string {
+    public function getType() : string {
         return 'Expr_BinaryOp_LogicalOr';
     }
 }

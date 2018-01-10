@@ -24,7 +24,7 @@ class InlineHTML extends Stmt
         return ['value'];
     }
     
-    function getType() : string {
+    public function getType() : string {
         return 'Stmt_InlineHTML';
     }
 }

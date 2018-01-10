@@ -30,7 +30,7 @@ class StaticPropertyFetch extends Expr
         return ['class', 'name'];
     }
     
-    function getType() : string {
+    public function getType() : string {
         return 'Expr_StaticPropertyFetch';
     }
 }

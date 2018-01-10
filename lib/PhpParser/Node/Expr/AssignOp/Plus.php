@@ -6,7 +6,7 @@ use PhpParser\Node\Expr\AssignOp;
 
 class Plus extends AssignOp
 {
-    function getType() : string {
+    public function getType() : string {
         return 'Expr_AssignOp_Plus';
     }
 }

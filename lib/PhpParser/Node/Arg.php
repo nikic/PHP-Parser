@@ -32,7 +32,7 @@ class Arg extends NodeAbstract
         return ['value', 'byRef', 'unpack'];
     }
     
-    function getType() : string {
+    public function getType() : string {
         return 'Arg';
     }
 }

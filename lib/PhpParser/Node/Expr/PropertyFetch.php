@@ -29,7 +29,7 @@ class PropertyFetch extends Expr
         return ['var', 'name'];
     }
     
-    function getType() : string {
+    public function getType() : string {
         return 'Expr_PropertyFetch';
     }
 }

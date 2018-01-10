@@ -41,7 +41,7 @@ class Use_ extends Stmt
         return ['type', 'uses'];
     }
     
-    function getType() : string {
+    public function getType() : string {
         return 'Stmt_Use';
     }
 }

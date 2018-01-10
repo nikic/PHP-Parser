@@ -24,7 +24,7 @@ class Const_ extends Node\Stmt
         return ['consts'];
     }
     
-    function getType() : string {
+    public function getType() : string {
         return 'Stmt_Const';
     }
 }

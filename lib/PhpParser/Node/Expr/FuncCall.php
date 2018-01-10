@@ -29,7 +29,7 @@ class FuncCall extends Expr
         return ['name', 'args'];
     }
     
-    function getType() : string {
+    public function getType() : string {
         return 'Expr_FuncCall';
     }
 }

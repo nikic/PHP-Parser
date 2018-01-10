@@ -24,7 +24,7 @@ class PreDec extends Expr
         return ['var'];
     }
     
-    function getType() : string {
+    public function getType() : string {
         return 'Expr_PreDec';
     }
 }

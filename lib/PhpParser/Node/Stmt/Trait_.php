@@ -24,7 +24,7 @@ class Trait_ extends ClassLike
         return ['name', 'stmts'];
     }
     
-    function getType() : string {
+    public function getType() : string {
         return 'Stmt_Trait';
     }
 }

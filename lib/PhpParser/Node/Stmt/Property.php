@@ -65,7 +65,7 @@ class Property extends Node\Stmt
         return (bool) ($this->flags & Class_::MODIFIER_STATIC);
     }
     
-    function getType() : string {
+    public function getType() : string {
         return 'Stmt_Property';
     }
 }

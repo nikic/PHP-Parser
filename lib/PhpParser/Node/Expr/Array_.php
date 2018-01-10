@@ -28,7 +28,7 @@ class Array_ extends Expr
         return ['items'];
     }
     
-    function getType() : string {
+    public function getType() : string {
         return 'Expr_Array';
     }
 }

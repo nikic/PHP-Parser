@@ -62,7 +62,7 @@ class DNumber extends Scalar
         return (float) $str;
     }
     
-    function getType() : string {
+    public function getType() : string {
         return 'Scalar_DNumber';
     }
 }

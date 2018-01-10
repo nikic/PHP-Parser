@@ -10,7 +10,7 @@ class LogicalXor extends BinaryOp
         return 'xor';
     }
     
-    function getType() : string {
+    public function getType() : string {
         return 'Expr_BinaryOp_LogicalXor';
     }
 }

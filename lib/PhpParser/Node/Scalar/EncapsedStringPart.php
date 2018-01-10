@@ -24,7 +24,7 @@ class EncapsedStringPart extends Scalar
         return ['value'];
     }
     
-    function getType() : string {
+    public function getType() : string {
         return 'Scalar_EncapsedStringPart';
     }
 }

@@ -99,7 +99,7 @@ class Class_ extends ClassLike
         }
     }
     
-    function getType() : string {
+    public function getType() : string {
         return 'Stmt_Class';
     }
 }

@@ -24,7 +24,7 @@ class List_ extends Expr
         return ['items'];
     }
     
-    function getType() : string {
+    public function getType() : string {
         return 'Expr_List';
     }
 }

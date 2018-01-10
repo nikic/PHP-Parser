@@ -28,7 +28,7 @@ class Assign extends Expr
         return ['var', 'expr'];
     }
     
-    function getType() : string {
+    public function getType() : string {
         return 'Expr_Assign';
     }
 }

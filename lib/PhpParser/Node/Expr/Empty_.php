@@ -24,7 +24,7 @@ class Empty_ extends Expr
         return ['expr'];
     }
     
-    function getType() : string {
+    public function getType() : string {
         return 'Expr_Empty';
     }
 }

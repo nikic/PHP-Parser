@@ -43,7 +43,7 @@ class Param extends NodeAbstract
         return ['type', 'byRef', 'variadic', 'var', 'default'];
     }
     
-    function getType() : string {
+    public function getType() : string {
         return 'Param';
     }
 }

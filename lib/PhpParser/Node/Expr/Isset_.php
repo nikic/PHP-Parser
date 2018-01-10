@@ -24,7 +24,7 @@ class Isset_ extends Expr
         return ['vars'];
     }
     
-    function getType() : string {
+    public function getType() : string {
         return 'Expr_Isset';
     }
 }

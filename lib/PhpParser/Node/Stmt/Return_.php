@@ -24,7 +24,7 @@ class Return_ extends Node\Stmt
         return ['expr'];
     }
     
-    function getType() : string {
+    public function getType() : string {
         return 'Stmt_Return';
     }
 }

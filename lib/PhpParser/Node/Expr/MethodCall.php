@@ -34,7 +34,7 @@ class MethodCall extends Expr
         return ['var', 'name', 'args'];
     }
     
-    function getType() : string {
+    public function getType() : string {
         return 'Expr_MethodCall';
     }
 }
