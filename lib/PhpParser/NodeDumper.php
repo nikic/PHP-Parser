@@ -131,9 +131,9 @@ class NodeDumper
 
         if ($strs) {
             return implode(' | ', $strs) . ' (' . $flags . ')';
-        } else {
-            return $flags;
         }
+
+        return $flags;
     }
 
     protected function dumpIncludeType($type) {

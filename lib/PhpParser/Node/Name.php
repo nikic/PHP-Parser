@@ -201,11 +201,11 @@ class Name extends NodeAbstract
             return new static(self::prepareName($name2), $attributes);
         } else if (null === $name2) {
             return new static(self::prepareName($name1), $attributes);
-        } else {
-            return new static(
-                array_merge(self::prepareName($name1), self::prepareName($name2)), $attributes
-            );
         }
+
+        return new static(
+            array_merge(self::prepareName($name1), self::prepareName($name2)), $attributes
+        );
     }
 
     /**
@@ -237,7 +237,7 @@ class Name extends NodeAbstract
             'Expected string, array of parts or Name instance'
         );
     }
-    
+
     function getType() : string {
         return 'Name';
     }

@@ -178,9 +178,9 @@ class Standard extends PrettyPrinterAbstract
                 return '\INF';
             } elseif ($node->value === -\INF) {
                 return '-\INF';
-            } else {
-                return '\NAN';
             }
+            
+            return '\NAN';
         }
 
         // Try to find a short full-precision representation
@@ -504,9 +504,9 @@ class Standard extends PrettyPrinterAbstract
     protected function pExpr_Variable(Expr\Variable $node) {
         if ($node->name instanceof Expr) {
             return '${' . $this->p($node->name) . '}';
-        } else {
-            return '$' . $node->name;
         }
+
+        return '$' . $node->name;
     }
 
     protected function pExpr_Array(Expr\Array_ $node) {
@@ -514,9 +514,9 @@ class Standard extends PrettyPrinterAbstract
             $this->options['shortArraySyntax'] ? Expr\Array_::KIND_SHORT : Expr\Array_::KIND_LONG);
         if ($syntax === Expr\Array_::KIND_SHORT) {
             return '[' . $this->pMaybeMultiline($node->items, true) . ']';
-        } else {
-            return 'array(' . $this->pMaybeMultiline($node->items, true) . ')';
         }
+
+        return 'array(' . $this->pMaybeMultiline($node->items, true) . ')';
     }
 
     protected function pExpr_ArrayItem(Expr\ArrayItem $node) {
@@ -591,13 +591,13 @@ class Standard extends PrettyPrinterAbstract
     protected function pExpr_Yield(Expr\Yield_ $node) {
         if ($node->value === null) {
             return 'yield';
-        } else {
-            // this is a bit ugly, but currently there is no way to detect whether the parentheses are necessary
-            return '(yield '
-                 . ($node->key !== null ? $this->p($node->key) . ' => ' : '')
-                 . $this->p($node->value)
-                 . ')';
         }
+
+        // this is a bit ugly, but currently there is no way to detect whether the parentheses are necessary
+        return '(yield '
+             . ($node->key !== null ? $this->p($node->key) . ' => ' : '')
+             . $this->p($node->value)
+             . ')';
     }
 
     // Declarations
@@ -606,10 +606,10 @@ class Standard extends PrettyPrinterAbstract
         if ($this->canUseSemicolonNamespaces) {
             return 'namespace ' . $this->p($node->name) . ';'
                  . $this->nl . $this->pStmts($node->stmts, false);
-        } else {
-            return 'namespace' . (null !== $node->name ? ' ' . $this->p($node->name) : '')
-                 . ' {' . $this->pStmts($node->stmts) . $this->nl . '}';
         }
+
+        return 'namespace' . (null !== $node->name ? ' ' . $this->p($node->name) : '')
+             . ' {' . $this->pStmts($node->stmts) . $this->nl . '}';
     }
 
     protected function pStmt_Use(Stmt\Use_ $node) {
@@ -857,9 +857,9 @@ class Standard extends PrettyPrinterAbstract
     protected function pObjectProperty($node) {
         if ($node instanceof Expr) {
             return '{' . $this->p($node) . '}';
-        } else {
-            return $node;
         }
+
+        return $node;
     }
 
     protected function pEncapsList(array $encapsList, $quote) {
@@ -921,17 +921,17 @@ class Standard extends PrettyPrinterAbstract
     protected function pDereferenceLhs(Node $node) {
         if (!$this->dereferenceLhsRequiresParens($node)) {
             return $this->p($node);
-        } else  {
-            return '(' . $this->p($node) . ')';
         }
+
+        return '(' . $this->p($node) . ')';
     }
 
     protected function pCallLhs(Node $node) {
         if (!$this->callLhsRequiresParens($node)) {
             return $this->p($node);
-        } else  {
-            return '(' . $this->p($node) . ')';
         }
+
+        return '(' . $this->p($node) . ')';
     }
 
     /**
@@ -950,8 +950,8 @@ class Standard extends PrettyPrinterAbstract
     private function pMaybeMultiline(array $nodes, $trailingComma = false) {
         if (!$this->hasNodeWithComments($nodes)) {
             return $this->pCommaSeparated($nodes);
-        } else {
-            return $this->pCommaSeparatedMultiline($nodes, $trailingComma) . $this->nl;
         }
+
+        return $this->pCommaSeparatedMultiline($nodes, $trailingComma) . $this->nl;
     }
 }
