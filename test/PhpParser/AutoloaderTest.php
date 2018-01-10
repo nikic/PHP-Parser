@@ -9,10 +9,10 @@ use PHPUnit\Framework\TestCase;
 class AutoloaderTest extends TestCase
 {
     public function testClassExists() {
-        $this->assertTrue(class_exists(NodeVisitorAbstract::class));
-        $this->assertFalse(class_exists('PHPParser_NodeVisitor_NameResolver'));
+        $this->assertTrue(class_exists(\PhpParser\NodeVisitorAbstract::class));
+        $this->assertFalse(class_exists(\PHPParser_NodeVisitor_NameResolver::class));
 
-        $this->assertFalse(class_exists('PhpParser\FooBar'));
-        $this->assertFalse(class_exists('PHPParser_FooBar'));
+        $this->assertFalse(class_exists(\PhpParser\FooBar::class));
+        $this->assertFalse(class_exists(\PHPParser_FooBar::class));
     }
 }

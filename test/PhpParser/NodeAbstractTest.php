@@ -157,7 +157,7 @@ class NodeAbstractTest extends TestCase
 
     public function testAttributes() {
         /** @var $node Node */
-        $node = $this->getMockForAbstractClass(NodeAbstract::class);
+        $node = $this->getMockForAbstractClass(\PhpParser\NodeAbstract::class);
 
         $this->assertEmpty($node->getAttributes());
 
