@@ -61,7 +61,7 @@ class String_ extends Scalar
         if ('\'' === $str[$bLength]) {
             return str_replace(
                 ['\\\\', '\\\''],
-                [  '\\',   '\''],
+                ['\\', '\''],
                 substr($str, $bLength + 1, -1)
             );
         } else {
