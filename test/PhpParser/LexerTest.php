@@ -35,15 +35,15 @@ class LexerTest extends TestCase
 
     public function provideTestError() {
         return [
-            ["<?php /*", ["Unterminated comment from 1:7 to 1:9"]],
+            ['<?php /*', ['Unterminated comment from 1:7 to 1:9']],
             ["<?php \1", ["Unexpected character \"\1\" (ASCII 1) from 1:7 to 1:7"]],
-            ["<?php \0", ["Unexpected null byte from 1:7 to 1:7"]],
+            ["<?php \0", ['Unexpected null byte from 1:7 to 1:7']],
             // Error with potentially emulated token
-            ["<?php ?? \0", ["Unexpected null byte from 1:10 to 1:10"]],
+            ["<?php ?? \0", ['Unexpected null byte from 1:10 to 1:10']],
             ["<?php\n\0\1 foo /* bar", [
-                "Unexpected null byte from 2:1 to 2:1",
+                'Unexpected null byte from 2:1 to 2:1',
                 "Unexpected character \"\1\" (ASCII 1) from 2:2 to 2:2",
-                "Unterminated comment from 2:8 to 2:14"
+                'Unterminated comment from 2:8 to 2:14'
             ]],
         ];
     }

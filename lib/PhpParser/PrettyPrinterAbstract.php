@@ -949,7 +949,7 @@ abstract class PrettyPrinterAbstract
      */
     protected function safeAppend(string &$str, string $append) {
         // $append must not be empty in this function
-        if ($str === "") {
+        if ($str === '') {
             $str = $append;
             return;
         }
@@ -958,7 +958,7 @@ abstract class PrettyPrinterAbstract
                 || !$this->labelCharMap[$str[\strlen($str) - 1]]) {
             $str .= $append;
         } else {
-            $str .= " " . $append;
+            $str .= ' ' . $append;
         }
     }
 

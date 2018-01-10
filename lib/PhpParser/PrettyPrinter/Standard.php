@@ -884,7 +884,7 @@ class Standard extends PrettyPrinterAbstract
             // For doc strings, don't escape newlines
             $escaped = addcslashes($string, "\t\f\v$\\");
         } else {
-            $escaped = addcslashes($string, "\n\r\t\f\v$" . $quote . "\\");
+            $escaped = addcslashes($string, "\n\r\t\f\v$" . $quote . '\\');
         }
 
         // Escape other control characters

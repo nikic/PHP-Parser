@@ -163,15 +163,15 @@ EOC;
             ["b<<<\"STR\"\n\$a\nSTR\n", ['kind' => String_::KIND_HEREDOC, 'docLabel' => 'STR']],
             ["B<<<\"STR\"\n\$a\nSTR\n", ['kind' => String_::KIND_HEREDOC, 'docLabel' => 'STR']],
             ["<<< \t \"STR\"\n\$a\nSTR\n", ['kind' => String_::KIND_HEREDOC, 'docLabel' => 'STR']],
-            ["die", ['kind' => Expr\Exit_::KIND_DIE]],
+            ['die', ['kind' => Expr\Exit_::KIND_DIE]],
             ["die('done')", ['kind' => Expr\Exit_::KIND_DIE]],
-            ["exit", ['kind' => Expr\Exit_::KIND_EXIT]],
-            ["exit(1)", ['kind' => Expr\Exit_::KIND_EXIT]],
-            ["?>Foo", ['hasLeadingNewline' => false]],
+            ['exit', ['kind' => Expr\Exit_::KIND_EXIT]],
+            ['exit(1)', ['kind' => Expr\Exit_::KIND_EXIT]],
+            ['?>Foo', ['hasLeadingNewline' => false]],
             ["?>\nFoo", ['hasLeadingNewline' => true]],
-            ["namespace Foo;", ['kind' => Stmt\Namespace_::KIND_SEMICOLON]],
-            ["namespace Foo {}", ['kind' => Stmt\Namespace_::KIND_BRACED]],
-            ["namespace {}", ['kind' => Stmt\Namespace_::KIND_BRACED]],
+            ['namespace Foo;', ['kind' => Stmt\Namespace_::KIND_SEMICOLON]],
+            ['namespace Foo {}', ['kind' => Stmt\Namespace_::KIND_BRACED]],
+            ['namespace {}', ['kind' => Stmt\Namespace_::KIND_BRACED]],
         ];
     }
 }

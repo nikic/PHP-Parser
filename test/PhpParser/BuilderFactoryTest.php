@@ -38,8 +38,8 @@ class BuilderFactoryTest extends TestCase
         // which is already tested elsewhere
         $factory = new BuilderFactory();
         $this->assertEquals(
-            new String_("foo"),
-            $factory->val("foo")
+            new String_('foo'),
+            $factory->val('foo')
         );
     }
 
@@ -58,8 +58,8 @@ class BuilderFactoryTest extends TestCase
             $factory->concat($varA, $varB, $varC)
         );
         $this->assertEquals(
-            new Concat(new Concat(new String_("a"), $varB), new String_("c")),
-            $factory->concat("a", $varB, "c")
+            new Concat(new Concat(new String_('a'), $varB), new String_('c')),
+            $factory->concat('a', $varB, 'c')
         );
     }
 
@@ -68,7 +68,7 @@ class BuilderFactoryTest extends TestCase
      * @expectedExceptionMessage Expected at least two expressions
      */
     public function testConcatOneError() {
-        (new BuilderFactory())->concat("a");
+        (new BuilderFactory())->concat('a');
     }
 
     /**
@@ -76,7 +76,7 @@ class BuilderFactoryTest extends TestCase
      * @expectedExceptionMessage Expected string or Expr
      */
     public function testConcatInvalidExpr() {
-        (new BuilderFactory())->concat("a", 42);
+        (new BuilderFactory())->concat('a', 42);
     }
 
     public function testArgs() {
