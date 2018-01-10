@@ -153,7 +153,7 @@ class Lexer
                 $nextFilePos = strpos($this->code, $tokenValue, $filePos);
                 $this->handleInvalidCharacterRange(
                     $filePos, $nextFilePos, $line, $errorHandler);
-                $filePos = (int)$nextFilePos;
+                $filePos = (int) $nextFilePos;
             }
 
             $filePos += $tokenLen;

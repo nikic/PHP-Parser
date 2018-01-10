@@ -445,9 +445,9 @@ EOC;
         $classStmt = $stmts[0];
         $methodStmt = $classStmt->stmts[0]->stmts[0];
 
-        $this->assertSame('SELF', (string)$methodStmt->stmts[0]->expr->class);
-        $this->assertSame('PARENT', (string)$methodStmt->stmts[1]->expr->class);
-        $this->assertSame('STATIC', (string)$methodStmt->stmts[2]->expr->class);
+        $this->assertSame('SELF', (string) $methodStmt->stmts[0]->expr->class);
+        $this->assertSame('PARENT', (string) $methodStmt->stmts[1]->expr->class);
+        $this->assertSame('STATIC', (string) $methodStmt->stmts[2]->expr->class);
     }
 
     public function testAddOriginalNames() {
