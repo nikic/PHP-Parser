@@ -103,7 +103,7 @@ class NameTest extends TestCase
 
     public function testNameTypes() {
         $name = new Name('foo');
-        $this->assertTrue ($name->isUnqualified());
+        $this->assertTrue($name->isUnqualified());
         $this->assertFalse($name->isQualified());
         $this->assertFalse($name->isFullyQualified());
         $this->assertFalse($name->isRelative());
@@ -111,7 +111,7 @@ class NameTest extends TestCase
 
         $name = new Name('foo\bar');
         $this->assertFalse($name->isUnqualified());
-        $this->assertTrue ($name->isQualified());
+        $this->assertTrue($name->isQualified());
         $this->assertFalse($name->isFullyQualified());
         $this->assertFalse($name->isRelative());
         $this->assertSame('foo\bar', $name->toCodeString());
@@ -119,7 +119,7 @@ class NameTest extends TestCase
         $name = new Name\FullyQualified('foo');
         $this->assertFalse($name->isUnqualified());
         $this->assertFalse($name->isQualified());
-        $this->assertTrue ($name->isFullyQualified());
+        $this->assertTrue($name->isFullyQualified());
         $this->assertFalse($name->isRelative());
         $this->assertSame('\foo', $name->toCodeString());
 
@@ -127,7 +127,7 @@ class NameTest extends TestCase
         $this->assertFalse($name->isUnqualified());
         $this->assertFalse($name->isQualified());
         $this->assertFalse($name->isFullyQualified());
-        $this->assertTrue ($name->isRelative());
+        $this->assertTrue($name->isRelative());
         $this->assertSame('namespace\foo', $name->toCodeString());
     }
 
