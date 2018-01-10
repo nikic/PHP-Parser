@@ -74,9 +74,9 @@ final class BuilderHelpers
                 return new Name\FullyQualified(substr($name, 1));
             } elseif (0 === strpos($name, 'namespace\\')) {
                 return new Name\Relative(substr($name, strlen('namespace\\')));
-            } else {
-                return new Name($name);
             }
+
+            return new Name($name);
         }
 
         throw new \LogicException('Name must be a string or an instance of PhpParser\Node\Name');
@@ -170,9 +170,9 @@ final class BuilderHelpers
             }
 
             return new Expr\Array_($items);
-        } else {
-            throw new \LogicException('Invalid value');
         }
+
+        throw new \LogicException('Invalid value');
     }
 
     /**
@@ -187,9 +187,9 @@ final class BuilderHelpers
             return $docComment;
         } elseif (is_string($docComment)) {
             return new Comment\Doc($docComment);
-        } else {
-            throw new \LogicException('Doc comment must be a string or an instance of PhpParser\Comment\Doc');
         }
+            throw new \LogicException('Doc comment must be a string or an instance of PhpParser\Comment\Doc');
+
     }
 
     /**
