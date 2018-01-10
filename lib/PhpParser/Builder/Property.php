@@ -89,7 +89,7 @@ class Property implements PhpParser\Builder
      */
     public function setDocComment($docComment) {
         $this->attributes = [
-            'comments' => [BuilderHelpers::normalizeDocComment($docComment)]
+            'comments' => [BuilderHelpers::normalizeDocComment($docComment)],
         ];
 
         return $this;
@@ -104,7 +104,7 @@ class Property implements PhpParser\Builder
         return new Stmt\Property(
             $this->flags !== 0 ? $this->flags : Stmt\Class_::MODIFIER_PUBLIC,
             [
-                new Stmt\PropertyProperty($this->name, $this->default)
+                new Stmt\PropertyProperty($this->name, $this->default),
             ],
             $this->attributes
         );

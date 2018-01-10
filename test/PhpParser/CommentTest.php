@@ -36,7 +36,7 @@ class CommentTest extends TestCase
                 '/**
  * Some text.
  * Some more text.
- */'
+ */',
             ],
             [
                 '/*
@@ -46,7 +46,7 @@ class CommentTest extends TestCase
                 '/*
     Some text.
     Some more text.
-*/'
+*/',
             ],
             [
                 '/* Some text.
@@ -54,7 +54,7 @@ class CommentTest extends TestCase
        Even more text. */',
                 '/* Some text.
    More text.
-   Even more text. */'
+   Even more text. */',
             ],
             [
                 '/* Some text.

@@ -1141,7 +1141,7 @@ abstract class PrettyPrinterAbstract
         foreach ($binaryOps as $binaryOp) {
             $this->fixupMap[$binaryOp] = [
                 'left' => self::FIXUP_PREC_LEFT,
-                'right' => self::FIXUP_PREC_RIGHT
+                'right' => self::FIXUP_PREC_RIGHT,
             ];
         }
 

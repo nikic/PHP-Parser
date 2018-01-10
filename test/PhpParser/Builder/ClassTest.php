@@ -44,7 +44,7 @@ class ClassTest extends TestCase
 
         $this->assertEquals(
             new Stmt\Class_('Test', [
-                'flags' => Stmt\Class_::MODIFIER_ABSTRACT
+                'flags' => Stmt\Class_::MODIFIER_ABSTRACT,
             ]),
             $node
         );
@@ -58,7 +58,7 @@ class ClassTest extends TestCase
 
         $this->assertEquals(
             new Stmt\Class_('Test', [
-                'flags' => Stmt\Class_::MODIFIER_FINAL
+                'flags' => Stmt\Class_::MODIFIER_FINAL,
             ]),
             $node
         );
@@ -71,7 +71,7 @@ class ClassTest extends TestCase
             [new Stmt\PropertyProperty('testProperty')]
         );
         $const = new Stmt\ClassConst([
-            new Node\Const_('TEST_CONST', new Node\Scalar\String_('ABC'))
+            new Node\Const_('TEST_CONST', new Node\Scalar\String_('ABC')),
         ]);
         $use = new Stmt\TraitUse([new Name('SomeTrait')]);
 
@@ -84,7 +84,7 @@ class ClassTest extends TestCase
 
         $this->assertEquals(
             new Stmt\Class_('Test', [
-                'stmts' => [$use, $const, $property, $method]
+                'stmts' => [$use, $const, $property, $method],
             ]),
             $node
         );
@@ -103,8 +103,8 @@ DOC;
         $this->assertEquals(
             new Stmt\Class_('Test', [], [
                 'comments' => [
-                    new Comment\Doc($docComment)
-                ]
+                    new Comment\Doc($docComment),
+                ],
             ]),
             $class
         );
@@ -116,8 +116,8 @@ DOC;
         $this->assertEquals(
             new Stmt\Class_('Test', [], [
                 'comments' => [
-                    new Comment\Doc($docComment)
-                ]
+                    new Comment\Doc($docComment),
+                ],
             ]),
             $class
         );

@@ -45,7 +45,7 @@ abstract class ParserTest extends TestCase
             'usedAttributes' => [
                 'comments', 'startLine', 'endLine',
                 'startTokenPos', 'endTokenPos',
-            ]
+            ],
         ]);
 
         $code = <<<'EOC'

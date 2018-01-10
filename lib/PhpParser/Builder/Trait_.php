@@ -53,7 +53,7 @@ class Trait_ extends Declaration
     public function getNode() : PhpParser\Node {
         return new Stmt\Trait_(
             $this->name, [
-                'stmts' => array_merge($this->uses, $this->properties, $this->methods)
+                'stmts' => array_merge($this->uses, $this->properties, $this->methods),
             ], $this->attributes
         );
     }

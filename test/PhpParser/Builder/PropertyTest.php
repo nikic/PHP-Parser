@@ -27,7 +27,7 @@ class PropertyTest extends TestCase
                 Stmt\Class_::MODIFIER_PRIVATE
               | Stmt\Class_::MODIFIER_STATIC,
                 [
-                    new Stmt\PropertyProperty('test')
+                    new Stmt\PropertyProperty('test'),
                 ]
             ),
             $node
@@ -42,7 +42,7 @@ class PropertyTest extends TestCase
             new Stmt\Property(
                 Stmt\Class_::MODIFIER_PROTECTED,
                 [
-                    new Stmt\PropertyProperty('test')
+                    new Stmt\PropertyProperty('test'),
                 ]
             ),
             $node
@@ -57,7 +57,7 @@ class PropertyTest extends TestCase
             new Stmt\Property(
                 Stmt\Class_::MODIFIER_PUBLIC,
                 [
-                    new Stmt\PropertyProperty('test')
+                    new Stmt\PropertyProperty('test'),
                 ]
             ),
             $node
@@ -72,10 +72,10 @@ class PropertyTest extends TestCase
         $this->assertEquals(new Stmt\Property(
             Stmt\Class_::MODIFIER_PUBLIC,
             [
-                new Stmt\PropertyProperty('test')
+                new Stmt\PropertyProperty('test'),
             ],
             [
-                'comments' => [new Comment\Doc('/** Test */')]
+                'comments' => [new Comment\Doc('/** Test */')],
             ]
         ), $node);
     }
@@ -96,27 +96,27 @@ class PropertyTest extends TestCase
         return [
             [
                 null,
-                new Expr\ConstFetch(new Name('null'))
+                new Expr\ConstFetch(new Name('null')),
             ],
             [
                 true,
-                new Expr\ConstFetch(new Name('true'))
+                new Expr\ConstFetch(new Name('true')),
             ],
             [
                 false,
-                new Expr\ConstFetch(new Name('false'))
+                new Expr\ConstFetch(new Name('false')),
             ],
             [
                 31415,
-                new Scalar\LNumber(31415)
+                new Scalar\LNumber(31415),
             ],
             [
                 3.1415,
-                new Scalar\DNumber(3.1415)
+                new Scalar\DNumber(3.1415),
             ],
             [
                 'Hallo World',
-                new Scalar\String_('Hallo World')
+                new Scalar\String_('Hallo World'),
             ],
             [
                 [1, 2, 3],
@@ -124,7 +124,7 @@ class PropertyTest extends TestCase
                     new Expr\ArrayItem(new Scalar\LNumber(1)),
                     new Expr\ArrayItem(new Scalar\LNumber(2)),
                     new Expr\ArrayItem(new Scalar\LNumber(3)),
-                ])
+                ]),
             ],
             [
                 ['foo' => 'bar', 'bar' => 'foo'],
@@ -137,12 +137,12 @@ class PropertyTest extends TestCase
                         new Scalar\String_('foo'),
                         new Scalar\String_('bar')
                     ),
-                ])
+                ]),
             ],
             [
                 new Scalar\MagicConst\Dir,
-                new Scalar\MagicConst\Dir
-            ]
+                new Scalar\MagicConst\Dir,
+            ],
         ];
     }
 }

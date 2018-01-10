@@ -43,7 +43,7 @@ class CodeParsingTest extends CodeTestAbstract
             'startLine', 'endLine',
             'startFilePos', 'endFilePos',
             'startTokenPos', 'endTokenPos',
-            'comments'
+            'comments',
         ]]);
 
         return [

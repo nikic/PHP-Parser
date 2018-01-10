@@ -86,7 +86,7 @@ class BuilderFactoryTest extends TestCase
             [
                 new Arg(new Expr\Variable('a')),
                 new Arg(new String_('b')),
-                $unpack
+                $unpack,
             ],
             $factory->args([new Expr\Variable('a'), 'b', $unpack])
         );

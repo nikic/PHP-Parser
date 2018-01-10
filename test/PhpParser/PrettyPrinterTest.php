@@ -87,7 +87,7 @@ class PrettyPrinterTest extends CodeTestAbstract
         $this->assertEquals('($a + $b) * $c', $prettyPrinter->prettyPrintExpr($expr));
 
         $expr = new Expr\Closure([
-            'stmts' => [new Stmt\Return_(new String_("a\nb"))]
+            'stmts' => [new Stmt\Return_(new String_("a\nb"))],
         ]);
         $this->assertEquals("function () {\n    return 'a\nb';\n}", $prettyPrinter->prettyPrintExpr($expr));
     }
@@ -110,7 +110,7 @@ class PrettyPrinterTest extends CodeTestAbstract
     public function testArraySyntaxDefault() {
         $prettyPrinter = new Standard(['shortArraySyntax' => true]);
         $expr = new Expr\Array_([
-            new Expr\ArrayItem(new String_('val'), new String_('key'))
+            new Expr\ArrayItem(new String_('val'), new String_('key')),
         ]);
         $expected = "['key' => 'val']";
         $this->assertSame($expected, $prettyPrinter->prettyPrintExpr($expr));

@@ -18,7 +18,7 @@ class TraitTest extends TestCase
         $method2 = new Stmt\ClassMethod('test2');
         $method3 = new Stmt\ClassMethod('test3');
         $prop = new Stmt\Property(Stmt\Class_::MODIFIER_PUBLIC, [
-            new Stmt\PropertyProperty('test')
+            new Stmt\PropertyProperty('test'),
         ]);
         $use = new Stmt\TraitUse([new Name('OtherTrait')]);
         $trait = $this->createTraitBuilder('TestTrait')
@@ -29,11 +29,11 @@ class TraitTest extends TestCase
             ->addStmt($use)
             ->getNode();
         $this->assertEquals(new Stmt\Trait_('TestTrait', [
-            'stmts' => [$use, $prop, $method1, $method2, $method3]
+            'stmts' => [$use, $prop, $method1, $method2, $method3],
         ], [
             'comments' => [
-                new Comment\Doc('/** Nice trait */')
-            ]
+                new Comment\Doc('/** Nice trait */'),
+            ],
         ]), $trait);
     }
 
