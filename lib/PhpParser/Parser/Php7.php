@@ -29,7 +29,7 @@ class Php7 extends \PhpParser\ParserAbstract
     protected $YY2TBLSTATE = 328;
     protected $numNonLeafStates = 578;
 
-    protected $symbolToName = array(
+    protected $symbolToName = [
         'EOF',
         'error',
         'T_INCLUDE',
@@ -187,9 +187,9 @@ class Php7 extends \PhpParser\ParserAbstract
         "']'",
         "'\"'",
         "'$'"
-    );
+    ];
 
-    protected $tokenToSymbol = array(
+    protected $tokenToSymbol = [
             0,  157,  157,  157,  157,  157,  157,  157,  157,  157,
           157,  157,  157,  157,  157,  157,  157,  157,  157,  157,
           157,  157,  157,  157,  157,  157,  157,  157,  157,  157,
@@ -230,9 +230,9 @@ class Php7 extends \PhpParser\ParserAbstract
           132,  133,  134,  135,  136,  137,  157,  157,  157,  157,
           157,  157,  138,  139,  140,  141,  142,  143,  144,  145,
           146,  147
-    );
+    ];
 
-    protected $action = array(
+    protected $action = [
           583,  584,  585,  586,  587,    0,  588,  589,  590,  626,
           627, 1041,   27,   99,  100,  101,  102,  103,  104,  105,
           106,  107,  108,  109,  110,-32766,-32766,-32766,   95,   96,
@@ -322,9 +322,9 @@ class Php7 extends \PhpParser\ParserAbstract
           992,  538,  395,  -91,  388,  386,  381,  310,   16,   14,
            13,   12, -230, -231,    0, -416,    0, 1001,  504, 1080,
          1045, 1031, 1030,    0, 1019
-    );
+    ];
 
-    protected $actionCheck = array(
+    protected $actionCheck = [
             2,    3,    4,    5,    6,    0,    8,    9,   10,   11,
            12,    1,   15,   16,   17,   18,   19,   20,   21,   22,
            23,   24,   25,   26,   27,    8,    9,   10,   50,   51,
@@ -414,9 +414,9 @@ class Php7 extends \PhpParser\ParserAbstract
           152,  152,  152,  152,  152,  152,  152,  152,  152,  152,
           152,  152,  152,  152,   -1,  153,   -1,  154,  154,  154,
           154,  154,  154,   -1,  155
-    );
+    ];
 
-    protected $actionBase = array(
+    protected $actionBase = [
             0,  220,  295,  283,  336,  549,   -2,   -2,  -36,   -2,
            -2,  473,  505,  404,  505,  606,  574,  675,  675,  675,
           109,   39,  504,  504,  477,  504,  492,  506,  503,  134,
@@ -508,9 +508,9 @@ class Php7 extends \PhpParser\ParserAbstract
           469,    0,    0,    0,    0,    0,    0,    0,    0,    0,
             0,  483,    0,  474,    0,  470,    0,    0,  474,  474,
           474,  470,  470,    0,    0,  470
-    );
+    ];
 
-    protected $actionDefault = array(
+    protected $actionDefault = [
             3,32767,32767,32767,32767,32767,32767,   91,32767,32767,
         32767,32767,32767,32767,32767,32767,32767,32767,32767,32767,
         32767,   91,  494,  494,32767,  494,32767,32767,32767,  306,
@@ -569,9 +569,9 @@ class Php7 extends \PhpParser\ParserAbstract
           135,    3,    3,  135,  135,  135,  135,  135,  135,  135,
           135,  135,  135,  135,  135,  135,  135,  135,  266,  167,
           266,  220,  266,  266,  223,  212,  212,  273
-    );
+    ];
 
-    protected $goto = array(
+    protected $goto = [
           163,  163,  136,  136,  146,  136,  148,  179,  164,  161,
           161,  161,  161,  145,  162,  162,  162,  162,  162,  162,
           162,  145,  157,  158,  159,  160,  176,  174,  177,  422,
@@ -620,9 +620,9 @@ class Php7 extends \PhpParser\ParserAbstract
             0,    0,  439,    0,  455,    0,    0,  301,    0,  443,
           363,    0,  365,    0,    0,    0,    0,    0,    0,    0,
             0,    0,    0,    0,    0,    0,  699,    0, 1081
-    );
+    ];
 
-    protected $gotoCheck = array(
+    protected $gotoCheck = [
            33,   33,   33,   33,   33,   33,   33,   33,   33,   33,
            33,   33,   33,   33,   33,   33,   33,   33,   33,   33,
            33,   33,   33,   33,   33,   33,   33,   33,   33,   33,
@@ -671,9 +671,9 @@ class Php7 extends \PhpParser\ParserAbstract
            -1,   -1,    8,   -1,    8,   -1,   -1,    8,   -1,    8,
             8,   -1,    8,   -1,   -1,   -1,   -1,   -1,   -1,   -1,
            -1,   -1,   -1,   -1,   -1,   -1,    8,   -1,    8
-    );
+    ];
 
-    protected $gotoBase = array(
+    protected $gotoBase = [
             0,    0, -274,    0,    0,  137,    0,  115,  108,    0,
          -139,   47,    5,  -17,  -36,  -28,  125,  121,  128,   40,
            60,    0,    0,   -2,   44,    0,  -75,    0,   39,    0,
@@ -689,9 +689,9 @@ class Php7 extends \PhpParser\ParserAbstract
           -26,    0,   -9,    0,    0,   -4,    0,    0,    0,    0,
             0,    0,  -37,   12,  194,  -49,    0,   66,    0,  -16,
             0,  227,    0,  199,   10,  -41,    0,    0
-    );
+    ];
 
-    protected $gotoDefault = array(
+    protected $gotoDefault = [
         -32768,  396,  579,    2,  580,  651,  659,  516,  413,  545,
           414,  441,  316,  733,  881,  695,  777,  716,  717,  305,
           340,  296,  303,  501,  491,  387,  702,  359,  694,  383,
@@ -707,9 +707,9 @@ class Php7 extends \PhpParser\ParserAbstract
           384,  971,  366,  523,  394,  976, 1033,  355,  417,  373,
           268,  282,  244,  418,  435,  249,  419,  374, 1036, 1043,
           319, 1059,  436, 1067, 1075,  275,  468,  482
-    );
+    ];
 
-    protected $ruleToNonTerminal = array(
+    protected $ruleToNonTerminal = [
             0,    1,    3,    3,    2,    5,    5,    5,    5,    5,
             5,    5,    5,    5,    5,    5,    5,    5,    5,    5,
             5,    5,    5,    5,    5,    5,    5,    5,    5,    5,
@@ -762,9 +762,9 @@ class Php7 extends \PhpParser\ParserAbstract
           143,  143,  143,  143,  143,  132,  132,  132,  132,  145,
           146,  144,  144,  144,  144,  144,  144,  144,  147,  147,
           147,  147
-    );
+    ];
 
-    protected $ruleToLength = array(
+    protected $ruleToLength = [
             1,    1,    2,    0,    1,    1,    1,    1,    1,    1,
             1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
             1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
@@ -817,7 +817,7 @@ class Php7 extends \PhpParser\ParserAbstract
             3,    1,    4,    2,    0,    2,    2,    1,    2,    1,
             1,    1,    4,    3,    3,    3,    6,    3,    1,    1,
             2,    1
-    );
+    ];
 
     protected function initReduceCallbacks() {
         $this->reduceCallbacks = [
@@ -831,7 +831,7 @@ class Php7 extends \PhpParser\ParserAbstract
                  if (is_array($this->semStack[$stackPos-(2-2)])) { $this->semValue = array_merge($this->semStack[$stackPos-(2-1)], $this->semStack[$stackPos-(2-2)]); } else { $this->semStack[$stackPos-(2-1)][] = $this->semStack[$stackPos-(2-2)]; $this->semValue = $this->semStack[$stackPos-(2-1)]; };
             },
             3 => function ($stackPos) {
-                 $this->semValue = array();
+                 $this->semValue = [];
             },
             4 => function ($stackPos) {
                  $startAttributes = $this->lookaheadStartAttributes; if (isset($startAttributes['comments'])) { $nop = new Stmt\Nop($startAttributes + $this->endAttributes); } else { $nop = null; };
@@ -1075,7 +1075,7 @@ class Php7 extends \PhpParser\ParserAbstract
                  $this->semValue = new Node\Identifier($this->semStack[$stackPos-(1-1)], $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
             },
             84 => function ($stackPos) {
-                 $this->semValue = array($this->semStack[$stackPos-(1-1)]);
+                 $this->semValue = [$this->semStack[$stackPos-(1-1)]];
             },
             85 => function ($stackPos) {
                  $this->semStack[$stackPos-(3-1)][] = $this->semStack[$stackPos-(3-3)]; $this->semValue = $this->semStack[$stackPos-(3-1)];
@@ -1168,7 +1168,7 @@ class Php7 extends \PhpParser\ParserAbstract
                  $this->semStack[$stackPos-(3-1)][] = $this->semStack[$stackPos-(3-3)]; $this->semValue = $this->semStack[$stackPos-(3-1)];
             },
             113 => function ($stackPos) {
-                 $this->semValue = array($this->semStack[$stackPos-(1-1)]);
+                 $this->semValue = [$this->semStack[$stackPos-(1-1)]];
             },
             114 => function ($stackPos) {
                  $this->semValue = $this->semStack[$stackPos-(2-1)];
@@ -1177,7 +1177,7 @@ class Php7 extends \PhpParser\ParserAbstract
                  $this->semStack[$stackPos-(3-1)][] = $this->semStack[$stackPos-(3-3)]; $this->semValue = $this->semStack[$stackPos-(3-1)];
             },
             116 => function ($stackPos) {
-                 $this->semValue = array($this->semStack[$stackPos-(1-1)]);
+                 $this->semValue = [$this->semStack[$stackPos-(1-1)]];
             },
             117 => function ($stackPos) {
                  $this->semValue = $this->semStack[$stackPos-(2-1)];
@@ -1186,7 +1186,7 @@ class Php7 extends \PhpParser\ParserAbstract
                  $this->semStack[$stackPos-(3-1)][] = $this->semStack[$stackPos-(3-3)]; $this->semValue = $this->semStack[$stackPos-(3-1)];
             },
             119 => function ($stackPos) {
-                 $this->semValue = array($this->semStack[$stackPos-(1-1)]);
+                 $this->semValue = [$this->semStack[$stackPos-(1-1)]];
             },
             120 => function ($stackPos) {
                  $this->semValue = new Stmt\UseUse($this->semStack[$stackPos-(1-1)], null, Stmt\Use_::TYPE_UNKNOWN, $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes); $this->checkUseUse($this->semValue, $stackPos-(1-1));
@@ -1213,7 +1213,7 @@ class Php7 extends \PhpParser\ParserAbstract
                  $this->semStack[$stackPos-(3-1)][] = $this->semStack[$stackPos-(3-3)]; $this->semValue = $this->semStack[$stackPos-(3-1)];
             },
             128 => function ($stackPos) {
-                 $this->semValue = array($this->semStack[$stackPos-(1-1)]);
+                 $this->semValue = [$this->semStack[$stackPos-(1-1)]];
             },
             129 => function ($stackPos) {
                  $this->semValue = new Node\Const_($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
@@ -1225,7 +1225,7 @@ class Php7 extends \PhpParser\ParserAbstract
                  $this->semStack[$stackPos-(3-1)][] = $this->semStack[$stackPos-(3-3)]; $this->semValue = $this->semStack[$stackPos-(3-1)];
             },
             132 => function ($stackPos) {
-                 $this->semValue = array($this->semStack[$stackPos-(1-1)]);
+                 $this->semValue = [$this->semStack[$stackPos-(1-1)]];
             },
             133 => function ($stackPos) {
                  $this->semValue = new Node\Const_($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
@@ -1234,7 +1234,7 @@ class Php7 extends \PhpParser\ParserAbstract
                  if (is_array($this->semStack[$stackPos-(2-2)])) { $this->semValue = array_merge($this->semStack[$stackPos-(2-1)], $this->semStack[$stackPos-(2-2)]); } else { $this->semStack[$stackPos-(2-1)][] = $this->semStack[$stackPos-(2-2)]; $this->semValue = $this->semStack[$stackPos-(2-1)]; };
             },
             135 => function ($stackPos) {
-                 $this->semValue = array();
+                 $this->semValue = [];
             },
             136 => function ($stackPos) {
                  $startAttributes = $this->lookaheadStartAttributes; if (isset($startAttributes['comments'])) { $nop = new Stmt\Nop($startAttributes + $this->endAttributes); } else { $nop = null; };
@@ -1258,12 +1258,12 @@ class Php7 extends \PhpParser\ParserAbstract
             $this->semValue = $this->semStack[$stackPos-(3-2)]; $attrs = $this->startAttributeStack[$stackPos-(3-1)]; $stmts = $this->semValue; if (!empty($attrs['comments'])) {$stmts[0]->setAttribute('comments', array_merge($attrs['comments'], $stmts[0]->getAttribute('comments', []))); };
         } else {
             $startAttributes = $this->startAttributeStack[$stackPos-(3-1)]; if (isset($startAttributes['comments'])) { $this->semValue = new Stmt\Nop($startAttributes + $this->endAttributes); } else { $this->semValue = null; };
-            if (null === $this->semValue) { $this->semValue = array(); }
+            if (null === $this->semValue) { $this->semValue = []; }
         }
 
             },
             142 => function ($stackPos) {
-                 $this->semValue = new Stmt\If_($this->semStack[$stackPos-(7-3)], ['stmts' => is_array($this->semStack[$stackPos-(7-5)]) ? $this->semStack[$stackPos-(7-5)] : array($this->semStack[$stackPos-(7-5)]), 'elseifs' => $this->semStack[$stackPos-(7-6)], 'else' => $this->semStack[$stackPos-(7-7)]], $this->startAttributeStack[$stackPos-(7-1)] + $this->endAttributes);
+                 $this->semValue = new Stmt\If_($this->semStack[$stackPos-(7-3)], ['stmts' => is_array($this->semStack[$stackPos-(7-5)]) ? $this->semStack[$stackPos-(7-5)] : [$this->semStack[$stackPos-(7-5)]], 'elseifs' => $this->semStack[$stackPos-(7-6)], 'else' => $this->semStack[$stackPos-(7-7)]], $this->startAttributeStack[$stackPos-(7-1)] + $this->endAttributes);
             },
             143 => function ($stackPos) {
                  $this->semValue = new Stmt\If_($this->semStack[$stackPos-(10-3)], ['stmts' => $this->semStack[$stackPos-(10-6)], 'elseifs' => $this->semStack[$stackPos-(10-7)], 'else' => $this->semStack[$stackPos-(10-8)]], $this->startAttributeStack[$stackPos-(10-1)] + $this->endAttributes);
@@ -1272,7 +1272,7 @@ class Php7 extends \PhpParser\ParserAbstract
                  $this->semValue = new Stmt\While_($this->semStack[$stackPos-(5-3)], $this->semStack[$stackPos-(5-5)], $this->startAttributeStack[$stackPos-(5-1)] + $this->endAttributes);
             },
             145 => function ($stackPos) {
-                 $this->semValue = new Stmt\Do_($this->semStack[$stackPos-(7-5)], is_array($this->semStack[$stackPos-(7-2)]) ? $this->semStack[$stackPos-(7-2)] : array($this->semStack[$stackPos-(7-2)]), $this->startAttributeStack[$stackPos-(7-1)] + $this->endAttributes);
+                 $this->semValue = new Stmt\Do_($this->semStack[$stackPos-(7-5)], is_array($this->semStack[$stackPos-(7-2)]) ? $this->semStack[$stackPos-(7-2)] : [$this->semStack[$stackPos-(7-2)]], $this->startAttributeStack[$stackPos-(7-1)] + $this->endAttributes);
             },
             146 => function ($stackPos) {
                  $this->semValue = new Stmt\For_(['init' => $this->semStack[$stackPos-(9-3)], 'cond' => $this->semStack[$stackPos-(9-5)], 'loop' => $this->semStack[$stackPos-(9-7)], 'stmts' => $this->semStack[$stackPos-(9-9)]], $this->startAttributeStack[$stackPos-(9-1)] + $this->endAttributes);
@@ -1329,23 +1329,23 @@ class Php7 extends \PhpParser\ParserAbstract
                  $this->semValue = new Stmt\Label($this->semStack[$stackPos-(2-1)], $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes);
             },
             164 => function ($stackPos) {
-                 $this->semValue = array(); /* means: no statement */
+                 $this->semValue = []; /* means: no statement */
             },
             165 => function ($stackPos) {
                  $this->semValue = $this->semStack[$stackPos-(1-1)];
             },
             166 => function ($stackPos) {
                  $startAttributes = $this->startAttributeStack[$stackPos-(1-1)]; if (isset($startAttributes['comments'])) { $this->semValue = new Stmt\Nop($startAttributes + $this->endAttributes); } else { $this->semValue = null; };
-            if ($this->semValue === null) $this->semValue = array(); /* means: no statement */
+            if ($this->semValue === null) $this->semValue = []; /* means: no statement */
             },
             167 => function ($stackPos) {
-                 $this->semValue = array();
+                 $this->semValue = [];
             },
             168 => function ($stackPos) {
                  $this->semStack[$stackPos-(2-1)][] = $this->semStack[$stackPos-(2-2)]; $this->semValue = $this->semStack[$stackPos-(2-1)];
             },
             169 => function ($stackPos) {
-                 $this->semValue = array($this->semStack[$stackPos-(1-1)]);
+                 $this->semValue = [$this->semStack[$stackPos-(1-1)]];
             },
             170 => function ($stackPos) {
                  $this->semStack[$stackPos-(3-1)][] = $this->semStack[$stackPos-(3-3)]; $this->semValue = $this->semStack[$stackPos-(3-1)];
@@ -1363,7 +1363,7 @@ class Php7 extends \PhpParser\ParserAbstract
                  $this->semValue = $this->semStack[$stackPos-(2-1)];
             },
             175 => function ($stackPos) {
-                 $this->semValue = array($this->semStack[$stackPos-(1-1)]);
+                 $this->semValue = [$this->semStack[$stackPos-(1-1)]];
             },
             176 => function ($stackPos) {
                  $this->semStack[$stackPos-(3-1)][] = $this->semStack[$stackPos-(3-3)]; $this->semValue = $this->semStack[$stackPos-(3-1)];
@@ -1410,13 +1410,13 @@ class Php7 extends \PhpParser\ParserAbstract
                  $this->semValue = $this->semStack[$stackPos-(2-2)];
             },
             190 => function ($stackPos) {
-                 $this->semValue = array();
+                 $this->semValue = [];
             },
             191 => function ($stackPos) {
                  $this->semValue = $this->semStack[$stackPos-(2-2)];
             },
             192 => function ($stackPos) {
-                 $this->semValue = array();
+                 $this->semValue = [];
             },
             193 => function ($stackPos) {
                  $this->semValue = $this->semStack[$stackPos-(2-2)];
@@ -1425,25 +1425,25 @@ class Php7 extends \PhpParser\ParserAbstract
                  $this->semValue = $this->semStack[$stackPos-(2-1)];
             },
             195 => function ($stackPos) {
-                 $this->semValue = array($this->semStack[$stackPos-(1-1)]);
+                 $this->semValue = [$this->semStack[$stackPos-(1-1)]];
             },
             196 => function ($stackPos) {
                  $this->semStack[$stackPos-(3-1)][] = $this->semStack[$stackPos-(3-3)]; $this->semValue = $this->semStack[$stackPos-(3-1)];
             },
             197 => function ($stackPos) {
-                 $this->semValue = is_array($this->semStack[$stackPos-(1-1)]) ? $this->semStack[$stackPos-(1-1)] : array($this->semStack[$stackPos-(1-1)]);
+                 $this->semValue = is_array($this->semStack[$stackPos-(1-1)]) ? $this->semStack[$stackPos-(1-1)] : [$this->semStack[$stackPos-(1-1)]];
             },
             198 => function ($stackPos) {
                  $this->semValue = $this->semStack[$stackPos-(4-2)];
             },
             199 => function ($stackPos) {
-                 $this->semValue = is_array($this->semStack[$stackPos-(1-1)]) ? $this->semStack[$stackPos-(1-1)] : array($this->semStack[$stackPos-(1-1)]);
+                 $this->semValue = is_array($this->semStack[$stackPos-(1-1)]) ? $this->semStack[$stackPos-(1-1)] : [$this->semStack[$stackPos-(1-1)]];
             },
             200 => function ($stackPos) {
                  $this->semValue = $this->semStack[$stackPos-(4-2)];
             },
             201 => function ($stackPos) {
-                 $this->semValue = is_array($this->semStack[$stackPos-(1-1)]) ? $this->semStack[$stackPos-(1-1)] : array($this->semStack[$stackPos-(1-1)]);
+                 $this->semValue = is_array($this->semStack[$stackPos-(1-1)]) ? $this->semStack[$stackPos-(1-1)] : [$this->semStack[$stackPos-(1-1)]];
             },
             202 => function ($stackPos) {
                  $this->semValue = null;
@@ -1455,7 +1455,7 @@ class Php7 extends \PhpParser\ParserAbstract
                  $this->semValue = $this->semStack[$stackPos-(2-1)];
             },
             205 => function ($stackPos) {
-                 $this->semValue = array($this->semStack[$stackPos-(1-1)]);
+                 $this->semValue = [$this->semStack[$stackPos-(1-1)]];
             },
             206 => function ($stackPos) {
                  $this->semStack[$stackPos-(3-1)][] = $this->semStack[$stackPos-(3-3)]; $this->semValue = $this->semStack[$stackPos-(3-1)];
@@ -1476,7 +1476,7 @@ class Php7 extends \PhpParser\ParserAbstract
                  $this->semValue = $this->semStack[$stackPos-(5-3)];
             },
             212 => function ($stackPos) {
-                 $this->semValue = array();
+                 $this->semValue = [];
             },
             213 => function ($stackPos) {
                  $this->semStack[$stackPos-(2-1)][] = $this->semStack[$stackPos-(2-2)]; $this->semValue = $this->semStack[$stackPos-(2-1)];
@@ -1494,22 +1494,22 @@ class Php7 extends \PhpParser\ParserAbstract
                 $this->semValue = $this->semStack[$stackPos];
             },
             218 => function ($stackPos) {
-                 $this->semValue = is_array($this->semStack[$stackPos-(1-1)]) ? $this->semStack[$stackPos-(1-1)] : array($this->semStack[$stackPos-(1-1)]);
+                 $this->semValue = is_array($this->semStack[$stackPos-(1-1)]) ? $this->semStack[$stackPos-(1-1)] : [$this->semStack[$stackPos-(1-1)]];
             },
             219 => function ($stackPos) {
                  $this->semValue = $this->semStack[$stackPos-(4-2)];
             },
             220 => function ($stackPos) {
-                 $this->semValue = array();
+                 $this->semValue = [];
             },
             221 => function ($stackPos) {
                  $this->semStack[$stackPos-(2-1)][] = $this->semStack[$stackPos-(2-2)]; $this->semValue = $this->semStack[$stackPos-(2-1)];
             },
             222 => function ($stackPos) {
-                 $this->semValue = new Stmt\ElseIf_($this->semStack[$stackPos-(5-3)], is_array($this->semStack[$stackPos-(5-5)]) ? $this->semStack[$stackPos-(5-5)] : array($this->semStack[$stackPos-(5-5)]), $this->startAttributeStack[$stackPos-(5-1)] + $this->endAttributes);
+                 $this->semValue = new Stmt\ElseIf_($this->semStack[$stackPos-(5-3)], is_array($this->semStack[$stackPos-(5-5)]) ? $this->semStack[$stackPos-(5-5)] : [$this->semStack[$stackPos-(5-5)]], $this->startAttributeStack[$stackPos-(5-1)] + $this->endAttributes);
             },
             223 => function ($stackPos) {
-                 $this->semValue = array();
+                 $this->semValue = [];
             },
             224 => function ($stackPos) {
                  $this->semStack[$stackPos-(2-1)][] = $this->semStack[$stackPos-(2-2)]; $this->semValue = $this->semStack[$stackPos-(2-1)];
@@ -1521,7 +1521,7 @@ class Php7 extends \PhpParser\ParserAbstract
                  $this->semValue = null;
             },
             227 => function ($stackPos) {
-                 $this->semValue = new Stmt\Else_(is_array($this->semStack[$stackPos-(2-2)]) ? $this->semStack[$stackPos-(2-2)] : array($this->semStack[$stackPos-(2-2)]), $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes);
+                 $this->semValue = new Stmt\Else_(is_array($this->semStack[$stackPos-(2-2)]) ? $this->semStack[$stackPos-(2-2)] : [$this->semStack[$stackPos-(2-2)]], $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes);
             },
             228 => function ($stackPos) {
                  $this->semValue = null;
@@ -1530,25 +1530,25 @@ class Php7 extends \PhpParser\ParserAbstract
                  $this->semValue = new Stmt\Else_($this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
             },
             230 => function ($stackPos) {
-                 $this->semValue = array($this->semStack[$stackPos-(1-1)], false);
+                 $this->semValue = [$this->semStack[$stackPos-(1-1)], false];
             },
             231 => function ($stackPos) {
-                 $this->semValue = array($this->semStack[$stackPos-(2-2)], true);
+                 $this->semValue = [$this->semStack[$stackPos-(2-2)], true];
             },
             232 => function ($stackPos) {
-                 $this->semValue = array($this->semStack[$stackPos-(1-1)], false);
+                 $this->semValue = [$this->semStack[$stackPos-(1-1)], false];
             },
             233 => function ($stackPos) {
-                 $this->semValue = array($this->semStack[$stackPos-(1-1)], false);
+                 $this->semValue = [$this->semStack[$stackPos-(1-1)], false];
             },
             234 => function ($stackPos) {
                  $this->semValue = $this->semStack[$stackPos-(2-1)];
             },
             235 => function ($stackPos) {
-                 $this->semValue = array();
+                 $this->semValue = [];
             },
             236 => function ($stackPos) {
-                 $this->semValue = array($this->semStack[$stackPos-(1-1)]);
+                 $this->semValue = [$this->semStack[$stackPos-(1-1)]];
             },
             237 => function ($stackPos) {
                  $this->semStack[$stackPos-(3-1)][] = $this->semStack[$stackPos-(3-3)]; $this->semValue = $this->semStack[$stackPos-(3-1)];
@@ -1587,13 +1587,13 @@ class Php7 extends \PhpParser\ParserAbstract
                  $this->semValue = $this->semStack[$stackPos-(2-2)];
             },
             249 => function ($stackPos) {
-                 $this->semValue = array();
+                 $this->semValue = [];
             },
             250 => function ($stackPos) {
                  $this->semValue = $this->semStack[$stackPos-(4-2)];
             },
             251 => function ($stackPos) {
-                 $this->semValue = array($this->semStack[$stackPos-(1-1)]);
+                 $this->semValue = [$this->semStack[$stackPos-(1-1)]];
             },
             252 => function ($stackPos) {
                  $this->semStack[$stackPos-(3-1)][] = $this->semStack[$stackPos-(3-3)]; $this->semValue = $this->semStack[$stackPos-(3-1)];
@@ -1614,7 +1614,7 @@ class Php7 extends \PhpParser\ParserAbstract
                  $this->semStack[$stackPos-(3-1)][] = $this->semStack[$stackPos-(3-3)]; $this->semValue = $this->semStack[$stackPos-(3-1)];
             },
             258 => function ($stackPos) {
-                 $this->semValue = array($this->semStack[$stackPos-(1-1)]);
+                 $this->semValue = [$this->semStack[$stackPos-(1-1)]];
             },
             259 => function ($stackPos) {
                  $this->semValue = new Expr\Variable($this->semStack[$stackPos-(1-1)], $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
@@ -1626,7 +1626,7 @@ class Php7 extends \PhpParser\ParserAbstract
                  $this->semStack[$stackPos-(3-1)][] = $this->semStack[$stackPos-(3-3)]; $this->semValue = $this->semStack[$stackPos-(3-1)];
             },
             262 => function ($stackPos) {
-                 $this->semValue = array($this->semStack[$stackPos-(1-1)]);
+                 $this->semValue = [$this->semStack[$stackPos-(1-1)]];
             },
             263 => function ($stackPos) {
                  $this->semValue = new Stmt\StaticVar($this->semStack[$stackPos-(1-1)], null, $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
@@ -1638,7 +1638,7 @@ class Php7 extends \PhpParser\ParserAbstract
                  $this->semStack[$stackPos-(2-1)][] = $this->semStack[$stackPos-(2-2)]; $this->semValue = $this->semStack[$stackPos-(2-1)];
             },
             266 => function ($stackPos) {
-                 $this->semValue = array();
+                 $this->semValue = [];
             },
             267 => function ($stackPos) {
                  $this->semValue = new Stmt\Property($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-2)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes); $this->checkProperty($this->semValue, $stackPos-(3-1));
@@ -1654,13 +1654,13 @@ class Php7 extends \PhpParser\ParserAbstract
                  $this->semValue = new Stmt\TraitUse($this->semStack[$stackPos-(3-2)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
             },
             271 => function ($stackPos) {
-                 $this->semValue = array();
+                 $this->semValue = [];
             },
             272 => function ($stackPos) {
                  $this->semValue = $this->semStack[$stackPos-(3-2)];
             },
             273 => function ($stackPos) {
-                 $this->semValue = array();
+                 $this->semValue = [];
             },
             274 => function ($stackPos) {
                  $this->semStack[$stackPos-(2-1)][] = $this->semStack[$stackPos-(2-2)]; $this->semValue = $this->semStack[$stackPos-(2-1)];
@@ -1681,13 +1681,13 @@ class Php7 extends \PhpParser\ParserAbstract
                  $this->semValue = new Stmt\TraitUseAdaptation\Alias($this->semStack[$stackPos-(4-1)][0], $this->semStack[$stackPos-(4-1)][1], null, $this->semStack[$stackPos-(4-3)], $this->startAttributeStack[$stackPos-(4-1)] + $this->endAttributes);
             },
             280 => function ($stackPos) {
-                 $this->semValue = array($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)]);
+                 $this->semValue = [$this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)]];
             },
             281 => function ($stackPos) {
                  $this->semValue = $this->semStack[$stackPos-(1-1)];
             },
             282 => function ($stackPos) {
-                 $this->semValue = array(null, $this->semStack[$stackPos-(1-1)]);
+                 $this->semValue = [null, $this->semStack[$stackPos-(1-1)]];
             },
             283 => function ($stackPos) {
                  $this->semValue = null;
@@ -1735,7 +1735,7 @@ class Php7 extends \PhpParser\ParserAbstract
                  $this->semValue = $this->semStack[$stackPos-(2-1)];
             },
             298 => function ($stackPos) {
-                 $this->semValue = array($this->semStack[$stackPos-(1-1)]);
+                 $this->semValue = [$this->semStack[$stackPos-(1-1)]];
             },
             299 => function ($stackPos) {
                  $this->semStack[$stackPos-(3-1)][] = $this->semStack[$stackPos-(3-3)]; $this->semValue = $this->semStack[$stackPos-(3-1)];
@@ -1756,10 +1756,10 @@ class Php7 extends \PhpParser\ParserAbstract
                  $this->semStack[$stackPos-(3-1)][] = $this->semStack[$stackPos-(3-3)]; $this->semValue = $this->semStack[$stackPos-(3-1)];
             },
             305 => function ($stackPos) {
-                 $this->semValue = array($this->semStack[$stackPos-(1-1)]);
+                 $this->semValue = [$this->semStack[$stackPos-(1-1)]];
             },
             306 => function ($stackPos) {
-                 $this->semValue = array();
+                 $this->semValue = [];
             },
             307 => function ($stackPos) {
                  $this->semValue = $this->semStack[$stackPos-(1-1)];
@@ -2016,7 +2016,7 @@ class Php7 extends \PhpParser\ParserAbstract
                  $this->semValue = new Expr\Closure(['static' => true, 'byRef' => $this->semStack[$stackPos-(11-3)], 'params' => $this->semStack[$stackPos-(11-5)], 'uses' => $this->semStack[$stackPos-(11-7)], 'returnType' => $this->semStack[$stackPos-(11-8)], 'stmts' => $this->semStack[$stackPos-(11-10)]], $this->startAttributeStack[$stackPos-(11-1)] + $this->endAttributes);
             },
             391 => function ($stackPos) {
-                 $this->semValue = array(new Stmt\Class_(null, ['type' => 0, 'extends' => $this->semStack[$stackPos-(7-3)], 'implements' => $this->semStack[$stackPos-(7-4)], 'stmts' => $this->semStack[$stackPos-(7-6)]], $this->startAttributeStack[$stackPos-(7-1)] + $this->endAttributes), $this->semStack[$stackPos-(7-2)]);
+                 $this->semValue = [new Stmt\Class_(null, ['type' => 0, 'extends' => $this->semStack[$stackPos-(7-3)], 'implements' => $this->semStack[$stackPos-(7-4)], 'stmts' => $this->semStack[$stackPos-(7-6)]], $this->startAttributeStack[$stackPos-(7-1)] + $this->endAttributes), $this->semStack[$stackPos-(7-2)]];
             $this->checkClass($this->semValue[0], -1);
             },
             392 => function ($stackPos) {
@@ -2026,7 +2026,7 @@ class Php7 extends \PhpParser\ParserAbstract
                  list($class, $ctorArgs) = $this->semStack[$stackPos-(2-2)]; $this->semValue = new Expr\New_($class, $ctorArgs, $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes);
             },
             394 => function ($stackPos) {
-                 $this->semValue = array();
+                 $this->semValue = [];
             },
             395 => function ($stackPos) {
                  $this->semValue = $this->semStack[$stackPos-(4-3)];
@@ -2035,7 +2035,7 @@ class Php7 extends \PhpParser\ParserAbstract
                  $this->semValue = $this->semStack[$stackPos-(2-1)];
             },
             397 => function ($stackPos) {
-                 $this->semValue = array($this->semStack[$stackPos-(1-1)]);
+                 $this->semValue = [$this->semStack[$stackPos-(1-1)]];
             },
             398 => function ($stackPos) {
                  $this->semStack[$stackPos-(3-1)][] = $this->semStack[$stackPos-(3-3)]; $this->semValue = $this->semStack[$stackPos-(3-1)];
@@ -2089,16 +2089,16 @@ class Php7 extends \PhpParser\ParserAbstract
                  $this->semValue = $this->semStack[$stackPos-(3-2)];
             },
             415 => function ($stackPos) {
-                 $this->semValue = array();
+                 $this->semValue = [];
             },
             416 => function ($stackPos) {
-                 $this->semValue = array(new Scalar\EncapsedStringPart(Scalar\String_::parseEscapeSequences($this->semStack[$stackPos-(1-1)], '`'), $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes));
+                 $this->semValue = [new Scalar\EncapsedStringPart(Scalar\String_::parseEscapeSequences($this->semStack[$stackPos-(1-1)], '`'), $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes)];
             },
             417 => function ($stackPos) {
                  foreach ($this->semStack[$stackPos-(1-1)] as $s) { if ($s instanceof Node\Scalar\EncapsedStringPart) { $s->value = Node\Scalar\String_::parseEscapeSequences($s->value, '`', true); } }; $this->semValue = $this->semStack[$stackPos-(1-1)];
             },
             418 => function ($stackPos) {
-                 $this->semValue = array();
+                 $this->semValue = [];
             },
             419 => function ($stackPos) {
                  $this->semValue = $this->semStack[$stackPos-(1-1)];
@@ -2294,7 +2294,7 @@ class Php7 extends \PhpParser\ParserAbstract
                  $this->semStack[$stackPos-(3-1)][] = $this->semStack[$stackPos-(3-3)]; $this->semValue = $this->semStack[$stackPos-(3-1)];
             },
             481 => function ($stackPos) {
-                 $this->semValue = array($this->semStack[$stackPos-(1-1)]);
+                 $this->semValue = [$this->semStack[$stackPos-(1-1)]];
             },
             482 => function ($stackPos) {
                  $this->semValue = new Expr\ArrayItem($this->semStack[$stackPos-(1-1)], null, false, $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
@@ -2318,7 +2318,7 @@ class Php7 extends \PhpParser\ParserAbstract
                  $this->semStack[$stackPos-(3-1)][] = $this->semStack[$stackPos-(3-3)]; $this->semValue = $this->semStack[$stackPos-(3-1)];
             },
             489 => function ($stackPos) {
-                 $this->semValue = array($this->semStack[$stackPos-(1-1)]);
+                 $this->semValue = [$this->semStack[$stackPos-(1-1)]];
             },
             490 => function ($stackPos) {
                  $this->semValue = new Expr\ArrayItem($this->semStack[$stackPos-(3-3)], $this->semStack[$stackPos-(3-1)], false, $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
@@ -2342,10 +2342,10 @@ class Php7 extends \PhpParser\ParserAbstract
                  $this->semStack[$stackPos-(2-1)][] = $this->semStack[$stackPos-(2-2)]; $this->semValue = $this->semStack[$stackPos-(2-1)];
             },
             497 => function ($stackPos) {
-                 $this->semValue = array($this->semStack[$stackPos-(1-1)]);
+                 $this->semValue = [$this->semStack[$stackPos-(1-1)]];
             },
             498 => function ($stackPos) {
-                 $this->semValue = array($this->semStack[$stackPos-(2-1)], $this->semStack[$stackPos-(2-2)]);
+                 $this->semValue = [$this->semStack[$stackPos-(2-1)], $this->semStack[$stackPos-(2-2)]];
             },
             499 => function ($stackPos) {
                  $this->semValue = new Scalar\EncapsedStringPart($this->semStack[$stackPos-(1-1)], $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
