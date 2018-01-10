@@ -46,7 +46,7 @@ class PrintableNewAnonClassNode extends Expr
         );
     }
 
-    public function getType(): string {
+    public function getType() : string {
         return 'Expr_PrintableNewAnonClass';
     }
 

@@ -17,7 +17,7 @@ class Differ
     /**
      * Create differ over the given equality relation.
      *
-     * @param callable $isEqual Equality relation with signature function($a, $b): bool
+     * @param callable $isEqual Equality relation with signature function($a, $b) : bool
      */
     public function __construct(callable $isEqual) {
         $this->isEqual = $isEqual;

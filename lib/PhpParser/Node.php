@@ -90,7 +90,7 @@ interface Node
      *
      * @return Comment[]
      */
-    public function getComments(): array;
+    public function getComments() : array;
 
     /**
      * Gets the doc comment of the node.
