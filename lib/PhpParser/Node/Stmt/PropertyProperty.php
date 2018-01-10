@@ -28,7 +28,7 @@ class PropertyProperty extends Node\Stmt
         return ['name', 'default'];
     }
     
-    function getType() : string {
+    public function getType() : string {
         return 'Stmt_PropertyProperty';
     }
 }

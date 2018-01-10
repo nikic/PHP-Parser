@@ -56,7 +56,7 @@ class ClassConst extends Node\Stmt
         return (bool) ($this->flags & Class_::MODIFIER_PRIVATE);
     }
     
-    function getType() : string {
+    public function getType() : string {
         return 'Stmt_ClassConst';
     }
 }

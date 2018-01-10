@@ -10,7 +10,7 @@ class Dir extends MagicConst
         return '__DIR__';
     }
     
-    function getType() : string {
+    public function getType() : string {
         return 'Scalar_MagicConst_Dir';
     }
 }

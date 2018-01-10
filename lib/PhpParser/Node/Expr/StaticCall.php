@@ -34,7 +34,7 @@ class StaticCall extends Expr
         return ['class', 'name', 'args'];
     }
     
-    function getType() : string {
+    public function getType() : string {
         return 'Expr_StaticCall';
     }
 }

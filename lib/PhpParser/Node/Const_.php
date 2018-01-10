@@ -31,7 +31,7 @@ class Const_ extends NodeAbstract
         return ['name', 'value'];
     }
     
-    function getType() : string {
+    public function getType() : string {
         return 'Const';
     }
 }

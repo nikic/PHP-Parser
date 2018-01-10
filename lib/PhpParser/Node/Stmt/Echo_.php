@@ -24,7 +24,7 @@ class Echo_ extends Node\Stmt
         return ['exprs'];
     }
     
-    function getType() : string {
+    public function getType() : string {
         return 'Stmt_Echo';
     }
 }

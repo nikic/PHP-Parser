@@ -10,7 +10,7 @@ class BitwiseOr extends BinaryOp
         return '|';
     }
     
-    function getType() : string {
+    public function getType() : string {
         return 'Expr_BinaryOp_BitwiseOr';
     }
 }

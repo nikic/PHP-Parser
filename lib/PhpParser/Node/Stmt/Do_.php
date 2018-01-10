@@ -28,7 +28,7 @@ class Do_ extends Node\Stmt
         return ['stmts', 'cond'];
     }
     
-    function getType() : string {
+    public function getType() : string {
         return 'Stmt_Do';
     }
 }

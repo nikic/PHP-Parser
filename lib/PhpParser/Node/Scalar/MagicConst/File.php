@@ -10,7 +10,7 @@ class File extends MagicConst
         return '__FILE__';
     }
     
-    function getType() : string {
+    public function getType() : string {
         return 'Scalar_MagicConst_File';
     }
 }

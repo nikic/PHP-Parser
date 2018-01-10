@@ -25,7 +25,7 @@ class Encapsed extends Scalar
         return ['parts'];
     }
     
-    function getType() : string {
+    public function getType() : string {
         return 'Scalar_Encapsed';
     }
 }

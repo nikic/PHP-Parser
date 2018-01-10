@@ -31,7 +31,7 @@ class StaticVar extends Node\Stmt
         return ['var', 'default'];
     }
     
-    function getType() : string {
+    public function getType() : string {
         return 'Stmt_StaticVar';
     }
 }

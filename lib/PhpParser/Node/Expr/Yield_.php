@@ -28,7 +28,7 @@ class Yield_ extends Expr
         return ['key', 'value'];
     }
     
-    function getType() : string {
+    public function getType() : string {
         return 'Expr_Yield';
     }
 }

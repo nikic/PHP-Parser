@@ -25,7 +25,7 @@ class Error extends Expr
         return [];
     }
     
-    function getType() : string {
+    public function getType() : string {
         return 'Expr_Error';
     }
 }

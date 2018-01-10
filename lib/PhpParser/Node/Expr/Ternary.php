@@ -32,7 +32,7 @@ class Ternary extends Expr
         return ['cond', 'if', 'else'];
     }
     
-    function getType() : string {
+    public function getType() : string {
         return 'Expr_Ternary';
     }
 }

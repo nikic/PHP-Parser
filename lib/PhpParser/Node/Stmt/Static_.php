@@ -24,7 +24,7 @@ class Static_ extends Stmt
         return ['vars'];
     }
     
-    function getType() : string {
+    public function getType() : string {
         return 'Stmt_Static';
     }
 }

@@ -28,7 +28,7 @@ class ArrayDimFetch extends Expr
         return ['var', 'dim'];
     }
     
-    function getType() : string {
+    public function getType() : string {
         return 'Expr_ArrayDimFetch';
     }
 }

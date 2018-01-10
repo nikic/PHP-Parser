@@ -32,7 +32,7 @@ class ArrayItem extends Expr
         return ['key', 'value', 'byRef'];
     }
     
-    function getType() : string {
+    public function getType() : string {
         return 'Expr_ArrayItem';
     }
 }

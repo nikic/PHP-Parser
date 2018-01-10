@@ -10,7 +10,7 @@ class LogicalAnd extends BinaryOp
         return 'and';
     }
     
-    function getType() : string {
+    public function getType() : string {
         return 'Expr_BinaryOp_LogicalAnd';
     }
 }

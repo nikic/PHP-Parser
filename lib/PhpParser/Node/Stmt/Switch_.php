@@ -28,7 +28,7 @@ class Switch_ extends Node\Stmt
         return ['cond', 'cases'];
     }
     
-    function getType() : string {
+    public function getType() : string {
         return 'Stmt_Switch';
     }
 }

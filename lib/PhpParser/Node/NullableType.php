@@ -24,7 +24,7 @@ class NullableType extends NodeAbstract
         return ['type'];
     }
     
-    function getType() : string {
+    public function getType() : string {
         return 'NullableType';
     }
 }

@@ -29,7 +29,7 @@ class Interface_ extends ClassLike
         return ['name', 'extends', 'stmts'];
     }
     
-    function getType() : string {
+    public function getType() : string {
         return 'Stmt_Interface';
     }
 }

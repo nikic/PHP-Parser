@@ -35,7 +35,7 @@ class Catch_ extends Node\Stmt
         return ['types', 'var', 'stmts'];
     }
     
-    function getType() : string {
+    public function getType() : string {
         return 'Stmt_Catch';
     }
 }

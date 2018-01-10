@@ -65,7 +65,7 @@ class LNumber extends Scalar
         return new LNumber(intval($str, 8), $attributes);
     }
     
-    function getType() : string {
+    public function getType() : string {
         return 'Scalar_LNumber';
     }
 }

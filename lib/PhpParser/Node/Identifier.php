@@ -69,7 +69,7 @@ class Identifier extends NodeAbstract
         return $this->name;
     }
     
-    function getType() : string {
+    public function getType() : string {
         return 'Identifier';
     }
 }

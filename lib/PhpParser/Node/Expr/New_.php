@@ -29,7 +29,7 @@ class New_ extends Expr
         return ['class', 'args'];
     }
     
-    function getType() : string {
+    public function getType() : string {
         return 'Expr_New';
     }
 }

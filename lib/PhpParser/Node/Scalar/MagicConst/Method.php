@@ -10,7 +10,7 @@ class Method extends MagicConst
         return '__METHOD__';
     }
     
-    function getType() : string {
+    public function getType() : string {
         return 'Scalar_MagicConst_Method';
     }
 }

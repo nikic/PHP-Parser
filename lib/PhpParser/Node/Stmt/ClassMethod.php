@@ -145,7 +145,7 @@ class ClassMethod extends Node\Stmt implements FunctionLike
         return isset(self::$magicNames[$this->name->toLowerString()]);
     }
     
-    function getType() : string {
+    public function getType() : string {
         return 'Stmt_ClassMethod';
     }
 }

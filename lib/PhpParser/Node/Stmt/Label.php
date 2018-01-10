@@ -25,7 +25,7 @@ class Label extends Stmt
         return ['name'];
     }
     
-    function getType() : string {
+    public function getType() : string {
         return 'Stmt_Label';
     }
 }

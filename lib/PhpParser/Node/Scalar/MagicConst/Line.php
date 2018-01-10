@@ -10,7 +10,7 @@ class Line extends MagicConst
         return '__LINE__';
     }
     
-    function getType() : string {
+    public function getType() : string {
         return 'Scalar_MagicConst_Line';
     }
 }

@@ -24,7 +24,7 @@ class ShellExec extends Expr
         return ['parts'];
     }
     
-    function getType() : string {
+    public function getType() : string {
         return 'Expr_ShellExec';
     }
 }

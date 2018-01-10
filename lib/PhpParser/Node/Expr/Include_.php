@@ -33,7 +33,7 @@ class Include_ extends Expr
         return ['expr', 'type'];
     }
     
-    function getType() : string {
+    public function getType() : string {
         return 'Expr_Include';
     }
 }

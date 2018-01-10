@@ -24,7 +24,7 @@ class Continue_ extends Node\Stmt
         return ['num'];
     }
     
-    function getType() : string {
+    public function getType() : string {
         return 'Stmt_Continue';
     }
 }

@@ -11,7 +11,7 @@ class Nop extends Node\Stmt
         return [];
     }
     
-    function getType() : string {
+    public function getType() : string {
         return 'Stmt_Nop';
     }
 }
