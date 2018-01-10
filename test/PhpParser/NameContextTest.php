@@ -6,7 +6,8 @@ use PhpParser\Node\Name;
 use PhpParser\Node\Stmt\Use_;
 use PHPUnit\Framework\TestCase;
 
-class NameContextTest extends TestCase {
+class NameContextTest extends TestCase
+{
     /**
      * @dataProvider provideTestGetPossibleNames
      */

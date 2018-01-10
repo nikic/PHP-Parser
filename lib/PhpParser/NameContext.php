@@ -6,7 +6,8 @@ use PhpParser\Node\Name;
 use PhpParser\Node\Name\FullyQualified;
 use PhpParser\Node\Stmt;
 
-class NameContext {
+class NameContext
+{
     /** @var null|Name Current namespace */
     protected $namespace;
 

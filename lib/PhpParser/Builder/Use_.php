@@ -7,7 +7,8 @@ use PhpParser\BuilderHelpers;
 use PhpParser\Node;
 use PhpParser\Node\Stmt;
 
-class Use_ implements Builder {
+class Use_ implements Builder
+{
     protected $name;
     protected $type;
     protected $alias = null;

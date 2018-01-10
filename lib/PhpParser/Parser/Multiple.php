@@ -6,7 +6,8 @@ use PhpParser\Error;
 use PhpParser\ErrorHandler;
 use PhpParser\Parser;
 
-class Multiple implements Parser {
+class Multiple implements Parser
+{
     /** @var Parser[] List of parsers to try, in order of preference */
     private $parsers;
 

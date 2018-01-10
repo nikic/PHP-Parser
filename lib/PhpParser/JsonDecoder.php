@@ -2,7 +2,8 @@
 
 namespace PhpParser;
 
-class JsonDecoder {
+class JsonDecoder
+{
     /** @var \ReflectionClass[] Node type to reflection class map */
     private $reflectionClassCache;
 

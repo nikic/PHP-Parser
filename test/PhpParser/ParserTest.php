@@ -175,7 +175,8 @@ EOC;
     }
 }
 
-class InvalidTokenLexer extends Lexer {
+class InvalidTokenLexer extends Lexer
+{
     public function getNextToken(&$value = null, &$startAttributes = null, &$endAttributes = null) : int {
         $value = 'foobar';
         return 999;

@@ -2,7 +2,8 @@
 
 namespace PhpParser;
 
-interface Parser {
+interface Parser
+{
     /**
      * Parses PHP code into a node tree.
      *

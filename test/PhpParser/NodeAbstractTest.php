@@ -4,7 +4,8 @@ namespace PhpParser;
 
 use PHPUnit\Framework\TestCase;
 
-class DummyNode extends NodeAbstract {
+class DummyNode extends NodeAbstract
+{
     public $subNode1;
     public $subNode2;
 

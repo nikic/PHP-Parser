@@ -28,7 +28,8 @@ use PhpParser\Node\Scalar;
  * point to string conversions are affected by the precision ini setting. Secondly, they are also
  * affected by the LC_NUMERIC locale.
  */
-class ConstExprEvaluator {
+class ConstExprEvaluator
+{
     private $fallbackEvaluator;
 
     /**

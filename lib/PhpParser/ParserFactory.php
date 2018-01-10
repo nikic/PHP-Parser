@@ -2,7 +2,8 @@
 
 namespace PhpParser;
 
-class ParserFactory {
+class ParserFactory
+{
     const PREFER_PHP7 = 1;
     const PREFER_PHP5 = 2;
     const ONLY_PHP7 = 3;

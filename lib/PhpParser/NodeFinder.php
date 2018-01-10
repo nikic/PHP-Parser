@@ -5,7 +5,8 @@ namespace PhpParser;
 use PhpParser\NodeVisitor\FindingVisitor;
 use PhpParser\NodeVisitor\FirstFindingVisitor;
 
-class NodeFinder {
+class NodeFinder
+{
     /**
      * Find all nodes satisfying a filter callback.
      *

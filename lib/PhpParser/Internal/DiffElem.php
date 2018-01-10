@@ -5,7 +5,8 @@ namespace PhpParser\Internal;
 /**
  * @internal
  */
-class DiffElem {
+class DiffElem
+{
     const TYPE_KEEP = 0;
     const TYPE_REMOVE = 1;
     const TYPE_ADD = 2;

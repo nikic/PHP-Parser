@@ -14,7 +14,8 @@ use PhpParser\Node\Stmt;
  *
  * @internal
  */
-final class BuilderHelpers {
+final class BuilderHelpers
+{
     /**
      * Normalizes a node: Converts builder objects to nodes.
      *

@@ -7,7 +7,8 @@ namespace PhpParser;
  *
  * @internal
  */
-class TokenStream {
+class TokenStream
+{
     /** @var array Tokens (in token_get_all format) */
     private $tokens;
     /** @var int[] Map from position to indentation */

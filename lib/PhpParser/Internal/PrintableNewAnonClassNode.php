@@ -15,7 +15,8 @@ use PhpParser\Node\Expr;
  *
  * @internal
  */
-class PrintableNewAnonClassNode extends Expr  {
+class PrintableNewAnonClassNode extends Expr
+{
     /** @var Node\Arg[] Arguments */
     public $args;
     /** @var null|Node\Name Name of extended class */

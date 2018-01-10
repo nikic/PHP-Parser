@@ -2,7 +2,8 @@
 
 namespace PhpParser;
 
-class CodeTestParser {
+class CodeTestParser
+{
     public function parseTest($code, $chunksPerTest) {
         $code = canonicalize($code);
 
