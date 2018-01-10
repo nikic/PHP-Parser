@@ -4,7 +4,6 @@ namespace PhpParser\Node\Stmt;
 
 use PhpParser\Node;
 
-
 class TraitUse extends Node\Stmt
 {
     /** @var Node\Name[] Traits */

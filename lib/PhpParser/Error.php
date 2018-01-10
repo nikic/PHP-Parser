@@ -51,7 +51,6 @@ class Error extends \RuntimeException
         return $this->attributes['endLine'] ?? -1;
     }
 
-
     /**
      * Gets the attributes of the node/token the error occurred at.
      *
