@@ -45,7 +45,7 @@ class PrettyPrinterTest extends CodeTestAbstract
         if ('php5' === $version) {
             $this->assertSame($expected, $output5, $name);
             $this->assertNotSame($expected, $output7, $name);
-        } else if ('php7' === $version) {
+        } elseif ('php7' === $version) {
             $this->assertSame($expected, $output7, $name);
             $this->assertNotSame($expected, $output5, $name);
         } else {

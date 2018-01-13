@@ -140,10 +140,10 @@ class NodeAbstractTest extends TestCase
             if ($i === 0) {
                 $this->assertSame('subNode1', $key);
                 $this->assertSame('value1', $value);
-            } else if ($i === 1) {
+            } elseif ($i === 1) {
                 $this->assertSame('subNode2', $key);
                 $this->assertSame('value2', $value);
-            } else if ($i === 2) {
+            } elseif ($i === 2) {
                 $this->assertSame('notSubNode', $key);
                 $this->assertSame('value3', $value);
             } else {

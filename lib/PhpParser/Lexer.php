@@ -255,7 +255,7 @@ class Lexer
                 $id = $this->tokenMap[$token[0]];
                 if (\T_CLOSE_TAG === $token[0]) {
                     $this->prevCloseTagHasNewline = false !== strpos($token[1], "\n");
-                } else if (\T_INLINE_HTML === $token[0]) {
+                } elseif (\T_INLINE_HTML === $token[0]) {
                     $startAttributes['hasLeadingNewline'] = $this->prevCloseTagHasNewline;
                 }
 
@@ -357,7 +357,7 @@ class Lexer
                 if ('T_HASHBANG' === $name) {
                     // HHVM uses a special token for #! hashbang lines
                     $tokenMap[$i] = Tokens::T_INLINE_HTML;
-                } else if (defined($name = Tokens::class . '::' . $name)) {
+                } elseif (defined($name = Tokens::class . '::' . $name)) {
                     // Other tokens can be mapped directly
                     $tokenMap[$i] = constant($name);
                 }

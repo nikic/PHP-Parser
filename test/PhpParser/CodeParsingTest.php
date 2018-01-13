@@ -26,7 +26,7 @@ class CodeParsingTest extends CodeTestAbstract
         if (isset($modes['php5'])) {
             $this->assertSame($expected, $output5, $name);
             $this->assertNotSame($expected, $output7, $name);
-        } else if (isset($modes['php7'])) {
+        } elseif (isset($modes['php7'])) {
             $this->assertNotSame($expected, $output5, $name);
             $this->assertSame($expected, $output7, $name);
         } else {

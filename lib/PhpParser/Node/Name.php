@@ -199,7 +199,7 @@ class Name extends NodeAbstract
             return null;
         } elseif (null === $name1) {
             return new static(self::prepareName($name2), $attributes);
-        } else if (null === $name2) {
+        } elseif (null === $name2) {
             return new static(self::prepareName($name1), $attributes);
         } else {
             return new static(

@@ -50,7 +50,7 @@ class Interface_ extends Declaration
 
         if ($stmt instanceof Stmt\ClassConst) {
             $this->constants[] = $stmt;
-        } else if ($stmt instanceof Stmt\ClassMethod) {
+        } elseif ($stmt instanceof Stmt\ClassMethod) {
             // we erase all statements in the body of an interface method
             $stmt->stmts = null;
             $this->methods[] = $stmt;

@@ -226,7 +226,7 @@ class NodeTraverser implements NodeTraverserInterface
                         }
                     }
                 }
-            } else if (\is_array($node)) {
+            } elseif (\is_array($node)) {
                 throw new \LogicException('Invalid node structure: Contains nested arrays');
             }
         }

@@ -184,7 +184,7 @@ final class BuilderHelpers {
     public static function normalizeDocComment($docComment) : Comment\Doc {
         if ($docComment instanceof Comment\Doc) {
             return $docComment;
-        } else if (is_string($docComment)) {
+        } elseif (is_string($docComment)) {
             return new Comment\Doc($docComment);
         } else {
             throw new \LogicException('Doc comment must be a string or an instance of PhpParser\Comment\Doc');

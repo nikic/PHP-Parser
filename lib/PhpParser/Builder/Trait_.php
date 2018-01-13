@@ -34,9 +34,9 @@ class Trait_ extends Declaration
 
         if ($stmt instanceof Stmt\Property) {
             $this->properties[] = $stmt;
-        } else if ($stmt instanceof Stmt\ClassMethod) {
+        } elseif ($stmt instanceof Stmt\ClassMethod) {
             $this->methods[] = $stmt;
-        } else if ($stmt instanceof Stmt\TraitUse) {
+        } elseif ($stmt instanceof Stmt\TraitUse) {
             $this->uses[] = $stmt;
         } else {
             throw new \LogicException(sprintf('Unexpected node of type "%s"', $stmt->getType()));

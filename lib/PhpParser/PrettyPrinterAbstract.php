@@ -804,7 +804,7 @@ abstract class PrettyPrinterAbstract
                     // Add new comments
                     $result .= $this->pComments($comments) . $this->nl;
                 }
-            } else if ($diffType === DiffElem::TYPE_ADD) {
+            } elseif ($diffType === DiffElem::TYPE_ADD) {
                 if (null === $insertStr) {
                     // We don't have insertion information for this list type
                     return null;
@@ -836,7 +836,7 @@ abstract class PrettyPrinterAbstract
                 } else {
                     $result .= $insertStr;
                 }
-            } else if ($diffType === DiffElem::TYPE_REMOVE) {
+            } elseif ($diffType === DiffElem::TYPE_REMOVE) {
                 if ($i === 0) {
                     // TODO Handle removal at the start
                     return null;

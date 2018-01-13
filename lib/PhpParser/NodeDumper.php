@@ -65,9 +65,9 @@ class NodeDumper
                 } elseif (is_scalar($value)) {
                     if ('flags' === $key || 'newModifier' === $key) {
                         $r .= $this->dumpFlags($value);
-                    } else if ('type' === $key && $node instanceof Include_) {
+                    } elseif ('type' === $key && $node instanceof Include_) {
                         $r .= $this->dumpIncludeType($value);
-                    } else if ('type' === $key
+                    } elseif ('type' === $key
                             && ($node instanceof Use_ || $node instanceof UseUse || $node instanceof GroupUse)) {
                         $r .= $this->dumpUseType($value);
                     } else {

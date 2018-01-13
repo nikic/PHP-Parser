@@ -214,7 +214,7 @@ class TokenStream {
                     // TODO Handle non-space indentation
                     if ($indent < 0) {
                         $result .= str_replace("\n" . str_repeat(" ", -$indent), "\n", $content);
-                    } else if ($indent > 0) {
+                    } elseif ($indent > 0) {
                         $result .= str_replace("\n", "\n" . str_repeat(" ", $indent), $content);
                     } else {
                         $result .= $content;
