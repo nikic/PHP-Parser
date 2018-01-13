@@ -24,7 +24,7 @@ class InterfaceTest extends TestCase
 
     public function testEmpty() {
         $contract = $this->builder->getNode();
-        $this->assertInstanceOf('PhpParser\Node\Stmt\Interface_', $contract);
+        $this->assertInstanceOf(Stmt\Interface_::class, $contract);
         $this->assertEquals(new Node\Identifier('Contract'), $contract->name);
     }
 
@@ -65,8 +65,8 @@ class InterfaceTest extends TestCase
             ->getNode()
         ;
 
-        $this->assertInstanceOf('PhpParser\Node\Stmt\ClassConst', $contract->stmts[0]);
-        $this->assertInstanceOf('PhpParser\Node\Stmt\ClassMethod', $contract->stmts[1]);
+        $this->assertInstanceOf(Stmt\ClassConst::class, $contract->stmts[0]);
+        $this->assertInstanceOf(Stmt\ClassMethod::class, $contract->stmts[1]);
     }
 
     public function testDocComment() {
@@ -103,4 +103,3 @@ class InterfaceTest extends TestCase
         $this->assertTrue(interface_exists('Contract', false));
     }
 }
-

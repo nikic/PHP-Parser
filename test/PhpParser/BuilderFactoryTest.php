@@ -2,6 +2,7 @@
 
 namespace PhpParser;
 
+use PhpParser\Builder;
 use PhpParser\Node\Arg;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\BinaryOp\Concat;
@@ -20,15 +21,15 @@ class BuilderFactoryTest extends TestCase
 
     public function provideTestFactory() {
         return [
-            ['namespace', 'PhpParser\Builder\Namespace_'],
-            ['class',     'PhpParser\Builder\Class_'],
-            ['interface', 'PhpParser\Builder\Interface_'],
-            ['trait',     'PhpParser\Builder\Trait_'],
-            ['method',    'PhpParser\Builder\Method'],
-            ['function',  'PhpParser\Builder\Function_'],
-            ['property',  'PhpParser\Builder\Property'],
-            ['param',     'PhpParser\Builder\Param'],
-            ['use',       'PhpParser\Builder\Use_'],
+            ['namespace', Builder\Namespace_::class],
+            ['class',     Builder\Class_::class],
+            ['interface', Builder\Interface_::class],
+            ['trait',     Builder\Trait_::class],
+            ['method',    Builder\Method::class],
+            ['function',  Builder\Function_::class],
+            ['property',  Builder\Property::class],
+            ['param',     Builder\Param::class],
+            ['use',       Builder\Use_::class],
         ];
     }
 

@@ -79,14 +79,14 @@ class MultipleTest extends ParserTest
     }
 
     public function testThrownError() {
-        $this->expectException('PhpParser\Error');
+        $this->expectException(Error::class);
         $this->expectExceptionMessage('FAIL A');
 
-        $parserA = $this->getMockBuilder('PhpParser\Parser')->getMock();
+        $parserA = $this->getMockBuilder(\PhpParser\Parser::class)->getMock();
         $parserA->expects($this->at(0))
             ->method('parse')->will($this->throwException(new Error('FAIL A')));
 
-        $parserB = $this->getMockBuilder('PhpParser\Parser')->getMock();
+        $parserB = $this->getMockBuilder(\PhpParser\Parser::class)->getMock();
         $parserB->expects($this->at(0))
             ->method('parse')->will($this->throwException(new Error('FAIL B')));
 

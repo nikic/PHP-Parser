@@ -347,7 +347,7 @@ EOC;
      * @dataProvider provideTestError
      */
     public function testError(Node $stmt, $errorMsg) {
-        $this->expectException('PhpParser\Error');
+        $this->expectException(\PhpParser\Error::class);
         $this->expectExceptionMessage($errorMsg);
 
         $traverser = new PhpParser\NodeTraverser;

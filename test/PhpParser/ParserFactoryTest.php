@@ -18,19 +18,19 @@ class ParserFactoryTest extends TestCase
         return [
             [
                 ParserFactory::PREFER_PHP7, $lexer,
-                'PhpParser\Parser\Multiple'
+                Parser\Multiple::class
             ],
             [
                 ParserFactory::PREFER_PHP5, null,
-                'PhpParser\Parser\Multiple'
+                Parser\Multiple::class
             ],
             [
                 ParserFactory::ONLY_PHP7, null,
-                'PhpParser\Parser\Php7'
+                Parser\Php7::class
             ],
             [
                 ParserFactory::ONLY_PHP5, $lexer,
-                'PhpParser\Parser\Php5'
+                Parser\Php5::class
             ]
         ];
     }

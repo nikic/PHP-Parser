@@ -4,6 +4,7 @@ namespace PhpParser;
 
 use PhpParser\Node\Expr;
 use PhpParser\Node\Scalar;
+use PhpParser\Node\Stmt;
 use PhpParser\Node\Scalar\String_;
 use PHPUnit\Framework\TestCase;
 
@@ -61,9 +62,9 @@ EOC;
         $parser = $this->getParser($lexer);
         $stmts = $parser->parse($code);
 
-        /** @var \PhpParser\Node\Stmt\Function_ $fn */
+        /** @var Stmt\Function_ $fn */
         $fn = $stmts[0];
-        $this->assertInstanceOf('PhpParser\Node\Stmt\Function_', $fn);
+        $this->assertInstanceOf(Stmt\Function_::class, $fn);
         $this->assertEquals([
             'comments' => [
                 new Comment\Doc('/** Doc comment */', 2, 6, 1),
@@ -75,7 +76,7 @@ EOC;
         ], $fn->getAttributes());
 
         $param = $fn->params[0];
-        $this->assertInstanceOf('PhpParser\Node\Param', $param);
+        $this->assertInstanceOf(Node\Param::class, $param);
         $this->assertEquals([
             'startLine' => 3,
             'endLine' => 3,
@@ -83,9 +84,9 @@ EOC;
             'endTokenPos' => 7,
         ], $param->getAttributes());
 
-        /** @var \PhpParser\Node\Stmt\Echo_ $echo */
+        /** @var Stmt\Echo_ $echo */
         $echo = $fn->stmts[0];
-        $this->assertInstanceOf('PhpParser\Node\Stmt\Echo_', $echo);
+        $this->assertInstanceOf(Stmt\Echo_::class, $echo);
         $this->assertEquals([
             'comments' => [
                 new Comment("// Line\n", 4, 49, 12),
@@ -99,7 +100,7 @@ EOC;
 
         /** @var \PhpParser\Node\Expr\Variable $var */
         $var = $echo->exprs[0];
-        $this->assertInstanceOf('PhpParser\Node\Expr\Variable', $var);
+        $this->assertInstanceOf(Expr\Variable::class, $var);
         $this->assertEquals([
             'startLine' => 6,
             'endLine' => 6,
@@ -124,7 +125,7 @@ EOC;
     public function testExtraAttributes($code, $expectedAttributes) {
         $parser = $this->getParser(new Lexer);
         $stmts = $parser->parse("<?php $code;");
-        $node = $stmts[0] instanceof Node\Stmt\Expression ? $stmts[0]->expr : $stmts[0];
+        $node = $stmts[0] instanceof Stmt\Expression ? $stmts[0]->expr : $stmts[0];
         $attributes = $node->getAttributes();
         foreach ($expectedAttributes as $name => $value) {
             $this->assertSame($value, $attributes[$name]);
@@ -168,9 +169,9 @@ EOC;
             ["exit(1)", ['kind' => Expr\Exit_::KIND_EXIT]],
             ["?>Foo", ['hasLeadingNewline' => false]],
             ["?>\nFoo", ['hasLeadingNewline' => true]],
-            ["namespace Foo;", ['kind' => Node\Stmt\Namespace_::KIND_SEMICOLON]],
-            ["namespace Foo {}", ['kind' => Node\Stmt\Namespace_::KIND_BRACED]],
-            ["namespace {}", ['kind' => Node\Stmt\Namespace_::KIND_BRACED]],
+            ["namespace Foo;", ['kind' => Stmt\Namespace_::KIND_SEMICOLON]],
+            ["namespace Foo {}", ['kind' => Stmt\Namespace_::KIND_BRACED]],
+            ["namespace {}", ['kind' => Stmt\Namespace_::KIND_BRACED]],
         ];
     }
 }
