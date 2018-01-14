@@ -188,8 +188,8 @@ final class BuilderHelpers
         } elseif (is_string($docComment)) {
             return new Comment\Doc($docComment);
         }
-            throw new \LogicException('Doc comment must be a string or an instance of PhpParser\Comment\Doc');
 
+        throw new \LogicException('Doc comment must be a string or an instance of PhpParser\Comment\Doc');
     }
 
     /**
