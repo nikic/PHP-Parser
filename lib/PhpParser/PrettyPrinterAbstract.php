@@ -381,7 +381,7 @@ abstract class PrettyPrinterAbstract
     protected function pImplode(array $nodes, string $glue = '') : string {
         $pNodes = [];
         foreach ($nodes as $node) {
-            if (null === $node) {
+            if (empty($node)) {
                 $pNodes[] = '';
             } else {
                 $pNodes[] = $this->p($node);
@@ -418,7 +418,7 @@ abstract class PrettyPrinterAbstract
         $result = '';
         $lastIdx = count($nodes) - 1;
         foreach ($nodes as $idx => $node) {
-            if ($node !== null) {
+            if (!empty($node)) {
                 $comments = $node->getComments();
                 if ($comments) {
                     $result .= $this->nl . $this->pComments($comments);
