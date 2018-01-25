@@ -103,7 +103,9 @@ Version 4.0.0-alpha1 (2017-10-18)
 Version 3.1.4-dev
 -----------------
 
-Nothing yet.
+### Fixed
+
+* Fixed pretty printing of `-(-$x)` and `+(+$x)`. (#459)
 
 Version 3.1.3 (2017-12-26)
 --------------------------
