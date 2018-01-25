@@ -36,7 +36,7 @@ class ClassTest extends TestCase
                 $methods[1],
                 new Property(0, []),
                 $methods[2],
-            ]
+            ],
         ]);
 
         $this->assertSame($methods, $class->getMethods());
@@ -51,7 +51,7 @@ class ClassTest extends TestCase
                 $methodConstruct,
                 new Property(0, []),
                 $methodTest,
-            ]
+            ],
         ]);
 
         $this->assertSame($methodConstruct, $class->getMethod('__construct'));

@@ -159,7 +159,7 @@ class NameContext
 
         if ($type === Stmt\Use_::TYPE_NORMAL) {
             // self, parent and static must always be unqualified
-            if ($lcName === "self" || $lcName === "parent" || $lcName === "static") {
+            if ($lcName === 'self' || $lcName === 'parent' || $lcName === 'static') {
                 return [new Name($name)];
             }
         }
@@ -258,7 +258,7 @@ class NameContext
         if ($type === Stmt\Use_::TYPE_CONSTANT) {
             // The constants true/false/null always resolve to the global symbols, even inside a
             // namespace, so they may be used without qualification
-            if ($lcName === "true" || $lcName === "false" || $lcName === "null") {
+            if ($lcName === 'true' || $lcName === 'false' || $lcName === 'null') {
                 return new Name($name);
             }
         }

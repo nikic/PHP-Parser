@@ -22,7 +22,7 @@ class LexerTest extends TestCase
 
         $errorHandler = new ErrorHandler\Collecting();
         $lexer = $this->getLexer(['usedAttributes' => [
-            'comments', 'startLine', 'endLine', 'startFilePos', 'endFilePos'
+            'comments', 'startLine', 'endLine', 'startFilePos', 'endFilePos',
         ]]);
         $lexer->startLexing($code, $errorHandler);
         $errors = $errorHandler->getErrors();
@@ -35,15 +35,15 @@ class LexerTest extends TestCase
 
     public function provideTestError() {
         return [
-            ["<?php /*", ["Unterminated comment from 1:7 to 1:9"]],
+            ['<?php /*', ['Unterminated comment from 1:7 to 1:9']],
             ["<?php \1", ["Unexpected character \"\1\" (ASCII 1) from 1:7 to 1:7"]],
-            ["<?php \0", ["Unexpected null byte from 1:7 to 1:7"]],
+            ["<?php \0", ['Unexpected null byte from 1:7 to 1:7']],
             // Error with potentially emulated token
-            ["<?php ?? \0", ["Unexpected null byte from 1:10 to 1:10"]],
+            ["<?php ?? \0", ['Unexpected null byte from 1:10 to 1:10']],
             ["<?php\n\0\1 foo /* bar", [
-                "Unexpected null byte from 2:1 to 2:1",
+                'Unexpected null byte from 2:1 to 2:1',
                 "Unexpected character \"\1\" (ASCII 1) from 2:2 to 2:2",
-                "Unterminated comment from 2:8 to 2:14"
+                'Unterminated comment from 2:8 to 2:14',
             ]],
         ];
     }
@@ -73,18 +73,18 @@ class LexerTest extends TestCase
                 [
                     [
                         Tokens::T_STRING, 'tokens',
-                        ['startLine' => 1], ['endLine' => 1]
+                        ['startLine' => 1], ['endLine' => 1],
                     ],
                     [
                         ord(';'), '?>',
-                        ['startLine' => 1], ['endLine' => 1]
+                        ['startLine' => 1], ['endLine' => 1],
                     ],
                     [
                         Tokens::T_INLINE_HTML, 'plaintext',
                         ['startLine' => 1, 'hasLeadingNewline' => false],
-                        ['endLine' => 1]
+                        ['endLine' => 1],
                     ],
-                ]
+                ],
             ],
             // tests line numbers
             [
@@ -93,11 +93,11 @@ class LexerTest extends TestCase
                 [
                     [
                         ord('$'), '$',
-                        ['startLine' => 2], ['endLine' => 2]
+                        ['startLine' => 2], ['endLine' => 2],
                     ],
                     [
                         Tokens::T_STRING, 'token',
-                        ['startLine' => 2], ['endLine' => 2]
+                        ['startLine' => 2], ['endLine' => 2],
                     ],
                     [
                         ord('$'), '$',
@@ -105,11 +105,11 @@ class LexerTest extends TestCase
                             'startLine' => 3,
                             'comments' => [
                                 new Comment\Doc('/** doc' . "\n" . 'comment */', 2, 14, 5),
-                            ]
+                            ],
                         ],
-                        ['endLine' => 3]
+                        ['endLine' => 3],
                     ],
-                ]
+                ],
             ],
             // tests comment extraction
             [
@@ -127,9 +127,9 @@ class LexerTest extends TestCase
                                 new Comment\Doc('/** docComment 2 */', 2, 50, 5),
                             ],
                         ],
-                        ['endLine' => 2]
+                        ['endLine' => 2],
                     ],
-                ]
+                ],
             ],
             // tests differing start and end line
             [
@@ -138,9 +138,9 @@ class LexerTest extends TestCase
                 [
                     [
                         Tokens::T_CONSTANT_ENCAPSED_STRING, '"foo' . "\n" . 'bar"',
-                        ['startLine' => 1], ['endLine' => 2]
+                        ['startLine' => 1], ['endLine' => 2],
                     ],
-                ]
+                ],
             ],
             // tests exact file offsets
             [
@@ -149,21 +149,21 @@ class LexerTest extends TestCase
                 [
                     [
                         Tokens::T_CONSTANT_ENCAPSED_STRING, '"a"',
-                        ['startFilePos' => 6], ['endFilePos' => 8]
+                        ['startFilePos' => 6], ['endFilePos' => 8],
                     ],
                     [
                         ord(';'), ';',
-                        ['startFilePos' => 9], ['endFilePos' => 9]
+                        ['startFilePos' => 9], ['endFilePos' => 9],
                     ],
                     [
                         Tokens::T_CONSTANT_ENCAPSED_STRING, '"b"',
-                        ['startFilePos' => 18], ['endFilePos' => 20]
+                        ['startFilePos' => 18], ['endFilePos' => 20],
                     ],
                     [
                         ord(';'), ';',
-                        ['startFilePos' => 21], ['endFilePos' => 21]
+                        ['startFilePos' => 21], ['endFilePos' => 21],
                     ],
-                ]
+                ],
             ],
             // tests token offsets
             [
@@ -172,21 +172,21 @@ class LexerTest extends TestCase
                 [
                     [
                         Tokens::T_CONSTANT_ENCAPSED_STRING, '"a"',
-                        ['startTokenPos' => 1], ['endTokenPos' => 1]
+                        ['startTokenPos' => 1], ['endTokenPos' => 1],
                     ],
                     [
                         ord(';'), ';',
-                        ['startTokenPos' => 2], ['endTokenPos' => 2]
+                        ['startTokenPos' => 2], ['endTokenPos' => 2],
                     ],
                     [
                         Tokens::T_CONSTANT_ENCAPSED_STRING, '"b"',
-                        ['startTokenPos' => 5], ['endTokenPos' => 5]
+                        ['startTokenPos' => 5], ['endTokenPos' => 5],
                     ],
                     [
                         ord(';'), ';',
-                        ['startTokenPos' => 6], ['endTokenPos' => 6]
+                        ['startTokenPos' => 6], ['endTokenPos' => 6],
                     ],
-                ]
+                ],
             ],
             // tests all attributes being disabled
             [
@@ -195,19 +195,19 @@ class LexerTest extends TestCase
                 [
                     [
                         Tokens::T_VARIABLE, '$bar',
-                        [], []
+                        [], [],
                     ],
                     [
                         ord(';'), ';',
-                        [], []
-                    ]
-                ]
+                        [], [],
+                    ],
+                ],
             ],
             // tests no tokens
             [
                 '',
                 [],
-                []
+                [],
             ],
         ];
     }

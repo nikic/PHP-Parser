@@ -29,27 +29,27 @@ class ParamTest extends TestCase
         return [
             [
                 null,
-                new Expr\ConstFetch(new Node\Name('null'))
+                new Expr\ConstFetch(new Node\Name('null')),
             ],
             [
                 true,
-                new Expr\ConstFetch(new Node\Name('true'))
+                new Expr\ConstFetch(new Node\Name('true')),
             ],
             [
                 false,
-                new Expr\ConstFetch(new Node\Name('false'))
+                new Expr\ConstFetch(new Node\Name('false')),
             ],
             [
                 31415,
-                new Scalar\LNumber(31415)
+                new Scalar\LNumber(31415),
             ],
             [
                 3.1415,
-                new Scalar\DNumber(3.1415)
+                new Scalar\DNumber(3.1415),
             ],
             [
                 'Hallo World',
-                new Scalar\String_('Hallo World')
+                new Scalar\String_('Hallo World'),
             ],
             [
                 [1, 2, 3],
@@ -57,7 +57,7 @@ class ParamTest extends TestCase
                     new Expr\ArrayItem(new Scalar\LNumber(1)),
                     new Expr\ArrayItem(new Scalar\LNumber(2)),
                     new Expr\ArrayItem(new Scalar\LNumber(3)),
-                ])
+                ]),
             ],
             [
                 ['foo' => 'bar', 'bar' => 'foo'],
@@ -70,12 +70,12 @@ class ParamTest extends TestCase
                         new Scalar\String_('foo'),
                         new Scalar\String_('bar')
                     ),
-                ])
+                ]),
             ],
             [
                 new Scalar\MagicConst\Dir,
-                new Scalar\MagicConst\Dir
-            ]
+                new Scalar\MagicConst\Dir,
+            ],
         ];
     }
 
@@ -120,11 +120,11 @@ class ParamTest extends TestCase
             [new Node\Name('Some\Class'), new Node\Name('Some\Class')],
             [
                 new Node\NullableType(new Node\Identifier('int')),
-                new Node\NullableType(new Node\Identifier('int'))
+                new Node\NullableType(new Node\Identifier('int')),
             ],
             [
                 new Node\NullableType(new Node\Name('Some\Class')),
-                new Node\NullableType(new Node\Name('Some\Class'))
+                new Node\NullableType(new Node\Name('Some\Class')),
             ],
         ];
     }

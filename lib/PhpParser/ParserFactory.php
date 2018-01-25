@@ -25,11 +25,11 @@ class ParserFactory
         switch ($kind) {
             case self::PREFER_PHP7:
                 return new Parser\Multiple([
-                    new Parser\Php7($lexer, $parserOptions), new Parser\Php5($lexer, $parserOptions)
+                    new Parser\Php7($lexer, $parserOptions), new Parser\Php5($lexer, $parserOptions),
                 ]);
             case self::PREFER_PHP5:
                 return new Parser\Multiple([
-                    new Parser\Php5($lexer, $parserOptions), new Parser\Php7($lexer, $parserOptions)
+                    new Parser\Php5($lexer, $parserOptions), new Parser\Php7($lexer, $parserOptions),
                 ]);
             case self::ONLY_PHP7:
                 return new Parser\Php7($lexer, $parserOptions);

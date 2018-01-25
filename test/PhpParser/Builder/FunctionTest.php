@@ -24,7 +24,7 @@ class FunctionTest extends TestCase
 
         $this->assertEquals(
             new Stmt\Function_('test', [
-                'byRef' => true
+                'byRef' => true,
             ]),
             $node
         );
@@ -43,7 +43,7 @@ class FunctionTest extends TestCase
 
         $this->assertEquals(
             new Stmt\Function_('test', [
-                'params' => [$param1, $param2, $param3]
+                'params' => [$param1, $param2, $param3],
             ]),
             $node
         );
@@ -66,7 +66,7 @@ class FunctionTest extends TestCase
                     new Stmt\Expression($stmt1),
                     new Stmt\Expression($stmt2),
                     new Stmt\Expression($stmt3),
-                ]
+                ],
             ]),
             $node
         );
@@ -78,7 +78,7 @@ class FunctionTest extends TestCase
             ->getNode();
 
         $this->assertEquals(new Stmt\Function_('test', [], [
-            'comments' => [new Comment\Doc('/** Test */')]
+            'comments' => [new Comment\Doc('/** Test */')],
         ]), $node);
     }
 
@@ -88,7 +88,7 @@ class FunctionTest extends TestCase
             ->getNode();
 
         $this->assertEquals(new Stmt\Function_('test', [
-            'returnType' => 'void'
+            'returnType' => 'void',
         ], []), $node);
     }
 

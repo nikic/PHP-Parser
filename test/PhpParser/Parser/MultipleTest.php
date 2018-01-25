@@ -41,9 +41,9 @@ class MultipleTest extends ParserTest
                 $this->getPrefer5(),
                 [
                     new Stmt\Class_('Test', ['stmts' => [
-                        new Stmt\ClassMethod('function')
+                        new Stmt\ClassMethod('function'),
                     ]]),
-                ]
+                ],
             ],
             [
                 // PHP 5 only code
@@ -51,9 +51,9 @@ class MultipleTest extends ParserTest
                 $this->getPrefer7(),
                 [
                     new Stmt\Global_([
-                        new Expr\Variable(new Expr\PropertyFetch(new Expr\Variable('a'), 'b'))
-                    ])
-                ]
+                        new Expr\Variable(new Expr\PropertyFetch(new Expr\Variable('a'), 'b')),
+                    ]),
+                ],
             ],
             [
                 // Different meaning (PHP 5)
@@ -62,8 +62,8 @@ class MultipleTest extends ParserTest
                 [
                     new Stmt\Expression(new Expr\Variable(
                         new Expr\ArrayDimFetch(new Expr\Variable('a'), LNumber::fromString('0'))
-                    ))
-                ]
+                    )),
+                ],
             ],
             [
                 // Different meaning (PHP 7)
@@ -72,8 +72,8 @@ class MultipleTest extends ParserTest
                 [
                     new Stmt\Expression(new Expr\ArrayDimFetch(
                         new Expr\Variable(new Expr\Variable('a')), LNumber::fromString('0')
-                    ))
-                ]
+                    )),
+                ],
             ],
         ];
     }

@@ -34,7 +34,7 @@ class InterfaceTest extends TestCase
             new Stmt\Interface_('Contract', [
                 'extends' => [
                     new Node\Name('Space\Root1'),
-                    new Node\Name('Root2')
+                    new Node\Name('Root2'),
                 ],
             ]), $contract
         );
@@ -48,7 +48,7 @@ class InterfaceTest extends TestCase
 
     public function testAddConst() {
         $const = new Stmt\ClassConst([
-            new Node\Const_('SPEED_OF_LIGHT', new DNumber(299792458.0))
+            new Node\Const_('SPEED_OF_LIGHT', new DNumber(299792458.0)),
         ]);
         $contract = $this->builder->addStmt($const)->getNode();
         $this->assertSame(299792458.0, $contract->stmts[0]->consts[0]->value->value);
@@ -56,7 +56,7 @@ class InterfaceTest extends TestCase
 
     public function testOrder() {
         $const = new Stmt\ClassConst([
-            new Node\Const_('SPEED_OF_LIGHT', new DNumber(299792458))
+            new Node\Const_('SPEED_OF_LIGHT', new DNumber(299792458)),
         ]);
         $method = new Stmt\ClassMethod('doSomething');
         $contract = $this->builder
@@ -75,7 +75,7 @@ class InterfaceTest extends TestCase
             ->getNode();
 
         $this->assertEquals(new Stmt\Interface_('Contract', [], [
-            'comments' => [new Comment\Doc('/** Test */')]
+            'comments' => [new Comment\Doc('/** Test */')],
         ]), $node);
     }
 
@@ -89,7 +89,7 @@ class InterfaceTest extends TestCase
 
     public function testFullFunctional() {
         $const = new Stmt\ClassConst([
-            new Node\Const_('SPEED_OF_LIGHT', new DNumber(299792458))
+            new Node\Const_('SPEED_OF_LIGHT', new DNumber(299792458)),
         ]);
         $method = new Stmt\ClassMethod('doSomething');
         $contract = $this->builder

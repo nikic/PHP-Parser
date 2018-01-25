@@ -43,7 +43,7 @@ class CodeParsingTest extends CodeTestAbstract
             'startLine', 'endLine',
             'startFilePos', 'endFilePos',
             'startTokenPos', 'endTokenPos',
-            'comments'
+            'comments',
         ]]);
 
         return [
@@ -78,9 +78,9 @@ class CodeParsingTest extends CodeTestAbstract
     private function formatErrorMessage(Error $e, $code) {
         if ($e->hasColumnInfo()) {
             return $e->getMessageWithColumnInfo($code);
-        } else {
-            return $e->getMessage();
         }
+
+        return $e->getMessage();
     }
 
     private function checkAttributes($stmts) {

@@ -35,7 +35,7 @@ abstract class Declaration implements PhpParser\Builder
      */
     public function setDocComment($docComment) {
         $this->attributes['comments'] = [
-            BuilderHelpers::normalizeDocComment($docComment)
+            BuilderHelpers::normalizeDocComment($docComment),
         ];
 
         return $this;

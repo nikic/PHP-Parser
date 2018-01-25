@@ -87,7 +87,7 @@ class PrettyPrinterTest extends CodeTestAbstract
         $this->assertEquals('($a + $b) * $c', $prettyPrinter->prettyPrintExpr($expr));
 
         $expr = new Expr\Closure([
-            'stmts' => [new Stmt\Return_(new String_("a\nb"))]
+            'stmts' => [new Stmt\Return_(new String_("a\nb"))],
         ]);
         $this->assertEquals("function () {\n    return 'a\nb';\n}", $prettyPrinter->prettyPrintExpr($expr));
     }
@@ -110,7 +110,7 @@ class PrettyPrinterTest extends CodeTestAbstract
     public function testArraySyntaxDefault() {
         $prettyPrinter = new Standard(['shortArraySyntax' => true]);
         $expr = new Expr\Array_([
-            new Expr\ArrayItem(new String_('val'), new String_('key'))
+            new Expr\ArrayItem(new String_('val'), new String_('key')),
         ]);
         $expected = "['key' => 'val']";
         $this->assertSame($expected, $prettyPrinter->prettyPrintExpr($expr));
@@ -141,15 +141,15 @@ class PrettyPrinterTest extends CodeTestAbstract
             [new String_("A\nB\nC", ['kind' => String_::KIND_NOWDOC, 'docLabel' => 'A']), "'A\nB\nC'"],
             [new String_("A\nB\nC", ['kind' => String_::KIND_NOWDOC, 'docLabel' => 'B']), "'A\nB\nC'"],
             [new String_("A\nB\nC", ['kind' => String_::KIND_NOWDOC, 'docLabel' => 'C']), "'A\nB\nC'"],
-            [new String_("STR;", ['kind' => String_::KIND_NOWDOC, 'docLabel' => 'STR']), "'STR;'"],
+            [new String_('STR;', ['kind' => String_::KIND_NOWDOC, 'docLabel' => 'STR']), "'STR;'"],
             // Doc string if label not contained (or not in ending position)
-            [new String_("foo", $nowdoc), "<<<'STR'\nfoo\nSTR\n"],
-            [new String_("foo", $heredoc), "<<<STR\nfoo\nSTR\n"],
-            [new String_("STRx", $nowdoc), "<<<'STR'\nSTRx\nSTR\n"],
-            [new String_("xSTR", $nowdoc), "<<<'STR'\nxSTR\nSTR\n"],
+            [new String_('foo', $nowdoc), "<<<'STR'\nfoo\nSTR\n"],
+            [new String_('foo', $heredoc), "<<<STR\nfoo\nSTR\n"],
+            [new String_('STRx', $nowdoc), "<<<'STR'\nSTRx\nSTR\n"],
+            [new String_('xSTR', $nowdoc), "<<<'STR'\nxSTR\nSTR\n"],
             // Empty doc string variations (encapsed variant does not occur naturally)
-            [new String_("", $nowdoc), "<<<'STR'\nSTR\n"],
-            [new String_("", $heredoc), "<<<STR\nSTR\n"],
+            [new String_('', $nowdoc), "<<<'STR'\nSTR\n"],
+            [new String_('', $heredoc), "<<<STR\nSTR\n"],
             [new Encapsed([new EncapsedStringPart('')], $heredoc), "<<<STR\nSTR\n"],
             // Encapsed doc string variations
             [new Encapsed([new EncapsedStringPart('foo')], $heredoc), "<<<STR\nfoo\nSTR\n"],
@@ -160,7 +160,7 @@ class PrettyPrinterTest extends CodeTestAbstract
             // Encapsed doc string fallback
             [new Encapsed([new Expr\Variable('y'), new EncapsedStringPart("\nSTR")], $heredoc), '"{$y}\\nSTR"'],
             [new Encapsed([new EncapsedStringPart("STR\n"), new Expr\Variable('y')], $heredoc), '"STR\\n{$y}"'],
-            [new Encapsed([new EncapsedStringPart("STR")], $heredoc), '"STR"'],
+            [new Encapsed([new EncapsedStringPart('STR')], $heredoc), '"STR"'],
         ];
     }
 

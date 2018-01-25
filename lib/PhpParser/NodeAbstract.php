@@ -159,9 +159,9 @@ abstract class NodeAbstract implements Node, \JsonSerializable
     public function getAttribute(string $key, $default = null) {
         if (!array_key_exists($key, $this->attributes)) {
             return $default;
-        } else {
-            return $this->attributes[$key];
         }
+
+        return $this->attributes[$key];
     }
 
     public function getAttributes() : array {

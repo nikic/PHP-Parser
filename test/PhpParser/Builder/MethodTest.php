@@ -43,7 +43,7 @@ class MethodTest extends TestCase
         $this->assertEquals(
             new Stmt\ClassMethod('test', [
                 'flags' => Stmt\Class_::MODIFIER_PROTECTED
-                         | Stmt\Class_::MODIFIER_FINAL
+                         | Stmt\Class_::MODIFIER_FINAL,
             ]),
             $node
         );
@@ -55,7 +55,7 @@ class MethodTest extends TestCase
 
         $this->assertEquals(
             new Stmt\ClassMethod('test', [
-                'type' => Stmt\Class_::MODIFIER_PRIVATE
+                'type' => Stmt\Class_::MODIFIER_PRIVATE,
             ]),
             $node
         );
@@ -69,7 +69,7 @@ class MethodTest extends TestCase
 
         $this->assertEquals(
             new Stmt\ClassMethod('test', [
-                'byRef' => true
+                'byRef' => true,
             ]),
             $node
         );
@@ -88,7 +88,7 @@ class MethodTest extends TestCase
 
         $this->assertEquals(
             new Stmt\ClassMethod('test', [
-                'params' => [$param1, $param2, $param3]
+                'params' => [$param1, $param2, $param3],
             ]),
             $node
         );
@@ -111,7 +111,7 @@ class MethodTest extends TestCase
                     new Stmt\Expression($stmt1),
                     new Stmt\Expression($stmt2),
                     new Stmt\Expression($stmt3),
-                ]
+                ],
             ]),
             $node
         );
@@ -122,7 +122,7 @@ class MethodTest extends TestCase
             ->getNode();
 
         $this->assertEquals(new Stmt\ClassMethod('test', [], [
-            'comments' => [new Comment\Doc('/** Test */')]
+            'comments' => [new Comment\Doc('/** Test */')],
         ]), $node);
     }
 
@@ -131,7 +131,7 @@ class MethodTest extends TestCase
             ->setReturnType('bool')
             ->getNode();
         $this->assertEquals(new Stmt\ClassMethod('test', [
-            'returnType' => 'bool'
+            'returnType' => 'bool',
         ], []), $node);
     }
 

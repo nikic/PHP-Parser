@@ -64,11 +64,11 @@ class String_ extends Scalar
                 ['\\', '\''],
                 substr($str, $bLength + 1, -1)
             );
-        } else {
-            return self::parseEscapeSequences(
-                substr($str, $bLength + 1, -1), '"', $parseUnicodeEscape
-            );
         }
+
+        return self::parseEscapeSequences(
+            substr($str, $bLength + 1, -1), '"', $parseUnicodeEscape
+        );
     }
 
     /**
@@ -103,9 +103,9 @@ class String_ extends Scalar
                     return chr(hexdec($str));
                 } elseif ('u' === $str[0]) {
                     return self::codePointToUtf8(hexdec($matches[2]));
-                } else {
-                    return chr(octdec($str));
                 }
+
+                return chr(octdec($str));
             },
             $str
         );
@@ -157,7 +157,7 @@ class String_ extends Scalar
 
         return self::parseEscapeSequences($str, null, $parseUnicodeEscape);
     }
-    
+
     public function getType() : string {
         return 'Scalar_String';
     }

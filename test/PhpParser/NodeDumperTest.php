@@ -24,7 +24,7 @@ class NodeDumperTest extends TestCase
             [
                 [],
 'array(
-)'
+)',
             ],
             [
                 ['Foo', 'Bar', 'Key' => 'FooBar'],
@@ -32,7 +32,7 @@ class NodeDumperTest extends TestCase
     0: Foo
     1: Bar
     Key: FooBar
-)'
+)',
             ],
             [
                 new Node\Name(['Hallo', 'World']),
@@ -41,11 +41,11 @@ class NodeDumperTest extends TestCase
         0: Hallo
         1: World
     )
-)'
+)',
             ],
             [
                 new Node\Expr\Array_([
-                    new Node\Expr\ArrayItem(new Node\Scalar\String_('Foo'))
+                    new Node\Expr\ArrayItem(new Node\Scalar\String_('Foo')),
                 ]),
 'Expr_Array(
     items: array(
@@ -57,7 +57,7 @@ class NodeDumperTest extends TestCase
             byRef: false
         )
     )
-)'
+)',
             ],
         ];
     }

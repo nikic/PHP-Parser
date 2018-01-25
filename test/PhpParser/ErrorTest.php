@@ -58,20 +58,20 @@ class ErrorTest extends TestCase
     public function provideTestColumnInfo() {
         return [
             // Error at "bar"
-            ["<?php foo bar baz", 10, 12, 11, 13],
+            ['<?php foo bar baz', 10, 12, 11, 13],
             ["<?php\nfoo bar baz", 10, 12, 5, 7],
             ["<?php foo\nbar baz", 10, 12, 1, 3],
             ["<?php foo bar\nbaz", 10, 12, 11, 13],
             ["<?php\r\nfoo bar baz", 11, 13, 5, 7],
             // Error at "baz"
-            ["<?php foo bar baz", 14, 16, 15, 17],
+            ['<?php foo bar baz', 14, 16, 15, 17],
             ["<?php foo bar\nbaz", 14, 16, 1, 3],
             // Error at string literal
             ["<?php foo 'bar\nbaz' xyz", 10, 18, 11, 4],
             ["<?php\nfoo 'bar\nbaz' xyz", 10, 18, 5, 4],
             ["<?php foo\n'\nbarbaz\n'\nxyz", 10, 19, 1, 1],
             // Error over full string
-            ["<?php", 0, 4, 1, 5],
+            ['<?php', 0, 4, 1, 5],
             ["<?\nphp", 0, 5, 1, 3],
         ];
     }

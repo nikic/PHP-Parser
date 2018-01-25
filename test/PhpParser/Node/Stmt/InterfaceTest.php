@@ -19,7 +19,7 @@ class InterfaceTest extends TestCase
                 new Node\Stmt\ClassConst([new Node\Const_('C2', new Node\Scalar\String_('C2'))]),
                 $methods[1],
                 new Node\Stmt\ClassConst([new Node\Const_('C3', new Node\Scalar\String_('C3'))]),
-            ]
+            ],
         ]);
 
         $this->assertSame($methods, $interface->getMethods());
