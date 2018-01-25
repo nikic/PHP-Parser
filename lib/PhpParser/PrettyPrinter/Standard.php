@@ -381,7 +381,7 @@ class Standard extends PrettyPrinterAbstract
     }
 
     protected function pExpr_UnaryMinus(Expr\UnaryMinus $node) {
-        if ($node->expr instanceof Expr\UnaryMinus) {
+        if ($node->expr instanceof Expr\UnaryMinus || $node->expr instanceof Expr\PreDec) {
             // Enforce -(-$expr) instead of --$expr
             return '-(' . $this->p($node->expr) . ')';
         }
@@ -389,7 +389,7 @@ class Standard extends PrettyPrinterAbstract
     }
 
     protected function pExpr_UnaryPlus(Expr\UnaryPlus $node) {
-        if ($node->expr instanceof Expr\UnaryPlus) {
+        if ($node->expr instanceof Expr\UnaryPlus || $node->expr instanceof Expr\PreInc) {
             // Enforce +(+$expr) instead of ++$expr
             return '+(' . $this->p($node->expr) . ')';
         }
