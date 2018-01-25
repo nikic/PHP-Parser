@@ -110,8 +110,7 @@ switch ($testType) {
         showHelp('Test type must be one of: PHP5, PHP7 or Symfony');
 }
 
-require_once __DIR__ . '/../lib/PhpParser/Autoloader.php';
-PhpParser\Autoloader::register();
+require_once __DIR__ . '/../vendor/autoload.php';
 
 $lexer = new PhpParser\Lexer\Emulative(['usedAttributes' => [
     'comments', 'startLine', 'endLine', 'startTokenPos', 'endTokenPos',

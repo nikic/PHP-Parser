@@ -74,3 +74,4 @@ Because HHVM does not support PHP 7, HHVM is no longer supported.
   `Unserializer\XML`, as well as the interfaces `Serializer` and `Unserializer` no longer exist.
 * The `BuilderAbstract` class has been removed. It's functionality is moved into `BuilderHelpers`.
   However, this is an internal class and should not be used directly.
+* The `Autoloader` class has been removed in favor of relying on the Composer autoloader.

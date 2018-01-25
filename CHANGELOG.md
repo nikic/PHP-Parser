@@ -11,6 +11,10 @@ Version 4.0.0-dev
 * In formatting-preserving pretty printer:
   * Improved formatting of elements inserted into multi-line arrays.
 
+### Removed
+
+* The `Autoloader` class has been removed. It is not required to use the Composer autoloader.
+
 Version 4.0.0-alpha3 (2017-12-26)
 ---------------------------------
 
