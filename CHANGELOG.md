@@ -100,8 +100,13 @@ Version 4.0.0-alpha1 (2017-10-18)
 * The `BuilderAbstract` class has been removed. It's functionality is moved into `BuilderHelpers`.
   However, this is an internal class and should not be used directly.
 
-Version 3.1.4-dev
+Version 3.1.5-dev
 -----------------
+
+Nothing yet.
+
+Version 3.1.4 (2018-01-25)
+--------------------------
 
 ### Fixed
 
