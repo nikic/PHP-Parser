@@ -700,6 +700,7 @@ abstract class PrettyPrinterAbstract
 
         $beforeFirstKeepOrReplace = true;
         $delayedAdd = [];
+        $lastElemIndentLevel = $this->indentLevel;
 
         $insertNewline = false;
         if ($insertStr === "\n") {
@@ -756,7 +757,8 @@ abstract class PrettyPrinterAbstract
                 }
 
                 $origIndentLevel = $this->indentLevel;
-                $this->setIndentLevel($this->origTokens->getIndentationBefore($itemStartPos) + $indentAdjustment);
+                $lastElemIndentLevel = $this->origTokens->getIndentationBefore($itemStartPos) + $indentAdjustment;
+                $this->setIndentLevel($lastElemIndentLevel);
 
                 $comments = $arrItem->getComments();
                 $origComments = $origArrItem->getComments();
@@ -825,7 +827,7 @@ abstract class PrettyPrinterAbstract
                 $itemEndPos = $pos - 1;
 
                 $origIndentLevel = $this->indentLevel;
-                $this->setIndentLevel($this->origTokens->getIndentationBefore($itemStartPos) + $indentAdjustment);
+                $this->setIndentLevel($lastElemIndentLevel);
 
                 if ($insertNewline) {
                     $comments = $arrItem->getComments();

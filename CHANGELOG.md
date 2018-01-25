@@ -1,6 +1,11 @@
 Version 4.0.0-dev
 -----------------
 
+### Fixed
+
+* In formatting-preserving pretty printer:
+  * Fixed indentation when inserting into lists. (#466)
+
 ### Added
 
 * In formatting-preserving pretty printer:
