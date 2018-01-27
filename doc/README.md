@@ -27,6 +27,9 @@ Component documentation
   * [Error handling](component/Error_handling.markdown)
     * Column information for errors
     * Error recovery (parsing of syntactically incorrect code)
+  * [Constant expression evaluation](component/Constant_expression_evaluation.markdown)
+    * Evaluating constant/property/etc initializers
+    * Handling errors and unsupported expressions
   * [Performance](component/Performance.markdown)
     * Disabling XDebug
     * Reusing objects

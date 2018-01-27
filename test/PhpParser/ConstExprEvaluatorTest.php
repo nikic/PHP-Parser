@@ -13,7 +13,7 @@ class ConstExprEvaluatorTest extends TestCase
         $parser = new Parser\Php7(new Lexer());
         $expr = $parser->parse('<?php ' . $exprString . ';')[0]->expr;
         $evaluator = new ConstExprEvaluator();
-        $this->assertSame($expected, $evaluator->evaluate($expr));
+        $this->assertSame($expected, $evaluator->evaluateDirectly($expr));
     }
 
     public function provideTestEvaluate() {
@@ -79,7 +79,7 @@ class ConstExprEvaluatorTest extends TestCase
      */
     public function testEvaluateFails() {
         $evaluator = new ConstExprEvaluator();
-        $evaluator->evaluate(new Expr\Variable('a'));
+        $evaluator->evaluateDirectly(new Expr\Variable('a'));
     }
 
     public function testEvaluateFallback() {
@@ -93,6 +93,41 @@ class ConstExprEvaluatorTest extends TestCase
             new Scalar\LNumber(8),
             new Scalar\MagicConst\Line()
         );
-        $this->assertSame(50, $evaluator->evaluate($expr));
+        $this->assertSame(50, $evaluator->evaluateDirectly($expr));
+    }
+
+    /**
+     * @dataProvider provideTestEvaluateSilently
+     */
+    public function testEvaluateSilently($expr, $exception, $msg) {
+        $evaluator = new ConstExprEvaluator();
+
+        try {
+            $evaluator->evaluateSilently($expr);
+        } catch (ConstExprEvaluationException $e) {
+            $this->assertSame(
+                'An error occurred during constant expression evaluation',
+                $e->getMessage()
+            );
+
+            $prev = $e->getPrevious();
+            $this->assertInstanceOf($exception, $prev);
+            $this->assertSame($msg, $prev->getMessage());
+        }
+    }
+
+    public function provideTestEvaluateSilently() {
+        return [
+            [
+                new Expr\BinaryOp\Mod(new Scalar\LNumber(42), new Scalar\LNumber(0)),
+                \Error::class,
+                'Modulo by zero'
+            ],
+            [
+                new Expr\BinaryOp\Div(new Scalar\LNumber(42), new Scalar\LNumber(0)),
+                \ErrorException::class,
+                'Division by zero'
+            ],
+        ];
     }
 }

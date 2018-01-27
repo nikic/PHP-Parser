@@ -20,11 +20,7 @@ use PhpParser\Node\Scalar;
  *
  * The fallback evaluator should throw ConstExprEvaluationException for nodes it cannot evaluate.
  *
- * The evaluation is performed as PHP would perform it, and as such may generate notices, warnings
- * or Errors. For example, if the expression `1%0` is evaluated, an ArithmeticError is thrown. It is
- * left to the consumer to handle these as appropriate.
- *
- * The evaluation is also dependent on runtime configuration in two respects: Firstly, floating
+ * The evaluation is dependent on runtime configuration in two respects: Firstly, floating
  * point to string conversions are affected by the precision ini setting. Secondly, they are also
  * affected by the LC_NUMERIC locale.
  */
@@ -49,7 +45,10 @@ class ConstExprEvaluator
     }
 
     /**
-     * Evaluates a constant expression into a PHP value.
+     * Silently evaluates a constant expression into a PHP value.
+     *
+     * Thrown Errors, warnings or notices will be converted into a ConstExprEvaluationException.
+     * The original source of the exception is available through getPrevious().
      *
      * If some part of the expression cannot be evaluated, the fallback evaluator passed to the
      * constructor will be invoked. By default, if no fallback is provided, an exception of type
@@ -59,9 +58,49 @@ class ConstExprEvaluator
      *
      * @param Expr $expr Constant expression to evaluate
      * @return mixed Result of evaluation
+     *
+     * @throws ConstExprEvaluationException if the expression cannot be evaluated or an error occurred
+     */
+    public function evaluateSilently(Expr $expr) {
+        set_error_handler(function($num, $str, $file, $line) {
+            throw new \ErrorException($str, 0, $num, $file, $line);
+        });
+
+        try {
+            return $this->evaluate($expr);
+        } catch (\Throwable $e) {
+            if (!$e instanceof ConstExprEvaluationException) {
+                $e = new ConstExprEvaluationException(
+                    "An error occurred during constant expression evaluation", 0, $e);
+            }
+            throw $e;
+        } finally {
+            restore_error_handler();
+        }
+    }
+
+    /**
+     * Directly evaluates a constant expression into a PHP value.
+     *
+     * May generate Error exceptions, warnings or notices. Use evaluateSilently() to convert these
+     * into a ConstExprEvaluationException.
+     *
+     * If some part of the expression cannot be evaluated, the fallback evaluator passed to the
+     * constructor will be invoked. By default, if no fallback is provided, an exception of type
+     * ConstExprEvaluationException is thrown.
+     *
+     * See class doc comment for caveats and limitations.
+     *
+     * @param Expr $expr Constant expression to evaluate
+     * @return mixed Result of evaluation
+     *
      * @throws ConstExprEvaluationException if the expression cannot be evaluated
      */
-    public function evaluate(Expr $expr) {
+    public function evaluateDirectly(Expr $expr) {
+        return $this->evaluate($expr);
+    }
+
+    private function evaluate(Expr $expr) {
         if ($expr instanceof Scalar\LNumber
             || $expr instanceof Scalar\DNumber
             || $expr instanceof Scalar\String_
