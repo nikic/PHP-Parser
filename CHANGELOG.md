@@ -1,19 +1,23 @@
 Version 4.0.0-dev
 -----------------
 
+Nothing yet.
+
+Version 4.0.0-beta1 (2018-01-27)
+--------------------------------
+
 ### Fixed
 
-* In formatting-preserving pretty printer:
-  * Fixed indentation when inserting into lists. (#466)
+* In formatting-preserving pretty printer: Fixed indentation when inserting into lists. (#466)
 
 ### Added
 
-* In formatting-preserving pretty printer:
-  * Improved formatting of elements inserted into multi-line arrays.
+* In formatting-preserving pretty printer: Improved formatting of elements inserted into multi-line
+  arrays.
 
 ### Removed
 
-* The `Autoloader` class has been removed. It is not required to use the Composer autoloader.
+* The `Autoloader` class has been removed. It is now required to use the Composer autoloader.
 
 Version 4.0.0-alpha3 (2017-12-26)
 ---------------------------------
