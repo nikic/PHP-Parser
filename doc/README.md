@@ -8,7 +8,6 @@ Guide
   2. [Usage of basic components](2_Usage_of_basic_components.markdown)
   3. [Other node tree representations](3_Other_node_tree_representations.markdown)
   4. [Code generation](4_Code_generation.markdown)
-  5. [Frequently asked questions](5_FAQ.markdown)
 
 Component documentation
 -----------------------
@@ -34,3 +33,5 @@ Component documentation
     * Disabling XDebug
     * Reusing objects
     * Garbage collection impact
+  * [Frequently asked questions](component/FAQ.markdown)
+    * Parent and sibling references

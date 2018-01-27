@@ -50,14 +50,13 @@ Formatting-preserving pretty printing
 
 For automated code refactoring, migration and similar, you will usually only want to modify a small
 portion of the code and leave the remainder alone. The basic pretty printer is not suitable for
-this, because it will also reformat parts of the code, which have not been modified.
+this, because it will also reformat parts of the code which have not been modified.
 
 Since PHP-Parser 4.0 an experimental formatting-preserving pretty-printing mode is available, which
 attempts to preserve the formatting of code, those AST nodes have not changed, and only reformat
 code which has been modified or newly inserted.
 
-Use of the formatting-preservation functionality currently requires some additional preparatory
-steps:
+Use of the formatting-preservation functionality requires some additional preparatory steps:
 
 ```php
 use PhpParser\{Lexer, NodeTraverser, NodeVisitor, Parser, PrettyPrinter};
@@ -85,6 +84,11 @@ $newStmts = $traverser->traverse($oldStmts);
 
 $newCode = $printer->printFormatPreserving($newStmts, $oldStmts, $oldTokens);
 ```
+
+If you make use of the name resolution functionality, you will likely want to disable the
+`replaceNames` option. This will add resolved names as attributes, instead of directlying modifying
+the AST and causing spurious changes to the pretty printed code. For more information, see the
+[name resolution documentation](Name_resolution.markdown).
 
 This functionality is experimental and not yet fully implemented. It should not provide incorrect
 code, but it may sometimes reformat more code than necessary. Open issues are tracked in
