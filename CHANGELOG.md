@@ -111,7 +111,9 @@ Version 4.0.0-alpha1 (2017-10-18)
 Version 3.1.5-dev
 -----------------
 
-Nothing yet.
+### Fixed
+
+* Fixed duplicate comment assignment in switch statements. (#469)
 
 Version 3.1.4 (2018-01-25)
 --------------------------
