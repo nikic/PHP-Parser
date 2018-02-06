@@ -4,7 +4,7 @@ Upgrading from PHP-Parser 2.x to 3.0
 The backwards-incompatible changes in this release may be summarized as follows:
 
  * The specific details of the node representation have changed in some cases, primarily to
-   accomodate new PHP 7.1 features.
+   accommodate new PHP 7.1 features.
  * There have been significant changes to the error recovery implementation. This may affect you,
    if you used the error recovery mode or have a custom lexer implementation.
  * A number of deprecated methods were removed.
