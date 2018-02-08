@@ -81,6 +81,9 @@ foreach ($files as $file) {
         } elseif ('pretty-print' === $operation) {
             echo "==> Pretty print:\n";
             echo $prettyPrinter->prettyPrintFile($stmts), "\n";
+        } elseif ('json-dump' === $operation) {
+            echo "==> JSON dump:\n";
+            echo json_encode($stmts, JSON_PRETTY_PRINT), "\n";
         } elseif ('var-dump' === $operation) {
             echo "==> var_dump():\n";
             var_dump($stmts);
@@ -112,6 +115,7 @@ Operations is a list of the following options (--dump by default):
 
     -d, --dump              Dump nodes using NodeDumper
     -p, --pretty-print      Pretty print file using PrettyPrinter\Standard
+    -j, --json-dump         Print json_encode() result
         --var-dump          var_dump() nodes (for exact structure)
     -N, --resolve-names     Resolve names using NodeVisitor\NameResolver
     -c, --with-column-info  Show column-numbers for errors (if available)
@@ -155,8 +159,9 @@ function parseArgs($args) {
             case '-p':
                 $operations[] = 'pretty-print';
                 break;
-            case '--serialize-xml':
-                $operations[] = 'serialize-xml';
+            case '--json-dump':
+            case '-j':
+                $operations[] = 'json-dump';
                 break;
             case '--var-dump':
                 $operations[] = 'var-dump';

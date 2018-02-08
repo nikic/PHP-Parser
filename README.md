@@ -206,6 +206,8 @@ Component documentation:
  * [Constant expression evaluation](component/Constant_expression_evaluation.markdown)
    * Evaluating constant/property/etc initializers
    * Handling errors and unsupported expressions
+ * [JSON representation](component/JSON_representation.markdown)
+   * JSON encoding and decoding of ASTs
  * [Performance](doc/component/Performance.markdown)
    * Disabling XDebug
    * Reusing objects
