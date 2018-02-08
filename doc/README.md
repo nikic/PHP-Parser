@@ -6,7 +6,6 @@ Guide
 
   1. [Introduction](0_Introduction.markdown)
   2. [Usage of basic components](2_Usage_of_basic_components.markdown)
-  3. [Other node tree representations](3_Other_node_tree_representations.markdown)
 
 Component documentation
 -----------------------

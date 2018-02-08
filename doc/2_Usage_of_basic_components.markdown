@@ -50,10 +50,18 @@ Subsequently you can pass PHP code (including the opening `<?php` tag) to the `p
 create a syntax tree. If a syntax error is encountered, an `PhpParser\Error` exception will be thrown:
 
 ```php
+<?php
 use PhpParser\Error;
 use PhpParser\ParserFactory;
 
-$code = '<?php // some code';
+$code = <<<'CODE'
+<?php
+function printLine($msg) {
+    echo $msg, "\n";
+}
+printLine('Hello World!!!');
+CODE;
+
 $parser = (new ParserFactory)->create(ParserFactory::PREFER_PHP7);
 
 try {
@@ -66,27 +74,68 @@ try {
 
 A parser instance can be reused to parse multiple files.
 
-Node tree
----------
+Node dumping
+------------
 
-If you use the above code with `$code = "<?php echo 'Hi ', hi\\getTarget();"` the parser will
-generate a node tree looking like this:
+To dump the abstact syntax tree in human readable form, a `NodeDumper` can be used:
+
+```php
+<?php
+use PhpParser\NodeDumper;
+
+$nodeDumper = new NodeDumper;
+echo $nodeDumper->dump($stmts), "\n";
+```
+
+For the sample code from the previous section, this will produce the following output:
 
 ```
 array(
-    0: Stmt_Echo(
-        exprs: array(
-            0: Scalar_String(
-                value: Hi
+    0: Stmt_Function(
+        byRef: false
+        name: Identifier(
+            name: printLine
+        )
+        params: array(
+            0: Param(
+                type: null
+                byRef: false
+                variadic: false
+                var: Expr_Variable(
+                    name: msg
+                )
+                default: null
             )
-            1: Expr_FuncCall(
-                name: Name(
-                    parts: array(
-                        0: hi
-                        1: getTarget
+        )
+        returnType: null
+        stmts: array(
+            0: Stmt_Echo(
+                exprs: array(
+                    0: Expr_Variable(
+                        name: msg
+                    )
+                    1: Scalar_String(
+                        value:
+
                     )
                 )
-                args: array(
+            )
+        )
+    )
+    1: Stmt_Expression(
+        expr: Expr_FuncCall(
+            name: Name(
+                parts: array(
+                    0: printLine
+                )
+            )
+            args: array(
+                0: Arg(
+                    value: Scalar_String(
+                        value: Hello World!!!
+                    )
+                    byRef: false
+                    unpack: false
                 )
             )
         )
@@ -94,8 +143,28 @@ array(
 )
 ```
 
-Thus `$stmts` will contain an array with only one node, with this node being an instance of
-`PhpParser\Node\Stmt\Echo_`.
+You can also use the `php-parse` script to obtain such a node dump by calling it either with a file
+name or code string:
+
+```sh
+vendor/bin/php-parse file.php
+vendor/bin/php-parse "<?php foo();"
+```
+
+This can be very helpful if you want to quickly check how certain syntax is represented in the AST.
+
+Node tree structure
+-------------------
+
+Looking at the node dump above, you can see that `$stmts` for this example code is an array of two
+nodes, a `Stmt_Function` and a `Stmt_Expression`. The corresponding class names are:
+
+ * `Stmt_Function -> PhpParser\Node\Stmt\Function_`
+ * `Stmt_Expression -> PhpParser\Node\Stmt\Expression`
+
+The additional `_` at the end of the first class name is necessary, because `Function` is a
+reserved keyword. Many node class names in this library have a trailing `_` to avoid clashing with
+a keyword.
 
 As PHP is a large language there are approximately 140 different nodes. In order to make work
 with them easier they are grouped into three categories:
@@ -113,8 +182,9 @@ with them easier they are grouped into three categories:
  * There are some nodes not in either of these groups, for example names (`PhpParser\Node\Name`)
    and call arguments (`PhpParser\Node\Arg`).
 
-Some node class names have a trailing `_`. This is used whenever the class name would otherwise clash
-with a PHP keyword.
+The `Node\Stmt\Expression` node is somewhat confusing in that it contains both the terms "statement"
+and "expression". This node distinguishes `expr`, which is a `Node\Expr`, from `expr;`, which is
+an "expression statement" represented by `Node\Stmt\Expression` and containing `expr` as a sub-node.
 
 Every node has a (possibly zero) number of subnodes. You can access subnodes by writing
 `$node->subNodeName`. The `Stmt\Echo_` node has only one subnode `exprs`. So in order to access it

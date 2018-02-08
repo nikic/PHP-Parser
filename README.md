@@ -183,7 +183,6 @@ Documentation
 
  1. [Introduction](doc/0_Introduction.markdown)
  2. [Usage of basic components](doc/2_Usage_of_basic_components.markdown)
- 3. [Other node tree representations](doc/3_Other_node_tree_representations.markdown)
 
 Component documentation:
 
