@@ -31,7 +31,7 @@ class TryCatch extends Node\Stmt
     public function getSubNodeNames() : array {
         return ['stmts', 'catches', 'finally'];
     }
-    
+
     public function getType() : string {
         return 'Stmt_TryCatch';
     }
