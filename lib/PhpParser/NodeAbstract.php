@@ -25,10 +25,7 @@ abstract class NodeAbstract implements Node, \JsonSerializable
     public function getType() {
         $className = rtrim(get_class($this), '_');
         return strtr(
-            substr(
-                $className,
-                strpos($className, Node::class) + strlen(Node::class) + 1
-            ),
+            substr($className, strlen(Node::class) + 1),
             '\\',
             '_'
         );
