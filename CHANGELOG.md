@@ -1,9 +1,15 @@
-Version 3.1.5-dev
+Version 3.1.6-dev
 -----------------
+
+Nothing yet.
+
+Version 3.1.5 (2018-02-28)
+--------------------------
 
 ### Fixed
 
 * Fixed duplicate comment assignment in switch statements. (#469)
+* Improve compatibility with PHP-Scoper. (#477)
 
 Version 3.1.4 (2018-01-25)
 --------------------------
