@@ -254,6 +254,8 @@ single expression using `prettyPrintExpr()`.
 The `prettyPrintFile()` method can be used to print an entire file. This will include the opening `<?php` tag
 and handle inline HTML as the first/last statement more gracefully.
 
+> Read more: [Pretty printing documentation](component/Pretty_printing.markdown)
+
 Node traversation
 -----------------
 
@@ -348,6 +350,8 @@ be `array(A, X, Y, Z, C)`.
 Instead of manually implementing the `NodeVisitor` interface you can also extend the `NodeVisitorAbstract`
 class, which will define empty default implementations for all the above methods.
 
+> Read more: [Walking the AST](component/Walking_the_AST.markdown)
+
 The NameResolver node visitor
 -----------------------------
 
@@ -369,6 +373,8 @@ are meant.
 
 Also the `NameResolver` adds a `namespacedName` subnode to class, function and constant declarations
 that contains the namespaced name instead of only the shortname that is available via `name`.
+
+> Read more: [Name resolution documentation](component/Name_resolution.markdown)
 
 Example: Converting namespaced code to pseudo namespaces
 --------------------------------------------------------

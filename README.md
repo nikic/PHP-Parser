@@ -186,7 +186,7 @@ Documentation
 
 Component documentation:
 
- * [Walking the AST](component/Walking_the_AST.markdown)
+ * [Walking the AST](doc/component/Walking_the_AST.markdown)
    * Node visitors
    * Modifying the AST from a visitor
    * Short-circuiting traversals
