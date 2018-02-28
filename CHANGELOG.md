@@ -1,8 +1,7 @@
-<<<<<<< HEAD
 Version 4.0.0-dev
 -----------------
 
-Nothing yet.
+* No significant changes since the beta 1 release.
 
 Version 4.0.0-beta1 (2018-01-27)
 --------------------------------
@@ -108,14 +107,6 @@ Version 4.0.0-alpha1 (2017-10-18)
   `Unserializer\XML`, as well as the interfaces `Serializer` and `Unserializer` no longer exist.
 * The `BuilderAbstract` class has been removed. It's functionality is moved into `BuilderHelpers`.
   However, this is an internal class and should not be used directly.
-
-Version 3.1.5-dev
-=======
-Version 3.1.6-dev
->>>>>>> 3.x
------------------
-
-Nothing yet.
 
 Version 3.1.5 (2018-02-28)
 --------------------------

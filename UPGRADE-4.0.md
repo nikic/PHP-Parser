@@ -6,7 +6,7 @@ Upgrading from PHP-Parser 3.x to 4.0
 PHP-Parser now requires PHP 7.0 or newer to run. It is however still possible to *parse* PHP 5.2-5.6
 source code, while running on a newer version.
 
-Because HHVM does not support PHP 7, HHVM is no longer supported.
+HHVM is no longer actively supported.
 
 ### Changes to the node structure
 
