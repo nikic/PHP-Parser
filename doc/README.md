@@ -10,6 +10,13 @@ Guide
 Component documentation
 -----------------------
 
+  * [Walking the AST](component/Walking_the_AST.markdown)
+    * Node visitors
+    * Modifying the AST from a visitor
+    * Short-circuiting traversals
+    * Interleaved visitors
+    * Simple node finding API
+    * Parent and sibling references
   * [Name resolution](component/Name_resolution.markdown)
     * Name resolver options
     * Name resolution context
