@@ -27,7 +27,7 @@ try {
 }
 ```
 
-Before using column information its availability needs to be checked with `$e->hasColumnInfo()`, as the precise
+Before using column information, its availability needs to be checked with `$e->hasColumnInfo()`, as the precise
 location of an error cannot always be determined. The methods for retrieving column information also have to be passed
 the source code of the parsed file. An example for printing an error:
 

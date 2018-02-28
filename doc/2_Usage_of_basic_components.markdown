@@ -41,7 +41,7 @@ Kind | Behavior
 `ParserFactory::ONLY_PHP7` | Parse code as PHP 7.
 `ParserFactory::ONLY_PHP5` | Parse code as PHP 5.
 
-Unless you have strong reason to use something else, `PREFER_PHP7` is a reasonable default.
+Unless you have a strong reason to use something else, `PREFER_PHP7` is a reasonable default.
 
 The `create()` method optionally accepts a `Lexer` instance as the second argument. Some use cases
 that require customized lexers are discussed in the [lexer documentation](component/Lexer.markdown).
@@ -166,7 +166,7 @@ The additional `_` at the end of the first class name is necessary, because `Fun
 reserved keyword. Many node class names in this library have a trailing `_` to avoid clashing with
 a keyword.
 
-As PHP is a large language there are approximately 140 different nodes. In order to make work
+As PHP is a large language there are approximately 140 different nodes. In order to make working
 with them easier they are grouped into three categories:
 
  * `PhpParser\Node\Stmt`s are statement nodes, i.e. language constructs that do not return
@@ -243,7 +243,7 @@ try {
 
 The above code will output:
 
-    <?php echo 'Hello ', hi\getTarget();
+    echo 'Hello ', hi\getTarget();
 
 As you can see the source code was first parsed using `PhpParser\Parser->parse()`, then changed and then
 again converted to code using `PhpParser\PrettyPrinter\Standard->prettyPrint()`.
@@ -351,7 +351,7 @@ class, which will define empty default implementations for all the above methods
 The NameResolver node visitor
 -----------------------------
 
-One visitor is already bundled with the package: `PhpParser\NodeVisitor\NameResolver`. This visitor
+One visitor that is already bundled with the package is `PhpParser\NodeVisitor\NameResolver`. This visitor
 helps you work with namespaced code by trying to resolve most names to fully qualified ones.
 
 For example, consider the following code:
@@ -362,7 +362,7 @@ For example, consider the following code:
 In order to know that `B\C` really is `A\C` you would need to track aliases and namespaces yourself.
 The `NameResolver` takes care of that and resolves names as far as possible.
 
-After running it most names will be fully qualified. The only names that will stay unqualified are
+After running it, most names will be fully qualified. The only names that will stay unqualified are
 unqualified function and constant names. These are resolved at runtime and thus the visitor can't
 know which function they are referring to. In most cases this is a non-issue as the global functions
 are meant.

@@ -107,9 +107,9 @@ function handleHaltCompiler(): string;
 function getNextToken(string &$value = null, array &$startAttributes = null, array &$endAttributes = null): int;
 ```
 
-The `startLexing()` method is invoked with the source code that is to be lexed (including the opening tag) whenever the
-`parse()` method of the parser is called. It can be used to reset state or preprocess the source code or tokens. The
-passes `ErrorHandler` should be used to report lexing errors.
+The `startLexing()` method is invoked whenever the `parse()` method of the parser is called and is passed the source
+code that is to be lexed (including the opening tag). It can be used to reset state or preprocess the source code or tokens. The
+passed `ErrorHandler` should be used to report lexing errors.
 
 The `getTokens()` method returns the current token array, in the usual `token_get_all()` format. This method is not
 used by the parser (which uses `getNextToken()`), but is useful in combination with the token position attributes.
