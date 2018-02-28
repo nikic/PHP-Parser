@@ -1,7 +1,7 @@
 AST builders
 ============
 
-When PHP-Parser is used to generate (or modify) code, by first creating an Abstract Syntax Tree and
+When PHP-Parser is used to generate (or modify) code by first creating an Abstract Syntax Tree and
 then using the [pretty printer](Pretty_printing.markdown) to convert it to PHP code, it can often
 be tedious to manually construct AST nodes. The project provides a number of utilities to simplify
 the construction of common AST nodes.
