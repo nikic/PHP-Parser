@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 Version 4.0.0-dev
 -----------------
 
@@ -109,11 +110,20 @@ Version 4.0.0-alpha1 (2017-10-18)
   However, this is an internal class and should not be used directly.
 
 Version 3.1.5-dev
+=======
+Version 3.1.6-dev
+>>>>>>> 3.x
 -----------------
+
+Nothing yet.
+
+Version 3.1.5 (2018-02-28)
+--------------------------
 
 ### Fixed
 
 * Fixed duplicate comment assignment in switch statements. (#469)
+* Improve compatibility with PHP-Scoper. (#477)
 
 Version 3.1.4 (2018-01-25)
 --------------------------
