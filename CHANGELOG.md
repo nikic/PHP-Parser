@@ -1,7 +1,12 @@
-Version 4.0.0-dev
+Version 4.0.1-dev
 -----------------
 
-* No significant changes since the beta 1 release.
+Nothing yet.
+
+Version 4.0.0 (2018-02-28)
+--------------------------
+
+* No significant code changes since the beta 1 release.
 
 Version 4.0.0-beta1 (2018-01-27)
 --------------------------------
