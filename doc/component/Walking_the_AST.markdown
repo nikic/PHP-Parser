@@ -296,7 +296,7 @@ for minor tasks. For this reason a `NodeFinder` is provided, which can find AST 
 satisfy a certain callback, or which are instanced of a certain node type. A couple of examples are
 shown in the following:
 
-```
+```php
 use PhpParser\{Node, NodeFinder};
 
 $nodeFinder = new NodeFinder;
