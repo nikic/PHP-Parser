@@ -6,8 +6,12 @@ use PhpParser\Builder;
 use PhpParser\Node\Arg;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\BinaryOp\Concat;
+use PhpParser\Node\Identifier;
+use PhpParser\Node\Name;
+use PhpParser\Node\Scalar\LNumber;
 use PhpParser\Node\Scalar\String_;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\Yaml\Tests\A;
 
 class BuilderFactoryTest extends TestCase
 {
@@ -90,6 +94,84 @@ class BuilderFactoryTest extends TestCase
             ],
             $factory->args([new Expr\Variable('a'), 'b', $unpack])
         );
+    }
+
+    public function testCalls() {
+        $factory = new BuilderFactory();
+
+        // Simple function call
+        $this->assertEquals(
+            new Expr\FuncCall(
+                new Name('var_dump'),
+                [new Arg(new String_('str'))]
+            ),
+            $factory->funcCall('var_dump', ['str'])
+        );
+        // Dynamic function call
+        $this->assertEquals(
+            new Expr\FuncCall(new Expr\Variable('fn')),
+            $factory->funcCall(new Expr\Variable('fn'))
+        );
+
+        // Simple method call
+        $this->assertEquals(
+            new Expr\MethodCall(
+                new Expr\Variable('obj'),
+                new Identifier('method'),
+                [new Arg(new LNumber(42))]
+            ),
+            $factory->methodCall(new Expr\Variable('obj'), 'method', [42])
+        );
+        // Explicitly pass Identifier node
+        $this->assertEquals(
+            new Expr\MethodCall(
+                new Expr\Variable('obj'),
+                new Identifier('method')
+            ),
+            $factory->methodCall(new Expr\Variable('obj'), new Identifier('method'))
+        );
+        // Dynamic method call
+        $this->assertEquals(
+            new Expr\MethodCall(
+                new Expr\Variable('obj'),
+                new Expr\Variable('method')
+            ),
+            $factory->methodCall(new Expr\Variable('obj'), new Expr\Variable('method'))
+        );
+
+        // Simple static method call
+        $this->assertEquals(
+            new Expr\StaticCall(
+                new Name\FullyQualified('Foo'),
+                new Identifier('bar'),
+                [new Arg(new Expr\Variable('baz'))]
+            ),
+            $factory->staticCall('\Foo', 'bar', [new Expr\Variable('baz')])
+        );
+        // Dynamic static method call
+        $this->assertEquals(
+            new Expr\StaticCall(
+                new Expr\Variable('foo'),
+                new Expr\Variable('bar')
+            ),
+            $factory->staticCall(new Expr\Variable('foo'), new Expr\Variable('bar'))
+        );
+    }
+
+    /**
+     * @expectedException \LogicException
+     * @expectedExceptionMessage Expected string or instance of Node\Identifier or Node\Expr
+     */
+    public function testInvalidIdentifier() {
+        (new BuilderFactory())->staticCall('Foo', new Name('bar'));
+    }
+
+    /**
+     * @expectedException \LogicException
+     * @expectedExceptionMessage Name must be a string or an instance of Node\Name or Node\Expr
+     */
+    public function testInvalidNameOrExpr() {
+        (new BuilderFactory())->funcCall(new Node\Stmt\Return_());
     }
 
     public function testIntegration() {

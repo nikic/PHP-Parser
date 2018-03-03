@@ -5,6 +5,8 @@ namespace PhpParser;
 use PhpParser\Node\Arg;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\BinaryOp\Concat;
+use PhpParser\Node\Identifier;
+use PhpParser\Node\Name;
 use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt\Use_;
 
@@ -142,6 +144,55 @@ class BuilderFactory
     }
 
     /**
+     * Creates a function call node.
+     *
+     * @param string|Name|Expr $name Function name
+     * @param array            $args Function arguments
+     *
+     * @return Expr\FuncCall
+     */
+    public function funcCall($name, array $args = []) : Expr\FuncCall {
+        return new Expr\FuncCall(
+            BuilderHelpers::normalizeNameOrExpr($name),
+            $this->args($args)
+        );
+    }
+
+    /**
+     * Creates a method call node.
+     *
+     * @param Expr                   $var  Variable the method is called on
+     * @param string|Identifier|Expr $name Method name
+     * @param array                  $args Method arguments
+     *
+     * @return Expr\MethodCall
+     */
+    public function methodCall(Expr $var, $name, array $args = []) : Expr\MethodCall {
+        return new Expr\MethodCall(
+            $var,
+            $this->normalizeIdentifierOrExpr($name),
+            $this->args($args)
+        );
+    }
+
+    /**
+     * Creates a static method call node.
+     *
+     * @param string|Name|Expr       $class Class name
+     * @param string|Identifier|Expr $name  Method name
+     * @param array                  $args  Method arguments
+     *
+     * @return Expr\StaticCall
+     */
+    public function staticCall($class, $name, array $args = []) : Expr\StaticCall {
+        return new Expr\StaticCall(
+            BuilderHelpers::normalizeNameOrExpr($class),
+            $this->normalizeIdentifierOrExpr($name),
+            $this->args($args)
+        );
+    }
+
+    /**
      * Creates nested Concat nodes from a list of expressions.
      *
      * @param Expr|string ...$exprs Expressions or literal strings
@@ -161,15 +212,35 @@ class BuilderFactory
         return $lastConcat;
     }
 
-    private function normalizeStringExpr($expr) {
+    /**
+     * @param string|Expr $expr
+     * @return Expr
+     */
+    private function normalizeStringExpr($expr) : Expr {
         if ($expr instanceof Expr) {
             return $expr;
         }
 
-        if (is_string($expr)) {
+        if (\is_string($expr)) {
             return new String_($expr);
         }
 
         throw new \LogicException('Expected string or Expr');
+    }
+
+    /**
+     * @param string|Identifier|Expr $name
+     * @return Identifier|Expr
+     */
+    private function normalizeIdentifierOrExpr($name) {
+        if ($name instanceof Identifier || $name instanceof Expr) {
+            return $name;
+        }
+
+        if (\is_string($name)) {
+            return new Identifier($name);
+        }
+
+        throw new \LogicException('Expected string or instance of Node\Identifier or Node\Expr');
     }
 }

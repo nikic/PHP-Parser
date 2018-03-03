@@ -100,6 +100,12 @@ nodes. The following methods are currently available:
  * `val($value)`: Creates an AST node for a literal value like `42` or `[1, 2, 3]`.
  * `args(array $args)`: Creates an array of function/method arguments, including the required `Arg`
    wrappers. Also converts literals to AST nodes.
+ * `funcCall($name, array $args = [])`: Create a function call node. Converts `$name` to a `Name`
+   node and normalizes arguments.
+ * `methodCall(Expr $var, $name, array $args = [])`: Create a method call node. Converts `$name` to
+   an `Identifier` node and normalizes arguments.
+ * `staticCall($class, $name, array $args = [])`: Create a static method call node. Converts
+   `$class` to a `Name` node, `$name` to an `Identifier` node and normalizes arguments.
  * `concat(...$exprs)`: Create a tree of `BinaryOp\Concat` nodes for the given expressions.
 
 These methods may be expanded on an as-needed basis. Please open an issue or PR if a common

@@ -56,13 +56,36 @@ final class BuilderHelpers
     }
 
     /**
-     * Normalizes a name: Converts plain string names to PhpParser\Node\Name.
+     * Normalizes a name: Converts string names to Name nodes.
      *
      * @param Name|string $name The name to normalize
      *
      * @return Name The normalized name
      */
     public static function normalizeName($name) : Name {
+        return self::normalizeNameCommon($name, false);
+    }
+
+    /**
+     * Normalizes a name: Converts string names to Name nodes, while also allowing expressions.
+     *
+     * @param Expr|Name|string $name The name to normalize
+     *
+     * @return Name|Expr The normalized name or expression
+     */
+    public static function normalizeNameOrExpr($name) {
+        return self::normalizeNameCommon($name, true);
+    }
+
+    /**
+     * Normalizes a name: Converts string names to Name nodes, optionally allowing expressions.
+     *
+     * @param Expr|Name|string $name      The name to normalize
+     * @param bool             $allowExpr Whether to also allow expressions
+     *
+     * @return Name|Expr The normalized name, or expression (if allowed)
+     */
+    private static function normalizeNameCommon($name, bool $allowExpr) {
         if ($name instanceof Name) {
             return $name;
         } elseif (is_string($name)) {
@@ -79,7 +102,16 @@ final class BuilderHelpers
             }
         }
 
-        throw new \LogicException('Name must be a string or an instance of PhpParser\Node\Name');
+        if ($allowExpr) {
+            if ($name instanceof Expr) {
+                return $name;
+            }
+            throw new \LogicException(
+                'Name must be a string or an instance of Node\Name or Node\Expr'
+            );
+        } else {
+            throw new \LogicException('Name must be a string or an instance of Node\Name');
+        }
     }
 
     /**

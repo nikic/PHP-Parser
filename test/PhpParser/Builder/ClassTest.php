@@ -153,7 +153,7 @@ DOC;
 
     /**
      * @expectedException \LogicException
-     * @expectedExceptionMessage Name must be a string or an instance of PhpParser\Node\Name
+     * @expectedExceptionMessage Name must be a string or an instance of Node\Name
      */
     public function testInvalidName() {
         $this->createClassBuilder('Test')

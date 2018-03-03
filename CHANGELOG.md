@@ -1,7 +1,15 @@
 Version 4.0.1-dev
 -----------------
 
-Nothing yet.
+### Changed
+
+* Added checks to node traverser to prevent replacing a statement with an expression or vice versa.
+  This should prevent common mistakes in the implementation of node visitors.
+
+### Added
+
+* Added `funcCall()`, `methodCall()` and `staticCall()` methods to `BuilderFactory`, to simplify
+  creation of call nodes.
 
 Version 4.0.0 (2018-02-28)
 --------------------------
