@@ -8,6 +8,7 @@ use PhpParser\Node\Expr\BinaryOp\Concat;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Name;
 use PhpParser\Node\Scalar\String_;
+use PhpParser\Node\Stmt;
 use PhpParser\Node\Stmt\Use_;
 
 class BuilderFactory
@@ -188,6 +189,21 @@ class BuilderFactory
         return new Expr\StaticCall(
             BuilderHelpers::normalizeNameOrExpr($class),
             BuilderHelpers::normalizeIdentifierOrExpr($name),
+            $this->args($args)
+        );
+    }
+
+    /**
+     * Creates an object creation node.
+     *
+     * @param string|Name|Expr $class Class name
+     * @param array            $args  Constructor arguments
+     *
+     * @return Expr\New_
+     */
+    public function new($class, array $args = []) : Expr\New_ {
+        return new Expr\New_(
+            BuilderHelpers::normalizeNameOrExpr($class),
             $this->args($args)
         );
     }

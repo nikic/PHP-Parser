@@ -106,6 +106,8 @@ nodes. The following methods are currently available:
    an `Identifier` node and normalizes arguments.
  * `staticCall($class, $name, array $args = [])`: Create a static method call node. Converts
    `$class` to a `Name` node, `$name` to an `Identifier` node and normalizes arguments.
+ * `new($class, array $args = [])`: Create a "new" (object creation) node. Converts `$class` to a
+   `Name` node.
  * `constFetch($name)`: Create a constant fetch node. Converts `$name` to a `Name` node.
  * `classConstFetch($class, $name)`: Create a class constant fetch node. Converts `$class` to a
    `Name` node and `$name` to an `Identifier` node.

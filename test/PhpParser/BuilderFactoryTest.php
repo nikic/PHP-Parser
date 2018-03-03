@@ -156,6 +156,20 @@ class BuilderFactoryTest extends TestCase
             ),
             $factory->staticCall(new Expr\Variable('foo'), new Expr\Variable('bar'))
         );
+
+        // Simple new call
+        $this->assertEquals(
+            new Expr\New_(new Name\FullyQualified('stdClass')),
+            $factory->new('\stdClass')
+        );
+        // Dynamic new call
+        $this->assertEquals(
+            new Expr\New_(
+                new Expr\Variable('foo'),
+                [new Arg(new String_('bar'))]
+            ),
+            $factory->new(new Expr\Variable('foo'), ['bar'])
+        );
     }
 
     public function testConstFetches() {

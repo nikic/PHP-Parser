@@ -12,6 +12,7 @@ Version 4.0.1-dev
   * `funcCall()`
   * `methodCall()`
   * `staticCall()`
+  * `new()`
   * `constFetch()`
   * `classConstFetch()`
 
