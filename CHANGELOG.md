@@ -8,8 +8,12 @@ Version 4.0.1-dev
 
 ### Added
 
-* Added `funcCall()`, `methodCall()` and `staticCall()` methods to `BuilderFactory`, to simplify
-  creation of call nodes.
+* Added the following method to `BuilderFactory`, to simplify creation of expressions:
+  * `funcCall()`
+  * `methodCall()`
+  * `staticCall()`
+  * `constFetch()`
+  * `classConstFetch()`
 
 Version 4.0.0 (2018-02-28)
 --------------------------

@@ -106,6 +106,9 @@ nodes. The following methods are currently available:
    an `Identifier` node and normalizes arguments.
  * `staticCall($class, $name, array $args = [])`: Create a static method call node. Converts
    `$class` to a `Name` node, `$name` to an `Identifier` node and normalizes arguments.
+ * `constFetch($name)`: Create a constant fetch node. Converts `$name` to a `Name` node.
+ * `classConstFetch($class, $name)`: Create a class constant fetch node. Converts `$class` to a
+   `Name` node and `$name` to an `Identifier` node.
  * `concat(...$exprs)`: Create a tree of `BinaryOp\Concat` nodes for the given expressions.
 
 These methods may be expanded on an as-needed basis. Please open an issue or PR if a common

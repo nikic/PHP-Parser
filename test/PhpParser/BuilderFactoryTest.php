@@ -158,11 +158,35 @@ class BuilderFactoryTest extends TestCase
         );
     }
 
+    public function testConstFetches() {
+        $factory = new BuilderFactory();
+        $this->assertEquals(
+            new Expr\ConstFetch(new Name('FOO')),
+            $factory->constFetch('FOO')
+        );
+        $this->assertEquals(
+            new Expr\ClassConstFetch(new Name('Foo'), new Identifier('BAR')),
+            $factory->classConstFetch('Foo', 'BAR')
+        );
+        $this->assertEquals(
+            new Expr\ClassConstFetch(new Expr\Variable('foo'), new Identifier('BAR')),
+            $factory->classConstFetch(new Expr\Variable('foo'), 'BAR')
+        );
+    }
+
+    /**
+     * @expectedException \LogicException
+     * @expectedExceptionMessage Expected string or instance of Node\Identifier
+     */
+    public function testInvalidIdentifier() {
+        (new BuilderFactory())->classConstFetch('Foo', new Expr\Variable('foo'));
+    }
+
     /**
      * @expectedException \LogicException
      * @expectedExceptionMessage Expected string or instance of Node\Identifier or Node\Expr
      */
-    public function testInvalidIdentifier() {
+    public function testInvalidIdentifierOrExpr() {
         (new BuilderFactory())->staticCall('Foo', new Name('bar'));
     }
 

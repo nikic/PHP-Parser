@@ -56,6 +56,44 @@ final class BuilderHelpers
     }
 
     /**
+     * Normalizes strings to Identifier.
+     *
+     * @param string|Identifier $name The identifier to normalize
+     *
+     * @return Identifier The normalized identifier
+     */
+    public static function normalizeIdentifier($name) : Identifier {
+        if ($name instanceof Identifier) {
+            return $name;
+        }
+
+        if (\is_string($name)) {
+            return new Identifier($name);
+        }
+
+        throw new \LogicException('Expected string or instance of Node\Identifier or Node\Expr');
+    }
+
+    /**
+     * Normalizes strings to Identifier, also allowing expressions.
+     *
+     * @param string|Identifier|Expr $name The identifier to normalize
+     *
+     * @return Identifier|Expr The normalized identifier or expression
+     */
+    public static function normalizeIdentifierOrExpr($name) {
+        if ($name instanceof Identifier || $name instanceof Expr) {
+            return $name;
+        }
+
+        if (\is_string($name)) {
+            return new Identifier($name);
+        }
+
+        throw new \LogicException('Expected string or instance of Node\Identifier or Node\Expr');
+    }
+
+    /**
      * Normalizes a name: Converts string names to Name nodes.
      *
      * @param Name|string $name The name to normalize

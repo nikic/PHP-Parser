@@ -170,7 +170,7 @@ class BuilderFactory
     public function methodCall(Expr $var, $name, array $args = []) : Expr\MethodCall {
         return new Expr\MethodCall(
             $var,
-            $this->normalizeIdentifierOrExpr($name),
+            BuilderHelpers::normalizeIdentifierOrExpr($name),
             $this->args($args)
         );
     }
@@ -187,8 +187,34 @@ class BuilderFactory
     public function staticCall($class, $name, array $args = []) : Expr\StaticCall {
         return new Expr\StaticCall(
             BuilderHelpers::normalizeNameOrExpr($class),
-            $this->normalizeIdentifierOrExpr($name),
+            BuilderHelpers::normalizeIdentifierOrExpr($name),
             $this->args($args)
+        );
+    }
+
+    /**
+     * Creates a constant fetch node.
+     *
+     * @param string|Name $name Constant name
+     *
+     * @return Expr\ConstFetch
+     */
+    public function constFetch($name) : Expr\ConstFetch {
+        return new Expr\ConstFetch(BuilderHelpers::normalizeName($name));
+    }
+
+    /**
+     * Creates a class constant fetch node.
+     *
+     * @param string|Name|Expr  $class Class name
+     * @param string|Identifier $name  Constant name
+     *
+     * @return Expr\ClassConstFetch
+     */
+    public function classConstFetch($class, $name): Expr\ClassConstFetch {
+        return new Expr\ClassConstFetch(
+            BuilderHelpers::normalizeNameOrExpr($class),
+            BuilderHelpers::normalizeIdentifier($name)
         );
     }
 
@@ -226,21 +252,5 @@ class BuilderFactory
         }
 
         throw new \LogicException('Expected string or Expr');
-    }
-
-    /**
-     * @param string|Identifier|Expr $name
-     * @return Identifier|Expr
-     */
-    private function normalizeIdentifierOrExpr($name) {
-        if ($name instanceof Identifier || $name instanceof Expr) {
-            return $name;
-        }
-
-        if (\is_string($name)) {
-            return new Identifier($name);
-        }
-
-        throw new \LogicException('Expected string or instance of Node\Identifier or Node\Expr');
     }
 }
