@@ -277,7 +277,7 @@ optional_finally:
 ;
 
 variables_list:
-      non_empty_variables_list no_comma                     { $$ = $1; }
+      non_empty_variables_list optional_comma               { $$ = $1; }
 ;
 
 non_empty_variables_list:
@@ -472,7 +472,7 @@ optional_return_type:
 
 argument_list:
       '(' ')'                                               { $$ = array(); }
-    | '(' non_empty_argument_list no_comma ')'              { $$ = $2; }
+    | '(' non_empty_argument_list optional_comma ')'        { $$ = $2; }
 ;
 
 non_empty_argument_list:

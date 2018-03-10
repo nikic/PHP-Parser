@@ -1,13 +1,11 @@
 Version 4.0.1-dev
 -----------------
 
-### Changed
-
-* Added checks to node traverser to prevent replacing a statement with an expression or vice versa.
-  This should prevent common mistakes in the implementation of node visitors.
-
 ### Added
 
+* [PHP 7.3] Added support for trailing commas in function calls.
+* Added checks to node traverser to prevent replacing a statement with an expression or vice versa.
+  This should prevent common mistakes in the implementation of node visitors.
 * Added the following method to `BuilderFactory`, to simplify creation of expressions:
   * `funcCall()`
   * `methodCall()`
