@@ -17,9 +17,9 @@ the `xdebug.default_enable=0` ini option does *not* disable XDebug. The *only* w
 XDebug is to not load the extension in the first place.
 
 If you are building a command-line utility for use by developers (who often have XDebug enabled),
-you may want to consider automatically restarting PHP with XDebug unloaded. See the composer
-[XdebugHandler](https://github.com/composer/composer/blob/master/src/Composer/XdebugHandler.php)
-for an implementation of such functionality.
+you may want to consider automatically restarting PHP with XDebug unloaded. The
+[composer/xdebug-handler](https://github.com/composer/xdebug-handler) package can be used to do
+this.
 
 If you do run with XDebug, you may need to increase the `xdebug.max_nesting_level` option to a
 higher level, such as 3000. While the parser itself is recursion free, most other code working on
