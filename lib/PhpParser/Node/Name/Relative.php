@@ -41,7 +41,7 @@ class Relative extends \PhpParser\Node\Name
     }
 
     public function toCodeString() : string {
-        return 'namespace\\' . $this->toString();
+        return $this->toString();
     }
     
     public function getType() : string {
