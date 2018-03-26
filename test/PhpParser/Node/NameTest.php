@@ -128,7 +128,7 @@ class NameTest extends TestCase
         $this->assertFalse($name->isQualified());
         $this->assertFalse($name->isFullyQualified());
         $this->assertTrue($name->isRelative());
-        $this->assertSame('namespace\foo', $name->toCodeString());
+        $this->assertSame('foo', $name->toCodeString());
     }
 
     /**
