@@ -514,7 +514,7 @@ static_var:
 ;
 
 class_statement_list:
-      class_statement_list class_statement                  { push($1, $2); }
+      class_statement_list class_statement                  { if ($2 !== null) { push($1, $2); } }
     | /* empty */                                           { init(); }
 ;
 
@@ -527,6 +527,7 @@ class_statement:
           { $$ = Stmt\ClassMethod[$4, ['type' => $1, 'byRef' => $3, 'params' => $6, 'returnType' => $8, 'stmts' => $9]];
             $this->checkClassMethod($$, #1); }
     | T_USE class_name_list trait_adaptations               { $$ = Stmt\TraitUse[$2, $3]; }
+    | error                                                 { $$ = null; /* will be skipped */ }
 ;
 
 trait_adaptations:

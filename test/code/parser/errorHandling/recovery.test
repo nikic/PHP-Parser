@@ -953,3 +953,37 @@ array(
         )
     )
 )
+-----
+<?php
+
+class Foo {
+    publi $foo;
+    public $bar;
+}
+-----
+!!php7
+Syntax error, unexpected T_STRING from 4:5 to 4:9
+array(
+    0: Stmt_Class(
+        flags: 0
+        name: Identifier(
+            name: Foo
+        )
+        extends: null
+        implements: array(
+        )
+        stmts: array(
+            0: Stmt_Property(
+                flags: MODIFIER_PUBLIC (1)
+                props: array(
+                    0: Stmt_PropertyProperty(
+                        name: VarLikeIdentifier(
+                            name: bar
+                        )
+                        default: null
+                    )
+                )
+            )
+        )
+    )
+)
