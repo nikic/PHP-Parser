@@ -209,7 +209,7 @@ Component documentation:
  * [Error handling](doc/component/Error_handling.markdown)
    * Column information for errors
    * Error recovery (parsing of syntactically incorrect code)
- * [Constant expression evaluation](component/Constant_expression_evaluation.markdown)
+ * [Constant expression evaluation](doc/component/Constant_expression_evaluation.markdown)
    * Evaluating constant/property/etc initializers
    * Handling errors and unsupported expressions
  * [JSON representation](doc/component/JSON_representation.markdown)
