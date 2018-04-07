@@ -200,7 +200,7 @@ Component documentation:
    * Converting AST back to PHP code
    * Customizing formatting
    * Formatting-preserving code transformations
- * [AST builders](component/AST_builders.markdown)
+ * [AST builders](doc/component/AST_builders.markdown)
    * Fluent builders for AST nodes
  * [Lexer](doc/component/Lexer.markdown)
    * Lexer options
@@ -209,16 +209,16 @@ Component documentation:
  * [Error handling](doc/component/Error_handling.markdown)
    * Column information for errors
    * Error recovery (parsing of syntactically incorrect code)
- * [Constant expression evaluation](component/Constant_expression_evaluation.markdown)
+ * [Constant expression evaluation](doc/component/Constant_expression_evaluation.markdown)
    * Evaluating constant/property/etc initializers
    * Handling errors and unsupported expressions
- * [JSON representation](component/JSON_representation.markdown)
+ * [JSON representation](doc/component/JSON_representation.markdown)
    * JSON encoding and decoding of ASTs
  * [Performance](doc/component/Performance.markdown)
    * Disabling XDebug
    * Reusing objects
    * Garbage collection impact
- * [Frequently asked questions](component/FAQ.markdown)
+ * [Frequently asked questions](doc/component/FAQ.markdown)
    * Parent and sibling references
 
  [doc_3_x]: https://github.com/nikic/PHP-Parser/tree/3.x/doc
