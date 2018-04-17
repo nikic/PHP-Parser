@@ -409,7 +409,7 @@ $files = new \RegexIterator($files, '/\.php$/');
 foreach ($files as $file) {
     try {
         // read the file that should be converted
-        $code = file_get_contents($file);
+        $code = file_get_contents($file->getPathName());
 
         // parse
         $stmts = $parser->parse($code);
