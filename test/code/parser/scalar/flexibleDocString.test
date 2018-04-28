@@ -1,0 +1,47 @@
+Flexible heredoc/nowdoc (PHP 7.3)
+-----
+<?php
+
+$ary = [
+    <<<FOO
+Test
+FOO,
+    // Value here is wrong
+    <<<'BAR'
+    Test
+    BAR,
+];
+-----
+array(
+    0: Stmt_Expression(
+        expr: Expr_Assign(
+            var: Expr_Variable(
+                name: ary
+            )
+            expr: Expr_Array(
+                items: array(
+                    0: Expr_ArrayItem(
+                        key: null
+                        value: Scalar_String(
+                            value: Test
+                        )
+                        byRef: false
+                    )
+                    1: Expr_ArrayItem(
+                        key: null
+                        value: Scalar_String(
+                            value:     Test
+                            comments: array(
+                                0: // Value here is wrong
+                            )
+                        )
+                        byRef: false
+                        comments: array(
+                            0: // Value here is wrong
+                        )
+                    )
+                )
+            )
+        )
+    )
+)
