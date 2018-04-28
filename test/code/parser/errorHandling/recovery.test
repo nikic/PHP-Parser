@@ -987,3 +987,46 @@ array(
         )
     )
 )
+-----
+<?php
+
+foreach ($foo) { $bar; }
+foreach ($foo as ) { $bar; }
+-----
+!!php7
+Syntax error, unexpected ')' from 3:14 to 3:14
+Syntax error, unexpected ')' from 4:18 to 4:18
+array(
+    0: Stmt_Foreach(
+        expr: Expr_Variable(
+            name: foo
+        )
+        keyVar: null
+        byRef: false
+        valueVar: Expr_Error(
+        )
+        stmts: array(
+            0: Stmt_Expression(
+                expr: Expr_Variable(
+                    name: bar
+                )
+            )
+        )
+    )
+    1: Stmt_Foreach(
+        expr: Expr_Variable(
+            name: foo
+        )
+        keyVar: null
+        byRef: false
+        valueVar: Expr_Error(
+        )
+        stmts: array(
+            0: Stmt_Expression(
+                expr: Expr_Variable(
+                    name: bar
+                )
+            )
+        )
+    )
+)

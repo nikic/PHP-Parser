@@ -1,7 +1,10 @@
 Version 4.0.2-dev
 -----------------
 
-Nothing yet.
+### Added
+
+* Improved error recovery inside classes.
+* Support error recovery for `foreach` without `as`.
 
 Version 4.0.1 (2018-03-25)
 --------------------------
