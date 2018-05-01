@@ -29,8 +29,8 @@ HHVM is no longer actively supported.
    * `Stmt\Class_::$name`
    * `Stmt\ClassMethod::$name`
    * `Stmt\ClassMethod::$returnType` (for simple types)
-   * `Stmt\Function::$name`
-   * `Stmt\Function::$returnType` (for simple types)
+   * `Stmt\Function_::$name`
+   * `Stmt\Function_::$returnType` (for simple types)
    * `Stmt\Goto_::$name`
    * `Stmt\Interface_::$name`
    * `Stmt\Label::$name`
