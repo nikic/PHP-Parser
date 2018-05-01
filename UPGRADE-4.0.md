@@ -48,7 +48,7 @@ HHVM is no longer actively supported.
 * The `name` subnode of `StaticVar` has been renamed to `var` and now contains a `Variable` rather
   than a plain string.
 * The `var` subnode of `ClosureUse` now contains a `Variable` rather than a plain string.
-* The `var` subnode of `Catch` now contains a `Variable` rather than a plain string.
+* The `var` subnode of `Catch_` now contains a `Variable` rather than a plain string.
 * The `alias` subnode of `UseUse` is now `null` if no explicit alias is given. As such,
   `use Foo\Bar` and `use Foo\Bar as Bar` are now represented differently. The `getAlias()` method
   can be used to get the effective alias, even if it is not explicitly given.
