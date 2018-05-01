@@ -17,7 +17,7 @@ HHVM is no longer actively supported.
   comparisons or strict-mode may require adjustment. The following is an exhaustive list of all
   affected subnodes:
 
-   * `Const::$name`
+   * `Const_::$name`
    * `NullableType::$type` (for simple types)
    * `Param::$type` (for simple types)
    * `Expr\ClassConstFetch::$name`
@@ -29,8 +29,8 @@ HHVM is no longer actively supported.
    * `Stmt\Class_::$name`
    * `Stmt\ClassMethod::$name`
    * `Stmt\ClassMethod::$returnType` (for simple types)
-   * `Stmt\Function::$name`
-   * `Stmt\Function::$returnType` (for simple types)
+   * `Stmt\Function_::$name`
+   * `Stmt\Function_::$returnType` (for simple types)
    * `Stmt\Goto_::$name`
    * `Stmt\Interface_::$name`
    * `Stmt\Label::$name`
@@ -48,7 +48,7 @@ HHVM is no longer actively supported.
 * The `name` subnode of `StaticVar` has been renamed to `var` and now contains a `Variable` rather
   than a plain string.
 * The `var` subnode of `ClosureUse` now contains a `Variable` rather than a plain string.
-* The `var` subnode of `Catch` now contains a `Variable` rather than a plain string.
+* The `var` subnode of `Catch_` now contains a `Variable` rather than a plain string.
 * The `alias` subnode of `UseUse` is now `null` if no explicit alias is given. As such,
   `use Foo\Bar` and `use Foo\Bar as Bar` are now represented differently. The `getAlias()` method
   can be used to get the effective alias, even if it is not explicitly given.
