@@ -17,7 +17,7 @@ HHVM is no longer actively supported.
   comparisons or strict-mode may require adjustment. The following is an exhaustive list of all
   affected subnodes:
 
-   * `Const::$name`
+   * `Const_::$name`
    * `NullableType::$type` (for simple types)
    * `Param::$type` (for simple types)
    * `Expr\ClassConstFetch::$name`
