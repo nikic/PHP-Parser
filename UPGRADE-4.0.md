@@ -62,7 +62,7 @@ HHVM is no longer actively supported.
 
 ### Removed functionality
 
-* Removed `type` subnode on `Class`, `ClassMethod` and `Property` nodes. Use `flags` instead.
+* Removed `type` subnode on `Class_`, `ClassMethod` and `Property` nodes. Use `flags` instead.
 * The `ClassConst::isStatic()` method has been removed. Constants cannot have a static modifier.
 * The `NodeTraverser` no longer accepts `false` as a return value from a `leaveNode()` method.
   `NodeTraverser::REMOVE_NODE` should be returned instead.
