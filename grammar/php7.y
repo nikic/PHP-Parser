@@ -449,6 +449,8 @@ parameter:
           { $$ = Node\Param[$4, null, $1, $2, $3]; $this->checkParam($$); }
     | optional_param_type optional_ref optional_ellipsis plain_variable '=' expr
           { $$ = Node\Param[$4, $6, $1, $2, $3]; $this->checkParam($$); }
+    | optional_param_type optional_ref optional_ellipsis error
+          { $$ = Node\Param[Expr\Error[], null, $1, $2, $3]; }
 ;
 
 type_expr:

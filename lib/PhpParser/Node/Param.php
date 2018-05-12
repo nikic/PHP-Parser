@@ -12,7 +12,7 @@ class Param extends NodeAbstract
     public $byRef;
     /** @var bool Whether this is a variadic argument */
     public $variadic;
-    /** @var Expr\Variable Parameter variable */
+    /** @var Expr\Variable|Expr\Error Parameter variable */
     public $var;
     /** @var null|Expr Default value */
     public $default;
@@ -20,7 +20,7 @@ class Param extends NodeAbstract
     /**
      * Constructs a parameter node.
      *
-     * @param Expr\Variable                 $var        Parameter variable
+     * @param Expr\Variable|Expr\Error      $var        Parameter variable
      * @param null|Expr                     $default    Default value
      * @param null|string|Name|NullableType $type       Typehint
      * @param bool                          $byRef      Whether is passed by reference
@@ -28,7 +28,7 @@ class Param extends NodeAbstract
      * @param array                         $attributes Additional attributes
      */
     public function __construct(
-        Expr\Variable $var, Expr $default = null, $type = null,
+        $var, Expr $default = null, $type = null,
         bool $byRef = false, bool $variadic = false, array $attributes = []
     ) {
         parent::__construct($attributes);

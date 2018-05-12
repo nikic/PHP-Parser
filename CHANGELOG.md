@@ -5,6 +5,7 @@ Version 4.0.2-dev
 
 * Improved error recovery inside classes.
 * Support error recovery for `foreach` without `as`.
+* Support error recovery for parameters without variable (`function (Type ) {}`).
 
 Version 4.0.1 (2018-03-25)
 --------------------------
