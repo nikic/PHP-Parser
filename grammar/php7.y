@@ -297,9 +297,14 @@ optional_ellipsis:
     | T_ELLIPSIS                                            { $$ = true; }
 ;
 
+block_or_error:
+      '{' inner_statement_list '}'                          { $$ = $2; }
+    | error                                                 { $$ = []; }
+;
+
 function_declaration_statement:
-    T_FUNCTION optional_ref identifier '(' parameter_list ')' optional_return_type '{' inner_statement_list '}'
-        { $$ = Stmt\Function_[$3, ['byRef' => $2, 'params' => $5, 'returnType' => $7, 'stmts' => $9]]; }
+    T_FUNCTION optional_ref identifier '(' parameter_list ')' optional_return_type block_or_error
+        { $$ = Stmt\Function_[$3, ['byRef' => $2, 'params' => $5, 'returnType' => $7, 'stmts' => $8]]; }
 ;
 
 class_declaration_statement:
@@ -567,7 +572,7 @@ trait_method_reference:
 
 method_body:
       ';' /* abstract method */                             { $$ = null; }
-    | '{' inner_statement_list '}'                          { $$ = $2; }
+    | block_or_error                                        { $$ = $1; }
 ;
 
 variable_modifiers:
@@ -713,11 +718,11 @@ expr:
     | T_YIELD expr T_DOUBLE_ARROW expr                      { $$ = Expr\Yield_[$4, $2]; }
     | T_YIELD_FROM expr                                     { $$ = Expr\YieldFrom[$2]; }
     | T_FUNCTION optional_ref '(' parameter_list ')' lexical_vars optional_return_type
-      '{' inner_statement_list '}'
-          { $$ = Expr\Closure[['static' => false, 'byRef' => $2, 'params' => $4, 'uses' => $6, 'returnType' => $7, 'stmts' => $9]]; }
+      block_or_error
+          { $$ = Expr\Closure[['static' => false, 'byRef' => $2, 'params' => $4, 'uses' => $6, 'returnType' => $7, 'stmts' => $8]]; }
     | T_STATIC T_FUNCTION optional_ref '(' parameter_list ')' lexical_vars optional_return_type
-      '{' inner_statement_list '}'
-          { $$ = Expr\Closure[['static' => true, 'byRef' => $3, 'params' => $5, 'uses' => $7, 'returnType' => $8, 'stmts' => $10]]; }
+      block_or_error
+          { $$ = Expr\Closure[['static' => true, 'byRef' => $3, 'params' => $5, 'uses' => $7, 'returnType' => $8, 'stmts' => $9]]; }
 ;
 
 anonymous_class:

@@ -1048,12 +1048,23 @@ function foo(...) {
 function foo(&) {
     $qux;
 }
+
+function foo(Bar)
+
+class Bar {
+    function foo(Baz)
+}
+
+function(Foo);
 -----
 !!php7
 Syntax error, unexpected ')', expecting T_VARIABLE from 3:18 to 3:18
 Syntax error, unexpected ')', expecting T_VARIABLE from 7:31 to 7:31
 Syntax error, unexpected ')', expecting T_VARIABLE from 11:17 to 11:17
 Syntax error, unexpected ')', expecting T_VARIABLE from 15:15 to 15:15
+Syntax error, unexpected ')', expecting T_VARIABLE from 19:17 to 19:17
+Syntax error, unexpected ')', expecting T_VARIABLE from 22:21 to 22:21
+Syntax error, unexpected ')', expecting T_VARIABLE from 25:13 to 25:13
 array(
     0: Stmt_Function(
         byRef: false
@@ -1169,6 +1180,89 @@ array(
                 expr: Expr_Variable(
                     name: qux
                 )
+            )
+        )
+    )
+    4: Stmt_Function(
+        byRef: false
+        name: Identifier(
+            name: foo
+        )
+        params: array(
+            0: Param(
+                type: Name(
+                    parts: array(
+                        0: Bar
+                    )
+                )
+                byRef: false
+                variadic: false
+                var: Expr_Error(
+                )
+                default: null
+            )
+        )
+        returnType: null
+        stmts: array(
+        )
+    )
+    5: Stmt_Class(
+        flags: 0
+        name: Identifier(
+            name: Bar
+        )
+        extends: null
+        implements: array(
+        )
+        stmts: array(
+            0: Stmt_ClassMethod(
+                flags: 0
+                byRef: false
+                name: Identifier(
+                    name: foo
+                )
+                params: array(
+                    0: Param(
+                        type: Name(
+                            parts: array(
+                                0: Baz
+                            )
+                        )
+                        byRef: false
+                        variadic: false
+                        var: Expr_Error(
+                        )
+                        default: null
+                    )
+                )
+                returnType: null
+                stmts: array(
+                )
+            )
+        )
+    )
+    6: Stmt_Expression(
+        expr: Expr_Closure(
+            static: false
+            byRef: false
+            params: array(
+                0: Param(
+                    type: Name(
+                        parts: array(
+                            0: Foo
+                        )
+                    )
+                    byRef: false
+                    variadic: false
+                    var: Expr_Error(
+                    )
+                    default: null
+                )
+            )
+            uses: array(
+            )
+            returnType: null
+            stmts: array(
             )
         )
     )
