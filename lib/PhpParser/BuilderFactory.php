@@ -104,7 +104,7 @@ class BuilderFactory
     /**
      * Creates a namespace/class use builder.
      *
-     * @param string|Node\Name Name to alias
+     * @param string|Node\Name $name Name to alias
      *
      * @return Builder\Use_ The create use builder
      */
