@@ -34,6 +34,6 @@ class FirstFindingVisitorTest extends TestCase
         $stmts = [new Node\Stmt\Expression($assign)];
 
         $traverser->traverse($stmts);
-        $this->assertSame(null, $visitor->getFoundNode());
+        $this->assertNull($visitor->getFoundNode());
     }
 }
