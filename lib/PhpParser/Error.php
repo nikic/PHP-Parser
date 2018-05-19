@@ -15,7 +15,7 @@ class Error extends \RuntimeException
      *                              (or start line of error -- deprecated)
      */
     public function __construct(string $message, $attributes = []) {
-        $this->rawMessage = (string) $message;
+        $this->rawMessage = $message;
         if (is_array($attributes)) {
             $this->attributes = $attributes;
         } else {
@@ -76,7 +76,7 @@ class Error extends \RuntimeException
      * @param string $message Error message
      */
     public function setRawMessage(string $message) {
-        $this->rawMessage = (string) $message;
+        $this->rawMessage = $message;
         $this->updateMessage();
     }
 
@@ -86,7 +86,7 @@ class Error extends \RuntimeException
      * @param int $line Error start line
      */
     public function setStartLine(int $line) {
-        $this->attributes['startLine'] = (int) $line;
+        $this->attributes['startLine'] = $line;
         $this->updateMessage();
     }
 
