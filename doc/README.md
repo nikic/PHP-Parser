@@ -44,3 +44,4 @@ Component documentation
     * Garbage collection impact
   * [Frequently asked questions](component/FAQ.markdown)
     * Parent and sibling references
+  * [Node types table reference](component/node_table.markdown)
