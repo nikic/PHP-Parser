@@ -209,6 +209,16 @@ class PrettyPrinterTest extends CodeTestAbstract
     }
 
     /**
+     * @expectedException \LogicException
+     * @expectedExceptionMessage Cannot directly print EncapsedStringPart
+     */
+    public function testPrettyPrintEncapsedStringPart() {
+        $expr = new Node\Scalar\EncapsedStringPart('foo');
+        $prettyPrinter = new PrettyPrinter\Standard;
+        $prettyPrinter->prettyPrintExpr($expr);
+    }
+
+    /**
      * @dataProvider provideTestFormatPreservingPrint
      * @covers \PhpParser\PrettyPrinter\Standard<extended>
      */
