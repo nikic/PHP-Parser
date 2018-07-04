@@ -63,8 +63,7 @@ class EmulativeTest extends LexerTest
         $lexer = $this->getLexer();
         $lexer->startLexing('<?php ' . $code);
 
-        foreach ($expectedTokens as $expectedToken) {
-            list($expectedTokenType, $expectedTokenText) = $expectedToken;
+        foreach ($expectedTokens as list($expectedTokenType, $expectedTokenText)) {
             $this->assertSame($expectedTokenType, $lexer->getNextToken($text));
             $this->assertSame($expectedTokenText, $text);
         }
