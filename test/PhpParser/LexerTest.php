@@ -16,7 +16,7 @@ class LexerTest extends TestCase
      * @dataProvider provideTestError
      */
     public function testError($code, $messages) {
-        if (defined('HHVM_VERSION')) {
+        if (\defined('HHVM_VERSION')) {
             $this->markTestSkipped('HHVM does not throw warnings from token_get_all()');
         }
 
@@ -76,7 +76,7 @@ class LexerTest extends TestCase
                         ['startLine' => 1], ['endLine' => 1]
                     ],
                     [
-                        ord(';'), '?>',
+                        \ord(';'), '?>',
                         ['startLine' => 1], ['endLine' => 1]
                     ],
                     [
@@ -92,7 +92,7 @@ class LexerTest extends TestCase
                 [],
                 [
                     [
-                        ord('$'), '$',
+                        \ord('$'), '$',
                         ['startLine' => 2], ['endLine' => 2]
                     ],
                     [
@@ -100,7 +100,7 @@ class LexerTest extends TestCase
                         ['startLine' => 2], ['endLine' => 2]
                     ],
                     [
-                        ord('$'), '$',
+                        \ord('$'), '$',
                         [
                             'startLine' => 3,
                             'comments' => [
@@ -152,7 +152,7 @@ class LexerTest extends TestCase
                         ['startFilePos' => 6], ['endFilePos' => 8]
                     ],
                     [
-                        ord(';'), ';',
+                        \ord(';'), ';',
                         ['startFilePos' => 9], ['endFilePos' => 9]
                     ],
                     [
@@ -160,7 +160,7 @@ class LexerTest extends TestCase
                         ['startFilePos' => 18], ['endFilePos' => 20]
                     ],
                     [
-                        ord(';'), ';',
+                        \ord(';'), ';',
                         ['startFilePos' => 21], ['endFilePos' => 21]
                     ],
                 ]
@@ -175,7 +175,7 @@ class LexerTest extends TestCase
                         ['startTokenPos' => 1], ['endTokenPos' => 1]
                     ],
                     [
-                        ord(';'), ';',
+                        \ord(';'), ';',
                         ['startTokenPos' => 2], ['endTokenPos' => 2]
                     ],
                     [
@@ -183,7 +183,7 @@ class LexerTest extends TestCase
                         ['startTokenPos' => 5], ['endTokenPos' => 5]
                     ],
                     [
-                        ord(';'), ';',
+                        \ord(';'), ';',
                         ['startTokenPos' => 6], ['endTokenPos' => 6]
                     ],
                 ]
@@ -198,7 +198,7 @@ class LexerTest extends TestCase
                         [], []
                     ],
                     [
-                        ord(';'), ';',
+                        \ord(';'), ';',
                         [], []
                     ]
                 ]

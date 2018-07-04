@@ -23,7 +23,7 @@ class DifferTest extends TestCase
                     $diffStr .= '/' . $diffElem->old . $diffElem->new;
                     break;
                 default:
-                    assert(false);
+                    \assert(false);
                     break;
             }
         }

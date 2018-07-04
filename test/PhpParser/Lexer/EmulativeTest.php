@@ -119,13 +119,13 @@ class EmulativeTest extends LexerTest
             ["<<<'NOWDOC'\nNOWDOC;\n", [
                 [Tokens::T_START_HEREDOC, "<<<'NOWDOC'\n"],
                 [Tokens::T_END_HEREDOC, 'NOWDOC'],
-                [ord(';'), ';'],
+                [\ord(';'), ';'],
             ]],
             ["<<<'NOWDOC'\nFoobar\nNOWDOC;\n", [
                 [Tokens::T_START_HEREDOC, "<<<'NOWDOC'\n"],
                 [Tokens::T_ENCAPSED_AND_WHITESPACE, "Foobar\n"],
                 [Tokens::T_END_HEREDOC, 'NOWDOC'],
-                [ord(';'), ';'],
+                [\ord(';'), ';'],
             ]],
         ];
     }

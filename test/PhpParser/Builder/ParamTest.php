@@ -91,12 +91,12 @@ class ParamTest extends TestCase
 
         /* Manually implement comparison to avoid __toString stupidity */
         if ($expectedType instanceof Node\NullableType) {
-            $this->assertInstanceOf(get_class($expectedType), $type);
+            $this->assertInstanceOf(\get_class($expectedType), $type);
             $expectedType = $expectedType->type;
             $type = $type->type;
         }
 
-        $this->assertInstanceOf(get_class($expectedType), $type);
+        $this->assertInstanceOf(\get_class($expectedType), $type);
         $this->assertEquals($expectedType, $type);
     }
 

@@ -54,7 +54,7 @@ class CodeTestParser
     private function extractMode($expected) {
         $firstNewLine = strpos($expected, "\n");
         if (false === $firstNewLine) {
-            $firstNewLine = strlen($expected);
+            $firstNewLine = \strlen($expected);
         }
 
         $firstLine = substr($expected, 0, $firstNewLine);
