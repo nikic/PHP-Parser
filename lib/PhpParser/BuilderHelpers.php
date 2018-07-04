@@ -183,7 +183,7 @@ final class BuilderHelpers
         ];
 
         $lowerType = strtolower($type);
-        if (\in_array($lowerType, $builtinTypes)) {
+        if (\in_array($lowerType, $builtinTypes, true)) {
             $type = new Identifier($lowerType);
         } else {
             $type = self::normalizeName($type);
