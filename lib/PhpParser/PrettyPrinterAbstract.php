@@ -181,7 +181,7 @@ abstract class PrettyPrinterAbstract
      * Decrease indentation level.
      */
     protected function outdent() {
-        assert($this->indentLevel >= 4);
+        \assert($this->indentLevel >= 4);
         $this->indentLevel -= 4;
         $this->nl = "\n" . str_repeat(' ', $this->indentLevel);
     }
@@ -565,7 +565,7 @@ abstract class PrettyPrinterAbstract
                     continue;
                 }
 
-                if (is_array($subNode) && is_array($origSubNode)) {
+                if (\is_array($subNode) && \is_array($origSubNode)) {
                     // Array subnode changed, we might be able to reconstruct it
                     $listResult = $this->pArray(
                         $subNode, $origSubNode, $pos, $indentAdjustment, $subNodeName,
@@ -580,7 +580,7 @@ abstract class PrettyPrinterAbstract
                     continue;
                 }
 
-                if (is_int($subNode) && is_int($origSubNode)) {
+                if (\is_int($subNode) && \is_int($origSubNode)) {
                     // Check if this is a modifier change
                     $key = $type . '->' . $subNodeName;
                     if (!isset($this->modifierChangeMap[$key])) {
@@ -753,7 +753,7 @@ abstract class PrettyPrinterAbstract
                 if ($itemEndPos < $itemStartPos) {
                     // End can be before start for Nop nodes, because offsets refer to non-whitespace
                     // locations, which for an "empty" node might result in an inverted order.
-                    assert($origArrItem instanceof Stmt\Nop);
+                    \assert($origArrItem instanceof Stmt\Nop);
                     continue;
                 }
 
@@ -1066,7 +1066,7 @@ abstract class PrettyPrinterAbstract
         for ($i = 0; $i < 256; $i++) {
             // Since PHP 7.1 The lower range is 0x80. However, we also want to support code for
             // older versions.
-            $this->labelCharMap[chr($i)] = $i >= 0x7f || ctype_alnum($i);
+            $this->labelCharMap[\chr($i)] = $i >= 0x7f || ctype_alnum($i);
         }
     }
 

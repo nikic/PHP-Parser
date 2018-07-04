@@ -174,7 +174,7 @@ class Name extends NodeAbstract
             return null;
         }
 
-        return new static(array_slice($this->parts, $realOffset, $realLength), $this->attributes);
+        return new static(\array_slice($this->parts, $realOffset, $realLength), $this->attributes);
     }
 
     /**

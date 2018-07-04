@@ -62,7 +62,7 @@ class LNumber extends Scalar
 
         // use intval instead of octdec to get proper cutting behavior with malformed numbers
         $attributes['kind'] = self::KIND_OCT;
-        return new LNumber(intval($str, 8), $attributes);
+        return new LNumber(\intval($str, 8), $attributes);
     }
     
     public function getType() : string {

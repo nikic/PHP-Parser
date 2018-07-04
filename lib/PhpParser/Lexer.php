@@ -93,7 +93,7 @@ class Lexer
                 $errorMsg = 'Unexpected null byte';
             } else {
                 $errorMsg = sprintf(
-                    'Unexpected character "%s" (ASCII %d)', $chr, ord($chr)
+                    'Unexpected character "%s" (ASCII %d)', $chr, \ord($chr)
                 );
             }
 
@@ -123,7 +123,7 @@ class Lexer
      * @return bool
      */
     private function errorMayHaveOccurred() : bool {
-        if (defined('HHVM_VERSION')) {
+        if (\defined('HHVM_VERSION')) {
             // In HHVM token_get_all() does not throw warnings, so we need to conservatively
             // assume that an error occurred
             return true;
@@ -245,10 +245,10 @@ class Lexer
                 if (isset($token[1])) {
                     // bug in token_get_all
                     $this->filePos += 2;
-                    $id = ord('"');
+                    $id = \ord('"');
                 } else {
                     $this->filePos += 1;
-                    $id = ord($token);
+                    $id = \ord($token);
                 }
             } elseif (!isset($this->dropTokens[$token[0]])) {
                 $value = $token[1];
@@ -326,7 +326,7 @@ class Lexer
         $this->pos = count($this->tokens);
 
         // return with (); removed
-        return substr($textAfter, strlen($matches[0]));
+        return substr($textAfter, \strlen($matches[0]));
     }
 
     /**
@@ -352,24 +352,24 @@ class Lexer
                 $tokenMap[$i] = Tokens::T_ECHO;
             } elseif(\T_CLOSE_TAG === $i) {
                 // T_CLOSE_TAG is equivalent to ';'
-                $tokenMap[$i] = ord(';');
+                $tokenMap[$i] = \ord(';');
             } elseif ('UNKNOWN' !== $name = token_name($i)) {
                 if ('T_HASHBANG' === $name) {
                     // HHVM uses a special token for #! hashbang lines
                     $tokenMap[$i] = Tokens::T_INLINE_HTML;
-                } elseif (defined($name = Tokens::class . '::' . $name)) {
+                } elseif (\defined($name = Tokens::class . '::' . $name)) {
                     // Other tokens can be mapped directly
-                    $tokenMap[$i] = constant($name);
+                    $tokenMap[$i] = \constant($name);
                 }
             }
         }
 
         // HHVM uses a special token for numbers that overflow to double
-        if (defined('T_ONUMBER')) {
+        if (\defined('T_ONUMBER')) {
             $tokenMap[\T_ONUMBER] = Tokens::T_DNUMBER;
         }
         // HHVM also has a separate token for the __COMPILER_HALT_OFFSET__ constant
-        if (defined('T_COMPILER_HALT_OFFSET')) {
+        if (\defined('T_COMPILER_HALT_OFFSET')) {
             $tokenMap[\T_COMPILER_HALT_OFFSET] = Tokens::T_STRING;
         }
 

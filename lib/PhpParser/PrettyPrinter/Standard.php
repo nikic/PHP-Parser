@@ -901,7 +901,7 @@ class Standard extends PrettyPrinterAbstract
 
         // Escape other control characters
         return preg_replace_callback('/([\0-\10\16-\37])(?=([0-7]?))/', function ($matches) {
-            $oct = decoct(ord($matches[1]));
+            $oct = decoct(\ord($matches[1]));
             if ($matches[2] !== '') {
                 // If there is a trailing digit, use the full three character form
                 return '\\' . str_pad($oct, 3, '0', \STR_PAD_LEFT);

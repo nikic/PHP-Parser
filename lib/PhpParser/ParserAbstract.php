@@ -703,7 +703,7 @@ abstract class ParserAbstract implements Parser
         }
 
         $num = +$str;
-        if (!is_int($num)) {
+        if (!\is_int($num)) {
             return new String_($str, $attributes);
         }
 
