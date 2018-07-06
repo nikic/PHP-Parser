@@ -951,9 +951,12 @@ abstract class PrettyPrinterAbstract
      * @param string $append
      */
     protected function safeAppend(string &$str, string $append) {
-        // $append must not be empty in this function
         if ($str === "") {
             $str = $append;
+            return;
+        }
+
+        if ($append === "") {
             return;
         }
 
