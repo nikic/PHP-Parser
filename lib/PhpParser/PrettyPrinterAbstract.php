@@ -957,6 +957,10 @@ abstract class PrettyPrinterAbstract
             return;
         }
 
+        if ($append === "") {
+            return;
+        }
+
         if (!$this->labelCharMap[$append[0]]
                 || !$this->labelCharMap[$str[\strlen($str) - 1]]) {
             $str .= $append;
