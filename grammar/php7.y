@@ -952,8 +952,13 @@ array_pair_list:
           { $$ = $1; $end = count($$)-1; if ($$[$end] === null) array_pop($$); }
 ;
 
+comma_or_error:
+      ','
+    | error
+;
+
 inner_array_pair_list:
-      inner_array_pair_list ',' array_pair                  { push($1, $3); }
+      inner_array_pair_list comma_or_error array_pair       { push($1, $3); }
     | array_pair                                            { init($1); }
 ;
 

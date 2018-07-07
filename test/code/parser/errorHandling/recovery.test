@@ -1267,3 +1267,56 @@ array(
         )
     )
 )
+-----
+<?php
+$array = [
+    $this->value $oopsAnotherValue->get()
+];
+$array = [
+    $value $oopsAnotherValue
+];
+$array = [
+    'key' => $value $oopsAnotherValue
+];
+-----
+!!php7
+Syntax error, unexpected T_VARIABLE, expecting ',' or ')' or ']' from 3:18 to 3:34
+array(
+    0: Stmt_Expression(
+        expr: Expr_Assign(
+            var: Expr_Variable(
+                name: array
+            )
+            expr: Expr_Array(
+                items: array(
+                    0: Expr_ArrayItem(
+                        key: null
+                        value: Expr_PropertyFetch(
+                            var: Expr_Variable(
+                                name: this
+                            )
+                            name: Identifier(
+                                name: value
+                            )
+                        )
+                        byRef: false
+                    )
+                    1: Expr_ArrayItem(
+                        key: null
+                        value: Expr_MethodCall(
+                            var: Expr_Variable(
+                                name: oopsAnotherValue
+                            )
+                            name: Identifier(
+                                name: get
+                            )
+                            args: array(
+                            )
+                        )
+                        byRef: false
+                    )
+                )
+            )
+        )
+    )
+)
