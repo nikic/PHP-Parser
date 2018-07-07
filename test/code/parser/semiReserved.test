@@ -222,6 +222,11 @@ array(
                     )
                 )
             )
+            8: Stmt_Nop(
+                comments: array(
+                    0: // __halt_compiler does not work
+                )
+            )
         )
     )
     1: Stmt_Expression(

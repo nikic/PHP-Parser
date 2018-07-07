@@ -454,9 +454,15 @@ static_var:
     | plain_variable '=' static_scalar                      { $$ = Stmt\StaticVar[$1, $3]; }
 ;
 
-class_statement_list:
-      class_statement_list class_statement                  { push($1, $2); }
+class_statement_list_ex:
+      class_statement_list_ex class_statement               { if ($2 !== null) { push($1, $2); } }
     | /* empty */                                           { init(); }
+;
+
+class_statement_list:
+      class_statement_list_ex
+          { makeNop($nop, $this->lookaheadStartAttributes, $this->endAttributes);
+            if ($nop !== null) { $1[] = $nop; } $$ = $1; }
 ;
 
 class_statement:
