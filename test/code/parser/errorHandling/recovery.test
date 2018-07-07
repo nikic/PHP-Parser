@@ -1281,6 +1281,8 @@ $array = [
 -----
 !!php7
 Syntax error, unexpected T_VARIABLE, expecting ',' or ')' or ']' from 3:18 to 3:34
+Syntax error, unexpected T_VARIABLE, expecting ',' or ')' or ']' from 6:12 to 6:28
+Syntax error, unexpected T_VARIABLE, expecting ',' or ')' or ']' from 9:21 to 9:37
 array(
     0: Stmt_Expression(
         expr: Expr_Assign(
@@ -1312,6 +1314,58 @@ array(
                             )
                             args: array(
                             )
+                        )
+                        byRef: false
+                    )
+                )
+            )
+        )
+    )
+    1: Stmt_Expression(
+        expr: Expr_Assign(
+            var: Expr_Variable(
+                name: array
+            )
+            expr: Expr_Array(
+                items: array(
+                    0: Expr_ArrayItem(
+                        key: null
+                        value: Expr_Variable(
+                            name: value
+                        )
+                        byRef: false
+                    )
+                    1: Expr_ArrayItem(
+                        key: null
+                        value: Expr_Variable(
+                            name: oopsAnotherValue
+                        )
+                        byRef: false
+                    )
+                )
+            )
+        )
+    )
+    2: Stmt_Expression(
+        expr: Expr_Assign(
+            var: Expr_Variable(
+                name: array
+            )
+            expr: Expr_Array(
+                items: array(
+                    0: Expr_ArrayItem(
+                        key: Scalar_String(
+                            value: key
+                        )
+                        value: Expr_Variable(
+                            name: value
+                        )
+                        byRef: false
+                    )
+                    1: Expr_ArrayItem(
+                        key: null
+                        value: Expr_Variable(
+                            name: oopsAnotherValue
                         )
                         byRef: false
                     )
