@@ -1,5 +1,10 @@
-Version 4.0.3-dev
+Version 4.0.4-dev
 -----------------
+
+Nothing yet.
+
+Version 4.0.3 (2018-07-15)
+--------------------------
 
 ### Fixed
 
