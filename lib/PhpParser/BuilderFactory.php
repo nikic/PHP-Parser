@@ -119,7 +119,7 @@ class BuilderFactory
      *
      * @return Builder\Use_ The create use builder
      */
-    public function funcUse($name) : Builder\Use_ {
+    public function useFunction($name) : Builder\Use_ {
         return new Builder\Use_($name, Use_::TYPE_FUNCTION);
     }
 
@@ -130,7 +130,7 @@ class BuilderFactory
      *
      * @return Builder\Use_ The create use builder
      */
-    public function funcUse($name) : Builder\Use_ {
+    public function useConst($name) : Builder\Use_ {
         return new Builder\Use_($name, Use_::TYPE_CONSTANT);
     }
 
