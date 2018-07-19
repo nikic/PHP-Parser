@@ -104,12 +104,34 @@ class BuilderFactory
     /**
      * Creates a namespace/class use builder.
      *
-     * @param string|Node\Name $name Name to alias
+     * @param Node\Name|string $name Name of the entity (namespace or class) to alias
      *
      * @return Builder\Use_ The create use builder
      */
     public function use($name) : Builder\Use_ {
         return new Builder\Use_($name, Use_::TYPE_NORMAL);
+    }
+
+    /**
+     * Creates a function use builder.
+     *
+     * @param Node\Name|string $name Name of the function to alias
+     *
+     * @return Builder\Use_ The create use builder
+     */
+    public function useFunction($name) : Builder\Use_ {
+        return new Builder\Use_($name, Use_::TYPE_FUNCTION);
+    }
+
+    /**
+     * Creates a constant use builder.
+     *
+     * @param Node\Name|string $name Name of the const to alias
+     *
+     * @return Builder\Use_ The create use builder
+     */
+    public function useConst($name) : Builder\Use_ {
+        return new Builder\Use_($name, Use_::TYPE_CONSTANT);
     }
 
     /**
