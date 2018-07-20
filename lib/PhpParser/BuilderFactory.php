@@ -146,6 +146,17 @@ class BuilderFactory
     }
 
     /**
+     * Creates variable node.
+     *
+     * @param string|Expr $name Name
+     *
+     * @return Expr\Variable
+     */
+    public function var($name) : Expr\Variable {
+        return new Expr\Variable($name);
+    }
+
+    /**
      * Normalizes an argument list.
      *
      * Creates Arg nodes for all arguments and converts literal values to expressions.
@@ -239,6 +250,18 @@ class BuilderFactory
      */
     public function constFetch($name) : Expr\ConstFetch {
         return new Expr\ConstFetch(BuilderHelpers::normalizeName($name));
+    }
+    
+    /**
+     * Creates a property fetch node.
+     *
+     * @param Expr                   $var  Variable holding object
+     * @param string|Identifier|Expr $name Property name
+     *
+     * @return Expr\PropertyFetch
+     */
+    public function propertyFetch(Expr $var, $name) : Expr\PropertyFetch {
+        return new Expr\PropertyFetch($var, $name);
     }
 
     /**
