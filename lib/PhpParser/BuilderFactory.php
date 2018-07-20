@@ -58,6 +58,17 @@ class BuilderFactory
     }
 
     /**
+     * Creates a trait use builder.
+     *
+     * @param Node\Name|string ...$traits Trait names
+     *
+     * @return Builder\TraitUse The create trait use builder
+     */
+    public function useTrait(...$traits) : Builder\TraitUse {
+        return new Builder\TraitUse(...$traits);
+    }
+
+    /**
      * Creates a method builder.
      *
      * @param string $name Name of the method
