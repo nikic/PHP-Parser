@@ -25,15 +25,17 @@ class BuilderFactoryTest extends TestCase
 
     public function provideTestFactory() {
         return [
-            ['namespace', Builder\Namespace_::class],
-            ['class',     Builder\Class_::class],
-            ['interface', Builder\Interface_::class],
-            ['trait',     Builder\Trait_::class],
-            ['method',    Builder\Method::class],
-            ['function',  Builder\Function_::class],
-            ['property',  Builder\Property::class],
-            ['param',     Builder\Param::class],
-            ['use',       Builder\Use_::class],
+            ['namespace',   Builder\Namespace_::class],
+            ['class',       Builder\Class_::class],
+            ['interface',   Builder\Interface_::class],
+            ['trait',       Builder\Trait_::class],
+            ['method',      Builder\Method::class],
+            ['function',    Builder\Function_::class],
+            ['property',    Builder\Property::class],
+            ['param',       Builder\Param::class],
+            ['use',         Builder\Use_::class],
+            ['useFunction', Builder\Use_::class],
+            ['useConst',    Builder\Use_::class],
         ];
     }
 
@@ -217,6 +219,8 @@ class BuilderFactoryTest extends TestCase
         $node = $factory->namespace('Name\Space')
             ->addStmt($factory->use('Foo\Bar\SomeOtherClass'))
             ->addStmt($factory->use('Foo\Bar')->as('A'))
+            ->addStmt($factory->useFunction('strlen'))
+            ->addStmt($factory->useConst('PHP_VERSION'))
             ->addStmt($factory
                 ->class('SomeClass')
                 ->extend('SomeOtherClass')
@@ -254,6 +258,8 @@ namespace Name\Space;
 
 use Foo\Bar\SomeOtherClass;
 use Foo\Bar as A;
+use function strlen;
+use const PHP_VERSION;
 abstract class SomeClass extends SomeOtherClass implements A\Few, \Interfaces
 {
     protected $someProperty;

@@ -1,7 +1,11 @@
 Version 4.0.4-dev
 -----------------
 
-Nothing yet.
+### Added
+
+* The following methods have been added to `BuilderFactory`:
+  * `useFunction()`
+  * `useConst()`
 
 Version 4.0.3 (2018-07-15)
 --------------------------

@@ -106,7 +106,7 @@ class BuilderFactory
      *
      * @param Node\Name|string $name Name of the entity (namespace or class) to alias
      *
-     * @return Builder\Use_ The create use builder
+     * @return Builder\Use_ The created use builder
      */
     public function use($name) : Builder\Use_ {
         return new Builder\Use_($name, Use_::TYPE_NORMAL);
@@ -117,7 +117,7 @@ class BuilderFactory
      *
      * @param Node\Name|string $name Name of the function to alias
      *
-     * @return Builder\Use_ The create use builder
+     * @return Builder\Use_ The created use function builder
      */
     public function useFunction($name) : Builder\Use_ {
         return new Builder\Use_($name, Use_::TYPE_FUNCTION);
@@ -128,7 +128,7 @@ class BuilderFactory
      *
      * @param Node\Name|string $name Name of the const to alias
      *
-     * @return Builder\Use_ The create use builder
+     * @return Builder\Use_ The created use const builder
      */
     public function useConst($name) : Builder\Use_ {
         return new Builder\Use_($name, Use_::TYPE_CONSTANT);

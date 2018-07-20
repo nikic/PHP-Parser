@@ -26,5 +26,10 @@ class UseTest extends TestCase
         $this->assertEquals(new Stmt\Use_([
             new Stmt\UseUse(new Name('foo\bar'), 'foo')
         ], Stmt\Use_::TYPE_FUNCTION), $node);
+
+        $node = $this->createUseBuilder('foo\BAR', Stmt\Use_::TYPE_CONSTANT)->as('FOO')->getNode();
+        $this->assertEquals(new Stmt\Use_([
+            new Stmt\UseUse(new Name('foo\BAR'), 'FOO')
+        ], Stmt\Use_::TYPE_CONSTANT), $node);
     }
 }
