@@ -71,7 +71,7 @@ final class BuilderHelpers
             return new Identifier($name);
         }
 
-        throw new \LogicException('Expected string or instance of Node\Identifier or Node\Expr');
+        throw new \LogicException('Expected string or instance of Node\Identifier');
     }
 
     /**

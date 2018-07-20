@@ -153,6 +153,10 @@ class BuilderFactory
      * @return Expr\Variable
      */
     public function var($name) : Expr\Variable {
+        if (!\is_string($name) && !$name instanceof Expr) {
+            throw new \LogicException('Variable name must be string or Expr');
+        }
+
         return new Expr\Variable($name);
     }
 
@@ -261,7 +265,7 @@ class BuilderFactory
      * @return Expr\PropertyFetch
      */
     public function propertyFetch(Expr $var, $name) : Expr\PropertyFetch {
-        return new Expr\PropertyFetch($var, $name);
+        return new Expr\PropertyFetch($var, BuilderHelpers::normalizeIdentifierOrExpr($name));
     }
 
     /**

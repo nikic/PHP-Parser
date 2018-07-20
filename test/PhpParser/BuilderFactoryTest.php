@@ -190,6 +190,34 @@ class BuilderFactoryTest extends TestCase
         );
     }
 
+    public function testVar() {
+        $factory = new BuilderFactory();
+        $this->assertEquals(
+            new Expr\Variable("foo"),
+            $factory->var("foo")
+        );
+        $this->assertEquals(
+            new Expr\Variable(new Expr\Variable("foo")),
+            $factory->var($factory->var("foo"))
+        );
+    }
+
+    public function testPropertyFetch() {
+        $f = new BuilderFactory();
+        $this->assertEquals(
+            new Expr\PropertyFetch(new Expr\Variable('foo'), 'bar'),
+            $f->propertyFetch($f->var('foo'), 'bar')
+        );
+        $this->assertEquals(
+            new Expr\PropertyFetch(new Expr\Variable('foo'), 'bar'),
+            $f->propertyFetch($f->var('foo'), new Identifier('bar'))
+        );
+        $this->assertEquals(
+            new Expr\PropertyFetch(new Expr\Variable('foo'), new Expr\Variable('bar')),
+            $f->propertyFetch($f->var('foo'), $f->var('bar'))
+        );
+    }
+
     /**
      * @expectedException \LogicException
      * @expectedExceptionMessage Expected string or instance of Node\Identifier
@@ -212,6 +240,14 @@ class BuilderFactoryTest extends TestCase
      */
     public function testInvalidNameOrExpr() {
         (new BuilderFactory())->funcCall(new Node\Stmt\Return_());
+    }
+
+    /**
+     * @expectedException \LogicException
+     * @expectedExceptionMessage Variable name must be string or Expr
+     */
+    public function testInvalidVar() {
+        (new BuilderFactory())->var(new Node\Stmt\Return_());
     }
 
     public function testIntegration() {

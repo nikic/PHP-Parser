@@ -6,6 +6,8 @@ Version 4.0.4-dev
 * The following methods have been added to `BuilderFactory`:
   * `useFunction()`
   * `useConst()`
+  * `var()`
+  * `propertyFetch()`
 
 Version 4.0.3 (2018-07-15)
 --------------------------
