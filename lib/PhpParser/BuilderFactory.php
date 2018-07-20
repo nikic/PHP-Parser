@@ -69,6 +69,23 @@ class BuilderFactory
     }
 
     /**
+     * Creates a trait use adaptation builder.
+     *
+     * @param Node\Name|string|null  $trait  Trait name
+     * @param Node\Identifier|string $method Method name
+     *
+     * @return Builder\TraitUseAdaptation The create trait use adaptation builder
+     */
+    public function traitUseAdaptation($trait, $method = null) : Builder\TraitUseAdaptation {
+        if (is_null($method)) {
+            $method = $trait;
+            $trait = null;
+        }
+
+        return new Builder\TraitUseAdaptation($trait, $method);
+    }
+
+    /**
      * Creates a method builder.
      *
      * @param string $name Name of the method
