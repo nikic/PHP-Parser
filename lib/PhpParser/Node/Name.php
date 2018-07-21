@@ -222,6 +222,10 @@ class Name extends NodeAbstract
                 throw new \InvalidArgumentException('Name cannot be empty');
             }
 
+            if ('\\' === $name[0]) {
+                throw new \InvalidArgumentException('Name cannot start with backslash. Did you mean to use Name\FullyQualified?');
+            }
+
             return explode('\\', $name);
         } elseif (\is_array($name)) {
             if (empty($name)) {

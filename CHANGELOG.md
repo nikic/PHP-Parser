@@ -8,6 +8,11 @@ Version 4.0.4-dev
   * `useConst()`
   * `var()`
   * `propertyFetch()`
+  
+### Changed
+
+* Passing a string with a leading backslash to the `Name` constructor will now throw an exception.
+  Most likely a use of `Name\FullyQualified` was intended.
 
 Version 4.0.3 (2018-07-15)
 --------------------------
