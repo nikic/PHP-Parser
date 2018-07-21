@@ -137,12 +137,31 @@ class BuilderFactory
     /**
      * Creates node a for a literal value.
      *
-     * @param Expr|bool|null|int|float|string|array $value $value
+     * @param Expr|bool|null|int|float|string|array $value Source value
      *
      * @return Expr
      */
     public function val($value) : Expr {
         return BuilderHelpers::normalizeValue($value);
+    }
+    
+    /**
+     * Creates node a for an array.
+     *
+     * @param array $array Source array
+     * @param bool  $short Is array have short kind? (`[]`)
+     *
+     * @return Expr\Array_
+     */
+    public function array(array $array, bool $short = false) : Expr\Array_ {
+        $ret = BuilderHelpers::normalizeValue($array);
+
+        $ret->setAttribute('kind', $short ?
+            Expr\Array_::KIND_SHORT :
+            Expr\Array_::KIND_LONG
+        );
+        
+        return $ret;
     }
 
     /**
