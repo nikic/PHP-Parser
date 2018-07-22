@@ -42,19 +42,32 @@ class Param implements PhpParser\Builder
     }
 
     /**
-     * Sets type hint for the parameter.
+     * Sets type for the parameter.
      *
-     * @param string|Node\Name|Node\NullableType $type Type hint to use
+     * @param string|Node\Name|Node\NullableType $type Parameter type
      *
      * @return $this The builder instance (for fluid interface)
      */
-    public function setTypeHint($type) {
+    public function setType($type) {
         $this->type = BuilderHelpers::normalizeType($type);
         if ($this->type == 'void') {
             throw new \LogicException('Parameter type cannot be void');
         }
 
         return $this;
+    }
+
+    /**
+     * Sets type for the parameter.
+     *
+     * @param string|Node\Name|Node\NullableType $type Parameter type
+     *
+     * @return $this The builder instance (for fluid interface)
+     *
+     * @deprecated Use setType() instead
+     */
+    public function setTypeHint($type) {
+        return $this->setType($type);
     }
 
     /**

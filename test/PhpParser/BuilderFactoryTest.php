@@ -276,7 +276,7 @@ class BuilderFactoryTest extends TestCase
                 ->addStmt($factory->method('someMethod')
                     ->makePublic()
                     ->makeAbstract()
-                    ->addParam($factory->param('someParam')->setTypeHint('SomeClass'))
+                    ->addParam($factory->param('someParam')->setType('SomeClass'))
                     ->setDocComment('/**
                                       * This method does something.
                                       *

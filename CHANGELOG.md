@@ -15,6 +15,11 @@ Version 4.0.4-dev
 
 * Passing a string with a leading backslash to the `Name` constructor will now throw an exception.
   Most likely a use of `Name\FullyQualified` was intended.
+  
+### Deprecated
+
+* `Builder\Param::setTypeHint()` has been deprecated in favor of the newly introduced
+  `Builder\Param::setType()`.
 
 Version 4.0.3 (2018-07-15)
 --------------------------
