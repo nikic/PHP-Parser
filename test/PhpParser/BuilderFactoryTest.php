@@ -223,6 +223,14 @@ class BuilderFactoryTest extends TestCase
                 ->implement('A\Few', '\Interfaces')
                 ->makeAbstract()
 
+                ->addStmt($factory->useTrait('FirstTrait'))
+
+                ->addStmt($factory->useTrait('SecondTrait', 'ThirdTrait')
+                    ->and('AnotherTrait')
+                    ->with($factory->traitUseAdaptation('foo')->as('bar'))
+                    ->with($factory->traitUseAdaptation('AnotherTrait', 'baz')->as('test'))
+                    ->with($factory->traitUseAdaptation('AnotherTrait', 'func')->insteadof('SecondTrait')))
+
                 ->addStmt($factory->method('firstMethod'))
 
                 ->addStmt($factory->method('someMethod')
@@ -256,6 +264,12 @@ use Foo\Bar\SomeOtherClass;
 use Foo\Bar as A;
 abstract class SomeClass extends SomeOtherClass implements A\Few, \Interfaces
 {
+    use FirstTrait;
+    use SecondTrait, ThirdTrait, AnotherTrait {
+        foo as bar;
+        AnotherTrait::baz as test;
+        AnotherTrait::func insteadof SecondTrait;
+    }
     protected $someProperty;
     private $anotherProperty = array(1, 2, 3);
     function firstMethod()
