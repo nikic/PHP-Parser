@@ -21,7 +21,7 @@ foreach (filesInDir($dir, 'test') as $fileName => $code) {
     foreach ($tests as list($modeLine, list($input, $expected))) {
         $modes = null !== $modeLine ? array_fill_keys(explode(',', $modeLine), true) : [];
         list($parser5, $parser7) = $codeParsingTest->createParsers($modes);
-        $output = isset($modes['php5'])
+        list(, $output) = isset($modes['php5'])
             ? $codeParsingTest->getParseOutput($parser5, $input, $modes)
             : $codeParsingTest->getParseOutput($parser7, $input, $modes);
         $newTests[] = [$modeLine, [$input, $output]];
