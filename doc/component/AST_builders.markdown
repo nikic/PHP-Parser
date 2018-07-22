@@ -29,10 +29,20 @@ use PhpParser\Node;
 $factory = new BuilderFactory;
 $node = $factory->namespace('Name\Space')
     ->addStmt($factory->use('Some\Other\Thingy')->as('SomeOtherClass'))
+    ->addStmt($factory->useFunction('strlen'))
+    ->addStmt($factory->useConst('PHP_VERSION'))
     ->addStmt($factory->class('SomeOtherClass')
         ->extend('SomeClass')
         ->implement('A\Few', '\Interfaces')
         ->makeAbstract() // ->makeFinal()
+
+        ->addStmt($factory->useTrait('FirstTrait'))
+
+        ->addStmt($factory->useTrait('SecondTrait', 'ThirdTrait')
+            ->and('AnotherTrait')
+            ->with($factory->traitUseAdaptation('foo')->as('bar'))
+            ->with($factory->traitUseAdaptation('AnotherTrait', 'baz')->as('test'))
+            ->with($factory->traitUseAdaptation('AnotherTrait', 'func')->insteadof('SecondTrait')))
 
         ->addStmt($factory->method('someMethod')
             ->makePublic()
@@ -74,8 +84,16 @@ This will produce the following output with the standard pretty printer:
 namespace Name\Space;
 
 use Some\Other\Thingy as SomeClass;
+use function strlen;
+use const PHP_VERSION;
 abstract class SomeOtherClass extends SomeClass implements A\Few, \Interfaces
 {
+    use FirstTrait;
+    use SecondTrait, ThirdTrait, AnotherTrait {
+        foo as bar;
+        AnotherTrait::baz as test;
+        AnotherTrait::func insteadof SecondTrait;
+    }
     protected $someProperty;
     private $anotherProperty = array(1, 2, 3);
     /**
@@ -98,6 +116,7 @@ The `BuilderFactory` also provides a number of additional helper methods, which 
 nodes. The following methods are currently available:
 
  * `val($value)`: Creates an AST node for a literal value like `42` or `[1, 2, 3]`.
+ * `var($name)`: Creates variable node.
  * `args(array $args)`: Creates an array of function/method arguments, including the required `Arg`
    wrappers. Also converts literals to AST nodes.
  * `funcCall($name, array $args = [])`: Create a function call node. Converts `$name` to a `Name`
@@ -111,6 +130,8 @@ nodes. The following methods are currently available:
  * `constFetch($name)`: Create a constant fetch node. Converts `$name` to a `Name` node.
  * `classConstFetch($class, $name)`: Create a class constant fetch node. Converts `$class` to a
    `Name` node and `$name` to an `Identifier` node.
+ * `propertyFetch($var, $name)`: Creates a property fetch node. Converts `$name` to an `Identifier`
+   node.
  * `concat(...$exprs)`: Create a tree of `BinaryOp\Concat` nodes for the given expressions.
 
 These methods may be expanded on an as-needed basis. Please open an issue or PR if a common

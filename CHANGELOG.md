@@ -4,8 +4,10 @@ Version 4.0.4-dev
 ### Added
 
 * The following methods have been added to `BuilderFactory`:
-  * `useFunction()`
-  * `useConst()`
+  * `useTrait()` (fluent builder)
+  * `traitUseAdaptation()` (fluent builder)
+  * `useFunction()` (fluent builder)
+  * `useConst()` (fluent builder)
   * `var()`
   * `propertyFetch()`
   
