@@ -18,21 +18,20 @@ class TraitUse implements Builder
      * @param Node\Name|string ...$traits Names of used traits
      */
     public function __construct(...$traits) {
-        $this->and(...$traits);
+        foreach ($traits as $trait) {
+            $this->and($trait);
+        }
     }
 
     /**
-     * Adds used traits.
+     * Adds used trait.
      *
-     * @param Node\Name|string ...$traits Trait names
+     * @param Node\Name|string $trait Trait name
      *
      * @return $this The builder instance (for fluid interface)
      */
-    public function and(...$traits) {
-        foreach ($traits as $trait) {
-            $this->traits[] = BuilderHelpers::normalizeName($trait);
-        }
-
+    public function and($trait) {
+        $this->traits[] = BuilderHelpers::normalizeName($trait);
         return $this;
     }
 
