@@ -96,6 +96,10 @@ class TraitUseAdaptation implements Builder
      */
     public function insteadof(...$traits) {
         if ($this->type === self::TYPE_UNDEFINED) {
+            if (is_null($this->trait)) {
+                throw new \LogicException('Precedence adaptation must have trait');
+            }
+
             $this->type = self::TYPE_PRECEDENCE;
         }
 
@@ -116,7 +120,7 @@ class TraitUseAdaptation implements Builder
         }
 
         if ($this->type !== self::TYPE_ALIAS) {
-            throw new \LogicException('Cannot set alias for not alias adaptation buider');
+            throw new \LogicException('Cannot set access modifier for not alias adaptation buider');
         }
 
         if (is_null($this->modifier)) {
@@ -136,10 +140,6 @@ class TraitUseAdaptation implements Builder
             case self::TYPE_ALIAS:
                 return new Stmt\TraitUseAdaptation\Alias($this->trait, $this->method, $this->modifier, $this->alias);
             case self::TYPE_PRECEDENCE:
-                if (is_null($this->trait)) {
-                    throw new \LogicException('Cannot build precedence adaptation without trait');
-                }
-
                 return new Stmt\TraitUseAdaptation\Precedence($this->trait, $this->method, $this->insteadof);
             default:
                 throw new \LogicException('Type of adaptation is not defined');
