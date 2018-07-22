@@ -6,7 +6,6 @@ use PhpParser\Builder;
 use PhpParser\BuilderHelpers;
 use PhpParser\Node;
 use PhpParser\Node\Stmt;
-use PhpParser\Node\Stmt\TraitUseAdaptation;
 
 class TraitUse implements Builder
 {
@@ -39,11 +38,17 @@ class TraitUse implements Builder
     /**
      * Adds trait adaptation.
      *
-     * @param TraitUseAdaptation $adaptation Trait adaptation
+     * @param Stmt\TraitUseAdaptation|Builder\TraitUseAdaptation $adaptation Trait adaptation
      *
      * @return $this The builder instance (for fluid interface)
      */
-    public function with(TraitUseAdaptation $adaptation) {
+    public function with($adaptation) {
+        $adaptation = BuilderHelpers::normalizeNode($adaptation);
+
+        if (!$adaptation instanceof Stmt\TraitUseAdaptation) {
+            throw new \LogicException('Adaptation must have type TraitUseAdaptation');
+        }
+
         $this->adaptations[] = $adaptation;
         return $this;
     }
