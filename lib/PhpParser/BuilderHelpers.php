@@ -126,7 +126,7 @@ final class BuilderHelpers
     private static function normalizeNameCommon($name, bool $allowExpr) {
         if ($name instanceof Name) {
             return $name;
-        } elseif (is_string($name)) {
+        } elseif (\is_string($name)) {
             if (!$name) {
                 throw new \LogicException('Name cannot be empty');
             }
@@ -134,7 +134,7 @@ final class BuilderHelpers
             if ($name[0] === '\\') {
                 return new Name\FullyQualified(substr($name, 1));
             } elseif (0 === strpos($name, 'namespace\\')) {
-                return new Name\Relative(substr($name, strlen('namespace\\')));
+                return new Name\Relative(substr($name, \strlen('namespace\\')));
             } else {
                 return new Name($name);
             }
@@ -163,7 +163,7 @@ final class BuilderHelpers
      * @return Name|Identifier|NullableType The normalized type
      */
     public static function normalizeType($type) {
-        if (!is_string($type)) {
+        if (!\is_string($type)) {
             if (!$type instanceof Name && !$type instanceof Identifier
                     && !$type instanceof NullableType) {
                 throw new \LogicException(
@@ -173,7 +173,7 @@ final class BuilderHelpers
         }
 
         $nullable = false;
-        if (strlen($type) > 0 && $type[0] === '?') {
+        if (\strlen($type) > 0 && $type[0] === '?') {
             $nullable = true;
             $type = substr($type, 1);
         }
@@ -183,7 +183,7 @@ final class BuilderHelpers
         ];
 
         $lowerType = strtolower($type);
-        if (in_array($lowerType, $builtinTypes)) {
+        if (\in_array($lowerType, $builtinTypes, true)) {
             $type = new Identifier($lowerType);
         } else {
             $type = self::normalizeName($type);
@@ -207,21 +207,21 @@ final class BuilderHelpers
     public static function normalizeValue($value) : Expr {
         if ($value instanceof Node\Expr) {
             return $value;
-        } elseif (is_null($value)) {
+        } elseif (\is_null($value)) {
             return new Expr\ConstFetch(
                 new Name('null')
             );
-        } elseif (is_bool($value)) {
+        } elseif (\is_bool($value)) {
             return new Expr\ConstFetch(
                 new Name($value ? 'true' : 'false')
             );
-        } elseif (is_int($value)) {
+        } elseif (\is_int($value)) {
             return new Scalar\LNumber($value);
-        } elseif (is_float($value)) {
+        } elseif (\is_float($value)) {
             return new Scalar\DNumber($value);
-        } elseif (is_string($value)) {
+        } elseif (\is_string($value)) {
             return new Scalar\String_($value);
-        } elseif (is_array($value)) {
+        } elseif (\is_array($value)) {
             $items = [];
             $lastKey = -1;
             foreach ($value as $itemKey => $itemValue) {
@@ -255,7 +255,7 @@ final class BuilderHelpers
     public static function normalizeDocComment($docComment) : Comment\Doc {
         if ($docComment instanceof Comment\Doc) {
             return $docComment;
-        } elseif (is_string($docComment)) {
+        } elseif (\is_string($docComment)) {
             return new Comment\Doc($docComment);
         } else {
             throw new \LogicException('Doc comment must be a string or an instance of PhpParser\Comment\Doc');

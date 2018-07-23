@@ -63,8 +63,7 @@ class EmulativeTest extends LexerTest
         $lexer = $this->getLexer();
         $lexer->startLexing('<?php ' . $code);
 
-        foreach ($expectedTokens as $expectedToken) {
-            list($expectedTokenType, $expectedTokenText) = $expectedToken;
+        foreach ($expectedTokens as list($expectedTokenType, $expectedTokenText)) {
             $this->assertSame($expectedTokenType, $lexer->getNextToken($text));
             $this->assertSame($expectedTokenText, $text);
         }
@@ -120,13 +119,13 @@ class EmulativeTest extends LexerTest
             ["<<<'NOWDOC'\nNOWDOC;\n", [
                 [Tokens::T_START_HEREDOC, "<<<'NOWDOC'\n"],
                 [Tokens::T_END_HEREDOC, 'NOWDOC'],
-                [ord(';'), ';'],
+                [\ord(';'), ';'],
             ]],
             ["<<<'NOWDOC'\nFoobar\nNOWDOC;\n", [
                 [Tokens::T_START_HEREDOC, "<<<'NOWDOC'\n"],
                 [Tokens::T_ENCAPSED_AND_WHITESPACE, "Foobar\n"],
                 [Tokens::T_END_HEREDOC, 'NOWDOC'],
-                [ord(';'), ';'],
+                [\ord(';'), ';'],
             ]],
         ];
     }

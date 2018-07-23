@@ -222,7 +222,7 @@ class PrettyPrinterTest extends CodeTestAbstract
      * @dataProvider provideTestFormatPreservingPrint
      * @covers \PhpParser\PrettyPrinter\Standard<extended>
      */
-    public function testFormatPreservingPrint($name, $code, $modification, $expected, $modeLine) {
+    public function testFormatPreservingPrint($name, $code, $modification, $expected) {
         $lexer = new Lexer\Emulative([
             'usedAttributes' => [
                 'comments',
@@ -266,7 +266,7 @@ CODE
      * @dataProvider provideTestRoundTripPrint
      * @covers \PhpParser\PrettyPrinter\Standard<extended>
      */
-    public function testRoundTripPrint($name, $code, $expected, $modeLine) {
+    public function testRoundTripPrint($name, $code, $modeLine) {
         /**
          * This test makes sure that the format-preserving pretty printer round-trips for all
          * the pretty printer tests (i.e. returns the input if no changes occurred).

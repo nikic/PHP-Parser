@@ -38,8 +38,8 @@ class PrintableNewAnonClassNode extends Expr
 
     public static function fromNewNode(Expr\New_ $newNode) {
         $class = $newNode->class;
-        assert($class instanceof Node\Stmt\Class_);
-        assert($class->name === null);
+        \assert($class instanceof Node\Stmt\Class_);
+        \assert($class->name === null);
         return new self(
             $newNode->args, $class->extends, $class->implements,
             $class->stmts, $newNode->getAttributes()

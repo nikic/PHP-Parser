@@ -2,7 +2,6 @@
 
 namespace PhpParser\NodeVisitor;
 
-use PhpParser\Error;
 use PhpParser\ErrorHandler;
 use PhpParser\NameContext;
 use PhpParser\Node;

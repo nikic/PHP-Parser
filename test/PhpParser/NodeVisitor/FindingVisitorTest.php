@@ -31,7 +31,7 @@ class FindingVisitorTest extends TestCase
 
     public function testFindAll() {
         $traverser = new NodeTraverser();
-        $visitor = new FindingVisitor(function(Node $node) {
+        $visitor = new FindingVisitor(function() {
             return true; // All nodes
         });
         $traverser->addVisitor($visitor);

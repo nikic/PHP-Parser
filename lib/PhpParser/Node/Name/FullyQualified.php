@@ -31,15 +31,6 @@ class FullyQualified extends \PhpParser\Node\Name
         return true;
     }
 
-    /**
-     * Checks whether the name is explicitly relative to the current namespace. (E.g. namespace\Name)
-     *
-     * @return bool Whether the name is relative
-     */
-    public function isRelative() : bool {
-        return false;
-    }
-
     public function toCodeString() : string {
         return '\\' . $this->toString();
     }

@@ -42,17 +42,17 @@ class LNumber extends Scalar
      */
     public static function fromString(string $str, array $attributes = [], bool $allowInvalidOctal = false) : LNumber {
         if ('0' !== $str[0] || '0' === $str) {
-            $attributes['kind'] = LNumber::KIND_DEC;
+            $attributes['kind'] = self::KIND_DEC;
             return new LNumber((int) $str, $attributes);
         }
 
         if ('x' === $str[1] || 'X' === $str[1]) {
-            $attributes['kind'] = LNumber::KIND_HEX;
+            $attributes['kind'] = self::KIND_HEX;
             return new LNumber(hexdec($str), $attributes);
         }
 
         if ('b' === $str[1] || 'B' === $str[1]) {
-            $attributes['kind'] = LNumber::KIND_BIN;
+            $attributes['kind'] = self::KIND_BIN;
             return new LNumber(bindec($str), $attributes);
         }
 
@@ -61,8 +61,8 @@ class LNumber extends Scalar
         }
 
         // use intval instead of octdec to get proper cutting behavior with malformed numbers
-        $attributes['kind'] = LNumber::KIND_OCT;
-        return new LNumber(intval($str, 8), $attributes);
+        $attributes['kind'] = self::KIND_OCT;
+        return new LNumber(\intval($str, 8), $attributes);
     }
     
     public function getType() : string {

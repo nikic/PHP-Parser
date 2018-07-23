@@ -81,7 +81,7 @@ class NodeDumper
             if ($this->dumpComments && $comments = $node->getComments()) {
                 $r .= "\n    comments: " . str_replace("\n", "\n    ", $this->dumpRecursive($comments));
             }
-        } elseif (is_array($node)) {
+        } elseif (\is_array($node)) {
             $r = 'array(';
 
             foreach ($node as $key => $value) {
@@ -189,11 +189,11 @@ class NodeDumper
 
     // Copied from Error class
     private function toColumn($code, $pos) {
-        if ($pos > strlen($code)) {
+        if ($pos > \strlen($code)) {
             throw new \RuntimeException('Invalid position information');
         }
 
-        $lineStartPos = strrpos($code, "\n", $pos - strlen($code));
+        $lineStartPos = strrpos($code, "\n", $pos - \strlen($code));
         if (false === $lineStartPos) {
             $lineStartPos = -1;
         }

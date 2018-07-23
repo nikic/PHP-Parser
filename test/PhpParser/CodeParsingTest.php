@@ -19,7 +19,7 @@ class CodeParsingTest extends CodeTestAbstract
             $modes = [];
         }
 
-        list($parser5, $parser7) = $this->createParsers($modes);
+        list($parser5, $parser7) = $this->createParsers();
         list($stmts5, $output5) = $this->getParseOutput($parser5, $code, $modes);
         list($stmts7, $output7) = $this->getParseOutput($parser7, $code, $modes);
 
@@ -38,7 +38,7 @@ class CodeParsingTest extends CodeTestAbstract
         $this->checkAttributes($stmts7);
     }
 
-    public function createParsers(array $modes) {
+    public function createParsers() {
         $lexer = new Lexer\Emulative(['usedAttributes' => [
             'startLine', 'endLine',
             'startFilePos', 'endFilePos',

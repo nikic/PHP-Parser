@@ -179,7 +179,7 @@ class NameContext
         foreach ($this->origAliases[Stmt\Use_::TYPE_NORMAL] as $alias => $orig) {
             $lcOrig = $orig->toLowerString();
             if (0 === strpos($lcName, $lcOrig . '\\')) {
-                $possibleNames[] = new Name($alias . substr($name, strlen($lcOrig)));
+                $possibleNames[] = new Name($alias . substr($name, \strlen($lcOrig)));
             }
         }
 
@@ -217,7 +217,7 @@ class NameContext
         $shortestName = null;
         $shortestLength = \INF;
         foreach ($possibleNames as $possibleName) {
-            $length = strlen($possibleName->toCodeString());
+            $length = \strlen($possibleName->toCodeString());
             if ($length < $shortestLength) {
                 $shortestName = $possibleName;
                 $shortestLength = $length;
@@ -265,7 +265,7 @@ class NameContext
 
         $namespacePrefix = strtolower($this->namespace . '\\');
         if (0 === strpos($lcName, $namespacePrefix)) {
-            return new Name(substr($name, strlen($namespacePrefix)));
+            return new Name(substr($name, \strlen($namespacePrefix)));
         }
 
         return null;

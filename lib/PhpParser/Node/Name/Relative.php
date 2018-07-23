@@ -23,15 +23,6 @@ class Relative extends \PhpParser\Node\Name
     }
 
     /**
-     * Checks whether the name is fully qualified. (E.g. \Name)
-     *
-     * @return bool Whether the name is fully qualified
-     */
-    public function isFullyQualified() : bool {
-        return false;
-    }
-
-    /**
      * Checks whether the name is explicitly relative to the current namespace. (E.g. namespace\Name)
      *
      * @return bool Whether the name is relative
