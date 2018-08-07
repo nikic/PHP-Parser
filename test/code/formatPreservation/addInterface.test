@@ -1,0 +1,27 @@
+Add interface
+-----
+<?php
+interface Foo {}
+
+class Bar {
+    private $fooProp;
+
+    public function getFooProp()
+    {
+        return $this->fooProp;
+    }
+}
+-----
+$stmts[1]->implements[] = new Node\Name('Foo');
+-----
+<?php
+interface Foo {}
+
+class Bar implements Foo {
+    private $fooProp;
+
+    public function getFooProp()
+    {
+        return $this->fooProp;
+    }
+}
