@@ -28,7 +28,7 @@ use PhpParser\Node;
 
 $factory = new BuilderFactory;
 $node = $factory->namespace('Name\Space')
-    ->addStmt($factory->use('Some\Other\Thingy')->as('SomeOtherClass'))
+    ->addStmt($factory->use('Some\Other\Thingy')->as('SomeClass'))
     ->addStmt($factory->useFunction('strlen'))
     ->addStmt($factory->useConst('PHP_VERSION'))
     ->addStmt($factory->class('SomeOtherClass')
