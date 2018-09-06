@@ -359,16 +359,27 @@ abstract class PrettyPrinterAbstract
      */
     protected function pPrec(Node $node, int $parentPrecedence, int $parentAssociativity, int $childPosition) : string {
         $class = \get_class($node);
+        $string = $this->p($node);
         if (isset($this->precedenceMap[$class])) {
+
+            // wrap in brackets -> e.g.: foo && bar -> (foo && bar) || lall
+            if (
+                strpos($string, ' && ') !== false
+                ||
+                stripos($string, ' and ') !== false
+            ) {
+                return '(' . $string . ')';
+            }
+
             $childPrecedence = $this->precedenceMap[$class][0];
             if ($childPrecedence > $parentPrecedence
                 || ($parentPrecedence === $childPrecedence && $parentAssociativity !== $childPosition)
             ) {
-                return '(' . $this->p($node) . ')';
+                return '(' . $string . ')';
             }
         }
 
-        return $this->p($node);
+        return $string;
     }
 
     /**
