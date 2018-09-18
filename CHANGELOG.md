@@ -1,5 +1,10 @@
-Version 4.0.4-dev
+Version 4.0.5-dev
 -----------------
+
+Nothing yet.
+
+Version 4.0.4 (2018-09-18)
+--------------------------
 
 ### Added
 
