@@ -155,14 +155,6 @@ class NameTest extends TestCase
         new Name([]);
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Name cannot start with backslash. Did you mean to use Name\FullyQualified?
-     */
-    public function testInvalidLeadingBackslash() {
-        new Name('\Foo');
-    }
-
     /** @dataProvider provideTestIsSpecialClassName */
     public function testIsSpecialClassName($name, $expected) {
         $name = new Name($name);
