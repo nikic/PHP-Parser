@@ -14,21 +14,21 @@ abstract class ParserTest extends TestCase
     abstract protected function getParser(Lexer $lexer);
 
     public function testParserThrowsSyntaxError() {
-        $this->expectException('PhpParser\Error');
+        $this->expectException(Error::class);
         $this->expectExceptionMessage('Syntax error, unexpected EOF on line 1');
         $parser = $this->getParser(new Lexer());
         $parser->parse('<?php foo');
     }
 
     public function testParserThrowsSpecialError() {
-        $this->expectException('PhpParser\Error');
+        $this->expectException(Error::class);
         $this->expectExceptionMessage('Cannot use foo as self because \'self\' is a special class name on line 1');
         $parser = $this->getParser(new Lexer());
         $parser->parse('<?php use foo as self;');
     }
 
     public function testParserThrowsLexerError() {
-        $this->expectException('PhpParser\Error');
+        $this->expectException(Error::class);
         $this->expectExceptionMessage('Unterminated comment on line 1');
         $parser = $this->getParser(new Lexer());
         $parser->parse('<?php /*');
@@ -104,7 +104,7 @@ EOC;
     }
 
     public function testInvalidToken() {
-        $this->expectException('RangeException');
+        $this->expectException(\RangeException::class);
         $this->expectExceptionMessage('The lexer returned an invalid token (id=999, value=foobar)');
         $lexer = new InvalidTokenLexer;
         $parser = $this->getParser($lexer);

@@ -93,13 +93,13 @@ class FunctionTest extends TestCase
     }
 
     public function testInvalidNullableVoidType() {
-        $this->expectException('LogicException');
+        $this->expectException(\LogicException::class);
         $this->expectExceptionMessage('void type cannot be nullable');
         $this->createFunctionBuilder('test')->setReturnType('?void');
     }
 
     public function testInvalidParamError() {
-        $this->expectException('LogicException');
+        $this->expectException(\LogicException::class);
         $this->expectExceptionMessage('Expected parameter node, got "Name"');
         $this->createFunctionBuilder('test')
             ->addParam(new Node\Name('foo'))
@@ -107,7 +107,7 @@ class FunctionTest extends TestCase
     }
 
     public function testAddNonStmt() {
-        $this->expectException('LogicException');
+        $this->expectException(\LogicException::class);
         $this->expectExceptionMessage('Expected statement or expression node');
         $this->createFunctionBuilder('test')
             ->addStmt(new Node\Name('Test'));

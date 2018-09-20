@@ -80,7 +80,7 @@ class InterfaceTest extends TestCase
     }
 
     public function testInvalidStmtError() {
-        $this->expectException('LogicException');
+        $this->expectException(\LogicException::class);
         $this->expectExceptionMessage('Unexpected node of type "Stmt_PropertyProperty"');
         $this->builder->addStmt(new Stmt\PropertyProperty('invalid'));
     }

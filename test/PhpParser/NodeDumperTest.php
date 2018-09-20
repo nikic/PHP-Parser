@@ -99,7 +99,7 @@ OUT;
     }
 
     public function testError() {
-        $this->expectException('InvalidArgumentException');
+        $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Can only dump nodes and arrays.');
         $dumper = new NodeDumper;
         $dumper->dump(new \stdClass);

@@ -38,7 +38,7 @@ class TraitTest extends TestCase
     }
 
     public function testInvalidStmtError() {
-        $this->expectException('LogicException');
+        $this->expectException(\LogicException::class);
         $this->expectExceptionMessage('Unexpected node of type "Stmt_Echo"');
         $this->createTraitBuilder('Test')
             ->addStmt(new Stmt\Echo_([]))

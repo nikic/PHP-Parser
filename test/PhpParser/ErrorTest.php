@@ -95,7 +95,7 @@ class ErrorTest extends TestCase
     }
 
     public function testInvalidPosInfo() {
-        $this->expectException('RuntimeException');
+        $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage('Invalid position information');
         $error = new Error('Some error', [
             'startFilePos' => 10,

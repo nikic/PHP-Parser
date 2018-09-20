@@ -130,13 +130,13 @@ class ParamTest extends TestCase
     }
 
     public function testVoidTypeError() {
-        $this->expectException('LogicException');
+        $this->expectException(\LogicException::class);
         $this->expectExceptionMessage('Parameter type cannot be void');
         $this->createParamBuilder('test')->setType('void');
     }
 
     public function testInvalidTypeError() {
-        $this->expectException('LogicException');
+        $this->expectException(\LogicException::class);
         $this->expectExceptionMessage('Type must be a string, or an instance of Name, Identifier or NullableType');
         $this->createParamBuilder('test')->setType(new \stdClass);
     }

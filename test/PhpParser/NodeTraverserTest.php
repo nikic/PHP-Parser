@@ -118,7 +118,7 @@ class NodeTraverserTest extends TestCase
     }
 
     public function testInvalidDeepArray() {
-        $this->expectException('LogicException');
+        $this->expectException(\LogicException::class);
         $this->expectExceptionMessage('Invalid node structure: Contains nested arrays');
         $strNode = new String_('Foo');
         $stmts = [[[$strNode]]];

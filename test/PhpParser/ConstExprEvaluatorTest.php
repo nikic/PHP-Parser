@@ -74,7 +74,7 @@ class ConstExprEvaluatorTest extends TestCase
     }
 
     public function testEvaluateFails() {
-        $this->expectException('PhpParser\ConstExprEvaluationException');
+        $this->expectException(ConstExprEvaluationException::class);
         $this->expectExceptionMessage('Expression of type Expr_Variable cannot be evaluated');
         $evaluator = new ConstExprEvaluator();
         $evaluator->evaluateDirectly(new Expr\Variable('a'));

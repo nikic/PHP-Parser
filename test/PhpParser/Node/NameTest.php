@@ -52,25 +52,25 @@ class NameTest extends TestCase
     }
 
     public function testSliceOffsetTooLarge() {
-        $this->expectException('OutOfBoundsException');
+        $this->expectException(\OutOfBoundsException::class);
         $this->expectExceptionMessage('Offset 4 is out of bounds');
         (new Name('foo\bar\baz'))->slice(4);
     }
 
     public function testSliceOffsetTooSmall() {
-        $this->expectException('OutOfBoundsException');
+        $this->expectException(\OutOfBoundsException::class);
         $this->expectExceptionMessage('Offset -4 is out of bounds');
         (new Name('foo\bar\baz'))->slice(-4);
     }
 
     public function testSliceLengthTooLarge() {
-        $this->expectException('OutOfBoundsException');
+        $this->expectException(\OutOfBoundsException::class);
         $this->expectExceptionMessage('Length 4 is out of bounds');
         (new Name('foo\bar\baz'))->slice(0, 4);
     }
 
     public function testSliceLengthTooSmall() {
-        $this->expectException('OutOfBoundsException');
+        $this->expectException(\OutOfBoundsException::class);
         $this->expectExceptionMessage('Length -4 is out of bounds');
         (new Name('foo\bar\baz'))->slice(0, -4);
     }
@@ -124,19 +124,19 @@ class NameTest extends TestCase
     }
 
     public function testInvalidArg() {
-        $this->expectException('InvalidArgumentException');
+        $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Expected string, array of parts or Name instance');
         Name::concat('foo', new \stdClass);
     }
 
     public function testInvalidEmptyString() {
-        $this->expectException('InvalidArgumentException');
+        $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Name cannot be empty');
         new Name('');
     }
 
     public function testInvalidEmptyArray() {
-        $this->expectException('InvalidArgumentException');
+        $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Name cannot be empty');
         new Name([]);
     }

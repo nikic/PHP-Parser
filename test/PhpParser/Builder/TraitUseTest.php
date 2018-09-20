@@ -46,7 +46,7 @@ class TraitUseTest extends TestCase
     }
 
     public function testInvalidAdaptationNode() {
-        $this->expectException('LogicException');
+        $this->expectException(\LogicException::class);
         $this->expectExceptionMessage('Adaptation must have type TraitUseAdaptation');
         $this->createTraitUseBuilder('Test')
             ->with(new Stmt\Echo_([]))

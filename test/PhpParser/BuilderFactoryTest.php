@@ -70,13 +70,13 @@ class BuilderFactoryTest extends TestCase
     }
 
     public function testConcatOneError() {
-        $this->expectException('LogicException');
+        $this->expectException(\LogicException::class);
         $this->expectExceptionMessage('Expected at least two expressions');
         (new BuilderFactory())->concat("a");
     }
 
     public function testConcatInvalidExpr() {
-        $this->expectException('LogicException');
+        $this->expectException(\LogicException::class);
         $this->expectExceptionMessage('Expected string or Expr');
         (new BuilderFactory())->concat("a", 42);
     }
@@ -215,25 +215,25 @@ class BuilderFactoryTest extends TestCase
     }
 
     public function testInvalidIdentifier() {
-        $this->expectException('LogicException');
+        $this->expectException(\LogicException::class);
         $this->expectExceptionMessage('Expected string or instance of Node\Identifier');
         (new BuilderFactory())->classConstFetch('Foo', new Expr\Variable('foo'));
     }
 
     public function testInvalidIdentifierOrExpr() {
-        $this->expectException('LogicException');
+        $this->expectException(\LogicException::class);
         $this->expectExceptionMessage('Expected string or instance of Node\Identifier or Node\Expr');
         (new BuilderFactory())->staticCall('Foo', new Name('bar'));
     }
 
     public function testInvalidNameOrExpr() {
-        $this->expectException('LogicException');
+        $this->expectException(\LogicException::class);
         $this->expectExceptionMessage('Name must be a string or an instance of Node\Name or Node\Expr');
         (new BuilderFactory())->funcCall(new Node\Stmt\Return_());
     }
 
     public function testInvalidVar() {
-        $this->expectException('LogicException');
+        $this->expectException(\LogicException::class);
         $this->expectExceptionMessage('Variable name must be string or Expr');
         (new BuilderFactory())->var(new Node\Stmt\Return_());
     }

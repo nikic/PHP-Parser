@@ -236,7 +236,7 @@ class LexerTest extends TestCase
     }
 
     public function testHandleHaltCompilerError() {
-        $this->expectException('PhpParser\Error');
+        $this->expectException(Error::class);
         $this->expectExceptionMessage('__HALT_COMPILER must be followed by "();"');
         $lexer = $this->getLexer();
         $lexer->startLexing('<?php ... __halt_compiler invalid ();');

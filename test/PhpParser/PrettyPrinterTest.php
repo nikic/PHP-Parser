@@ -185,7 +185,7 @@ class PrettyPrinterTest extends CodeTestAbstract
     }
 
     public function testPrettyPrintWithError() {
-        $this->expectException('LogicException');
+        $this->expectException(\LogicException::class);
         $this->expectExceptionMessage('Cannot pretty-print AST with Error nodes');
         $stmts = [new Stmt\Expression(
             new Expr\PropertyFetch(new Expr\Variable('a'), new Expr\Error())
@@ -195,7 +195,7 @@ class PrettyPrinterTest extends CodeTestAbstract
     }
 
     public function testPrettyPrintWithErrorInClassConstFetch() {
-        $this->expectException('LogicException');
+        $this->expectException(\LogicException::class);
         $this->expectExceptionMessage('Cannot pretty-print AST with Error nodes');
         $stmts = [new Stmt\Expression(
             new Expr\ClassConstFetch(new Name('Foo'), new Expr\Error())
@@ -205,7 +205,7 @@ class PrettyPrinterTest extends CodeTestAbstract
     }
 
     public function testPrettyPrintEncapsedStringPart() {
-        $this->expectException('LogicException');
+        $this->expectException(\LogicException::class);
         $this->expectExceptionMessage('Cannot directly print EncapsedStringPart');
         $expr = new Node\Scalar\EncapsedStringPart('foo');
         $prettyPrinter = new PrettyPrinter\Standard;
