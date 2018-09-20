@@ -117,11 +117,9 @@ class NodeTraverserTest extends TestCase
         );
     }
 
-    /**
-     * @expectedException \LogicException
-     * @expectedExceptionMessage Invalid node structure: Contains nested arrays
-     */
     public function testInvalidDeepArray() {
+        $this->expectException('LogicException');
+        $this->expectExceptionMessage('Invalid node structure: Contains nested arrays');
         $strNode = new String_('Foo');
         $stmts = [[[$strNode]]];
 
