@@ -77,7 +77,7 @@ switch ($testType) {
             if (preg_match('~(?:
 # skeleton files
   ext.gmp.tests.001
-| ext.skeleton.tests.001
+| ext.skeleton.tests.00\d
 # multibyte encoded files
 | ext.mbstring.tests.zend_multibyte-01
 | Zend.tests.multibyte.multibyte_encoding_001
@@ -86,6 +86,7 @@ switch ($testType) {
 # pretty print difference due to INF vs 1e1000
 | ext.standard.tests.general_functions.bug27678
 | tests.lang.bug24640
+| Zend.tests.bug74947
 # pretty print differences due to negative LNumbers
 | Zend.tests.neg_num_string
 | Zend.tests.bug72918
@@ -96,7 +97,7 @@ switch ($testType) {
                 return null;
             }
 
-            if (!preg_match('~--FILE--\s*(.*?)--[A-Z]+--~s', $code, $matches)) {
+            if (!preg_match('~--FILE--\s*(.*?)\n--[A-Z]+--~s', $code, $matches)) {
                 return null;
             }
             if (preg_match('~--EXPECT(?:F|REGEX)?--\s*(?:Parse|Fatal) error~', $code)) {
