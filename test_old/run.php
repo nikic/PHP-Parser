@@ -83,6 +83,8 @@ switch ($testType) {
 | Zend.tests.multibyte.multibyte_encoding_001
 | Zend.tests.multibyte.multibyte_encoding_004
 | Zend.tests.multibyte.multibyte_encoding_005
+# invalid code due to missing WS after opening tag
+| tests.run-test.bug75042-3
 # pretty print difference due to INF vs 1e1000
 | ext.standard.tests.general_functions.bug27678
 | tests.lang.bug24640
