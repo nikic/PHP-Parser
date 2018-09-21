@@ -9,6 +9,7 @@ namespace PhpParser;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Name;
 use PhpParser\Node\Param;
+use PhpParser\Node\Scalar\Encapsed;
 use PhpParser\Node\Scalar\LNumber;
 use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt\Class_;
@@ -708,6 +709,69 @@ abstract class ParserAbstract implements Parser
         }
 
         return new LNumber($num, $attributes);
+    }
+
+    protected function stripIndentation(string $string, string $indentation, bool $newlineBefore) {
+        // TODO
+    }
+
+    protected function parseDocString(
+        string $startToken, $contents, string $endToken,
+        array $attributes, array $endTokenAttributes, bool $parseUnicodeEscape
+    ) {
+        $kind = strpos($startToken, "'") === false
+            ? String_::KIND_HEREDOC : String_::KIND_NOWDOC;
+
+        $regex = '/\A[bB]?<<<[ \t]*[\'"]?([a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*)[\'"]?(?:\r\n|\n|\r)\z/';
+        $result = preg_match($regex, $startToken, $matches);
+        assert($result === 1);
+        $label = $matches[1];
+
+        $result = preg_match('/\A[ \t]*/', $endToken, $matches);
+        assert($result === 1);
+        $indentation = $matches[0];
+
+        $attributes['kind'] = $kind;
+        $attributes['docLabel'] = $label;
+        $attributes['docIndentation'] = $indentation;
+
+        $indentHasSpaces = false !== strpos($indentation, " ");
+        $indentHasTabs = false !== strpos($indentation, "\t");
+        if ($indentHasSpaces && $indentHasTabs) {
+            $this->emitError(new Error(
+                'Invalid indentation - tabs and spaces cannot be mixed',
+                $endTokenAttributes
+            ));
+
+            // Proceed processing as if this doc string is not indented
+            $indentation = '';
+        }
+
+        if (\is_string($contents)) {
+            if ($contents === '') {
+                return new String_('', $attributes);
+            }
+
+            // strip last newline (thanks tokenizer for sticking it into the string!)
+            $string = preg_replace('~(\r\n|\n|\r)\z~', '', $contents);
+
+            if ($kind === String_::KIND_HEREDOC) {
+                $string = String_::parseEscapeSequences($string, null, $parseUnicodeEscape);
+            }
+
+            return new String_($string, $attributes);
+        } else {
+            foreach ($contents as $s) {
+                if ($s instanceof Node\Scalar\EncapsedStringPart) {
+                    $s->value = String_::parseEscapeSequences($s->value, null, $parseUnicodeEscape);
+                }
+            }
+            $s->value = preg_replace('~(\r\n|\n|\r)\z~', '', $s->value);
+            if ('' === $s->value) {
+                array_pop($contents);
+            }
+            return new Encapsed($contents, $attributes);
+        }
     }
 
     protected function checkModifier($a, $b, $modifierPos) {

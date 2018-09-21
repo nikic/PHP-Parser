@@ -134,29 +134,6 @@ class String_ extends Scalar
         }
         throw new Error('Invalid UTF-8 codepoint escape sequence: Codepoint too large');
     }
-
-    /**
-     * @internal
-     *
-     * Parses a constant doc string.
-     *
-     * @param string $startToken Doc string start token content (<<<SMTHG)
-     * @param string $str        String token content
-     * @param bool $parseUnicodeEscape Whether to parse PHP 7 \u escapes
-     *
-     * @return string Parsed string
-     */
-    public static function parseDocString(string $startToken, string $str, bool $parseUnicodeEscape = true) : string {
-        // strip last newline (thanks tokenizer for sticking it into the string!)
-        $str = preg_replace('~(\r\n|\n|\r)\z~', '', $str);
-
-        // nowdoc string
-        if (false !== strpos($startToken, '\'')) {
-            return $str;
-        }
-
-        return self::parseEscapeSequences($str, null, $parseUnicodeEscape);
-    }
     
     public function getType() : string {
         return 'Scalar_String';

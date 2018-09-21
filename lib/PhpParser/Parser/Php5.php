@@ -2264,12 +2264,10 @@ class Php5 extends \PhpParser\ParserAbstract
                  $this->semValue = new Scalar\MagicConst\Namespace_($this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
             },
             436 => function ($stackPos) {
-                 $attrs = $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes; $attrs['kind'] = strpos($this->semStack[$stackPos-(3-1)], "'") === false ? Scalar\String_::KIND_HEREDOC : Scalar\String_::KIND_NOWDOC; preg_match('/\A[bB]?<<<[ \t]*[\'"]?([a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*)[\'"]?(?:\r\n|\n|\r)\z/', $this->semStack[$stackPos-(3-1)], $matches); $attrs['docLabel'] = $matches[1];;
-            $this->semValue = new Scalar\String_(Scalar\String_::parseDocString($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-2)], false), $attrs);
+                 $this->semValue = $this->parseDocString($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-2)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes, $this->startAttributeStack[$stackPos-(3-3)] + $this->endAttributeStack[$stackPos-(3-3)], false);
             },
             437 => function ($stackPos) {
-                 $attrs = $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes; $attrs['kind'] = strpos($this->semStack[$stackPos-(2-1)], "'") === false ? Scalar\String_::KIND_HEREDOC : Scalar\String_::KIND_NOWDOC; preg_match('/\A[bB]?<<<[ \t]*[\'"]?([a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*)[\'"]?(?:\r\n|\n|\r)\z/', $this->semStack[$stackPos-(2-1)], $matches); $attrs['docLabel'] = $matches[1];;
-            $this->semValue = new Scalar\String_('', $attrs);
+                 $this->semValue = $this->parseDocString($this->semStack[$stackPos-(2-1)], '', $this->semStack[$stackPos-(2-2)], $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes, $this->startAttributeStack[$stackPos-(2-2)] + $this->endAttributeStack[$stackPos-(2-2)], false);
             },
             438 => function ($stackPos) {
                  $this->semValue = $this->semStack[$stackPos-(1-1)];
@@ -2405,8 +2403,7 @@ class Php5 extends \PhpParser\ParserAbstract
             foreach ($this->semStack[$stackPos-(3-2)] as $s) { if ($s instanceof Node\Scalar\EncapsedStringPart) { $s->value = Node\Scalar\String_::parseEscapeSequences($s->value, '"', true); } }; $this->semValue = new Scalar\Encapsed($this->semStack[$stackPos-(3-2)], $attrs);
             },
             482 => function ($stackPos) {
-                 $attrs = $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes; $attrs['kind'] = strpos($this->semStack[$stackPos-(3-1)], "'") === false ? Scalar\String_::KIND_HEREDOC : Scalar\String_::KIND_NOWDOC; preg_match('/\A[bB]?<<<[ \t]*[\'"]?([a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*)[\'"]?(?:\r\n|\n|\r)\z/', $this->semStack[$stackPos-(3-1)], $matches); $attrs['docLabel'] = $matches[1];;
-            foreach ($this->semStack[$stackPos-(3-2)] as $s) { if ($s instanceof Node\Scalar\EncapsedStringPart) { $s->value = Node\Scalar\String_::parseEscapeSequences($s->value, null, true); } } $s->value = preg_replace('~(\r\n|\n|\r)\z~', '', $s->value); if ('' === $s->value) array_pop($this->semStack[$stackPos-(3-2)]);; $this->semValue = new Scalar\Encapsed($this->semStack[$stackPos-(3-2)], $attrs);
+                 $this->semValue = $this->parseDocString($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-2)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes, $this->startAttributeStack[$stackPos-(3-3)] + $this->endAttributeStack[$stackPos-(3-3)], true);
             },
             483 => function ($stackPos) {
                  $this->semValue = array();

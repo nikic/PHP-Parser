@@ -1,0 +1,25 @@
+Error conditions for flexible doc strings
+-----
+<?php
+
+<<<A
+ @@{ "\t" }@@A;
+
+<<<A
+    FooBar
+ @@{ "\t" }@@A;
+-----
+Invalid indentation - tabs and spaces cannot be mixed from 4:1 to 4:3
+Invalid indentation - tabs and spaces cannot be mixed from 8:1 to 8:3
+array(
+    0: Stmt_Expression(
+        expr: Scalar_String(
+            value:
+        )
+    )
+    1: Stmt_Expression(
+        expr: Scalar_String(
+            value:     FooBar
+        )
+    )
+)

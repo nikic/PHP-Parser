@@ -166,15 +166,6 @@ function resolveMacros($code) {
                      . ' $s->value = Node\Scalar\String_::parseEscapeSequences($s->value, ' . $args[1] . ', ' . $args[2] . '); } }';
             }
 
-            if ('parseEncapsedDoc' == $name) {
-                assertArgs(2, $args, $name);
-
-                return 'foreach (' . $args[0] . ' as $s) { if ($s instanceof Node\Scalar\EncapsedStringPart) {'
-                     . ' $s->value = Node\Scalar\String_::parseEscapeSequences($s->value, null, ' . $args[1] . '); } }'
-                     . ' $s->value = preg_replace(\'~(\r\n|\n|\r)\z~\', \'\', $s->value);'
-                     . ' if (\'\' === $s->value) array_pop(' . $args[0] . ');';
-            }
-
             if ('makeNop' == $name) {
                 assertArgs(3, $args, $name);
 
@@ -190,15 +181,6 @@ function resolveMacros($code) {
                 return '(' . $args[0] . '[0] === "\'" || (' . $args[0] . '[1] === "\'" && '
                      . '(' . $args[0] . '[0] === \'b\' || ' . $args[0] . '[0] === \'B\')) '
                      . '? Scalar\String_::KIND_SINGLE_QUOTED : Scalar\String_::KIND_DOUBLE_QUOTED)';
-            }
-
-            if ('setDocStringAttrs' == $name) {
-                assertArgs(2, $args, $name);
-
-                return $args[0] . '[\'kind\'] = strpos(' . $args[1] . ', "\'") === false '
-                     . '? Scalar\String_::KIND_HEREDOC : Scalar\String_::KIND_NOWDOC; '
-                     . 'preg_match(\'/\A[bB]?<<<[ \t]*[\\\'"]?([a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*)[\\\'"]?(?:\r\n|\n|\r)\z/\', ' . $args[1] . ', $matches); '
-                     . $args[0] . '[\'docLabel\'] = $matches[1];';
             }
 
             if ('prependLeadingComments' == $name) {
