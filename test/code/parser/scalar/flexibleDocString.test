@@ -6,11 +6,62 @@ $ary = [
     <<<FOO
 Test
 FOO,
-    // Value here is wrong
     <<<'BAR'
     Test
     BAR,
 ];
+
+<<<'END'
+ END;
+
+<<<END
+
+  END;
+
+<<<END
+@@{ " " }@@
+  END;
+
+<<<'END'
+     a
+    b
+
+   c
+
+  d
+ e
+ END;
+
+<<<END
+	    a
+	   b
+	  $test
+	 d
+	e
+	END;
+
+<<<'END'
+
+    a
+
+   b
+
+  c
+
+ d
+
+e
+
+END;
+
+<<<END
+	a\r\n
+\ta\n
+   b\r\n
+  $test\n
+ d\r\n
+e\n
+END;
 -----
 array(
     0: Stmt_Expression(
@@ -30,16 +81,96 @@ array(
                     1: Expr_ArrayItem(
                         key: null
                         value: Scalar_String(
-                            value:     Test
-                            comments: array(
-                                0: // Value here is wrong
-                            )
+                            value: Test
                         )
                         byRef: false
-                        comments: array(
-                            0: // Value here is wrong
-                        )
                     )
+                )
+            )
+        )
+    )
+    1: Stmt_Expression(
+        expr: Scalar_String(
+            value:
+        )
+    )
+    2: Stmt_Expression(
+        expr: Scalar_String(
+            value:
+        )
+    )
+    3: Stmt_Expression(
+        expr: Scalar_String(
+            value:
+        )
+    )
+    4: Stmt_Expression(
+        expr: Scalar_String(
+            value:     a
+           b
+
+          c
+
+         d
+        e
+        )
+    )
+    5: Stmt_Expression(
+        expr: Scalar_Encapsed(
+            parts: array(
+                0: Scalar_EncapsedStringPart(
+                    value:     a
+                   b
+
+                )
+                1: Expr_Variable(
+                    name: test
+                )
+                2: Scalar_EncapsedStringPart(
+                    value:
+                 d
+                e
+                )
+            )
+        )
+    )
+    6: Stmt_Expression(
+        expr: Scalar_String(
+            value:
+            a
+
+           b
+
+          c
+
+         d
+
+        e
+
+        )
+    )
+    7: Stmt_Expression(
+        expr: Scalar_Encapsed(
+            parts: array(
+                0: Scalar_EncapsedStringPart(
+                    value: 	a
+
+                @@{ "\t" }@@a
+
+                   b
+
+
+                )
+                1: Expr_Variable(
+                    name: test
+                )
+                2: Scalar_EncapsedStringPart(
+                    value:
+
+                 d
+
+                e
+
                 )
             )
         )

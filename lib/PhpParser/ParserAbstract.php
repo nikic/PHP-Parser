@@ -711,8 +711,36 @@ abstract class ParserAbstract implements Parser
         return new LNumber($num, $attributes);
     }
 
-    protected function stripIndentation(string $string, string $indentation, bool $newlineBefore) {
-        // TODO
+    protected function stripIndentation(
+        string $string, int $indentLen, string $indentChar,
+        bool $newlineAtStart, bool $newlineAtEnd, array $attributes
+    ) {
+        if ($indentLen === 0) {
+            return $string;
+        }
+
+        $start = $newlineAtStart ? '(?:(?<=\n)|\A)' : '(?<=\n)';
+        $end = $newlineAtEnd ? '(?:(?=[\r\n])|\z)' : '(?=[\r\n])';
+        $regex = '/' . $start . '([ \t]*)(' . $end . ')?/';
+        return preg_replace_callback(
+            $regex,
+            function ($matches) use ($indentLen, $indentChar, $attributes) {
+                $prefix = substr($matches[1], 0, $indentLen);
+                if (false !== strpos($prefix, $indentChar === " " ? "\t" : " ")) {
+                    $this->emitError(new Error(
+                        'Invalid indentation - tabs and spaces cannot be mixed', $attributes
+                    ));
+                } elseif (strlen($prefix) < $indentLen && !isset($matches[2])) {
+                    $this->emitError(new Error(
+                        'Invalid body indentation level ' .
+                        '(expecting an indentation level of at least ' . $indentLen . ')',
+                        $attributes
+                    ));
+                }
+                return substr($matches[0], strlen($prefix));
+            },
+            $string
+        );
     }
 
     protected function parseDocString(
@@ -747,22 +775,39 @@ abstract class ParserAbstract implements Parser
             $indentation = '';
         }
 
+        $indentLen = \strlen($indentation);
+        $indentChar = $indentHasSpaces ? " " : "\t";
+
         if (\is_string($contents)) {
             if ($contents === '') {
                 return new String_('', $attributes);
             }
 
-            // strip last newline (thanks tokenizer for sticking it into the string!)
-            $string = preg_replace('~(\r\n|\n|\r)\z~', '', $contents);
+            $contents = $this->stripIndentation(
+                $contents, $indentLen, $indentChar, true, true, $attributes
+            );
+            $contents = preg_replace('~(\r\n|\n|\r)\z~', '', $contents);
 
             if ($kind === String_::KIND_HEREDOC) {
-                $string = String_::parseEscapeSequences($string, null, $parseUnicodeEscape);
+                $contents = String_::parseEscapeSequences($contents, null, $parseUnicodeEscape);
             }
 
-            return new String_($string, $attributes);
+            return new String_($contents, $attributes);
         } else {
-            foreach ($contents as $s) {
+            assert(count($contents) > 0);
+            if (!$contents[0] instanceof Node\Scalar\EncapsedStringPart) {
+                // If there is no leading encapsed string part, pretend there is an empty one
+                $this->stripIndentation(
+                    '', $indentLen, $indentChar, true, false, $contents[0]->getAttributes()
+                );
+            }
+
+            foreach ($contents as $i => $s) {
                 if ($s instanceof Node\Scalar\EncapsedStringPart) {
+                    $s->value = $this->stripIndentation(
+                        $s->value, $indentLen, $indentChar,
+                        $i === 0, $i === \count($contents) - 1, $s->getAttributes()
+                    );
                     $s->value = String_::parseEscapeSequences($s->value, null, $parseUnicodeEscape);
                 }
             }
