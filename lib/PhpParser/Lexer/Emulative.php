@@ -55,7 +55,7 @@ class Emulative extends \PhpParser\Lexer
         $flexibleDocStringRegex = <<<'REGEX'
 /<<<[ \t]*(['"]?)([a-zA-Z_\x80-\xff][a-zA-Z0-9_\x80-\xff]*)\1\r?\n
 (?:.*\r?\n)*?
-(?<indentation>\h*)\2(?<separator>(?:;?[\r\n])?)/x
+(?<indentation>\h*)\2(?![a-zA-Z_\x80-\xff])(?<separator>(?:;?[\r\n])?)/x
 REGEX;
         if (!preg_match_all($flexibleDocStringRegex, $code, $matches, PREG_SET_ORDER|PREG_OFFSET_CAPTURE)) {
             // No heredoc/nowdoc found

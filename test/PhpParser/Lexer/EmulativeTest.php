@@ -177,6 +177,11 @@ class EmulativeTest extends LexerTest
                 [Tokens::T_END_HEREDOC, " A"],
                 [ord(','), ','],
             ]],
+            ["<<<LABEL\nLABELNOPE\nLABEL\n", [
+                [Tokens::T_START_HEREDOC, "<<<LABEL\n"],
+                [Tokens::T_ENCAPSED_AND_WHITESPACE, "LABELNOPE\n"],
+                [Tokens::T_END_HEREDOC, "LABEL"],
+            ]],
             // Interpretation changed
             ["<<<LABEL\n    LABEL\nLABEL\n", [
                 [Tokens::T_START_HEREDOC, "<<<LABEL\n"],
