@@ -59,9 +59,24 @@ $dir = $arguments[1];
 
 switch ($testType) {
     case 'Symfony':
-        $version = 'Php5';
+        $version = 'Php7';
         $fileFilter = function($path) {
-            return preg_match('~\.php(?:\.cache)?$~', $path) && false === strpos($path, 'skeleton');
+            if (!preg_match('~\.php$~', $path)) {
+                return false;
+            }
+
+            if (preg_match('~(?:
+# invalid php code
+  dependency-injection.Tests.Fixtures.xml.xml_with_wrong_ext
+# difference in nop statement
+| framework-bundle.Resources.views.Form.choice_widget_options\.html
+# difference due to INF
+| yaml.Tests.InlineTest
+)\.php$~x', $path)) {
+                return false;
+            }
+
+            return true;
         };
         $codeExtractor = function($file, $code) {
             return $code;
