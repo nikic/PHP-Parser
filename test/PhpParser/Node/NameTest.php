@@ -51,35 +51,27 @@ class NameTest extends TestCase
         $this->assertNull($name->slice(-2, -2));
     }
 
-    /**
-     * @expectedException \OutOfBoundsException
-     * @expectedExceptionMessage Offset 4 is out of bounds
-     */
     public function testSliceOffsetTooLarge() {
+        $this->expectException(\OutOfBoundsException::class);
+        $this->expectExceptionMessage('Offset 4 is out of bounds');
         (new Name('foo\bar\baz'))->slice(4);
     }
 
-    /**
-     * @expectedException \OutOfBoundsException
-     * @expectedExceptionMessage Offset -4 is out of bounds
-     */
     public function testSliceOffsetTooSmall() {
+        $this->expectException(\OutOfBoundsException::class);
+        $this->expectExceptionMessage('Offset -4 is out of bounds');
         (new Name('foo\bar\baz'))->slice(-4);
     }
 
-    /**
-     * @expectedException \OutOfBoundsException
-     * @expectedExceptionMessage Length 4 is out of bounds
-     */
     public function testSliceLengthTooLarge() {
+        $this->expectException(\OutOfBoundsException::class);
+        $this->expectExceptionMessage('Length 4 is out of bounds');
         (new Name('foo\bar\baz'))->slice(0, 4);
     }
 
-    /**
-     * @expectedException \OutOfBoundsException
-     * @expectedExceptionMessage Length -4 is out of bounds
-     */
     public function testSliceLengthTooSmall() {
+        $this->expectException(\OutOfBoundsException::class);
+        $this->expectExceptionMessage('Length -4 is out of bounds');
         (new Name('foo\bar\baz'))->slice(0, -4);
     }
 
@@ -131,27 +123,21 @@ class NameTest extends TestCase
         $this->assertSame('namespace\foo', $name->toCodeString());
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Expected string, array of parts or Name instance
-     */
     public function testInvalidArg() {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Expected string, array of parts or Name instance');
         Name::concat('foo', new \stdClass);
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Name cannot be empty
-     */
     public function testInvalidEmptyString() {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Name cannot be empty');
         new Name('');
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Name cannot be empty
-     */
     public function testInvalidEmptyArray() {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Name cannot be empty');
         new Name([]);
     }
 

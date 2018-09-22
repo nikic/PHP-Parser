@@ -79,11 +79,9 @@ class InterfaceTest extends TestCase
         ]), $node);
     }
 
-    /**
-     * @expectedException \LogicException
-     * @expectedExceptionMessage Unexpected node of type "Stmt_PropertyProperty"
-     */
     public function testInvalidStmtError() {
+        $this->expectException(\LogicException::class);
+        $this->expectExceptionMessage('Unexpected node of type "Stmt_PropertyProperty"');
         $this->builder->addStmt(new Stmt\PropertyProperty('invalid'));
     }
 
