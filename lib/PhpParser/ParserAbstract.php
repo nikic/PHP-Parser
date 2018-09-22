@@ -802,20 +802,25 @@ abstract class ParserAbstract implements Parser
                 );
             }
 
-            foreach ($contents as $i => $s) {
-                if ($s instanceof Node\Scalar\EncapsedStringPart) {
-                    $s->value = $this->stripIndentation(
-                        $s->value, $indentLen, $indentChar,
-                        $i === 0, $i === \count($contents) - 1, $s->getAttributes()
+            $newContents = [];
+            foreach ($contents as $i => $part) {
+                if ($part instanceof Node\Scalar\EncapsedStringPart) {
+                    $isLast = $i === \count($contents) - 1;
+                    $part->value = $this->stripIndentation(
+                        $part->value, $indentLen, $indentChar,
+                        $i === 0, $isLast, $part->getAttributes()
                     );
-                    $s->value = String_::parseEscapeSequences($s->value, null, $parseUnicodeEscape);
+                    $part->value = String_::parseEscapeSequences($part->value, null, $parseUnicodeEscape);
+                    if ($isLast) {
+                        $part->value = preg_replace('~(\r\n|\n|\r)\z~', '', $part->value);
+                    }
+                    if ('' === $part->value) {
+                        continue;
+                    }
                 }
+                $newContents[] = $part;
             }
-            $s->value = preg_replace('~(\r\n|\n|\r)\z~', '', $s->value);
-            if ('' === $s->value) {
-                array_pop($contents);
-            }
-            return new Encapsed($contents, $attributes);
+            return new Encapsed($newContents, $attributes);
         }
     }
 

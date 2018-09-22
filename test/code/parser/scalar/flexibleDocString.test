@@ -62,6 +62,52 @@ END;
  d\r\n
 e\n
 END;
+
+<<<BAR
+ $one-
+ BAR;
+
+<<<BAR
+ $two -
+ BAR;
+
+<<<BAR
+ $three	-
+ BAR;
+
+<<<BAR
+ $four-$four
+ BAR;
+
+<<<BAR
+ $five-$five-
+ BAR;
+
+<<<BAR
+ $six-$six-$six
+ BAR;
+
+<<<BAR
+ $seven
+ -
+ BAR;
+
+<<<BAR
+ $eight
+  -
+ BAR;
+
+<<<BAR
+$nine
+BAR;
+
+<<<BAR
+ -
+ BAR;
+
+<<<BAR
+  -
+ BAR;
 -----
 array(
     0: Stmt_Expression(
@@ -173,6 +219,141 @@ array(
 
                 )
             )
+        )
+    )
+    8: Stmt_Expression(
+        expr: Scalar_Encapsed(
+            parts: array(
+                0: Expr_Variable(
+                    name: one
+                )
+                1: Scalar_EncapsedStringPart(
+                    value: -
+                )
+            )
+        )
+    )
+    9: Stmt_Expression(
+        expr: Scalar_Encapsed(
+            parts: array(
+                0: Expr_Variable(
+                    name: two
+                )
+                1: Scalar_EncapsedStringPart(
+                    value:  -
+                )
+            )
+        )
+    )
+    10: Stmt_Expression(
+        expr: Scalar_Encapsed(
+            parts: array(
+                0: Expr_Variable(
+                    name: three
+                )
+                1: Scalar_EncapsedStringPart(
+                    value: 	-
+                )
+            )
+        )
+    )
+    11: Stmt_Expression(
+        expr: Scalar_Encapsed(
+            parts: array(
+                0: Expr_Variable(
+                    name: four
+                )
+                1: Scalar_EncapsedStringPart(
+                    value: -
+                )
+                2: Expr_Variable(
+                    name: four
+                )
+            )
+        )
+    )
+    12: Stmt_Expression(
+        expr: Scalar_Encapsed(
+            parts: array(
+                0: Expr_Variable(
+                    name: five
+                )
+                1: Scalar_EncapsedStringPart(
+                    value: -
+                )
+                2: Expr_Variable(
+                    name: five
+                )
+                3: Scalar_EncapsedStringPart(
+                    value: -
+                )
+            )
+        )
+    )
+    13: Stmt_Expression(
+        expr: Scalar_Encapsed(
+            parts: array(
+                0: Expr_Variable(
+                    name: six
+                )
+                1: Scalar_EncapsedStringPart(
+                    value: -
+                )
+                2: Expr_Variable(
+                    name: six
+                )
+                3: Scalar_EncapsedStringPart(
+                    value: -
+                )
+                4: Expr_Variable(
+                    name: six
+                )
+            )
+        )
+    )
+    14: Stmt_Expression(
+        expr: Scalar_Encapsed(
+            parts: array(
+                0: Expr_Variable(
+                    name: seven
+                )
+                1: Scalar_EncapsedStringPart(
+                    value:
+                -
+                )
+            )
+        )
+    )
+    15: Stmt_Expression(
+        expr: Scalar_Encapsed(
+            parts: array(
+                0: Expr_Variable(
+                    name: eight
+                )
+                1: Scalar_EncapsedStringPart(
+                    value:
+                 -
+                )
+            )
+        )
+    )
+    16: Stmt_Expression(
+        expr: Scalar_Encapsed(
+            parts: array(
+                0: Expr_Variable(
+                    name: nine
+                )
+            )
+        )
+    )
+    17: Stmt_Expression(
+        expr: Scalar_String(
+            value: -
+        )
+    )
+    18: Stmt_Expression(
+        expr: Scalar_String(
+            value:  -
         )
     )
 )
