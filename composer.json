@@ -24,7 +24,7 @@
     "bin": ["bin/php-parse"],
     "extra": {
         "branch-alias": {
-            "dev-master": "4.0-dev"
+            "dev-master": "4.1-dev"
         }
     }
 }

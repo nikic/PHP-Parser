@@ -1,7 +1,17 @@
-Version 4.0.5-dev
+Version 4.1.0-dev
 -----------------
 
-Nothing yet.
+### Added
+
+* Added support for PHP 7.3 flexible heredoc/nowdoc strings, completing support for PHP 7.3. There
+  are two caveats for this feature:
+   * In some rare, pathological cases flexible heredoc/nowdoc strings change the interpretation of
+     existing doc strings. PHP-Parser will now use the new interpretation.
+   * Flexible heredoc/nowdoc strings require special support from the lexer. Because this is not
+     available on PHP versions before 7.3, support has to be emulated. This emulation is not perfect
+     and some cases which we do not expect to occur in practice (such as flexible doc strings being
+     nested within each other through abuse of variable-variable interpolation syntax) may not be
+     recognized correctly.
 
 Version 4.0.4 (2018-09-18)
 --------------------------
