@@ -165,6 +165,39 @@ class NodeTraverserTest extends TestCase
         $this->assertEquals($stmts, $traverser->traverse($stmts));
     }
 
+    public function testDontTraverseCurrentAndChildren() {
+        // print 'str'; -($foo * $foo);
+        $strNode = new String_('str');
+        $printNode = new Expr\Print_($strNode);
+        $varNode = new Expr\Variable('foo');
+        $mulNode = new Expr\BinaryOp\Mul($varNode, $varNode);
+        $negNode = new Expr\UnaryMinus($mulNode);
+        $stmts = [$printNode, $negNode];
+
+        $visitor1 = $this->getMockBuilder(NodeVisitor::class)->getMock();
+        $visitor2 = $this->getMockBuilder(NodeVisitor::class)->getMock();
+
+        $visitor1->expects($this->at(1))->method('enterNode')->with($printNode)
+            ->will($this->returnValue(NodeTraverser::DONT_TRAVERSE_CURRENT_AND_CHILDREN));
+        $visitor1->expects($this->at(2))->method('leaveNode')->with($printNode);
+
+        $visitor1->expects($this->at(3))->method('enterNode')->with($negNode);
+        $visitor2->expects($this->at(1))->method('enterNode')->with($negNode);
+
+        $visitor1->expects($this->at(4))->method('enterNode')->with($mulNode)
+            ->will($this->returnValue(NodeTraverser::DONT_TRAVERSE_CURRENT_AND_CHILDREN));
+        $visitor1->expects($this->at(5))->method('leaveNode')->with($mulNode);
+
+        $visitor1->expects($this->at(6))->method('leaveNode')->with($negNode);
+        $visitor2->expects($this->at(2))->method('leaveNode')->with($negNode);
+
+        $traverser = new NodeTraverser;
+        $traverser->addVisitor($visitor1);
+        $traverser->addVisitor($visitor2);
+
+        $this->assertEquals($stmts, $traverser->traverse($stmts));
+    }
+
     public function testStopTraversal() {
         $varNode1 = new Expr\Variable('a');
         $varNode2 = new Expr\Variable('b');
