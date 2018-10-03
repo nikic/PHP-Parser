@@ -307,4 +307,40 @@ class NodeTraverserTest extends TestCase
             [$visitor8, 'Trying to replace expression (Scalar_LNumber) with statement (Stmt_Return)'],
         ];
     }
+
+    public function testPrioritizedTraversal() {
+
+        $visitor1 = $this->getMockBuilder(\PhpParser\NodeVisitor::class)->getMock();
+        $visitor2 = $this->getMockBuilder(\PhpParser\NodeVisitor::class)->getMock();
+        $visitor3 = $this->getMockBuilder(\PhpParser\NodeVisitor::class)->getMock();
+        $visitor4 = $this->getMockBuilder(\PhpParser\NodeVisitor::class)->getMock();
+
+        $traverser = new NodeTraverser();
+        $traverser->addPrioritizedVisitor($visitor1, 1);
+        $traverser->addPrioritizedVisitor($visitor2, 2);
+        $traverser->addPrioritizedVisitor($visitor3, 3);
+        $traverser->addPrioritizedVisitor($visitor4, 4);
+        $this->assertAttributeSame(
+            [
+                4 => $visitor4,
+                3 => $visitor3,
+                2 => $visitor2,
+                1 => $visitor1
+            ],
+            'visitors',
+            $traverser,
+            'Visitors have not been ordered correctly with priority'
+        );
+    }
+
+    public function testPrioritizedTraversalSamePriority() {
+        $visitor1 = $this->getMockBuilder(\PhpParser\NodeVisitor::class)->getMock();
+        $visitor2 = $this->getMockBuilder(\PhpParser\NodeVisitor::class)->getMock();
+
+        $traverser = new NodeTraverser();
+
+        $traverser->addPrioritizedVisitor($visitor1, 10);
+        $this->expectException(\LogicException::class);
+        $traverser->addPrioritizedVisitor($visitor2, 10);
+    }
 }

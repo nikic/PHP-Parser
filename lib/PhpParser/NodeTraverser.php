@@ -50,6 +50,21 @@ class NodeTraverser implements NodeTraverserInterface
     }
 
     /**
+     * Adds a visitor with a priority. This will make them run in order from high priority to low
+     *
+     * @param NodeVisitor $visitor
+     * @param int $priority
+     */
+    public function addPrioritizedVisitor(NodeVisitor $visitor, int $priority) {
+        if(\array_key_exists($priority, $this->visitors)) {
+            throw new \LogicException(sprintf('Priority %s already exists.', $priority));
+        }
+
+        $this->visitors[$priority] = $visitor;
+        krsort($this->visitors);
+    }
+
+    /**
      * Removes an added visitor.
      *
      * @param NodeVisitor $visitor
