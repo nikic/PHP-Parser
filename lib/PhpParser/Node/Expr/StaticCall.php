@@ -10,7 +10,7 @@ class StaticCall extends Expr
 {
     /** @var Node\Name|Expr Class name */
     public $class;
-    /** @var string|Identifier|Expr Method name */
+    /** @var Identifier|Expr Method name */
     public $name;
     /** @var Node\Arg[] Arguments */
     public $args;
