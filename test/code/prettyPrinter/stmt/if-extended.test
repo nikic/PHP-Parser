@@ -1,0 +1,15 @@
+if-with-brackets
+-----
+<?php
+
+ if (
+    ($index === 0 && $parameter === '1')
+    ||
+    $parameter === ''
+) {
+  return 'error';
+}
+-----
+if (($index === 0 && $parameter === '1') || $parameter === '') {
+    return 'error';
+}
