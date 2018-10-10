@@ -1,5 +1,10 @@
-Version 4.1.0-dev
+Version 4.1.1-dev
 -----------------
+
+Nothing yet.
+
+Version 4.1.0 (2018-10-10)
+--------------------------
 
 ### Added
 
@@ -12,6 +17,8 @@ Version 4.1.0-dev
      and some cases which we do not expect to occur in practice (such as flexible doc strings being
      nested within each other through abuse of variable-variable interpolation syntax) may not be
      recognized correctly.
+* Added `DONT_TRAVERSER_CURRENT_AND_CHILDREN` to `NodeTraverser` to skip both traversal of child
+  nodes, and prevent subsequent visitors from visiting the current node.
 
 Version 4.0.4 (2018-09-18)
 --------------------------
