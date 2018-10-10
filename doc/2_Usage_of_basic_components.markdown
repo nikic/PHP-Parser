@@ -341,6 +341,9 @@ case the current node is not changed.
 The `enterNode()` method can additionally return the value `NodeTraverser::DONT_TRAVERSE_CHILDREN`,
 which instructs the traverser to skip all children of the current node.
 
+The `enterNode()` method can additionally return the value `NodeTraverser::DONT_TRAVERSER_CURRENT_AND_CHILDREN`
+to skip both traversal of child nodes, and prevent subsequent visitors from visiting the current node.
+
 The `leaveNode()` method can additionally return the value `NodeTraverser::REMOVE_NODE`, in which
 case the current node will be removed from the parent array. Furthermore it is possible to return
 an array of nodes, which will be merged into the parent array at the offset of the current node.
