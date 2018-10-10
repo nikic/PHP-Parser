@@ -281,7 +281,7 @@ special enterNode/leaveNode return values:
 
  * If *any* visitor returns `DONT_TRAVERSE_CHILDREN`, the children will be skipped for *all*
    visitors.
-* If *any* visitor returns `DONT_TRAVERSER_CURRENT_AND_CHILDREN`, the children will be skipped for *all*
+ * If *any* visitor returns `DONT_TRAVERSER_CURRENT_AND_CHILDREN`, the children will be skipped for *all*
    visitors, and all *subsequent* visitors will not visit the current node.
  * If *any* visitor returns `STOP_TRAVERSAL`, traversal is stopped for *all* visitors.
  * If a visitor returns a replacement node, subsequent visitors will be passed the replacement node,
