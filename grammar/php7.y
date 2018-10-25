@@ -477,6 +477,7 @@ optional_param_type:
 optional_return_type:
       /* empty */                                           { $$ = null; }
     | ':' type_expr                                         { $$ = $2; }
+    | ':' error                                             { $$ = null; }
 ;
 
 argument_list:

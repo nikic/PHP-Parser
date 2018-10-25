@@ -1,7 +1,9 @@
 Version 4.1.1-dev
 -----------------
 
-Nothing yet.
+### Added
+
+* Support error recovery for missing return type (`function foo() : {}`).
 
 Version 4.1.0 (2018-10-10)
 --------------------------
