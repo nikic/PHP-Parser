@@ -307,7 +307,7 @@ $nodeFinder = new NodeFinder;
 $classes = $nodeFinder->findInstanceOf($stmts, Node\Stmt\Class_::class);
 
 // Find all classes that extend another class
-$extendingClasses = $nodeFinder->findInstanceOf($stmts, function(Node $node) {
+$extendingClasses = $nodeFinder->find($stmts, function(Node $node) {
     return $node instanceof Node\Stmt\Class_
         && $node->extends !== null;
 });
