@@ -1,0 +1,6 @@
+/doc export-ignore
+/test export-ignore
+/test_old export-ignore
+/.gitignore export-ignore
+/.travis.yml export-ignore
+/phpunit.xml.dist export-ignore
