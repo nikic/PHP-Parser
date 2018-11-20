@@ -6,7 +6,7 @@ use PhpParser\Node;
 
 class Case_ extends Node\Stmt
 {
-    /** @var null|Node\Expr $cond Condition (null for default) */
+    /** @var null|Node\Expr Condition (null for default) */
     public $cond;
     /** @var Node\Stmt[] Statements */
     public $stmts;
