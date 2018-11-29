@@ -116,7 +116,7 @@ The JSON representation may be converted back into an AST using the `JsonDecoder
 ```php
 <?php
 
-$nodeDecoder = new PhpParser\NodeDecoder();
+$nodeDecoder = new PhpParser\JsonDecoder();
 $ast = $nodeDecoder->decode($json);
 ```
 
