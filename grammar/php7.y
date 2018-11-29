@@ -829,6 +829,12 @@ dereferencable_scalar:
           { $attrs = attributes(); $attrs['kind'] = Expr\Array_::KIND_LONG;
             $$ = new Expr\Array_($3, $attrs); }
     | array_short_syntax                                    { $$ = $1; }
+    | T_CONSTANT_ENCAPSED_STRING T_STRING
+          { throw new Error('Unexpected unquoted string', attributes()); }
+    | T_CONSTANT_ENCAPSED_STRING T_CONSTANT_ENCAPSED_STRING
+          { throw new Error('Unexpected unquoted string', attributes()); }
+    | T_CONSTANT_ENCAPSED_STRING '"'
+          { throw new Error('Unexpected unquoted string', attributes()); }
     | T_CONSTANT_ENCAPSED_STRING
           { $attrs = attributes(); $attrs['kind'] = strKind($1);
             $$ = new Scalar\String_(Scalar\String_::parse($1), $attrs); }
