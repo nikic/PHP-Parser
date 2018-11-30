@@ -1280,8 +1280,8 @@ $array = [
 ];
 -----
 !!php7
-Syntax error, unexpected T_VARIABLE, expecting ',' or ')' or ']' from 3:18 to 3:34
-Syntax error, unexpected T_VARIABLE, expecting ',' or ')' or ']' from 6:12 to 6:28
+Syntax error, unexpected T_VARIABLE from 3:18 to 3:34
+Syntax error, unexpected T_VARIABLE from 6:12 to 6:28
 Syntax error, unexpected T_VARIABLE, expecting ',' or ')' or ']' from 9:21 to 9:37
 array(
     0: Stmt_Expression(
@@ -1303,20 +1303,6 @@ array(
                         )
                         byRef: false
                     )
-                    1: Expr_ArrayItem(
-                        key: null
-                        value: Expr_MethodCall(
-                            var: Expr_Variable(
-                                name: oopsAnotherValue
-                            )
-                            name: Identifier(
-                                name: get
-                            )
-                            args: array(
-                            )
-                        )
-                        byRef: false
-                    )
                 )
             )
         )
@@ -1332,13 +1318,6 @@ array(
                         key: null
                         value: Expr_Variable(
                             name: value
-                        )
-                        byRef: false
-                    )
-                    1: Expr_ArrayItem(
-                        key: null
-                        value: Expr_Variable(
-                            name: oopsAnotherValue
                         )
                         byRef: false
                     )

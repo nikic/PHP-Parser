@@ -58,3 +58,31 @@ array(
         )
     )
 )
+-----
+<?php
+
+[$a"thing"];
+-----
+!!php5
+Syntax error, unexpected T_CONSTANT_ENCAPSED_STRING, expecting ']' from 3:4 to 3:10
+array(
+    0: Stmt_Expression(
+        expr: Scalar_String(
+            value: thing
+        )
+    )
+)
+-----
+<?php
+
+[4"thing"];
+-----
+!!php5
+Syntax error, unexpected T_CONSTANT_ENCAPSED_STRING, expecting ']' from 3:3 to 3:9
+array(
+    0: Stmt_Expression(
+        expr: Scalar_String(
+            value: thing
+        )
+    )
+)
