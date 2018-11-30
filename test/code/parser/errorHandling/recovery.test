@@ -1401,3 +1401,9 @@ array(
         )
     )
 )
+-----
+<?php
+$a = ["a "thing"];
+-----
+!!php7
+Syntax error, unexpected T_STRING, expecting ',' or ')' or ']' from 2:11 to 2:15

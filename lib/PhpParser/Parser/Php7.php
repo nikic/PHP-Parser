@@ -2361,7 +2361,7 @@ class Php7 extends \PhpParser\ParserAbstract
                 $this->semValue = $this->semStack[$stackPos];
             },
             498 => function ($stackPos) {
-                $this->semValue = $this->semStack[$stackPos];
+                 /* do nothing -- prevent default action of $$=$this->semStack[$1]. See $551. */
             },
             499 => function ($stackPos) {
                  $this->semStack[$stackPos-(3-1)][] = $this->semStack[$stackPos-(3-3)]; $this->semValue = $this->semStack[$stackPos-(3-1)];
