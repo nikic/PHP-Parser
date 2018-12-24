@@ -215,7 +215,7 @@ once you found it:
 private $class = null;
 public function enterNode(Node $node) {
     if ($node instanceof Node\Stmt\Class_ &&
-        $node->namespaceName->toString() === 'Foo\Bar\Baz'
+        $node->namespacedName->toString() === 'Foo\Bar\Baz'
     ) {
         $this->class = $node;
         return NodeTraverser::STOP_TRAVERSAL;
