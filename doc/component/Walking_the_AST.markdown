@@ -235,7 +235,7 @@ A single traverser can be used with multiple visitors:
 $traverser = new NodeTraverser;
 $traverser->addVisitor($visitorA);
 $traverser->addVisitor($visitorB);
-$stmts = $traverser->traverser($stmts);
+$stmts = $traverser->traverse($stmts);
 ```
 
 It is important to understand that if a traverser is run with multiple visitors, the visitors will
