@@ -824,6 +824,22 @@ abstract class ParserAbstract implements Parser
         }
     }
 
+    protected function checkArray(Node\Expr\Array_ $a) {
+        $lastValidItem = null;
+        foreach ($a->items as $item) {
+            if ($item === null) {
+                $startLine = $lastValidItem === null ? $a->getStartLine() : $lastValidItem->getEndLine();
+                $this->emitError(new Error('Cannot use empty array elements in arrays', $startLine));
+            } else {
+                $lastValidItem = $item;
+            }
+
+            if (isset($item->value) && $item->value instanceof Node\Expr\Array_) {
+                $this->checkArray($item->value);
+            }
+        }
+    }
+
     protected function checkModifier($a, $b, $modifierPos) {
         // Jumping through some hoops here because verifyModifier() is also used elsewhere
         try {

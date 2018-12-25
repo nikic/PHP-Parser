@@ -827,8 +827,11 @@ array_short_syntax:
 dereferencable_scalar:
       T_ARRAY '(' array_pair_list ')'
           { $attrs = attributes(); $attrs['kind'] = Expr\Array_::KIND_LONG;
-            $$ = new Expr\Array_($3, $attrs); }
-    | array_short_syntax                                    { $$ = $1; }
+            $$ = new Expr\Array_($3, $attrs);
+            $this->checkArray($$); }
+    | array_short_syntax
+          { $$ = $1;
+            $this->checkArray($$); }
     | T_CONSTANT_ENCAPSED_STRING
           { $attrs = attributes(); $attrs['kind'] = strKind($1);
             $$ = new Scalar\String_(Scalar\String_::parse($1), $attrs); }

@@ -2,12 +2,15 @@ Array destructuring
 -----
 <?php
 
-[$a, $b] = [$c, $d];
+[$a, $b] = [$c, $d,];
 [, $a, , , $b, ,] = $foo;
 [, [[$a]], $b] = $bar;
 ['a' => $b, 'b' => $a] = $baz;
+[$a,] = [1,[2,,]];
 -----
 !!php7
+Cannot use empty array elements in arrays on line 7
+Cannot use empty array elements in arrays on line 7
 array(
     0: Stmt_Expression(
         expr: Expr_Assign(
@@ -146,6 +149,48 @@ array(
             )
             expr: Expr_Variable(
                 name: baz
+            )
+        )
+    )
+    4: Stmt_Expression(
+        expr: Expr_Assign(
+            var: Expr_Array(
+                items: array(
+                    0: Expr_ArrayItem(
+                        key: null
+                        value: Expr_Variable(
+                            name: a
+                        )
+                        byRef: false
+                    )
+                )
+            )
+            expr: Expr_Array(
+                items: array(
+                    0: Expr_ArrayItem(
+                        key: null
+                        value: Scalar_LNumber(
+                            value: 1
+                        )
+                        byRef: false
+                    )
+                    1: Expr_ArrayItem(
+                        key: null
+                        value: Expr_Array(
+                            items: array(
+                                0: Expr_ArrayItem(
+                                    key: null
+                                    value: Scalar_LNumber(
+                                        value: 2
+                                    )
+                                    byRef: false
+                                )
+                                1: null
+                            )
+                        )
+                        byRef: false
+                    )
+                )
             )
         )
     )
