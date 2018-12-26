@@ -1,9 +1,19 @@
-Version 4.1.1-dev
+Version 4.1.2-dev
 -----------------
+
+Nothing yet.
+
+Version 4.1.1 (2018-12-26)
+--------------------------
+
+### Fixed
+
+* Fix "undefined offset" notice when parsing specific malformed code (#551).
+* Remove assertion when pretty printing anonymous class with a name (#554).
 
 ### Added
 
-* Support error recovery for missing return type (`function foo() : {}`).
+* Support error recovery for missing return type (`function foo() : {}`) (#544).
 
 Version 4.1.0 (2018-10-10)
 --------------------------

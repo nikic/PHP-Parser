@@ -1,7 +1,7 @@
 Introduction
 ============
 
-This project is a PHP 5.2 to PHP 7.2 parser **written in PHP itself**.
+This project is a PHP 5.2 to PHP 7.3 parser **written in PHP itself**.
 
 What is this for?
 -----------------
@@ -26,11 +26,11 @@ programmatic PHP code analysis are incidentally PHP developers, not C developers
 What can it parse?
 ------------------
 
-The parser supports parsing PHP 5.2-7.2.
+The parser supports parsing PHP 5.2-7.3.
 
 As the parser is based on the tokens returned by `token_get_all` (which is only able to lex the PHP
 version it runs on), additionally a wrapper for emulating tokens from newer versions is provided.
-This allows to parse PHP 7.2 source code running on PHP 5.5, for example. This emulation is somewhat
+This allows to parse PHP 7.3 source code running on PHP 7.0, for example. This emulation is somewhat
 hacky and not perfect, but it should work well on any sane code.
 
 What output does it produce?
