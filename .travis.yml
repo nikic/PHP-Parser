@@ -1,5 +1,5 @@
 language: php
-dist: trusty
+dist: xenial
 sudo: false
 
 cache:
