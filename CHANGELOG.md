@@ -1,7 +1,9 @@
 Version 4.1.2-dev
 -----------------
 
-Nothing yet.
+### Fixed
+
+* Remove assertion when pretty printing anonymous class with a name (#554).
 
 Version 4.1.1 (2018-12-26)
 --------------------------
@@ -9,7 +11,6 @@ Version 4.1.1 (2018-12-26)
 ### Fixed
 
 * Fix "undefined offset" notice when parsing specific malformed code (#551).
-* Remove assertion when pretty printing anonymous class with a name (#554).
 
 ### Added
 

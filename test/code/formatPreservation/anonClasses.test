@@ -14,3 +14,15 @@ $new->args[] = new Expr\Variable('y');
 new class
 ($x, $y)
 { };
+-----
+<?php
+new class
+{};
+-----
+// Ignore name assigned to anon class
+$new = $stmts[0]->expr;
+$new->class->name = new Node\Name('Anon1');
+-----
+<?php
+new class
+{};
