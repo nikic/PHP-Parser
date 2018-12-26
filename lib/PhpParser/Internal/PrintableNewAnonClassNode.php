@@ -39,6 +39,8 @@ class PrintableNewAnonClassNode extends Expr
     public static function fromNewNode(Expr\New_ $newNode) {
         $class = $newNode->class;
         assert($class instanceof Node\Stmt\Class_);
+        // We don't assert that $class->name is null here, to allow consumers to assign unique names
+        // to anonymous classes for their own purposes. We simplify ignore the name here.
         assert($class->name === null);
         return new self(
             $newNode->args, $class->extends, $class->implements,
