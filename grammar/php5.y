@@ -628,7 +628,10 @@ expr:
     | T_REQUIRE expr                                        { $$ = Expr\Include_[$2, Expr\Include_::TYPE_REQUIRE]; }
     | T_REQUIRE_ONCE expr                                   { $$ = Expr\Include_[$2, Expr\Include_::TYPE_REQUIRE_ONCE]; }
     | T_INT_CAST expr                                       { $$ = Expr\Cast\Int_    [$2]; }
-    | T_DOUBLE_CAST expr                                    { $$ = Expr\Cast\Double  [$2]; }
+    | T_DOUBLE_CAST expr
+          { $attrs = attributes();
+            $attrs['kind'] = $this->getFloatCastKind($1);
+            $$ = new Expr\Cast\Double($2, $attrs); }
     | T_STRING_CAST expr                                    { $$ = Expr\Cast\String_ [$2]; }
     | T_ARRAY_CAST expr                                     { $$ = Expr\Cast\Array_  [$2]; }
     | T_OBJECT_CAST expr                                    { $$ = Expr\Cast\Object_ [$2]; }

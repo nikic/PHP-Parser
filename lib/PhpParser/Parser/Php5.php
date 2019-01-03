@@ -2032,7 +2032,9 @@ class Php5 extends \PhpParser\ParserAbstract
                  $this->semValue = new Expr\Cast\Int_($this->semStack[$stackPos-(2-2)], $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes);
             },
             361 => function ($stackPos) {
-                 $this->semValue = new Expr\Cast\Double($this->semStack[$stackPos-(2-2)], $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes);
+                 $attrs = $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes;
+            $attrs['kind'] = $this->getFloatCastKind($this->semStack[$stackPos-(2-1)]);
+            $this->semValue = new Expr\Cast\Double($this->semStack[$stackPos-(2-2)], $attrs);
             },
             362 => function ($stackPos) {
                  $this->semValue = new Expr\Cast\String_($this->semStack[$stackPos-(2-2)], $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes);

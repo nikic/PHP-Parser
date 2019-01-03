@@ -7,6 +7,7 @@ namespace PhpParser;
  * turn is based on work by Masato Bito.
  */
 use PhpParser\Node\Expr;
+use PhpParser\Node\Expr\Cast\Double;
 use PhpParser\Node\Name;
 use PhpParser\Node\Param;
 use PhpParser\Node\Scalar\Encapsed;
@@ -678,6 +679,20 @@ abstract class ParserAbstract implements Parser
      */
     protected function getAttributesAt(int $pos) : array {
         return $this->startAttributeStack[$pos] + $this->endAttributeStack[$pos];
+    }
+
+    protected function getFloatCastKind(string $cast): int
+    {
+        $cast = strtolower($cast);
+        if (strpos($cast, 'float') !== false) {
+            return Double::KIND_FLOAT;
+        }
+
+        if (strpos($cast, 'real') !== false) {
+            return Double::KIND_REAL;
+        }
+
+        return Double::KIND_DOUBLE;
     }
 
     protected function parseLNumber($str, $attributes, $allowInvalidOctal = false) {

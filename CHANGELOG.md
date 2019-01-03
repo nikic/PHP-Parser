@@ -1,6 +1,11 @@
 Version 4.1.2-dev
 -----------------
 
+### Added
+
+* Added `kind` attribute to `Cast\Double_`, which allows to distinguish between `(float)`,
+  `(double)` and `(real)`. The form of the cast will be preserved by the pretty printer. (#565)
+
 ### Fixed
 
 * Remove assertion when pretty printing anonymous class with a name (#554).
