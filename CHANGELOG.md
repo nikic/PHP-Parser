@@ -1,4 +1,4 @@
-Version 4.1.2-dev
+Version 4.2.0-dev
 -----------------
 
 ### Added
