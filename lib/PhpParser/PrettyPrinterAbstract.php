@@ -617,12 +617,14 @@ abstract class PrettyPrinterAbstract
                     return $this->pFallback($fallbackNode);
                 }
 
-                list($findToken, $extraLeft, $extraRight) = $this->insertionMap[$key];
+                list($findToken, $beforeToken, $extraLeft, $extraRight) = $this->insertionMap[$key];
                 if (null !== $findToken) {
-                    $subStartPos = $this->origTokens->findRight($pos, $findToken) + 1;
+                    $subStartPos = $this->origTokens->findRight($pos, $findToken)
+                        + (int) !$beforeToken;
                 } else {
                     $subStartPos = $pos;
                 }
+
                 if (null === $extraLeft && null !== $extraRight) {
                     // If inserting on the right only, skipping whitespace looks better
                     $subStartPos = $this->origTokens->skipRightWhitespace($subStartPos);
@@ -1209,6 +1211,7 @@ abstract class PrettyPrinterAbstract
             'Stmt_Function->returnType' => $stripColon,
             'Stmt_If->else' => $stripLeft,
             'Stmt_Namespace->name' => $stripLeft,
+            'Stmt_Property->type' => $stripRight,
             'Stmt_PropertyProperty->default' => $stripEquals,
             'Stmt_Return->expr' => $stripBoth,
             'Stmt_StaticVar->default' => $stripEquals,
@@ -1226,28 +1229,29 @@ abstract class PrettyPrinterAbstract
 
         // TODO: "yield" where both key and value are inserted doesn't work
         $this->insertionMap = [
-            'Expr_ArrayDimFetch->dim' => ['[', null, null],
-            'Expr_ArrayItem->key' => [null, null, ' => '],
-            'Expr_Closure->returnType' => [')', ' : ', null],
-            'Expr_Ternary->if' => ['?', ' ', ' '],
-            'Expr_Yield->key' => [\T_YIELD, null, ' => '],
-            'Expr_Yield->value' => [\T_YIELD, ' ', null],
-            'Param->type' => [null, null, ' '],
-            'Param->default' => [null, ' = ', null],
-            'Stmt_Break->num' => [\T_BREAK, ' ', null],
-            'Stmt_ClassMethod->returnType' => [')', ' : ', null],
-            'Stmt_Class->extends' => [null, ' extends ', null],
+            'Expr_ArrayDimFetch->dim' => ['[', false, null, null],
+            'Expr_ArrayItem->key' => [null, false, null, ' => '],
+            'Expr_Closure->returnType' => [')', false, ' : ', null],
+            'Expr_Ternary->if' => ['?', false, ' ', ' '],
+            'Expr_Yield->key' => [\T_YIELD, false, null, ' => '],
+            'Expr_Yield->value' => [\T_YIELD, false, ' ', null],
+            'Param->type' => [null, false, null, ' '],
+            'Param->default' => [null, false, ' = ', null],
+            'Stmt_Break->num' => [\T_BREAK, false, ' ', null],
+            'Stmt_ClassMethod->returnType' => [')', false, ' : ', null],
+            'Stmt_Class->extends' => [null, false, ' extends ', null],
             'Expr_PrintableNewAnonClass->extends' => [null, ' extends ', null],
-            'Stmt_Continue->num' => [\T_CONTINUE, ' ', null],
-            'Stmt_Foreach->keyVar' => [\T_AS, null, ' => '],
-            'Stmt_Function->returnType' => [')', ' : ', null],
-            'Stmt_If->else' => [null, ' ', null],
-            'Stmt_Namespace->name' => [\T_NAMESPACE, ' ', null],
-            'Stmt_PropertyProperty->default' => [null, ' = ', null],
-            'Stmt_Return->expr' => [\T_RETURN, ' ', null],
-            'Stmt_StaticVar->default' => [null, ' = ', null],
-            //'Stmt_TraitUseAdaptation_Alias->newName' => [T_AS, ' ', null], // TODO
-            'Stmt_TryCatch->finally' => [null, ' ', null],
+            'Stmt_Continue->num' => [\T_CONTINUE, false, ' ', null],
+            'Stmt_Foreach->keyVar' => [\T_AS, false, null, ' => '],
+            'Stmt_Function->returnType' => [')', false, ' : ', null],
+            'Stmt_If->else' => [null, false, ' ', null],
+            'Stmt_Namespace->name' => [\T_NAMESPACE, false, ' ', null],
+            'Stmt_Property->type' => [\T_VARIABLE, true, null, ' '],
+            'Stmt_PropertyProperty->default' => [null, false, ' = ', null],
+            'Stmt_Return->expr' => [\T_RETURN, false, ' ', null],
+            'Stmt_StaticVar->default' => [null, false, ' = ', null],
+            //'Stmt_TraitUseAdaptation_Alias->newName' => [T_AS, false, ' ', null], // TODO
+            'Stmt_TryCatch->finally' => [null, false, ' ', null],
 
             // 'Expr_Exit->expr': Complicated due to optional ()
             // 'Stmt_Case->cond': Conversion from default to case

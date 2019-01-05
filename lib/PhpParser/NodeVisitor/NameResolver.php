@@ -94,6 +94,10 @@ class NameResolver extends NodeVisitorAbstract
                   || $node instanceof Expr\Closure
         ) {
             $this->resolveSignature($node);
+        } elseif ($node instanceof Stmt\Property) {
+            if (null !== $node->type) {
+                $node->type = $this->resolveType($node->type);
+            }
         } elseif ($node instanceof Stmt\Const_) {
             foreach ($node->consts as $const) {
                 $this->addNamespacedName($const);

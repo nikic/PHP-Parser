@@ -756,6 +756,7 @@ array(
             )
             3: Stmt_Property(
                 flags: MODIFIER_PUBLIC (1)
+                type: null
                 props: array(
                     0: Stmt_PropertyProperty(
                         name: VarLikeIdentifier(
@@ -975,6 +976,7 @@ array(
         stmts: array(
             0: Stmt_Property(
                 flags: MODIFIER_PUBLIC (1)
+                type: null
                 props: array(
                     0: Stmt_PropertyProperty(
                         name: VarLikeIdentifier(

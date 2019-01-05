@@ -15,6 +15,7 @@ array(
         stmts: array(
             0: Stmt_Property(
                 flags: MODIFIER_PUBLIC (1)
+                type: null
                 props: array(
                     0: Stmt_PropertyProperty(
                         name: VarLikeIdentifier(
@@ -43,6 +44,7 @@ array(
         stmts: array(
             0: Stmt_Property(
                 flags: MODIFIER_PUBLIC | MODIFIER_PROTECTED (3)
+                type: null
                 props: array(
                     0: Stmt_PropertyProperty(
                         name: VarLikeIdentifier(
@@ -99,6 +101,7 @@ array(
         stmts: array(
             0: Stmt_Property(
                 flags: MODIFIER_STATIC (8)
+                type: null
                 props: array(
                     0: Stmt_PropertyProperty(
                         name: VarLikeIdentifier(
@@ -207,6 +210,7 @@ array(
         stmts: array(
             0: Stmt_Property(
                 flags: MODIFIER_ABSTRACT (16)
+                type: null
                 props: array(
                     0: Stmt_PropertyProperty(
                         name: VarLikeIdentifier(
@@ -235,6 +239,7 @@ array(
         stmts: array(
             0: Stmt_Property(
                 flags: MODIFIER_FINAL (32)
+                type: null
                 props: array(
                     0: Stmt_PropertyProperty(
                         name: VarLikeIdentifier(

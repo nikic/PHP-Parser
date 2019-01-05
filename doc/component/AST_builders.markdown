@@ -48,7 +48,7 @@ $node = $factory->namespace('Name\Space')
             ->makePublic()
             ->makeAbstract() // ->makeFinal()
             ->setReturnType('bool') // ->makeReturnByRef()
-            ->addParam($factory->param('someParam')->setTypeHint('SomeClass'))
+            ->addParam($factory->param('someParam')->setType('SomeClass'))
             ->setDocComment('/**
                               * This method does something.
                               *

@@ -63,6 +63,7 @@ array(
             )
             1: Stmt_Property(
                 flags: MODIFIER_PUBLIC (1)
+                type: null
                 props: array(
                     0: Stmt_PropertyProperty(
                         name: VarLikeIdentifier(
@@ -84,6 +85,7 @@ array(
             )
             2: Stmt_Property(
                 flags: MODIFIER_PROTECTED (2)
+                type: null
                 props: array(
                     0: Stmt_PropertyProperty(
                         name: VarLikeIdentifier(
@@ -95,6 +97,7 @@ array(
             )
             3: Stmt_Property(
                 flags: MODIFIER_PRIVATE (4)
+                type: null
                 props: array(
                     0: Stmt_PropertyProperty(
                         name: VarLikeIdentifier(
