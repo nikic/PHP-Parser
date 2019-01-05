@@ -18,6 +18,7 @@ array(
         stmts: array(
             0: Stmt_Property(
                 flags: MODIFIER_PROTECTED (2)
+                type: null
                 props: array(
                     0: Stmt_PropertyProperty(
                         name: VarLikeIdentifier(

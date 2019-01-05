@@ -450,11 +450,11 @@ non_empty_parameter_list:
 ;
 
 parameter:
-      optional_param_type optional_ref optional_ellipsis plain_variable
+      optional_type optional_ref optional_ellipsis plain_variable
           { $$ = Node\Param[$4, null, $1, $2, $3]; $this->checkParam($$); }
-    | optional_param_type optional_ref optional_ellipsis plain_variable '=' expr
+    | optional_type optional_ref optional_ellipsis plain_variable '=' expr
           { $$ = Node\Param[$4, $6, $1, $2, $3]; $this->checkParam($$); }
-    | optional_param_type optional_ref optional_ellipsis error
+    | optional_type optional_ref optional_ellipsis error
           { $$ = Node\Param[Expr\Error[], null, $1, $2, $3]; }
 ;
 
@@ -469,7 +469,7 @@ type:
     | T_CALLABLE                                            { $$ = Node\Identifier['callable']; }
 ;
 
-optional_param_type:
+optional_type:
       /* empty */                                           { $$ = null; }
     | type_expr                                             { $$ = $1; }
 ;
@@ -535,8 +535,9 @@ class_statement_list:
 ;
 
 class_statement:
-      variable_modifiers property_declaration_list ';'
-          { $$ = Stmt\Property[$1, $2]; $this->checkProperty($$, #1); }
+      variable_modifiers optional_type property_declaration_list ';'
+          { $attrs = attributes();
+            $$ = Stmt\Property[$1, $3, $attrs, $2]; $this->checkProperty($$, #1); }
     | method_modifiers T_CONST class_const_list ';'
           { $$ = Stmt\ClassConst[$3, $1]; $this->checkClassConst($$, #1); }
     | method_modifiers T_FUNCTION optional_ref identifier_ex '(' parameter_list ')' optional_return_type method_body

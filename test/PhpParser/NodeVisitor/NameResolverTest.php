@@ -95,6 +95,13 @@ namespace Baz {
     C;
     E;
     K;
+
+    class ClassWithTypeProperties
+    {
+        public float $php = 7.4;
+        public ?Foo $person;
+        protected static ?bool $probability;
+    }
 }
 EOC;
         $expectedCode = <<<'EOC'
@@ -163,6 +170,12 @@ namespace Baz {
     \Y\T\B\C;
     \Y\T\D\E;
     \Z\T\K;
+    class ClassWithTypeProperties
+    {
+        public float $php = 7.4;
+        public ?\Baz\Foo $person;
+        protected static ?bool $probability;
+    }
 }
 EOC;
 

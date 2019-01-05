@@ -3,7 +3,8 @@ Version 4.1.2-dev
 
 ### Added
 
-* Added `kind` attribute to `Cast\Double_`, which allows to distinguish between `(float)`,
+* [PHP 7.4] Add support for typed properties through a new `type` subnode of `Stmt\Property`. (#567)
+* Add `kind` attribute to `Cast\Double_`, which allows to distinguish between `(float)`,
   `(double)` and `(real)`. The form of the cast will be preserved by the pretty printer. (#565)
 
 ### Fixed
