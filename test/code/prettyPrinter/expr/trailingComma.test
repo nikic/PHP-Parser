@@ -1,0 +1,10 @@
+Trailing comma
+-----
+<?php
+
+$items = [1, ];
+call_me(1, );
+-----
+!!php7
+$items = [1, ];
+call_me(1, );
