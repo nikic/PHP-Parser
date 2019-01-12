@@ -8,9 +8,8 @@ use PhpParser\Node\Expr\Print_;
 use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt;
-use PHPUnit\Framework\TestCase;
 
-class MethodTest extends TestCase
+class MethodTest extends \PHPUnit\Framework\TestCase
 {
     public function createMethodBuilder($name) {
         return new Method($name);

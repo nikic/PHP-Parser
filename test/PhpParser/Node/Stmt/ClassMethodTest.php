@@ -5,9 +5,8 @@ namespace PhpParser\Node\Stmt;
 use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Name;
 use PhpParser\Node\Param;
-use PHPUnit\Framework\TestCase;
 
-class ClassMethodTest extends TestCase
+class ClassMethodTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider provideModifiers
@@ -32,15 +31,14 @@ class ClassMethodTest extends TestCase
         $this->assertFalse($node->isMagic());
     }
 
-    public function provideModifiers() {
-        return [
-            ['public'],
-            ['protected'],
-            ['private'],
-            ['abstract'],
-            ['final'],
-            ['static'],
-        ];
+    public function provideModifiers(): \Iterator
+    {
+        yield ['public'];
+        yield ['protected'];
+        yield ['private'];
+        yield ['abstract'];
+        yield ['final'];
+        yield ['static'];
     }
 
     /**
@@ -59,12 +57,11 @@ class ClassMethodTest extends TestCase
         $this->assertTrue($node->isPublic(), 'Node should be implicitly public');
     }
 
-    public function implicitPublicModifiers() {
-        return [
-            ['abstract'],
-            ['final'],
-            ['static'],
-        ];
+    public function implicitPublicModifiers(): \Iterator
+    {
+        yield ['abstract'];
+        yield ['final'];
+        yield ['static'];
     }
 
     /**
@@ -77,24 +74,23 @@ class ClassMethodTest extends TestCase
         $this->assertTrue($node->isMagic(), 'Method should be magic');
     }
 
-    public function provideMagics() {
-        return [
-             ['__construct'],
-             ['__DESTRUCT'],
-             ['__caLL'],
-             ['__callstatic'],
-             ['__get'],
-             ['__set'],
-             ['__isset'],
-             ['__unset'],
-             ['__sleep'],
-             ['__wakeup'],
-             ['__tostring'],
-             ['__set_state'],
-             ['__clone'],
-             ['__invoke'],
-             ['__debuginfo'],
-        ];
+    public function provideMagics(): \Iterator
+    {
+        yield ['__construct'];
+        yield ['__DESTRUCT'];
+        yield ['__caLL'];
+        yield ['__callstatic'];
+        yield ['__get'];
+        yield ['__set'];
+        yield ['__isset'];
+        yield ['__unset'];
+        yield ['__sleep'];
+        yield ['__wakeup'];
+        yield ['__tostring'];
+        yield ['__set_state'];
+        yield ['__clone'];
+        yield ['__invoke'];
+        yield ['__debuginfo'];
     }
 
     public function testFunctionLike() {

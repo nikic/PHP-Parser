@@ -6,9 +6,8 @@ use PhpParser\Comment;
 use PhpParser\Node;
 use PhpParser\Node\Name;
 use PhpParser\Node\Stmt;
-use PHPUnit\Framework\TestCase;
 
-class ClassTest extends TestCase
+class ClassTest extends \PHPUnit\Framework\TestCase
 {
     protected function createClassBuilder($class) {
         return new Class_($class);

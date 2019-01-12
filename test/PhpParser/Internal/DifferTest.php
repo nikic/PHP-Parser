@@ -2,9 +2,7 @@
 
 namespace PhpParser\Internal;
 
-use PHPUnit\Framework\TestCase;
-
-class DifferTest extends TestCase
+class DifferTest extends \PHPUnit\Framework\TestCase
 {
     private function formatDiffString(array $diff) {
         $diffStr = '';
@@ -37,16 +35,15 @@ class DifferTest extends TestCase
         $this->assertSame($expectedDiffStr, $this->formatDiffString($diff));
     }
 
-    public function provideTestDiff() {
-        return [
-            ['abc', 'abc', 'abc'],
-            ['abc', 'abcdef', 'abc+d+e+f'],
-            ['abcdef', 'abc', 'abc-d-e-f'],
-            ['abcdef', 'abcxyzdef', 'abc+x+y+zdef'],
-            ['axyzb', 'ab', 'a-x-y-zb'],
-            ['abcdef', 'abxyef', 'ab-c-d+x+yef'],
-            ['abcdef', 'cdefab', '-a-bcdef+a+b'],
-        ];
+    public function provideTestDiff(): \Iterator
+    {
+        yield ['abc', 'abc', 'abc'];
+        yield ['abc', 'abcdef', 'abc+d+e+f'];
+        yield ['abcdef', 'abc', 'abc-d-e-f'];
+        yield ['abcdef', 'abcxyzdef', 'abc+x+y+zdef'];
+        yield ['axyzb', 'ab', 'a-x-y-zb'];
+        yield ['abcdef', 'abxyef', 'ab-c-d+x+yef'];
+        yield ['abcdef', 'cdefab', '-a-bcdef+a+b'];
     }
 
     /** @dataProvider provideTestDiffWithReplacements */
@@ -56,12 +53,11 @@ class DifferTest extends TestCase
         $this->assertSame($expectedDiffStr, $this->formatDiffString($diff));
     }
 
-    public function provideTestDiffWithReplacements() {
-        return [
-            ['abcde', 'axyze', 'a/bx/cy/dze'],
-            ['abcde', 'xbcdy', '/axbcd/ey'],
-            ['abcde', 'axye', 'a-b-c-d+x+ye'],
-            ['abcde', 'axyzue', 'a-b-c-d+x+y+z+ue'],
-        ];
+    public function provideTestDiffWithReplacements(): \Iterator
+    {
+        yield ['abcde', 'axyze', 'a/bx/cy/dze'];
+        yield ['abcde', 'xbcdy', '/axbcd/ey'];
+        yield ['abcde', 'axye', 'a-b-c-d+x+ye'];
+        yield ['abcde', 'axyzue', 'a-b-c-d+x+y+z+ue'];
     }
 }

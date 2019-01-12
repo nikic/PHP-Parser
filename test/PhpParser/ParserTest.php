@@ -6,9 +6,8 @@ use PhpParser\Node\Expr;
 use PhpParser\Node\Scalar;
 use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt;
-use PHPUnit\Framework\TestCase;
 
-abstract class ParserTest extends TestCase
+abstract class ParserTest extends \PHPUnit\Framework\TestCase
 {
     /** @returns Parser */
     abstract protected function getParser(Lexer $lexer);
@@ -124,54 +123,53 @@ EOC;
         }
     }
 
-    public function provideTestExtraAttributes() {
-        return [
-            ['0', ['kind' => Scalar\LNumber::KIND_DEC]],
-            ['9', ['kind' => Scalar\LNumber::KIND_DEC]],
-            ['07', ['kind' => Scalar\LNumber::KIND_OCT]],
-            ['0xf', ['kind' => Scalar\LNumber::KIND_HEX]],
-            ['0XF', ['kind' => Scalar\LNumber::KIND_HEX]],
-            ['0b1', ['kind' => Scalar\LNumber::KIND_BIN]],
-            ['0B1', ['kind' => Scalar\LNumber::KIND_BIN]],
-            ['[]', ['kind' => Expr\Array_::KIND_SHORT]],
-            ['array()', ['kind' => Expr\Array_::KIND_LONG]],
-            ["'foo'", ['kind' => String_::KIND_SINGLE_QUOTED]],
-            ["b'foo'", ['kind' => String_::KIND_SINGLE_QUOTED]],
-            ["B'foo'", ['kind' => String_::KIND_SINGLE_QUOTED]],
-            ['"foo"', ['kind' => String_::KIND_DOUBLE_QUOTED]],
-            ['b"foo"', ['kind' => String_::KIND_DOUBLE_QUOTED]],
-            ['B"foo"', ['kind' => String_::KIND_DOUBLE_QUOTED]],
-            ['"foo$bar"', ['kind' => String_::KIND_DOUBLE_QUOTED]],
-            ['b"foo$bar"', ['kind' => String_::KIND_DOUBLE_QUOTED]],
-            ['B"foo$bar"', ['kind' => String_::KIND_DOUBLE_QUOTED]],
-            ["<<<'STR'\nSTR\n", ['kind' => String_::KIND_NOWDOC, 'docLabel' => 'STR', 'docIndentation' => '']],
-            ["<<<STR\nSTR\n", ['kind' => String_::KIND_HEREDOC, 'docLabel' => 'STR', 'docIndentation' => '']],
-            ["<<<\"STR\"\nSTR\n", ['kind' => String_::KIND_HEREDOC, 'docLabel' => 'STR', 'docIndentation' => '']],
-            ["b<<<'STR'\nSTR\n", ['kind' => String_::KIND_NOWDOC, 'docLabel' => 'STR', 'docIndentation' => '']],
-            ["B<<<'STR'\nSTR\n", ['kind' => String_::KIND_NOWDOC, 'docLabel' => 'STR', 'docIndentation' => '']],
-            ["<<< \t 'STR'\nSTR\n", ['kind' => String_::KIND_NOWDOC, 'docLabel' => 'STR', 'docIndentation' => '']],
-            ["<<<'\xff'\n\xff\n", ['kind' => String_::KIND_NOWDOC, 'docLabel' => "\xff", 'docIndentation' => '']],
-            ["<<<\"STR\"\n\$a\nSTR\n", ['kind' => String_::KIND_HEREDOC, 'docLabel' => 'STR', 'docIndentation' => '']],
-            ["b<<<\"STR\"\n\$a\nSTR\n", ['kind' => String_::KIND_HEREDOC, 'docLabel' => 'STR', 'docIndentation' => '']],
-            ["B<<<\"STR\"\n\$a\nSTR\n", ['kind' => String_::KIND_HEREDOC, 'docLabel' => 'STR', 'docIndentation' => '']],
-            ["<<< \t \"STR\"\n\$a\nSTR\n", ['kind' => String_::KIND_HEREDOC, 'docLabel' => 'STR', 'docIndentation' => '']],
-            ["<<<STR\n    STR\n", ['kind' => String_::KIND_HEREDOC, 'docLabel' => 'STR', 'docIndentation' => '    ']],
-            ["<<<STR\n\tSTR\n", ['kind' => String_::KIND_HEREDOC, 'docLabel' => 'STR', 'docIndentation' => "\t"]],
-            ["<<<'STR'\n    Foo\n  STR\n", ['kind' => String_::KIND_NOWDOC, 'docLabel' => 'STR', 'docIndentation' => '  ']],
-            ["die", ['kind' => Expr\Exit_::KIND_DIE]],
-            ["die('done')", ['kind' => Expr\Exit_::KIND_DIE]],
-            ["exit", ['kind' => Expr\Exit_::KIND_EXIT]],
-            ["exit(1)", ['kind' => Expr\Exit_::KIND_EXIT]],
-            ["?>Foo", ['hasLeadingNewline' => false]],
-            ["?>\nFoo", ['hasLeadingNewline' => true]],
-            ["namespace Foo;", ['kind' => Stmt\Namespace_::KIND_SEMICOLON]],
-            ["namespace Foo {}", ['kind' => Stmt\Namespace_::KIND_BRACED]],
-            ["namespace {}", ['kind' => Stmt\Namespace_::KIND_BRACED]],
-            ["(float) 5.0", ['kind' => Expr\Cast\Double::KIND_FLOAT]],
-            ["(double) 5.0", ['kind' => Expr\Cast\Double::KIND_DOUBLE]],
-            ["(real) 5.0", ['kind' => Expr\Cast\Double::KIND_REAL]],
-            [" (  REAL )  5.0", ['kind' => Expr\Cast\Double::KIND_REAL]],
-        ];
+    public function provideTestExtraAttributes(): \Iterator
+    {
+        yield ['0', ['kind' => Scalar\LNumber::KIND_DEC]];
+        yield ['9', ['kind' => Scalar\LNumber::KIND_DEC]];
+        yield ['07', ['kind' => Scalar\LNumber::KIND_OCT]];
+        yield ['0xf', ['kind' => Scalar\LNumber::KIND_HEX]];
+        yield ['0XF', ['kind' => Scalar\LNumber::KIND_HEX]];
+        yield ['0b1', ['kind' => Scalar\LNumber::KIND_BIN]];
+        yield ['0B1', ['kind' => Scalar\LNumber::KIND_BIN]];
+        yield ['[]', ['kind' => Expr\Array_::KIND_SHORT]];
+        yield ['array()', ['kind' => Expr\Array_::KIND_LONG]];
+        yield ["'foo'", ['kind' => String_::KIND_SINGLE_QUOTED]];
+        yield ["b'foo'", ['kind' => String_::KIND_SINGLE_QUOTED]];
+        yield ["B'foo'", ['kind' => String_::KIND_SINGLE_QUOTED]];
+        yield ['"foo"', ['kind' => String_::KIND_DOUBLE_QUOTED]];
+        yield ['b"foo"', ['kind' => String_::KIND_DOUBLE_QUOTED]];
+        yield ['B"foo"', ['kind' => String_::KIND_DOUBLE_QUOTED]];
+        yield ['"foo$bar"', ['kind' => String_::KIND_DOUBLE_QUOTED]];
+        yield ['b"foo$bar"', ['kind' => String_::KIND_DOUBLE_QUOTED]];
+        yield ['B"foo$bar"', ['kind' => String_::KIND_DOUBLE_QUOTED]];
+        yield ["<<<'STR'\nSTR\n", ['kind' => String_::KIND_NOWDOC, 'docLabel' => 'STR', 'docIndentation' => '']];
+        yield ["<<<STR\nSTR\n", ['kind' => String_::KIND_HEREDOC, 'docLabel' => 'STR', 'docIndentation' => '']];
+        yield ["<<<\"STR\"\nSTR\n", ['kind' => String_::KIND_HEREDOC, 'docLabel' => 'STR', 'docIndentation' => '']];
+        yield ["b<<<'STR'\nSTR\n", ['kind' => String_::KIND_NOWDOC, 'docLabel' => 'STR', 'docIndentation' => '']];
+        yield ["B<<<'STR'\nSTR\n", ['kind' => String_::KIND_NOWDOC, 'docLabel' => 'STR', 'docIndentation' => '']];
+        yield ["<<< \t 'STR'\nSTR\n", ['kind' => String_::KIND_NOWDOC, 'docLabel' => 'STR', 'docIndentation' => '']];
+        yield ["<<<'\xff'\n\xff\n", ['kind' => String_::KIND_NOWDOC, 'docLabel' => "\xff", 'docIndentation' => '']];
+        yield ["<<<\"STR\"\n\$a\nSTR\n", ['kind' => String_::KIND_HEREDOC, 'docLabel' => 'STR', 'docIndentation' => '']];
+        yield ["b<<<\"STR\"\n\$a\nSTR\n", ['kind' => String_::KIND_HEREDOC, 'docLabel' => 'STR', 'docIndentation' => '']];
+        yield ["B<<<\"STR\"\n\$a\nSTR\n", ['kind' => String_::KIND_HEREDOC, 'docLabel' => 'STR', 'docIndentation' => '']];
+        yield ["<<< \t \"STR\"\n\$a\nSTR\n", ['kind' => String_::KIND_HEREDOC, 'docLabel' => 'STR', 'docIndentation' => '']];
+        yield ["<<<STR\n    STR\n", ['kind' => String_::KIND_HEREDOC, 'docLabel' => 'STR', 'docIndentation' => '    ']];
+        yield ["<<<STR\n\tSTR\n", ['kind' => String_::KIND_HEREDOC, 'docLabel' => 'STR', 'docIndentation' => "\t"]];
+        yield ["<<<'STR'\n    Foo\n  STR\n", ['kind' => String_::KIND_NOWDOC, 'docLabel' => 'STR', 'docIndentation' => '  ']];
+        yield ["die", ['kind' => Expr\Exit_::KIND_DIE]];
+        yield ["die('done')", ['kind' => Expr\Exit_::KIND_DIE]];
+        yield ["exit", ['kind' => Expr\Exit_::KIND_EXIT]];
+        yield ["exit(1)", ['kind' => Expr\Exit_::KIND_EXIT]];
+        yield ["?>Foo", ['hasLeadingNewline' => false]];
+        yield ["?>\nFoo", ['hasLeadingNewline' => true]];
+        yield ["namespace Foo;", ['kind' => Stmt\Namespace_::KIND_SEMICOLON]];
+        yield ["namespace Foo {}", ['kind' => Stmt\Namespace_::KIND_BRACED]];
+        yield ["namespace {}", ['kind' => Stmt\Namespace_::KIND_BRACED]];
+        yield ["(float) 5.0", ['kind' => Expr\Cast\Double::KIND_FLOAT]];
+        yield ["(double) 5.0", ['kind' => Expr\Cast\Double::KIND_DOUBLE]];
+        yield ["(real) 5.0", ['kind' => Expr\Cast\Double::KIND_REAL]];
+        yield [" (  REAL )  5.0", ['kind' => Expr\Cast\Double::KIND_REAL]];
     }
 }
 

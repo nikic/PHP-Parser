@@ -2,8 +2,6 @@
 
 namespace PhpParser;
 
-use PHPUnit\Framework\TestCase;
-
 class DummyNode extends NodeAbstract
 {
     public $subNode1;
@@ -25,9 +23,9 @@ class DummyNode extends NodeAbstract
     }
 }
 
-class NodeAbstractTest extends TestCase
+class NodeAbstractTest extends \PHPUnit\Framework\TestCase
 {
-    public function provideNodes() {
+    public function provideNodes(): \Iterator {
         $attributes = [
             'startLine' => 10,
             'endLine' => 11,
@@ -44,9 +42,7 @@ class NodeAbstractTest extends TestCase
         $node = new DummyNode('value1', 'value2', $attributes);
         $node->notSubNode = 'value3';
 
-        return [
-            [$attributes, $node],
-        ];
+        yield [$attributes, $node];
     }
 
     /**

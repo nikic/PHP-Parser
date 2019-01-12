@@ -4,9 +4,8 @@ namespace PhpParser;
 
 use PhpParser\Node\Expr;
 use PhpParser\Node\Scalar;
-use PHPUnit\Framework\TestCase;
 
-class ConstExprEvaluatorTest extends TestCase
+class ConstExprEvaluatorTest extends \PHPUnit\Framework\TestCase
 {
     /** @dataProvider provideTestEvaluate */
     public function testEvaluate($exprString, $expected) {
@@ -16,61 +15,60 @@ class ConstExprEvaluatorTest extends TestCase
         $this->assertSame($expected, $evaluator->evaluateDirectly($expr));
     }
 
-    public function provideTestEvaluate() {
-        return [
-            ['1', 1],
-            ['1.0', 1.0],
-            ['"foo"', "foo"],
-            ['[0, 1]', [0, 1]],
-            ['["foo" => "bar"]', ["foo" => "bar"]],
-            ['NULL', null],
-            ['False', false],
-            ['true', true],
-            ['+1', 1],
-            ['-1', -1],
-            ['~0', -1],
-            ['!true', false],
-            ['[0][0]', 0],
-            ['"a"[0]', "a"],
-            ['true ? 1 : (1/0)', 1],
-            ['false ? (1/0) : 1', 1],
-            ['42 ?: (1/0)', 42],
-            ['false ?: 42', 42],
-            ['false ?? 42', false],
-            ['null ?? 42', 42],
-            ['[0][0] ?? 42', 0],
-            ['[][0] ?? 42', 42],
-            ['0b11 & 0b10', 0b10],
-            ['0b11 | 0b10', 0b11],
-            ['0b11 ^ 0b10', 0b01],
-            ['1 << 2', 4],
-            ['4 >> 2', 1],
-            ['"a" . "b"', "ab"],
-            ['4 + 2', 6],
-            ['4 - 2', 2],
-            ['4 * 2', 8],
-            ['4 / 2', 2],
-            ['4 % 2', 0],
-            ['4 ** 2', 16],
-            ['1 == 1.0', true],
-            ['1 != 1.0', false],
-            ['1 < 2.0', true],
-            ['1 <= 2.0', true],
-            ['1 > 2.0', false],
-            ['1 >= 2.0', false],
-            ['1 <=> 2.0', -1],
-            ['1 === 1.0', false],
-            ['1 !== 1.0', true],
-            ['true && true', true],
-            ['true and true', true],
-            ['false && (1/0)', false],
-            ['false and (1/0)', false],
-            ['false || false', false],
-            ['false or false', false],
-            ['true || (1/0)', true],
-            ['true or (1/0)', true],
-            ['true xor false', true],
-        ];
+    public function provideTestEvaluate(): \Iterator
+    {
+        yield ['1', 1];
+        yield ['1.0', 1.0];
+        yield ['"foo"', "foo"];
+        yield ['[0, 1]', [0, 1]];
+        yield ['["foo" => "bar"]', ["foo" => "bar"]];
+        yield ['NULL', null];
+        yield ['False', false];
+        yield ['true', true];
+        yield ['+1', 1];
+        yield ['-1', -1];
+        yield ['~0', -1];
+        yield ['!true', false];
+        yield ['[0][0]', 0];
+        yield ['"a"[0]', "a"];
+        yield ['true ? 1 : (1/0)', 1];
+        yield ['false ? (1/0) : 1', 1];
+        yield ['42 ?: (1/0)', 42];
+        yield ['false ?: 42', 42];
+        yield ['false ?? 42', false];
+        yield ['null ?? 42', 42];
+        yield ['[0][0] ?? 42', 0];
+        yield ['[][0] ?? 42', 42];
+        yield ['0b11 & 0b10', 0b10];
+        yield ['0b11 | 0b10', 0b11];
+        yield ['0b11 ^ 0b10', 0b01];
+        yield ['1 << 2', 4];
+        yield ['4 >> 2', 1];
+        yield ['"a" . "b"', "ab"];
+        yield ['4 + 2', 6];
+        yield ['4 - 2', 2];
+        yield ['4 * 2', 8];
+        yield ['4 / 2', 2];
+        yield ['4 % 2', 0];
+        yield ['4 ** 2', 16];
+        yield ['1 == 1.0', true];
+        yield ['1 != 1.0', false];
+        yield ['1 < 2.0', true];
+        yield ['1 <= 2.0', true];
+        yield ['1 > 2.0', false];
+        yield ['1 >= 2.0', false];
+        yield ['1 <=> 2.0', -1];
+        yield ['1 === 1.0', false];
+        yield ['1 !== 1.0', true];
+        yield ['true && true', true];
+        yield ['true and true', true];
+        yield ['false && (1/0)', false];
+        yield ['false and (1/0)', false];
+        yield ['false || false', false];
+        yield ['false or false', false];
+        yield ['true || (1/0)', true];
+        yield ['true or (1/0)', true];
+        yield ['true xor false', true];
     }
 
     public function testEvaluateFails() {
@@ -114,18 +112,17 @@ class ConstExprEvaluatorTest extends TestCase
         }
     }
 
-    public function provideTestEvaluateSilently() {
-        return [
-            [
-                new Expr\BinaryOp\Mod(new Scalar\LNumber(42), new Scalar\LNumber(0)),
-                \Error::class,
-                'Modulo by zero'
-            ],
-            [
-                new Expr\BinaryOp\Div(new Scalar\LNumber(42), new Scalar\LNumber(0)),
-                \ErrorException::class,
-                'Division by zero'
-            ],
+    public function provideTestEvaluateSilently(): \Iterator
+    {
+        yield [
+            new Expr\BinaryOp\Mod(new Scalar\LNumber(42), new Scalar\LNumber(0)),
+            \Error::class,
+            'Modulo by zero'
+        ];
+        yield [
+            new Expr\BinaryOp\Div(new Scalar\LNumber(42), new Scalar\LNumber(0)),
+            \ErrorException::class,
+            'Division by zero'
         ];
     }
 }

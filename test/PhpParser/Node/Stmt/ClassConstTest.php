@@ -2,9 +2,7 @@
 
 namespace PhpParser\Node\Stmt;
 
-use PHPUnit\Framework\TestCase;
-
-class ClassConstTest extends TestCase
+class ClassConstTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider provideModifiers
@@ -26,11 +24,10 @@ class ClassConstTest extends TestCase
         $this->assertFalse($node->isPrivate());
     }
 
-    public function provideModifiers() {
-        return [
-            ['public'],
-            ['protected'],
-            ['private'],
-        ];
+    public function provideModifiers(): \Iterator
+    {
+        yield ['public'];
+        yield ['protected'];
+        yield ['private'];
     }
 }

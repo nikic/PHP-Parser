@@ -2,9 +2,7 @@
 
 namespace PhpParser\Node;
 
-use PHPUnit\Framework\TestCase;
-
-class NameTest extends TestCase
+class NameTest extends \PHPUnit\Framework\TestCase
 {
     public function testConstruct() {
         $name = new Name(['foo', 'bar']);
@@ -147,13 +145,12 @@ class NameTest extends TestCase
         $this->assertSame($expected, $name->isSpecialClassName());
     }
 
-    public function provideTestIsSpecialClassName() {
-        return [
-            ['self', true],
-            ['PARENT', true],
-            ['Static', true],
-            ['self\not', false],
-            ['not\self', false],
-        ];
+    public function provideTestIsSpecialClassName(): \Iterator
+    {
+        yield ['self', true];
+        yield ['PARENT', true];
+        yield ['Static', true];
+        yield ['self\not', false];
+        yield ['not\self', false];
     }
 }

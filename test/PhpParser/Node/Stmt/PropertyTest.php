@@ -2,9 +2,7 @@
 
 namespace PhpParser\Node\Stmt;
 
-use PHPUnit\Framework\TestCase;
-
-class PropertyTest extends TestCase
+class PropertyTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider provideModifiers
@@ -35,12 +33,11 @@ class PropertyTest extends TestCase
         $this->assertTrue($node->isStatic());
     }
 
-    public function provideModifiers() {
-        return [
-            ['public'],
-            ['protected'],
-            ['private'],
-            ['static'],
-        ];
+    public function provideModifiers(): \Iterator
+    {
+        yield ['public'];
+        yield ['protected'];
+        yield ['private'];
+        yield ['static'];
     }
 }

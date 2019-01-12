@@ -2,9 +2,7 @@
 
 namespace PhpParser;
 
-use PHPUnit\Framework\TestCase;
-
-class CommentTest extends TestCase
+class CommentTest extends \PHPUnit\Framework\TestCase
 {
     public function testGetSet() {
         $comment = new Comment('/* Some comment */', 1, 10, 2);
@@ -24,53 +22,52 @@ class CommentTest extends TestCase
         $this->assertSame($reformattedText, $comment->getReformattedText());
     }
 
-    public function provideTestReformatting() {
-        return [
-            ['// Some text' . "\n", '// Some text'],
-            ['/* Some text */', '/* Some text */'],
-            [
-                '/**
+    public function provideTestReformatting(): \Iterator
+    {
+        yield ['// Some text' . "\n", '// Some text'];
+        yield ['/* Some text */', '/* Some text */'];
+        yield [
+            '/**
      * Some text.
      * Some more text.
      */',
-                '/**
+            '/**
  * Some text.
  * Some more text.
  */'
-            ],
-            [
-                '/*
+        ];
+        yield [
+            '/*
         Some text.
         Some more text.
     */',
-                '/*
+            '/*
     Some text.
     Some more text.
 */'
-            ],
-            [
-                '/* Some text.
+        ];
+        yield [
+            '/* Some text.
        More text.
        Even more text. */',
-                '/* Some text.
+            '/* Some text.
    More text.
    Even more text. */'
-            ],
-            [
-                '/* Some text.
+        ];
+        yield [
+            '/* Some text.
        More text.
          Indented text. */',
-                '/* Some text.
+            '/* Some text.
    More text.
      Indented text. */',
-            ],
-            // invalid comment -> no reformatting
-            [
-                'hallo
+        ];
+        // invalid comment -> no reformatting
+        yield [
+            'hallo
     world',
-                'hallo
+            'hallo
     world',
-            ],
         ];
     }
 }

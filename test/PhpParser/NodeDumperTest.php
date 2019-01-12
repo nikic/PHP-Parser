@@ -2,9 +2,7 @@
 
 namespace PhpParser;
 
-use PHPUnit\Framework\TestCase;
-
-class NodeDumperTest extends TestCase
+class NodeDumperTest extends \PHPUnit\Framework\TestCase
 {
     private function canonicalize($string) {
         return str_replace("\r\n", "\n", $string);
@@ -19,34 +17,34 @@ class NodeDumperTest extends TestCase
         $this->assertSame($this->canonicalize($dump), $this->canonicalize($dumper->dump($node)));
     }
 
-    public function provideTestDump() {
-        return [
-            [
-                [],
+    public function provideTestDump(): \Iterator
+    {
+        yield [
+            [],
 'array(
 )'
-            ],
-            [
-                ['Foo', 'Bar', 'Key' => 'FooBar'],
+        ];
+        yield [
+            ['Foo', 'Bar', 'Key' => 'FooBar'],
 'array(
     0: Foo
     1: Bar
     Key: FooBar
 )'
-            ],
-            [
-                new Node\Name(['Hallo', 'World']),
+        ];
+        yield [
+            new Node\Name(['Hallo', 'World']),
 'Name(
     parts: array(
         0: Hallo
         1: World
     )
 )'
-            ],
-            [
-                new Node\Expr\Array_([
-                    new Node\Expr\ArrayItem(new Node\Scalar\String_('Foo'))
-                ]),
+        ];
+        yield [
+            new Node\Expr\Array_([
+                new Node\Expr\ArrayItem(new Node\Scalar\String_('Foo'))
+            ]),
 'Expr_Array(
     items: array(
         0: Expr_ArrayItem(
@@ -58,7 +56,6 @@ class NodeDumperTest extends TestCase
         )
     )
 )'
-            ],
         ];
     }
 

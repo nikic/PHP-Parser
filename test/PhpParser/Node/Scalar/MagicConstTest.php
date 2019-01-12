@@ -2,9 +2,7 @@
 
 namespace PhpParser\Node\Scalar;
 
-use PHPUnit\Framework\TestCase;
-
-class MagicConstTest extends TestCase
+class MagicConstTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider provideTestGetName
@@ -13,16 +11,15 @@ class MagicConstTest extends TestCase
         $this->assertSame($name, $magicConst->getName());
     }
 
-    public function provideTestGetName() {
-        return [
-            [new MagicConst\Class_, '__CLASS__'],
-            [new MagicConst\Dir, '__DIR__'],
-            [new MagicConst\File, '__FILE__'],
-            [new MagicConst\Function_, '__FUNCTION__'],
-            [new MagicConst\Line, '__LINE__'],
-            [new MagicConst\Method, '__METHOD__'],
-            [new MagicConst\Namespace_, '__NAMESPACE__'],
-            [new MagicConst\Trait_, '__TRAIT__'],
-        ];
+    public function provideTestGetName(): \Iterator
+    {
+        yield [new MagicConst\Class_, '__CLASS__'];
+        yield [new MagicConst\Dir, '__DIR__'];
+        yield [new MagicConst\File, '__FILE__'];
+        yield [new MagicConst\Function_, '__FUNCTION__'];
+        yield [new MagicConst\Line, '__LINE__'];
+        yield [new MagicConst\Method, '__METHOD__'];
+        yield [new MagicConst\Namespace_, '__NAMESPACE__'];
+        yield [new MagicConst\Trait_, '__TRAIT__'];
     }
 }
