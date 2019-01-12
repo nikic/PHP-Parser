@@ -17,9 +17,7 @@ class Property implements PhpParser\Builder
     protected $default = null;
     protected $attributes = [];
 
-    /**
-     * @var Identifier|Name|NullableType
-     */
+    /** @var null|Identifier|Name|NullableType */
     protected $type;
 
     /**
