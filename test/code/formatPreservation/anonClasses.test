@@ -21,7 +21,7 @@ new class
 -----
 // Ignore name assigned to anon class
 $new = $stmts[0]->expr;
-$new->class->name = new Node\Name('Anon1');
+$new->class->name = new Node\Identifier('Anon1');
 -----
 <?php
 new class
