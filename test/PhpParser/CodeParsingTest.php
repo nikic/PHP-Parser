@@ -5,8 +5,6 @@ namespace PhpParser;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Stmt;
 
-require_once __DIR__ . '/CodeTestAbstract.php';
-
 class CodeParsingTest extends CodeTestAbstract
 {
     /**

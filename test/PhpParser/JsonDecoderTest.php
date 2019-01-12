@@ -31,12 +31,13 @@ PHP;
         $jsonDecoder->decode($json);
     }
 
-    public function provideTestDecodingError(): \Iterator
-    {
-        yield ['???', 'JSON decoding error: Syntax error'];
-        yield ['{"nodeType":123}', 'Node type must be a string'];
-        yield ['{"nodeType":"Name","attributes":123}', 'Attributes must be an array'];
-        yield ['{"nodeType":"Comment"}', 'Comment must have text'];
-        yield ['{"nodeType":"xxx"}', 'Unknown node type "xxx"'];
+    public function provideTestDecodingError() {
+        return [
+            ['???', 'JSON decoding error: Syntax error'],
+            ['{"nodeType":123}', 'Node type must be a string'],
+            ['{"nodeType":"Name","attributes":123}', 'Attributes must be an array'],
+            ['{"nodeType":"Comment"}', 'Comment must have text'],
+            ['{"nodeType":"xxx"}', 'Unknown node type "xxx"'],
+        ];
     }
 }

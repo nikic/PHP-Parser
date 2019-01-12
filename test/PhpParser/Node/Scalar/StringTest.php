@@ -24,18 +24,19 @@ class StringTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function provideTestParseEscapeSequences(): \Iterator
-    {
-        yield ['"',              '\\"',              '"'];
-        yield ['\\"',            '\\"',              '`'];
-        yield ['\\"\\`',         '\\"\\`',           null];
-        yield ["\\\$\n\r\t\f\v", '\\\\\$\n\r\t\f\v', null];
-        yield ["\x1B",           '\e',               null];
-        yield [chr(255),         '\xFF',             null];
-        yield [chr(255),         '\377',             null];
-        yield [chr(0),           '\400',             null];
-        yield ["\0",             '\0',               null];
-        yield ['\xFF',           '\\\\xFF',          null];
+    public function provideTestParseEscapeSequences() {
+        return [
+            ['"',              '\\"',              '"'],
+            ['\\"',            '\\"',              '`'],
+            ['\\"\\`',         '\\"\\`',           null],
+            ["\\\$\n\r\t\f\v", '\\\\\$\n\r\t\f\v', null],
+            ["\x1B",           '\e',               null],
+            [chr(255),         '\xFF',             null],
+            [chr(255),         '\377',             null],
+            [chr(0),           '\400',             null],
+            ["\0",             '\0',               null],
+            ['\xFF',           '\\\\xFF',          null],
+        ];
     }
 
     public function provideTestParse() {

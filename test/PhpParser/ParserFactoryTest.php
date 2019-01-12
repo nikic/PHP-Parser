@@ -12,23 +12,25 @@ class ParserFactoryTest extends \PHPUnit\Framework\TestCase
         $this->assertInstanceOf($expected, (new ParserFactory)->create($kind, $lexer));
     }
 
-    public function provideTestCreate(): \Iterator {
+    public function provideTestCreate() {
         $lexer = new Lexer();
-        yield [
-            ParserFactory::PREFER_PHP7, $lexer,
-            Parser\Multiple::class
-        ];
-        yield [
-            ParserFactory::PREFER_PHP5, null,
-            Parser\Multiple::class
-        ];
-        yield [
-            ParserFactory::ONLY_PHP7, null,
-            Parser\Php7::class
-        ];
-        yield [
-            ParserFactory::ONLY_PHP5, $lexer,
-            Parser\Php5::class
+        return [
+            [
+                ParserFactory::PREFER_PHP7, $lexer,
+                Parser\Multiple::class
+            ],
+            [
+                ParserFactory::PREFER_PHP5, null,
+                Parser\Multiple::class
+            ],
+            [
+                ParserFactory::ONLY_PHP7, null,
+                Parser\Php7::class
+            ],
+            [
+                ParserFactory::ONLY_PHP5, $lexer,
+                Parser\Php5::class
+            ]
         ];
     }
 }

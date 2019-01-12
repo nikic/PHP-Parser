@@ -22,52 +22,53 @@ class CommentTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($reformattedText, $comment->getReformattedText());
     }
 
-    public function provideTestReformatting(): \Iterator
-    {
-        yield ['// Some text' . "\n", '// Some text'];
-        yield ['/* Some text */', '/* Some text */'];
-        yield [
-            '/**
+    public function provideTestReformatting() {
+        return [
+            ['// Some text' . "\n", '// Some text'],
+            ['/* Some text */', '/* Some text */'],
+            [
+                '/**
      * Some text.
      * Some more text.
      */',
-            '/**
+                '/**
  * Some text.
  * Some more text.
  */'
-        ];
-        yield [
-            '/*
+            ],
+            [
+                '/*
         Some text.
         Some more text.
     */',
-            '/*
+                '/*
     Some text.
     Some more text.
 */'
-        ];
-        yield [
-            '/* Some text.
+            ],
+            [
+                '/* Some text.
        More text.
        Even more text. */',
-            '/* Some text.
+                '/* Some text.
    More text.
    Even more text. */'
-        ];
-        yield [
-            '/* Some text.
+            ],
+            [
+                '/* Some text.
        More text.
          Indented text. */',
-            '/* Some text.
+                '/* Some text.
    More text.
      Indented text. */',
-        ];
-        // invalid comment -> no reformatting
-        yield [
-            'hallo
+            ],
+            // invalid comment -> no reformatting
+            [
+                'hallo
     world',
-            'hallo
+                'hallo
     world',
+            ],
         ];
     }
 }

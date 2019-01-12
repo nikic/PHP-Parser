@@ -32,18 +32,19 @@ class LexerTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    public function provideTestError(): \Iterator
-    {
-        yield ["<?php /*", ["Unterminated comment from 1:7 to 1:9"]];
-        yield ["<?php \1", ["Unexpected character \"\1\" (ASCII 1) from 1:7 to 1:7"]];
-        yield ["<?php \0", ["Unexpected null byte from 1:7 to 1:7"]];
-        // Error with potentially emulated token
-        yield ["<?php ?? \0", ["Unexpected null byte from 1:10 to 1:10"]];
-        yield ["<?php\n\0\1 foo /* bar", [
-            "Unexpected null byte from 2:1 to 2:1",
-            "Unexpected character \"\1\" (ASCII 1) from 2:2 to 2:2",
-            "Unterminated comment from 2:8 to 2:14"
-        ]];
+    public function provideTestError() {
+        return [
+            ["<?php /*", ["Unterminated comment from 1:7 to 1:9"]],
+            ["<?php \1", ["Unexpected character \"\1\" (ASCII 1) from 1:7 to 1:7"]],
+            ["<?php \0", ["Unexpected null byte from 1:7 to 1:7"]],
+            // Error with potentially emulated token
+            ["<?php ?? \0", ["Unexpected null byte from 1:10 to 1:10"]],
+            ["<?php\n\0\1 foo /* bar", [
+                "Unexpected null byte from 2:1 to 2:1",
+                "Unexpected character \"\1\" (ASCII 1) from 2:2 to 2:2",
+                "Unterminated comment from 2:8 to 2:14"
+            ]],
+        ];
     }
 
     /**
@@ -62,150 +63,151 @@ class LexerTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    public function provideTestLex(): \Iterator
-    {
-        // tests conversion of closing PHP tag and drop of whitespace and opening tags
-        yield [
-            '<?php tokens ?>plaintext',
-            [],
+    public function provideTestLex() {
+        return [
+            // tests conversion of closing PHP tag and drop of whitespace and opening tags
             [
+                '<?php tokens ?>plaintext',
+                [],
                 [
-                    Tokens::T_STRING, 'tokens',
-                    ['startLine' => 1], ['endLine' => 1]
-                ],
-                [
-                    ord(';'), '?>',
-                    ['startLine' => 1], ['endLine' => 1]
-                ],
-                [
-                    Tokens::T_INLINE_HTML, 'plaintext',
-                    ['startLine' => 1, 'hasLeadingNewline' => false],
-                    ['endLine' => 1]
-                ],
-            ]
-        ];
-        // tests line numbers
-        yield [
-            '<?php' . "\n" . '$ token /** doc' . "\n" . 'comment */ $',
-            [],
-            [
-                [
-                    ord('$'), '$',
-                    ['startLine' => 2], ['endLine' => 2]
-                ],
-                [
-                    Tokens::T_STRING, 'token',
-                    ['startLine' => 2], ['endLine' => 2]
-                ],
-                [
-                    ord('$'), '$',
                     [
-                        'startLine' => 3,
-                        'comments' => [
-                            new Comment\Doc('/** doc' . "\n" . 'comment */', 2, 14, 5),
-                        ]
+                        Tokens::T_STRING, 'tokens',
+                        ['startLine' => 1], ['endLine' => 1]
                     ],
-                    ['endLine' => 3]
-                ],
-            ]
-        ];
-        // tests comment extraction
-        yield [
-            '<?php /* comment */ // comment' . "\n" . '/** docComment 1 *//** docComment 2 */ token',
-            [],
-            [
-                [
-                    Tokens::T_STRING, 'token',
                     [
-                        'startLine' => 2,
-                        'comments' => [
-                            new Comment('/* comment */', 1, 6, 1),
-                            new Comment('// comment' . "\n", 1, 20, 3),
-                            new Comment\Doc('/** docComment 1 */', 2, 31, 4),
-                            new Comment\Doc('/** docComment 2 */', 2, 50, 5),
-                        ],
+                        ord(';'), '?>',
+                        ['startLine' => 1], ['endLine' => 1]
                     ],
-                    ['endLine' => 2]
-                ],
-            ]
-        ];
-        // tests differing start and end line
-        yield [
-            '<?php "foo' . "\n" . 'bar"',
-            [],
-            [
-                [
-                    Tokens::T_CONSTANT_ENCAPSED_STRING, '"foo' . "\n" . 'bar"',
-                    ['startLine' => 1], ['endLine' => 2]
-                ],
-            ]
-        ];
-        // tests exact file offsets
-        yield [
-            '<?php "a";' . "\n" . '// foo' . "\n" . '"b";',
-            ['usedAttributes' => ['startFilePos', 'endFilePos']],
-            [
-                [
-                    Tokens::T_CONSTANT_ENCAPSED_STRING, '"a"',
-                    ['startFilePos' => 6], ['endFilePos' => 8]
-                ],
-                [
-                    ord(';'), ';',
-                    ['startFilePos' => 9], ['endFilePos' => 9]
-                ],
-                [
-                    Tokens::T_CONSTANT_ENCAPSED_STRING, '"b"',
-                    ['startFilePos' => 18], ['endFilePos' => 20]
-                ],
-                [
-                    ord(';'), ';',
-                    ['startFilePos' => 21], ['endFilePos' => 21]
-                ],
-            ]
-        ];
-        // tests token offsets
-        yield [
-            '<?php "a";' . "\n" . '// foo' . "\n" . '"b";',
-            ['usedAttributes' => ['startTokenPos', 'endTokenPos']],
-            [
-                [
-                    Tokens::T_CONSTANT_ENCAPSED_STRING, '"a"',
-                    ['startTokenPos' => 1], ['endTokenPos' => 1]
-                ],
-                [
-                    ord(';'), ';',
-                    ['startTokenPos' => 2], ['endTokenPos' => 2]
-                ],
-                [
-                    Tokens::T_CONSTANT_ENCAPSED_STRING, '"b"',
-                    ['startTokenPos' => 5], ['endTokenPos' => 5]
-                ],
-                [
-                    ord(';'), ';',
-                    ['startTokenPos' => 6], ['endTokenPos' => 6]
-                ],
-            ]
-        ];
-        // tests all attributes being disabled
-        yield [
-            '<?php /* foo */ $bar;',
-            ['usedAttributes' => []],
-            [
-                [
-                    Tokens::T_VARIABLE, '$bar',
-                    [], []
-                ],
-                [
-                    ord(';'), ';',
-                    [], []
+                    [
+                        Tokens::T_INLINE_HTML, 'plaintext',
+                        ['startLine' => 1, 'hasLeadingNewline' => false],
+                        ['endLine' => 1]
+                    ],
                 ]
-            ]
-        ];
-        // tests no tokens
-        yield [
-            '',
-            [],
-            []
+            ],
+            // tests line numbers
+            [
+                '<?php' . "\n" . '$ token /** doc' . "\n" . 'comment */ $',
+                [],
+                [
+                    [
+                        ord('$'), '$',
+                        ['startLine' => 2], ['endLine' => 2]
+                    ],
+                    [
+                        Tokens::T_STRING, 'token',
+                        ['startLine' => 2], ['endLine' => 2]
+                    ],
+                    [
+                        ord('$'), '$',
+                        [
+                            'startLine' => 3,
+                            'comments' => [
+                                new Comment\Doc('/** doc' . "\n" . 'comment */', 2, 14, 5),
+                            ]
+                        ],
+                        ['endLine' => 3]
+                    ],
+                ]
+            ],
+            // tests comment extraction
+            [
+                '<?php /* comment */ // comment' . "\n" . '/** docComment 1 *//** docComment 2 */ token',
+                [],
+                [
+                    [
+                        Tokens::T_STRING, 'token',
+                        [
+                            'startLine' => 2,
+                            'comments' => [
+                                new Comment('/* comment */', 1, 6, 1),
+                                new Comment('// comment' . "\n", 1, 20, 3),
+                                new Comment\Doc('/** docComment 1 */', 2, 31, 4),
+                                new Comment\Doc('/** docComment 2 */', 2, 50, 5),
+                            ],
+                        ],
+                        ['endLine' => 2]
+                    ],
+                ]
+            ],
+            // tests differing start and end line
+            [
+                '<?php "foo' . "\n" . 'bar"',
+                [],
+                [
+                    [
+                        Tokens::T_CONSTANT_ENCAPSED_STRING, '"foo' . "\n" . 'bar"',
+                        ['startLine' => 1], ['endLine' => 2]
+                    ],
+                ]
+            ],
+            // tests exact file offsets
+            [
+                '<?php "a";' . "\n" . '// foo' . "\n" . '"b";',
+                ['usedAttributes' => ['startFilePos', 'endFilePos']],
+                [
+                    [
+                        Tokens::T_CONSTANT_ENCAPSED_STRING, '"a"',
+                        ['startFilePos' => 6], ['endFilePos' => 8]
+                    ],
+                    [
+                        ord(';'), ';',
+                        ['startFilePos' => 9], ['endFilePos' => 9]
+                    ],
+                    [
+                        Tokens::T_CONSTANT_ENCAPSED_STRING, '"b"',
+                        ['startFilePos' => 18], ['endFilePos' => 20]
+                    ],
+                    [
+                        ord(';'), ';',
+                        ['startFilePos' => 21], ['endFilePos' => 21]
+                    ],
+                ]
+            ],
+            // tests token offsets
+            [
+                '<?php "a";' . "\n" . '// foo' . "\n" . '"b";',
+                ['usedAttributes' => ['startTokenPos', 'endTokenPos']],
+                [
+                    [
+                        Tokens::T_CONSTANT_ENCAPSED_STRING, '"a"',
+                        ['startTokenPos' => 1], ['endTokenPos' => 1]
+                    ],
+                    [
+                        ord(';'), ';',
+                        ['startTokenPos' => 2], ['endTokenPos' => 2]
+                    ],
+                    [
+                        Tokens::T_CONSTANT_ENCAPSED_STRING, '"b"',
+                        ['startTokenPos' => 5], ['endTokenPos' => 5]
+                    ],
+                    [
+                        ord(';'), ';',
+                        ['startTokenPos' => 6], ['endTokenPos' => 6]
+                    ],
+                ]
+            ],
+            // tests all attributes being disabled
+            [
+                '<?php /* foo */ $bar;',
+                ['usedAttributes' => []],
+                [
+                    [
+                        Tokens::T_VARIABLE, '$bar',
+                        [], []
+                    ],
+                    [
+                        ord(';'), ';',
+                        [], []
+                    ]
+                ]
+            ],
+            // tests no tokens
+            [
+                '',
+                [],
+                []
+            ],
         ];
     }
 
@@ -222,11 +224,14 @@ class LexerTest extends \PHPUnit\Framework\TestCase
         $this->assertSame(0, $lexer->getNextToken());
     }
 
-    public function provideTestHaltCompiler(): \Iterator
-    {
-        yield ['<?php ... __halt_compiler();Remaining Text', 'Remaining Text'];
-        yield ['<?php ... __halt_compiler ( ) ;Remaining Text', 'Remaining Text'];
-        yield ['<?php ... __halt_compiler() ?>Remaining Text', 'Remaining Text'];
+    public function provideTestHaltCompiler() {
+        return [
+            ['<?php ... __halt_compiler();Remaining Text', 'Remaining Text'],
+            ['<?php ... __halt_compiler ( ) ;Remaining Text', 'Remaining Text'],
+            ['<?php ... __halt_compiler() ?>Remaining Text', 'Remaining Text'],
+            //array('<?php ... __halt_compiler();' . "\0", "\0"),
+            //array('<?php ... __halt_compiler /* */ ( ) ;Remaining Text', 'Remaining Text'),
+        ];
     }
 
     public function testHandleHaltCompilerError() {

@@ -24,10 +24,11 @@ class ClassConstTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($node->isPrivate());
     }
 
-    public function provideModifiers(): \Iterator
-    {
-        yield ['public'];
-        yield ['protected'];
-        yield ['private'];
+    public function provideModifiers() {
+        return [
+            ['public'],
+            ['protected'],
+            ['private'],
+        ];
     }
 }

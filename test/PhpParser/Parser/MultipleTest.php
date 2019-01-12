@@ -9,8 +9,6 @@ use PhpParser\Node\Scalar\LNumber;
 use PhpParser\Node\Stmt;
 use PhpParser\ParserTest;
 
-require_once __DIR__ . '/../ParserTest.php';
-
 class MultipleTest extends ParserTest
 {
     // This provider is for the generic parser tests, just pick an arbitrary order here
@@ -33,47 +31,48 @@ class MultipleTest extends ParserTest
         $this->assertEquals($expected, $parser->parse($code));
     }
 
-    public function provideTestParse(): \Iterator
-    {
-        yield [
-            // PHP 7 only code
+    public function provideTestParse() {
+        return [
+            [
+                // PHP 7 only code
                 '<?php class Test { function function() {} }',
-            $this->getPrefer5(),
+                $this->getPrefer5(),
+                [
+                    new Stmt\Class_('Test', ['stmts' => [
+                        new Stmt\ClassMethod('function')
+                    ]]),
+                ]
+            ],
             [
-                new Stmt\Class_('Test', ['stmts' => [
-                    new Stmt\ClassMethod('function')
-                ]]),
-            ]
-        ];
-        yield [
-            // PHP 5 only code
+                // PHP 5 only code
                 '<?php global $$a->b;',
-            $this->getPrefer7(),
+                $this->getPrefer7(),
+                [
+                    new Stmt\Global_([
+                        new Expr\Variable(new Expr\PropertyFetch(new Expr\Variable('a'), 'b'))
+                    ])
+                ]
+            ],
             [
-                new Stmt\Global_([
-                    new Expr\Variable(new Expr\PropertyFetch(new Expr\Variable('a'), 'b'))
-                ])
-            ]
-        ];
-        yield [
-            // Different meaning (PHP 5)
+                // Different meaning (PHP 5)
                 '<?php $$a[0];',
-            $this->getPrefer5(),
+                $this->getPrefer5(),
+                [
+                    new Stmt\Expression(new Expr\Variable(
+                        new Expr\ArrayDimFetch(new Expr\Variable('a'), LNumber::fromString('0'))
+                    ))
+                ]
+            ],
             [
-                new Stmt\Expression(new Expr\Variable(
-                    new Expr\ArrayDimFetch(new Expr\Variable('a'), LNumber::fromString('0'))
-                ))
-            ]
-        ];
-        yield [
-            // Different meaning (PHP 7)
+                // Different meaning (PHP 7)
                 '<?php $$a[0];',
-            $this->getPrefer7(),
-            [
-                new Stmt\Expression(new Expr\ArrayDimFetch(
-                    new Expr\Variable(new Expr\Variable('a')), LNumber::fromString('0')
-                ))
-            ]
+                $this->getPrefer7(),
+                [
+                    new Stmt\Expression(new Expr\ArrayDimFetch(
+                        new Expr\Variable(new Expr\Variable('a')), LNumber::fromString('0')
+                    ))
+                ]
+            ],
         ];
     }
 

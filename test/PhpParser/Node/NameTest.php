@@ -145,12 +145,13 @@ class NameTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($expected, $name->isSpecialClassName());
     }
 
-    public function provideTestIsSpecialClassName(): \Iterator
-    {
-        yield ['self', true];
-        yield ['PARENT', true];
-        yield ['Static', true];
-        yield ['self\not', false];
-        yield ['not\self', false];
+    public function provideTestIsSpecialClassName() {
+        return [
+            ['self', true],
+            ['PARENT', true],
+            ['Static', true],
+            ['self\not', false],
+            ['not\self', false],
+        ];
     }
 }

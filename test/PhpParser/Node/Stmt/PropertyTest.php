@@ -33,11 +33,12 @@ class PropertyTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($node->isStatic());
     }
 
-    public function provideModifiers(): \Iterator
-    {
-        yield ['public'];
-        yield ['protected'];
-        yield ['private'];
-        yield ['static'];
+    public function provideModifiers() {
+        return [
+            ['public'],
+            ['protected'],
+            ['private'],
+            ['static'],
+        ];
     }
 }

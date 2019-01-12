@@ -91,56 +91,57 @@ class PropertyTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expectedValueNode, $node->props[0]->default);
     }
 
-    public function provideTestDefaultValues(): \Iterator
-    {
-        yield [
-            null,
-            new Expr\ConstFetch(new Name('null'))
-        ];
-        yield [
-            true,
-            new Expr\ConstFetch(new Name('true'))
-        ];
-        yield [
-            false,
-            new Expr\ConstFetch(new Name('false'))
-        ];
-        yield [
-            31415,
-            new Scalar\LNumber(31415)
-        ];
-        yield [
-            3.1415,
-            new Scalar\DNumber(3.1415)
-        ];
-        yield [
-            'Hallo World',
-            new Scalar\String_('Hallo World')
-        ];
-        yield [
-            [1, 2, 3],
-            new Expr\Array_([
-                new Expr\ArrayItem(new Scalar\LNumber(1)),
-                new Expr\ArrayItem(new Scalar\LNumber(2)),
-                new Expr\ArrayItem(new Scalar\LNumber(3)),
-            ])
-        ];
-        yield [
-            ['foo' => 'bar', 'bar' => 'foo'],
-            new Expr\Array_([
-                new Expr\ArrayItem(
-                    new Scalar\String_('bar'),
-                    new Scalar\String_('foo')
-                ),
-                new Expr\ArrayItem(
-                    new Scalar\String_('foo'),
-                    new Scalar\String_('bar')
-                ),
-            ])
-        ];
-        yield [
-            new Scalar\MagicConst\Dir,
-            new Scalar\MagicConst\Dir
+    public function provideTestDefaultValues() {
+        return [
+            [
+                null,
+                new Expr\ConstFetch(new Name('null'))
+            ],
+            [
+                true,
+                new Expr\ConstFetch(new Name('true'))
+            ],
+            [
+                false,
+                new Expr\ConstFetch(new Name('false'))
+            ],
+            [
+                31415,
+                new Scalar\LNumber(31415)
+            ],
+            [
+                3.1415,
+                new Scalar\DNumber(3.1415)
+            ],
+            [
+                'Hallo World',
+                new Scalar\String_('Hallo World')
+            ],
+            [
+                [1, 2, 3],
+                new Expr\Array_([
+                    new Expr\ArrayItem(new Scalar\LNumber(1)),
+                    new Expr\ArrayItem(new Scalar\LNumber(2)),
+                    new Expr\ArrayItem(new Scalar\LNumber(3)),
+                ])
+            ],
+            [
+                ['foo' => 'bar', 'bar' => 'foo'],
+                new Expr\Array_([
+                    new Expr\ArrayItem(
+                        new Scalar\String_('bar'),
+                        new Scalar\String_('foo')
+                    ),
+                    new Expr\ArrayItem(
+                        new Scalar\String_('foo'),
+                        new Scalar\String_('bar')
+                    ),
+                ])
+            ],
+            [
+                new Scalar\MagicConst\Dir,
+                new Scalar\MagicConst\Dir
+            ]
         ];
     }
 }

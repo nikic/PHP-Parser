@@ -17,34 +17,34 @@ class NodeDumperTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($this->canonicalize($dump), $this->canonicalize($dumper->dump($node)));
     }
 
-    public function provideTestDump(): \Iterator
-    {
-        yield [
-            [],
+    public function provideTestDump() {
+        return [
+            [
+                [],
 'array(
 )'
-        ];
-        yield [
-            ['Foo', 'Bar', 'Key' => 'FooBar'],
+            ],
+            [
+                ['Foo', 'Bar', 'Key' => 'FooBar'],
 'array(
     0: Foo
     1: Bar
     Key: FooBar
 )'
-        ];
-        yield [
-            new Node\Name(['Hallo', 'World']),
+            ],
+            [
+                new Node\Name(['Hallo', 'World']),
 'Name(
     parts: array(
         0: Hallo
         1: World
     )
 )'
-        ];
-        yield [
-            new Node\Expr\Array_([
-                new Node\Expr\ArrayItem(new Node\Scalar\String_('Foo'))
-            ]),
+            ],
+            [
+                new Node\Expr\Array_([
+                    new Node\Expr\ArrayItem(new Node\Scalar\String_('Foo'))
+                ]),
 'Expr_Array(
     items: array(
         0: Expr_ArrayItem(
@@ -56,6 +56,7 @@ class NodeDumperTest extends \PHPUnit\Framework\TestCase
         )
     )
 )'
+            ],
         ];
     }
 

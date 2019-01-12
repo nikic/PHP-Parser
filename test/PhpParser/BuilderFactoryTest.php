@@ -20,19 +20,20 @@ class BuilderFactoryTest extends \PHPUnit\Framework\TestCase
         $this->assertInstanceOf($className, $factory->$methodName('test'));
     }
 
-    public function provideTestFactory(): \Iterator
-    {
-        yield ['namespace',   Builder\Namespace_::class];
-        yield ['class',       Builder\Class_::class];
-        yield ['interface',   Builder\Interface_::class];
-        yield ['trait',       Builder\Trait_::class];
-        yield ['method',      Builder\Method::class];
-        yield ['function',    Builder\Function_::class];
-        yield ['property',    Builder\Property::class];
-        yield ['param',       Builder\Param::class];
-        yield ['use',         Builder\Use_::class];
-        yield ['useFunction', Builder\Use_::class];
-        yield ['useConst',    Builder\Use_::class];
+    public function provideTestFactory() {
+        return [
+            ['namespace',   Builder\Namespace_::class],
+            ['class',       Builder\Class_::class],
+            ['interface',   Builder\Interface_::class],
+            ['trait',       Builder\Trait_::class],
+            ['method',      Builder\Method::class],
+            ['function',    Builder\Function_::class],
+            ['property',    Builder\Property::class],
+            ['param',       Builder\Param::class],
+            ['use',         Builder\Use_::class],
+            ['useFunction', Builder\Use_::class],
+            ['useConst',    Builder\Use_::class],
+        ];
     }
 
     public function testVal() {

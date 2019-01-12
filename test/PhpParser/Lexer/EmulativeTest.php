@@ -6,8 +6,6 @@ use PhpParser\ErrorHandler;
 use PhpParser\LexerTest;
 use PhpParser\Parser\Tokens;
 
-require_once __DIR__ . '/../LexerTest.php';
-
 class EmulativeTest extends LexerTest
 {
     protected function getLexer(array $options = []) {
@@ -37,21 +35,24 @@ class EmulativeTest extends LexerTest
         $this->assertSame(0, $lexer->getNextToken());
     }
 
-    public function provideTestReplaceKeywords(): \Iterator
-    {
-        // PHP 5.5
-        yield ['finally',       Tokens::T_FINALLY];
-        yield ['yield',         Tokens::T_YIELD];
-        // PHP 5.4
-        yield ['callable',      Tokens::T_CALLABLE];
-        yield ['insteadof',     Tokens::T_INSTEADOF];
-        yield ['trait',         Tokens::T_TRAIT];
-        yield ['__TRAIT__',     Tokens::T_TRAIT_C];
-        // PHP 5.3
-        yield ['__DIR__',       Tokens::T_DIR];
-        yield ['goto',          Tokens::T_GOTO];
-        yield ['namespace',     Tokens::T_NAMESPACE];
-        yield ['__NAMESPACE__', Tokens::T_NS_C];
+    public function provideTestReplaceKeywords() {
+        return [
+            // PHP 5.5
+            ['finally',       Tokens::T_FINALLY],
+            ['yield',         Tokens::T_YIELD],
+
+            // PHP 5.4
+            ['callable',      Tokens::T_CALLABLE],
+            ['insteadof',     Tokens::T_INSTEADOF],
+            ['trait',         Tokens::T_TRAIT],
+            ['__TRAIT__',     Tokens::T_TRAIT_C],
+
+            // PHP 5.3
+            ['__DIR__',       Tokens::T_DIR],
+            ['goto',          Tokens::T_GOTO],
+            ['namespace',     Tokens::T_NAMESPACE],
+            ['__NAMESPACE__', Tokens::T_NS_C],
+        ];
     }
 
     /**
@@ -105,84 +106,86 @@ class EmulativeTest extends LexerTest
         $this->assertSame($expLine, $attrs['endLine']);
     }
 
-    public function provideTestLexNewFeatures(): \Iterator
-    {
-        yield ['yield from', [
-            [Tokens::T_YIELD_FROM, 'yield from'],
-        ]];
-        yield ["yield\r\nfrom", [
-            [Tokens::T_YIELD_FROM, "yield\r\nfrom"],
-        ]];
-        yield ['...', [
-            [Tokens::T_ELLIPSIS, '...'],
-        ]];
-        yield ['**', [
-            [Tokens::T_POW, '**'],
-        ]];
-        yield ['**=', [
-            [Tokens::T_POW_EQUAL, '**='],
-        ]];
-        yield ['??', [
-            [Tokens::T_COALESCE, '??'],
-        ]];
-        yield ['<=>', [
-            [Tokens::T_SPACESHIP, '<=>'],
-        ]];
-        yield ['0b1010110', [
-            [Tokens::T_LNUMBER, '0b1010110'],
-        ]];
-        yield ['0b1011010101001010110101010010101011010101010101101011001110111100', [
-            [Tokens::T_DNUMBER, '0b1011010101001010110101010010101011010101010101101011001110111100'],
-        ]];
-        yield ['\\', [
-            [Tokens::T_NS_SEPARATOR, '\\'],
-        ]];
-        yield ["<<<'NOWDOC'\nNOWDOC;\n", [
-            [Tokens::T_START_HEREDOC, "<<<'NOWDOC'\n"],
-            [Tokens::T_END_HEREDOC, 'NOWDOC'],
-            [ord(';'), ';'],
-        ]];
-        yield ["<<<'NOWDOC'\nFoobar\nNOWDOC;\n", [
-            [Tokens::T_START_HEREDOC, "<<<'NOWDOC'\n"],
-            [Tokens::T_ENCAPSED_AND_WHITESPACE, "Foobar\n"],
-            [Tokens::T_END_HEREDOC, 'NOWDOC'],
-            [ord(';'), ';'],
-        ]];
-        // Flexible heredoc/nowdoc
-        yield ["<<<LABEL\nLABEL,", [
-            [Tokens::T_START_HEREDOC, "<<<LABEL\n"],
-            [Tokens::T_END_HEREDOC, "LABEL"],
-            [ord(','), ','],
-        ]];
-        yield ["<<<LABEL\n    LABEL,", [
-            [Tokens::T_START_HEREDOC, "<<<LABEL\n"],
-            [Tokens::T_END_HEREDOC, "    LABEL"],
-            [ord(','), ','],
-        ]];
-        yield ["<<<LABEL\n    Foo\n  LABEL;", [
-            [Tokens::T_START_HEREDOC, "<<<LABEL\n"],
-            [Tokens::T_ENCAPSED_AND_WHITESPACE, "    Foo\n"],
-            [Tokens::T_END_HEREDOC, "  LABEL"],
-            [ord(';'), ';'],
-        ]];
-        yield ["<<<A\n A,<<<A\n A,", [
-            [Tokens::T_START_HEREDOC, "<<<A\n"],
-            [Tokens::T_END_HEREDOC, " A"],
-            [ord(','), ','],
-            [Tokens::T_START_HEREDOC, "<<<A\n"],
-            [Tokens::T_END_HEREDOC, " A"],
-            [ord(','), ','],
-        ]];
-        yield ["<<<LABEL\nLABELNOPE\nLABEL\n", [
-            [Tokens::T_START_HEREDOC, "<<<LABEL\n"],
-            [Tokens::T_ENCAPSED_AND_WHITESPACE, "LABELNOPE\n"],
-            [Tokens::T_END_HEREDOC, "LABEL"],
-        ]];
-        // Interpretation changed
-        yield ["<<<LABEL\n    LABEL\nLABEL\n", [
-            [Tokens::T_START_HEREDOC, "<<<LABEL\n"],
-            [Tokens::T_END_HEREDOC, "    LABEL"],
-            [Tokens::T_STRING, "LABEL"],
-        ]];
+    public function provideTestLexNewFeatures() {
+        return [
+            ['yield from', [
+                [Tokens::T_YIELD_FROM, 'yield from'],
+            ]],
+            ["yield\r\nfrom", [
+                [Tokens::T_YIELD_FROM, "yield\r\nfrom"],
+            ]],
+            ['...', [
+                [Tokens::T_ELLIPSIS, '...'],
+            ]],
+            ['**', [
+                [Tokens::T_POW, '**'],
+            ]],
+            ['**=', [
+                [Tokens::T_POW_EQUAL, '**='],
+            ]],
+            ['??', [
+                [Tokens::T_COALESCE, '??'],
+            ]],
+            ['<=>', [
+                [Tokens::T_SPACESHIP, '<=>'],
+            ]],
+            ['0b1010110', [
+                [Tokens::T_LNUMBER, '0b1010110'],
+            ]],
+            ['0b1011010101001010110101010010101011010101010101101011001110111100', [
+                [Tokens::T_DNUMBER, '0b1011010101001010110101010010101011010101010101101011001110111100'],
+            ]],
+            ['\\', [
+                [Tokens::T_NS_SEPARATOR, '\\'],
+            ]],
+            ["<<<'NOWDOC'\nNOWDOC;\n", [
+                [Tokens::T_START_HEREDOC, "<<<'NOWDOC'\n"],
+                [Tokens::T_END_HEREDOC, 'NOWDOC'],
+                [ord(';'), ';'],
+            ]],
+            ["<<<'NOWDOC'\nFoobar\nNOWDOC;\n", [
+                [Tokens::T_START_HEREDOC, "<<<'NOWDOC'\n"],
+                [Tokens::T_ENCAPSED_AND_WHITESPACE, "Foobar\n"],
+                [Tokens::T_END_HEREDOC, 'NOWDOC'],
+                [ord(';'), ';'],
+            ]],
+
+            // Flexible heredoc/nowdoc
+            ["<<<LABEL\nLABEL,", [
+                [Tokens::T_START_HEREDOC, "<<<LABEL\n"],
+                [Tokens::T_END_HEREDOC, "LABEL"],
+                [ord(','), ','],
+            ]],
+            ["<<<LABEL\n    LABEL,", [
+                [Tokens::T_START_HEREDOC, "<<<LABEL\n"],
+                [Tokens::T_END_HEREDOC, "    LABEL"],
+                [ord(','), ','],
+            ]],
+            ["<<<LABEL\n    Foo\n  LABEL;", [
+                [Tokens::T_START_HEREDOC, "<<<LABEL\n"],
+                [Tokens::T_ENCAPSED_AND_WHITESPACE, "    Foo\n"],
+                [Tokens::T_END_HEREDOC, "  LABEL"],
+                [ord(';'), ';'],
+            ]],
+            ["<<<A\n A,<<<A\n A,", [
+                [Tokens::T_START_HEREDOC, "<<<A\n"],
+                [Tokens::T_END_HEREDOC, " A"],
+                [ord(','), ','],
+                [Tokens::T_START_HEREDOC, "<<<A\n"],
+                [Tokens::T_END_HEREDOC, " A"],
+                [ord(','), ','],
+            ]],
+            ["<<<LABEL\nLABELNOPE\nLABEL\n", [
+                [Tokens::T_START_HEREDOC, "<<<LABEL\n"],
+                [Tokens::T_ENCAPSED_AND_WHITESPACE, "LABELNOPE\n"],
+                [Tokens::T_END_HEREDOC, "LABEL"],
+            ]],
+            // Interpretation changed
+            ["<<<LABEL\n    LABEL\nLABEL\n", [
+                [Tokens::T_START_HEREDOC, "<<<LABEL\n"],
+                [Tokens::T_END_HEREDOC, "    LABEL"],
+                [Tokens::T_STRING, "LABEL"],
+            ]],
+        ];
     }
 }

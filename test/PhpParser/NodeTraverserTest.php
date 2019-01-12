@@ -297,7 +297,7 @@ class NodeTraverserTest extends \PHPUnit\Framework\TestCase
         $traverser->traverse($stmts);
     }
 
-    public function provideTestInvalidReturn(): \Iterator {
+    public function provideTestInvalidReturn() {
         $visitor1 = $this->getMockBuilder(NodeVisitor::class)->getMock();
         $visitor1->expects($this->at(1))->method('enterNode')
             ->willReturn('foobar');
@@ -329,13 +329,16 @@ class NodeTraverserTest extends \PHPUnit\Framework\TestCase
         $visitor8 = $this->getMockBuilder(NodeVisitor::class)->getMock();
         $visitor8->expects($this->at(2))->method('enterNode')
             ->willReturn(new Node\Stmt\Return_());
-        yield [$visitor1, 'enterNode() returned invalid value of type string'];
-        yield [$visitor2, 'enterNode() returned invalid value of type string'];
-        yield [$visitor3, 'leaveNode() returned invalid value of type string'];
-        yield [$visitor4, 'leaveNode() returned invalid value of type string'];
-        yield [$visitor5, 'leaveNode() may only return an array if the parent structure is an array'];
-        yield [$visitor6, 'bool(false) return from leaveNode() no longer supported. Return NodeTraverser::REMOVE_NODE instead'];
-        yield [$visitor7, 'Trying to replace statement (Stmt_Expression) with expression (Scalar_LNumber). Are you missing a Stmt_Expression wrapper?'];
-        yield [$visitor8, 'Trying to replace expression (Scalar_LNumber) with statement (Stmt_Return)'];
+
+        return [
+            [$visitor1, 'enterNode() returned invalid value of type string'],
+            [$visitor2, 'enterNode() returned invalid value of type string'],
+            [$visitor3, 'leaveNode() returned invalid value of type string'],
+            [$visitor4, 'leaveNode() returned invalid value of type string'],
+            [$visitor5, 'leaveNode() may only return an array if the parent structure is an array'],
+            [$visitor6, 'bool(false) return from leaveNode() no longer supported. Return NodeTraverser::REMOVE_NODE instead'],
+            [$visitor7, 'Trying to replace statement (Stmt_Expression) with expression (Scalar_LNumber). Are you missing a Stmt_Expression wrapper?'],
+            [$visitor8, 'Trying to replace expression (Scalar_LNumber) with statement (Stmt_Return)'],
+        ];
     }
 }

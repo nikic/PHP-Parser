@@ -18,11 +18,12 @@ class IdentifierTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($expected, $identifier->isSpecialClassName());
     }
 
-    public function provideTestIsSpecialClassName(): \Iterator
-    {
-        yield ['self', true];
-        yield ['PARENT', true];
-        yield ['Static', true];
-        yield ['other', false];
+    public function provideTestIsSpecialClassName() {
+        return [
+            ['self', true],
+            ['PARENT', true],
+            ['Static', true],
+            ['other', false],
+        ];
     }
 }

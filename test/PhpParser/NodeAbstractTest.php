@@ -25,7 +25,7 @@ class DummyNode extends NodeAbstract
 
 class NodeAbstractTest extends \PHPUnit\Framework\TestCase
 {
-    public function provideNodes(): \Iterator {
+    public function provideNodes() {
         $attributes = [
             'startLine' => 10,
             'endLine' => 11,
@@ -42,7 +42,9 @@ class NodeAbstractTest extends \PHPUnit\Framework\TestCase
         $node = new DummyNode('value1', 'value2', $attributes);
         $node->notSubNode = 'value3';
 
-        yield [$attributes, $node];
+        return [
+            [$attributes, $node],
+        ];
     }
 
     /**
