@@ -537,7 +537,7 @@ class_statement_list:
 class_statement:
       variable_modifiers optional_type property_declaration_list ';'
           { $attrs = attributes();
-            $$ = Stmt\Property[$1, $3, $attrs, $2]; $this->checkProperty($$, #1); }
+            $$ = new Stmt\Property($1, $3, $attrs, $2); $this->checkProperty($$, #1); }
     | method_modifiers T_CONST class_const_list ';'
           { $$ = Stmt\ClassConst[$3, $1]; $this->checkClassConst($$, #1); }
     | method_modifiers T_FUNCTION optional_ref identifier_ex '(' parameter_list ')' optional_return_type method_body

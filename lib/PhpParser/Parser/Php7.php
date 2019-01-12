@@ -1683,7 +1683,7 @@ class Php7 extends \PhpParser\ParserAbstract
             },
             273 => function ($stackPos) {
                  $attrs = $this->startAttributeStack[$stackPos-(4-1)] + $this->endAttributes;
-            $this->semValue = new Stmt\Property($this->semStack[$stackPos-(4-1)], $this->semStack[$stackPos-(4-3)], $attrs, $this->semStack[$stackPos-(4-2)], $this->startAttributeStack[$stackPos-(4-1)] + $this->endAttributes); $this->checkProperty($this->semValue, $stackPos-(4-1));
+            $this->semValue = new Stmt\Property($this->semStack[$stackPos-(4-1)], $this->semStack[$stackPos-(4-3)], $attrs, $this->semStack[$stackPos-(4-2)]); $this->checkProperty($this->semValue, $stackPos-(4-1));
             },
             274 => function ($stackPos) {
                  $this->semValue = new Stmt\ClassConst($this->semStack[$stackPos-(4-3)], $this->semStack[$stackPos-(4-1)], $this->startAttributeStack[$stackPos-(4-1)] + $this->endAttributes); $this->checkClassConst($this->semValue, $stackPos-(4-1));
