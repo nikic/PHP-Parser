@@ -3,9 +3,8 @@
 namespace PhpParser\Node\Stmt;
 
 use PhpParser\Node;
-use PHPUnit\Framework\TestCase;
 
-class InterfaceTest extends TestCase
+class InterfaceTest extends \PHPUnit\Framework\TestCase
 {
     public function testGetMethods() {
         $methods = [

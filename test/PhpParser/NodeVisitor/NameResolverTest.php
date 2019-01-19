@@ -7,16 +7,15 @@ use PhpParser\Node;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Name;
 use PhpParser\Node\Stmt;
-use PHPUnit\Framework\TestCase;
 
-class NameResolverTest extends TestCase
+class NameResolverTest extends \PHPUnit\Framework\TestCase
 {
     private function canonicalize($string) {
         return str_replace("\r\n", "\n", $string);
     }
 
     /**
-     * @covers PhpParser\NodeVisitor\NameResolver
+     * @covers \PhpParser\NodeVisitor\NameResolver
      */
     public function testResolveNames() {
         $code = <<<'EOC'
@@ -194,7 +193,7 @@ EOC;
     }
 
     /**
-     * @covers PhpParser\NodeVisitor\NameResolver
+     * @covers \PhpParser\NodeVisitor\NameResolver
      */
     public function testResolveLocations() {
         $code = <<<'EOC'

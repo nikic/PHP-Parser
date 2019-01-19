@@ -5,9 +5,8 @@ namespace PhpParser\Builder;
 use PhpParser\Node;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Scalar;
-use PHPUnit\Framework\TestCase;
 
-class ParamTest extends TestCase
+class ParamTest extends \PHPUnit\Framework\TestCase
 {
     public function createParamBuilder($name) {
         return new Param($name);

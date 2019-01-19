@@ -4,9 +4,8 @@ namespace PhpParser;
 
 use PhpParser\Node\Expr;
 use PhpParser\Node\Scalar;
-use PHPUnit\Framework\TestCase;
 
-class ConstExprEvaluatorTest extends TestCase
+class ConstExprEvaluatorTest extends \PHPUnit\Framework\TestCase
 {
     /** @dataProvider provideTestEvaluate */
     public function testEvaluate($exprString, $expected) {

@@ -2,9 +2,7 @@
 
 namespace PhpParser;
 
-use PHPUnit\Framework\TestCase;
-
-class ErrorTest extends TestCase
+class ErrorTest extends \PHPUnit\Framework\TestCase
 {
     public function testConstruct() {
         $attributes = [

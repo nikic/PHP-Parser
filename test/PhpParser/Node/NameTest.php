@@ -2,9 +2,7 @@
 
 namespace PhpParser\Node;
 
-use PHPUnit\Framework\TestCase;
-
-class NameTest extends TestCase
+class NameTest extends \PHPUnit\Framework\TestCase
 {
     public function testConstruct() {
         $name = new Name(['foo', 'bar']);

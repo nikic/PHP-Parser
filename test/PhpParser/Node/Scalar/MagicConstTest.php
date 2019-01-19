@@ -2,9 +2,7 @@
 
 namespace PhpParser\Node\Scalar;
 
-use PHPUnit\Framework\TestCase;
-
-class MagicConstTest extends TestCase
+class MagicConstTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider provideTestGetName

@@ -8,7 +8,6 @@ use PhpParser\Node\Expr\BinaryOp\Concat;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Name;
 use PhpParser\Node\Scalar\String_;
-use PhpParser\Node\Stmt;
 use PhpParser\Node\Stmt\Use_;
 
 class BuilderFactory
@@ -77,7 +76,7 @@ class BuilderFactory
      * @return Builder\TraitUseAdaptation The create trait use adaptation builder
      */
     public function traitUseAdaptation($trait, $method = null) : Builder\TraitUseAdaptation {
-        if (is_null($method)) {
+        if ($method === null) {
             $method = $trait;
             $trait = null;
         }

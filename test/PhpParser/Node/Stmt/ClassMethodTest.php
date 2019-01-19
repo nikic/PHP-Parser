@@ -5,9 +5,8 @@ namespace PhpParser\Node\Stmt;
 use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Name;
 use PhpParser\Node\Param;
-use PHPUnit\Framework\TestCase;
 
-class ClassMethodTest extends TestCase
+class ClassMethodTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider provideModifiers

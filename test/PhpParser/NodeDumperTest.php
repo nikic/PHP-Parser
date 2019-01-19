@@ -2,9 +2,7 @@
 
 namespace PhpParser;
 
-use PHPUnit\Framework\TestCase;
-
-class NodeDumperTest extends TestCase
+class NodeDumperTest extends \PHPUnit\Framework\TestCase
 {
     private function canonicalize($string) {
         return str_replace("\r\n", "\n", $string);

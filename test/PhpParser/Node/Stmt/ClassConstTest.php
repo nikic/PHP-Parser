@@ -2,9 +2,7 @@
 
 namespace PhpParser\Node\Stmt;
 
-use PHPUnit\Framework\TestCase;
-
-class ClassConstTest extends TestCase
+class ClassConstTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider provideModifiers

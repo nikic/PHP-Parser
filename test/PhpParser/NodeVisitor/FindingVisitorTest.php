@@ -5,9 +5,8 @@ namespace PhpParser\NodeVisitor;
 use PhpParser\Node;
 use PhpParser\Node\Expr;
 use PhpParser\NodeTraverser;
-use PHPUnit\Framework\TestCase;
 
-class FindingVisitorTest extends TestCase
+class FindingVisitorTest extends \PHPUnit\Framework\TestCase
 {
     public function testFindVariables() {
         $traverser = new NodeTraverser();
