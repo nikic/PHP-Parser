@@ -660,6 +660,7 @@ expr:
     | variable T_SL_EQUAL expr                              { $$ = Expr\AssignOp\ShiftLeft [$1, $3]; }
     | variable T_SR_EQUAL expr                              { $$ = Expr\AssignOp\ShiftRight[$1, $3]; }
     | variable T_POW_EQUAL expr                             { $$ = Expr\AssignOp\Pow       [$1, $3]; }
+    | variable T_COALESCE_EQUAL expr                        { $$ = Expr\AssignOp\Coalesce  [$1, $3]; }
     | variable T_INC                                        { $$ = Expr\PostInc[$1]; }
     | T_INC variable                                        { $$ = Expr\PreInc [$2]; }
     | variable T_DEC                                        { $$ = Expr\PostDec[$1]; }

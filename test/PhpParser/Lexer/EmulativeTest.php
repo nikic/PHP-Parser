@@ -108,6 +108,10 @@ class EmulativeTest extends LexerTest
 
     public function provideTestLexNewFeatures() {
         return [
+            // PHP 7.4
+            ['??=', [
+                [Tokens::T_COALESCE_EQUAL, '??='],
+            ]],
             ['yield from', [
                 [Tokens::T_YIELD_FROM, 'yield from'],
             ]],

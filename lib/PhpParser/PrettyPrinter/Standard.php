@@ -260,6 +260,10 @@ class Standard extends PrettyPrinterAbstract
         return $this->pInfixOp(AssignOp\Pow::class, $node->var, ' **= ', $node->expr);
     }
 
+    protected function pExpr_AssignOp_Coalesce(AssignOp\Coalesce $node) {
+        return $this->pInfixOp(AssignOp\Coalesce::class, $node->var, ' ??= ', $node->expr);
+    }
+
     // Binary expressions
 
     protected function pExpr_BinaryOp_Plus(BinaryOp\Plus $node) {
