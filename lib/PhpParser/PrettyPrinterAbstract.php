@@ -82,6 +82,7 @@ abstract class PrettyPrinterAbstract
         AssignOp\ShiftLeft::class      => [160,  1],
         AssignOp\ShiftRight::class     => [160,  1],
         AssignOp\Pow::class            => [160,  1],
+        AssignOp\Coalesce::class       => [160,  1],
         Expr\YieldFrom::class          => [165,  1],
         Expr\Print_::class             => [168,  1],
         BinaryOp\LogicalAnd::class     => [170, -1],
