@@ -8,9 +8,10 @@ use PhpParser\Parser;
 
 class Emulative extends \PhpParser\Lexer
 {
+    const PHP_7_3 = '7.3.0dev';
     const PHP_7_4 = '7.4.0dev';
 
-    const FLEXIBLE_DOC_STING_REGEX = <<<'REGEX'
+    const FLEXIBLE_DOC_STRING_REGEX = <<<'REGEX'
 /<<<[ \t]*(['"]?)([a-zA-Z_\x80-\xff][a-zA-Z0-9_\x80-\xff]*)\1\r?\n
 (?:.*\r?\n)*?
 (?<indentation>\h*)\2(?![a-zA-Z_\x80-\xff])(?<separator>(?:;?[\r\n])?)/x
@@ -19,28 +20,38 @@ REGEX;
     const T_COALESCE_EQUAL = 1007;
 
     /**
-     * @var int[][]|string[][] Patches used to reverse changes introduced in the code
+     * @var mixed[] Patches used to reverse changes introduced in the code
      */
     private $patches = [];
 
     /**
-     * @var bool
+     * @param mixed[] $options
      */
-    private $isEmulationNeeded = false;
+    public function __construct(array $options = [])
+    {
+        parent::__construct($options);
+
+        // add emulated tokens here
+        $this->tokenMap[self::T_COALESCE_EQUAL] = Parser\Tokens::T_COALESCE_EQUAL;
+    }
 
     public function startLexing(string $code, ErrorHandler $errorHandler = null) {
         $this->patches = [];
 
-        $preparedCode = $this->prepareCode($code);
-        if ($this->isEmulationNeeded === false) {
+        $isEmulationNeeded = $this->isEmulationNeeded($code);
+        if ($isEmulationNeeded === false) {
             // Nothing to emulate, yay
             parent::startLexing($code, $errorHandler);
             return;
         }
 
         $collector = new ErrorHandler\Collecting();
+
+        // 1. emulation of heredoc and nowdoc new syntax
+        $preparedCode = $this->processHeredocNowdoc($code);
         parent::startLexing($preparedCode, $collector);
 
+        // 2. emulation of ??= token
         $this->processCoaleseEqual();
         $this->fixupTokens();
 
@@ -53,42 +64,13 @@ REGEX;
         }
     }
 
-    /**
-     * Prepares code for emulation. If nothing has to be emulated null is returned.
-     *
-     * @return null|string
-     */
-    private function prepareCode(string $code)
+    private function processCoaleseEqual()
     {
-        $this->isEmulationNeeded = false;
-        $this->tokenMap[self::T_COALESCE_EQUAL] = Parser\Tokens::T_COALESCE_EQUAL;
-
-        // nothin to emulate
+        // skip version where this works without emulation
         if (version_compare(\PHP_VERSION, self::PHP_7_4, '>=')) {
-            return null;
+            return;
         }
 
-        if (strpos($code, '<<<') !== false) {
-            $code = $this->processHeredocNowdoc($code);
-        }
-
-        if (strpos($code, '??=') !== false) {
-            $this->isEmulationNeeded = true;
-        }
-
-        if ($this->isEmulationNeeded === false) {
-            // We did not end up emulating anything
-            return null;
-        }
-
-        return $code;
-    }
-
-    /**
-     * Emulates tokens for newer PHP versions.
-     */
-    protected function processCoaleseEqual()
-    {
         // We need to manually iterate and manage a count because we'll change
         // the tokens array on the way
         $line = 1;
@@ -106,6 +88,75 @@ REGEX;
                 $line += substr_count($this->tokens[$i][1], "\n");
             }
         }
+    }
+
+    private function processHeredocNowdoc(string $code): string
+    {
+        // skip version where this works without emulation
+        if (version_compare(\PHP_VERSION, self::PHP_7_3, '>=')) {
+            return $code;
+        }
+
+        if (strpos($code, '<<<') === false) {
+            return $code;
+        }
+
+        if (!preg_match_all(self::FLEXIBLE_DOC_STRING_REGEX, $code, $matches, PREG_SET_ORDER|PREG_OFFSET_CAPTURE)) {
+            // No heredoc/nowdoc found
+            return $code;
+        }
+
+        // Keep track of how much we need to adjust string offsets due to the modifications we
+        // already made
+        $posDelta = 0;
+        foreach ($matches as $match) {
+            $indentation = $match['indentation'][0];
+            $indentationStart = $match['indentation'][1];
+
+            $separator = $match['separator'][0];
+            $separatorStart = $match['separator'][1];
+
+            if ($indentation === '' && $separator !== '') {
+                // Ordinary heredoc/nowdoc
+                continue;
+            }
+
+            if ($indentation !== '') {
+                // Remove indentation
+                $indentationLen = strlen($indentation);
+                $code = substr_replace($code, '', $indentationStart + $posDelta, $indentationLen);
+                $this->patches[] = [$indentationStart + $posDelta, 'add', $indentation];
+                $this->isEmulationNeeded = true;
+                $posDelta -= $indentationLen;
+            }
+
+            if ($separator === '') {
+                // Insert newline as separator
+                $code = substr_replace($code, "\n", $separatorStart + $posDelta, 0);
+                $this->patches[] = [$separatorStart + $posDelta, 'remove', "\n"];
+                $this->isEmulationNeeded = true;
+                $posDelta += 1;
+            }
+        }
+
+        return $code;
+    }
+
+    private function isEmulationNeeded(string $code): bool
+    {
+        if (version_compare(\PHP_VERSION, self::PHP_7_3, '<')) {
+            if (strpos($code, '<<<') !== false) {
+                return true;
+            }
+        }
+
+        if (version_compare(\PHP_VERSION, self::PHP_7_4, '<')) {
+            if (strpos($code, '??=') !== false) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private function fixupTokens()
@@ -211,48 +262,5 @@ REGEX;
             $attrs['endLine'] += $lineDelta;
             $error->setAttributes($attrs);
         }
-    }
-
-    private function processHeredocNowdoc(string $code): string
-    {
-        if (!preg_match_all(self::FLEXIBLE_DOC_STING_REGEX, $code, $matches, PREG_SET_ORDER|PREG_OFFSET_CAPTURE)) {
-            // No heredoc/nowdoc found
-            return $code;
-        }
-
-        // Keep track of how much we need to adjust string offsets due to the modifications we
-        // already made
-        $posDelta = 0;
-        foreach ($matches as $match) {
-            $indentation = $match['indentation'][0];
-            $indentationStart = $match['indentation'][1];
-
-            $separator = $match['separator'][0];
-            $separatorStart = $match['separator'][1];
-
-            if ($indentation === '' && $separator !== '') {
-                // Ordinary heredoc/nowdoc
-                continue;
-            }
-
-            if ($indentation !== '') {
-                // Remove indentation
-                $indentationLen = strlen($indentation);
-                $code = substr_replace($code, '', $indentationStart + $posDelta, $indentationLen);
-                $this->patches[] = [$indentationStart + $posDelta, 'add', $indentation];
-                $this->isEmulationNeeded = true;
-                $posDelta -= $indentationLen;
-            }
-
-            if ($separator === '') {
-                // Insert newline as separator
-                $code = substr_replace($code, "\n", $separatorStart + $posDelta, 0);
-                $this->patches[] = [$separatorStart + $posDelta, 'remove', "\n"];
-                $this->isEmulationNeeded = true;
-                $posDelta += 1;
-            }
-        }
-
-        return $code;
     }
 }
