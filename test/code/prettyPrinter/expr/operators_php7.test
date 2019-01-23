@@ -4,5 +4,4 @@ Basic operators
 
 $a ??= $c;
 -----
-!!php7
 $a ??= $c;

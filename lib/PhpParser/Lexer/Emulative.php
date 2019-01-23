@@ -38,8 +38,7 @@ REGEX;
     public function startLexing(string $code, ErrorHandler $errorHandler = null) {
         $this->patches = [];
 
-        $isEmulationNeeded = $this->isEmulationNeeded($code);
-        if ($isEmulationNeeded === false) {
+        if ($this->isEmulationNeeded($code) === false) {
             // Nothing to emulate, yay
             parent::startLexing($code, $errorHandler);
             return;
@@ -52,7 +51,7 @@ REGEX;
         parent::startLexing($preparedCode, $collector);
 
         // 2. emulation of ??= token
-        $this->processCoaleseEqual();
+        $this->processCoaleseEqual($code);
         $this->fixupTokens();
 
         $errors = $collector->getErrors();
@@ -64,10 +63,19 @@ REGEX;
         }
     }
 
-    private function processCoaleseEqual()
+    private function isCoalesceEqualEmulationNeeded(string $code): bool
     {
         // skip version where this works without emulation
         if (version_compare(\PHP_VERSION, self::PHP_7_4, '>=')) {
+            return false;
+        }
+
+        return strpos($code, '??=') !== false;
+    }
+
+    private function processCoaleseEqual(string $code)
+    {
+        if ($this->isCoalesceEqualEmulationNeeded($code) === false) {
             return;
         }
 
@@ -90,14 +98,19 @@ REGEX;
         }
     }
 
-    private function processHeredocNowdoc(string $code): string
+    private function isHeredocNowdocEmulationNeeded(string $code): bool
     {
         // skip version where this works without emulation
         if (version_compare(\PHP_VERSION, self::PHP_7_3, '>=')) {
-            return $code;
+            return false;
         }
 
-        if (strpos($code, '<<<') === false) {
+        return strpos($code, '<<<') !== false;
+    }
+
+    private function processHeredocNowdoc(string $code): string
+    {
+        if ($this->isHeredocNowdocEmulationNeeded($code) === false) {
             return $code;
         }
 
@@ -142,16 +155,12 @@ REGEX;
 
     private function isEmulationNeeded(string $code): bool
     {
-        if (version_compare(\PHP_VERSION, self::PHP_7_3, '<')) {
-            if (strpos($code, '<<<') !== false) {
-                return true;
-            }
+        if ($this->isHeredocNowdocEmulationNeeded($code)) {
+            return true;
         }
 
-        if (version_compare(\PHP_VERSION, self::PHP_7_4, '<')) {
-            if (strpos($code, '??=') !== false) {
-                return true;
-            }
+        if ($this->isCoalesceEqualEmulationNeeded($code)) {
+            return true;
         }
 
         return false;
