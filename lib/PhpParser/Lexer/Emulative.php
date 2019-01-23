@@ -126,7 +126,6 @@ REGEX;
                 $indentationLen = strlen($indentation);
                 $code = substr_replace($code, '', $indentationStart + $posDelta, $indentationLen);
                 $this->patches[] = [$indentationStart + $posDelta, 'add', $indentation];
-                $this->isEmulationNeeded = true;
                 $posDelta -= $indentationLen;
             }
 
@@ -134,7 +133,6 @@ REGEX;
                 // Insert newline as separator
                 $code = substr_replace($code, "\n", $separatorStart + $posDelta, 0);
                 $this->patches[] = [$separatorStart + $posDelta, 'remove', "\n"];
-                $this->isEmulationNeeded = true;
                 $posDelta += 1;
             }
         }
