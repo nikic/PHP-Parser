@@ -1,7 +1,0 @@
-Basic operators
------
-<?php
-
-$a ??= $c;
------
-$a ??= $c;
