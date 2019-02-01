@@ -240,8 +240,7 @@ REGEX;
      *
      * @param Error[] $errors
      */
-    private function fixupErrors(array $errors)
-    {
+    private function fixupErrors(array $errors) {
         foreach ($errors as $error) {
             $attrs = $error->getAttributes();
 
