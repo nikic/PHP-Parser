@@ -40,7 +40,7 @@ class Lexer
         // the usedAttributes member is a map of the used attribute names to a dummy
         // value (here "true")
         $options += [
-            'usedAttributes' => ['comments', 'startLine', 'endLine'],
+            'usedAttributes' => ['comments', 'startFilePos' , 'endFilePos', 'startLine', 'endLine'],
         ];
         $this->usedAttributes = array_fill_keys($options['usedAttributes'], true);
     }

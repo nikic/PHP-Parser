@@ -104,7 +104,6 @@ class NodeDumper
         } else {
             throw new \InvalidArgumentException('Can only dump nodes and arrays.');
         }
-
         return $r . "\n)";
     }
 
@@ -176,15 +175,17 @@ class NodeDumper
             return null;
         }
 
-        $start = $node->getStartLine();
-        $end = $node->getEndLine();
+        //$start = $node->getStartLine();
+        //$end = $node->getEndLine();
+        $sFP = $node->getStartFilePos();
+        $eFP = $node->getEndFilePos();
         if ($node->hasAttribute('startFilePos') && $node->hasAttribute('endFilePos')
             && null !== $this->code
         ) {
             $start .= ':' . $this->toColumn($this->code, $node->getStartFilePos());
             $end .= ':' . $this->toColumn($this->code, $node->getEndFilePos());
         }
-        return "[$start - $end]";
+        return "[$sFP - $eFP]" ;
     }
 
     // Copied from Error class
