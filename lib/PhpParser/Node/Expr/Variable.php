@@ -27,4 +27,13 @@ class Variable extends Expr
     public function getType() : string {
         return 'Expr_Variable';
     }
+
+    /**
+     * Get Variable as string.
+     *
+     * @return string Variable as string.
+     */
+    public function toString() : string {
+        return $this->name;
+    }
 }
