@@ -729,6 +729,8 @@ expr:
     | T_YIELD expr                                          { $$ = Expr\Yield_[$2, null]; }
     | T_YIELD expr T_DOUBLE_ARROW expr                      { $$ = Expr\Yield_[$4, $2]; }
     | T_YIELD_FROM expr                                     { $$ = Expr\YieldFrom[$2]; }
+    | T_ARROW_FUNCTION '(' parameter_list ')' => lexical_vars inner_statement_list
+       { $$ = Expr\ArrowFunction[['params' => $2, 'stmts' => $4]]; }
     | T_FUNCTION optional_ref '(' parameter_list ')' lexical_vars optional_return_type
       block_or_error
           { $$ = Expr\Closure[['static' => false, 'byRef' => $2, 'params' => $4, 'uses' => $6, 'returnType' => $7, 'stmts' => $8]]; }
