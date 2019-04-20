@@ -109,6 +109,9 @@ class EmulativeTest extends LexerTest
     public function provideTestLexNewFeatures() {
         return [
             // PHP 7.4
+            ['=>', [
+                [Tokens::T_ARROW_FUNCTION, '=>'],
+            ]],
             ['??=', [
                 [Tokens::T_COALESCE_EQUAL, '??='],
             ]],
