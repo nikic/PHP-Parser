@@ -37,6 +37,9 @@ class EmulativeTest extends LexerTest
 
     public function provideTestReplaceKeywords() {
         return [
+            // PHP 7.4
+            ['fn',       Tokens::T_FN],
+
             // PHP 5.5
             ['finally',       Tokens::T_FINALLY],
             ['yield',         Tokens::T_YIELD],

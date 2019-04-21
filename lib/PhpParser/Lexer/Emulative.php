@@ -204,10 +204,10 @@ REGEX;
         return false;
     }
 
-    private function processFn(string $code): string
+    private function processFn(string $code)
     {
         if ($this->isFnEmulationNeeded($code) === false) {
-            return $code;
+            return;
         }
 
         // We need to manually iterate and manage a count because we'll change
