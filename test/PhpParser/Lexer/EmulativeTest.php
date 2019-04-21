@@ -31,14 +31,7 @@ class EmulativeTest extends LexerTest
         $lexer->startLexing('<?php ->' . $keyword);
 
         $this->assertSame(Tokens::T_OBJECT_OPERATOR, $lexer->getNextToken());
-
-        // @todo skip
-        $nextToken = $lexer->getNextToken();
-        if ($nextToken === Tokens::T_FN) {
-            return;
-        }
-
-        $this->assertSame(Tokens::T_STRING, $nextToken);
+        $this->assertSame(Tokens::T_STRING, $lexer->getNextToken());
         $this->assertSame(0, $lexer->getNextToken());
     }
 

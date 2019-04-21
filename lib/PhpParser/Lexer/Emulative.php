@@ -196,6 +196,10 @@ REGEX;
         // the tokens array on the way
         for ($i = 0, $c = count($this->tokens); $i < $c; ++$i) {
             if ($this->tokens[$i][0] === T_STRING && $this->tokens[$i][1] === 'fn') {
+                if (isset($this->tokens[$i - 1]) && $this->tokens[$i - 1][0] === T_OBJECT_OPERATOR) {
+                    continue;
+                }
+
                 $this->tokens[$i][0] = self::T_FN;
             }
         }
