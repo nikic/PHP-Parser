@@ -4,6 +4,9 @@ namespace PhpParser\Lexer;
 
 use PhpParser\Error;
 use PhpParser\ErrorHandler;
+use PhpParser\Lexer\TokenEmulator\CoaleseEqualTokenEmulator;
+use PhpParser\Lexer\TokenEmulator\FnTokenEmulator;
+use PhpParser\Lexer\TokenEmulator\TokenEmulatorInterface;
 use PhpParser\Parser;
 
 class Emulative extends \PhpParser\Lexer
