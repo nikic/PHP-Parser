@@ -1,0 +1,33 @@
+Arrow Functions
+-----
+<?php
+fn($a) => $a;
+-----
+!!php7
+array(
+    0: Stmt_Expression(
+        expr: Expr_ArrowFunction(
+            static: false
+            byRef: false
+            params: array(
+                0: Param(
+                    type: null
+                    byRef: false
+                    variadic: false
+                    var: Expr_Variable(
+                        name: a
+                    )
+                    default: null
+                )
+            )
+            returnType: null
+            expr: array(
+                0: Stmt_Expression(
+                    expr: Expr_Variable(
+                        name: a
+                    )
+                )
+            )
+        )
+    )
+)
