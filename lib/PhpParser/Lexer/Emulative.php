@@ -143,11 +143,7 @@ REGEX;
             }
         }
 
-        if ($this->isHeredocNowdocEmulationNeeded($code)) {
-            return true;
-        }
-
-        return false;
+        return $this->isHeredocNowdocEmulationNeeded($code);
     }
 
     private function fixupTokens()
