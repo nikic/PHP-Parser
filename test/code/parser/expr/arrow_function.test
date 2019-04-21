@@ -20,12 +20,8 @@ array(
                 )
             )
             returnType: null
-            expr: array(
-                0: Stmt_Expression(
-                    expr: Expr_Variable(
-                        name: a
-                    )
-                )
+            expr: Expr_Variable(
+                name: a
             )
         )
     )
