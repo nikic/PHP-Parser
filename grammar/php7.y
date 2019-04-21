@@ -729,9 +729,13 @@ expr:
     | T_YIELD expr                                          { $$ = Expr\Yield_[$2, null]; }
     | T_YIELD expr T_DOUBLE_ARROW expr                      { $$ = Expr\Yield_[$4, $2]; }
     | T_YIELD_FROM expr                                     { $$ = Expr\YieldFrom[$2]; }
+
     // used from original php-src PR: https://github.com/php/php-src/pull/3941/files#diff-7eff82c2c5b45db512a9dc49fb990bb8R1002
     | T_ARROW_FUNCTION optional_ref '(' parameter_list ')' optional_return_type T_DOUBLE_ARROW expr
-          { $$ = Expr\ArrowFunction[['byRef' => $2, 'params' => $4, 'returnType' => $6, 'expr' => $8]]; }
+            { $$ = Expr\ArrowFunction[['static' => false, 'byRef' => $2, 'params' => $4, 'expr' => $8]]; }
+    | T_STATIC T_ARROW_FUNCTION optional_ref '(' parameter_list ')' optional_return_type T_DOUBLE_ARROW expr
+            { $$ = Expr\ArrowFunction[['static' => true, 'byRef' => $3, 'params' => $5, 'expr' => $9]]; }
+
     | T_FUNCTION optional_ref '(' parameter_list ')' lexical_vars optional_return_type
       block_or_error
           { $$ = Expr\Closure[['static' => false, 'byRef' => $2, 'params' => $4, 'uses' => $6, 'returnType' => $7, 'stmts' => $8]]; }
