@@ -732,9 +732,9 @@ expr:
 
     // used from original php-src PR: https://github.com/php/php-src/pull/3941/files#diff-7eff82c2c5b45db512a9dc49fb990bb8R1002
     | T_FN optional_ref '(' parameter_list ')' optional_return_type T_DOUBLE_ARROW expr
-          { $$ = Expr\ArrowFunction[['static' => false, 'byRef' => $2, 'params' => $4, 'expr' => $8]]; }
+          { $$ = Expr\ArrowFunction[['static' => false, 'byRef' => $2, 'params' => $4, 'returnType' => $6, 'expr' => $8]]; }
     | T_STATIC T_FN optional_ref '(' parameter_list ')' optional_return_type T_DOUBLE_ARROW expr
-          { $$ = Expr\ArrowFunction[['static' => true, 'byRef' => $3, 'params' => $5, 'expr' => $9]]; }
+          { $$ = Expr\ArrowFunction[['static' => true, 'byRef' => $3, 'params' => $5, 'returnType' => $7, 'expr' => $9]]; }
 
     | T_FUNCTION optional_ref '(' parameter_list ')' lexical_vars optional_return_type
       block_or_error
