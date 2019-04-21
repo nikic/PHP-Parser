@@ -19,7 +19,9 @@ REGEX;
 
     const T_COALESCE_EQUAL = 1007;
 
-    const T_ARROW_FUNCTION = 1008;
+    const T_FN = 1008;
+
+    const T_ARROW_FUNCTION = 1009;
 
     /**
      * @var mixed[] Patches used to reverse changes introduced in the code
@@ -35,6 +37,7 @@ REGEX;
 
         // add emulated tokens here
         $this->tokenMap[self::T_COALESCE_EQUAL] = Parser\Tokens::T_COALESCE_EQUAL;
+        $this->tokenMap[self::T_FN] = Parser\Tokens::T_FN;
         $this->tokenMap[self::T_ARROW_FUNCTION] = Parser\Tokens::T_ARROW_FUNCTION;
     }
 
@@ -55,6 +58,9 @@ REGEX;
 
         // 2. emulation of ??= token
         $this->processCoaleseEqual($code);
+
+        // 3. emulation of "fn" arrow function token
+        $this->processFn($code);
         $this->fixupTokens();
 
         $errors = $collector->getErrors();
@@ -109,6 +115,16 @@ REGEX;
         }
 
         return strpos($code, '<<<') !== false;
+    }
+
+    private function isFnEmulationNeeded(string $code): bool
+    {
+        // skip version where this works without emulation
+        if (version_compare(\PHP_VERSION, self::PHP_7_4, '>=')) {
+            return false;
+        }
+
+        return strpos($code, 'fn') !== false;
     }
 
     private function isArrowFunctionEmulationNeeded(string $code): bool
@@ -181,7 +197,28 @@ REGEX;
             return true;
         }
 
+        if ($this->isFnEmulationNeeded($code)) {
+            return true;
+        }
+
         return false;
+    }
+
+    private function processFn(string $code): string
+    {
+        if ($this->isFnEmulationNeeded($code) === false) {
+            return $code;
+        }
+
+        // We need to manually iterate and manage a count because we'll change
+        // the tokens array on the way
+        $line = 1;
+        for ($i = 0, $c = count($this->tokens); $i < $c; ++$i) {
+            if ($this->tokens[$i][0] === T_STRING && $this->tokens[$i][0] === 'fn') {
+                $this->tokens[$i] = [self::T_FN, 'fn', $line];
+                continue;
+            }
+        }
     }
 
     private function processArrowFunction(string $code)

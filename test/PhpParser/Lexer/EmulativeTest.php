@@ -88,7 +88,7 @@ class EmulativeTest extends LexerTest
      */
     public function testErrorAfterEmulation($code) {
         $errorHandler = new ErrorHandler\Collecting;
-        $lexer = $this->getLexer([]);
+        $lexer = $this->getLexer();
         $lexer->startLexing('<?php ' . $code . "\0", $errorHandler);
 
         $errors = $errorHandler->getErrors();
@@ -109,9 +109,10 @@ class EmulativeTest extends LexerTest
     public function provideTestLexNewFeatures() {
         return [
             // PHP 7.4
-            ['=>', [
-                [Tokens::T_ARROW_FUNCTION, '=>'],
+            ['fn', [
+                [Tokens::T_FN, 'fn'],
             ]],
+            // PHP 7.4
             ['??=', [
                 [Tokens::T_COALESCE_EQUAL, '??='],
             ]],

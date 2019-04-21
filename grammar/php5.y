@@ -653,8 +653,6 @@ expr:
 
     | T_ARROW_FUNCTION optional_ref '(' parameter_list ')' T_DOUBLE_ARROW expr
           { $$ = Expr\ArrowFunction[['byRef' => $2, 'params' => $4, 'expr' => $7]]; }
-    | T_ARROW_FUNCTION '(' parameter_list ')' => lexical_vars inner_statement_list
-          { $$ = Expr\ArrowFunction[['params' => $2, 'stmts' => $4]]; }
     | T_FUNCTION optional_ref '(' parameter_list ')' lexical_vars optional_return_type
       '{' inner_statement_list '}'
           { $$ = Expr\Closure[['static' => false, 'byRef' => $2, 'params' => $4, 'uses' => $6, 'returnType' => $7, 'stmts' => $9]]; }

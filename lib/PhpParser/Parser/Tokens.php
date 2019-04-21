@@ -142,5 +142,6 @@ final class Tokens
     const T_DIR = 390;
     const T_NS_SEPARATOR = 391;
     const T_ELLIPSIS = 392;
-    const T_ARROW_FUNCTION = 393;
+    const T_FN = 393;
+    const T_ARROW_FUNCTION = 394;
 }
