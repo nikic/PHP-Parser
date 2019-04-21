@@ -1,4 +1,4 @@
-Arrow function - add new param
+Arrow function
 -----
 <?php
 fn($a)
@@ -13,9 +13,36 @@ fn($a)
 $b;
 -----
 <?php
-fn($a) => $a;
+fn(
+$a
+) => $a;
 -----
 $stmts[0]->expr->params[] = new Node\Param(new Expr\Variable('b'));
 -----
 <?php
-fn($a, $b) => $a;
+fn(
+$a, $b
+) => $a;
+-----
+<?php
+fn($a)
+: int
+=> $a;
+-----
+$stmts[0]->expr->returnType = new Node\Identifier('bool');
+-----
+<?php
+fn($a)
+: bool
+=> $a;
+-----
+<?php
+fn($a)
+: int
+=> $a;
+-----
+$stmts[0]->expr->returnType = null;
+-----
+<?php
+fn($a)
+=> $a;
