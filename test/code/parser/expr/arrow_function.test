@@ -2,7 +2,6 @@ Arrow Functions
 -----
 <?php
 fn($a) => $a;
-fn(): int => $x;
 fn($x = 42) => $x;
 fn(&$x) => $x;
 fn&($x) => $x;
@@ -31,20 +30,6 @@ array(
         )
     )
     1: Stmt_Expression(
-        expr: Expr_ConstFetch(
-            name: Name(
-                parts: array(
-                    0: int
-                )
-            )
-        )
-    )
-    2: Stmt_Expression(
-        expr: Expr_Variable(
-            name: x
-        )
-    )
-    3: Stmt_Expression(
         expr: Expr_ArrowFunction(
             static: false
             byRef: false
@@ -67,7 +52,7 @@ array(
             )
         )
     )
-    4: Stmt_Expression(
+    2: Stmt_Expression(
         expr: Expr_ArrowFunction(
             static: false
             byRef: false
@@ -88,7 +73,7 @@ array(
             )
         )
     )
-    5: Stmt_Expression(
+    3: Stmt_Expression(
         expr: Expr_ArrowFunction(
             static: false
             byRef: true
@@ -109,7 +94,7 @@ array(
             )
         )
     )
-    6: Stmt_Expression(
+    4: Stmt_Expression(
         expr: Expr_ArrowFunction(
             static: false
             byRef: false

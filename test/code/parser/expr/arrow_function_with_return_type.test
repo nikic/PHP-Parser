@@ -1,0 +1,20 @@
+Arrow Functions with Return Types
+-----
+<?php
+fn(): int => $x;
+-----
+!!php7
+array(
+    0: Stmt_Expression(
+        expr: Expr_ArrowFunction(
+            static: false
+            byRef: false
+            params: array(
+            )
+            returnType: null
+            expr: Expr_Variable(
+                name: x
+            )
+        )
+    )
+)
