@@ -19,12 +19,15 @@ REGEX;
 
     const T_COALESCE_EQUAL = 1007;
 
-    const T_FN = 1008;
-
     /**
      * @var mixed[] Patches used to reverse changes introduced in the code
      */
     private $patches = [];
+
+    /**
+     * @var TokenEmulatorInterface[]
+     */
+    private $emulativeTokens = [];
 
     /**
      * @param mixed[] $options
@@ -33,9 +36,14 @@ REGEX;
     {
         parent::__construct($options);
 
+        $this->emulativeTokens[] = new FnTokenEmulator();
+
         // add emulated tokens here
         $this->tokenMap[self::T_COALESCE_EQUAL] = Parser\Tokens::T_COALESCE_EQUAL;
-        $this->tokenMap[self::T_FN] = Parser\Tokens::T_FN;
+
+        foreach ($this->emulativeTokens as $emulativeToken) {
+            $this->tokenMap[$emulativeToken->getTokenId()] = $emulativeToken->getParserTokenId();
+        }
     }
 
     public function startLexing(string $code, ErrorHandler $errorHandler = null) {
@@ -56,8 +64,12 @@ REGEX;
         // 2. emulation of ??= token
         $this->processCoaleseEqual($code);
 
-        // 3. emulation of "fn" arrow function token
-        $this->processFn($code);
+        foreach ($this->emulativeTokens as $emulativeToken) {
+            if ($emulativeToken->isEmulationNeeded($code)) {
+                $this->tokens = $emulativeToken->emulate($code, $this->tokens);
+            }
+        }
+
         $this->fixupTokens();
 
         $errors = $collector->getErrors();
@@ -114,16 +126,6 @@ REGEX;
         return strpos($code, '<<<') !== false;
     }
 
-    private function isFnEmulationNeeded(string $code): bool
-    {
-        // skip version where this works without emulation
-        if (version_compare(\PHP_VERSION, self::PHP_7_4, '>=')) {
-            return false;
-        }
-
-        return strpos($code, 'fn') !== false;
-    }
-
     private function processHeredocNowdoc(string $code): string
     {
         if ($this->isHeredocNowdocEmulationNeeded($code) === false) {
@@ -171,6 +173,12 @@ REGEX;
 
     private function isEmulationNeeded(string $code): bool
     {
+        foreach ($this->emulativeTokens as $emulativeToken) {
+            if ($emulativeToken->isEmulationNeeded($code)) {
+                return true;
+            }
+        }
+
         if ($this->isHeredocNowdocEmulationNeeded($code)) {
             return true;
         }
@@ -179,30 +187,7 @@ REGEX;
             return true;
         }
 
-        if ($this->isFnEmulationNeeded($code)) {
-            return true;
-        }
-
         return false;
-    }
-
-    private function processFn(string $code)
-    {
-        if ($this->isFnEmulationNeeded($code) === false) {
-            return;
-        }
-
-        // We need to manually iterate and manage a count because we'll change
-        // the tokens array on the way
-        for ($i = 0, $c = count($this->tokens); $i < $c; ++$i) {
-            if ($this->tokens[$i][0] === T_STRING && $this->tokens[$i][1] === 'fn') {
-                if (isset($this->tokens[$i - 1]) && $this->tokens[$i - 1][0] === T_OBJECT_OPERATOR) {
-                    continue;
-                }
-
-                $this->tokens[$i][0] = self::T_FN;
-            }
-        }
     }
 
     private function fixupTokens()
