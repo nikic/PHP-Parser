@@ -1,0 +1,21 @@
+Arrow function - add new param
+-----
+<?php
+fn($a)
+=>
+$a;
+-----
+$stmts[0]->expr->expr = new Expr\Variable('b');
+-----
+<?php
+fn($a)
+=>
+$b;
+-----
+<?php
+fn($a) => $a;
+-----
+$stmts[0]->expr->params[] = new Node\Param(new Expr\Variable('b'));
+-----
+<?php
+fn($a, $b) => $a;
