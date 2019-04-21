@@ -583,7 +583,7 @@ class Standard extends PrettyPrinterAbstract
     }
 
     protected function pExpr_ArrowFunction(Expr\ArrowFunction $node) {
-        return 'fn(' . $this->pCommaSeparated($node->params) . ') => ' . $this->pStmts($node->getStmts()). ';';
+        return 'fn(' . $this->pCommaSeparated($node->params) . ') => ' . $this->pStmts([$node->expr]);
     }
 
     protected function pExpr_ClosureUse(Expr\ClosureUse $node) {
