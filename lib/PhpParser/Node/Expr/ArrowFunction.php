@@ -9,50 +9,62 @@ use PhpParser\Node\FunctionLike;
 class ArrowFunction extends Expr implements FunctionLike
 {
     /**
-     * @var Node\Param[]
+     * @var bool
      */
-    public $params;
+    public $byRef;
 
     /**
-     * @var Node\Stmt
+     * @var Node\Param[]
      */
-    public $stmt;
+    public $params = [];
+
+    /**
+     * @var null|Node\Identifier|Node\Name|Node\NullableType
+     */
+    public $returnType;
+
+    /**
+     * @var Node\Stmt\Expression
+     */
+    private $expr;
 
     public function __construct(array $subNodes = [], array $attributes = []) {
         parent::__construct($attributes);
+        $this->byRef = $subNodes['byRef'] ?? false;
         $this->params = $subNodes['params'] ?? [];
-        $this->stmt = $subNodes['stmt'] ?? null;
+        $returnType = $subNodes['returnType'] ?? null;
+        $this->returnType = \is_string($returnType) ? new Node\Identifier($returnType) : $returnType;
+        $this->expr = $subNodes['expr'] ?? [];
     }
 
     public function getSubNodeNames() : array {
-        return ['params', 'stmt'];
+        return ['byRef', 'params', 'returnType', 'expr'];
     }
 
     public function getParams() : array {
         return $this->params;
     }
 
+    public function returnsByRef() : bool {
+        return $this->byRef;
+    }
+
+    public function getReturnType() {
+        return $this->returnType;
+    }
+
+    public function getExpr() : Node\Stmt\Expression
+    {
+        return $this->expr;
+    }
+
+    // @todo required by interface, but not really needed
+    /** @return Node\Stmt[] */
+    public function getStmts() : array {
+        return [$this->expr];
+    }
+
     public function getType() : string {
         return 'Expr_ArrowFunction';
-    }
-
-    // required by interface @todo keep?
-    public function returnsByRef() : bool {
-        return false;
-    }
-
-    public function getStmt(): Node\Stmt
-    {
-        return $this->stmt;
-    }
-
-    // required by interface @todo keep?
-    public function getReturnType() {
-        return null;
-    }
-
-    // required by interface @todo keep?
-    public function getStmts() : array {
-        return $this->stmt;
     }
 }
