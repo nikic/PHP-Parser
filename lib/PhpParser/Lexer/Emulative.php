@@ -21,8 +21,6 @@ REGEX;
 
     const T_FN = 1008;
 
-    const T_ARROW_FUNCTION = 1009;
-
     /**
      * @var mixed[] Patches used to reverse changes introduced in the code
      */
@@ -38,7 +36,6 @@ REGEX;
         // add emulated tokens here
         $this->tokenMap[self::T_COALESCE_EQUAL] = Parser\Tokens::T_COALESCE_EQUAL;
         $this->tokenMap[self::T_FN] = Parser\Tokens::T_FN;
-        $this->tokenMap[self::T_ARROW_FUNCTION] = Parser\Tokens::T_ARROW_FUNCTION;
     }
 
     public function startLexing(string $code, ErrorHandler $errorHandler = null) {
@@ -127,17 +124,6 @@ REGEX;
         return strpos($code, 'fn') !== false;
     }
 
-    private function isArrowFunctionEmulationNeeded(string $code): bool
-    {
-        // skip version where this works without emulation
-        if (version_compare(\PHP_VERSION, self::PHP_7_4, '>=')) {
-            return false;
-        }
-
-        // @todo how to detect not an array arrow?
-        return strpos($code, '=>') !== false;
-    }
-
     private function processHeredocNowdoc(string $code): string
     {
         if ($this->isHeredocNowdocEmulationNeeded($code) === false) {
@@ -193,10 +179,6 @@ REGEX;
             return true;
         }
 
-        if ($this->isArrowFunctionEmulationNeeded($code)) {
-            return true;
-        }
-
         if ($this->isFnEmulationNeeded($code)) {
             return true;
         }
@@ -212,38 +194,10 @@ REGEX;
 
         // We need to manually iterate and manage a count because we'll change
         // the tokens array on the way
-        $line = 1;
         for ($i = 0, $c = count($this->tokens); $i < $c; ++$i) {
-            if ($this->tokens[$i][0] === T_STRING && $this->tokens[$i][0] === 'fn') {
-                $this->tokens[$i] = [self::T_FN, 'fn', $line];
-                continue;
+            if ($this->tokens[$i][0] === T_STRING && $this->tokens[$i][1] === 'fn') {
+                $this->tokens[$i][0] = self::T_FN;
             }
-        }
-    }
-
-    private function processArrowFunction(string $code)
-    {
-        if ($this->isArrowFunctionEmulationNeeded($code) === false) {
-            return;
-        }
-
-        // We need to manually iterate and manage a count because we'll change
-        // the tokens array on the way
-        $line = 1;
-        for ($i = 0, $c = count($this->tokens); $i < $c; ++$i) {
-            if (isset($this->tokens[$i + 1])) {
-                if ($this->tokens[$i][0] === T_DOUBLE_ARROW && $this->tokens[$i + 1] === '=') {
-                    array_splice($this->tokens, $i, 2, [
-                        [self::T_COALESCE_EQUAL, '??=', $line]
-                    ]);
-                    $c--;
-                    continue;
-                }
-            }
-
-//            if (\is_array($this->tokens[$i])) {
-//                $line += substr_count($this->tokens[$i][1], "\n");
-//            }
         }
     }
 
