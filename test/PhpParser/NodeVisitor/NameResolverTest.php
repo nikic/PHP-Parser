@@ -212,7 +212,7 @@ interface A extends C, D {
     public function a(A $a) : A;
 }
 
-function fn(A $a) : A {}
+function f(A $a) : A {}
 function fn2(array $a) : array {}
 function(A $a) : A {};
 
@@ -249,7 +249,7 @@ interface A extends \NS\C, \NS\D
 {
     public function a(\NS\A $a) : \NS\A;
 }
-function fn(\NS\A $a) : \NS\A
+function f(\NS\A $a) : \NS\A
 {
 }
 function fn2(array $a) : array
