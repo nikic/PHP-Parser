@@ -650,6 +650,9 @@ expr:
     | T_PRINT expr                                          { $$ = Expr\Print_[$2]; }
     | T_YIELD                                               { $$ = Expr\Yield_[null, null]; }
     | T_YIELD_FROM expr                                     { $$ = Expr\YieldFrom[$2]; }
+
+    | T_ARROW_FUNCTION optional_ref '(' parameter_list ')' T_DOUBLE_ARROW expr
+          { $$ = Expr\ArrowFunction[['byRef' => $2, 'params' => $4, 'expr' => $7]]; }
     | T_ARROW_FUNCTION '(' parameter_list ')' => lexical_vars inner_statement_list
           { $$ = Expr\ArrowFunction[['params' => $2, 'stmts' => $4]]; }
     | T_FUNCTION optional_ref '(' parameter_list ')' lexical_vars optional_return_type
