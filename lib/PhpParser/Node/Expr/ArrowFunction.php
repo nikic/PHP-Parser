@@ -26,7 +26,7 @@ class ArrowFunction extends Expr implements FunctionLike
     /**
      * @var Node\Stmt\Expression
      */
-    private $expr;
+    public $expr;
 
     public function __construct(array $subNodes = [], array $attributes = []) {
         parent::__construct($attributes);
@@ -34,34 +34,30 @@ class ArrowFunction extends Expr implements FunctionLike
         $this->params = $subNodes['params'] ?? [];
         $returnType = $subNodes['returnType'] ?? null;
         $this->returnType = \is_string($returnType) ? new Node\Identifier($returnType) : $returnType;
-        $this->expr = $subNodes['expr'] ?? [];
+        $this->expr = $subNodes['expr'] ?? null;
     }
 
     public function getSubNodeNames() : array {
         return ['byRef', 'params', 'returnType', 'expr'];
     }
 
-    public function getParams() : array {
-        return $this->params;
-    }
-
     public function returnsByRef() : bool {
         return $this->byRef;
+    }
+
+    public function getParams() : array {
+        return $this->params;
     }
 
     public function getReturnType() {
         return $this->returnType;
     }
 
-    public function getExpr() : Node\Stmt\Expression
-    {
-        return $this->expr;
-    }
-
-    // @todo required by interface, but not really needed
-    /** @return Node\Stmt[] */
+    /**
+     * @return Node\Stmt[]
+     */
     public function getStmts() : array {
-        return [$this->expr];
+        return [new Node\Stmt\Return_($this->expr)];
     }
 
     public function getType() : string {
