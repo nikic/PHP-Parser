@@ -11,7 +11,9 @@ array(
             byRef: false
             params: array(
             )
-            returnType: null
+            returnType: Identifier(
+                name: int
+            )
             expr: Expr_Variable(
                 name: x
             )
