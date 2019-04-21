@@ -11,6 +11,11 @@ class ArrowFunction extends Expr implements FunctionLike
     /**
      * @var bool
      */
+    public $static;
+
+    /**
+     * @var bool
+     */
     public $byRef;
 
     /**
@@ -30,6 +35,7 @@ class ArrowFunction extends Expr implements FunctionLike
 
     public function __construct(array $subNodes = [], array $attributes = []) {
         parent::__construct($attributes);
+        $this->static = $subNodes['static'] ?? false;
         $this->byRef = $subNodes['byRef'] ?? false;
         $this->params = $subNodes['params'] ?? [];
         $returnType = $subNodes['returnType'] ?? null;
@@ -38,7 +44,7 @@ class ArrowFunction extends Expr implements FunctionLike
     }
 
     public function getSubNodeNames() : array {
-        return ['byRef', 'params', 'returnType', 'expr'];
+        return ['static', 'byRef', 'params', 'returnType', 'expr'];
     }
 
     public function returnsByRef() : bool {
