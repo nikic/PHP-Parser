@@ -3,7 +3,6 @@ Arrow Functions
 <?php
 fn($a) => $a;
 -----
-!!php7
 array(
     0: Stmt_Expression(
         expr: Expr_ArrowFunction(
