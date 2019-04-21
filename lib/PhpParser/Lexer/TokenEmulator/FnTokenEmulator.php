@@ -39,7 +39,7 @@ final class FnTokenEmulator implements TokenEmulatorInterface
                     continue;
                 }
 
-                $tokens[$i][0] = Tokens::T_FN;
+                $tokens[$i][0] = self::T_FN;
             }
         }
 
