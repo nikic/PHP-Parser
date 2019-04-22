@@ -60,3 +60,45 @@ $stmts[0]->expr->returnType = null;
 <?php
 fn($a)
 => $a;
+-----
+<?php
+fn($a)
+: int
+=> $a;
+
+static fn($a)
+: int
+=> $a;
+-----
+$stmts[0]->expr->static = true;
+$stmts[1]->expr->static = false;
+-----
+<?php
+static fn($a)
+: int
+=> $a;
+
+fn($a)
+: int
+=> $a;
+-----
+<?php
+fn($a)
+: int
+=> $a;
+
+fn&($a)
+: int
+=> $a;
+-----
+$stmts[0]->expr->byRef = true;
+$stmts[1]->expr->byRef = false;
+-----
+<?php
+fn&($a)
+: int
+=> $a;
+
+fn($a)
+: int
+=> $a;
