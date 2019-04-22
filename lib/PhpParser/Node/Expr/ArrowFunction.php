@@ -20,16 +20,16 @@ class ArrowFunction extends Expr implements FunctionLike
     /** @var null|Node\Identifier|Node\Name|Node\NullableType */
     public $returnType;
 
-    /** @var Node\Stmt\Expression */
+    /** @var Expr */
     public $expr;
 
     /**
      * @param array $subNodes   Array of the following optional subnodes:
-     *                          'static'     => false : Whether the closure is static
-     *                          'byRef'      => false : Whether to return by reference
-     *                          'params'     => array(): Parameters
-     *                          'returnType' => null : Return type
-     *                          'expr'       =>  Node\Stmt\Expression : Expression
+     *                          'static'     => false   : Whether the closure is static
+     *                          'byRef'      => false   : Whether to return by reference
+     *                          'params'     => array() : Parameters
+     *                          'returnType' => null    : Return type
+     *                          'expr'       => Expr    : Expression body
      */
     public function __construct(array $subNodes = [], array $attributes = []) {
         parent::__construct($attributes);
