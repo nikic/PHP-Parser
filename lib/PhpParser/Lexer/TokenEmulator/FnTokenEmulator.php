@@ -35,7 +35,8 @@ final class FnTokenEmulator implements TokenEmulatorInterface
         // the tokens array on the way
         for ($i = 0, $c = count($tokens); $i < $c; ++$i) {
             if ($tokens[$i][0] === T_STRING && $tokens[$i][1] === 'fn') {
-                if (isset($tokens[$i - 1]) && $tokens[$i - 1][0] === T_OBJECT_OPERATOR) {
+                $previousNonSpaceToken = $this->getPreviousNonSpaceToken($tokens, $i);
+                if ($previousNonSpaceToken !== null && $previousNonSpaceToken[0] === T_OBJECT_OPERATOR) {
                     continue;
                 }
 
@@ -44,5 +45,22 @@ final class FnTokenEmulator implements TokenEmulatorInterface
         }
 
         return $tokens;
+    }
+
+    /**
+     * @param mixed[] $tokens
+     * @return mixed[]|null
+     */
+    private function getPreviousNonSpaceToken(array $tokens, int $start)
+    {
+        for ($i = $start - 1; $i > 0; --$i) {
+            if ($tokens[$i][0] === T_WHITESPACE) {
+                continue;
+            }
+
+            return $tokens[$i];
+        }
+
+        return null;
     }
 }

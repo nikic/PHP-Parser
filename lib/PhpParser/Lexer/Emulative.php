@@ -4,11 +4,12 @@ namespace PhpParser\Lexer;
 
 use PhpParser\Error;
 use PhpParser\ErrorHandler;
+use PhpParser\Lexer;
 use PhpParser\Lexer\TokenEmulator\CoaleseEqualTokenEmulator;
 use PhpParser\Lexer\TokenEmulator\FnTokenEmulator;
 use PhpParser\Lexer\TokenEmulator\TokenEmulatorInterface;
 
-class Emulative extends \PhpParser\Lexer
+class Emulative extends Lexer
 {
     const PHP_7_3 = '7.3.0dev';
     const PHP_7_4 = '7.4.0dev';
