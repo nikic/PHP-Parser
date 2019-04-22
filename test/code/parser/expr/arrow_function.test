@@ -1,7 +1,7 @@
 Arrow Functions
 -----
 <?php
-fn($a) => $a;
+fn(bool $a) => $a;
 fn($x = 42) => $x;
 static fn(&$x) => $x;
 fn&($x) => $x;
@@ -14,7 +14,11 @@ array(
             byRef: false
             params: array(
                 0: Param(
-                    type: null
+                    type: Name(
+                        parts: array(
+                            0: bool
+                        )
+                    )
                     byRef: false
                     variadic: false
                     var: Expr_Variable(
