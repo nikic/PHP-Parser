@@ -33,6 +33,14 @@ class ArrowFunction extends Expr implements FunctionLike
      */
     public $expr;
 
+    /**
+     * @param array $subNodes   Array of the following optional subnodes:
+     *                          'static'     => false : Whether the closure is static
+     *                          'byRef'      => false : Whether to return by reference
+     *                          'params'     => array(): Parameters
+     *                          'returnType' => null : Return type
+     *                          'expr'       =>  Node\Stmt\Expression : Expression
+     */
     public function __construct(array $subNodes = [], array $attributes = []) {
         parent::__construct($attributes);
         $this->static = $subNodes['static'] ?? false;
