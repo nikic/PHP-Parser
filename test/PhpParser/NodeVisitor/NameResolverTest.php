@@ -213,7 +213,7 @@ interface A extends C, D {
 }
 
 function f(A $a) : A {}
-function fn2(array $a) : array {}
+function f2(array $a) : array {}
 function(A $a) : A {};
 
 function fn3(?A $a) : ?A {}
@@ -252,7 +252,7 @@ interface A extends \NS\C, \NS\D
 function f(\NS\A $a) : \NS\A
 {
 }
-function fn2(array $a) : array
+function f2(array $a) : array
 {
 }
 function (\NS\A $a) : \NS\A {
