@@ -112,10 +112,6 @@ class EmulativeTest extends LexerTest
     public function provideTestLexNewFeatures() {
         return [
             // PHP 7.4
-            ['fn', [
-                [Tokens::T_FN, 'fn'],
-            ]],
-            // PHP 7.4
             ['??=', [
                 [Tokens::T_COALESCE_EQUAL, '??='],
             ]],
