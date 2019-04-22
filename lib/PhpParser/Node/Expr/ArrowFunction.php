@@ -8,29 +8,19 @@ use PhpParser\Node\FunctionLike;
 
 class ArrowFunction extends Expr implements FunctionLike
 {
-    /**
-     * @var bool
-     */
+    /** @var bool */
     public $static;
 
-    /**
-     * @var bool
-     */
+    /** @var bool */
     public $byRef;
 
-    /**
-     * @var Node\Param[]
-     */
+    /** @var Node\Param[] */
     public $params = [];
 
-    /**
-     * @var null|Node\Identifier|Node\Name|Node\NullableType
-     */
+    /** @var null|Node\Identifier|Node\Name|Node\NullableType */
     public $returnType;
 
-    /**
-     * @var Node\Stmt\Expression
-     */
+    /** @var Node\Stmt\Expression */
     public $expr;
 
     /**

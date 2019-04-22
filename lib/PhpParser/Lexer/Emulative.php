@@ -20,14 +20,10 @@ class Emulative extends \PhpParser\Lexer
 (?<indentation>\h*)\2(?![a-zA-Z_\x80-\xff])(?<separator>(?:;?[\r\n])?)/x
 REGEX;
 
-    /**
-     * @var mixed[] Patches used to reverse changes introduced in the code
-     */
+    /** @var mixed[] Patches used to reverse changes introduced in the code */
     private $patches = [];
 
-    /**
-     * @var TokenEmulatorInterface[]
-     */
+    /** @var TokenEmulatorInterface[] */
     private $tokenEmulators = [];
 
     /**
