@@ -3,7 +3,7 @@ Arrow Functions
 <?php
 fn($a) => $a;
 fn($x = 42) => $x;
-fn(&$x) => $x;
+static fn(&$x) => $x;
 fn&($x) => $x;
 fn($x, ...$rest) => $rest;
 -----
@@ -54,7 +54,7 @@ array(
     )
     2: Stmt_Expression(
         expr: Expr_ArrowFunction(
-            static: false
+            static: true
             byRef: false
             params: array(
                 0: Param(
