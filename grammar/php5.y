@@ -651,12 +651,6 @@ expr:
     | T_YIELD                                               { $$ = Expr\Yield_[null, null]; }
     | T_YIELD_FROM expr                                     { $$ = Expr\YieldFrom[$2]; }
 
-    // used from original php-src PR: https://github.com/php/php-src/pull/3941/files#diff-7eff82c2c5b45db512a9dc49fb990bb8R1002
-    | T_FN optional_ref '(' parameter_list ')' T_DOUBLE_ARROW expr
-          { $$ = Expr\ArrowFunction[['static' => false, 'byRef' => $2, 'params' => $4, 'expr' => $7]]; }
-    | T_STATIC T_FN optional_ref '(' parameter_list ')' T_DOUBLE_ARROW expr
-          { $$ = Expr\ArrowFunction[['static' => true, 'byRef' => $3, 'params' => $5, 'expr' => $8]]; }
-
     | T_FUNCTION optional_ref '(' parameter_list ')' lexical_vars optional_return_type
       '{' inner_statement_list '}'
           { $$ = Expr\Closure[['static' => false, 'byRef' => $2, 'params' => $4, 'uses' => $6, 'returnType' => $7, 'stmts' => $9]]; }
