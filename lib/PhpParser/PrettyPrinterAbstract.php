@@ -1195,8 +1195,8 @@ abstract class PrettyPrinterAbstract
         $this->removalMap = [
             'Expr_ArrayDimFetch->dim' => $stripBoth,
             'Expr_ArrayItem->key' => $stripDoubleArrow,
-            'Expr_Closure->returnType' => $stripColon,
             'Expr_ArrowFunction->returnType' => $stripColon,
+            'Expr_Closure->returnType' => $stripColon,
             'Expr_Exit->expr' => $stripBoth,
             'Expr_Ternary->if' => $stripBoth,
             'Expr_Yield->key' => $stripDoubleArrow,
@@ -1276,9 +1276,9 @@ abstract class PrettyPrinterAbstract
 
             // comma-separated lists
             'Expr_Array->items' => ', ',
+            'Expr_ArrowFunction->params' => ', ',
             'Expr_Closure->params' => ', ',
             'Expr_Closure->uses' => ', ',
-            'Expr_ArrowFunction->params' => ', ',
             'Expr_FuncCall->args' => ', ',
             'Expr_Isset->vars' => ', ',
             'Expr_List->items' => ', ',
