@@ -31,12 +31,11 @@ $a
 =>
 $a;
 -----
+// TODO: Format preserving currently not supported
 $stmts[0]->expr->params = [];
 -----
 <?php
-fn()
-=>
-$a;
+fn() => $a;
 -----
 <?php
 fn($a)
@@ -70,17 +69,14 @@ static fn($a)
 : int
 => $a;
 -----
+// TODO: Format preserving currently not supported
 $stmts[0]->expr->static = true;
 $stmts[1]->expr->static = false;
 -----
 <?php
-static fn($a)
-: int
-=> $a;
+static fn($a): int => $a;
 
-fn($a)
-: int
-=> $a;
+fn($a): int => $a;
 -----
 <?php
 fn($a)
@@ -91,14 +87,11 @@ fn&($a)
 : int
 => $a;
 -----
+// TODO: Format preserving currently not supported
 $stmts[0]->expr->byRef = true;
 $stmts[1]->expr->byRef = false;
 -----
 <?php
-fn&($a)
-: int
-=> $a;
+fn&($a): int => $a;
 
-fn($a)
-: int
-=> $a;
+fn($a): int => $a;
