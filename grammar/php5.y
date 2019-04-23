@@ -650,7 +650,6 @@ expr:
     | T_PRINT expr                                          { $$ = Expr\Print_[$2]; }
     | T_YIELD                                               { $$ = Expr\Yield_[null, null]; }
     | T_YIELD_FROM expr                                     { $$ = Expr\YieldFrom[$2]; }
-
     | T_FUNCTION optional_ref '(' parameter_list ')' lexical_vars optional_return_type
       '{' inner_statement_list '}'
           { $$ = Expr\Closure[['static' => false, 'byRef' => $2, 'params' => $4, 'uses' => $6, 'returnType' => $7, 'stmts' => $9]]; }
