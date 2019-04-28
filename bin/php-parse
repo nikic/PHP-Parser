@@ -45,14 +45,15 @@ $traverser->addVisitor(new PhpParser\NodeVisitor\NameResolver);
 foreach ($files as $file) {
     if (strpos($file, '<?php') === 0) {
         $code = $file;
-        echo "====> Code $code\n";
+        fwrite(STDERR, "====> Code $code\n");
     } else {
         if (!file_exists($file)) {
-            die("File $file does not exist.\n");
+            fwrite(STDERR, "File $file does not exist.\n");
+            exit(1);
         }
 
         $code = file_get_contents($file);
-        echo "====> File $file:\n";
+        fwrite(STDERR, "====> File $file:\n");
     }
 
     if ($attributes['with-recovery']) {
@@ -60,7 +61,7 @@ foreach ($files as $file) {
         $stmts = $parser->parse($code, $errorHandler);
         foreach ($errorHandler->getErrors() as $error) {
             $message = formatErrorMessage($error, $code, $attributes['with-column-info']);
-            echo $message . "\n";
+            fwrite(STDERR, $message . "\n");
         }
         if (null === $stmts) {
             continue;
@@ -70,25 +71,26 @@ foreach ($files as $file) {
             $stmts = $parser->parse($code);
         } catch (PhpParser\Error $error) {
             $message = formatErrorMessage($error, $code, $attributes['with-column-info']);
-            die($message . "\n");
+            fwrite(STDERR, $message . "\n");
+            exit(1);
         }
     }
 
     foreach ($operations as $operation) {
         if ('dump' === $operation) {
-            echo "==> Node dump:\n";
+            fwrite(STDERR, "==> Node dump:\n");
             echo $dumper->dump($stmts, $code), "\n";
         } elseif ('pretty-print' === $operation) {
-            echo "==> Pretty print:\n";
+            fwrite(STDERR, "==> Pretty print:\n");
             echo $prettyPrinter->prettyPrintFile($stmts), "\n";
         } elseif ('json-dump' === $operation) {
-            echo "==> JSON dump:\n";
+            fwrite(STDERR, "==> JSON dump:\n");
             echo json_encode($stmts, JSON_PRETTY_PRINT), "\n";
         } elseif ('var-dump' === $operation) {
-            echo "==> var_dump():\n";
+            fwrite(STDERR, "==> var_dump():\n");
             var_dump($stmts);
         } elseif ('resolve-names' === $operation) {
-            echo "==> Resolved names.\n";
+            fwrite(STDERR, "==> Resolved names.\n");
             $stmts = $traverser->traverse($stmts);
         }
     }
@@ -104,9 +106,9 @@ function formatErrorMessage(PhpParser\Error $e, $code, $withColumnInfo) {
 
 function showHelp($error = '') {
     if ($error) {
-        echo $error . "\n\n";
+        fwrite(STDERR, $error . "\n\n");
     }
-    die(<<<OUTPUT
+    fwrite($error ? STDERR : STDOUT, <<<OUTPUT
 Usage: php-parse [operations] file1.php [file2.php ...]
    or: php-parse [operations] "<?php code"
 Turn PHP source code into an abstract syntax tree.
@@ -131,6 +133,7 @@ Example:
 
 OUTPUT
     );
+    exit($error ? 1 : 0);
 }
 
 function parseArgs($args) {
