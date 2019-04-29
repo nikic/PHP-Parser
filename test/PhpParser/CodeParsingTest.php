@@ -96,6 +96,11 @@ class CodeParsingTest extends CodeTestAbstract
                 $endFilePos = $node->getEndFilePos();
                 $startTokenPos = $node->getStartTokenPos();
                 $endTokenPos = $node->getEndTokenPos();
+
+                if ($node instanceof Stmt\Nop && $endTokenPos === -1) {
+                    return;
+                }
+
                 if ($startLine < 0 || $endLine < 0 ||
                     $startFilePos < 0 || $endFilePos < 0 ||
                     $startTokenPos < 0 || $endTokenPos < 0

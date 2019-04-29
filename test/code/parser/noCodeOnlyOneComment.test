@@ -1,0 +1,13 @@
+No code, only one comment
+-----
+<?php
+
+// This test was added because of https://github.com/nikic/PHP-Parser/issues/589
+-----
+array(
+    0: Stmt_Nop(
+        comments: array(
+            0: // This test was added because of https://github.com/nikic/PHP-Parser/issues/589
+        )
+    )
+)

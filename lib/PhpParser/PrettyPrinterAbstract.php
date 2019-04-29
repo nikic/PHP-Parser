@@ -750,7 +750,10 @@ abstract class PrettyPrinterAbstract
 
                 $itemStartPos = $origArrItem->getStartTokenPos();
                 $itemEndPos = $origArrItem->getEndTokenPos();
-                \assert($itemStartPos >= 0 && $itemEndPos >= 0);
+
+                if ($origArrItem instanceof Stmt\Nop && $itemEndPos > -1) {
+                    \assert($itemStartPos >= 0 && $itemEndPos >= 0);
+                }
 
                 if ($itemEndPos < $itemStartPos) {
                     // End can be before start for Nop nodes, because offsets refer to non-whitespace
