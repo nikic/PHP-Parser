@@ -53,7 +53,7 @@ final class FnTokenEmulator implements TokenEmulatorInterface
      */
     private function getPreviousNonSpaceToken(array $tokens, int $start)
     {
-        for ($i = $start - 1; $i > 0; --$i) {
+        for ($i = $start - 1; $i >= 0; --$i) {
             if ($tokens[$i][0] === T_WHITESPACE) {
                 continue;
             }
