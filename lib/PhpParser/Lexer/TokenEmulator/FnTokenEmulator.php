@@ -29,12 +29,12 @@ final class FnTokenEmulator implements TokenEmulatorInterface
         return strpos($code, 'fn') !== false;
     }
 
-    public function emulate(string $code, array $tokens) : array
+    public function emulate(string $code, array $tokens): array
     {
         // We need to manually iterate and manage a count because we'll change
         // the tokens array on the way
-        for ($i = 0, $c = count($tokens); $i < $c; ++$i) {
-            if ($tokens[$i][0] === T_STRING && $tokens[$i][1] === 'fn') {
+        foreach ($tokens as $i => $token) {
+            if ($token[0] === T_STRING && $token[1] === 'fn') {
                 $previousNonSpaceToken = $this->getPreviousNonSpaceToken($tokens, $i);
                 if ($previousNonSpaceToken !== null && $previousNonSpaceToken[0] === T_OBJECT_OPERATOR) {
                     continue;

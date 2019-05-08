@@ -29,7 +29,7 @@ final class CoaleseEqualTokenEmulator implements TokenEmulatorInterface
         return strpos($code, '??=') !== false;
     }
 
-    public function emulate(string $code, array $tokens) : array
+    public function emulate(string $code, array $tokens): array
     {
         // We need to manually iterate and manage a count because we'll change
         // the tokens array on the way
