@@ -1232,8 +1232,8 @@ abstract class PrettyPrinterAbstract
         $this->insertionMap = [
             'Expr_ArrayDimFetch->dim' => ['[', false, null, null],
             'Expr_ArrayItem->key' => [null, false, null, ' => '],
-            'Expr_Closure->returnType' => [')', false, ' : ', null],
             'Expr_ArrowFunction->returnType' => [')', false, ' : ', null],
+            'Expr_Closure->returnType' => [')', false, ' : ', null],
             'Expr_Ternary->if' => ['?', false, ' ', ' '],
             'Expr_Yield->key' => [\T_YIELD, false, null, ' => '],
             'Expr_Yield->value' => [\T_YIELD, false, ' ', null],
