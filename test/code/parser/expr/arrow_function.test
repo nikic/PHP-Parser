@@ -6,6 +6,7 @@ fn($x = 42) => $x;
 static fn(&$x) => $x;
 fn&($x) => $x;
 fn($x, ...$rest) => $rest;
+fn(): int => $x;
 -----
 !!php7
 array(
@@ -124,6 +125,20 @@ array(
             returnType: null
             expr: Expr_Variable(
                 name: rest
+            )
+        )
+    )
+    5: Stmt_Expression(
+        expr: Expr_ArrowFunction(
+            static: false
+            byRef: false
+            params: array(
+            )
+            returnType: Identifier(
+                name: int
+            )
+            expr: Expr_Variable(
+                name: x
             )
         )
     )
