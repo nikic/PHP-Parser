@@ -8,10 +8,10 @@ interface TokenEmulatorInterface
 
     public function getParserTokenId(): int;
 
-    public function isEmulationNeeded(string $code) : bool;
+    public function isEmulationNeeded(string $code): bool;
 
     /**
      * @return array Modified Tokens
      */
-    public function emulate(string $code, array $tokens) : array;
+    public function emulate(string $code, array $tokens): array;
 }
