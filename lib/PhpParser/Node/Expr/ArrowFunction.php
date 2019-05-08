@@ -30,6 +30,7 @@ class ArrowFunction extends Expr implements FunctionLike
      *                          'params'     => array() : Parameters
      *                          'returnType' => null    : Return type
      *                          'expr'       => Expr    : Expression body
+     * @param array $attributes Additional attributes
      */
     public function __construct(array $subNodes = [], array $attributes = []) {
         parent::__construct($attributes);
