@@ -64,6 +64,7 @@
 %token T_CONTINUE
 %token T_GOTO
 %token T_FUNCTION
+%token T_FN
 %token T_CONST
 %token T_RETURN
 %token T_TRY

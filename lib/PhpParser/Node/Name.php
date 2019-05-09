@@ -6,9 +6,7 @@ use PhpParser\NodeAbstract;
 
 class Name extends NodeAbstract
 {
-    /**
-     * @var string[] Parts of the name
-     */
+    /** @var string[] Parts of the name */
     public $parts;
 
     private static $specialClassNames = [
@@ -237,7 +235,7 @@ class Name extends NodeAbstract
             'Expected string, array of parts or Name instance'
         );
     }
-    
+
     public function getType() : string {
         return 'Name';
     }
