@@ -144,6 +144,7 @@ array(
                                                     value: udef
                                                 )
                                                 byRef: false
+                                                unpack: false
                                             )
                                             1: Expr_ArrayItem(
                                                 key: null
@@ -151,6 +152,7 @@ array(
                                                     value: id
                                                 )
                                                 byRef: false
+                                                unpack: false
                                             )
                                         )
                                     )
@@ -345,6 +347,7 @@ array(
                                             name: obj
                                         )
                                         byRef: false
+                                        unpack: false
                                     )
                                     1: Expr_ArrayItem(
                                         key: null
@@ -352,6 +355,7 @@ array(
                                             value: id
                                         )
                                         byRef: false
+                                        unpack: false
                                     )
                                 )
                             )

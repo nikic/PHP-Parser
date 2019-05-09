@@ -21,6 +21,7 @@ array(
                                         value: 0
                                     )
                                     byRef: false
+                                    unpack: false
                                 )
                                 1: Expr_ArrayItem(
                                     key: null
@@ -28,6 +29,7 @@ array(
                                         value: 1
                                     )
                                     byRef: false
+                                    unpack: false
                                 )
                             )
                         )
@@ -57,6 +59,7 @@ array(
                                     value: b
                                 )
                                 byRef: false
+                                unpack: false
                             )
                         )
                     )

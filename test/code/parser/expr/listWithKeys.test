@@ -19,6 +19,7 @@ array(
                             name: b
                         )
                         byRef: false
+                        unpack: false
                     )
                 )
             )
@@ -32,6 +33,7 @@ array(
                             value: b
                         )
                         byRef: false
+                        unpack: false
                     )
                 )
             )
@@ -55,10 +57,12 @@ array(
                                         name: c
                                     )
                                     byRef: false
+                                    unpack: false
                                 )
                             )
                         )
                         byRef: false
+                        unpack: false
                     )
                     1: Expr_ArrayItem(
                         key: Scalar_String(
@@ -68,6 +72,7 @@ array(
                             name: e
                         )
                         byRef: false
+                        unpack: false
                     )
                 )
             )
