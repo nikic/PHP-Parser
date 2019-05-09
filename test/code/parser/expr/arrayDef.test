@@ -29,6 +29,7 @@ array(
                         value: a
                     )
                     byRef: false
+                    unpack: false
                 )
             )
         )
@@ -42,6 +43,7 @@ array(
                         value: a
                     )
                     byRef: false
+                    unpack: false
                 )
             )
         )
@@ -55,6 +57,7 @@ array(
                         value: a
                     )
                     byRef: false
+                    unpack: false
                 )
                 1: Expr_ArrayItem(
                     key: null
@@ -62,6 +65,7 @@ array(
                         value: b
                     )
                     byRef: false
+                    unpack: false
                 )
             )
         )
@@ -75,6 +79,7 @@ array(
                         value: a
                     )
                     byRef: false
+                    unpack: false
                 )
                 1: Expr_ArrayItem(
                     key: null
@@ -82,6 +87,7 @@ array(
                         name: b
                     )
                     byRef: true
+                    unpack: false
                 )
                 2: Expr_ArrayItem(
                     key: Scalar_String(
@@ -91,6 +97,7 @@ array(
                         value: d
                     )
                     byRef: false
+                    unpack: false
                 )
                 3: Expr_ArrayItem(
                     key: Scalar_String(
@@ -100,6 +107,7 @@ array(
                         name: f
                     )
                     byRef: true
+                    unpack: false
                 )
             )
         )
@@ -125,6 +133,7 @@ array(
                         value: 1
                     )
                     byRef: false
+                    unpack: false
                 )
                 1: Expr_ArrayItem(
                     key: null
@@ -132,6 +141,7 @@ array(
                         value: 2
                     )
                     byRef: false
+                    unpack: false
                 )
                 2: Expr_ArrayItem(
                     key: null
@@ -139,6 +149,7 @@ array(
                         value: 3
                     )
                     byRef: false
+                    unpack: false
                 )
             )
         )
@@ -154,6 +165,7 @@ array(
                         value: b
                     )
                     byRef: false
+                    unpack: false
                 )
             )
         )

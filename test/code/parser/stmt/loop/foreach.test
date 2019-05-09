@@ -87,6 +87,7 @@ array(
                         name: a
                     )
                     byRef: false
+                    unpack: false
                 )
                 1: Expr_ArrayItem(
                     key: null
@@ -94,6 +95,7 @@ array(
                         name: b
                     )
                     byRef: false
+                    unpack: false
                 )
             )
         )
@@ -116,6 +118,7 @@ array(
                         name: b
                     )
                     byRef: false
+                    unpack: false
                 )
                 1: null
                 2: Expr_ArrayItem(
@@ -124,6 +127,7 @@ array(
                         name: c
                     )
                     byRef: false
+                    unpack: false
                 )
             )
         )

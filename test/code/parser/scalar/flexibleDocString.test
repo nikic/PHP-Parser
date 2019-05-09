@@ -123,6 +123,7 @@ array(
                             value: Test
                         )
                         byRef: false
+                        unpack: false
                     )
                     1: Expr_ArrayItem(
                         key: null
@@ -130,6 +131,7 @@ array(
                             value: Test
                         )
                         byRef: false
+                        unpack: false
                     )
                 )
             )

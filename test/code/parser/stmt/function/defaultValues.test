@@ -130,6 +130,7 @@ array(
                                 value: foo
                             )
                             byRef: false
+                            unpack: false
                         )
                     )
                 )
@@ -149,6 +150,7 @@ array(
                                 value: foo
                             )
                             byRef: false
+                            unpack: false
                         )
                         1: Expr_ArrayItem(
                             key: Scalar_String(
@@ -158,6 +160,7 @@ array(
                                 value: baz
                             )
                             byRef: false
+                            unpack: false
                         )
                     )
                 )

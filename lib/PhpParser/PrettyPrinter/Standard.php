@@ -545,7 +545,9 @@ class Standard extends PrettyPrinterAbstract
 
     protected function pExpr_ArrayItem(Expr\ArrayItem $node) {
         return (null !== $node->key ? $this->p($node->key) . ' => ' : '')
-             . ($node->byRef ? '&' : '') . $this->p($node->value);
+             . ($node->byRef ? '&' : '')
+             . ($node->unpack ? '...' : '')
+             . $this->p($node->value);
     }
 
     protected function pExpr_ArrayDimFetch(Expr\ArrayDimFetch $node) {

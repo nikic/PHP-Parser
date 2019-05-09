@@ -1304,6 +1304,7 @@ array(
                             )
                         )
                         byRef: false
+                        unpack: false
                     )
                     1: Expr_ArrayItem(
                         key: null
@@ -1318,6 +1319,7 @@ array(
                             )
                         )
                         byRef: false
+                        unpack: false
                     )
                 )
             )
@@ -1336,6 +1338,7 @@ array(
                             name: value
                         )
                         byRef: false
+                        unpack: false
                     )
                     1: Expr_ArrayItem(
                         key: null
@@ -1343,6 +1346,7 @@ array(
                             name: oopsAnotherValue
                         )
                         byRef: false
+                        unpack: false
                     )
                 )
             )
@@ -1363,6 +1367,7 @@ array(
                             name: value
                         )
                         byRef: false
+                        unpack: false
                     )
                     1: Expr_ArrayItem(
                         key: null
@@ -1370,6 +1375,7 @@ array(
                             name: oopsAnotherValue
                         )
                         byRef: false
+                        unpack: false
                     )
                 )
             )

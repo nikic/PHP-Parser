@@ -253,6 +253,7 @@ array(
                             name: a
                         )
                         byRef: false
+                        unpack: false
                     )
                 )
                 comments: array(
@@ -280,6 +281,7 @@ array(
                             name: a
                         )
                         byRef: false
+                        unpack: false
                     )
                     1: null
                     2: Expr_ArrayItem(
@@ -288,6 +290,7 @@ array(
                             name: b
                         )
                         byRef: false
+                        unpack: false
                     )
                 )
             )
@@ -306,6 +309,7 @@ array(
                             name: a
                         )
                         byRef: false
+                        unpack: false
                     )
                     1: Expr_ArrayItem(
                         key: null
@@ -318,10 +322,12 @@ array(
                                         name: c
                                     )
                                     byRef: false
+                                    unpack: false
                                 )
                             )
                         )
                         byRef: false
+                        unpack: false
                     )
                     2: Expr_ArrayItem(
                         key: null
@@ -329,6 +335,7 @@ array(
                             name: d
                         )
                         byRef: false
+                        unpack: false
                     )
                 )
             )
