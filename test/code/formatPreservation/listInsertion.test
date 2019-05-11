@@ -73,13 +73,10 @@ function test($param0, Foo     $param1) {}
 function test() {}
 -----
 $stmts[0]->params[] = new Node\Param(new Expr\Variable('param0'));
-/* Insertion into empty list not handled yet */
 -----
 <?php
 
-function test($param0)
-{
-}
+function test($param0) {}
 -----
 <?php
 
