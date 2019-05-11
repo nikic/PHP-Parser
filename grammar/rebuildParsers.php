@@ -13,9 +13,12 @@ $tmpResultFile  = __DIR__ . '/tmp_parser.php';
 $resultDir = __DIR__ . '/../lib/PhpParser/Parser';
 $tokensResultsFile = $resultDir . '/Tokens.php';
 
-// check for kmyacc.exe binary in this directory, otherwise fall back to global name
-$kmyacc = __DIR__ . '/kmyacc.exe';
-if (!file_exists($kmyacc)) {
+// check for kmyacc binary in this directory, otherwise fall back to global name
+if (file_exists(__DIR__ . '/kmyacc.exe')) {
+    $kmyacc = __DIR__ . '/kmyacc.exe';
+} else if (file_exists(__DIR__ . '/kmyacc')) {
+    $kmyacc = __DIR__ . '/kmyacc';
+} else {
     $kmyacc = 'kmyacc';
 }
 
@@ -173,6 +176,15 @@ function resolveMacros($code) {
                 . ' if (isset($startAttributes[\'comments\']))'
                 . ' { ' . $args[0] . ' = new Stmt\Nop($startAttributes + ' . $args[2] . '); }'
                 . ' else { ' . $args[0] . ' = null; }';
+            }
+
+            if ('makeZeroLengthNop' == $name) {
+                assertArgs(2, $args, $name);
+
+                return '$startAttributes = ' . $args[1] . ';'
+                    . ' if (isset($startAttributes[\'comments\']))'
+                    . ' { ' . $args[0] . ' = new Stmt\Nop($this->createZeroLengthAttributes($startAttributes)); }'
+                    . ' else { ' . $args[0] . ' = null; }';
             }
 
             if ('strKind' == $name) {

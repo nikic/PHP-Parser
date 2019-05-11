@@ -16,7 +16,7 @@ top_statement_list_ex:
 
 top_statement_list:
       top_statement_list_ex
-          { makeNop($nop, $this->lookaheadStartAttributes, $this->endAttributes);
+          { makeZeroLengthNop($nop, $this->lookaheadStartAttributes);
             if ($nop !== null) { $1[] = $nop; } $$ = $1; }
 ;
 
@@ -160,7 +160,7 @@ inner_statement_list_ex:
 
 inner_statement_list:
       inner_statement_list_ex
-          { makeNop($nop, $this->lookaheadStartAttributes, $this->endAttributes);
+          { makeZeroLengthNop($nop, $this->lookaheadStartAttributes);
             if ($nop !== null) { $1[] = $nop; } $$ = $1; }
 ;
 
@@ -461,7 +461,7 @@ class_statement_list_ex:
 
 class_statement_list:
       class_statement_list_ex
-          { makeNop($nop, $this->lookaheadStartAttributes, $this->endAttributes);
+          { makeZeroLengthNop($nop, $this->lookaheadStartAttributes);
             if ($nop !== null) { $1[] = $nop; } $$ = $1; }
 ;
 

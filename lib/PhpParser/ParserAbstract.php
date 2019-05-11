@@ -839,6 +839,26 @@ abstract class ParserAbstract implements Parser
         }
     }
 
+    /**
+     * Create attributes for a zero-length node with the given start attributes.
+     *
+     * @param array $startAttributes
+     * @return array
+     */
+    protected function createZeroLengthAttributes(array $startAttributes) {
+        $attributes = $startAttributes;
+        if (isset($startAttributes['startLine'])) {
+            $attributes['endLine'] = $startAttributes['startLine'];
+        }
+        if (isset($startAttributes['startTokenPos'])) {
+            $attributes['endTokenPos'] = $startAttributes['startTokenPos'] - 1;
+        }
+        if (isset($startAttributes['startFilePos'])) {
+            $attributes['endFilePos'] = $startAttributes['startFilePos'] - 1;
+        }
+        return $attributes;
+    }
+
     protected function checkModifier($a, $b, $modifierPos) {
         // Jumping through some hoops here because verifyModifier() is also used elsewhere
         try {

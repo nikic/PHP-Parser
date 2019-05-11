@@ -869,7 +869,7 @@ class Php7 extends \PhpParser\ParserAbstract
                  $this->semValue = array();
             },
             4 => function ($stackPos) {
-                 $startAttributes = $this->lookaheadStartAttributes; if (isset($startAttributes['comments'])) { $nop = new Stmt\Nop($startAttributes + $this->endAttributes); } else { $nop = null; };
+                 $startAttributes = $this->lookaheadStartAttributes; if (isset($startAttributes['comments'])) { $nop = new Stmt\Nop($this->createZeroLengthAttributes($startAttributes)); } else { $nop = null; };
             if ($nop !== null) { $this->semStack[$stackPos-(1-1)][] = $nop; } $this->semValue = $this->semStack[$stackPos-(1-1)];
             },
             5 => function ($stackPos) {
@@ -1275,7 +1275,7 @@ class Php7 extends \PhpParser\ParserAbstract
                  $this->semValue = array();
             },
             137 => function ($stackPos) {
-                 $startAttributes = $this->lookaheadStartAttributes; if (isset($startAttributes['comments'])) { $nop = new Stmt\Nop($startAttributes + $this->endAttributes); } else { $nop = null; };
+                 $startAttributes = $this->lookaheadStartAttributes; if (isset($startAttributes['comments'])) { $nop = new Stmt\Nop($this->createZeroLengthAttributes($startAttributes)); } else { $nop = null; };
             if ($nop !== null) { $this->semStack[$stackPos-(1-1)][] = $nop; } $this->semValue = $this->semStack[$stackPos-(1-1)];
             },
             138 => function ($stackPos) {
@@ -1694,7 +1694,7 @@ class Php7 extends \PhpParser\ParserAbstract
                  $this->semValue = array();
             },
             273 => function ($stackPos) {
-                 $startAttributes = $this->lookaheadStartAttributes; if (isset($startAttributes['comments'])) { $nop = new Stmt\Nop($startAttributes + $this->endAttributes); } else { $nop = null; };
+                 $startAttributes = $this->lookaheadStartAttributes; if (isset($startAttributes['comments'])) { $nop = new Stmt\Nop($this->createZeroLengthAttributes($startAttributes)); } else { $nop = null; };
             if ($nop !== null) { $this->semStack[$stackPos-(1-1)][] = $nop; } $this->semValue = $this->semStack[$stackPos-(1-1)];
             },
             274 => function ($stackPos) {
