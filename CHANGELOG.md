@@ -1,7 +1,21 @@
 Version 4.2.2-dev
 -----------------
 
-Nothing yet.
+### Added
+
+* [PHP 7.4] Add support for arrow functions using a new `Expr\ArrowFunction` node. (#602)
+* [PHP 7.4] Add support for array spreads, using a new `unpack` subnode on `ArrayItem`. (#609)
+* Added support for inserting into empty list nodes in the formatting preserving pretty printer.
+
+### Changed
+
+* `php-parse` will now print messages to stderr, so that stdout only contains the actual result of
+  the operation (such as a JSON dump). (#605)
+
+### Fixed
+
+* Fixed attribute assignment for zero-length nop statements, and a related assertion failure in
+  the formatting-preserving pretty printer. (#589)
 
 Version 4.2.1 (2019-02-16)
 --------------------------

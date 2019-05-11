@@ -877,7 +877,6 @@ abstract class PrettyPrinterAbstract
         }
 
         if (!empty($delayedAdd)) {
-            // TODO Handle insertion into empty list
             if (!isset($this->emptyListInsertionMap[$mapKey])) {
                 return null;
             }
