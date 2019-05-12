@@ -20,7 +20,7 @@ class FuncCall extends Expr
      * @param array          $attributes Additional attributes
      */
     public function __construct($name, array $args = [], array $attributes = []) {
-        parent::__construct($attributes);
+        $this->attributes = $attributes;
         $this->name = $name;
         $this->args = $args;
     }

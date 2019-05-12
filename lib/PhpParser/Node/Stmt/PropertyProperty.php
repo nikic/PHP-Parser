@@ -19,7 +19,7 @@ class PropertyProperty extends Node\Stmt
      * @param array                         $attributes Additional attributes
      */
     public function __construct($name, Node\Expr $default = null, array $attributes = []) {
-        parent::__construct($attributes);
+        $this->attributes = $attributes;
         $this->name = \is_string($name) ? new Node\VarLikeIdentifier($name) : $name;
         $this->default = $default;
     }

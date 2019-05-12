@@ -16,7 +16,7 @@ class Break_ extends Node\Stmt
      * @param array          $attributes Additional attributes
      */
     public function __construct(Node\Expr $num = null, array $attributes = []) {
-        parent::__construct($attributes);
+        $this->attributes = $attributes;
         $this->num = $num;
     }
 

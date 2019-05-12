@@ -19,7 +19,7 @@ abstract class BinaryOp extends Expr
      * @param array $attributes Additional attributes
      */
     public function __construct(Expr $left, Expr $right, array $attributes = []) {
-        parent::__construct($attributes);
+        $this->attributes = $attributes;
         $this->left = $left;
         $this->right = $right;
     }

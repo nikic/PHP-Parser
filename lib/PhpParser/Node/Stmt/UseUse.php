@@ -23,7 +23,7 @@ class UseUse extends Node\Stmt
      * @param array                  $attributes Additional attributes
      */
     public function __construct(Node\Name $name, $alias = null, int $type = Use_::TYPE_UNKNOWN, array $attributes = []) {
-        parent::__construct($attributes);
+        $this->attributes = $attributes;
         $this->type = $type;
         $this->name = $name;
         $this->alias = \is_string($alias) ? new Identifier($alias) : $alias;

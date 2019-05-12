@@ -19,7 +19,7 @@ class ClosureUse extends Expr
      * @param array         $attributes Additional attributes
      */
     public function __construct(Expr\Variable $var, bool $byRef = false, array $attributes = []) {
-        parent::__construct($attributes);
+        $this->attributes = $attributes;
         $this->var = $var;
         $this->byRef = $byRef;
     }

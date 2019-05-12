@@ -17,7 +17,7 @@ class Label extends Stmt
      * @param array             $attributes Additional attributes
      */
     public function __construct($name, array $attributes = []) {
-        parent::__construct($attributes);
+        $this->attributes = $attributes;
         $this->name = \is_string($name) ? new Identifier($name) : $name;
     }
 

@@ -16,7 +16,7 @@ class HaltCompiler extends Stmt
      * @param array  $attributes Additional attributes
      */
     public function __construct(string $remaining, array $attributes = []) {
-        parent::__construct($attributes);
+        $this->attributes = $attributes;
         $this->remaining = $remaining;
     }
 

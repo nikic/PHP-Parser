@@ -26,7 +26,7 @@ class If_ extends Node\Stmt
      * @param array     $attributes Additional attributes
      */
     public function __construct(Node\Expr $cond, array $subNodes = [], array $attributes = []) {
-        parent::__construct($attributes);
+        $this->attributes = $attributes;
         $this->cond = $cond;
         $this->stmts = $subNodes['stmts'] ?? [];
         $this->elseifs = $subNodes['elseifs'] ?? [];

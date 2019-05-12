@@ -51,7 +51,7 @@ class ClassMethod extends Node\Stmt implements FunctionLike
      * @param array $attributes Additional attributes
      */
     public function __construct($name, array $subNodes = [], array $attributes = []) {
-        parent::__construct($attributes);
+        $this->attributes = $attributes;
         $this->flags = $subNodes['flags'] ?? $subNodes['type'] ?? 0;
         $this->byRef = $subNodes['byRef'] ?? false;
         $this->name = \is_string($name) ? new Node\Identifier($name) : $name;

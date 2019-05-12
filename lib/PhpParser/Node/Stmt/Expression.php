@@ -19,7 +19,7 @@ class Expression extends Node\Stmt
      * @param array     $attributes Additional attributes
      */
     public function __construct(Node\Expr $expr, array $attributes = []) {
-        parent::__construct($attributes);
+        $this->attributes = $attributes;
         $this->expr = $expr;
     }
 

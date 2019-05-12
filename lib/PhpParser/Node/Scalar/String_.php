@@ -34,7 +34,7 @@ class String_ extends Scalar
      * @param array  $attributes Additional attributes
      */
     public function __construct(string $value, array $attributes = []) {
-        parent::__construct($attributes);
+        $this->attributes = $attributes;
         $this->value = $value;
     }
 

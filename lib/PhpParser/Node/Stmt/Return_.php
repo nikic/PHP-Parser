@@ -16,7 +16,7 @@ class Return_ extends Node\Stmt
      * @param array          $attributes Additional attributes
      */
     public function __construct(Node\Expr $expr = null, array $attributes = []) {
-        parent::__construct($attributes);
+        $this->attributes = $attributes;
         $this->expr = $expr;
     }
 

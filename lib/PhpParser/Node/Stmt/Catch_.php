@@ -25,7 +25,7 @@ class Catch_ extends Node\Stmt
     public function __construct(
         array $types, Expr\Variable $var, array $stmts = [], array $attributes = []
     ) {
-        parent::__construct($attributes);
+        $this->attributes = $attributes;
         $this->types = $types;
         $this->var = $var;
         $this->stmts = $stmts;

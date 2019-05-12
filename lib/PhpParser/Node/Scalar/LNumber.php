@@ -23,7 +23,7 @@ class LNumber extends Scalar
      * @param array $attributes Additional attributes
      */
     public function __construct(int $value, array $attributes = []) {
-        parent::__construct($attributes);
+        $this->attributes = $attributes;
         $this->value = $value;
     }
 

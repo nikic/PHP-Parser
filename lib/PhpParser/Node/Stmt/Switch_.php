@@ -19,7 +19,7 @@ class Switch_ extends Node\Stmt
      * @param array     $attributes Additional attributes
      */
     public function __construct(Node\Expr $cond, array $cases, array $attributes = []) {
-        parent::__construct($attributes);
+        $this->attributes = $attributes;
         $this->cond = $cond;
         $this->cases = $cases;
     }

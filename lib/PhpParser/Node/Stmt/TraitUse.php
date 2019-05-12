@@ -19,7 +19,7 @@ class TraitUse extends Node\Stmt
      * @param array                $attributes  Additional attributes
      */
     public function __construct(array $traits, array $adaptations = [], array $attributes = []) {
-        parent::__construct($attributes);
+        $this->attributes = $attributes;
         $this->traits = $traits;
         $this->adaptations = $adaptations;
     }

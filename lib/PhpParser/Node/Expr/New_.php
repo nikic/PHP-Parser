@@ -20,7 +20,7 @@ class New_ extends Expr
      * @param array                           $attributes Additional attributes
      */
     public function __construct($class, array $args = [], array $attributes = []) {
-        parent::__construct($attributes);
+        $this->attributes = $attributes;
         $this->class = $class;
         $this->args = $args;
     }

@@ -24,7 +24,7 @@ class ArrayItem extends Expr
      * @param array     $attributes Additional attributes
      */
     public function __construct(Expr $value, Expr $key = null, bool $byRef = false, array $attributes = [], bool $unpack = false) {
-        parent::__construct($attributes);
+        $this->attributes = $attributes;
         $this->key = $key;
         $this->value = $value;
         $this->byRef = $byRef;

@@ -31,7 +31,7 @@ class Param extends NodeAbstract
         $var, Expr $default = null, $type = null,
         bool $byRef = false, bool $variadic = false, array $attributes = []
     ) {
-        parent::__construct($attributes);
+        $this->attributes = $attributes;
         $this->type = \is_string($type) ? new Identifier($type) : $type;
         $this->byRef = $byRef;
         $this->variadic = $variadic;

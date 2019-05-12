@@ -22,7 +22,7 @@ class Ternary extends Expr
      * @param array                    $attributes Additional attributes
      */
     public function __construct(Expr $cond, $if, Expr $else, array $attributes = []) {
-        parent::__construct($attributes);
+        $this->attributes = $attributes;
         $this->cond = $cond;
         $this->if = $if;
         $this->else = $else;

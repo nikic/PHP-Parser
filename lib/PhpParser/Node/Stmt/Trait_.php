@@ -15,7 +15,7 @@ class Trait_ extends ClassLike
      * @param array  $attributes Additional attributes
      */
     public function __construct($name, array $subNodes = [], array $attributes = []) {
-        parent::__construct($attributes);
+        $this->attributes = $attributes;
         $this->name = \is_string($name) ? new Node\Identifier($name) : $name;
         $this->stmts = $subNodes['stmts'] ?? [];
     }

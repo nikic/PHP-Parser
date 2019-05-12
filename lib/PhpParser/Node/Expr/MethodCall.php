@@ -24,7 +24,7 @@ class MethodCall extends Expr
      * @param array                  $attributes Additional attributes
      */
     public function __construct(Expr $var, $name, array $args = [], array $attributes = []) {
-        parent::__construct($attributes);
+        $this->attributes = $attributes;
         $this->var = $var;
         $this->name = \is_string($name) ? new Identifier($name) : $name;
         $this->args = $args;
