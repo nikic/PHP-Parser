@@ -891,6 +891,7 @@ callable_variable:
     | dereferencable '[' optional_expr ']'                  { $$ = Expr\ArrayDimFetch[$1, $3]; }
     | constant '[' optional_expr ']'                        { $$ = Expr\ArrayDimFetch[$1, $3]; }
     | dereferencable '{' expr '}'                           { $$ = Expr\ArrayDimFetch[$1, $3]; }
+    | dereferencable '{' error '}'                          { $$ = Expr\ArrayDimFetch[$1, new Expr\Error(stackAttributes(#3))]; }
     | function_call                                         { $$ = $1; }
     | dereferencable T_OBJECT_OPERATOR property_name argument_list
           { $$ = Expr\MethodCall[$1, $3, $4]; }
