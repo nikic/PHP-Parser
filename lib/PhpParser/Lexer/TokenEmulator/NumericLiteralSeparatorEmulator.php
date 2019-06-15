@@ -30,20 +30,28 @@ final class NumericLiteralSeparatorEmulator
             if (in_array($tokens[$i][0], [T_LNUMBER, T_DNUMBER], true) && $nextToken[0] === T_STRING && strpos($nextToken[1], '_') === 0) {
                 $numberOfTokensToSquash = 2;
 
-                $numericVault = $tokens[$i][1] . $nextToken[1];
+                $numericVault = $tokens[$i][1];
 
-                if (isset($tokens[$i + 1])) {
-                    $nextNextToken = $tokens[$i + 1];
-                    var_dump($nextNextToken);
-                    die;
+                $isFloat = $tokens[$i][0] === T_DNUMBER;
+
+                $nextPosition = $i + 1;
+                while (isset($tokens[$nextPosition]) && $this->isPartOfNumberToken($tokens[$nextPosition])) {
+                    $numericVault .= $tokens[$nextPosition][1];
+
+                    if ($tokens[$nextPosition][0] === T_DNUMBER) {
+                        $isFloat = true;
+                    }
+
+                    ++$nextPosition;
+                    ++$numberOfTokensToSquash;
                 }
 
                 // merge this and next token
                 array_splice($tokens, $i, $numberOfTokensToSquash, [
-                    [$tokens[$i][0], $numericVault, $line]
+                    [$isFloat ? T_DNUMBER : T_LNUMBER, $numericVault, $line]
                 ]);
 
-                $c--;
+                $c -= $numberOfTokensToSquash;
                 continue;
             }
 
@@ -53,5 +61,21 @@ final class NumericLiteralSeparatorEmulator
         }
 
         return $tokens;
+    }
+
+    /**
+     * @param mixed[] $token
+     */
+    private function isPartOfNumberToken(array $token): bool
+    {
+        if ($token[0] === T_STRING && strpos($token[1], '_') === 0) {
+            return true;
+        }
+
+        if ($token[0] === T_DNUMBER) {
+            return true;
+        }
+
+        return false;
     }
 }
