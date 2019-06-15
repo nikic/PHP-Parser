@@ -13,7 +13,7 @@ final class NumericLiteralSeparatorEmulator
             return false;
         }
 
-        return strpos($code, '_') !== false;
+        return preg_match('~[0-9a-f]_[0-9a-f]~i', $code) !== false;
     }
 
     public function emulate(string $code, array $tokens): array
