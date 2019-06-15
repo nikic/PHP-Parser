@@ -132,17 +132,18 @@ class EmulativeTest extends LexerTest
                 [T_LNUMBER, '1000'],
             ]],
             ['0xCAFE_F00D', [
-                [T_LNUMBER, '0xCAFEF00D'],
+                [T_LNUMBER, '0xCAFE_F00D'],
             ]],
             ['0b0101_1111', [
-                [T_LNUMBER, '0b01011111'],
+                [T_LNUMBER, '0b0101_1111'],
             ]],
             ['0137_041', [
-                [T_LNUMBER, '0137041'],
+                [T_LNUMBER, '0137_041'],
             ]],
             ['1_000.0', [
-                [T_DNUMBER, '1000.0'],
+                [T_DNUMBER, '1_000.0'],
             ]],
+            // more complex
             ['yield from', [
                 [Tokens::T_YIELD_FROM, 'yield from'],
             ]],

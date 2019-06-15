@@ -28,10 +28,18 @@ final class NumericLiteralSeparatorEmulator
 
             $nextToken = $tokens[$i + 1];
             if (in_array($tokens[$i][0], [T_LNUMBER, T_DNUMBER], true) && $nextToken[0] === T_STRING && strpos($nextToken[1], '_') === 0) {
-                $numericVault = $tokens[$i][1] . ltrim($nextToken[1], '_');
+                $numberOfTokensToSquash = 2;
+
+                $numericVault = $tokens[$i][1] . $nextToken[1];
+
+                if (isset($tokens[$i + 1])) {
+                    $nextNextToken = $tokens[$i + 1];
+                    var_dump($nextNextToken);
+                    die;
+                }
 
                 // merge this and next token
-                array_splice($tokens, $i, 2, [
+                array_splice($tokens, $i, $numberOfTokensToSquash, [
                     [$tokens[$i][0], $numericVault, $line]
                 ]);
 
