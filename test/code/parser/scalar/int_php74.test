@@ -1,0 +1,19 @@
+Different integer syntaxes
+-----
+<?php
+
+$value = 1_100;
+
+-----
+array(
+    0: Stmt_Expression(
+        expr: Expr_Assign(
+            var: Expr_Variable(
+                name: value
+            )
+            expr: Scalar_LNumber(
+                value: 1100
+            )
+        )
+    )
+)

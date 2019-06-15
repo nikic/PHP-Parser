@@ -71,6 +71,7 @@ class EmulativeTest extends LexerTest
     }
 
     /**
+     * @dataProvider provideTestLexPhp74LiteralSeparator
      * @dataProvider provideTestLexNewFeatures
      */
     public function testLexNewFeatures($code, array $expectedTokens) {
@@ -85,6 +86,7 @@ class EmulativeTest extends LexerTest
     }
 
     /**
+     * @dataProvider provideTestLexPhp74LiteralSeparator
      * @dataProvider provideTestLexNewFeatures
      */
     public function testLeaveStuffAloneInStrings($code) {
@@ -99,6 +101,7 @@ class EmulativeTest extends LexerTest
     }
 
     /**
+     * @dataProvider provideTestLexPhp74LiteralSeparator
      * @dataProvider provideTestLexNewFeatures
      */
     public function testErrorAfterEmulation($code) {
@@ -121,31 +124,55 @@ class EmulativeTest extends LexerTest
         $this->assertSame($expLine, $attrs['endLine']);
     }
 
+    /**
+     * PHP 7.4 - 1_000 is a number, see https://3v4l.org/b9MWB
+     * @return mixed[]
+     */
+    public function provideTestLexPhp74LiteralSeparator(): array
+    {
+        return [
+            ['1_000', [
+                [Tokens::T_LNUMBER, '1_000'],
+            ]],
+            ['0xCAFE_F00D', [
+                [Tokens::T_LNUMBER, '0xCAFE_F00D'],
+            ]],
+            ['0b0101_1111', [
+                [Tokens::T_LNUMBER, '0b0101_1111'],
+            ]],
+            ['0137_041', [
+                [Tokens::T_LNUMBER, '0137_041'],
+            ]],
+            ['1_000.0', [
+                [Tokens::T_DNUMBER, '1_000.0'],
+            ]],
+            // more complex
+            ['1_0.0', [
+                [Tokens::T_DNUMBER, '1_0.0']
+            ]],
+            ['1_000_000_000.0', [
+                [Tokens::T_DNUMBER, '1_000_000_000.0']
+            ]],
+            ['1_0e+10', [
+                [Tokens::T_DNUMBER, '1_0e+10']
+            ]],
+            ['1_0e-10', [
+                [Tokens::T_DNUMBER, '1_0e-10']
+            ]],
+            ['0b1011010101001010_110101010010_10101101010101_0101101011001_110111100', [
+                [Tokens::T_DNUMBER, '0b1011010101001010_110101010010_10101101010101_0101101011001_110111100'],
+            ]],
+            ['0xFFFF_FFFF_FFFF_FFFF', [
+                [Tokens::T_DNUMBER, '0xFFFF_FFFF_FFFF_FFFF'],
+            ]],
+        ];
+    }
+
     public function provideTestLexNewFeatures() {
         return [
             // PHP 7.4
             ['??=', [
                 [Tokens::T_COALESCE_EQUAL, '??='],
-            ]],
-            // see https://3v4l.org/b9MWB
-            ['1_000', [
-                [T_LNUMBER, '1_000'],
-            ]],
-            ['0xCAFE_F00D', [
-                [T_LNUMBER, '0xCAFE_F00D'],
-            ]],
-            ['0b0101_1111', [
-                [T_LNUMBER, '0b0101_1111'],
-            ]],
-            ['0137_041', [
-                [T_LNUMBER, '0137_041'],
-            ]],
-            ['1_000.0', [
-                [T_DNUMBER, '1_000.0'],
-            ]],
-            // more complex
-            ['1_0.0', [
-                [T_DNUMBER, '1_0.0']
             ]],
             ['yield from', [
                 [Tokens::T_YIELD_FROM, 'yield from'],

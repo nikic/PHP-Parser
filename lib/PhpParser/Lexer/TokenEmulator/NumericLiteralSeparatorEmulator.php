@@ -3,6 +3,7 @@
 namespace PhpParser\Lexer\TokenEmulator;
 
 use PhpParser\Lexer\Emulative;
+use PhpParser\Parser\Tokens;
 
 final class NumericLiteralSeparatorEmulator
 {
@@ -27,28 +28,28 @@ final class NumericLiteralSeparatorEmulator
             }
 
             $nextToken = $tokens[$i + 1];
-            if (in_array($tokens[$i][0], [T_LNUMBER, T_DNUMBER], true) && $nextToken[0] === T_STRING && strpos($nextToken[1], '_') === 0) {
+            if (
+            (in_array($tokens[$i][0], [T_LNUMBER, T_DNUMBER], true) && $nextToken[0] === T_STRING && strpos($nextToken[1], '_') === 0)
+            || ($tokens[$i][0] === T_STRING && in_array($nextToken[0], [T_LNUMBER, T_DNUMBER], true))
+            ) {
                 $numberOfTokensToSquash = 2;
 
-                $numericVault = $tokens[$i][1];
-
-                $isFloat = $tokens[$i][0] === T_DNUMBER;
+                $numericValue = $tokens[$i][1];
 
                 $nextPosition = $i + 1;
-                while (isset($tokens[$nextPosition]) && $this->isPartOfNumberToken($tokens[$nextPosition])) {
-                    $numericVault .= $tokens[$nextPosition][1];
 
-                    if ($tokens[$nextPosition][0] === T_DNUMBER) {
-                        $isFloat = true;
-                    }
+                while (isset($tokens[$nextPosition]) && $this->isPartOfNumberToken($tokens[$nextPosition], $tokens[$nextPosition - 1])) {
+                    $nextToken = $tokens[$nextPosition];
+
+                    $numericValue .= is_string($nextToken) ? $nextToken : $nextToken[1];
 
                     ++$nextPosition;
                     ++$numberOfTokensToSquash;
                 }
 
-                // merge this and next token
+                $tokenKind = $this->resolveIntegerOrFloatToken($numericValue);
                 array_splice($tokens, $i, $numberOfTokensToSquash, [
-                    [$isFloat ? T_DNUMBER : T_LNUMBER, $numericVault, $line]
+                    [$tokenKind, $numericValue, $line]
                 ]);
 
                 $c -= $numberOfTokensToSquash;
@@ -64,18 +65,66 @@ final class NumericLiteralSeparatorEmulator
     }
 
     /**
-     * @param mixed[] $token
+     * @param mixed[]|string $token
+     * @param mixed[]|string $previousToken
      */
-    private function isPartOfNumberToken(array $token): bool
+    private function isPartOfNumberToken($token, $previousToken): bool
     {
-        if ($token[0] === T_STRING && strpos($token[1], '_') === 0) {
-            return true;
-        }
+        if (is_array($token)) {
+            if ($token[0] === T_STRING && strpos($token[1], '_') === 0) {
+                return true;
+            }
 
-        if ($token[0] === T_DNUMBER) {
-            return true;
+            if ($token[0] === T_LNUMBER) {
+                return true;
+            }
+
+            if ($token[0] === T_DNUMBER) {
+                return true;
+            }
+
+        } else {
+            // matches cases like "1_0e+10" - @todo actually skips first token, because it's a string
+            if ($token === '+' || $token === '-') {
+                if ($previousToken[0] === T_STRING) {
+                    if ($previousToken[1][strlen($previousToken[1]) - 1] === '_') {
+                        return true;
+                    }
+
+                    if ($previousToken[1][0] === '_') {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
         }
 
         return false;
+    }
+
+    private function resolveIntegerOrFloatToken(string $numericValue): int
+    {
+        $numericValueWithoutUnderscores = str_replace('_', '', $numericValue);
+
+        if (strpos($numericValueWithoutUnderscores, '.') !== false) {
+            return T_DNUMBER;
+        }
+
+        if (stripos($numericValueWithoutUnderscores, '0b') === 0) {
+            $decimalForm = bindec($numericValueWithoutUnderscores);
+        } elseif (stripos($numericValueWithoutUnderscores, '0x') === 0) {
+            $decimalForm = hexdec($numericValueWithoutUnderscores);
+        } elseif (stripos($numericValueWithoutUnderscores, '0') === 0) {
+            $decimalForm = octdec($numericValueWithoutUnderscores);
+        } else {
+            if (is_float(+$numericValueWithoutUnderscores)) {
+                return T_DNUMBER;
+            }
+
+            return T_LNUMBER;
+        }
+
+        return is_float($decimalForm) ? T_DNUMBER : T_LNUMBER;
     }
 }
