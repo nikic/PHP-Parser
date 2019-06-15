@@ -4,24 +4,8 @@ namespace PhpParser\Lexer\TokenEmulator;
 
 use PhpParser\Lexer\Emulative;
 
-final class NumericLiteralSeparatorTokenEmulator implements TokenEmulatorInterface
+final class NumericLiteralSeparatorEmulator
 {
-    /**
-     * @return int|null
-     */
-    public function getTokenId()
-    {
-        return null;
-    }
-
-    /**
-     * @return int|null
-     */
-    public function getParserTokenId()
-    {
-        return null;
-    }
-
     public function isEmulationNeeded(string $code) : bool
     {
         // skip version where this is supported

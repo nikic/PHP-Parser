@@ -7,7 +7,7 @@ use PhpParser\ErrorHandler;
 use PhpParser\Lexer;
 use PhpParser\Lexer\TokenEmulator\CoaleseEqualTokenEmulator;
 use PhpParser\Lexer\TokenEmulator\FnTokenEmulator;
-use PhpParser\Lexer\TokenEmulator\NumericLiteralSeparatorTokenEmulator;
+use PhpParser\Lexer\TokenEmulator\NumericLiteralSeparatorEmulator;
 use PhpParser\Lexer\TokenEmulator\TokenEmulatorInterface;
 use PhpParser\Parser\Tokens;
 
@@ -31,6 +31,9 @@ REGEX;
     /** @var TokenEmulatorInterface[] */
     private $tokenEmulators = [];
 
+    /** @var NumericLiteralSeparatorEmulator */
+    private $numericLiteralSeparatorEmulator;
+
     /**
      * @param mixed[] $options
      */
@@ -38,7 +41,7 @@ REGEX;
     {
         parent::__construct($options);
 
-        $this->tokenEmulators[] = new NumericLiteralSeparatorTokenEmulator();
+        $this->numericLiteralSeparatorEmulator = new NumericLiteralSeparatorEmulator();
         $this->tokenEmulators[] = new FnTokenEmulator();
         $this->tokenEmulators[] = new CoaleseEqualTokenEmulator();
 
@@ -66,6 +69,11 @@ REGEX;
             if ($emulativeToken->isEmulationNeeded($code)) {
                 $this->tokens = $emulativeToken->emulate($code, $this->tokens);
             }
+        }
+
+        // PHP 7.4 numbers 1_000
+        if ($this->numericLiteralSeparatorEmulator->isEmulationNeeded($code)) {
+            $this->tokens = $this->numericLiteralSeparatorEmulator->emulate($code, $this->tokens);
         }
 
         $this->fixupTokens();
@@ -142,7 +150,11 @@ REGEX;
             }
         }
 
-        return $this->isHeredocNowdocEmulationNeeded($code);
+        if ($this->isHeredocNowdocEmulationNeeded($code)) {
+            return true;
+        }
+
+        return $this->numericLiteralSeparatorEmulator->isEmulationNeeded($code);
     }
 
     private function fixupTokens()
