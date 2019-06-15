@@ -127,6 +127,22 @@ class EmulativeTest extends LexerTest
             ['??=', [
                 [Tokens::T_COALESCE_EQUAL, '??='],
             ]],
+            // see https://3v4l.org/b9MWB
+            ['1_000', [
+                [T_LNUMBER, '1000'],
+            ]],
+            ['0xCAFE_F00D', [
+                [T_LNUMBER, '0xCAFEF00D'],
+            ]],
+            ['0b0101_1111', [
+                [T_LNUMBER, '0b01011111'],
+            ]],
+            ['0137_041', [
+                [T_LNUMBER, '0137041'],
+            ]],
+            ['1_000.0', [
+                [T_DNUMBER, '1000.0'],
+            ]],
             ['yield from', [
                 [Tokens::T_YIELD_FROM, 'yield from'],
             ]],

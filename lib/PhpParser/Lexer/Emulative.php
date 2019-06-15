@@ -7,6 +7,7 @@ use PhpParser\ErrorHandler;
 use PhpParser\Lexer;
 use PhpParser\Lexer\TokenEmulator\CoaleseEqualTokenEmulator;
 use PhpParser\Lexer\TokenEmulator\FnTokenEmulator;
+use PhpParser\Lexer\TokenEmulator\NumericLiteralSeparatorTokenEmulator;
 use PhpParser\Lexer\TokenEmulator\TokenEmulatorInterface;
 use PhpParser\Parser\Tokens;
 
@@ -37,6 +38,7 @@ REGEX;
     {
         parent::__construct($options);
 
+        $this->tokenEmulators[] = new NumericLiteralSeparatorTokenEmulator();
         $this->tokenEmulators[] = new FnTokenEmulator();
         $this->tokenEmulators[] = new CoaleseEqualTokenEmulator();
 
