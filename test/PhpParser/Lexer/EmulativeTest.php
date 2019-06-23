@@ -153,6 +153,9 @@ class EmulativeTest extends LexerTest
             ['1_000_000_000.0', [
                 [Tokens::T_DNUMBER, '1_000_000_000.0']
             ]],
+            ['0e1_0', [
+                [Tokens::T_DNUMBER, '0e1_0']
+            ]],
             ['1_0e+10', [
                 [Tokens::T_DNUMBER, '1_0e+10']
             ]],

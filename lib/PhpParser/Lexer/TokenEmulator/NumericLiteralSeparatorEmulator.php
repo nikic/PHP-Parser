@@ -3,9 +3,8 @@
 namespace PhpParser\Lexer\TokenEmulator;
 
 use PhpParser\Lexer\Emulative;
-use PhpParser\Parser\Tokens;
 
-final class NumericLiteralSeparatorEmulator
+final class NumericLiteralSeparatorEmulator implements TokenEmulatorInterface
 {
     public function isEmulationNeeded(string $code) : bool
     {
@@ -27,14 +26,14 @@ final class NumericLiteralSeparatorEmulator
                 continue;
             }
 
+            $token = $tokens[$i];
             $nextToken = $tokens[$i + 1];
             if (
-            (in_array($tokens[$i][0], [T_LNUMBER, T_DNUMBER], true) && $nextToken[0] === T_STRING && strpos($nextToken[1], '_') === 0)
-            || ($tokens[$i][0] === T_STRING && in_array($nextToken[0], [T_LNUMBER, T_DNUMBER], true))
+                $this->isNumberToken($token) && $nextToken[0] === T_STRING && strpos($nextToken[1], '_') === 0
             ) {
                 $numberOfTokensToSquash = 2;
 
-                $numericValue = $tokens[$i][1];
+                $numericValue = $token[1];
 
                 $nextPosition = $i + 1;
 
@@ -56,8 +55,8 @@ final class NumericLiteralSeparatorEmulator
                 continue;
             }
 
-            if (is_array($tokens[$i])) {
-                $line += substr_count($tokens[$i][1], "\n");
+            if (is_array($token)) {
+                $line += substr_count($token[1], "\n");
             }
         }
 
@@ -86,14 +85,8 @@ final class NumericLiteralSeparatorEmulator
         } else {
             // matches cases like "1_0e+10" - @todo actually skips first token, because it's a string
             if ($token === '+' || $token === '-') {
-                if ($previousToken[0] === T_STRING) {
-                    if ($previousToken[1][strlen($previousToken[1]) - 1] === '_') {
-                        return true;
-                    }
-
-                    if ($previousToken[1][0] === '_') {
-                        return true;
-                    }
+                if ($previousToken[0] === T_STRING && $previousToken[1][0] === '_') {
+                    return true;
                 }
             }
 
@@ -126,5 +119,17 @@ final class NumericLiteralSeparatorEmulator
         }
 
         return is_float($decimalForm) ? T_DNUMBER : T_LNUMBER;
+    }
+
+    /**
+     * @param array|string $token
+     */
+    private function isNumberToken($token): bool
+    {
+        if (! is_array($token)) {
+            return false;
+        }
+
+        return $token[0] === T_LNUMBER || $token[0] === T_DNUMBER;
     }
 }
