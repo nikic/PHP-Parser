@@ -16,7 +16,12 @@ php:
 
 install:
   - if [ $TRAVIS_PHP_VERSION = '7.0' ]; then composer require satooshi/php-coveralls '~1.0'; fi
-  - composer install --prefer-dist --ignore-platform-reqs
+  - |
+    if [ $TRAVIS_PHP_VERSION = 'nightly' ]; then
+      composer install --prefer-dist --ignore-platform-reqs;
+    else
+      composer install --prefer-dist;
+    fi
 
 matrix:
   allow_failures:
