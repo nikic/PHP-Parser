@@ -266,13 +266,17 @@ class NodeTraverserTest extends \PHPUnit\Framework\TestCase
         $traverser->addVisitor($visitor2);
         $traverser->addVisitor($visitor3);
 
+        $getVisitors = (function () {
+            return $this->visitors;
+        })->bindTo($traverser, NodeTraverser::class);
+
         $preExpected = [$visitor1, $visitor2, $visitor3];
-        $this->assertAttributeSame($preExpected, 'visitors', $traverser, 'The appropriate visitors have not been added');
+        $this->assertSame($preExpected, $getVisitors());
 
         $traverser->removeVisitor($visitor2);
 
         $postExpected = [0 => $visitor1, 2 => $visitor3];
-        $this->assertAttributeSame($postExpected, 'visitors', $traverser, 'The appropriate visitors are not present after removal');
+        $this->assertSame($postExpected, $getVisitors());
     }
 
     public function testNoCloneNodes() {
