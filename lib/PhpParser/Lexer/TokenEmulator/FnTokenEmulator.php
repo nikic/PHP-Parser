@@ -3,22 +3,9 @@
 namespace PhpParser\Lexer\TokenEmulator;
 
 use PhpParser\Lexer\Emulative;
-use PhpParser\Parser\Tokens;
 
 final class FnTokenEmulator implements TokenEmulatorInterface
 {
-    const T_FN = 1008;
-
-    public function getTokenId(): int
-    {
-        return self::T_FN;
-    }
-
-    public function getParserTokenId(): int
-    {
-        return Tokens::T_FN;
-    }
-
     public function isEmulationNeeded(string $code) : bool
     {
         // skip version where this is supported
@@ -40,7 +27,7 @@ final class FnTokenEmulator implements TokenEmulatorInterface
                     continue;
                 }
 
-                $tokens[$i][0] = self::T_FN;
+                $tokens[$i][0] = Emulative::T_FN;
             }
         }
 
