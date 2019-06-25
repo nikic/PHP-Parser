@@ -31,7 +31,7 @@ final class NumericLiteralSeparatorEmulator implements TokenEmulatorInterface
             if (
                 $this->isNumberToken($token) && $nextToken[0] === T_STRING && strpos($nextToken[1], '_') === 0
             ) {
-                $numberOfTokensToSquash = 2;
+                $numberOfTokensToSquash = 1;
 
                 $numericValue = $token[1];
 
