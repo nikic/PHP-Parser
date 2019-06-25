@@ -100,22 +100,14 @@ final class NumericLiteralSeparatorEmulator implements TokenEmulatorInterface
     {
         $numericValueWithoutUnderscores = str_replace('_', '', $numericValue);
 
-        if (strpos($numericValueWithoutUnderscores, '.') !== false) {
-            return T_DNUMBER;
-        }
-
         if (stripos($numericValueWithoutUnderscores, '0b') === 0) {
             $decimalForm = bindec($numericValueWithoutUnderscores);
         } elseif (stripos($numericValueWithoutUnderscores, '0x') === 0) {
             $decimalForm = hexdec($numericValueWithoutUnderscores);
-        } elseif (stripos($numericValueWithoutUnderscores, '0') === 0) {
+        } elseif (stripos($numericValueWithoutUnderscores, '0') === 0 && ctype_digit(($numericValueWithoutUnderscores))) {
             $decimalForm = octdec($numericValueWithoutUnderscores);
         } else {
-            if (is_float(+$numericValueWithoutUnderscores)) {
-                return T_DNUMBER;
-            }
-
-            return T_LNUMBER;
+            $decimalForm = +$numericValueWithoutUnderscores;
         }
 
         return is_float($decimalForm) ? T_DNUMBER : T_LNUMBER;
