@@ -31,9 +31,6 @@ REGEX;
     /** @var TokenEmulatorInterface[] */
     private $tokenEmulators = [];
 
-    /** @var NumericLiteralSeparatorEmulator */
-    private $numericLiteralSeparatorEmulator;
-
     /**
      * @param mixed[] $options
      */
@@ -41,9 +38,9 @@ REGEX;
     {
         parent::__construct($options);
 
-        $this->numericLiteralSeparatorEmulator = new NumericLiteralSeparatorEmulator();
         $this->tokenEmulators[] = new FnTokenEmulator();
         $this->tokenEmulators[] = new CoaleseEqualTokenEmulator();
+        $this->tokenEmulators[] = new NumericLiteralSeparatorEmulator();
 
         $this->tokenMap[self::T_COALESCE_EQUAL] = Tokens::T_COALESCE_EQUAL;
         $this->tokenMap[self::T_FN] = Tokens::T_FN;
@@ -69,11 +66,6 @@ REGEX;
             if ($emulativeToken->isEmulationNeeded($code)) {
                 $this->tokens = $emulativeToken->emulate($code, $this->tokens);
             }
-        }
-
-        // PHP 7.4 numbers 1_000
-        if ($this->numericLiteralSeparatorEmulator->isEmulationNeeded($code)) {
-            $this->tokens = $this->numericLiteralSeparatorEmulator->emulate($code, $this->tokens);
         }
 
         $this->fixupTokens();
@@ -150,11 +142,7 @@ REGEX;
             }
         }
 
-        if ($this->isHeredocNowdocEmulationNeeded($code)) {
-            return true;
-        }
-
-        return $this->numericLiteralSeparatorEmulator->isEmulationNeeded($code);
+        return $this->isHeredocNowdocEmulationNeeded($code);
     }
 
     private function fixupTokens()
