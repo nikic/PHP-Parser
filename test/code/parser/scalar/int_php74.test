@@ -2,18 +2,11 @@ Different integer syntaxes
 -----
 <?php
 
-$value = 1_100;
+6.674_083e-11;
+299_792_458;
+0xCAFE_F00D;
+0b0101_1111;
+0137_041;
 
 -----
-array(
-    0: Stmt_Expression(
-        expr: Expr_Assign(
-            var: Expr_Variable(
-                name: value
-            )
-            expr: Scalar_LNumber(
-                value: 1100
-            )
-        )
-    )
-)
+XXX
