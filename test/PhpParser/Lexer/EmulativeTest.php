@@ -168,6 +168,15 @@ class EmulativeTest extends LexerTest
             ['0xFFFF_FFFF_FFFF_FFFF', [
                 [Tokens::T_DNUMBER, '0xFFFF_FFFF_FFFF_FFFF'],
             ]],
+            ['1_000+1', [
+                [Tokens::T_LNUMBER, '1_000'],
+                [ord('+'), '+'],
+                [Tokens::T_LNUMBER, '1'],
+            ]],
+            ['1_0abc', [
+                [Tokens::T_LNUMBER, '1_0'],
+                [Tokens::T_STRING, 'abc'],
+            ]]
         ];
     }
 
