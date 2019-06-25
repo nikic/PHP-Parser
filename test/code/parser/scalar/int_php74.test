@@ -9,4 +9,30 @@ Different integer syntaxes
 0137_041;
 
 -----
-XXX
+array(
+    0: Stmt_Expression(
+        expr: Scalar_DNumber(
+            value: 6.674083E-11
+        )
+    )
+    1: Stmt_Expression(
+        expr: Scalar_LNumber(
+            value: 299792458
+        )
+    )
+    2: Stmt_Expression(
+        expr: Scalar_LNumber(
+            value: 3405705229
+        )
+    )
+    3: Stmt_Expression(
+        expr: Scalar_LNumber(
+            value: 95
+        )
+    )
+    4: Stmt_Expression(
+        expr: Scalar_LNumber(
+            value: 48673
+        )
+    )
+)

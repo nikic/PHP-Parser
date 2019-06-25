@@ -51,7 +51,7 @@ final class NumericLiteralSeparatorEmulator implements TokenEmulatorInterface
                     [$tokenKind, $numericValue, $line]
                 ]);
 
-                $c -= $numberOfTokensToSquash;
+                $c -= $numberOfTokensToSquash - 1;
                 continue;
             }
 
