@@ -96,21 +96,21 @@ final class NumericLiteralSeparatorEmulator implements TokenEmulatorInterface
         return false;
     }
 
-    private function resolveIntegerOrFloatToken(string $numericValue): int
+    private function resolveIntegerOrFloatToken(string $str): int
     {
-        $numericValueWithoutUnderscores = str_replace('_', '', $numericValue);
+        $str = str_replace('_', '', $str);
 
-        if (stripos($numericValueWithoutUnderscores, '0b') === 0) {
-            $decimalForm = bindec($numericValueWithoutUnderscores);
-        } elseif (stripos($numericValueWithoutUnderscores, '0x') === 0) {
-            $decimalForm = hexdec($numericValueWithoutUnderscores);
-        } elseif (stripos($numericValueWithoutUnderscores, '0') === 0 && ctype_digit(($numericValueWithoutUnderscores))) {
-            $decimalForm = octdec($numericValueWithoutUnderscores);
+        if (stripos($str, '0b') === 0) {
+            $num = bindec($str);
+        } elseif (stripos($str, '0x') === 0) {
+            $num = hexdec($str);
+        } elseif (stripos($str, '0') === 0 && ctype_digit($str)) {
+            $num = octdec($str);
         } else {
-            $decimalForm = +$numericValueWithoutUnderscores;
+            $num = +$str;
         }
 
-        return is_float($decimalForm) ? T_DNUMBER : T_LNUMBER;
+        return is_float($num) ? T_DNUMBER : T_LNUMBER;
     }
 
     /**
