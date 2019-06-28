@@ -1415,3 +1415,58 @@ $a = ["a "thing"];
 -----
 !!php7
 Syntax error, unexpected T_STRING, expecting ',' or ')' or ']' from 2:11 to 2:15
+-----
+<?php
+array_map(,,,);
+-----
+!!php7
+A trailing comma is not allowed here from 2:13 to 2:13
+A trailing comma is not allowed here from 2:12 to 2:13
+A trailing comma is not allowed here from 2:11 to 2:13
+array(
+    0: Stmt_Expression(
+        expr: Expr_FuncCall(
+            name: Name(
+                parts: array(
+                    0: array_map
+                )
+            )
+            args: array(
+            )
+        )
+    )
+)
+-----
+<?php
+array_map('Foo',, 'Bar',,);
+-----
+!!php7
+Only one comma was expected from 2:16 to 2:17
+Only one comma was expected from 2:24 to 2:25
+array(
+    0: Stmt_Expression(
+        expr: Expr_FuncCall(
+            name: Name(
+                parts: array(
+                    0: array_map
+                )
+            )
+            args: array(
+                0: Arg(
+                    value: Scalar_String(
+                        value: Foo
+                    )
+                    byRef: false
+                    unpack: false
+                )
+                1: Arg(
+                    value: Scalar_String(
+                        value: Bar
+                    )
+                    byRef: false
+                    unpack: false
+                )
+            )
+        )
+    )
+)
