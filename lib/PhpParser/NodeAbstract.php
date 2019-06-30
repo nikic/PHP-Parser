@@ -4,7 +4,13 @@ namespace PhpParser;
 
 abstract class NodeAbstract implements Node, \JsonSerializable
 {
+    // TODO: Kill.
     protected $attributes;
+
+    /** @var FileContext|null  */
+    protected $context = null;
+    protected $startTokenPos = -1;
+    protected $endTokenPos = -1;
 
     /**
      * Creates a Node.
@@ -15,35 +21,42 @@ abstract class NodeAbstract implements Node, \JsonSerializable
         $this->attributes = $attributes;
     }
 
+    public function setTokenContext(FileContext $context, int $firstToken, int $lastToken) {
+        $this->context = $context;
+        $this->startTokenPos = $firstToken;
+        $this->endTokenPos = $lastToken;
+    }
+
     /**
      * Gets line the node started in (alias of getStartLine).
      *
      * @return int Start line (or -1 if not available)
      */
     public function getLine() : int {
-        return $this->attributes['startLine'] ?? -1;
+        return $this->context->tokens[$this->startTokenPos]->line ?? -1;
     }
 
     /**
      * Gets line the node started in.
      *
-     * Requires the 'startLine' attribute to be enabled in the lexer (enabled by default).
-     *
      * @return int Start line (or -1 if not available)
      */
     public function getStartLine() : int {
-        return $this->attributes['startLine'] ?? -1;
+        return $this->context->tokens[$this->startTokenPos]->line ?? -1;
     }
 
     /**
      * Gets the line the node ended in.
      *
-     * Requires the 'endLine' attribute to be enabled in the lexer (enabled by default).
-     *
      * @return int End line (or -1 if not available)
      */
     public function getEndLine() : int {
-        return $this->attributes['endLine'] ?? -1;
+        if (!isset($this->context->tokens[$this->endTokenPos])) {
+            return -1;
+        }
+
+        $token = $this->context->tokens[$this->endTokenPos];
+        return $token->line + \substr_count($token, "\n");
     }
 
     /**
@@ -51,12 +64,10 @@ abstract class NodeAbstract implements Node, \JsonSerializable
      *
      * The offset is an index into the array returned by Lexer::getTokens().
      *
-     * Requires the 'startTokenPos' attribute to be enabled in the lexer (DISABLED by default).
-     *
      * @return int Token start position (or -1 if not available)
      */
     public function getStartTokenPos() : int {
-        return $this->attributes['startTokenPos'] ?? -1;
+        return $this->startTokenPos;
     }
 
     /**
@@ -64,34 +75,33 @@ abstract class NodeAbstract implements Node, \JsonSerializable
      *
      * The offset is an index into the array returned by Lexer::getTokens().
      *
-     * Requires the 'endTokenPos' attribute to be enabled in the lexer (DISABLED by default).
-     *
      * @return int Token end position (or -1 if not available)
      */
     public function getEndTokenPos() : int {
-        return $this->attributes['endTokenPos'] ?? -1;
+        return $this->endTokenPos;
     }
 
     /**
      * Gets the file offset of the first character that is part of this node.
      *
-     * Requires the 'startFilePos' attribute to be enabled in the lexer (DISABLED by default).
-     *
      * @return int File start position (or -1 if not available)
      */
     public function getStartFilePos() : int {
-        return $this->attributes['startFilePos'] ?? -1;
+        return $this->context->tokens[$this->startTokenPos]->filePos ?? -1;
     }
 
     /**
      * Gets the file offset of the last character that is part of this node.
      *
-     * Requires the 'endFilePos' attribute to be enabled in the lexer (DISABLED by default).
-     *
      * @return int File end position (or -1 if not available)
      */
     public function getEndFilePos() : int {
-        return $this->attributes['endFilePos'] ?? -1;
+        if (!isset($this->context->tokens[$this->endTokenPos])) {
+            return -1;
+        }
+
+        $token = $this->context->tokens[$this->endTokenPos];
+        return $token->filePos + \strlen($token->value) - 1;
     }
 
     /**

@@ -227,22 +227,11 @@ class Lexer
      *
      * @return int Token id
      */
-    public function getNextToken(&$value = null, &$startAttributes = null, &$endAttributes = null) : int {
+    public function getNextToken(&$value = null, &$startAttributes = null) : int {
         $startAttributes = [];
-        $endAttributes   = [];
 
         while (1) {
             $token = $this->tokens[++$this->pos];
-
-            if ($this->attributeStartLineUsed) {
-                $startAttributes['startLine'] = $token->line;
-            }
-            if ($this->attributeStartTokenPosUsed) {
-                $startAttributes['startTokenPos'] = $this->pos;
-            }
-            if ($this->attributeStartFilePosUsed) {
-                $startAttributes['startFilePos'] = $token->filePos;
-            }
 
             $phpId = $token->id;
             $value = $token->value;
@@ -252,16 +241,6 @@ class Lexer
                     $this->prevCloseTagHasNewline = false !== strpos($value, "\n");
                 } elseif (\T_INLINE_HTML === $phpId) {
                     $startAttributes['hasLeadingNewline'] = $this->prevCloseTagHasNewline;
-                }
-
-                if ($this->attributeEndLineUsed) {
-                    $endAttributes['endLine'] = $token->line + substr_count($value, "\n");
-                }
-                if ($this->attributeEndTokenPosUsed) {
-                    $endAttributes['endTokenPos'] = $this->pos;
-                }
-                if ($this->attributeEndFilePosUsed) {
-                    $endAttributes['endFilePos'] = $token->filePos + \strlen($value) - 1;
                 }
 
                 return $id;
@@ -281,17 +260,16 @@ class Lexer
     }
 
     /**
-     * Returns the token array for current code.
+     * Returns the token array for the current code.
      *
-     * The token array is in the same format as provided by the
-     * token_get_all() function and does not discard tokens (i.e.
-     * whitespace and comments are included). The token position
-     * attributes are against this token array.
-     *
-     * @return array Array of tokens in token_get_all() format
+     * @return Token[]
      */
     public function getTokens() : array {
         return $this->tokens;
+    }
+
+    public function getTokenMap(): array {
+        return $this->tokenMap;
     }
 
     /**
@@ -324,6 +302,8 @@ class Lexer
      * The token map maps the PHP internal token identifiers
      * to the identifiers used by the Parser. Additionally it
      * maps T_OPEN_TAG_WITH_ECHO to T_ECHO and T_CLOSE_TAG to ';'.
+     * Whitespace and comment tokens are mapped to null, which indicates
+     * that they should be dropped.
      *
      * @return array The token map
      */
@@ -346,23 +326,16 @@ class Lexer
                 // T_CLOSE_TAG is equivalent to ';'
                 $tokenMap[$i] = ord(';');
             } elseif ('UNKNOWN' !== $name = token_name($i)) {
-                if ('T_HASHBANG' === $name) {
-                    // HHVM uses a special token for #! hashbang lines
-                    $tokenMap[$i] = Tokens::T_INLINE_HTML;
-                } elseif (defined($name = Tokens::class . '::' . $name)) {
+                if (defined($name = Tokens::class . '::' . $name)) {
                     // Other tokens can be mapped directly
                     $tokenMap[$i] = constant($name);
                 }
             }
         }
 
-        // HHVM uses a special token for numbers that overflow to double
-        if (defined('T_ONUMBER')) {
-            $tokenMap[\T_ONUMBER] = Tokens::T_DNUMBER;
-        }
-        // HHVM also has a separate token for the __COMPILER_HALT_OFFSET__ constant
-        if (defined('T_COMPILER_HALT_OFFSET')) {
-            $tokenMap[\T_COMPILER_HALT_OFFSET] = Tokens::T_STRING;
+        $dropTokens = [\T_WHITESPACE, \T_OPEN_TAG, \T_COMMENT, \T_DOC_COMMENT, self::T_BAD_CHARACTER];
+        foreach ($dropTokens as $dropToken) {
+            $tokenMap[$dropToken] = null;
         }
 
         return $tokenMap;
