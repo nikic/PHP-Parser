@@ -3,6 +3,7 @@
 namespace PhpParser\Lexer\TokenEmulator;
 
 use PhpParser\Lexer\Emulative;
+use PhpParser\Token;
 
 final class NumericLiteralSeparatorEmulator implements TokenEmulatorInterface
 {
@@ -24,47 +25,46 @@ final class NumericLiteralSeparatorEmulator implements TokenEmulatorInterface
         return preg_match('~[0-9a-f]_[0-9a-f]~i', $code) !== false;
     }
 
+    /**
+     * @param Token[] $tokens
+     * @return Token[]
+     */
     public function emulate(string $code, array $tokens): array
     {
         // We need to manually iterate and manage a count because we'll change
         // the tokens array on the way
-        $codeOffset = 0;
         for ($i = 0, $c = count($tokens); $i < $c; ++$i) {
             $token = $tokens[$i];
-            $tokenLen = \strlen(\is_array($token) ? $token[1] : $token);
+            $tokenLen = \strlen($token->value);
 
-            if ($token[0] !== T_LNUMBER && $token[0] !== T_DNUMBER) {
-                $codeOffset += $tokenLen;
+            if ($token->id !== T_LNUMBER && $token->id !== T_DNUMBER) {
                 continue;
             }
 
-            $res = preg_match(self::NUMBER, $code, $matches, 0, $codeOffset);
+            $res = preg_match(self::NUMBER, $code, $matches, 0, $token->filePos);
             assert($res, "No number at number token position");
 
             $match = $matches[0];
             $matchLen = \strlen($match);
             if ($matchLen === $tokenLen) {
                 // Original token already holds the full number.
-                $codeOffset += $tokenLen;
                 continue;
             }
 
             $tokenKind = $this->resolveIntegerOrFloatToken($match);
-            $newTokens = [[$tokenKind, $match, $token[2]]];
+            $newTokens = [new Token($tokenKind, $match, $token->line, $token->filePos)];
 
             $numTokens = 1;
             $len = $tokenLen;
             while ($matchLen > $len) {
                 $nextToken = $tokens[$i + $numTokens];
-                $nextTokenText = \is_array($nextToken) ? $nextToken[1] : $nextToken;
-                $nextTokenLen = \strlen($nextTokenText);
+                $nextTokenLen = \strlen($nextToken->value);
 
                 $numTokens++;
                 if ($matchLen < $len + $nextTokenLen) {
                     // Split trailing characters into a partial token.
-                    assert(is_array($nextToken), "Partial token should be an array token");
-                    $partialText = substr($nextTokenText, $matchLen - $len);
-                    $newTokens[] = [$nextToken[0], $partialText, $nextToken[2]];
+                    $partialText = substr($nextToken->value, $matchLen - $len);
+                    $newTokens[] = new Token($nextToken->id, $partialText, $nextToken->line, $nextToken->filePos);
                     break;
                 }
 
@@ -73,7 +73,6 @@ final class NumericLiteralSeparatorEmulator implements TokenEmulatorInterface
 
             array_splice($tokens, $i, $numTokens, $newTokens);
             $c -= $numTokens - \count($newTokens);
-            $codeOffset += $matchLen;
         }
 
         return $tokens;

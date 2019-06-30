@@ -11,11 +11,11 @@ class Lexer
      * file positions from going out of sync. */
     const T_BAD_CHARACTER = -1;
 
+    /** @var string */
     protected $code;
+    /** @var Token[] */
     protected $tokens;
     protected $pos;
-    protected $line;
-    protected $filePos;
     protected $prevCloseTagHasNewline;
 
     protected $tokenMap;
@@ -87,9 +87,7 @@ class Lexer
 
         $scream = ini_set('xdebug.scream', '0');
 
-        error_clear_last();
-        $this->tokens = @token_get_all($code);
-        $this->handleErrors($errorHandler);
+        $this->tokens = $this->createNormalizedTokens($code, $errorHandler);
 
         if (false !== $scream) {
             ini_set('xdebug.scream', $scream);
@@ -109,7 +107,7 @@ class Lexer
                 );
             }
 
-            $tokens[] = [self::T_BAD_CHARACTER, $chr, $line];
+            $tokens[] = new Token(self::T_BAD_CHARACTER, $chr, $line, $i);
             $errorHandler->handleError(new Error($errorMsg, [
                 'startLine' => $line,
                 'endLine' => $line,
@@ -125,10 +123,10 @@ class Lexer
      *
      * @return bool
      */
-    private function isUnterminatedComment($token) : bool {
-        return ($token[0] === \T_COMMENT || $token[0] === \T_DOC_COMMENT)
-            && substr($token[1], 0, 2) === '/*'
-            && substr($token[1], -2) !== '*/';
+    private function isUnterminatedComment(Token $token) : bool {
+        return ($token->id === \T_COMMENT || $token->id === \T_DOC_COMMENT)
+            && substr($token->value, 0, 2) === '/*'
+            && substr($token->value, -2) !== '*/';
     }
 
     /**
@@ -146,75 +144,65 @@ class Lexer
         return null !== error_get_last();
     }
 
-    protected function handleErrors(ErrorHandler $errorHandler) {
-        if (!$this->errorMayHaveOccurred()) {
-            return;
-        }
+    private function createNormalizedTokens(string $code, ErrorHandler $errorHandler) {
+        error_clear_last();
+        $rawTokens = @token_get_all($code);
+        $checkForMissingTokens = $this->errorMayHaveOccurred();
 
-        // PHP's error handling for token_get_all() is rather bad, so if we want detailed
-        // error information we need to compute it ourselves. Invalid character errors are
-        // detected by finding "gaps" in the token array. Unterminated comments are detected
-        // by checking if a trailing comment has a "*/" at the end.
-
+        $tokens = [];
         $filePos = 0;
         $line = 1;
-        $numTokens = \count($this->tokens);
-        for ($i = 0; $i < $numTokens; $i++) {
-            $token = $this->tokens[$i];
-            $tokenValue = \is_string($token) ? $token : $token[1];
-            $tokenLen = \strlen($tokenValue);
+        foreach ($rawTokens as $rawToken) {
+            if (\is_array($rawToken)) {
+                $token = new Token($rawToken[0], $rawToken[1], $line, $filePos);
+            } elseif (\strlen($rawToken) == 2) {
+                // Bug in token_get_all() when lexing b".
+                $token = new Token(\ord('"'), $rawToken, $line, $filePos);
+            } else {
+                $token = new Token(\ord($rawToken), $rawToken, $line, $filePos);
+            }
 
-            if (substr($this->code, $filePos, $tokenLen) !== $tokenValue) {
+            $value = $token->value;
+            $tokenLen = \strlen($value);
+            if ($checkForMissingTokens && substr($code, $filePos, $tokenLen) !== $value) {
                 // Something is missing, must be an invalid character
-                $nextFilePos = strpos($this->code, $tokenValue, $filePos);
+                $nextFilePos = strpos($code, $value, $filePos);
                 $badCharTokens = $this->handleInvalidCharacterRange(
                     $filePos, $nextFilePos, $line, $errorHandler);
+                $tokens = array_merge($tokens, $badCharTokens);
                 $filePos = (int) $nextFilePos;
-
-                array_splice($this->tokens, $i, 0, $badCharTokens);
-                $numTokens += \count($badCharTokens);
-                $i += \count($badCharTokens);
             }
 
+            $tokens[] = $token;
             $filePos += $tokenLen;
-            $line += substr_count($tokenValue, "\n");
+            $line += substr_count($value, "\n");
         }
 
-        if ($filePos !== \strlen($this->code)) {
-            if (substr($this->code, $filePos, 2) === '/*') {
-                // Unlike PHP, HHVM will drop unterminated comments entirely
-                $comment = substr($this->code, $filePos);
-                $errorHandler->handleError(new Error('Unterminated comment', [
-                    'startLine' => $line,
-                    'endLine' => $line + substr_count($comment, "\n"),
-                    'startFilePos' => $filePos,
-                    'endFilePos' => $filePos + \strlen($comment),
-                ]));
-
-                // Emulate the PHP behavior
-                $isDocComment = isset($comment[3]) && $comment[3] === '*';
-                $this->tokens[] = [$isDocComment ? \T_DOC_COMMENT : \T_COMMENT, $comment, $line];
-            } else {
-                // Invalid characters at the end of the input
-                $badCharTokens = $this->handleInvalidCharacterRange(
-                    $filePos, \strlen($this->code), $line, $errorHandler);
-                $this->tokens = array_merge($this->tokens, $badCharTokens);
-            }
-            return;
+        if ($filePos !== \strlen($code)) {
+            // Invalid characters at the end of the input
+            $badCharTokens = $this->handleInvalidCharacterRange(
+                $filePos, \strlen($code), $line, $errorHandler);
+            $tokens = array_merge($tokens, $badCharTokens);
         }
 
-        if (count($this->tokens) > 0) {
+        if (\count($tokens) > 0) {
             // Check for unterminated comment
-            $lastToken = $this->tokens[count($this->tokens) - 1];
+            $lastToken = $tokens[\count($tokens) - 1];
             if ($this->isUnterminatedComment($lastToken)) {
                 $errorHandler->handleError(new Error('Unterminated comment', [
-                    'startLine' => $line - substr_count($lastToken[1], "\n"),
+                    'startLine' => $line - substr_count($lastToken->value, "\n"),
                     'endLine' => $line,
-                    'startFilePos' => $filePos - \strlen($lastToken[1]),
+                    'startFilePos' => $filePos - \strlen($lastToken->value),
                     'endFilePos' => $filePos,
                 ]));
             }
         }
+
+        // Add an EOF sentinel token
+        // TODO: Should the value be an empty string instead?
+        $tokens[] = new Token(0, "\0", $line, \strlen($code));
+
+        return $tokens;
     }
 
     /**
@@ -244,70 +232,49 @@ class Lexer
         $endAttributes   = [];
 
         while (1) {
-            if (isset($this->tokens[++$this->pos])) {
-                $token = $this->tokens[$this->pos];
-            } else {
-                // EOF token with ID 0
-                $token = "\0";
-            }
+            $token = $this->tokens[++$this->pos];
 
             if ($this->attributeStartLineUsed) {
-                $startAttributes['startLine'] = $this->line;
+                $startAttributes['startLine'] = $token->line;
             }
             if ($this->attributeStartTokenPosUsed) {
                 $startAttributes['startTokenPos'] = $this->pos;
             }
             if ($this->attributeStartFilePosUsed) {
-                $startAttributes['startFilePos'] = $this->filePos;
+                $startAttributes['startFilePos'] = $token->filePos;
             }
 
-            if (\is_string($token)) {
-                $value = $token;
-                if (isset($token[1])) {
-                    // bug in token_get_all
-                    $this->filePos += 2;
-                    $id = ord('"');
-                } else {
-                    $this->filePos += 1;
-                    $id = ord($token);
-                }
-            } elseif (!isset($this->dropTokens[$token[0]])) {
-                $value = $token[1];
-                $id = $this->tokenMap[$token[0]];
-                if (\T_CLOSE_TAG === $token[0]) {
-                    $this->prevCloseTagHasNewline = false !== strpos($token[1], "\n");
-                } elseif (\T_INLINE_HTML === $token[0]) {
+            $phpId = $token->id;
+            $value = $token->value;
+            if (!isset($this->dropTokens[$phpId])) {
+                $id = $this->tokenMap[$phpId];
+                if (\T_CLOSE_TAG === $phpId) {
+                    $this->prevCloseTagHasNewline = false !== strpos($value, "\n");
+                } elseif (\T_INLINE_HTML === $phpId) {
                     $startAttributes['hasLeadingNewline'] = $this->prevCloseTagHasNewline;
                 }
 
-                $this->line += substr_count($value, "\n");
-                $this->filePos += \strlen($value);
-            } else {
-                if (\T_COMMENT === $token[0] || \T_DOC_COMMENT === $token[0]) {
-                    if ($this->attributeCommentsUsed) {
-                        $comment = \T_DOC_COMMENT === $token[0]
-                            ? new Comment\Doc($token[1], $this->line, $this->filePos, $this->pos)
-                            : new Comment($token[1], $this->line, $this->filePos, $this->pos);
-                        $startAttributes['comments'][] = $comment;
-                    }
+                if ($this->attributeEndLineUsed) {
+                    $endAttributes['endLine'] = $token->line + substr_count($value, "\n");
+                }
+                if ($this->attributeEndTokenPosUsed) {
+                    $endAttributes['endTokenPos'] = $this->pos;
+                }
+                if ($this->attributeEndFilePosUsed) {
+                    $endAttributes['endFilePos'] = $token->filePos + \strlen($value) - 1;
                 }
 
-                $this->line += substr_count($token[1], "\n");
-                $this->filePos += \strlen($token[1]);
-                continue;
+                return $id;
             }
 
-            if ($this->attributeEndLineUsed) {
-                $endAttributes['endLine'] = $this->line;
+            if (\T_COMMENT === $phpId || \T_DOC_COMMENT === $phpId) {
+                if ($this->attributeCommentsUsed) {
+                    $comment = \T_DOC_COMMENT === $phpId
+                        ? new Comment\Doc($value, $token->line, $token->filePos, $this->pos)
+                        : new Comment($value, $token->line, $token->filePos, $this->pos);
+                    $startAttributes['comments'][] = $comment;
+                }
             }
-            if ($this->attributeEndTokenPosUsed) {
-                $endAttributes['endTokenPos'] = $this->pos;
-            }
-            if ($this->attributeEndFilePosUsed) {
-                $endAttributes['endFilePos'] = $this->filePos - 1;
-            }
-
-            return $id;
         }
 
         throw new \RuntimeException('Reached end of lexer loop');
@@ -333,8 +300,9 @@ class Lexer
      * @return string Remaining text
      */
     public function handleHaltCompiler() : string {
-        // text after T_HALT_COMPILER, still including ();
-        $textAfter = substr($this->code, $this->filePos);
+        // Text after T_HALT_COMPILER, still including ();
+        $tokenAfter = $this->tokens[$this->pos + 1];
+        $textAfter = substr($this->code, $tokenAfter->filePos);
 
         // ensure that it is followed by ();
         // this simplifies the situation, by not allowing any comments
@@ -343,8 +311,8 @@ class Lexer
             throw new Error('__HALT_COMPILER must be followed by "();"');
         }
 
-        // prevent the lexer from returning any further tokens
-        $this->pos = count($this->tokens);
+        // Point to one before EOF token, so it will be returned on the getNextToken() call
+        $this->pos = count($this->tokens) - 2;
 
         // return with (); removed
         return substr($textAfter, strlen($matches[0]));
@@ -362,9 +330,12 @@ class Lexer
     protected function createTokenMap() : array {
         $tokenMap = [];
 
-        // 256 is the minimum possible token number, as everything below
-        // it is an ASCII value
-        for ($i = 256; $i < 1000; ++$i) {
+        // ASCII values map to themselves.
+        for ($i = 0; $i < 256; ++$i) {
+            $tokenMap[$i] = $i;
+        }
+
+        for (; $i < 1000; ++$i) {
             if (\T_DOUBLE_COLON === $i) {
                 // T_DOUBLE_COLON is equivalent to T_PAAMAYIM_NEKUDOTAYIM
                 $tokenMap[$i] = Tokens::T_PAAMAYIM_NEKUDOTAYIM;

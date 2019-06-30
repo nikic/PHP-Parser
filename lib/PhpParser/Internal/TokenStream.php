@@ -2,6 +2,8 @@
 
 namespace PhpParser\Internal;
 
+use PhpParser\Token;
+
 /**
  * Provides operations on token streams, for use by pretty printer.
  *
@@ -9,7 +11,7 @@ namespace PhpParser\Internal;
  */
 class TokenStream
 {
-    /** @var array Tokens (in token_get_all format) */
+    /** @var Token[] */
     private $tokens;
     /** @var int[] Map from position to indentation */
     private $indentMap;
@@ -17,7 +19,7 @@ class TokenStream
     /**
      * Create token stream instance.
      *
-     * @param array $tokens Tokens in token_get_all() format
+     * @param Token[] $tokens Tokens
      */
     public function __construct(array $tokens) {
         $this->tokens = $tokens;
@@ -33,8 +35,8 @@ class TokenStream
      * @return bool
      */
     public function haveParens(int $startPos, int $endPos) : bool {
-        return $this->haveTokenImmediativelyBefore($startPos, '(')
-            && $this->haveTokenImmediatelyAfter($endPos, ')');
+        return $this->haveTokenImmediativelyBefore($startPos, \ord('('))
+            && $this->haveTokenImmediatelyAfter($endPos, \ord(')'));
     }
 
     /**
@@ -46,8 +48,8 @@ class TokenStream
      * @return bool
      */
     public function haveBraces(int $startPos, int $endPos) : bool {
-        return $this->haveTokenImmediativelyBefore($startPos, '{')
-            && $this->haveTokenImmediatelyAfter($endPos, '}');
+        return $this->haveTokenImmediativelyBefore($startPos, \ord('{'))
+            && $this->haveTokenImmediatelyAfter($endPos, \ord('}'));
     }
 
     /**
@@ -64,7 +66,7 @@ class TokenStream
         $tokens = $this->tokens;
         $pos--;
         for (; $pos >= 0; $pos--) {
-            $tokenType = $tokens[$pos][0];
+            $tokenType = $tokens[$pos]->id;
             if ($tokenType === $expectedTokenType) {
                 return true;
             }
@@ -90,7 +92,7 @@ class TokenStream
         $tokens = $this->tokens;
         $pos++;
         for (; $pos < \count($tokens); $pos++) {
-            $tokenType = $tokens[$pos][0];
+            $tokenType = $tokens[$pos]->id;
             if ($tokenType === $expectedTokenType) {
                 return true;
             }
@@ -110,7 +112,7 @@ class TokenStream
             return $pos;
         }
 
-        if ($tokens[$pos][0] !== $skipTokenType) {
+        if ($tokens[$pos]->id !== $skipTokenType) {
             // Shouldn't happen. The skip token MUST be there
             throw new \Exception('Encountered unexpected token');
         }
@@ -127,7 +129,7 @@ class TokenStream
             return $pos;
         }
 
-        if ($tokens[$pos][0] !== $skipTokenType) {
+        if ($tokens[$pos]->id !== $skipTokenType) {
             // Shouldn't happen. The skip token MUST be there
             throw new \Exception('Encountered unexpected token');
         }
@@ -145,7 +147,7 @@ class TokenStream
     public function skipLeftWhitespace(int $pos) {
         $tokens = $this->tokens;
         for (; $pos >= 0; $pos--) {
-            $type = $tokens[$pos][0];
+            $type = $tokens[$pos]->id;
             if ($type !== \T_WHITESPACE && $type !== \T_COMMENT && $type !== \T_DOC_COMMENT) {
                 break;
             }
@@ -162,7 +164,7 @@ class TokenStream
     public function skipRightWhitespace(int $pos) {
         $tokens = $this->tokens;
         for ($count = \count($tokens); $pos < $count; $pos++) {
-            $type = $tokens[$pos][0];
+            $type = $tokens[$pos]->id;
             if ($type !== \T_WHITESPACE && $type !== \T_COMMENT && $type !== \T_DOC_COMMENT) {
                 break;
             }
@@ -173,7 +175,7 @@ class TokenStream
     public function findRight($pos, $findTokenType) {
         $tokens = $this->tokens;
         for ($count = \count($tokens); $pos < $count; $pos++) {
-            $type = $tokens[$pos][0];
+            $type = $tokens[$pos]->id;
             if ($type === $findTokenType) {
                 return $pos;
             }
@@ -206,23 +208,19 @@ class TokenStream
         $result = '';
         for ($pos = $from; $pos < $to; $pos++) {
             $token = $tokens[$pos];
-            if (\is_array($token)) {
-                $type = $token[0];
-                $content = $token[1];
-                if ($type === \T_CONSTANT_ENCAPSED_STRING || $type === \T_ENCAPSED_AND_WHITESPACE) {
-                    $result .= $content;
-                } else {
-                    // TODO Handle non-space indentation
-                    if ($indent < 0) {
-                        $result .= str_replace("\n" . str_repeat(" ", -$indent), "\n", $content);
-                    } elseif ($indent > 0) {
-                        $result .= str_replace("\n", "\n" . str_repeat(" ", $indent), $content);
-                    } else {
-                        $result .= $content;
-                    }
-                }
+            $type = $token->id;
+            $content = $token->value;
+            if ($type === \T_CONSTANT_ENCAPSED_STRING || $type === \T_ENCAPSED_AND_WHITESPACE) {
+                $result .= $content;
             } else {
-                $result .= $token;
+                // TODO Handle non-space indentation
+                if ($indent < 0) {
+                    $result .= str_replace("\n" . str_repeat(" ", -$indent), "\n", $content);
+                } elseif ($indent > 0) {
+                    $result .= str_replace("\n", "\n" . str_repeat(" ", $indent), $content);
+                } else {
+                    $result .= $content;
+                }
             }
         }
         return $result;
@@ -239,8 +237,8 @@ class TokenStream
         foreach ($this->tokens as $token) {
             $indentMap[] = $indent;
 
-            if ($token[0] === \T_WHITESPACE) {
-                $content = $token[1];
+            if ($token->id === \T_WHITESPACE) {
+                $content = $token->value;
                 $newlinePos = \strrpos($content, "\n");
                 if (false !== $newlinePos) {
                     $indent = \strlen($content) - $newlinePos - 1;

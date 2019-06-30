@@ -491,7 +491,7 @@ abstract class PrettyPrinterAbstract
         $pos = 0;
         $result = $this->pArray($stmts, $origStmts, $pos, 0, 'File', 'stmts', null);
         if (null !== $result) {
-            $result .= $this->origTokens->getTokenCode($pos, count($origTokens), 0);
+            $result .= $this->origTokens->getTokenCode($pos, count($origTokens) - 1, 0);
         } else {
             // Fallback
             // TODO Add <?php properly
@@ -1213,8 +1213,8 @@ abstract class PrettyPrinterAbstract
         $stripLeft = ['left' => \T_WHITESPACE];
         $stripRight = ['right' => \T_WHITESPACE];
         $stripDoubleArrow = ['right' => \T_DOUBLE_ARROW];
-        $stripColon = ['left' => ':'];
-        $stripEquals = ['left' => '='];
+        $stripColon = ['left' => \ord(':')];
+        $stripEquals = ['left' => \ord('=')];
         $this->removalMap = [
             'Expr_ArrayDimFetch->dim' => $stripBoth,
             'Expr_ArrayItem->key' => $stripDoubleArrow,
@@ -1254,22 +1254,22 @@ abstract class PrettyPrinterAbstract
         // TODO: "yield" where both key and value are inserted doesn't work
         // [$find, $beforeToken, $extraLeft, $extraRight]
         $this->insertionMap = [
-            'Expr_ArrayDimFetch->dim' => ['[', false, null, null],
+            'Expr_ArrayDimFetch->dim' => [\ord('['), false, null, null],
             'Expr_ArrayItem->key' => [null, false, null, ' => '],
-            'Expr_ArrowFunction->returnType' => [')', false, ' : ', null],
-            'Expr_Closure->returnType' => [')', false, ' : ', null],
-            'Expr_Ternary->if' => ['?', false, ' ', ' '],
+            'Expr_ArrowFunction->returnType' => [\ord(')'), false, ' : ', null],
+            'Expr_Closure->returnType' => [\ord(')'), false, ' : ', null],
+            'Expr_Ternary->if' => [\ord('?'), false, ' ', ' '],
             'Expr_Yield->key' => [\T_YIELD, false, null, ' => '],
             'Expr_Yield->value' => [\T_YIELD, false, ' ', null],
             'Param->type' => [null, false, null, ' '],
             'Param->default' => [null, false, ' = ', null],
             'Stmt_Break->num' => [\T_BREAK, false, ' ', null],
-            'Stmt_ClassMethod->returnType' => [')', false, ' : ', null],
+            'Stmt_ClassMethod->returnType' => [\ord(')'), false, ' : ', null],
             'Stmt_Class->extends' => [null, false, ' extends ', null],
             'Expr_PrintableNewAnonClass->extends' => [null, ' extends ', null],
             'Stmt_Continue->num' => [\T_CONTINUE, false, ' ', null],
             'Stmt_Foreach->keyVar' => [\T_AS, false, null, ' => '],
-            'Stmt_Function->returnType' => [')', false, ' : ', null],
+            'Stmt_Function->returnType' => [\ord(')'), false, ' : ', null],
             'Stmt_If->else' => [null, false, ' ', null],
             'Stmt_Namespace->name' => [\T_NAMESPACE, false, ' ', null],
             'Stmt_Property->type' => [\T_VARIABLE, true, null, ' '],
@@ -1367,19 +1367,19 @@ abstract class PrettyPrinterAbstract
 
         // [$find, $extraLeft, $extraRight]
         $this->emptyListInsertionMap = [
-            'Expr_ArrowFunction->params' => ['(', '', ''],
-            'Expr_Closure->uses' => [')', ' use(', ')'],
-            'Expr_Closure->params' => ['(', '', ''],
-            'Expr_FuncCall->args' => ['(', '', ''],
-            'Expr_MethodCall->args' => ['(', '', ''],
-            'Expr_New->args' => ['(', '', ''],
-            'Expr_PrintableNewAnonClass->args' => ['(', '', ''],
+            'Expr_ArrowFunction->params' => [\ord('('), '', ''],
+            'Expr_Closure->uses' => [\ord(')'), ' use(', ')'],
+            'Expr_Closure->params' => [\ord('('), '', ''],
+            'Expr_FuncCall->args' => [\ord('('), '', ''],
+            'Expr_MethodCall->args' => [\ord('('), '', ''],
+            'Expr_New->args' => [\ord('('), '', ''],
+            'Expr_PrintableNewAnonClass->args' => [\ord('('), '', ''],
             'Expr_PrintableNewAnonClass->implements' => [null, ' implements ', ''],
-            'Expr_StaticCall->args' => ['(', '', ''],
+            'Expr_StaticCall->args' => [\ord('('), '', ''],
             'Stmt_Class->implements' => [null, ' implements ', ''],
-            'Stmt_ClassMethod->params' => ['(', '', ''],
+            'Stmt_ClassMethod->params' => [\ord('('), '', ''],
             'Stmt_Interface->extends' => [null, ' extends ', ''],
-            'Stmt_Function->params' => ['(', '', ''],
+            'Stmt_Function->params' => [\ord('('), '', ''],
 
             /* These cannot be empty to start with:
              * Expr_Isset->vars

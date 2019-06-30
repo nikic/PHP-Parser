@@ -247,17 +247,18 @@ class LexerTest extends \PHPUnit\Framework\TestCase
     public function testGetTokens() {
         $code = '<?php "a";' . "\n" . '// foo' . "\n" . '"b";';
         $expectedTokens = [
-            [T_OPEN_TAG, '<?php ', 1],
-            [T_CONSTANT_ENCAPSED_STRING, '"a"', 1],
-            ';',
-            [T_WHITESPACE, "\n", 1],
-            [T_COMMENT, '// foo' . "\n", 2],
-            [T_CONSTANT_ENCAPSED_STRING, '"b"', 3],
-            ';',
+            new Token(T_OPEN_TAG, '<?php ', 1, 0),
+            new Token(T_CONSTANT_ENCAPSED_STRING, '"a"', 1, 6),
+            new Token(\ord(';'), ';', 1, 9),
+            new Token(T_WHITESPACE, "\n", 1, 10),
+            new Token(T_COMMENT, '// foo' . "\n", 2, 11),
+            new Token(T_CONSTANT_ENCAPSED_STRING, '"b"', 3, 18),
+            new Token(\ord(';'), ';', 3, 21),
+            new Token(0, "\0", 3, 22),
         ];
 
         $lexer = $this->getLexer();
         $lexer->startLexing($code);
-        $this->assertSame($expectedTokens, $lexer->getTokens());
+        $this->assertEquals($expectedTokens, $lexer->getTokens());
     }
 }

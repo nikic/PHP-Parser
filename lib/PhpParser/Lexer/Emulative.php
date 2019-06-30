@@ -159,13 +159,7 @@ REGEX;
         $pos = 0;
         for ($i = 0, $c = \count($this->tokens); $i < $c; $i++) {
             $token = $this->tokens[$i];
-            if (\is_string($token)) {
-                // We assume that patches don't apply to string tokens
-                $pos += \strlen($token);
-                continue;
-            }
-
-            $len = \strlen($token[1]);
+            $len = \strlen($token->value);
             $posDelta = 0;
             while ($patchPos >= $pos && $patchPos < $pos + $len) {
                 $patchTextLen = \strlen($patchText);
@@ -177,15 +171,15 @@ REGEX;
                         $c--;
                     } else {
                         // Remove from token string
-                        $this->tokens[$i][1] = substr_replace(
-                            $token[1], '', $patchPos - $pos + $posDelta, $patchTextLen
+                        $this->tokens[$i]->value = substr_replace(
+                            $token->value, '', $patchPos - $pos + $posDelta, $patchTextLen
                         );
                         $posDelta -= $patchTextLen;
                     }
                 } elseif ($patchType === 'add') {
                     // Insert into the token string
-                    $this->tokens[$i][1] = substr_replace(
-                        $token[1], $patchText, $patchPos - $pos + $posDelta, 0
+                    $this->tokens[$i]->value = substr_replace(
+                        $token->value, $patchText, $patchPos - $pos + $posDelta, 0
                     );
                     $posDelta += $patchTextLen;
                 } else {
@@ -196,7 +190,7 @@ REGEX;
                 $patchIdx++;
                 if ($patchIdx >= \count($this->patches)) {
                     // No more patches, we're done
-                    return;
+                    break 2;
                 }
 
                 list($patchPos, $patchType, $patchText) = $this->patches[$patchIdx];
@@ -209,8 +203,12 @@ REGEX;
             $pos += $len;
         }
 
-        // A patch did not apply
-        assert(false);
+        // To retain a minimum amount of sanity, recompute token offsets in a separate loop...
+        $pos = 0;
+        foreach ($this->tokens as $token) {
+            $token->filePos = $pos;
+            $pos += \strlen($token->value);
+        }
     }
 
     /**
