@@ -231,6 +231,8 @@ foreach (new RecursiveIteratorIterator(
         echo $file, ":\n    Parse failed with message: {$e->getMessage()}\n";
 
         ++$parseFail;
+    } catch (Throwable $e) {
+        echo $file, ":\n    Unknown error occurred: $e\n";
     }
 }
 

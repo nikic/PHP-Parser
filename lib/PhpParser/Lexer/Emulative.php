@@ -7,6 +7,7 @@ use PhpParser\ErrorHandler;
 use PhpParser\Lexer;
 use PhpParser\Lexer\TokenEmulator\CoaleseEqualTokenEmulator;
 use PhpParser\Lexer\TokenEmulator\FnTokenEmulator;
+use PhpParser\Lexer\TokenEmulator\NumericLiteralSeparatorEmulator;
 use PhpParser\Lexer\TokenEmulator\TokenEmulatorInterface;
 use PhpParser\Parser\Tokens;
 
@@ -39,6 +40,7 @@ REGEX;
 
         $this->tokenEmulators[] = new FnTokenEmulator();
         $this->tokenEmulators[] = new CoaleseEqualTokenEmulator();
+        $this->tokenEmulators[] = new NumericLiteralSeparatorEmulator();
 
         $this->tokenMap[self::T_COALESCE_EQUAL] = Tokens::T_COALESCE_EQUAL;
         $this->tokenMap[self::T_FN] = Tokens::T_FN;
@@ -58,14 +60,6 @@ REGEX;
         // 1. emulation of heredoc and nowdoc new syntax
         $preparedCode = $this->processHeredocNowdoc($code);
         parent::startLexing($preparedCode, $collector);
-
-        // add token emulation
-        foreach ($this->tokenEmulators as $emulativeToken) {
-            if ($emulativeToken->isEmulationNeeded($code)) {
-                $this->tokens = $emulativeToken->emulate($code, $this->tokens);
-            }
-        }
-
         $this->fixupTokens();
 
         $errors = $collector->getErrors();
@@ -73,6 +67,13 @@ REGEX;
             $this->fixupErrors($errors);
             foreach ($errors as $error) {
                 $errorHandler->handleError($error);
+            }
+        }
+
+        // add token emulation
+        foreach ($this->tokenEmulators as $emulativeToken) {
+            if ($emulativeToken->isEmulationNeeded($code)) {
+                $this->tokens = $emulativeToken->emulate($code, $this->tokens);
             }
         }
     }
