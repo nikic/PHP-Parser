@@ -56,7 +56,7 @@ array(
 ```
 
 This matches the structure of the code: An echo statement, which takes two strings as expressions,
-with the values `Hi` and `World!`.
+with the values `Hi` and `World`.
 
 You can also see that the AST does not contain any whitespace information (but most comments are saved).
 So using it for formatting analysis is not possible.
