@@ -15,15 +15,11 @@ class LexerTest extends \PHPUnit\Framework\TestCase
      * @dataProvider provideTestError
      */
     public function testError($code, $messages) {
-        if (defined('HHVM_VERSION')) {
-            $this->markTestSkipped('HHVM does not throw warnings from token_get_all()');
-        }
-
         $errorHandler = new ErrorHandler\Collecting();
         $lexer = $this->getLexer(['usedAttributes' => [
             'comments', 'startLine', 'endLine', 'startFilePos', 'endFilePos'
         ]]);
-        $lexer->startLexing($code, $errorHandler);
+        $lexer->tokenize($code, $errorHandler);
         $errors = $errorHandler->getErrors();
 
         $this->assertCount(count($messages), $errors);
@@ -50,17 +46,9 @@ class LexerTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider provideTestLex
      */
-    public function testLex($code, $options, $tokens) {
-        $lexer = $this->getLexer($options);
-        $lexer->startLexing($code);
-        while ($id = $lexer->getNextToken($value, $startAttributes, $endAttributes)) {
-            $token = array_shift($tokens);
-
-            $this->assertSame($token[0], $id);
-            $this->assertSame($token[1], $value);
-            $this->assertEquals($token[2], $startAttributes);
-            $this->assertEquals($token[3], $endAttributes);
-        }
+    public function testLex($code, $expectedTokens) {
+        $lexer = $this->getLexer();
+        $this->assertEquals($expectedTokens, $lexer->tokenize($code));
     }
 
     public function provideTestLex() {
@@ -68,7 +56,6 @@ class LexerTest extends \PHPUnit\Framework\TestCase
             // tests conversion of closing PHP tag and drop of whitespace and opening tags
             [
                 '<?php tokens ?>plaintext',
-                [],
                 [
                     [
                         Tokens::T_STRING, 'tokens',
@@ -88,7 +75,6 @@ class LexerTest extends \PHPUnit\Framework\TestCase
             // tests line numbers
             [
                 '<?php' . "\n" . '$ token /** doc' . "\n" . 'comment */ $',
-                [],
                 [
                     [
                         ord('$'), '$',
