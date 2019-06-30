@@ -60,14 +60,6 @@ REGEX;
         // 1. emulation of heredoc and nowdoc new syntax
         $preparedCode = $this->processHeredocNowdoc($code);
         parent::startLexing($preparedCode, $collector);
-
-        // add token emulation
-        foreach ($this->tokenEmulators as $emulativeToken) {
-            if ($emulativeToken->isEmulationNeeded($code)) {
-                $this->tokens = $emulativeToken->emulate($code, $this->tokens);
-            }
-        }
-
         $this->fixupTokens();
 
         $errors = $collector->getErrors();
@@ -75,6 +67,13 @@ REGEX;
             $this->fixupErrors($errors);
             foreach ($errors as $error) {
                 $errorHandler->handleError($error);
+            }
+        }
+
+        // add token emulation
+        foreach ($this->tokenEmulators as $emulativeToken) {
+            if ($emulativeToken->isEmulationNeeded($code)) {
+                $this->tokens = $emulativeToken->emulate($code, $this->tokens);
             }
         }
     }
