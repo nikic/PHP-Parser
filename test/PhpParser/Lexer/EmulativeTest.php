@@ -176,7 +176,7 @@ class EmulativeTest extends LexerTest
             ['1_0abc', [
                 [Tokens::T_LNUMBER, '1_0'],
                 [Tokens::T_STRING, 'abc'],
-            ]]
+            ]],
         ];
     }
 

@@ -6,6 +6,14 @@ use PhpParser\Lexer\Emulative;
 
 final class NumericLiteralSeparatorEmulator implements TokenEmulatorInterface
 {
+    const BIN = '(?:0b[01]+(?:_[01]+)*)';
+    const HEX = '(?:0x[0-9a-f]+(?:_[0-9a-f]+)*)';
+    const DEC = '(?:[0-9]+(?:_[0-9]+)*)';
+    const SIMPLE_FLOAT = '(?:' . self::DEC . '\.' . self::DEC . '?|\.' . self::DEC . ')';
+    const EXP = '(?:e[+-]?' . self::DEC . ')';
+    const FLOAT = '(?:' . self::SIMPLE_FLOAT . self::EXP . '?|' . self::DEC . self::EXP . ')';
+    const NUMBER = '~' . self::FLOAT . '|' . self::BIN . '|' . self::HEX . '|' . self::DEC . '~iA';
+
     public function isEmulationNeeded(string $code) : bool
     {
         // skip version where this is supported
@@ -20,80 +28,56 @@ final class NumericLiteralSeparatorEmulator implements TokenEmulatorInterface
     {
         // We need to manually iterate and manage a count because we'll change
         // the tokens array on the way
-        $line = 1;
+        $codeOffset = 0;
         for ($i = 0, $c = count($tokens); $i < $c; ++$i) {
-            if (!isset($tokens[$i + 1])) {
+            $token = $tokens[$i];
+            $tokenLen = \strlen(\is_array($token) ? $token[1] : $token);
+
+            if ($token[0] !== T_LNUMBER && $token[0] !== T_DNUMBER) {
+                $codeOffset += $tokenLen;
                 continue;
             }
 
-            $token = $tokens[$i];
-            $nextToken = $tokens[$i + 1];
-            if (
-                $this->isNumberToken($token) && $nextToken[0] === T_STRING && strpos($nextToken[1], '_') === 0
-            ) {
-                $numberOfTokensToSquash = 1;
+            var_dump(substr($code, $codeOffset));
+            $res = preg_match(self::NUMBER, $code, $matches, 0, $codeOffset);
+            assert($res, "There should be at a number token position");
 
-                $numericValue = $token[1];
+            $match = $matches[0];
+            $matchLen = \strlen($match);
+            if ($matchLen === $tokenLen) {
+                // Original token already holds the full number.
+                $codeOffset += $tokenLen;
+                continue;
+            }
 
-                $nextPosition = $i + 1;
+            $tokenKind = $this->resolveIntegerOrFloatToken($match);
+            $newTokens = [[$tokenKind, $match, $token[2]]];
 
-                while (isset($tokens[$nextPosition]) && $this->isPartOfNumberToken($tokens[$nextPosition], $tokens[$nextPosition - 1])) {
-                    $nextToken = $tokens[$nextPosition];
+            $numTokens = 1;
+            $len = $tokenLen;
+            while ($matchLen > $len) {
+                $nextToken = $tokens[$i + $numTokens];
+                $nextTokenText = \is_array($nextToken) ? $nextToken[1] : $nextToken;
+                $nextTokenLen = \strlen($nextTokenText);
 
-                    $numericValue .= is_string($nextToken) ? $nextToken : $nextToken[1];
-
-                    ++$nextPosition;
-                    ++$numberOfTokensToSquash;
+                $numTokens++;
+                if ($matchLen < $len + $nextTokenLen) {
+                    // Split trailing characters into a partial token.
+                    assert(is_array($nextToken), "Partial token should be an array token");
+                    $partialText = substr($nextTokenText, $matchLen - $len);
+                    $newTokens[] = [$nextToken[0], $partialText, $nextToken[2]];
+                    break;
                 }
 
-                $tokenKind = $this->resolveIntegerOrFloatToken($numericValue);
-                array_splice($tokens, $i, $numberOfTokensToSquash, [
-                    [$tokenKind, $numericValue, $line]
-                ]);
-
-                $c -= $numberOfTokensToSquash - 1;
-                continue;
+                $len += $nextTokenLen;
             }
 
-            if (is_array($token)) {
-                $line += substr_count($token[1], "\n");
-            }
+            array_splice($tokens, $i, $numTokens, $newTokens);
+            $c -= $numTokens - \count($newTokens);
+            $codeOffset += $matchLen;
         }
 
         return $tokens;
-    }
-
-    /**
-     * @param mixed[]|string $token
-     * @param mixed[]|string $previousToken
-     */
-    private function isPartOfNumberToken($token, $previousToken): bool
-    {
-        if (is_array($token)) {
-            if ($token[0] === T_STRING && strpos($token[1], '_') === 0) {
-                return true;
-            }
-
-            if ($token[0] === T_LNUMBER) {
-                return true;
-            }
-
-            if ($token[0] === T_DNUMBER) {
-                return true;
-            }
-
-        } else {
-            // matches cases like "1_0e+10" - @todo actually skips first token, because it's a string
-            if ($token === '+' || $token === '-') {
-                if ($previousToken[0] === T_STRING && $previousToken[1][0] === '_') {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        return false;
     }
 
     private function resolveIntegerOrFloatToken(string $str): int
@@ -111,17 +95,5 @@ final class NumericLiteralSeparatorEmulator implements TokenEmulatorInterface
         }
 
         return is_float($num) ? T_DNUMBER : T_LNUMBER;
-    }
-
-    /**
-     * @param array|string $token
-     */
-    private function isNumberToken($token): bool
-    {
-        if (! is_array($token)) {
-            return false;
-        }
-
-        return $token[0] === T_LNUMBER || $token[0] === T_DNUMBER;
     }
 }
