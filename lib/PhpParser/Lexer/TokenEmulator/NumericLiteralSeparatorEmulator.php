@@ -38,7 +38,6 @@ final class NumericLiteralSeparatorEmulator implements TokenEmulatorInterface
                 continue;
             }
 
-            var_dump(substr($code, $codeOffset));
             $res = preg_match(self::NUMBER, $code, $matches, 0, $codeOffset);
             assert($res, "There should be at a number token position");
 
