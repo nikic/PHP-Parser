@@ -3,6 +3,7 @@
 namespace PhpParser\Lexer\TokenEmulator;
 
 use PhpParser\Lexer\Emulative;
+use PhpParser\Parser\Tokens;
 use PhpParser\Token;
 
 final class NumericLiteralSeparatorEmulator implements TokenEmulatorInterface
@@ -37,7 +38,7 @@ final class NumericLiteralSeparatorEmulator implements TokenEmulatorInterface
             $token = $tokens[$i];
             $tokenLen = \strlen($token->value);
 
-            if ($token->id !== T_LNUMBER && $token->id !== T_DNUMBER) {
+            if ($token->id !== Tokens::T_LNUMBER && $token->id !== Tokens::T_DNUMBER) {
                 continue;
             }
 
@@ -64,7 +65,9 @@ final class NumericLiteralSeparatorEmulator implements TokenEmulatorInterface
                 if ($matchLen < $len + $nextTokenLen) {
                     // Split trailing characters into a partial token.
                     $partialText = substr($nextToken->value, $matchLen - $len);
-                    $newTokens[] = new Token($nextToken->id, $partialText, $nextToken->line, $nextToken->filePos);
+                    $newTokens[] = new Token(
+                        $nextToken->id, $partialText, $nextToken->line, $nextToken->filePos
+                    );
                     break;
                 }
 
@@ -92,6 +95,6 @@ final class NumericLiteralSeparatorEmulator implements TokenEmulatorInterface
             $num = +$str;
         }
 
-        return is_float($num) ? T_DNUMBER : T_LNUMBER;
+        return is_float($num) ? Tokens::T_DNUMBER : Tokens::T_LNUMBER;
     }
 }

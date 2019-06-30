@@ -3,8 +3,8 @@
 namespace PhpParser;
 
 class Token {
-    /** @var int Token id (T_* constant) */
-    public $id;
+    /** @var int Token id (a PhpParser\Parser\Tokens::T_* constant) */
+    public $id; // TODO: Move this to PhpParser\Tokens.
     /** @var string Textual value of the token */
     public $value;
     /** @var int Start line number of the token */

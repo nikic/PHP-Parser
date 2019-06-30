@@ -3,6 +3,7 @@
 namespace PhpParser\Lexer\TokenEmulator;
 
 use PhpParser\Lexer\Emulative;
+use PhpParser\Parser\Tokens;
 use PhpParser\Token;
 
 final class CoaleseEqualTokenEmulator implements TokenEmulatorInterface
@@ -24,9 +25,9 @@ final class CoaleseEqualTokenEmulator implements TokenEmulatorInterface
         for ($i = 0, $c = count($tokens); $i < $c; ++$i) {
             if (isset($tokens[$i + 1])) {
                 $token = $tokens[$i];
-                if ($token->id === \T_COALESCE && $tokens[$i + 1]->value === '=') {
+                if ($token->id === Tokens::T_COALESCE && $tokens[$i + 1]->value === '=') {
                     array_splice($tokens, $i, 2, [
-                        new Token(Emulative::T_COALESCE_EQUAL, '??=', $token->line, $token->filePos),
+                        new Token(Tokens::T_COALESCE_EQUAL, '??=', $token->line, $token->filePos),
                     ]);
                     $c--;
                     continue;

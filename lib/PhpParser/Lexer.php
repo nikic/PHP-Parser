@@ -6,11 +6,6 @@ use PhpParser\Parser\Tokens;
 
 class Lexer
 {
-    /* Token ID used for illegal characters part of the token stream. These are dropped by
-     * token_get_all(), but we restore them here to make sure that the tokens cover the full
-     * original text, and to prevent file positions from going out of sync. */
-    const T_BAD_CHARACTER = -1;
-
     /** @var array Map from PHP tokens to PhpParser tokens. */
     protected $tokenMap;
 
@@ -24,15 +19,30 @@ class Lexer
     }
 
     /**
-     * Retrieve the token map.
-     *
-     * The token maps PHP tokens into PhpParser tokens. Tokens that should be discarded
-     * by the parser are mapped to null.
+     * Get tokens IDs that should be ignored by the parser.
      *
      * @return array
      */
-    public function getTokenMap(): array {
-        return $this->tokenMap;
+    public function getIgnorableTokens(): array {
+        return [
+            Tokens::T_WHITESPACE,
+            Tokens::T_COMMENT,
+            Tokens::T_DOC_COMMENT,
+            Tokens::T_OPEN_TAG,
+            Tokens::T_BAD_CHARACTER,
+        ];
+    }
+
+    /**
+     * Get map for token canonicalization.
+     *
+     * @return array
+     */
+    public function getCanonicalizationMap(): array {
+        return [
+            Tokens::T_OPEN_TAG_WITH_ECHO => Tokens::T_ECHO,
+            Tokens::T_CLOSE_TAG => \ord(';'),
+        ];
     }
 
     /**
@@ -65,7 +75,7 @@ class Lexer
         $line = 1;
         foreach ($rawTokens as $rawToken) {
             if (\is_array($rawToken)) {
-                $token = new Token($rawToken[0], $rawToken[1], $line, $filePos);
+                $token = new Token($this->tokenMap[$rawToken[0]], $rawToken[1], $line, $filePos);
             } elseif (\strlen($rawToken) == 2) {
                 // Bug in token_get_all() when lexing b".
                 $token = new Token(\ord('"'), $rawToken, $line, $filePos);
@@ -131,7 +141,7 @@ class Lexer
                 );
             }
 
-            $tokens[] = new Token(self::T_BAD_CHARACTER, $chr, $line, $i);
+            $tokens[] = new Token(Tokens::T_BAD_CHARACTER, $chr, $line, $i);
             $errorHandler->handleError(new Error($errorMsg, [
                 'startLine' => $line,
                 'endLine' => $line,
@@ -148,50 +158,18 @@ class Lexer
             && substr($token->value, -2) !== '*/';
     }
 
-    /**
-     * Creates the token map.
-     *
-     * The token map maps the PHP internal token identifiers
-     * to the identifiers used by the Parser. Additionally it
-     * maps T_OPEN_TAG_WITH_ECHO to T_ECHO and T_CLOSE_TAG to ';'.
-     * Whitespace and comment tokens are mapped to null, which
-     * indicates that they should be dropped.
-     *
-     * @return array The token map
-     */
     private function createTokenMap(): array {
         $tokenMap = [];
 
-        // ASCII values map to themselves.
-        for ($i = 0; $i < 256; ++$i) {
-            $tokenMap[$i] = $i;
-        }
-
-        for (; $i < 1000; ++$i) {
-            if (\T_DOUBLE_COLON === $i) {
-                // T_DOUBLE_COLON is equivalent to T_PAAMAYIM_NEKUDOTAYIM
-                $tokenMap[$i] = Tokens::T_PAAMAYIM_NEKUDOTAYIM;
-            } elseif (\T_OPEN_TAG_WITH_ECHO === $i) {
-                // T_OPEN_TAG_WITH_ECHO with dropped T_OPEN_TAG results in T_ECHO
-                $tokenMap[$i] = Tokens::T_ECHO;
-            } elseif (\T_CLOSE_TAG === $i) {
-                // T_CLOSE_TAG is equivalent to ';'
-                $tokenMap[$i] = ord(';');
-            } elseif ('UNKNOWN' !== $name = token_name($i)) {
-                if (defined($name = Tokens::class . '::' . $name)) {
-                    // Other tokens can be mapped directly
-                    $tokenMap[$i] = constant($name);
-                }
+        for ($i = 256; $i < 1000; ++$i) {
+            $name = token_name($i);
+            if ('UNKNOWN' === $name) {
+                continue;
             }
-        }
-
-        $dropTokens = [
-            \T_WHITESPACE, \T_OPEN_TAG, \T_COMMENT, \T_DOC_COMMENT,
-            // PHP only reports invalid characters during lexing and discards them for parsing
-            self::T_BAD_CHARACTER
-        ];
-        foreach ($dropTokens as $dropToken) {
-            $tokenMap[$dropToken] = null;
+            $constName = Tokens::class . '::' . $name;
+            if (defined($constName)) {
+                $tokenMap[$i] = constant($constName);
+            }
         }
 
         return $tokenMap;

@@ -3,6 +3,7 @@
 namespace PhpParser\Lexer\TokenEmulator;
 
 use PhpParser\Lexer\Emulative;
+use PhpParser\Parser\Tokens;
 use PhpParser\Token;
 
 final class FnTokenEmulator implements TokenEmulatorInterface
@@ -22,13 +23,14 @@ final class FnTokenEmulator implements TokenEmulatorInterface
         // We need to manually iterate and manage a count because we'll change
         // the tokens array on the way
         foreach ($tokens as $i => $token) {
-            if ($token->id === \T_STRING && $token->value === 'fn') {
+            if ($token->id === Tokens::T_STRING && $token->value === 'fn') {
                 $previousNonSpaceToken = $this->getPreviousNonSpaceToken($tokens, $i);
-                if ($previousNonSpaceToken !== null && $previousNonSpaceToken->id === T_OBJECT_OPERATOR) {
+                if ($previousNonSpaceToken !== null
+                        && $previousNonSpaceToken->id === Tokens::T_OBJECT_OPERATOR) {
                     continue;
                 }
 
-                $token->id = Emulative::T_FN;
+                $token->id = Tokens::T_FN;
             }
         }
 
@@ -42,7 +44,7 @@ final class FnTokenEmulator implements TokenEmulatorInterface
     private function getPreviousNonSpaceToken(array $tokens, int $start)
     {
         for ($i = $start - 1; $i >= 0; --$i) {
-            if ($tokens[$i]->id === \T_WHITESPACE) {
+            if ($tokens[$i]->id === Tokens::T_WHITESPACE) {
                 continue;
             }
 

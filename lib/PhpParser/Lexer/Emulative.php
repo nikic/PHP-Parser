@@ -16,9 +16,6 @@ class Emulative extends Lexer
     const PHP_7_3 = '7.3.0dev';
     const PHP_7_4 = '7.4.0dev';
 
-    const T_COALESCE_EQUAL = 1007;
-    const T_FN = 1008;
-
     const FLEXIBLE_DOC_STRING_REGEX = <<<'REGEX'
 /<<<[ \t]*(['"]?)([a-zA-Z_\x80-\xff][a-zA-Z0-9_\x80-\xff]*)\1\r?\n
 (?:.*\r?\n)*?
@@ -41,26 +38,22 @@ REGEX;
         $this->tokenEmulators[] = new FnTokenEmulator();
         $this->tokenEmulators[] = new CoaleseEqualTokenEmulator();
         $this->tokenEmulators[] = new NumericLiteralSeparatorEmulator();
-
-        $this->tokenMap[self::T_COALESCE_EQUAL] = Tokens::T_COALESCE_EQUAL;
-        $this->tokenMap[self::T_FN] = Tokens::T_FN;
     }
 
-    public function startLexing(string $code, ErrorHandler $errorHandler = null) {
+    public function tokenize(string $code, ErrorHandler $errorHandler = null) {
         $this->patches = [];
 
         if ($this->isEmulationNeeded($code) === false) {
             // Nothing to emulate, yay
-            parent::startLexing($code, $errorHandler);
-            return;
+            return parent::tokenize($code, $errorHandler);
         }
 
         $collector = new ErrorHandler\Collecting();
 
         // 1. emulation of heredoc and nowdoc new syntax
         $preparedCode = $this->processHeredocNowdoc($code);
-        parent::startLexing($preparedCode, $collector);
-        $this->fixupTokens();
+        $tokens = parent::tokenize($preparedCode, $collector);
+        $tokens = $this->fixupTokens($tokens);
 
         $errors = $collector->getErrors();
         if (!empty($errors)) {
@@ -73,9 +66,11 @@ REGEX;
         // add token emulation
         foreach ($this->tokenEmulators as $emulativeToken) {
             if ($emulativeToken->isEmulationNeeded($code)) {
-                $this->tokens = $emulativeToken->emulate($code, $this->tokens);
+                $tokens = $emulativeToken->emulate($code, $tokens);
             }
         }
+
+        return $tokens;
     }
 
     private function isHeredocNowdocEmulationNeeded(string $code): bool
@@ -144,10 +139,10 @@ REGEX;
         return $this->isHeredocNowdocEmulationNeeded($code);
     }
 
-    private function fixupTokens()
+    private function fixupTokens(array $tokens): array
     {
         if (\count($this->patches) === 0) {
-            return;
+            return $tokens;
         }
 
         // Load first patch
@@ -157,8 +152,8 @@ REGEX;
 
         // We use a manual loop over the tokens, because we modify the array on the fly
         $pos = 0;
-        for ($i = 0, $c = \count($this->tokens); $i < $c; $i++) {
-            $token = $this->tokens[$i];
+        for ($i = 0, $c = \count($tokens); $i < $c; $i++) {
+            $token = $tokens[$i];
             $len = \strlen($token->value);
             $posDelta = 0;
             while ($patchPos >= $pos && $patchPos < $pos + $len) {
@@ -166,19 +161,19 @@ REGEX;
                 if ($patchType === 'remove') {
                     if ($patchPos === $pos && $patchTextLen === $len) {
                         // Remove token entirely
-                        array_splice($this->tokens, $i, 1, []);
+                        array_splice($tokens, $i, 1, []);
                         $i--;
                         $c--;
                     } else {
                         // Remove from token string
-                        $this->tokens[$i]->value = substr_replace(
+                        $tokens[$i]->value = substr_replace(
                             $token->value, '', $patchPos - $pos + $posDelta, $patchTextLen
                         );
                         $posDelta -= $patchTextLen;
                     }
                 } elseif ($patchType === 'add') {
                     // Insert into the token string
-                    $this->tokens[$i]->value = substr_replace(
+                    $tokens[$i]->value = substr_replace(
                         $token->value, $patchText, $patchPos - $pos + $posDelta, 0
                     );
                     $posDelta += $patchTextLen;
@@ -197,18 +192,23 @@ REGEX;
 
                 // Multiple patches may apply to the same token. Reload the current one to check
                 // If the new patch applies
-                $token = $this->tokens[$i];
+                $token = $tokens[$i];
             }
 
             $pos += $len;
         }
 
-        // To retain a minimum amount of sanity, recompute token offsets in a separate loop...
+        // To retain a minimum amount of sanity, recompute lines and offsets in a separate loop.
         $pos = 0;
-        foreach ($this->tokens as $token) {
+        $line = 1;
+        foreach ($tokens as $token) {
             $token->filePos = $pos;
+            $token->line = $line;
             $pos += \strlen($token->value);
+            $line += \substr_count($token->value, "\n");
         }
+
+        return $tokens;
     }
 
     /**
