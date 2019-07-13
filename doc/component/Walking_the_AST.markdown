@@ -312,7 +312,7 @@ $extendingClasses = $nodeFinder->find($stmts, function(Node $node) {
         && $node->extends !== null;
 });
 
-// Find first class occuring in the AST. Returns null if no class exists.
+// Find first class occurring in the AST. Returns null if no class exists.
 $class = $nodeFinder->findFirstInstanceOf($stmts, Node\Stmt\Class_::class);
 
 // Find first class that has name $name
