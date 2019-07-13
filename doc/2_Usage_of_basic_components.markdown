@@ -77,7 +77,7 @@ A parser instance can be reused to parse multiple files.
 Node dumping
 ------------
 
-To dump the abstact syntax tree in human readable form, a `NodeDumper` can be used:
+To dump the abstract syntax tree in human readable form, a `NodeDumper` can be used:
 
 ```php
 <?php
