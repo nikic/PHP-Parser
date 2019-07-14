@@ -100,7 +100,7 @@ class String_ extends Scalar
                 if (isset(self::$replacements[$str])) {
                     return self::$replacements[$str];
                 } elseif ('x' === $str[0] || 'X' === $str[0]) {
-                    return chr(hexdec($str));
+                    return chr(hexdec(substr($str, 1)));
                 } elseif ('u' === $str[0]) {
                     return self::codePointToUtf8(hexdec($matches[2]));
                 } else {
@@ -134,7 +134,7 @@ class String_ extends Scalar
         }
         throw new Error('Invalid UTF-8 codepoint escape sequence: Codepoint too large');
     }
-    
+
     public function getType() : string {
         return 'Scalar_String';
     }
