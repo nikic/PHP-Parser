@@ -736,7 +736,7 @@ class Standard extends PrettyPrinterAbstract
     protected function pStmt_Function(Stmt\Function_ $node) {
         return 'function ' . ($node->byRef ? '&' : '') . $node->name
              . '(' . $this->pCommaSeparated($node->params) . ')'
-             . (null !== $node->returnType ? ' : ' . $this->p($node->returnType) : '')
+             . (null !== $node->returnType ? ': ' . $this->p($node->returnType) : '')
              . $this->nl . '{' . $this->pStmts($node->stmts) . $this->nl . '}';
     }
 
