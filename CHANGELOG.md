@@ -1,7 +1,19 @@
-Version 4.2.3-dev
+Version 4.2.4-dev
 -----------------
 
 Nothing yet.
+
+Version 4.2.3 (2019-08-12)
+--------------------------
+
+### Added
+
+* [PHP 7.4] Add support for numeric literal separators. (#615)
+
+### Fixed
+
+* Fixed resolution of return types for arrow functions. (#613)
+* Fixed compatibility with PHP 7.4.
 
 Version 4.2.2 (2019-05-25)
 --------------------------
