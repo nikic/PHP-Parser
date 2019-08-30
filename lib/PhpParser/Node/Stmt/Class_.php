@@ -98,7 +98,7 @@ class Class_ extends ClassLike
             throw new Error('Cannot use the final modifier on an abstract class member');
         }
     }
-    
+
     public function getType() : string {
         return 'Stmt_Class';
     }

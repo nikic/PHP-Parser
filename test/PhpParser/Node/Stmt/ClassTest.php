@@ -2,6 +2,8 @@
 
 namespace PhpParser\Node\Stmt;
 
+use PhpParser\Node\Scalar\String_;
+
 class ClassTest extends \PHPUnit\Framework\TestCase
 {
     public function testIsAbstract() {
@@ -38,6 +40,42 @@ class ClassTest extends \PHPUnit\Framework\TestCase
         ]);
 
         $this->assertSame($methods, $class->getMethods());
+    }
+
+    public function testGetConstants() {
+        $constants = [
+            new ClassConst([new \PhpParser\Node\Const_('foo', new String_('foo_value'))]),
+            new ClassConst([new \PhpParser\Node\Const_('bar', new String_('bar_value'))]),
+        ];
+        $class = new Class_('Foo', [
+            'stmts' => [
+                new TraitUse([]),
+                $constants[0],
+                new ClassMethod('fooBar'),
+                $constants[1],
+            ]
+        ]);
+
+        $this->assertSame($constants, $class->getConstants());
+    }
+
+    public function testGetProperties()
+    {
+        $properties = [
+            new Property(Class_::MODIFIER_PUBLIC, [new PropertyProperty('foo')]),
+            new Property(Class_::MODIFIER_PUBLIC, [new PropertyProperty('bar')]),
+        ];
+        $class = new Class_('Foo', [
+            'stmts' => [
+                new TraitUse([]),
+                $properties[0],
+                new ClassConst([]),
+                $properties[1],
+                new ClassMethod('fooBar'),
+            ]
+        ]);
+
+        $this->assertSame($properties, $class->getProperties());
     }
 
     public function testGetMethod() {

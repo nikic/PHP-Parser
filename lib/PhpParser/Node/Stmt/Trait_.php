@@ -23,7 +23,7 @@ class Trait_ extends ClassLike
     public function getSubNodeNames() : array {
         return ['name', 'stmts'];
     }
-    
+
     public function getType() : string {
         return 'Stmt_Trait';
     }
