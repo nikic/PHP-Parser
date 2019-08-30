@@ -15,6 +15,32 @@ abstract class ClassLike extends Node\Stmt
     public $stmts;
 
     /**
+     * @return ClassConst[]
+     */
+    public function getConstants() : array {
+        $constants = [];
+        foreach ($this->stmts as $stmt) {
+            if ($stmt instanceof ClassConst) {
+                $constants[] = $stmt;
+            }
+        }
+        return $constants;
+    }
+
+    /**
+     * @return Property[]
+     */
+    public function getProperties() : array {
+        $properties = [];
+        foreach ($this->stmts as $stmt) {
+            if ($stmt instanceof Property) {
+                $properties[] = $stmt;
+            }
+        }
+        return $properties;
+    }
+
+    /**
      * Gets all methods defined directly in this class/interface/trait
      *
      * @return ClassMethod[]
