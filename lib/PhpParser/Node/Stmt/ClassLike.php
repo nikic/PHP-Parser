@@ -15,6 +15,19 @@ abstract class ClassLike extends Node\Stmt
     public $stmts;
 
     /**
+     * @return TraitUse[]
+     */
+    public function getTraitUses() : array {
+        $traitUses = [];
+        foreach ($this->stmts as $stmt) {
+            if ($stmt instanceof TraitUse) {
+                $traitUses[] = $stmt;
+            }
+        }
+        return $traitUses;
+    }
+
+    /**
      * @return ClassConst[]
      */
     public function getConstants() : array {

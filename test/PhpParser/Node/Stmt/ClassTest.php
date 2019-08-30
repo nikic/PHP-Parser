@@ -22,6 +22,22 @@ class ClassTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($class->isFinal());
     }
 
+    public function testGetTraitUses() {
+        $traitUses = [
+            new TraitUse([new Trait_('foo')]),
+            new TraitUse([new Trait_('bar')]),
+        ];
+        $class = new Class_('Foo', [
+            'stmts' => [
+                $traitUses[0],
+                new ClassMethod('fooBar'),
+                $traitUses[1],
+            ]
+        ]);
+
+        $this->assertSame($traitUses, $class->getTraitUses());
+    }
+
     public function testGetMethods() {
         $methods = [
             new ClassMethod('foo'),
