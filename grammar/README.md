@@ -21,7 +21,7 @@ applied to it:
 Building the parser
 ===================
 
-In order to rebuild the parser, you need [moriyoshi's fork of kmyacc](https://github.com/moriyoshi/kmyacc-forked).
+In order to rebuild the parser, you need [moriyoshi's fork of kmyacc](https://github.com/moriyoshi/kmyacc-forked) or [ircmaxell's PHP rewrite of kmyacc](https://github.com/ircmaxell/PHP-Yacc).
 After you compiled/installed it, run the `rebuildParsers.php` script.
 
 By default only the `Parser.php` is built. If you want to additionally emit debug symbols and create `y.output`, run the
