@@ -62,7 +62,7 @@ foreach ($grammarFileToName as $grammarFile => $name) {
     $additionalArgs = $optionDebug ? '-t -v' : '';
 
     echo "Building $name parser.\n";
-    $output = trim(shell_exec("$kmyacc $additionalArgs -l -m $skeletonFile -p $name $tmpGrammarFile 2>&1"));
+    $output = trim(shell_exec("$kmyacc $additionalArgs -m $skeletonFile -p $name $tmpGrammarFile 2>&1"));
     echo "Output: \"$output\"\n";
 
     $resultCode = file_get_contents($tmpResultFile);
