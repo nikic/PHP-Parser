@@ -15,14 +15,8 @@ $tokensResultsFile = $resultDir . '/Tokens.php';
 
 $kmyacc = getenv('KMYACC');
 if (!$kmyacc) {
-    // Check for kmyacc binary in this directory, otherwise fall back to global name
-    if (file_exists(__DIR__ . '/kmyacc.exe')) {
-        $kmyacc = __DIR__ . '/kmyacc.exe';
-    } else if (file_exists(__DIR__ . '/kmyacc')) {
-        $kmyacc = __DIR__ . '/kmyacc';
-    } else {
-        $kmyacc = 'kmyacc';
-    }
+    // Use phpyacc from dev dependencies by default.
+    $kmyacc = PHP_BINARY . ' ' . __DIR__ . '/../vendor/bin/phpyacc';
 }
 
 $options = array_flip($argv);
