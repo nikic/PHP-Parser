@@ -1,7 +1,16 @@
-Version 4.2.5-dev
+Version 4.2.6-dev
 -----------------
 
 Nothing yet.
+
+Version 4.2.5 (2019-10-25)
+--------------------------
+
+### Changed
+
+* Tests and documentation are no longer included in source archives. They can still be accessed
+  by cloning the repository.
+* php-yacc is now used to generate the parser. This has no impact on users of the library.
 
 Version 4.2.4 (2019-09-01)
 --------------------------
