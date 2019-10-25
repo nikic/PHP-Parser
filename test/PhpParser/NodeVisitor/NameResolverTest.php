@@ -209,15 +209,15 @@ class A extends B implements C, D {
 }
 
 interface A extends C, D {
-    public function a(A $a) : A;
+    public function a(A $a): A;
 }
 
-function f(A $a) : A {}
-function f2(array $a) : array {}
-function(A $a) : A {};
+function f(A $a): A {}
+function f2(array $a): array {}
+function(A $a): A {};
 
-function fn3(?A $a) : ?A {}
-function fn4(?array $a) : ?array {}
+function fn3(?A $a): ?A {}
+function fn4(?array $a): ?array {}
 
 fn(array $a): array => $a;
 fn(A $a): A => $a;
@@ -251,20 +251,20 @@ class A extends \NS\B implements \NS\C, \NS\D
 }
 interface A extends \NS\C, \NS\D
 {
-    public function a(\NS\A $a) : \NS\A;
+    public function a(\NS\A $a): \NS\A;
 }
-function f(\NS\A $a) : \NS\A
+function f(\NS\A $a): \NS\A
 {
 }
-function f2(array $a) : array
+function f2(array $a): array
 {
 }
-function (\NS\A $a) : \NS\A {
+function (\NS\A $a): \NS\A {
 };
-function fn3(?\NS\A $a) : ?\NS\A
+function fn3(?\NS\A $a): ?\NS\A
 {
 }
-function fn4(?array $a) : ?array
+function fn4(?array $a): ?array
 {
 }
 fn(array $a): array => $a;
