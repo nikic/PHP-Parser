@@ -6,6 +6,7 @@ use PhpParser\Node;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Name;
 use PhpParser\Node\NullableType;
+use PhpParser\Node\UnionType;
 
 class Property extends Node\Stmt
 {
@@ -13,16 +14,16 @@ class Property extends Node\Stmt
     public $flags;
     /** @var PropertyProperty[] Properties */
     public $props;
-    /** @var null|Identifier|Name|NullableType Type declaration */
+    /** @var null|Identifier|Name|NullableType|UnionType Type declaration */
     public $type;
 
     /**
      * Constructs a class property list node.
      *
-     * @param int                                      $flags      Modifiers
-     * @param PropertyProperty[]                       $props      Properties
-     * @param array                                    $attributes Additional attributes
-     * @param null|string|Identifier|Name|NullableType $type       Type declaration
+     * @param int                                                $flags      Modifiers
+     * @param PropertyProperty[]                                 $props      Properties
+     * @param array                                              $attributes Additional attributes
+     * @param null|string|Identifier|Name|NullableType|UnionType $type       Type declaration
      */
     public function __construct(int $flags, array $props, array $attributes = [], $type = null) {
         $this->attributes = $attributes;

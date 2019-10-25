@@ -94,13 +94,6 @@ namespace Baz {
     C;
     E;
     K;
-
-    class ClassWithTypeProperties
-    {
-        public float $php = 7.4;
-        public ?Foo $person;
-        protected static ?bool $probability;
-    }
 }
 EOC;
         $expectedCode = <<<'EOC'
@@ -169,12 +162,6 @@ namespace Baz {
     \Y\T\B\C;
     \Y\T\D\E;
     \Z\T\K;
-    class ClassWithTypeProperties
-    {
-        public float $php = 7.4;
-        public ?\Baz\Foo $person;
-        protected static ?bool $probability;
-    }
 }
 EOC;
 
@@ -210,6 +197,14 @@ class A extends B implements C, D {
 
 interface A extends C, D {
     public function a(A $a) : A;
+    public function b(A|B|int $a): A|B|int;
+}
+
+class ClassWithTypeProperties {
+    public float $php = 7.4;
+    public ?Foo $person;
+    protected static ?bool $probability;
+    public A|B|int $prop;
 }
 
 function f(A $a) : A {}
@@ -252,6 +247,14 @@ class A extends \NS\B implements \NS\C, \NS\D
 interface A extends \NS\C, \NS\D
 {
     public function a(\NS\A $a) : \NS\A;
+    public function b(\NS\A|\NS\B|int $a) : \NS\A|\NS\B|int;
+}
+class ClassWithTypeProperties
+{
+    public float $php = 7.4;
+    public ?\NS\Foo $person;
+    protected static ?bool $probability;
+    public \NS\A|\NS\B|int $prop;
 }
 function f(\NS\A $a) : \NS\A
 {

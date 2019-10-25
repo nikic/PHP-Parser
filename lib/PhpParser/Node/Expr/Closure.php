@@ -16,7 +16,7 @@ class Closure extends Expr implements FunctionLike
     public $params;
     /** @var ClosureUse[] use()s */
     public $uses;
-    /** @var null|Node\Identifier|Node\Name|Node\NullableType Return type */
+    /** @var null|Node\Identifier|Node\Name|Node\NullableType|Node\UnionType Return type */
     public $returnType;
     /** @var Node\Stmt[] Statements */
     public $stmts;

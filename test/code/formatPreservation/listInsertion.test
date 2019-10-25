@@ -307,3 +307,13 @@ $array = [
     1, 2,
     3, 24,
 ];
+-----
+<?php
+function test(): A
+|B {}
+-----
+$stmts[0]->returnType->types[] = new Node\Name('C');
+-----
+<?php
+function test(): A
+|B|C {}

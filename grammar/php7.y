@@ -461,12 +461,18 @@ parameter:
 type_expr:
       type                                                  { $$ = $1; }
     | '?' type                                              { $$ = Node\NullableType[$2]; }
+    | union_type                                            { $$ = Node\UnionType[$1]; }
 ;
 
 type:
       name                                                  { $$ = $this->handleBuiltinTypes($1); }
     | T_ARRAY                                               { $$ = Node\Identifier['array']; }
     | T_CALLABLE                                            { $$ = Node\Identifier['callable']; }
+;
+
+union_type:
+      type '|' type                                         { init($1, $3); }
+    | union_type '|' type                                   { push($1, $3); }
 ;
 
 optional_type:

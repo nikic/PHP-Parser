@@ -39,3 +39,14 @@ function foo(
     $x,
     $y
 ) {}
+-----
+<?php
+function test(): A
+|B
+|C {}
+-----
+array_pop($stmts[0]->returnType->types);
+-----
+<?php
+function test(): A
+|B {}

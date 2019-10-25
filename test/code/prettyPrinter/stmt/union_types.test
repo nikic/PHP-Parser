@@ -1,0 +1,18 @@
+Union types
+-----
+<?php
+
+class Test {
+    public A|iterable|null $prop;
+}
+
+function test(A|B $a): int|false {}
+-----
+!!php7
+class Test
+{
+    public A|iterable|null $prop;
+}
+function test(A|B $a) : int|false
+{
+}

@@ -1295,6 +1295,7 @@ abstract class PrettyPrinterAbstract
             //'Expr_ShellExec->parts' => '', // TODO These need to be treated more carefully
             //'Scalar_Encapsed->parts' => '',
             'Stmt_Catch->types' => '|',
+            'UnionType->types' => '|',
             'Stmt_If->elseifs' => ' ',
             'Stmt_TryCatch->catches' => ' ',
 
@@ -1396,6 +1397,7 @@ abstract class PrettyPrinterAbstract
              * Stmt_TraitUseAdaptation_Precedence->insteadof
              * Stmt_Unset->vars
              * Stmt_Use->uses
+             * UnionType->types
              */
 
             /* TODO

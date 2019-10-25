@@ -1,0 +1,92 @@
+Union types
+-----
+<?php
+
+class Test {
+    public A|iterable|null $prop;
+}
+
+function test(A|B $a): int|false {}
+-----
+!!php7
+array(
+    0: Stmt_Class(
+        flags: 0
+        name: Identifier(
+            name: Test
+        )
+        extends: null
+        implements: array(
+        )
+        stmts: array(
+            0: Stmt_Property(
+                flags: MODIFIER_PUBLIC (1)
+                type: UnionType(
+                    types: array(
+                        0: Name(
+                            parts: array(
+                                0: A
+                            )
+                        )
+                        1: Identifier(
+                            name: iterable
+                        )
+                        2: Identifier(
+                            name: null
+                        )
+                    )
+                )
+                props: array(
+                    0: Stmt_PropertyProperty(
+                        name: VarLikeIdentifier(
+                            name: prop
+                        )
+                        default: null
+                    )
+                )
+            )
+        )
+    )
+    1: Stmt_Function(
+        byRef: false
+        name: Identifier(
+            name: test
+        )
+        params: array(
+            0: Param(
+                type: UnionType(
+                    types: array(
+                        0: Name(
+                            parts: array(
+                                0: A
+                            )
+                        )
+                        1: Name(
+                            parts: array(
+                                0: B
+                            )
+                        )
+                    )
+                )
+                byRef: false
+                variadic: false
+                var: Expr_Variable(
+                    name: a
+                )
+                default: null
+            )
+        )
+        returnType: UnionType(
+            types: array(
+                0: Identifier(
+                    name: int
+                )
+                1: Identifier(
+                    name: false
+                )
+            )
+        )
+        stmts: array(
+        )
+    )
+)
