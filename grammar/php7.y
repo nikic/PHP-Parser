@@ -68,12 +68,18 @@ semi:
 
 no_comma:
       /* empty */ { /* nothing */ }
-    | ',' { $this->emitError(new Error('A trailing comma is not allowed here', attributes())); }
+    | ',' no_comma { $this->emitError(new Error('A trailing comma is not allowed here', attributes())); }
 ;
 
 optional_comma:
       /* empty */
-    | ','
+    | comma
+;
+
+comma:
+      ',' { /* nothing */ }
+    | comma ',' { $this->emitError(new Error('Only one comma was expected', attributes())); }
+;
 
 top_statement:
       statement                                             { $$ = $1; }
@@ -481,13 +487,13 @@ optional_return_type:
 ;
 
 argument_list:
-      '(' ')'                                               { $$ = array(); }
+      '(' no_comma ')'                                               { $$ = array(); }
     | '(' non_empty_argument_list optional_comma ')'        { $$ = $2; }
 ;
 
 non_empty_argument_list:
       argument                                              { init($1); }
-    | non_empty_argument_list ',' argument                  { push($1, $3); }
+    | non_empty_argument_list comma argument                  { push($1, $3); }
 ;
 
 argument:
