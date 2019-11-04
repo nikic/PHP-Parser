@@ -16,6 +16,9 @@ class String_ extends Scalar
     /** @var string String value */
     public $value;
 
+    /** @var string Unparsed String value */
+    public $rawValue;
+
     protected static $replacements = [
         '\\' => '\\',
         '$'  =>  '$',

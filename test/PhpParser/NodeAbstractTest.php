@@ -280,6 +280,7 @@ PHP;
                     {
                         "nodeType": "Scalar_String",
                         "value": "Foo",
+                        "rawValue": "'Foo'",
                         "attributes": {
                             "startLine": 5,
                             "endLine": 5,
