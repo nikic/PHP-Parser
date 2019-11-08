@@ -1,7 +1,14 @@
-Version 4.2.6-dev
+Version 4.3.1-dev
 -----------------
 
 Nothing yet.
+
+Version 4.3.0 (2019-11-08)
+--------------------------
+
+### Added
+
+* [PHP 8.0] Added support for union types using a new `UnionType` node.
 
 Version 4.2.5 (2019-10-25)
 --------------------------
