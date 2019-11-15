@@ -52,15 +52,15 @@ class Standard extends PrettyPrinterAbstract
     // Names
 
     protected function pName(Name $node) {
-        return implode('\\', $node->parts);
+        return \implode('\\', $node->parts);
     }
 
     protected function pName_FullyQualified(Name\FullyQualified $node) {
-        return '\\' . implode('\\', $node->parts);
+        return '\\' . \implode('\\', $node->parts);
     }
 
     protected function pName_Relative(Name\Relative $node) {
-        return 'namespace\\' . implode('\\', $node->parts);
+        return 'namespace\\' . \implode('\\', $node->parts);
     }
 
     // Magic Constants
@@ -137,7 +137,7 @@ class Standard extends PrettyPrinterAbstract
         if ($node->getAttribute('kind') === Scalar\String_::KIND_HEREDOC) {
             $label = $node->getAttribute('docLabel');
             if ($label && !$this->encapsedContainsEndLabel($node->parts, $label)) {
-                if (count($node->parts) === 1
+                if (\count($node->parts) === 1
                     && $node->parts[0] instanceof Scalar\EncapsedStringPart
                     && $node->parts[0]->value === ''
                 ) {
@@ -172,17 +172,17 @@ class Standard extends PrettyPrinterAbstract
         }
         switch ($kind) {
             case Scalar\LNumber::KIND_BIN:
-                return $sign . '0b' . base_convert($str, 10, 2);
+                return $sign . '0b' . \base_convert($str, 10, 2);
             case Scalar\LNumber::KIND_OCT:
-                return $sign . '0' . base_convert($str, 10, 8);
+                return $sign . '0' . \base_convert($str, 10, 8);
             case Scalar\LNumber::KIND_HEX:
-                return $sign . '0x' . base_convert($str, 10, 16);
+                return $sign . '0x' . \base_convert($str, 10, 16);
         }
         throw new \Exception('Invalid number kind');
     }
 
     protected function pScalar_DNumber(Scalar\DNumber $node) {
-        if (!is_finite($node->value)) {
+        if (!\is_finite($node->value)) {
             if ($node->value === \INF) {
                 return '\INF';
             } elseif ($node->value === -\INF) {
@@ -193,18 +193,18 @@ class Standard extends PrettyPrinterAbstract
         }
 
         // Try to find a short full-precision representation
-        $stringValue = sprintf('%.16G', $node->value);
+        $stringValue = \sprintf('%.16G', $node->value);
         if ($node->value !== (double) $stringValue) {
-            $stringValue = sprintf('%.17G', $node->value);
+            $stringValue = \sprintf('%.17G', $node->value);
         }
 
         // %G is locale dependent and there exists no locale-independent alternative. We don't want
         // mess with switching locales here, so let's assume that a comma is the only non-standard
         // decimal separator we may encounter...
-        $stringValue = str_replace(',', '.', $stringValue);
+        $stringValue = \str_replace(',', '.', $stringValue);
 
         // ensure that number is really printed as float
-        return preg_match('/^-?[0-9]+$/', $stringValue) ? $stringValue . '.0' : $stringValue;
+        return \preg_match('/^-?[0-9]+$/', $stringValue) ? $stringValue . '.0' : $stringValue;
     }
 
     protected function pScalar_EncapsedStringPart(Scalar\EncapsedStringPart $node) {
@@ -706,7 +706,7 @@ class Standard extends PrettyPrinterAbstract
     protected function pStmt_TraitUseAdaptation_Alias(Stmt\TraitUseAdaptation\Alias $node) {
         return (null !== $node->trait ? $this->p($node->trait) . '::' : '')
              . $node->method . ' as'
-             . (null !== $node->newModifier ? ' ' . rtrim($this->pModifiers($node->newModifier), ' ') : '')
+             . (null !== $node->newModifier ? ' ' . \rtrim($this->pModifiers($node->newModifier), ' ') : '')
              . (null !== $node->newName     ? ' ' . $node->newName                        : '')
              . ';';
     }
@@ -922,23 +922,23 @@ class Standard extends PrettyPrinterAbstract
     }
 
     protected function pSingleQuotedString(string $string) {
-        return '\'' . addcslashes($string, '\'\\') . '\'';
+        return '\'' . \addcslashes($string, '\'\\') . '\'';
     }
 
     protected function escapeString($string, $quote) {
         if (null === $quote) {
             // For doc strings, don't escape newlines
-            $escaped = addcslashes($string, "\t\f\v$\\");
+            $escaped = \addcslashes($string, "\t\f\v$\\");
         } else {
-            $escaped = addcslashes($string, "\n\r\t\f\v$" . $quote . "\\");
+            $escaped = \addcslashes($string, "\n\r\t\f\v$" . $quote . "\\");
         }
 
         // Escape other control characters
-        return preg_replace_callback('/([\0-\10\16-\37])(?=([0-7]?))/', function ($matches) {
-            $oct = decoct(ord($matches[1]));
+        return \preg_replace_callback('/([\0-\10\16-\37])(?=([0-7]?))/', function ($matches) {
+            $oct = \decoct(\ord($matches[1]));
             if ($matches[2] !== '') {
                 // If there is a trailing digit, use the full three character form
-                return '\\' . str_pad($oct, 3, '0', \STR_PAD_LEFT);
+                return '\\' . \str_pad($oct, 3, '0', \STR_PAD_LEFT);
             }
             return '\\' . $oct;
         }, $escaped);
@@ -947,14 +947,14 @@ class Standard extends PrettyPrinterAbstract
     protected function containsEndLabel($string, $label, $atStart = true, $atEnd = true) {
         $start = $atStart ? '(?:^|[\r\n])' : '[\r\n]';
         $end = $atEnd ? '(?:$|[;\r\n])' : '[;\r\n]';
-        return false !== strpos($string, $label)
-            && preg_match('/' . $start . $label . $end . '/', $string);
+        return false !== \strpos($string, $label)
+            && \preg_match('/' . $start . $label . $end . '/', $string);
     }
 
     protected function encapsedContainsEndLabel(array $parts, $label) {
         foreach ($parts as $i => $part) {
             $atStart = $i === 0;
-            $atEnd = $i === count($parts) - 1;
+            $atEnd = $i === \count($parts) - 1;
             if ($part instanceof Scalar\EncapsedStringPart
                 && $this->containsEndLabel($part->value, $label, $atStart, $atEnd)
             ) {

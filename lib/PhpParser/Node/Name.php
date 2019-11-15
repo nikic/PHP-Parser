@@ -45,7 +45,7 @@ class Name extends NodeAbstract
      * @return string Last part of the name
      */
     public function getLast() : string {
-        return $this->parts[count($this->parts) - 1];
+        return $this->parts[\count($this->parts) - 1];
     }
 
     /**
@@ -54,7 +54,7 @@ class Name extends NodeAbstract
      * @return bool Whether the name is unqualified
      */
     public function isUnqualified() : bool {
-        return 1 === count($this->parts);
+        return 1 === \count($this->parts);
     }
 
     /**
@@ -63,7 +63,7 @@ class Name extends NodeAbstract
      * @return bool Whether the name is qualified
      */
     public function isQualified() : bool {
-        return 1 < count($this->parts);
+        return 1 < \count($this->parts);
     }
 
     /**
@@ -91,7 +91,7 @@ class Name extends NodeAbstract
      * @return string String representation
      */
     public function toString() : string {
-        return implode('\\', $this->parts);
+        return \implode('\\', $this->parts);
     }
 
     /**
@@ -111,7 +111,7 @@ class Name extends NodeAbstract
      * @return string Lowercased string representation
      */
     public function toLowerString() : string {
-        return strtolower(implode('\\', $this->parts));
+        return \strtolower(\implode('\\', $this->parts));
     }
 
     /**
@@ -120,8 +120,8 @@ class Name extends NodeAbstract
      * @return bool Whether identifier is a special class name
      */
     public function isSpecialClassName() : bool {
-        return count($this->parts) === 1
-            && isset(self::$specialClassNames[strtolower($this->parts[0])]);
+        return \count($this->parts) === 1
+            && isset(self::$specialClassNames[\strtolower($this->parts[0])]);
     }
 
     /**
@@ -131,7 +131,7 @@ class Name extends NodeAbstract
      * @return string String representation
      */
     public function __toString() : string {
-        return implode('\\', $this->parts);
+        return \implode('\\', $this->parts);
     }
 
     /**
@@ -151,11 +151,11 @@ class Name extends NodeAbstract
      * @return static|null Sliced name
      */
     public function slice(int $offset, int $length = null) {
-        $numParts = count($this->parts);
+        $numParts = \count($this->parts);
 
         $realOffset = $offset < 0 ? $offset + $numParts : $offset;
         if ($realOffset < 0 || $realOffset > $numParts) {
-            throw new \OutOfBoundsException(sprintf('Offset %d is out of bounds', $offset));
+            throw new \OutOfBoundsException(\sprintf('Offset %d is out of bounds', $offset));
         }
 
         if (null === $length) {
@@ -163,7 +163,7 @@ class Name extends NodeAbstract
         } else {
             $realLength = $length < 0 ? $length + $numParts - $realOffset : $length;
             if ($realLength < 0 || $realLength > $numParts) {
-                throw new \OutOfBoundsException(sprintf('Length %d is out of bounds', $length));
+                throw new \OutOfBoundsException(\sprintf('Length %d is out of bounds', $length));
             }
         }
 
@@ -172,7 +172,7 @@ class Name extends NodeAbstract
             return null;
         }
 
-        return new static(array_slice($this->parts, $realOffset, $realLength), $this->attributes);
+        return new static(\array_slice($this->parts, $realOffset, $realLength), $this->attributes);
     }
 
     /**
@@ -201,7 +201,7 @@ class Name extends NodeAbstract
             return new static(self::prepareName($name1), $attributes);
         } else {
             return new static(
-                array_merge(self::prepareName($name1), self::prepareName($name2)), $attributes
+                \array_merge(self::prepareName($name1), self::prepareName($name2)), $attributes
             );
         }
     }
@@ -220,7 +220,7 @@ class Name extends NodeAbstract
                 throw new \InvalidArgumentException('Name cannot be empty');
             }
 
-            return explode('\\', $name);
+            return \explode('\\', $name);
         } elseif (\is_array($name)) {
             if (empty($name)) {
                 throw new \InvalidArgumentException('Name cannot be empty');

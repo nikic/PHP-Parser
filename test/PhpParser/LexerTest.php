@@ -15,7 +15,7 @@ class LexerTest extends \PHPUnit\Framework\TestCase
      * @dataProvider provideTestError
      */
     public function testError($code, $messages) {
-        if (defined('HHVM_VERSION')) {
+        if (\defined('HHVM_VERSION')) {
             $this->markTestSkipped('HHVM does not throw warnings from token_get_all()');
         }
 
@@ -26,8 +26,8 @@ class LexerTest extends \PHPUnit\Framework\TestCase
         $lexer->startLexing($code, $errorHandler);
         $errors = $errorHandler->getErrors();
 
-        $this->assertCount(count($messages), $errors);
-        for ($i = 0; $i < count($messages); $i++) {
+        $this->assertCount(\count($messages), $errors);
+        for ($i = 0; $i < \count($messages); $i++) {
             $this->assertSame($messages[$i], $errors[$i]->getMessageWithColumnInfo($code));
         }
     }
@@ -54,7 +54,7 @@ class LexerTest extends \PHPUnit\Framework\TestCase
         $lexer = $this->getLexer($options);
         $lexer->startLexing($code);
         while ($id = $lexer->getNextToken($value, $startAttributes, $endAttributes)) {
-            $token = array_shift($tokens);
+            $token = \array_shift($tokens);
 
             $this->assertSame($token[0], $id);
             $this->assertSame($token[1], $value);
@@ -75,7 +75,7 @@ class LexerTest extends \PHPUnit\Framework\TestCase
                         ['startLine' => 1], ['endLine' => 1]
                     ],
                     [
-                        ord(';'), '?>',
+                        \ord(';'), '?>',
                         ['startLine' => 1], ['endLine' => 1]
                     ],
                     [
@@ -91,7 +91,7 @@ class LexerTest extends \PHPUnit\Framework\TestCase
                 [],
                 [
                     [
-                        ord('$'), '$',
+                        \ord('$'), '$',
                         ['startLine' => 2], ['endLine' => 2]
                     ],
                     [
@@ -99,7 +99,7 @@ class LexerTest extends \PHPUnit\Framework\TestCase
                         ['startLine' => 2], ['endLine' => 2]
                     ],
                     [
-                        ord('$'), '$',
+                        \ord('$'), '$',
                         [
                             'startLine' => 3,
                             'comments' => [
@@ -151,7 +151,7 @@ class LexerTest extends \PHPUnit\Framework\TestCase
                         ['startFilePos' => 6], ['endFilePos' => 8]
                     ],
                     [
-                        ord(';'), ';',
+                        \ord(';'), ';',
                         ['startFilePos' => 9], ['endFilePos' => 9]
                     ],
                     [
@@ -159,7 +159,7 @@ class LexerTest extends \PHPUnit\Framework\TestCase
                         ['startFilePos' => 18], ['endFilePos' => 20]
                     ],
                     [
-                        ord(';'), ';',
+                        \ord(';'), ';',
                         ['startFilePos' => 21], ['endFilePos' => 21]
                     ],
                 ]
@@ -174,7 +174,7 @@ class LexerTest extends \PHPUnit\Framework\TestCase
                         ['startTokenPos' => 1], ['endTokenPos' => 1]
                     ],
                     [
-                        ord(';'), ';',
+                        \ord(';'), ';',
                         ['startTokenPos' => 2], ['endTokenPos' => 2]
                     ],
                     [
@@ -182,7 +182,7 @@ class LexerTest extends \PHPUnit\Framework\TestCase
                         ['startTokenPos' => 5], ['endTokenPos' => 5]
                     ],
                     [
-                        ord(';'), ';',
+                        \ord(';'), ';',
                         ['startTokenPos' => 6], ['endTokenPos' => 6]
                     ],
                 ]
@@ -197,7 +197,7 @@ class LexerTest extends \PHPUnit\Framework\TestCase
                         [], []
                     ],
                     [
-                        ord(';'), ';',
+                        \ord(';'), ';',
                         [], []
                     ]
                 ]

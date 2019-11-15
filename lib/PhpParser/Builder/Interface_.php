@@ -55,7 +55,7 @@ class Interface_ extends Declaration
             $stmt->stmts = null;
             $this->methods[] = $stmt;
         } else {
-            throw new \LogicException(sprintf('Unexpected node of type "%s"', $stmt->getType()));
+            throw new \LogicException(\sprintf('Unexpected node of type "%s"', $stmt->getType()));
         }
 
         return $this;
@@ -69,7 +69,7 @@ class Interface_ extends Declaration
     public function getNode() : PhpParser\Node {
         return new Stmt\Interface_($this->name, [
             'extends' => $this->extends,
-            'stmts' => array_merge($this->constants, $this->methods),
+            'stmts' => \array_merge($this->constants, $this->methods),
         ], $this->attributes);
     }
 }

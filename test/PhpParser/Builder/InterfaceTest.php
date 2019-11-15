@@ -95,6 +95,6 @@ class InterfaceTest extends \PHPUnit\Framework\TestCase
 
         eval($this->dump($contract));
 
-        $this->assertTrue(interface_exists('Contract', false));
+        $this->assertTrue(\interface_exists('Contract', false));
     }
 }

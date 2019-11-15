@@ -8,9 +8,9 @@ class JsonDecoder
     private $reflectionClassCache;
 
     public function decode(string $json) {
-        $value = json_decode($json, true);
-        if (json_last_error()) {
-            throw new \RuntimeException('JSON decoding error: ' . json_last_error_msg());
+        $value = \json_decode($json, true);
+        if (\json_last_error()) {
+            throw new \RuntimeException('JSON decoding error: ' . \json_last_error_msg());
         }
 
         return $this->decodeRecursive($value);
@@ -86,13 +86,13 @@ class JsonDecoder
     }
 
     private function classNameFromNodeType(string $nodeType) : string {
-        $className = 'PhpParser\\Node\\' . strtr($nodeType, '_', '\\');
-        if (class_exists($className)) {
+        $className = 'PhpParser\\Node\\' . \strtr($nodeType, '_', '\\');
+        if (\class_exists($className)) {
             return $className;
         }
 
         $className .= '_';
-        if (class_exists($className)) {
+        if (\class_exists($className)) {
             return $className;
         }
 

@@ -118,7 +118,7 @@ abstract class NodeAbstract implements Node, \JsonSerializable
             return null;
         }
 
-        $lastComment = $comments[count($comments) - 1];
+        $lastComment = $comments[\count($comments) - 1];
         if (!$lastComment instanceof Comment\Doc) {
             return null;
         }
@@ -136,7 +136,7 @@ abstract class NodeAbstract implements Node, \JsonSerializable
     public function setDocComment(Comment\Doc $docComment) {
         $comments = $this->getComments();
 
-        $numComments = count($comments);
+        $numComments = \count($comments);
         if ($numComments > 0 && $comments[$numComments - 1] instanceof Comment\Doc) {
             // Replace existing doc comment
             $comments[$numComments - 1] = $docComment;
@@ -153,11 +153,11 @@ abstract class NodeAbstract implements Node, \JsonSerializable
     }
 
     public function hasAttribute(string $key) : bool {
-        return array_key_exists($key, $this->attributes);
+        return \array_key_exists($key, $this->attributes);
     }
 
     public function getAttribute(string $key, $default = null) {
-        if (array_key_exists($key, $this->attributes)) {
+        if (\array_key_exists($key, $this->attributes)) {
             return $this->attributes[$key];
         }
 
@@ -176,6 +176,6 @@ abstract class NodeAbstract implements Node, \JsonSerializable
      * @return array
      */
     public function jsonSerialize() : array {
-        return ['nodeType' => $this->getType()] + get_object_vars($this);
+        return ['nodeType' => $this->getType()] + \get_object_vars($this);
     }
 }

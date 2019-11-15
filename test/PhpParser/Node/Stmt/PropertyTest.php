@@ -9,7 +9,7 @@ class PropertyTest extends \PHPUnit\Framework\TestCase
      */
     public function testModifiers($modifier) {
         $node = new Property(
-            constant('PhpParser\Node\Stmt\Class_::MODIFIER_' . strtoupper($modifier)),
+            \constant('PhpParser\Node\Stmt\Class_::MODIFIER_' . \strtoupper($modifier)),
             [] // invalid
         );
 

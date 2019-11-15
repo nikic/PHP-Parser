@@ -81,11 +81,11 @@ REGEX;
     private function isHeredocNowdocEmulationNeeded(string $code): bool
     {
         // skip version where this works without emulation
-        if (version_compare(\PHP_VERSION, self::PHP_7_3, '>=')) {
+        if (\version_compare(\PHP_VERSION, self::PHP_7_3, '>=')) {
             return false;
         }
 
-        return strpos($code, '<<<') !== false;
+        return \strpos($code, '<<<') !== false;
     }
 
     private function processHeredocNowdoc(string $code): string
@@ -94,7 +94,7 @@ REGEX;
             return $code;
         }
 
-        if (!preg_match_all(self::FLEXIBLE_DOC_STRING_REGEX, $code, $matches, PREG_SET_ORDER|PREG_OFFSET_CAPTURE)) {
+        if (!\preg_match_all(self::FLEXIBLE_DOC_STRING_REGEX, $code, $matches, PREG_SET_ORDER|PREG_OFFSET_CAPTURE)) {
             // No heredoc/nowdoc found
             return $code;
         }
@@ -116,15 +116,15 @@ REGEX;
 
             if ($indentation !== '') {
                 // Remove indentation
-                $indentationLen = strlen($indentation);
-                $code = substr_replace($code, '', $indentationStart + $posDelta, $indentationLen);
+                $indentationLen = \strlen($indentation);
+                $code = \substr_replace($code, '', $indentationStart + $posDelta, $indentationLen);
                 $this->patches[] = [$indentationStart + $posDelta, 'add', $indentation];
                 $posDelta -= $indentationLen;
             }
 
             if ($separator === '') {
                 // Insert newline as separator
-                $code = substr_replace($code, "\n", $separatorStart + $posDelta, 0);
+                $code = \substr_replace($code, "\n", $separatorStart + $posDelta, 0);
                 $this->patches[] = [$separatorStart + $posDelta, 'remove', "\n"];
                 $posDelta += 1;
             }
@@ -172,24 +172,24 @@ REGEX;
                 if ($patchType === 'remove') {
                     if ($patchPos === $pos && $patchTextLen === $len) {
                         // Remove token entirely
-                        array_splice($this->tokens, $i, 1, []);
+                        \array_splice($this->tokens, $i, 1, []);
                         $i--;
                         $c--;
                     } else {
                         // Remove from token string
-                        $this->tokens[$i][1] = substr_replace(
+                        $this->tokens[$i][1] = \substr_replace(
                             $token[1], '', $patchPos - $pos + $posDelta, $patchTextLen
                         );
                         $posDelta -= $patchTextLen;
                     }
                 } elseif ($patchType === 'add') {
                     // Insert into the token string
-                    $this->tokens[$i][1] = substr_replace(
+                    $this->tokens[$i][1] = \substr_replace(
                         $token[1], $patchText, $patchPos - $pos + $posDelta, 0
                     );
                     $posDelta += $patchTextLen;
                 } else {
-                    assert(false);
+                    \assert(false);
                 }
 
                 // Fetch the next patch
@@ -210,7 +210,7 @@ REGEX;
         }
 
         // A patch did not apply
-        assert(false);
+        \assert(false);
     }
 
     /**
@@ -232,11 +232,11 @@ REGEX;
                 }
 
                 if ($patchType === 'add') {
-                    $posDelta += strlen($patchText);
-                    $lineDelta += substr_count($patchText, "\n");
+                    $posDelta += \strlen($patchText);
+                    $lineDelta += \substr_count($patchText, "\n");
                 } else {
-                    $posDelta -= strlen($patchText);
-                    $lineDelta -= substr_count($patchText, "\n");
+                    $posDelta -= \strlen($patchText);
+                    $lineDelta -= \substr_count($patchText, "\n");
                 }
             }
 

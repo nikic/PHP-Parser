@@ -41,7 +41,7 @@ class LNumber extends Scalar
      * @return LNumber The constructed LNumber, including kind attribute
      */
     public static function fromString(string $str, array $attributes = [], bool $allowInvalidOctal = false) : LNumber {
-        $str = str_replace('_', '', $str);
+        $str = \str_replace('_', '', $str);
 
         if ('0' !== $str[0] || '0' === $str) {
             $attributes['kind'] = LNumber::KIND_DEC;
@@ -50,21 +50,21 @@ class LNumber extends Scalar
 
         if ('x' === $str[1] || 'X' === $str[1]) {
             $attributes['kind'] = LNumber::KIND_HEX;
-            return new LNumber(hexdec($str), $attributes);
+            return new LNumber(\hexdec($str), $attributes);
         }
 
         if ('b' === $str[1] || 'B' === $str[1]) {
             $attributes['kind'] = LNumber::KIND_BIN;
-            return new LNumber(bindec($str), $attributes);
+            return new LNumber(\bindec($str), $attributes);
         }
 
-        if (!$allowInvalidOctal && strpbrk($str, '89')) {
+        if (!$allowInvalidOctal && \strpbrk($str, '89')) {
             throw new Error('Invalid numeric literal', $attributes);
         }
 
         // use intval instead of octdec to get proper cutting behavior with malformed numbers
         $attributes['kind'] = LNumber::KIND_OCT;
-        return new LNumber(intval($str, 8), $attributes);
+        return new LNumber(\intval($str, 8), $attributes);
     }
     
     public function getType() : string {

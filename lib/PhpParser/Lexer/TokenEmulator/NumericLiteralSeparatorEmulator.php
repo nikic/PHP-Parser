@@ -17,11 +17,11 @@ final class NumericLiteralSeparatorEmulator implements TokenEmulatorInterface
     public function isEmulationNeeded(string $code) : bool
     {
         // skip version where this is supported
-        if (version_compare(\PHP_VERSION, Emulative::PHP_7_4, '>=')) {
+        if (\version_compare(\PHP_VERSION, Emulative::PHP_7_4, '>=')) {
             return false;
         }
 
-        return preg_match('~[0-9a-f]_[0-9a-f]~i', $code) !== false;
+        return \preg_match('~[0-9a-f]_[0-9a-f]~i', $code) !== false;
     }
 
     public function emulate(string $code, array $tokens): array
@@ -29,7 +29,7 @@ final class NumericLiteralSeparatorEmulator implements TokenEmulatorInterface
         // We need to manually iterate and manage a count because we'll change
         // the tokens array on the way
         $codeOffset = 0;
-        for ($i = 0, $c = count($tokens); $i < $c; ++$i) {
+        for ($i = 0, $c = \count($tokens); $i < $c; ++$i) {
             $token = $tokens[$i];
             $tokenLen = \strlen(\is_array($token) ? $token[1] : $token);
 
@@ -38,8 +38,8 @@ final class NumericLiteralSeparatorEmulator implements TokenEmulatorInterface
                 continue;
             }
 
-            $res = preg_match(self::NUMBER, $code, $matches, 0, $codeOffset);
-            assert($res, "No number at number token position");
+            $res = \preg_match(self::NUMBER, $code, $matches, 0, $codeOffset);
+            \assert($res, "No number at number token position");
 
             $match = $matches[0];
             $matchLen = \strlen($match);
@@ -62,8 +62,8 @@ final class NumericLiteralSeparatorEmulator implements TokenEmulatorInterface
                 $numTokens++;
                 if ($matchLen < $len + $nextTokenLen) {
                     // Split trailing characters into a partial token.
-                    assert(is_array($nextToken), "Partial token should be an array token");
-                    $partialText = substr($nextTokenText, $matchLen - $len);
+                    \assert(\is_array($nextToken), "Partial token should be an array token");
+                    $partialText = \substr($nextTokenText, $matchLen - $len);
                     $newTokens[] = [$nextToken[0], $partialText, $nextToken[2]];
                     break;
                 }
@@ -71,7 +71,7 @@ final class NumericLiteralSeparatorEmulator implements TokenEmulatorInterface
                 $len += $nextTokenLen;
             }
 
-            array_splice($tokens, $i, $numTokens, $newTokens);
+            \array_splice($tokens, $i, $numTokens, $newTokens);
             $c -= $numTokens - \count($newTokens);
             $codeOffset += $matchLen;
         }
@@ -81,18 +81,18 @@ final class NumericLiteralSeparatorEmulator implements TokenEmulatorInterface
 
     private function resolveIntegerOrFloatToken(string $str): int
     {
-        $str = str_replace('_', '', $str);
+        $str = \str_replace('_', '', $str);
 
-        if (stripos($str, '0b') === 0) {
-            $num = bindec($str);
-        } elseif (stripos($str, '0x') === 0) {
-            $num = hexdec($str);
-        } elseif (stripos($str, '0') === 0 && ctype_digit($str)) {
-            $num = octdec($str);
+        if (\stripos($str, '0b') === 0) {
+            $num = \bindec($str);
+        } elseif (\stripos($str, '0x') === 0) {
+            $num = \hexdec($str);
+        } elseif (\stripos($str, '0') === 0 && \ctype_digit($str)) {
+            $num = \octdec($str);
         } else {
             $num = +$str;
         }
 
-        return is_float($num) ? T_DNUMBER : T_LNUMBER;
+        return \is_float($num) ? T_DNUMBER : T_LNUMBER;
     }
 }

@@ -88,7 +88,7 @@ class EmulativeTest extends LexerTest
      * @dataProvider provideTestLexNewFeatures
      */
     public function testLeaveStuffAloneInStrings($code) {
-        $stringifiedToken = '"' . addcslashes($code, '"\\') . '"';
+        $stringifiedToken = '"' . \addcslashes($code, '"\\') . '"';
 
         $lexer = $this->getLexer();
         $lexer->startLexing('<?php ' . $stringifiedToken);
@@ -113,8 +113,8 @@ class EmulativeTest extends LexerTest
         $this->assertSame('Unexpected null byte', $error->getRawMessage());
 
         $attrs = $error->getAttributes();
-        $expPos = strlen('<?php ' . $code);
-        $expLine = 1 + substr_count('<?php ' . $code, "\n");
+        $expPos = \strlen('<?php ' . $code);
+        $expLine = 1 + \substr_count('<?php ' . $code, "\n");
         $this->assertSame($expPos, $attrs['startFilePos']);
         $this->assertSame($expPos, $attrs['endFilePos']);
         $this->assertSame($expLine, $attrs['startLine']);
@@ -156,39 +156,39 @@ class EmulativeTest extends LexerTest
             ["<<<'NOWDOC'\nNOWDOC;\n", [
                 [Tokens::T_START_HEREDOC, "<<<'NOWDOC'\n"],
                 [Tokens::T_END_HEREDOC, 'NOWDOC'],
-                [ord(';'), ';'],
+                [\ord(';'), ';'],
             ]],
             ["<<<'NOWDOC'\nFoobar\nNOWDOC;\n", [
                 [Tokens::T_START_HEREDOC, "<<<'NOWDOC'\n"],
                 [Tokens::T_ENCAPSED_AND_WHITESPACE, "Foobar\n"],
                 [Tokens::T_END_HEREDOC, 'NOWDOC'],
-                [ord(';'), ';'],
+                [\ord(';'), ';'],
             ]],
 
             // PHP 7.3: Flexible heredoc/nowdoc
             ["<<<LABEL\nLABEL,", [
                 [Tokens::T_START_HEREDOC, "<<<LABEL\n"],
                 [Tokens::T_END_HEREDOC, "LABEL"],
-                [ord(','), ','],
+                [\ord(','), ','],
             ]],
             ["<<<LABEL\n    LABEL,", [
                 [Tokens::T_START_HEREDOC, "<<<LABEL\n"],
                 [Tokens::T_END_HEREDOC, "    LABEL"],
-                [ord(','), ','],
+                [\ord(','), ','],
             ]],
             ["<<<LABEL\n    Foo\n  LABEL;", [
                 [Tokens::T_START_HEREDOC, "<<<LABEL\n"],
                 [Tokens::T_ENCAPSED_AND_WHITESPACE, "    Foo\n"],
                 [Tokens::T_END_HEREDOC, "  LABEL"],
-                [ord(';'), ';'],
+                [\ord(';'), ';'],
             ]],
             ["<<<A\n A,<<<A\n A,", [
                 [Tokens::T_START_HEREDOC, "<<<A\n"],
                 [Tokens::T_END_HEREDOC, " A"],
-                [ord(','), ','],
+                [\ord(','), ','],
                 [Tokens::T_START_HEREDOC, "<<<A\n"],
                 [Tokens::T_END_HEREDOC, " A"],
-                [ord(','), ','],
+                [\ord(','), ','],
             ]],
             ["<<<LABEL\nLABELNOPE\nLABEL\n", [
                 [Tokens::T_START_HEREDOC, "<<<LABEL\n"],
@@ -246,7 +246,7 @@ class EmulativeTest extends LexerTest
             ]],
             ['1_000+1', [
                 [Tokens::T_LNUMBER, '1_000'],
-                [ord('+'), '+'],
+                [\ord('+'), '+'],
                 [Tokens::T_LNUMBER, '1'],
             ]],
             ['1_0abc', [

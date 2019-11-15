@@ -12,12 +12,12 @@ abstract class CodeTestAbstract extends \PHPUnit\Framework\TestCase
 
             // first part is the name
             $name .= ' (' . $fileName . ')';
-            $shortName = ltrim(str_replace($directory, '', $fileName), '/\\');
+            $shortName = \ltrim(\str_replace($directory, '', $fileName), '/\\');
 
             // multiple sections possible with always two forming a pair
             foreach ($tests as $i => list($mode, $parts)) {
-                $dataSetName = $shortName . (count($parts) > 1 ? '#' . $i : '');
-                $allTests[$dataSetName] = array_merge([$name], $parts, [$mode]);
+                $dataSetName = $shortName . (\count($parts) > 1 ? '#' . $i : '');
+                $allTests[$dataSetName] = \array_merge([$name], $parts, [$mode]);
             }
         }
 

@@ -320,8 +320,8 @@ EOC;
         $generated = $prettyPrinter->prettyPrintFile($stmts);
 
         $this->assertEquals(
-            str_replace("\r\n", "\n", $expected),
-            str_replace("\r\n", "\n", $generated)
+            \str_replace("\r\n", "\n", $expected),
+            \str_replace("\r\n", "\n", $generated)
         );
     }
 }

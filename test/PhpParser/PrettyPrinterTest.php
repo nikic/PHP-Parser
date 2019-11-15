@@ -99,9 +99,9 @@ class PrettyPrinterTest extends CodeTestAbstract
     }
 
     private function parseModeLine($modeLine) {
-        $parts = explode(' ', (string) $modeLine, 2);
+        $parts = \explode(' ', (string) $modeLine, 2);
         $version = $parts[0] ?? 'both';
-        $options = isset($parts[1]) ? json_decode($parts[1], true) : [];
+        $options = isset($parts[1]) ? \json_decode($parts[1], true) : [];
         return [$version, $options];
     }
 
@@ -299,7 +299,7 @@ CODE
     }
 
     public function provideTestRoundTripPrint() {
-        return array_merge(
+        return \array_merge(
             $this->getTests(__DIR__ . '/../code/prettyPrinter', 'test'),
             $this->getTests(__DIR__ . '/../code/parser', 'test')
         );

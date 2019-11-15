@@ -11,7 +11,7 @@ $dir = __DIR__ . '/code/parser';
 $testParser = new CodeTestParser;
 $codeParsingTest = new CodeParsingTest;
 foreach (filesInDir($dir, 'test') as $fileName => $code) {
-    if (false !== strpos($code, '@@{')) {
+    if (false !== \strpos($code, '@@{')) {
         // Skip tests with evaluate segments
         continue;
     }
@@ -19,7 +19,7 @@ foreach (filesInDir($dir, 'test') as $fileName => $code) {
     list($name, $tests) = $testParser->parseTest($code, 2);
     $newTests = [];
     foreach ($tests as list($modeLine, list($input, $expected))) {
-        $modes = null !== $modeLine ? array_fill_keys(explode(',', $modeLine), true) : [];
+        $modes = null !== $modeLine ? \array_fill_keys(\explode(',', $modeLine), true) : [];
         list($parser5, $parser7) = $codeParsingTest->createParsers($modes);
         list(, $output) = isset($modes['php5'])
             ? $codeParsingTest->getParseOutput($parser5, $input, $modes)
@@ -28,5 +28,5 @@ foreach (filesInDir($dir, 'test') as $fileName => $code) {
     }
 
     $newCode = $testParser->reconstructTest($name, $newTests);
-    file_put_contents($fileName, $newCode);
+    \file_put_contents($fileName, $newCode);
 }

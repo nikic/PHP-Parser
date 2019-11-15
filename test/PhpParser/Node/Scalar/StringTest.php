@@ -31,9 +31,9 @@ class StringTest extends \PHPUnit\Framework\TestCase
             ['\\"\\`',         '\\"\\`',           null],
             ["\\\$\n\r\t\f\v", '\\\\\$\n\r\t\f\v', null],
             ["\x1B",           '\e',               null],
-            [chr(255),         '\xFF',             null],
-            [chr(255),         '\377',             null],
-            [chr(0),           '\400',             null],
+            [\chr(255),         '\xFF',             null],
+            [\chr(255),         '\377',             null],
+            [\chr(0),           '\400',             null],
             ["\0",             '\0',               null],
             ['\xFF',           '\\\\xFF',          null],
         ];

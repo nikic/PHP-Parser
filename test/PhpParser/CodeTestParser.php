@@ -8,7 +8,7 @@ class CodeTestParser
         $code = canonicalize($code);
 
         // evaluate @@{expr}@@ expressions
-        $code = preg_replace_callback(
+        $code = \preg_replace_callback(
             '/@@\{(.*?)\}@@/',
             function($matches) {
                 return eval('return ' . $matches[1] . ';');
@@ -17,18 +17,18 @@ class CodeTestParser
         );
 
         // parse sections
-        $parts = preg_split("/\n-----(?:\n|$)/", $code);
+        $parts = \preg_split("/\n-----(?:\n|$)/", $code);
 
         // first part is the name
-        $name = array_shift($parts);
+        $name = \array_shift($parts);
 
         // multiple sections possible with always two forming a pair
-        $chunks = array_chunk($parts, $chunksPerTest);
+        $chunks = \array_chunk($parts, $chunksPerTest);
         $tests = [];
         foreach ($chunks as $i => $chunk) {
-            $lastPart = array_pop($chunk);
+            $lastPart = \array_pop($chunk);
             list($lastPart, $mode) = $this->extractMode($lastPart);
-            $tests[] = [$mode, array_merge($chunk, [$lastPart])];
+            $tests[] = [$mode, \array_merge($chunk, [$lastPart])];
         }
 
         return [$name, $tests];
@@ -37,7 +37,7 @@ class CodeTestParser
     public function reconstructTest($name, array $tests) {
         $result = $name;
         foreach ($tests as list($mode, $parts)) {
-            $lastPart = array_pop($parts);
+            $lastPart = \array_pop($parts);
             foreach ($parts as $part) {
                 $result .= "\n-----\n$part";
             }
@@ -52,17 +52,17 @@ class CodeTestParser
     }
 
     private function extractMode($expected) {
-        $firstNewLine = strpos($expected, "\n");
+        $firstNewLine = \strpos($expected, "\n");
         if (false === $firstNewLine) {
-            $firstNewLine = strlen($expected);
+            $firstNewLine = \strlen($expected);
         }
 
-        $firstLine = substr($expected, 0, $firstNewLine);
-        if (0 !== strpos($firstLine, '!!')) {
+        $firstLine = \substr($expected, 0, $firstNewLine);
+        if (0 !== \strpos($firstLine, '!!')) {
             return [$expected, null];
         }
 
-        $expected = (string) substr($expected, $firstNewLine + 1);
-        return [$expected, substr($firstLine, 2)];
+        $expected = (string) \substr($expected, $firstNewLine + 1);
+        return [$expected, \substr($firstLine, 2)];
     }
 }

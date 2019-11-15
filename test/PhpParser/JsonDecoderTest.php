@@ -16,7 +16,7 @@ PHP;
 
         $parser = new Parser\Php7(new Lexer());
         $stmts = $parser->parse($code);
-        $json = json_encode($stmts);
+        $json = \json_encode($stmts);
 
         $jsonDecoder = new JsonDecoder();
         $decodedStmts = $jsonDecoder->decode($json);

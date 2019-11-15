@@ -13,13 +13,13 @@ $tmpResultFile  = __DIR__ . '/tmp_parser.php';
 $resultDir = __DIR__ . '/../lib/PhpParser/Parser';
 $tokensResultsFile = $resultDir . '/Tokens.php';
 
-$kmyacc = getenv('KMYACC');
+$kmyacc = \getenv('KMYACC');
 if (!$kmyacc) {
     // Use phpyacc from dev dependencies by default.
     $kmyacc = PHP_BINARY . ' ' . __DIR__ . '/../vendor/bin/phpyacc';
 }
 
-$options = array_flip($argv);
+$options = \array_flip($argv);
 $optionDebug = isset($options['--debug']);
 $optionKeepTmpGrammar = isset($options['--keep-tmp-grammar']);
 
@@ -42,38 +42,38 @@ const ARGS   = '\((?<args>[^()]*+(?:\((?&args)\)[^()]*+)*+)\)';
 /// Main script ///
 ///////////////////
 
-$tokens = file_get_contents($tokensFile);
+$tokens = \file_get_contents($tokensFile);
 
 foreach ($grammarFileToName as $grammarFile => $name) {
     echo "Building temporary $name grammar file.\n";
 
-    $grammarCode = file_get_contents($grammarFile);
-    $grammarCode = str_replace('%tokens', $tokens, $grammarCode);
+    $grammarCode = \file_get_contents($grammarFile);
+    $grammarCode = \str_replace('%tokens', $tokens, $grammarCode);
 
     $grammarCode = resolveNodes($grammarCode);
     $grammarCode = resolveMacros($grammarCode);
     $grammarCode = resolveStackAccess($grammarCode);
 
-    file_put_contents($tmpGrammarFile, $grammarCode);
+    \file_put_contents($tmpGrammarFile, $grammarCode);
 
     $additionalArgs = $optionDebug ? '-t -v' : '';
 
     echo "Building $name parser.\n";
     $output = execCmd("$kmyacc $additionalArgs -m $skeletonFile -p $name $tmpGrammarFile");
 
-    $resultCode = file_get_contents($tmpResultFile);
+    $resultCode = \file_get_contents($tmpResultFile);
     $resultCode = removeTrailingWhitespace($resultCode);
 
     ensureDirExists($resultDir);
-    file_put_contents("$resultDir/$name.php", $resultCode);
-    unlink($tmpResultFile);
+    \file_put_contents("$resultDir/$name.php", $resultCode);
+    \unlink($tmpResultFile);
 
     echo "Building token definition.\n";
     $output = execCmd("$kmyacc -m $tokensTemplate $tmpGrammarFile");
-    rename($tmpResultFile, $tokensResultsFile);
+    \rename($tmpResultFile, $tokensResultsFile);
 
     if (!$optionKeepTmpGrammar) {
-        unlink($tmpGrammarFile);
+        \unlink($tmpGrammarFile);
     }
 }
 
@@ -82,7 +82,7 @@ foreach ($grammarFileToName as $grammarFile => $name) {
 ///////////////////////////////
 
 function resolveNodes($code) {
-    return preg_replace_callback(
+    return \preg_replace_callback(
         '~\b(?<name>[A-Z][a-zA-Z_\\\\]++)\s*' . PARAMS . '~',
         function($matches) {
             // recurse
@@ -105,7 +105,7 @@ function resolveNodes($code) {
 }
 
 function resolveMacros($code) {
-    return preg_replace_callback(
+    return \preg_replace_callback(
         '~\b(?<!::|->)(?!array\()(?<name>[a-z][A-Za-z]++)' . ARGS . '~',
         function($matches) {
             // recurse
@@ -129,7 +129,7 @@ function resolveMacros($code) {
             }
 
             if ('init' == $name) {
-                return '$$ = array(' . implode(', ', $args) . ')';
+                return '$$ = array(' . \implode(', ', $args) . ')';
             }
 
             if ('push' == $name) {
@@ -206,31 +206,31 @@ function resolveMacros($code) {
 }
 
 function assertArgs($num, $args, $name) {
-    if ($num != count($args)) {
+    if ($num != \count($args)) {
         die('Wrong argument count for ' . $name . '().');
     }
 }
 
 function resolveStackAccess($code) {
-    $code = preg_replace('/\$\d+/', '$this->semStack[$0]', $code);
-    $code = preg_replace('/#(\d+)/', '$$1', $code);
+    $code = \preg_replace('/\$\d+/', '$this->semStack[$0]', $code);
+    $code = \preg_replace('/#(\d+)/', '$$1', $code);
     return $code;
 }
 
 function removeTrailingWhitespace($code) {
-    $lines = explode("\n", $code);
-    $lines = array_map('rtrim', $lines);
-    return implode("\n", $lines);
+    $lines = \explode("\n", $code);
+    $lines = \array_map('rtrim', $lines);
+    return \implode("\n", $lines);
 }
 
 function ensureDirExists($dir) {
-    if (!is_dir($dir)) {
-        mkdir($dir, 0777, true);
+    if (!\is_dir($dir)) {
+        \mkdir($dir, 0777, true);
     }
 }
 
 function execCmd($cmd) {
-    $output = trim(shell_exec("$cmd 2>&1"));
+    $output = \trim(\shell_exec("$cmd 2>&1"));
     if ($output !== "") {
         echo "> " . $cmd . "\n";
         echo $output;
@@ -243,14 +243,14 @@ function execCmd($cmd) {
 //////////////////////////////
 
 function regex($regex) {
-    return '~' . LIB . '(?:' . str_replace('~', '\~', $regex) . ')~';
+    return '~' . LIB . '(?:' . \str_replace('~', '\~', $regex) . ')~';
 }
 
 function magicSplit($regex, $string) {
-    $pieces = preg_split(regex('(?:(?&string)|(?&comment)|(?&code))(*SKIP)(*FAIL)|' . $regex), $string);
+    $pieces = \preg_split(regex('(?:(?&string)|(?&comment)|(?&code))(*SKIP)(*FAIL)|' . $regex), $string);
 
     foreach ($pieces as &$piece) {
-        $piece = trim($piece);
+        $piece = \trim($piece);
     }
 
     if ($pieces === ['']) {

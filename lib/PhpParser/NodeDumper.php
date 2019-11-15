@@ -62,7 +62,7 @@ class NodeDumper
                     $r .= 'false';
                 } elseif (true === $value) {
                     $r .= 'true';
-                } elseif (is_scalar($value)) {
+                } elseif (\is_scalar($value)) {
                     if ('flags' === $key || 'newModifier' === $key) {
                         $r .= $this->dumpFlags($value);
                     } elseif ('type' === $key && $node instanceof Include_) {
@@ -74,14 +74,14 @@ class NodeDumper
                         $r .= $value;
                     }
                 } else {
-                    $r .= str_replace("\n", "\n    ", $this->dumpRecursive($value));
+                    $r .= \str_replace("\n", "\n    ", $this->dumpRecursive($value));
                 }
             }
 
             if ($this->dumpComments && $comments = $node->getComments()) {
-                $r .= "\n    comments: " . str_replace("\n", "\n    ", $this->dumpRecursive($comments));
+                $r .= "\n    comments: " . \str_replace("\n", "\n    ", $this->dumpRecursive($comments));
             }
-        } elseif (is_array($node)) {
+        } elseif (\is_array($node)) {
             $r = 'array(';
 
             foreach ($node as $key => $value) {
@@ -93,10 +93,10 @@ class NodeDumper
                     $r .= 'false';
                 } elseif (true === $value) {
                     $r .= 'true';
-                } elseif (is_scalar($value)) {
+                } elseif (\is_scalar($value)) {
                     $r .= $value;
                 } else {
-                    $r .= str_replace("\n", "\n    ", $this->dumpRecursive($value));
+                    $r .= \str_replace("\n", "\n    ", $this->dumpRecursive($value));
                 }
             }
         } elseif ($node instanceof Comment) {
@@ -130,7 +130,7 @@ class NodeDumper
         }
 
         if ($strs) {
-            return implode(' | ', $strs) . ' (' . $flags . ')';
+            return \implode(' | ', $strs) . ' (' . $flags . ')';
         } else {
             return $flags;
         }
@@ -189,11 +189,11 @@ class NodeDumper
 
     // Copied from Error class
     private function toColumn($code, $pos) {
-        if ($pos > strlen($code)) {
+        if ($pos > \strlen($code)) {
             throw new \RuntimeException('Invalid position information');
         }
 
-        $lineStartPos = strrpos($code, "\n", $pos - strlen($code));
+        $lineStartPos = \strrpos($code, "\n", $pos - \strlen($code));
         if (false === $lineStartPos) {
             $lineStartPos = -1;
         }

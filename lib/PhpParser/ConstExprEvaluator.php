@@ -62,7 +62,7 @@ class ConstExprEvaluator
      * @throws ConstExprEvaluationException if the expression cannot be evaluated or an error occurred
      */
     public function evaluateSilently(Expr $expr) {
-        set_error_handler(function($num, $str, $file, $line) {
+        \set_error_handler(function($num, $str, $file, $line) {
             throw new \ErrorException($str, 0, $num, $file, $line);
         });
 
@@ -75,7 +75,7 @@ class ConstExprEvaluator
             }
             throw $e;
         } finally {
-            restore_error_handler();
+            \restore_error_handler();
         }
     }
 

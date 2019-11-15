@@ -136,7 +136,7 @@ class NodeTraverser implements NodeTraverserInterface
                             break 2;
                         } else {
                             throw new \LogicException(
-                                'enterNode() returned invalid value of type ' . gettype($return)
+                                'enterNode() returned invalid value of type ' . \gettype($return)
                             );
                         }
                     }
@@ -166,7 +166,7 @@ class NodeTraverser implements NodeTraverserInterface
                             );
                         } else {
                             throw new \LogicException(
-                                'leaveNode() returned invalid value of type ' . gettype($return)
+                                'leaveNode() returned invalid value of type ' . \gettype($return)
                             );
                         }
                     }
@@ -213,7 +213,7 @@ class NodeTraverser implements NodeTraverserInterface
                             break 2;
                         } else {
                             throw new \LogicException(
-                                'enterNode() returned invalid value of type ' . gettype($return)
+                                'enterNode() returned invalid value of type ' . \gettype($return)
                             );
                         }
                     }
@@ -249,7 +249,7 @@ class NodeTraverser implements NodeTraverserInterface
                             );
                         } else {
                             throw new \LogicException(
-                                'leaveNode() returned invalid value of type ' . gettype($return)
+                                'leaveNode() returned invalid value of type ' . \gettype($return)
                             );
                         }
                     }
@@ -264,8 +264,8 @@ class NodeTraverser implements NodeTraverserInterface
         }
 
         if (!empty($doNodes)) {
-            while (list($i, $replace) = array_pop($doNodes)) {
-                array_splice($nodes, $i, 1, $replace);
+            while (list($i, $replace) = \array_pop($doNodes)) {
+                \array_splice($nodes, $i, 1, $replace);
             }
         }
 

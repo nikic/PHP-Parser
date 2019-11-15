@@ -145,7 +145,7 @@ abstract class PrettyPrinterAbstract
      * @param array $options Dictionary of formatting options
      */
     public function __construct(array $options = []) {
-        $this->docStringEndToken = '_DOC_STRING_END_' . mt_rand();
+        $this->docStringEndToken = '_DOC_STRING_END_' . \mt_rand();
 
         $defaultOptions = ['shortArraySyntax' => false];
         $this->options = $options + $defaultOptions;
@@ -182,9 +182,9 @@ abstract class PrettyPrinterAbstract
      * Decrease indentation level.
      */
     protected function outdent() {
-        assert($this->indentLevel >= 4);
+        \assert($this->indentLevel >= 4);
         $this->indentLevel -= 4;
-        $this->nl = "\n" . str_repeat(' ', $this->indentLevel);
+        $this->nl = "\n" . \str_repeat(' ', $this->indentLevel);
     }
 
     /**
@@ -198,7 +198,7 @@ abstract class PrettyPrinterAbstract
         $this->resetState();
         $this->preprocessNodes($stmts);
 
-        return ltrim($this->handleMagicTokens($this->pStmts($stmts, false)));
+        return \ltrim($this->handleMagicTokens($this->pStmts($stmts, false)));
     }
 
     /**
@@ -228,10 +228,10 @@ abstract class PrettyPrinterAbstract
         $p = "<?php\n\n" . $this->prettyPrint($stmts);
 
         if ($stmts[0] instanceof Stmt\InlineHTML) {
-            $p = preg_replace('/^<\?php\s+\?>\n?/', '', $p);
+            $p = \preg_replace('/^<\?php\s+\?>\n?/', '', $p);
         }
-        if ($stmts[count($stmts) - 1] instanceof Stmt\InlineHTML) {
-            $p = preg_replace('/<\?php$/', '', rtrim($p));
+        if ($stmts[\count($stmts) - 1] instanceof Stmt\InlineHTML) {
+            $p = \preg_replace('/<\?php$/', '', \rtrim($p));
         }
 
         return $p;
@@ -261,8 +261,8 @@ abstract class PrettyPrinterAbstract
      */
     protected function handleMagicTokens(string $str) : string {
         // Replace doc-string-end tokens with nothing or a newline
-        $str = str_replace($this->docStringEndToken . ";\n", ";\n", $str);
-        $str = str_replace($this->docStringEndToken, "\n", $str);
+        $str = \str_replace($this->docStringEndToken . ";\n", ";\n", $str);
+        $str = \str_replace($this->docStringEndToken, "\n", $str);
 
         return $str;
     }
@@ -390,7 +390,7 @@ abstract class PrettyPrinterAbstract
             }
         }
 
-        return implode($glue, $pNodes);
+        return \implode($glue, $pNodes);
     }
 
     /**
@@ -418,7 +418,7 @@ abstract class PrettyPrinterAbstract
         $this->indent();
 
         $result = '';
-        $lastIdx = count($nodes) - 1;
+        $lastIdx = \count($nodes) - 1;
         foreach ($nodes as $idx => $node) {
             if ($node !== null) {
                 $comments = $node->getComments();
@@ -450,10 +450,10 @@ abstract class PrettyPrinterAbstract
         $formattedComments = [];
 
         foreach ($comments as $comment) {
-            $formattedComments[] = str_replace("\n", $this->nl, $comment->getReformattedText());
+            $formattedComments[] = \str_replace("\n", $this->nl, $comment->getReformattedText());
         }
 
-        return implode($this->nl, $formattedComments);
+        return \implode($this->nl, $formattedComments);
     }
 
     /**
@@ -491,14 +491,14 @@ abstract class PrettyPrinterAbstract
         $pos = 0;
         $result = $this->pArray($stmts, $origStmts, $pos, 0, 'File', 'stmts', null);
         if (null !== $result) {
-            $result .= $this->origTokens->getTokenCode($pos, count($origTokens), 0);
+            $result .= $this->origTokens->getTokenCode($pos, \count($origTokens), 0);
         } else {
             // Fallback
             // TODO Add <?php properly
             $result = "<?php\n" . $this->pStmts($stmts, false);
         }
 
-        return ltrim($this->handleMagicTokens($result));
+        return \ltrim($this->handleMagicTokens($result));
     }
 
     protected function pFallback(Node $node) {
@@ -567,7 +567,7 @@ abstract class PrettyPrinterAbstract
                     continue;
                 }
 
-                if (is_array($subNode) && is_array($origSubNode)) {
+                if (\is_array($subNode) && \is_array($origSubNode)) {
                     // Array subnode changed, we might be able to reconstruct it
                     $listResult = $this->pArray(
                         $subNode, $origSubNode, $pos, $indentAdjustment, $type, $subNodeName,
@@ -581,7 +581,7 @@ abstract class PrettyPrinterAbstract
                     continue;
                 }
 
-                if (is_int($subNode) && is_int($origSubNode)) {
+                if (\is_int($subNode) && \is_int($origSubNode)) {
                     // Check if this is a modifier change
                     $key = $type . '->' . $subNodeName;
                     if (!isset($this->modifierChangeMap[$key])) {
@@ -759,7 +759,7 @@ abstract class PrettyPrinterAbstract
                 if ($itemEndPos < $itemStartPos) {
                     // End can be before start for Nop nodes, because offsets refer to non-whitespace
                     // locations, which for an "empty" node might result in an inverted order.
-                    assert($origArrItem instanceof Stmt\Nop);
+                    \assert($origArrItem instanceof Stmt\Nop);
                     continue;
                 }
 
@@ -1069,7 +1069,7 @@ abstract class PrettyPrinterAbstract
             $endPos = $node->getEndTokenPos() + 1;
             if ($pos >= 0) {
                 $text = $this->origTokens->getTokenCode($pos, $endPos, 0);
-                if (false === strpos($text, "\n")) {
+                if (false === \strpos($text, "\n")) {
                     // We require that a newline is present between *every* item. If the formatting
                     // is inconsistent, with only some items having newlines, we don't consider it
                     // as multiline
@@ -1094,7 +1094,7 @@ abstract class PrettyPrinterAbstract
         for ($i = 0; $i < 256; $i++) {
             // Since PHP 7.1 The lower range is 0x80. However, we also want to support code for
             // older versions.
-            $this->labelCharMap[chr($i)] = $i >= 0x7f || ctype_alnum($i);
+            $this->labelCharMap[\chr($i)] = $i >= 0x7f || \ctype_alnum($i);
         }
     }
 

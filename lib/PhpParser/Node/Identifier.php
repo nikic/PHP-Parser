@@ -48,7 +48,7 @@ class Identifier extends NodeAbstract
      * @return string Lowercased identifier as string
      */
     public function toLowerString() : string {
-        return strtolower($this->name);
+        return \strtolower($this->name);
     }
 
     /**
@@ -57,7 +57,7 @@ class Identifier extends NodeAbstract
      * @return bool Whether identifier is a special class name
      */
     public function isSpecialClassName() : bool {
-        return isset(self::$specialClassNames[strtolower($this->name)]);
+        return isset(self::$specialClassNames[\strtolower($this->name)]);
     }
 
     /**

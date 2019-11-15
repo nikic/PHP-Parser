@@ -98,7 +98,7 @@ class Class_ extends Declaration
 
         $class = \get_class($stmt);
         if (!isset($targets[$class])) {
-            throw new \LogicException(sprintf('Unexpected node of type "%s"', $stmt->getType()));
+            throw new \LogicException(\sprintf('Unexpected node of type "%s"', $stmt->getType()));
         }
 
         $targets[$class][] = $stmt;
@@ -116,7 +116,7 @@ class Class_ extends Declaration
             'flags' => $this->flags,
             'extends' => $this->extends,
             'implements' => $this->implements,
-            'stmts' => array_merge($this->uses, $this->constants, $this->properties, $this->methods),
+            'stmts' => \array_merge($this->uses, $this->constants, $this->properties, $this->methods),
         ], $this->attributes);
     }
 }

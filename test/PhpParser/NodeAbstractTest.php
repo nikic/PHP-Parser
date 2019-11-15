@@ -79,11 +79,11 @@ class NodeAbstractTest extends \PHPUnit\Framework\TestCase
         $this->assertSame('/** doc comment */', $node->getDocComment()->getText());
         $comments = $node->getComments();
 
-        array_pop($comments); // remove doc comment
+        \array_pop($comments); // remove doc comment
         $node->setAttribute('comments', $comments);
         $this->assertNull($node->getDocComment());
 
-        array_pop($comments); // remove comment
+        \array_pop($comments); // remove comment
         $node->setAttribute('comments', $comments);
         $this->assertNull($node->getDocComment());
     }
@@ -319,7 +319,7 @@ JSON;
 
         $parser = new Parser\Php7(new Lexer());
         $stmts = $parser->parse(canonicalize($code));
-        $json = json_encode($stmts, JSON_PRETTY_PRINT);
+        $json = \json_encode($stmts, JSON_PRETTY_PRINT);
         $this->assertEquals(canonicalize($expected), canonicalize($json));
     }
 }

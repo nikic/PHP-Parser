@@ -116,7 +116,7 @@ class Differ
                 $y--;
             }
         }
-        return array_reverse($result);
+        return \array_reverse($result);
     }
 
     /**

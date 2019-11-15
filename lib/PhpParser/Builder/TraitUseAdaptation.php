@@ -33,7 +33,7 @@ class TraitUseAdaptation implements Builder
     public function __construct($trait, $method) {
         $this->type = self::TYPE_UNDEFINED;
 
-        $this->trait = is_null($trait)? null: BuilderHelpers::normalizeName($trait);
+        $this->trait = \is_null($trait)? null: BuilderHelpers::normalizeName($trait);
         $this->method = BuilderHelpers::normalizeIdentifier($method);
     }
 
@@ -96,7 +96,7 @@ class TraitUseAdaptation implements Builder
      */
     public function insteadof(...$traits) {
         if ($this->type === self::TYPE_UNDEFINED) {
-            if (is_null($this->trait)) {
+            if (\is_null($this->trait)) {
                 throw new \LogicException('Precedence adaptation must have trait');
             }
 
@@ -123,7 +123,7 @@ class TraitUseAdaptation implements Builder
             throw new \LogicException('Cannot set access modifier for not alias adaptation buider');
         }
 
-        if (is_null($this->modifier)) {
+        if (\is_null($this->modifier)) {
             $this->modifier = $modifier;
         } else {
             throw new \LogicException('Multiple access type modifiers are not allowed');

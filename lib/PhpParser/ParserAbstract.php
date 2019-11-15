@@ -213,7 +213,7 @@ abstract class ParserAbstract implements Parser
                         : $this->invalidSymbol;
 
                     if ($symbol === $this->invalidSymbol) {
-                        throw new \RangeException(sprintf(
+                        throw new \RangeException(\sprintf(
                             'The lexer returned an invalid token (id=%d, value=%s)',
                             $tokenId, $tokenValue
                         ));
@@ -383,7 +383,7 @@ abstract class ParserAbstract implements Parser
     protected function getErrorMessage(int $symbol, int $state) : string {
         $expectedString = '';
         if ($expected = $this->getExpectedTokens($state)) {
-            $expectedString = ', expecting ' . implode(' or ', $expected);
+            $expectedString = ', expecting ' . \implode(' or ', $expected);
         }
 
         return 'Syntax error, unexpected ' . $this->symbolToName[$symbol] . $expectedString;
@@ -411,7 +411,7 @@ abstract class ParserAbstract implements Parser
                     && $this->action[$idx] !== $this->defaultAction
                     && $symbol !== $this->errorSymbol
                 ) {
-                    if (count($expected) === 4) {
+                    if (\count($expected) === 4) {
                         /* Too many expected tokens */
                         return [];
                     }
@@ -534,7 +534,7 @@ abstract class ParserAbstract implements Parser
         // We only move the builtin end attributes here. This is the best we can do with the
         // knowledge we have.
         $endAttributes = ['endLine', 'endFilePos', 'endTokenPos'];
-        $lastStmt = $stmt->stmts[count($stmt->stmts) - 1];
+        $lastStmt = $stmt->stmts[\count($stmt->stmts) - 1];
         foreach ($endAttributes as $endAttribute) {
             if ($lastStmt->hasAttribute($endAttribute)) {
                 $stmt->setAttribute($endAttribute, $lastStmt->getAttribute($endAttribute));
@@ -582,7 +582,7 @@ abstract class ParserAbstract implements Parser
             }
 
             /* There may be a hashbang line at the very start of the file */
-            if ($i === 0 && $stmt instanceof Node\Stmt\InlineHTML && preg_match('/\A#!.*\r?\n\z/', $stmt->value)) {
+            if ($i === 0 && $stmt instanceof Node\Stmt\InlineHTML && \preg_match('/\A#!.*\r?\n\z/', $stmt->value)) {
                 continue;
             }
 
@@ -685,12 +685,12 @@ abstract class ParserAbstract implements Parser
 
     protected function getFloatCastKind(string $cast): int
     {
-        $cast = strtolower($cast);
-        if (strpos($cast, 'float') !== false) {
+        $cast = \strtolower($cast);
+        if (\strpos($cast, 'float') !== false) {
             return Double::KIND_FLOAT;
         }
 
-        if (strpos($cast, 'real') !== false) {
+        if (\strpos($cast, 'real') !== false) {
             return Double::KIND_REAL;
         }
 
@@ -716,12 +716,12 @@ abstract class ParserAbstract implements Parser
      * @return LNumber|String_ Integer or string node.
      */
     protected function parseNumString(string $str, array $attributes) {
-        if (!preg_match('/^(?:0|-?[1-9][0-9]*)$/', $str)) {
+        if (!\preg_match('/^(?:0|-?[1-9][0-9]*)$/', $str)) {
             return new String_($str, $attributes);
         }
 
         $num = +$str;
-        if (!is_int($num)) {
+        if (!\is_int($num)) {
             return new String_($str, $attributes);
         }
 
@@ -739,22 +739,22 @@ abstract class ParserAbstract implements Parser
         $start = $newlineAtStart ? '(?:(?<=\n)|\A)' : '(?<=\n)';
         $end = $newlineAtEnd ? '(?:(?=[\r\n])|\z)' : '(?=[\r\n])';
         $regex = '/' . $start . '([ \t]*)(' . $end . ')?/';
-        return preg_replace_callback(
+        return \preg_replace_callback(
             $regex,
             function ($matches) use ($indentLen, $indentChar, $attributes) {
-                $prefix = substr($matches[1], 0, $indentLen);
-                if (false !== strpos($prefix, $indentChar === " " ? "\t" : " ")) {
+                $prefix = \substr($matches[1], 0, $indentLen);
+                if (false !== \strpos($prefix, $indentChar === " " ? "\t" : " ")) {
                     $this->emitError(new Error(
                         'Invalid indentation - tabs and spaces cannot be mixed', $attributes
                     ));
-                } elseif (strlen($prefix) < $indentLen && !isset($matches[2])) {
+                } elseif (\strlen($prefix) < $indentLen && !isset($matches[2])) {
                     $this->emitError(new Error(
                         'Invalid body indentation level ' .
                         '(expecting an indentation level of at least ' . $indentLen . ')',
                         $attributes
                     ));
                 }
-                return substr($matches[0], strlen($prefix));
+                return \substr($matches[0], \strlen($prefix));
             },
             $string
         );
@@ -764,24 +764,24 @@ abstract class ParserAbstract implements Parser
         string $startToken, $contents, string $endToken,
         array $attributes, array $endTokenAttributes, bool $parseUnicodeEscape
     ) {
-        $kind = strpos($startToken, "'") === false
+        $kind = \strpos($startToken, "'") === false
             ? String_::KIND_HEREDOC : String_::KIND_NOWDOC;
 
         $regex = '/\A[bB]?<<<[ \t]*[\'"]?([a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*)[\'"]?(?:\r\n|\n|\r)\z/';
-        $result = preg_match($regex, $startToken, $matches);
-        assert($result === 1);
+        $result = \preg_match($regex, $startToken, $matches);
+        \assert($result === 1);
         $label = $matches[1];
 
-        $result = preg_match('/\A[ \t]*/', $endToken, $matches);
-        assert($result === 1);
+        $result = \preg_match('/\A[ \t]*/', $endToken, $matches);
+        \assert($result === 1);
         $indentation = $matches[0];
 
         $attributes['kind'] = $kind;
         $attributes['docLabel'] = $label;
         $attributes['docIndentation'] = $indentation;
 
-        $indentHasSpaces = false !== strpos($indentation, " ");
-        $indentHasTabs = false !== strpos($indentation, "\t");
+        $indentHasSpaces = false !== \strpos($indentation, " ");
+        $indentHasTabs = false !== \strpos($indentation, "\t");
         if ($indentHasSpaces && $indentHasTabs) {
             $this->emitError(new Error(
                 'Invalid indentation - tabs and spaces cannot be mixed',
@@ -803,7 +803,7 @@ abstract class ParserAbstract implements Parser
             $contents = $this->stripIndentation(
                 $contents, $indentLen, $indentChar, true, true, $attributes
             );
-            $contents = preg_replace('~(\r\n|\n|\r)\z~', '', $contents);
+            $contents = \preg_replace('~(\r\n|\n|\r)\z~', '', $contents);
 
             if ($kind === String_::KIND_HEREDOC) {
                 $contents = String_::parseEscapeSequences($contents, null, $parseUnicodeEscape);
@@ -811,7 +811,7 @@ abstract class ParserAbstract implements Parser
 
             return new String_($contents, $attributes);
         } else {
-            assert(count($contents) > 0);
+            \assert(\count($contents) > 0);
             if (!$contents[0] instanceof Node\Scalar\EncapsedStringPart) {
                 // If there is no leading encapsed string part, pretend there is an empty one
                 $this->stripIndentation(
@@ -829,7 +829,7 @@ abstract class ParserAbstract implements Parser
                     );
                     $part->value = String_::parseEscapeSequences($part->value, null, $parseUnicodeEscape);
                     if ($isLast) {
-                        $part->value = preg_replace('~(\r\n|\n|\r)\z~', '', $part->value);
+                        $part->value = \preg_replace('~(\r\n|\n|\r)\z~', '', $part->value);
                     }
                     if ('' === $part->value) {
                         continue;
@@ -891,7 +891,7 @@ abstract class ParserAbstract implements Parser
     protected function checkNamespace(Namespace_ $node) {
         if ($node->name && $node->name->isSpecialClassName()) {
             $this->emitError(new Error(
-                sprintf('Cannot use \'%s\' as namespace name', $node->name),
+                \sprintf('Cannot use \'%s\' as namespace name', $node->name),
                 $node->name->getAttributes()
             ));
         }
@@ -910,14 +910,14 @@ abstract class ParserAbstract implements Parser
     protected function checkClass(Class_ $node, $namePos) {
         if (null !== $node->name && $node->name->isSpecialClassName()) {
             $this->emitError(new Error(
-                sprintf('Cannot use \'%s\' as class name as it is reserved', $node->name),
+                \sprintf('Cannot use \'%s\' as class name as it is reserved', $node->name),
                 $this->getAttributesAt($namePos)
             ));
         }
 
         if ($node->extends && $node->extends->isSpecialClassName()) {
             $this->emitError(new Error(
-                sprintf('Cannot use \'%s\' as class name as it is reserved', $node->extends),
+                \sprintf('Cannot use \'%s\' as class name as it is reserved', $node->extends),
                 $node->extends->getAttributes()
             ));
         }
@@ -925,7 +925,7 @@ abstract class ParserAbstract implements Parser
         foreach ($node->implements as $interface) {
             if ($interface->isSpecialClassName()) {
                 $this->emitError(new Error(
-                    sprintf('Cannot use \'%s\' as interface name as it is reserved', $interface),
+                    \sprintf('Cannot use \'%s\' as interface name as it is reserved', $interface),
                     $interface->getAttributes()
                 ));
             }
@@ -935,7 +935,7 @@ abstract class ParserAbstract implements Parser
     protected function checkInterface(Interface_ $node, $namePos) {
         if (null !== $node->name && $node->name->isSpecialClassName()) {
             $this->emitError(new Error(
-                sprintf('Cannot use \'%s\' as class name as it is reserved', $node->name),
+                \sprintf('Cannot use \'%s\' as class name as it is reserved', $node->name),
                 $this->getAttributesAt($namePos)
             ));
         }
@@ -943,7 +943,7 @@ abstract class ParserAbstract implements Parser
         foreach ($node->extends as $interface) {
             if ($interface->isSpecialClassName()) {
                 $this->emitError(new Error(
-                    sprintf('Cannot use \'%s\' as interface name as it is reserved', $interface),
+                    \sprintf('Cannot use \'%s\' as interface name as it is reserved', $interface),
                     $interface->getAttributes()
                 ));
             }
@@ -955,17 +955,17 @@ abstract class ParserAbstract implements Parser
             switch ($node->name->toLowerString()) {
                 case '__construct':
                     $this->emitError(new Error(
-                        sprintf('Constructor %s() cannot be static', $node->name),
+                        \sprintf('Constructor %s() cannot be static', $node->name),
                         $this->getAttributesAt($modifierPos)));
                     break;
                 case '__destruct':
                     $this->emitError(new Error(
-                        sprintf('Destructor %s() cannot be static', $node->name),
+                        \sprintf('Destructor %s() cannot be static', $node->name),
                         $this->getAttributesAt($modifierPos)));
                     break;
                 case '__clone':
                     $this->emitError(new Error(
-                        sprintf('Clone method %s() cannot be static', $node->name),
+                        \sprintf('Clone method %s() cannot be static', $node->name),
                         $this->getAttributesAt($modifierPos)));
                     break;
             }
@@ -1005,7 +1005,7 @@ abstract class ParserAbstract implements Parser
     protected function checkUseUse(UseUse $node, $namePos) {
         if ($node->alias && $node->alias->isSpecialClassName()) {
             $this->emitError(new Error(
-                sprintf(
+                \sprintf(
                     'Cannot use %s as %s because \'%2$s\' is a special class name',
                     $node->name, $node->alias
                 ),

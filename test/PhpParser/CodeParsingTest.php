@@ -12,7 +12,7 @@ class CodeParsingTest extends CodeTestAbstract
      */
     public function testParse($name, $code, $expected, $modeLine) {
         if (null !== $modeLine) {
-            $modes = array_fill_keys(explode(',', $modeLine), true);
+            $modes = \array_fill_keys(\explode(',', $modeLine), true);
         } else {
             $modes = [];
         }

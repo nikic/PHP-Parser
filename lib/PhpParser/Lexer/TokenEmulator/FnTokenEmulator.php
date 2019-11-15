@@ -9,11 +9,11 @@ final class FnTokenEmulator implements TokenEmulatorInterface
     public function isEmulationNeeded(string $code) : bool
     {
         // skip version where this is supported
-        if (version_compare(\PHP_VERSION, Emulative::PHP_7_4, '>=')) {
+        if (\version_compare(\PHP_VERSION, Emulative::PHP_7_4, '>=')) {
             return false;
         }
 
-        return strpos($code, 'fn') !== false;
+        return \strpos($code, 'fn') !== false;
     }
 
     public function emulate(string $code, array $tokens): array

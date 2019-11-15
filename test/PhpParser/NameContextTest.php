@@ -19,14 +19,14 @@ class NameContextTest extends \PHPUnit\Framework\TestCase
         $nameContext->addAlias(new Name('Foo\CN'), 'CN', Use_::TYPE_CONSTANT);
 
         $possibleNames = $nameContext->getPossibleNames($name, $type);
-        $possibleNames = array_map(function (Name $name) {
+        $possibleNames = \array_map(function (Name $name) {
             return $name->toCodeString();
         }, $possibleNames);
 
         $this->assertSame($expectedPossibleNames, $possibleNames);
 
         // Here the last name is always the shortest one
-        $expectedShortName = $expectedPossibleNames[count($expectedPossibleNames) - 1];
+        $expectedShortName = $expectedPossibleNames[\count($expectedPossibleNames) - 1];
         $this->assertSame(
             $expectedShortName,
             $nameContext->getShortName($name, $type)->toCodeString()

@@ -34,7 +34,7 @@ class Multiple implements Parser
             return $firstStmts;
         }
 
-        for ($i = 1, $c = count($this->parsers); $i < $c; ++$i) {
+        for ($i = 1, $c = \count($this->parsers); $i < $c; ++$i) {
             list($stmts, $error) = $this->tryParse($this->parsers[$i], $errorHandler, $code);
             if ($error === null) {
                 return $stmts;

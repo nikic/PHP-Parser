@@ -16,7 +16,7 @@ class NodeFinder
      * @return Node[] Found nodes satisfying the filter callback
      */
     public function find($nodes, callable $filter) : array {
-        if (!is_array($nodes)) {
+        if (!\is_array($nodes)) {
             $nodes = [$nodes];
         }
 
@@ -52,7 +52,7 @@ class NodeFinder
      * @return null|Node Found node (or null if none found)
      */
     public function findFirst($nodes, callable $filter) {
-        if (!is_array($nodes)) {
+        if (!\is_array($nodes)) {
             $nodes = [$nodes];
         }
 
