@@ -8,6 +8,7 @@ use PhpParser\Node\Name;
 use PhpParser\Node\NullableType;
 use PhpParser\Node\Scalar;
 use PhpParser\Node\Stmt;
+use PhpParser\Node\UnionType;
 
 /**
  * This class defines helpers used in the implementation of builders. Don't use it directly.
@@ -158,16 +159,19 @@ final class BuilderHelpers
      * In particular, builtin types become Identifiers, custom types become Names and nullables
      * are wrapped in NullableType nodes.
      *
-     * @param string|Name|Identifier|NullableType $type The type to normalize
+     * @param string|Name|Identifier|NullableType|UnionType $type The type to normalize
      *
-     * @return Name|Identifier|NullableType The normalized type
+     * @return Name|Identifier|NullableType|UnionType The normalized type
      */
     public static function normalizeType($type) {
         if (!is_string($type)) {
-            if (!$type instanceof Name && !$type instanceof Identifier
-                    && !$type instanceof NullableType) {
+            if (
+                !$type instanceof Name && !$type instanceof Identifier &&
+                !$type instanceof NullableType && !$type instanceof UnionType
+            ) {
                 throw new \LogicException(
-                    'Type must be a string, or an instance of Name, Identifier or NullableType');
+                    'Type must be a string, or an instance of Name, Identifier, NullableType or UnionType'
+                );
             }
             return $type;
         }
@@ -193,7 +197,7 @@ final class BuilderHelpers
             throw new \LogicException('void type cannot be nullable');
         }
 
-        return $nullable ? new Node\NullableType($type) : $type;
+        return $nullable ? new NullableType($type) : $type;
     }
 
     /**

@@ -80,6 +80,8 @@ class ParamTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider provideTestTypes
+     * @dataProvider provideTestNullableTypes
+     * @dataProvider provideTestUnionTypes
      */
     public function testTypes($typeHint, $expectedType) {
         $node = $this->createParamBuilder('test')
@@ -114,9 +116,14 @@ class ParamTest extends \PHPUnit\Framework\TestCase
             ['Some\Class', new Node\Name('Some\Class')],
             ['\Foo', new Node\Name\FullyQualified('Foo')],
             ['self', new Node\Name('self')],
+            [new Node\Name('Some\Class'), new Node\Name('Some\Class')],
+        ];
+    }
+
+    public function provideTestNullableTypes() {
+        return [
             ['?array', new Node\NullableType(new Node\Identifier('array'))],
             ['?Some\Class', new Node\NullableType(new Node\Name('Some\Class'))],
-            [new Node\Name('Some\Class'), new Node\Name('Some\Class')],
             [
                 new Node\NullableType(new Node\Identifier('int')),
                 new Node\NullableType(new Node\Identifier('int'))
@@ -124,6 +131,33 @@ class ParamTest extends \PHPUnit\Framework\TestCase
             [
                 new Node\NullableType(new Node\Name('Some\Class')),
                 new Node\NullableType(new Node\Name('Some\Class'))
+            ],
+        ];
+    }
+
+    public function provideTestUnionTypes() {
+        return [
+            [
+                new Node\UnionType([
+                    new Node\Name('Some\Class'),
+                    new Node\Identifier('array'),
+                ]),
+                new Node\UnionType([
+                    new Node\Name('Some\Class'),
+                    new Node\Identifier('array'),
+                ]),
+            ],
+            [
+                new Node\UnionType([
+                    new Node\Identifier('self'),
+                    new Node\Identifier('array'),
+                    new Node\Name\FullyQualified('Foo')
+                ]),
+                new Node\UnionType([
+                    new Node\Identifier('self'),
+                    new Node\Identifier('array'),
+                    new Node\Name\FullyQualified('Foo')
+                ]),
             ],
         ];
     }
@@ -136,7 +170,7 @@ class ParamTest extends \PHPUnit\Framework\TestCase
 
     public function testInvalidTypeError() {
         $this->expectException(\LogicException::class);
-        $this->expectExceptionMessage('Type must be a string, or an instance of Name, Identifier or NullableType');
+        $this->expectExceptionMessage('Type must be a string, or an instance of Name, Identifier, NullableType or UnionType');
         $this->createParamBuilder('test')->setType(new \stdClass);
     }
 
