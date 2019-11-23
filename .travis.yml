@@ -29,8 +29,8 @@ matrix:
   fast_finish: true
 
 script:
-  - if [ $TRAVIS_PHP_VERSION = '7.0' ]; then vendor/bin/phpunit --coverage-clover build/logs/clover.xml; else vendor/bin/phpunit; fi
-  - if [ $TRAVIS_PHP_VERSION = '7.2' ]; then test_old/run-php-src.sh; fi
+  - |
+    echo '<?php require "vendor/autoload.php"; $b=new PhpParser\BuilderFactory(); $b->class(DateTime::class);' > failingBuilderFactory.php
+    echo 'Expecting "PHP Parse error: syntax error" ...'
+    php failingBuilderFactory.php
 
-after_success:
-  - if [ $TRAVIS_PHP_VERSION = '7.0' ]; then php vendor/bin/coveralls; fi
