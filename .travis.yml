@@ -1,6 +1,5 @@
 language: php
 dist: xenial
-sudo: false
 
 cache:
   directories:
@@ -11,7 +10,7 @@ php:
   - 7.1
   - 7.2
   - 7.3
-  - 7.4snapshot
+  - 7.4
   - nightly
 
 install:
