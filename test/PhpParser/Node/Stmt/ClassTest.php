@@ -94,6 +94,31 @@ class ClassTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($properties, $class->getProperties());
     }
 
+    public function testGetProperty() {
+        $properties = [
+            $fooProp = new Property(Class_::MODIFIER_PUBLIC, [new PropertyProperty('foo1')]),
+            $barProp = new Property(Class_::MODIFIER_PUBLIC, [new PropertyProperty('BAR1')]),
+            $fooBarProp = new Property(Class_::MODIFIER_PUBLIC, [new PropertyProperty('foo2'), new PropertyProperty('bar2')]),
+        ];
+        $class = new Class_('Foo', [
+            'stmts' => [
+                new TraitUse([]),
+                $properties[0],
+                new ClassConst([]),
+                $properties[1],
+                new ClassMethod('fooBar'),
+                $properties[2],
+            ]
+        ]);
+
+        $this->assertSame($fooProp, $class->getProperty('foo1'));
+        $this->assertSame($barProp, $class->getProperty('BAR1'));
+        $this->assertSame($fooBarProp, $class->getProperty('foo2'));
+        $this->assertSame($fooBarProp, $class->getProperty('bar2'));
+        $this->assertNull($class->getProperty('bar1'));
+        $this->assertNull($class->getProperty('nonExisting'));
+    }
+
     public function testGetMethod() {
         $methodConstruct = new ClassMethod('__CONSTRUCT');
         $methodTest = new ClassMethod('test');
