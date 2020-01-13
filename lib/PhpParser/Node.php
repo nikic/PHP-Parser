@@ -14,7 +14,8 @@ interface Node
     /**
      * Gets the names of the sub nodes.
      *
-     * @return array Names of sub nodes
+     * @return string[] Names of sub nodes
+     * @psalm-return list<string>
      */
     public function getSubNodeNames() : array;
 
@@ -138,14 +139,14 @@ interface Node
     /**
      * Returns all the attributes of this node.
      *
-     * @return array
+     * @return array<string, mixed>
      */
     public function getAttributes() : array;
 
     /**
      * Replaces all the attributes of this node.
      *
-     * @param array $attributes
+     * @param array<string, mixed> $attributes
      */
     public function setAttributes(array $attributes);
 }

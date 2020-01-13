@@ -845,7 +845,7 @@ abstract class ParserAbstract implements Parser
      * Create attributes for a zero-length common-capturing nop.
      *
      * @param Comment[] $comments
-     * @return array
+     * @return array<string, mixed>
      */
     protected function createCommentNopAttributes(array $comments) {
         $comment = $comments[count($comments) - 1];

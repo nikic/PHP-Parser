@@ -449,6 +449,7 @@ class Standard extends PrettyPrinterAbstract
 
     protected function pExpr_Cast_Double(Cast\Double $node) {
         $kind = $node->getAttribute('kind', Cast\Double::KIND_DOUBLE);
+        $cast = '';
         if ($kind === Cast\Double::KIND_DOUBLE) {
             $cast = '(double)';
         } elseif ($kind === Cast\Double::KIND_FLOAT) {

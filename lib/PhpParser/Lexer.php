@@ -345,6 +345,7 @@ class Lexer
      * attributes are against this token array.
      *
      * @return array Array of tokens in token_get_all() format
+     * @psalm-return array<int,string|array{0:int,1:string,2:int}>
      */
     public function getTokens() : array {
         return $this->tokens;
@@ -380,7 +381,7 @@ class Lexer
      * to the identifiers used by the Parser. Additionally it
      * maps T_OPEN_TAG_WITH_ECHO to T_ECHO and T_CLOSE_TAG to ';'.
      *
-     * @return array The token map
+     * @return array<int, int> The token map
      */
     protected function createTokenMap() : array {
         $tokenMap = [];

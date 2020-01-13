@@ -8,7 +8,10 @@ class ClassConst extends Node\Stmt
 {
     /** @var int Modifiers */
     public $flags;
-    /** @var Node\Const_[] Constant declarations */
+    /** 
+     * @var Node\Const_[] Constant declarations
+     * @psalm-var list<Node\Const>
+     */
     public $consts;
 
     /**

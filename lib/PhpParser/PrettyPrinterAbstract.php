@@ -102,7 +102,7 @@ abstract class PrettyPrinterAbstract
     /** @var array Pretty printer options */
     protected $options;
 
-    /** @var TokenStream Original tokens for use in format-preserving pretty print */
+    /** @var TokenStream|null Original tokens for use in format-preserving pretty print */
     protected $origTokens;
     /** @var Internal\Differ Differ for node lists */
     protected $nodeListDiffer;
@@ -114,9 +114,10 @@ abstract class PrettyPrinterAbstract
      */
     protected $fixupMap;
     /**
-     * @var int[][] Map from "{$node->getType()}->{$subNode}" to ['left' => $l, 'right' => $r],
-     *              where $l and $r specify the token type that needs to be stripped when removing
-     *              this node.
+     * @psalm-var array<string, array<string, int|string>>
+     * @var (string|int)[][] Map from "{$node->getType()}->{$subNode}" to ['left' => $l, 'right' => $r],
+     *                       where $l and $r specify the token type that needs to be stripped when removing
+     *                       this node.
      */
     protected $removalMap;
     /**
