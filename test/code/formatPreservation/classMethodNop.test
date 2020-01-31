@@ -1,0 +1,20 @@
+Adding statement to Class Method containing Nop
+-----
+<?php
+class Foo {
+    public function __construct()
+    {
+        // I'm just a comment
+    }
+}
+-----
+$stmts[0]->stmts[0]->stmts[] = new Stmt\Expression(new Node\Expr\Variable('foo'));
+-----
+<?php
+class Foo {
+    public function __construct
+    $foo;()
+    {
+        // I'm just a comment
+    }
+}
