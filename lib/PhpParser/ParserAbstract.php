@@ -842,21 +842,29 @@ abstract class ParserAbstract implements Parser
     }
 
     /**
-     * Create attributes for a zero-length node with the given start attributes.
+     * Create attributes for a zero-length common-capturing nop.
      *
-     * @param array $startAttributes
+     * @param Comment[] $comments
      * @return array
      */
-    protected function createZeroLengthAttributes(array $startAttributes) {
-        $attributes = $startAttributes;
-        if (isset($startAttributes['startLine'])) {
-            $attributes['endLine'] = $startAttributes['startLine'];
+    protected function createCommentNopAttributes(array $comments) {
+        $comment = $comments[count($comments) - 1];
+        $commentEndLine = $comment->getEndLine();
+        $commentEndFilePos = $comment->getEndFilePos();
+        $commentEndTokenPos = $comment->getEndTokenPos();
+
+        $attributes = ['comments' => $comments];
+        if (-1 !== $commentEndLine) {
+            $attributes['startLine'] = $commentEndLine;
+            $attributes['endLine'] = $commentEndLine;
         }
-        if (isset($startAttributes['startTokenPos'])) {
-            $attributes['endTokenPos'] = $startAttributes['startTokenPos'] - 1;
+        if (-1 !== $commentEndFilePos) {
+            $attributes['startFilePos'] = $commentEndFilePos + 1;
+            $attributes['endFilePos'] = $commentEndFilePos;
         }
-        if (isset($startAttributes['startFilePos'])) {
-            $attributes['endFilePos'] = $startAttributes['startFilePos'] - 1;
+        if (-1 !== $commentEndTokenPos) {
+            $attributes['startTokenPos'] = $commentEndTokenPos + 1;
+            $attributes['endTokenPos'] = $commentEndTokenPos;
         }
         return $attributes;
     }

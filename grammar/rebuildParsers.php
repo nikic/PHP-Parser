@@ -178,7 +178,7 @@ function resolveMacros($code) {
 
                 return '$startAttributes = ' . $args[1] . ';'
                     . ' if (isset($startAttributes[\'comments\']))'
-                    . ' { ' . $args[0] . ' = new Stmt\Nop($this->createZeroLengthAttributes($startAttributes)); }'
+                    . ' { ' . $args[0] . ' = new Stmt\Nop($this->createCommentNopAttributes($startAttributes[\'comments\'])); }'
                     . ' else { ' . $args[0] . ' = null; }';
             }
 
