@@ -762,7 +762,7 @@ abstract class PrettyPrinterAbstract
 
                 $comments = $arrItem->getComments();
                 $origComments = $origArrItem->getComments();
-                $commentStartPos = $origComments ? $origComments[0]->getTokenPos() : $itemStartPos;
+                $commentStartPos = $origComments ? $origComments[0]->getStartTokenPos() : $itemStartPos;
                 \assert($commentStartPos >= 0);
 
                 $commentsChanged = $comments !== $origComments;
