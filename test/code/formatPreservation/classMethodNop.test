@@ -37,3 +37,40 @@ class Foo {
         $foo;
     }
 }
+-----
+<?php
+class Foo {
+    public function __construct()
+    {
+        /* I'm just a comment */
+    }
+}
+-----
+$stmts[0]->stmts[0]->stmts[0]->setAttribute('comments', [new Comment("/* I'm a new comment */")]);
+-----
+<?php
+class Foo {
+    public function __construct()
+    {
+        /* I'm a new comment */
+
+    }
+}
+-----
+<?php
+class Foo {
+    public function __construct()
+    {
+        // I'm just a comment
+    }
+}
+-----
+$stmts[0]->stmts[0]->stmts[0]->setAttribute('comments', [new Comment("// I'm a new comment\n")]);
+-----
+<?php
+class Foo {
+    public function __construct()
+    {
+        // I'm a new comment
+            }
+}
