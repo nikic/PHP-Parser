@@ -34,8 +34,9 @@ class NodeAbstractTest extends \PHPUnit\Framework\TestCase
             'startFilePos' => 14,
             'endFilePos' => 15,
             'comments'  => [
-                new Comment('// Comment' . "\n"),
+                new Comment('// Comment 1' . "\n"),
                 new Comment\Doc('/** doc comment */'),
+                new Comment('// Comment 2' . "\n"),
             ],
         ];
 
@@ -79,12 +80,12 @@ class NodeAbstractTest extends \PHPUnit\Framework\TestCase
         $this->assertSame('/** doc comment */', $node->getDocComment()->getText());
         $comments = $node->getComments();
 
-        array_pop($comments); // remove doc comment
+        array_splice($comments, 1, 1, []); // remove doc comment
         $node->setAttribute('comments', $comments);
         $this->assertNull($node->getDocComment());
 
-        array_pop($comments); // remove comment
-        $node->setAttribute('comments', $comments);
+        // Remove all comments.
+        $node->setAttribute('comments', []);
         $this->assertNull($node->getDocComment());
     }
 
@@ -108,6 +109,12 @@ class NodeAbstractTest extends \PHPUnit\Framework\TestCase
         $node->setAttribute('comments', [$c1, $c2]);
         $node->setDocComment($docComment);
         $this->assertSame([$c1, $c2, $docComment], $node->getAttribute('comments'));
+
+        // Replace doc comment that is not at the end.
+        $newDocComment = new Comment\Doc('/** new baz */');
+        $node->setAttribute('comments', [$c1, $docComment, $c2]);
+        $node->setDocComment($newDocComment);
+        $this->assertSame([$c1, $newDocComment, $c2], $node->getAttribute('comments'));
     }
 
     /**
