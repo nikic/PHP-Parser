@@ -1,0 +1,49 @@
+Expressions in isset()
+-----
+<?php
+// This is legal.
+isset(($a), (($b)));
+// This is illegal, but not a syntax error.
+isset(1 + 1);
+-----
+!!php7
+array(
+    0: Stmt_Expression(
+        expr: Expr_Isset(
+            vars: array(
+                0: Expr_Variable(
+                    name: a
+                )
+                1: Expr_Variable(
+                    name: b
+                )
+            )
+            comments: array(
+                0: // This is legal.
+            )
+        )
+        comments: array(
+            0: // This is legal.
+        )
+    )
+    1: Stmt_Expression(
+        expr: Expr_Isset(
+            vars: array(
+                0: Expr_BinaryOp_Plus(
+                    left: Scalar_LNumber(
+                        value: 1
+                    )
+                    right: Scalar_LNumber(
+                        value: 1
+                    )
+                )
+            )
+            comments: array(
+                0: // This is illegal, but not a syntax error.
+            )
+        )
+        comments: array(
+            0: // This is illegal, but not a syntax error.
+        )
+    )
+)

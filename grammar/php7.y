@@ -232,7 +232,7 @@ non_empty_statement:
     | T_RETURN optional_expr semi                           { $$ = Stmt\Return_[$2]; }
     | T_GLOBAL global_var_list semi                         { $$ = Stmt\Global_[$2]; }
     | T_STATIC static_var_list semi                         { $$ = Stmt\Static_[$2]; }
-    | T_ECHO expr_list semi                                 { $$ = Stmt\Echo_[$2]; }
+    | T_ECHO expr_list_forbid_comma semi                    { $$ = Stmt\Echo_[$2]; }
     | T_INLINE_HTML                                         { $$ = Stmt\InlineHTML[$1]; }
     | expr semi                                             { $$ = Stmt\Expression[$1]; }
     | T_UNSET '(' variables_list ')' semi                   { $$ = Stmt\Unset_[$3]; }
@@ -632,8 +632,12 @@ property_declaration:
     | property_decl_name '=' expr                           { $$ = Stmt\PropertyProperty[$1, $3]; }
 ;
 
-expr_list:
+expr_list_forbid_comma:
       non_empty_expr_list no_comma                          { $$ = $1; }
+;
+
+expr_list_allow_comma:
+      non_empty_expr_list optional_comma                    { $$ = $1; }
 ;
 
 non_empty_expr_list:
@@ -643,7 +647,7 @@ non_empty_expr_list:
 
 for_expr:
       /* empty */                                           { $$ = array(); }
-    | expr_list                                             { $$ = $1; }
+    | expr_list_forbid_comma                                { $$ = $1; }
 ;
 
 expr:
@@ -706,7 +710,7 @@ expr:
     | expr '?' expr ':' expr                                { $$ = Expr\Ternary[$1, $3,   $5]; }
     | expr '?' ':' expr                                     { $$ = Expr\Ternary[$1, null, $4]; }
     | expr T_COALESCE expr                                  { $$ = Expr\BinaryOp\Coalesce[$1, $3]; }
-    | T_ISSET '(' variables_list ')'                        { $$ = Expr\Isset_[$3]; }
+    | T_ISSET '(' expr_list_allow_comma ')'                 { $$ = Expr\Isset_[$3]; }
     | T_EMPTY '(' expr ')'                                  { $$ = Expr\Empty_[$3]; }
     | T_INCLUDE expr                                        { $$ = Expr\Include_[$2, Expr\Include_::TYPE_INCLUDE]; }
     | T_INCLUDE_ONCE expr                                   { $$ = Expr\Include_[$2, Expr\Include_::TYPE_INCLUDE_ONCE]; }
