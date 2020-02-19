@@ -954,22 +954,7 @@ property_name:
 ;
 
 list_expr:
-      T_LIST '(' list_expr_elements ')'                     { $$ = Expr\List_[$3]; }
-;
-
-list_expr_elements:
-      list_expr_elements ',' list_expr_element              { push($1, $3); }
-    | list_expr_element                                     { init($1); }
-;
-
-list_expr_element:
-      variable                                              { $$ = Expr\ArrayItem[$1, null, false]; }
-    | '&' variable                                          { $$ = Expr\ArrayItem[$2, null, true]; }
-    | list_expr                                             { $$ = Expr\ArrayItem[$1, null, false]; }
-    | expr T_DOUBLE_ARROW variable                          { $$ = Expr\ArrayItem[$3, $1, false]; }
-    | expr T_DOUBLE_ARROW '&' variable                      { $$ = Expr\ArrayItem[$4, $1, true]; }
-    | expr T_DOUBLE_ARROW list_expr                         { $$ = Expr\ArrayItem[$3, $1, false]; }
-    | /* empty */                                           { $$ = null; }
+      T_LIST '(' inner_array_pair_list ')'                  { $$ = Expr\List_[$3]; }
 ;
 
 array_pair_list:
@@ -989,10 +974,12 @@ inner_array_pair_list:
 ;
 
 array_pair:
-      expr T_DOUBLE_ARROW expr                              { $$ = Expr\ArrayItem[$3, $1,   false]; }
-    | expr                                                  { $$ = Expr\ArrayItem[$1, null, false]; }
-    | expr T_DOUBLE_ARROW '&' variable                      { $$ = Expr\ArrayItem[$4, $1,   true]; }
+      expr                                                  { $$ = Expr\ArrayItem[$1, null, false]; }
     | '&' variable                                          { $$ = Expr\ArrayItem[$2, null, true]; }
+    | list_expr                                             { $$ = Expr\ArrayItem[$1, null, false]; }
+    | expr T_DOUBLE_ARROW expr                              { $$ = Expr\ArrayItem[$3, $1,   false]; }
+    | expr T_DOUBLE_ARROW '&' variable                      { $$ = Expr\ArrayItem[$4, $1,   true]; }
+    | expr T_DOUBLE_ARROW list_expr                         { $$ = Expr\ArrayItem[$3, $1,   false]; }
     | T_ELLIPSIS expr                                       { $$ = Expr\ArrayItem[$2, null, false, attributes(), true]; }
     | /* empty */                                           { $$ = null; }
 ;
