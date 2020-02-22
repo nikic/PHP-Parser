@@ -1,0 +1,61 @@
+Arbitrary expressions in new and instanceof
+-----
+<?php
+
+new ('Foo' . $bar);
+new ('Foo' . $bar)($arg);
+$obj instanceof ('Foo' . $bar);
+-----
+!!php7
+array(
+    0: Stmt_Expression(
+        expr: Expr_New(
+            class: Expr_BinaryOp_Concat(
+                left: Scalar_String(
+                    value: Foo
+                )
+                right: Expr_Variable(
+                    name: bar
+                )
+            )
+            args: array(
+            )
+        )
+    )
+    1: Stmt_Expression(
+        expr: Expr_New(
+            class: Expr_BinaryOp_Concat(
+                left: Scalar_String(
+                    value: Foo
+                )
+                right: Expr_Variable(
+                    name: bar
+                )
+            )
+            args: array(
+                0: Arg(
+                    value: Expr_Variable(
+                        name: arg
+                    )
+                    byRef: false
+                    unpack: false
+                )
+            )
+        )
+    )
+    2: Stmt_Expression(
+        expr: Expr_Instanceof(
+            expr: Expr_Variable(
+                name: obj
+            )
+            class: Expr_BinaryOp_Concat(
+                left: Scalar_String(
+                    value: Foo
+                )
+                right: Expr_Variable(
+                    name: bar
+                )
+            )
+        )
+    )
+)

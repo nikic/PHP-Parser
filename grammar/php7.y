@@ -804,6 +804,7 @@ name:
 class_name_reference:
       class_name                                            { $$ = $1; }
     | new_variable                                          { $$ = $1; }
+    | '(' expr ')'                                          { $$ = $2; }
     | error                                                 { $$ = Expr\Error[]; $this->errorState = 2; }
 ;
 
