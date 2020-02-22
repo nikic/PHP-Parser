@@ -4,6 +4,7 @@ Uniform variable syntax in PHP 7 (misc)
 
 A::A[0];
 A::A[0][1][2];
+A::A{0};
 "string"->length();
 "foo$bar"[0];
 "foo$bar"->length();
@@ -57,6 +58,23 @@ array(
         )
     )
     2: Stmt_Expression(
+        expr: Expr_ArrayDimFetch(
+            var: Expr_ClassConstFetch(
+                class: Name(
+                    parts: array(
+                        0: A
+                    )
+                )
+                name: Identifier(
+                    name: A
+                )
+            )
+            dim: Scalar_LNumber(
+                value: 0
+            )
+        )
+    )
+    3: Stmt_Expression(
         expr: Expr_MethodCall(
             var: Scalar_String(
                 value: string
@@ -68,7 +86,7 @@ array(
             )
         )
     )
-    3: Stmt_Expression(
+    4: Stmt_Expression(
         expr: Expr_ArrayDimFetch(
             var: Scalar_Encapsed(
                 parts: array(
@@ -85,7 +103,7 @@ array(
             )
         )
     )
-    4: Stmt_Expression(
+    5: Stmt_Expression(
         expr: Expr_MethodCall(
             var: Scalar_Encapsed(
                 parts: array(
@@ -104,7 +122,7 @@ array(
             )
         )
     )
-    5: Stmt_Expression(
+    6: Stmt_Expression(
         expr: Expr_FuncCall(
             name: Expr_ArrayDimFetch(
                 var: Expr_PropertyFetch(
@@ -132,7 +150,7 @@ array(
             )
         )
     )
-    6: Stmt_Expression(
+    7: Stmt_Expression(
         expr: Expr_Assign(
             var: Expr_ArrayDimFetch(
                 var: Expr_Array(

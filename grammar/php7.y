@@ -809,7 +809,7 @@ class_name_reference:
 
 class_name_or_var:
       class_name                                            { $$ = $1; }
-    | dereferencable                                        { $$ = $1; }
+    | fully_dereferencable                                  { $$ = $1; }
 ;
 
 exit_expr:
@@ -831,9 +831,12 @@ ctor_arguments:
 
 constant:
       name                                                  { $$ = Expr\ConstFetch[$1]; }
-    | class_name_or_var T_PAAMAYIM_NEKUDOTAYIM identifier_ex
+;
+
+class_constant:
+      class_name_or_var T_PAAMAYIM_NEKUDOTAYIM identifier_ex
           { $$ = Expr\ClassConstFetch[$1, $3]; }
-    /* We interpret and isolated FOO:: as an unfinished class constant fetch. It could also be
+    /* We interpret an isolated FOO:: as an unfinished class constant fetch. It could also be
        an unfinished static property fetch or unfinished scoped call. */
     | class_name_or_var T_PAAMAYIM_NEKUDOTAYIM error
           { $$ = Expr\ClassConstFetch[$1, new Expr\Error(stackAttributes(#3))]; $this->errorState = 2; }
@@ -871,6 +874,7 @@ scalar:
     | T_NS_C                                                { $$ = Scalar\MagicConst\Namespace_[]; }
     | dereferencable_scalar                                 { $$ = $1; }
     | constant                                              { $$ = $1; }
+    | class_constant                                        { $$ = $1; }
     | T_START_HEREDOC T_ENCAPSED_AND_WHITESPACE T_END_HEREDOC
           { $$ = $this->parseDocString($1, $2, $3, attributes(), stackAttributes(#3), true); }
     | T_START_HEREDOC T_END_HEREDOC
@@ -884,10 +888,16 @@ optional_expr:
     | expr                                                  { $$ = $1; }
 ;
 
-dereferencable:
+fully_dereferencable:
       variable                                              { $$ = $1; }
     | '(' expr ')'                                          { $$ = $2; }
     | dereferencable_scalar                                 { $$ = $1; }
+;
+
+array_dereferencable:
+      fully_dereferencable                                  { $$ = $1; }
+    | constant                                              { $$ = $1; }
+    | class_constant                                        { $$ = $1; }
 ;
 
 callable_expr:
@@ -898,18 +908,17 @@ callable_expr:
 
 callable_variable:
       simple_variable                                       { $$ = Expr\Variable[$1]; }
-    | dereferencable '[' optional_expr ']'                  { $$ = Expr\ArrayDimFetch[$1, $3]; }
-    | constant '[' optional_expr ']'                        { $$ = Expr\ArrayDimFetch[$1, $3]; }
-    | dereferencable '{' expr '}'                           { $$ = Expr\ArrayDimFetch[$1, $3]; }
+    | array_dereferencable '[' optional_expr ']'            { $$ = Expr\ArrayDimFetch[$1, $3]; }
+    | array_dereferencable '{' expr '}'                     { $$ = Expr\ArrayDimFetch[$1, $3]; }
     | function_call                                         { $$ = $1; }
-    | dereferencable T_OBJECT_OPERATOR property_name argument_list
+    | fully_dereferencable T_OBJECT_OPERATOR property_name argument_list
           { $$ = Expr\MethodCall[$1, $3, $4]; }
 ;
 
 variable:
       callable_variable                                     { $$ = $1; }
     | static_member                                         { $$ = $1; }
-    | dereferencable T_OBJECT_OPERATOR property_name        { $$ = Expr\PropertyFetch[$1, $3]; }
+    | fully_dereferencable T_OBJECT_OPERATOR property_name  { $$ = Expr\PropertyFetch[$1, $3]; }
 ;
 
 simple_variable:
