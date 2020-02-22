@@ -5,6 +5,8 @@ Constant fetches
 A;
 A::B;
 A::class;
+$a::B;
+$a::class;
 -----
 array(
     0: Stmt_Expression(
@@ -34,6 +36,26 @@ array(
                 parts: array(
                     0: A
                 )
+            )
+            name: Identifier(
+                name: class
+            )
+        )
+    )
+    3: Stmt_Expression(
+        expr: Expr_ClassConstFetch(
+            class: Expr_Variable(
+                name: a
+            )
+            name: Identifier(
+                name: B
+            )
+        )
+    )
+    4: Stmt_Expression(
+        expr: Expr_ClassConstFetch(
+            class: Expr_Variable(
+                name: a
             )
             name: Identifier(
                 name: class
