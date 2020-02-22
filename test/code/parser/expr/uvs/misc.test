@@ -2,11 +2,6 @@ Uniform variable syntax in PHP 7 (misc)
 -----
 <?php
 
-A::A[0];
-A::A[0][1][2];
-A::A{0};
-A->length;
-A->length();
 "string"->length();
 "foo$bar"[0];
 "foo$bar"->length();
@@ -16,97 +11,6 @@ A->length();
 !!php7
 array(
     0: Stmt_Expression(
-        expr: Expr_ArrayDimFetch(
-            var: Expr_ClassConstFetch(
-                class: Name(
-                    parts: array(
-                        0: A
-                    )
-                )
-                name: Identifier(
-                    name: A
-                )
-            )
-            dim: Scalar_LNumber(
-                value: 0
-            )
-        )
-    )
-    1: Stmt_Expression(
-        expr: Expr_ArrayDimFetch(
-            var: Expr_ArrayDimFetch(
-                var: Expr_ArrayDimFetch(
-                    var: Expr_ClassConstFetch(
-                        class: Name(
-                            parts: array(
-                                0: A
-                            )
-                        )
-                        name: Identifier(
-                            name: A
-                        )
-                    )
-                    dim: Scalar_LNumber(
-                        value: 0
-                    )
-                )
-                dim: Scalar_LNumber(
-                    value: 1
-                )
-            )
-            dim: Scalar_LNumber(
-                value: 2
-            )
-        )
-    )
-    2: Stmt_Expression(
-        expr: Expr_ArrayDimFetch(
-            var: Expr_ClassConstFetch(
-                class: Name(
-                    parts: array(
-                        0: A
-                    )
-                )
-                name: Identifier(
-                    name: A
-                )
-            )
-            dim: Scalar_LNumber(
-                value: 0
-            )
-        )
-    )
-    3: Stmt_Expression(
-        expr: Expr_PropertyFetch(
-            var: Expr_ConstFetch(
-                name: Name(
-                    parts: array(
-                        0: A
-                    )
-                )
-            )
-            name: Identifier(
-                name: length
-            )
-        )
-    )
-    4: Stmt_Expression(
-        expr: Expr_MethodCall(
-            var: Expr_ConstFetch(
-                name: Name(
-                    parts: array(
-                        0: A
-                    )
-                )
-            )
-            name: Identifier(
-                name: length
-            )
-            args: array(
-            )
-        )
-    )
-    5: Stmt_Expression(
         expr: Expr_MethodCall(
             var: Scalar_String(
                 value: string
@@ -118,7 +22,7 @@ array(
             )
         )
     )
-    6: Stmt_Expression(
+    1: Stmt_Expression(
         expr: Expr_ArrayDimFetch(
             var: Scalar_Encapsed(
                 parts: array(
@@ -135,7 +39,7 @@ array(
             )
         )
     )
-    7: Stmt_Expression(
+    2: Stmt_Expression(
         expr: Expr_MethodCall(
             var: Scalar_Encapsed(
                 parts: array(
@@ -154,7 +58,7 @@ array(
             )
         )
     )
-    8: Stmt_Expression(
+    3: Stmt_Expression(
         expr: Expr_FuncCall(
             name: Expr_ArrayDimFetch(
                 var: Expr_PropertyFetch(
@@ -182,7 +86,7 @@ array(
             )
         )
     )
-    9: Stmt_Expression(
+    4: Stmt_Expression(
         expr: Expr_Assign(
             var: Expr_ArrayDimFetch(
                 var: Expr_Array(
