@@ -894,7 +894,7 @@ fully_dereferencable:
     | dereferencable_scalar                                 { $$ = $1; }
 ;
 
-array_dereferencable:
+array_object_dereferencable:
       fully_dereferencable                                  { $$ = $1; }
     | constant                                              { $$ = $1; }
     | class_constant                                        { $$ = $1; }
@@ -908,17 +908,18 @@ callable_expr:
 
 callable_variable:
       simple_variable                                       { $$ = Expr\Variable[$1]; }
-    | array_dereferencable '[' optional_expr ']'            { $$ = Expr\ArrayDimFetch[$1, $3]; }
-    | array_dereferencable '{' expr '}'                     { $$ = Expr\ArrayDimFetch[$1, $3]; }
+    | array_object_dereferencable '[' optional_expr ']'     { $$ = Expr\ArrayDimFetch[$1, $3]; }
+    | array_object_dereferencable '{' expr '}'              { $$ = Expr\ArrayDimFetch[$1, $3]; }
     | function_call                                         { $$ = $1; }
-    | fully_dereferencable T_OBJECT_OPERATOR property_name argument_list
+    | array_object_dereferencable T_OBJECT_OPERATOR property_name argument_list
           { $$ = Expr\MethodCall[$1, $3, $4]; }
 ;
 
 variable:
       callable_variable                                     { $$ = $1; }
     | static_member                                         { $$ = $1; }
-    | fully_dereferencable T_OBJECT_OPERATOR property_name  { $$ = Expr\PropertyFetch[$1, $3]; }
+    | array_object_dereferencable T_OBJECT_OPERATOR property_name
+          { $$ = Expr\PropertyFetch[$1, $3]; }
 ;
 
 simple_variable:

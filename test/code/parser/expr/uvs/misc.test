@@ -5,6 +5,8 @@ Uniform variable syntax in PHP 7 (misc)
 A::A[0];
 A::A[0][1][2];
 A::A{0};
+A->length;
+A->length();
 "string"->length();
 "foo$bar"[0];
 "foo$bar"->length();
@@ -75,6 +77,36 @@ array(
         )
     )
     3: Stmt_Expression(
+        expr: Expr_PropertyFetch(
+            var: Expr_ConstFetch(
+                name: Name(
+                    parts: array(
+                        0: A
+                    )
+                )
+            )
+            name: Identifier(
+                name: length
+            )
+        )
+    )
+    4: Stmt_Expression(
+        expr: Expr_MethodCall(
+            var: Expr_ConstFetch(
+                name: Name(
+                    parts: array(
+                        0: A
+                    )
+                )
+            )
+            name: Identifier(
+                name: length
+            )
+            args: array(
+            )
+        )
+    )
+    5: Stmt_Expression(
         expr: Expr_MethodCall(
             var: Scalar_String(
                 value: string
@@ -86,7 +118,7 @@ array(
             )
         )
     )
-    4: Stmt_Expression(
+    6: Stmt_Expression(
         expr: Expr_ArrayDimFetch(
             var: Scalar_Encapsed(
                 parts: array(
@@ -103,7 +135,7 @@ array(
             )
         )
     )
-    5: Stmt_Expression(
+    7: Stmt_Expression(
         expr: Expr_MethodCall(
             var: Scalar_Encapsed(
                 parts: array(
@@ -122,7 +154,7 @@ array(
             )
         )
     )
-    6: Stmt_Expression(
+    8: Stmt_Expression(
         expr: Expr_FuncCall(
             name: Expr_ArrayDimFetch(
                 var: Expr_PropertyFetch(
@@ -150,7 +182,7 @@ array(
             )
         )
     )
-    7: Stmt_Expression(
+    9: Stmt_Expression(
         expr: Expr_Assign(
             var: Expr_ArrayDimFetch(
                 var: Expr_Array(
