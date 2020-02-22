@@ -16,6 +16,10 @@ A::B->length();
 A::B::C;
 A::B::$c;
 A::B::c();
+
+__FUNCTION__[0];
+__FUNCTION__->length;
+__FUNCIONT__->length();
 -----
 !!php7
 array(
@@ -246,6 +250,40 @@ array(
             )
             name: Identifier(
                 name: c
+            )
+            args: array(
+            )
+        )
+    )
+    13: Stmt_Expression(
+        expr: Expr_ArrayDimFetch(
+            var: Scalar_MagicConst_Function(
+            )
+            dim: Scalar_LNumber(
+                value: 0
+            )
+        )
+    )
+    14: Stmt_Expression(
+        expr: Expr_PropertyFetch(
+            var: Scalar_MagicConst_Function(
+            )
+            name: Identifier(
+                name: length
+            )
+        )
+    )
+    15: Stmt_Expression(
+        expr: Expr_MethodCall(
+            var: Expr_ConstFetch(
+                name: Name(
+                    parts: array(
+                        0: __FUNCIONT__
+                    )
+                )
+            )
+            name: Identifier(
+                name: length
             )
             args: array(
             )

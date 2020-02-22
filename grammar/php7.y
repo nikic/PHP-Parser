@@ -831,6 +831,14 @@ ctor_arguments:
 
 constant:
       name                                                  { $$ = Expr\ConstFetch[$1]; }
+    | T_LINE                                                { $$ = Scalar\MagicConst\Line[]; }
+    | T_FILE                                                { $$ = Scalar\MagicConst\File[]; }
+    | T_DIR                                                 { $$ = Scalar\MagicConst\Dir[]; }
+    | T_CLASS_C                                             { $$ = Scalar\MagicConst\Class_[]; }
+    | T_TRAIT_C                                             { $$ = Scalar\MagicConst\Trait_[]; }
+    | T_METHOD_C                                            { $$ = Scalar\MagicConst\Method[]; }
+    | T_FUNC_C                                              { $$ = Scalar\MagicConst\Function_[]; }
+    | T_NS_C                                                { $$ = Scalar\MagicConst\Namespace_[]; }
 ;
 
 class_constant:
@@ -864,14 +872,6 @@ dereferencable_scalar:
 scalar:
       T_LNUMBER                                             { $$ = $this->parseLNumber($1, attributes()); }
     | T_DNUMBER                                             { $$ = Scalar\DNumber[Scalar\DNumber::parse($1)]; }
-    | T_LINE                                                { $$ = Scalar\MagicConst\Line[]; }
-    | T_FILE                                                { $$ = Scalar\MagicConst\File[]; }
-    | T_DIR                                                 { $$ = Scalar\MagicConst\Dir[]; }
-    | T_CLASS_C                                             { $$ = Scalar\MagicConst\Class_[]; }
-    | T_TRAIT_C                                             { $$ = Scalar\MagicConst\Trait_[]; }
-    | T_METHOD_C                                            { $$ = Scalar\MagicConst\Method[]; }
-    | T_FUNC_C                                              { $$ = Scalar\MagicConst\Function_[]; }
-    | T_NS_C                                                { $$ = Scalar\MagicConst\Namespace_[]; }
     | dereferencable_scalar                                 { $$ = $1; }
     | constant                                              { $$ = $1; }
     | class_constant                                        { $$ = $1; }
