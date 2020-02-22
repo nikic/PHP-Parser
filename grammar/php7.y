@@ -853,6 +853,9 @@ dereferencable_scalar:
     | T_CONSTANT_ENCAPSED_STRING
           { $attrs = attributes(); $attrs['kind'] = strKind($1);
             $$ = new Scalar\String_(Scalar\String_::parse($1), $attrs); }
+    | '"' encaps_list '"'
+          { $attrs = attributes(); $attrs['kind'] = Scalar\String_::KIND_DOUBLE_QUOTED;
+            parseEncapsed($2, '"', true); $$ = new Scalar\Encapsed($2, $attrs); }
 ;
 
 scalar:
@@ -872,9 +875,6 @@ scalar:
           { $$ = $this->parseDocString($1, $2, $3, attributes(), stackAttributes(#3), true); }
     | T_START_HEREDOC T_END_HEREDOC
           { $$ = $this->parseDocString($1, '', $2, attributes(), stackAttributes(#2), true); }
-    | '"' encaps_list '"'
-          { $attrs = attributes(); $attrs['kind'] = Scalar\String_::KIND_DOUBLE_QUOTED;
-            parseEncapsed($2, '"', true); $$ = new Scalar\Encapsed($2, $attrs); }
     | T_START_HEREDOC encaps_list T_END_HEREDOC
           { $$ = $this->parseDocString($1, $2, $3, attributes(), stackAttributes(#3), true); }
 ;
