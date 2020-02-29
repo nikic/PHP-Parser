@@ -399,6 +399,8 @@ abstract class PrettyPrinterAbstract
      *
      * @param Node[] $nodes Array of Nodes to be printed
      *
+     * @psalm-param list<Node> $nodes
+     *
      * @return string Comma separated pretty printed nodes
      */
     protected function pCommaSeparated(array $nodes) : string {

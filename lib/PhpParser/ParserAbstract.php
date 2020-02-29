@@ -53,7 +53,10 @@ abstract class ParserAbstract implements Parser
 
     /** @var int[] Map of lexer tokens to internal symbols */
     protected $tokenToSymbol;
-    /** @var string[] Map of symbols to their names */
+    /**
+     * @var string[] Map of symbols to their names
+     * @psalm-var list<string>
+     */
     protected $symbolToName;
     /** @var array Names of the production rules (only necessary for debugging) */
     protected $productions;
