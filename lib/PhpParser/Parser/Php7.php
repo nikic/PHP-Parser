@@ -2240,7 +2240,7 @@ class Php7 extends \PhpParser\ParserAbstract
                  $this->semValue = $this->parseLNumber($this->semStack[$stackPos-(1-1)], $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
             },
             453 => function ($stackPos) {
-                 $this->semValue = new Scalar\DNumber(Scalar\DNumber::parse($this->semStack[$stackPos-(1-1)]), $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
+                 $this->semValue = $this->parseDNumber($this->semStack[$stackPos-(1-1)], $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
             },
             454 => function ($stackPos) {
                  $this->semValue = $this->semStack[$stackPos-(1-1)];

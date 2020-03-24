@@ -29,16 +29,18 @@ class DNumber extends Scalar
      *
      * Parses a DNUMBER token like PHP would.
      *
-     * @param string $str A string number
-     *
-     * @return float The parsed number
+     * @param string $str           A string number
+     * @param array  $attributes    Additional attributes
      */
-    public static function parse(string $str) : float {
+    public static function fromString(string $str, array $attributes = []) : DNumber {
+        $attributes['original_value'] = $str;
+
         $str = str_replace('_', '', $str);
 
         // if string contains any of .eE just cast it to float
         if (false !== strpbrk($str, '.eE')) {
-            return (float) $str;
+
+            return new DNumber((float) $str, $attributes);
         }
 
         // otherwise it's an integer notation that overflowed into a float
@@ -46,24 +48,26 @@ class DNumber extends Scalar
         if ('0' === $str[0]) {
             // hex
             if ('x' === $str[1] || 'X' === $str[1]) {
-                return hexdec($str);
+                return new DNumber(hexdec($str), $attributes);
             }
 
             // bin
             if ('b' === $str[1] || 'B' === $str[1]) {
-                return bindec($str);
+                return new DNumber(bindec($str), $attributes);
             }
 
             // oct
             // substr($str, 0, strcspn($str, '89')) cuts the string at the first invalid digit (8 or 9)
             // so that only the digits before that are used
-            return octdec(substr($str, 0, strcspn($str, '89')));
+            $octdecValue = octdec(substr($str, 0, strcspn($str, '89')));
+
+            return new DNumber($octdecValue, $attributes);
         }
 
         // dec
-        return (float) $str;
+        return new DNumber((float) $str, $attributes);
     }
-    
+
     public function getType() : string {
         return 'Scalar_DNumber';
     }

@@ -10,6 +10,7 @@ use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\Cast\Double;
 use PhpParser\Node\Name;
 use PhpParser\Node\Param;
+use PhpParser\Node\Scalar\DNumber;
 use PhpParser\Node\Scalar\Encapsed;
 use PhpParser\Node\Scalar\LNumber;
 use PhpParser\Node\Scalar\String_;
@@ -704,6 +705,16 @@ abstract class ParserAbstract implements Parser
             $this->emitError($error);
             // Use dummy value
             return new LNumber(0, $attributes);
+        }
+    }
+
+    protected function parseDNumber($str, $attributes) {
+        try {
+            return DNumber::fromString($str, $attributes);
+        } catch (Error $error) {
+            $this->emitError($error);
+            // Use dummy value
+            return new DNumber(0.0, $attributes);
         }
     }
 

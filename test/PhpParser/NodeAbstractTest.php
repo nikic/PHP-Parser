@@ -244,6 +244,7 @@ PHP;
                     "attributes": {
                         "startLine": 4,
                         "endLine": 4,
+                        "original_value": "0",
                         "kind": 10
                     }
                 },
@@ -270,7 +271,8 @@ PHP;
                     "value": 1,
                     "attributes": {
                         "startLine": 4,
-                        "endLine": 4
+                        "endLine": 4,
+                        "original_value": "1.0"
                     }
                 },
                 "attributes": {
