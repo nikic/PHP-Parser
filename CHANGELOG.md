@@ -1,7 +1,26 @@
-Version 4.3.1-dev
+Version 4.4.1-dev
 -----------------
 
 Nothing yet.
+
+Version 4.4.0 (2020-04-10)
+--------------------------
+
+### Added
+
+* Added support for passing union types in builders.
+* Added end line, token position and file position information for comments.
+* Added `getProperty()` method to `ClassLike` nodes.
+
+### Fixed
+
+* Fixed generation of invalid code when using the formatting preserving pretty printer, and
+  inserting code next to certain nop statements. The formatting is still ugly though.
+* `getDocComment()` no longer requires that the very last comment before a node be a doc comment.
+  There may not be non-doc comments between the doc comment and the declaration.
+* Allowed arbitrary expressions in `isset()` and `list()`, rather than just variables.
+  In particular, this allows `isset(($x))`, which is legal PHP code.
+* [PHP 8.0] Add support for [variable syntax tweaks RFC](https://wiki.php.net/rfc/variable_syntax_tweaks).
 
 Version 4.3.0 (2019-11-08)
 --------------------------
