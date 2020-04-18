@@ -295,7 +295,7 @@ Simple node finding
 
 While the node visitor mechanism is very flexible, creating a node visitor can be overly cumbersome
 for minor tasks. For this reason a `NodeFinder` is provided, which can find AST nodes that either
-satisfy a certain callback, or which are instanced of a certain node type. A couple of examples are
+satisfy a certain callback, or which are instances of a certain node type. A couple of examples are
 shown in the following:
 
 ```php
