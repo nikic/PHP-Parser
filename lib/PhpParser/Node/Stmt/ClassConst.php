@@ -3,6 +3,7 @@
 namespace PhpParser\Node\Stmt;
 
 use PhpParser\Node;
+use PhpParser\Node\Attribute;
 
 class ClassConst extends Node\Stmt
 {
@@ -10,22 +11,31 @@ class ClassConst extends Node\Stmt
     public $flags;
     /** @var Node\Const_[] Constant declarations */
     public $consts;
+    /** @var Attribute[] */
+    public $phpAttributes;
 
     /**
      * Constructs a class const list node.
      *
-     * @param Node\Const_[] $consts     Constant declarations
-     * @param int           $flags      Modifiers
-     * @param array         $attributes Additional attributes
+     * @param Node\Const_[] $consts        Constant declarations
+     * @param int           $flags         Modifiers
+     * @param array         $attributes    Additional attributes
+     * @param Attribute[]   $phpAttributes PHP attributes
      */
-    public function __construct(array $consts, int $flags = 0, array $attributes = []) {
+    public function __construct(
+        array $consts,
+        int $flags = 0,
+        array $attributes = [],
+        array $phpAttributes = []
+    ) {
         $this->attributes = $attributes;
         $this->flags = $flags;
         $this->consts = $consts;
+        $this->phpAttributes = $phpAttributes;
     }
 
     public function getSubNodeNames() : array {
-        return ['flags', 'consts'];
+        return ['phpAttributes', 'flags', 'consts'];
     }
 
     /**
@@ -55,7 +65,7 @@ class ClassConst extends Node\Stmt
     public function isPrivate() : bool {
         return (bool) ($this->flags & Class_::MODIFIER_PRIVATE);
     }
-    
+
     public function getType() : string {
         return 'Stmt_ClassConst';
     }

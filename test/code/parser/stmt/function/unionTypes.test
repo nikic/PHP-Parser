@@ -11,6 +11,8 @@ function test(A|B $a): int|false {}
 !!php7
 array(
     0: Stmt_Class(
+        phpAttributes: array(
+        )
         flags: 0
         name: Identifier(
             name: Test
@@ -20,6 +22,8 @@ array(
         )
         stmts: array(
             0: Stmt_Property(
+                phpAttributes: array(
+                )
                 flags: MODIFIER_PUBLIC (1)
                 type: UnionType(
                     types: array(
@@ -48,12 +52,16 @@ array(
         )
     )
     1: Stmt_Function(
+        phpAttributes: array(
+        )
         byRef: false
         name: Identifier(
             name: test
         )
         params: array(
             0: Param(
+                phpAttributes: array(
+                )
                 flags: 0
                 type: UnionType(
                     types: array(

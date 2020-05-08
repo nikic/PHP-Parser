@@ -5,6 +5,7 @@ namespace PhpParser\Node\Expr;
 use PhpParser\Node;
 use PhpParser\Node\Expr;
 use PhpParser\Node\FunctionLike;
+use PhpParser\Node\Attribute;
 
 class ArrowFunction extends Expr implements FunctionLike
 {
@@ -22,14 +23,17 @@ class ArrowFunction extends Expr implements FunctionLike
 
     /** @var Expr */
     public $expr;
+    /** @var Attribute[] */
+    public $phpAttributes;
 
     /**
      * @param array $subNodes   Array of the following optional subnodes:
-     *                          'static'     => false   : Whether the closure is static
-     *                          'byRef'      => false   : Whether to return by reference
-     *                          'params'     => array() : Parameters
-     *                          'returnType' => null    : Return type
-     *                          'expr'       => Expr    : Expression body
+     *                          'static'        => false   : Whether the closure is static
+     *                          'byRef'         => false   : Whether to return by reference
+     *                          'params'        => array() : Parameters
+     *                          'returnType'    => null    : Return type
+     *                          'expr'          => Expr    : Expression body
+     *                          'phpAttributes' => array(): PHP attributes
      * @param array $attributes Additional attributes
      */
     public function __construct(array $subNodes = [], array $attributes = []) {
@@ -40,10 +44,11 @@ class ArrowFunction extends Expr implements FunctionLike
         $returnType = $subNodes['returnType'] ?? null;
         $this->returnType = \is_string($returnType) ? new Node\Identifier($returnType) : $returnType;
         $this->expr = $subNodes['expr'] ?? null;
+        $this->phpAttributes = $subNodes['phpAttributes'] ?? [];
     }
 
     public function getSubNodeNames() : array {
-        return ['static', 'byRef', 'params', 'returnType', 'expr'];
+        return ['phpAttributes', 'static', 'byRef', 'params', 'returnType', 'expr'];
     }
 
     public function returnsByRef() : bool {
@@ -56,6 +61,10 @@ class ArrowFunction extends Expr implements FunctionLike
 
     public function getReturnType() {
         return $this->returnType;
+    }
+
+    public function getPhpAttributes() : array {
+        return $this->phpAttributes;
     }
 
     /**

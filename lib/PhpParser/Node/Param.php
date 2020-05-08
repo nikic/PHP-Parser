@@ -18,6 +18,8 @@ class Param extends NodeAbstract
     public $default;
     /** @var int */
     public $flags;
+    /** @var Attribute[] PHP attributes */
+    public $phpAttributes;
 
     /**
      * Constructs a parameter node.
@@ -29,11 +31,13 @@ class Param extends NodeAbstract
      * @param bool                                               $variadic   Whether this is a variadic argument
      * @param array                                              $flags      Optional visibility flags
      * @param array                                              $attributes Additional attributes
+     * @param Attribute[]                                        $phpAttributes PHP attributes
      */
     public function __construct(
         $var, Expr $default = null, $type = null,
         bool $byRef = false, bool $variadic = false,
         array $attributes = [],
+        array $phpAttributes = [],
         int $flags = 0
     ) {
         $this->attributes = $attributes;
@@ -43,10 +47,11 @@ class Param extends NodeAbstract
         $this->var = $var;
         $this->default = $default;
         $this->flags = $flags;
+        $this->phpAttributes = $phpAttributes;
     }
 
     public function getSubNodeNames() : array {
-        return ['flags', 'type', 'byRef', 'variadic', 'var', 'default'];
+        return ['phpAttributes', 'flags', 'type', 'byRef', 'variadic', 'var', 'default'];
     }
 
     public function getType() : string {

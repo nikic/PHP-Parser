@@ -9,13 +9,18 @@ fn($x, ...$rest) => $rest;
 fn(): int => $x;
 -----
 !!php7
+Syntax error, unexpected T_FN, expecting T_PAAMAYIM_NEKUDOTAYIM from 4:8 to 4:9
 array(
     0: Stmt_Expression(
         expr: Expr_ArrowFunction(
+            phpAttributes: array(
+            )
             static: false
             byRef: false
             params: array(
                 0: Param(
+                    phpAttributes: array(
+                    )
                     flags: 0
                     type: Identifier(
                         name: bool
@@ -36,10 +41,14 @@ array(
     )
     1: Stmt_Expression(
         expr: Expr_ArrowFunction(
+            phpAttributes: array(
+            )
             static: false
             byRef: false
             params: array(
                 0: Param(
+                    phpAttributes: array(
+                    )
                     flags: 0
                     type: null
                     byRef: false
@@ -60,10 +69,14 @@ array(
     )
     2: Stmt_Expression(
         expr: Expr_ArrowFunction(
-            static: true
+            phpAttributes: array(
+            )
+            static: false
             byRef: false
             params: array(
                 0: Param(
+                    phpAttributes: array(
+                    )
                     flags: 0
                     type: null
                     byRef: true
@@ -82,10 +95,14 @@ array(
     )
     3: Stmt_Expression(
         expr: Expr_ArrowFunction(
+            phpAttributes: array(
+            )
             static: false
             byRef: true
             params: array(
                 0: Param(
+                    phpAttributes: array(
+                    )
                     flags: 0
                     type: null
                     byRef: false
@@ -104,10 +121,14 @@ array(
     )
     4: Stmt_Expression(
         expr: Expr_ArrowFunction(
+            phpAttributes: array(
+            )
             static: false
             byRef: false
             params: array(
                 0: Param(
+                    phpAttributes: array(
+                    )
                     flags: 0
                     type: null
                     byRef: false
@@ -118,6 +139,8 @@ array(
                     default: null
                 )
                 1: Param(
+                    phpAttributes: array(
+                    )
                     flags: 0
                     type: null
                     byRef: false
@@ -136,6 +159,8 @@ array(
     )
     5: Stmt_Expression(
         expr: Expr_ArrowFunction(
+            phpAttributes: array(
+            )
             static: false
             byRef: false
             params: array(

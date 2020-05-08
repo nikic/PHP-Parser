@@ -4,6 +4,7 @@ namespace PhpParser\Node\Stmt;
 
 use PhpParser\Error;
 use PhpParser\Node;
+use PhpParser\Node\Attribute;
 
 class Class_ extends ClassLike
 {
@@ -22,16 +23,19 @@ class Class_ extends ClassLike
     public $extends;
     /** @var Node\Name[] Names of implemented interfaces */
     public $implements;
+    /** @var Attribute[] PHP attributes */
+    public $phpAttributes;
 
     /**
      * Constructs a class node.
      *
      * @param string|Node\Identifier|null $name Name
      * @param array       $subNodes   Array of the following optional subnodes:
-     *                                'flags'      => 0      : Flags
-     *                                'extends'    => null   : Name of extended class
-     *                                'implements' => array(): Names of implemented interfaces
-     *                                'stmts'      => array(): Statements
+     *                                'flags'         => 0      : Flags
+     *                                'extends'       => null   : Name of extended class
+     *                                'implements'    => array(): Names of implemented interfaces
+     *                                'stmts'         => array(): Statements
+     *                                'phpAttributes' => array(): PHP attributes
      * @param array       $attributes Additional attributes
      */
     public function __construct($name, array $subNodes = [], array $attributes = []) {
@@ -41,10 +45,11 @@ class Class_ extends ClassLike
         $this->extends = $subNodes['extends'] ?? null;
         $this->implements = $subNodes['implements'] ?? [];
         $this->stmts = $subNodes['stmts'] ?? [];
+        $this->phpAttributes = $subNodes['phpAttributes'] ?? [];
     }
 
     public function getSubNodeNames() : array {
-        return ['flags', 'name', 'extends', 'implements', 'stmts'];
+        return ['phpAttributes', 'flags', 'name', 'extends', 'implements', 'stmts'];
     }
 
     /**

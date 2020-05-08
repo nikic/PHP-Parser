@@ -14,8 +14,9 @@ class Interface_ extends ClassLike
      *
      * @param string|Node\Identifier $name Name
      * @param array  $subNodes   Array of the following optional subnodes:
-     *                           'extends' => array(): Name of extended interfaces
-     *                           'stmts'   => array(): Statements
+     *                           'extends'       => array(): Name of extended interfaces
+     *                           'stmts'         => array(): Statements
+     *                           'phpAttributes' => array(): PHP attributes
      * @param array  $attributes Additional attributes
      */
     public function __construct($name, array $subNodes = [], array $attributes = []) {
@@ -23,10 +24,11 @@ class Interface_ extends ClassLike
         $this->name = \is_string($name) ? new Node\Identifier($name) : $name;
         $this->extends = $subNodes['extends'] ?? [];
         $this->stmts = $subNodes['stmts'] ?? [];
+        $this->phpAttributes = $subNodes['phpAttributes'] ?? [];
     }
 
     public function getSubNodeNames() : array {
-        return ['name', 'extends', 'stmts'];
+        return ['phpAttributes', 'name', 'extends', 'stmts'];
     }
 
     public function getType() : string {

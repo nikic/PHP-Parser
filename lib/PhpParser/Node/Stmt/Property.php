@@ -3,6 +3,7 @@
 namespace PhpParser\Node\Stmt;
 
 use PhpParser\Node;
+use PhpParser\Node\Attribute;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Name;
 use PhpParser\Node\NullableType;
@@ -16,24 +17,28 @@ class Property extends Node\Stmt
     public $props;
     /** @var null|Identifier|Name|NullableType|UnionType Type declaration */
     public $type;
+    /** @var Attribute[] PHP attributes */
+    public $phpAttributes;
 
     /**
      * Constructs a class property list node.
      *
-     * @param int                                                $flags      Modifiers
-     * @param PropertyProperty[]                                 $props      Properties
-     * @param array                                              $attributes Additional attributes
-     * @param null|string|Identifier|Name|NullableType|UnionType $type       Type declaration
+     * @param int                                                $flags         Modifiers
+     * @param PropertyProperty[]                                 $props         Properties
+     * @param array                                              $attributes    Additional attributes
+     * @param null|string|Identifier|Name|NullableType|UnionType $type          Type declaration
+     * @param Attribute[]                                        $phpAttributes PHP attributes
      */
-    public function __construct(int $flags, array $props, array $attributes = [], $type = null) {
+    public function __construct(int $flags, array $props, array $attributes = [], $type = null, array $phpAttributes = []) {
         $this->attributes = $attributes;
         $this->flags = $flags;
         $this->props = $props;
         $this->type = \is_string($type) ? new Identifier($type) : $type;
+        $this->phpAttributes = $phpAttributes;
     }
 
     public function getSubNodeNames() : array {
-        return ['flags', 'type', 'props'];
+        return ['phpAttributes', 'flags', 'type', 'props'];
     }
 
     /**

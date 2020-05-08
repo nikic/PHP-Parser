@@ -17,6 +17,8 @@ function gen() {
 !!php7
 array(
     0: Stmt_Function(
+        phpAttributes: array(
+        )
         byRef: false
         name: Identifier(
             name: gen

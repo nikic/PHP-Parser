@@ -17,6 +17,8 @@ array(
         )
         stmts: array(
             0: Stmt_Function(
+                phpAttributes: array(
+                )
                 byRef: false
                 name: Identifier(
                     name: A

@@ -165,13 +165,8 @@ namespace Baz {
 }
 EOC;
 
-        $parser        = new PhpParser\Parser\Php7(new PhpParser\Lexer\Emulative);
         $prettyPrinter = new PhpParser\PrettyPrinter\Standard;
-        $traverser     = new PhpParser\NodeTraverser;
-        $traverser->addVisitor(new NameResolver);
-
-        $stmts = $parser->parse($code);
-        $stmts = $traverser->traverse($stmts);
+        $stmts = $this->parseCodeAndTraverse($code);
 
         $this->assertSame(
             $this->canonicalize($expectedCode),
@@ -287,13 +282,8 @@ try {
 }
 EOC;
 
-        $parser        = new PhpParser\Parser\Php7(new PhpParser\Lexer\Emulative);
         $prettyPrinter = new PhpParser\PrettyPrinter\Standard;
-        $traverser     = new PhpParser\NodeTraverser;
-        $traverser->addVisitor(new NameResolver);
-
-        $stmts = $parser->parse($code);
-        $stmts = $traverser->traverse($stmts);
+        $stmts = $this->parseCodeAndTraverse($code);
 
         $this->assertSame(
             $this->canonicalize($expectedCode),
@@ -308,6 +298,37 @@ EOC;
         $traverser->addVisitor(new NameResolver);
 
         $this->assertEquals($stmts, $traverser->traverse($stmts));
+    }
+
+    /**
+     * @covers \PhpParser\NodeVisitor\NameResolver
+     */
+    public function testResolveAttributes() {
+        $code = <<<'EOC'
+<?php
+namespace A;
+
+<<B>>
+function someFunction()
+{
+}
+EOC;
+        $expectedCode = <<<'EOC'
+namespace A;
+
+<<\A\B>>
+function someFunction()
+{
+}
+EOC;
+
+        $prettyPrinter = new PhpParser\PrettyPrinter\Standard;
+        $stmts = $this->parseCodeAndTraverse($code);
+
+        $this->assertSame(
+            $this->canonicalize($expectedCode),
+            $prettyPrinter->prettyPrint($stmts)
+        );
     }
 
     public function testAddDeclarationNamespacedName() {
@@ -511,5 +532,15 @@ EOC;
         $this->assertFalse($n2->hasAttribute('resolvedName'));
         $this->assertEquals(
             new Name\FullyQualified('Foo\bar'), $n2->getAttribute('namespacedName'));
+    }
+
+    private function parseCodeAndTraverse(string $code): array
+    {
+        $parser = new PhpParser\Parser\Php7(new PhpParser\Lexer\Emulative);
+        $traverser = new PhpParser\NodeTraverser;
+        $traverser->addVisitor(new NameResolver);
+
+        $stmts = $parser->parse($code);
+        return $traverser->traverse($stmts);
     }
 }

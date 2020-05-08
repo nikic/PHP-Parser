@@ -1,0 +1,33 @@
+Attributes
+-----
+<?php
+
+<<Deprecated>>
+function a() {
+}
+-----
+!!php7
+array(
+    0: Stmt_Function(
+        phpAttributes: array(
+            0: Attribute(
+                name: Name(
+                    parts: array(
+                        0: Deprecated
+                    )
+                )
+                args: array(
+                )
+            )
+        )
+        byRef: false
+        name: Identifier(
+            name: a
+        )
+        params: array(
+        )
+        returnType: null
+        stmts: array(
+        )
+    )
+)

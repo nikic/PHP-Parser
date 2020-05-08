@@ -139,6 +139,8 @@ class NameResolver extends NodeVisitorAbstract
             }
         }
 
+        $this->resolveAttributesName($node);
+
         return null;
     }
 
@@ -224,5 +226,24 @@ class NameResolver extends NodeVisitorAbstract
     protected function addNamespacedName(Node $node) {
         $node->namespacedName = Name::concat(
             $this->nameContext->getNamespace(), (string) $node->name);
+    }
+
+    protected function resolveAttributesName(Node $node)
+    {
+        if (! $node instanceof Stmt\Function_
+            && ! $node instanceof Expr\Closure
+            && ! $node instanceof Stmt\ClassMethod
+            && ! $node instanceof Expr\ArrowFunction
+            && ! $node instanceof Stmt\Property
+            && ! $node instanceof Stmt\ClassConst
+            && ! $node instanceof Stmt\Class_
+            && ! $node instanceof Node\Param
+        ) {
+            return;
+        }
+
+        foreach ($node->phpAttributes as $phpAttribute) {
+            $phpAttribute->name = $this->resolveClassName($phpAttribute->name);
+        }
     }
 }

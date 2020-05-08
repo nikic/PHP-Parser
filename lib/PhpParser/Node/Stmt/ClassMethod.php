@@ -3,6 +3,7 @@
 namespace PhpParser\Node\Stmt;
 
 use PhpParser\Node;
+use PhpParser\Node\Attribute;
 use PhpParser\Node\FunctionLike;
 
 class ClassMethod extends Node\Stmt implements FunctionLike
@@ -19,6 +20,8 @@ class ClassMethod extends Node\Stmt implements FunctionLike
     public $returnType;
     /** @var Node\Stmt[]|null Statements */
     public $stmts;
+    /** @var Attribute[] PHP attributes */
+    public $phpAttributes;
 
     private static $magicNames = [
         '__construct'  => true,
@@ -43,11 +46,12 @@ class ClassMethod extends Node\Stmt implements FunctionLike
      *
      * @param string|Node\Identifier $name Name
      * @param array $subNodes   Array of the following optional subnodes:
-     *                          'flags       => MODIFIER_PUBLIC: Flags
-     *                          'byRef'      => false          : Whether to return by reference
-     *                          'params'     => array()        : Parameters
-     *                          'returnType' => null           : Return type
-     *                          'stmts'      => array()        : Statements
+     *                          'flags          => MODIFIER_PUBLIC: Flags
+     *                          'byRef'         => false          : Whether to return by reference
+     *                          'params'        => array()        : Parameters
+     *                          'returnType'    => null           : Return type
+     *                          'stmts'         => array()        : Statements
+     *                          'phpAttributes' => array()        : PHP attributes
      * @param array $attributes Additional attributes
      */
     public function __construct($name, array $subNodes = [], array $attributes = []) {
@@ -59,10 +63,11 @@ class ClassMethod extends Node\Stmt implements FunctionLike
         $returnType = $subNodes['returnType'] ?? null;
         $this->returnType = \is_string($returnType) ? new Node\Identifier($returnType) : $returnType;
         $this->stmts = array_key_exists('stmts', $subNodes) ? $subNodes['stmts'] : [];
+        $this->phpAttributes = $subNodes['phpAttributes'] ?? [];
     }
 
     public function getSubNodeNames() : array {
-        return ['flags', 'byRef', 'name', 'params', 'returnType', 'stmts'];
+        return ['phpAttributes', 'flags', 'byRef', 'name', 'params', 'returnType', 'stmts'];
     }
 
     public function returnsByRef() : bool {
@@ -79,6 +84,10 @@ class ClassMethod extends Node\Stmt implements FunctionLike
 
     public function getStmts() {
         return $this->stmts;
+    }
+
+    public function getPhpAttributes() : array {
+        return $this->phpAttributes;
     }
 
     /**
@@ -120,7 +129,7 @@ class ClassMethod extends Node\Stmt implements FunctionLike
 
     /**
      * Whether the method is final.
-     * 
+     *
      * @return bool
      */
     public function isFinal() : bool {
@@ -144,7 +153,7 @@ class ClassMethod extends Node\Stmt implements FunctionLike
     public function isMagic() : bool {
         return isset(self::$magicNames[$this->name->toLowerString()]);
     }
-    
+
     public function getType() : string {
         return 'Stmt_ClassMethod';
     }
