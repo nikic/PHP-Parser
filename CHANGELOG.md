@@ -1,7 +1,9 @@
 Version 4.4.1-dev
 -----------------
 
-Nothing yet.
+### Added
+
+* Added support for the mixed type
 
 Version 4.4.0 (2020-04-10)
 --------------------------
