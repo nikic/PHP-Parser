@@ -113,6 +113,7 @@ class ParamTest extends \PHPUnit\Framework\TestCase
             ['object', new Node\Identifier('object')],
             ['Array', new Node\Identifier('array')],
             ['CALLABLE', new Node\Identifier('callable')],
+            ['mixed', new Node\Identifier('mixed')],
             ['Some\Class', new Node\Name('Some\Class')],
             ['\Foo', new Node\Name\FullyQualified('Foo')],
             ['self', new Node\Name('self')],

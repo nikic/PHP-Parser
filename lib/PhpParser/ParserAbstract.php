@@ -648,7 +648,7 @@ abstract class ParserAbstract implements Parser
     }
 
     protected function handleBuiltinTypes(Name $name) {
-        $scalarTypes = [
+        $builtinTypes = [
             'bool'     => true,
             'int'      => true,
             'float'    => true,
@@ -658,6 +658,7 @@ abstract class ParserAbstract implements Parser
             'object'   => true,
             'null'     => true,
             'false'    => true,
+            'mixed'    => true,
         ];
 
         if (!$name->isUnqualified()) {
@@ -665,7 +666,7 @@ abstract class ParserAbstract implements Parser
         }
 
         $lowerName = $name->toLowerString();
-        if (!isset($scalarTypes[$lowerName])) {
+        if (!isset($builtinTypes[$lowerName])) {
             return $name;
         }
 
