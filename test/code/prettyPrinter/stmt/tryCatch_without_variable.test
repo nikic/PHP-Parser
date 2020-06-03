@@ -1,0 +1,17 @@
+tryCatch without variable
+-----
+<?php
+
+try {
+
+} catch (Exception) {
+
+} finally {
+
+}
+-----
+!!php7
+try {
+} catch (Exception) {
+} finally {
+}

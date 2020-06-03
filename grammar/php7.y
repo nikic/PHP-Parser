@@ -269,7 +269,7 @@ name_union:
 ;
 
 catch:
-    T_CATCH '(' name_union plain_variable ')' '{' inner_statement_list '}'
+    T_CATCH '(' name_union optional_plain_variable ')' '{' inner_statement_list '}'
         { $$ = Stmt\Catch_[$3, $4, $7]; }
 ;
 
@@ -914,6 +914,11 @@ callable_variable:
     | function_call                                         { $$ = $1; }
     | array_object_dereferencable T_OBJECT_OPERATOR property_name argument_list
           { $$ = Expr\MethodCall[$1, $3, $4]; }
+;
+
+optional_plain_variable:
+      /* empty */                                           { $$ = null; }
+    | plain_variable                                        { $$ = $1; }
 ;
 
 variable:

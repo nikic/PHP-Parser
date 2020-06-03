@@ -1,0 +1,32 @@
+Try/Catch without variable
+-----
+<?php
+
+try {
+
+} catch (Exception) {
+
+}
+-----
+!!php7
+array(
+    0: Stmt_TryCatch(
+        stmts: array(
+        )
+        catches: array(
+            0: Stmt_Catch(
+                types: array(
+                    0: Name(
+                        parts: array(
+                            0: Exception
+                        )
+                    )
+                )
+                var: null
+                stmts: array(
+                )
+            )
+        )
+        finally: null
+    )
+)
