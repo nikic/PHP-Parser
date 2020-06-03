@@ -1,9 +1,17 @@
-Version 4.4.1-dev
+Version 4.5.1-dev
 -----------------
+
+Nothing yet.
+
+Version 4.5.0 (2020-06-03)
+--------------------------
 
 ### Added
 
-* Added support for the mixed type
+* [PHP 8.0] Added support for the mixed type. This means `mixed` types are now parsed as an
+  `Identifier` rather than a `Name`.
+* [PHP 8.0] Added support for catching without capturing the exception. This means that
+  `Catch_::$var` may now be null.
 
 Version 4.4.0 (2020-04-10)
 --------------------------
