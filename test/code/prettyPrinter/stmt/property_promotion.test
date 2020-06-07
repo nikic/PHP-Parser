@@ -2,7 +2,8 @@ Property promotion
 -----
 <?php
 
-class Point {
+class Point
+{
     public function __construct(
         public float $x = 0.0,
 
