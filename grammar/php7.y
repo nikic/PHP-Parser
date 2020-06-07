@@ -449,13 +449,22 @@ non_empty_parameter_list:
     | non_empty_parameter_list ',' parameter                { push($1, $3); }
 ;
 
+optional_visibility_modifier:
+      /* empty */               { $$ = 0; }
+    | T_PUBLIC                  { $$ = Stmt\Class_::MODIFIER_PUBLIC; }
+    | T_PROTECTED               { $$ = Stmt\Class_::MODIFIER_PROTECTED; }
+    | T_PRIVATE                 { $$ = Stmt\Class_::MODIFIER_PRIVATE; }
+;
+
 parameter:
-      optional_type optional_ref optional_ellipsis plain_variable
-          { $$ = Node\Param[$4, null, $1, $2, $3]; $this->checkParam($$); }
-    | optional_type optional_ref optional_ellipsis plain_variable '=' expr
-          { $$ = Node\Param[$4, $6, $1, $2, $3]; $this->checkParam($$); }
-    | optional_type optional_ref optional_ellipsis error
-          { $$ = Node\Param[Expr\Error[], null, $1, $2, $3]; }
+      optional_visibility_modifier optional_type optional_ref optional_ellipsis plain_variable
+          { $$ = new Node\Param($5, null, $2, $3, $4, attributes(), $1);
+            $this->checkParam($$); }
+    | optional_visibility_modifier optional_type optional_ref optional_ellipsis plain_variable '=' expr
+          { $$ = new Node\Param($5, $7, $2, $3, $4, attributes(), $1);
+            $this->checkParam($$); }
+    | optional_visibility_modifier optional_type optional_ref optional_ellipsis error
+          { $$ = new Node\Param(Expr\Error[], null, $2, $3, $4, attributes(), $1); }
 ;
 
 type_expr:

@@ -1,0 +1,81 @@
+Property promotion
+-----
+<?php
+
+class Point {
+    public function __construct(
+        public float $x = 0.0,
+        protected array $y = [],
+        private string $z = 'hello'
+    ) {}
+}
+-----
+!!php7
+array(
+    0: Stmt_Class(
+        flags: 0
+        name: Identifier(
+            name: Point
+        )
+        extends: null
+        implements: array(
+        )
+        stmts: array(
+            0: Stmt_ClassMethod(
+                flags: MODIFIER_PUBLIC (1)
+                byRef: false
+                name: Identifier(
+                    name: __construct
+                )
+                params: array(
+                    0: Param(
+                        flags: MODIFIER_PUBLIC (1)
+                        type: Identifier(
+                            name: float
+                        )
+                        byRef: false
+                        variadic: false
+                        var: Expr_Variable(
+                            name: x
+                        )
+                        default: Scalar_DNumber(
+                            value: 0
+                        )
+                    )
+                    1: Param(
+                        flags: MODIFIER_PROTECTED (2)
+                        type: Identifier(
+                            name: array
+                        )
+                        byRef: false
+                        variadic: false
+                        var: Expr_Variable(
+                            name: y
+                        )
+                        default: Expr_Array(
+                            items: array(
+                            )
+                        )
+                    )
+                    2: Param(
+                        flags: MODIFIER_PRIVATE (4)
+                        type: Identifier(
+                            name: string
+                        )
+                        byRef: false
+                        variadic: false
+                        var: Expr_Variable(
+                            name: z
+                        )
+                        default: Scalar_String(
+                            value: hello
+                        )
+                    )
+                )
+                returnType: null
+                stmts: array(
+                )
+            )
+        )
+    )
+)

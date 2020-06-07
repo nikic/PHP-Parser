@@ -18,7 +18,8 @@ class Standard extends PrettyPrinterAbstract
     // Special nodes
 
     protected function pParam(Node\Param $node) {
-        return ($node->type ? $this->p($node->type) . ' ' : '')
+        return ($this->pModifiers($node->flags))
+             . ($node->type ? $this->p($node->type) . ' ' : '')
              . ($node->byRef ? '&' : '')
              . ($node->variadic ? '...' : '')
              . $this->p($node->var)
@@ -725,7 +726,7 @@ class Standard extends PrettyPrinterAbstract
     protected function pStmt_ClassMethod(Stmt\ClassMethod $node) {
         return $this->pModifiers($node->flags)
              . 'function ' . ($node->byRef ? '&' : '') . $node->name
-             . '(' . $this->pCommaSeparated($node->params) . ')'
+             . '(' . $this->pMaybeMultiline($node->params) . ')'
              . (null !== $node->returnType ? ' : ' . $this->p($node->returnType) : '')
              . (null !== $node->stmts
                 ? $this->nl . '{' . $this->pStmts($node->stmts) . $this->nl . '}'

@@ -31,3 +31,27 @@ class Bar {
     public final function
     foo() {}
 }
+-----
+<?php
+function test(
+    public T1 $x
+        = 'y',
+    private T2 $y
+        = 'z',
+    T3 $z
+        = 'x',
+) {}
+-----
+$stmts[0]->params[0]->flags = Stmt\Class_::MODIFIER_PRIVATE;
+$stmts[0]->params[1]->flags = 0;
+$stmts[0]->params[2]->flags = Stmt\Class_::MODIFIER_PUBLIC;
+-----
+<?php
+function test(
+    private T1 $x
+        = 'y',
+    T2 $y
+        = 'z',
+    public T3 $z
+        = 'x',
+) {}

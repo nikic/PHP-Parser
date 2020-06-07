@@ -2,7 +2,10 @@ Closures
 -----
 <?php
 
-$closureWithArgs = function ($arg1, $arg2) {
+$closureWithArgs = function (
+    $arg1,
+    $arg2
+) {
     $comment = 'closure body';
 };
 

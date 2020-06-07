@@ -875,6 +875,7 @@ array(
             byRef: false
             params: array(
                 0: Param(
+                    flags: 0
                     type: null
                     byRef: false
                     variadic: false
@@ -1052,6 +1053,7 @@ array(
         )
         params: array(
             0: Param(
+                flags: 0
                 type: Name(
                     parts: array(
                         0: Type
@@ -1080,6 +1082,7 @@ array(
         )
         params: array(
             0: Param(
+                flags: 0
                 type: Name(
                     parts: array(
                         0: Type1
@@ -1093,6 +1096,7 @@ array(
                 default: null
             )
             1: Param(
+                flags: 0
                 type: Name(
                     parts: array(
                         0: Type2
@@ -1121,6 +1125,7 @@ array(
         )
         params: array(
             0: Param(
+                flags: 0
                 type: null
                 byRef: false
                 variadic: true
@@ -1145,6 +1150,7 @@ array(
         )
         params: array(
             0: Param(
+                flags: 0
                 type: null
                 byRef: true
                 variadic: false
@@ -1169,6 +1175,7 @@ array(
         )
         params: array(
             0: Param(
+                flags: 0
                 type: Name(
                     parts: array(
                         0: Bar
@@ -1202,6 +1209,7 @@ array(
                 )
                 params: array(
                     0: Param(
+                        flags: 0
                         type: Name(
                             parts: array(
                                 0: Baz
@@ -1226,6 +1234,7 @@ array(
             byRef: false
             params: array(
                 0: Param(
+                    flags: 0
                     type: Name(
                         parts: array(
                             0: Foo

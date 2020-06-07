@@ -1,0 +1,49 @@
+Property promotion
+-----
+<?php
+
+class Point
+{
+    public function __construct(
+        public float $x = 0.0,
+        protected array $y = [],
+        private string $z = 'hello',
+    ) {
+    }
+}
+-----
+!!php7
+class Point
+{
+    public function __construct(public float $x = 0.0, protected array $y = [], private string $z = 'hello')
+    {
+    }
+}
+-----
+<?php
+class Test
+{
+    public $z;
+    public function __construct(
+        public int $x,
+        /** @SomeAnnotation() */
+        public string $y = "123",
+        string $z = "abc"
+    )
+    {
+    }
+}
+-----
+!!php7
+class Test
+{
+    public $z;
+    public function __construct(
+        public int $x,
+        /** @SomeAnnotation() */
+        public string $y = "123",
+        string $z = "abc"
+    )
+    {
+    }
+}

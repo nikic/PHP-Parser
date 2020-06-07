@@ -12,6 +12,7 @@ array(
         )
         params: array(
             0: Param(
+                flags: 0
                 type: Identifier(
                     name: bool
                 )
@@ -23,6 +24,7 @@ array(
                 default: null
             )
             1: Param(
+                flags: 0
                 type: Identifier(
                     name: int
                 )
@@ -34,6 +36,7 @@ array(
                 default: null
             )
             2: Param(
+                flags: 0
                 type: Identifier(
                     name: float
                 )
@@ -45,6 +48,7 @@ array(
                 default: null
             )
             3: Param(
+                flags: 0
                 type: Identifier(
                     name: string
                 )
@@ -56,6 +60,7 @@ array(
                 default: null
             )
             4: Param(
+                flags: 0
                 type: Identifier(
                     name: iterable
                 )
@@ -67,6 +72,7 @@ array(
                 default: null
             )
             5: Param(
+                flags: 0
                 type: Identifier(
                     name: object
                 )
@@ -78,6 +84,7 @@ array(
                 default: null
             )
             6: Param(
+                flags: 0
                 type: Identifier(
                     name: mixed
                 )

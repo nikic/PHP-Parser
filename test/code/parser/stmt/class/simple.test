@@ -127,6 +127,7 @@ array(
                 )
                 params: array(
                     0: Param(
+                        flags: 0
                         type: null
                         byRef: false
                         variadic: false

@@ -12,6 +12,7 @@ array(
         )
         params: array(
             0: Param(
+                flags: 0
                 type: null
                 byRef: false
                 variadic: false
@@ -21,6 +22,7 @@ array(
                 default: null
             )
             1: Param(
+                flags: 0
                 type: Identifier(
                     name: array
                 )
@@ -32,6 +34,7 @@ array(
                 default: null
             )
             2: Param(
+                flags: 0
                 type: Identifier(
                     name: callable
                 )
@@ -43,6 +46,7 @@ array(
                 default: null
             )
             3: Param(
+                flags: 0
                 type: Name(
                     parts: array(
                         0: E

@@ -1415,6 +1415,7 @@ abstract class PrettyPrinterAbstract
             'Stmt_ClassMethod->flags' => \T_FUNCTION,
             'Stmt_Class->flags' => \T_CLASS,
             'Stmt_Property->flags' => \T_VARIABLE,
+            'Param->flags' => \T_VARIABLE,
             //'Stmt_TraitUseAdaptation_Alias->newModifier' => 0, // TODO
         ];
 
