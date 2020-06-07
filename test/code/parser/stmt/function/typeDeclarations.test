@@ -19,6 +19,7 @@ array(
                     name: b
                 )
                 default: null
+                flags: 0
             )
             1: Param(
                 type: Identifier(
@@ -30,6 +31,7 @@ array(
                     name: c
                 )
                 default: null
+                flags: 0
             )
             2: Param(
                 type: Identifier(
@@ -41,6 +43,7 @@ array(
                     name: d
                 )
                 default: null
+                flags: 0
             )
             3: Param(
                 type: Name(
@@ -54,6 +57,7 @@ array(
                     name: f
                 )
                 default: null
+                flags: 0
             )
         )
         returnType: null

@@ -25,6 +25,7 @@ array(
                         name: a
                     )
                     default: null
+                    flags: 0
                 )
             )
             returnType: null
@@ -48,6 +49,7 @@ array(
                     default: Scalar_LNumber(
                         value: 42
                     )
+                    flags: 0
                 )
             )
             returnType: null
@@ -69,6 +71,7 @@ array(
                         name: x
                     )
                     default: null
+                    flags: 0
                 )
             )
             returnType: null
@@ -90,6 +93,7 @@ array(
                         name: x
                     )
                     default: null
+                    flags: 0
                 )
             )
             returnType: null
@@ -111,6 +115,7 @@ array(
                         name: x
                     )
                     default: null
+                    flags: 0
                 )
                 1: Param(
                     type: null
@@ -120,6 +125,7 @@ array(
                         name: rest
                     )
                     default: null
+                    flags: 0
                 )
             )
             returnType: null

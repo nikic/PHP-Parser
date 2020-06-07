@@ -882,6 +882,7 @@ array(
                         name: a
                     )
                     default: null
+                    flags: 0
                 )
             )
             uses: array(
@@ -1062,6 +1063,7 @@ array(
                 var: Expr_Error(
                 )
                 default: null
+                flags: 0
             )
         )
         returnType: null
@@ -1091,6 +1093,7 @@ array(
                     name: foo
                 )
                 default: null
+                flags: 0
             )
             1: Param(
                 type: Name(
@@ -1103,6 +1106,7 @@ array(
                 var: Expr_Error(
                 )
                 default: null
+                flags: 0
             )
         )
         returnType: null
@@ -1127,6 +1131,7 @@ array(
                 var: Expr_Error(
                 )
                 default: null
+                flags: 0
             )
         )
         returnType: null
@@ -1151,6 +1156,7 @@ array(
                 var: Expr_Error(
                 )
                 default: null
+                flags: 0
             )
         )
         returnType: null
@@ -1179,6 +1185,7 @@ array(
                 var: Expr_Error(
                 )
                 default: null
+                flags: 0
             )
         )
         returnType: null
@@ -1212,6 +1219,7 @@ array(
                         var: Expr_Error(
                         )
                         default: null
+                        flags: 0
                     )
                 )
                 returnType: null
@@ -1236,6 +1244,7 @@ array(
                     var: Expr_Error(
                     )
                     default: null
+                    flags: 0
                 )
             )
             uses: array(

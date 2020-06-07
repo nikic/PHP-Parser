@@ -21,6 +21,7 @@ array(
                     name: a
                 )
                 default: null
+                flags: 0
             )
             1: Param(
                 type: null
@@ -30,6 +31,7 @@ array(
                     name: b
                 )
                 default: null
+                flags: 0
             )
         )
         returnType: null
@@ -50,6 +52,7 @@ array(
                     name: a
                 )
                 default: null
+                flags: 0
             )
             1: Param(
                 type: null
@@ -59,6 +62,7 @@ array(
                     name: b
                 )
                 default: null
+                flags: 0
             )
         )
         returnType: null
@@ -79,6 +83,7 @@ array(
                     name: a
                 )
                 default: null
+                flags: 0
             )
             1: Param(
                 type: Name(
@@ -92,6 +97,7 @@ array(
                     name: b
                 )
                 default: null
+                flags: 0
             )
         )
         returnType: null
@@ -112,6 +118,7 @@ array(
                     name: a
                 )
                 default: null
+                flags: 0
             )
             1: Param(
                 type: Name(
@@ -125,6 +132,7 @@ array(
                     name: b
                 )
                 default: null
+                flags: 0
             )
         )
         returnType: null

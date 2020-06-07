@@ -21,6 +21,7 @@ array(
                     name: bar
                 )
                 default: null
+                flags: 0
             )
         )
         returnType: null
@@ -64,6 +65,7 @@ array(
                             name: name
                         )
                         default: null
+                        flags: 0
                     )
                     1: Param(
                         type: null
@@ -73,6 +75,7 @@ array(
                             name: value
                         )
                         default: null
+                        flags: 0
                     )
                 )
                 returnType: null
@@ -101,6 +104,7 @@ array(
                         name: foo
                     )
                     default: null
+                    flags: 0
                 )
             )
             returnType: null

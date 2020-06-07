@@ -247,6 +247,7 @@ PHP;
                         "kind": 10
                     }
                 },
+                "flags": 0,
                 "attributes": {
                     "startLine": 4,
                     "endLine": 4
@@ -273,6 +274,7 @@ PHP;
                         "endLine": 4
                     }
                 },
+                "flags": 0,
                 "attributes": {
                     "startLine": 4,
                     "endLine": 4

@@ -134,6 +134,7 @@ array(
                             name: a
                         )
                         default: null
+                        flags: 0
                     )
                 )
                 returnType: null

@@ -27,6 +27,7 @@ array(
                     name: bar
                 )
                 default: null
+                flags: 0
             )
             1: Param(
                 type: NullableType(
@@ -40,6 +41,7 @@ array(
                     name: foo
                 )
                 default: null
+                flags: 0
             )
         )
         returnType: NullableType(

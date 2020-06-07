@@ -22,6 +22,7 @@ array(
                     items: array(
                     )
                 )
+                flags: 0
             )
         )
         returnType: null

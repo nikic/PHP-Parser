@@ -18,7 +18,8 @@ class Standard extends PrettyPrinterAbstract
     // Special nodes
 
     protected function pParam(Node\Param $node) {
-        return ($node->type ? $this->p($node->type) . ' ' : '')
+        return ($this->pModifiers($node->flags))
+             . ($node->type ? $this->p($node->type) . ' ' : '')
              . ($node->byRef ? '&' : '')
              . ($node->variadic ? '...' : '')
              . $this->p($node->var)
