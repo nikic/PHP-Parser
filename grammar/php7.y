@@ -440,7 +440,7 @@ foreach_variable:
 ;
 
 parameter_list:
-      non_empty_parameter_list no_comma                     { $$ = $1; }
+      non_empty_parameter_list optional_comma               { $$ = $1; }
     | /* empty */                                           { $$ = array(); }
 ;
 

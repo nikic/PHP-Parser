@@ -1,0 +1,112 @@
+Trailing comma in parameter list
+-----
+<?php
+
+function foo($bar, ) {
+}
+-----
+!!php7
+array(
+    0: Stmt_Function(
+        byRef: false
+        name: Identifier(
+            name: foo
+        )
+        params: array(
+            0: Param(
+                type: null
+                byRef: false
+                variadic: false
+                var: Expr_Variable(
+                    name: bar
+                )
+                default: null
+            )
+        )
+        returnType: null
+        stmts: array(
+        )
+    )
+)
+-----
+<?php
+
+class Foo
+{
+    function __construct($name, $value, )
+    {
+    }
+}
+-----
+!!php7
+array(
+    0: Stmt_Class(
+        flags: 0
+        name: Identifier(
+            name: Foo
+        )
+        extends: null
+        implements: array(
+        )
+        stmts: array(
+            0: Stmt_ClassMethod(
+                flags: 0
+                byRef: false
+                name: Identifier(
+                    name: __construct
+                )
+                params: array(
+                    0: Param(
+                        type: null
+                        byRef: false
+                        variadic: false
+                        var: Expr_Variable(
+                            name: name
+                        )
+                        default: null
+                    )
+                    1: Param(
+                        type: null
+                        byRef: false
+                        variadic: false
+                        var: Expr_Variable(
+                            name: value
+                        )
+                        default: null
+                    )
+                )
+                returnType: null
+                stmts: array(
+                )
+            )
+        )
+    )
+)
+-----
+<?php
+fn($foo, ) => $bar;
+-----
+!!php7
+array(
+    0: Stmt_Expression(
+        expr: Expr_ArrowFunction(
+            static: false
+            byRef: false
+            params: array(
+                0: Param(
+                    type: null
+                    byRef: false
+                    variadic: false
+                    var: Expr_Variable(
+                        name: foo
+                    )
+                    default: null
+                )
+            )
+            returnType: null
+            expr: Expr_Variable(
+                name: bar
+            )
+        )
+    )
+)
