@@ -18,7 +18,8 @@
     },
     "require-dev": {
         "phpunit/phpunit": "^6.5 || ^7.0 || ^8.0",
-        "ircmaxell/php-yacc": "0.0.5"
+        "ircmaxell/php-yacc": "0.0.5",
+        "theseer/autoload": "^1.25"
     },
     "extra": {
         "branch-alias": {
