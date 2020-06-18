@@ -16,6 +16,7 @@ array(
             byRef: false
             params: array(
                 0: Param(
+                    flags: 0
                     type: null
                     byRef: false
                     variadic: false
@@ -23,7 +24,6 @@ array(
                         name: a
                     )
                     default: null
-                    flags: 0
                 )
             )
             uses: array(
@@ -44,6 +44,7 @@ array(
             byRef: false
             params: array(
                 0: Param(
+                    flags: 0
                     type: null
                     byRef: false
                     variadic: false
@@ -51,7 +52,6 @@ array(
                         name: a
                     )
                     default: null
-                    flags: 0
                 )
             )
             uses: array(
@@ -98,6 +98,7 @@ array(
             byRef: true
             params: array(
                 0: Param(
+                    flags: 0
                     type: null
                     byRef: false
                     variadic: false
@@ -105,7 +106,6 @@ array(
                         name: a
                     )
                     default: null
-                    flags: 0
                 )
             )
             uses: array(
@@ -134,6 +134,7 @@ array(
             byRef: false
             params: array(
                 0: Param(
+                    flags: 0
                     type: null
                     byRef: false
                     variadic: false
@@ -141,7 +142,6 @@ array(
                         name: a
                     )
                     default: null
-                    flags: 0
                 )
             )
             uses: array(

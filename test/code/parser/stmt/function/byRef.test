@@ -13,6 +13,7 @@ array(
         )
         params: array(
             0: Param(
+                flags: 0
                 type: null
                 byRef: true
                 variadic: false
@@ -20,7 +21,6 @@ array(
                     name: b
                 )
                 default: null
-                flags: 0
             )
         )
         returnType: null
@@ -34,6 +34,7 @@ array(
         )
         params: array(
             0: Param(
+                flags: 0
                 type: null
                 byRef: false
                 variadic: false
@@ -41,7 +42,6 @@ array(
                     name: b
                 )
                 default: null
-                flags: 0
             )
         )
         returnType: null

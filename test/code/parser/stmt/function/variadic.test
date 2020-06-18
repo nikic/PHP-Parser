@@ -14,6 +14,7 @@ array(
         )
         params: array(
             0: Param(
+                flags: 0
                 type: null
                 byRef: false
                 variadic: false
@@ -21,9 +22,9 @@ array(
                     name: a
                 )
                 default: null
-                flags: 0
             )
             1: Param(
+                flags: 0
                 type: null
                 byRef: false
                 variadic: true
@@ -31,7 +32,6 @@ array(
                     name: b
                 )
                 default: null
-                flags: 0
             )
         )
         returnType: null
@@ -45,6 +45,7 @@ array(
         )
         params: array(
             0: Param(
+                flags: 0
                 type: null
                 byRef: false
                 variadic: false
@@ -52,9 +53,9 @@ array(
                     name: a
                 )
                 default: null
-                flags: 0
             )
             1: Param(
+                flags: 0
                 type: null
                 byRef: true
                 variadic: true
@@ -62,7 +63,6 @@ array(
                     name: b
                 )
                 default: null
-                flags: 0
             )
         )
         returnType: null
@@ -76,6 +76,7 @@ array(
         )
         params: array(
             0: Param(
+                flags: 0
                 type: null
                 byRef: false
                 variadic: false
@@ -83,9 +84,9 @@ array(
                     name: a
                 )
                 default: null
-                flags: 0
             )
             1: Param(
+                flags: 0
                 type: Name(
                     parts: array(
                         0: Type
@@ -97,7 +98,6 @@ array(
                     name: b
                 )
                 default: null
-                flags: 0
             )
         )
         returnType: null
@@ -111,6 +111,7 @@ array(
         )
         params: array(
             0: Param(
+                flags: 0
                 type: null
                 byRef: false
                 variadic: false
@@ -118,9 +119,9 @@ array(
                     name: a
                 )
                 default: null
-                flags: 0
             )
             1: Param(
+                flags: 0
                 type: Name(
                     parts: array(
                         0: Type
@@ -132,7 +133,6 @@ array(
                     name: b
                 )
                 default: null
-                flags: 0
             )
         )
         returnType: null

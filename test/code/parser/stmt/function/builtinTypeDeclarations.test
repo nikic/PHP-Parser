@@ -12,6 +12,7 @@ array(
         )
         params: array(
             0: Param(
+                flags: 0
                 type: Identifier(
                     name: bool
                 )
@@ -21,9 +22,9 @@ array(
                     name: a
                 )
                 default: null
-                flags: 0
             )
             1: Param(
+                flags: 0
                 type: Identifier(
                     name: int
                 )
@@ -33,9 +34,9 @@ array(
                     name: b
                 )
                 default: null
-                flags: 0
             )
             2: Param(
+                flags: 0
                 type: Identifier(
                     name: float
                 )
@@ -45,9 +46,9 @@ array(
                     name: c
                 )
                 default: null
-                flags: 0
             )
             3: Param(
+                flags: 0
                 type: Identifier(
                     name: string
                 )
@@ -57,9 +58,9 @@ array(
                     name: d
                 )
                 default: null
-                flags: 0
             )
             4: Param(
+                flags: 0
                 type: Identifier(
                     name: iterable
                 )
@@ -69,9 +70,9 @@ array(
                     name: e
                 )
                 default: null
-                flags: 0
             )
             5: Param(
+                flags: 0
                 type: Identifier(
                     name: object
                 )
@@ -81,9 +82,9 @@ array(
                     name: f
                 )
                 default: null
-                flags: 0
             )
             6: Param(
+                flags: 0
                 type: Identifier(
                     name: mixed
                 )
@@ -93,7 +94,6 @@ array(
                     name: g
                 )
                 default: null
-                flags: 0
             )
         )
         returnType: Identifier(

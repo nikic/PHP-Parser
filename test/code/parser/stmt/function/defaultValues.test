@@ -22,6 +22,7 @@ array(
         )
         params: array(
             0: Param(
+                flags: 0
                 type: null
                 byRef: false
                 variadic: false
@@ -35,9 +36,9 @@ array(
                         )
                     )
                 )
-                flags: 0
             )
             1: Param(
+                flags: 0
                 type: null
                 byRef: false
                 variadic: false
@@ -47,9 +48,9 @@ array(
                 default: Scalar_String(
                     value: foo
                 )
-                flags: 0
             )
             2: Param(
+                flags: 0
                 type: null
                 byRef: false
                 variadic: false
@@ -66,9 +67,9 @@ array(
                         name: B
                     )
                 )
-                flags: 0
             )
             3: Param(
+                flags: 0
                 type: null
                 byRef: false
                 variadic: false
@@ -80,9 +81,9 @@ array(
                         value: 1
                     )
                 )
-                flags: 0
             )
             4: Param(
+                flags: 0
                 type: null
                 byRef: false
                 variadic: false
@@ -94,9 +95,9 @@ array(
                         value: 1
                     )
                 )
-                flags: 0
             )
             5: Param(
+                flags: 0
                 type: null
                 byRef: false
                 variadic: false
@@ -107,9 +108,9 @@ array(
                     items: array(
                     )
                 )
-                flags: 0
             )
             6: Param(
+                flags: 0
                 type: null
                 byRef: false
                 variadic: false
@@ -120,9 +121,9 @@ array(
                     items: array(
                     )
                 )
-                flags: 0
             )
             7: Param(
+                flags: 0
                 type: null
                 byRef: false
                 variadic: false
@@ -141,9 +142,9 @@ array(
                         )
                     )
                 )
-                flags: 0
             )
             8: Param(
+                flags: 0
                 type: null
                 byRef: false
                 variadic: false
@@ -172,7 +173,6 @@ array(
                         )
                     )
                 )
-                flags: 0
             )
         )
         returnType: null

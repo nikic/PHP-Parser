@@ -12,6 +12,7 @@ array(
         )
         params: array(
             0: Param(
+                flags: 0
                 type: null
                 byRef: false
                 variadic: false
@@ -19,9 +20,9 @@ array(
                     name: b
                 )
                 default: null
-                flags: 0
             )
             1: Param(
+                flags: 0
                 type: Identifier(
                     name: array
                 )
@@ -31,9 +32,9 @@ array(
                     name: c
                 )
                 default: null
-                flags: 0
             )
             2: Param(
+                flags: 0
                 type: Identifier(
                     name: callable
                 )
@@ -43,9 +44,9 @@ array(
                     name: d
                 )
                 default: null
-                flags: 0
             )
             3: Param(
+                flags: 0
                 type: Name(
                     parts: array(
                         0: E
@@ -57,7 +58,6 @@ array(
                     name: f
                 )
                 default: null
-                flags: 0
             )
         )
         returnType: null

@@ -29,6 +29,7 @@ array(
                 )
                 params: array(
                     0: Param(
+                        flags: MODIFIER_PUBLIC (1)
                         type: Identifier(
                             name: float
                         )
@@ -40,9 +41,9 @@ array(
                         default: Scalar_DNumber(
                             value: 0
                         )
-                        flags: MODIFIER_PUBLIC (1)
                     )
                     1: Param(
+                        flags: MODIFIER_PROTECTED (2)
                         type: Identifier(
                             name: array
                         )
@@ -55,9 +56,9 @@ array(
                             items: array(
                             )
                         )
-                        flags: MODIFIER_PROTECTED (2)
                     )
                     2: Param(
+                        flags: MODIFIER_PRIVATE (4)
                         type: Identifier(
                             name: string
                         )
@@ -69,7 +70,6 @@ array(
                         default: Scalar_String(
                             value: hello
                         )
-                        flags: MODIFIER_PRIVATE (4)
                     )
                 )
                 returnType: null

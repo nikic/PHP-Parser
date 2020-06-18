@@ -875,6 +875,7 @@ array(
             byRef: false
             params: array(
                 0: Param(
+                    flags: 0
                     type: null
                     byRef: false
                     variadic: false
@@ -882,7 +883,6 @@ array(
                         name: a
                     )
                     default: null
-                    flags: 0
                 )
             )
             uses: array(
@@ -1053,6 +1053,7 @@ array(
         )
         params: array(
             0: Param(
+                flags: 0
                 type: Name(
                     parts: array(
                         0: Type
@@ -1063,7 +1064,6 @@ array(
                 var: Expr_Error(
                 )
                 default: null
-                flags: 0
             )
         )
         returnType: null
@@ -1082,6 +1082,7 @@ array(
         )
         params: array(
             0: Param(
+                flags: 0
                 type: Name(
                     parts: array(
                         0: Type1
@@ -1093,9 +1094,9 @@ array(
                     name: foo
                 )
                 default: null
-                flags: 0
             )
             1: Param(
+                flags: 0
                 type: Name(
                     parts: array(
                         0: Type2
@@ -1106,7 +1107,6 @@ array(
                 var: Expr_Error(
                 )
                 default: null
-                flags: 0
             )
         )
         returnType: null
@@ -1125,13 +1125,13 @@ array(
         )
         params: array(
             0: Param(
+                flags: 0
                 type: null
                 byRef: false
                 variadic: true
                 var: Expr_Error(
                 )
                 default: null
-                flags: 0
             )
         )
         returnType: null
@@ -1150,13 +1150,13 @@ array(
         )
         params: array(
             0: Param(
+                flags: 0
                 type: null
                 byRef: true
                 variadic: false
                 var: Expr_Error(
                 )
                 default: null
-                flags: 0
             )
         )
         returnType: null
@@ -1175,6 +1175,7 @@ array(
         )
         params: array(
             0: Param(
+                flags: 0
                 type: Name(
                     parts: array(
                         0: Bar
@@ -1185,7 +1186,6 @@ array(
                 var: Expr_Error(
                 )
                 default: null
-                flags: 0
             )
         )
         returnType: null
@@ -1209,6 +1209,7 @@ array(
                 )
                 params: array(
                     0: Param(
+                        flags: 0
                         type: Name(
                             parts: array(
                                 0: Baz
@@ -1219,7 +1220,6 @@ array(
                         var: Expr_Error(
                         )
                         default: null
-                        flags: 0
                     )
                 )
                 returnType: null
@@ -1234,6 +1234,7 @@ array(
             byRef: false
             params: array(
                 0: Param(
+                    flags: 0
                     type: Name(
                         parts: array(
                             0: Foo
@@ -1244,7 +1245,6 @@ array(
                     var: Expr_Error(
                     )
                     default: null
-                    flags: 0
                 )
             )
             uses: array(

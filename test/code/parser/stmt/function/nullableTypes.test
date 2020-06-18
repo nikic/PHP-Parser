@@ -14,6 +14,7 @@ array(
         )
         params: array(
             0: Param(
+                flags: 0
                 type: NullableType(
                     type: Name(
                         parts: array(
@@ -27,9 +28,9 @@ array(
                     name: bar
                 )
                 default: null
-                flags: 0
             )
             1: Param(
+                flags: 0
                 type: NullableType(
                     type: Identifier(
                         name: string
@@ -41,7 +42,6 @@ array(
                     name: foo
                 )
                 default: null
-                flags: 0
             )
         )
         returnType: NullableType(
