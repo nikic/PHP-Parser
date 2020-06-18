@@ -4,3 +4,4 @@ grammar/kmyacc.exe
 grammar/y.output
 .phpunit.result.cache
 build/*phar
+build/php-parse.tpl
