@@ -6,9 +6,7 @@ class Point
 {
     public function __construct(
         public float $x = 0.0,
-
         protected array $y = [],
-
         private string $z = 'hello',
     ) {
     }
@@ -17,13 +15,8 @@ class Point
 !!php7
 class Point
 {
-    public function __construct(
-        public float $x = 0.0,
-
-        protected array $y = [],
-
-        private string $z = 'hello',
-    ) {
+    public function __construct(public float $x = 0.0, protected array $y = [], private string $z = 'hello')
+    {
     }
 }
 -----
@@ -36,7 +29,9 @@ class Test
         /** @SomeAnnotation() */
         public string $y = "123",
         string $z = "abc"
-    ) {}
+    )
+    {
+    }
 }
 -----
 !!php7
@@ -48,5 +43,7 @@ class Test
         /** @SomeAnnotation() */
         public string $y = "123",
         string $z = "abc"
-    ) {}
+    )
+    {
+    }
 }
