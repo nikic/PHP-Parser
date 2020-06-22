@@ -596,7 +596,8 @@ class Standard extends PrettyPrinterAbstract
 
     protected function pExpr_Match(Expr\Match_ $node) {
         return 'match (' . $this->p($node->cond) . ') {'
-            . ($this->pMaybeMultiline($node->matchArms, true))
+            . ($this->pStmts($node->matchArms, true))
+            . $this->nl
             . '}';
     }
 

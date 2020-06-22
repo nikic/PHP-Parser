@@ -2,7 +2,15 @@ Match
 -----
 <?php
 
-echo match (1) {0 => 'Foo', 1 => 'Bar', default => 'Foo'};
+echo match (1) {
+    0 => 'Foo',
+    1 => 'Bar',
+    default => 'Foo'
+};
 -----
 !!php7
-echo match (1) {0 => 'Foo', 1 => 'Bar', default => 'Foo'};
+echo match (1) {
+    0 => 'Foo',
+    1 => 'Bar',
+    default => 'Foo'
+};

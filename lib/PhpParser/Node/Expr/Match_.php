@@ -13,7 +13,7 @@ class Match_ extends Node\Expr
     public $matchArms;
 
     /**
-     * @param MatchArm[]  $matchArms
+     * @param \PhpParser\Node\Stmt\MatchArm[] $matchArms
      */
     public function __construct(Node\Expr $cond, array $matchArms = [], array $attributes = []) {
         $this->attributes = $attributes;
