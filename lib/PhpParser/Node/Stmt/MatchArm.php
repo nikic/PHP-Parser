@@ -17,7 +17,6 @@ class MatchArm extends Node\Stmt
     public function __construct($condList, Node\Expr $body, array $attributes = []) {
         $this->condList = $condList;
         $this->body = $body;
-
         $this->attributes = $attributes;
     }
 
