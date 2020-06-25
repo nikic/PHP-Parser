@@ -7,7 +7,7 @@ set -x
 : Get version from changelog
 VER=$(head -n1 CHANGELOG.md  | cut -d' ' -f2)
 
-: Create stub
+: Create phar stub
 php -r '
 	$cmd = file_get_contents("bin/php-parse");
 	$pc = strpos($cmd, "// END AUTOLOADER");
@@ -19,13 +19,20 @@ php -r '
 		exit (1);
 	}
 '
-: Create phar
+: Create phar for the command
 php -d phar.readonly=0 \
 vendor/bin/phpab \
   --phar \
   --all \
-  --bzip2 \
-  --output build/php-parse-$VER.phar \
+  --output build/php-parse-cmd-$VER.phar \
   --template build/php-parse.tpl \
+  lib
+
+: Create phar for the library
+php -d phar.readonly=0 \
+vendor/bin/phpab \
+  --phar \
+  --all \
+  --output build/php-parse-lib-$VER.phar \
   lib
 
