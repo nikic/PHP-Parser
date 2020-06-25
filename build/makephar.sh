@@ -24,6 +24,8 @@ php -d phar.readonly=0 \
 vendor/bin/phpab \
   --phar \
   --all \
+  --gzip \
+  --hash SHA-1 \
   --output build/php-parse-cmd-$VER.phar \
   --template build/php-parse.tpl \
   lib
@@ -33,6 +35,8 @@ php -d phar.readonly=0 \
 vendor/bin/phpab \
   --phar \
   --all \
+  --gzip \
+  --hash SHA-1 \
   --output build/php-parse-lib-$VER.phar \
   lib
 
