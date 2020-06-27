@@ -15,8 +15,8 @@ class Foo {
     public function __construct()
     {
         // I'm just a comment
-
-        $foo;    }
+        $foo;
+    }
 }
 -----
 <?php
@@ -72,5 +72,6 @@ class Foo {
     public function __construct()
     {
         // I'm a new comment
-            }
+
+    }
 }

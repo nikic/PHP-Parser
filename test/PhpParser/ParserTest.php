@@ -83,10 +83,10 @@ EOC;
         $this->assertInstanceOf(Stmt\Echo_::class, $echo);
         $this->assertEquals([
             'comments' => [
-                new Comment("// Line\n",
-                    4, 49, 12, 5, 56, 12),
-                new Comment("// Comments\n",
-                    5, 61, 14, 6, 72, 14),
+                new Comment("// Line",
+                    4, 49, 12, 4, 55, 12),
+                new Comment("// Comments",
+                    5, 61, 14, 5, 71, 14),
             ],
             'startLine' => 6,
             'endLine' => 6,

@@ -307,12 +307,12 @@ PHP;
             "comments": [
                 {
                     "nodeType": "Comment",
-                    "text": "\/\/ comment\n",
+                    "text": "\/\/ comment",
                     "line": 2,
                     "filePos": 6,
                     "tokenPos": 1,
-                    "endLine": 3,
-                    "endFilePos": 16,
+                    "endLine": 2,
+                    "endFilePos": 15,
                     "endTokenPos": 1
                 },
                 {
@@ -320,10 +320,10 @@ PHP;
                     "text": "\/** doc comment *\/",
                     "line": 3,
                     "filePos": 17,
-                    "tokenPos": 2,
+                    "tokenPos": 3,
                     "endLine": 3,
                     "endFilePos": 34,
-                    "endTokenPos": 2
+                    "endTokenPos": 3
                 }
             ],
             "endLine": 6

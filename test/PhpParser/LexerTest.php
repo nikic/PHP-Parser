@@ -124,12 +124,12 @@ class LexerTest extends \PHPUnit\Framework\TestCase
                             'comments' => [
                                 new Comment('/* comment */',
                                     1, 6, 1, 1, 18, 1),
-                                new Comment('// comment' . "\n",
-                                    1, 20, 3, 2, 30, 3),
+                                new Comment('// comment',
+                                    1, 20, 3, 1, 29, 3),
                                 new Comment\Doc('/** docComment 1 */',
-                                    2, 31, 4, 2, 49, 4),
+                                    2, 31, 5, 2, 49, 5),
                                 new Comment\Doc('/** docComment 2 */',
-                                    2, 50, 5, 2, 68, 5),
+                                    2, 50, 6, 2, 68, 6),
                             ],
                         ],
                         ['endLine' => 2]
@@ -185,11 +185,11 @@ class LexerTest extends \PHPUnit\Framework\TestCase
                     ],
                     [
                         Tokens::T_CONSTANT_ENCAPSED_STRING, '"b"',
-                        ['startTokenPos' => 5], ['endTokenPos' => 5]
+                        ['startTokenPos' => 6], ['endTokenPos' => 6]
                     ],
                     [
                         ord(';'), ';',
-                        ['startTokenPos' => 6], ['endTokenPos' => 6]
+                        ['startTokenPos' => 7], ['endTokenPos' => 7]
                     ],
                 ]
             ],
@@ -251,14 +251,17 @@ class LexerTest extends \PHPUnit\Framework\TestCase
     }
 
     public function testGetTokens() {
-        $code = '<?php "a";' . "\n" . '// foo' . "\n" . '"b";';
+        $code = '<?php "a";' . "\n" . '// foo' . "\n" . '// bar' . "\n\n" . '"b";';
         $expectedTokens = [
             [T_OPEN_TAG, '<?php ', 1],
             [T_CONSTANT_ENCAPSED_STRING, '"a"', 1],
             ';',
             [T_WHITESPACE, "\n", 1],
-            [T_COMMENT, '// foo' . "\n", 2],
-            [T_CONSTANT_ENCAPSED_STRING, '"b"', 3],
+            [T_COMMENT, '// foo', 2],
+            [T_WHITESPACE, "\n", 2],
+            [T_COMMENT, '// bar', 3],
+            [T_WHITESPACE, "\n\n", 3],
+            [T_CONSTANT_ENCAPSED_STRING, '"b"', 5],
             ';',
         ];
 
