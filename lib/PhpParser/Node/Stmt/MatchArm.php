@@ -18,7 +18,7 @@ class MatchArm extends Node\Stmt
         $this->condList = $condList;
         $this->body = $body;
 
-        parent::__construct($attributes);
+        $this->attributes = $attributes;
     }
 
     public function getSubNodeNames() : array {
