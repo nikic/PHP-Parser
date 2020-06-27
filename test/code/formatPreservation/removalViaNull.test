@@ -192,3 +192,21 @@ $stmts[0]->name = null;
 namespace
     {
     }
+-----
+<?php
+try
+{
+}
+catch (Exception $e)
+{
+}
+-----
+$stmts[0]->catches[0]->var = null;
+-----
+<?php
+try
+{
+}
+catch (Exception)
+{
+}
