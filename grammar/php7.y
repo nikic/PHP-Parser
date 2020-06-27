@@ -405,7 +405,7 @@ match:
 ;
 
 match_arm_list:
-      /* empty */                                           { $$ = null; }
+      /* empty */                                           { $$ = []; }
     | non_empty_match_arm_list optional_comma               { $$ = $1; }
 ;
 
