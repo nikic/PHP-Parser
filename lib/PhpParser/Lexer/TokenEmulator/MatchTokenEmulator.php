@@ -19,7 +19,7 @@ final class MatchTokenEmulator implements TokenEmulatorInterface
     public function emulate(string $code, array $tokens): array
     {
         foreach ($tokens as $i => $token) {
-            if ($token[0] === T_STRING && $token[1] === 'match') {
+            if ($token[0] === T_STRING && strtolower($token[1]) === 'match') {
                 $previousNonSpaceToken = $this->getPreviousNonSpaceToken($tokens, $i);
                 if ($previousNonSpaceToken !== null && $previousNonSpaceToken[0] === T_OBJECT_OPERATOR) {
                     continue;
