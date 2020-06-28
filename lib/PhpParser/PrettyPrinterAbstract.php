@@ -1326,6 +1326,8 @@ abstract class PrettyPrinterAbstract
             'Stmt_TraitUseAdaptation_Precedence->insteadof' => ', ',
             'Stmt_Unset->vars' => ', ',
             'Stmt_Use->uses' => ', ',
+            'Stmt_Arm->condList' => ', ',
+            'Stmt_Match->arms' => ', ',
 
             // statement lists
             'Expr_Closure->stmts' => "\n",
