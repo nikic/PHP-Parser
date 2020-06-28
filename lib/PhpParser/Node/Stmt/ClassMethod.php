@@ -39,8 +39,6 @@ class ClassMethod extends Node\Stmt implements FunctionLike
     ];
 
     /**
-     * Constructs a class method node.
-     *
      * @param string|Node\Identifier $name Name
      * @param array $subNodes   Array of the following optional subnodes:
      *                          'flags       => MODIFIER_PUBLIC: Flags
@@ -120,7 +118,7 @@ class ClassMethod extends Node\Stmt implements FunctionLike
 
     /**
      * Whether the method is final.
-     * 
+     *
      * @return bool
      */
     public function isFinal() : bool {
@@ -144,7 +142,7 @@ class ClassMethod extends Node\Stmt implements FunctionLike
     public function isMagic() : bool {
         return isset(self::$magicNames[$this->name->toLowerString()]);
     }
-    
+
     public function getType() : string {
         return 'Stmt_ClassMethod';
     }

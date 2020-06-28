@@ -16,8 +16,6 @@ class Name extends NodeAbstract
     ];
 
     /**
-     * Constructs a name node.
-     *
      * @param string|string[]|self $name       Name as string, part array or Name instance (copy ctor)
      * @param array                $attributes Additional attributes
      */

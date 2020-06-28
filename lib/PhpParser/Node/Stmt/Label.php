@@ -11,8 +11,6 @@ class Label extends Stmt
     public $name;
 
     /**
-     * Constructs a label node.
-     *
      * @param string|Identifier $name       Name
      * @param array             $attributes Additional attributes
      */
@@ -24,7 +22,7 @@ class Label extends Stmt
     public function getSubNodeNames() : array {
         return ['name'];
     }
-    
+
     public function getType() : string {
         return 'Stmt_Label';
     }

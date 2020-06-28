@@ -20,8 +20,6 @@ class Param extends NodeAbstract
     public $flags;
 
     /**
-     * Constructs a parameter node.
-     *
      * @param Expr\Variable|Expr\Error                           $var        Parameter variable
      * @param null|Expr                                          $default    Default value
      * @param null|string|Identifier|Name|NullableType|UnionType $type       Type declaration

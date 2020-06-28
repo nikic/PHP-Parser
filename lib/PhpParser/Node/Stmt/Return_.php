@@ -10,8 +10,6 @@ class Return_ extends Node\Stmt
     public $expr;
 
     /**
-     * Constructs a return node.
-     *
      * @param null|Node\Expr $expr       Expression
      * @param array          $attributes Additional attributes
      */
@@ -23,7 +21,7 @@ class Return_ extends Node\Stmt
     public function getSubNodeNames() : array {
         return ['expr'];
     }
-    
+
     public function getType() : string {
         return 'Stmt_Return';
     }

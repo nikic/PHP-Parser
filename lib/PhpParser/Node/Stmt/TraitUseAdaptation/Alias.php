@@ -12,8 +12,6 @@ class Alias extends Node\Stmt\TraitUseAdaptation
     public $newName;
 
     /**
-     * Constructs a trait use precedence adaptation node.
-     *
      * @param null|Node\Name              $trait       Trait name
      * @param string|Node\Identifier      $method      Method name
      * @param null|int                    $newModifier New modifier
@@ -31,7 +29,7 @@ class Alias extends Node\Stmt\TraitUseAdaptation
     public function getSubNodeNames() : array {
         return ['trait', 'method', 'newModifier', 'newName'];
     }
-    
+
     public function getType() : string {
         return 'Stmt_TraitUseAdaptation_Alias';
     }

@@ -13,8 +13,6 @@ class Comment implements \JsonSerializable
     protected $endTokenPos;
 
     /**
-     * Constructs a comment node.
-     *
      * @param string $text          Comment text (including comment delimiters like /*)
      * @param int    $startLine     Line number the comment started on
      * @param int    $startFilePos  File offset the comment started on

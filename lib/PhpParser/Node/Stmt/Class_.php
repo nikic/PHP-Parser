@@ -24,8 +24,6 @@ class Class_ extends ClassLike
     public $implements;
 
     /**
-     * Constructs a class node.
-     *
      * @param string|Node\Identifier|null $name Name
      * @param array       $subNodes   Array of the following optional subnodes:
      *                                'flags'      => 0      : Flags

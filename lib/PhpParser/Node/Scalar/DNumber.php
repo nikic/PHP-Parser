@@ -10,8 +10,6 @@ class DNumber extends Scalar
     public $value;
 
     /**
-     * Constructs a float number scalar node.
-     *
      * @param float $value      Value of the number
      * @param array $attributes Additional attributes
      */
@@ -63,7 +61,7 @@ class DNumber extends Scalar
         // dec
         return (float) $str;
     }
-    
+
     public function getType() : string {
         return 'Scalar_DNumber';
     }

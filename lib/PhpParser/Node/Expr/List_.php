@@ -10,8 +10,6 @@ class List_ extends Expr
     public $items;
 
     /**
-     * Constructs a list() destructuring node.
-     *
      * @param (ArrayItem|null)[] $items      List of items to assign to
      * @param array              $attributes Additional attributes
      */
@@ -23,7 +21,7 @@ class List_ extends Expr
     public function getSubNodeNames() : array {
         return ['items'];
     }
-    
+
     public function getType() : string {
         return 'Expr_List';
     }

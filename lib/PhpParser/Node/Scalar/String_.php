@@ -28,8 +28,6 @@ class String_ extends Scalar
     ];
 
     /**
-     * Constructs a string scalar node.
-     *
      * @param string $value      Value of the string
      * @param array  $attributes Additional attributes
      */

@@ -11,8 +11,6 @@ class ConstFetch extends Expr
     public $name;
 
     /**
-     * Constructs a const fetch node.
-     *
      * @param Name  $name       Constant name
      * @param array $attributes Additional attributes
      */
@@ -24,7 +22,7 @@ class ConstFetch extends Expr
     public function getSubNodeNames() : array {
         return ['name'];
     }
-    
+
     public function getType() : string {
         return 'Expr_ConstFetch';
     }

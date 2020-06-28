@@ -12,8 +12,6 @@ class TraitUse extends Node\Stmt
     public $adaptations;
 
     /**
-     * Constructs a trait use node.
-     *
      * @param Node\Name[]          $traits      Traits
      * @param TraitUseAdaptation[] $adaptations Adaptations
      * @param array                $attributes  Additional attributes
@@ -27,7 +25,7 @@ class TraitUse extends Node\Stmt
     public function getSubNodeNames() : array {
         return ['traits', 'adaptations'];
     }
-    
+
     public function getType() : string {
         return 'Stmt_TraitUse';
     }

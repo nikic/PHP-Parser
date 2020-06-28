@@ -12,8 +12,6 @@ class ClassConst extends Node\Stmt
     public $consts;
 
     /**
-     * Constructs a class const list node.
-     *
      * @param Node\Const_[] $consts     Constant declarations
      * @param int           $flags      Modifiers
      * @param array         $attributes Additional attributes
@@ -55,7 +53,7 @@ class ClassConst extends Node\Stmt
     public function isPrivate() : bool {
         return (bool) ($this->flags & Class_::MODIFIER_PRIVATE);
     }
-    
+
     public function getType() : string {
         return 'Stmt_ClassConst';
     }

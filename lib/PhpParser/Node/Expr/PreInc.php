@@ -10,8 +10,6 @@ class PreInc extends Expr
     public $var;
 
     /**
-     * Constructs a pre increment node.
-     *
      * @param Expr  $var        Variable
      * @param array $attributes Additional attributes
      */
@@ -23,7 +21,7 @@ class PreInc extends Expr
     public function getSubNodeNames() : array {
         return ['var'];
     }
-    
+
     public function getType() : string {
         return 'Expr_PreInc';
     }

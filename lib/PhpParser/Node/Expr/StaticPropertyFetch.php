@@ -14,8 +14,6 @@ class StaticPropertyFetch extends Expr
     public $name;
 
     /**
-     * Constructs a static property fetch node.
-     *
      * @param Name|Expr                     $class      Class name
      * @param string|VarLikeIdentifier|Expr $name       Property name
      * @param array                         $attributes Additional attributes
@@ -29,7 +27,7 @@ class StaticPropertyFetch extends Expr
     public function getSubNodeNames() : array {
         return ['class', 'name'];
     }
-    
+
     public function getType() : string {
         return 'Expr_StaticPropertyFetch';
     }

@@ -10,8 +10,6 @@ class BooleanNot extends Expr
     public $expr;
 
     /**
-     * Constructs a boolean not node.
-     *
      * @param Expr $expr       Expression
      * @param array               $attributes Additional attributes
      */
@@ -23,7 +21,7 @@ class BooleanNot extends Expr
     public function getSubNodeNames() : array {
         return ['expr'];
     }
-    
+
     public function getType() : string {
         return 'Expr_BooleanNot';
     }

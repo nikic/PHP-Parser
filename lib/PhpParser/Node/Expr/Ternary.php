@@ -14,8 +14,6 @@ class Ternary extends Expr
     public $else;
 
     /**
-     * Constructs a ternary operator node.
-     *
      * @param Expr      $cond       Condition
      * @param null|Expr $if         Expression for true
      * @param Expr      $else       Expression for false
@@ -31,7 +29,7 @@ class Ternary extends Expr
     public function getSubNodeNames() : array {
         return ['cond', 'if', 'else'];
     }
-    
+
     public function getType() : string {
         return 'Expr_Ternary';
     }

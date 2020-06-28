@@ -10,8 +10,6 @@ class Static_ extends Stmt
     public $vars;
 
     /**
-     * Constructs a static variables list node.
-     *
      * @param StaticVar[] $vars       Variable definitions
      * @param array       $attributes Additional attributes
      */
@@ -23,7 +21,7 @@ class Static_ extends Stmt
     public function getSubNodeNames() : array {
         return ['vars'];
     }
-    
+
     public function getType() : string {
         return 'Stmt_Static';
     }

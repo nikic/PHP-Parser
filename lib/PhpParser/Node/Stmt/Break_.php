@@ -10,8 +10,6 @@ class Break_ extends Node\Stmt
     public $num;
 
     /**
-     * Constructs a break node.
-     *
      * @param null|Node\Expr $num        Number of loops to break
      * @param array          $attributes Additional attributes
      */
@@ -23,7 +21,7 @@ class Break_ extends Node\Stmt
     public function getSubNodeNames() : array {
         return ['num'];
     }
-    
+
     public function getType() : string {
         return 'Stmt_Break';
     }

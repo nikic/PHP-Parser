@@ -11,8 +11,6 @@ class Goto_ extends Stmt
     public $name;
 
     /**
-     * Constructs a goto node.
-     *
      * @param string|Identifier $name       Name of label to jump to
      * @param array             $attributes Additional attributes
      */
@@ -24,7 +22,7 @@ class Goto_ extends Stmt
     public function getSubNodeNames() : array {
         return ['name'];
     }
-    
+
     public function getType() : string {
         return 'Stmt_Goto';
     }
