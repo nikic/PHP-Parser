@@ -415,17 +415,8 @@ non_empty_match_arm_list:
 ;
 
 match_arm:
-      match_arm_cond_list T_DOUBLE_ARROW match_arm_body     { $$ = Stmt\MatchArm[$1, $3]; }
-    | T_DEFAULT T_DOUBLE_ARROW match_arm_body               { $$ = Stmt\MatchArm[null, $3]; }
-;
-
-match_arm_cond_list:
-      expr                                                  { init($1); }
-    | match_arm_cond_list ',' expr                          { push($1, $3); }
-;
-
-match_arm_body:
-      expr                                                  { $$ = $1; }
+      expr_list_forbid_comma T_DOUBLE_ARROW expr            { $$ = Stmt\MatchArm[$1, $3]; }
+    | T_DEFAULT T_DOUBLE_ARROW expr                         { $$ = Stmt\MatchArm[null, $3]; }
 ;
 
 while_statement:
