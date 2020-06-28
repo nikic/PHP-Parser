@@ -1257,7 +1257,6 @@ abstract class PrettyPrinterAbstract
             'Expr_Yield->value' => [\T_YIELD, false, ' ', null],
             'Param->type' => [null, false, null, ' '],
             'Param->default' => [null, false, ' = ', null],
-            'Stmt_MatchArm->body' => [null, false, ', ', null],
             'Stmt_Break->num' => [\T_BREAK, false, ' ', null],
             'Stmt_Catch->var' => [null, false, ' ', null],
             'Stmt_ClassMethod->returnType' => [')', false, ' : ', null],

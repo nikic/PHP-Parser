@@ -4,7 +4,7 @@ namespace PhpParser\Node\Stmt;
 
 use PhpParser\Node;
 
-class MatchArm extends Node\Stmt
+class Arm extends Node\Stmt
 {
     /** @var null|Node\Expr[] */
     public $condList;
@@ -25,6 +25,6 @@ class MatchArm extends Node\Stmt
     }
 
     public function getType() : string {
-        return 'Stmt_MatchArm';
+        return 'Stmt_Arm';
     }
 }

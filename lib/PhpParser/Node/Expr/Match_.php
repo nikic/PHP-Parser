@@ -3,26 +3,26 @@
 namespace PhpParser\Node\Expr;
 
 use PhpParser\Node;
-use PhpParser\Node\Stmt\MatchArm;
+use PhpParser\Node\Stmt\Arm;
 
 class Match_ extends Node\Expr
 {
     /** @var Node\Expr */
     public $cond;
-    /** @var MatchArm[] */
-    public $matchArms;
+    /** @var Arm[] */
+    public $arms;
 
     /**
-     * @param MatchArm[] $matchArms
+     * @param Arm[] $arms
      */
-    public function __construct(Node\Expr $cond, array $matchArms = [], array $attributes = []) {
+    public function __construct(Node\Expr $cond, array $arms = [], array $attributes = []) {
         $this->attributes = $attributes;
         $this->cond = $cond;
-        $this->matchArms = $matchArms;
+        $this->arms = $arms;
     }
 
     public function getSubNodeNames() : array {
-        return ['cond', 'matchArms'];
+        return ['cond', 'arms'];
     }
 
     public function getType() : string {

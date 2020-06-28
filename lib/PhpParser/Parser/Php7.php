@@ -4162,10 +4162,14 @@ class Php7 extends \PhpParser\ParserAbstract
                  $this->semStack[$stackPos-(3-1)][] = $this->semStack[$stackPos-(3-3)]; $this->semValue = $this->semStack[$stackPos-(3-1)];
             },
             228 => function ($stackPos) {
-                 $this->semValue = new Stmt\MatchArm($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
+                 $this->semValue = new Stmt\Arm($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
             },
             229 => function ($stackPos) {
+<<<<<<< HEAD
                  $this->semValue = new Stmt\MatchArm(NULL, $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
+=======
+                 $this->semValue = new Stmt\Arm(null, $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
+>>>>>>> ea5bcb9f7... rename MatchArm to Arm
             },
             230 => function ($stackPos) {
                  $this->semValue = array($this->semStack[$stackPos-(1-1)]);

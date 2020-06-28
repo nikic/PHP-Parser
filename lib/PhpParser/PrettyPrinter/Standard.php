@@ -596,12 +596,12 @@ class Standard extends PrettyPrinterAbstract
 
     protected function pExpr_Match(Expr\Match_ $node) {
         return 'match (' . $this->p($node->cond) . ') {'
-            . ($this->pStmts($node->matchArms, true))
+            . ($this->pStmts($node->arms, true))
             . $this->nl
             . '}';
     }
 
-    protected function pStmt_MatchArm(Stmt\MatchArm $node) {
+    protected function pStmt_Arm(Stmt\Arm $node) {
         return ($node->condList ? $this->pCommaSeparated($node->condList) : 'default')
             . ' => ' . $this->p($node->body);
     }
