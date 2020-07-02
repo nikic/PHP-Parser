@@ -1,7 +1,24 @@
-Version 4.5.1-dev
+Version 4.6.1-dev
 -----------------
 
 Nothing yet.
+
+Version 4.6.0 (2020-07-02)
+--------------------------
+
+### Added
+
+* [PHP 8.0] Added support for trailing commas in parameter lists.
+* [PHP 8.0] Added support for constructor promotion. The parameter visibility is stored in
+  `Node\Param::$flags`.
+
+### Fixed
+
+* Comment tokens now always follow the PHP 8 interpretation, and do not include trailing
+  whitespace.
+* As a result of the previous change, some whitespace issues when inserting a statement into a
+  method containing only a comment, and using the formatting-preserving pretty printer, have been
+  resolved.
 
 Version 4.5.0 (2020-06-03)
 --------------------------
