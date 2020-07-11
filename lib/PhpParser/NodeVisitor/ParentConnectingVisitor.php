@@ -10,7 +10,7 @@ use PhpParser\NodeVisitorAbstract;
 /**
  * Visitor that connects a child node to its parent node.
  *
- * On the child node, the parent node can be access through
+ * On the child node, the parent node can be accessed through
  * <code>$node->getAttribute('parent')</code>.
  */
 final class ParentConnectingVisitor extends NodeVisitorAbstract

@@ -9,7 +9,7 @@ use PhpParser\NodeVisitorAbstract;
  * Visitor that connects a child node to its parent node
  * as well as its sibling nodes.
  *
- * On the child node, the parent node can be access through
+ * On the child node, the parent node can be accessed through
  * <code>$node->getAttribute('parent')</code>, the previous
  * node can be accessed through <code>$node->getAttribute('previous')</code>,
  * and the next node can be accessed through <code>$node->getAttribute('next')</code>.
