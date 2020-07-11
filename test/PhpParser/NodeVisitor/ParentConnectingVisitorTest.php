@@ -2,8 +2,8 @@
 
 namespace PhpParser\NodeVisitor;
 
-use PhpParser\Node;
 use PhpParser\Node\Stmt\ClassMethod;
+use PhpParser\NodeFinder;
 use PhpParser\NodeTraverser;
 use PhpParser\ParserFactory;
 
@@ -21,19 +21,8 @@ final class ParentConnectingVisitorTest extends \PHPUnit\Framework\TestCase
 
         $ast = $traverser->traverse($ast);
 
-        $traverser = new NodeTraverser;
+        $node = (new NodeFinder)->findFirstInstanceof($ast, ClassMethod::class);
 
-        $visitor = new FindingVisitor(
-            static function(Node $node) {
-                return $node instanceof ClassMethod;
-            }
-        );
-
-        $traverser->addVisitor($visitor);
-
-        /* @noinspection UnusedFunctionResultInspection */
-        $traverser->traverse($ast);
-
-        $this->assertSame('C', $visitor->getFoundNodes()[0]->getAttribute('parent')->name->toString());
+        $this->assertSame('C', $node->getAttribute('parent')->name->toString());
     }
 }

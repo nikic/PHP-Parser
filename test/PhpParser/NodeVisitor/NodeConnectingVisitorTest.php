@@ -2,10 +2,10 @@
 
 namespace PhpParser\NodeVisitor;
 
-use PhpParser\Node;
 use PhpParser\Node\Expr\ConstFetch;
 use PhpParser\Node\Stmt\Else_;
 use PhpParser\Node\Stmt\If_;
+use PhpParser\NodeFinder;
 use PhpParser\NodeTraverser;
 use PhpParser\ParserFactory;
 
@@ -23,35 +23,13 @@ final class NodeConnectingVisitorTest extends \PHPUnit\Framework\TestCase
 
         $ast = $traverser->traverse($ast);
 
-        $traverser = new NodeTraverser;
+        $node = (new NodeFinder)->findFirstInstanceof($ast, Else_::class);
 
-        $visitor = new FindingVisitor(
-            static function(Node $node) {
-                return $node instanceof Else_;
-            }
-        );
+        $this->assertSame(If_::class, get_class($node->getAttribute('parent')));
+        $this->assertSame(ConstFetch::class, get_class($node->getAttribute('previous')));
 
-        $traverser->addVisitor($visitor);
+        $node = (new NodeFinder)->findFirstInstanceof($ast, ConstFetch::class);
 
-        /* @noinspection UnusedFunctionResultInspection */
-        $traverser->traverse($ast);
-
-        $this->assertSame(If_::class, get_class($visitor->getFoundNodes()[0]->getAttribute('parent')));
-        $this->assertSame(ConstFetch::class, get_class($visitor->getFoundNodes()[0]->getAttribute('previous')));
-
-        $traverser = new NodeTraverser;
-
-        $visitor = new FindingVisitor(
-            static function(Node $node) {
-                return $node instanceof ConstFetch;
-            }
-        );
-
-        $traverser->addVisitor($visitor);
-
-        /* @noinspection UnusedFunctionResultInspection */
-        $traverser->traverse($ast);
-
-        $this->assertSame(Else_::class, get_class($visitor->getFoundNodes()[0]->getAttribute('next')));
+        $this->assertSame(Else_::class, get_class($node->getAttribute('next')));
     }
 }
