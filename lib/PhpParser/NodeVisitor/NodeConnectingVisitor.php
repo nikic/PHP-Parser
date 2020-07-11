@@ -22,7 +22,7 @@ final class NodeConnectingVisitor extends NodeVisitorAbstract
     private $stack = [];
 
     /**
-     * @var Node
+     * @var ?Node
      */
     private $previous;
 
