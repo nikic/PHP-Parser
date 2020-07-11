@@ -36,7 +36,7 @@ final class NodeConnectingVisitor extends NodeVisitorAbstract
             $node->setAttribute('parent', $this->stack[count($this->stack) - 1]);
         }
 
-        if ($this->previous && $this->previous->getAttribute('parent') == $node->getAttribute('parent')) {
+        if ($this->previous !== null && $this->previous->getAttribute('parent') === $node->getAttribute('parent')) {
             $node->setAttribute('previous', $this->previous);
             $this->previous->setAttribute('next', $node);
         }
