@@ -19,7 +19,7 @@ final class NodeConnectingVisitor extends NodeVisitorAbstract
     /**
      * @var Node[]
      */
-    private $stack;
+    private $stack = [];
 
     /**
      * @var Node
