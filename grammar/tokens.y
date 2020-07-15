@@ -57,6 +57,7 @@
 %token T_ENDDECLARE
 %token T_AS
 %token T_SWITCH
+%token T_MATCH
 %token T_ENDSWITCH
 %token T_CASE
 %token T_DEFAULT

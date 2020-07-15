@@ -28,6 +28,7 @@ reserved_non_modifiers:
     | T_FUNCTION | T_CONST | T_RETURN | T_PRINT | T_YIELD | T_LIST | T_SWITCH | T_ENDSWITCH | T_CASE | T_DEFAULT
     | T_BREAK | T_ARRAY | T_CALLABLE | T_EXTENDS | T_IMPLEMENTS | T_NAMESPACE | T_TRAIT | T_INTERFACE | T_CLASS
     | T_CLASS_C | T_TRAIT_C | T_FUNC_C | T_METHOD_C | T_LINE | T_FILE | T_DIR | T_NS_C | T_HALT_COMPILER | T_FN
+    | T_MATCH
 ;
 
 semi_reserved:
@@ -399,6 +400,25 @@ case_separator:
     | ';'
 ;
 
+match:
+      T_MATCH '(' expr ')' '{' match_arm_list '}'           { $$ = Expr\Match_[$3, $6]; }
+;
+
+match_arm_list:
+      /* empty */                                           { $$ = []; }
+    | non_empty_match_arm_list optional_comma               { $$ = $1; }
+;
+
+non_empty_match_arm_list:
+      match_arm                                             { init($1); }
+    | non_empty_match_arm_list ',' match_arm                { push($1, $3); }
+;
+
+match_arm:
+      expr_list_allow_comma T_DOUBLE_ARROW expr             { $$ = Node\MatchArm[$1, $3]; }
+    | T_DEFAULT optional_comma T_DOUBLE_ARROW expr          { $$ = Node\MatchArm[null, $4]; }
+;
+
 while_statement:
       statement                                             { $$ = toArray($1); }
     | ':' inner_statement_list T_ENDWHILE ';'               { $$ = $2; }
@@ -666,6 +686,7 @@ expr:
     | variable '=' expr                                     { $$ = Expr\Assign[$1, $3]; }
     | variable '=' '&' variable                             { $$ = Expr\AssignRef[$1, $4]; }
     | new_expr                                              { $$ = $1; }
+    | match                                                 { $$ = $1; }
     | T_CLONE expr                                          { $$ = Expr\Clone_[$2]; }
     | variable T_PLUS_EQUAL expr                            { $$ = Expr\AssignOp\Plus      [$1, $3]; }
     | variable T_MINUS_EQUAL expr                           { $$ = Expr\AssignOp\Minus     [$1, $3]; }
@@ -967,14 +988,14 @@ new_variable:
 
 member_name:
       identifier_ex                                         { $$ = $1; }
-    | '{' expr '}'	                                        { $$ = $2; }
-    | simple_variable	                                    { $$ = Expr\Variable[$1]; }
+    | '{' expr '}'                                          { $$ = $2; }
+    | simple_variable                                       { $$ = Expr\Variable[$1]; }
 ;
 
 property_name:
       identifier                                            { $$ = $1; }
-    | '{' expr '}'	                                        { $$ = $2; }
-    | simple_variable	                                    { $$ = Expr\Variable[$1]; }
+    | '{' expr '}'                                          { $$ = $2; }
+    | simple_variable                                       { $$ = Expr\Variable[$1]; }
     | error                                                 { $$ = Expr\Error[]; $this->errorState = 2; }
 ;
 

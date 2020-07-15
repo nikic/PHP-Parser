@@ -1,0 +1,218 @@
+Match
+-----
+<?php
+
+echo match (1) {
+    0 => 'Foo',
+    1 => 'Bar',
+};
+-----
+!!php7
+array(
+    0: Stmt_Echo(
+        exprs: array(
+            0: Expr_Match(
+                cond: Scalar_LNumber(
+                    value: 1
+                )
+                arms: array(
+                    0: MatchArm(
+                        conds: array(
+                            0: Scalar_LNumber(
+                                value: 0
+                            )
+                        )
+                        body: Scalar_String(
+                            value: Foo
+                        )
+                    )
+                    1: MatchArm(
+                        conds: array(
+                            0: Scalar_LNumber(
+                                value: 1
+                            )
+                        )
+                        body: Scalar_String(
+                            value: Bar
+                        )
+                    )
+                )
+            )
+        )
+    )
+)
+-----
+<?php
+
+$value = match (1) {
+    // list of conditions
+    0, 1 => 'Foo',
+};
+-----
+!!php7
+array(
+    0: Stmt_Expression(
+        expr: Expr_Assign(
+            var: Expr_Variable(
+                name: value
+            )
+            expr: Expr_Match(
+                cond: Scalar_LNumber(
+                    value: 1
+                )
+                arms: array(
+                    0: MatchArm(
+                        conds: array(
+                            0: Scalar_LNumber(
+                                value: 0
+                                comments: array(
+                                    0: // list of conditions
+                                )
+                            )
+                            1: Scalar_LNumber(
+                                value: 1
+                            )
+                        )
+                        body: Scalar_String(
+                            value: Foo
+                        )
+                        comments: array(
+                            0: // list of conditions
+                        )
+                    )
+                )
+            )
+        )
+    )
+)
+-----
+<?php
+
+$result = match ($operator) {
+    BinaryOperator::ADD => $lhs + $rhs,
+};
+-----
+!!php7
+array(
+    0: Stmt_Expression(
+        expr: Expr_Assign(
+            var: Expr_Variable(
+                name: result
+            )
+            expr: Expr_Match(
+                cond: Expr_Variable(
+                    name: operator
+                )
+                arms: array(
+                    0: MatchArm(
+                        conds: array(
+                            0: Expr_ClassConstFetch(
+                                class: Name(
+                                    parts: array(
+                                        0: BinaryOperator
+                                    )
+                                )
+                                name: Identifier(
+                                    name: ADD
+                                )
+                            )
+                        )
+                        body: Expr_BinaryOp_Plus(
+                            left: Expr_Variable(
+                                name: lhs
+                            )
+                            right: Expr_Variable(
+                                name: rhs
+                            )
+                        )
+                    )
+                )
+            )
+        )
+    )
+)
+-----
+<?php
+
+$value = match ($char) {
+    1 => '1',
+    default => 'default'
+};
+-----
+!!php7
+array(
+    0: Stmt_Expression(
+        expr: Expr_Assign(
+            var: Expr_Variable(
+                name: value
+            )
+            expr: Expr_Match(
+                cond: Expr_Variable(
+                    name: char
+                )
+                arms: array(
+                    0: MatchArm(
+                        conds: array(
+                            0: Scalar_LNumber(
+                                value: 1
+                            )
+                        )
+                        body: Scalar_String(
+                            value: 1
+                        )
+                    )
+                    1: MatchArm(
+                        conds: null
+                        body: Scalar_String(
+                            value: default
+                        )
+                    )
+                )
+            )
+        )
+    )
+)
+-----
+<?php
+
+$value = match (1) {
+    0, 1, => 'Foo',
+    default, => 'Bar',
+};
+-----
+!!php7
+array(
+    0: Stmt_Expression(
+        expr: Expr_Assign(
+            var: Expr_Variable(
+                name: value
+            )
+            expr: Expr_Match(
+                cond: Scalar_LNumber(
+                    value: 1
+                )
+                arms: array(
+                    0: MatchArm(
+                        conds: array(
+                            0: Scalar_LNumber(
+                                value: 0
+                            )
+                            1: Scalar_LNumber(
+                                value: 1
+                            )
+                        )
+                        body: Scalar_String(
+                            value: Foo
+                        )
+                    )
+                    1: MatchArm(
+                        conds: null
+                        body: Scalar_String(
+                            value: Bar
+                        )
+                    )
+                )
+            )
+        )
+    )
+)

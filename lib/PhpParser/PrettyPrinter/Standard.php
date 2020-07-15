@@ -594,6 +594,18 @@ class Standard extends PrettyPrinterAbstract
              . ' {' . $this->pStmts($node->stmts) . $this->nl . '}';
     }
 
+    protected function pExpr_Match(Expr\Match_ $node) {
+        return 'match (' . $this->p($node->cond) . ') {'
+            . $this->pCommaSeparatedMultiline($node->arms, true)
+            . $this->nl
+            . '}';
+    }
+
+    protected function pMatchArm(Node\MatchArm $node) {
+        return ($node->conds ? $this->pCommaSeparated($node->conds) : 'default')
+            . ' => ' . $this->p($node->body);
+    }
+
     protected function pExpr_ArrowFunction(Expr\ArrowFunction $node) {
         return ($node->static ? 'static ' : '')
             . 'fn' . ($node->byRef ? '&' : '')

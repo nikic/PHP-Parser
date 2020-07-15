@@ -1,0 +1,89 @@
+Matches
+-----
+<?php
+$value = match (1) {
+    1
+    =>
+    'one'
+};
+-----
+$stmts[0]->expr->expr->arms[] = new Node\MatchArm(null, new Scalar\String_('two'));
+-----
+<?php
+$value = match (1) {
+    1
+    =>
+    'one',
+    default => 'two',
+};
+-----
+<?php
+$value = match (1) {
+    1, 2 =>
+    'test',
+};
+-----
+$stmts[0]->expr->expr->arms[0]->conds[] = new Scalar\LNumber(3);
+-----
+<?php
+$value = match (1) {
+    1, 2, 3 =>
+    'test',
+};
+-----
+<?php
+$value = match (1) {
+    1
+    =>
+    'one',
+    2
+    =>
+    'two',
+    3
+    =>
+    'three',
+};
+-----
+array_splice($stmts[0]->expr->expr->arms, 1, 1, []);
+-----
+<?php
+$value = match (1) {
+    1
+    =>
+    'one',
+    3
+    =>
+    'three',
+};
+-----
+<?php
+// TODO: Preserve formatting?
+$value = match (1) {
+    default
+    =>
+    'test',
+};
+-----
+$stmts[0]->expr->expr->arms[0]->conds = [new Scalar\LNumber(1)];
+-----
+<?php
+// TODO: Preserve formatting?
+$value = match (1) {
+    1 => 'test',
+};
+-----
+<?php
+// TODO: Preserve formatting?
+$value = match (1) {
+    1
+    =>
+    'test',
+};
+-----
+$stmts[0]->expr->expr->arms[0]->conds = null;
+-----
+<?php
+// TODO: Preserve formatting?
+$value = match (1) {
+    default => 'test',
+};
