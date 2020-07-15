@@ -3,8 +3,9 @@
 namespace PhpParser\Node;
 
 use PhpParser\Node;
+use PhpParser\NodeAbstract;
 
-class MatchArm extends Node\Stmt
+class MatchArm extends NodeAbstract
 {
     /** @var null|Node\Expr[] */
     public $condList;
