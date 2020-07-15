@@ -17,7 +17,7 @@ array(
                 )
                 arms: array(
                     0: MatchArm(
-                        condList: array(
+                        conds: array(
                             0: Scalar_LNumber(
                                 value: 0
                             )
@@ -27,7 +27,7 @@ array(
                         )
                     )
                     1: MatchArm(
-                        condList: array(
+                        conds: array(
                             0: Scalar_LNumber(
                                 value: 1
                             )
@@ -62,7 +62,7 @@ array(
                 )
                 arms: array(
                     0: MatchArm(
-                        condList: array(
+                        conds: array(
                             0: Scalar_LNumber(
                                 value: 0
                                 comments: array(
@@ -105,7 +105,7 @@ array(
                 )
                 arms: array(
                     0: MatchArm(
-                        condList: array(
+                        conds: array(
                             0: Expr_ClassConstFetch(
                                 class: Name(
                                     parts: array(
@@ -152,7 +152,7 @@ array(
                 )
                 arms: array(
                     0: MatchArm(
-                        condList: array(
+                        conds: array(
                             0: Scalar_LNumber(
                                 value: 1
                             )
@@ -162,7 +162,7 @@ array(
                         )
                     )
                     1: MatchArm(
-                        condList: null
+                        conds: null
                         body: Scalar_String(
                             value: default
                         )
@@ -193,7 +193,7 @@ array(
                 )
                 arms: array(
                     0: MatchArm(
-                        condList: array(
+                        conds: array(
                             0: Scalar_LNumber(
                                 value: 0
                             )
@@ -206,7 +206,7 @@ array(
                         )
                     )
                     1: MatchArm(
-                        condList: null
+                        conds: null
                         body: Scalar_String(
                             value: Bar
                         )
