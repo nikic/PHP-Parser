@@ -10,6 +10,8 @@ abstract class Cast extends Expr
     public $expr;
 
     /**
+     * Constructs a cast node.
+     *
      * @param Expr  $expr       Expression
      * @param array $attributes Additional attributes
      */

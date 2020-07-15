@@ -22,6 +22,8 @@ class Closure extends Expr implements FunctionLike
     public $stmts;
 
     /**
+     * Constructs a lambda function node.
+     *
      * @param array $subNodes   Array of the following optional subnodes:
      *                          'static'     => false  : Whether the closure is static
      *                          'byRef'      => false  : Whether to return by reference
@@ -62,7 +64,7 @@ class Closure extends Expr implements FunctionLike
     public function getStmts() : array {
         return $this->stmts;
     }
-
+    
     public function getType() : string {
         return 'Expr_Closure';
     }

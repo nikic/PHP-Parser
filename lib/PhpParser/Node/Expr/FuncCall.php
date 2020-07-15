@@ -13,6 +13,8 @@ class FuncCall extends Expr
     public $args;
 
     /**
+     * Constructs a function call node.
+     *
      * @param Node\Name|Expr $name       Function name
      * @param Node\Arg[]     $args       Arguments
      * @param array          $attributes Additional attributes
@@ -26,7 +28,7 @@ class FuncCall extends Expr
     public function getSubNodeNames() : array {
         return ['name', 'args'];
     }
-
+    
     public function getType() : string {
         return 'Expr_FuncCall';
     }

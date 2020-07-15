@@ -10,6 +10,8 @@ class UnaryPlus extends Expr
     public $expr;
 
     /**
+     * Constructs a unary plus node.
+     *
      * @param Expr $expr       Expression
      * @param array               $attributes Additional attributes
      */
@@ -21,7 +23,7 @@ class UnaryPlus extends Expr
     public function getSubNodeNames() : array {
         return ['expr'];
     }
-
+    
     public function getType() : string {
         return 'Expr_UnaryPlus';
     }

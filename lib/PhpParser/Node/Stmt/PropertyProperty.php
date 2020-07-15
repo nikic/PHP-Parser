@@ -12,6 +12,8 @@ class PropertyProperty extends Node\Stmt
     public $default;
 
     /**
+     * Constructs a class property node.
+     *
      * @param string|Node\VarLikeIdentifier $name       Name
      * @param null|Node\Expr                $default    Default value
      * @param array                         $attributes Additional attributes
@@ -25,7 +27,7 @@ class PropertyProperty extends Node\Stmt
     public function getSubNodeNames() : array {
         return ['name', 'default'];
     }
-
+    
     public function getType() : string {
         return 'Stmt_PropertyProperty';
     }

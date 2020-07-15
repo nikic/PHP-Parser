@@ -14,6 +14,8 @@ class Arg extends NodeAbstract
     public $unpack;
 
     /**
+     * Constructs a function call argument node.
+     *
      * @param Expr  $value      Value to pass
      * @param bool  $byRef      Whether to pass by ref
      * @param bool  $unpack     Whether to unpack the argument
@@ -29,7 +31,7 @@ class Arg extends NodeAbstract
     public function getSubNodeNames() : array {
         return ['value', 'byRef', 'unpack'];
     }
-
+    
     public function getType() : string {
         return 'Arg';
     }

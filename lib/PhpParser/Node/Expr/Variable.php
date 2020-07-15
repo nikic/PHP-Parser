@@ -10,6 +10,8 @@ class Variable extends Expr
     public $name;
 
     /**
+     * Constructs a variable node.
+     *
      * @param string|Expr $name       Name
      * @param array                      $attributes Additional attributes
      */
@@ -21,7 +23,7 @@ class Variable extends Expr
     public function getSubNodeNames() : array {
         return ['name'];
     }
-
+    
     public function getType() : string {
         return 'Expr_Variable';
     }

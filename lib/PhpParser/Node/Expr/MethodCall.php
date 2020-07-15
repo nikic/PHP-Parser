@@ -16,6 +16,8 @@ class MethodCall extends Expr
     public $args;
 
     /**
+     * Constructs a function call node.
+     *
      * @param Expr                   $var        Variable holding object
      * @param string|Identifier|Expr $name       Method name
      * @param Arg[]                  $args       Arguments
@@ -31,7 +33,7 @@ class MethodCall extends Expr
     public function getSubNodeNames() : array {
         return ['var', 'name', 'args'];
     }
-
+    
     public function getType() : string {
         return 'Expr_MethodCall';
     }

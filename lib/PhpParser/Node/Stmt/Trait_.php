@@ -7,6 +7,8 @@ use PhpParser\Node;
 class Trait_ extends ClassLike
 {
     /**
+     * Constructs a trait node.
+     *
      * @param string|Node\Identifier $name Name
      * @param array  $subNodes   Array of the following optional subnodes:
      *                           'stmts' => array(): Statements

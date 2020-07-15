@@ -12,6 +12,8 @@ class While_ extends Node\Stmt
     public $stmts;
 
     /**
+     * Constructs a while node.
+     *
      * @param Node\Expr   $cond       Condition
      * @param Node\Stmt[] $stmts      Statements
      * @param array       $attributes Additional attributes
@@ -25,7 +27,7 @@ class While_ extends Node\Stmt
     public function getSubNodeNames() : array {
         return ['cond', 'stmts'];
     }
-
+    
     public function getType() : string {
         return 'Stmt_While';
     }

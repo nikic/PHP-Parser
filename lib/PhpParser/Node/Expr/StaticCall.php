@@ -16,6 +16,8 @@ class StaticCall extends Expr
     public $args;
 
     /**
+     * Constructs a static method call node.
+     *
      * @param Node\Name|Expr         $class      Class name
      * @param string|Identifier|Expr $name       Method name
      * @param Node\Arg[]             $args       Arguments
@@ -31,7 +33,7 @@ class StaticCall extends Expr
     public function getSubNodeNames() : array {
         return ['class', 'name', 'args'];
     }
-
+    
     public function getType() : string {
         return 'Expr_StaticCall';
     }

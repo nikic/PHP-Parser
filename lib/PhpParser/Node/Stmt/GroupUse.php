@@ -15,6 +15,8 @@ class GroupUse extends Stmt
     public $uses;
 
     /**
+     * Constructs a group use node.
+     *
      * @param Name     $prefix     Prefix for uses
      * @param UseUse[] $uses       Uses
      * @param int      $type       Type of group use
@@ -30,7 +32,7 @@ class GroupUse extends Stmt
     public function getSubNodeNames() : array {
         return ['type', 'prefix', 'uses'];
     }
-
+    
     public function getType() : string {
         return 'Stmt_GroupUse';
     }

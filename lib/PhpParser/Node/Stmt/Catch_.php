@@ -15,6 +15,8 @@ class Catch_ extends Node\Stmt
     public $stmts;
 
     /**
+     * Constructs a catch node.
+     *
      * @param Node\Name[]           $types      Types of exceptions to catch
      * @param Expr\Variable|null    $var        Variable for exception
      * @param Node\Stmt[]           $stmts      Statements

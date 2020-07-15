@@ -10,6 +10,8 @@ class PreDec extends Expr
     public $var;
 
     /**
+     * Constructs a pre decrement node.
+     *
      * @param Expr  $var        Variable
      * @param array $attributes Additional attributes
      */

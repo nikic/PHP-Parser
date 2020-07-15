@@ -12,6 +12,8 @@ class Case_ extends Node\Stmt
     public $stmts;
 
     /**
+     * Constructs a case node.
+     *
      * @param null|Node\Expr $cond       Condition (null for default)
      * @param Node\Stmt[]    $stmts      Statements
      * @param array          $attributes Additional attributes
@@ -25,7 +27,7 @@ class Case_ extends Node\Stmt
     public function getSubNodeNames() : array {
         return ['cond', 'stmts'];
     }
-
+    
     public function getType() : string {
         return 'Stmt_Case';
     }

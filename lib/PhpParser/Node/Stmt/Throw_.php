@@ -10,6 +10,8 @@ class Throw_ extends Node\Stmt
     public $expr;
 
     /**
+     * Constructs a throw node.
+     *
      * @param Node\Expr $expr       Expression
      * @param array     $attributes Additional attributes
      */
@@ -21,7 +23,7 @@ class Throw_ extends Node\Stmt
     public function getSubNodeNames() : array {
         return ['expr'];
     }
-
+    
     public function getType() : string {
         return 'Stmt_Throw';
     }

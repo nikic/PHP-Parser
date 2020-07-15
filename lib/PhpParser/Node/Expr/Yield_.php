@@ -12,6 +12,8 @@ class Yield_ extends Expr
     public $value;
 
     /**
+     * Constructs a yield expression node.
+     *
      * @param null|Expr $value      Value expression
      * @param null|Expr $key        Key expression
      * @param array     $attributes Additional attributes
@@ -25,7 +27,7 @@ class Yield_ extends Expr
     public function getSubNodeNames() : array {
         return ['key', 'value'];
     }
-
+    
     public function getType() : string {
         return 'Expr_Yield';
     }

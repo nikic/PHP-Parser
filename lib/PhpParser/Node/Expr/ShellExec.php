@@ -10,6 +10,8 @@ class ShellExec extends Expr
     public $parts;
 
     /**
+     * Constructs a shell exec (backtick) node.
+     *
      * @param array $parts      Encapsed string array
      * @param array $attributes Additional attributes
      */
@@ -21,7 +23,7 @@ class ShellExec extends Expr
     public function getSubNodeNames() : array {
         return ['parts'];
     }
-
+    
     public function getType() : string {
         return 'Expr_ShellExec';
     }

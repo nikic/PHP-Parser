@@ -22,6 +22,8 @@ class Function_ extends Node\Stmt implements FunctionLike
     public $stmts;
 
     /**
+     * Constructs a function node.
+     *
      * @param string|Node\Identifier $name Name
      * @param array  $subNodes   Array of the following optional subnodes:
      *                           'byRef'      => false  : Whether to return by reference
@@ -60,7 +62,7 @@ class Function_ extends Node\Stmt implements FunctionLike
     public function getStmts() : array {
         return $this->stmts;
     }
-
+    
     public function getType() : string {
         return 'Stmt_Function';
     }

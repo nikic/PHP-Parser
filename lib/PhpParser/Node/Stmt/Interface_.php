@@ -10,6 +10,8 @@ class Interface_ extends ClassLike
     public $extends;
 
     /**
+     * Constructs a class node.
+     *
      * @param string|Node\Identifier $name Name
      * @param array  $subNodes   Array of the following optional subnodes:
      *                           'extends' => array(): Name of extended interfaces

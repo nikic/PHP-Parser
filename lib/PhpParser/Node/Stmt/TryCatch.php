@@ -14,6 +14,8 @@ class TryCatch extends Node\Stmt
     public $finally;
 
     /**
+     * Constructs a try catch node.
+     *
      * @param Node\Stmt[]   $stmts      Statements
      * @param Catch_[]      $catches    Catches
      * @param null|Finally_ $finally    Optional finally node

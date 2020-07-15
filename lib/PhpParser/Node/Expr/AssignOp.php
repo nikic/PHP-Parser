@@ -12,6 +12,8 @@ abstract class AssignOp extends Expr
     public $expr;
 
     /**
+     * Constructs a compound assignment operation node.
+     *
      * @param Expr  $var        Variable
      * @param Expr  $expr       Expression
      * @param array $attributes Additional attributes

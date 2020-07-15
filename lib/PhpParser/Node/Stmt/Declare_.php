@@ -12,6 +12,8 @@ class Declare_ extends Node\Stmt
     public $stmts;
 
     /**
+     * Constructs a declare node.
+     *
      * @param DeclareDeclare[] $declares   List of declares
      * @param Node\Stmt[]|null $stmts      Statements
      * @param array            $attributes Additional attributes
@@ -25,7 +27,7 @@ class Declare_ extends Node\Stmt
     public function getSubNodeNames() : array {
         return ['declares', 'stmts'];
     }
-
+    
     public function getType() : string {
         return 'Stmt_Declare';
     }

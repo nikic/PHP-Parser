@@ -12,6 +12,8 @@ class ClosureUse extends Expr
     public $byRef;
 
     /**
+     * Constructs a closure use node.
+     *
      * @param Expr\Variable $var        Variable to use
      * @param bool          $byRef      Whether to use by reference
      * @param array         $attributes Additional attributes
@@ -25,7 +27,7 @@ class ClosureUse extends Expr
     public function getSubNodeNames() : array {
         return ['var', 'byRef'];
     }
-
+    
     public function getType() : string {
         return 'Expr_ClosureUse';
     }

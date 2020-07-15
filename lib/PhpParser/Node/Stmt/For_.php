@@ -16,6 +16,8 @@ class For_ extends Node\Stmt
     public $stmts;
 
     /**
+     * Constructs a for loop node.
+     *
      * @param array $subNodes   Array of the following optional subnodes:
      *                          'init'  => array(): Init expressions
      *                          'cond'  => array(): Loop conditions
@@ -34,7 +36,7 @@ class For_ extends Node\Stmt
     public function getSubNodeNames() : array {
         return ['init', 'cond', 'loop', 'stmts'];
     }
-
+    
     public function getType() : string {
         return 'Stmt_For';
     }

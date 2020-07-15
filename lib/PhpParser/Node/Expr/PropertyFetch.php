@@ -13,6 +13,8 @@ class PropertyFetch extends Expr
     public $name;
 
     /**
+     * Constructs a function call node.
+     *
      * @param Expr                   $var        Variable holding object
      * @param string|Identifier|Expr $name       Property name
      * @param array                  $attributes Additional attributes
@@ -26,7 +28,7 @@ class PropertyFetch extends Expr
     public function getSubNodeNames() : array {
         return ['var', 'name'];
     }
-
+    
     public function getType() : string {
         return 'Expr_PropertyFetch';
     }

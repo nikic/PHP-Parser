@@ -18,6 +18,8 @@ class Foreach_ extends Node\Stmt
     public $stmts;
 
     /**
+     * Constructs a foreach node.
+     *
      * @param Node\Expr $expr       Expression to iterate
      * @param Node\Expr $valueVar   Variable to assign value to
      * @param array     $subNodes   Array of the following optional subnodes:
@@ -38,7 +40,7 @@ class Foreach_ extends Node\Stmt
     public function getSubNodeNames() : array {
         return ['expr', 'keyVar', 'byRef', 'valueVar', 'stmts'];
     }
-
+    
     public function getType() : string {
         return 'Stmt_Foreach';
     }

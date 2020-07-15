@@ -16,6 +16,8 @@ class Namespace_ extends Node\Stmt
     public $stmts;
 
     /**
+     * Constructs a namespace node.
+     *
      * @param null|Node\Name   $name       Name
      * @param null|Node\Stmt[] $stmts      Statements
      * @param array            $attributes Additional attributes
@@ -29,7 +31,7 @@ class Namespace_ extends Node\Stmt
     public function getSubNodeNames() : array {
         return ['name', 'stmts'];
     }
-
+    
     public function getType() : string {
         return 'Stmt_Namespace';
     }

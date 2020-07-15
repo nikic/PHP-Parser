@@ -10,6 +10,8 @@ class Global_ extends Node\Stmt
     public $vars;
 
     /**
+     * Constructs a global variables list node.
+     *
      * @param Node\Expr[] $vars       Variables to unset
      * @param array       $attributes Additional attributes
      */
@@ -21,7 +23,7 @@ class Global_ extends Node\Stmt
     public function getSubNodeNames() : array {
         return ['vars'];
     }
-
+    
     public function getType() : string {
         return 'Stmt_Global';
     }

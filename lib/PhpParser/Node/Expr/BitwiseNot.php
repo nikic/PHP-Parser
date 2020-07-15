@@ -10,6 +10,8 @@ class BitwiseNot extends Expr
     public $expr;
 
     /**
+     * Constructs a bitwise not node.
+     *
      * @param Expr  $expr       Expression
      * @param array $attributes Additional attributes
      */
@@ -21,7 +23,7 @@ class BitwiseNot extends Expr
     public function getSubNodeNames() : array {
         return ['expr'];
     }
-
+    
     public function getType() : string {
         return 'Expr_BitwiseNot';
     }

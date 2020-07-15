@@ -10,6 +10,8 @@ class Const_ extends Node\Stmt
     public $consts;
 
     /**
+     * Constructs a const list node.
+     *
      * @param Node\Const_[] $consts     Constant declarations
      * @param array         $attributes Additional attributes
      */
@@ -21,7 +23,7 @@ class Const_ extends Node\Stmt
     public function getSubNodeNames() : array {
         return ['consts'];
     }
-
+    
     public function getType() : string {
         return 'Stmt_Const';
     }

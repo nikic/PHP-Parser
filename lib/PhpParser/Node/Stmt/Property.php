@@ -18,6 +18,8 @@ class Property extends Node\Stmt
     public $type;
 
     /**
+     * Constructs a class property list node.
+     *
      * @param int                                                $flags      Modifiers
      * @param PropertyProperty[]                                 $props      Properties
      * @param array                                              $attributes Additional attributes

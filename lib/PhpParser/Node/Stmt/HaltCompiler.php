@@ -10,6 +10,8 @@ class HaltCompiler extends Stmt
     public $remaining;
 
     /**
+     * Constructs a __halt_compiler node.
+     *
      * @param string $remaining  Remaining text after halt compiler statement.
      * @param array  $attributes Additional attributes
      */
@@ -21,7 +23,7 @@ class HaltCompiler extends Stmt
     public function getSubNodeNames() : array {
         return ['remaining'];
     }
-
+    
     public function getType() : string {
         return 'Stmt_HaltCompiler';
     }
