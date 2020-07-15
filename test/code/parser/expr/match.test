@@ -172,3 +172,47 @@ array(
         )
     )
 )
+-----
+<?php
+
+$value = match (1) {
+    0, 1, => 'Foo',
+    default, => 'Bar',
+};
+-----
+!!php7
+array(
+    0: Stmt_Expression(
+        expr: Expr_Assign(
+            var: Expr_Variable(
+                name: value
+            )
+            expr: Expr_Match(
+                cond: Scalar_LNumber(
+                    value: 1
+                )
+                arms: array(
+                    0: Stmt_Arm(
+                        condList: array(
+                            0: Scalar_LNumber(
+                                value: 0
+                            )
+                            1: Scalar_LNumber(
+                                value: 1
+                            )
+                        )
+                        body: Scalar_String(
+                            value: Foo
+                        )
+                    )
+                    1: Stmt_Arm(
+                        condList: null
+                        body: Scalar_String(
+                            value: Bar
+                        )
+                    )
+                )
+            )
+        )
+    )
+)
