@@ -1,7 +1,10 @@
 Version 4.5.1-dev
 -----------------
 
-Nothing yet.
+### Added
+
+* [PHP 8.0] Added support for match expressions. These are represented using a new `Expr\Match_`
+  containing `MatchArm`s.
 
 Version 4.5.0 (2020-06-03)
 --------------------------
