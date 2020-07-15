@@ -415,8 +415,8 @@ non_empty_match_arm_list:
 ;
 
 match_arm:
-      expr_list_allow_comma T_DOUBLE_ARROW expr             { $$ = Stmt\Arm[$1, $3]; }
-    | T_DEFAULT optional_comma T_DOUBLE_ARROW expr          { $$ = Stmt\Arm[null, $4]; }
+      expr_list_allow_comma T_DOUBLE_ARROW expr             { $$ = Node\MatchArm[$1, $3]; }
+    | T_DEFAULT optional_comma T_DOUBLE_ARROW expr          { $$ = Node\MatchArm[null, $4]; }
 ;
 
 while_statement:

@@ -601,7 +601,7 @@ class Standard extends PrettyPrinterAbstract
             . '}';
     }
 
-    protected function pStmt_Arm(Stmt\Arm $node) {
+    protected function pMatchArm(Node\MatchArm $node) {
         return ($node->condList ? $this->pCommaSeparated($node->condList) : 'default')
             . ' => ' . $this->p($node->body);
     }

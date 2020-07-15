@@ -18,8 +18,6 @@ final class FnTokenEmulator implements TokenEmulatorInterface
 
     public function emulate(string $code, array $tokens): array
     {
-        // We need to manually iterate and manage a count because we'll change
-        // the tokens array on the way
         foreach ($tokens as $i => $token) {
             if ($token[0] === T_STRING && strtolower($token[1]) === 'fn') {
                 $previousNonSpaceToken = $this->getPreviousNonSpaceToken($tokens, $i);

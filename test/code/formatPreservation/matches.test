@@ -6,7 +6,7 @@ $value = match (1) {
     1 => 'one'
 };
 -----
-$stmts[0]->expr->expr->arms[] = new Stmt\Arm(null, new Scalar\String_('two'));
+$stmts[0]->expr->expr->arms[] = new Node\MatchArm(null, new Scalar\String_('two'));
 -----
 <?php
 
