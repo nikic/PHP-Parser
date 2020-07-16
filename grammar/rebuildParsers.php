@@ -16,7 +16,7 @@ $tokensResultsFile = $resultDir . '/Tokens.php';
 $kmyacc = getenv('KMYACC');
 if (!$kmyacc) {
     // Use phpyacc from dev dependencies by default.
-    $kmyacc = PHP_BINARY . ' ' . __DIR__ . '/../vendor/bin/phpyacc';
+    $kmyacc = __DIR__ . '/../vendor/bin/phpyacc';
 }
 
 $options = array_flip($argv);
