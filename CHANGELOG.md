@@ -1,8 +1,9 @@
-Version 4.6.1-dev
+Version 4.7.0-dev
 -----------------
 
 ### Added
 
+* Add `ParentConnectingVisitor` and `NodeConnectingVisitor` classes.
 * [PHP 8.0] Added support for match expressions. These are represented using a new `Expr\Match_`
   containing `MatchArm`s.
 
