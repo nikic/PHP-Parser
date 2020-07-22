@@ -152,7 +152,8 @@ class Lexer
                 $this->handleInvalidCharacterRange($filePos, $filePos + 1, $line, $errorHandler);
             }
 
-            if ($token[0] === \T_COMMENT && preg_match('/(\r\n|\n|\r)$/D', $token[1], $matches)) {
+            if ($token[0] === \T_COMMENT && substr($token[1], 0, 2) !== '/*'
+                    && preg_match('/(\r\n|\n|\r)$/D', $token[1], $matches)) {
                 $trailingNewline = $matches[0];
                 $token[1] = substr($token[1], 0, -strlen($trailingNewline));
                 $this->tokens[$i] = $token;

@@ -35,6 +35,7 @@ class LexerTest extends \PHPUnit\Framework\TestCase
     public function provideTestError() {
         return [
             ["<?php /*", ["Unterminated comment from 1:7 to 1:9"]],
+            ["<?php /*\n", ["Unterminated comment from 1:7 to 2:1"]],
             ["<?php \1", ["Unexpected character \"\1\" (ASCII 1) from 1:7 to 1:7"]],
             ["<?php \0", ["Unexpected null byte from 1:7 to 1:7"]],
             // Error with potentially emulated token
