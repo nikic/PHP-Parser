@@ -801,7 +801,7 @@ lexical_vars:
 ;
 
 lexical_var_list:
-      non_empty_lexical_var_list no_comma                   { $$ = $1; }
+      non_empty_lexical_var_list optional_comma             { $$ = $1; }
 ;
 
 non_empty_lexical_var_list:

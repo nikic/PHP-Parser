@@ -594,13 +594,11 @@ isset($x, );
 
 declare(a=42, );
 
-foo($a, );
 global $a, ;
 static $a, ;
 echo $a, ;
 
 for ($a, ; $b, ; $c, );
-function ($a) use ($b, ) {};
 -----
 !!php7
 A trailing comma is not allowed here from 5:6 to 5:6
@@ -613,13 +611,12 @@ A trailing comma is not allowed here from 13:17 to 13:17
 A trailing comma is not allowed here from 14:14 to 14:14
 A trailing comma is not allowed here from 16:22 to 16:22
 A trailing comma is not allowed here from 21:13 to 21:13
+A trailing comma is not allowed here from 23:10 to 23:10
 A trailing comma is not allowed here from 24:10 to 24:10
-A trailing comma is not allowed here from 25:10 to 25:10
-A trailing comma is not allowed here from 26:8 to 26:8
-A trailing comma is not allowed here from 28:8 to 28:8
-A trailing comma is not allowed here from 28:14 to 28:14
-A trailing comma is not allowed here from 28:20 to 28:20
-A trailing comma is not allowed here from 29:22 to 29:22
+A trailing comma is not allowed here from 25:8 to 25:8
+A trailing comma is not allowed here from 27:8 to 27:8
+A trailing comma is not allowed here from 27:14 to 27:14
+A trailing comma is not allowed here from 27:20 to 27:20
 array(
     0: Stmt_GroupUse(
         type: TYPE_UNKNOWN (0)
@@ -808,32 +805,14 @@ array(
         )
         stmts: null
     )
-    9: Stmt_Expression(
-        expr: Expr_FuncCall(
-            name: Name(
-                parts: array(
-                    0: foo
-                )
-            )
-            args: array(
-                0: Arg(
-                    value: Expr_Variable(
-                        name: a
-                    )
-                    byRef: false
-                    unpack: false
-                )
-            )
-        )
-    )
-    10: Stmt_Global(
+    9: Stmt_Global(
         vars: array(
             0: Expr_Variable(
                 name: a
             )
         )
     )
-    11: Stmt_Static(
+    10: Stmt_Static(
         vars: array(
             0: Stmt_StaticVar(
                 var: Expr_Variable(
@@ -843,14 +822,14 @@ array(
             )
         )
     )
-    12: Stmt_Echo(
+    11: Stmt_Echo(
         exprs: array(
             0: Expr_Variable(
                 name: a
             )
         )
     )
-    13: Stmt_For(
+    12: Stmt_For(
         init: array(
             0: Expr_Variable(
                 name: a
@@ -867,35 +846,6 @@ array(
             )
         )
         stmts: array(
-        )
-    )
-    14: Stmt_Expression(
-        expr: Expr_Closure(
-            static: false
-            byRef: false
-            params: array(
-                0: Param(
-                    flags: 0
-                    type: null
-                    byRef: false
-                    variadic: false
-                    var: Expr_Variable(
-                        name: a
-                    )
-                    default: null
-                )
-            )
-            uses: array(
-                0: Expr_ClosureUse(
-                    var: Expr_Variable(
-                        name: b
-                    )
-                    byRef: false
-                )
-            )
-            returnType: null
-            stmts: array(
-            )
         )
     )
 )

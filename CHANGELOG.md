@@ -6,6 +6,7 @@ Version 4.7.0-dev
 * Add `ParentConnectingVisitor` and `NodeConnectingVisitor` classes.
 * [PHP 8.0] Added support for match expressions. These are represented using a new `Expr\Match_`
   containing `MatchArm`s.
+* [PHP 8.0] Added support for trailing comma in closure use lists.
 
 ### Fixed
 

@@ -1,0 +1,27 @@
+Trailing comma in use list
+-----
+<?php
+function() use($a,) {};
+-----
+!!php7
+array(
+    0: Stmt_Expression(
+        expr: Expr_Closure(
+            static: false
+            byRef: false
+            params: array(
+            )
+            uses: array(
+                0: Expr_ClosureUse(
+                    var: Expr_Variable(
+                        name: a
+                    )
+                    byRef: false
+                )
+            )
+            returnType: null
+            stmts: array(
+            )
+        )
+    )
+)
