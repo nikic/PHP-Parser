@@ -34,13 +34,24 @@ class Lexer
      *                       first three. For more info see getNextToken() docs.
      */
     public function __construct(array $options = []) {
-        // map from internal tokens to PhpParser tokens
-        $this->tokenMap = $this->createTokenMap();
-
-        // Compatibility define for PHP < 7.4
+        // Compatibility define for PHP < 7.4.
         if (!defined('T_BAD_CHARACTER')) {
             \define('T_BAD_CHARACTER', -1);
         }
+
+        // Compatibility defines for PHP < 8.0.
+        if (!defined('T_NAME_QUALIFIED')) {
+            \define('T_NAME_QUALIFIED', -2);
+        }
+        if (!defined('T_NAME_FULLY_QUALIFIED')) {
+            \define('T_NAME_FULLY_QUALIFIED', -3);
+        }
+        if (!defined('T_NAME_RELATIVE')) {
+            \define('T_NAME_RELATIVE', -4);
+        }
+
+        // Create Map from internal tokens to PhpParser tokens.
+        $this->tokenMap = $this->createTokenMap();
 
         // map of tokens to drop while lexing (the map is only used for isset lookup,
         // that's why the value is simply set to 1; the value is never actually used.)
@@ -138,7 +149,9 @@ class Lexer
         // by checking if a trailing comment has a "*/" at the end.
         //
         // Additionally, we canonicalize to the PHP 8 comment format here, which does not include
-        // the trailing whitespace anymore
+        // the trailing whitespace anymore.
+        //
+        // We also canonicalize to the PHP 8 T_NAME_* tokens.
 
         $filePos = 0;
         $line = 1;
@@ -167,6 +180,46 @@ class Lexer
                         [\T_WHITESPACE, $trailingNewline, $line],
                     ]);
                     $numTokens++;
+                }
+            }
+
+            // Emulate PHP 8 T_NAME_* tokens, by combining sequences of T_NS_SEPARATOR and T_STRING
+            // into a single token.
+            // TODO: Also handle reserved keywords in namespaced names.
+            if (\is_array($token)
+                    && ($token[0] === \T_NS_SEPARATOR || $token[0] === \T_STRING || $token[0] === \T_NAMESPACE)) {
+                $lastWasSeparator = $token[0] === \T_NS_SEPARATOR;
+                $text = $token[1];
+                for ($j = $i + 1; isset($this->tokens[$j]); $j++) {
+                    if ($lastWasSeparator) {
+                        if ($this->tokens[$j][0] !== \T_STRING) {
+                            break;
+                        }
+                        $lastWasSeparator = false;
+                    } else {
+                        if ($this->tokens[$j][0] !== \T_NS_SEPARATOR) {
+                            break;
+                        }
+                        $lastWasSeparator = true;
+                    }
+                    $text .= $this->tokens[$j][1];
+                }
+                if ($lastWasSeparator) {
+                    // Trailing separator is not part of the name.
+                    $j--;
+                    $text = substr($text, 0, -1);
+                }
+                if ($j > $i + 1) {
+                    if ($token[0] === \T_NS_SEPARATOR) {
+                        $type = \T_NAME_FULLY_QUALIFIED;
+                    } else if ($token[0] === \T_NAMESPACE) {
+                        $type = \T_NAME_RELATIVE;
+                    } else {
+                        $type = \T_NAME_QUALIFIED;
+                    }
+                    $token = [$type, $text, $line];
+                    array_splice($this->tokens, $i, $j - $i, [$token]);
+                    $numTokens -= $j - $i - 1;
                 }
             }
 
@@ -408,6 +461,11 @@ class Lexer
         if (defined('T_COMPILER_HALT_OFFSET')) {
             $tokenMap[\T_COMPILER_HALT_OFFSET] = Tokens::T_STRING;
         }
+
+        // Assign tokens for which we define compatibility constants, as token_name() does not know them.
+        $tokenMap[\T_NAME_QUALIFIED] = Tokens::T_NAME_QUALIFIED;
+        $tokenMap[\T_NAME_FULLY_QUALIFIED] = Tokens::T_NAME_FULLY_QUALIFIED;
+        $tokenMap[\T_NAME_RELATIVE] = Tokens::T_NAME_RELATIVE;
 
         return $tokenMap;
     }

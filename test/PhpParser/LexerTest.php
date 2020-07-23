@@ -215,6 +215,18 @@ class LexerTest extends \PHPUnit\Framework\TestCase
                 [],
                 []
             ],
+            // tests PHP 8 T_NAME_* emulation
+            [
+                '<?php Foo\Bar \Foo\Bar namespace\Foo\Bar Foo\Bar\\',
+                ['usedAttributes' => []],
+                [
+                    [Tokens::T_NAME_QUALIFIED, 'Foo\Bar', [], []],
+                    [Tokens::T_NAME_FULLY_QUALIFIED, '\Foo\Bar', [], []],
+                    [Tokens::T_NAME_RELATIVE, 'namespace\Foo\Bar', [], []],
+                    [Tokens::T_NAME_QUALIFIED, 'Foo\Bar', [], []],
+                    [Tokens::T_NS_SEPARATOR, '\\', [], []],
+                ]
+            ],
         ];
     }
 
