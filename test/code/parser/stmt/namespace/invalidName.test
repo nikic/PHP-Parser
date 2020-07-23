@@ -32,7 +32,7 @@ array(
 -----
 <?php namespace static;
 -----
-Syntax error, unexpected T_STATIC, expecting T_STRING or T_NS_SEPARATOR or '{' from 1:17 to 1:22
+Syntax error, unexpected T_STATIC, expecting T_STRING or T_NAME_QUALIFIED or '{' from 1:17 to 1:22
 array(
 )
 -----

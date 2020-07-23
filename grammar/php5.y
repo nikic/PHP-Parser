@@ -49,13 +49,14 @@ reserved_non_modifiers_identifier:
       reserved_non_modifiers                                { $$ = Node\Identifier[$1]; }
 ;
 
-namespace_name_parts:
-      T_STRING                                              { init($1); }
-    | namespace_name_parts T_NS_SEPARATOR T_STRING          { push($1, $3); }
+namespace_name:
+      T_STRING                                              { $$ = Name[$1]; }
+    | T_NAME_QUALIFIED                                      { $$ = Name[$1]; }
 ;
 
-namespace_name:
-      namespace_name_parts                                  { $$ = Name[$1]; }
+legacy_namespace_name:
+      namespace_name                                        { $$ = $1; }
+    | T_NAME_FULLY_QUALIFIED                                { $$ = Name[substr($1, 1)]; }
 ;
 
 plain_variable:
@@ -91,16 +92,11 @@ use_type:
     | T_CONST                                               { $$ = Stmt\Use_::TYPE_CONSTANT; }
 ;
 
-/* Using namespace_name_parts here to avoid s/r conflict on T_NS_SEPARATOR */
 group_use_declaration:
-      T_USE use_type namespace_name_parts T_NS_SEPARATOR '{' unprefixed_use_declarations '}'
-          { $$ = Stmt\GroupUse[new Name($3, stackAttributes(#3)), $6, $2]; }
-    | T_USE use_type T_NS_SEPARATOR namespace_name_parts T_NS_SEPARATOR '{' unprefixed_use_declarations '}'
-          { $$ = Stmt\GroupUse[new Name($4, stackAttributes(#4)), $7, $2]; }
-    | T_USE namespace_name_parts T_NS_SEPARATOR '{' inline_use_declarations '}'
-          { $$ = Stmt\GroupUse[new Name($2, stackAttributes(#2)), $5, Stmt\Use_::TYPE_UNKNOWN]; }
-    | T_USE T_NS_SEPARATOR namespace_name_parts T_NS_SEPARATOR '{' inline_use_declarations '}'
-          { $$ = Stmt\GroupUse[new Name($3, stackAttributes(#3)), $6, Stmt\Use_::TYPE_UNKNOWN]; }
+      T_USE use_type legacy_namespace_name T_NS_SEPARATOR '{' unprefixed_use_declarations '}'
+          { $$ = Stmt\GroupUse[$3, $6, $2]; }
+    | T_USE legacy_namespace_name T_NS_SEPARATOR '{' inline_use_declarations '}'
+          { $$ = Stmt\GroupUse[$2, $5, Stmt\Use_::TYPE_UNKNOWN]; }
 ;
 
 unprefixed_use_declarations:
@@ -127,8 +123,10 @@ unprefixed_use_declaration:
 ;
 
 use_declaration:
-      unprefixed_use_declaration                            { $$ = $1; }
-    | T_NS_SEPARATOR unprefixed_use_declaration             { $$ = $2; }
+      legacy_namespace_name
+          { $$ = Stmt\UseUse[$1, null, Stmt\Use_::TYPE_UNKNOWN]; $this->checkUseUse($$, #1); }
+    | legacy_namespace_name T_AS identifier
+          { $$ = Stmt\UseUse[$1, $3, Stmt\Use_::TYPE_UNKNOWN]; $this->checkUseUse($$, #3); }
 ;
 
 inline_use_declaration:
@@ -734,9 +732,10 @@ class_name:
 ;
 
 name:
-      namespace_name_parts                                  { $$ = Name[$1]; }
-    | T_NS_SEPARATOR namespace_name_parts                   { $$ = Name\FullyQualified[$2]; }
-    | T_NAMESPACE T_NS_SEPARATOR namespace_name_parts       { $$ = Name\Relative[$3]; }
+      T_STRING                                              { $$ = Name[$1]; }
+    | T_NAME_QUALIFIED                                      { $$ = Name[$1]; }
+    | T_NAME_FULLY_QUALIFIED                                { $$ = Name\FullyQualified[substr($1, 1)]; }
+    | T_NAME_RELATIVE                                       { $$ = Name\Relative[substr($1, 10)]; }
 ;
 
 class_name_reference:
