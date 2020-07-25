@@ -34,6 +34,7 @@ $parser = (new PhpParser\ParserFactory)->create(
     $lexer
 );
 $dumper = new PhpParser\NodeDumper([
+    'dumpAttributes' => $attributes['with-attributes'],
     'dumpComments' => true,
     'dumpPositions' => $attributes['with-positions'],
 ]);
@@ -41,6 +42,9 @@ $prettyPrinter = new PhpParser\PrettyPrinter\Standard;
 
 $traverser = new PhpParser\NodeTraverser();
 $traverser->addVisitor(new PhpParser\NodeVisitor\NameResolver);
+if ($attributes['with-attributes']) {
+    $traverser->addVisitor(new PhpParser\NodeVisitor\NodeConnectingVisitor());
+}
 
 foreach ($files as $file) {
     if (strpos($file, '<?php') === 0) {
@@ -122,6 +126,7 @@ Operations is a list of the following options (--dump by default):
     -N, --resolve-names     Resolve names using NodeVisitor\NameResolver
     -c, --with-column-info  Show column-numbers for errors (if available)
     -P, --with-positions    Show positions in node dumps
+    -a, --with-attributes   Show attributes available in node dumps
     -r, --with-recovery     Use parsing with error recovery
     -h, --help              Display this page
 
@@ -142,6 +147,7 @@ function parseArgs($args) {
     $attributes = [
         'with-column-info' => false,
         'with-positions' => false,
+        'with-attributes' => false,
         'with-recovery' => false,
     ];
 
@@ -180,6 +186,10 @@ function parseArgs($args) {
             case '--with-positions':
             case '-P':
                 $attributes['with-positions'] = true;
+                break;
+            case '--with-attributes':
+            case '-a':
+                $attributes['with-attributes'] = true;
                 break;
             case '--with-recovery':
             case '-r':

@@ -10,6 +10,7 @@ use PhpParser\Node\Stmt\UseUse;
 
 class NodeDumper
 {
+    private $dumpAttributes;
     private $dumpComments;
     private $dumpPositions;
     private $code;
@@ -18,6 +19,7 @@ class NodeDumper
      * Constructs a NodeDumper.
      *
      * Supported options:
+     *  * bool dumpAttributes: Whether attributes should be dumped.
      *  * bool dumpComments: Whether comments should be dumped.
      *  * bool dumpPositions: Whether line/offset information should be dumped. To dump offset
      *                        information, the code needs to be passed to dump().
@@ -25,6 +27,7 @@ class NodeDumper
      * @param array $options Options (see description)
      */
     public function __construct(array $options = []) {
+        $this->dumpAttributes = !empty($options['dumpAttributes']);
         $this->dumpComments = !empty($options['dumpComments']);
         $this->dumpPositions = !empty($options['dumpPositions']);
     }
@@ -80,6 +83,10 @@ class NodeDumper
 
             if ($this->dumpComments && $comments = $node->getComments()) {
                 $r .= "\n    comments: " . str_replace("\n", "\n    ", $this->dumpRecursive($comments));
+            }
+
+            if ($this->dumpAttributes && $attrs = $node->getAttributes()) {
+                $r .= "\n    attributes: " . str_replace("\n", "\n    ", $this->dumpRecursive(array_keys($attrs)));
             }
         } elseif (is_array($node)) {
             $r = 'array(';
