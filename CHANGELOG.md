@@ -1,5 +1,8 @@
-Version 4.7.0-dev
+Version 4.7.1-dev
 -----------------
+
+Version 4.7.0 (2020-07-25)
+--------------------------
 
 ### Added
 
@@ -11,6 +14,9 @@ Version 4.7.0-dev
 ### Fixed
 
 * Fixed missing error for unterminated comment with trailing newline (#688).
+* Compatibility with PHP 8.0 has been restored: Namespaced names are now always represented by
+  `T_NAME_*` tokens, using emulationg on older PHP versions. Full support for reserved keywords
+  in namespaced names is not yet present.
 
 Version 4.6.0 (2020-07-02)
 --------------------------
