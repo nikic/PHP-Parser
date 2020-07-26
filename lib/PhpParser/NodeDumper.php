@@ -86,7 +86,17 @@ class NodeDumper
             }
 
             if ($this->dumpAttributes && $attrs = $node->getAttributes()) {
-                $r .= "\n    attributes: " . str_replace("\n", "\n    ", $this->dumpRecursive(array_keys($attrs)));
+                $attributes = $node->getAttributes();
+
+                foreach ($attributes as $key => $attr) {
+                    if ($attr instanceof Node) {
+                        $attributes[$key] = ['type' => $attr->getType()];
+                    } elseif (!is_array($attr)) {
+                        $attributes[$key] = [gettype($attr) => $attr];
+                        continue;
+                    }
+                }
+                $r .= "\n    attributes: " . str_replace("\n", "\n    ", $this->dumpRecursive($attributes));
             }
         } elseif (is_array($node)) {
             $r = 'array(';
