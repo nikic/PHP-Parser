@@ -34,11 +34,19 @@ REGEX;
     /** @var TokenEmulatorInterface[] */
     private $tokenEmulators = [];
 
+    /** @var string */
+    private $targetPhpVersion;
+
     /**
-     * @param mixed[] $options
+     * @param mixed[] $options Lexer options. In addition to the usual options,
+     *                         accepts a 'phpVersion' string that specifies the
+     *                         version to emulated. Defaults to newest supported.
      */
     public function __construct(array $options = [])
     {
+        $this->targetPhpVersion = $options['phpVersion'] ?? Emulative::PHP_8_0;
+        unset($options['phpVersion']);
+
         parent::__construct($options);
 
         $this->tokenEmulators[] = new FnTokenEmulator();
@@ -77,7 +85,9 @@ REGEX;
 
         // add token emulation
         foreach ($this->tokenEmulators as $tokenEmulator) {
-            if (version_compare(\PHP_VERSION, $tokenEmulator->getPhpVersion(), '<')
+            $emulatorPhpVersion = $tokenEmulator->getPhpVersion();
+            if (version_compare(\PHP_VERSION, $emulatorPhpVersion, '<')
+                    && version_compare($this->targetPhpVersion, $emulatorPhpVersion, '>=')
                     && $tokenEmulator->isEmulationNeeded($code)) {
                 $this->tokens = $tokenEmulator->emulate($code, $this->tokens);
             }
