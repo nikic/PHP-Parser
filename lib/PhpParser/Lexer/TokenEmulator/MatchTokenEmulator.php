@@ -18,6 +18,6 @@ final class MatchTokenEmulator extends KeywordEmulator
 
     public function getKeywordToken(): int
     {
-        return Emulative::T_MATCH;
+        return \T_MATCH;
     }
 }

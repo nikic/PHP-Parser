@@ -96,4 +96,10 @@ final class NumericLiteralSeparatorEmulator implements TokenEmulatorInterface
 
         return is_float($num) ? T_DNUMBER : T_LNUMBER;
     }
+
+    public function reverseEmulate(string $code, array $tokens): array
+    {
+        // Numeric separators were not legal code previously, don't bother.
+        return $tokens;
+    }
 }

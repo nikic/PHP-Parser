@@ -13,4 +13,9 @@ interface TokenEmulatorInterface
      * @return array Modified Tokens
      */
     public function emulate(string $code, array $tokens): array;
+
+    /**
+     * @return array Modified Tokens
+     */
+    public function reverseEmulate(string $code, array $tokens): array;
 }

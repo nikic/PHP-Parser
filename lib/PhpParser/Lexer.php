@@ -34,23 +34,8 @@ class Lexer
      *                       first three. For more info see getNextToken() docs.
      */
     public function __construct(array $options = []) {
-        // Compatibility define for PHP < 7.4.
-        if (!defined('T_BAD_CHARACTER')) {
-            \define('T_BAD_CHARACTER', -1);
-        }
-
-        // Compatibility defines for PHP < 8.0.
-        if (!defined('T_NAME_QUALIFIED')) {
-            \define('T_NAME_QUALIFIED', -2);
-        }
-        if (!defined('T_NAME_FULLY_QUALIFIED')) {
-            \define('T_NAME_FULLY_QUALIFIED', -3);
-        }
-        if (!defined('T_NAME_RELATIVE')) {
-            \define('T_NAME_RELATIVE', -4);
-        }
-
         // Create Map from internal tokens to PhpParser tokens.
+        $this->defineCompatibilityTokens();
         $this->tokenMap = $this->createTokenMap();
 
         // map of tokens to drop while lexing (the map is only used for isset lookup,
@@ -418,6 +403,33 @@ class Lexer
         return substr($textAfter, strlen($matches[0]));
     }
 
+    private function defineCompatibilityTokens() {
+        // PHP 7.4
+        if (!defined('T_BAD_CHARACTER')) {
+            \define('T_BAD_CHARACTER', -1);
+        }
+        if (!defined('T_FN')) {
+            \define('T_FN', -2);
+        }
+        if (!defined('T_COALESCE_EQUAL')) {
+            \define('T_COALESCE_EQUAL', -3);
+        }
+
+        // PHP 8.0
+        if (!defined('T_NAME_QUALIFIED')) {
+            \define('T_NAME_QUALIFIED', -4);
+        }
+        if (!defined('T_NAME_FULLY_QUALIFIED')) {
+            \define('T_NAME_FULLY_QUALIFIED', -5);
+        }
+        if (!defined('T_NAME_RELATIVE')) {
+            \define('T_NAME_RELATIVE', -6);
+        }
+        if (!defined('T_MATCH')) {
+            \define('T_MATCH', -7);
+        }
+    }
+
     /**
      * Creates the token map.
      *
@@ -463,9 +475,12 @@ class Lexer
         }
 
         // Assign tokens for which we define compatibility constants, as token_name() does not know them.
+        $tokenMap[\T_FN] = Tokens::T_FN;
+        $tokenMap[\T_COALESCE_EQUAL] = Tokens::T_COALESCE_EQUAL;
         $tokenMap[\T_NAME_QUALIFIED] = Tokens::T_NAME_QUALIFIED;
         $tokenMap[\T_NAME_FULLY_QUALIFIED] = Tokens::T_NAME_FULLY_QUALIFIED;
         $tokenMap[\T_NAME_RELATIVE] = Tokens::T_NAME_RELATIVE;
+        $tokenMap[\T_MATCH] = Tokens::T_MATCH;
 
         return $tokenMap;
     }

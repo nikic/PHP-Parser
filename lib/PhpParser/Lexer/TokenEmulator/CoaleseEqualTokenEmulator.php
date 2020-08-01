@@ -38,4 +38,10 @@ final class CoaleseEqualTokenEmulator implements TokenEmulatorInterface
 
         return $tokens;
     }
+
+    public function reverseEmulate(string $code, array $tokens): array
+    {
+        // ??= was not valid code previously, don't bother.
+        return $tokens;
+    }
 }

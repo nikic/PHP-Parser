@@ -18,6 +18,6 @@ final class FnTokenEmulator extends KeywordEmulator
 
     public function getKeywordToken(): int
     {
-        return Emulative::T_FN;
+        return \T_FN;
     }
 }

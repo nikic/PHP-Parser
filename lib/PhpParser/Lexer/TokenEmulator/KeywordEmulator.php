@@ -2,8 +2,6 @@
 
 namespace PhpParser\Lexer\TokenEmulator;
 
-use PhpParser\Lexer\Emulative;
-
 abstract class KeywordEmulator implements TokenEmulatorInterface
 {
     abstract function getKeywordString(): string;
@@ -20,7 +18,7 @@ abstract class KeywordEmulator implements TokenEmulatorInterface
         foreach ($tokens as $i => $token) {
             if ($token[0] === T_STRING && strtolower($token[1]) === $keywordString) {
                 $previousNonSpaceToken = $this->getPreviousNonSpaceToken($tokens, $i);
-                if ($previousNonSpaceToken !== null && $previousNonSpaceToken[0] === T_OBJECT_OPERATOR) {
+                if ($previousNonSpaceToken !== null && $previousNonSpaceToken[0] === \T_OBJECT_OPERATOR) {
                     continue;
                 }
 
@@ -46,5 +44,17 @@ abstract class KeywordEmulator implements TokenEmulatorInterface
         }
 
         return null;
+    }
+
+    public function reverseEmulate(string $code, array $tokens): array
+    {
+        $keywordToken = $this->getKeywordToken();
+        foreach ($tokens as $i => $token) {
+            if ($token[0] === $keywordToken) {
+                $tokens[$i][0] = \T_STRING;
+            }
+        }
+
+        return $tokens;
     }
 }

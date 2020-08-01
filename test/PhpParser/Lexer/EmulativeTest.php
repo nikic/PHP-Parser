@@ -3,6 +3,7 @@
 namespace PhpParser\Lexer;
 
 use PhpParser\ErrorHandler;
+use PhpParser\Lexer;
 use PhpParser\LexerTest;
 use PhpParser\Parser\Tokens;
 
@@ -49,6 +50,9 @@ class EmulativeTest extends LexerTest
 
     public function provideTestReplaceKeywords() {
         return [
+            // PHP 8.0
+            ['match',         Tokens::T_MATCH],
+
             // PHP 7.4
             ['fn',            Tokens::T_FN],
 
@@ -70,18 +74,21 @@ class EmulativeTest extends LexerTest
         ];
     }
 
+    private function assertSameTokens(array $expectedTokens, Lexer $lexer) {
+        $tokens = [];
+        while (0 !== $token = $lexer->getNextToken($text)) {
+            $tokens[] = [$token, $text];
+        }
+        $this->assertSame($expectedTokens, $tokens);
+    }
+
     /**
      * @dataProvider provideTestLexNewFeatures
      */
     public function testLexNewFeatures($code, array $expectedTokens) {
         $lexer = $this->getLexer();
         $lexer->startLexing('<?php ' . $code);
-
-        $tokens = [];
-        while (0 !== $token = $lexer->getNextToken($text)) {
-            $tokens[] = [$token, $text];
-        }
-        $this->assertSame($expectedTokens, $tokens);
+        $this->assertSameTokens($expectedTokens, $lexer);
     }
 
     /**
@@ -253,6 +260,24 @@ class EmulativeTest extends LexerTest
                 [Tokens::T_LNUMBER, '1_0'],
                 [Tokens::T_STRING, 'abc'],
             ]],
+        ];
+    }
+
+    /**
+     * @dataProvider provideTestTargetVersion
+     */
+    public function testTargetVersion(string $phpVersion, string $code, array $expectedTokens) {
+        $lexer = $this->getLexer(['phpVersion' => $phpVersion]);
+        $lexer->startLexing('<?php ' . $code);
+        $this->assertSameTokens($expectedTokens, $lexer);
+    }
+
+    public function provideTestTargetVersion() {
+        return [
+            ['8.0', 'match', [[Tokens::T_MATCH, 'match']]],
+            ['7.4', 'match', [[Tokens::T_STRING, 'match']]],
+            ['7.4', 'fn', [[Tokens::T_FN, 'fn']]],
+            ['7.3', 'fn', [[Tokens::T_STRING, 'fn']]],
         ];
     }
 }

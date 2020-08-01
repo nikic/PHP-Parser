@@ -14,13 +14,9 @@ use PhpParser\Parser\Tokens;
 
 class Emulative extends Lexer
 {
-    const PHP_7_3 = '7.3.0dev';
-    const PHP_7_4 = '7.4.0dev';
-    const PHP_8_0 = '8.0.0dev';
-
-    const T_COALESCE_EQUAL = 1007;
-    const T_FN = 1008;
-    const T_MATCH = 1009;
+    const PHP_7_3 = '7.3dev';
+    const PHP_7_4 = '7.4dev';
+    const PHP_8_0 = '8.0dev';
 
     const FLEXIBLE_DOC_STRING_REGEX = <<<'REGEX'
 /<<<[ \t]*(['"]?)([a-zA-Z_\x80-\xff][a-zA-Z0-9_\x80-\xff]*)\1\r?\n
@@ -53,10 +49,6 @@ REGEX;
         $this->tokenEmulators[] = new MatchTokenEmulator();
         $this->tokenEmulators[] = new CoaleseEqualTokenEmulator();
         $this->tokenEmulators[] = new NumericLiteralSeparatorEmulator();
-
-        $this->tokenMap[self::T_COALESCE_EQUAL] = Tokens::T_COALESCE_EQUAL;
-        $this->tokenMap[self::T_FN] = Tokens::T_FN;
-        $this->tokenMap[self::T_MATCH] = Tokens::T_MATCH;
     }
 
     public function startLexing(string $code, ErrorHandler $errorHandler = null) {
@@ -83,13 +75,16 @@ REGEX;
             }
         }
 
-        // add token emulation
         foreach ($this->tokenEmulators as $tokenEmulator) {
             $emulatorPhpVersion = $tokenEmulator->getPhpVersion();
             if (version_compare(\PHP_VERSION, $emulatorPhpVersion, '<')
                     && version_compare($this->targetPhpVersion, $emulatorPhpVersion, '>=')
                     && $tokenEmulator->isEmulationNeeded($code)) {
                 $this->tokens = $tokenEmulator->emulate($code, $this->tokens);
+            } else if (version_compare(\PHP_VERSION, $emulatorPhpVersion, '>=')
+                    && version_compare($this->targetPhpVersion, $emulatorPhpVersion, '<')
+                    && $tokenEmulator->isEmulationNeeded($code)) {
+                $this->tokens = $tokenEmulator->reverseEmulate($code, $this->tokens);
             }
         }
     }
