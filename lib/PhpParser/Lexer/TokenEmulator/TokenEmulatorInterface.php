@@ -5,6 +5,8 @@ namespace PhpParser\Lexer\TokenEmulator;
 /** @internal */
 interface TokenEmulatorInterface
 {
+    public function getPhpVersion(): string;
+
     public function isEmulationNeeded(string $code): bool;
 
     /**

@@ -76,9 +76,10 @@ REGEX;
         }
 
         // add token emulation
-        foreach ($this->tokenEmulators as $emulativeToken) {
-            if ($emulativeToken->isEmulationNeeded($code)) {
-                $this->tokens = $emulativeToken->emulate($code, $this->tokens);
+        foreach ($this->tokenEmulators as $tokenEmulator) {
+            if (version_compare(\PHP_VERSION, $tokenEmulator->getPhpVersion(), '<')
+                    && $tokenEmulator->isEmulationNeeded($code)) {
+                $this->tokens = $tokenEmulator->emulate($code, $this->tokens);
             }
         }
     }

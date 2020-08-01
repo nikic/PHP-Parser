@@ -14,13 +14,13 @@ final class NumericLiteralSeparatorEmulator implements TokenEmulatorInterface
     const FLOAT = '(?:' . self::SIMPLE_FLOAT . self::EXP . '?|' . self::DEC . self::EXP . ')';
     const NUMBER = '~' . self::FLOAT . '|' . self::BIN . '|' . self::HEX . '|' . self::DEC . '~iA';
 
+    public function getPhpVersion(): string
+    {
+        return Emulative::PHP_7_4;
+    }
+
     public function isEmulationNeeded(string $code) : bool
     {
-        // skip version where this is supported
-        if (version_compare(\PHP_VERSION, Emulative::PHP_7_4, '>=')) {
-            return false;
-        }
-
         return preg_match('~[0-9]_[0-9]~', $code)
             || preg_match('~0x[0-9a-f]+_[0-9a-f]~i', $code);
     }

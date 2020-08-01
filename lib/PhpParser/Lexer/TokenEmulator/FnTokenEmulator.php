@@ -6,13 +6,13 @@ use PhpParser\Lexer\Emulative;
 
 final class FnTokenEmulator implements TokenEmulatorInterface
 {
-    public function isEmulationNeeded(string $code) : bool
+    public function getPhpVersion(): string
     {
-        // skip version where this is supported
-        if (version_compare(\PHP_VERSION, Emulative::PHP_7_4, '>=')) {
-            return false;
-        }
+        return Emulative::PHP_7_4;
+    }
 
+    public function isEmulationNeeded(string $code): bool
+    {
         return strpos($code, 'fn') !== false;
     }
 

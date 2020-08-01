@@ -6,13 +6,13 @@ use PhpParser\Lexer\Emulative;
 
 final class MatchTokenEmulator implements TokenEmulatorInterface
 {
-    public function isEmulationNeeded(string $code) : bool
+    public function getPhpVersion(): string
     {
-        // skip version where this is supported
-        if (version_compare(\PHP_VERSION, Emulative::PHP_8_0, '>=')) {
-            return false;
-        }
+        return Emulative::PHP_8_0;
+    }
 
+    public function isEmulationNeeded(string $code): bool
+    {
         return strpos($code, 'match') !== false;
     }
 
