@@ -48,6 +48,18 @@ class EmulativeTest extends LexerTest
         $this->assertSame(0, $lexer->getNextToken());
     }
 
+    /**
+     * @dataProvider provideTestReplaceKeywords
+     */
+    public function testNoReplaceKeywordsAfterNullsafeObjectOperator(string $keyword) {
+        $lexer = $this->getLexer();
+        $lexer->startLexing('<?php ?->' . $keyword);
+
+        $this->assertSame(Tokens::T_NULLSAFE_OBJECT_OPERATOR, $lexer->getNextToken());
+        $this->assertSame(Tokens::T_STRING, $lexer->getNextToken());
+        $this->assertSame(0, $lexer->getNextToken());
+    }
+
     public function provideTestReplaceKeywords() {
         return [
             // PHP 8.0
@@ -259,6 +271,9 @@ class EmulativeTest extends LexerTest
             ['1_0abc', [
                 [Tokens::T_LNUMBER, '1_0'],
                 [Tokens::T_STRING, 'abc'],
+            ]],
+            ['?->', [
+                [Tokens::T_NULLSAFE_OBJECT_OPERATOR, '?->'],
             ]],
         ];
     }

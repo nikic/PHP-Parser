@@ -85,6 +85,7 @@
 %token T_EXTENDS
 %token T_IMPLEMENTS
 %token T_OBJECT_OPERATOR
+%token T_NULLSAFE_OBJECT_OPERATOR
 %token T_DOUBLE_ARROW
 %token T_LIST
 %token T_ARRAY

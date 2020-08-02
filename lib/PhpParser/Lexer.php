@@ -428,6 +428,9 @@ class Lexer
         if (!defined('T_MATCH')) {
             \define('T_MATCH', -7);
         }
+        if (!defined('T_NULLSAFE_OBJECT_OPERATOR')) {
+            \define('T_NULLSAFE_OBJECT_OPERATOR', -8);
+        }
     }
 
     /**
@@ -481,6 +484,7 @@ class Lexer
         $tokenMap[\T_NAME_FULLY_QUALIFIED] = Tokens::T_NAME_FULLY_QUALIFIED;
         $tokenMap[\T_NAME_RELATIVE] = Tokens::T_NAME_RELATIVE;
         $tokenMap[\T_MATCH] = Tokens::T_MATCH;
+        $tokenMap[\T_NULLSAFE_OBJECT_OPERATOR] = Tokens::T_NULLSAFE_OBJECT_OPERATOR;
 
         return $tokenMap;
     }

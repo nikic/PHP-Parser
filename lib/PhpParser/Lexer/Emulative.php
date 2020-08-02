@@ -8,6 +8,7 @@ use PhpParser\Lexer;
 use PhpParser\Lexer\TokenEmulator\CoaleseEqualTokenEmulator;
 use PhpParser\Lexer\TokenEmulator\FnTokenEmulator;
 use PhpParser\Lexer\TokenEmulator\MatchTokenEmulator;
+use PhpParser\Lexer\TokenEmulator\NullsafeTokenEmulator;
 use PhpParser\Lexer\TokenEmulator\NumericLiteralSeparatorEmulator;
 use PhpParser\Lexer\TokenEmulator\TokenEmulatorInterface;
 use PhpParser\Parser\Tokens;
@@ -49,6 +50,7 @@ REGEX;
         $this->tokenEmulators[] = new MatchTokenEmulator();
         $this->tokenEmulators[] = new CoaleseEqualTokenEmulator();
         $this->tokenEmulators[] = new NumericLiteralSeparatorEmulator();
+        $this->tokenEmulators[] = new NullsafeTokenEmulator();
     }
 
     public function startLexing(string $code, ErrorHandler $errorHandler = null) {

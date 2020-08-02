@@ -1,0 +1,82 @@
+Nullsafe operator
+-----
+<?php
+
+$a?->b;
+$a?->b($c);
+new $a?->b;
+"{$a?->b}";
+"$a?->b";
+-----
+!!php7
+array(
+    0: Stmt_Expression(
+        expr: Expr_NullsafePropertyFetch(
+            var: Expr_Variable(
+                name: a
+            )
+            name: Identifier(
+                name: b
+            )
+        )
+    )
+    1: Stmt_Expression(
+        expr: Expr_NullsafeMethodCall(
+            var: Expr_Variable(
+                name: a
+            )
+            name: Identifier(
+                name: b
+            )
+            args: array(
+                0: Arg(
+                    value: Expr_Variable(
+                        name: c
+                    )
+                    byRef: false
+                    unpack: false
+                )
+            )
+        )
+    )
+    2: Stmt_Expression(
+        expr: Expr_New(
+            class: Expr_NullsafePropertyFetch(
+                var: Expr_Variable(
+                    name: a
+                )
+                name: Identifier(
+                    name: b
+                )
+            )
+            args: array(
+            )
+        )
+    )
+    3: Stmt_Expression(
+        expr: Scalar_Encapsed(
+            parts: array(
+                0: Expr_NullsafePropertyFetch(
+                    var: Expr_Variable(
+                        name: a
+                    )
+                    name: Identifier(
+                        name: b
+                    )
+                )
+            )
+        )
+    )
+    4: Stmt_Expression(
+        expr: Scalar_Encapsed(
+            parts: array(
+                0: Expr_Variable(
+                    name: a
+                )
+                1: Scalar_EncapsedStringPart(
+                    value: ?->b
+                )
+            )
+        )
+    )
+)

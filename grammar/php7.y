@@ -943,6 +943,8 @@ callable_variable:
     | function_call                                         { $$ = $1; }
     | array_object_dereferencable T_OBJECT_OPERATOR property_name argument_list
           { $$ = Expr\MethodCall[$1, $3, $4]; }
+    | array_object_dereferencable T_NULLSAFE_OBJECT_OPERATOR property_name argument_list
+          { $$ = Expr\NullsafeMethodCall[$1, $3, $4]; }
 ;
 
 optional_plain_variable:
@@ -955,6 +957,8 @@ variable:
     | static_member                                         { $$ = $1; }
     | array_object_dereferencable T_OBJECT_OPERATOR property_name
           { $$ = Expr\PropertyFetch[$1, $3]; }
+    | array_object_dereferencable T_NULLSAFE_OBJECT_OPERATOR property_name
+          { $$ = Expr\NullsafePropertyFetch[$1, $3]; }
 ;
 
 simple_variable:
@@ -979,6 +983,7 @@ new_variable:
     | new_variable '[' optional_expr ']'                    { $$ = Expr\ArrayDimFetch[$1, $3]; }
     | new_variable '{' expr '}'                             { $$ = Expr\ArrayDimFetch[$1, $3]; }
     | new_variable T_OBJECT_OPERATOR property_name          { $$ = Expr\PropertyFetch[$1, $3]; }
+    | new_variable T_NULLSAFE_OBJECT_OPERATOR property_name { $$ = Expr\NullsafePropertyFetch[$1, $3]; }
     | class_name T_PAAMAYIM_NEKUDOTAYIM static_member_prop_name
           { $$ = Expr\StaticPropertyFetch[$1, $3]; }
     | new_variable T_PAAMAYIM_NEKUDOTAYIM static_member_prop_name
@@ -1048,6 +1053,7 @@ encaps_var:
       plain_variable                                        { $$ = $1; }
     | plain_variable '[' encaps_var_offset ']'              { $$ = Expr\ArrayDimFetch[$1, $3]; }
     | plain_variable T_OBJECT_OPERATOR identifier           { $$ = Expr\PropertyFetch[$1, $3]; }
+    | plain_variable T_NULLSAFE_OBJECT_OPERATOR identifier  { $$ = Expr\NullsafePropertyFetch[$1, $3]; }
     | T_DOLLAR_OPEN_CURLY_BRACES expr '}'                   { $$ = Expr\Variable[$2]; }
     | T_DOLLAR_OPEN_CURLY_BRACES T_STRING_VARNAME '}'       { $$ = Expr\Variable[$2]; }
     | T_DOLLAR_OPEN_CURLY_BRACES encaps_str_varname '[' expr ']' '}'
