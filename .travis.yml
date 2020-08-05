@@ -1,35 +1,41 @@
 language: php
 dist: xenial
 
-cache:
-  directories:
-    - $HOME/.composer/cache
+before_install: composer self-update --2
 
-php:
-  - 7.0
-  - 7.1
-  - 7.2
-  - 7.3
-  - 7.4
-  - nightly
-
-install:
-  - if [ $TRAVIS_PHP_VERSION = '7.0' ]; then composer require satooshi/php-coveralls '~1.0'; fi
-  - |
-    if [ $TRAVIS_PHP_VERSION = 'nightly' ]; then
-      composer install --prefer-dist --ignore-platform-reqs;
-    else
-      composer install --prefer-dist;
-    fi
+install: composer update --no-progress --prefer-dist
 
 matrix:
+  include:
+    - name: PHP 7.0 Unit Tests
+      php: 7.0
+      install:
+        - composer require php-coveralls/php-coveralls:^2.2 --dev --no-update
+        - composer update --no-progress --prefer-dist
+      script: vendor/bin/phpunit --coverage-clover build/logs/clover.xml
+      after_success: php vendor/bin/coveralls
+    - name: PHP 7.1 Unit Tests
+      php: 7.1
+    - name: PHP 7.2 Unit Tests
+      php: 7.2
+    - name: PHP 7.3 Unit Tests
+      php: 7.3
+    - name: PHP 7.4 Unit Tests
+      php: 7.4
+    - name: PHP 8.0 Unit Tests
+      php: nightly
+      install:
+        - composer update --ignore-platform-req=php --no-progress --prefer-dist
+    - name: PHP 7 Integration Tests
+      php: 7.4
+      script:
+        - test_old/run-php-src.sh 7
+    - name: PHP 8 Integration Tests
+      php: 7.4
+      script:
+        - test_old/run-php-src.sh 8
   allow_failures:
-    - php: nightly
+    - name: PHP 8 Integration Tests
   fast_finish: true
 
-script:
-  - if [ $TRAVIS_PHP_VERSION = '7.0' ]; then vendor/bin/phpunit --coverage-clover build/logs/clover.xml; else vendor/bin/phpunit; fi
-  - if [ $TRAVIS_PHP_VERSION = '7.2' ]; then test_old/run-php-src.sh; fi
-
-after_success:
-  - if [ $TRAVIS_PHP_VERSION = '7.0' ]; then php vendor/bin/coveralls; fi
+script: vendor/bin/phpunit
