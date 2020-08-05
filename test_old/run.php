@@ -14,7 +14,7 @@ This script has to be called with the following signature:
 
     php run.php [--no-progress] testType pathToTestFiles
 
-The test type must be one of: PHP5, PHP7 or Symfony.
+The test type must be one of: PHP5, PHP7, PHP8 or Symfony.
 
 The following options are available:
 
@@ -39,7 +39,7 @@ foreach ($argv as $arg) {
 }
 
 if (count($arguments) !== 2) {
-    showHelp('Too little arguments passed!');
+    showHelp('Too few arguments passed!');
 }
 
 $showProgress = true;
@@ -57,9 +57,12 @@ foreach ($options as $option) {
 $testType = $arguments[0];
 $dir = $arguments[1];
 
+require_once __DIR__ . '/../vendor/autoload.php';
+
 switch ($testType) {
     case 'Symfony':
-        $version = 'Php7';
+        $parserVersion = 'Php7';
+        $lexerVersion = PhpParser\Lexer\Emulative::PHP_7_3;
         $fileFilter = function($path) {
             if (!preg_match('~\.php$~', $path)) {
                 return false;
@@ -84,7 +87,9 @@ switch ($testType) {
         break;
     case 'PHP5':
     case 'PHP7':
-    $version = $testType === 'PHP5' ? 'Php5' : 'Php7';
+    case 'PHP8':
+        $parserVersion = $testType === 'PHP5' ? 'Php5' : 'Php7';
+        $lexerVersion = $testType === 'PHP8' ? PhpParser\Lexer\Emulative::PHP_8_0 : PhpParser\Lexer\Emulative::PHP_7_4;
         $fileFilter = function($path) {
             return preg_match('~\.phpt$~', $path);
         };
@@ -129,15 +134,16 @@ switch ($testType) {
         };
         break;
     default:
-        showHelp('Test type must be one of: PHP5, PHP7 or Symfony');
+        showHelp('Test type must be one of: PHP5, PHP7, PHP8 or Symfony');
 }
 
-require_once __DIR__ . '/../vendor/autoload.php';
-
-$lexer = new PhpParser\Lexer\Emulative(['usedAttributes' => [
-    'comments', 'startLine', 'endLine', 'startTokenPos', 'endTokenPos',
-]]);
-$parserName = 'PhpParser\Parser\\' . $version;
+$lexer = new PhpParser\Lexer\Emulative([
+    'usedAttributes' => [
+        'comments', 'startLine', 'endLine', 'startTokenPos', 'endTokenPos',
+    ],
+    'phpVersion' => $lexerVersion,
+]);
+$parserName = 'PhpParser\Parser\\' . $parserVersion;
 /** @var PhpParser\Parser $parser */
 $parser = new $parserName($lexer);
 $prettyPrinter = new PhpParser\PrettyPrinter\Standard;
