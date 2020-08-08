@@ -13,21 +13,21 @@ class NodeTraverserTest extends \PHPUnit\Framework\TestCase
         $echoNode = new Node\Stmt\Echo_([$str1Node, $str2Node]);
         $stmts    = [$echoNode];
 
-        $visitor = $this->getMockBuilder(NodeVisitor::class)->getMock();
-
-        $visitor->expects($this->at(0))->method('beforeTraverse')->with($stmts);
-        $visitor->expects($this->at(1))->method('enterNode')->with($echoNode);
-        $visitor->expects($this->at(2))->method('enterNode')->with($str1Node);
-        $visitor->expects($this->at(3))->method('leaveNode')->with($str1Node);
-        $visitor->expects($this->at(4))->method('enterNode')->with($str2Node);
-        $visitor->expects($this->at(5))->method('leaveNode')->with($str2Node);
-        $visitor->expects($this->at(6))->method('leaveNode')->with($echoNode);
-        $visitor->expects($this->at(7))->method('afterTraverse')->with($stmts);
-
+        $visitor = new NodeVisitorForTesting();
         $traverser = new NodeTraverser;
         $traverser->addVisitor($visitor);
 
         $this->assertEquals($stmts, $traverser->traverse($stmts));
+        $this->assertEquals([
+            ['beforeTraverse', $stmts],
+            ['enterNode', $echoNode],
+            ['enterNode', $str1Node],
+            ['leaveNode', $str1Node],
+            ['enterNode', $str2Node],
+            ['leaveNode', $str2Node],
+            ['leaveNode', $echoNode],
+            ['afterTraverse', $stmts],
+        ], $visitor->trace);
     }
 
     public function testModifying() {
@@ -36,38 +36,15 @@ class NodeTraverserTest extends \PHPUnit\Framework\TestCase
         $printNode = new Expr\Print_($str1Node);
 
         // first visitor changes the node, second verifies the change
-        $visitor1 = $this->getMockBuilder(NodeVisitor::class)->getMock();
-        $visitor2 = $this->getMockBuilder(NodeVisitor::class)->getMock();
-
-        // replace empty statements with string1 node
-        $visitor1->expects($this->at(0))->method('beforeTraverse')->with([])
-                 ->willReturn([$str1Node]);
-        $visitor2->expects($this->at(0))->method('beforeTraverse')->with([$str1Node]);
-
-        // replace string1 node with print node
-        $visitor1->expects($this->at(1))->method('enterNode')->with($str1Node)
-                 ->willReturn($printNode);
-        $visitor2->expects($this->at(1))->method('enterNode')->with($printNode);
-
-        // replace string1 node with string2 node
-        $visitor1->expects($this->at(2))->method('enterNode')->with($str1Node)
-                 ->willReturn($str2Node);
-        $visitor2->expects($this->at(2))->method('enterNode')->with($str2Node);
-
-        // replace string2 node with string1 node again
-        $visitor1->expects($this->at(3))->method('leaveNode')->with($str2Node)
-                 ->willReturn($str1Node);
-        $visitor2->expects($this->at(3))->method('leaveNode')->with($str1Node);
-
-        // replace print node with string1 node again
-        $visitor1->expects($this->at(4))->method('leaveNode')->with($printNode)
-                 ->willReturn($str1Node);
-        $visitor2->expects($this->at(4))->method('leaveNode')->with($str1Node);
-
-        // replace string1 node with empty statements again
-        $visitor1->expects($this->at(5))->method('afterTraverse')->with([$str1Node])
-                 ->willReturn([]);
-        $visitor2->expects($this->at(5))->method('afterTraverse')->with([]);
+        $visitor1 = new NodeVisitorForTesting([
+            ['beforeTraverse', [], [$str1Node]],
+            ['enterNode', $str1Node, $printNode],
+            ['enterNode', $str1Node, $str2Node],
+            ['leaveNode', $str2Node, $str1Node],
+            ['leaveNode', $printNode, $str1Node],
+            ['afterTraverse', [$str1Node], []],
+        ]);
+        $visitor2 = new NodeVisitorForTesting();
 
         $traverser = new NodeTraverser;
         $traverser->addVisitor($visitor1);
@@ -75,17 +52,23 @@ class NodeTraverserTest extends \PHPUnit\Framework\TestCase
 
         // as all operations are reversed we end where we start
         $this->assertEquals([], $traverser->traverse([]));
+        $this->assertEquals([
+            ['beforeTraverse', [$str1Node]],
+            ['enterNode', $printNode],
+            ['enterNode', $str2Node],
+            ['leaveNode', $str1Node],
+            ['leaveNode', $str1Node],
+            ['afterTraverse', []],
+        ], $visitor2->trace);
     }
 
     public function testRemove() {
         $str1Node = new String_('Foo');
         $str2Node = new String_('Bar');
 
-        $visitor = $this->getMockBuilder(NodeVisitor::class)->getMock();
-
-        // remove the string1 node, leave the string2 node
-        $visitor->expects($this->at(2))->method('leaveNode')->with($str1Node)
-                ->willReturn(NodeTraverser::REMOVE_NODE);
+        $visitor = new NodeVisitorForTesting([
+            ['leaveNode', $str1Node, NodeTraverser::REMOVE_NODE],
+        ]);
 
         $traverser = new NodeTraverser;
         $traverser->addVisitor($visitor);
@@ -100,11 +83,9 @@ class NodeTraverserTest extends \PHPUnit\Framework\TestCase
         $strR1     = new String_('Replacement 1');
         $strR2     = new String_('Replacement 2');
 
-        $visitor = $this->getMockBuilder(NodeVisitor::class)->getMock();
-
-        // replace strMiddle with strR1 and strR2 by merge
-        $visitor->expects($this->at(4))->method('leaveNode')->with($strMiddle)
-                ->willReturn([$strR1, $strR2]);
+        $visitor = new NodeVisitorForTesting([
+            ['leaveNode', $strMiddle, [$strR1, $strR2]],
+        ]);
 
         $traverser = new NodeTraverser;
         $traverser->addVisitor($visitor);
@@ -133,34 +114,31 @@ class NodeTraverserTest extends \PHPUnit\Framework\TestCase
         $negNode = new Expr\UnaryMinus($mulNode);
         $stmts = [$printNode, $negNode];
 
-        $visitor1 = $this->getMockBuilder(NodeVisitor::class)->getMock();
-        $visitor2 = $this->getMockBuilder(NodeVisitor::class)->getMock();
+        $visitor1 = new NodeVisitorForTesting([
+            ['enterNode', $printNode, NodeTraverser::DONT_TRAVERSE_CHILDREN],
+        ]);
+        $visitor2 = new NodeVisitorForTesting([
+            ['enterNode', $mulNode, NodeTraverser::DONT_TRAVERSE_CHILDREN],
+        ]);
 
-        $visitor1->expects($this->at(1))->method('enterNode')->with($printNode)
-            ->willReturn(NodeTraverser::DONT_TRAVERSE_CHILDREN);
-        $visitor2->expects($this->at(1))->method('enterNode')->with($printNode);
-
-        $visitor1->expects($this->at(2))->method('leaveNode')->with($printNode);
-        $visitor2->expects($this->at(2))->method('leaveNode')->with($printNode);
-
-        $visitor1->expects($this->at(3))->method('enterNode')->with($negNode);
-        $visitor2->expects($this->at(3))->method('enterNode')->with($negNode);
-
-        $visitor1->expects($this->at(4))->method('enterNode')->with($mulNode);
-        $visitor2->expects($this->at(4))->method('enterNode')->with($mulNode)
-            ->willReturn(NodeTraverser::DONT_TRAVERSE_CHILDREN);
-
-        $visitor1->expects($this->at(5))->method('leaveNode')->with($mulNode);
-        $visitor2->expects($this->at(5))->method('leaveNode')->with($mulNode);
-
-        $visitor1->expects($this->at(6))->method('leaveNode')->with($negNode);
-        $visitor2->expects($this->at(6))->method('leaveNode')->with($negNode);
+        $expectedTrace = [
+            ['beforeTraverse', $stmts],
+            ['enterNode', $printNode],
+            ['leaveNode', $printNode],
+            ['enterNode', $negNode],
+            ['enterNode', $mulNode],
+            ['leaveNode', $mulNode],
+            ['leaveNode', $negNode],
+            ['afterTraverse', $stmts],
+        ];
 
         $traverser = new NodeTraverser;
         $traverser->addVisitor($visitor1);
         $traverser->addVisitor($visitor2);
 
         $this->assertEquals($stmts, $traverser->traverse($stmts));
+        $this->assertEquals($expectedTrace, $visitor1->trace);
+        $this->assertEquals($expectedTrace, $visitor2->trace);
     }
 
     public function testDontTraverseCurrentAndChildren() {
@@ -173,30 +151,36 @@ class NodeTraverserTest extends \PHPUnit\Framework\TestCase
         $negNode = new Expr\UnaryMinus($mulNode);
         $stmts = [$printNode, $negNode];
 
-        $visitor1 = $this->getMockBuilder(NodeVisitor::class)->getMock();
-        $visitor2 = $this->getMockBuilder(NodeVisitor::class)->getMock();
-
-        $visitor1->expects($this->at(1))->method('enterNode')->with($printNode)
-            ->willReturn(NodeTraverser::DONT_TRAVERSE_CURRENT_AND_CHILDREN);
-        $visitor1->expects($this->at(2))->method('leaveNode')->with($printNode);
-
-        $visitor1->expects($this->at(3))->method('enterNode')->with($negNode);
-        $visitor2->expects($this->at(1))->method('enterNode')->with($negNode);
-
-        $visitor1->expects($this->at(4))->method('enterNode')->with($mulNode)
-            ->willReturn(NodeTraverser::DONT_TRAVERSE_CURRENT_AND_CHILDREN);
-        $visitor1->expects($this->at(5))->method('leaveNode')->with($mulNode)->willReturn($divNode);
-
-        $visitor1->expects($this->at(6))->method('leaveNode')->with($negNode);
-        $visitor2->expects($this->at(2))->method('leaveNode')->with($negNode);
+        $visitor1 = new NodeVisitorForTesting([
+            ['enterNode', $printNode, NodeTraverser::DONT_TRAVERSE_CURRENT_AND_CHILDREN],
+            ['enterNode', $mulNode, NodeTraverser::DONT_TRAVERSE_CURRENT_AND_CHILDREN],
+            ['leaveNode', $mulNode, $divNode],
+        ]);
+        $visitor2 = new NodeVisitorForTesting();
 
         $traverser = new NodeTraverser;
         $traverser->addVisitor($visitor1);
         $traverser->addVisitor($visitor2);
 
         $resultStmts = $traverser->traverse($stmts);
-
         $this->assertInstanceOf(Expr\BinaryOp\Div::class, $resultStmts[1]->expr);
+
+        $this->assertEquals([
+            ['beforeTraverse', $stmts],
+            ['enterNode', $printNode],
+            ['leaveNode', $printNode],
+            ['enterNode', $negNode],
+            ['enterNode', $mulNode],
+            ['leaveNode', $mulNode],
+            ['leaveNode', $negNode],
+            ['afterTraverse', $resultStmts],
+        ], $visitor1->trace);
+        $this->assertEquals([
+            ['beforeTraverse', $stmts],
+            ['enterNode', $negNode],
+            ['leaveNode', $negNode],
+            ['afterTraverse', $resultStmts],
+        ], $visitor2->trace);
     }
 
     public function testStopTraversal() {
@@ -208,58 +192,90 @@ class NodeTraverserTest extends \PHPUnit\Framework\TestCase
         $stmts = [$mulNode, $printNode];
 
         // From enterNode() with array parent
-        $visitor = $this->getMockBuilder(NodeVisitor::class)->getMock();
-        $visitor->expects($this->at(1))->method('enterNode')->with($mulNode)
-            ->willReturn(NodeTraverser::STOP_TRAVERSAL);
-        $visitor->expects($this->at(2))->method('afterTraverse');
+        $visitor = new NodeVisitorForTesting([
+            ['enterNode', $mulNode, NodeTraverser::STOP_TRAVERSAL],
+        ]);
         $traverser = new NodeTraverser;
         $traverser->addVisitor($visitor);
         $this->assertEquals($stmts, $traverser->traverse($stmts));
+        $this->assertEquals([
+            ['beforeTraverse', $stmts],
+            ['enterNode', $mulNode],
+            ['afterTraverse', $stmts],
+        ], $visitor->trace);
 
         // From enterNode with Node parent
-        $visitor = $this->getMockBuilder(NodeVisitor::class)->getMock();
-        $visitor->expects($this->at(2))->method('enterNode')->with($varNode1)
-            ->willReturn(NodeTraverser::STOP_TRAVERSAL);
-        $visitor->expects($this->at(3))->method('afterTraverse');
+        $visitor = new NodeVisitorForTesting([
+            ['enterNode', $varNode1, NodeTraverser::STOP_TRAVERSAL],
+        ]);
         $traverser = new NodeTraverser;
         $traverser->addVisitor($visitor);
         $this->assertEquals($stmts, $traverser->traverse($stmts));
+        $this->assertEquals([
+            ['beforeTraverse', $stmts],
+            ['enterNode', $mulNode],
+            ['enterNode', $varNode1],
+            ['afterTraverse', $stmts],
+        ], $visitor->trace);
 
         // From leaveNode with Node parent
-        $visitor = $this->getMockBuilder(NodeVisitor::class)->getMock();
-        $visitor->expects($this->at(3))->method('leaveNode')->with($varNode1)
-            ->willReturn(NodeTraverser::STOP_TRAVERSAL);
-        $visitor->expects($this->at(4))->method('afterTraverse');
+        $visitor = new NodeVisitorForTesting([
+            ['leaveNode', $varNode1, NodeTraverser::STOP_TRAVERSAL],
+        ]);
         $traverser = new NodeTraverser;
         $traverser->addVisitor($visitor);
         $this->assertEquals($stmts, $traverser->traverse($stmts));
+        $this->assertEquals([
+            ['beforeTraverse', $stmts],
+            ['enterNode', $mulNode],
+            ['enterNode', $varNode1],
+            ['leaveNode', $varNode1],
+            ['afterTraverse', $stmts],
+        ], $visitor->trace);
 
         // From leaveNode with array parent
-        $visitor = $this->getMockBuilder(NodeVisitor::class)->getMock();
-        $visitor->expects($this->at(6))->method('leaveNode')->with($mulNode)
-            ->willReturn(NodeTraverser::STOP_TRAVERSAL);
-        $visitor->expects($this->at(7))->method('afterTraverse');
+        $visitor = new NodeVisitorForTesting([
+            ['leaveNode', $mulNode, NodeTraverser::STOP_TRAVERSAL],
+        ]);
         $traverser = new NodeTraverser;
         $traverser->addVisitor($visitor);
         $this->assertEquals($stmts, $traverser->traverse($stmts));
+        $this->assertEquals([
+            ['beforeTraverse', $stmts],
+            ['enterNode', $mulNode],
+            ['enterNode', $varNode1],
+            ['leaveNode', $varNode1],
+            ['enterNode', $varNode2],
+            ['leaveNode', $varNode2],
+            ['leaveNode', $mulNode],
+            ['afterTraverse', $stmts],
+        ], $visitor->trace);
 
         // Check that pending array modifications are still carried out
-        $visitor = $this->getMockBuilder(NodeVisitor::class)->getMock();
-        $visitor->expects($this->at(6))->method('leaveNode')->with($mulNode)
-            ->willReturn(NodeTraverser::REMOVE_NODE);
-        $visitor->expects($this->at(7))->method('enterNode')->with($printNode)
-            ->willReturn(NodeTraverser::STOP_TRAVERSAL);
-        $visitor->expects($this->at(8))->method('afterTraverse');
+        $visitor = new NodeVisitorForTesting([
+            ['leaveNode', $mulNode, NodeTraverser::REMOVE_NODE],
+            ['enterNode', $printNode, NodeTraverser::STOP_TRAVERSAL],
+        ]);
         $traverser = new NodeTraverser;
         $traverser->addVisitor($visitor);
         $this->assertEquals([$printNode], $traverser->traverse($stmts));
-
+        $this->assertEquals([
+            ['beforeTraverse', $stmts],
+            ['enterNode', $mulNode],
+            ['enterNode', $varNode1],
+            ['leaveNode', $varNode1],
+            ['enterNode', $varNode2],
+            ['leaveNode', $varNode2],
+            ['leaveNode', $mulNode],
+            ['enterNode', $printNode],
+            ['afterTraverse', [$printNode]],
+        ], $visitor->trace);
     }
 
     public function testRemovingVisitor() {
-        $visitor1 = $this->getMockBuilder(NodeVisitor::class)->getMock();
-        $visitor2 = $this->getMockBuilder(NodeVisitor::class)->getMock();
-        $visitor3 = $this->getMockBuilder(NodeVisitor::class)->getMock();
+        $visitor1 = new class extends NodeVisitorAbstract {};
+        $visitor2 = new class extends NodeVisitorAbstract {};
+        $visitor3 = new class extends NodeVisitorAbstract {};
 
         $traverser = new NodeTraverser;
         $traverser->addVisitor($visitor1);
