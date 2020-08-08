@@ -3,10 +3,12 @@
 namespace PhpParser\Parser;
 
 use PhpParser\Error;
+use PhpParser\ErrorHandler;
 use PhpParser\Lexer;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Scalar\LNumber;
 use PhpParser\Node\Stmt;
+use PhpParser\ParserAbstract;
 use PhpParser\ParserTest;
 
 class MultipleTest extends ParserTest
@@ -80,11 +82,16 @@ class MultipleTest extends ParserTest
         $this->expectException(Error::class);
         $this->expectExceptionMessage('FAIL A');
 
-        $parserA = $this->getMockBuilder(\PhpParser\Parser::class)->getMock();
-        $parserA->method('parse')->willThrowException(new Error('FAIL A'));
-
-        $parserB = $this->getMockBuilder(\PhpParser\Parser::class)->getMock();
-        $parserB->method('parse')->willThrowException(new Error('FAIL B'));
+        $parserA = new class implements \PhpParser\Parser {
+            public function parse(string $code, ErrorHandler $errorHandler = null) {
+                throw new Error('FAIL A');
+            }
+        };
+        $parserB = new class implements \PhpParser\Parser {
+            public function parse(string $code, ErrorHandler $errorHandler = null) {
+                throw new Error('FAIL B');
+            }
+        };
 
         $parser = new Multiple([$parserA, $parserB]);
         $parser->parse('dummy');
