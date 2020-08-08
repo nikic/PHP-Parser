@@ -306,11 +306,9 @@ class NodeTraverserTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider provideTestInvalidReturn
      */
-    public function testInvalidReturn($visitor, $message) {
+    public function testInvalidReturn($stmts, $visitor, $message) {
         $this->expectException(\LogicException::class);
         $this->expectExceptionMessage($message);
-
-        $stmts = [new Node\Stmt\Expression(new Node\Scalar\LNumber(42))];
 
         $traverser = new NodeTraverser();
         $traverser->addVisitor($visitor);
@@ -318,47 +316,44 @@ class NodeTraverserTest extends \PHPUnit\Framework\TestCase
     }
 
     public function provideTestInvalidReturn() {
-        $visitor1 = $this->getMockBuilder(NodeVisitor::class)->getMock();
-        $visitor1->expects($this->at(1))->method('enterNode')
-            ->willReturn('foobar');
+        $num = new Node\Scalar\LNumber(42);
+        $expr = new Node\Stmt\Expression($num);
+        $stmts = [$expr];
 
-        $visitor2 = $this->getMockBuilder(NodeVisitor::class)->getMock();
-        $visitor2->expects($this->at(2))->method('enterNode')
-            ->willReturn('foobar');
-
-        $visitor3 = $this->getMockBuilder(NodeVisitor::class)->getMock();
-        $visitor3->expects($this->at(3))->method('leaveNode')
-            ->willReturn('foobar');
-
-        $visitor4 = $this->getMockBuilder(NodeVisitor::class)->getMock();
-        $visitor4->expects($this->at(4))->method('leaveNode')
-            ->willReturn('foobar');
-
-        $visitor5 = $this->getMockBuilder(NodeVisitor::class)->getMock();
-        $visitor5->expects($this->at(3))->method('leaveNode')
-            ->willReturn([new Node\Scalar\DNumber(42.0)]);
-
-        $visitor6 = $this->getMockBuilder(NodeVisitor::class)->getMock();
-        $visitor6->expects($this->at(4))->method('leaveNode')
-            ->willReturn(false);
-
-        $visitor7 = $this->getMockBuilder(NodeVisitor::class)->getMock();
-        $visitor7->expects($this->at(1))->method('enterNode')
-            ->willReturn(new Node\Scalar\LNumber(42));
-
-        $visitor8 = $this->getMockBuilder(NodeVisitor::class)->getMock();
-        $visitor8->expects($this->at(2))->method('enterNode')
-            ->willReturn(new Node\Stmt\Return_());
+        $visitor1 = new NodeVisitorForTesting([
+            ['enterNode', $expr, 'foobar'],
+        ]);
+        $visitor2 = new NodeVisitorForTesting([
+            ['enterNode', $num, 'foobar'],
+        ]);
+        $visitor3 = new NodeVisitorForTesting([
+            ['leaveNode', $num, 'foobar'],
+        ]);
+        $visitor4 = new NodeVisitorForTesting([
+            ['leaveNode', $expr, 'foobar'],
+        ]);
+        $visitor5 = new NodeVisitorForTesting([
+            ['leaveNode', $num, [new Node\Scalar\DNumber(42.0)]],
+        ]);
+        $visitor6 = new NodeVisitorForTesting([
+            ['leaveNode', $expr, false],
+        ]);
+        $visitor7 = new NodeVisitorForTesting([
+            ['enterNode', $expr, new Node\Scalar\LNumber(42)],
+        ]);
+        $visitor8 = new NodeVisitorForTesting([
+            ['enterNode', $num, new Node\Stmt\Return_()],
+        ]);
 
         return [
-            [$visitor1, 'enterNode() returned invalid value of type string'],
-            [$visitor2, 'enterNode() returned invalid value of type string'],
-            [$visitor3, 'leaveNode() returned invalid value of type string'],
-            [$visitor4, 'leaveNode() returned invalid value of type string'],
-            [$visitor5, 'leaveNode() may only return an array if the parent structure is an array'],
-            [$visitor6, 'bool(false) return from leaveNode() no longer supported. Return NodeTraverser::REMOVE_NODE instead'],
-            [$visitor7, 'Trying to replace statement (Stmt_Expression) with expression (Scalar_LNumber). Are you missing a Stmt_Expression wrapper?'],
-            [$visitor8, 'Trying to replace expression (Scalar_LNumber) with statement (Stmt_Return)'],
+            [$stmts, $visitor1, 'enterNode() returned invalid value of type string'],
+            [$stmts, $visitor2, 'enterNode() returned invalid value of type string'],
+            [$stmts, $visitor3, 'leaveNode() returned invalid value of type string'],
+            [$stmts, $visitor4, 'leaveNode() returned invalid value of type string'],
+            [$stmts, $visitor5, 'leaveNode() may only return an array if the parent structure is an array'],
+            [$stmts, $visitor6, 'bool(false) return from leaveNode() no longer supported. Return NodeTraverser::REMOVE_NODE instead'],
+            [$stmts, $visitor7, 'Trying to replace statement (Stmt_Expression) with expression (Scalar_LNumber). Are you missing a Stmt_Expression wrapper?'],
+            [$stmts, $visitor8, 'Trying to replace expression (Scalar_LNumber) with statement (Stmt_Return)'],
         ];
     }
 }
