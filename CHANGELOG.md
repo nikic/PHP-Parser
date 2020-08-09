@@ -1,5 +1,16 @@
-Version 4.7.1-dev
+Version 4.8.1-dev
 -----------------
+
+Version 4.8.0 (2020-08-09)
+--------------------------
+
+### Added
+
+* [PHP 8.0] Added support for nullsafe operator, represented using the new
+  `Expr\NullsafePropertyFetch` and `Expr\NullsafeMethodCall` nodes.
+* Added `phpVersion` option to the emulative lexer, which allows controlling the target version to
+  emulate (defaults to the latest available, currently PHP 8.0). This is useful to parse code that
+  uses reserved keywords from newer PHP versions as identifiers.
 
 Version 4.7.0 (2020-07-25)
 --------------------------
