@@ -866,6 +866,7 @@ array(
             )
             args: array(
                 0: Arg[3:5 - 3:9](
+                    name: null
                     value: Expr_ClassConstFetch[3:5 - 3:9](
                         class: Name[3:5 - 3:7](
                             parts: array(

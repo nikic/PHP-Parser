@@ -220,6 +220,7 @@ array(
                     )
                     args: array(
                         0: Arg(
+                            name: null
                             value: Expr_Yield(
                                 key: null
                                 value: Expr_Variable(
@@ -248,6 +249,7 @@ array(
                     )
                     args: array(
                         0: Arg(
+                            name: null
                             value: Expr_Yield(
                                 key: null
                                 value: Expr_Variable(
@@ -269,6 +271,7 @@ array(
                     )
                     args: array(
                         0: Arg(
+                            name: null
                             value: Expr_Yield(
                                 key: null
                                 value: Expr_Variable(

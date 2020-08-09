@@ -77,6 +77,7 @@ array(
             )
             args: array(
                 0: Arg(
+                    name: null
                     value: Scalar_LNumber(
                         value: 1
                     )

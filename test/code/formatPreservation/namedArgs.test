@@ -1,0 +1,39 @@
+Named arguments
+-----
+<?php
+foo(
+    a: $b,
+);
+-----
+$stmts[0]->expr->args[0]->name = null;
+-----
+<?php
+foo(
+    $b,
+);
+-----
+<?php
+foo(
+    $b,
+);
+-----
+$stmts[0]->expr->args[0]->name = new Node\Identifier('a');
+-----
+<?php
+foo(
+    a: $b,
+);
+-----
+<?php
+foo(
+    a:
+    $b,
+);
+-----
+$stmts[0]->expr->args[0]->name = new Node\Identifier('XYZ');
+-----
+<?php
+foo(
+    XYZ:
+    $b,
+);

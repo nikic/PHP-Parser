@@ -90,6 +90,7 @@ array(
                     )
                     args: array(
                         0: Arg(
+                            name: null
                             value: Expr_Array(
                                 items: array(
                                     0: Expr_ArrayItem(
@@ -173,6 +174,7 @@ array(
                     )
                     args: array(
                         0: Arg(
+                            name: null
                             value: Expr_Array(
                                 items: array(
                                     0: Expr_ArrayItem(
@@ -215,6 +217,7 @@ array(
                     )
                     args: array(
                         0: Arg(
+                            name: null
                             value: Expr_Array(
                                 items: array(
                                     0: Expr_ArrayItem(

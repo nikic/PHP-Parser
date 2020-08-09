@@ -527,6 +527,8 @@ argument:
       expr                                                  { $$ = Node\Arg[$1, false, false]; }
     | '&' variable                                          { $$ = Node\Arg[$2, true, false]; }
     | T_ELLIPSIS expr                                       { $$ = Node\Arg[$2, false, true]; }
+    | identifier_ex ':' expr
+          { $$ = new Node\Arg($3, false, false, attributes(), $1); }
 ;
 
 global_var_list:

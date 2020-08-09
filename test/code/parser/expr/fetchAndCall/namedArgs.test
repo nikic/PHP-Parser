@@ -1,0 +1,61 @@
+Named arguments
+-----
+<?php
+foo(a: $b, c: $d);
+bar(class: 0);
+-----
+!!php7
+array(
+    0: Stmt_Expression(
+        expr: Expr_FuncCall(
+            name: Name(
+                parts: array(
+                    0: foo
+                )
+            )
+            args: array(
+                0: Arg(
+                    name: Identifier(
+                        name: a
+                    )
+                    value: Expr_Variable(
+                        name: b
+                    )
+                    byRef: false
+                    unpack: false
+                )
+                1: Arg(
+                    name: Identifier(
+                        name: c
+                    )
+                    value: Expr_Variable(
+                        name: d
+                    )
+                    byRef: false
+                    unpack: false
+                )
+            )
+        )
+    )
+    1: Stmt_Expression(
+        expr: Expr_FuncCall(
+            name: Name(
+                parts: array(
+                    0: bar
+                )
+            )
+            args: array(
+                0: Arg(
+                    name: Identifier(
+                        name: class
+                    )
+                    value: Scalar_LNumber(
+                        value: 0
+                    )
+                    byRef: false
+                    unpack: false
+                )
+            )
+        )
+    )
+)

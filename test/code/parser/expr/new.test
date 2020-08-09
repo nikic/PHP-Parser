@@ -39,6 +39,7 @@ array(
             )
             args: array(
                 0: Arg(
+                    name: null
                     value: Expr_Variable(
                         name: b
                     )
