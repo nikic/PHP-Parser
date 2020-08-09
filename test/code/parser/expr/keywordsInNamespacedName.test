@@ -3,6 +3,9 @@ Keywords in namespaced name
 <?php
 namespace fn;
 namespace fn\use;
+namespace self;
+namespace parent;
+namespace static;
 fn\use();
 \fn\use();
 namespace\fn\use();
@@ -23,6 +26,33 @@ array(
             parts: array(
                 0: fn
                 1: use
+            )
+        )
+        stmts: array(
+        )
+    )
+    2: Stmt_Namespace(
+        name: Name(
+            parts: array(
+                0: self
+            )
+        )
+        stmts: array(
+        )
+    )
+    3: Stmt_Namespace(
+        name: Name(
+            parts: array(
+                0: parent
+            )
+        )
+        stmts: array(
+        )
+    )
+    4: Stmt_Namespace(
+        name: Name(
+            parts: array(
+                0: static
             )
         )
         stmts: array(
