@@ -1,44 +1,66 @@
 Keywords in namespaced name
 -----
 <?php
+namespace fn;
+namespace fn\use;
 fn\use();
 \fn\use();
 namespace\fn\use();
 -----
+!!php7
 array(
-    0: Stmt_Expression(
-        expr: Expr_FuncCall(
-            name: Name(
-                parts: array(
-                    0: fn
-                    1: use
-                )
-            )
-            args: array(
+    0: Stmt_Namespace(
+        name: Name(
+            parts: array(
+                0: fn
             )
         )
-    )
-    1: Stmt_Expression(
-        expr: Expr_FuncCall(
-            name: Name_FullyQualified(
-                parts: array(
-                    0: fn
-                    1: use
-                )
-            )
-            args: array(
-            )
+        stmts: array(
         )
     )
-    2: Stmt_Expression(
-        expr: Expr_FuncCall(
-            name: Name_Relative(
-                parts: array(
-                    0: fn
-                    1: use
+    1: Stmt_Namespace(
+        name: Name(
+            parts: array(
+                0: fn
+                1: use
+            )
+        )
+        stmts: array(
+            0: Stmt_Expression(
+                expr: Expr_FuncCall(
+                    name: Name(
+                        parts: array(
+                            0: fn
+                            1: use
+                        )
+                    )
+                    args: array(
+                    )
                 )
             )
-            args: array(
+            1: Stmt_Expression(
+                expr: Expr_FuncCall(
+                    name: Name_FullyQualified(
+                        parts: array(
+                            0: fn
+                            1: use
+                        )
+                    )
+                    args: array(
+                    )
+                )
+            )
+            2: Stmt_Expression(
+                expr: Expr_FuncCall(
+                    name: Name_Relative(
+                        parts: array(
+                            0: fn
+                            1: use
+                        )
+                    )
+                    args: array(
+                    )
+                )
             )
         )
     )

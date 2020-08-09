@@ -32,8 +32,18 @@ array(
 -----
 <?php namespace static;
 -----
-Syntax error, unexpected T_STATIC, expecting T_STRING or T_NAME_QUALIFIED or '{' from 1:17 to 1:22
+!!php7
+Cannot use 'static' as namespace name from 1:17 to 1:22
 array(
+    0: Stmt_Namespace(
+        name: Name(
+            parts: array(
+                0: static
+            )
+        )
+        stmts: array(
+        )
+    )
 )
 -----
 <?php use A as self;

@@ -49,6 +49,12 @@ reserved_non_modifiers_identifier:
       reserved_non_modifiers                                { $$ = Node\Identifier[$1]; }
 ;
 
+namespace_declaration_name:
+      T_STRING                                              { $$ = Name[$1]; }
+    | semi_reserved                                         { $$ = Name[$1]; }
+    | T_NAME_QUALIFIED                                      { $$ = Name[$1]; }
+;
+
 namespace_name:
       T_STRING                                              { $$ = Name[$1]; }
     | T_NAME_QUALIFIED                                      { $$ = Name[$1]; }
@@ -83,11 +89,11 @@ top_statement:
     | class_declaration_statement                           { $$ = $1; }
     | T_HALT_COMPILER
           { $$ = Stmt\HaltCompiler[$this->lexer->handleHaltCompiler()]; }
-    | T_NAMESPACE namespace_name semi
+    | T_NAMESPACE namespace_declaration_name semi
           { $$ = Stmt\Namespace_[$2, null];
             $$->setAttribute('kind', Stmt\Namespace_::KIND_SEMICOLON);
             $this->checkNamespace($$); }
-    | T_NAMESPACE namespace_name '{' top_statement_list '}'
+    | T_NAMESPACE namespace_declaration_name '{' top_statement_list '}'
           { $$ = Stmt\Namespace_[$2, $4];
             $$->setAttribute('kind', Stmt\Namespace_::KIND_BRACED);
             $this->checkNamespace($$); }
