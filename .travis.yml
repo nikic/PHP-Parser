@@ -25,7 +25,6 @@ matrix:
     - name: PHP 8.0 Unit Tests
       php: nightly
       install:
-        - composer require phpunit/phpunit:^9.3 --dev --no-update
         - composer update --ignore-platform-req=php --no-progress --prefer-dist
     - name: PHP 7 Integration Tests
       php: 7.4
@@ -36,7 +35,6 @@ matrix:
       script:
         - test_old/run-php-src.sh 8
   allow_failures:
-    - name: PHP 8.0 Unit Tests
     - name: PHP 8 Integration Tests
   fast_finish: true
 
