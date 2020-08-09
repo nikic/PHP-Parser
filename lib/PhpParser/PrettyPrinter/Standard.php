@@ -387,7 +387,10 @@ class Standard extends PrettyPrinterAbstract
     }
 
     protected function pExpr_Instanceof(Expr\Instanceof_ $node) {
-        return $this->pInfixOp(Expr\Instanceof_::class, $node->expr, ' instanceof ', $node->class);
+        list($precedence, $associativity) = $this->precedenceMap[Expr\Instanceof_::class];
+        return $this->pPrec($node->expr, $precedence, $associativity, -1)
+             . ' instanceof '
+             . $this->pNewVariable($node->class);
     }
 
     // Unary expressions
@@ -635,7 +638,8 @@ class Standard extends PrettyPrinterAbstract
             $args = $node->args ? '(' . $this->pMaybeMultiline($node->args) . ')' : '';
             return 'new ' . $this->pClassCommon($node->class, $args);
         }
-        return 'new ' . $this->p($node->class) . '(' . $this->pMaybeMultiline($node->args) . ')';
+        return 'new ' . $this->pNewVariable($node->class)
+            . '(' . $this->pMaybeMultiline($node->args) . ')';
     }
 
     protected function pExpr_Clone(Expr\Clone_ $node) {
@@ -1006,6 +1010,11 @@ class Standard extends PrettyPrinterAbstract
         } else  {
             return '(' . $this->p($node) . ')';
         }
+    }
+
+    protected function pNewVariable(Node $node) {
+        // TODO: This is not fully accurate.
+        return $this->pDereferenceLhs($node);
     }
 
     /**

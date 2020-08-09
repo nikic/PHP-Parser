@@ -1127,7 +1127,7 @@ abstract class PrettyPrinterAbstract
             Expr\PostDec::class => ['var' => self::FIXUP_PREC_LEFT],
             Expr\Instanceof_::class => [
                 'expr' => self::FIXUP_PREC_LEFT,
-                'class' => self::FIXUP_PREC_RIGHT,
+                'class' => self::FIXUP_PREC_RIGHT, // TODO: FIXUP_NEW_VARIABLE
             ],
             Expr\Ternary::class => [
                 'cond' => self::FIXUP_PREC_LEFT,
@@ -1137,6 +1137,8 @@ abstract class PrettyPrinterAbstract
             Expr\FuncCall::class => ['name' => self::FIXUP_CALL_LHS],
             Expr\StaticCall::class => ['class' => self::FIXUP_DEREF_LHS],
             Expr\ArrayDimFetch::class => ['var' => self::FIXUP_DEREF_LHS],
+            Expr\ClassConstFetch::class => ['var' => self::FIXUP_DEREF_LHS],
+            Expr\New_::class => ['class' => self::FIXUP_DEREF_LHS], // TODO: FIXUP_NEW_VARIABLE
             Expr\MethodCall::class => [
                 'var' => self::FIXUP_DEREF_LHS,
                 'name' => self::FIXUP_BRACED_NAME,
@@ -1156,9 +1158,6 @@ abstract class PrettyPrinterAbstract
             Expr\NullsafePropertyFetch::class => [
                 'var' => self::FIXUP_DEREF_LHS,
                 'name' => self::FIXUP_BRACED_NAME,
-            ],
-            Expr\ClassConstFetch::class => [
-                'var' => self::FIXUP_DEREF_LHS,
             ],
             Scalar\Encapsed::class => [
                 'parts' => self::FIXUP_ENCAPSED,
