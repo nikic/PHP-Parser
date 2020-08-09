@@ -1157,6 +1157,9 @@ abstract class PrettyPrinterAbstract
                 'var' => self::FIXUP_DEREF_LHS,
                 'name' => self::FIXUP_BRACED_NAME,
             ],
+            Expr\ClassConstFetch::class => [
+                'var' => self::FIXUP_DEREF_LHS,
+            ],
             Scalar\Encapsed::class => [
                 'parts' => self::FIXUP_ENCAPSED,
             ],
