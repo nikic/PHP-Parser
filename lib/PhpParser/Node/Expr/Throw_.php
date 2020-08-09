@@ -1,16 +1,16 @@
 <?php declare(strict_types=1);
 
-namespace PhpParser\Node\Stmt;
+namespace PhpParser\Node\Expr;
 
 use PhpParser\Node;
 
-class Throw_ extends Node\Stmt
+class Throw_ extends Node\Expr
 {
     /** @var Node\Expr Expression */
     public $expr;
 
     /**
-     * Constructs a legacy throw statement node.
+     * Constructs a throw expression node.
      *
      * @param Node\Expr $expr       Expression
      * @param array     $attributes Additional attributes
@@ -23,8 +23,8 @@ class Throw_ extends Node\Stmt
     public function getSubNodeNames() : array {
         return ['expr'];
     }
-    
+
     public function getType() : string {
-        return 'Stmt_Throw';
+        return 'Expr_Throw';
     }
 }

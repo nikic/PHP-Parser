@@ -1,0 +1,48 @@
+Throw expression
+-----
+<?php
+test(throw $x);
+$a ?? throw new Exception;
+-----
+!!php7
+array(
+    0: Stmt_Expression(
+        expr: Expr_FuncCall(
+            name: Name(
+                parts: array(
+                    0: test
+                )
+            )
+            args: array(
+                0: Arg(
+                    name: null
+                    value: Expr_Throw(
+                        expr: Expr_Variable(
+                            name: x
+                        )
+                    )
+                    byRef: false
+                    unpack: false
+                )
+            )
+        )
+    )
+    1: Stmt_Expression(
+        expr: Expr_BinaryOp_Coalesce(
+            left: Expr_Variable(
+                name: a
+            )
+            right: Expr_Throw(
+                expr: Expr_New(
+                    class: Name(
+                        parts: array(
+                            0: Exception
+                        )
+                    )
+                    args: array(
+                    )
+                )
+            )
+        )
+    )
+)

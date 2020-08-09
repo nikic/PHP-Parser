@@ -233,7 +233,16 @@ non_empty_statement:
     | T_STATIC static_var_list semi                         { $$ = Stmt\Static_[$2]; }
     | T_ECHO expr_list_forbid_comma semi                    { $$ = Stmt\Echo_[$2]; }
     | T_INLINE_HTML                                         { $$ = Stmt\InlineHTML[$1]; }
-    | expr semi                                             { $$ = Stmt\Expression[$1]; }
+    | expr semi {
+        $e = $1;
+        if ($e instanceof Expr\Throw_) {
+            // For backwards-compatibility reasons, convert throw in statement position into
+            // Stmt\Throw_ rather than Stmt\Expression(Expr\Throw_).
+            $$ = Stmt\Throw_[$e->expr];
+        } else {
+            $$ = Stmt\Expression[$e];
+        }
+    }
     | T_UNSET '(' variables_list ')' semi                   { $$ = Stmt\Unset_[$3]; }
     | T_FOREACH '(' expr T_AS foreach_variable ')' foreach_statement
           { $$ = Stmt\Foreach_[$3, $5[0], ['keyVar' => null, 'byRef' => $5[1], 'stmts' => $7]]; }
@@ -244,7 +253,6 @@ non_empty_statement:
     | T_DECLARE '(' declare_list ')' declare_statement      { $$ = Stmt\Declare_[$3, $5]; }
     | T_TRY '{' inner_statement_list '}' catches optional_finally
           { $$ = Stmt\TryCatch[$3, $5, $6]; $this->checkTryCatch($$); }
-    | T_THROW expr semi                                     { $$ = Stmt\Throw_[$2]; }
     | T_GOTO identifier semi                                { $$ = Stmt\Goto_[$2]; }
     | identifier ':'                                        { $$ = Stmt\Label[$1]; }
     | error                                                 { $$ = array(); /* means: no statement */ }
@@ -785,6 +793,7 @@ expr:
     | T_YIELD expr                                          { $$ = Expr\Yield_[$2, null]; }
     | T_YIELD expr T_DOUBLE_ARROW expr                      { $$ = Expr\Yield_[$4, $2]; }
     | T_YIELD_FROM expr                                     { $$ = Expr\YieldFrom[$2]; }
+    | T_THROW expr                                          { $$ = Expr\Throw_[$2]; }
 
     | T_FN optional_ref '(' parameter_list ')' optional_return_type T_DOUBLE_ARROW expr
           { $$ = Expr\ArrowFunction[['static' => false, 'byRef' => $2, 'params' => $4, 'returnType' => $6, 'expr' => $8]]; }
