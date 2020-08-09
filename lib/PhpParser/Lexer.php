@@ -15,6 +15,7 @@ class Lexer
 
     protected $tokenMap;
     protected $dropTokens;
+    protected $identifierTokens;
 
     private $attributeStartLineUsed;
     private $attributeEndLineUsed;
@@ -37,6 +38,7 @@ class Lexer
         // Create Map from internal tokens to PhpParser tokens.
         $this->defineCompatibilityTokens();
         $this->tokenMap = $this->createTokenMap();
+        $this->identifierTokens = $this->createIdentifierTokenMap();
 
         // map of tokens to drop while lexing (the map is only used for isset lookup,
         // that's why the value is simply set to 1; the value is never actually used.)
@@ -170,14 +172,13 @@ class Lexer
 
             // Emulate PHP 8 T_NAME_* tokens, by combining sequences of T_NS_SEPARATOR and T_STRING
             // into a single token.
-            // TODO: Also handle reserved keywords in namespaced names.
             if (\is_array($token)
-                    && ($token[0] === \T_NS_SEPARATOR || $token[0] === \T_STRING || $token[0] === \T_NAMESPACE)) {
+                    && ($token[0] === \T_NS_SEPARATOR || isset($this->identifierTokens[$token[0]]))) {
                 $lastWasSeparator = $token[0] === \T_NS_SEPARATOR;
                 $text = $token[1];
                 for ($j = $i + 1; isset($this->tokens[$j]); $j++) {
                     if ($lastWasSeparator) {
-                        if ($this->tokens[$j][0] !== \T_STRING) {
+                        if (!isset($this->identifierTokens[$this->tokens[$j][0]])) {
                             break;
                         }
                         $lastWasSeparator = false;
@@ -487,5 +488,20 @@ class Lexer
         $tokenMap[\T_NULLSAFE_OBJECT_OPERATOR] = Tokens::T_NULLSAFE_OBJECT_OPERATOR;
 
         return $tokenMap;
+    }
+
+    private function createIdentifierTokenMap(): array {
+        // Based on semi_reserved production.
+        return array_fill_keys([
+            \T_STRING,
+            \T_INCLUDE, \T_INCLUDE_ONCE, \T_EVAL, \T_REQUIRE, \T_REQUIRE_ONCE, \T_LOGICAL_OR, \T_LOGICAL_XOR, \T_LOGICAL_AND,
+            \T_INSTANCEOF, \T_NEW, \T_CLONE, \T_EXIT, \T_IF, \T_ELSEIF, \T_ELSE, \T_ENDIF, \T_ECHO, \T_DO, \T_WHILE,
+            \T_ENDWHILE, \T_FOR, \T_ENDFOR, \T_FOREACH, \T_ENDFOREACH, \T_DECLARE, \T_ENDDECLARE, \T_AS, \T_TRY, \T_CATCH,
+            \T_FINALLY, \T_THROW, \T_USE, \T_INSTEADOF, \T_GLOBAL, \T_VAR, \T_UNSET, \T_ISSET, \T_EMPTY, \T_CONTINUE, \T_GOTO,
+            \T_FUNCTION, \T_CONST, \T_RETURN, \T_PRINT, \T_YIELD, \T_LIST, \T_SWITCH, \T_ENDSWITCH, \T_CASE, \T_DEFAULT,
+            \T_BREAK, \T_ARRAY, \T_CALLABLE, \T_EXTENDS, \T_IMPLEMENTS, \T_NAMESPACE, \T_TRAIT, \T_INTERFACE, \T_CLASS,
+            \T_CLASS_C, \T_TRAIT_C, \T_FUNC_C, \T_METHOD_C, \T_LINE, \T_FILE, \T_DIR, \T_NS_C, \T_HALT_COMPILER, \T_FN,
+            \T_MATCH,
+        ], true);
     }
 }

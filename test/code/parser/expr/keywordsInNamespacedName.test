@@ -1,0 +1,45 @@
+Keywords in namespaced name
+-----
+<?php
+fn\use();
+\fn\use();
+namespace\fn\use();
+-----
+array(
+    0: Stmt_Expression(
+        expr: Expr_FuncCall(
+            name: Name(
+                parts: array(
+                    0: fn
+                    1: use
+                )
+            )
+            args: array(
+            )
+        )
+    )
+    1: Stmt_Expression(
+        expr: Expr_FuncCall(
+            name: Name_FullyQualified(
+                parts: array(
+                    0: fn
+                    1: use
+                )
+            )
+            args: array(
+            )
+        )
+    )
+    2: Stmt_Expression(
+        expr: Expr_FuncCall(
+            name: Name_Relative(
+                parts: array(
+                    0: fn
+                    1: use
+                )
+            )
+            args: array(
+            )
+        )
+    )
+)

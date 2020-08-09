@@ -227,6 +227,18 @@ class LexerTest extends \PHPUnit\Framework\TestCase
                     [Tokens::T_NS_SEPARATOR, '\\', [], []],
                 ]
             ],
+            // tests PHP 8 T_NAME_* emulation with reserved keywords
+            [
+                '<?php fn\use \fn\use namespace\fn\use fn\use\\',
+                ['usedAttributes' => []],
+                [
+                    [Tokens::T_NAME_QUALIFIED, 'fn\use', [], []],
+                    [Tokens::T_NAME_FULLY_QUALIFIED, '\fn\use', [], []],
+                    [Tokens::T_NAME_RELATIVE, 'namespace\fn\use', [], []],
+                    [Tokens::T_NAME_QUALIFIED, 'fn\use', [], []],
+                    [Tokens::T_NS_SEPARATOR, '\\', [], []],
+                ]
+            ],
         ];
     }
 
