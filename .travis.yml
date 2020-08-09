@@ -26,16 +26,18 @@ matrix:
       php: nightly
       install:
         - composer update --ignore-platform-req=php --no-progress --prefer-dist
-    - name: PHP 7 Integration Tests
-      php: 7.4
+    - name: PHP 7.3 Code on PHP 8.0 Integration Tests
+      php: nightly
+      install:
+        - composer update --ignore-platform-req=php --no-progress --prefer-dist
       script:
-        - test_old/run-php-src.sh 7
-    - name: PHP 8 Integration Tests
-      php: 7.4
+        - test_old/run-php-src.sh 7.3.21
+    - name: PHP 8.0 Code on PHP 7.0 Integration Tests
+      php: 7.0
       script:
-        - test_old/run-php-src.sh 8
+        - test_old/run-php-src.sh 8.0.0beta1
   allow_failures:
-    - name: PHP 8 Integration Tests
+    - name: PHP 8.0 Code on PHP 7.0 Integration Tests
   fast_finish: true
 
 script: vendor/bin/phpunit
