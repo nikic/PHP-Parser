@@ -1,0 +1,37 @@
+Static return type
+-----
+<?php
+class Test {
+    public static function create(): static {}
+}
+-----
+!!php7
+array(
+    0: Stmt_Class(
+        flags: 0
+        name: Identifier(
+            name: Test
+        )
+        extends: null
+        implements: array(
+        )
+        stmts: array(
+            0: Stmt_ClassMethod(
+                flags: MODIFIER_PUBLIC | MODIFIER_STATIC (9)
+                byRef: false
+                name: Identifier(
+                    name: create
+                )
+                params: array(
+                )
+                returnType: Name(
+                    parts: array(
+                        0: static
+                    )
+                )
+                stmts: array(
+                )
+            )
+        )
+    )
+)

@@ -4,6 +4,7 @@ Version 4.8.1-dev
 ### Added
 
 * [PHP 8.0] Added support for named arguments, represented using a new `name` subnode on `Arg`.
+* [PHP 8.0] Added support for static return type, represented like a normal class return type.
 
 Version 4.8.0 (2020-08-09)
 --------------------------

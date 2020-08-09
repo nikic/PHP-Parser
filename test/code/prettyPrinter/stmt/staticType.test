@@ -1,0 +1,14 @@
+Static return type
+-----
+<?php
+class Test {
+    public static function create(): static {}
+}
+-----
+!!php7
+class Test
+{
+    public static function create() : static
+    {
+    }
+}

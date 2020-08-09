@@ -475,13 +475,13 @@ optional_visibility_modifier:
 ;
 
 parameter:
-      optional_visibility_modifier optional_type optional_ref optional_ellipsis plain_variable
+      optional_visibility_modifier optional_type_without_static optional_ref optional_ellipsis plain_variable
           { $$ = new Node\Param($5, null, $2, $3, $4, attributes(), $1);
             $this->checkParam($$); }
-    | optional_visibility_modifier optional_type optional_ref optional_ellipsis plain_variable '=' expr
+    | optional_visibility_modifier optional_type_without_static optional_ref optional_ellipsis plain_variable '=' expr
           { $$ = new Node\Param($5, $7, $2, $3, $4, attributes(), $1);
             $this->checkParam($$); }
-    | optional_visibility_modifier optional_type optional_ref optional_ellipsis error
+    | optional_visibility_modifier optional_type_without_static optional_ref optional_ellipsis error
           { $$ = new Node\Param(Expr\Error[], null, $2, $3, $4, attributes(), $1); }
 ;
 
@@ -492,6 +492,11 @@ type_expr:
 ;
 
 type:
+      type_without_static                                   { $$ = $1; }
+    | T_STATIC                                              { $$ = Node\Name['static']; }
+;
+
+type_without_static:
       name                                                  { $$ = $this->handleBuiltinTypes($1); }
     | T_ARRAY                                               { $$ = Node\Identifier['array']; }
     | T_CALLABLE                                            { $$ = Node\Identifier['callable']; }
@@ -502,9 +507,20 @@ union_type:
     | union_type '|' type                                   { push($1, $3); }
 ;
 
-optional_type:
+union_type_without_static:
+      type_without_static '|' type_without_static           { init($1, $3); }
+    | union_type_without_static '|' type_without_static     { push($1, $3); }
+;
+
+type_expr_without_static:
+      type_without_static                                   { $$ = $1; }
+    | '?' type_without_static                               { $$ = Node\NullableType[$2]; }
+    | union_type_without_static                             { $$ = Node\UnionType[$1]; }
+;
+
+optional_type_without_static:
       /* empty */                                           { $$ = null; }
-    | type_expr                                             { $$ = $1; }
+    | type_expr_without_static                              { $$ = $1; }
 ;
 
 optional_return_type:
@@ -570,7 +586,7 @@ class_statement_list:
 ;
 
 class_statement:
-      variable_modifiers optional_type property_declaration_list ';'
+      variable_modifiers optional_type_without_static property_declaration_list ';'
           { $attrs = attributes();
             $$ = new Stmt\Property($1, $3, $attrs, $2); $this->checkProperty($$, #1); }
     | method_modifiers T_CONST class_const_list ';'
