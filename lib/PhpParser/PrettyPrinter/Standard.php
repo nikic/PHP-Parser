@@ -497,7 +497,7 @@ class Standard extends PrettyPrinterAbstract
              . '(' . $this->pMaybeMultiline($node->args) . ')';
     }
 
-    protected function pExpr_NullsafeMethodCall(Expr\NUllsafeMethodCall $node) {
+    protected function pExpr_NullsafeMethodCall(Expr\NullsafeMethodCall $node) {
         return $this->pDereferenceLhs($node->var) . '?->' . $this->pObjectProperty($node->name)
             . '(' . $this->pMaybeMultiline($node->args) . ')';
     }
