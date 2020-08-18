@@ -1,5 +1,10 @@
-Version 4.8.1-dev
+Version 4.9.1-dev
 -----------------
+
+Nothing yet.
+
+Version 4.9.0 (2020-08-18)
+--------------------------
 
 ### Added
 
@@ -8,6 +13,12 @@ Version 4.8.1-dev
 * [PHP 8.0] Added support for throw expression, represented using a new `Expr\Throw_` node. For
   backwards compatibility reasons, throw expressions in statement context continue to be
   represented using `Stmt\Throw_`.
+* [PHP 8.0] Added support for keywords as parts of namespaced names.
+
+### Fixed
+
+* Emit parentheses for class constant fetch with complex left-hand-side.
+* Emit parentheses for new/instanceof on complex class expression.
 
 Version 4.8.0 (2020-08-09)
 --------------------------
