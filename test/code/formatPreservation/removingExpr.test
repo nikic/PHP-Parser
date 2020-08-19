@@ -1,0 +1,26 @@
+Removing statement with expression
+-----
+<?php
+function doBar(\DateTimeImmutable $date)
+{
+    'foo';
+    $date === null ? 'foo' : 'bar';
+    $date ? 'foo' : 'bar';
+    !$date ? 'foo' : 'bar';
+
+    $date ?: 'test';
+    $date ? $date : 'test';
+}
+-----
+array_splice($stmts[0]->stmts, 0, 1, []);
+-----
+<?php
+function doBar(\DateTimeImmutable $date)
+{
+    $date === null ? 'foo' : 'bar';
+    $date ? 'foo' : 'bar';
+    !$date ? 'foo' : 'bar';
+
+    $date ?: 'test';
+    $date ? $date : 'test';
+}
