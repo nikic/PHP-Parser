@@ -85,7 +85,7 @@ class Name extends NodeAbstract
     }
 
     /**
-     * Returns a string representation of the name itself, without taking taking the name type into
+     * Returns a string representation of the name itself, without taking the name type into
      * account (e.g., not including a leading backslash for fully qualified names).
      *
      * @return string String representation
