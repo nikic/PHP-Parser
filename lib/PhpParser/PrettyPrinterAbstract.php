@@ -704,6 +704,7 @@ abstract class PrettyPrinterAbstract
 
         $mapKey = $parentNodeType . '->' . $subNodeName;
         $insertStr = $this->listInsertionMap[$mapKey] ?? null;
+        $isStmtList = $subNodeName === 'stmts';
 
         $beforeFirstKeepOrReplace = true;
         $skipRemovedNode = false;
@@ -716,7 +717,7 @@ abstract class PrettyPrinterAbstract
             $insertNewline = true;
         }
 
-        if ($subNodeName === 'stmts' && \count($origNodes) === 1 && \count($nodes) !== 1) {
+        if ($isStmtList && \count($origNodes) === 1 && \count($nodes) !== 1) {
             $startPos = $origNodes[0]->getStartTokenPos();
             $endPos = $origNodes[0]->getEndTokenPos();
             \assert($startPos >= 0 && $endPos >= 0);
@@ -865,15 +866,19 @@ abstract class PrettyPrinterAbstract
                         $pos, $itemStartPos, $indentAdjustment);
                     $skipRemovedNode = true;
 
-                    if ($this->origTokens->haveTokenImmediatelyAfter($itemEndPos, '{')
-                        || $this->origTokens->haveTokenImmediatelyAfter($itemEndPos, '}')) {
+                    if ($isStmtList
+                        && ($this->origTokens->haveTokenImmediatelyAfter($itemEndPos, '{')
+                            || $this->origTokens->haveTokenImmediatelyAfter($itemEndPos, '}'))
+                    ) {
                         // We'd remove the brace of a code block.
                         // TODO: Preserve formatting.
                         return null;
                     }
                 } else {
-                    if ($this->origTokens->haveTokenImmediatelyBefore($itemStartPos, '{')
-                        || $this->origTokens->haveTokenImmediatelyBefore($itemStartPos, '}')) {
+                    if ($isStmtList
+                        && ($this->origTokens->haveTokenImmediatelyBefore($itemStartPos, '{')
+                            || $this->origTokens->haveTokenImmediatelyBefore($itemStartPos, '}'))
+                    ) {
                         // We'd remove the brace of a code block.
                         // TODO: Preserve formatting.
                         return null;
