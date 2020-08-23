@@ -50,3 +50,65 @@ array_pop($stmts[0]->returnType->types);
 <?php
 function test(): A
 |B {}
+-----
+<?php $a; $b; $c;
+-----
+array_splice($stmts, 0, 1, []);
+-----
+<?php $b; $c;
+-----
+<?php $a; $b; $c;
+-----
+array_splice($stmts, 0, 2, []);
+-----
+<?php $c;
+-----
+<?php
+{ $x; }
+$y;
+-----
+array_splice($stmts, 0, 1, []);
+-----
+<?php
+
+$y;
+-----
+<?php
+$x;
+{ $y; }
+-----
+array_splice($stmts, 0, 1, []);
+-----
+<?php
+
+$y;
+-----
+<?php
+$x;
+{ $y; }
+-----
+array_pop($stmts);
+-----
+<?php
+
+$x;
+-----
+<?php
+{ $x; }
+$y;
+-----
+array_pop($stmts);
+-----
+<?php
+
+$x;
+-----
+<?php
+// Foo
+$x;
+$y;
+-----
+array_splice($stmts, 0, 1, []);
+-----
+<?php
+$y;

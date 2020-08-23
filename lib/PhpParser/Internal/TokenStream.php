@@ -33,7 +33,7 @@ class TokenStream
      * @return bool
      */
     public function haveParens(int $startPos, int $endPos) : bool {
-        return $this->haveTokenImmediativelyBefore($startPos, '(')
+        return $this->haveTokenImmediatelyBefore($startPos, '(')
             && $this->haveTokenImmediatelyAfter($endPos, ')');
     }
 
@@ -46,7 +46,7 @@ class TokenStream
      * @return bool
      */
     public function haveBraces(int $startPos, int $endPos) : bool {
-        return $this->haveTokenImmediativelyBefore($startPos, '{')
+        return $this->haveTokenImmediatelyBefore($startPos, '{')
             && $this->haveTokenImmediatelyAfter($endPos, '}');
     }
 
@@ -60,7 +60,7 @@ class TokenStream
      *
      * @return bool Whether the expected token was found
      */
-    public function haveTokenImmediativelyBefore(int $pos, $expectedTokenType) : bool {
+    public function haveTokenImmediatelyBefore(int $pos, $expectedTokenType) : bool {
         $tokens = $this->tokens;
         $pos--;
         for (; $pos >= 0; $pos--) {
