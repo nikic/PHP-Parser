@@ -112,3 +112,65 @@ array_splice($stmts, 0, 1, []);
 -----
 <?php
 $y;
+-----
+<?php
+
+try {
+
+} catch (\InvalidArgumentException $e) {
+
+} catch (\Exception $e) {
+
+} catch (\LogicException $e) {
+
+} catch (\Throwable $e) {
+
+}
+-----
+$catch = $stmts[0]->catches[2];
+unset($stmts[0]->catches[2]);
+$stmts[0]->catches = array_values($stmts[0]->catches);
+array_splice($stmts[0]->catches, 1, 0, [$catch]);
+-----
+<?php
+
+try {
+
+} catch (\InvalidArgumentException $e) {
+
+} catch (\LogicException $e) {
+
+} catch (\Exception $e) {
+
+} catch (\Throwable $e) {
+
+}
+-----
+<?php
+
+try {
+
+} catch (\InvalidArgumentException $e) {
+
+} catch (\Exception $e) {
+
+} catch (\LogicException $e) {
+
+} catch (\Throwable $e) {
+
+}
+-----
+unset($stmts[0]->catches[2]);
+$stmts[0]->catches = array_values($stmts[0]->catches);
+-----
+<?php
+
+try {
+
+} catch (\InvalidArgumentException $e) {
+
+} catch (\Exception $e) {
+
+} catch (\Throwable $e) {
+
+}
