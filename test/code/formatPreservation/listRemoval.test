@@ -174,3 +174,37 @@ try {
 } catch (\Throwable $e) {
 
 }
+
+-----
+<?php
+class Foo
+{
+    private $id;
+
+    public function getId()
+    {
+    }
+
+    public function getFoo()
+    {
+    }
+}
+-----
+$stmts[0]->stmts[2] = new Node\Stmt\ClassMethod('getBar');
+$stmts[0]->stmts[3] = new Node\Stmt\ClassMethod('getBaz');
+-----
+<?php
+class Foo
+{
+    private $id;
+
+    public function getId()
+    {
+    }
+    function getBar()
+    {
+    }
+    function getBaz()
+    {
+    }
+}

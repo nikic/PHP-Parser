@@ -802,6 +802,13 @@ abstract class PrettyPrinterAbstract
                 } else if (!$skipRemovedNode) {
                     $result .= $this->origTokens->getTokenCode(
                         $pos, $itemStartPos, $indentAdjustment);
+                } else {
+                    if ($isStmtList && $this->origTokens->haveBracesInRange($pos, $itemStartPos)) {
+                        // We'd remove the brace of a code block.
+                        // TODO: Preserve formatting.
+                        $this->setIndentLevel($origIndentLevel);
+                        return null;
+                    }
                 }
 
                 if ($commentsChanged && $comments) {
@@ -865,20 +872,8 @@ abstract class PrettyPrinterAbstract
                     $result .= $this->origTokens->getTokenCode(
                         $pos, $itemStartPos, $indentAdjustment);
                     $skipRemovedNode = true;
-
-                    if ($isStmtList
-                        && ($this->origTokens->haveTokenImmediatelyAfter($itemEndPos, '{')
-                            || $this->origTokens->haveTokenImmediatelyAfter($itemEndPos, '}'))
-                    ) {
-                        // We'd remove the brace of a code block.
-                        // TODO: Preserve formatting.
-                        return null;
-                    }
                 } else {
-                    if ($isStmtList
-                        && ($this->origTokens->haveTokenImmediatelyBefore($itemStartPos, '{')
-                            || $this->origTokens->haveTokenImmediatelyBefore($itemStartPos, '}'))
-                    ) {
+                    if ($isStmtList && $this->origTokens->haveBracesInRange($pos, $itemStartPos)) {
                         // We'd remove the brace of a code block.
                         // TODO: Preserve formatting.
                         return null;
