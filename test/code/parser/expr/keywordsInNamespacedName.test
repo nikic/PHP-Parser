@@ -9,6 +9,7 @@ namespace static;
 fn\use();
 \fn\use();
 namespace\fn\use();
+private\protected\public\static\abstract\final();
 -----
 !!php7
 array(
@@ -86,6 +87,22 @@ array(
                         parts: array(
                             0: fn
                             1: use
+                        )
+                    )
+                    args: array(
+                    )
+                )
+            )
+            3: Stmt_Expression(
+                expr: Expr_FuncCall(
+                    name: Name(
+                        parts: array(
+                            0: private
+                            1: protected
+                            2: public
+                            3: static
+                            4: abstract
+                            5: final
                         )
                     )
                     args: array(
