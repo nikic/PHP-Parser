@@ -1,7 +1,20 @@
-Version 4.9.1-dev
+Version 4.9.2-dev
 -----------------
 
 Nothing yet.
+
+Version 4.9.1 (2020-08-30)
+--------------------------
+
+### Added
+
+* Added support for removing the first element of a list to the formatting-preserving pretty
+  printer.
+
+### Fixed
+
+* Allow member modifiers as part of namespaced names. These were missed when support for other
+  keywords was added.
 
 Version 4.9.0 (2020-08-18)
 --------------------------
