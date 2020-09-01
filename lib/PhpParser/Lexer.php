@@ -406,32 +406,44 @@ class Lexer
 
     private function defineCompatibilityTokens() {
         // PHP 7.4
-        if (!defined('T_BAD_CHARACTER')) {
+        if (\PHP_VERSION_ID < 70400) {
+            if(\defined('T_BAD_CHARACTER')) {
+                throw new \RuntimeException('Constant T_BAD_CHARACTER already defined');
+            }
             \define('T_BAD_CHARACTER', -1);
-        }
-        if (!defined('T_FN')) {
+            if(\defined('T_FN')) {
+                throw new \RuntimeException('Constant T_FN already defined');
+            }
             \define('T_FN', -2);
-        }
-        if (!defined('T_COALESCE_EQUAL')) {
+            if(\defined('T_COALESCE_EQUAL')) {
+                throw new \RuntimeException('Constant T_COALESCE_EQUAL already defined');
+            }        
             \define('T_COALESCE_EQUAL', -3);
-        }
+        }        
 
         // PHP 8.0
-        if (!defined('T_NAME_QUALIFIED')) {
+        if (\PHP_VERSION_ID < 80000) {
+            if(\defined('T_NAME_QUALIFIED')) {
+                throw new \RuntimeException('Constant T_NAME_QUALIFIED already defined');
+            }
             \define('T_NAME_QUALIFIED', -4);
-        }
-        if (!defined('T_NAME_FULLY_QUALIFIED')) {
+            if(\defined('T_NAME_FULLY_QUALIFIED')) {
+                throw new \RuntimeException('Constant T_NAME_FULLY_QUALIFIED already defined');
+            }
             \define('T_NAME_FULLY_QUALIFIED', -5);
-        }
-        if (!defined('T_NAME_RELATIVE')) {
+            if(\defined('T_NAME_RELATIVE')) {
+                throw new \RuntimeException('Constant T_NAME_RELATIVE already defined');
+            }
             \define('T_NAME_RELATIVE', -6);
-        }
-        if (!defined('T_MATCH')) {
+            if(\defined('T_MATCH')) {
+                throw new \RuntimeException('Constant T_MATCH already defined');
+            }
             \define('T_MATCH', -7);
-        }
-        if (!defined('T_NULLSAFE_OBJECT_OPERATOR')) {
+            if(\defined('T_NULLSAFE_OBJECT_OPERATOR')) {
+                throw new \RuntimeException('Constant T_NULLSAFE_OBJECT_OPERATOR already defined');
+            }        
             \define('T_NULLSAFE_OBJECT_OPERATOR', -8);
-        }
+        }        
     }
 
     /**
