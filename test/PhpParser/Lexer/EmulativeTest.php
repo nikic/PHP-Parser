@@ -275,6 +275,33 @@ class EmulativeTest extends LexerTest
             ['?->', [
                 [Tokens::T_NULLSAFE_OBJECT_OPERATOR, '?->'],
             ]],
+            ['#[Attr]', [
+                [Tokens::T_ATTRIBUTE, '#['],
+                [Tokens::T_STRING, 'Attr'],
+                [ord(']'), ']'],
+            ]],
+            ["#[\nAttr\n]", [
+                [Tokens::T_ATTRIBUTE, '#['],
+                [Tokens::T_STRING, 'Attr'],
+                [ord(']'), ']'],
+            ]],
+            // Test interaction of two patch-based emulators
+            ["<<<LABEL\n    LABEL, #[Attr]", [
+                [Tokens::T_START_HEREDOC, "<<<LABEL\n"],
+                [Tokens::T_END_HEREDOC, "    LABEL"],
+                [ord(','), ','],
+                [Tokens::T_ATTRIBUTE, '#['],
+                [Tokens::T_STRING, 'Attr'],
+                [ord(']'), ']'],
+            ]],
+            ["#[Attr] <<<LABEL\n    LABEL,", [
+                [Tokens::T_ATTRIBUTE, '#['],
+                [Tokens::T_STRING, 'Attr'],
+                [ord(']'), ']'],
+                [Tokens::T_START_HEREDOC, "<<<LABEL\n"],
+                [Tokens::T_END_HEREDOC, "    LABEL"],
+                [ord(','), ','],
+            ]],
         ];
     }
 

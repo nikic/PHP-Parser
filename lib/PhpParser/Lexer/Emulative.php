@@ -5,6 +5,7 @@ namespace PhpParser\Lexer;
 use PhpParser\Error;
 use PhpParser\ErrorHandler;
 use PhpParser\Lexer;
+use PhpParser\Lexer\TokenEmulator\AttributeEmulator;
 use PhpParser\Lexer\TokenEmulator\CoaleseEqualTokenEmulator;
 use PhpParser\Lexer\TokenEmulator\FlexibleDocStringEmulator;
 use PhpParser\Lexer\TokenEmulator\FnTokenEmulator;
@@ -49,6 +50,7 @@ class Emulative extends Lexer
             new CoaleseEqualTokenEmulator(),
             new NumericLiteralSeparatorEmulator(),
             new NullsafeTokenEmulator(),
+            new AttributeEmulator(),
         ];
 
         // Collect emulators that are relevant for the PHP version we're running
@@ -81,6 +83,7 @@ class Emulative extends Lexer
 
         $collector = new ErrorHandler\Collecting();
         parent::startLexing($code, $collector);
+        $this->sortPatches();
         $this->fixupTokens();
 
         $errors = $collector->getErrors();
@@ -106,6 +109,15 @@ class Emulative extends Lexer
             && version_compare($this->targetPhpVersion, $emulatorPhpVersion, '<');
     }
 
+    private function sortPatches()
+    {
+        // Patches may be contributed by different emulators.
+        // Make sure they are sorted by increasing patch position.
+        usort($this->patches, function($p1, $p2) {
+            return $p1[0] <=> $p2[0];
+        });
+    }
+
     private function fixupTokens()
     {
         if (\count($this->patches) === 0) {
@@ -122,7 +134,20 @@ class Emulative extends Lexer
         for ($i = 0, $c = \count($this->tokens); $i < $c; $i++) {
             $token = $this->tokens[$i];
             if (\is_string($token)) {
-                // We assume that patches don't apply to string tokens
+                if ($patchPos === $pos) {
+                    // Only support replacement for string tokens.
+                    assert($patchType === 'replace');
+                    $this->tokens[$i] = $patchText;
+
+                    // Fetch the next patch
+                    $patchIdx++;
+                    if ($patchIdx >= \count($this->patches)) {
+                        // No more patches, we're done
+                        return;
+                    }
+                    list($patchPos, $patchType, $patchText) = $this->patches[$patchIdx];
+                }
+
                 $pos += \strlen($token);
                 continue;
             }
@@ -150,6 +175,11 @@ class Emulative extends Lexer
                         $token[1], $patchText, $patchPos - $pos + $posDelta, 0
                     );
                     $posDelta += $patchTextLen;
+                } else if ($patchType === 'replace') {
+                    // Replace inside the token string
+                    $this->tokens[$i][1] = substr_replace(
+                        $token[1], $patchText, $patchPos - $pos + $posDelta, $patchTextLen
+                    );
                 } else {
                     assert(false);
                 }
@@ -196,7 +226,7 @@ class Emulative extends Lexer
                 if ($patchType === 'add') {
                     $posDelta += strlen($patchText);
                     $lineDelta += substr_count($patchText, "\n");
-                } else {
+                } else if ($patchType === 'remove') {
                     $posDelta -= strlen($patchText);
                     $lineDelta -= substr_count($patchText, "\n");
                 }

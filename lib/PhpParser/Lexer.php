@@ -421,6 +421,7 @@ class Lexer
             'T_NAME_RELATIVE',
             'T_MATCH',
             'T_NULLSAFE_OBJECT_OPERATOR',
+            'T_ATTRIBUTE',
         ];
 
         // PHP-Parser might be used together with another library that also emulates some or all
@@ -510,6 +511,7 @@ class Lexer
         $tokenMap[\T_NAME_RELATIVE] = Tokens::T_NAME_RELATIVE;
         $tokenMap[\T_MATCH] = Tokens::T_MATCH;
         $tokenMap[\T_NULLSAFE_OBJECT_OPERATOR] = Tokens::T_NULLSAFE_OBJECT_OPERATOR;
+        $tokenMap[\T_ATTRIBUTE] = Tokens::T_ATTRIBUTE;
 
         return $tokenMap;
     }
