@@ -10,6 +10,7 @@ use PhpParser\Lexer\TokenEmulator\FnTokenEmulator;
 use PhpParser\Lexer\TokenEmulator\MatchTokenEmulator;
 use PhpParser\Lexer\TokenEmulator\NullsafeTokenEmulator;
 use PhpParser\Lexer\TokenEmulator\NumericLiteralSeparatorEmulator;
+use PhpParser\Lexer\TokenEmulator\ReverseEmulator;
 use PhpParser\Lexer\TokenEmulator\TokenEmulatorInterface;
 use PhpParser\Parser\Tokens;
 
@@ -29,7 +30,7 @@ REGEX;
     private $patches = [];
 
     /** @var TokenEmulatorInterface[] */
-    private $tokenEmulators = [];
+    private $emulators = [];
 
     /** @var string */
     private $targetPhpVersion;
@@ -46,11 +47,24 @@ REGEX;
 
         parent::__construct($options);
 
-        $this->tokenEmulators[] = new FnTokenEmulator();
-        $this->tokenEmulators[] = new MatchTokenEmulator();
-        $this->tokenEmulators[] = new CoaleseEqualTokenEmulator();
-        $this->tokenEmulators[] = new NumericLiteralSeparatorEmulator();
-        $this->tokenEmulators[] = new NullsafeTokenEmulator();
+        $emulators = [
+            new FnTokenEmulator(),
+            new MatchTokenEmulator(),
+            new CoaleseEqualTokenEmulator(),
+            new NumericLiteralSeparatorEmulator(),
+            new NullsafeTokenEmulator(),
+        ];
+
+        // Collect emulators that are relevant for the PHP version we're running
+        // and the PHP version we're targeting for emulation.
+        foreach ($emulators as $emulator) {
+            $emulatorPhpVersion = $emulator->getPhpVersion();
+            if ($this->isForwardEmulationNeeded($emulatorPhpVersion)) {
+                $this->emulators[] = $emulator;
+            } else if ($this->isReverseEmulationNeeded($emulatorPhpVersion)) {
+                $this->emulators[] = new ReverseEmulator($emulator);
+            }
+        }
     }
 
     public function startLexing(string $code, ErrorHandler $errorHandler = null) {
@@ -77,24 +91,26 @@ REGEX;
             }
         }
 
-        foreach ($this->tokenEmulators as $tokenEmulator) {
-            $emulatorPhpVersion = $tokenEmulator->getPhpVersion();
-            if (version_compare(\PHP_VERSION, $emulatorPhpVersion, '<')
-                    && version_compare($this->targetPhpVersion, $emulatorPhpVersion, '>=')
-                    && $tokenEmulator->isEmulationNeeded($code)) {
-                $this->tokens = $tokenEmulator->emulate($code, $this->tokens);
-            } else if (version_compare(\PHP_VERSION, $emulatorPhpVersion, '>=')
-                    && version_compare($this->targetPhpVersion, $emulatorPhpVersion, '<')
-                    && $tokenEmulator->isEmulationNeeded($code)) {
-                $this->tokens = $tokenEmulator->reverseEmulate($code, $this->tokens);
+        foreach ($this->emulators as $emulator) {
+            if ($emulator->isEmulationNeeded($code)) {
+                $this->tokens = $emulator->emulate($code, $this->tokens);
             }
         }
     }
 
+    private function isForwardEmulationNeeded(string $emulatorPhpVersion): bool {
+        return version_compare(\PHP_VERSION, $emulatorPhpVersion, '<')
+            && version_compare($this->targetPhpVersion, $emulatorPhpVersion, '>=');
+    }
+
+    private function isReverseEmulationNeeded(string $emulatorPhpVersion): bool {
+        return version_compare(\PHP_VERSION, $emulatorPhpVersion, '>=')
+            && version_compare($this->targetPhpVersion, $emulatorPhpVersion, '<');
+    }
+
     private function isHeredocNowdocEmulationNeeded(string $code): bool
     {
-        // skip version where this works without emulation
-        if (version_compare(\PHP_VERSION, self::PHP_7_3, '>=')) {
+        if (!$this->isForwardEmulationNeeded(self::PHP_7_3)) {
             return false;
         }
 
@@ -148,8 +164,8 @@ REGEX;
 
     private function isEmulationNeeded(string $code): bool
     {
-        foreach ($this->tokenEmulators as $emulativeToken) {
-            if ($emulativeToken->isEmulationNeeded($code)) {
+        foreach ($this->emulators as $emulator) {
+            if ($emulator->isEmulationNeeded($code)) {
                 return true;
             }
         }
