@@ -2,7 +2,7 @@ Attributes
 -----
 <?php
 
-<<Deprecated>>
+#[Deprecated]
 function a() {
 }
 -----

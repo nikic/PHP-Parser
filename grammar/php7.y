@@ -91,8 +91,7 @@ attribute_arguments:
 
 attribute_decl:
       class_name                                            { $$ = Node\Attribute[$1, []]; }
-    | class_name '(' ')'                                    { $$ = Node\Attribute[$1, []]; }
-    | class_name '(' attribute_arguments ')'                { $$ = Node\Attribute[$1, $3]; }
+    | class_name argument_list                              { $$ = Node\Attribute[$1, $2]; }
 ;
 
 attribute:
