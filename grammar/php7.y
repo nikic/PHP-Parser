@@ -82,19 +82,21 @@ no_comma:
 optional_comma:
       /* empty */
     | ','
+;
 
 attribute_arguments:
       expr                                                  { init($1); }
     | attribute_arguments ',' expr                          { push($1, $3); }
+;
 
 attribute_decl:
-      class_name_reference                                  { $$ = Node\Attribute[$1, []]; }
-    | class_name_reference '(' ')'                          { $$ = Node\Attribute[$1, []]; }
-    | class_name_reference '(' attribute_arguments ')'      { $$ = Node\Attribute[$1, $3]; }
+      class_name                                            { $$ = Node\Attribute[$1, []]; }
+    | class_name '(' ')'                                    { $$ = Node\Attribute[$1, []]; }
+    | class_name '(' attribute_arguments ')'                { $$ = Node\Attribute[$1, $3]; }
 ;
 
 attribute:
-      T_SL attribute_decl T_SR                              { $$ = $2; }
+      T_ATTRIBUTE attribute_decl ']'                        { $$ = $2; }
 ;
 
 attributes:
