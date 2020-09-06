@@ -4,7 +4,7 @@ namespace PhpParser\Lexer\TokenEmulator;
 
 use PhpParser\Lexer\Emulative;
 
-final class CoaleseEqualTokenEmulator implements TokenEmulatorInterface
+final class CoaleseEqualTokenEmulator extends TokenEmulator
 {
     public function getPhpVersion(): string
     {

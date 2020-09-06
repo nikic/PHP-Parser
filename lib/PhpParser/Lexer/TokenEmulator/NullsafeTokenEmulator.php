@@ -4,7 +4,7 @@ namespace PhpParser\Lexer\TokenEmulator;
 
 use PhpParser\Lexer\Emulative;
 
-final class NullsafeTokenEmulator implements TokenEmulatorInterface
+final class NullsafeTokenEmulator extends TokenEmulator
 {
     public function getPhpVersion(): string
     {

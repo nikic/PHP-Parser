@@ -5,12 +5,12 @@ namespace PhpParser\Lexer\TokenEmulator;
 /**
  * Reverses emulation direction of the inner emulator.
  */
-final class ReverseEmulator implements TokenEmulatorInterface
+final class ReverseEmulator extends TokenEmulator
 {
-    /** @var TokenEmulatorInterface Inner emulator */
+    /** @var TokenEmulator Inner emulator */
     private $emulator;
 
-    public function __construct(TokenEmulatorInterface $emulator) {
+    public function __construct(TokenEmulator $emulator) {
         $this->emulator = $emulator;
     }
 
@@ -28,5 +28,9 @@ final class ReverseEmulator implements TokenEmulatorInterface
 
     public function reverseEmulate(string $code, array $tokens): array {
         return $this->emulator->emulate($code, $tokens);
+    }
+
+    public function preprocessCode(string $code, array &$patches): string {
+        return $code;
     }
 }
