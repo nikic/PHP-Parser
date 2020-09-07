@@ -13,7 +13,10 @@ class ClassMethod extends Node\Stmt implements FunctionLike
     public $byRef;
     /** @var Node\Identifier Name */
     public $name;
-    /** @var Node\Param[] Parameters */
+    /**
+     * @var Node\Param[] Parameters
+     * @psalm-var list<Node\Param>
+     */
     public $params;
     /** @var null|Node\Identifier|Node\Name|Node\NullableType|Node\UnionType Return type */
     public $returnType;

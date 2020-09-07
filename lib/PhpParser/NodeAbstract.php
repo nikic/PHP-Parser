@@ -9,7 +9,7 @@ abstract class NodeAbstract implements Node, \JsonSerializable
     /**
      * Creates a Node.
      *
-     * @param array $attributes Array of attributes
+     * @param array<string, mixed> $attributes Array of attributes
      */
     public function __construct(array $attributes = []) {
         $this->attributes = $attributes;
@@ -170,7 +170,7 @@ abstract class NodeAbstract implements Node, \JsonSerializable
     }
 
     /**
-     * @return array
+     * @return array<string, mixed>
      */
     public function jsonSerialize() : array {
         return ['nodeType' => $this->getType()] + get_object_vars($this);

@@ -147,7 +147,7 @@ class Comment implements \JsonSerializable
      * without trailing whitespace on the first line, but with trailing whitespace
      * on all subsequent lines.
      *
-     * @return mixed|string
+     * @return string
      */
     public function getReformattedText() {
         $text = trim($this->text);

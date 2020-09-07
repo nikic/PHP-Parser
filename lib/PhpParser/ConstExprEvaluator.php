@@ -57,7 +57,7 @@ class ConstExprEvaluator
      * See class doc comment for caveats and limitations.
      *
      * @param Expr $expr Constant expression to evaluate
-     * @return mixed Result of evaluation
+     * @return float|string|int|array|bool Result of evaluation
      *
      * @throws ConstExprEvaluationException if the expression cannot be evaluated or an error occurred
      */
@@ -92,7 +92,7 @@ class ConstExprEvaluator
      * See class doc comment for caveats and limitations.
      *
      * @param Expr $expr Constant expression to evaluate
-     * @return mixed Result of evaluation
+     * @return float|string|int|array|bool Result of evaluation
      *
      * @throws ConstExprEvaluationException if the expression cannot be evaluated
      */
@@ -100,6 +100,11 @@ class ConstExprEvaluator
         return $this->evaluate($expr);
     }
 
+    /**
+     * @param Expr $expr
+     * @return float|string|int|array|bool
+     * @throws \Exception
+     */
     private function evaluate(Expr $expr) {
         if ($expr instanceof Scalar\LNumber
             || $expr instanceof Scalar\DNumber
@@ -157,6 +162,11 @@ class ConstExprEvaluator
         return $array;
     }
 
+    /**
+     * @param Expr\Ternary $expr
+     * @return array|bool|float|int|string
+     * @throws \Exception
+     */
     private function evaluateTernary(Expr\Ternary $expr) {
         if (null === $expr->if) {
             return $this->evaluate($expr->cond) ?: $this->evaluate($expr->else);
@@ -167,6 +177,11 @@ class ConstExprEvaluator
             : $this->evaluate($expr->else);
     }
 
+    /**
+     * @param Expr\BinaryOp $expr
+     * @return int|bool|array|string|float
+     * @throws \Exception
+     */
     private function evaluateBinaryOp(Expr\BinaryOp $expr) {
         if ($expr instanceof Expr\BinaryOp\Coalesce
             && $expr->left instanceof Expr\ArrayDimFetch

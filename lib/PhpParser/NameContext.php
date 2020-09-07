@@ -153,6 +153,7 @@ class NameContext
      * @param int    $type One of Stmt\Use_::TYPE_*
      *
      * @return Name[] Possible representations of the name
+     * @psalm-return non-empty-list<Name>
      */
     public function getPossibleNames(string $name, int $type) : array {
         $lcName = strtolower($name);

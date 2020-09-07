@@ -8,15 +8,18 @@ class ClassConst extends Node\Stmt
 {
     /** @var int Modifiers */
     public $flags;
-    /** @var Node\Const_[] Constant declarations */
+    /** 
+     * @var Node\Const_[] Constant declarations
+     * @psalm-var list<Node\Const_>
+     */
     public $consts;
 
     /**
      * Constructs a class const list node.
      *
-     * @param Node\Const_[] $consts     Constant declarations
-     * @param int           $flags      Modifiers
-     * @param array         $attributes Additional attributes
+     * @param list<Node\Const_> $consts     Constant declarations
+     * @param int               $flags      Modifiers
+     * @param array             $attributes Additional attributes
      */
     public function __construct(array $consts, int $flags = 0, array $attributes = []) {
         $this->attributes = $attributes;

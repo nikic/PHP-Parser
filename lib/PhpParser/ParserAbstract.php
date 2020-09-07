@@ -53,7 +53,10 @@ abstract class ParserAbstract implements Parser
 
     /** @var int[] Map of lexer tokens to internal symbols */
     protected $tokenToSymbol;
-    /** @var string[] Map of symbols to their names */
+    /**
+     * @var string[] Map of symbols to their names
+     * @psalm-var list<string>
+     */
     protected $symbolToName;
     /** @var array Names of the production rules (only necessary for debugging) */
     protected $productions;
@@ -846,7 +849,7 @@ abstract class ParserAbstract implements Parser
      * Create attributes for a zero-length common-capturing nop.
      *
      * @param Comment[] $comments
-     * @return array
+     * @return array<string, mixed>
      */
     protected function createCommentNopAttributes(array $comments) {
         $comment = $comments[count($comments) - 1];

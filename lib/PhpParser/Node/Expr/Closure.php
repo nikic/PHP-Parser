@@ -12,7 +12,10 @@ class Closure extends Expr implements FunctionLike
     public $static;
     /** @var bool Whether to return by reference */
     public $byRef;
-    /** @var Node\Param[] Parameters */
+    /**
+     * @var Node\Param[] Parameters
+     * @psalm-var list<Node\Param>
+     */
     public $params;
     /** @var ClosureUse[] use()s */
     public $uses;
