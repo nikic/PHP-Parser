@@ -190,6 +190,7 @@ class A extends B implements C, D {
         E::j insteadof F, G;
     }
     
+    #[X]
     public float $php = 7.4;
     public ?Foo $person;
     protected static ?bool $probability;
@@ -248,6 +249,7 @@ class A extends \NS\B implements \NS\C, \NS\D
         \NS\E::h as i;
         \NS\E::j insteadof \NS\F, \NS\G;
     }
+    #[\NS\X]
     public float $php = 7.4;
     public ?\NS\Foo $person;
     protected static ?bool $probability;

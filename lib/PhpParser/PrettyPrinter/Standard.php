@@ -758,7 +758,8 @@ class Standard extends PrettyPrinterAbstract
     }
 
     protected function pStmt_Property(Stmt\Property $node) {
-        return (0 === $node->flags ? 'var ' : $this->pModifiers($node->flags))
+        return $this->pAttrGroups($node->attrGroups)
+            . (0 === $node->flags ? 'var ' : $this->pModifiers($node->flags))
             . ($node->type ? $this->p($node->type) . ' ' : '')
             . $this->pCommaSeparated($node->props) . ';';
     }
@@ -942,7 +943,7 @@ class Standard extends PrettyPrinterAbstract
     // Helpers
 
     protected function pClassCommon(Stmt\Class_ $node, $afterClassToken) {
-        return $this->pAttrGroups($node->attrGroups)
+        return $this->pAttrGroups($node->attrGroups, $node->name === null)
             . $this->pModifiers($node->flags)
             . 'class' . $afterClassToken
             . (null !== $node->extends ? ' extends ' . $this->p($node->extends) : '')
