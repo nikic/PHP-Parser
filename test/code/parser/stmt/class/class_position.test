@@ -1,0 +1,66 @@
+Class position
+-----
+<?php
+
+class A {
+}
+
+try {
+} catch (Exception $e) {
+}
+
+class B {
+}
+
+?>
+-----
+!!positions
+array(
+    0: Stmt_Class[3:1 - 4:1](
+        attrGroups: array(
+        )
+        flags: 0
+        name: Identifier[3:7 - 3:7](
+            name: A
+        )
+        extends: null
+        implements: array(
+        )
+        stmts: array(
+        )
+    )
+    1: Stmt_TryCatch[6:1 - 8:1](
+        stmts: array(
+        )
+        catches: array(
+            0: Stmt_Catch[7:3 - 8:1](
+                types: array(
+                    0: Name[7:10 - 7:18](
+                        parts: array(
+                            0: Exception
+                        )
+                    )
+                )
+                var: Expr_Variable[7:20 - 7:21](
+                    name: e
+                )
+                stmts: array(
+                )
+            )
+        )
+        finally: null
+    )
+    2: Stmt_Class[10:1 - 11:1](
+        attrGroups: array(
+        )
+        flags: 0
+        name: Identifier[10:7 - 10:7](
+            name: B
+        )
+        extends: null
+        implements: array(
+        )
+        stmts: array(
+        )
+    )
+)
