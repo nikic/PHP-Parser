@@ -94,8 +94,13 @@ attribute_decl:
     | class_name argument_list                              { $$ = Node\Attribute[$1, $2]; }
 ;
 
+attribute_group:
+      attribute_decl                                        { init($1); }
+    | attribute_group ',' attribute_decl                    { push($1, $3); }
+;
+
 attribute:
-      T_ATTRIBUTE attribute_decl ']'                        { $$ = $2; }
+      T_ATTRIBUTE attribute_group optional_comma ']'        { $$ = Node\AttributeGroup[$2]; }
 ;
 
 attributes:
@@ -342,20 +347,20 @@ block_or_error:
 
 function_declaration_statement:
       T_FUNCTION optional_ref identifier '(' parameter_list ')' optional_return_type block_or_error
-          { $$ = Stmt\Function_[$3, ['byRef' => $2, 'params' => $5, 'returnType' => $7, 'stmts' => $8, 'phpAttributes' => []]]; }
+          { $$ = Stmt\Function_[$3, ['byRef' => $2, 'params' => $5, 'returnType' => $7, 'stmts' => $8, 'attrGroups' => []]]; }
     | attributes T_FUNCTION optional_ref identifier '(' parameter_list ')' optional_return_type block_or_error
-          { $$ = Stmt\Function_[$4, ['byRef' => $3, 'params' => $6, 'returnType' => $8, 'stmts' => $9, 'phpAttributes' => $1]]; }
+          { $$ = Stmt\Function_[$4, ['byRef' => $3, 'params' => $6, 'returnType' => $8, 'stmts' => $9, 'attrGroups' => $1]]; }
 ;
 
 class_declaration_statement:
       optional_attributes class_entry_type identifier extends_from implements_list '{' class_statement_list '}'
-          { $$ = Stmt\Class_[$3, ['type' => $2, 'extends' => $4, 'implements' => $5, 'stmts' => $7, 'phpAttributes' => $1]];
+          { $$ = Stmt\Class_[$3, ['type' => $2, 'extends' => $4, 'implements' => $5, 'stmts' => $7, 'attrGroups' => $1]];
             $this->checkClass($$, #3); }
     | optional_attributes T_INTERFACE identifier interface_extends_list '{' class_statement_list '}'
-          { $$ = Stmt\Interface_[$3, ['extends' => $4, 'stmts' => $6, 'phpAttributes' => $1]];
+          { $$ = Stmt\Interface_[$3, ['extends' => $4, 'stmts' => $6, 'attrGroups' => $1]];
             $this->checkInterface($$, #3); }
     | optional_attributes T_TRAIT identifier '{' class_statement_list '}'
-          { $$ = Stmt\Trait_[$3, ['stmts' => $5, 'phpAttributes' => $1]]; }
+          { $$ = Stmt\Trait_[$3, ['stmts' => $5, 'attrGroups' => $1]]; }
 ;
 
 class_entry_type:
@@ -517,13 +522,13 @@ optional_visibility_modifier:
 
 parameter:
       optional_attributes optional_visibility_modifier optional_type_without_static optional_ref optional_ellipsis plain_variable
-          { $$ = new Node\Param($6, null, $3, $4, $5, attributes(), $1, $2);
+          { $$ = new Node\Param($6, null, $3, $4, $5, attributes(), $2, $1);
             $this->checkParam($$); }
     | optional_attributes optional_visibility_modifier optional_type_without_static optional_ref optional_ellipsis plain_variable '=' expr
-          { $$ = new Node\Param($6, $8, $3, $4, $5, attributes(), $1, $2);
+          { $$ = new Node\Param($6, $8, $3, $4, $5, attributes(), $2, $1);
             $this->checkParam($$); }
     | optional_attributes optional_visibility_modifier optional_type_without_static optional_ref optional_ellipsis error
-          { $$ = new Node\Param(Expr\Error[], null, $3, $4, $5, attributes(), $1, $2); }
+          { $$ = new Node\Param(Expr\Error[], null, $3, $4, $5, attributes(), $2, $1); }
 ;
 
 type_expr:
@@ -634,7 +639,7 @@ class_statement:
           { $$ = new Stmt\ClassConst($4, $2, attributes(), $1);
             $this->checkClassConst($$, #1); }
     | optional_attributes method_modifiers T_FUNCTION optional_ref identifier_ex '(' parameter_list ')' optional_return_type method_body
-          { $$ = Stmt\ClassMethod[$5, ['type' => $2, 'byRef' => $4, 'params' => $7, 'returnType' => $9, 'stmts' => $10, 'phpAttributes' => $1]];
+          { $$ = Stmt\ClassMethod[$5, ['type' => $2, 'byRef' => $4, 'params' => $7, 'returnType' => $9, 'stmts' => $10, 'attrGroups' => $1]];
             $this->checkClassMethod($$, #1); }
     | T_USE class_name_list trait_adaptations               { $$ = Stmt\TraitUse[$2, $3]; }
     | error                                                 { $$ = null; /* will be skipped */ }
@@ -830,27 +835,27 @@ expr:
     | T_THROW expr                                          { $$ = Expr\Throw_[$2]; }
 
     | T_FN optional_ref '(' parameter_list ')' optional_return_type T_DOUBLE_ARROW expr
-          { $$ = Expr\ArrowFunction[['static' => false, 'byRef' => $2, 'params' => $4, 'returnType' => $6, 'expr' => $8, 'phpAttributes' => []]]; }
+          { $$ = Expr\ArrowFunction[['static' => false, 'byRef' => $2, 'params' => $4, 'returnType' => $6, 'expr' => $8, 'attrGroups' => []]]; }
     | T_STATIC T_FN optional_ref '(' parameter_list ')' optional_return_type T_DOUBLE_ARROW expr
-          { $$ = Expr\ArrowFunction[['static' => true, 'byRef' => $3, 'params' => $5, 'returnType' => $7, 'expr' => $9, 'phpAttributes' => []]]; }
+          { $$ = Expr\ArrowFunction[['static' => true, 'byRef' => $3, 'params' => $5, 'returnType' => $7, 'expr' => $9, 'attrGroups' => []]]; }
     | T_FUNCTION optional_ref '(' parameter_list ')' lexical_vars optional_return_type block_or_error
-          { $$ = Expr\Closure[['static' => false, 'byRef' => $2, 'params' => $4, 'uses' => $6, 'returnType' => $7, 'stmts' => $8, 'phpAttributes' => []]]; }
+          { $$ = Expr\Closure[['static' => false, 'byRef' => $2, 'params' => $4, 'uses' => $6, 'returnType' => $7, 'stmts' => $8, 'attrGroups' => []]]; }
     | T_STATIC T_FUNCTION optional_ref '(' parameter_list ')' lexical_vars optional_return_type       block_or_error
-          { $$ = Expr\Closure[['static' => true, 'byRef' => $3, 'params' => $5, 'uses' => $7, 'returnType' => $8, 'stmts' => $9, 'phpAttributes' => []]]; }
+          { $$ = Expr\Closure[['static' => true, 'byRef' => $3, 'params' => $5, 'uses' => $7, 'returnType' => $8, 'stmts' => $9, 'attrGroups' => []]]; }
 
     | attributes T_FN optional_ref '(' parameter_list ')' optional_return_type T_DOUBLE_ARROW expr
-          { $$ = Expr\ArrowFunction[['static' => false, 'byRef' => $3, 'params' => $5, 'returnType' => $7, 'expr' => $9, 'phpAttributes' => $1]]; }
+          { $$ = Expr\ArrowFunction[['static' => false, 'byRef' => $3, 'params' => $5, 'returnType' => $7, 'expr' => $9, 'attrGroups' => $1]]; }
     | attributes T_STATIC T_FN optional_ref '(' parameter_list ')' optional_return_type T_DOUBLE_ARROW expr
-          { $$ = Expr\ArrowFunction[['static' => true, 'byRef' => $4, 'params' => $6, 'returnType' => $8, 'expr' => $10, 'phpAttributes' => $1]]; }
+          { $$ = Expr\ArrowFunction[['static' => true, 'byRef' => $4, 'params' => $6, 'returnType' => $8, 'expr' => $10, 'attrGroups' => $1]]; }
     | attributes T_FUNCTION optional_ref '(' parameter_list ')' lexical_vars optional_return_type block_or_error
-          { $$ = Expr\Closure[['static' => false, 'byRef' => $3, 'params' => $5, 'uses' => $7, 'returnType' => $8, 'stmts' => $9, 'phpAttributes' => $1]]; }
+          { $$ = Expr\Closure[['static' => false, 'byRef' => $3, 'params' => $5, 'uses' => $7, 'returnType' => $8, 'stmts' => $9, 'attrGroups' => $1]]; }
     | attributes T_STATIC T_FUNCTION optional_ref '(' parameter_list ')' lexical_vars optional_return_type       block_or_error
-          { $$ = Expr\Closure[['static' => true, 'byRef' => $4, 'params' => $6, 'uses' => $8, 'returnType' => $9, 'stmts' => $10, 'phpAttributes' => $1]]; }
+          { $$ = Expr\Closure[['static' => true, 'byRef' => $4, 'params' => $6, 'uses' => $8, 'returnType' => $9, 'stmts' => $10, 'attrGroups' => $1]]; }
 ;
 
 anonymous_class:
       optional_attributes T_CLASS ctor_arguments extends_from implements_list '{' class_statement_list '}'
-          { $$ = array(Stmt\Class_[null, ['type' => 0, 'extends' => $4, 'implements' => $5, 'stmts' => $7, 'phpAttributes' => $1]], $3);
+          { $$ = array(Stmt\Class_[null, ['type' => 0, 'extends' => $4, 'implements' => $5, 'stmts' => $7, 'attrGroups' => $1]], $3);
             $this->checkClass($$[0], -1); }
 ;
 

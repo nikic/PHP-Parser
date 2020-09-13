@@ -4,7 +4,6 @@ namespace PhpParser\Node\Stmt;
 
 use PhpParser\Error;
 use PhpParser\Node;
-use PhpParser\Node\Attribute;
 
 class Class_ extends ClassLike
 {
@@ -23,8 +22,6 @@ class Class_ extends ClassLike
     public $extends;
     /** @var Node\Name[] Names of implemented interfaces */
     public $implements;
-    /** @var Attribute[] PHP attributes */
-    public $phpAttributes;
 
     /**
      * Constructs a class node.
@@ -35,7 +32,7 @@ class Class_ extends ClassLike
      *                                'extends'       => null   : Name of extended class
      *                                'implements'    => array(): Names of implemented interfaces
      *                                'stmts'         => array(): Statements
-     *                                'phpAttributes' => array(): PHP attributes
+     *                                '$attrGroups'   => array(): PHP attribute groups
      * @param array       $attributes Additional attributes
      */
     public function __construct($name, array $subNodes = [], array $attributes = []) {
@@ -45,11 +42,11 @@ class Class_ extends ClassLike
         $this->extends = $subNodes['extends'] ?? null;
         $this->implements = $subNodes['implements'] ?? [];
         $this->stmts = $subNodes['stmts'] ?? [];
-        $this->phpAttributes = $subNodes['phpAttributes'] ?? [];
+        $this->attrGroups = $subNodes['attrGroups'] ?? [];
     }
 
     public function getSubNodeNames() : array {
-        return ['phpAttributes', 'flags', 'name', 'extends', 'implements', 'stmts'];
+        return ['attrGroups', 'flags', 'name', 'extends', 'implements', 'stmts'];
     }
 
     /**

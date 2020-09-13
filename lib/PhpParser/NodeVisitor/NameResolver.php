@@ -242,7 +242,7 @@ class NameResolver extends NodeVisitorAbstract
             return;
         }
 
-        foreach ($node->phpAttributes as $phpAttribute) {
+        foreach ($node->attrGroups as $phpAttribute) {
             $phpAttribute->name = $this->resolveClassName($phpAttribute->name);
         }
     }

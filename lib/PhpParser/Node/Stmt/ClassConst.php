@@ -3,7 +3,6 @@
 namespace PhpParser\Node\Stmt;
 
 use PhpParser\Node;
-use PhpParser\Node\Attribute;
 
 class ClassConst extends Node\Stmt
 {
@@ -11,31 +10,31 @@ class ClassConst extends Node\Stmt
     public $flags;
     /** @var Node\Const_[] Constant declarations */
     public $consts;
-    /** @var Attribute[] */
-    public $phpAttributes;
+    /** @var Node\AttributeGroup[] */
+    public $attrGroups;
 
     /**
      * Constructs a class const list node.
      *
-     * @param Node\Const_[] $consts        Constant declarations
-     * @param int           $flags         Modifiers
-     * @param array         $attributes    Additional attributes
-     * @param Attribute[]   $phpAttributes PHP attributes
+     * @param Node\Const_[]         $consts     Constant declarations
+     * @param int                   $flags      Modifiers
+     * @param array                 $attributes Additional attributes
+     * @param Node\AttributeGroup[] $attrGroups PHP attribute groups
      */
     public function __construct(
         array $consts,
         int $flags = 0,
         array $attributes = [],
-        array $phpAttributes = []
+        array $attrGroups = []
     ) {
         $this->attributes = $attributes;
         $this->flags = $flags;
         $this->consts = $consts;
-        $this->phpAttributes = $phpAttributes;
+        $this->attrGroups = $attrGroups;
     }
 
     public function getSubNodeNames() : array {
-        return ['phpAttributes', 'flags', 'consts'];
+        return ['attrGroups', 'flags', 'consts'];
     }
 
     /**

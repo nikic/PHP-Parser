@@ -13,6 +13,8 @@ abstract class ClassLike extends Node\Stmt
     public $name;
     /** @var Node\Stmt[] Statements */
     public $stmts;
+    /** @var Node\AttributeGroup[] PHP attribute groups */
+    public $attrGroups;
 
     /**
      * @return TraitUse[]

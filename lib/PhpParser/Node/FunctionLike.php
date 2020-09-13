@@ -35,9 +35,9 @@ interface FunctionLike extends Node
     public function getStmts();
 
     /**
-     * Get function attributes.
+     * Get function attribute groups.
      *
-     * @return Attribute[]
+     * @return AttributeGroup[]
      */
-    public function getPhpAttributes() : array;
+    public function getAttrGroups() : array;
 }
