@@ -189,27 +189,35 @@ class A extends B implements C, D {
         E::h as i;
         E::j insteadof F, G;
     }
+    
+    public float $php = 7.4;
+    public ?Foo $person;
+    protected static ?bool $probability;
+    public A|B|int $prop;
+
+    #[X]
+    const C = 1;
 }
 
+#[X]
 interface A extends C, D {
     public function a(A $a) : A;
     public function b(A|B|int $a): A|B|int;
 }
 
-class ClassWithTypeProperties {
-    public float $php = 7.4;
-    public ?Foo $person;
-    protected static ?bool $probability;
-    public A|B|int $prop;
-}
+#[X]
+trait A {}
 
-function f(A $a) : A {}
+#[X]
+function f(#[X] A $a) : A {}
 function f2(array $a) : array {}
-function(A $a) : A {};
-
 function fn3(?A $a) : ?A {}
 function fn4(?array $a) : ?array {}
 
+#[X]
+function(A $a) : A {};
+
+#[X]
 fn(array $a): array => $a;
 fn(A $a): A => $a;
 fn(?A $a): ?A => $a;
@@ -240,34 +248,39 @@ class A extends \NS\B implements \NS\C, \NS\D
         \NS\E::h as i;
         \NS\E::j insteadof \NS\F, \NS\G;
     }
+    public float $php = 7.4;
+    public ?\NS\Foo $person;
+    protected static ?bool $probability;
+    public \NS\A|\NS\B|int $prop;
+    #[\NS\X]
+    const C = 1;
 }
+#[\NS\X]
 interface A extends \NS\C, \NS\D
 {
     public function a(\NS\A $a) : \NS\A;
     public function b(\NS\A|\NS\B|int $a) : \NS\A|\NS\B|int;
 }
-class ClassWithTypeProperties
+#[\NS\X]
+trait A
 {
-    public float $php = 7.4;
-    public ?\NS\Foo $person;
-    protected static ?bool $probability;
-    public \NS\A|\NS\B|int $prop;
 }
-function f(\NS\A $a) : \NS\A
+#[\NS\X]
+function f(#[\NS\X] \NS\A $a) : \NS\A
 {
 }
 function f2(array $a) : array
 {
 }
-function (\NS\A $a) : \NS\A {
-};
 function fn3(?\NS\A $a) : ?\NS\A
 {
 }
 function fn4(?array $a) : ?array
 {
 }
-fn(array $a): array => $a;
+#[\NS\X] function (\NS\A $a) : \NS\A {
+};
+#[\NS\X] fn(array $a): array => $a;
 fn(\NS\A $a): \NS\A => $a;
 fn(?\NS\A $a): ?\NS\A => $a;
 \NS\A::b();

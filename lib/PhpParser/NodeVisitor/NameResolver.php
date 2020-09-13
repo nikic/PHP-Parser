@@ -90,9 +90,9 @@ class NameResolver extends NodeVisitorAbstract
             $this->resolveAttrGroups($node);
             $this->addNamespacedName($node);
         } elseif ($node instanceof Stmt\Function_) {
+            $this->resolveSignature($node);
             $this->resolveAttrGroups($node);
             $this->addNamespacedName($node);
-            $this->resolveSignature($node);
         } elseif ($node instanceof Stmt\ClassMethod
                   || $node instanceof Expr\Closure
                   || $node instanceof Expr\ArrowFunction
@@ -108,6 +108,8 @@ class NameResolver extends NodeVisitorAbstract
             foreach ($node->consts as $const) {
                 $this->addNamespacedName($const);
             }
+        } else if ($node instanceof Stmt\ClassConst) {
+            $this->resolveAttrGroups($node);
         } elseif ($node instanceof Expr\StaticCall
                   || $node instanceof Expr\StaticPropertyFetch
                   || $node instanceof Expr\ClassConstFetch
