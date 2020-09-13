@@ -35,7 +35,7 @@ interface FunctionLike extends Node
     public function getStmts();
 
     /**
-     * Get function attribute groups.
+     * Get PHP attribute groups.
      *
      * @return AttributeGroup[]
      */

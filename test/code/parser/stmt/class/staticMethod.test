@@ -2,7 +2,7 @@ Some special methods cannot be static
 -----
 <?php class A { static function __construct() {} }
 -----
-Constructor __construct() cannot be static from 1:17 to 1:15
+Constructor __construct() cannot be static from 1:17 to 1:22
 array(
     0: Stmt_Class(
         attrGroups: array(
@@ -35,7 +35,7 @@ array(
 -----
 <?php class A { static function __destruct() {} }
 -----
-Destructor __destruct() cannot be static from 1:17 to 1:15
+Destructor __destruct() cannot be static from 1:17 to 1:22
 array(
     0: Stmt_Class(
         attrGroups: array(
@@ -68,7 +68,7 @@ array(
 -----
 <?php class A { static function __clone() {} }
 -----
-Clone method __clone() cannot be static from 1:17 to 1:15
+Clone method __clone() cannot be static from 1:17 to 1:22
 array(
     0: Stmt_Class(
         attrGroups: array(
@@ -101,7 +101,7 @@ array(
 -----
 <?php class A { static function __CONSTRUCT() {} }
 -----
-Constructor __CONSTRUCT() cannot be static from 1:17 to 1:15
+Constructor __CONSTRUCT() cannot be static from 1:17 to 1:22
 array(
     0: Stmt_Class(
         attrGroups: array(
@@ -134,7 +134,7 @@ array(
 -----
 <?php class A { static function __Destruct() {} }
 -----
-Destructor __Destruct() cannot be static from 1:17 to 1:15
+Destructor __Destruct() cannot be static from 1:17 to 1:22
 array(
     0: Stmt_Class(
         attrGroups: array(
@@ -167,7 +167,7 @@ array(
 -----
 <?php class A { static function __cLoNe() {} }
 -----
-Clone method __cLoNe() cannot be static from 1:17 to 1:15
+Clone method __cLoNe() cannot be static from 1:17 to 1:22
 array(
     0: Stmt_Class(
         attrGroups: array(

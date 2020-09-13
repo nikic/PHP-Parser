@@ -84,11 +84,6 @@ optional_comma:
     | ','
 ;
 
-attribute_arguments:
-      expr                                                  { init($1); }
-    | attribute_arguments ',' expr                          { push($1, $3); }
-;
-
 attribute_decl:
       class_name                                            { $$ = Node\Attribute[$1, []]; }
     | class_name argument_list                              { $$ = Node\Attribute[$1, $2]; }
@@ -634,13 +629,13 @@ class_statement_list:
 class_statement:
       optional_attributes variable_modifiers optional_type_without_static property_declaration_list ';'
           { $$ = new Stmt\Property($2, $4, attributes(), $3, $1);
-            $this->checkProperty($$, #1); }
+            $this->checkProperty($$, #2); }
     | optional_attributes method_modifiers T_CONST class_const_list ';'
           { $$ = new Stmt\ClassConst($4, $2, attributes(), $1);
-            $this->checkClassConst($$, #1); }
+            $this->checkClassConst($$, #2); }
     | optional_attributes method_modifiers T_FUNCTION optional_ref identifier_ex '(' parameter_list ')' optional_return_type method_body
           { $$ = Stmt\ClassMethod[$5, ['type' => $2, 'byRef' => $4, 'params' => $7, 'returnType' => $9, 'stmts' => $10, 'attrGroups' => $1]];
-            $this->checkClassMethod($$, #1); }
+            $this->checkClassMethod($$, #2); }
     | T_USE class_name_list trait_adaptations               { $$ = Stmt\TraitUse[$2, $3]; }
     | error                                                 { $$ = null; /* will be skipped */ }
 ;

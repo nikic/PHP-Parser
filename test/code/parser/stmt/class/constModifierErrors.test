@@ -6,7 +6,7 @@ class A {
 }
 -----
 !!php7
-Cannot use 'static' as constant modifier from 3:5 to 2:9
+Cannot use 'static' as constant modifier from 3:5 to 3:10
 array(
     0: Stmt_Class(
         attrGroups: array(
@@ -44,7 +44,7 @@ class A {
 }
 -----
 !!php7
-Cannot use 'abstract' as constant modifier from 3:5 to 2:9
+Cannot use 'abstract' as constant modifier from 3:5 to 3:12
 array(
     0: Stmt_Class(
         attrGroups: array(
@@ -82,7 +82,7 @@ class A {
 }
 -----
 !!php7
-Cannot use 'final' as constant modifier from 3:5 to 2:9
+Cannot use 'final' as constant modifier from 3:5 to 3:9
 array(
     0: Stmt_Class(
         attrGroups: array(

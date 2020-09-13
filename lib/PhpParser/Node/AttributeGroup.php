@@ -12,7 +12,7 @@ class AttributeGroup extends NodeAbstract
 
     /**
      * @param Attribute[] $attrs PHP attributes
-     * @param array $attributes Node attributes
+     * @param array $attributes Additional node attributes
      */
     public function __construct(array $attrs, array $attributes = []) {
         $this->attributes = $attributes;

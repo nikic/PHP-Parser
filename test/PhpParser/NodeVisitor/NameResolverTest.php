@@ -166,7 +166,7 @@ namespace Baz {
 EOC;
 
         $prettyPrinter = new PhpParser\PrettyPrinter\Standard;
-        $stmts = $this->parseCodeAndTraverse($code);
+        $stmts = $this->parseAndResolve($code);
 
         $this->assertSame(
             $this->canonicalize($expectedCode),
@@ -182,6 +182,7 @@ EOC;
 <?php
 namespace NS;
 
+#[X]
 class A extends B implements C, D {
     use E, F, G {
         f as private g;
@@ -231,6 +232,7 @@ EOC;
         $expectedCode = <<<'EOC'
 namespace NS;
 
+#[\NS\X]
 class A extends \NS\B implements \NS\C, \NS\D
 {
     use \NS\E, \NS\F, \NS\G {
@@ -283,7 +285,7 @@ try {
 EOC;
 
         $prettyPrinter = new PhpParser\PrettyPrinter\Standard;
-        $stmts = $this->parseCodeAndTraverse($code);
+        $stmts = $this->parseAndResolve($code);
 
         $this->assertSame(
             $this->canonicalize($expectedCode),
@@ -298,37 +300,6 @@ EOC;
         $traverser->addVisitor(new NameResolver);
 
         $this->assertEquals($stmts, $traverser->traverse($stmts));
-    }
-
-    /**
-     * @covers \PhpParser\NodeVisitor\NameResolver
-     */
-    public function testResolveAttributes() {
-        $code = <<<'EOC'
-<?php
-namespace A;
-
-<<B>>
-function someFunction()
-{
-}
-EOC;
-        $expectedCode = <<<'EOC'
-namespace A;
-
-<<\A\B>>
-function someFunction()
-{
-}
-EOC;
-
-        $prettyPrinter = new PhpParser\PrettyPrinter\Standard;
-        $stmts = $this->parseCodeAndTraverse($code);
-
-        $this->assertSame(
-            $this->canonicalize($expectedCode),
-            $prettyPrinter->prettyPrint($stmts)
-        );
     }
 
     public function testAddDeclarationNamespacedName() {
@@ -534,7 +505,7 @@ EOC;
             new Name\FullyQualified('Foo\bar'), $n2->getAttribute('namespacedName'));
     }
 
-    private function parseCodeAndTraverse(string $code): array
+    private function parseAndResolve(string $code): array
     {
         $parser = new PhpParser\Parser\Php7(new PhpParser\Lexer\Emulative);
         $traverser = new PhpParser\NodeTraverser;
