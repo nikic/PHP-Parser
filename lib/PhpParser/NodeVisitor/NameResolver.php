@@ -75,6 +75,7 @@ class NameResolver extends NodeVisitorAbstract
                 $interface = $this->resolveClassName($interface);
             }
 
+            $this->resolveAttrGroups($node);
             if (null !== $node->name) {
                 $this->addNamespacedName($node);
             }
@@ -83,25 +84,32 @@ class NameResolver extends NodeVisitorAbstract
                 $interface = $this->resolveClassName($interface);
             }
 
+            $this->resolveAttrGroups($node);
             $this->addNamespacedName($node);
         } elseif ($node instanceof Stmt\Trait_) {
+            $this->resolveAttrGroups($node);
             $this->addNamespacedName($node);
         } elseif ($node instanceof Stmt\Function_) {
-            $this->addNamespacedName($node);
             $this->resolveSignature($node);
+            $this->resolveAttrGroups($node);
+            $this->addNamespacedName($node);
         } elseif ($node instanceof Stmt\ClassMethod
                   || $node instanceof Expr\Closure
                   || $node instanceof Expr\ArrowFunction
         ) {
             $this->resolveSignature($node);
+            $this->resolveAttrGroups($node);
         } elseif ($node instanceof Stmt\Property) {
             if (null !== $node->type) {
                 $node->type = $this->resolveType($node->type);
             }
+            $this->resolveAttrGroups($node);
         } elseif ($node instanceof Stmt\Const_) {
             foreach ($node->consts as $const) {
                 $this->addNamespacedName($const);
             }
+        } else if ($node instanceof Stmt\ClassConst) {
+            $this->resolveAttrGroups($node);
         } elseif ($node instanceof Expr\StaticCall
                   || $node instanceof Expr\StaticPropertyFetch
                   || $node instanceof Expr\ClassConstFetch
@@ -157,6 +165,7 @@ class NameResolver extends NodeVisitorAbstract
     private function resolveSignature($node) {
         foreach ($node->params as $param) {
             $param->type = $this->resolveType($param->type);
+            $this->resolveAttrGroups($param);
         }
         $node->returnType = $this->resolveType($node->returnType);
     }
@@ -224,5 +233,14 @@ class NameResolver extends NodeVisitorAbstract
     protected function addNamespacedName(Node $node) {
         $node->namespacedName = Name::concat(
             $this->nameContext->getNamespace(), (string) $node->name);
+    }
+
+    protected function resolveAttrGroups(Node $node)
+    {
+        foreach ($node->attrGroups as $attrGroup) {
+            foreach ($attrGroup->attrs as $attr) {
+                $attr->name = $this->resolveClassName($attr->name);
+            }
+        }
     }
 }

@@ -59,6 +59,8 @@ array(
         )
     )
     1: Stmt_Function(
+        attrGroups: array(
+        )
         byRef: false
         name: Identifier(
             name: getArr
@@ -92,6 +94,8 @@ array(
         )
     )
     2: Stmt_Function(
+        attrGroups: array(
+        )
         byRef: false
         name: Identifier(
             name: arrGen

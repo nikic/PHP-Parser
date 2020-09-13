@@ -28,10 +28,11 @@ class Class_ extends ClassLike
      *
      * @param string|Node\Identifier|null $name Name
      * @param array       $subNodes   Array of the following optional subnodes:
-     *                                'flags'      => 0      : Flags
-     *                                'extends'    => null   : Name of extended class
-     *                                'implements' => array(): Names of implemented interfaces
-     *                                'stmts'      => array(): Statements
+     *                                'flags'       => 0      : Flags
+     *                                'extends'     => null   : Name of extended class
+     *                                'implements'  => array(): Names of implemented interfaces
+     *                                'stmts'       => array(): Statements
+     *                                '$attrGroups' => array(): PHP attribute groups
      * @param array       $attributes Additional attributes
      */
     public function __construct($name, array $subNodes = [], array $attributes = []) {
@@ -41,10 +42,11 @@ class Class_ extends ClassLike
         $this->extends = $subNodes['extends'] ?? null;
         $this->implements = $subNodes['implements'] ?? [];
         $this->stmts = $subNodes['stmts'] ?? [];
+        $this->attrGroups = $subNodes['attrGroups'] ?? [];
     }
 
     public function getSubNodeNames() : array {
-        return ['flags', 'name', 'extends', 'implements', 'stmts'];
+        return ['attrGroups', 'flags', 'name', 'extends', 'implements', 'stmts'];
     }
 
     /**

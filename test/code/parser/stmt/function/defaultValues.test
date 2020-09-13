@@ -16,12 +16,16 @@ function a(
 -----
 array(
     0: Stmt_Function(
+        attrGroups: array(
+        )
         byRef: false
         name: Identifier(
             name: a
         )
         params: array(
             0: Param(
+                attrGroups: array(
+                )
                 flags: 0
                 type: null
                 byRef: false
@@ -38,6 +42,8 @@ array(
                 )
             )
             1: Param(
+                attrGroups: array(
+                )
                 flags: 0
                 type: null
                 byRef: false
@@ -50,6 +56,8 @@ array(
                 )
             )
             2: Param(
+                attrGroups: array(
+                )
                 flags: 0
                 type: null
                 byRef: false
@@ -69,6 +77,8 @@ array(
                 )
             )
             3: Param(
+                attrGroups: array(
+                )
                 flags: 0
                 type: null
                 byRef: false
@@ -83,6 +93,8 @@ array(
                 )
             )
             4: Param(
+                attrGroups: array(
+                )
                 flags: 0
                 type: null
                 byRef: false
@@ -97,6 +109,8 @@ array(
                 )
             )
             5: Param(
+                attrGroups: array(
+                )
                 flags: 0
                 type: null
                 byRef: false
@@ -110,6 +124,8 @@ array(
                 )
             )
             6: Param(
+                attrGroups: array(
+                )
                 flags: 0
                 type: null
                 byRef: false
@@ -123,6 +139,8 @@ array(
                 )
             )
             7: Param(
+                attrGroups: array(
+                )
                 flags: 0
                 type: null
                 byRef: false
@@ -144,6 +162,8 @@ array(
                 )
             )
             8: Param(
+                attrGroups: array(
+                )
                 flags: 0
                 type: null
                 byRef: false

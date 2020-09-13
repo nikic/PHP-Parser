@@ -8,6 +8,8 @@ class Test {
 !!php7
 array(
     0: Stmt_Class(
+        attrGroups: array(
+        )
         flags: 0
         name: Identifier(
             name: Test
@@ -17,6 +19,8 @@ array(
         )
         stmts: array(
             0: Stmt_ClassMethod(
+                attrGroups: array(
+                )
                 flags: MODIFIER_PUBLIC | MODIFIER_STATIC (9)
                 byRef: false
                 name: Identifier(

@@ -14,6 +14,8 @@ abstract class A {
 -----
 array(
     0: Stmt_Class(
+        attrGroups: array(
+        )
         flags: MODIFIER_ABSTRACT (16)
         name: Identifier(
             name: A
@@ -23,6 +25,8 @@ array(
         )
         stmts: array(
             0: Stmt_Property(
+                attrGroups: array(
+                )
                 flags: 0
                 type: null
                 props: array(
@@ -35,6 +39,8 @@ array(
                 )
             )
             1: Stmt_Property(
+                attrGroups: array(
+                )
                 flags: MODIFIER_STATIC (8)
                 type: null
                 props: array(
@@ -47,6 +53,8 @@ array(
                 )
             )
             2: Stmt_ClassMethod(
+                attrGroups: array(
+                )
                 flags: MODIFIER_ABSTRACT (16)
                 byRef: false
                 name: Identifier(
@@ -58,6 +66,8 @@ array(
                 stmts: null
             )
             3: Stmt_ClassMethod(
+                attrGroups: array(
+                )
                 flags: MODIFIER_FINAL (32)
                 byRef: false
                 name: Identifier(
@@ -70,6 +80,8 @@ array(
                 )
             )
             4: Stmt_ClassMethod(
+                attrGroups: array(
+                )
                 flags: MODIFIER_STATIC (8)
                 byRef: false
                 name: Identifier(
@@ -82,6 +94,8 @@ array(
                 )
             )
             5: Stmt_ClassMethod(
+                attrGroups: array(
+                )
                 flags: MODIFIER_STATIC | MODIFIER_FINAL (40)
                 byRef: false
                 name: Identifier(
@@ -94,6 +108,8 @@ array(
                 )
             )
             6: Stmt_ClassMethod(
+                attrGroups: array(
+                )
                 flags: 0
                 byRef: false
                 name: Identifier(

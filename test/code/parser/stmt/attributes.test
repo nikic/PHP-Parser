@@ -1,0 +1,388 @@
+Attributes
+-----
+<?php
+
+#[
+    A1,
+    A2(),
+    A3(0),
+    A4(x: 1),
+]
+function a() {
+}
+
+#[A5]
+class C {
+    #[A6]
+    public function m(
+        #[A7] $param,
+    ) {}
+    #[A14]
+    public $prop;
+}
+
+#[A8]
+interface I {}
+#[A9]
+trait T {}
+
+$x = #[A10] function() {};
+$y = #[A11] fn() => 0;
+$a = #[A12] static function() {};
+$b = #[A13] static fn() => 0;
+-----
+!!php7
+array(
+    0: Stmt_Function(
+        attrGroups: array(
+            0: AttributeGroup(
+                attrs: array(
+                    0: Attribute(
+                        name: Name(
+                            parts: array(
+                                0: A1
+                            )
+                        )
+                        args: array(
+                        )
+                    )
+                    1: Attribute(
+                        name: Name(
+                            parts: array(
+                                0: A2
+                            )
+                        )
+                        args: array(
+                        )
+                    )
+                    2: Attribute(
+                        name: Name(
+                            parts: array(
+                                0: A3
+                            )
+                        )
+                        args: array(
+                            0: Arg(
+                                name: null
+                                value: Scalar_LNumber(
+                                    value: 0
+                                )
+                                byRef: false
+                                unpack: false
+                            )
+                        )
+                    )
+                    3: Attribute(
+                        name: Name(
+                            parts: array(
+                                0: A4
+                            )
+                        )
+                        args: array(
+                            0: Arg(
+                                name: Identifier(
+                                    name: x
+                                )
+                                value: Scalar_LNumber(
+                                    value: 1
+                                )
+                                byRef: false
+                                unpack: false
+                            )
+                        )
+                    )
+                )
+            )
+        )
+        byRef: false
+        name: Identifier(
+            name: a
+        )
+        params: array(
+        )
+        returnType: null
+        stmts: array(
+        )
+    )
+    1: Stmt_Class(
+        attrGroups: array(
+            0: AttributeGroup(
+                attrs: array(
+                    0: Attribute(
+                        name: Name(
+                            parts: array(
+                                0: A5
+                            )
+                        )
+                        args: array(
+                        )
+                    )
+                )
+            )
+        )
+        flags: 0
+        name: Identifier(
+            name: C
+        )
+        extends: null
+        implements: array(
+        )
+        stmts: array(
+            0: Stmt_ClassMethod(
+                attrGroups: array(
+                    0: AttributeGroup(
+                        attrs: array(
+                            0: Attribute(
+                                name: Name(
+                                    parts: array(
+                                        0: A6
+                                    )
+                                )
+                                args: array(
+                                )
+                            )
+                        )
+                    )
+                )
+                flags: MODIFIER_PUBLIC (1)
+                byRef: false
+                name: Identifier(
+                    name: m
+                )
+                params: array(
+                    0: Param(
+                        attrGroups: array(
+                            0: AttributeGroup(
+                                attrs: array(
+                                    0: Attribute(
+                                        name: Name(
+                                            parts: array(
+                                                0: A7
+                                            )
+                                        )
+                                        args: array(
+                                        )
+                                    )
+                                )
+                            )
+                        )
+                        flags: 0
+                        type: null
+                        byRef: false
+                        variadic: false
+                        var: Expr_Variable(
+                            name: param
+                        )
+                        default: null
+                    )
+                )
+                returnType: null
+                stmts: array(
+                )
+            )
+            1: Stmt_Property(
+                attrGroups: array(
+                    0: AttributeGroup(
+                        attrs: array(
+                            0: Attribute(
+                                name: Name(
+                                    parts: array(
+                                        0: A14
+                                    )
+                                )
+                                args: array(
+                                )
+                            )
+                        )
+                    )
+                )
+                flags: MODIFIER_PUBLIC (1)
+                type: null
+                props: array(
+                    0: Stmt_PropertyProperty(
+                        name: VarLikeIdentifier(
+                            name: prop
+                        )
+                        default: null
+                    )
+                )
+            )
+        )
+    )
+    2: Stmt_Interface(
+        attrGroups: array(
+            0: AttributeGroup(
+                attrs: array(
+                    0: Attribute(
+                        name: Name(
+                            parts: array(
+                                0: A8
+                            )
+                        )
+                        args: array(
+                        )
+                    )
+                )
+            )
+        )
+        name: Identifier(
+            name: I
+        )
+        extends: array(
+        )
+        stmts: array(
+        )
+    )
+    3: Stmt_Trait(
+        attrGroups: array(
+            0: AttributeGroup(
+                attrs: array(
+                    0: Attribute(
+                        name: Name(
+                            parts: array(
+                                0: A9
+                            )
+                        )
+                        args: array(
+                        )
+                    )
+                )
+            )
+        )
+        name: Identifier(
+            name: T
+        )
+        stmts: array(
+        )
+    )
+    4: Stmt_Expression(
+        expr: Expr_Assign(
+            var: Expr_Variable(
+                name: x
+            )
+            expr: Expr_Closure(
+                attrGroups: array(
+                    0: AttributeGroup(
+                        attrs: array(
+                            0: Attribute(
+                                name: Name(
+                                    parts: array(
+                                        0: A10
+                                    )
+                                )
+                                args: array(
+                                )
+                            )
+                        )
+                    )
+                )
+                static: false
+                byRef: false
+                params: array(
+                )
+                uses: array(
+                )
+                returnType: null
+                stmts: array(
+                )
+            )
+        )
+    )
+    5: Stmt_Expression(
+        expr: Expr_Assign(
+            var: Expr_Variable(
+                name: y
+            )
+            expr: Expr_ArrowFunction(
+                attrGroups: array(
+                    0: AttributeGroup(
+                        attrs: array(
+                            0: Attribute(
+                                name: Name(
+                                    parts: array(
+                                        0: A11
+                                    )
+                                )
+                                args: array(
+                                )
+                            )
+                        )
+                    )
+                )
+                static: false
+                byRef: false
+                params: array(
+                )
+                returnType: null
+                expr: Scalar_LNumber(
+                    value: 0
+                )
+            )
+        )
+    )
+    6: Stmt_Expression(
+        expr: Expr_Assign(
+            var: Expr_Variable(
+                name: a
+            )
+            expr: Expr_Closure(
+                attrGroups: array(
+                    0: AttributeGroup(
+                        attrs: array(
+                            0: Attribute(
+                                name: Name(
+                                    parts: array(
+                                        0: A12
+                                    )
+                                )
+                                args: array(
+                                )
+                            )
+                        )
+                    )
+                )
+                static: true
+                byRef: false
+                params: array(
+                )
+                uses: array(
+                )
+                returnType: null
+                stmts: array(
+                )
+            )
+        )
+    )
+    7: Stmt_Expression(
+        expr: Expr_Assign(
+            var: Expr_Variable(
+                name: b
+            )
+            expr: Expr_ArrowFunction(
+                attrGroups: array(
+                    0: AttributeGroup(
+                        attrs: array(
+                            0: Attribute(
+                                name: Name(
+                                    parts: array(
+                                        0: A13
+                                    )
+                                )
+                                args: array(
+                                )
+                            )
+                        )
+                    )
+                )
+                static: true
+                byRef: false
+                params: array(
+                )
+                returnType: null
+                expr: Scalar_LNumber(
+                    value: 0
+                )
+            )
+        )
+    )
+)

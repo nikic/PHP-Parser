@@ -9,6 +9,8 @@ function test4() : Foo\Bar {}
 -----
 array(
     0: Stmt_Function(
+        attrGroups: array(
+        )
         byRef: false
         name: Identifier(
             name: test1
@@ -20,6 +22,8 @@ array(
         )
     )
     1: Stmt_Function(
+        attrGroups: array(
+        )
         byRef: false
         name: Identifier(
             name: test2
@@ -33,6 +37,8 @@ array(
         )
     )
     2: Stmt_Function(
+        attrGroups: array(
+        )
         byRef: false
         name: Identifier(
             name: test3
@@ -46,6 +52,8 @@ array(
         )
     )
     3: Stmt_Function(
+        attrGroups: array(
+        )
         byRef: false
         name: Identifier(
             name: test4

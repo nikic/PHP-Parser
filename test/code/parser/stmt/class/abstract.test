@@ -9,6 +9,8 @@ abstract class A {
 -----
 array(
     0: Stmt_Class(
+        attrGroups: array(
+        )
         flags: MODIFIER_ABSTRACT (16)
         name: Identifier(
             name: A
@@ -18,6 +20,8 @@ array(
         )
         stmts: array(
             0: Stmt_ClassMethod(
+                attrGroups: array(
+                )
                 flags: MODIFIER_PUBLIC (1)
                 byRef: false
                 name: Identifier(
@@ -30,6 +34,8 @@ array(
                 )
             )
             1: Stmt_ClassMethod(
+                attrGroups: array(
+                )
                 flags: MODIFIER_PUBLIC | MODIFIER_ABSTRACT (17)
                 byRef: false
                 name: Identifier(

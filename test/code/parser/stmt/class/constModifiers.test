@@ -12,6 +12,8 @@ class Foo {
 !!php7
 array(
     0: Stmt_Class(
+        attrGroups: array(
+        )
         flags: 0
         name: Identifier(
             name: Foo
@@ -21,6 +23,8 @@ array(
         )
         stmts: array(
             0: Stmt_ClassConst(
+                attrGroups: array(
+                )
                 flags: 0
                 consts: array(
                     0: Const(
@@ -34,6 +38,8 @@ array(
                 )
             )
             1: Stmt_ClassConst(
+                attrGroups: array(
+                )
                 flags: MODIFIER_PUBLIC (1)
                 consts: array(
                     0: Const(
@@ -47,6 +53,8 @@ array(
                 )
             )
             2: Stmt_ClassConst(
+                attrGroups: array(
+                )
                 flags: MODIFIER_PROTECTED (2)
                 consts: array(
                     0: Const(
@@ -60,6 +68,8 @@ array(
                 )
             )
             3: Stmt_ClassConst(
+                attrGroups: array(
+                )
                 flags: MODIFIER_PRIVATE (4)
                 consts: array(
                     0: Const(

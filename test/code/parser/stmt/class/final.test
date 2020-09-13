@@ -6,6 +6,8 @@ final class A {}
 -----
 array(
     0: Stmt_Class(
+        attrGroups: array(
+        )
         flags: MODIFIER_FINAL (32)
         name: Identifier(
             name: A

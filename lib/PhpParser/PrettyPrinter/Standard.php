@@ -18,7 +18,8 @@ class Standard extends PrettyPrinterAbstract
     // Special nodes
 
     protected function pParam(Node\Param $node) {
-        return ($this->pModifiers($node->flags))
+        return $this->pAttrGroups($node->attrGroups, true)
+             . $this->pModifiers($node->flags)
              . ($node->type ? $this->p($node->type) . ' ' : '')
              . ($node->byRef ? '&' : '')
              . ($node->variadic ? '...' : '')
@@ -50,6 +51,15 @@ class Standard extends PrettyPrinterAbstract
 
     protected function pVarLikeIdentifier(Node\VarLikeIdentifier $node) {
         return '$' . $node->name;
+    }
+
+    protected function pAttribute(Node\Attribute $node) {
+        return $this->p($node->name)
+             . ($node->args ? '(' . $this->pCommaSeparated($node->args) . ')' : '');
+    }
+
+    protected function pAttributeGroup(Node\AttributeGroup $node) {
+        return '#[' . $this->pCommaSeparated($node->attrs) . ']';
     }
 
     // Names
@@ -600,7 +610,8 @@ class Standard extends PrettyPrinterAbstract
     }
 
     protected function pExpr_Closure(Expr\Closure $node) {
-        return ($node->static ? 'static ' : '')
+        return $this->pAttrGroups($node->attrGroups, true)
+             . ($node->static ? 'static ' : '')
              . 'function ' . ($node->byRef ? '&' : '')
              . '(' . $this->pCommaSeparated($node->params) . ')'
              . (!empty($node->uses) ? ' use(' . $this->pCommaSeparated($node->uses) . ')' : '')
@@ -621,7 +632,8 @@ class Standard extends PrettyPrinterAbstract
     }
 
     protected function pExpr_ArrowFunction(Expr\ArrowFunction $node) {
-        return ($node->static ? 'static ' : '')
+        return $this->pAttrGroups($node->attrGroups, true)
+            . ($node->static ? 'static ' : '')
             . 'fn' . ($node->byRef ? '&' : '')
             . '(' . $this->pCommaSeparated($node->params) . ')'
             . (null !== $node->returnType ? ': ' . $this->p($node->returnType) : '')
@@ -709,7 +721,8 @@ class Standard extends PrettyPrinterAbstract
     }
 
     protected function pStmt_Interface(Stmt\Interface_ $node) {
-        return 'interface ' . $node->name
+        return $this->pAttrGroups($node->attrGroups)
+             . 'interface ' . $node->name
              . (!empty($node->extends) ? ' extends ' . $this->pCommaSeparated($node->extends) : '')
              . $this->nl . '{' . $this->pStmts($node->stmts) . $this->nl . '}';
     }
@@ -719,7 +732,8 @@ class Standard extends PrettyPrinterAbstract
     }
 
     protected function pStmt_Trait(Stmt\Trait_ $node) {
-        return 'trait ' . $node->name
+        return $this->pAttrGroups($node->attrGroups)
+             . 'trait ' . $node->name
              . $this->nl . '{' . $this->pStmts($node->stmts) . $this->nl . '}';
     }
 
@@ -744,7 +758,8 @@ class Standard extends PrettyPrinterAbstract
     }
 
     protected function pStmt_Property(Stmt\Property $node) {
-        return (0 === $node->flags ? 'var ' : $this->pModifiers($node->flags))
+        return $this->pAttrGroups($node->attrGroups)
+            . (0 === $node->flags ? 'var ' : $this->pModifiers($node->flags))
             . ($node->type ? $this->p($node->type) . ' ' : '')
             . $this->pCommaSeparated($node->props) . ';';
     }
@@ -755,7 +770,8 @@ class Standard extends PrettyPrinterAbstract
     }
 
     protected function pStmt_ClassMethod(Stmt\ClassMethod $node) {
-        return $this->pModifiers($node->flags)
+        return $this->pAttrGroups($node->attrGroups)
+             . $this->pModifiers($node->flags)
              . 'function ' . ($node->byRef ? '&' : '') . $node->name
              . '(' . $this->pMaybeMultiline($node->params) . ')'
              . (null !== $node->returnType ? ' : ' . $this->p($node->returnType) : '')
@@ -765,12 +781,14 @@ class Standard extends PrettyPrinterAbstract
     }
 
     protected function pStmt_ClassConst(Stmt\ClassConst $node) {
-        return $this->pModifiers($node->flags)
+        return $this->pAttrGroups($node->attrGroups)
+             . $this->pModifiers($node->flags)
              . 'const ' . $this->pCommaSeparated($node->consts) . ';';
     }
 
     protected function pStmt_Function(Stmt\Function_ $node) {
-        return 'function ' . ($node->byRef ? '&' : '') . $node->name
+        return $this->pAttrGroups($node->attrGroups)
+             . 'function ' . ($node->byRef ? '&' : '') . $node->name
              . '(' . $this->pCommaSeparated($node->params) . ')'
              . (null !== $node->returnType ? ' : ' . $this->p($node->returnType) : '')
              . $this->nl . '{' . $this->pStmts($node->stmts) . $this->nl . '}';
@@ -925,11 +943,12 @@ class Standard extends PrettyPrinterAbstract
     // Helpers
 
     protected function pClassCommon(Stmt\Class_ $node, $afterClassToken) {
-        return $this->pModifiers($node->flags)
-        . 'class' . $afterClassToken
-        . (null !== $node->extends ? ' extends ' . $this->p($node->extends) : '')
-        . (!empty($node->implements) ? ' implements ' . $this->pCommaSeparated($node->implements) : '')
-        . $this->nl . '{' . $this->pStmts($node->stmts) . $this->nl . '}';
+        return $this->pAttrGroups($node->attrGroups, $node->name === null)
+            . $this->pModifiers($node->flags)
+            . 'class' . $afterClassToken
+            . (null !== $node->extends ? ' extends ' . $this->p($node->extends) : '')
+            . (!empty($node->implements) ? ' implements ' . $this->pCommaSeparated($node->implements) : '')
+            . $this->nl . '{' . $this->pStmts($node->stmts) . $this->nl . '}';
     }
 
     protected function pObjectProperty($node) {
@@ -1030,11 +1049,21 @@ class Standard extends PrettyPrinterAbstract
         return false;
     }
 
-    private function pMaybeMultiline(array $nodes, $trailingComma = false) {
+    private function pMaybeMultiline(array $nodes, bool $trailingComma = false) {
         if (!$this->hasNodeWithComments($nodes)) {
             return $this->pCommaSeparated($nodes);
         } else {
             return $this->pCommaSeparatedMultiline($nodes, $trailingComma) . $this->nl;
         }
+    }
+
+    private function pAttrGroups(array $nodes, bool $inline = false): string {
+        $result = '';
+        $sep = $inline ? ' ' : $this->nl;
+        foreach ($nodes as $node) {
+            $result .= $this->p($node) . $sep;
+        }
+
+        return $result;
     }
 }

@@ -12,10 +12,14 @@ fn(): int => $x;
 array(
     0: Stmt_Expression(
         expr: Expr_ArrowFunction(
+            attrGroups: array(
+            )
             static: false
             byRef: false
             params: array(
                 0: Param(
+                    attrGroups: array(
+                    )
                     flags: 0
                     type: Identifier(
                         name: bool
@@ -36,10 +40,14 @@ array(
     )
     1: Stmt_Expression(
         expr: Expr_ArrowFunction(
+            attrGroups: array(
+            )
             static: false
             byRef: false
             params: array(
                 0: Param(
+                    attrGroups: array(
+                    )
                     flags: 0
                     type: null
                     byRef: false
@@ -60,10 +68,14 @@ array(
     )
     2: Stmt_Expression(
         expr: Expr_ArrowFunction(
+            attrGroups: array(
+            )
             static: true
             byRef: false
             params: array(
                 0: Param(
+                    attrGroups: array(
+                    )
                     flags: 0
                     type: null
                     byRef: true
@@ -82,10 +94,14 @@ array(
     )
     3: Stmt_Expression(
         expr: Expr_ArrowFunction(
+            attrGroups: array(
+            )
             static: false
             byRef: true
             params: array(
                 0: Param(
+                    attrGroups: array(
+                    )
                     flags: 0
                     type: null
                     byRef: false
@@ -104,10 +120,14 @@ array(
     )
     4: Stmt_Expression(
         expr: Expr_ArrowFunction(
+            attrGroups: array(
+            )
             static: false
             byRef: false
             params: array(
                 0: Param(
+                    attrGroups: array(
+                    )
                     flags: 0
                     type: null
                     byRef: false
@@ -118,6 +138,8 @@ array(
                     default: null
                 )
                 1: Param(
+                    attrGroups: array(
+                    )
                     flags: 0
                     type: null
                     byRef: false
@@ -136,6 +158,8 @@ array(
     )
     5: Stmt_Expression(
         expr: Expr_ArrowFunction(
+            attrGroups: array(
+            )
             static: false
             byRef: false
             params: array(

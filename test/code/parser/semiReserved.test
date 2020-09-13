@@ -54,6 +54,8 @@ class Foo {
 -----
 array(
     0: Stmt_Class(
+        attrGroups: array(
+        )
         flags: 0
         name: Identifier(
             name: Test
@@ -63,6 +65,8 @@ array(
         )
         stmts: array(
             0: Stmt_ClassMethod(
+                attrGroups: array(
+                )
                 flags: 0
                 byRef: false
                 name: Identifier(
@@ -75,6 +79,8 @@ array(
                 )
             )
             1: Stmt_ClassMethod(
+                attrGroups: array(
+                )
                 flags: 0
                 byRef: false
                 name: Identifier(
@@ -87,6 +93,8 @@ array(
                 )
             )
             2: Stmt_ClassMethod(
+                attrGroups: array(
+                )
                 flags: MODIFIER_STATIC (8)
                 byRef: false
                 name: Identifier(
@@ -99,6 +107,8 @@ array(
                 )
             )
             3: Stmt_ClassMethod(
+                attrGroups: array(
+                )
                 flags: MODIFIER_STATIC (8)
                 byRef: false
                 name: Identifier(
@@ -111,6 +121,8 @@ array(
                 )
             )
             4: Stmt_Property(
+                attrGroups: array(
+                )
                 flags: MODIFIER_PUBLIC (1)
                 type: null
                 props: array(
@@ -123,6 +135,8 @@ array(
                 )
             )
             5: Stmt_Property(
+                attrGroups: array(
+                )
                 flags: MODIFIER_PUBLIC (1)
                 type: null
                 props: array(
@@ -135,6 +149,8 @@ array(
                 )
             )
             6: Stmt_ClassConst(
+                attrGroups: array(
+                )
                 flags: 0
                 consts: array(
                     0: Const(
@@ -156,6 +172,8 @@ array(
                 )
             )
             7: Stmt_ClassConst(
+                attrGroups: array(
+                )
                 flags: 0
                 consts: array(
                     0: Const(
@@ -344,6 +362,8 @@ array(
         )
     )
     10: Stmt_Class(
+        attrGroups: array(
+        )
         flags: 0
         name: Identifier(
             name: Foo

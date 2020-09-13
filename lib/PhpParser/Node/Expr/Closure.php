@@ -20,6 +20,8 @@ class Closure extends Expr implements FunctionLike
     public $returnType;
     /** @var Node\Stmt[] Statements */
     public $stmts;
+    /** @var Node\AttributeGroup[] PHP attribute groups */
+    public $attrGroups;
 
     /**
      * Constructs a lambda function node.
@@ -31,6 +33,7 @@ class Closure extends Expr implements FunctionLike
      *                          'uses'       => array(): use()s
      *                          'returnType' => null   : Return type
      *                          'stmts'      => array(): Statements
+     *                          'attrGroups' => array(): PHP attributes groups
      * @param array $attributes Additional attributes
      */
     public function __construct(array $subNodes = [], array $attributes = []) {
@@ -42,10 +45,11 @@ class Closure extends Expr implements FunctionLike
         $returnType = $subNodes['returnType'] ?? null;
         $this->returnType = \is_string($returnType) ? new Node\Identifier($returnType) : $returnType;
         $this->stmts = $subNodes['stmts'] ?? [];
+        $this->attrGroups = $subNodes['attrGroups'] ?? [];
     }
 
     public function getSubNodeNames() : array {
-        return ['static', 'byRef', 'params', 'uses', 'returnType', 'stmts'];
+        return ['attrGroups', 'static', 'byRef', 'params', 'uses', 'returnType', 'stmts'];
     }
 
     public function returnsByRef() : bool {
@@ -64,7 +68,11 @@ class Closure extends Expr implements FunctionLike
     public function getStmts() : array {
         return $this->stmts;
     }
-    
+
+    public function getAttrGroups() : array {
+        return $this->attrGroups;
+    }
+
     public function getType() : string {
         return 'Expr_Closure';
     }

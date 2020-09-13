@@ -7,12 +7,16 @@ function &a($b) {}
 -----
 array(
     0: Stmt_Function(
+        attrGroups: array(
+        )
         byRef: false
         name: Identifier(
             name: a
         )
         params: array(
             0: Param(
+                attrGroups: array(
+                )
                 flags: 0
                 type: null
                 byRef: true
@@ -28,12 +32,16 @@ array(
         )
     )
     1: Stmt_Function(
+        attrGroups: array(
+        )
         byRef: true
         name: Identifier(
             name: a
         )
         params: array(
             0: Param(
+                attrGroups: array(
+                )
                 flags: 0
                 type: null
                 byRef: false

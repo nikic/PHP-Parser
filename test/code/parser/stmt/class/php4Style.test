@@ -10,6 +10,8 @@ class A {
 -----
 array(
     0: Stmt_Class(
+        attrGroups: array(
+        )
         flags: 0
         name: Identifier(
             name: A
@@ -19,6 +21,8 @@ array(
         )
         stmts: array(
             0: Stmt_Property(
+                attrGroups: array(
+                )
                 flags: 0
                 type: null
                 props: array(
@@ -31,6 +35,8 @@ array(
                 )
             )
             1: Stmt_ClassMethod(
+                attrGroups: array(
+                )
                 flags: 0
                 byRef: false
                 name: Identifier(
@@ -43,6 +49,8 @@ array(
                 )
             )
             2: Stmt_ClassMethod(
+                attrGroups: array(
+                )
                 flags: MODIFIER_ABSTRACT | MODIFIER_STATIC (24)
                 byRef: false
                 name: Identifier(

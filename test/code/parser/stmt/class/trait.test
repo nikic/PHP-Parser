@@ -23,11 +23,15 @@ class B {
 -----
 array(
     0: Stmt_Trait(
+        attrGroups: array(
+        )
         name: Identifier(
             name: A
         )
         stmts: array(
             0: Stmt_ClassMethod(
+                attrGroups: array(
+                )
                 flags: MODIFIER_PUBLIC (1)
                 byRef: false
                 name: Identifier(
@@ -42,6 +46,8 @@ array(
         )
     )
     1: Stmt_Class(
+        attrGroups: array(
+        )
         flags: 0
         name: Identifier(
             name: B

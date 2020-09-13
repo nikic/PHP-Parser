@@ -117,28 +117,28 @@ function resolveMacros($code) {
                 $matches['args']
             );
 
-            if ('attributes' == $name) {
+            if ('attributes' === $name) {
                 assertArgs(0, $args, $name);
                 return '$this->startAttributeStack[#1] + $this->endAttributes';
             }
 
-            if ('stackAttributes' == $name) {
+            if ('stackAttributes' === $name) {
                 assertArgs(1, $args, $name);
                 return '$this->startAttributeStack[' . $args[0] . ']'
                      . ' + $this->endAttributeStack[' . $args[0] . ']';
             }
 
-            if ('init' == $name) {
+            if ('init' === $name) {
                 return '$$ = array(' . implode(', ', $args) . ')';
             }
 
-            if ('push' == $name) {
+            if ('push' === $name) {
                 assertArgs(2, $args, $name);
 
                 return $args[0] . '[] = ' . $args[1] . '; $$ = ' . $args[0];
             }
 
-            if ('pushNormalizing' == $name) {
+            if ('pushNormalizing' === $name) {
                 assertArgs(2, $args, $name);
 
                 return 'if (is_array(' . $args[1] . ')) { $$ = array_merge(' . $args[0] . ', ' . $args[1] . '); }'
@@ -151,20 +151,20 @@ function resolveMacros($code) {
                 return 'is_array(' . $args[0] . ') ? ' . $args[0] . ' : array(' . $args[0] . ')';
             }
 
-            if ('parseVar' == $name) {
+            if ('parseVar' === $name) {
                 assertArgs(1, $args, $name);
 
                 return 'substr(' . $args[0] . ', 1)';
             }
 
-            if ('parseEncapsed' == $name) {
+            if ('parseEncapsed' === $name) {
                 assertArgs(3, $args, $name);
 
                 return 'foreach (' . $args[0] . ' as $s) { if ($s instanceof Node\Scalar\EncapsedStringPart) {'
                      . ' $s->value = Node\Scalar\String_::parseEscapeSequences($s->value, ' . $args[1] . ', ' . $args[2] . '); } }';
             }
 
-            if ('makeNop' == $name) {
+            if ('makeNop' === $name) {
                 assertArgs(3, $args, $name);
 
                 return '$startAttributes = ' . $args[1] . ';'
@@ -182,7 +182,7 @@ function resolveMacros($code) {
                     . ' else { ' . $args[0] . ' = null; }';
             }
 
-            if ('strKind' == $name) {
+            if ('strKind' === $name) {
                 assertArgs(1, $args, $name);
 
                 return '(' . $args[0] . '[0] === "\'" || (' . $args[0] . '[1] === "\'" && '
@@ -190,7 +190,7 @@ function resolveMacros($code) {
                      . '? Scalar\String_::KIND_SINGLE_QUOTED : Scalar\String_::KIND_DOUBLE_QUOTED)';
             }
 
-            if ('prependLeadingComments' == $name) {
+            if ('prependLeadingComments' === $name) {
                 assertArgs(1, $args, $name);
 
                 return '$attrs = $this->startAttributeStack[#1]; $stmts = ' . $args[0] . '; '

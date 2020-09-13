@@ -6,12 +6,16 @@ function test(bool $a, Int $b, FLOAT $c, StRiNg $d, iterable $e, object $f, mixe
 !!php7
 array(
     0: Stmt_Function(
+        attrGroups: array(
+        )
         byRef: false
         name: Identifier(
             name: test
         )
         params: array(
             0: Param(
+                attrGroups: array(
+                )
                 flags: 0
                 type: Identifier(
                     name: bool
@@ -24,6 +28,8 @@ array(
                 default: null
             )
             1: Param(
+                attrGroups: array(
+                )
                 flags: 0
                 type: Identifier(
                     name: int
@@ -36,6 +42,8 @@ array(
                 default: null
             )
             2: Param(
+                attrGroups: array(
+                )
                 flags: 0
                 type: Identifier(
                     name: float
@@ -48,6 +56,8 @@ array(
                 default: null
             )
             3: Param(
+                attrGroups: array(
+                )
                 flags: 0
                 type: Identifier(
                     name: string
@@ -60,6 +70,8 @@ array(
                 default: null
             )
             4: Param(
+                attrGroups: array(
+                )
                 flags: 0
                 type: Identifier(
                     name: iterable
@@ -72,6 +84,8 @@ array(
                 default: null
             )
             5: Param(
+                attrGroups: array(
+                )
                 flags: 0
                 type: Identifier(
                     name: object
@@ -84,6 +98,8 @@ array(
                 default: null
             )
             6: Param(
+                attrGroups: array(
+                )
                 flags: 0
                 type: Identifier(
                     name: mixed

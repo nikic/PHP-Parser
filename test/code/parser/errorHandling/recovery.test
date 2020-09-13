@@ -161,6 +161,8 @@ function test() {
 Syntax error, unexpected '}' from 4:1 to 4:1
 array(
     0: Stmt_Function(
+        attrGroups: array(
+        )
         byRef: false
         name: Identifier(
             name: test
@@ -306,6 +308,8 @@ function foo() {
 Syntax error, unexpected '}', expecting T_STRING or T_VARIABLE or '{' or '$' from 4:1 to 4:1
 array(
     0: Stmt_Function[2:1 - 4:1](
+        attrGroups: array(
+        )
         byRef: false
         name: Identifier[2:10 - 2:12](
             name: foo
@@ -683,6 +687,8 @@ array(
         )
     )
     4: Stmt_Class(
+        attrGroups: array(
+        )
         flags: 0
         name: Identifier(
             name: X
@@ -736,6 +742,8 @@ array(
                 )
             )
             2: Stmt_ClassConst(
+                attrGroups: array(
+                )
                 flags: 0
                 consts: array(
                     0: Const(
@@ -749,6 +757,8 @@ array(
                 )
             )
             3: Stmt_Property(
+                attrGroups: array(
+                )
                 flags: MODIFIER_PUBLIC (1)
                 type: null
                 props: array(
@@ -763,6 +773,8 @@ array(
         )
     )
     5: Stmt_Interface(
+        attrGroups: array(
+        )
         name: Identifier(
             name: I
         )
@@ -895,6 +907,8 @@ class Foo {
 Syntax error, unexpected T_STRING from 4:5 to 4:9
 array(
     0: Stmt_Class(
+        attrGroups: array(
+        )
         flags: 0
         name: Identifier(
             name: Foo
@@ -904,6 +918,8 @@ array(
         )
         stmts: array(
             0: Stmt_Property(
+                attrGroups: array(
+                )
                 flags: MODIFIER_PUBLIC (1)
                 type: null
                 props: array(
@@ -998,12 +1014,16 @@ Syntax error, unexpected ')', expecting T_VARIABLE from 22:21 to 22:21
 Syntax error, unexpected ')', expecting T_VARIABLE from 25:13 to 25:13
 array(
     0: Stmt_Function(
+        attrGroups: array(
+        )
         byRef: false
         name: Identifier(
             name: foo
         )
         params: array(
             0: Param(
+                attrGroups: array(
+                )
                 flags: 0
                 type: Name(
                     parts: array(
@@ -1027,12 +1047,16 @@ array(
         )
     )
     1: Stmt_Function(
+        attrGroups: array(
+        )
         byRef: false
         name: Identifier(
             name: foo
         )
         params: array(
             0: Param(
+                attrGroups: array(
+                )
                 flags: 0
                 type: Name(
                     parts: array(
@@ -1047,6 +1071,8 @@ array(
                 default: null
             )
             1: Param(
+                attrGroups: array(
+                )
                 flags: 0
                 type: Name(
                     parts: array(
@@ -1070,12 +1096,16 @@ array(
         )
     )
     2: Stmt_Function(
+        attrGroups: array(
+        )
         byRef: false
         name: Identifier(
             name: foo
         )
         params: array(
             0: Param(
+                attrGroups: array(
+                )
                 flags: 0
                 type: null
                 byRef: false
@@ -1095,12 +1125,16 @@ array(
         )
     )
     3: Stmt_Function(
+        attrGroups: array(
+        )
         byRef: false
         name: Identifier(
             name: foo
         )
         params: array(
             0: Param(
+                attrGroups: array(
+                )
                 flags: 0
                 type: null
                 byRef: true
@@ -1120,12 +1154,16 @@ array(
         )
     )
     4: Stmt_Function(
+        attrGroups: array(
+        )
         byRef: false
         name: Identifier(
             name: foo
         )
         params: array(
             0: Param(
+                attrGroups: array(
+                )
                 flags: 0
                 type: Name(
                     parts: array(
@@ -1144,6 +1182,8 @@ array(
         )
     )
     5: Stmt_Class(
+        attrGroups: array(
+        )
         flags: 0
         name: Identifier(
             name: Bar
@@ -1153,6 +1193,8 @@ array(
         )
         stmts: array(
             0: Stmt_ClassMethod(
+                attrGroups: array(
+                )
                 flags: 0
                 byRef: false
                 name: Identifier(
@@ -1160,6 +1202,8 @@ array(
                 )
                 params: array(
                     0: Param(
+                        attrGroups: array(
+                        )
                         flags: 0
                         type: Name(
                             parts: array(
@@ -1181,10 +1225,14 @@ array(
     )
     6: Stmt_Expression(
         expr: Expr_Closure(
+            attrGroups: array(
+            )
             static: false
             byRef: false
             params: array(
                 0: Param(
+                    attrGroups: array(
+                    )
                     flags: 0
                     type: Name(
                         parts: array(
@@ -1219,9 +1267,9 @@ $array = [
 ];
 -----
 !!php7
-Syntax error, unexpected T_VARIABLE, expecting ',' or ')' or ']' from 3:18 to 3:34
-Syntax error, unexpected T_VARIABLE, expecting ',' or ')' or ']' from 6:12 to 6:28
-Syntax error, unexpected T_VARIABLE, expecting ',' or ')' or ']' from 9:21 to 9:37
+Syntax error, unexpected T_VARIABLE, expecting ',' or ']' or ')' from 3:18 to 3:34
+Syntax error, unexpected T_VARIABLE, expecting ',' or ']' or ')' from 6:12 to 6:28
+Syntax error, unexpected T_VARIABLE, expecting ',' or ']' or ')' from 9:21 to 9:37
 array(
     0: Stmt_Expression(
         expr: Expr_Assign(
@@ -1330,6 +1378,8 @@ function foo() :
 Syntax error, unexpected '{' from 3:1 to 3:1
 array(
     0: Stmt_Function(
+        attrGroups: array(
+        )
         byRef: false
         name: Identifier(
             name: foo
@@ -1351,4 +1401,4 @@ array(
 $a = ["a "thing"];
 -----
 !!php7
-Syntax error, unexpected T_STRING, expecting ',' or ')' or ']' from 2:11 to 2:15
+Syntax error, unexpected T_STRING, expecting ',' or ']' or ')' from 2:11 to 2:15

@@ -10,22 +10,31 @@ class ClassConst extends Node\Stmt
     public $flags;
     /** @var Node\Const_[] Constant declarations */
     public $consts;
+    /** @var Node\AttributeGroup[] */
+    public $attrGroups;
 
     /**
      * Constructs a class const list node.
      *
-     * @param Node\Const_[] $consts     Constant declarations
-     * @param int           $flags      Modifiers
-     * @param array         $attributes Additional attributes
+     * @param Node\Const_[]         $consts     Constant declarations
+     * @param int                   $flags      Modifiers
+     * @param array                 $attributes Additional attributes
+     * @param Node\AttributeGroup[] $attrGroups PHP attribute groups
      */
-    public function __construct(array $consts, int $flags = 0, array $attributes = []) {
+    public function __construct(
+        array $consts,
+        int $flags = 0,
+        array $attributes = [],
+        array $attrGroups = []
+    ) {
         $this->attributes = $attributes;
         $this->flags = $flags;
         $this->consts = $consts;
+        $this->attrGroups = $attrGroups;
     }
 
     public function getSubNodeNames() : array {
-        return ['flags', 'consts'];
+        return ['attrGroups', 'flags', 'consts'];
     }
 
     /**
@@ -55,7 +64,7 @@ class ClassConst extends Node\Stmt
     public function isPrivate() : bool {
         return (bool) ($this->flags & Class_::MODIFIER_PRIVATE);
     }
-    
+
     public function getType() : string {
         return 'Stmt_ClassConst';
     }

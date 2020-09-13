@@ -5,6 +5,8 @@ Some special methods cannot be static
 Constructor __construct() cannot be static from 1:17 to 1:22
 array(
     0: Stmt_Class(
+        attrGroups: array(
+        )
         flags: 0
         name: Identifier(
             name: A
@@ -14,6 +16,8 @@ array(
         )
         stmts: array(
             0: Stmt_ClassMethod(
+                attrGroups: array(
+                )
                 flags: MODIFIER_STATIC (8)
                 byRef: false
                 name: Identifier(
@@ -34,6 +38,8 @@ array(
 Destructor __destruct() cannot be static from 1:17 to 1:22
 array(
     0: Stmt_Class(
+        attrGroups: array(
+        )
         flags: 0
         name: Identifier(
             name: A
@@ -43,6 +49,8 @@ array(
         )
         stmts: array(
             0: Stmt_ClassMethod(
+                attrGroups: array(
+                )
                 flags: MODIFIER_STATIC (8)
                 byRef: false
                 name: Identifier(
@@ -63,6 +71,8 @@ array(
 Clone method __clone() cannot be static from 1:17 to 1:22
 array(
     0: Stmt_Class(
+        attrGroups: array(
+        )
         flags: 0
         name: Identifier(
             name: A
@@ -72,6 +82,8 @@ array(
         )
         stmts: array(
             0: Stmt_ClassMethod(
+                attrGroups: array(
+                )
                 flags: MODIFIER_STATIC (8)
                 byRef: false
                 name: Identifier(
@@ -92,6 +104,8 @@ array(
 Constructor __CONSTRUCT() cannot be static from 1:17 to 1:22
 array(
     0: Stmt_Class(
+        attrGroups: array(
+        )
         flags: 0
         name: Identifier(
             name: A
@@ -101,6 +115,8 @@ array(
         )
         stmts: array(
             0: Stmt_ClassMethod(
+                attrGroups: array(
+                )
                 flags: MODIFIER_STATIC (8)
                 byRef: false
                 name: Identifier(
@@ -121,6 +137,8 @@ array(
 Destructor __Destruct() cannot be static from 1:17 to 1:22
 array(
     0: Stmt_Class(
+        attrGroups: array(
+        )
         flags: 0
         name: Identifier(
             name: A
@@ -130,6 +148,8 @@ array(
         )
         stmts: array(
             0: Stmt_ClassMethod(
+                attrGroups: array(
+                )
                 flags: MODIFIER_STATIC (8)
                 byRef: false
                 name: Identifier(
@@ -150,6 +170,8 @@ array(
 Clone method __cLoNe() cannot be static from 1:17 to 1:22
 array(
     0: Stmt_Class(
+        attrGroups: array(
+        )
         flags: 0
         name: Identifier(
             name: A
@@ -159,6 +181,8 @@ array(
         )
         stmts: array(
             0: Stmt_ClassMethod(
+                attrGroups: array(
+                )
                 flags: MODIFIER_STATIC (8)
                 byRef: false
                 name: Identifier(

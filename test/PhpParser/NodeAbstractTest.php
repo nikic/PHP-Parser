@@ -248,6 +248,7 @@ PHP;
                     }
                 },
                 "flags": 0,
+                "attrGroups": [],
                 "attributes": {
                     "startLine": 4,
                     "endLine": 4
@@ -275,6 +276,7 @@ PHP;
                     }
                 },
                 "flags": 0,
+                "attrGroups": [],
                 "attributes": {
                     "startLine": 4,
                     "endLine": 4
@@ -302,6 +304,7 @@ PHP;
                 }
             }
         ],
+        "attrGroups": [],
         "attributes": {
             "startLine": 4,
             "comments": [

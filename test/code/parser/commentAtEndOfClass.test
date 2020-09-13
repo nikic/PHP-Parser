@@ -8,6 +8,8 @@ class MyClass {
 -----
 array(
     0: Stmt_Class(
+        attrGroups: array(
+        )
         flags: 0
         name: Identifier(
             name: MyClass
@@ -17,6 +19,8 @@ array(
         )
         stmts: array(
             0: Stmt_Property(
+                attrGroups: array(
+                )
                 flags: MODIFIER_PROTECTED (2)
                 type: null
                 props: array(

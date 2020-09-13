@@ -8,12 +8,16 @@ function test(?Foo $bar, ?string $foo) : ?Baz {
 !!php7
 array(
     0: Stmt_Function(
+        attrGroups: array(
+        )
         byRef: false
         name: Identifier(
             name: test
         )
         params: array(
             0: Param(
+                attrGroups: array(
+                )
                 flags: 0
                 type: NullableType(
                     type: Name(
@@ -30,6 +34,8 @@ array(
                 default: null
             )
             1: Param(
+                attrGroups: array(
+                )
                 flags: 0
                 type: NullableType(
                     type: Identifier(

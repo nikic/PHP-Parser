@@ -6,12 +6,16 @@ function a($b, array $c, callable $d, E $f) {}
 -----
 array(
     0: Stmt_Function(
+        attrGroups: array(
+        )
         byRef: false
         name: Identifier(
             name: a
         )
         params: array(
             0: Param(
+                attrGroups: array(
+                )
                 flags: 0
                 type: null
                 byRef: false
@@ -22,6 +26,8 @@ array(
                 default: null
             )
             1: Param(
+                attrGroups: array(
+                )
                 flags: 0
                 type: Identifier(
                     name: array
@@ -34,6 +40,8 @@ array(
                 default: null
             )
             2: Param(
+                attrGroups: array(
+                )
                 flags: 0
                 type: Identifier(
                     name: callable
@@ -46,6 +54,8 @@ array(
                 default: null
             )
             3: Param(
+                attrGroups: array(
+                )
                 flags: 0
                 type: Name(
                     parts: array(

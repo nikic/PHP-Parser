@@ -13,6 +13,8 @@ class Point {
 !!php7
 array(
     0: Stmt_Class(
+        attrGroups: array(
+        )
         flags: 0
         name: Identifier(
             name: Point
@@ -22,6 +24,8 @@ array(
         )
         stmts: array(
             0: Stmt_ClassMethod(
+                attrGroups: array(
+                )
                 flags: MODIFIER_PUBLIC (1)
                 byRef: false
                 name: Identifier(
@@ -29,6 +33,8 @@ array(
                 )
                 params: array(
                     0: Param(
+                        attrGroups: array(
+                        )
                         flags: MODIFIER_PUBLIC (1)
                         type: Identifier(
                             name: float
@@ -43,6 +49,8 @@ array(
                         )
                     )
                     1: Param(
+                        attrGroups: array(
+                        )
                         flags: MODIFIER_PROTECTED (2)
                         type: Identifier(
                             name: array
@@ -58,6 +66,8 @@ array(
                         )
                     )
                     2: Param(
+                        attrGroups: array(
+                        )
                         flags: MODIFIER_PRIVATE (4)
                         type: Identifier(
                             name: string

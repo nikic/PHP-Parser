@@ -10,6 +10,8 @@ function gen() {
 -----
 array(
     0: Stmt_Function(
+        attrGroups: array(
+        )
         byRef: false
         name: Identifier(
             name: gen

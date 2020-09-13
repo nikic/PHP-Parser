@@ -17,6 +17,8 @@ array(
         )
         stmts: array(
             0: Stmt_Class(
+                attrGroups: array(
+                )
                 flags: 0
                 name: Identifier(
                     name: A

@@ -1,0 +1,61 @@
+Attributes
+-----
+<?php
+
+#[
+    A1,
+    A2(),
+    A3(0),
+    A4(x: 1),
+]
+function a() {
+}
+
+#[A5]
+class C {
+    #[A6]
+    public function m(
+        #[A7] $param,
+    ) {}
+    #[A12]
+    public $prop;
+}
+
+#[A8]
+interface I {}
+#[A9]
+trait T {}
+
+$x = #[A10] function() {};
+$y = #[A11] fn() => 0;
+new #[A13] class {};
+-----
+!!php7
+#[A1, A2, A3(0), A4(x: 1)]
+function a()
+{
+}
+#[A5]
+class C
+{
+    #[A6]
+    public function m(#[A7] $param)
+    {
+    }
+    #[A12]
+    public $prop;
+}
+#[A8]
+interface I
+{
+}
+#[A9]
+trait T
+{
+}
+$x = #[A10] function () {
+};
+$y = #[A11] fn() => 0;
+new #[A13] class
+{
+};

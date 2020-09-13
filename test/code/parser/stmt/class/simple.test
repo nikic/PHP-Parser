@@ -18,6 +18,8 @@ class A extends B implements C, D {
 -----
 array(
     0: Stmt_Class(
+        attrGroups: array(
+        )
         flags: 0
         name: Identifier(
             name: A
@@ -41,6 +43,8 @@ array(
         )
         stmts: array(
             0: Stmt_ClassConst(
+                attrGroups: array(
+                )
                 flags: 0
                 consts: array(
                     0: Const(
@@ -62,6 +66,8 @@ array(
                 )
             )
             1: Stmt_Property(
+                attrGroups: array(
+                )
                 flags: MODIFIER_PUBLIC (1)
                 type: null
                 props: array(
@@ -84,6 +90,8 @@ array(
                 )
             )
             2: Stmt_Property(
+                attrGroups: array(
+                )
                 flags: MODIFIER_PROTECTED (2)
                 type: null
                 props: array(
@@ -96,6 +104,8 @@ array(
                 )
             )
             3: Stmt_Property(
+                attrGroups: array(
+                )
                 flags: MODIFIER_PRIVATE (4)
                 type: null
                 props: array(
@@ -108,6 +118,8 @@ array(
                 )
             )
             4: Stmt_ClassMethod(
+                attrGroups: array(
+                )
                 flags: MODIFIER_PUBLIC (1)
                 byRef: false
                 name: Identifier(
@@ -120,6 +132,8 @@ array(
                 )
             )
             5: Stmt_ClassMethod(
+                attrGroups: array(
+                )
                 flags: MODIFIER_PUBLIC | MODIFIER_STATIC (9)
                 byRef: false
                 name: Identifier(
@@ -127,6 +141,8 @@ array(
                 )
                 params: array(
                     0: Param(
+                        attrGroups: array(
+                        )
                         flags: 0
                         type: null
                         byRef: false
@@ -142,6 +158,8 @@ array(
                 )
             )
             6: Stmt_ClassMethod(
+                attrGroups: array(
+                )
                 flags: MODIFIER_PUBLIC | MODIFIER_FINAL (33)
                 byRef: false
                 name: Identifier(
@@ -158,6 +176,8 @@ array(
                 )
             )
             7: Stmt_ClassMethod(
+                attrGroups: array(
+                )
                 flags: MODIFIER_PROTECTED (2)
                 byRef: false
                 name: Identifier(
@@ -170,6 +190,8 @@ array(
                 )
             )
             8: Stmt_ClassMethod(
+                attrGroups: array(
+                )
                 flags: MODIFIER_PRIVATE (4)
                 byRef: false
                 name: Identifier(
