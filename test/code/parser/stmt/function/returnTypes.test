@@ -9,7 +9,7 @@ function test4() : Foo\Bar {}
 -----
 array(
     0: Stmt_Function(
-        phpAttributes: array(
+        attrGroups: array(
         )
         byRef: false
         name: Identifier(
@@ -22,7 +22,7 @@ array(
         )
     )
     1: Stmt_Function(
-        phpAttributes: array(
+        attrGroups: array(
         )
         byRef: false
         name: Identifier(
@@ -37,7 +37,7 @@ array(
         )
     )
     2: Stmt_Function(
-        phpAttributes: array(
+        attrGroups: array(
         )
         byRef: false
         name: Identifier(
@@ -52,7 +52,7 @@ array(
         )
     )
     3: Stmt_Function(
-        phpAttributes: array(
+        attrGroups: array(
         )
         byRef: false
         name: Identifier(

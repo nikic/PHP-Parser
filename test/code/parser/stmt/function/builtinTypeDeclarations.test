@@ -6,7 +6,7 @@ function test(bool $a, Int $b, FLOAT $c, StRiNg $d, iterable $e, object $f, mixe
 !!php7
 array(
     0: Stmt_Function(
-        phpAttributes: array(
+        attrGroups: array(
         )
         byRef: false
         name: Identifier(
@@ -14,7 +14,7 @@ array(
         )
         params: array(
             0: Param(
-                phpAttributes: array(
+                attrGroups: array(
                 )
                 flags: 0
                 type: Identifier(
@@ -28,7 +28,7 @@ array(
                 default: null
             )
             1: Param(
-                phpAttributes: array(
+                attrGroups: array(
                 )
                 flags: 0
                 type: Identifier(
@@ -42,7 +42,7 @@ array(
                 default: null
             )
             2: Param(
-                phpAttributes: array(
+                attrGroups: array(
                 )
                 flags: 0
                 type: Identifier(
@@ -56,7 +56,7 @@ array(
                 default: null
             )
             3: Param(
-                phpAttributes: array(
+                attrGroups: array(
                 )
                 flags: 0
                 type: Identifier(
@@ -70,7 +70,7 @@ array(
                 default: null
             )
             4: Param(
-                phpAttributes: array(
+                attrGroups: array(
                 )
                 flags: 0
                 type: Identifier(
@@ -84,7 +84,7 @@ array(
                 default: null
             )
             5: Param(
-                phpAttributes: array(
+                attrGroups: array(
                 )
                 flags: 0
                 type: Identifier(
@@ -98,7 +98,7 @@ array(
                 default: null
             )
             6: Param(
-                phpAttributes: array(
+                attrGroups: array(
                 )
                 flags: 0
                 type: Identifier(

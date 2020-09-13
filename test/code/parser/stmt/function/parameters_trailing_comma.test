@@ -8,7 +8,7 @@ function foo($bar, ) {
 !!php7
 array(
     0: Stmt_Function(
-        phpAttributes: array(
+        attrGroups: array(
         )
         byRef: false
         name: Identifier(
@@ -16,7 +16,7 @@ array(
         )
         params: array(
             0: Param(
-                phpAttributes: array(
+                attrGroups: array(
                 )
                 flags: 0
                 type: null
@@ -46,7 +46,7 @@ class Foo
 !!php7
 array(
     0: Stmt_Class(
-        phpAttributes: array(
+        attrGroups: array(
         )
         flags: 0
         name: Identifier(
@@ -57,7 +57,7 @@ array(
         )
         stmts: array(
             0: Stmt_ClassMethod(
-                phpAttributes: array(
+                attrGroups: array(
                 )
                 flags: 0
                 byRef: false
@@ -66,7 +66,7 @@ array(
                 )
                 params: array(
                     0: Param(
-                        phpAttributes: array(
+                        attrGroups: array(
                         )
                         flags: 0
                         type: null
@@ -78,7 +78,7 @@ array(
                         default: null
                     )
                     1: Param(
-                        phpAttributes: array(
+                        attrGroups: array(
                         )
                         flags: 0
                         type: null
@@ -105,13 +105,13 @@ fn($foo, ) => $bar;
 array(
     0: Stmt_Expression(
         expr: Expr_ArrowFunction(
-            phpAttributes: array(
+            attrGroups: array(
             )
             static: false
             byRef: false
             params: array(
                 0: Param(
-                    phpAttributes: array(
+                    attrGroups: array(
                     )
                     flags: 0
                     type: null

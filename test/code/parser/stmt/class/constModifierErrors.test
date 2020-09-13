@@ -9,7 +9,7 @@ class A {
 Cannot use 'static' as constant modifier from 3:5 to 2:9
 array(
     0: Stmt_Class(
-        phpAttributes: array(
+        attrGroups: array(
         )
         flags: 0
         name: Identifier(
@@ -20,7 +20,7 @@ array(
         )
         stmts: array(
             0: Stmt_ClassConst(
-                phpAttributes: array(
+                attrGroups: array(
                 )
                 flags: MODIFIER_STATIC (8)
                 consts: array(
@@ -47,7 +47,7 @@ class A {
 Cannot use 'abstract' as constant modifier from 3:5 to 2:9
 array(
     0: Stmt_Class(
-        phpAttributes: array(
+        attrGroups: array(
         )
         flags: 0
         name: Identifier(
@@ -58,7 +58,7 @@ array(
         )
         stmts: array(
             0: Stmt_ClassConst(
-                phpAttributes: array(
+                attrGroups: array(
                 )
                 flags: MODIFIER_ABSTRACT (16)
                 consts: array(
@@ -85,7 +85,7 @@ class A {
 Cannot use 'final' as constant modifier from 3:5 to 2:9
 array(
     0: Stmt_Class(
-        phpAttributes: array(
+        attrGroups: array(
         )
         flags: 0
         name: Identifier(
@@ -96,7 +96,7 @@ array(
         )
         stmts: array(
             0: Stmt_ClassConst(
-                phpAttributes: array(
+                attrGroups: array(
                 )
                 flags: MODIFIER_FINAL (32)
                 consts: array(
@@ -123,7 +123,7 @@ class A {
 Multiple access type modifiers are not allowed from 3:12 to 3:17
 array(
     0: Stmt_Class(
-        phpAttributes: array(
+        attrGroups: array(
         )
         flags: 0
         name: Identifier(
@@ -134,7 +134,7 @@ array(
         )
         stmts: array(
             0: Stmt_ClassConst(
-                phpAttributes: array(
+                attrGroups: array(
                 )
                 flags: MODIFIER_PUBLIC (1)
                 consts: array(

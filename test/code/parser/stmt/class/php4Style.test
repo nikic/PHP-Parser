@@ -10,7 +10,7 @@ class A {
 -----
 array(
     0: Stmt_Class(
-        phpAttributes: array(
+        attrGroups: array(
         )
         flags: 0
         name: Identifier(
@@ -21,7 +21,7 @@ array(
         )
         stmts: array(
             0: Stmt_Property(
-                phpAttributes: array(
+                attrGroups: array(
                 )
                 flags: 0
                 type: null
@@ -35,7 +35,7 @@ array(
                 )
             )
             1: Stmt_ClassMethod(
-                phpAttributes: array(
+                attrGroups: array(
                 )
                 flags: 0
                 byRef: false
@@ -49,7 +49,7 @@ array(
                 )
             )
             2: Stmt_ClassMethod(
-                phpAttributes: array(
+                attrGroups: array(
                 )
                 flags: MODIFIER_ABSTRACT | MODIFIER_STATIC (24)
                 byRef: false

@@ -12,13 +12,13 @@ function() use($a) : \Foo\Bar {};
 array(
     0: Stmt_Expression(
         expr: Expr_Closure(
-            phpAttributes: array(
+            attrGroups: array(
             )
             static: false
             byRef: false
             params: array(
                 0: Param(
-                    phpAttributes: array(
+                    attrGroups: array(
                     )
                     flags: 0
                     type: null
@@ -44,13 +44,13 @@ array(
     )
     1: Stmt_Expression(
         expr: Expr_Closure(
-            phpAttributes: array(
+            attrGroups: array(
             )
             static: false
             byRef: false
             params: array(
                 0: Param(
-                    phpAttributes: array(
+                    attrGroups: array(
                     )
                     flags: 0
                     type: null
@@ -77,7 +77,7 @@ array(
     )
     2: Stmt_Expression(
         expr: Expr_Closure(
-            phpAttributes: array(
+            attrGroups: array(
             )
             static: false
             byRef: false
@@ -104,13 +104,13 @@ array(
     )
     3: Stmt_Expression(
         expr: Expr_Closure(
-            phpAttributes: array(
+            attrGroups: array(
             )
             static: false
             byRef: true
             params: array(
                 0: Param(
-                    phpAttributes: array(
+                    attrGroups: array(
                     )
                     flags: 0
                     type: null
@@ -131,7 +131,7 @@ array(
     )
     4: Stmt_Expression(
         expr: Expr_Closure(
-            phpAttributes: array(
+            attrGroups: array(
             )
             static: true
             byRef: false
@@ -146,13 +146,13 @@ array(
     )
     5: Stmt_Expression(
         expr: Expr_Closure(
-            phpAttributes: array(
+            attrGroups: array(
             )
             static: false
             byRef: false
             params: array(
                 0: Param(
-                    phpAttributes: array(
+                    attrGroups: array(
                     )
                     flags: 0
                     type: null
@@ -175,7 +175,7 @@ array(
     )
     6: Stmt_Expression(
         expr: Expr_Closure(
-            phpAttributes: array(
+            attrGroups: array(
             )
             static: false
             byRef: false

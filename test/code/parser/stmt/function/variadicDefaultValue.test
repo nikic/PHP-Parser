@@ -6,7 +6,7 @@ function foo(...$foo = []) {}
 Variadic parameter cannot have a default value from 2:24 to 2:25
 array(
     0: Stmt_Function(
-        phpAttributes: array(
+        attrGroups: array(
         )
         byRef: false
         name: Identifier(
@@ -14,7 +14,7 @@ array(
         )
         params: array(
             0: Param(
-                phpAttributes: array(
+                attrGroups: array(
                 )
                 flags: 0
                 type: null

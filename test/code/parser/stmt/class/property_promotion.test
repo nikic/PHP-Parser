@@ -13,7 +13,7 @@ class Point {
 !!php7
 array(
     0: Stmt_Class(
-        phpAttributes: array(
+        attrGroups: array(
         )
         flags: 0
         name: Identifier(
@@ -24,7 +24,7 @@ array(
         )
         stmts: array(
             0: Stmt_ClassMethod(
-                phpAttributes: array(
+                attrGroups: array(
                 )
                 flags: MODIFIER_PUBLIC (1)
                 byRef: false
@@ -33,7 +33,7 @@ array(
                 )
                 params: array(
                     0: Param(
-                        phpAttributes: array(
+                        attrGroups: array(
                         )
                         flags: MODIFIER_PUBLIC (1)
                         type: Identifier(
@@ -49,7 +49,7 @@ array(
                         )
                     )
                     1: Param(
-                        phpAttributes: array(
+                        attrGroups: array(
                         )
                         flags: MODIFIER_PROTECTED (2)
                         type: Identifier(
@@ -66,7 +66,7 @@ array(
                         )
                     )
                     2: Param(
-                        phpAttributes: array(
+                        attrGroups: array(
                         )
                         flags: MODIFIER_PRIVATE (4)
                         type: Identifier(

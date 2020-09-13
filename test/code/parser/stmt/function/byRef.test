@@ -7,7 +7,7 @@ function &a($b) {}
 -----
 array(
     0: Stmt_Function(
-        phpAttributes: array(
+        attrGroups: array(
         )
         byRef: false
         name: Identifier(
@@ -15,7 +15,7 @@ array(
         )
         params: array(
             0: Param(
-                phpAttributes: array(
+                attrGroups: array(
                 )
                 flags: 0
                 type: null
@@ -32,7 +32,7 @@ array(
         )
     )
     1: Stmt_Function(
-        phpAttributes: array(
+        attrGroups: array(
         )
         byRef: true
         name: Identifier(
@@ -40,7 +40,7 @@ array(
         )
         params: array(
             0: Param(
-                phpAttributes: array(
+                attrGroups: array(
                 )
                 flags: 0
                 type: null

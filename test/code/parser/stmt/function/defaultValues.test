@@ -16,7 +16,7 @@ function a(
 -----
 array(
     0: Stmt_Function(
-        phpAttributes: array(
+        attrGroups: array(
         )
         byRef: false
         name: Identifier(
@@ -24,7 +24,7 @@ array(
         )
         params: array(
             0: Param(
-                phpAttributes: array(
+                attrGroups: array(
                 )
                 flags: 0
                 type: null
@@ -42,7 +42,7 @@ array(
                 )
             )
             1: Param(
-                phpAttributes: array(
+                attrGroups: array(
                 )
                 flags: 0
                 type: null
@@ -56,7 +56,7 @@ array(
                 )
             )
             2: Param(
-                phpAttributes: array(
+                attrGroups: array(
                 )
                 flags: 0
                 type: null
@@ -77,7 +77,7 @@ array(
                 )
             )
             3: Param(
-                phpAttributes: array(
+                attrGroups: array(
                 )
                 flags: 0
                 type: null
@@ -93,7 +93,7 @@ array(
                 )
             )
             4: Param(
-                phpAttributes: array(
+                attrGroups: array(
                 )
                 flags: 0
                 type: null
@@ -109,7 +109,7 @@ array(
                 )
             )
             5: Param(
-                phpAttributes: array(
+                attrGroups: array(
                 )
                 flags: 0
                 type: null
@@ -124,7 +124,7 @@ array(
                 )
             )
             6: Param(
-                phpAttributes: array(
+                attrGroups: array(
                 )
                 flags: 0
                 type: null
@@ -139,7 +139,7 @@ array(
                 )
             )
             7: Param(
-                phpAttributes: array(
+                attrGroups: array(
                 )
                 flags: 0
                 type: null
@@ -162,7 +162,7 @@ array(
                 )
             )
             8: Param(
-                phpAttributes: array(
+                attrGroups: array(
                 )
                 flags: 0
                 type: null

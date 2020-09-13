@@ -204,13 +204,13 @@ array(
             name: Expr_FuncCall(
                 name: Expr_FuncCall(
                     name: Expr_Closure(
-                        phpAttributes: array(
+                        attrGroups: array(
                         )
                         static: false
                         byRef: false
                         params: array(
                             0: Param(
-                                phpAttributes: array(
+                                attrGroups: array(
                                 )
                                 flags: 0
                                 type: null
@@ -278,13 +278,13 @@ array(
                                     name: f
                                 )
                                 expr: Expr_Closure(
-                                    phpAttributes: array(
+                                    attrGroups: array(
                                     )
                                     static: false
                                     byRef: false
                                     params: array(
                                         0: Param(
-                                            phpAttributes: array(
+                                            attrGroups: array(
                                             )
                                             flags: 0
                                             type: null

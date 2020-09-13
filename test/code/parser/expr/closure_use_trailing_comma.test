@@ -7,6 +7,8 @@ function() use($a,) {};
 array(
     0: Stmt_Expression(
         expr: Expr_Closure(
+            attrGroups: array(
+            )
             static: false
             byRef: false
             params: array(

@@ -8,7 +8,7 @@ function test($a, Type &... $b) {}
 -----
 array(
     0: Stmt_Function(
-        phpAttributes: array(
+        attrGroups: array(
         )
         byRef: false
         name: Identifier(
@@ -16,7 +16,7 @@ array(
         )
         params: array(
             0: Param(
-                phpAttributes: array(
+                attrGroups: array(
                 )
                 flags: 0
                 type: null
@@ -28,7 +28,7 @@ array(
                 default: null
             )
             1: Param(
-                phpAttributes: array(
+                attrGroups: array(
                 )
                 flags: 0
                 type: null
@@ -45,7 +45,7 @@ array(
         )
     )
     1: Stmt_Function(
-        phpAttributes: array(
+        attrGroups: array(
         )
         byRef: false
         name: Identifier(
@@ -53,7 +53,7 @@ array(
         )
         params: array(
             0: Param(
-                phpAttributes: array(
+                attrGroups: array(
                 )
                 flags: 0
                 type: null
@@ -65,7 +65,7 @@ array(
                 default: null
             )
             1: Param(
-                phpAttributes: array(
+                attrGroups: array(
                 )
                 flags: 0
                 type: null
@@ -82,7 +82,7 @@ array(
         )
     )
     2: Stmt_Function(
-        phpAttributes: array(
+        attrGroups: array(
         )
         byRef: false
         name: Identifier(
@@ -90,7 +90,7 @@ array(
         )
         params: array(
             0: Param(
-                phpAttributes: array(
+                attrGroups: array(
                 )
                 flags: 0
                 type: null
@@ -102,7 +102,7 @@ array(
                 default: null
             )
             1: Param(
-                phpAttributes: array(
+                attrGroups: array(
                 )
                 flags: 0
                 type: Name(
@@ -123,7 +123,7 @@ array(
         )
     )
     3: Stmt_Function(
-        phpAttributes: array(
+        attrGroups: array(
         )
         byRef: false
         name: Identifier(
@@ -131,7 +131,7 @@ array(
         )
         params: array(
             0: Param(
-                phpAttributes: array(
+                attrGroups: array(
                 )
                 flags: 0
                 type: null
@@ -143,7 +143,7 @@ array(
                 default: null
             )
             1: Param(
-                phpAttributes: array(
+                attrGroups: array(
                 )
                 flags: 0
                 type: Name(

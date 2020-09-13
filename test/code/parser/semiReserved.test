@@ -54,7 +54,7 @@ class Foo {
 -----
 array(
     0: Stmt_Class(
-        phpAttributes: array(
+        attrGroups: array(
         )
         flags: 0
         name: Identifier(
@@ -65,7 +65,7 @@ array(
         )
         stmts: array(
             0: Stmt_ClassMethod(
-                phpAttributes: array(
+                attrGroups: array(
                 )
                 flags: 0
                 byRef: false
@@ -79,7 +79,7 @@ array(
                 )
             )
             1: Stmt_ClassMethod(
-                phpAttributes: array(
+                attrGroups: array(
                 )
                 flags: 0
                 byRef: false
@@ -93,7 +93,7 @@ array(
                 )
             )
             2: Stmt_ClassMethod(
-                phpAttributes: array(
+                attrGroups: array(
                 )
                 flags: MODIFIER_STATIC (8)
                 byRef: false
@@ -107,7 +107,7 @@ array(
                 )
             )
             3: Stmt_ClassMethod(
-                phpAttributes: array(
+                attrGroups: array(
                 )
                 flags: MODIFIER_STATIC (8)
                 byRef: false
@@ -121,7 +121,7 @@ array(
                 )
             )
             4: Stmt_Property(
-                phpAttributes: array(
+                attrGroups: array(
                 )
                 flags: MODIFIER_PUBLIC (1)
                 type: null
@@ -135,7 +135,7 @@ array(
                 )
             )
             5: Stmt_Property(
-                phpAttributes: array(
+                attrGroups: array(
                 )
                 flags: MODIFIER_PUBLIC (1)
                 type: null
@@ -149,7 +149,7 @@ array(
                 )
             )
             6: Stmt_ClassConst(
-                phpAttributes: array(
+                attrGroups: array(
                 )
                 flags: 0
                 consts: array(
@@ -172,7 +172,7 @@ array(
                 )
             )
             7: Stmt_ClassConst(
-                phpAttributes: array(
+                attrGroups: array(
                 )
                 flags: 0
                 consts: array(
@@ -362,7 +362,7 @@ array(
         )
     )
     10: Stmt_Class(
-        phpAttributes: array(
+        attrGroups: array(
         )
         flags: 0
         name: Identifier(

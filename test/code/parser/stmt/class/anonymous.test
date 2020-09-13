@@ -25,7 +25,7 @@ array(
     0: Stmt_Expression(
         expr: Expr_New(
             class: Stmt_Class(
-                phpAttributes: array(
+                attrGroups: array(
                 )
                 flags: 0
                 name: null
@@ -34,7 +34,7 @@ array(
                 )
                 stmts: array(
                     0: Stmt_ClassMethod(
-                        phpAttributes: array(
+                        attrGroups: array(
                         )
                         flags: MODIFIER_PUBLIC (1)
                         byRef: false
@@ -56,7 +56,7 @@ array(
     1: Stmt_Expression(
         expr: Expr_New(
             class: Stmt_Class(
-                phpAttributes: array(
+                attrGroups: array(
                 )
                 flags: 0
                 name: null
@@ -87,7 +87,7 @@ array(
     2: Stmt_Expression(
         expr: Expr_New(
             class: Stmt_Class(
-                phpAttributes: array(
+                attrGroups: array(
                 )
                 flags: 0
                 name: null
@@ -96,7 +96,7 @@ array(
                 )
                 stmts: array(
                     0: Stmt_Property(
-                        phpAttributes: array(
+                        attrGroups: array(
                         )
                         flags: MODIFIER_PUBLIC (1)
                         type: null
@@ -118,7 +118,7 @@ array(
     3: Stmt_Expression(
         expr: Expr_New(
             class: Stmt_Class(
-                phpAttributes: array(
+                attrGroups: array(
                 )
                 flags: 0
                 name: null
@@ -164,7 +164,7 @@ array(
         )
     )
     4: Stmt_Class(
-        phpAttributes: array(
+        attrGroups: array(
         )
         flags: 0
         name: Identifier(
@@ -175,7 +175,7 @@ array(
         )
         stmts: array(
             0: Stmt_ClassMethod(
-                phpAttributes: array(
+                attrGroups: array(
                 )
                 flags: MODIFIER_PUBLIC (1)
                 byRef: false
@@ -189,7 +189,7 @@ array(
                     0: Stmt_Return(
                         expr: Expr_New(
                             class: Stmt_Class(
-                                phpAttributes: array(
+                                attrGroups: array(
                                 )
                                 flags: 0
                                 name: null
@@ -202,7 +202,7 @@ array(
                                 )
                                 stmts: array(
                                     0: Stmt_ClassConst(
-                                        phpAttributes: array(
+                                        attrGroups: array(
                                         )
                                         flags: 0
                                         consts: array(

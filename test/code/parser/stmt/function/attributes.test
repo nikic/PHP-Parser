@@ -9,14 +9,18 @@ function a() {
 !!php7
 array(
     0: Stmt_Function(
-        phpAttributes: array(
-            0: Attribute(
-                name: Name(
-                    parts: array(
-                        0: Deprecated
+        attrGroups: array(
+            0: AttributeGroup(
+                attrs: array(
+                    0: Attribute(
+                        name: Name(
+                            parts: array(
+                                0: Deprecated
+                            )
+                        )
+                        args: array(
+                        )
                     )
-                )
-                args: array(
                 )
             )
         )

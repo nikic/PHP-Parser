@@ -6,7 +6,7 @@ function a($b, array $c, callable $d, E $f) {}
 -----
 array(
     0: Stmt_Function(
-        phpAttributes: array(
+        attrGroups: array(
         )
         byRef: false
         name: Identifier(
@@ -14,7 +14,7 @@ array(
         )
         params: array(
             0: Param(
-                phpAttributes: array(
+                attrGroups: array(
                 )
                 flags: 0
                 type: null
@@ -26,7 +26,7 @@ array(
                 default: null
             )
             1: Param(
-                phpAttributes: array(
+                attrGroups: array(
                 )
                 flags: 0
                 type: Identifier(
@@ -40,7 +40,7 @@ array(
                 default: null
             )
             2: Param(
-                phpAttributes: array(
+                attrGroups: array(
                 )
                 flags: 0
                 type: Identifier(
@@ -54,7 +54,7 @@ array(
                 default: null
             )
             3: Param(
-                phpAttributes: array(
+                attrGroups: array(
                 )
                 flags: 0
                 type: Name(

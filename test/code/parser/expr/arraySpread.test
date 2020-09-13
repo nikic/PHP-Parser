@@ -59,7 +59,7 @@ array(
         )
     )
     1: Stmt_Function(
-        phpAttributes: array(
+        attrGroups: array(
         )
         byRef: false
         name: Identifier(
@@ -94,7 +94,7 @@ array(
         )
     )
     2: Stmt_Function(
-        phpAttributes: array(
+        attrGroups: array(
         )
         byRef: false
         name: Identifier(

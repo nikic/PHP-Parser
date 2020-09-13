@@ -135,7 +135,7 @@ array(
 abc;
 1 + ;
 -----
-Syntax error, unexpected ';', expecting T_FUNCTION or T_FN or T_STATIC from 3:5 to 3:5
+Syntax error, unexpected ';' from 3:5 to 3:5
 array(
     0: Stmt_Expression(
         expr: Expr_ConstFetch(
@@ -158,10 +158,10 @@ function test() {
     1 +
 }
 -----
-Syntax error, unexpected '}', expecting T_FUNCTION or T_FN or T_STATIC from 4:1 to 4:1
+Syntax error, unexpected '}' from 4:1 to 4:1
 array(
     0: Stmt_Function(
-        phpAttributes: array(
+        attrGroups: array(
         )
         byRef: false
         name: Identifier(
@@ -231,7 +231,7 @@ while () {
 $k = 2;
 // The output here drops the loop - would require Error node to handle this
 -----
-Syntax error, unexpected ')', expecting T_FUNCTION or T_FN or T_STATIC from 4:8 to 4:8
+Syntax error, unexpected ')' from 4:8 to 4:8
 array(
     0: Stmt_Expression(
         expr: Expr_Assign(
@@ -308,7 +308,7 @@ function foo() {
 Syntax error, unexpected '}', expecting T_STRING or T_VARIABLE or '{' or '$' from 4:1 to 4:1
 array(
     0: Stmt_Function[2:1 - 4:1](
-        phpAttributes: array(
+        attrGroups: array(
         )
         byRef: false
         name: Identifier[2:10 - 2:12](
@@ -687,7 +687,7 @@ array(
         )
     )
     4: Stmt_Class(
-        phpAttributes: array(
+        attrGroups: array(
         )
         flags: 0
         name: Identifier(
@@ -742,7 +742,7 @@ array(
                 )
             )
             2: Stmt_ClassConst(
-                phpAttributes: array(
+                attrGroups: array(
                 )
                 flags: 0
                 consts: array(
@@ -757,7 +757,7 @@ array(
                 )
             )
             3: Stmt_Property(
-                phpAttributes: array(
+                attrGroups: array(
                 )
                 flags: MODIFIER_PUBLIC (1)
                 type: null
@@ -773,7 +773,7 @@ array(
         )
     )
     5: Stmt_Interface(
-        phpAttributes: array(
+        attrGroups: array(
         )
         name: Identifier(
             name: I
@@ -860,42 +860,6 @@ array(
         stmts: array(
         )
     )
-<<<<<<< HEAD
-=======
-    14: Stmt_Expression(
-        expr: Expr_Closure(
-            phpAttributes: array(
-            )
-            static: false
-            byRef: false
-            params: array(
-                0: Param(
-                    phpAttributes: array(
-                    )
-                    flags: 0
-                    type: null
-                    byRef: false
-                    variadic: false
-                    var: Expr_Variable(
-                        name: a
-                    )
-                    default: null
-                )
-            )
-            uses: array(
-                0: Expr_ClosureUse(
-                    var: Expr_Variable(
-                        name: b
-                    )
-                    byRef: false
-                )
-            )
-            returnType: null
-            stmts: array(
-            )
-        )
-    )
->>>>>>> Add support for attributes
 )
 -----
 <?php
@@ -943,7 +907,7 @@ class Foo {
 Syntax error, unexpected T_STRING from 4:5 to 4:9
 array(
     0: Stmt_Class(
-        phpAttributes: array(
+        attrGroups: array(
         )
         flags: 0
         name: Identifier(
@@ -954,7 +918,7 @@ array(
         )
         stmts: array(
             0: Stmt_Property(
-                phpAttributes: array(
+                attrGroups: array(
                 )
                 flags: MODIFIER_PUBLIC (1)
                 type: null
@@ -1050,7 +1014,7 @@ Syntax error, unexpected ')', expecting T_VARIABLE from 22:21 to 22:21
 Syntax error, unexpected ')', expecting T_VARIABLE from 25:13 to 25:13
 array(
     0: Stmt_Function(
-        phpAttributes: array(
+        attrGroups: array(
         )
         byRef: false
         name: Identifier(
@@ -1058,7 +1022,7 @@ array(
         )
         params: array(
             0: Param(
-                phpAttributes: array(
+                attrGroups: array(
                 )
                 flags: 0
                 type: Name(
@@ -1083,7 +1047,7 @@ array(
         )
     )
     1: Stmt_Function(
-        phpAttributes: array(
+        attrGroups: array(
         )
         byRef: false
         name: Identifier(
@@ -1091,7 +1055,7 @@ array(
         )
         params: array(
             0: Param(
-                phpAttributes: array(
+                attrGroups: array(
                 )
                 flags: 0
                 type: Name(
@@ -1107,7 +1071,7 @@ array(
                 default: null
             )
             1: Param(
-                phpAttributes: array(
+                attrGroups: array(
                 )
                 flags: 0
                 type: Name(
@@ -1132,7 +1096,7 @@ array(
         )
     )
     2: Stmt_Function(
-        phpAttributes: array(
+        attrGroups: array(
         )
         byRef: false
         name: Identifier(
@@ -1140,7 +1104,7 @@ array(
         )
         params: array(
             0: Param(
-                phpAttributes: array(
+                attrGroups: array(
                 )
                 flags: 0
                 type: null
@@ -1161,7 +1125,7 @@ array(
         )
     )
     3: Stmt_Function(
-        phpAttributes: array(
+        attrGroups: array(
         )
         byRef: false
         name: Identifier(
@@ -1169,7 +1133,7 @@ array(
         )
         params: array(
             0: Param(
-                phpAttributes: array(
+                attrGroups: array(
                 )
                 flags: 0
                 type: null
@@ -1190,7 +1154,7 @@ array(
         )
     )
     4: Stmt_Function(
-        phpAttributes: array(
+        attrGroups: array(
         )
         byRef: false
         name: Identifier(
@@ -1198,7 +1162,7 @@ array(
         )
         params: array(
             0: Param(
-                phpAttributes: array(
+                attrGroups: array(
                 )
                 flags: 0
                 type: Name(
@@ -1218,7 +1182,7 @@ array(
         )
     )
     5: Stmt_Class(
-        phpAttributes: array(
+        attrGroups: array(
         )
         flags: 0
         name: Identifier(
@@ -1229,7 +1193,7 @@ array(
         )
         stmts: array(
             0: Stmt_ClassMethod(
-                phpAttributes: array(
+                attrGroups: array(
                 )
                 flags: 0
                 byRef: false
@@ -1238,7 +1202,7 @@ array(
                 )
                 params: array(
                     0: Param(
-                        phpAttributes: array(
+                        attrGroups: array(
                         )
                         flags: 0
                         type: Name(
@@ -1261,13 +1225,13 @@ array(
     )
     6: Stmt_Expression(
         expr: Expr_Closure(
-            phpAttributes: array(
+            attrGroups: array(
             )
             static: false
             byRef: false
             params: array(
                 0: Param(
-                    phpAttributes: array(
+                    attrGroups: array(
                     )
                     flags: 0
                     type: Name(
@@ -1303,9 +1267,9 @@ $array = [
 ];
 -----
 !!php7
-Syntax error, unexpected T_VARIABLE, expecting ',' or ')' or ']' from 3:18 to 3:34
-Syntax error, unexpected T_VARIABLE, expecting ',' or ')' or ']' from 6:12 to 6:28
-Syntax error, unexpected T_VARIABLE, expecting ',' or ')' or ']' from 9:21 to 9:37
+Syntax error, unexpected T_VARIABLE, expecting ',' or ']' or ')' from 3:18 to 3:34
+Syntax error, unexpected T_VARIABLE, expecting ',' or ']' or ')' from 6:12 to 6:28
+Syntax error, unexpected T_VARIABLE, expecting ',' or ']' or ')' from 9:21 to 9:37
 array(
     0: Stmt_Expression(
         expr: Expr_Assign(
@@ -1414,7 +1378,7 @@ function foo() :
 Syntax error, unexpected '{' from 3:1 to 3:1
 array(
     0: Stmt_Function(
-        phpAttributes: array(
+        attrGroups: array(
         )
         byRef: false
         name: Identifier(
@@ -1437,4 +1401,4 @@ array(
 $a = ["a "thing"];
 -----
 !!php7
-Syntax error, unexpected T_STRING, expecting ',' or ')' or ']' from 2:11 to 2:15
+Syntax error, unexpected T_STRING, expecting ',' or ']' or ')' from 2:11 to 2:15

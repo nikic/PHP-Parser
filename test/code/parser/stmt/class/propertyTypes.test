@@ -11,7 +11,7 @@ class A {
 !!php7
 array(
     0: Stmt_Class(
-        phpAttributes: array(
+        attrGroups: array(
         )
         flags: 0
         name: Identifier(
@@ -22,7 +22,7 @@ array(
         )
         stmts: array(
             0: Stmt_Property(
-                phpAttributes: array(
+                attrGroups: array(
                 )
                 flags: MODIFIER_PUBLIC (1)
                 type: Identifier(
@@ -38,7 +38,7 @@ array(
                 )
             )
             1: Stmt_Property(
-                phpAttributes: array(
+                attrGroups: array(
                 )
                 flags: MODIFIER_PROTECTED | MODIFIER_STATIC (10)
                 type: Name(
@@ -56,7 +56,7 @@ array(
                 )
             )
             2: Stmt_Property(
-                phpAttributes: array(
+                attrGroups: array(
                 )
                 flags: MODIFIER_PRIVATE (4)
                 type: NullableType(

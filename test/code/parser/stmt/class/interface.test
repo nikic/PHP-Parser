@@ -8,7 +8,7 @@ interface A extends C, D {
 -----
 array(
     0: Stmt_Interface(
-        phpAttributes: array(
+        attrGroups: array(
         )
         name: Identifier(
             name: A
@@ -27,7 +27,7 @@ array(
         )
         stmts: array(
             0: Stmt_ClassMethod(
-                phpAttributes: array(
+                attrGroups: array(
                 )
                 flags: MODIFIER_PUBLIC (1)
                 byRef: false

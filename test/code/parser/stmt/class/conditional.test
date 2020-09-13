@@ -17,7 +17,7 @@ array(
         )
         stmts: array(
             0: Stmt_Class(
-                phpAttributes: array(
+                attrGroups: array(
                 )
                 flags: 0
                 name: Identifier(
