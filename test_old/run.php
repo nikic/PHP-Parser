@@ -101,6 +101,7 @@ switch ($testType) {
 | Zend.tests.bug74947
 # pretty print differences due to negative LNumbers
 | Zend.tests.neg_num_string
+| Zend.tests.numeric_strings.neg_num_string
 | Zend.tests.bug72918
 # pretty print difference due to nop statements
 | ext.mbstring.tests.htmlent
