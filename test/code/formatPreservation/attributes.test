@@ -1,0 +1,179 @@
+Attributes
+-----
+<?php
+#[A]
+class X {
+    #[A]
+    public function m(#[A] & $p) {}
+
+    #[A]
+    public
+        $prop;
+
+    #[A]
+    const
+        X = 42;
+}
+
+#[A]
+trait X {}
+
+#[A]
+interface X {}
+
+#[A]
+function f() {}
+
+new #[A] class {};
+#[A] function() {};
+#[A] fn()
+    => 42;
+-----
+$attrGroup = new Node\AttributeGroup([
+    new Node\Attribute(new Node\Name('B'), []),
+]);
+$stmts[0]->attrGroups[] = $attrGroup;
+$stmts[0]->stmts[0]->attrGroups[] = $attrGroup;
+$stmts[0]->stmts[0]->params[0]->attrGroups[] = $attrGroup;
+$stmts[0]->stmts[1]->attrGroups[] = $attrGroup;
+$stmts[0]->stmts[2]->attrGroups[] = $attrGroup;
+$stmts[1]->attrGroups[] = $attrGroup;
+$stmts[2]->attrGroups[] = $attrGroup;
+$stmts[3]->attrGroups[] = $attrGroup;
+$stmts[4]->expr->class->attrGroups[] = $attrGroup;
+$stmts[5]->expr->attrGroups[] = $attrGroup;
+$stmts[6]->expr->attrGroups[] = $attrGroup;
+-----
+<?php
+#[A]
+#[B]
+class X {
+    #[A]
+    #[B]
+    public function m(#[A] #[B] & $p) {}
+
+    #[A]
+    #[B]
+    public
+        $prop;
+
+    #[A]
+    #[B]
+    const
+        X = 42;
+}
+
+#[A]
+#[B]
+trait X {}
+
+#[A]
+#[B]
+interface X {}
+
+#[A]
+#[B]
+function f() {}
+
+new #[A] #[B] class {};
+#[A] #[B] function() {};
+#[A] #[B] fn()
+    => 42;
+-----
+<?php
+class X {
+    public function m() {}
+
+    public
+        $prop;
+
+    const
+        X = 42;
+}
+
+trait X {}
+
+interface X {}
+
+function f() {}
+
+new class {};
+function() {};
+fn()
+    => 42;
+-----
+// TODO: Currently we lose formatting for this case.
+$attrGroup = new Node\AttributeGroup([
+    new Node\Attribute(new Node\Name('A'), []),
+]);
+$stmts[0]->attrGroups[] = $attrGroup;
+$stmts[0]->stmts[0]->attrGroups[] = $attrGroup;
+$stmts[0]->stmts[1]->attrGroups[] = $attrGroup;
+$stmts[0]->stmts[2]->attrGroups[] = $attrGroup;
+$stmts[1]->attrGroups[] = $attrGroup;
+$stmts[2]->attrGroups[] = $attrGroup;
+$stmts[3]->attrGroups[] = $attrGroup;
+$stmts[4]->expr->class->attrGroups[] = $attrGroup;
+$stmts[5]->expr->attrGroups[] = $attrGroup;
+$stmts[6]->expr->attrGroups[] = $attrGroup;
+-----
+<?php
+#[A]
+class X
+{
+    #[A]
+    public function m()
+    {
+    }
+    #[A]
+    public $prop;
+    #[A]
+    const X = 42;
+}
+
+#[A]
+trait X
+{
+}
+
+#[A]
+interface X
+{
+}
+
+#[A]
+function f()
+{
+}
+
+new #[A] class
+{
+};
+#[A] function () {
+};
+#[A] fn() => 42;
+-----
+<?php
+
+#[ A,   B]
+class X {};
+#[
+    A,
+    B,
+]
+class X {};
+-----
+$attr = new Node\Attribute(new Node\Name('C'), []);
+$stmts[0]->attrGroups[0]->attrs[] = $attr;
+$stmts[1]->attrGroups[0]->attrs[] = $attr;
+-----
+<?php
+
+#[ A,   B, C]
+class X {};
+#[
+    A,
+    B,
+    C,
+]
+class X {};
