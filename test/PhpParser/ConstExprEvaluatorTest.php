@@ -121,9 +121,11 @@ class ConstExprEvaluatorTest extends \PHPUnit\Framework\TestCase
                 'Modulo by zero'
             ],
             [
-                new Expr\BinaryOp\Div(new Scalar\LNumber(42), new Scalar\LNumber(0)),
+                new Expr\BinaryOp\Plus(new Scalar\LNumber(42), new Scalar\String_("1foo")),
                 \ErrorException::class,
-                'Division by zero'
+                \PHP_VERSION_ID >= 80000
+                    ? 'A non-numeric value encountered'
+                    : 'A non well formed numeric value encountered'
             ],
         ];
     }
