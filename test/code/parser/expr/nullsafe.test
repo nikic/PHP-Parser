@@ -71,11 +71,13 @@ array(
     4: Stmt_Expression(
         expr: Scalar_Encapsed(
             parts: array(
-                0: Expr_Variable(
-                    name: a
-                )
-                1: Scalar_EncapsedStringPart(
-                    value: ?->b
+                0: Expr_NullsafePropertyFetch(
+                    var: Expr_Variable(
+                        name: a
+                    )
+                    name: Identifier(
+                        name: b
+                    )
                 )
             )
         )

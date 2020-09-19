@@ -320,6 +320,22 @@ class EmulativeTest extends LexerTest
             ['7.4', 'match', [[Tokens::T_STRING, 'match']]],
             ['7.4', 'fn', [[Tokens::T_FN, 'fn']]],
             ['7.3', 'fn', [[Tokens::T_STRING, 'fn']]],
+            // Tested here to skip testLeaveStuffAloneInStrings.
+            ['8.0', '"$foo?->bar"', [
+                [ord('"'), '"'],
+                [Tokens::T_VARIABLE, '$foo'],
+                [Tokens::T_NULLSAFE_OBJECT_OPERATOR, '?->'],
+                [Tokens::T_STRING, 'bar'],
+                [ord('"'), '"'],
+            ]],
+            ['8.0', '"$foo?->bar baz"', [
+                [ord('"'), '"'],
+                [Tokens::T_VARIABLE, '$foo'],
+                [Tokens::T_NULLSAFE_OBJECT_OPERATOR, '?->'],
+                [Tokens::T_STRING, 'bar'],
+                [Tokens::T_ENCAPSED_AND_WHITESPACE, ' baz'],
+                [ord('"'), '"'],
+            ]],
         ];
     }
 }
