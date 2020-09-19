@@ -1,7 +1,24 @@
-Version 4.9.2-dev
------------------
+Version 4.10.1-dev
+------------------
 
 Nothing yet.
+
+Version 4.10.0 (2020-09-19)
+---------------------------
+
+### Added
+
+* [PHP 8.0] Added support for attributes. These are represented using a new `AttributeGroup` node
+  containing `Attribute` nodes. A new `attrGroups` subnode is available on all node types that
+  support attributes, i.e. `Stmt\Class_`, `Stmt\Trait_`, `Stmt\Interface_`, `Stmt\Function_`,
+  `Stmt\ClassMethod`, `Stmt\ClassConst`, `Stmt\Property`, `Expr\Closure`, `Expr\ArrowFunction` and
+  `Param`.
+* [PHP 8.0] Added support for nullsafe properties inside interpolated strings, in line with an
+  upstream change.
+
+### Fixed
+
+* Improved compatibility with other libraries that use forward compatibility defines for PHP tokens.
 
 Version 4.9.1 (2020-08-30)
 --------------------------
