@@ -756,7 +756,7 @@ abstract class PrettyPrinterAbstract
 
                 $itemStartPos = $origArrItem->getStartTokenPos();
                 $itemEndPos = $origArrItem->getEndTokenPos();
-                \assert($itemStartPos >= 0 && $itemEndPos >= 0);
+                \assert($itemStartPos >= 0 && $itemEndPos >= 0 && $itemStartPos >= $pos);
 
                 $origIndentLevel = $this->indentLevel;
                 $lastElemIndentLevel = $this->origTokens->getIndentationBefore($itemStartPos) + $indentAdjustment;
@@ -767,16 +767,25 @@ abstract class PrettyPrinterAbstract
                 $commentStartPos = $origComments ? $origComments[0]->getStartTokenPos() : $itemStartPos;
                 \assert($commentStartPos >= 0);
 
-                $commentsChanged = $comments !== $origComments;
-                if ($commentsChanged) {
-                    // Remove old comments
-                    $itemStartPos = $commentStartPos;
+                if ($commentStartPos < $pos) {
+                    // Comments may be assigned to multiple nodes if they start at the same position.
+                    // Make sure we don't try to print them multiple times.
+                    $commentStartPos = $itemStartPos;
+                }
+
+                if ($skipRemovedNode) {
+                    if ($isStmtList && $this->origTokens->haveBracesInRange($pos, $itemStartPos)) {
+                        // We'd remove the brace of a code block.
+                        // TODO: Preserve formatting.
+                        $this->setIndentLevel($origIndentLevel);
+                        return null;
+                    }
+                } else {
+                    $result .= $this->origTokens->getTokenCode(
+                        $pos, $commentStartPos, $indentAdjustment);
                 }
 
                 if (!empty($delayedAdd)) {
-                    $result .= $this->origTokens->getTokenCode(
-                        $pos, $commentStartPos, $indentAdjustment);
-
                     /** @var Node $delayedAddNode */
                     foreach ($delayedAdd as $delayedAddNode) {
                         if ($insertNewline) {
@@ -795,25 +804,16 @@ abstract class PrettyPrinterAbstract
                         }
                     }
 
-                    $result .= $this->origTokens->getTokenCode(
-                        $commentStartPos, $itemStartPos, $indentAdjustment);
-
                     $delayedAdd = [];
-                } else if (!$skipRemovedNode) {
-                    $result .= $this->origTokens->getTokenCode(
-                        $pos, $itemStartPos, $indentAdjustment);
-                } else {
-                    if ($isStmtList && $this->origTokens->haveBracesInRange($pos, $itemStartPos)) {
-                        // We'd remove the brace of a code block.
-                        // TODO: Preserve formatting.
-                        $this->setIndentLevel($origIndentLevel);
-                        return null;
-                    }
                 }
 
-                if ($commentsChanged && $comments) {
-                    // Add new comments
-                    $result .= $this->pComments($comments) . $this->nl;
+                if ($comments !== $origComments) {
+                    if ($comments) {
+                        $result .= $this->pComments($comments) . $this->nl;
+                    }
+                } else {
+                    $result .= $this->origTokens->getTokenCode(
+                        $commentStartPos, $itemStartPos, $indentAdjustment);
                 }
 
                 // If we had to remove anything, we have done so now.

@@ -317,3 +317,22 @@ $stmts[0]->returnType->types[] = new Node\Name('C');
 <?php
 function test(): A
 |B|C {}
+-----
+<?php
+function test() {
+    if ($x) {
+        $a;
+        $b;
+    }
+    $z;
+}
+-----
+$fnStmts =& $stmts[0]->stmts;
+array_splice($fnStmts, 0, 1, $fnStmts[0]->stmts);
+-----
+<?php
+function test() {
+    $a;
+    $b;
+    $z;
+}
