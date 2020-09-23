@@ -27,6 +27,17 @@ class EmulativeTest extends LexerTest
     /**
      * @dataProvider provideTestReplaceKeywords
      */
+    public function testReplaceKeywordsUppercase($keyword, $expectedToken) {
+        $lexer = $this->getLexer();
+        $lexer->startLexing('<?php ' . strtoupper($keyword));
+
+        $this->assertSame($expectedToken, $lexer->getNextToken());
+        $this->assertSame(0, $lexer->getNextToken());
+    }
+
+    /**
+     * @dataProvider provideTestReplaceKeywords
+     */
     public function testNoReplaceKeywordsAfterObjectOperator(string $keyword) {
         $lexer = $this->getLexer();
         $lexer->startLexing('<?php ->' . $keyword);
@@ -318,8 +329,11 @@ class EmulativeTest extends LexerTest
         return [
             ['8.0', 'match', [[Tokens::T_MATCH, 'match']]],
             ['7.4', 'match', [[Tokens::T_STRING, 'match']]],
+            // Keywords are not case-sensitive.
             ['7.4', 'fn', [[Tokens::T_FN, 'fn']]],
+            ['7.4', 'FN', [[Tokens::T_FN, 'FN']]],
             ['7.3', 'fn', [[Tokens::T_STRING, 'fn']]],
+            ['7.3', 'FN', [[Tokens::T_STRING, 'FN']]],
             // Tested here to skip testLeaveStuffAloneInStrings.
             ['8.0', '"$foo?->bar"', [
                 [ord('"'), '"'],
