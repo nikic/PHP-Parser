@@ -1,7 +1,21 @@
-Version 4.10.1-dev
+Version 4.10.2-dev
 ------------------
 
 Nothing yet.
+
+Version 4.10.1 (2020-09-23)
+---------------------------
+
+### Added
+
+* Added support for recovering from a missing semicolon after a property or class constant
+  declaration.
+
+### Fixed
+
+* Fix spurious whitespace in formatting-preserving pretty printer when both removing and adding
+  elements at the start of a list.
+* Fix incorrect case-sensitivity in keyword token emulation.
 
 Version 4.10.0 (2020-09-19)
 ---------------------------
