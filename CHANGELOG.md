@@ -1,7 +1,14 @@
-Version 4.10.2-dev
+Version 4.10.3-dev
 ------------------
 
 Nothing yet.
+
+Version 4.10.2 (2020-09-26)
+------------------
+
+### Fixed
+
+* Fixed check for token emulation conflicts with other libraries.
 
 Version 4.10.1 (2020-09-23)
 ---------------------------
