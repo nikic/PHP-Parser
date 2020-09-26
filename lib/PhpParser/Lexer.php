@@ -439,7 +439,7 @@ class Lexer
                         $token, $clashingToken
                     ));
                 }
-                $usedTokenIds[$token] = $tokenId;
+                $usedTokenIds[$tokenId] = $token;
             }
         }
 
