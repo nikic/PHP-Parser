@@ -36,8 +36,6 @@ matrix:
       php: 7.0
       script:
         - test_old/run-php-src.sh 8.0.0rc1
-  allow_failures:
-    - name: PHP 8.0 Code on PHP 7.0 Integration Tests
   fast_finish: true
 
 script: vendor/bin/phpunit
