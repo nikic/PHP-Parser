@@ -659,6 +659,12 @@ class Standard extends PrettyPrinterAbstract
     }
 
     protected function pExpr_Ternary(Expr\Ternary $node) {
+        if ($node->cond instanceof Expr\Ternary) {
+            return '(' . $this->pInfixOp(Expr\Ternary::class,
+                $node->cond, ') ?' . (null !== $node->if ? ' ' . $this->p($node->if) . ' ' : '') . ': ', $node->else
+            );
+        }
+
         // a bit of cheating: we treat the ternary as a binary op where the ?...: part is the operator.
         // this is okay because the part between ? and : never needs parentheses.
         return $this->pInfixOp(Expr\Ternary::class,
