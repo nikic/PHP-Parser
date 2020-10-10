@@ -1040,7 +1040,7 @@ class Standard extends PrettyPrinterAbstract
      * @param Node[] $nodes
      * @return bool
      */
-    private function hasNodeWithComments(array $nodes) {
+    protected function hasNodeWithComments(array $nodes) {
         foreach ($nodes as $node) {
             if ($node && $node->getComments()) {
                 return true;
@@ -1049,7 +1049,7 @@ class Standard extends PrettyPrinterAbstract
         return false;
     }
 
-    private function pMaybeMultiline(array $nodes, bool $trailingComma = false) {
+    protected function pMaybeMultiline(array $nodes, bool $trailingComma = false) {
         if (!$this->hasNodeWithComments($nodes)) {
             return $this->pCommaSeparated($nodes);
         } else {
@@ -1057,7 +1057,7 @@ class Standard extends PrettyPrinterAbstract
         }
     }
 
-    private function pAttrGroups(array $nodes, bool $inline = false): string {
+    protected function pAttrGroups(array $nodes, bool $inline = false): string {
         $result = '';
         $sep = $inline ? ' ' : $this->nl;
         foreach ($nodes as $node) {
