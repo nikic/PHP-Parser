@@ -112,6 +112,10 @@ class Standard extends PrettyPrinterAbstract
 
     // Scalars
 
+    protected function pScalar_Escaped(Scalar\Escaped_ $node) {
+        return $node->value;
+    }
+
     protected function pScalar_String(Scalar\String_ $node) {
         $kind = $node->getAttribute('kind', Scalar\String_::KIND_SINGLE_QUOTED);
         switch ($kind) {
