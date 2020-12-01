@@ -85,7 +85,6 @@ class Lexer
 
         $scream = ini_set('xdebug.scream', '0');
 
-        error_clear_last();
         $this->tokens = @token_get_all($code);
         $this->postprocessTokens($errorHandler);
 
