@@ -3,10 +3,10 @@ PHP Parser
 
 [![Build Status](https://travis-ci.org/nikic/PHP-Parser.svg?branch=master)](https://travis-ci.org/nikic/PHP-Parser) [![Coverage Status](https://coveralls.io/repos/github/nikic/PHP-Parser/badge.svg?branch=master)](https://coveralls.io/github/nikic/PHP-Parser?branch=master)
 
-This is a PHP 5.2 to PHP 7.4 parser written in PHP. Its purpose is to simplify static code analysis and
+This is a PHP 5.2 to PHP 8.0 parser written in PHP. Its purpose is to simplify static code analysis and
 manipulation.
 
-[**Documentation for version 4.x**][doc_master] (stable; for running on PHP >= 7.0; for parsing PHP 5.2 to PHP 7.4).
+[**Documentation for version 4.x**][doc_master] (stable; for running on PHP >= 7.0; for parsing PHP 5.2 to PHP 8.0).
 
 [Documentation for version 3.x][doc_3_x] (unsupported; for running on PHP >= 5.5; for parsing PHP 5.2 to PHP 7.2).
 
@@ -15,7 +15,7 @@ Features
 
 The main features provided by this library are:
 
- * Parsing PHP 5 and PHP 7 code into an abstract syntax tree (AST).
+ * Parsing PHP 5, PHP 7, and PHP 8 code into an abstract syntax tree (AST).
    * Invalid code can be parsed into a partial AST.
    * The AST contains accurate location information.
  * Dumping the AST in human-readable form.
