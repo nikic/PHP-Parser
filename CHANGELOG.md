@@ -1,7 +1,19 @@
-Version 4.10.3-dev
+Version 4.10.4-dev
 ------------------
 
 Nothing yet.
+
+Version 4.10.3 (2020-12-03)
+---------------------------
+
+### Fixed
+
+* Fixed formatting-preserving pretty printing for `"{$x}"`.
+* Ternary expressions are now treated as non-associative in the pretty printer, in order to
+  generate code that is compatible with the parentheses requirement introduced in PHP 8.
+* Removed no longer necessary `error_clear_last()` call in lexer, which may interfere with fatal
+  error handlers if invoked during shutdown.
+
 
 Version 4.10.2 (2020-09-26)
 ------------------
