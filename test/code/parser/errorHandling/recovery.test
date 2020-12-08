@@ -1490,9 +1490,6 @@ array(
                         )
                     )
                 )
-                comments: array(
-                    0: /** @var ?string */
-                )
             )
         )
     )

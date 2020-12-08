@@ -219,10 +219,7 @@ abstract class ParserAbstract implements Parser
                         ));
                     }
 
-                    // This is necessary to assign some meaningful attributes to /* empty */ productions. They'll get
-                    // the attributes of the next token, even though they don't contain it themselves.
-                    $this->startAttributeStack[$stackPos+1] = $startAttributes;
-                    $this->endAttributeStack[$stackPos+1] = $endAttributes;
+                    // Allow productions to access the start attributes of the lookahead token.
                     $this->lookaheadStartAttributes = $startAttributes;
 
                     //$this->traceRead($symbol);
@@ -294,7 +291,8 @@ abstract class ParserAbstract implements Parser
 
                     /* Goto - shift nonterminal */
                     $lastEndAttributes = $this->endAttributeStack[$stackPos];
-                    $stackPos -= $this->ruleToLength[$rule];
+                    $ruleLength = $this->ruleToLength[$rule];
+                    $stackPos -= $ruleLength;
                     $nonTerminal = $this->ruleToNonTerminal[$rule];
                     $idx = $this->gotoBase[$nonTerminal] + $stateStack[$stackPos];
                     if ($idx >= 0 && $idx < $this->gotoTableSize && $this->gotoCheck[$idx] === $nonTerminal) {
@@ -307,6 +305,10 @@ abstract class ParserAbstract implements Parser
                     $stateStack[$stackPos]     = $state;
                     $this->semStack[$stackPos] = $this->semValue;
                     $this->endAttributeStack[$stackPos] = $lastEndAttributes;
+                    if ($ruleLength === 0) {
+                        // Empty productions use the start attributes of the lookahead token.
+                        $this->startAttributeStack[$stackPos] = $this->lookaheadStartAttributes;
+                    }
                 } else {
                     /* error */
                     switch ($this->errorState) {
@@ -340,6 +342,7 @@ abstract class ParserAbstract implements Parser
 
                             // We treat the error symbol as being empty, so we reset the end attributes
                             // to the end attributes of the last non-error symbol
+                            $this->startAttributeStack[$stackPos] = $this->lookaheadStartAttributes;
                             $this->endAttributeStack[$stackPos] = $this->endAttributeStack[$stackPos - 1];
                             $this->endAttributes = $this->endAttributeStack[$stackPos - 1];
                             break;
