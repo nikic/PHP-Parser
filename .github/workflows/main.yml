@@ -23,10 +23,11 @@ jobs:
           composer update --no-progress --prefer-dist
       - name: "Tests"
         run: "php vendor/bin/phpunit --coverage-clover build/logs/clover.xml"
-      # This is erroring, not sure why.
-      # - name: Coveralls
-      #   run: "php vendor/bin/php-coveralls"
-      #   if: ${{ success() }}
+      - name: Coveralls
+        env:
+          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: "php vendor/bin/php-coveralls"
+        if: ${{ success() }}
   tests:
     runs-on: "ubuntu-latest"
     name: "PHP ${{ matrix.php-version }} Unit Tests"
