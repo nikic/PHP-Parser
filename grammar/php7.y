@@ -601,7 +601,7 @@ non_empty_global_var_list:
 ;
 
 global_var:
-      simple_variable                                       { $$ = Expr\Variable[$1]; }
+      simple_variable                                       { $$ = $1; }
 ;
 
 static_var_list:
@@ -1007,7 +1007,7 @@ callable_expr:
 ;
 
 callable_variable:
-      simple_variable                                       { $$ = Expr\Variable[$1]; }
+      simple_variable                                       { $$ = $1; }
     | array_object_dereferencable '[' optional_expr ']'     { $$ = Expr\ArrayDimFetch[$1, $3]; }
     | array_object_dereferencable '{' expr '}'              { $$ = Expr\ArrayDimFetch[$1, $3]; }
     | function_call                                         { $$ = $1; }
@@ -1032,15 +1032,15 @@ variable:
 ;
 
 simple_variable:
-      T_VARIABLE                                            { $$ = parseVar($1); }
-    | '$' '{' expr '}'                                      { $$ = $3; }
+      plain_variable                                        { $$ = $1; }
+    | '$' '{' expr '}'                                      { $$ = Expr\Variable[$3]; }
     | '$' simple_variable                                   { $$ = Expr\Variable[$2]; }
-    | '$' error                                             { $$ = Expr\Error[]; $this->errorState = 2; }
+    | '$' error                                             { $$ = Expr\Variable[Expr\Error[]]; $this->errorState = 2; }
 ;
 
 static_member_prop_name:
       simple_variable
-          { $var = $1; $$ = \is_string($var) ? Node\VarLikeIdentifier[$var] : $var; }
+          { $var = $1->name; $$ = \is_string($var) ? Node\VarLikeIdentifier[$var] : $var; }
 ;
 
 static_member:
@@ -1049,7 +1049,7 @@ static_member:
 ;
 
 new_variable:
-      simple_variable                                       { $$ = Expr\Variable[$1]; }
+      simple_variable                                       { $$ = $1; }
     | new_variable '[' optional_expr ']'                    { $$ = Expr\ArrayDimFetch[$1, $3]; }
     | new_variable '{' expr '}'                             { $$ = Expr\ArrayDimFetch[$1, $3]; }
     | new_variable T_OBJECT_OPERATOR property_name          { $$ = Expr\PropertyFetch[$1, $3]; }
@@ -1063,13 +1063,13 @@ new_variable:
 member_name:
       identifier_ex                                         { $$ = $1; }
     | '{' expr '}'                                          { $$ = $2; }
-    | simple_variable                                       { $$ = Expr\Variable[$1]; }
+    | simple_variable                                       { $$ = $1; }
 ;
 
 property_name:
       identifier                                            { $$ = $1; }
     | '{' expr '}'                                          { $$ = $2; }
-    | simple_variable                                       { $$ = Expr\Variable[$1]; }
+    | simple_variable                                       { $$ = $1; }
     | error                                                 { $$ = Expr\Error[]; $this->errorState = 2; }
 ;
 

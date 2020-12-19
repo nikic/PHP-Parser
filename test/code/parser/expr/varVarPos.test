@@ -1,0 +1,17 @@
+Variable variable positions
+-----
+<?php
+$$$x;
+-----
+!!positions
+array(
+    0: Stmt_Expression[2:1 - 2:5](
+        expr: Expr_Variable[2:1 - 2:4](
+            name: Expr_Variable[2:2 - 2:4](
+                name: Expr_Variable[2:3 - 2:4](
+                    name: x
+                )
+            )
+        )
+    )
+)
