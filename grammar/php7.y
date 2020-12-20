@@ -348,10 +348,7 @@ function_declaration_statement:
 ;
 
 class_declaration_statement:
-      class_entry_type identifier extends_from implements_list '{' class_statement_list '}'
-          { $$ = Stmt\Class_[$2, ['type' => $1, 'extends' => $3, 'implements' => $4, 'stmts' => $6, 'attrGroups' => []]];
-            $this->checkClass($$, #2); }
-    | attributes class_entry_type identifier extends_from implements_list '{' class_statement_list '}'
+      optional_attributes class_entry_type identifier extends_from implements_list '{' class_statement_list '}'
           { $$ = Stmt\Class_[$3, ['type' => $2, 'extends' => $4, 'implements' => $5, 'stmts' => $7, 'attrGroups' => $1]];
             $this->checkClass($$, #3); }
     | optional_attributes T_INTERFACE identifier interface_extends_list '{' class_statement_list '}'
