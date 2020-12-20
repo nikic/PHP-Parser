@@ -1,7 +1,15 @@
-Version 4.10.4-dev
+Version 4.10.5-dev
 ------------------
 
 Nothing yet.
+
+Version 4.10.4 (2020-12-20)
+---------------------------
+
+### Fixed
+
+* Fixed position information for variable-variables (#741).
+* Fixed position information for traits/interfaces preceded by if statement (#738).
 
 Version 4.10.3 (2020-12-03)
 ---------------------------
