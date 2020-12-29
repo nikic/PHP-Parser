@@ -37,7 +37,7 @@ class Namespace_ extends Declaration
     /**
      * Returns the built node.
      *
-     * @return Node The built node
+     * @return Stmt\Namespace_ The built node
      */
     public function getNode() : Node {
         return new Stmt\Namespace_($this->name, $this->stmts, $this->attributes);
