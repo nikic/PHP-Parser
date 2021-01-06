@@ -39,7 +39,7 @@ class Use_ implements Builder
     /**
      * Returns the built node.
      *
-     * @return Node The built node
+     * @return Stmt\Use_ The built node
      */
     public function getNode() : Node {
         return new Stmt\Use_([
