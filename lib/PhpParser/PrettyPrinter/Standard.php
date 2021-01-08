@@ -1032,8 +1032,11 @@ class Standard extends PrettyPrinterAbstract
     }
 
     protected function pNewVariable(Node $node) {
-        // TODO: This is not fully accurate.
-        return $this->pDereferenceLhs($node);
+        if (!$node instanceof Scalar\String_) {
+            return $this->pDereferenceLhs($node);
+        } else {
+            return '(' . $this->p($node) . ')';
+        }
     }
 
     /**
