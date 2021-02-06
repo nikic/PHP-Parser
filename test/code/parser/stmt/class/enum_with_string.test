@@ -1,0 +1,68 @@
+Enum
+-----
+<?php
+
+enum Suit: string
+{
+    case Hearts = 'H';
+    case Diamonds = 'D';
+    case Clubs = 'C';
+    case Spades = 'S';
+}
+-----
+array(
+    0: Stmt_Class(
+        attrGroups: array(
+        )
+        name: Identifier(
+            name: Suit
+        )
+        scalarType: Identifier(
+            name: string
+        )
+        implements: array(
+        )
+        stmts: array(
+            0: Stmt_EnumCase(
+                name: Identifier(
+                    name: Hearts
+                )
+                expr: Scalar_String(
+                    value: H
+                )
+                attrGroups: array(
+                )
+            )
+            1: Stmt_EnumCase(
+                name: Identifier(
+                    name: Diamonds
+                )
+                expr: Scalar_String(
+                    value: D
+                )
+                attrGroups: array(
+                )
+            )
+            2: Stmt_EnumCase(
+                name: Identifier(
+                    name: Clubs
+                )
+                expr: Scalar_String(
+                    value: C
+                )
+                attrGroups: array(
+                )
+            )
+            3: Stmt_EnumCase(
+                name: Identifier(
+                    name: Spades
+                )
+                expr: Scalar_String(
+                    value: S
+                )
+                attrGroups: array(
+                )
+            )
+        )
+    )
+)

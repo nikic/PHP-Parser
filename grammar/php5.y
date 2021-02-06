@@ -269,17 +269,13 @@ class_declaration_statement:
     | T_TRAIT identifier '{' class_statement_list '}'
           { $$ = Stmt\Trait_[$2, ['stmts' => $4]]; }
     | T_ENUM identifier enum_scalar_type implements_list '{' class_statement_list '}'
-          { $$ = Stmt\Enum_[$2, ['scalar_type' => $3, 'implements' => $4, 'stmts' => $6]];
+          { $$ = Stmt\Enum_[$2, ['scalarType' => $3, 'implements' => $4, 'stmts' => $6]];
             $this->checkEnum($$, #2); }
 ;
 
 enum_scalar_type:
       /* empty */                                           { $$ = null; }
     | ':' type                                              { $$ = $2; }
-
-enum_case:
-    T_CASE identifier enum_case_expr ';'                    { $$ = Stmt\EnumCase[$2, $3]; }
-;
 
 enum_case_expr:
       /* empty */                                           { $$ = null; }
@@ -488,7 +484,7 @@ class_statement:
           { $$ = Stmt\ClassMethod[$4, ['type' => $1, 'byRef' => $3, 'params' => $6, 'returnType' => $8, 'stmts' => $9]];
             $this->checkClassMethod($$, #1); }
     | T_USE class_name_list trait_adaptations               { $$ = Stmt\TraitUse[$2, $3]; }
-    | enum_case                                             { $$ = $1; }
+    | T_CASE identifier enum_case_expr ';'                  { $$ = Stmt\EnumCase[$2, $3]; }
 ;
 
 trait_adaptations:

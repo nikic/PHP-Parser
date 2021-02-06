@@ -1,0 +1,21 @@
+Enum
+-----
+<?php
+
+enum Foo {
+}
+-----
+array(
+    0: Stmt_Class(
+        attrGroups: array(
+        )
+        name: Identifier(
+            name: Foo
+        )
+        scalarType: null
+        implements: array(
+        )
+        stmts: array(
+        )
+    )
+)
