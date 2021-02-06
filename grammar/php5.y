@@ -28,7 +28,7 @@ reserved_non_modifiers:
     | T_FUNCTION | T_CONST | T_RETURN | T_PRINT | T_YIELD | T_LIST | T_SWITCH | T_ENDSWITCH | T_CASE | T_DEFAULT
     | T_BREAK | T_ARRAY | T_CALLABLE | T_EXTENDS | T_IMPLEMENTS | T_NAMESPACE | T_TRAIT | T_INTERFACE | T_CLASS
     | T_CLASS_C | T_TRAIT_C | T_FUNC_C | T_METHOD_C | T_LINE | T_FILE | T_DIR | T_NS_C | T_HALT_COMPILER | T_FN
-    | T_MATCH
+    | T_MATCH | T_ENUM
 ;
 
 semi_reserved:
@@ -268,6 +268,22 @@ class_declaration_statement:
             $this->checkInterface($$, #2); }
     | T_TRAIT identifier '{' class_statement_list '}'
           { $$ = Stmt\Trait_[$2, ['stmts' => $4]]; }
+    | T_ENUM identifier enum_scalar_type implements_list '{' class_statement_list '}'
+          { $$ = Stmt\Enum_[$2, ['scalar_type' => $3, 'implements' => $4, 'stmts' => $6]];
+            $this->checkEnum($$, #2); }
+;
+
+enum_scalar_type:
+      /* empty */                                           { $$ = null; }
+    | ':' type                                              { $$ = $2; }
+
+enum_case:
+    T_CASE identifier enum_case_expr ';'                    { $$ = Stmt\EnumCase[$2, $3]; }
+;
+
+enum_case_expr:
+      /* empty */                                           { $$ = null; }
+    | '=' expr                                              { $$ = $2; }
 ;
 
 class_entry_type:
@@ -472,6 +488,7 @@ class_statement:
           { $$ = Stmt\ClassMethod[$4, ['type' => $1, 'byRef' => $3, 'params' => $6, 'returnType' => $8, 'stmts' => $9]];
             $this->checkClassMethod($$, #1); }
     | T_USE class_name_list trait_adaptations               { $$ = Stmt\TraitUse[$2, $3]; }
+    | enum_case                                             { $$ = $1; }
 ;
 
 trait_adaptations:
