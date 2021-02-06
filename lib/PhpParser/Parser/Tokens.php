@@ -114,6 +114,7 @@ final class Tokens
     const T_CLASS = 362;
     const T_TRAIT = 363;
     const T_INTERFACE = 364;
+<<<<<<< HEAD
     const T_EXTENDS = 365;
     const T_IMPLEMENTS = 366;
     const T_OBJECT_OPERATOR = 367;
@@ -142,4 +143,34 @@ final class Tokens
     const T_NAME_RELATIVE = 390;
     const T_ATTRIBUTE = 391;
     const T_ENUM = 392;
+=======
+    const T_ENUM = 365;
+    const T_EXTENDS = 366;
+    const T_IMPLEMENTS = 367;
+    const T_OBJECT_OPERATOR = 368;
+    const T_NULLSAFE_OBJECT_OPERATOR = 369;
+    const T_LIST = 370;
+    const T_ARRAY = 371;
+    const T_CALLABLE = 372;
+    const T_CLASS_C = 373;
+    const T_TRAIT_C = 374;
+    const T_METHOD_C = 375;
+    const T_FUNC_C = 376;
+    const T_LINE = 377;
+    const T_FILE = 378;
+    const T_START_HEREDOC = 379;
+    const T_END_HEREDOC = 380;
+    const T_DOLLAR_OPEN_CURLY_BRACES = 381;
+    const T_CURLY_OPEN = 382;
+    const T_PAAMAYIM_NEKUDOTAYIM = 383;
+    const T_NAMESPACE = 384;
+    const T_NS_C = 385;
+    const T_DIR = 386;
+    const T_NS_SEPARATOR = 387;
+    const T_ELLIPSIS = 388;
+    const T_NAME_FULLY_QUALIFIED = 389;
+    const T_NAME_QUALIFIED = 390;
+    const T_NAME_RELATIVE = 391;
+    const T_ATTRIBUTE = 392;
+>>>>>>> dd851c5... rebuild Parser
 }

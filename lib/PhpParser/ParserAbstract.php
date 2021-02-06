@@ -955,6 +955,24 @@ abstract class ParserAbstract implements Parser
         }
     }
 
+    protected function checkEnum(Enum_ $node, $namePos) {
+        if (null !== $node->name && $node->name->isSpecialClassName()) {
+            $this->emitError(new Error(
+                sprintf('Cannot use \'%s\' as enum name as it is reserved', $node->name),
+                $this->getAttributesAt($namePos)
+            ));
+        }
+
+        foreach ($node->extends as $parentEnum) {
+            if ($parentEnum->isSpecialClassName()) {
+                $this->emitError(new Error(
+                    sprintf('Cannot use \'%s\' as enum name as it is reserved', $parentEnum),
+                    $interface->getAttributes()
+                ));
+            }
+        }
+    }
+
     protected function checkClassMethod(ClassMethod $node, $modifierPos) {
         if ($node->flags & Class_::MODIFIER_STATIC) {
             switch ($node->name->toLowerString()) {
