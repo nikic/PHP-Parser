@@ -994,7 +994,7 @@ class Standard extends PrettyPrinterAbstract
             return '\\' . $oct;
         }, $escaped);
 
-        return preg_replace_callback('/[[:^print:]]/', function($matches) {
+        return preg_replace_callback('/[[:^ascii:]]/', function($matches) {
             $hex = dechex($matches[0]);
             return '\\x' . $hex;
         }, $escaped);
