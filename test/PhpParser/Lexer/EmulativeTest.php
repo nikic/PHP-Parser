@@ -313,6 +313,35 @@ class EmulativeTest extends LexerTest
                 [Tokens::T_END_HEREDOC, "    LABEL"],
                 [ord(','), ','],
             ]],
+            // Enums use a contextual keyword
+            ['enum Foo {}', [
+                [Tokens::T_ENUM, 'enum'],
+                [Tokens::T_STRING, 'Foo'],
+                [ord('{'), '{'],
+                [ord('}'), '}'],
+            ]],
+            ['class Enum {}', [
+                [Tokens::T_CLASS, 'class'],
+                [Tokens::T_STRING, 'Enum'],
+                [ord('{'), '{'],
+                [ord('}'), '}'],
+            ]],
+            ['class Enum extends X {}', [
+                [Tokens::T_CLASS, 'class'],
+                [Tokens::T_STRING, 'Enum'],
+                [Tokens::T_EXTENDS, 'extends'],
+                [Tokens::T_STRING, 'X'],
+                [ord('{'), '{'],
+                [ord('}'), '}'],
+            ]],
+            ['class Enum implements X {}', [
+                [Tokens::T_CLASS, 'class'],
+                [Tokens::T_STRING, 'Enum'],
+                [Tokens::T_IMPLEMENTS, 'implements'],
+                [Tokens::T_STRING, 'X'],
+                [ord('{'), '{'],
+                [ord('}'), '}'],
+            ]],
         ];
     }
 
