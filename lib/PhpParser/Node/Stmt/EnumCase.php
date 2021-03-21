@@ -3,6 +3,7 @@
 namespace PhpParser\Node\Stmt;
 
 use PhpParser\Node;
+use PhpParser\Node\AttributeGroup;
 
 class EnumCase extends Node\Stmt
 {
@@ -17,10 +18,9 @@ class EnumCase extends Node\Stmt
      * @param string|Node\Identifier    $name
      * @param Node\Expr|null            $expr
      * @param array                     $attributes Additional attributes
-     * @param array                     $subNodes   Array of the following optional subnodes:
-     *                                      'attrGroups' => array() : PHP attribute groups
+     * @param AttributeGroup[]          $attrGroups
      */
-    public function __construct($name, $expr, array $subNodes = [], array $attributes = []) {
+    public function __construct($name, $expr, array $attributes = [], array $attrGroups = []) {
         parent::__construct($attributes);
         $this->name = \is_string($name) ? new Node\Identifier($name) : $name;
         $this->expr = $expr;
@@ -28,7 +28,7 @@ class EnumCase extends Node\Stmt
     }
 
     public function getSubNodeNames() : array {
-        return ['name', 'expr', 'attrGroups'];
+        return ['attrGroups', 'name', 'expr'];
     }
 
     public function getType() : string {

@@ -35,6 +35,6 @@ class Enum_ extends ClassLike
     }
 
     public function getType() : string {
-        return 'Stmt_Class';
+        return 'Stmt_Enum';
     }
 }

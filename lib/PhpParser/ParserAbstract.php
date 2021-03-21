@@ -931,7 +931,7 @@ abstract class ParserAbstract implements Parser
         foreach ($node->implements as $interface) {
             if ($interface->isSpecialClassName()) {
                 $this->emitError(new Error(
-                    sprintf('Cannot use \'%s\' as interface name as it is reserved', $interface),
+                    sprintf('Cannot use \'%s\' as class name as it is reserved', $interface),
                     $interface->getAttributes()
                 ));
             }
@@ -941,7 +941,7 @@ abstract class ParserAbstract implements Parser
     protected function checkInterface(Interface_ $node, $namePos) {
         if (null !== $node->name && $node->name->isSpecialClassName()) {
             $this->emitError(new Error(
-                sprintf('Cannot use \'%s\' as interface name as it is reserved', $node->name),
+                sprintf('Cannot use \'%s\' as class name as it is reserved', $node->name),
                 $this->getAttributesAt($namePos)
             ));
         }
@@ -949,7 +949,7 @@ abstract class ParserAbstract implements Parser
         foreach ($node->extends as $interface) {
             if ($interface->isSpecialClassName()) {
                 $this->emitError(new Error(
-                    sprintf('Cannot use \'%s\' as interface name as it is reserved', $interface),
+                    sprintf('Cannot use \'%s\' as class name as it is reserved', $interface),
                     $interface->getAttributes()
                 ));
             }
@@ -967,7 +967,7 @@ abstract class ParserAbstract implements Parser
         foreach ($node->implements as $interface) {
             if ($interface->isSpecialClassName()) {
                 $this->emitError(new Error(
-                    sprintf('Cannot use \'%s\' as interface name as it is reserved', $interface),
+                    sprintf('Cannot use \'%s\' as class name as it is reserved', $interface),
                     $interface->getAttributes()
                 ));
             }
