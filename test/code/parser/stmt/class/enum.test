@@ -7,7 +7,7 @@ enum Foo {
 -----
 !!php7
 array(
-    0: Stmt_Class(
+    0: Stmt_Enum(
         attrGroups: array(
         )
         name: Identifier(

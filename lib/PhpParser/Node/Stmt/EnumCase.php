@@ -17,14 +17,14 @@ class EnumCase extends Node\Stmt
     /**
      * @param string|Node\Identifier    $name
      * @param Node\Expr|null            $expr
-     * @param array                     $attributes Additional attributes
      * @param AttributeGroup[]          $attrGroups
+     * @param array                     $attributes Additional attributes
      */
-    public function __construct($name, $expr, array $attributes = [], array $attrGroups = []) {
+    public function __construct($name, $expr, array $attrGroups = [], array $attributes = []) {
         parent::__construct($attributes);
         $this->name = \is_string($name) ? new Node\Identifier($name) : $name;
         $this->expr = $expr;
-        $this->attrGroups = $subNodes['attrGroups'] ?? [];
+        $this->attrGroups = $attrGroups;
     }
 
     public function getSubNodeNames() : array {

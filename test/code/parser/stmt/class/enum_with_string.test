@@ -12,7 +12,7 @@ enum Suit: string
 -----
 !!php7
 array(
-    0: Stmt_Class(
+    0: Stmt_Enum(
         attrGroups: array(
         )
         name: Identifier(
@@ -25,41 +25,41 @@ array(
         )
         stmts: array(
             0: Stmt_EnumCase(
+                attrGroups: array(
+                )
                 name: Identifier(
                     name: Hearts
                 )
                 expr: Scalar_String(
                     value: H
                 )
-                attrGroups: array(
-                )
             )
             1: Stmt_EnumCase(
+                attrGroups: array(
+                )
                 name: Identifier(
                     name: Diamonds
                 )
                 expr: null
-                attrGroups: array(
-                )
             )
             2: Stmt_EnumCase(
+                attrGroups: array(
+                )
                 name: Identifier(
                     name: Clubs
                 )
                 expr: Scalar_String(
                     value: C
                 )
-                attrGroups: array(
-                )
             )
             3: Stmt_EnumCase(
+                attrGroups: array(
+                )
                 name: Identifier(
                     name: Spades
                 )
                 expr: Scalar_String(
                     value: S
-                )
-                attrGroups: array(
                 )
             )
         )

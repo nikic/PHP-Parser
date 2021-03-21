@@ -1947,7 +1947,7 @@ class Php7 extends \PhpParser\ParserAbstract
                  $this->semValue = new Stmt\TraitUse($this->semStack[$stackPos-(3-2)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
             },
             318 => function ($stackPos) {
-                 $this->semValue = new Stmt\EnumCase($this->semStack[$stackPos-(5-3)], $this->semStack[$stackPos-(5-4)], ['attrGroups' => $this->semStack[$stackPos-(5-1)]], $this->startAttributeStack[$stackPos-(5-1)] + $this->endAttributes);
+                 $this->semValue = new Stmt\EnumCase($this->semStack[$stackPos-(5-3)], $this->semStack[$stackPos-(5-4)], $this->semStack[$stackPos-(5-1)], $this->startAttributeStack[$stackPos-(5-1)] + $this->endAttributes, $this->startAttributeStack[$stackPos-(5-1)] + $this->endAttributes);
             },
             319 => function ($stackPos) {
                  $this->semValue = null; /* will be skipped */
