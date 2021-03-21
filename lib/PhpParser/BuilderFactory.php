@@ -164,10 +164,10 @@ class BuilderFactory
     /**
      * Creates a class constant builder.
      *
-     * @param string|Identifier                          $name  - Name
-     * @param Node\Expr|bool|null|int|float|string|array $value — Value
+     * @param string|Identifier                          $name  Name
+     * @param Node\Expr|bool|null|int|float|string|array $value Value
      *
-     * @return Builder\Use_ The created use const builder
+     * @return Builder\ClassConst The created use const builder
      */
     public function classConst($name, $value) : Builder\ClassConst {
         return new Builder\ClassConst($name, $value);

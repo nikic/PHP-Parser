@@ -19,8 +19,8 @@ class ClassConst implements PhpParser\Builder
     /**
      * Creates a class constant builder
      *
-     * @param string|Identifier                          $name  - Name
-     * @param Node\Expr|bool|null|int|float|string|array $value — Value
+     * @param string|Identifier                          $name  Name
+     * @param Node\Expr|bool|null|int|float|string|array $value Value
      */
     public function __construct($name, $value) {
         $this->constants = [new Const_($name, BuilderHelpers::normalizeValue($value))];
@@ -29,13 +29,13 @@ class ClassConst implements PhpParser\Builder
     /**
      * Add another constant to const group
      *
-     * @param string|Identifier                          $name  - Name
-     * @param Node\Expr|bool|null|int|float|string|array $value — Value
+     * @param string|Identifier                          $name  Name
+     * @param Node\Expr|bool|null|int|float|string|array $value Value
      *
      * @return $this The builder instance (for fluid interface)
      */
     public function addConst($name, $value) {
-        array_push($this->constants, new Const_($name, BuilderHelpers::normalizeValue($value)));
+        $this->constants[] = new Const_($name, BuilderHelpers::normalizeValue($value));
 
         return $this;
     }
@@ -91,12 +91,12 @@ class ClassConst implements PhpParser\Builder
     /**
      * Returns the built class node.
      *
-     * @return Stmt\Property The built constant node
+     * @return Stmt\ClassConst The built constant node
      */
     public function getNode(): PhpParser\Node {
         return new Stmt\ClassConst(
             $this->constants,
-            $this->flags !== 0 ? $this->flags : Stmt\Class_::MODIFIER_PUBLIC,
+            $this->flags,
             $this->attributes
         );
     }

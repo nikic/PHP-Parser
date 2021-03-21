@@ -36,7 +36,7 @@ class BuilderFactoryTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
-    public function testFactoryClassConst(){
+    public function testFactoryClassConst() {
         $factory = new BuilderFactory;
         $this->assertInstanceOf(Builder\ClassConst::class, $factory->classConst('TEST',1));
     }

@@ -25,7 +25,7 @@ class ClassConstTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(
             new Stmt\ClassConst(
                 [
-                    new Const_("TEST", new LNumber(1) )
+                    new Const_("TEST", new LNumber(1))
                 ],
                 Stmt\Class_::MODIFIER_PRIVATE
             ),
