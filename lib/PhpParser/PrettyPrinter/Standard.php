@@ -737,6 +737,14 @@ class Standard extends PrettyPrinterAbstract
              . $this->nl . '{' . $this->pStmts($node->stmts) . $this->nl . '}';
     }
 
+    protected function pStmt_EnumCase(Stmt\EnumCase $node) {
+        return $this->pAttrGroups($node->attrGroups)
+            . 'case ' . $node->name
+            . ($node->expr ? ' = ' . $this->p($node->expr) : '')
+            . ';'
+        ;
+    }
+
     protected function pStmt_TraitUse(Stmt\TraitUse $node) {
         return 'use ' . $this->pCommaSeparated($node->traits)
              . (empty($node->adaptations)

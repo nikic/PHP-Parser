@@ -5,11 +5,12 @@ Enum
 enum Suit: string
 {
     case Hearts = 'H';
-    case Diamonds = 'D';
+    case Diamonds;
     case Clubs = 'C';
     case Spades = 'S';
 }
 -----
+!!php7
 array(
     0: Stmt_Class(
         attrGroups: array(
@@ -37,9 +38,7 @@ array(
                 name: Identifier(
                     name: Diamonds
                 )
-                expr: Scalar_String(
-                    value: D
-                )
+                expr: null
                 attrGroups: array(
                 )
             )

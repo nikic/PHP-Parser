@@ -1,0 +1,23 @@
+enum with static method
+-----
+<?php
+
+enum Size {
+    case Small;
+        case Medium     =     1000;
+
+            case Large;
+}
+-----
+$stmts[0]->stmts[] = new Node\Stmt\EnumCase('ExtraLarge', null);
+-----
+!!php7
+<?php
+
+enum Size {
+    case Small;
+        case Medium     =     1000;
+
+            case Large;
+            case ExtraLarge;
+}

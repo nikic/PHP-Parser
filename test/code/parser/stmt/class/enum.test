@@ -5,6 +5,7 @@ Enum
 enum Foo {
 }
 -----
+!!php7
 array(
     0: Stmt_Class(
         attrGroups: array(
