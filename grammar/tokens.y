@@ -111,3 +111,4 @@
 %token T_NAME_QUALIFIED
 %token T_NAME_RELATIVE
 %token T_ATTRIBUTE
+%token T_ENUM
