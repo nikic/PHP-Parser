@@ -36,6 +36,11 @@ class BuilderFactoryTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
+    public function testFactoryClassConst() {
+        $factory = new BuilderFactory;
+        $this->assertInstanceOf(Builder\ClassConst::class, $factory->classConst('TEST',1));
+    }
+
     public function testVal() {
         // This method is a wrapper around BuilderHelpers::normalizeValue(),
         // which is already tested elsewhere
@@ -276,7 +281,11 @@ class BuilderFactoryTest extends \PHPUnit\Framework\TestCase
                 ->addStmt($factory->property('someProperty')->makeProtected())
                 ->addStmt($factory->property('anotherProperty')
                     ->makePrivate()
-                    ->setDefault([1, 2, 3])))
+                    ->setDefault([1, 2, 3]))
+
+                ->addStmt($factory->classConst("FIRST_CLASS_CONST", 1)
+                    ->addConst("SECOND_CLASS_CONST",2)
+                    ->makePrivate()))
             ->getNode()
         ;
 
@@ -297,6 +306,7 @@ abstract class SomeClass extends SomeOtherClass implements A\Few, \Interfaces
         AnotherTrait::baz as test;
         AnotherTrait::func insteadof SecondTrait;
     }
+    private const FIRST_CLASS_CONST = 1, SECOND_CLASS_CONST = 2;
     protected $someProperty;
     private $anotherProperty = array(1, 2, 3);
     function firstMethod()
