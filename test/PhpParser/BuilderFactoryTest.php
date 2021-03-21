@@ -284,7 +284,8 @@ class BuilderFactoryTest extends \PHPUnit\Framework\TestCase
                     ->setDefault([1, 2, 3]))
 
                 ->addStmt($factory->classConst("FIRST_CLASS_CONST", 1)
-                    ->addConst("SECOND_CLASS_CONST",2)))
+                    ->addConst("SECOND_CLASS_CONST",2)
+                    ->makePrivate()))
             ->getNode()
         ;
 
@@ -305,7 +306,7 @@ abstract class SomeClass extends SomeOtherClass implements A\Few, \Interfaces
         AnotherTrait::baz as test;
         AnotherTrait::func insteadof SecondTrait;
     }
-    public const FIRST_CLASS_CONST = 1, SECOND_CLASS_CONST = 2;
+    private const FIRST_CLASS_CONST = 1, SECOND_CLASS_CONST = 2;
     protected $someProperty;
     private $anotherProperty = array(1, 2, 3);
     function firstMethod()

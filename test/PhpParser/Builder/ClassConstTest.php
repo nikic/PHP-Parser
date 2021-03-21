@@ -66,6 +66,7 @@ class ClassConstTest extends \PHPUnit\Framework\TestCase
     public function testDocComment() {
         $node = $this->createClassConstBuilder('TEST',1)
             ->setDocComment('/** Test */')
+            ->makePublic()
             ->getNode();
 
         $this->assertEquals(
@@ -92,8 +93,7 @@ class ClassConstTest extends \PHPUnit\Framework\TestCase
                 [
                     new Const_("FIRST_TEST", new LNumber(1)),
                     new Const_("SECOND_TEST", new LNumber(2))
-                ],
-                Stmt\Class_::MODIFIER_PUBLIC
+                ]
             ),
             $node
         );
