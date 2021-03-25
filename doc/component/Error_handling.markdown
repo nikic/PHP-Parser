@@ -36,7 +36,7 @@ if ($e->hasColumnInfo()) {
     echo $e->getRawMessage() . ' from ' . $e->getStartLine() . ':' . $e->getStartColumn($code)
         . ' to ' . $e->getEndLine() . ':' . $e->getEndColumn($code);
     // or:
-    echo $e->getMessageWithColumnInfo();
+    echo $e->getMessageWithColumnInfo($code);
 } else {
     echo $e->getMessage();
 }
