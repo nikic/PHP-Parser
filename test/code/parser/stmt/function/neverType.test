@@ -1,0 +1,23 @@
+Never type
+-----
+<?php
+function test(): never {}
+-----
+!!php7
+array(
+    0: Stmt_Function(
+        attrGroups: array(
+        )
+        byRef: false
+        name: Identifier(
+            name: test
+        )
+        params: array(
+        )
+        returnType: Identifier(
+            name: never
+        )
+        stmts: array(
+        )
+    )
+)
