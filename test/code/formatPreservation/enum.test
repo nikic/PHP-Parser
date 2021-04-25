@@ -1,0 +1,100 @@
+Enum formatting preservation
+-----
+<?php
+enum X: int
+{}
+-----
+$stmts[0]->scalarType = null;
+-----
+<?php
+enum X
+{}
+-----
+<?php
+enum X {
+    case
+        Y = 1;
+}
+-----
+$stmts[0]->stmts[0]->expr = null;
+-----
+<?php
+enum X {
+    case
+        Y;
+}
+-----
+<?php
+enum X
+{}
+-----
+$stmts[0]->scalarType = new Node\Identifier('int');
+-----
+<?php
+enum X : int
+{}
+-----
+<?php
+enum X
+implements Y
+{}
+-----
+$stmts[0]->scalarType = new Node\Identifier('int');
+-----
+<?php
+enum X : int
+implements Y
+{}
+-----
+<?php
+enum X {
+    case
+        Y;
+}
+-----
+$stmts[0]->stmts[0]->expr = new Scalar\LNumber(1);
+-----
+<?php
+enum X {
+    case
+        Y = 1;
+}
+-----
+<?php
+enum X {
+    case A;
+
+    case B;
+}
+-----
+$stmts[0]->stmts[] = new Node\Stmt\EnumCase('C');
+-----
+<?php
+enum X {
+    case A;
+
+    case B;
+    case C;
+}
+-----
+<?php
+enum X
+implements Y
+{}
+-----
+$stmts[0]->implements[] = new Node\Name('Z');
+-----
+<?php
+enum X
+implements Y, Z
+{}
+-----
+<?php
+enum X
+{}
+-----
+$stmts[0]->implements[] = new Node\Name('Y');
+-----
+<?php
+enum X implements Y
+{}

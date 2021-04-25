@@ -1,0 +1,65 @@
+Enum
+-----
+<?php
+
+enum A {}
+enum B implements Bar, Baz {
+}
+enum C: int implements Bar {}
+-----
+!!php7
+array(
+    0: Stmt_Enum(
+        attrGroups: array(
+        )
+        name: Identifier(
+            name: A
+        )
+        scalarType: null
+        implements: array(
+        )
+        stmts: array(
+        )
+    )
+    1: Stmt_Enum(
+        attrGroups: array(
+        )
+        name: Identifier(
+            name: B
+        )
+        scalarType: null
+        implements: array(
+            0: Name(
+                parts: array(
+                    0: Bar
+                )
+            )
+            1: Name(
+                parts: array(
+                    0: Baz
+                )
+            )
+        )
+        stmts: array(
+        )
+    )
+    2: Stmt_Enum(
+        attrGroups: array(
+        )
+        name: Identifier(
+            name: C
+        )
+        scalarType: Identifier(
+            name: int
+        )
+        implements: array(
+            0: Name(
+                parts: array(
+                    0: Bar
+                )
+            )
+        )
+        stmts: array(
+        )
+    )
+)
