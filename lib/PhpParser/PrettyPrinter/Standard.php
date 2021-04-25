@@ -999,13 +999,13 @@ class Standard extends PrettyPrinterAbstract
         }
 
         // Escape control characters and non-UTF-8 characters.
-        // Regex taken from https://stackoverflow.com/a/11709412/385378.
+        // Regex based on https://stackoverflow.com/a/11709412/385378.
         $regex = '/(
               [\x00-\x08\x0E-\x1F] # Control characters
             | [\xC0-\xC1] # Invalid UTF-8 Bytes
             | [\xF5-\xFF] # Invalid UTF-8 Bytes
-            | \xE0[\x80-\x9F] # Overlong encoding of prior code point
-            | \xF0[\x80-\x8F] # Overlong encoding of prior code point
+            | \xE0(?=[\x80-\x9F]) # Overlong encoding of prior code point
+            | \xF0(?=[\x80-\x8F]) # Overlong encoding of prior code point
             | [\xC2-\xDF](?![\x80-\xBF]) # Invalid UTF-8 Sequence Start
             | [\xE0-\xEF](?![\x80-\xBF]{2}) # Invalid UTF-8 Sequence Start
             | [\xF0-\xF4](?![\x80-\xBF]{3}) # Invalid UTF-8 Sequence Start
@@ -1016,6 +1016,7 @@ class Standard extends PrettyPrinterAbstract
             | (?<=[\xF0-\xF4][\x80-\xBF])[\x80-\xBF](?![\x80-\xBF]) # Short 4 byte sequence (2)
         )/x';
         return preg_replace_callback($regex, function ($matches) {
+            assert(strlen($matches[0]) === 1);
             $hex = dechex(ord($matches[0]));;
             return '\\x' . str_pad($hex, 2, '0', \STR_PAD_LEFT);
         }, $escaped);
