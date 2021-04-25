@@ -999,13 +999,9 @@ class Standard extends PrettyPrinterAbstract
         }
 
         // Escape other control characters
-        return preg_replace_callback('/([\0-\10\16-\37])(?=([0-7]?))/', function ($matches) {
-            $oct = decoct(ord($matches[1]));
-            if ($matches[2] !== '') {
-                // If there is a trailing digit, use the full three character form
-                return '\\' . str_pad($oct, 3, '0', \STR_PAD_LEFT);
-            }
-            return '\\' . $oct;
+        return preg_replace_callback('/[\x00-\x08\x0e-\x1f]/', function ($matches) {
+            $hex = dechex(ord($matches[0]));;
+            return '\\x' . str_pad($hex, 2, '0', \STR_PAD_LEFT);
         }, $escaped);
     }
 
