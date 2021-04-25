@@ -56,3 +56,12 @@ HTML<?php echo 'PHP'; ?>HTML
 HTML<?php
 echo 'PHP';
 ?>HTML
+-----
+<?php
+echo 'PHP';
+?>@@{ "\r\r\n" }@@Test
+-----
+<?php
+
+echo 'PHP';
+?>@@{ "\n\n" }@@Test

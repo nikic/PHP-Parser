@@ -322,7 +322,8 @@ class Lexer
                 $value = $token[1];
                 $id = $this->tokenMap[$token[0]];
                 if (\T_CLOSE_TAG === $token[0]) {
-                    $this->prevCloseTagHasNewline = false !== strpos($token[1], "\n");
+                    $this->prevCloseTagHasNewline = false !== strpos($token[1], "\n")
+                        || false !== strpos($token[1], "\r");
                 } elseif (\T_INLINE_HTML === $token[0]) {
                     $startAttributes['hasLeadingNewline'] = $this->prevCloseTagHasNewline;
                 }
