@@ -1,7 +1,7 @@
 Introduction
 ============
 
-This project is a PHP 5.2 to PHP 7.4 parser **written in PHP itself**.
+This project is a PHP 5.2 to PHP 8.0 parser **written in PHP itself**.
 
 What is this for?
 -----------------
@@ -26,7 +26,11 @@ programmatic PHP code analysis are incidentally PHP developers, not C developers
 What can it parse?
 ------------------
 
-The parser supports parsing PHP 5.2-7.4.
+The parser supports parsing PHP 5.2-8.0, with the following exceptions:
+
+ * Namespaced names containing whitespace (e.g. `Foo \ Bar` instead of `Foo\Bar`) are not supported.
+   These are illegal in PHP 8, but are legal in earlier version. However, PHP-Parser does not
+   support them for any version.
 
 As the parser is based on the tokens returned by `token_get_all` (which is only able to lex the PHP
 version it runs on), additionally a wrapper for emulating tokens from newer versions is provided.
