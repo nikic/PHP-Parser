@@ -7,6 +7,9 @@ static fn(&$x) => $x;
 fn&($x) => $x;
 fn($x, ...$rest) => $rest;
 fn(): int => $x;
+
+fn($a, $b) => $a and $b;
+fn($a, $b) => $a && $b;
 -----
 !!php7
 array(
@@ -169,6 +172,92 @@ array(
             )
             expr: Expr_Variable(
                 name: x
+            )
+        )
+    )
+    6: Stmt_Expression(
+        expr: Expr_ArrowFunction(
+            attrGroups: array(
+            )
+            static: false
+            byRef: false
+            params: array(
+                0: Param(
+                    attrGroups: array(
+                    )
+                    flags: 0
+                    type: null
+                    byRef: false
+                    variadic: false
+                    var: Expr_Variable(
+                        name: a
+                    )
+                    default: null
+                )
+                1: Param(
+                    attrGroups: array(
+                    )
+                    flags: 0
+                    type: null
+                    byRef: false
+                    variadic: false
+                    var: Expr_Variable(
+                        name: b
+                    )
+                    default: null
+                )
+            )
+            returnType: null
+            expr: Expr_BinaryOp_LogicalAnd(
+                left: Expr_Variable(
+                    name: a
+                )
+                right: Expr_Variable(
+                    name: b
+                )
+            )
+        )
+    )
+    7: Stmt_Expression(
+        expr: Expr_ArrowFunction(
+            attrGroups: array(
+            )
+            static: false
+            byRef: false
+            params: array(
+                0: Param(
+                    attrGroups: array(
+                    )
+                    flags: 0
+                    type: null
+                    byRef: false
+                    variadic: false
+                    var: Expr_Variable(
+                        name: a
+                    )
+                    default: null
+                )
+                1: Param(
+                    attrGroups: array(
+                    )
+                    flags: 0
+                    type: null
+                    byRef: false
+                    variadic: false
+                    var: Expr_Variable(
+                        name: b
+                    )
+                    default: null
+                )
+            )
+            returnType: null
+            expr: Expr_BinaryOp_BooleanAnd(
+                left: Expr_Variable(
+                    name: a
+                )
+                right: Expr_Variable(
+                    name: b
+                )
             )
         )
     )

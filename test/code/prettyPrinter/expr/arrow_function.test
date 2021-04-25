@@ -8,6 +8,8 @@ fn(&$x) => $x;
 fn&($x) => $x;
 static fn($x, ...$rest) => $rest;
 fn(): int => $x;
+fn($a, $b) => $a and $b;
+fn($a, $b) => $a && $b;
 -----
 !!php7
 fn($a) => $a;
@@ -16,3 +18,5 @@ fn(&$x) => $x;
 fn&($x) => $x;
 static fn($x, ...$rest) => $rest;
 fn(): int => $x;
+fn($a, $b) => $a and $b;
+fn($a, $b) => $a && $b;
