@@ -650,7 +650,7 @@ class_statement:
             $this->checkClassMethod($$, #2); }
     | T_USE class_name_list trait_adaptations               { $$ = Stmt\TraitUse[$2, $3]; }
     | optional_attributes T_CASE identifier enum_case_expr semi
-         { $$ = Stmt\EnumCase[$3, $4, $1, attributes()]; }
+         { $$ = Stmt\EnumCase[$3, $4, $1]; }
     | error                                                 { $$ = null; /* will be skipped */ }
 ;
 

@@ -1,59 +1,39 @@
 Enum
-From the RFC: https://wiki.php.net/rfc/enumerations#enumerated_methods
 -----
 <?php
 
-interface Colorful
+enum A implements B
 {
-    public function color(): string;
+    case X;
+    case Y;
+
+    public function foo() {}
 }
 
-enum Suit implements Colorful
-{
-    case Hearts;
-    case Diamonds;
-    case Clubs;
-    case Spades;
-
-    // Fulfills the interface contract.
-    public function color(): string {
-        return match($this) {
-            Suit::Hearts, Suit::Diamonds => 'Red',
-            Suit::Clubs, Suit::Spaces => 'Black',
-        };
-    }
-
-    // Not part of an interface; that's fine.
-    public function shape(): string {
-        return "Rectangle";
-    }
+enum B: int {
+    case X = 1;
+    case Y = 2;
 }
 
-echo Suit::Diamonds->shape();
+enum C: string implements D {
+    case Z = 'A';
+}
 -----
 !!php7
-interface Colorful
+enum A implements B
 {
-    public function color() : string;
-}
-enum Suit implements Colorful
-{
-    case Hearts;
-    case Diamonds;
-    case Clubs;
-    case Spades;
-    // Fulfills the interface contract.
-    public function color() : string
+    case X;
+    case Y;
+    public function foo()
     {
-        return match ($this) {
-            Suit::Hearts, Suit::Diamonds => 'Red',
-            Suit::Clubs, Suit::Spaces => 'Black',
-        };
-    }
-    // Not part of an interface; that's fine.
-    public function shape() : string
-    {
-        return "Rectangle";
     }
 }
-echo Suit::Diamonds->shape();
+enum B
+{
+    case X = 1;
+    case Y = 2;
+}
+enum C implements D
+{
+    case Z = 'A';
+}

@@ -913,13 +913,28 @@ abstract class ParserAbstract implements Parser
         }
     }
 
-    protected function checkClass(Class_ $node, $namePos) {
-        if (null !== $node->name && $node->name->isSpecialClassName()) {
+    private function checkClassName($name, $namePos) {
+        if (null !== $name && $name->isSpecialClassName()) {
             $this->emitError(new Error(
-                sprintf('Cannot use \'%s\' as class name as it is reserved', $node->name),
+                sprintf('Cannot use \'%s\' as class name as it is reserved', $name),
                 $this->getAttributesAt($namePos)
             ));
         }
+    }
+
+    private function checkImplementedInterfaces(array $interfaces) {
+        foreach ($interfaces as $interface) {
+            if ($interface->isSpecialClassName()) {
+                $this->emitError(new Error(
+                    sprintf('Cannot use \'%s\' as interface name as it is reserved', $interface),
+                    $interface->getAttributes()
+                ));
+            }
+        }
+    }
+
+    protected function checkClass(Class_ $node, $namePos) {
+        $this->checkClassName($node->name, $namePos);
 
         if ($node->extends && $node->extends->isSpecialClassName()) {
             $this->emitError(new Error(
@@ -928,50 +943,17 @@ abstract class ParserAbstract implements Parser
             ));
         }
 
-        foreach ($node->implements as $interface) {
-            if ($interface->isSpecialClassName()) {
-                $this->emitError(new Error(
-                    sprintf('Cannot use \'%s\' as class name as it is reserved', $interface),
-                    $interface->getAttributes()
-                ));
-            }
-        }
+        $this->checkImplementedInterfaces($node->implements);
     }
 
     protected function checkInterface(Interface_ $node, $namePos) {
-        if (null !== $node->name && $node->name->isSpecialClassName()) {
-            $this->emitError(new Error(
-                sprintf('Cannot use \'%s\' as class name as it is reserved', $node->name),
-                $this->getAttributesAt($namePos)
-            ));
-        }
-
-        foreach ($node->extends as $interface) {
-            if ($interface->isSpecialClassName()) {
-                $this->emitError(new Error(
-                    sprintf('Cannot use \'%s\' as class name as it is reserved', $interface),
-                    $interface->getAttributes()
-                ));
-            }
-        }
+        $this->checkClassName($node->name, $namePos);
+        $this->checkImplementedInterfaces($node->extends);
     }
 
     protected function checkEnum(Enum_ $node, $namePos) {
-        if (null !== $node->name && $node->name->isSpecialClassName()) {
-            $this->emitError(new Error(
-                sprintf('Cannot use \'%s\' as enum name as it is reserved', $node->name),
-                $this->getAttributesAt($namePos)
-            ));
-        }
-
-        foreach ($node->implements as $interface) {
-            if ($interface->isSpecialClassName()) {
-                $this->emitError(new Error(
-                    sprintf('Cannot use \'%s\' as class name as it is reserved', $interface),
-                    $interface->getAttributes()
-                ));
-            }
-        }
+        $this->checkClassName($node->name, $namePos);
+        $this->checkImplementedInterfaces($node->implements);
     }
 
     protected function checkClassMethod(ClassMethod $node, $modifierPos) {

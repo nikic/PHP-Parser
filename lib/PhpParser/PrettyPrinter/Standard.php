@@ -722,16 +722,16 @@ class Standard extends PrettyPrinterAbstract
 
     protected function pStmt_Interface(Stmt\Interface_ $node) {
         return $this->pAttrGroups($node->attrGroups)
-            . 'interface ' . $node->name
-            . (!empty($node->extends) ? ' extends ' . $this->pCommaSeparated($node->extends) : '')
-            . $this->nl . '{' . $this->pStmts($node->stmts) . $this->nl . '}';
+             . 'interface ' . $node->name
+             . (!empty($node->extends) ? ' extends ' . $this->pCommaSeparated($node->extends) : '')
+             . $this->nl . '{' . $this->pStmts($node->stmts) . $this->nl . '}';
     }
 
     protected function pStmt_Enum(Stmt\Enum_ $node) {
         return $this->pAttrGroups($node->attrGroups)
-            . 'enum ' . $node->name
-            . (!empty($node->implements) ? ' implements ' . $this->pCommaSeparated($node->implements) : '')
-            . $this->nl . '{' . $this->pStmts($node->stmts) . $this->nl . '}';
+             . 'enum ' . $node->name
+             . (!empty($node->implements) ? ' implements ' . $this->pCommaSeparated($node->implements) : '')
+             . $this->nl . '{' . $this->pStmts($node->stmts) . $this->nl . '}';
     }
 
     protected function pStmt_Class(Stmt\Class_ $node) {
@@ -746,10 +746,9 @@ class Standard extends PrettyPrinterAbstract
 
     protected function pStmt_EnumCase(Stmt\EnumCase $node) {
         return $this->pAttrGroups($node->attrGroups)
-            . 'case ' . $node->name
-            . ($node->expr ? ' = ' . $this->p($node->expr) : '')
-            . ';'
-        ;
+             . 'case ' . $node->name
+             . ($node->expr ? ' = ' . $this->p($node->expr) : '')
+             . ';';
     }
 
     protected function pStmt_TraitUse(Stmt\TraitUse $node) {
