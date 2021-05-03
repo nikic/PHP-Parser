@@ -1,7 +1,26 @@
-Version 4.10.5-dev
+Version 4.10.6-dev
 ------------------
 
 Nothing yet.
+
+Version 4.10.5 (2020-05-03)
+---------------------------
+
+### Added
+
+* [PHP 8.1] Added support for enums. These are represented using the `Stmt\Enum_` and
+  `Stmt\EnumCase` nodes.
+* [PHP 8.1] Added support for never type. This type will now be returned as an `Identifier` rather
+  than `Name`.
+* Added `ClassConst` builder.
+
+### Changed
+
+* Non-UTF-8 code units in strings will now be hex-encoded.
+
+### Fixed
+
+* Fixed precedence of arrow functions.
 
 Version 4.10.4 (2020-12-20)
 ---------------------------
