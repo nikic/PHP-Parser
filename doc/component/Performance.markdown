@@ -8,20 +8,20 @@ described in the following.
 Xdebug
 ------
 
-Running PHP with XDebug adds a lot of overhead, especially for code that performs many method calls.
-Just by loading XDebug (without enabling profiling or other more intrusive XDebug features), you
+Running PHP with Xdebug adds a lot of overhead, especially for code that performs many method calls.
+Just by loading Xdebug (without enabling profiling or other more intrusive Xdebug features), you
 can expect that code using PHP-Parser will be approximately *five times slower*.
 
-As such, you should make sure that XDebug is not loaded when using this library. Note that setting
-the `xdebug.default_enable=0` ini option does *not* disable XDebug. The *only* way to disable
-XDebug is to not load the extension in the first place.
+As such, you should make sure that Xdebug is not loaded when using this library. Note that setting
+the `xdebug.default_enable=0` ini option does *not* disable Xdebug. The *only* way to disable
+Xdebug is to not load the extension in the first place.
 
-If you are building a command-line utility for use by developers (who often have XDebug enabled),
-you may want to consider automatically restarting PHP with XDebug unloaded. The
+If you are building a command-line utility for use by developers (who often have Xdebug enabled),
+you may want to consider automatically restarting PHP with Xdebug unloaded. The
 [composer/xdebug-handler](https://github.com/composer/xdebug-handler) package can be used to do
 this.
 
-If you do run with XDebug, you may need to increase the `xdebug.max_nesting_level` option to a
+If you do run with Xdebug, you may need to increase the `xdebug.max_nesting_level` option to a
 higher level, such as 3000. While the parser itself is recursion free, most other code working on
 the AST uses recursion and will generate an error if the value of this option is too low.
 

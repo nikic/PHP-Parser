@@ -39,7 +39,7 @@ Component documentation
   * [JSON representation](component/JSON_representation.markdown)
     * JSON encoding and decoding of ASTs
   * [Performance](component/Performance.markdown)
-    * Disabling XDebug
+    * Disabling Xdebug
     * Reusing objects
     * Garbage collection impact
   * [Frequently asked questions](component/FAQ.markdown)
