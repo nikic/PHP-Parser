@@ -22,7 +22,7 @@ class BuilderFactory
      */
     public function attribute(string $name, array $args = []) : Node\Attribute {
         return new Node\Attribute(
-            BuilderHelpers::normalizeNameOrExpr($name),
+            BuilderHelpers::normalizeName($name),
             $this->namedArgs($args)
         );
     }
