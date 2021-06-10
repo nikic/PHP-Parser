@@ -13,7 +13,7 @@ use PhpParser\Node\Stmt\Use_;
 class BuilderFactory
 {
     /**
-     * Creates a attribute node.
+     * Creates an attribute node.
      *
      * @param string|Name|Expr $name Name of the attribute
      * @param array            $args Attribute named arguments
@@ -236,7 +236,7 @@ class BuilderFactory
     }
 
     /**
-     * Normalizes an named argument list.
+     * Normalizes a named argument list.
      *
      * Creates Arg nodes with names for all arguments and converts literal values to expressions.
      *
