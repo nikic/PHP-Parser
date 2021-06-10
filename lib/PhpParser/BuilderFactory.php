@@ -13,6 +13,21 @@ use PhpParser\Node\Stmt\Use_;
 class BuilderFactory
 {
     /**
+     * Creates a attribute node.
+     *
+     * @param string|Name|Expr $name Name of the attribute
+     * @param array            $args Attribute named arguments
+     *
+     * @return Node\Attribute
+     */
+    public function attribute(string $name, array $args = []) : Node\Attribute {
+        return new Node\Attribute(
+            BuilderHelpers::normalizeNameOrExpr($name),
+            $this->namedArgs($args)
+        );
+    }
+
+    /**
      * Creates a namespace builder.
      *
      * @param null|string|Node\Name $name Name of the namespace
@@ -216,6 +231,27 @@ class BuilderFactory
             } else {
                 $normalizedArgs[] = new Arg(BuilderHelpers::normalizeValue($arg));
             }
+        }
+        return $normalizedArgs;
+    }
+
+    /**
+     * Normalizes an named argument list.
+     *
+     * Creates Arg nodes with names for all arguments and converts literal values to expressions.
+     *
+     * @param array $args List of arguments to normalize
+     *
+     * @return Arg[]
+     */
+    public function namedArgs(array $args) : array {
+        $normalizedArgs = [];
+        foreach ($args as $name => $arg) {
+            if (!($arg instanceof Arg)) {
+                $arg = new Arg(BuilderHelpers::normalizeValue($arg));
+            }
+            $arg->name = BuilderHelpers::normalizeIdentifier($name);
+            $normalizedArgs[] = $arg;
         }
         return $normalizedArgs;
     }
