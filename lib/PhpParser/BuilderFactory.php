@@ -15,12 +15,12 @@ class BuilderFactory
     /**
      * Creates an attribute node.
      *
-     * @param string|Name|Expr $name Name of the attribute
+     * @param string|Name $name Name of the attribute
      * @param array            $args Attribute named arguments
      *
      * @return Node\Attribute
      */
-    public function attribute(string $name, array $args = []) : Node\Attribute {
+    public function attribute($name, array $args = []) : Node\Attribute {
         return new Node\Attribute(
             BuilderHelpers::normalizeName($name),
             $this->namedArgs($args)
