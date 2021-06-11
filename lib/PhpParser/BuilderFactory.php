@@ -23,7 +23,7 @@ class BuilderFactory
     public function attribute($name, array $args = []) : Node\Attribute {
         return new Node\Attribute(
             BuilderHelpers::normalizeName($name),
-            $this->namedArgs($args)
+            $this->args($args)
         );
     }
 
@@ -225,32 +225,13 @@ class BuilderFactory
      */
     public function args(array $args) : array {
         $normalizedArgs = [];
-        foreach ($args as $arg) {
-            if ($arg instanceof Arg) {
-                $normalizedArgs[] = $arg;
-            } else {
-                $normalizedArgs[] = new Arg(BuilderHelpers::normalizeValue($arg));
-            }
-        }
-        return $normalizedArgs;
-    }
-
-    /**
-     * Normalizes a named argument list.
-     *
-     * Creates Arg nodes with names for all arguments and converts literal values to expressions.
-     *
-     * @param array $args List of arguments to normalize
-     *
-     * @return Arg[]
-     */
-    public function namedArgs(array $args) : array {
-        $normalizedArgs = [];
-        foreach ($args as $name => $arg) {
+        foreach ($args as $key => $arg) {
             if (!($arg instanceof Arg)) {
                 $arg = new Arg(BuilderHelpers::normalizeValue($arg));
             }
-            $arg->name = BuilderHelpers::normalizeIdentifier($name);
+            if (\is_string($key)) {
+                $arg->name = BuilderHelpers::normalizeIdentifier($key);
+            }
             $normalizedArgs[] = $arg;
         }
         return $normalizedArgs;

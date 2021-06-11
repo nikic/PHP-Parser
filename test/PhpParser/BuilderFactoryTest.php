@@ -115,7 +115,7 @@ class BuilderFactoryTest extends \PHPUnit\Framework\TestCase
                 new Arg(new String_('quux'), false, false, [], new Identifier('baz')),
                 $unpack
             ],
-            $factory->namedArgs(['baz' => 'quux', 'foo' => $unpack])
+            $factory->args(['baz' => 'quux', 'foo' => $unpack])
         );
     }
 
