@@ -6,6 +6,7 @@ namespace PhpParser\Builder;
 
 use PhpParser;
 use PhpParser\BuilderHelpers;
+use PhpParser\Node;
 use PhpParser\Node\Const_;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Stmt;
@@ -15,6 +16,9 @@ class ClassConst implements PhpParser\Builder
     protected $flags = 0;
     protected $attributes = [];
     protected $constants = [];
+
+    /** @var Node\AttributeGroup[] */
+    protected $attributeGroups = [];
 
     /**
      * Creates a class constant builder
@@ -89,6 +93,19 @@ class ClassConst implements PhpParser\Builder
     }
 
     /**
+     * Adds an attribute group to the constant.
+     *
+     * @param Node\AttributeGroup $attributeGroup
+     *
+     * @return $this The builder instance (for fluid interface)
+     */
+    public function addAttributeGroup(Node\AttributeGroup $attributeGroup) {
+        $this->attributeGroups[] = $attributeGroup;
+
+        return $this;
+    }
+
+    /**
      * Returns the built class node.
      *
      * @return Stmt\ClassConst The built constant node
@@ -97,7 +114,8 @@ class ClassConst implements PhpParser\Builder
         return new Stmt\ClassConst(
             $this->constants,
             $this->flags,
-            $this->attributes
+            $this->attributes,
+            $this->attributeGroups
         );
     }
 }
