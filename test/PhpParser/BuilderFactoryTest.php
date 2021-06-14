@@ -109,13 +109,12 @@ class BuilderFactoryTest extends \PHPUnit\Framework\TestCase
 
     public function testNamedArgs() {
         $factory = new BuilderFactory();
-        $unpack = new Arg(new Expr\Variable('bar'), false, true, [], new Identifier('foo'));
         $this->assertEquals(
             [
-                new Arg(new String_('quux'), false, false, [], new Identifier('baz')),
-                $unpack
+                new Arg(new String_('foo')),
+                new Arg(new String_('baz'), false, false, [], new Identifier('bar')),
             ],
-            $factory->args(['baz' => 'quux', 'foo' => $unpack])
+            $factory->args(['foo', 'bar' => 'baz'])
         );
     }
 

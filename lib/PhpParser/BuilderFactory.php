@@ -16,7 +16,7 @@ class BuilderFactory
      * Creates an attribute node.
      *
      * @param string|Name $name Name of the attribute
-     * @param array            $args Attribute named arguments
+     * @param array       $args Attribute named arguments
      *
      * @return Node\Attribute
      */
