@@ -3,6 +3,7 @@
 namespace PhpParser;
 
 use PhpParser\Node\Arg;
+use PhpParser\Node\Attribute;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\BinaryOp\Concat;
 use PhpParser\Node\Identifier;
@@ -39,6 +40,16 @@ class BuilderFactoryTest extends \PHPUnit\Framework\TestCase
     public function testFactoryClassConst() {
         $factory = new BuilderFactory;
         $this->assertInstanceOf(Builder\ClassConst::class, $factory->classConst('TEST',1));
+    }
+
+    public function testAttribute() {
+        $factory = new BuilderFactory();
+        $this->assertEquals(
+            new Attribute(new Name('AttributeName'), [new Arg(
+                new String_('bar'), false, false, [], new Identifier('foo')
+            )]),
+            $factory->attribute('AttributeName', ['foo' => 'bar'])
+        );
     }
 
     public function testVal() {
@@ -93,6 +104,17 @@ class BuilderFactoryTest extends \PHPUnit\Framework\TestCase
                 $unpack
             ],
             $factory->args([new Expr\Variable('a'), 'b', $unpack])
+        );
+    }
+
+    public function testNamedArgs() {
+        $factory = new BuilderFactory();
+        $this->assertEquals(
+            [
+                new Arg(new String_('foo')),
+                new Arg(new String_('baz'), false, false, [], new Identifier('bar')),
+            ],
+            $factory->args(['foo', 'bar' => 'baz'])
         );
     }
 
