@@ -38,7 +38,7 @@ class Function_ extends FunctionLike
     }
 
     /**
-     * Adds an attribute group to the constant.
+     * Adds an attribute group.
      *
      * @param Node\Attribute|Node\AttributeGroup $attribute
      *

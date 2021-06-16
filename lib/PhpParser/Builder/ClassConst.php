@@ -93,7 +93,7 @@ class ClassConst implements PhpParser\Builder
     }
 
     /**
-     * Adds an attribute group to the constant.
+     * Adds an attribute group.
      *
      * @param Node\Attribute|Node\AttributeGroup $attribute
      *
