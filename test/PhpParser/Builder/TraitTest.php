@@ -94,7 +94,7 @@ class TraitTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($properties, $trait->getProperties());
     }
 
-    public function testAddAttributeGroup() {
+    public function testAddAttribute() {
         $attribute = new Attribute(
             new Name('Attr'),
             [new Arg(new LNumber(1), false, false, [], new Identifier('name'))]
@@ -102,7 +102,7 @@ class TraitTest extends \PHPUnit\Framework\TestCase
         $attributeGroup = new AttributeGroup([$attribute]);
 
         $node = $this->createTraitBuilder('AttributeGroup')
-            ->addAttributeGroup($attributeGroup)
+            ->addAttribute($attributeGroup)
             ->getNode()
         ;
 
