@@ -131,7 +131,7 @@ class MethodTest extends \PHPUnit\Framework\TestCase
         ]), $node);
     }
 
-    public function testAddAttributeGroup() {
+    public function testAddAttribute() {
         $attribute = new Attribute(
             new Name('Attr'),
             [new Arg(new LNumber(1), false, false, [], new Identifier('name'))]
@@ -139,7 +139,7 @@ class MethodTest extends \PHPUnit\Framework\TestCase
         $attributeGroup = new AttributeGroup([$attribute]);
 
         $node = $this->createMethodBuilder('attributeGroup')
-            ->addAttributeGroup($attributeGroup)
+            ->addAttribute($attributeGroup)
             ->getNode();
 
         $this->assertEquals(new Stmt\ClassMethod('attributeGroup', [

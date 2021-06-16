@@ -40,12 +40,12 @@ class Function_ extends FunctionLike
     /**
      * Adds an attribute group to the constant.
      *
-     * @param Node\AttributeGroup $attributeGroup
+     * @param Node\Attribute|Node\AttributeGroup $attribute
      *
      * @return $this The builder instance (for fluid interface)
      */
-    public function addAttributeGroup(Node\AttributeGroup $attributeGroup) {
-        $this->attributeGroups[] = $attributeGroup;
+    public function addAttribute($attribute) {
+        $this->attributeGroups[] = BuilderHelpers::normalizeAttribute($attribute);
 
         return $this;
     }

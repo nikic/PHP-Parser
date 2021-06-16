@@ -96,7 +96,7 @@ class PropertyTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expectedValueNode, $node->props[0]->default);
     }
 
-    public function testAddAttributeGroup() {
+    public function testAddAttribute() {
         $attribute = new Attribute(
             new Name('Attr'),
             [new Arg(new LNumber(1), false, false, [], new Identifier('name'))]
@@ -104,7 +104,7 @@ class PropertyTest extends \PHPUnit\Framework\TestCase
         $attributeGroup = new AttributeGroup([$attribute]);
 
         $node = $this->createPropertyBuilder('test')
-            ->addAttributeGroup($attributeGroup)
+            ->addAttribute($attributeGroup)
             ->getNode()
         ;
 

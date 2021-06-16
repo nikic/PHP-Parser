@@ -127,7 +127,7 @@ DOC;
         );
     }
 
-    public function testAddAttributeGroup() {
+    public function testAddAttribute() {
         $attribute = new Attribute(
             new Name('Attr'),
             [new Arg(new LNumber(1), false, false, [], new Identifier('name'))]
@@ -135,7 +135,7 @@ DOC;
         $attributeGroup = new AttributeGroup([$attribute]);
 
         $class = $this->createClassBuilder('ATTR_GROUP')
-            ->addAttributeGroup($attributeGroup)
+            ->addAttribute($attributeGroup)
             ->getNode();
 
         $this->assertEquals(

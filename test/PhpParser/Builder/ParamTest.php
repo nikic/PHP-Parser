@@ -205,7 +205,7 @@ class ParamTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    public function testAddAttributeGroup() {
+    public function testAddAttribute() {
         $attribute = new Attribute(
             new Name('Attr'),
             [new Arg(new LNumber(1), false, false, [], new Identifier('name'))]
@@ -213,7 +213,7 @@ class ParamTest extends \PHPUnit\Framework\TestCase
         $attributeGroup = new AttributeGroup([$attribute]);
 
         $node = $this->createParamBuilder('attributeGroup')
-            ->addAttributeGroup($attributeGroup)
+            ->addAttribute($attributeGroup)
             ->getNode();
 
         $this->assertEquals(
