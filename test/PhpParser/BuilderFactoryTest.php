@@ -273,6 +273,7 @@ class BuilderFactoryTest extends \PHPUnit\Framework\TestCase
                 ->class('SomeClass')
                 ->extend('SomeOtherClass')
                 ->implement('A\Few', '\Interfaces')
+                ->addAttribute($factory->attribute('ClassAttribute', ['repository' => 'fqcn']))
                 ->makeAbstract()
 
                 ->addStmt($factory->useTrait('FirstTrait'))
@@ -283,7 +284,9 @@ class BuilderFactoryTest extends \PHPUnit\Framework\TestCase
                     ->with($factory->traitUseAdaptation('AnotherTrait', 'baz')->as('test'))
                     ->with($factory->traitUseAdaptation('AnotherTrait', 'func')->insteadof('SecondTrait')))
 
-                ->addStmt($factory->method('firstMethod'))
+                ->addStmt($factory->method('firstMethod')
+                    ->addAttribute($factory->attribute('Route', ['/index', 'name' => 'homepage']))
+                )
 
                 ->addStmt($factory->method('someMethod')
                     ->makePublic()
@@ -297,13 +300,24 @@ class BuilderFactoryTest extends \PHPUnit\Framework\TestCase
 
                 ->addStmt($factory->method('anotherMethod')
                     ->makeProtected()
-                    ->addParam($factory->param('someParam')->setDefault('test'))
+                    ->addParam($factory->param('someParam')
+                        ->setDefault('test')
+                        ->addAttribute($factory->attribute('TaggedIterator', ['app.handlers']))
+                    )
                     ->addStmt(new Expr\Print_(new Expr\Variable('someParam'))))
 
                 ->addStmt($factory->property('someProperty')->makeProtected())
                 ->addStmt($factory->property('anotherProperty')
                     ->makePrivate()
                     ->setDefault([1, 2, 3]))
+                ->addStmt($factory->property('integerProperty')
+                    ->setType('int')
+                    ->addAttribute($factory->attribute('Column', ['options' => ['unsigned' => true]]))
+                    ->setDefault(1))
+                ->addStmt($factory->classConst('CONST_WITH_ATTRIBUTE', 1)
+                    ->makePublic()
+                    ->addAttribute($factory->attribute('ConstAttribute'))
+                )
 
                 ->addStmt($factory->classConst("FIRST_CLASS_CONST", 1)
                     ->addConst("SECOND_CLASS_CONST",2)
@@ -320,6 +334,7 @@ use Foo\Bar\SomeOtherClass;
 use Foo\Bar as A;
 use function strlen;
 use const PHP_VERSION;
+#[ClassAttribute(repository: 'fqcn')]
 abstract class SomeClass extends SomeOtherClass implements A\Few, \Interfaces
 {
     use FirstTrait;
@@ -328,9 +343,14 @@ abstract class SomeClass extends SomeOtherClass implements A\Few, \Interfaces
         AnotherTrait::baz as test;
         AnotherTrait::func insteadof SecondTrait;
     }
+    #[ConstAttribute]
+    public const CONST_WITH_ATTRIBUTE = 1;
     private const FIRST_CLASS_CONST = 1, SECOND_CLASS_CONST = 2;
     protected $someProperty;
     private $anotherProperty = array(1, 2, 3);
+    #[Column(options: array('unsigned' => true))]
+    public int $integerProperty = 1;
+    #[Route('/index', name: 'homepage')]
     function firstMethod()
     {
     }
@@ -340,7 +360,7 @@ abstract class SomeClass extends SomeOtherClass implements A\Few, \Interfaces
      * @param SomeClass And takes a parameter
      */
     public abstract function someMethod(SomeClass $someParam);
-    protected function anotherMethod($someParam = 'test')
+    protected function anotherMethod(#[TaggedIterator('app.handlers')] $someParam = 'test')
     {
         print $someParam;
     }
