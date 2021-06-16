@@ -3,8 +3,12 @@
 namespace PhpParser\Builder;
 
 use PhpParser\Comment;
+use PhpParser\Node\Arg;
+use PhpParser\Node\Attribute;
+use PhpParser\Node\AttributeGroup;
 use PhpParser\Node\Const_;
 use PhpParser\Node\Expr;
+use PhpParser\Node\Identifier;
 use PhpParser\Node\Name;
 use PhpParser\Node\Scalar;
 use PhpParser\Node\Scalar\LNumber;
@@ -94,6 +98,30 @@ class ClassConstTest extends \PHPUnit\Framework\TestCase
                     new Const_("FIRST_TEST", new LNumber(1)),
                     new Const_("SECOND_TEST", new LNumber(2))
                 ]
+            ),
+            $node
+        );
+    }
+
+    public function testAddAttribute() {
+        $attribute = new Attribute(
+            new Name('Attr'),
+            [new Arg(new LNumber(1), false, false, [], new Identifier('name'))]
+        );
+        $attributeGroup = new AttributeGroup([$attribute]);
+
+        $node = $this->createClassConstBuilder('ATTR_GROUP', 1)
+            ->addAttribute($attributeGroup)
+            ->getNode();
+
+        $this->assertEquals(
+            new Stmt\ClassConst(
+                [
+                    new Const_("ATTR_GROUP", new LNumber(1) )
+                ],
+                0,
+                [],
+                [$attributeGroup]
             ),
             $node
         );

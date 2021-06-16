@@ -271,6 +271,26 @@ final class BuilderHelpers
     }
 
     /**
+     * Normalizes a attribute: Converts attribute to the Attribute Group if needed.
+     *
+     * @param Node\Attribute|Node\AttributeGroup $attribute
+     *
+     * @return Node\AttributeGroup The Attribute Group
+     */
+    public static function normalizeAttribute($attribute) : Node\AttributeGroup
+    {
+        if ($attribute instanceof Node\AttributeGroup) {
+            return $attribute;
+        }
+
+        if (!($attribute instanceof Node\Attribute)) {
+            throw new \LogicException('Attribute must be an instance of PhpParser\Node\Attribute or PhpParser\Node\AttributeGroup');
+        }
+
+        return new Node\AttributeGroup([$attribute]);
+    }
+
+    /**
      * Adds a modifier and returns new modifier bitmask.
      *
      * @param int $modifiers Existing modifiers

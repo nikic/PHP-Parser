@@ -3,8 +3,14 @@
 namespace PhpParser\Builder;
 
 use PhpParser\Node;
+use PhpParser\Node\Arg;
+use PhpParser\Node\Attribute;
+use PhpParser\Node\AttributeGroup;
 use PhpParser\Node\Expr;
+use PhpParser\Node\Identifier;
+use PhpParser\Node\Name;
 use PhpParser\Node\Scalar;
+use PhpParser\Node\Scalar\LNumber;
 
 class ParamTest extends \PHPUnit\Framework\TestCase
 {
@@ -195,6 +201,23 @@ class ParamTest extends \PHPUnit\Framework\TestCase
 
         $this->assertEquals(
             new Node\Param(new Expr\Variable('test'), null, null, false, true),
+            $node
+        );
+    }
+
+    public function testAddAttribute() {
+        $attribute = new Attribute(
+            new Name('Attr'),
+            [new Arg(new LNumber(1), false, false, [], new Identifier('name'))]
+        );
+        $attributeGroup = new AttributeGroup([$attribute]);
+
+        $node = $this->createParamBuilder('attributeGroup')
+            ->addAttribute($attributeGroup)
+            ->getNode();
+
+        $this->assertEquals(
+            new Node\Param(new Expr\Variable('attributeGroup'), null, null, false, false, [], 0, [$attributeGroup]),
             $node
         );
     }

@@ -4,7 +4,12 @@ namespace PhpParser\Builder;
 
 use PhpParser\Comment;
 use PhpParser\Node;
+use PhpParser\Node\Arg;
+use PhpParser\Node\Attribute;
+use PhpParser\Node\AttributeGroup;
+use PhpParser\Node\Identifier;
 use PhpParser\Node\Name;
+use PhpParser\Node\Scalar\LNumber;
 use PhpParser\Node\Stmt;
 
 class ClassTest extends \PHPUnit\Framework\TestCase
@@ -118,6 +123,27 @@ DOC;
                     new Comment\Doc($docComment)
                 ]
             ]),
+            $class
+        );
+    }
+
+    public function testAddAttribute() {
+        $attribute = new Attribute(
+            new Name('Attr'),
+            [new Arg(new LNumber(1), false, false, [], new Identifier('name'))]
+        );
+        $attributeGroup = new AttributeGroup([$attribute]);
+
+        $class = $this->createClassBuilder('ATTR_GROUP')
+            ->addAttribute($attributeGroup)
+            ->getNode();
+
+        $this->assertEquals(
+            new Stmt\Class_('ATTR_GROUP', [
+                'attrGroups' => [
+                    $attributeGroup,
+                ]
+            ], []),
             $class
         );
     }

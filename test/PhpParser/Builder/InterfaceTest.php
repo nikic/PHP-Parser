@@ -4,7 +4,13 @@ namespace PhpParser\Builder;
 
 use PhpParser\Comment;
 use PhpParser\Node;
+use PhpParser\Node\Arg;
+use PhpParser\Node\Attribute;
+use PhpParser\Node\AttributeGroup;
+use PhpParser\Node\Identifier;
+use PhpParser\Node\Name;
 use PhpParser\Node\Scalar\DNumber;
+use PhpParser\Node\Scalar\LNumber;
 use PhpParser\Node\Stmt;
 
 class InterfaceTest extends \PHPUnit\Framework\TestCase
@@ -74,6 +80,22 @@ class InterfaceTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(new Stmt\Interface_('Contract', [], [
             'comments' => [new Comment\Doc('/** Test */')]
         ]), $node);
+    }
+
+    public function testAddAttribute() {
+        $attribute = new Attribute(
+            new Name('Attr'),
+            [new Arg(new LNumber(1), false, false, [], new Identifier('name'))]
+        );
+        $attributeGroup = new AttributeGroup([$attribute]);
+
+        $node = $this->createInterfaceBuilder()
+            ->addAttribute($attributeGroup)
+            ->getNode();
+
+        $this->assertEquals(new Stmt\Interface_('Contract', [
+            'attrGroups' => [$attributeGroup],
+        ], []), $node);
     }
 
     public function testInvalidStmtError() {
