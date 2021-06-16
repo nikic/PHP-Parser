@@ -16,7 +16,7 @@ class BuilderHelpersTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($attributeGroup, BuilderHelpers::normalizeAttribute($attributeGroup));
 
         $this->expectException(\LogicException::class);
-        $this->expectExceptionMessage('Attribute must be an instance of PhpParser\Comment\Attribute or PhpParser\Comment\AttributeGroup');
+        $this->expectExceptionMessage('Attribute must be an instance of PhpParser\Node\Attribute or PhpParser\Node\AttributeGroup');
         BuilderHelpers::normalizeAttribute('test');
     }
 }

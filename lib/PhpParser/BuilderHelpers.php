@@ -284,7 +284,7 @@ final class BuilderHelpers
         }
 
         if (!($attribute instanceof Node\Attribute)) {
-            throw new \LogicException('Attribute must be an instance of PhpParser\Comment\Attribute or PhpParser\Comment\AttributeGroup');
+            throw new \LogicException('Attribute must be an instance of PhpParser\Node\Attribute or PhpParser\Node\AttributeGroup');
         }
 
         return new Node\AttributeGroup([$attribute]);
