@@ -27,7 +27,9 @@ final class BuilderHelpers
     public static function normalizeNode($node) : Node {
         if ($node instanceof Builder) {
             return $node->getNode();
-        } elseif ($node instanceof Node) {
+        }
+
+        if ($node instanceof Node) {
             return $node;
         }
 
@@ -127,18 +129,22 @@ final class BuilderHelpers
     private static function normalizeNameCommon($name, bool $allowExpr) {
         if ($name instanceof Name) {
             return $name;
-        } elseif (is_string($name)) {
+        }
+
+        if (is_string($name)) {
             if (!$name) {
                 throw new \LogicException('Name cannot be empty');
             }
 
             if ($name[0] === '\\') {
                 return new Name\FullyQualified(substr($name, 1));
-            } elseif (0 === strpos($name, 'namespace\\')) {
-                return new Name\Relative(substr($name, strlen('namespace\\')));
-            } else {
-                return new Name($name);
             }
+
+            if (0 === strpos($name, 'namespace\\')) {
+                return new Name\Relative(substr($name, strlen('namespace\\')));
+            }
+
+            return new Name($name);
         }
 
         if ($allowExpr) {
@@ -148,9 +154,9 @@ final class BuilderHelpers
             throw new \LogicException(
                 'Name must be a string or an instance of Node\Name or Node\Expr'
             );
-        } else {
-            throw new \LogicException('Name must be a string or an instance of Node\Name');
         }
+
+        throw new \LogicException('Name must be a string or an instance of Node\Name');
     }
 
     /**
@@ -215,21 +221,33 @@ final class BuilderHelpers
     public static function normalizeValue($value) : Expr {
         if ($value instanceof Node\Expr) {
             return $value;
-        } elseif (is_null($value)) {
+        }
+
+        if (is_null($value)) {
             return new Expr\ConstFetch(
                 new Name('null')
             );
-        } elseif (is_bool($value)) {
+        }
+
+        if (is_bool($value)) {
             return new Expr\ConstFetch(
                 new Name($value ? 'true' : 'false')
             );
-        } elseif (is_int($value)) {
+        }
+
+        if (is_int($value)) {
             return new Scalar\LNumber($value);
-        } elseif (is_float($value)) {
+        }
+
+        if (is_float($value)) {
             return new Scalar\DNumber($value);
-        } elseif (is_string($value)) {
+        }
+
+        if (is_string($value)) {
             return new Scalar\String_($value);
-        } elseif (is_array($value)) {
+        }
+
+        if (is_array($value)) {
             $items = [];
             $lastKey = -1;
             foreach ($value as $itemKey => $itemValue) {
@@ -248,9 +266,9 @@ final class BuilderHelpers
             }
 
             return new Expr\Array_($items);
-        } else {
-            throw new \LogicException('Invalid value');
         }
+
+        throw new \LogicException('Invalid value');
     }
 
     /**
@@ -263,11 +281,13 @@ final class BuilderHelpers
     public static function normalizeDocComment($docComment) : Comment\Doc {
         if ($docComment instanceof Comment\Doc) {
             return $docComment;
-        } elseif (is_string($docComment)) {
-            return new Comment\Doc($docComment);
-        } else {
-            throw new \LogicException('Doc comment must be a string or an instance of PhpParser\Comment\Doc');
         }
+
+        if (is_string($docComment)) {
+            return new Comment\Doc($docComment);
+        }
+
+        throw new \LogicException('Doc comment must be a string or an instance of PhpParser\Comment\Doc');
     }
 
     /**
