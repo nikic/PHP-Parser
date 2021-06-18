@@ -286,6 +286,7 @@ class BuilderFactoryTest extends \PHPUnit\Framework\TestCase
 
                 ->addStmt($factory->method('firstMethod')
                     ->addAttribute($factory->attribute('Route', ['/index', 'name' => 'homepage']))
+                    ->setReturnType(BuilderHelpers::normalizeType('int|string'))
                 )
 
                 ->addStmt($factory->method('someMethod')
@@ -351,7 +352,7 @@ abstract class SomeClass extends SomeOtherClass implements A\Few, \Interfaces
     #[Column(options: array('unsigned' => true))]
     public int $integerProperty = 1;
     #[Route('/index', name: 'homepage')]
-    function firstMethod()
+    function firstMethod() : int|string
     {
     }
     /**
