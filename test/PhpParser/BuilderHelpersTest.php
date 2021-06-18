@@ -127,6 +127,10 @@ class BuilderHelpersTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(new Node\Identifier('object'), BuilderHelpers::normalizeType('object'));
         $this->assertEquals(new Node\Identifier('mixed'), BuilderHelpers::normalizeType('mixed'));
         $this->assertEquals(new Node\Identifier('never'), BuilderHelpers::normalizeType('never'));
+        $this->assertEquals(
+            new Node\UnionType([new Node\Identifier('int'), new Node\Identifier('string')]),
+            BuilderHelpers::normalizeType('int|string')
+        );
 
         $intIdentifier = new Node\Identifier('int');
         $this->assertSame($intIdentifier, BuilderHelpers::normalizeType($intIdentifier));
@@ -166,6 +170,30 @@ class BuilderHelpersTest extends \PHPUnit\Framework\TestCase
         $this->expectException(\LogicException::class);
         $this->expectExceptionMessage('never type cannot be nullable');
         BuilderHelpers::normalizeType('?never');
+    }
+
+    public function testNormalizeTypeNullableInUnion() {
+        $this->expectException(\LogicException::class);
+        $this->expectExceptionMessage('Union type should not contain nullable type, use null instead');
+        BuilderHelpers::normalizeType('string|?int');
+    }
+
+    public function testNormalizeTypeVoidStandalone() {
+        $this->expectException(\LogicException::class);
+        $this->expectExceptionMessage('void can be only used as standalone type');
+        BuilderHelpers::normalizeType('void|int');
+    }
+
+    public function testNormalizeTypeMixedStandalone() {
+        $this->expectException(\LogicException::class);
+        $this->expectExceptionMessage('mixed can be only used as standalone type');
+        BuilderHelpers::normalizeType('mixed|int');
+    }
+
+    public function testNormalizeTypeNeverStandalone() {
+        $this->expectException(\LogicException::class);
+        $this->expectExceptionMessage('mixed can be only used as standalone type');
+        BuilderHelpers::normalizeType('never|int');
     }
 
     public function testNormalizeValue() {
