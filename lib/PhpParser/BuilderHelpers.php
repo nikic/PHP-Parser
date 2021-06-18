@@ -166,11 +166,10 @@ final class BuilderHelpers
      * are wrapped in NullableType nodes.
      *
      * @param string|Name|Identifier|NullableType|UnionType $type The type to normalize
-     * @param bool                                          $isFromUnionType Is normalization for the union type?
      *
      * @return Name|Identifier|NullableType|UnionType The normalized type
      */
-    public static function normalizeType($type, $isFromUnionType = false) {
+    public static function normalizeType($type) {
         if (!is_string($type)) {
             if (
                 !$type instanceof Name && !$type instanceof Identifier &&
@@ -184,21 +183,11 @@ final class BuilderHelpers
         }
 
         if (strpos($type, '|') !== false) {
-            $types = [];
-            $separatedTypes = explode('|', $type);
-            foreach ($separatedTypes as $separatedType) {
-                $types[] = self::normalizeType($separatedType, true);
-            }
-
-            return new UnionType($types);
+            return self::normalizeUnionType($type);
         }
 
         $nullable = false;
         if (strlen($type) > 0 && $type[0] === '?') {
-            if ($isFromUnionType) {
-                throw new \LogicException('Union type should not contain nullable type, use null instead');
-            }
-
             $nullable = true;
             $type = substr($type, 1);
         }
@@ -221,14 +210,37 @@ final class BuilderHelpers
             throw new \LogicException(sprintf('%s type cannot be nullable', $type));
         }
 
+        return $nullable ? new NullableType($type) : $type;
+    }
+
+    /**
+     * Takes care of normalization of Union Type
+     *
+     * @param string $type The type to normalize
+     *
+     * @return UnionType The normalized type
+     */
+    private static function normalizeUnionType(string $type): Node\UnionType {
+        $types = [];
+
+        if (strpos($type, '?') !== false) {
+            throw new \LogicException('Union type should not contain nullable type, use null instead');
+        }
+
         $standaloneTypes = [
             'void', 'mixed', 'never',
         ];
-        if ($isFromUnionType && in_array((string) $type, $standaloneTypes)) {
-            throw new \LogicException(sprintf('%s can be only used as standalone type', $type));
+
+        $separatedTypes = explode('|', $type);
+        foreach ($separatedTypes as $separatedType) {
+            if (in_array($separatedType, $standaloneTypes, true)) {
+                throw new \LogicException(sprintf('%s can be only used as standalone type', $separatedType));
+            }
+
+            $types[] = self::normalizeType($separatedType);
         }
 
-        return $nullable ? new NullableType($type) : $type;
+        return new Node\UnionType($types);
     }
 
     /**
