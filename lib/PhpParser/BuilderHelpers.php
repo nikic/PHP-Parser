@@ -189,7 +189,7 @@ final class BuilderHelpers
         }
 
         $builtinTypes = [
-            'array', 'callable', 'string', 'int', 'float', 'bool', 'iterable', 'void', 'object', 'mixed'
+            'array', 'callable', 'string', 'int', 'float', 'bool', 'iterable', 'void', 'object', 'mixed', 'never',
         ];
 
         $lowerType = strtolower($type);
@@ -199,12 +199,11 @@ final class BuilderHelpers
             $type = self::normalizeName($type);
         }
 
-        if ($nullable && (string) $type === 'void') {
-            throw new \LogicException('void type cannot be nullable');
-        }
-
-        if ($nullable && (string) $type === 'mixed') {
-            throw new \LogicException('mixed type cannot be nullable');
+        $notNullableTypes = [
+            'void', 'mixed', 'never',
+        ];
+        if ($nullable && in_array((string) $type, $notNullableTypes)) {
+            throw new \LogicException(sprintf('%s type cannot be nullable', $type));
         }
 
         return $nullable ? new NullableType($type) : $type;
