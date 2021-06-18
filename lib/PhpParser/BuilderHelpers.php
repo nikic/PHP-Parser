@@ -182,10 +182,6 @@ final class BuilderHelpers
             return $type;
         }
 
-        if (strpos($type, '|') !== false) {
-            return self::normalizeUnionType($type);
-        }
-
         $nullable = false;
         if (strlen($type) > 0 && $type[0] === '?') {
             $nullable = true;
@@ -211,36 +207,6 @@ final class BuilderHelpers
         }
 
         return $nullable ? new NullableType($type) : $type;
-    }
-
-    /**
-     * Takes care of normalization of Union Type
-     *
-     * @param string $type The type to normalize
-     *
-     * @return UnionType The normalized type
-     */
-    private static function normalizeUnionType(string $type): Node\UnionType {
-        $types = [];
-
-        if (strpos($type, '?') !== false) {
-            throw new \LogicException('Union type should not contain nullable type, use null instead');
-        }
-
-        $standaloneTypes = [
-            'void', 'mixed', 'never',
-        ];
-
-        $separatedTypes = explode('|', $type);
-        foreach ($separatedTypes as $separatedType) {
-            if (in_array($separatedType, $standaloneTypes, true)) {
-                throw new \LogicException(sprintf('%s can be only used as standalone type', $separatedType));
-            }
-
-            $types[] = self::normalizeType($separatedType);
-        }
-
-        return new Node\UnionType($types);
     }
 
     /**
