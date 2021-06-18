@@ -126,6 +126,7 @@ class BuilderHelpersTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(new Node\Identifier('void'), BuilderHelpers::normalizeType('void'));
         $this->assertEquals(new Node\Identifier('object'), BuilderHelpers::normalizeType('object'));
         $this->assertEquals(new Node\Identifier('mixed'), BuilderHelpers::normalizeType('mixed'));
+        $this->assertEquals(new Node\Identifier('never'), BuilderHelpers::normalizeType('never'));
 
         $intIdentifier = new Node\Identifier('int');
         $this->assertSame($intIdentifier, BuilderHelpers::normalizeType($intIdentifier));
@@ -159,6 +160,12 @@ class BuilderHelpersTest extends \PHPUnit\Framework\TestCase
         $this->expectException(\LogicException::class);
         $this->expectExceptionMessage('mixed type cannot be nullable');
         BuilderHelpers::normalizeType('?mixed');
+    }
+
+    public function testNormalizeTypeNullableNever() {
+        $this->expectException(\LogicException::class);
+        $this->expectExceptionMessage('never type cannot be nullable');
+        BuilderHelpers::normalizeType('?never');
     }
 
     public function testNormalizeValue() {
