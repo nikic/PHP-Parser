@@ -192,7 +192,7 @@ class BuilderHelpersTest extends \PHPUnit\Framework\TestCase
 
     public function testNormalizeTypeNeverStandalone() {
         $this->expectException(\LogicException::class);
-        $this->expectExceptionMessage('mixed can be only used as standalone type');
+        $this->expectExceptionMessage('never can be only used as standalone type');
         BuilderHelpers::normalizeType('never|int');
     }
 
