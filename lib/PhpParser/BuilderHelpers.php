@@ -104,29 +104,6 @@ final class BuilderHelpers
      * @return Name The normalized name
      */
     public static function normalizeName($name) : Name {
-        return self::normalizeNameCommon($name, false);
-    }
-
-    /**
-     * Normalizes a name: Converts string names to Name nodes, while also allowing expressions.
-     *
-     * @param Expr|Name|string $name The name to normalize
-     *
-     * @return Name|Expr The normalized name or expression
-     */
-    public static function normalizeNameOrExpr($name) {
-        return self::normalizeNameCommon($name, true);
-    }
-
-    /**
-     * Normalizes a name: Converts string names to Name nodes, optionally allowing expressions.
-     *
-     * @param Expr|Name|string $name      The name to normalize
-     * @param bool             $allowExpr Whether to also allow expressions
-     *
-     * @return Name|Expr The normalized name, or expression (if allowed)
-     */
-    private static function normalizeNameCommon($name, bool $allowExpr) {
         if ($name instanceof Name) {
             return $name;
         }
@@ -147,16 +124,28 @@ final class BuilderHelpers
             return new Name($name);
         }
 
-        if ($allowExpr) {
-            if ($name instanceof Expr) {
-                return $name;
-            }
+        throw new \LogicException('Name must be a string or an instance of Node\Name');
+    }
+
+    /**
+     * Normalizes a name: Converts string names to Name nodes, while also allowing expressions.
+     *
+     * @param Expr|Name|string $name The name to normalize
+     *
+     * @return Name|Expr The normalized name or expression
+     */
+    public static function normalizeNameOrExpr($name) {
+        if ($name instanceof Expr) {
+            return $name;
+        }
+
+        if (!is_string($name) && !($name instanceof Name)) {
             throw new \LogicException(
                 'Name must be a string or an instance of Node\Name or Node\Expr'
             );
         }
 
-        throw new \LogicException('Name must be a string or an instance of Node\Name');
+        return self::normalizeName($name);
     }
 
     /**
