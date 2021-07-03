@@ -28,12 +28,12 @@ enum A implements B
     {
     }
 }
-enum B
+enum B : int
 {
     case X = 1;
     case Y = 2;
 }
-enum C implements D
+enum C : string implements D
 {
     case Z = 'A';
 }
