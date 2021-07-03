@@ -730,6 +730,7 @@ class Standard extends PrettyPrinterAbstract
     protected function pStmt_Enum(Stmt\Enum_ $node) {
         return $this->pAttrGroups($node->attrGroups)
              . 'enum ' . $node->name
+             . ($node->scalarType ? " : $node->scalarType" : '')
              . (!empty($node->implements) ? ' implements ' . $this->pCommaSeparated($node->implements) : '')
              . $this->nl . '{' . $this->pStmts($node->stmts) . $this->nl . '}';
     }
