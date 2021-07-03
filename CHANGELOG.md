@@ -1,7 +1,23 @@
-Version 4.10.6-dev
+Version 4.11.1-dev
 ------------------
 
 Nothing yet.
+
+Version 4.11.0 (2021-07-03)
+---------------------------
+
+### Added
+
+* `BuilderFactory::args()` now accepts named arguments.
+* `BuilderFactory::attribute()` has been added.
+* An `addAttribute()` method accepting an `Attribute` or `AttributeGroup` has been adde to all
+  builders that accept attributes, such as `Builder\Class_`.
+
+### Fixed
+
+* `NameResolver` now handles enums.
+* `PrettyPrinter` now prints backing enum type.
+* Builder methods for types now property handle `never` type.
 
 Version 4.10.5 (2021-05-03)
 ---------------------------
