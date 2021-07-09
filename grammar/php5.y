@@ -20,6 +20,11 @@ top_statement_list:
             if ($nop !== null) { $1[] = $nop; } $$ = $1; }
 ;
 
+ampersand:
+      T_AMPERSAND_FOLLOWED_BY_VAR_OR_VARARG
+    | T_AMPERSAND_NOT_FOLLOWED_BY_VAR_OR_VARARG
+;
+
 reserved_non_modifiers:
       T_INCLUDE | T_INCLUDE_ONCE | T_EVAL | T_REQUIRE | T_REQUIRE_ONCE | T_LOGICAL_OR | T_LOGICAL_XOR | T_LOGICAL_AND
     | T_INSTANCEOF | T_NEW | T_CLONE | T_EXIT | T_IF | T_ELSEIF | T_ELSE | T_ENDIF | T_ECHO | T_DO | T_WHILE
@@ -246,7 +251,12 @@ variables_list:
 
 optional_ref:
       /* empty */                                           { $$ = false; }
-    | '&'                                                   { $$ = true; }
+    | ampersand                                             { $$ = true; }
+;
+
+optional_arg_ref:
+      /* empty */                                           { $$ = false; }
+    | T_AMPERSAND_FOLLOWED_BY_VAR_OR_VARARG                 { $$ = true; }
 ;
 
 optional_ellipsis:
@@ -378,7 +388,7 @@ new_else_single:
 
 foreach_variable:
       variable                                              { $$ = array($1, false); }
-    | '&' variable                                          { $$ = array($2, true); }
+    | ampersand variable                                    { $$ = array($2, true); }
     | list_expr                                             { $$ = array($1, false); }
 ;
 
@@ -393,9 +403,9 @@ non_empty_parameter_list:
 ;
 
 parameter:
-      optional_param_type optional_ref optional_ellipsis plain_variable
+      optional_param_type optional_arg_ref optional_ellipsis plain_variable
           { $$ = Node\Param[$4, null, $1, $2, $3]; $this->checkParam($$); }
-    | optional_param_type optional_ref optional_ellipsis plain_variable '=' static_scalar
+    | optional_param_type optional_arg_ref optional_ellipsis plain_variable '=' static_scalar
           { $$ = Node\Param[$4, $6, $1, $2, $3]; $this->checkParam($$); }
 ;
 
@@ -428,7 +438,7 @@ non_empty_argument_list:
 
 argument:
       expr                                                  { $$ = Node\Arg[$1, false, false]; }
-    | '&' variable                                          { $$ = Node\Arg[$2, true, false]; }
+    | ampersand variable                                    { $$ = Node\Arg[$2, true, false]; }
     | T_ELLIPSIS expr                                       { $$ = Node\Arg[$2, false, true]; }
 ;
 
@@ -562,8 +572,8 @@ expr:
       variable                                              { $$ = $1; }
     | list_expr '=' expr                                    { $$ = Expr\Assign[$1, $3]; }
     | variable '=' expr                                     { $$ = Expr\Assign[$1, $3]; }
-    | variable '=' '&' variable                             { $$ = Expr\AssignRef[$1, $4]; }
-    | variable '=' '&' new_expr                             { $$ = Expr\AssignRef[$1, $4]; }
+    | variable '=' ampersand variable                       { $$ = Expr\AssignRef[$1, $4]; }
+    | variable '=' ampersand new_expr                       { $$ = Expr\AssignRef[$1, $4]; }
     | new_expr                                              { $$ = $1; }
     | T_CLONE expr                                          { $$ = Expr\Clone_[$2]; }
     | variable T_PLUS_EQUAL expr                            { $$ = Expr\AssignOp\Plus      [$1, $3]; }
@@ -589,7 +599,8 @@ expr:
     | expr T_LOGICAL_AND expr                               { $$ = Expr\BinaryOp\LogicalAnd[$1, $3]; }
     | expr T_LOGICAL_XOR expr                               { $$ = Expr\BinaryOp\LogicalXor[$1, $3]; }
     | expr '|' expr                                         { $$ = Expr\BinaryOp\BitwiseOr [$1, $3]; }
-    | expr '&' expr                                         { $$ = Expr\BinaryOp\BitwiseAnd[$1, $3]; }
+    | expr T_AMPERSAND_NOT_FOLLOWED_BY_VAR_OR_VARARG expr   { $$ = Expr\BinaryOp\BitwiseAnd[$1, $3]; }
+    | expr T_AMPERSAND_FOLLOWED_BY_VAR_OR_VARARG expr       { $$ = Expr\BinaryOp\BitwiseAnd[$1, $3]; }
     | expr '^' expr                                         { $$ = Expr\BinaryOp\BitwiseXor[$1, $3]; }
     | expr '.' expr                                         { $$ = Expr\BinaryOp\Concat    [$1, $3]; }
     | expr '+' expr                                         { $$ = Expr\BinaryOp\Plus      [$1, $3]; }
@@ -816,7 +827,10 @@ static_operation:
     | static_scalar T_LOGICAL_AND static_scalar             { $$ = Expr\BinaryOp\LogicalAnd[$1, $3]; }
     | static_scalar T_LOGICAL_XOR static_scalar             { $$ = Expr\BinaryOp\LogicalXor[$1, $3]; }
     | static_scalar '|' static_scalar                       { $$ = Expr\BinaryOp\BitwiseOr [$1, $3]; }
-    | static_scalar '&' static_scalar                       { $$ = Expr\BinaryOp\BitwiseAnd[$1, $3]; }
+    | static_scalar T_AMPERSAND_NOT_FOLLOWED_BY_VAR_OR_VARARG static_scalar
+          { $$ = Expr\BinaryOp\BitwiseAnd[$1, $3]; }
+    | static_scalar T_AMPERSAND_FOLLOWED_BY_VAR_OR_VARARG static_scalar
+          { $$ = Expr\BinaryOp\BitwiseAnd[$1, $3]; }
     | static_scalar '^' static_scalar                       { $$ = Expr\BinaryOp\BitwiseXor[$1, $3]; }
     | static_scalar '.' static_scalar                       { $$ = Expr\BinaryOp\Concat    [$1, $3]; }
     | static_scalar '+' static_scalar                       { $$ = Expr\BinaryOp\Plus      [$1, $3]; }
@@ -986,8 +1000,8 @@ non_empty_array_pair_list:
 array_pair:
       expr T_DOUBLE_ARROW expr                              { $$ = Expr\ArrayItem[$3, $1,   false]; }
     | expr                                                  { $$ = Expr\ArrayItem[$1, null, false]; }
-    | expr T_DOUBLE_ARROW '&' variable                      { $$ = Expr\ArrayItem[$4, $1,   true]; }
-    | '&' variable                                          { $$ = Expr\ArrayItem[$2, null, true]; }
+    | expr T_DOUBLE_ARROW ampersand variable                { $$ = Expr\ArrayItem[$4, $1,   true]; }
+    | ampersand variable                                    { $$ = Expr\ArrayItem[$2, null, true]; }
     | T_ELLIPSIS expr                                       { $$ = Expr\ArrayItem[$2, null, false, attributes(), true]; }
 ;
 

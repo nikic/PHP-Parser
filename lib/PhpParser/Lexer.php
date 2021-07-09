@@ -134,10 +134,11 @@ class Lexer
         // detected by finding "gaps" in the token array. Unterminated comments are detected
         // by checking if a trailing comment has a "*/" at the end.
         //
-        // Additionally, we canonicalize to the PHP 8 comment format here, which does not include
-        // the trailing whitespace anymore.
-        //
-        // We also canonicalize to the PHP 8 T_NAME_* tokens.
+        // Additionally, we perform a number of canonicalizations here:
+        //  * Use the PHP 8.0 comment format, which does not include trailing whitespace anymore.
+        //  * Use PHP 8.0 T_NAME_* tokens.
+        //  * Use PHP 8.1 T_AMPERSAND_NOT_FOLLOWED_BY_VAR_OR_VARARG and
+        //    T_AMPERSAND_FOLLOWED_BY_VAR_OR_VARARG tokens used to disambiguate intersection types.
 
         $filePos = 0;
         $line = 1;
@@ -206,6 +207,22 @@ class Lexer
                     array_splice($this->tokens, $i, $j - $i, [$token]);
                     $numTokens -= $j - $i - 1;
                 }
+            }
+
+            if ($token === '&') {
+                $next = $i + 1;
+                while (isset($this->tokens[$next]) && $this->tokens[$next][0] === \T_WHITESPACE) {
+                    $next++;
+                }
+                $followedByVarOrVarArg = isset($this->tokens[$next]) &&
+                    ($this->tokens[$next][0] === \T_VARIABLE || $this->tokens[$next][0] === \T_ELLIPSIS);
+                $this->tokens[$i] = $token = [
+                    $followedByVarOrVarArg
+                        ? \T_AMPERSAND_FOLLOWED_BY_VAR_OR_VARARG
+                        : \T_AMPERSAND_NOT_FOLLOWED_BY_VAR_OR_VARARG,
+                    '&',
+                    $line,
+                ];
             }
 
             $tokenValue = \is_string($token) ? $token : $token[1];
@@ -424,6 +441,8 @@ class Lexer
             'T_ATTRIBUTE',
             // PHP 8.1
             'T_ENUM',
+            'T_AMPERSAND_NOT_FOLLOWED_BY_VAR_OR_VARARG',
+            'T_AMPERSAND_FOLLOWED_BY_VAR_OR_VARARG',
         ];
 
         // PHP-Parser might be used together with another library that also emulates some or all
@@ -514,6 +533,8 @@ class Lexer
         $tokenMap[\T_MATCH] = Tokens::T_MATCH;
         $tokenMap[\T_NULLSAFE_OBJECT_OPERATOR] = Tokens::T_NULLSAFE_OBJECT_OPERATOR;
         $tokenMap[\T_ATTRIBUTE] = Tokens::T_ATTRIBUTE;
+        $tokenMap[\T_AMPERSAND_NOT_FOLLOWED_BY_VAR_OR_VARARG] = Tokens::T_AMPERSAND_NOT_FOLLOWED_BY_VAR_OR_VARARG;
+        $tokenMap[\T_AMPERSAND_FOLLOWED_BY_VAR_OR_VARARG] = Tokens::T_AMPERSAND_FOLLOWED_BY_VAR_OR_VARARG;
         $tokenMap[\T_ENUM] = Tokens::T_ENUM;
 
         return $tokenMap;

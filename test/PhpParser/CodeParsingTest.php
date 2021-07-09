@@ -107,8 +107,11 @@ class CodeParsingTest extends CodeTestAbstract
                     $endFilePos < $startFilePos ||
                     $endTokenPos < $startTokenPos
                 ) {
-                    // Nops and error can have inverted order, if they are empty
-                    if (!$node instanceof Stmt\Nop && !$node instanceof Expr\Error) {
+                    // Nop and Error can have inverted order, if they are empty.
+                    // This can also happen for a Param containing an Error.
+                    if (!$node instanceof Stmt\Nop && !$node instanceof Expr\Error &&
+                        !$node instanceof Node\Param
+                    ) {
                         throw new \Exception('End < start on ' . $node->getType());
                     }
                 }
