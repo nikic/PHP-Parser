@@ -210,6 +210,13 @@ class PrettyPrinterTest extends CodeTestAbstract
         $prettyPrinter->prettyPrintExpr($expr);
     }
 
+    public function testPrettyPrintEscapedString() {
+        $expr = new Node\Scalar\Escaped_("Y-m-d\TH:i:sP"); // DATE_ATOM
+        $prettyPrinter = new PrettyPrinter\Standard;
+
+        $this->assertEquals('Y-m-d\TH:i:sP',  $prettyPrinter->prettyPrintExpr($expr));
+    }
+
     /**
      * @dataProvider provideTestFormatPreservingPrint
      * @covers \PhpParser\PrettyPrinter\Standard<extended>
