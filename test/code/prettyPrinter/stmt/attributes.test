@@ -55,7 +55,7 @@ trait T
 }
 $x = #[A10] function () {
 };
-$y = #[A11] fn() => 0;
+$y = #[A11] fn() => (0);
 new #[A13] class
 {
 };

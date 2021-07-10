@@ -151,7 +151,7 @@ new #[A] class
 };
 #[A] function () {
 };
-#[A] fn() => 42;
+#[A] fn() => (42);
 -----
 <?php
 

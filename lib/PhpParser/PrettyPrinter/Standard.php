@@ -638,7 +638,7 @@ class Standard extends PrettyPrinterAbstract
             . '(' . $this->pCommaSeparated($node->params) . ')'
             . (null !== $node->returnType ? ': ' . $this->p($node->returnType) : '')
             . ' => '
-            . $this->p($node->expr);
+            . $this->pDereferenceLhs($node->expr);
     }
 
     protected function pExpr_ClosureUse(Expr\ClosureUse $node) {
@@ -1060,8 +1060,11 @@ class Standard extends PrettyPrinterAbstract
     }
 
     protected function pNewVariable(Node $node) {
-        // TODO: This is not fully accurate.
-        return $this->pDereferenceLhs($node);
+        if (!$node instanceof Scalar\String_) {
+            return $this->pDereferenceLhs($node);
+        } else {
+            return '(' . $this->p($node) . ')';
+        }
     }
 
     /**
