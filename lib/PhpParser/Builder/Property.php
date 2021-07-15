@@ -78,6 +78,17 @@ class Property implements PhpParser\Builder
     }
 
     /**
+     * Makes the property readonly.
+     *
+     * @return $this The builder instance (for fluid interface)
+     */
+    public function makeReadonly() {
+        $this->flags = BuilderHelpers::addModifier($this->flags, Stmt\Class_::MODIFIER_READONLY);
+
+        return $this;
+    }
+
+    /**
      * Sets default value for the property.
      *
      * @param mixed $value Default value to use
