@@ -65,6 +65,21 @@ class ClassConstTest extends \PHPUnit\Framework\TestCase
             ),
             $node
         );
+
+        $node = $this->createClassConstBuilder("TEST", 1)
+            ->makeFinal()
+            ->getNode()
+        ;
+
+        $this->assertEquals(
+            new Stmt\ClassConst(
+                [
+                    new Const_("TEST", new LNumber(1) )
+                ],
+                Stmt\Class_::MODIFIER_FINAL
+            ),
+            $node
+        );
     }
 
     public function testDocComment() {

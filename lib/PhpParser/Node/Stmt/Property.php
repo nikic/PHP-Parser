@@ -77,6 +77,15 @@ class Property extends Node\Stmt
         return (bool) ($this->flags & Class_::MODIFIER_STATIC);
     }
 
+    /**
+     * Whether the property is readonly.
+     *
+     * @return bool
+     */
+    public function isReadonly() : bool {
+        return (bool) ($this->flags & Class_::MODIFIER_READONLY);
+    }
+
     public function getType() : string {
         return 'Stmt_Property';
     }

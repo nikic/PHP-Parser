@@ -78,6 +78,17 @@ class ClassConst implements PhpParser\Builder
     }
 
     /**
+     * Makes the constant final.
+     *
+     * @return $this The builder instance (for fluid interface)
+     */
+    public function makeFinal() {
+        $this->flags = BuilderHelpers::addModifier($this->flags, Stmt\Class_::MODIFIER_FINAL);
+
+        return $this;
+    }
+
+    /**
      * Sets doc comment for the constant.
      *
      * @param PhpParser\Comment\Doc|string $docComment Doc comment to set

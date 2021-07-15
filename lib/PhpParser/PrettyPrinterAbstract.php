@@ -1074,7 +1074,8 @@ abstract class PrettyPrinterAbstract
              . ($modifiers & Stmt\Class_::MODIFIER_PRIVATE   ? 'private '   : '')
              . ($modifiers & Stmt\Class_::MODIFIER_STATIC    ? 'static '    : '')
              . ($modifiers & Stmt\Class_::MODIFIER_ABSTRACT  ? 'abstract '  : '')
-             . ($modifiers & Stmt\Class_::MODIFIER_FINAL     ? 'final '     : '');
+             . ($modifiers & Stmt\Class_::MODIFIER_FINAL     ? 'final '     : '')
+             . ($modifiers & Stmt\Class_::MODIFIER_READONLY  ? 'readonly '  : '');
     }
 
     /**

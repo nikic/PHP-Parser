@@ -66,6 +66,21 @@ class PropertyTest extends \PHPUnit\Framework\TestCase
             ),
             $node
         );
+
+        $node = $this->createPropertyBuilder('test')
+            ->makeReadonly()
+            ->getNode()
+        ;
+
+        $this->assertEquals(
+            new Stmt\Property(
+                Stmt\Class_::MODIFIER_READONLY,
+                [
+                    new Stmt\PropertyProperty('test')
+                ]
+            ),
+            $node
+        );
     }
 
     public function testDocComment() {
