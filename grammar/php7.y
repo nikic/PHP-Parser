@@ -38,7 +38,7 @@ reserved_non_modifiers:
 
 semi_reserved:
       reserved_non_modifiers
-    | T_STATIC | T_ABSTRACT | T_FINAL | T_PRIVATE | T_PROTECTED | T_PUBLIC
+    | T_STATIC | T_ABSTRACT | T_FINAL | T_PRIVATE | T_PROTECTED | T_PUBLIC | T_READONLY
 ;
 
 identifier_ex:
@@ -535,6 +535,7 @@ optional_visibility_modifier:
     | T_PUBLIC                  { $$ = Stmt\Class_::MODIFIER_PUBLIC; }
     | T_PROTECTED               { $$ = Stmt\Class_::MODIFIER_PROTECTED; }
     | T_PRIVATE                 { $$ = Stmt\Class_::MODIFIER_PRIVATE; }
+    | T_READONLY                { $$ = Stmt\Class_::MODIFIER_READONLY; }
 ;
 
 parameter:
@@ -725,6 +726,7 @@ member_modifier:
     | T_STATIC                                              { $$ = Stmt\Class_::MODIFIER_STATIC; }
     | T_ABSTRACT                                            { $$ = Stmt\Class_::MODIFIER_ABSTRACT; }
     | T_FINAL                                               { $$ = Stmt\Class_::MODIFIER_FINAL; }
+    | T_READONLY                                            { $$ = Stmt\Class_::MODIFIER_READONLY; }
 ;
 
 property_declaration_list:
