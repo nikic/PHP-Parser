@@ -82,7 +82,7 @@ class A {
 }
 -----
 !!php7
-Cannot use 'readonly' as constant modifier from 3:5 to 3:13
+Cannot use 'readonly' as constant modifier from 3:5 to 3:12
 array(
     0: Stmt_Class(
         attrGroups: array(

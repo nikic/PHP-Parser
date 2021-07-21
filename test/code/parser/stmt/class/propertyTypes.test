@@ -77,7 +77,7 @@ array(
             3: Stmt_Property(
                 attrGroups: array(
                 )
-                flags: MODIFIER_READONLY | MODIFIER_STATIC | MODIFIER_PUBLIC (73)
+                flags: MODIFIER_PUBLIC | MODIFIER_STATIC | MODIFIER_READONLY (73)
                 type: NullableType(
                     type: Identifier(
                         name: int
