@@ -1,7 +1,21 @@
-Version 4.11.1-dev
+Version 4.12.1-dev
 ------------------
 
 Nothing yet.
+
+Version 4.12.0 (2021-07-21)
+---------------------------
+
+### Added
+
+* [PHP 8.1] Added support for readonly properties (through a new `MODIFIER_READONLY`).
+* [PHP 8.1] Added support for final class constants.
+
+### Fixed
+
+* Fixed compatibility with PHP 8.1. `&` tokens are now canonicalized to the
+  `T_AMPERSAND_FOLLOWED_BY_VAR_OR_VARARG` and `T_AMPERSAND_NOT_FOLLOWED_BY_VAR_OR_VARARG` tokens
+  used in PHP 8.1. This happens unconditionally, regardless of whether the emulative lexer is used.
 
 Version 4.11.0 (2021-07-03)
 ---------------------------
