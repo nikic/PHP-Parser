@@ -50,7 +50,7 @@ jobs:
           php-version: "${{ matrix.php-version }}"
           tools: composer:v2
       - name: "Install dependencies"
-        run: "composer update --no-progress --prefer-dist"
+        run: "composer update --no-progress --prefer-dist --ignore-platform-req=php"
       - name: "PHPUnit"
         run: "php vendor/bin/phpunit"
   test_old_73_80:
