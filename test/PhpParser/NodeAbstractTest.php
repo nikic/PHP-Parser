@@ -334,6 +334,133 @@ PHP;
     }
 ]
 JSON;
+        $expected81 = <<<'JSON'
+[
+    {
+        "nodeType": "Stmt_Function",
+        "attributes": {
+            "startLine": 4,
+            "comments": [
+                {
+                    "nodeType": "Comment",
+                    "text": "\/\/ comment",
+                    "line": 2,
+                    "filePos": 6,
+                    "tokenPos": 1,
+                    "endLine": 2,
+                    "endFilePos": 15,
+                    "endTokenPos": 1
+                },
+                {
+                    "nodeType": "Comment_Doc",
+                    "text": "\/** doc comment *\/",
+                    "line": 3,
+                    "filePos": 17,
+                    "tokenPos": 3,
+                    "endLine": 3,
+                    "endFilePos": 34,
+                    "endTokenPos": 3
+                }
+            ],
+            "endLine": 6
+        },
+        "byRef": false,
+        "name": {
+            "nodeType": "Identifier",
+            "attributes": {
+                "startLine": 4,
+                "endLine": 4
+            },
+            "name": "functionName"
+        },
+        "params": [
+            {
+                "nodeType": "Param",
+                "attributes": {
+                    "startLine": 4,
+                    "endLine": 4
+                },
+                "type": null,
+                "byRef": true,
+                "variadic": false,
+                "var": {
+                    "nodeType": "Expr_Variable",
+                    "attributes": {
+                        "startLine": 4,
+                        "endLine": 4
+                    },
+                    "name": "a"
+                },
+                "default": {
+                    "nodeType": "Scalar_LNumber",
+                    "attributes": {
+                        "startLine": 4,
+                        "endLine": 4,
+                        "kind": 10
+                    },
+                    "value": 0
+                },
+                "flags": 0,
+                "attrGroups": []
+            },
+            {
+                "nodeType": "Param",
+                "attributes": {
+                    "startLine": 4,
+                    "endLine": 4
+                },
+                "type": null,
+                "byRef": false,
+                "variadic": false,
+                "var": {
+                    "nodeType": "Expr_Variable",
+                    "attributes": {
+                        "startLine": 4,
+                        "endLine": 4
+                    },
+                    "name": "b"
+                },
+                "default": {
+                    "nodeType": "Scalar_DNumber",
+                    "attributes": {
+                        "startLine": 4,
+                        "endLine": 4
+                    },
+                    "value": 1
+                },
+                "flags": 0,
+                "attrGroups": []
+            }
+        ],
+        "returnType": null,
+        "stmts": [
+            {
+                "nodeType": "Stmt_Echo",
+                "attributes": {
+                    "startLine": 5,
+                    "endLine": 5
+                },
+                "exprs": [
+                    {
+                        "nodeType": "Scalar_String",
+                        "attributes": {
+                            "startLine": 5,
+                            "endLine": 5,
+                            "kind": 1
+                        },
+                        "value": "Foo"
+                    }
+                ]
+            }
+        ],
+        "attrGroups": []
+    }
+]
+JSON;
+
+        if (version_compare(PHP_VERSION, '8.1', '>=')) {
+            $expected = $expected81;
+        }
 
         $parser = new Parser\Php7(new Lexer());
         $stmts = $parser->parse(canonicalize($code));
