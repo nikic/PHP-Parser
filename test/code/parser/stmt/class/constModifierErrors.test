@@ -78,11 +78,11 @@ array(
 -----
 <?php
 class A {
-    final const X = 1;
+    readonly const X = 1;
 }
 -----
 !!php7
-Cannot use 'final' as constant modifier from 3:5 to 3:9
+Cannot use 'readonly' as constant modifier from 3:5 to 3:12
 array(
     0: Stmt_Class(
         attrGroups: array(
@@ -98,7 +98,7 @@ array(
             0: Stmt_ClassConst(
                 attrGroups: array(
                 )
-                flags: MODIFIER_FINAL (32)
+                flags: MODIFIER_READONLY (64)
                 consts: array(
                     0: Const(
                         name: Identifier(

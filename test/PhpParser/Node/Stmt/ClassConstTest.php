@@ -22,6 +22,7 @@ class ClassConstTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($node->isPublic());
         $this->assertFalse($node->isProtected());
         $this->assertFalse($node->isPrivate());
+        $this->assertFalse($node->isFinal());
     }
 
     public function provideModifiers() {
@@ -29,6 +30,7 @@ class ClassConstTest extends \PHPUnit\Framework\TestCase
             ['public'],
             ['protected'],
             ['private'],
+            ['final'],
         ];
     }
 }

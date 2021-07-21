@@ -7,6 +7,7 @@ class Foo {
     public const B = 2;
     protected const C = 3;
     private const D = 4;
+    final const E = 5;
 }
 -----
 !!php7
@@ -78,6 +79,21 @@ array(
                         )
                         value: Scalar_LNumber(
                             value: 4
+                        )
+                    )
+                )
+            )
+            4: Stmt_ClassConst(
+                attrGroups: array(
+                )
+                flags: MODIFIER_FINAL (32)
+                consts: array(
+                    0: Const(
+                        name: Identifier(
+                            name: E
+                        )
+                        value: Scalar_LNumber(
+                            value: 5
                         )
                     )
                 )

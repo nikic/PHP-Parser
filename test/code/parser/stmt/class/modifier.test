@@ -66,6 +66,40 @@ array(
     )
 )
 -----
+<?php class A { readonly readonly $a; }
+-----
+!!php7
+Multiple readonly modifiers are not allowed from 1:26 to 1:33
+array(
+    0: Stmt_Class(
+        attrGroups: array(
+        )
+        flags: 0
+        name: Identifier(
+            name: A
+        )
+        extends: null
+        implements: array(
+        )
+        stmts: array(
+            0: Stmt_Property(
+                attrGroups: array(
+                )
+                flags: MODIFIER_READONLY (64)
+                type: null
+                props: array(
+                    0: Stmt_PropertyProperty(
+                        name: VarLikeIdentifier(
+                            name: a
+                        )
+                        default: null
+                    )
+                )
+            )
+        )
+    )
+)
+-----
 <?php class A { abstract abstract function a(); }
 -----
 Multiple abstract modifiers are not allowed from 1:26 to 1:33
@@ -205,6 +239,31 @@ array(
         attrGroups: array(
         )
         flags: MODIFIER_FINAL (32)
+        name: Identifier(
+            name: A
+        )
+        extends: null
+        implements: array(
+        )
+        stmts: array(
+        )
+    )
+    1: Stmt_Nop(
+        comments: array(
+            0: // Type in the partial parse could conceivably be any of 0, 16 or 32
+        )
+    )
+)
+-----
+<?php readonly class A { }
+// Type in the partial parse could conceivably be any of 0, 16 or 32
+-----
+Syntax error, unexpected T_READONLY from 1:7 to 1:14
+array(
+    0: Stmt_Class(
+        attrGroups: array(
+        )
+        flags: 0
         name: Identifier(
             name: A
         )

@@ -6,6 +6,7 @@ class A {
     public string $a;
     protected static D $b;
     private ?float $c;
+    readonly static public ?int $d;
 }
 -----
 !!php7
@@ -68,6 +69,24 @@ array(
                     0: Stmt_PropertyProperty(
                         name: VarLikeIdentifier(
                             name: c
+                        )
+                        default: null
+                    )
+                )
+            )
+            3: Stmt_Property(
+                attrGroups: array(
+                )
+                flags: MODIFIER_PUBLIC | MODIFIER_STATIC | MODIFIER_READONLY (73)
+                type: NullableType(
+                    type: Identifier(
+                        name: int
+                    )
+                )
+                props: array(
+                    0: Stmt_PropertyProperty(
+                        name: VarLikeIdentifier(
+                            name: d
                         )
                         default: null
                     )

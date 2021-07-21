@@ -1,0 +1,35 @@
+Methods cannot be readonly
+-----
+<?php class A { readonly function foo() {} }
+-----
+!!php7
+Method foo() cannot be readonly from 1:17 to 1:24
+array(
+    0: Stmt_Class(
+        attrGroups: array(
+        )
+        flags: 0
+        name: Identifier(
+            name: A
+        )
+        extends: null
+        implements: array(
+        )
+        stmts: array(
+            0: Stmt_ClassMethod(
+                attrGroups: array(
+                )
+                flags: MODIFIER_READONLY (64)
+                byRef: false
+                name: Identifier(
+                    name: foo
+                )
+                params: array(
+                )
+                returnType: null
+                stmts: array(
+                )
+            )
+        )
+    )
+)
