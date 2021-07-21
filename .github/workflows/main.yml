@@ -40,6 +40,9 @@ jobs:
           - "7.4"
           - "8.0"
           - "8.1"
+        include:
+          - php-version: "8.1"
+            flags: "--ignore-platform-req=php"
     steps:
       - name: "Checkout"
         uses: "actions/checkout@v2"
@@ -50,7 +53,7 @@ jobs:
           php-version: "${{ matrix.php-version }}"
           tools: composer:v2
       - name: "Install dependencies"
-        run: "composer update --no-progress --prefer-dist --ignore-platform-req=php"
+        run: "composer update --no-progress --prefer-dist ${{ matrix.flags }}"
       - name: "PHPUnit"
         run: "php vendor/bin/phpunit"
   test_old_73_80:
