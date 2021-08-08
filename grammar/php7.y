@@ -530,24 +530,29 @@ non_empty_parameter_list:
     | non_empty_parameter_list ',' parameter                { push($1, $3); }
 ;
 
-optional_visibility_modifier:
+optional_property_modifiers:
       /* empty */               { $$ = 0; }
-    | T_PUBLIC                  { $$ = Stmt\Class_::MODIFIER_PUBLIC; }
+    | optional_property_modifiers property_modifier
+          { $this->checkModifier($1, $2, #2); $$ = $1 | $2; }
+;
+
+property_modifier:
+      T_PUBLIC                  { $$ = Stmt\Class_::MODIFIER_PUBLIC; }
     | T_PROTECTED               { $$ = Stmt\Class_::MODIFIER_PROTECTED; }
     | T_PRIVATE                 { $$ = Stmt\Class_::MODIFIER_PRIVATE; }
     | T_READONLY                { $$ = Stmt\Class_::MODIFIER_READONLY; }
 ;
 
 parameter:
-      optional_attributes optional_visibility_modifier optional_type_without_static
+      optional_attributes optional_property_modifiers optional_type_without_static
       optional_arg_ref optional_ellipsis plain_variable
           { $$ = new Node\Param($6, null, $3, $4, $5, attributes(), $2, $1);
             $this->checkParam($$); }
-    | optional_attributes optional_visibility_modifier optional_type_without_static
+    | optional_attributes optional_property_modifiers optional_type_without_static
       optional_arg_ref optional_ellipsis plain_variable '=' expr
           { $$ = new Node\Param($6, $8, $3, $4, $5, attributes(), $2, $1);
             $this->checkParam($$); }
-    | optional_attributes optional_visibility_modifier optional_type_without_static
+    | optional_attributes optional_property_modifiers optional_type_without_static
       optional_arg_ref optional_ellipsis error
           { $$ = new Node\Param(Expr\Error[], null, $3, $4, $5, attributes(), $2, $1); }
 ;

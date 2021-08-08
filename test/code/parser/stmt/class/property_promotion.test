@@ -6,7 +6,8 @@ class Point {
     public function __construct(
         public float $x = 0.0,
         protected array $y = [],
-        private string $z = 'hello'
+        private string $z = 'hello',
+        public readonly int $a = 0,
     ) {}
 }
 -----
@@ -79,6 +80,22 @@ array(
                         )
                         default: Scalar_String(
                             value: hello
+                        )
+                    )
+                    3: Param(
+                        attrGroups: array(
+                        )
+                        flags: MODIFIER_PUBLIC | MODIFIER_READONLY (65)
+                        type: Identifier(
+                            name: int
+                        )
+                        byRef: false
+                        variadic: false
+                        var: Expr_Variable(
+                            name: a
+                        )
+                        default: Scalar_LNumber(
+                            value: 0
                         )
                     )
                 )
