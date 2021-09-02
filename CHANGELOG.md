@@ -1,7 +1,9 @@
 Version 4.12.1-dev
 ------------------
 
-Nothing yet.
+### Added
+
+* [PHP 8.1] Added support for intersection types using a new `IntersectionType` node.
 
 Version 4.12.0 (2021-07-21)
 ---------------------------

@@ -1,0 +1,18 @@
+Union types
+-----
+<?php
+
+class Test {
+    public A&B $prop;
+}
+
+function test(A&B $a): A&B {}
+-----
+!!php7
+class Test
+{
+    public A&B $prop;
+}
+function test(A&B $a) : A&B
+{
+}

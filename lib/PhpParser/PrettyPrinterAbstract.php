@@ -1343,6 +1343,7 @@ abstract class PrettyPrinterAbstract
             //'Scalar_Encapsed->parts' => '',
             'Stmt_Catch->types' => '|',
             'UnionType->types' => '|',
+            'IntersectionType->types' => '&',
             'Stmt_If->elseifs' => ' ',
             'Stmt_TryCatch->catches' => ' ',
 

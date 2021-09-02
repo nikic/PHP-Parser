@@ -1,0 +1,104 @@
+Union types
+-----
+<?php
+
+class Test {
+    public A&B $prop;
+}
+
+function test(A&B $a): A&B {}
+-----
+!!php7
+array(
+    0: Stmt_Class(
+        attrGroups: array(
+        )
+        flags: 0
+        name: Identifier(
+            name: Test
+        )
+        extends: null
+        implements: array(
+        )
+        stmts: array(
+            0: Stmt_Property(
+                attrGroups: array(
+                )
+                flags: MODIFIER_PUBLIC (1)
+                type: IntersectionType(
+                    types: array(
+                        0: Name(
+                            parts: array(
+                                0: A
+                            )
+                        )
+                        1: Name(
+                            parts: array(
+                                0: B
+                            )
+                        )
+                    )
+                )
+                props: array(
+                    0: Stmt_PropertyProperty(
+                        name: VarLikeIdentifier(
+                            name: prop
+                        )
+                        default: null
+                    )
+                )
+            )
+        )
+    )
+    1: Stmt_Function(
+        attrGroups: array(
+        )
+        byRef: false
+        name: Identifier(
+            name: test
+        )
+        params: array(
+            0: Param(
+                attrGroups: array(
+                )
+                flags: 0
+                type: IntersectionType(
+                    types: array(
+                        0: Name(
+                            parts: array(
+                                0: A
+                            )
+                        )
+                        1: Name(
+                            parts: array(
+                                0: B
+                            )
+                        )
+                    )
+                )
+                byRef: false
+                variadic: false
+                var: Expr_Variable(
+                    name: a
+                )
+                default: null
+            )
+        )
+        returnType: IntersectionType(
+            types: array(
+                0: Name(
+                    parts: array(
+                        0: A
+                    )
+                )
+                1: Name(
+                    parts: array(
+                        0: B
+                    )
+                )
+            )
+        )
+        stmts: array(
+        )
+    )
+)

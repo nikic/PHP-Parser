@@ -45,6 +45,10 @@ class Standard extends PrettyPrinterAbstract
         return $this->pImplode($node->types, '|');
     }
 
+    protected function pIntersectionType(Node\IntersectionType $node) {
+        return $this->pImplode($node->types, '&');
+    }
+
     protected function pIdentifier(Node\Identifier $node) {
         return $node->name;
     }

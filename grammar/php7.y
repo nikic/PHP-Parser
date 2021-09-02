@@ -561,6 +561,7 @@ type_expr:
       type                                                  { $$ = $1; }
     | '?' type                                              { $$ = Node\NullableType[$2]; }
     | union_type                                            { $$ = Node\UnionType[$1]; }
+    | intersection_type                                     { $$ = Node\IntersectionType[$1]; }
 ;
 
 type:
@@ -584,10 +585,24 @@ union_type_without_static:
     | union_type_without_static '|' type_without_static     { push($1, $3); }
 ;
 
+intersection_type:
+      type T_AMPERSAND_NOT_FOLLOWED_BY_VAR_OR_VARARG type   { init($1, $3); }
+    | intersection_type T_AMPERSAND_NOT_FOLLOWED_BY_VAR_OR_VARARG type
+          { push($1, $3); }
+;
+
+intersection_type_without_static:
+      type_without_static T_AMPERSAND_NOT_FOLLOWED_BY_VAR_OR_VARARG type_without_static
+          { init($1, $3); }
+    | intersection_type_without_static T_AMPERSAND_NOT_FOLLOWED_BY_VAR_OR_VARARG type_without_static
+          { push($1, $3); }
+;
+
 type_expr_without_static:
       type_without_static                                   { $$ = $1; }
     | '?' type_without_static                               { $$ = Node\NullableType[$2]; }
     | union_type_without_static                             { $$ = Node\UnionType[$1]; }
+    | intersection_type_without_static                      { $$ = Node\IntersectionType[$1]; }
 ;
 
 optional_type_without_static:

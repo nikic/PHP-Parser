@@ -204,6 +204,7 @@ class A extends B implements C, D {
 interface A extends C, D {
     public function a(A $a) : A;
     public function b(A|B|int $a): A|B|int;
+    public function c(A&B $a): A&B;
 }
 
 #[X]
@@ -268,6 +269,7 @@ interface A extends \NS\C, \NS\D
 {
     public function a(\NS\A $a) : \NS\A;
     public function b(\NS\A|\NS\B|int $a) : \NS\A|\NS\B|int;
+    public function c(\NS\A&\NS\B $a) : \NS\A&\NS\B;
 }
 #[\NS\X]
 enum E : int

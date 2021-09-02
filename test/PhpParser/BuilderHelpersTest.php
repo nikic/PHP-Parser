@@ -140,6 +140,9 @@ class BuilderHelpersTest extends \PHPUnit\Framework\TestCase
         $unionType = new Node\UnionType([new Node\Identifier('int'), new Node\Identifier('string')]);
         $this->assertSame($unionType, BuilderHelpers::normalizeType($unionType));
 
+        $intersectionType = new Node\IntersectionType([new Node\Name('A'), new Node\Name('B')]);
+        $this->assertSame($intersectionType, BuilderHelpers::normalizeType($intersectionType));
+
         $expectedNullable = new Node\NullableType($intIdentifier);
         $nullable = BuilderHelpers::normalizeType('?int');
         $this->assertEquals($expectedNullable, $nullable);
