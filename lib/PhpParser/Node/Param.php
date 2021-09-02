@@ -6,7 +6,7 @@ use PhpParser\NodeAbstract;
 
 class Param extends NodeAbstract
 {
-    /** @var null|Identifier|Name|NullableType|UnionType Type declaration */
+    /** @var null|Identifier|Name|ComplexType Type declaration */
     public $type;
     /** @var bool Whether parameter is passed by reference */
     public $byRef;
@@ -24,14 +24,14 @@ class Param extends NodeAbstract
     /**
      * Constructs a parameter node.
      *
-     * @param Expr\Variable|Expr\Error                           $var        Parameter variable
-     * @param null|Expr                                          $default    Default value
-     * @param null|string|Identifier|Name|NullableType|UnionType $type       Type declaration
-     * @param bool                                               $byRef      Whether is passed by reference
-     * @param bool                                               $variadic   Whether this is a variadic argument
-     * @param array                                              $attributes Additional attributes
-     * @param int                                                $flags      Optional visibility flags
-     * @param AttributeGroup[]                                   $attrGroups PHP attribute groups
+     * @param Expr\Variable|Expr\Error                $var        Parameter variable
+     * @param null|Expr                               $default    Default value
+     * @param null|string|Identifier|Name|ComplexType $type       Type declaration
+     * @param bool                                    $byRef      Whether is passed by reference
+     * @param bool                                    $variadic   Whether this is a variadic argument
+     * @param array                                   $attributes Additional attributes
+     * @param int                                     $flags      Optional visibility flags
+     * @param AttributeGroup[]                        $attrGroups PHP attribute groups
      */
     public function __construct(
         $var, Expr $default = null, $type = null,

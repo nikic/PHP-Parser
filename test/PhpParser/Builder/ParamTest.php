@@ -177,7 +177,7 @@ class ParamTest extends \PHPUnit\Framework\TestCase
 
     public function testInvalidTypeError() {
         $this->expectException(\LogicException::class);
-        $this->expectExceptionMessage('Type must be a string, or an instance of Name, Identifier, NullableType or UnionType');
+        $this->expectExceptionMessage('Type must be a string, or an instance of Name, Identifier or ComplexType');
         $this->createParamBuilder('test')->setType(new \stdClass);
     }
 

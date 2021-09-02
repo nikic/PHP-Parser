@@ -146,7 +146,7 @@ class BuilderHelpersTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($intIdentifier, $nullable->type);
 
         $this->expectException(\LogicException::class);
-        $this->expectExceptionMessage('Type must be a string, or an instance of Name, Identifier, NullableType or UnionType');
+        $this->expectExceptionMessage('Type must be a string, or an instance of Name, Identifier or ComplexType');
         BuilderHelpers::normalizeType(1);
     }
 
