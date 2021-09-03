@@ -23,6 +23,7 @@ class ExplicitOctalEmulator extends TokenEmulator {
                 array_splice($tokens, $i, 2, [
                     [$tokenKind, '0' . $tokens[$i + 1][1], $tokens[$i][2]],
                 ]);
+                $c--;
             }
         }
         return $tokens;
