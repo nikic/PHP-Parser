@@ -1,0 +1,131 @@
+First-class callables
+-----
+<?php
+foo(...);
+$this->foo(...);
+A::foo(...);
+
+// These are invalid, but accepted on the parser level.
+new Foo(...);
+
+#[Foo(...)]
+function foo() {}
+-----
+!!php7
+array(
+    0: Stmt_Expression(
+        expr: Expr_FuncCall(
+            name: Name(
+                parts: array(
+                    0: foo
+                )
+            )
+            args: array(
+                0: Arg(
+                    name: null
+                    value: Expr_VariadicPlaceholder(
+                    )
+                    byRef: false
+                    unpack: false
+                )
+            )
+        )
+    )
+    1: Stmt_Expression(
+        expr: Expr_MethodCall(
+            var: Expr_Variable(
+                name: this
+            )
+            name: Identifier(
+                name: foo
+            )
+            args: array(
+                0: Arg(
+                    name: null
+                    value: Expr_VariadicPlaceholder(
+                    )
+                    byRef: false
+                    unpack: false
+                )
+            )
+        )
+    )
+    2: Stmt_Expression(
+        expr: Expr_StaticCall(
+            class: Name(
+                parts: array(
+                    0: A
+                )
+            )
+            name: Identifier(
+                name: foo
+            )
+            args: array(
+                0: Arg(
+                    name: null
+                    value: Expr_VariadicPlaceholder(
+                    )
+                    byRef: false
+                    unpack: false
+                )
+            )
+        )
+    )
+    3: Stmt_Expression(
+        expr: Expr_New(
+            class: Name(
+                parts: array(
+                    0: Foo
+                )
+            )
+            args: array(
+                0: Arg(
+                    name: null
+                    value: Expr_VariadicPlaceholder(
+                    )
+                    byRef: false
+                    unpack: false
+                )
+            )
+            comments: array(
+                0: // These are invalid, but accepted on the parser level.
+            )
+        )
+        comments: array(
+            0: // These are invalid, but accepted on the parser level.
+        )
+    )
+    4: Stmt_Function(
+        attrGroups: array(
+            0: AttributeGroup(
+                attrs: array(
+                    0: Attribute(
+                        name: Name(
+                            parts: array(
+                                0: Foo
+                            )
+                        )
+                        args: array(
+                            0: Arg(
+                                name: null
+                                value: Expr_VariadicPlaceholder(
+                                )
+                                byRef: false
+                                unpack: false
+                            )
+                        )
+                    )
+                )
+            )
+        )
+        byRef: false
+        name: Identifier(
+            name: foo
+        )
+        params: array(
+        )
+        returnType: null
+        stmts: array(
+        )
+    )
+)

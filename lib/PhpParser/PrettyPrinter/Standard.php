@@ -692,6 +692,10 @@ class Standard extends PrettyPrinterAbstract
         }
     }
 
+    protected function pExpr_VariadicPlaceholder(Expr\VariadicPlaceholder $node) {
+        return '...';
+    }
+
     // Declarations
 
     protected function pStmt_Namespace(Stmt\Namespace_ $node) {

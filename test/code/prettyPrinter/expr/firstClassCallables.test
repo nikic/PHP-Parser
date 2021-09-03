@@ -1,0 +1,11 @@
+First-class callables
+-----
+<?php
+foo(...);
+$this->foo(...);
+A::foo(...);
+-----
+!!php7
+foo(...);
+$this->foo(...);
+A::foo(...);

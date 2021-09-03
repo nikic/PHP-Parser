@@ -619,6 +619,12 @@ optional_return_type:
 argument_list:
       '(' ')'                                               { $$ = array(); }
     | '(' non_empty_argument_list optional_comma ')'        { $$ = $2; }
+    | '(' variadic_placeholder ')'                          { init($2); }
+;
+
+variadic_placeholder:
+      T_ELLIPSIS
+          { $$ = Node\Arg[Node\VariadicPlaceholder[], false, false]; }
 ;
 
 non_empty_argument_list:
