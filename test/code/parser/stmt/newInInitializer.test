@@ -1,0 +1,171 @@
+New in initializers
+-----
+<?php
+
+const C = new Foo;
+
+function a($x = new Foo) {
+    static $y = new Foo;
+}
+
+#[Attr(new Foo)]
+class Bar {
+    const C = new Foo;
+    public $prop = new Foo;
+}
+-----
+!!php7
+array(
+    0: Stmt_Const(
+        consts: array(
+            0: Const(
+                name: Identifier(
+                    name: C
+                )
+                value: Expr_New(
+                    class: Name(
+                        parts: array(
+                            0: Foo
+                        )
+                    )
+                    args: array(
+                    )
+                )
+            )
+        )
+    )
+    1: Stmt_Function(
+        attrGroups: array(
+        )
+        byRef: false
+        name: Identifier(
+            name: a
+        )
+        params: array(
+            0: Param(
+                attrGroups: array(
+                )
+                flags: 0
+                type: null
+                byRef: false
+                variadic: false
+                var: Expr_Variable(
+                    name: x
+                )
+                default: Expr_New(
+                    class: Name(
+                        parts: array(
+                            0: Foo
+                        )
+                    )
+                    args: array(
+                    )
+                )
+            )
+        )
+        returnType: null
+        stmts: array(
+            0: Stmt_Static(
+                vars: array(
+                    0: Stmt_StaticVar(
+                        var: Expr_Variable(
+                            name: y
+                        )
+                        default: Expr_New(
+                            class: Name(
+                                parts: array(
+                                    0: Foo
+                                )
+                            )
+                            args: array(
+                            )
+                        )
+                    )
+                )
+            )
+        )
+    )
+    2: Stmt_Class(
+        attrGroups: array(
+            0: AttributeGroup(
+                attrs: array(
+                    0: Attribute(
+                        name: Name(
+                            parts: array(
+                                0: Attr
+                            )
+                        )
+                        args: array(
+                            0: Arg(
+                                name: null
+                                value: Expr_New(
+                                    class: Name(
+                                        parts: array(
+                                            0: Foo
+                                        )
+                                    )
+                                    args: array(
+                                    )
+                                )
+                                byRef: false
+                                unpack: false
+                            )
+                        )
+                    )
+                )
+            )
+        )
+        flags: 0
+        name: Identifier(
+            name: Bar
+        )
+        extends: null
+        implements: array(
+        )
+        stmts: array(
+            0: Stmt_ClassConst(
+                attrGroups: array(
+                )
+                flags: 0
+                consts: array(
+                    0: Const(
+                        name: Identifier(
+                            name: C
+                        )
+                        value: Expr_New(
+                            class: Name(
+                                parts: array(
+                                    0: Foo
+                                )
+                            )
+                            args: array(
+                            )
+                        )
+                    )
+                )
+            )
+            1: Stmt_Property(
+                attrGroups: array(
+                )
+                flags: MODIFIER_PUBLIC (1)
+                type: null
+                props: array(
+                    0: Stmt_PropertyProperty(
+                        name: VarLikeIdentifier(
+                            name: prop
+                        )
+                        default: Expr_New(
+                            class: Name(
+                                parts: array(
+                                    0: Foo
+                                )
+                            )
+                            args: array(
+                            )
+                        )
+                    )
+                )
+            )
+        )
+    )
+)
