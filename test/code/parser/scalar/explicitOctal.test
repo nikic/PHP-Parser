@@ -1,0 +1,30 @@
+Explicit octal syntax
+-----
+<?php
+0o123;
+0O123;
+0o1_2_3;
+0o1000000000000000000000;
+-----
+array(
+    0: Stmt_Expression(
+        expr: Scalar_LNumber(
+            value: 83
+        )
+    )
+    1: Stmt_Expression(
+        expr: Scalar_LNumber(
+            value: 83
+        )
+    )
+    2: Stmt_Expression(
+        expr: Scalar_LNumber(
+            value: 83
+        )
+    )
+    3: Stmt_Expression(
+        expr: Scalar_DNumber(
+            value: 9.2233720368548E+18
+        )
+    )
+)

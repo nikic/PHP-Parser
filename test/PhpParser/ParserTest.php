@@ -135,6 +135,8 @@ EOC;
             ['0XF', ['kind' => Scalar\LNumber::KIND_HEX]],
             ['0b1', ['kind' => Scalar\LNumber::KIND_BIN]],
             ['0B1', ['kind' => Scalar\LNumber::KIND_BIN]],
+            ['0o7', ['kind' => Scalar\LNumber::KIND_OCT]],
+            ['0O7', ['kind' => Scalar\LNumber::KIND_OCT]],
             ['[]', ['kind' => Expr\Array_::KIND_SHORT]],
             ['array()', ['kind' => Expr\Array_::KIND_LONG]],
             ["'foo'", ['kind' => String_::KIND_SINGLE_QUOTED]],

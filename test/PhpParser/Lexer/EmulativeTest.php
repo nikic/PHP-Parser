@@ -342,6 +342,18 @@ class EmulativeTest extends LexerTest
                 [ord('{'), '{'],
                 [ord('}'), '}'],
             ]],
+            ['0o123', [
+                [Tokens::T_LNUMBER, '0o123'],
+            ]],
+            ['0O123', [
+                [Tokens::T_LNUMBER, '0O123'],
+            ]],
+            ['0o1_2_3', [
+                [Tokens::T_LNUMBER, '0o1_2_3'],
+            ]],
+            ['0o1000000000000000000000', [
+                [Tokens::T_DNUMBER, '0o1000000000000000000000'],
+            ]],
         ];
     }
 

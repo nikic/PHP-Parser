@@ -4,6 +4,7 @@ Version 4.12.1-dev
 ### Added
 
 * [PHP 8.1] Added support for intersection types using a new `IntersectionType` node.
+* [PHP 8.1] Added support for explicit octal literals.
 
 Version 4.12.0 (2021-07-21)
 ---------------------------
