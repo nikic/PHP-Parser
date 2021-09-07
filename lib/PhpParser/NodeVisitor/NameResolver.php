@@ -69,24 +69,29 @@ class NameResolver extends NodeVisitorAbstract
         } elseif ($node instanceof Stmt\Class_) {
             if (null !== $node->extends) {
                 $node->extends = $this->resolveClassName($node->extends);
+                $node->extends = $this->resolveGenericParameters($node->extends);
             }
 
             foreach ($node->implements as &$interface) {
                 $interface = $this->resolveClassName($interface);
+                $interface = $this->resolveGenericParameters($interface);
             }
 
             $this->resolveAttrGroups($node);
             if (null !== $node->name) {
                 $this->addNamespacedName($node);
             }
+            $this->resolveGenericParameters($node);
         } elseif ($node instanceof Stmt\Interface_) {
             foreach ($node->extends as &$interface) {
                 $interface = $this->resolveClassName($interface);
+                $interface = $this->resolveGenericParameters($interface);
             }
 
             $this->resolveAttrGroups($node);
             $this->addNamespacedName($node);
-         } elseif ($node instanceof Stmt\Enum_) {
+            $this->resolveGenericParameters($node);
+        } elseif ($node instanceof Stmt\Enum_) {
             foreach ($node->implements as &$interface) {
                 $interface = $this->resolveClassName($interface);
             }
@@ -98,19 +103,28 @@ class NameResolver extends NodeVisitorAbstract
         } elseif ($node instanceof Stmt\Trait_) {
             $this->resolveAttrGroups($node);
             $this->addNamespacedName($node);
+            $this->resolveGenericParameters($node);
         } elseif ($node instanceof Stmt\Function_) {
             $this->resolveSignature($node);
             $this->resolveAttrGroups($node);
             $this->addNamespacedName($node);
+            foreach($node->params as $param) {
+                $param->type = $this->resolveTypeGenericParameters($param->type);
+            }
+
         } elseif ($node instanceof Stmt\ClassMethod
                   || $node instanceof Expr\Closure
                   || $node instanceof Expr\ArrowFunction
         ) {
             $this->resolveSignature($node);
             $this->resolveAttrGroups($node);
+            foreach($node->params as $param) {
+                $param->type = $this->resolveTypeGenericParameters($param->type);
+            }
         } elseif ($node instanceof Stmt\Property) {
             if (null !== $node->type) {
                 $node->type = $this->resolveType($node->type);
+                $node->type = $this->resolveTypeGenericParameters($node->type);
             }
             $this->resolveAttrGroups($node);
         } elseif ($node instanceof Stmt\Const_) {
@@ -129,6 +143,8 @@ class NameResolver extends NodeVisitorAbstract
         ) {
             if ($node->class instanceof Name) {
                 $node->class = $this->resolveClassName($node->class);
+
+                $this->resolveGenericParameters($node->class);
             }
         } elseif ($node instanceof Stmt\Catch_) {
             foreach ($node->types as &$type) {
@@ -143,6 +159,7 @@ class NameResolver extends NodeVisitorAbstract
         } elseif ($node instanceof Stmt\TraitUse) {
             foreach ($node->traits as &$trait) {
                 $trait = $this->resolveClassName($trait);
+                $this->resolveGenericParameters($trait);
             }
 
             foreach ($node->adaptations as $adaptation) {
@@ -179,6 +196,59 @@ class NameResolver extends NodeVisitorAbstract
             $this->resolveAttrGroups($param);
         }
         $node->returnType = $this->resolveType($node->returnType);
+        $node->returnType = $this->resolveTypeGenericParameters($node->returnType);
+    }
+
+    /**
+     * @param Node $node
+     */
+    private function resolveTypeGenericParameters($node)
+    {
+        if ($node instanceof Name) {
+            return $this->resolveGenericParameters($node);
+        }
+
+        if ($node instanceof Node\NullableType) {
+            $node->type = $this->resolveGenericParameters($node->type);
+
+            return $node;
+        }
+
+        if ($node instanceof Node\UnionType) {
+            foreach ($node->types as &$type) {
+                $type = $this->resolveGenericParameters($type);
+            }
+
+            return $node;
+        }
+
+        return $node;
+    }
+
+    /**
+     * @param Node $node
+     */
+    private function resolveGenericParameters($node)
+    {
+        if ($node === null) {
+            return $node;
+        }
+
+        /** @var Node\GenericParameter[] $generics */
+        $generics = (array)$node->getAttribute('generics');
+        foreach ($generics as $genericParameter) {
+            if ($genericParameter->default instanceof Name) {
+                $genericParameter->default = $this->resolveClassName($genericParameter->default);
+            }
+
+            if ($genericParameter->constraint instanceof Name) {
+                $genericParameter->constraint = $this->resolveClassName($genericParameter->constraint);
+            }
+
+            $genericParameter->name = $this->resolveClassName($genericParameter->name);
+        }
+
+        return $node;
     }
 
     private function resolveType($node) {

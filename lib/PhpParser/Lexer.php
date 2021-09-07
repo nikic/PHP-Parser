@@ -124,8 +124,8 @@ class Lexer
      */
     private function isUnterminatedComment($token) : bool {
         return ($token[0] === \T_COMMENT || $token[0] === \T_DOC_COMMENT)
-            && substr($token[1], 0, 2) === '/*'
-            && substr($token[1], -2) !== '*/';
+               && substr($token[1], 0, 2) === '/*'
+               && substr($token[1], -2) !== '*/';
     }
 
     protected function postprocessTokens(ErrorHandler $errorHandler) {
@@ -153,7 +153,7 @@ class Lexer
             }
 
             if ($token[0] === \T_COMMENT && substr($token[1], 0, 2) !== '/*'
-                    && preg_match('/(\r\n|\n|\r)$/D', $token[1], $matches)) {
+                && preg_match('/(\r\n|\n|\r)$/D', $token[1], $matches)) {
                 $trailingNewline = $matches[0];
                 $token[1] = substr($token[1], 0, -strlen($trailingNewline));
                 $this->tokens[$i] = $token;
@@ -173,7 +173,7 @@ class Lexer
             // Emulate PHP 8 T_NAME_* tokens, by combining sequences of T_NS_SEPARATOR and T_STRING
             // into a single token.
             if (\is_array($token)
-                    && ($token[0] === \T_NS_SEPARATOR || isset($this->identifierTokens[$token[0]]))) {
+                && ($token[0] === \T_NS_SEPARATOR || isset($this->identifierTokens[$token[0]]))) {
                 $lastWasSeparator = $token[0] === \T_NS_SEPARATOR;
                 $text = $token[1];
                 for ($j = $i + 1; isset($this->tokens[$j]); $j++) {
@@ -215,7 +215,7 @@ class Lexer
                     $next++;
                 }
                 $followedByVarOrVarArg = isset($this->tokens[$next]) &&
-                    ($this->tokens[$next][0] === \T_VARIABLE || $this->tokens[$next][0] === \T_ELLIPSIS);
+                                         ($this->tokens[$next][0] === \T_VARIABLE || $this->tokens[$next][0] === \T_ELLIPSIS);
                 $this->tokens[$i] = $token = [
                     $followedByVarOrVarArg
                         ? \T_AMPERSAND_FOLLOWED_BY_VAR_OR_VARARG
@@ -340,7 +340,7 @@ class Lexer
                 $id = $this->tokenMap[$token[0]];
                 if (\T_CLOSE_TAG === $token[0]) {
                     $this->prevCloseTagHasNewline = false !== strpos($token[1], "\n")
-                        || false !== strpos($token[1], "\r");
+                                                    || false !== strpos($token[1], "\r");
                 } elseif (\T_INLINE_HTML === $token[0]) {
                     $startAttributes['hasLeadingNewline'] = $this->prevCloseTagHasNewline;
                 }
@@ -538,6 +538,8 @@ class Lexer
         $tokenMap[\T_AMPERSAND_FOLLOWED_BY_VAR_OR_VARARG] = Tokens::T_AMPERSAND_FOLLOWED_BY_VAR_OR_VARARG;
         $tokenMap[\T_ENUM] = Tokens::T_ENUM;
         $tokenMap[\T_READONLY] = Tokens::T_READONLY;
+        $tokenMap[Tokens::T_GENERIC_PARAMETER_COVARIANT] = Tokens::T_GENERIC_PARAMETER_COVARIANT;
+        $tokenMap[Tokens::T_GENERIC_PARAMETER_CONTRAVARIANT] = Tokens::T_GENERIC_PARAMETER_CONTRAVARIANT;
 
         return $tokenMap;
     }
