@@ -1,5 +1,5 @@
 {
-    "name": "nikic/php-parser",
+    "name": "mrsuh/php-parser",
     "type": "library",
     "description": "A PHP parser written in PHP",
     "keywords": [

@@ -1,5 +1,5 @@
 %pure_parser
-%expect 2
+%expect 8
 
 %tokens
 
@@ -33,7 +33,7 @@ reserved_non_modifiers:
     | T_FUNCTION | T_CONST | T_RETURN | T_PRINT | T_YIELD | T_LIST | T_SWITCH | T_ENDSWITCH | T_CASE | T_DEFAULT
     | T_BREAK | T_ARRAY | T_CALLABLE | T_EXTENDS | T_IMPLEMENTS | T_NAMESPACE | T_TRAIT | T_INTERFACE | T_CLASS
     | T_CLASS_C | T_TRAIT_C | T_FUNC_C | T_METHOD_C | T_LINE | T_FILE | T_DIR | T_NS_C | T_HALT_COMPILER | T_FN
-    | T_MATCH | T_ENUM
+    | T_MATCH | T_ENUM | T_GENERIC_PARAMETER_COVARIANT | T_GENERIC_PARAMETER_CONTRAVARIANT
 ;
 
 semi_reserved:
@@ -350,6 +350,35 @@ block_or_error:
     | error                                                 { $$ = []; }
 ;
 
+optional_generic_variant:
+        /* empty */				                    { $$ = NULL; }
+    |	T_GENERIC_PARAMETER_COVARIANT	            { $$ = Node\GenericParameter::COVARIANT; }
+    |	T_GENERIC_PARAMETER_CONTRAVARIANT	        { $$ = Node\GenericParameter::CONTRAVARIANT; }
+;
+
+optional_generic_params:
+        /* empty */				    { $$ = NULL; }
+    |	'<' generic_params '>'	    { $$ = $2; }
+    |	T_IS_NOT_EQUAL	            { $$ = []; } /* hack for symbol <> */
+;
+
+generic_params:
+        optional_generic_variant generic_param                        { init($2); $2->setVariance($1); }
+ 	|	generic_params ',' optional_generic_variant generic_param     { push($1, $4); $4->setVariance($3); }
+;
+
+generic_param:
+        generic_type	                                { $$ = Node\GenericParameter[$1]; }
+      | generic_type ':' generic_type	                { $$ = Node\GenericParameter[$1]; $$->setConstraint($3); }
+      | generic_type '=' generic_type	                { $$ = Node\GenericParameter[$1]; $$->setDefault($3); }
+      | generic_type ':' generic_type '=' generic_type	{ $$ = Node\GenericParameter[$1]; $$->setConstraint($3); $$->setDefault($5); }
+;
+
+generic_type:
+        T_STRING    { $$ = $1; }
+      | T_ARRAY     { $$ = $1; }
+      | T_CALLABLE  { $$ = $1; }
+
 function_declaration_statement:
       T_FUNCTION optional_ref identifier '(' parameter_list ')' optional_return_type block_or_error
           { $$ = Stmt\Function_[$3, ['byRef' => $2, 'params' => $5, 'returnType' => $7, 'stmts' => $8, 'attrGroups' => []]]; }
@@ -358,14 +387,14 @@ function_declaration_statement:
 ;
 
 class_declaration_statement:
-      optional_attributes class_entry_type identifier extends_from implements_list '{' class_statement_list '}'
-          { $$ = Stmt\Class_[$3, ['type' => $2, 'extends' => $4, 'implements' => $5, 'stmts' => $7, 'attrGroups' => $1]];
+      optional_attributes class_entry_type identifier optional_generic_params extends_from implements_list '{' class_statement_list '}'
+          { $$ = Stmt\Class_[$3, ['type' => $2, 'extends' => $5, 'implements' => $6, 'stmts' => $8, 'attrGroups' => $1], ['generics' => $4 ]];
             $this->checkClass($$, #3); }
-    | optional_attributes T_INTERFACE identifier interface_extends_list '{' class_statement_list '}'
-          { $$ = Stmt\Interface_[$3, ['extends' => $4, 'stmts' => $6, 'attrGroups' => $1]];
+    | optional_attributes T_INTERFACE identifier optional_generic_params interface_extends_list '{' class_statement_list '}'
+          { $$ = Stmt\Interface_[$3, ['extends' => $5, 'stmts' => $7, 'attrGroups' => $1], ['generics' => $4 ]];
             $this->checkInterface($$, #3); }
-    | optional_attributes T_TRAIT identifier '{' class_statement_list '}'
-          { $$ = Stmt\Trait_[$3, ['stmts' => $5, 'attrGroups' => $1]]; }
+    | optional_attributes T_TRAIT identifier optional_generic_params '{' class_statement_list '}'
+          { $$ = Stmt\Trait_[$3, ['stmts' => $6, 'attrGroups' => $1], ['generics' => $4 ]]; }
     | optional_attributes T_ENUM identifier enum_scalar_type implements_list '{' class_statement_list '}'
           { $$ = Stmt\Enum_[$3, ['scalarType' => $4, 'implements' => $5, 'stmts' => $7, 'attrGroups' => $1]];
             $this->checkEnum($$, #3); }
@@ -570,7 +599,7 @@ type:
 ;
 
 type_without_static:
-      name                                                  { $$ = $this->handleBuiltinTypes($1); }
+      name optional_generic_params                          { $$ = $this->handleBuiltinTypes($1); $$->setAttribute('generics', $2); }
     | T_ARRAY                                               { $$ = Node\Identifier['array']; }
     | T_CALLABLE                                            { $$ = Node\Identifier['callable']; }
 ;
@@ -911,7 +940,7 @@ anonymous_class:
 ;
 
 new_expr:
-      T_NEW class_name_reference ctor_arguments             { $$ = Expr\New_[$2, $3]; }
+      T_NEW class_name_reference optional_generic_params ctor_arguments             { $$ = Expr\New_[$2, $4, ['generics' => $3]]; }
     | T_NEW anonymous_class
           { list($class, $ctorArgs) = $2; $$ = Expr\New_[$class, $ctorArgs]; }
 ;
@@ -943,7 +972,7 @@ function_call:
 
 class_name:
       T_STATIC                                              { $$ = Name[$1]; }
-    | name                                                  { $$ = $1; }
+    | name optional_generic_params                          { $$ = $1; $$->setAttribute('generics', $2); }
 ;
 
 name:

@@ -145,4 +145,6 @@ final class Tokens
     const T_NAME_QUALIFIED = 393;
     const T_NAME_RELATIVE = 394;
     const T_ATTRIBUTE = 395;
+    const T_GENERIC_PARAMETER_COVARIANT = 396;
+    const T_GENERIC_PARAMETER_CONTRAVARIANT = 397;
 }
