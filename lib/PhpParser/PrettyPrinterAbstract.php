@@ -842,11 +842,11 @@ abstract class PrettyPrinterAbstract
                 $this->setIndentLevel($lastElemIndentLevel);
 
                 if ($insertNewline) {
+                    $result .= $insertStr . $this->nl;
                     $comments = $arrItem->getComments();
                     if ($comments) {
-                        $result .= $this->nl . $this->pComments($comments);
+                        $result .= $this->pComments($comments) . $this->nl;
                     }
-                    $result .= $insertStr . $this->nl;
                 } else {
                     $result .= $insertStr;
                 }
