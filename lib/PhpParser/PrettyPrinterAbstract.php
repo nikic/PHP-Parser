@@ -826,8 +826,8 @@ abstract class PrettyPrinterAbstract
 
                 // We go multiline if the original code was multiline,
                 // or if it's an array item with a comment above it.
-                if ($insertStr === ', ' && (
-                        $this->isMultiline($origNodes) || !empty($arrItem->getAttribute('comments')))
+                if ($insertStr === ', ' &&
+                    ($this->isMultiline($origNodes) || $arrItem->getComments())
                 ) {
                     $insertStr = ',';
                     $insertNewline = true;
