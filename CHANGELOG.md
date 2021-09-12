@@ -7,7 +7,10 @@ Version 4.12.1-dev
 * [PHP 8.1] Added support for explicit octal literals.
 * [PHP 8.1] Added support for first-class callables. These are represented using a call whose first
   argument is a `VariadicPlaceholder`. The representation is intended to be forward-compatible with
-  partial function application, just like the PHP feature itself.
+  partial function application, just like the PHP feature itself. Call nodes now extend from
+  `Expr\CallLike`, which provides an `isFirstClassCallable()` method to determine whether a
+  placeholder id present. `getArgs()` can be used to assert that the call is not a first-class
+  callable and returns `Arg[]` rather than `array<Arg|VariadicPlaceholder>`.
 
 Version 4.12.0 (2021-07-21)
 ---------------------------
