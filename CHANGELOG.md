@@ -6,8 +6,8 @@ Version 4.12.1-dev
 * [PHP 8.1] Added support for intersection types using a new `IntersectionType` node.
 * [PHP 8.1] Added support for explicit octal literals.
 * [PHP 8.1] Added support for first-class callables. These are represented using a call whose first
-  `Arg->expr` is an `Expr\VariadicPlaceholder`. The representation is intended to be
-  forward-compatible with partial function application, just like the PHP feature itself.
+  argument is a `VariadicPlaceholder`. The representation is intended to be forward-compatible with
+  partial function application, just like the PHP feature itself.
 
 Version 4.12.0 (2021-07-21)
 ---------------------------
