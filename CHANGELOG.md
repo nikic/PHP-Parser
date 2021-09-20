@@ -1,9 +1,16 @@
-Version 4.12.1-dev
+Version 4.13.1-dev
 ------------------
+
+Nothing yet.
+
+Version 4.13.0 (2021-09-20)
+---------------------------
 
 ### Added
 
-* [PHP 8.1] Added support for intersection types using a new `IntersectionType` node.
+* [PHP 8.1] Added support for intersection types using a new `IntersectionType` node. Additionally
+  a `ComplexType` parent class for `NullableType`, `UnionType` and `IntersectionType` has been
+  added.
 * [PHP 8.1] Added support for explicit octal literals.
 * [PHP 8.1] Added support for first-class callables. These are represented using a call whose first
   argument is a `VariadicPlaceholder`. The representation is intended to be forward-compatible with
@@ -11,6 +18,12 @@ Version 4.12.1-dev
   `Expr\CallLike`, which provides an `isFirstClassCallable()` method to determine whether a
   placeholder id present. `getArgs()` can be used to assert that the call is not a first-class
   callable and returns `Arg[]` rather than `array<Arg|VariadicPlaceholder>`.
+
+### Fixed
+
+* Multiple modifiers for promoted properties are now accepted. In particular this allows something
+  like `public readonly` for promoted properties.
+* Formatting-preserving pretty printing for comments in array literals has been fixed.
 
 Version 4.12.0 (2021-07-21)
 ---------------------------
