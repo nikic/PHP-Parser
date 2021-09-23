@@ -21,12 +21,7 @@ array(
                 )
             )
             args: array(
-                0: Arg(
-                    name: null
-                    value: Expr_VariadicPlaceholder(
-                    )
-                    byRef: false
-                    unpack: false
+                0: VariadicPlaceholder(
                 )
             )
         )
@@ -40,12 +35,7 @@ array(
                 name: foo
             )
             args: array(
-                0: Arg(
-                    name: null
-                    value: Expr_VariadicPlaceholder(
-                    )
-                    byRef: false
-                    unpack: false
+                0: VariadicPlaceholder(
                 )
             )
         )
@@ -61,12 +51,7 @@ array(
                 name: foo
             )
             args: array(
-                0: Arg(
-                    name: null
-                    value: Expr_VariadicPlaceholder(
-                    )
-                    byRef: false
-                    unpack: false
+                0: VariadicPlaceholder(
                 )
             )
         )
@@ -79,12 +64,7 @@ array(
                 )
             )
             args: array(
-                0: Arg(
-                    name: null
-                    value: Expr_VariadicPlaceholder(
-                    )
-                    byRef: false
-                    unpack: false
+                0: VariadicPlaceholder(
                 )
             )
             comments: array(
@@ -106,12 +86,7 @@ array(
                             )
                         )
                         args: array(
-                            0: Arg(
-                                name: null
-                                value: Expr_VariadicPlaceholder(
-                                )
-                                byRef: false
-                                unpack: false
+                            0: VariadicPlaceholder(
                             )
                         )
                     )

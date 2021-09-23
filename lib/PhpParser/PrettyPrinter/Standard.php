@@ -33,6 +33,10 @@ class Standard extends PrettyPrinterAbstract
              . $this->p($node->value);
     }
 
+    protected function pVariadicPlaceholder(Node\VariadicPlaceholder $node) {
+        return '...';
+    }
+
     protected function pConst(Node\Const_ $node) {
         return $node->name . ' = ' . $this->p($node->value);
     }
@@ -690,10 +694,6 @@ class Standard extends PrettyPrinterAbstract
                  . $this->p($node->value)
                  . ')';
         }
-    }
-
-    protected function pExpr_VariadicPlaceholder(Expr\VariadicPlaceholder $node) {
-        return '...';
     }
 
     // Declarations

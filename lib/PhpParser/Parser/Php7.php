@@ -2004,7 +2004,7 @@ class Php7 extends \PhpParser\ParserAbstract
                  $this->semValue = array($this->semStack[$stackPos-(3-2)]);
             },
             327 => function ($stackPos) {
-                 $this->semValue = new Node\Arg(new Node\VariadicPlaceholder($this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes), false, false, $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
+                 $this->semValue = new Node\VariadicPlaceholder($this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
             },
             328 => function ($stackPos) {
                  $this->semValue = array($this->semStack[$stackPos-(1-1)]);
