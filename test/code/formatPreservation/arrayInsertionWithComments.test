@@ -1,0 +1,106 @@
+Inserting array item with comment
+-----
+<?php
+
+$items = [
+    'a' => 'foo',
+    'b' => 'bar',
+];
+-----
+$node = new Expr\ArrayItem(new Scalar\String_('baz'), new Scalar\String_('c'));
+$node->setAttribute('comments', [new Comment\Doc(<<<COMMENT
+/**
+ * A doc comment
+ */
+COMMENT
+)]);
+$array = $stmts[0]->expr->expr;
+$array->items[] = $node;
+-----
+<?php
+
+$items = [
+    'a' => 'foo',
+    'b' => 'bar',
+    /**
+     * A doc comment
+     */
+    'c' => 'baz',
+];
+-----
+<?php
+
+$items = [
+    'a' => 'foo',
+    'b' => 'bar',
+];
+-----
+$node = new Expr\ArrayItem(new Scalar\String_('baz'), new Scalar\String_('c'));
+$node->setAttribute('comments', [new Comment("/* Block comment */")]);
+$array = $stmts[0]->expr->expr;
+$array->items[] = $node;
+-----
+<?php
+
+$items = [
+    'a' => 'foo',
+    'b' => 'bar',
+    /* Block comment */
+    'c' => 'baz',
+];
+-----
+<?php
+
+$items = [
+    'a' => 'foo',
+    'b' => 'bar',
+];
+-----
+$node = new Expr\ArrayItem(new Scalar\String_('baz'), new Scalar\String_('c'));
+$node->setAttribute('comments', [new Comment("// Line comment")]);
+$array = $stmts[0]->expr->expr;
+$array->items[] = $node;
+-----
+<?php
+
+$items = [
+    'a' => 'foo',
+    'b' => 'bar',
+    // Line comment
+    'c' => 'baz',
+];
+-----
+<?php
+
+$items = [
+    'a' => 'foo',
+];
+-----
+$node = new Expr\ArrayItem(new Scalar\String_('bar'), new Scalar\String_('b'));
+$node->setAttribute('comments', [new Comment("// Line comment")]);
+$array = $stmts[0]->expr->expr;
+$array->items[] = $node;
+-----
+<?php
+
+$items = [
+    'a' => 'foo',
+    // Line comment
+    'b' => 'bar',
+];
+-----
+<?php
+
+$items = [];
+-----
+$node = new Expr\ArrayItem(new Scalar\String_('foo'), new Scalar\String_('a'));
+$node->setAttribute('comments', [new Comment("// Line comment")]);
+$array = $stmts[0]->expr->expr;
+$array->items[] = $node;
+-----
+<?php
+
+$items = [
+    // Line comment
+    'a' => 'foo',
+];

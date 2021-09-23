@@ -652,8 +652,7 @@ argument_list:
 ;
 
 variadic_placeholder:
-      T_ELLIPSIS
-          { $$ = Node\Arg[Node\VariadicPlaceholder[], false, false]; }
+      T_ELLIPSIS                                            { $$ = Node\VariadicPlaceholder[]; }
 ;
 
 non_empty_argument_list:

@@ -7,8 +7,8 @@ use PhpParser\BuilderHelpers;
 use PhpParser\Node;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Name;
-use PhpParser\Node\NullableType;
 use PhpParser\Node\Stmt;
+use PhpParser\Node\ComplexType;
 
 class Property implements PhpParser\Builder
 {
@@ -119,7 +119,7 @@ class Property implements PhpParser\Builder
     /**
      * Sets the property type for PHP 7.4+.
      *
-     * @param string|Name|NullableType|Identifier $type
+     * @param string|Name|Identifier|ComplexType $type
      *
      * @return $this
      */

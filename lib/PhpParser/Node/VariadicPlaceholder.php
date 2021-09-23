@@ -1,13 +1,13 @@
 <?php declare(strict_types=1);
 
-namespace PhpParser\Node\Expr;
+namespace PhpParser\Node;
 
-use PhpParser\Node\Expr;
+use PhpParser\NodeAbstract;
 
 /**
  * Represents the "..." in "foo(...)" of the first-class callable syntax.
  */
-class VariadicPlaceholder extends Expr {
+class VariadicPlaceholder extends NodeAbstract {
     /**
      * Create a variadic argument placeholder (first-class callable syntax).
      *
@@ -18,7 +18,7 @@ class VariadicPlaceholder extends Expr {
     }
 
     public function getType(): string {
-        return 'Expr_VariadicPlaceholder';
+        return 'VariadicPlaceholder';
     }
 
     public function getSubNodeNames(): array {
