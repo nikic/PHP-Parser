@@ -41,12 +41,12 @@ semi_reserved:
     | T_STATIC | T_ABSTRACT | T_FINAL | T_PRIVATE | T_PROTECTED | T_PUBLIC | T_READONLY
 ;
 
-identifier_ex:
+identifier_maybe_reserved:
       T_STRING                                              { $$ = Node\Identifier[$1]; }
     | semi_reserved                                         { $$ = Node\Identifier[$1]; }
 ;
 
-identifier:
+identifier_not_reserved:
       T_STRING                                              { $$ = Node\Identifier[$1]; }
 ;
 
@@ -181,14 +181,14 @@ non_empty_inline_use_declarations:
 unprefixed_use_declaration:
       namespace_name
           { $$ = Stmt\UseUse[$1, null, Stmt\Use_::TYPE_UNKNOWN]; $this->checkUseUse($$, #1); }
-    | namespace_name T_AS identifier
+    | namespace_name T_AS identifier_not_reserved
           { $$ = Stmt\UseUse[$1, $3, Stmt\Use_::TYPE_UNKNOWN]; $this->checkUseUse($$, #3); }
 ;
 
 use_declaration:
       legacy_namespace_name
           { $$ = Stmt\UseUse[$1, null, Stmt\Use_::TYPE_UNKNOWN]; $this->checkUseUse($$, #1); }
-    | legacy_namespace_name T_AS identifier
+    | legacy_namespace_name T_AS identifier_not_reserved
           { $$ = Stmt\UseUse[$1, $3, Stmt\Use_::TYPE_UNKNOWN]; $this->checkUseUse($$, #3); }
 ;
 
@@ -208,7 +208,7 @@ non_empty_constant_declaration_list:
 ;
 
 constant_declaration:
-    identifier '=' expr                                     { $$ = Node\Const_[$1, $3]; }
+    identifier_not_reserved '=' expr                        { $$ = Node\Const_[$1, $3]; }
 ;
 
 class_const_list:
@@ -221,7 +221,7 @@ non_empty_class_const_list:
 ;
 
 class_const:
-    identifier_ex '=' expr                                  { $$ = Node\Const_[$1, $3]; }
+    identifier_maybe_reserved '=' expr                      { $$ = Node\Const_[$1, $3]; }
 ;
 
 inner_statement_list_ex:
@@ -289,8 +289,8 @@ non_empty_statement:
     | T_DECLARE '(' declare_list ')' declare_statement      { $$ = Stmt\Declare_[$3, $5]; }
     | T_TRY '{' inner_statement_list '}' catches optional_finally
           { $$ = Stmt\TryCatch[$3, $5, $6]; $this->checkTryCatch($$); }
-    | T_GOTO identifier semi                                { $$ = Stmt\Goto_[$2]; }
-    | identifier ':'                                        { $$ = Stmt\Label[$1]; }
+    | T_GOTO identifier_not_reserved semi                   { $$ = Stmt\Goto_[$2]; }
+    | identifier_not_reserved ':'                           { $$ = Stmt\Label[$1]; }
     | error                                                 { $$ = array(); /* means: no statement */ }
 ;
 
@@ -351,22 +351,22 @@ block_or_error:
 ;
 
 function_declaration_statement:
-      T_FUNCTION optional_ref identifier '(' parameter_list ')' optional_return_type block_or_error
+      T_FUNCTION optional_ref identifier_not_reserved '(' parameter_list ')' optional_return_type block_or_error
           { $$ = Stmt\Function_[$3, ['byRef' => $2, 'params' => $5, 'returnType' => $7, 'stmts' => $8, 'attrGroups' => []]]; }
-    | attributes T_FUNCTION optional_ref identifier '(' parameter_list ')' optional_return_type block_or_error
+    | attributes T_FUNCTION optional_ref identifier_not_reserved '(' parameter_list ')' optional_return_type block_or_error
           { $$ = Stmt\Function_[$4, ['byRef' => $3, 'params' => $6, 'returnType' => $8, 'stmts' => $9, 'attrGroups' => $1]]; }
 ;
 
 class_declaration_statement:
-      optional_attributes class_entry_type identifier extends_from implements_list '{' class_statement_list '}'
+      optional_attributes class_entry_type identifier_not_reserved extends_from implements_list '{' class_statement_list '}'
           { $$ = Stmt\Class_[$3, ['type' => $2, 'extends' => $4, 'implements' => $5, 'stmts' => $7, 'attrGroups' => $1]];
             $this->checkClass($$, #3); }
-    | optional_attributes T_INTERFACE identifier interface_extends_list '{' class_statement_list '}'
+    | optional_attributes T_INTERFACE identifier_not_reserved interface_extends_list '{' class_statement_list '}'
           { $$ = Stmt\Interface_[$3, ['extends' => $4, 'stmts' => $6, 'attrGroups' => $1]];
             $this->checkInterface($$, #3); }
-    | optional_attributes T_TRAIT identifier '{' class_statement_list '}'
+    | optional_attributes T_TRAIT identifier_not_reserved '{' class_statement_list '}'
           { $$ = Stmt\Trait_[$3, ['stmts' => $5, 'attrGroups' => $1]]; }
-    | optional_attributes T_ENUM identifier enum_scalar_type implements_list '{' class_statement_list '}'
+    | optional_attributes T_ENUM identifier_not_reserved enum_scalar_type implements_list '{' class_statement_list '}'
           { $$ = Stmt\Enum_[$3, ['scalarType' => $4, 'implements' => $5, 'stmts' => $7, 'attrGroups' => $1]];
             $this->checkEnum($$, #3); }
 ;
@@ -436,7 +436,7 @@ non_empty_declare_list:
 ;
 
 declare_list_element:
-      identifier '=' expr                                   { $$ = Stmt\DeclareDeclare[$1, $3]; }
+      identifier_not_reserved '=' expr                      { $$ = Stmt\DeclareDeclare[$1, $3]; }
 ;
 
 switch_case_list:
@@ -635,7 +635,7 @@ argument:
       expr                                                  { $$ = Node\Arg[$1, false, false]; }
     | ampersand variable                                    { $$ = Node\Arg[$2, true, false]; }
     | T_ELLIPSIS expr                                       { $$ = Node\Arg[$2, false, true]; }
-    | identifier_ex ':' expr
+    | identifier_maybe_reserved ':' expr
           { $$ = new Node\Arg($3, false, false, attributes(), $1); }
 ;
 
@@ -684,11 +684,12 @@ class_statement:
     | optional_attributes method_modifiers T_CONST class_const_list semi
           { $$ = new Stmt\ClassConst($4, $2, attributes(), $1);
             $this->checkClassConst($$, #2); }
-    | optional_attributes method_modifiers T_FUNCTION optional_ref identifier_ex '(' parameter_list ')' optional_return_type method_body
+    | optional_attributes method_modifiers T_FUNCTION optional_ref identifier_maybe_reserved '(' parameter_list ')'
+      optional_return_type method_body
           { $$ = Stmt\ClassMethod[$5, ['type' => $2, 'byRef' => $4, 'params' => $7, 'returnType' => $9, 'stmts' => $10, 'attrGroups' => $1]];
             $this->checkClassMethod($$, #2); }
     | T_USE class_name_list trait_adaptations               { $$ = Stmt\TraitUse[$2, $3]; }
-    | optional_attributes T_CASE identifier_ex enum_case_expr semi
+    | optional_attributes T_CASE identifier_maybe_reserved enum_case_expr semi
          { $$ = Stmt\EnumCase[$3, $4, $1]; }
     | error                                                 { $$ = null; /* will be skipped */ }
 ;
@@ -706,22 +707,22 @@ trait_adaptation_list:
 trait_adaptation:
       trait_method_reference_fully_qualified T_INSTEADOF class_name_list ';'
           { $$ = Stmt\TraitUseAdaptation\Precedence[$1[0], $1[1], $3]; }
-    | trait_method_reference T_AS member_modifier identifier_ex ';'
+    | trait_method_reference T_AS member_modifier identifier_maybe_reserved ';'
           { $$ = Stmt\TraitUseAdaptation\Alias[$1[0], $1[1], $3, $4]; }
     | trait_method_reference T_AS member_modifier ';'
           { $$ = Stmt\TraitUseAdaptation\Alias[$1[0], $1[1], $3, null]; }
-    | trait_method_reference T_AS identifier ';'
+    | trait_method_reference T_AS identifier_not_reserved ';'
           { $$ = Stmt\TraitUseAdaptation\Alias[$1[0], $1[1], null, $3]; }
     | trait_method_reference T_AS reserved_non_modifiers_identifier ';'
           { $$ = Stmt\TraitUseAdaptation\Alias[$1[0], $1[1], null, $3]; }
 ;
 
 trait_method_reference_fully_qualified:
-      name T_PAAMAYIM_NEKUDOTAYIM identifier_ex             { $$ = array($1, $3); }
+      name T_PAAMAYIM_NEKUDOTAYIM identifier_maybe_reserved { $$ = array($1, $3); }
 ;
 trait_method_reference:
       trait_method_reference_fully_qualified                { $$ = $1; }
-    | identifier_ex                                         { $$ = array(null, $1); }
+    | identifier_maybe_reserved                             { $$ = array(null, $1); }
 ;
 
 method_body:
@@ -994,7 +995,7 @@ constant:
 ;
 
 class_constant:
-      class_name_or_var T_PAAMAYIM_NEKUDOTAYIM identifier_ex
+      class_name_or_var T_PAAMAYIM_NEKUDOTAYIM identifier_maybe_reserved
           { $$ = Expr\ClassConstFetch[$1, $3]; }
     /* We interpret an isolated FOO:: as an unfinished class constant fetch. It could also be
        an unfinished static property fetch or unfinished scoped call. */
@@ -1113,13 +1114,13 @@ new_variable:
 ;
 
 member_name:
-      identifier_ex                                         { $$ = $1; }
+      identifier_maybe_reserved                             { $$ = $1; }
     | '{' expr '}'                                          { $$ = $2; }
     | simple_variable                                       { $$ = $1; }
 ;
 
 property_name:
-      identifier                                            { $$ = $1; }
+      identifier_not_reserved                               { $$ = $1; }
     | '{' expr '}'                                          { $$ = $2; }
     | simple_variable                                       { $$ = $1; }
     | error                                                 { $$ = Expr\Error[]; $this->errorState = 2; }
@@ -1174,8 +1175,10 @@ encaps_str_varname:
 encaps_var:
       plain_variable                                        { $$ = $1; }
     | plain_variable '[' encaps_var_offset ']'              { $$ = Expr\ArrayDimFetch[$1, $3]; }
-    | plain_variable T_OBJECT_OPERATOR identifier           { $$ = Expr\PropertyFetch[$1, $3]; }
-    | plain_variable T_NULLSAFE_OBJECT_OPERATOR identifier  { $$ = Expr\NullsafePropertyFetch[$1, $3]; }
+    | plain_variable T_OBJECT_OPERATOR identifier_not_reserved
+          { $$ = Expr\PropertyFetch[$1, $3]; }
+    | plain_variable T_NULLSAFE_OBJECT_OPERATOR identifier_not_reserved
+          { $$ = Expr\NullsafePropertyFetch[$1, $3]; }
     | T_DOLLAR_OPEN_CURLY_BRACES expr '}'                   { $$ = Expr\Variable[$2]; }
     | T_DOLLAR_OPEN_CURLY_BRACES T_STRING_VARNAME '}'       { $$ = Expr\Variable[$2]; }
     | T_DOLLAR_OPEN_CURLY_BRACES encaps_str_varname '[' expr ']' '}'
