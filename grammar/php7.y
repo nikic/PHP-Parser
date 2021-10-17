@@ -688,7 +688,7 @@ class_statement:
           { $$ = Stmt\ClassMethod[$5, ['type' => $2, 'byRef' => $4, 'params' => $7, 'returnType' => $9, 'stmts' => $10, 'attrGroups' => $1]];
             $this->checkClassMethod($$, #2); }
     | T_USE class_name_list trait_adaptations               { $$ = Stmt\TraitUse[$2, $3]; }
-    | optional_attributes T_CASE identifier enum_case_expr semi
+    | optional_attributes T_CASE identifier_ex enum_case_expr semi
          { $$ = Stmt\EnumCase[$3, $4, $1]; }
     | error                                                 { $$ = null; /* will be skipped */ }
 ;
