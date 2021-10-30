@@ -193,7 +193,7 @@ anonymous classes), you know that once you've seen a class declaration, there is
 checking all it's child nodes, because PHP does not allow nesting classes. In this case, you can
 instruct the traverser to not recurse into the class node:
 
-```
+```php
 private $classes = [];
 public function enterNode(Node $node) {
     if ($node instanceof Node\Stmt\Class_) {
@@ -211,7 +211,7 @@ after finding it. For example, if you are looking for the node of a class with a
 discounting exotic cases like conditionally defining a class two times), you can stop traversal
 once you found it:
 
-```
+```php
 private $class = null;
 public function enterNode(Node $node) {
     if ($node instanceof Node\Stmt\Class_ &&
@@ -251,7 +251,7 @@ Stmt_Return(
 
 the following method calls will be performed:
 
-```
+```php
 $visitorA->enterNode(Stmt_Return)
 $visitorB->enterNode(Stmt_Return)
 $visitorA->enterNode(Expr_Variable)
