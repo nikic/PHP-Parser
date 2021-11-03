@@ -1,7 +1,15 @@
-Version 4.13.1-dev
+Version 4.13.2-dev
 ------------------
 
 Nothing yet.
+
+Version 4.13.1 (2021-11-03)
+---------------------------
+
+### Fixed
+
+* Support reserved keywords as enum cases.
+* Support array unpacking in constant expression evaluator.
 
 Version 4.13.0 (2021-09-20)
 ---------------------------
