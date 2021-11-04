@@ -2,10 +2,14 @@ Enum
 -----
 <?php
 
-enum A {}
+enum A {
+    case class;
+}
 enum B implements Bar, Baz {
 }
-enum C: int implements Bar {}
+enum C: int implements Bar {
+    case Foo = 1;
+}
 -----
 !!php7
 array(
@@ -19,6 +23,14 @@ array(
         implements: array(
         )
         stmts: array(
+            0: Stmt_EnumCase(
+                attrGroups: array(
+                )
+                name: Identifier(
+                    name: class
+                )
+                expr: null
+            )
         )
     )
     1: Stmt_Enum(
@@ -60,6 +72,16 @@ array(
             )
         )
         stmts: array(
+            0: Stmt_EnumCase(
+                attrGroups: array(
+                )
+                name: Identifier(
+                    name: Foo
+                )
+                expr: Scalar_LNumber(
+                    value: 1
+                )
+            )
         )
     )
 )
