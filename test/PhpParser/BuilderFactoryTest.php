@@ -27,6 +27,7 @@ class BuilderFactoryTest extends \PHPUnit\Framework\TestCase
             ['class',       Builder\Class_::class],
             ['interface',   Builder\Interface_::class],
             ['trait',       Builder\Trait_::class],
+            ['enum',        Builder\Enum_::class],
             ['method',      Builder\Method::class],
             ['function',    Builder\Function_::class],
             ['property',    Builder\Property::class],
@@ -34,6 +35,7 @@ class BuilderFactoryTest extends \PHPUnit\Framework\TestCase
             ['use',         Builder\Use_::class],
             ['useFunction', Builder\Use_::class],
             ['useConst',    Builder\Use_::class],
+            ['enumCase',    Builder\EnumCase::class],
         ];
     }
 
