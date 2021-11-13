@@ -37,7 +37,7 @@ class Emulative extends Lexer
     /**
      * @param mixed[] $options Lexer options. In addition to the usual options,
      *                         accepts a 'phpVersion' string that specifies the
-     *                         version to emulated. Defaults to newest supported.
+     *                         version to emulate. Defaults to newest supported.
      */
     public function __construct(array $options = [])
     {
