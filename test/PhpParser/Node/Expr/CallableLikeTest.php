@@ -29,8 +29,10 @@ class CallableLikeTest extends \PHPUnit\Framework\TestCase {
             [new StaticCall(new Name('Test'), 'test', $normalArgs), false],
             [new StaticCall(new Name('Test'), 'test', $callableArgs), true],
             [new New_(new Name('Test'), $normalArgs), false],
+            [new NullsafeMethodCall(new Variable('this'), 'test', $normalArgs), false],
             // This is not legal code, but accepted by the parser.
             [new New_(new Name('Test'), $callableArgs), true],
+            [new NullsafeMethodCall(new Variable('this'), 'test', $callableArgs), true],
         ];
     }
 }
