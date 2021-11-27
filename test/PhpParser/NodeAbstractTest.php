@@ -121,19 +121,19 @@ class NodeAbstractTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider provideNodes
      */
-    public function testChange(array $attributes, Node $node) {
+    public function testChange(array $attributes, DummyNode $node) {
         // direct modification
-        $node->subNode = 'newValue';
-        $this->assertSame('newValue', $node->subNode);
+        $node->subNode1 = 'newValue';
+        $this->assertSame('newValue', $node->subNode1);
 
         // indirect modification
-        $subNode =& $node->subNode;
+        $subNode =& $node->subNode1;
         $subNode = 'newNewValue';
-        $this->assertSame('newNewValue', $node->subNode);
+        $this->assertSame('newNewValue', $node->subNode1);
 
         // removal
-        unset($node->subNode);
-        $this->assertObjectNotHasAttribute('subNode', $node);
+        unset($node->subNode1);
+        $this->assertFalse(isset($node->subNode1));
     }
 
     /**
