@@ -306,6 +306,7 @@ PHP;
             }
         ],
         "attrGroups": [],
+        "namespacedName": null,
         "attributes": {
             "startLine": 4,
             "comments": [
@@ -454,7 +455,8 @@ JSON;
                 ]
             }
         ],
-        "attrGroups": []
+        "attrGroups": [],
+        "namespacedName": null
     }
 ]
 JSON;

@@ -353,7 +353,7 @@ EOC;
         $this->assertSame('NS\\C', (string) $stmts[0]->stmts[2]->namespacedName);
         $this->assertSame('NS\\D', (string) $stmts[0]->stmts[3]->consts[0]->namespacedName);
         $this->assertSame('NS\\E', (string) $stmts[0]->stmts[4]->namespacedName);
-        $this->assertObjectNotHasAttribute('namespacedName', $stmts[0]->stmts[5]->class);
+        $this->assertNull($stmts[0]->stmts[5]->class->namespacedName);
         $this->assertSame('NS\\F', (string) $stmts[0]->stmts[6]->namespacedName);
 
         $stmts = $traverser->traverse([new Stmt\Namespace_(null, $nsStmts)]);
@@ -362,7 +362,7 @@ EOC;
         $this->assertSame('C',     (string) $stmts[0]->stmts[2]->namespacedName);
         $this->assertSame('D',     (string) $stmts[0]->stmts[3]->consts[0]->namespacedName);
         $this->assertSame('E',     (string) $stmts[0]->stmts[4]->namespacedName);
-        $this->assertObjectNotHasAttribute('namespacedName', $stmts[0]->stmts[5]->class);
+        $this->assertNull($stmts[0]->stmts[5]->class->namespacedName);
         $this->assertSame('F',     (string) $stmts[0]->stmts[6]->namespacedName);
     }
 
