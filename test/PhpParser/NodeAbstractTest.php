@@ -6,11 +6,13 @@ class DummyNode extends NodeAbstract
 {
     public $subNode1;
     public $subNode2;
+    public $notSubNode;
 
-    public function __construct($subNode1, $subNode2, $attributes) {
+    public function __construct($subNode1, $subNode2, $notSubNode, $attributes) {
         parent::__construct($attributes);
         $this->subNode1 = $subNode1;
         $this->subNode2 = $subNode2;
+        $this->notSubNode = $notSubNode;
     }
 
     public function getSubNodeNames() : array {
@@ -40,8 +42,7 @@ class NodeAbstractTest extends \PHPUnit\Framework\TestCase
             ],
         ];
 
-        $node = new DummyNode('value1', 'value2', $attributes);
-        $node->notSubNode = 'value3';
+        $node = new DummyNode('value1', 'value2', 'value3', $attributes);
 
         return [
             [$attributes, $node],
@@ -90,7 +91,7 @@ class NodeAbstractTest extends \PHPUnit\Framework\TestCase
     }
 
     public function testSetDocComment() {
-        $node = new DummyNode(null, null, []);
+        $node = new DummyNode(null, null, null, []);
 
         // Add doc comment to node without comments
         $docComment = new Comment\Doc('/** doc */');
