@@ -1,7 +1,20 @@
-Version 4.13.2-dev
+Version 4.13.3-dev
 ------------------
 
 Nothing yet.
+
+Version 4.13.2 (2021-11-30)
+---------------------------
+
+### Added
+
+* Added builders for enums and enum cases.
+
+### Fixed
+
+* NullsafeMethodCall now extends from CallLike.
+* The `namespacedName` property populated by the `NameResolver` is now declared on relevant nodes,
+  to avoid a dynamic property deprecation warning with PHP 8.2.
 
 Version 4.13.1 (2021-11-03)
 ---------------------------

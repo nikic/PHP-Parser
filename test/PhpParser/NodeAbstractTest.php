@@ -6,11 +6,13 @@ class DummyNode extends NodeAbstract
 {
     public $subNode1;
     public $subNode2;
+    public $notSubNode;
 
-    public function __construct($subNode1, $subNode2, $attributes) {
+    public function __construct($subNode1, $subNode2, $notSubNode, $attributes) {
         parent::__construct($attributes);
         $this->subNode1 = $subNode1;
         $this->subNode2 = $subNode2;
+        $this->notSubNode = $notSubNode;
     }
 
     public function getSubNodeNames() : array {
@@ -40,8 +42,7 @@ class NodeAbstractTest extends \PHPUnit\Framework\TestCase
             ],
         ];
 
-        $node = new DummyNode('value1', 'value2', $attributes);
-        $node->notSubNode = 'value3';
+        $node = new DummyNode('value1', 'value2', 'value3', $attributes);
 
         return [
             [$attributes, $node],
@@ -90,7 +91,7 @@ class NodeAbstractTest extends \PHPUnit\Framework\TestCase
     }
 
     public function testSetDocComment() {
-        $node = new DummyNode(null, null, []);
+        $node = new DummyNode(null, null, null, []);
 
         // Add doc comment to node without comments
         $docComment = new Comment\Doc('/** doc */');
@@ -120,19 +121,19 @@ class NodeAbstractTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider provideNodes
      */
-    public function testChange(array $attributes, Node $node) {
+    public function testChange(array $attributes, DummyNode $node) {
         // direct modification
-        $node->subNode = 'newValue';
-        $this->assertSame('newValue', $node->subNode);
+        $node->subNode1 = 'newValue';
+        $this->assertSame('newValue', $node->subNode1);
 
         // indirect modification
-        $subNode =& $node->subNode;
+        $subNode =& $node->subNode1;
         $subNode = 'newNewValue';
-        $this->assertSame('newNewValue', $node->subNode);
+        $this->assertSame('newNewValue', $node->subNode1);
 
         // removal
-        unset($node->subNode);
-        $this->assertObjectNotHasAttribute('subNode', $node);
+        unset($node->subNode1);
+        $this->assertFalse(isset($node->subNode1));
     }
 
     /**
@@ -305,6 +306,7 @@ PHP;
             }
         ],
         "attrGroups": [],
+        "namespacedName": null,
         "attributes": {
             "startLine": 4,
             "comments": [
@@ -453,7 +455,8 @@ JSON;
                 ]
             }
         ],
-        "attrGroups": []
+        "attrGroups": [],
+        "namespacedName": null
     }
 ]
 JSON;

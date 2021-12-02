@@ -7,6 +7,7 @@ A::foo(...);
 
 // These are invalid, but accepted on the parser level.
 new Foo(...);
+$this?->foo(...);
 
 #[Foo(...)]
 function foo() {}
@@ -75,7 +76,21 @@ array(
             0: // These are invalid, but accepted on the parser level.
         )
     )
-    4: Stmt_Function(
+    4: Stmt_Expression(
+        expr: Expr_NullsafeMethodCall(
+            var: Expr_Variable(
+                name: this
+            )
+            name: Identifier(
+                name: foo
+            )
+            args: array(
+                0: VariadicPlaceholder(
+                )
+            )
+        )
+    )
+    5: Stmt_Function(
         attrGroups: array(
             0: AttributeGroup(
                 attrs: array(

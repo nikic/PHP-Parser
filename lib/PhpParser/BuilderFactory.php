@@ -72,6 +72,17 @@ class BuilderFactory
     }
 
     /**
+     * Creates an enum builder.
+     *
+     * @param string $name Name of the enum
+     *
+     * @return Builder\Enum_ The created enum builder
+     */
+    public function enum(string $name) : Builder\Enum_ {
+        return new Builder\Enum_($name);
+    }
+
+    /**
      * Creates a trait use builder.
      *
      * @param Node\Name|string ...$traits Trait names
@@ -186,6 +197,17 @@ class BuilderFactory
      */
     public function classConst($name, $value) : Builder\ClassConst {
         return new Builder\ClassConst($name, $value);
+    }
+
+    /**
+     * Creates an enum case builder.
+     *
+     * @param string|Identifier $name  Name
+     *
+     * @return Builder\EnumCase The created use const builder
+     */
+    public function enumCase($name) : Builder\EnumCase {
+        return new Builder\EnumCase($name);
     }
 
     /**
@@ -311,7 +333,7 @@ class BuilderFactory
     public function constFetch($name) : Expr\ConstFetch {
         return new Expr\ConstFetch(BuilderHelpers::normalizeName($name));
     }
-    
+
     /**
      * Creates a property fetch node.
      *

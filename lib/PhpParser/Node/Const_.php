@@ -4,15 +4,15 @@ namespace PhpParser\Node;
 
 use PhpParser\NodeAbstract;
 
-/**
- * @property Name $namespacedName Namespaced name (for global constants, if using NameResolver)
- */
 class Const_ extends NodeAbstract
 {
     /** @var Identifier Name */
     public $name;
     /** @var Expr Value */
     public $value;
+
+    /** @var Name Namespaced name (if using NameResolver) */
+    public $namespacedName;
 
     /**
      * Constructs a const node for use in class const and const statements.
