@@ -28,7 +28,7 @@ class Bar {
     protected $foo
     = 24;
 
-    public final function
+    final public function
     foo() {}
 }
 -----

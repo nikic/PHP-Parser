@@ -11,7 +11,7 @@ class A extends B implements C, D {
 
     public function a() {}
     public static function b($a) {}
-    public final function c() : B {}
+    final public function c() : B {}
     protected function d() {}
     private function e() {}
 }
