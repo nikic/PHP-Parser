@@ -538,8 +538,6 @@ class Lexer
         $tokenMap[\T_AMPERSAND_FOLLOWED_BY_VAR_OR_VARARG] = Tokens::T_AMPERSAND_FOLLOWED_BY_VAR_OR_VARARG;
         $tokenMap[\T_ENUM] = Tokens::T_ENUM;
         $tokenMap[\T_READONLY] = Tokens::T_READONLY;
-        $tokenMap[Tokens::T_GENERIC_PARAMETER_COVARIANT] = Tokens::T_GENERIC_PARAMETER_COVARIANT;
-        $tokenMap[Tokens::T_GENERIC_PARAMETER_CONTRAVARIANT] = Tokens::T_GENERIC_PARAMETER_CONTRAVARIANT;
 
         return $tokenMap;
     }

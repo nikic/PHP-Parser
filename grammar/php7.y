@@ -33,7 +33,7 @@ reserved_non_modifiers:
     | T_FUNCTION | T_CONST | T_RETURN | T_PRINT | T_YIELD | T_LIST | T_SWITCH | T_ENDSWITCH | T_CASE | T_DEFAULT
     | T_BREAK | T_ARRAY | T_CALLABLE | T_EXTENDS | T_IMPLEMENTS | T_NAMESPACE | T_TRAIT | T_INTERFACE | T_CLASS
     | T_CLASS_C | T_TRAIT_C | T_FUNC_C | T_METHOD_C | T_LINE | T_FILE | T_DIR | T_NS_C | T_HALT_COMPILER | T_FN
-    | T_MATCH | T_ENUM | T_GENERIC_PARAMETER_COVARIANT | T_GENERIC_PARAMETER_CONTRAVARIANT
+    | T_MATCH | T_ENUM
 ;
 
 semi_reserved:
@@ -350,12 +350,6 @@ block_or_error:
     | error                                                 { $$ = []; }
 ;
 
-optional_generic_variant:
-        /* empty */				                    { $$ = NULL; }
-    |	T_GENERIC_PARAMETER_COVARIANT	            { $$ = Node\GenericParameter::COVARIANT; }
-    |	T_GENERIC_PARAMETER_CONTRAVARIANT	        { $$ = Node\GenericParameter::CONTRAVARIANT; }
-;
-
 optional_generic_params:
         /* empty */				    { $$ = NULL; }
     |	'<' generic_params '>'	    { $$ = $2; }
@@ -363,8 +357,8 @@ optional_generic_params:
 ;
 
 generic_params:
-        optional_generic_variant generic_param                        { init($2); $2->setVariance($1); }
- 	|	generic_params ',' optional_generic_variant generic_param     { push($1, $4); $4->setVariance($3); }
+        generic_param                        { init($1); }
+ 	|	generic_params ',' generic_param     { push($1, $3); }
 ;
 
 generic_param:
