@@ -67,7 +67,11 @@ class Standard extends PrettyPrinterAbstract
     }
 
     protected function pAttributeGroup(Node\AttributeGroup $node) {
-        return '#[' . $this->pCommaSeparated($node->attrs) . ']';
+        $result = [];
+        foreach ($node->attrs as $attr) {
+            $result[] = $this->pAttribute($attr);
+        }
+        return '#[' . implode($this->nl, $result) . ']';
     }
 
     // Names
@@ -1097,7 +1101,7 @@ class Standard extends PrettyPrinterAbstract
         $result = '';
         $sep = $inline ? ' ' : $this->nl;
         foreach ($nodes as $node) {
-            $result .= $this->p($node) . $sep;
+            $result .= $this->pAttributeGroup($node) . $sep;
         }
 
         return $result;
