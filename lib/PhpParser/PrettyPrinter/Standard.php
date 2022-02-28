@@ -71,7 +71,7 @@ class Standard extends PrettyPrinterAbstract
         foreach ($node->attrs as $attr) {
             $result[] = $this->pAttribute($attr);
         }
-        return '#[' . implode($this->nl, $result) . ']';
+        return '#[' . implode(', ', $result) . ']';
     }
 
     // Names
