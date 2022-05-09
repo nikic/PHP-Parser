@@ -16,15 +16,20 @@ class LNumber extends Scalar
     /** @var int Number value */
     public $value;
 
+    /** @var int|string The string type is used for numeric separator, e.g. 1_000 */
+    public $rawValue;
+
     /**
      * Constructs an integer number scalar node.
      *
-     * @param int   $value      Value of the number
-     * @param array $attributes Additional attributes
+     * @param int             $value      Value of the number
+     * @param array           $attributes Additional attributes
+     * @param string|int|null $rawValue
      */
-    public function __construct(int $value, array $attributes = []) {
+    public function __construct(int $value, array $attributes = [], $rawValue = null) {
         $this->attributes = $attributes;
         $this->value = $value;
+        $this->rawValue = $rawValue ?? $value;
     }
 
     public function getSubNodeNames() : array {
@@ -45,17 +50,17 @@ class LNumber extends Scalar
 
         if ('0' !== $str[0] || '0' === $str) {
             $attributes['kind'] = LNumber::KIND_DEC;
-            return new LNumber((int) $str, $attributes);
+            return new LNumber((int) $str, $attributes, $str);
         }
 
         if ('x' === $str[1] || 'X' === $str[1]) {
             $attributes['kind'] = LNumber::KIND_HEX;
-            return new LNumber(hexdec($str), $attributes);
+            return new LNumber(hexdec($str), $attributes, $str);
         }
 
         if ('b' === $str[1] || 'B' === $str[1]) {
             $attributes['kind'] = LNumber::KIND_BIN;
-            return new LNumber(bindec($str), $attributes);
+            return new LNumber(bindec($str), $attributes, $str);
         }
 
         if (!$allowInvalidOctal && strpbrk($str, '89')) {
@@ -69,9 +74,9 @@ class LNumber extends Scalar
 
         // use intval instead of octdec to get proper cutting behavior with malformed numbers
         $attributes['kind'] = LNumber::KIND_OCT;
-        return new LNumber(intval($str, 8), $attributes);
+        return new LNumber(intval($str, 8), $attributes, $str);
     }
-    
+
     public function getType() : string {
         return 'Scalar_LNumber';
     }
