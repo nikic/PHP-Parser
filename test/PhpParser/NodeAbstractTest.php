@@ -294,6 +294,7 @@ PHP;
                     {
                         "nodeType": "Scalar_String",
                         "value": "Foo",
+                        "rawValue": "'Foo'",
                         "attributes": {
                             "startLine": 5,
                             "endLine": 5,
@@ -454,7 +455,8 @@ JSON;
                             "endLine": 5,
                             "kind": 1
                         },
-                        "value": "Foo"
+                        "value": "Foo",
+                        "rawValue": "'Foo'"
                     }
                 ]
             }

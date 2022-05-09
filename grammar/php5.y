@@ -796,7 +796,7 @@ common_scalar:
     | T_DNUMBER                                             { $$ = Scalar\DNumber::fromString($1, attributes()); }
     | T_CONSTANT_ENCAPSED_STRING
           { $attrs = attributes(); $attrs['kind'] = strKind($1);
-            $$ = new Scalar\String_(Scalar\String_::parse($1, false), $attrs); }
+            $$ = new Scalar\String_(Scalar\String_::parse($1, false), $attrs, $1); }
     | T_LINE                                                { $$ = Scalar\MagicConst\Line[]; }
     | T_FILE                                                { $$ = Scalar\MagicConst\File[]; }
     | T_DIR                                                 { $$ = Scalar\MagicConst\Dir[]; }
