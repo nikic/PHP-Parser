@@ -242,10 +242,10 @@ PHP;
                 "default": {
                     "nodeType": "Scalar_LNumber",
                     "value": 0,
-                    "rawValue": "0",
                     "attributes": {
                         "startLine": 4,
                         "endLine": 4,
+                        "rawValue": "0",
                         "kind": 10
                     }
                 },
@@ -399,10 +399,10 @@ JSON;
                     "attributes": {
                         "startLine": 4,
                         "endLine": 4,
+                        "rawValue": "0",
                         "kind": 10
                     },
-                    "value": 0,
-                    "rawValue": "0"
+                    "value": 0
                 },
                 "flags": 0,
                 "attrGroups": []
