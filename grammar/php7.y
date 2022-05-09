@@ -1024,7 +1024,7 @@ dereferencable_scalar:
 
 scalar:
       T_LNUMBER                                             { $$ = $this->parseLNumber($1, attributes()); }
-    | T_DNUMBER                                             { $$ = Scalar\DNumber[Scalar\DNumber::parse($1)]; }
+    | T_DNUMBER                                             { $$ = new Scalar\DNumber(Scalar\DNumber::parse($1), attributes(), $1); }
     | dereferencable_scalar                                 { $$ = $1; }
     | constant                                              { $$ = $1; }
     | class_constant                                        { $$ = $1; }

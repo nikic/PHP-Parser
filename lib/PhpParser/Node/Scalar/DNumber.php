@@ -9,15 +9,20 @@ class DNumber extends Scalar
     /** @var float Number value */
     public $value;
 
+    /** @var float|string */
+    public $rawValue;
+
     /**
      * Constructs a float number scalar node.
      *
-     * @param float $value      Value of the number
-     * @param array $attributes Additional attributes
+     * @param float             $value      Value of the number
+     * @param array             $attributes Additional attributes
+     * @param string|float|null $rawValue
      */
-    public function __construct(float $value, array $attributes = []) {
+    public function __construct(float $value, array $attributes = [], $rawValue = null) {
         $this->attributes = $attributes;
         $this->value = $value;
+        $this->rawValue = $rawValue ?? $value;
     }
 
     public function getSubNodeNames() : array {
@@ -63,7 +68,7 @@ class DNumber extends Scalar
         // dec
         return (float) $str;
     }
-    
+
     public function getType() : string {
         return 'Scalar_DNumber';
     }
