@@ -51,12 +51,11 @@ final readonly class A {
 }
 -----
 !!php7
-Syntax error, unexpected T_READONLY, expecting T_CLASS from 3:7 to 3:14
 array(
     0: Stmt_Class(
         attrGroups: array(
         )
-        flags: MODIFIER_READONLY (64)
+        flags: MODIFIER_FINAL | MODIFIER_READONLY (96)
         name: Identifier(
             name: A
         )
