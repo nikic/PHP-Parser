@@ -2147,7 +2147,9 @@ class Php5 extends \PhpParser\ParserAbstract
                  $this->semValue = new Expr\ArrayDimFetch($this->semStack[$stackPos-(4-1)], $this->semStack[$stackPos-(4-3)], $this->startAttributeStack[$stackPos-(4-1)] + $this->endAttributes);
             },
             392 => function ($stackPos) {
-                 $attrs = $this->startAttributeStack[$stackPos-(4-1)] + $this->endAttributes; $attrs['kind'] = ($this->semStack[$stackPos-(4-1)][0] === "'" || ($this->semStack[$stackPos-(4-1)][1] === "'" && ($this->semStack[$stackPos-(4-1)][0] === 'b' || $this->semStack[$stackPos-(4-1)][0] === 'B')) ? Scalar\String_::KIND_SINGLE_QUOTED : Scalar\String_::KIND_DOUBLE_QUOTED);
+                 $attrs = $this->startAttributeStack[$stackPos-(4-1)] + $this->endAttributes;
+            $attrs['kind'] = ($this->semStack[$stackPos-(4-1)][0] === "'" || ($this->semStack[$stackPos-(4-1)][1] === "'" && ($this->semStack[$stackPos-(4-1)][0] === 'b' || $this->semStack[$stackPos-(4-1)][0] === 'B')) ? Scalar\String_::KIND_SINGLE_QUOTED : Scalar\String_::KIND_DOUBLE_QUOTED);
+            $attrs['rawValue'] = $this->semStack[$stackPos-(4-1)];
             $this->semValue = new Expr\ArrayDimFetch(new Scalar\String_(Scalar\String_::parse($this->semStack[$stackPos-(4-1)]), $attrs), $this->semStack[$stackPos-(4-3)], $this->startAttributeStack[$stackPos-(4-1)] + $this->endAttributes);
             },
             393 => function ($stackPos) {
@@ -2278,8 +2280,10 @@ class Php5 extends \PhpParser\ParserAbstract
                  $this->semValue = Scalar\DNumber::fromString($this->semStack[$stackPos-(1-1)], $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
             },
             435 => function ($stackPos) {
-                 $attrs = $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes; $attrs['kind'] = ($this->semStack[$stackPos-(1-1)][0] === "'" || ($this->semStack[$stackPos-(1-1)][1] === "'" && ($this->semStack[$stackPos-(1-1)][0] === 'b' || $this->semStack[$stackPos-(1-1)][0] === 'B')) ? Scalar\String_::KIND_SINGLE_QUOTED : Scalar\String_::KIND_DOUBLE_QUOTED);
-            $this->semValue = new Scalar\String_(Scalar\String_::parse($this->semStack[$stackPos-(1-1)], false), $attrs, $this->semStack[$stackPos-(1-1)]);
+                 $attrs = $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes;
+            $attrs['kind'] = ($this->semStack[$stackPos-(1-1)][0] === "'" || ($this->semStack[$stackPos-(1-1)][1] === "'" && ($this->semStack[$stackPos-(1-1)][0] === 'b' || $this->semStack[$stackPos-(1-1)][0] === 'B')) ? Scalar\String_::KIND_SINGLE_QUOTED : Scalar\String_::KIND_DOUBLE_QUOTED);
+            $attrs['rawValue'] = $this->semStack[$stackPos-(1-1)];
+            $this->semValue = new Scalar\String_(Scalar\String_::parse($this->semStack[$stackPos-(1-1)], false), $attrs);
             },
             436 => function ($stackPos) {
                  $this->semValue = new Scalar\MagicConst\Line($this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);

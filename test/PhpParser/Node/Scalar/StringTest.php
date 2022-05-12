@@ -21,7 +21,7 @@ class StringTest extends \PHPUnit\Framework\TestCase
 
         /** @var String_ $string */
         $this->assertSame('sequence A', $string->value);
-        $this->assertSame('"sequence \\x41"', $string->rawValue);
+        $this->assertSame('"sequence \\x41"', $string->getAttribute('rawValue'));
     }
 
     /**

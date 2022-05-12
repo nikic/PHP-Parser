@@ -16,9 +16,6 @@ class String_ extends Scalar
     /** @var string String value */
     public $value;
 
-    /** @var string String raw value */
-    public $rawValue;
-
     protected static $replacements = [
         '\\' => '\\',
         '$'  =>  '$',
@@ -33,14 +30,12 @@ class String_ extends Scalar
     /**
      * Constructs a string scalar node.
      *
-     * @param string      $value      Value of the string
-     * @param array       $attributes Additional attributes
-     * @param string|null $rawValue
+     * @param string $value      Value of the string
+     * @param array  $attributes Additional attributes
      */
-    public function __construct(string $value, array $attributes = [], $rawValue = null) {
+    public function __construct(string $value, array $attributes = []) {
         $this->attributes = $attributes;
         $this->value = $value;
-        $this->rawValue = $rawValue ?? $value;
     }
 
     public function getSubNodeNames() : array {

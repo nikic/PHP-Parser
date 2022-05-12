@@ -690,7 +690,9 @@ array_expr:
 scalar_dereference:
       array_expr '[' dim_offset ']'                         { $$ = Expr\ArrayDimFetch[$1, $3]; }
     | T_CONSTANT_ENCAPSED_STRING '[' dim_offset ']'
-          { $attrs = attributes(); $attrs['kind'] = strKind($1);
+          { $attrs = attributes();
+            $attrs['kind'] = strKind($1);
+            $attrs['rawValue'] = $1;
             $$ = Expr\ArrayDimFetch[new Scalar\String_(Scalar\String_::parse($1), $attrs), $3]; }
     | constant '[' dim_offset ']'                           { $$ = Expr\ArrayDimFetch[$1, $3]; }
     | scalar_dereference '[' dim_offset ']'                 { $$ = Expr\ArrayDimFetch[$1, $3]; }
@@ -795,8 +797,10 @@ common_scalar:
       T_LNUMBER                                             { $$ = $this->parseLNumber($1, attributes(), true); }
     | T_DNUMBER                                             { $$ = Scalar\DNumber::fromString($1, attributes()); }
     | T_CONSTANT_ENCAPSED_STRING
-          { $attrs = attributes(); $attrs['kind'] = strKind($1);
-            $$ = new Scalar\String_(Scalar\String_::parse($1, false), $attrs, $1); }
+          { $attrs = attributes();
+            $attrs['kind'] = strKind($1);
+            $attrs['rawValue'] = $1;
+            $$ = new Scalar\String_(Scalar\String_::parse($1, false), $attrs); }
     | T_LINE                                                { $$ = Scalar\MagicConst\Line[]; }
     | T_FILE                                                { $$ = Scalar\MagicConst\File[]; }
     | T_DIR                                                 { $$ = Scalar\MagicConst\Dir[]; }
