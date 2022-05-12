@@ -384,6 +384,7 @@ class_entry_type:
       T_CLASS                                               { $$ = 0; }
     | T_ABSTRACT T_CLASS                                    { $$ = Stmt\Class_::MODIFIER_ABSTRACT; }
     | T_FINAL T_CLASS                                       { $$ = Stmt\Class_::MODIFIER_FINAL; }
+    | T_READONLY T_CLASS                                    { $$ = Stmt\Class_::MODIFIER_READONLY; }
 ;
 
 extends_from:

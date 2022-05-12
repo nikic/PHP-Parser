@@ -68,6 +68,10 @@ class Class_ extends ClassLike
         return (bool) ($this->flags & self::MODIFIER_FINAL);
     }
 
+    public function isReadonly() : bool {
+        return (bool) ($this->flags & self::MODIFIER_READONLY);
+    }
+
     /**
      * Whether the class is anonymous.
      *

@@ -1,0 +1,23 @@
+Readonly class
+-----
+<?php
+
+readonly class A {
+}
+-----
+!!php7
+array(
+    0: Stmt_Class(
+        attrGroups: array(
+        )
+        flags: MODIFIER_READONLY (64)
+        name: Identifier(
+            name: A
+        )
+        extends: null
+        implements: array(
+        )
+        stmts: array(
+        )
+    )
+)
