@@ -22,6 +22,6 @@ class DNumberTest extends \PHPUnit\Framework\TestCase
 
         /** @var DNumber $dnumber */
         $this->assertSame(1234.56, $lLumber->value);
-        $this->assertSame('1_234.56', $lLumber->rawValue);
+        $this->assertSame('1_234.56', $lLumber->getAttribute('rawValue'));
     }
 }
