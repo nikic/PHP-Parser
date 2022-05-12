@@ -1,0 +1,12 @@
+Readonly class
+-----
+<?php
+
+readonly class Foo
+{
+}
+-----
+!!php7
+readonly class Foo
+{
+}
