@@ -21,3 +21,49 @@ array(
         )
     )
 )
+-----
+<?php
+
+readonly class A {
+}
+-----
+!!php5
+Syntax error, unexpected T_READONLY from 3:1 to 3:8
+array(
+    0: Stmt_Class(
+        attrGroups: array(
+        )
+        flags: 0
+        name: Identifier(
+            name: A
+        )
+        extends: null
+        implements: array(
+        )
+        stmts: array(
+        )
+    )
+)
+-----
+<?php
+
+final readonly class A {
+}
+-----
+!!php7
+Syntax error, unexpected T_READONLY, expecting T_CLASS from 3:7 to 3:14
+array(
+    0: Stmt_Class(
+        attrGroups: array(
+        )
+        flags: MODIFIER_READONLY (64)
+        name: Identifier(
+            name: A
+        )
+        extends: null
+        implements: array(
+        )
+        stmts: array(
+        )
+    )
+)
