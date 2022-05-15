@@ -382,8 +382,18 @@ enum_case_expr:
 
 class_entry_type:
       T_CLASS                                               { $$ = 0; }
-    | T_ABSTRACT T_CLASS                                    { $$ = Stmt\Class_::MODIFIER_ABSTRACT; }
-    | T_FINAL T_CLASS                                       { $$ = Stmt\Class_::MODIFIER_FINAL; }
+    | class_modifiers T_CLASS                               { $$ = $1; }
+;
+
+class_modifiers:
+      class_modifier                                        { $$ = $1; }
+    | class_modifiers class_modifier                        { $this->checkClassModifier($1, $2, #2); $$ = $1 | $2; }
+;
+
+class_modifier:
+      T_ABSTRACT                                            { $$ = Stmt\Class_::MODIFIER_ABSTRACT; }
+    | T_FINAL                                               { $$ = Stmt\Class_::MODIFIER_FINAL; }
+    | T_READONLY                                            { $$ = Stmt\Class_::MODIFIER_READONLY; }
 ;
 
 extends_from:
