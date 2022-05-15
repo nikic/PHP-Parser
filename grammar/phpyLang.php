@@ -128,14 +128,6 @@ function resolveMacros($code) {
                        . ' else { ' . $args[0] . ' = null; }';
             }
 
-            if ('strKind' === $name) {
-                assertArgs(1, $args, $name);
-
-                return '(' . $args[0] . '[0] === "\'" || (' . $args[0] . '[1] === "\'" && '
-                       . '(' . $args[0] . '[0] === \'b\' || ' . $args[0] . '[0] === \'B\')) '
-                       . '? Scalar\String_::KIND_SINGLE_QUOTED : Scalar\String_::KIND_DOUBLE_QUOTED)';
-            }
-
             if ('prependLeadingComments' === $name) {
                 assertArgs(1, $args, $name);
 

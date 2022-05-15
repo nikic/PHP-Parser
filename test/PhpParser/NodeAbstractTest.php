@@ -297,7 +297,8 @@ PHP;
                         "attributes": {
                             "startLine": 5,
                             "endLine": 5,
-                            "kind": 1
+                            "kind": 1,
+                            "rawValue": "'Foo'"
                         }
                     }
                 ],
@@ -452,7 +453,8 @@ JSON;
                         "attributes": {
                             "startLine": 5,
                             "endLine": 5,
-                            "kind": 1
+                            "kind": 1,
+                            "rawValue": "'Foo'"
                         },
                         "value": "Foo"
                     }
