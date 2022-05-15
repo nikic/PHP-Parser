@@ -43,6 +43,17 @@ class String_ extends Scalar
     }
 
     /**
+     * @param bool $parseUnicodeEscape Whether to parse PHP 7 \u escapes
+     */
+    public static function fromString(string $str, array $attributes = [], bool $parseUnicodeEscape = true): self
+    {
+        $attributes['rawValue'] = $str;
+        $string = self::parse($str, $parseUnicodeEscape);
+
+        return new self($string, $attributes);
+    }
+
+    /**
      * @internal
      *
      * Parses a string token.
