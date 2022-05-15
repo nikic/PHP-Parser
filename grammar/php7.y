@@ -387,7 +387,7 @@ class_entry_type:
 
 class_modifiers:
       class_modifier                                        { $$ = $1; }
-    | class_modifiers class_modifier                        { $this->checkModifier($1, $2, #2); $$ = $1 | $2; }
+    | class_modifiers class_modifier                        { $this->checkClassModifier($1, $2, #2); $$ = $1 | $2; }
 ;
 
 class_modifier:

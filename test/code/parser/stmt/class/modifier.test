@@ -233,7 +233,7 @@ array(
 <?php abstract final class A { }
 -----
 !!php7
-Cannot use the final modifier on an abstract class member from 1:16 to 1:20
+Cannot use the final modifier on an abstract class from 1:16 to 1:20
 array(
     0: Stmt_Class(
         attrGroups: array(
