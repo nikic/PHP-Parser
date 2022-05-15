@@ -4,7 +4,12 @@ namespace PhpParser\Node\Stmt;
 
 use PhpParser\Node;
 
+<<<<<<< HEAD
 class Foreach_ extends Node\Stmt {
+=======
+class Foreach_ extends Node\Stmt implements Node\StmtsIterable
+{
+>>>>>>> 920aae4f (add StmtsIterable interface to mark nodes that contain iterable stmts to improve hooking in node visitors)
     /** @var Node\Expr Expression to iterate */
     public $expr;
     /** @var null|Node\Expr Variable to assign key to */
@@ -40,7 +45,11 @@ class Foreach_ extends Node\Stmt {
         return ['expr', 'keyVar', 'byRef', 'valueVar', 'stmts'];
     }
 
+<<<<<<< HEAD
     public function getType(): string {
+=======
+    public function getType() : string {
+>>>>>>> 920aae4f (add StmtsIterable interface to mark nodes that contain iterable stmts to improve hooking in node visitors)
         return 'Stmt_Foreach';
     }
 }

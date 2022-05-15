@@ -4,7 +4,12 @@ namespace PhpParser\Node\Stmt;
 
 use PhpParser\Node;
 
+<<<<<<< HEAD
 class TryCatch extends Node\Stmt {
+=======
+class TryCatch extends Node\Stmt implements Node\StmtsIterable
+{
+>>>>>>> 920aae4f (add StmtsIterable interface to mark nodes that contain iterable stmts to improve hooking in node visitors)
     /** @var Node\Stmt[] Statements */
     public $stmts;
     /** @var Catch_[] Catches */

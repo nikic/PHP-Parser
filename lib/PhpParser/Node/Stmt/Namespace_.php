@@ -4,7 +4,12 @@ namespace PhpParser\Node\Stmt;
 
 use PhpParser\Node;
 
+<<<<<<< HEAD
 class Namespace_ extends Node\Stmt {
+=======
+class Namespace_ extends Node\Stmt implements Node\StmtsIterable
+{
+>>>>>>> 920aae4f (add StmtsIterable interface to mark nodes that contain iterable stmts to improve hooking in node visitors)
     /* For use in the "kind" attribute */
     public const KIND_SEMICOLON = 1;
     public const KIND_BRACED = 2;
@@ -31,7 +36,11 @@ class Namespace_ extends Node\Stmt {
         return ['name', 'stmts'];
     }
 
+<<<<<<< HEAD
     public function getType(): string {
+=======
+    public function getType() : string {
+>>>>>>> 920aae4f (add StmtsIterable interface to mark nodes that contain iterable stmts to improve hooking in node visitors)
         return 'Stmt_Namespace';
     }
 }
