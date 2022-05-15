@@ -68,6 +68,20 @@ class ClassTest extends \PHPUnit\Framework\TestCase
         );
     }
 
+    public function testReadonly() {
+        $node = $this->createClassBuilder('Test')
+            ->makeReadonly()
+            ->getNode()
+        ;
+
+        $this->assertEquals(
+            new Stmt\Class_('Test', [
+                'flags' => Stmt\Class_::MODIFIER_READONLY
+            ]),
+            $node
+        );
+    }
+
     public function testStatementOrder() {
         $method = new Stmt\ClassMethod('testMethod');
         $property = new Stmt\Property(
