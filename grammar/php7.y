@@ -1016,7 +1016,6 @@ dereferencable_scalar:
     | array_short_syntax                                    { $$ = $1; }
     | T_CONSTANT_ENCAPSED_STRING
           { $attrs = attributes();
-            $attrs['kind'] = strKind($1);
             $$ = Scalar\String_::fromString($1, $attrs); }
     | '"' encaps_list '"'
           { $attrs = attributes(); $attrs['kind'] = Scalar\String_::KIND_DOUBLE_QUOTED;

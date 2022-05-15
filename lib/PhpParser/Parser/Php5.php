@@ -2148,7 +2148,6 @@ class Php5 extends \PhpParser\ParserAbstract
             },
             392 => function ($stackPos) {
                  $attrs = $this->startAttributeStack[$stackPos-(4-1)] + $this->endAttributes;
-            $attrs['kind'] = ($this->semStack[$stackPos-(4-1)][0] === "'" || ($this->semStack[$stackPos-(4-1)][1] === "'" && ($this->semStack[$stackPos-(4-1)][0] === 'b' || $this->semStack[$stackPos-(4-1)][0] === 'B')) ? Scalar\String_::KIND_SINGLE_QUOTED : Scalar\String_::KIND_DOUBLE_QUOTED);
             $this->semValue = new Expr\ArrayDimFetch(Scalar\String_::fromString($this->semStack[$stackPos-(4-1)], $attrs), $this->semStack[$stackPos-(4-3)], $this->startAttributeStack[$stackPos-(4-1)] + $this->endAttributes);
             },
             393 => function ($stackPos) {
@@ -2280,7 +2279,6 @@ class Php5 extends \PhpParser\ParserAbstract
             },
             435 => function ($stackPos) {
                  $attrs = $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes;
-            $attrs['kind'] = ($this->semStack[$stackPos-(1-1)][0] === "'" || ($this->semStack[$stackPos-(1-1)][1] === "'" && ($this->semStack[$stackPos-(1-1)][0] === 'b' || $this->semStack[$stackPos-(1-1)][0] === 'B')) ? Scalar\String_::KIND_SINGLE_QUOTED : Scalar\String_::KIND_DOUBLE_QUOTED);
             $this->semValue = Scalar\String_::fromString($this->semStack[$stackPos-(1-1)], $attrs, false);
             },
             436 => function ($stackPos) {

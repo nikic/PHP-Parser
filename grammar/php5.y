@@ -691,7 +691,6 @@ scalar_dereference:
       array_expr '[' dim_offset ']'                         { $$ = Expr\ArrayDimFetch[$1, $3]; }
     | T_CONSTANT_ENCAPSED_STRING '[' dim_offset ']'
           { $attrs = attributes();
-            $attrs['kind'] = strKind($1);
             $$ = Expr\ArrayDimFetch[Scalar\String_::fromString($1, $attrs), $3]; }
     | constant '[' dim_offset ']'                           { $$ = Expr\ArrayDimFetch[$1, $3]; }
     | scalar_dereference '[' dim_offset ']'                 { $$ = Expr\ArrayDimFetch[$1, $3]; }
@@ -797,7 +796,6 @@ common_scalar:
     | T_DNUMBER                                             { $$ = Scalar\DNumber::fromString($1, attributes()); }
     | T_CONSTANT_ENCAPSED_STRING
           { $attrs = attributes();
-            $attrs['kind'] = strKind($1);
             $$ = Scalar\String_::fromString($1, $attrs, false); }
     | T_LINE                                                { $$ = Scalar\MagicConst\Line[]; }
     | T_FILE                                                { $$ = Scalar\MagicConst\File[]; }
