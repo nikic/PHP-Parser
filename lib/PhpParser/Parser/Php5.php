@@ -2259,7 +2259,7 @@ class Php5 extends \PhpParser\ParserAbstract
                  $this->semValue = array();
             },
             429 => function ($stackPos) {
-                 $this->semValue = array(new Scalar\EncapsedStringPart(Scalar\String_::parseEscapeSequences($this->semStack[$stackPos-(1-1)], '`', false), $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes));
+                 $this->semValue = array(Scalar\EncapsedStringPart::fromStringParsed($this->semStack[$stackPos-(1-1)], $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes, '`', false));
             },
             430 => function ($stackPos) {
                  foreach ($this->semStack[$stackPos-(1-1)] as $s) { if ($s instanceof Node\Scalar\EncapsedStringPart) { $s->value = Node\Scalar\String_::parseEscapeSequences($s->value, '`', false); } }; $this->semValue = $this->semStack[$stackPos-(1-1)];
@@ -2632,7 +2632,7 @@ class Php5 extends \PhpParser\ParserAbstract
                  $this->semValue = array($this->semStack[$stackPos-(2-1)], $this->semStack[$stackPos-(2-2)]);
             },
             553 => function ($stackPos) {
-                 $this->semValue = new Scalar\EncapsedStringPart($this->semStack[$stackPos-(1-1)], $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
+                 $this->semValue = Scalar\EncapsedStringPart::fromString($this->semStack[$stackPos-(1-1)], $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
             },
             554 => function ($stackPos) {
                  $this->semValue = new Expr\Variable($this->semStack[$stackPos-(1-1)], $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
