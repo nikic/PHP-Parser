@@ -98,7 +98,9 @@ switch ($testType) {
 # pretty print difference due to INF vs 1e1000
 | ext.standard.tests.general_functions.bug27678
 | tests.lang.bug24640
+| tests.lang.integer_literals.(binary|octal|hexadecimal)_(32|64)bit
 | Zend.tests.bug74947
+| Zend.tests.float_to_int.union_int_string_type_arg
 # pretty print differences due to negative LNumbers
 | Zend.tests.neg_num_string
 | Zend.tests.numeric_strings.neg_num_string

@@ -74,7 +74,7 @@ jobs:
         run: "test_old/run-php-src.sh 7.3.21"
   test_old_80_70:
     runs-on: "ubuntu-latest"
-    name: "PHP 8.0 Code on PHP 7.0 Integration Tests"
+    name: "PHP 8.1 Code on PHP 7.0 Integration Tests"
     steps:
       - name: "Checkout"
         uses: "actions/checkout@v2"
@@ -87,4 +87,4 @@ jobs:
       - name: "Install PHP 8 dependencies"
         run: "composer update --no-progress --prefer-dist"
       - name: "Tests"
-        run: "test_old/run-php-src.sh 8.0.0"
+        run: "test_old/run-php-src.sh 8.1.6"
