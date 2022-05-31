@@ -1,7 +1,16 @@
-Version 4.13.3-dev
+Version 4.14.1-dev
 ------------------
 
 Nothing yet.
+
+Version 4.14.0 (2022-05-31)
+---------------------------
+
+### Added
+
+* Added support for readonly classes.
+* Added `rawValue` attribute to `LNumber`, `DNumber` and `String_` nodes, which stores the unparsed
+  value of the literal (e.g. `"1_000"` rather than `1000`).
 
 Version 4.13.2 (2021-11-30)
 ---------------------------
