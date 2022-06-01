@@ -2,8 +2,28 @@
 
 namespace PhpParser\Node\Scalar;
 
+use PhpParser\Node\Stmt\Echo_;
+use PhpParser\ParserFactory;
+
 class StringTest extends \PHPUnit\Framework\TestCase
 {
+    public function testRawValue()
+    {
+        $parser = (new ParserFactory())->create(ParserFactory::PREFER_PHP7);
+        $nodes = $parser->parse('<?php echo "sequence \x41";');
+
+        $echo = $nodes[0];
+        $this->assertInstanceOf(Echo_::class, $echo);
+
+        /** @var Echo_ $echo */
+        $string = $echo->exprs[0];
+        $this->assertInstanceOf(String_::class, $string);
+
+        /** @var String_ $string */
+        $this->assertSame('sequence A', $string->value);
+        $this->assertSame('"sequence \\x41"', $string->getAttribute('rawValue'));
+    }
+
     /**
      * @dataProvider provideTestParseEscapeSequences
      */

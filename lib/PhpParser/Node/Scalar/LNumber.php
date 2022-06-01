@@ -41,6 +41,8 @@ class LNumber extends Scalar
      * @return LNumber The constructed LNumber, including kind attribute
      */
     public static function fromString(string $str, array $attributes = [], bool $allowInvalidOctal = false) : LNumber {
+        $attributes['rawValue'] = $str;
+
         $str = str_replace('_', '', $str);
 
         if ('0' !== $str[0] || '0' === $str) {
@@ -71,7 +73,7 @@ class LNumber extends Scalar
         $attributes['kind'] = LNumber::KIND_OCT;
         return new LNumber(intval($str, 8), $attributes);
     }
-    
+
     public function getType() : string {
         return 'Scalar_LNumber';
     }

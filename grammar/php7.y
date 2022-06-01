@@ -405,8 +405,18 @@ enum_case_expr:
 
 class_entry_type:
       T_CLASS                                               { $$ = 0; }
-    | T_ABSTRACT T_CLASS                                    { $$ = Stmt\Class_::MODIFIER_ABSTRACT; }
-    | T_FINAL T_CLASS                                       { $$ = Stmt\Class_::MODIFIER_FINAL; }
+    | class_modifiers T_CLASS                               { $$ = $1; }
+;
+
+class_modifiers:
+      class_modifier                                        { $$ = $1; }
+    | class_modifiers class_modifier                        { $this->checkClassModifier($1, $2, #2); $$ = $1 | $2; }
+;
+
+class_modifier:
+      T_ABSTRACT                                            { $$ = Stmt\Class_::MODIFIER_ABSTRACT; }
+    | T_FINAL                                               { $$ = Stmt\Class_::MODIFIER_FINAL; }
+    | T_READONLY                                            { $$ = Stmt\Class_::MODIFIER_READONLY; }
 ;
 
 extends_from:
@@ -1037,9 +1047,7 @@ dereferencable_scalar:
           { $attrs = attributes(); $attrs['kind'] = Expr\Array_::KIND_LONG;
             $$ = new Expr\Array_($3, $attrs); }
     | array_short_syntax                                    { $$ = $1; }
-    | T_CONSTANT_ENCAPSED_STRING
-          { $attrs = attributes(); $attrs['kind'] = strKind($1);
-            $$ = new Scalar\String_(Scalar\String_::parse($1), $attrs); }
+    | T_CONSTANT_ENCAPSED_STRING                            { $$ = Scalar\String_::fromString($1, attributes()); }
     | '"' encaps_list '"'
           { $attrs = attributes(); $attrs['kind'] = Scalar\String_::KIND_DOUBLE_QUOTED;
             parseEncapsed($2, '"', true); $$ = new Scalar\Encapsed($2, $attrs); }
@@ -1047,7 +1055,7 @@ dereferencable_scalar:
 
 scalar:
       T_LNUMBER                                             { $$ = $this->parseLNumber($1, attributes()); }
-    | T_DNUMBER                                             { $$ = Scalar\DNumber[Scalar\DNumber::parse($1)]; }
+    | T_DNUMBER                                             { $$ = Scalar\DNumber::fromString($1, attributes()); }
     | dereferencable_scalar                                 { $$ = $1; }
     | constant                                              { $$ = $1; }
     | class_constant                                        { $$ = $1; }

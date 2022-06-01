@@ -354,6 +354,20 @@ class EmulativeTest extends LexerTest
             ['0o1000000000000000000000', [
                 [Tokens::T_DNUMBER, '0o1000000000000000000000'],
             ]],
+            ['readonly class', [
+                [Tokens::T_READONLY, 'readonly'],
+                [Tokens::T_CLASS, 'class'],
+            ]],
+            ['function readonly(', [
+                [Tokens::T_FUNCTION, 'function'],
+                [Tokens::T_STRING, 'readonly'],
+                [ord('('), '('],
+            ]],
+            ['function readonly (', [
+                [Tokens::T_FUNCTION, 'function'],
+                [Tokens::T_STRING, 'readonly'],
+                [ord('('), '('],
+            ]],
         ];
     }
 
