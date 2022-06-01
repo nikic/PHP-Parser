@@ -20,6 +20,7 @@ class Test<T,V> extends GenericClass<T> implements GenericInterface<V> {
   use T;
  
   private T|GenericClass<V> $var;
+  private $var2;
  
   public function test(T|GenericInterface<V> $var): T|GenericClass<V> {
       

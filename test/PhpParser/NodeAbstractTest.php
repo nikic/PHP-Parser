@@ -245,6 +245,7 @@ PHP;
                     "attributes": {
                         "startLine": 4,
                         "endLine": 4,
+                        "rawValue": "0",
                         "kind": 10
                     }
                 },
@@ -273,7 +274,8 @@ PHP;
                     "value": 1,
                     "attributes": {
                         "startLine": 4,
-                        "endLine": 4
+                        "endLine": 4,
+                        "rawValue": "1.0"
                     }
                 },
                 "flags": 0,
@@ -295,7 +297,8 @@ PHP;
                         "attributes": {
                             "startLine": 5,
                             "endLine": 5,
-                            "kind": 1
+                            "kind": 1,
+                            "rawValue": "'Foo'"
                         }
                     }
                 ],
@@ -398,6 +401,7 @@ JSON;
                     "attributes": {
                         "startLine": 4,
                         "endLine": 4,
+                        "rawValue": "0",
                         "kind": 10
                     },
                     "value": 0
@@ -426,7 +430,8 @@ JSON;
                     "nodeType": "Scalar_DNumber",
                     "attributes": {
                         "startLine": 4,
-                        "endLine": 4
+                        "endLine": 4,
+                        "rawValue": "1.0"
                     },
                     "value": 1
                 },
@@ -448,7 +453,8 @@ JSON;
                         "attributes": {
                             "startLine": 5,
                             "endLine": 5,
-                            "kind": 1
+                            "kind": 1,
+                            "rawValue": "'Foo'"
                         },
                         "value": "Foo"
                     }

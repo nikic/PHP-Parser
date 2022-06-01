@@ -1,0 +1,90 @@
+# https://help.github.com/en/categories/automating-your-workflow-with-github-actions
+name: Main
+on:
+  push:
+  pull_request:
+
+jobs:
+  tests_70:
+    runs-on: "ubuntu-latest"
+    name: "PHP 7.0 Unit Tests"
+    steps:
+      - name: "Checkout"
+        uses: "actions/checkout@v2"
+      - name: "Install PHP"
+        uses: "shivammathur/setup-php@v2"
+        with:
+          coverage: "xdebug"
+          php-version: "7.0"
+          tools: composer:v2
+      - name: "Install dependencies"
+        run: |
+          composer require php-coveralls/php-coveralls:^2.2 --dev --no-update
+          composer update --no-progress --prefer-dist
+      - name: "Tests"
+        run: "php vendor/bin/phpunit --coverage-clover build/logs/clover.xml"
+      - name: Coveralls
+        env:
+          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: "php vendor/bin/php-coveralls"
+        if: ${{ success() }}
+  tests:
+    runs-on: "ubuntu-latest"
+    name: "PHP ${{ matrix.php-version }} Unit Tests"
+    strategy:
+      matrix:
+        php-version:
+          - "7.1"
+          - "7.2"
+          - "7.3"
+          - "7.4"
+          - "8.0"
+          - "8.1"
+        include:
+          - php-version: "8.1"
+            flags: "--ignore-platform-req=php"
+    steps:
+      - name: "Checkout"
+        uses: "actions/checkout@v2"
+      - name: "Install PHP"
+        uses: "shivammathur/setup-php@v2"
+        with:
+          coverage: "none"
+          php-version: "${{ matrix.php-version }}"
+          tools: composer:v2
+      - name: "Install dependencies"
+        run: "composer update --no-progress --prefer-dist ${{ matrix.flags }}"
+      - name: "PHPUnit"
+        run: "php vendor/bin/phpunit"
+  test_old_73_80:
+    runs-on: "ubuntu-latest"
+    name: "PHP 7.3 Code on PHP 8.0 Integration Tests"
+    steps:
+      - name: "Checkout"
+        uses: "actions/checkout@v2"
+      - name: "Install PHP"
+        uses: "shivammathur/setup-php@v2"
+        with:
+          coverage: "none"
+          php-version: "8.0"
+          tools: composer:v2
+      - name: "Install PHP 8 dependencies"
+        run: "composer update --no-progress --prefer-dist"
+      - name: "Tests"
+        run: "test_old/run-php-src.sh 7.3.21"
+  test_old_80_70:
+    runs-on: "ubuntu-latest"
+    name: "PHP 8.1 Code on PHP 7.0 Integration Tests"
+    steps:
+      - name: "Checkout"
+        uses: "actions/checkout@v2"
+      - name: "Install PHP"
+        uses: "shivammathur/setup-php@v2"
+        with:
+          coverage: "none"
+          php-version: "7.0"
+          tools: composer:v2
+      - name: "Install PHP 8 dependencies"
+        run: "composer update --no-progress --prefer-dist"
+      - name: "Tests"
+        run: "test_old/run-php-src.sh 8.1.6"
