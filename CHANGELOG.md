@@ -1,7 +1,9 @@
 Version 5.0.0-dev
 -----------------
 
-Nothing yet.
+### Changed
+
+* PHP 7.1 is now required to run PHP-Parser (however, older versions can still be parsed).
 
 Version 4.14.1-dev
 ------------------
