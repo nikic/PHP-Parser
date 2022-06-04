@@ -81,7 +81,7 @@ class ClassMethod extends Node\Stmt implements FunctionLike
         return $this->returnType;
     }
 
-    public function getStmts() {
+    public function getStmts(): ?array {
         return $this->stmts;
     }
 

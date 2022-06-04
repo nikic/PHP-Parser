@@ -21,7 +21,7 @@ class Ternary extends Expr
      * @param Expr      $else       Expression for false
      * @param array                    $attributes Additional attributes
      */
-    public function __construct(Expr $cond, $if, Expr $else, array $attributes = []) {
+    public function __construct(Expr $cond, ?Expr $if, Expr $else, array $attributes = []) {
         $this->attributes = $attributes;
         $this->cond = $cond;
         $this->if = $if;

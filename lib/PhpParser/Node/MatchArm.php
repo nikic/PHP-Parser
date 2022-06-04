@@ -15,7 +15,7 @@ class MatchArm extends NodeAbstract
     /**
      * @param null|Node\Expr[] $conds
      */
-    public function __construct($conds, Node\Expr $body, array $attributes = []) {
+    public function __construct(?array $conds, Node\Expr $body, array $attributes = []) {
         $this->conds = $conds;
         $this->body = $body;
         $this->attributes = $attributes;

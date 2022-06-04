@@ -143,7 +143,7 @@ class TokenStream
      * @param int $pos Token position
      * @return int Non-whitespace token position
      */
-    public function skipLeftWhitespace(int $pos) {
+    public function skipLeftWhitespace(int $pos): int {
         $tokens = $this->tokens;
         for (; $pos >= 0; $pos--) {
             $type = $tokens[$pos][0];
@@ -160,7 +160,7 @@ class TokenStream
      * @param int $pos Token position
      * @return int Non-whitespace token position
      */
-    public function skipRightWhitespace(int $pos) {
+    public function skipRightWhitespace(int $pos): int {
         $tokens = $this->tokens;
         for ($count = \count($tokens); $pos < $count; $pos++) {
             $type = $tokens[$pos][0];
@@ -190,7 +190,7 @@ class TokenStream
      * @param int|string $tokenType Token type to look for
      * @return bool Whether the token occurs in the given range
      */
-    public function haveTokenInRange(int $startPos, int $endPos, $tokenType) {
+    public function haveTokenInRange(int $startPos, int $endPos, $tokenType): bool {
         $tokens = $this->tokens;
         for ($pos = $startPos; $pos < $endPos; $pos++) {
             if ($tokens[$pos][0] === $tokenType) {
@@ -258,7 +258,7 @@ class TokenStream
      *
      * @return int[] Token position to indentation map
      */
-    private function calcIndentMap() {
+    private function calcIndentMap(): array {
         $indentMap = [];
         $indent = 0;
         foreach ($this->tokens as $token) {

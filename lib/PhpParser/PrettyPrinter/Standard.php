@@ -1076,7 +1076,7 @@ class Standard extends PrettyPrinterAbstract
      * @param Node[] $nodes
      * @return bool
      */
-    protected function hasNodeWithComments(array $nodes) {
+    protected function hasNodeWithComments(array $nodes): bool {
         foreach ($nodes as $node) {
             if ($node && $node->getComments()) {
                 return true;

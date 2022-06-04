@@ -152,7 +152,7 @@ abstract class ParserAbstract implements Parser
      * @return Node\Stmt[]|null Array of statements (or null non-throwing error handler is used and
      *                          the parser was unable to recover from an error).
      */
-    public function parse(string $code, ErrorHandler $errorHandler = null) {
+    public function parse(string $code, ErrorHandler $errorHandler = null): ?array {
         $this->errorHandler = $errorHandler ?: new ErrorHandler\Throwing;
 
         $this->lexer->startLexing($code, $this->errorHandler);
@@ -553,7 +553,7 @@ abstract class ParserAbstract implements Parser
      *
      * @return null|string One of "semicolon", "brace" or null (no namespaces)
      */
-    private function getNamespacingStyle(array $stmts) {
+    private function getNamespacingStyle(array $stmts): ?string {
         $style = null;
         $hasNotAllowedStmts = false;
         foreach ($stmts as $i => $stmt) {
@@ -853,7 +853,7 @@ abstract class ParserAbstract implements Parser
      * @param Comment[] $comments
      * @return array
      */
-    protected function createCommentNopAttributes(array $comments) {
+    protected function createCommentNopAttributes(array $comments): array {
         $comment = $comments[count($comments) - 1];
         $commentEndLine = $comment->getEndLine();
         $commentEndFilePos = $comment->getEndFilePos();

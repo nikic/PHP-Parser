@@ -87,7 +87,7 @@ class NameContext
      *
      * @return null|Name Namespace (or null if global namespace)
      */
-    public function getNamespace() {
+    public function getNamespace(): ?Name {
         return $this->namespace;
     }
 
@@ -99,7 +99,7 @@ class NameContext
      *
      * @return null|Name Resolved name, or null if static resolution is not possible
      */
-    public function getResolvedName(Name $name, int $type) {
+    public function getResolvedName(Name $name, int $type): ?Name {
         // don't resolve special class names
         if ($type === Stmt\Use_::TYPE_NORMAL && $name->isSpecialClassName()) {
             if (!$name->isUnqualified()) {

@@ -24,7 +24,7 @@ class Multiple implements Parser
         $this->parsers = $parsers;
     }
 
-    public function parse(string $code, ErrorHandler $errorHandler = null) {
+    public function parse(string $code, ErrorHandler $errorHandler = null): ?array {
         if (null === $errorHandler) {
             $errorHandler = new ErrorHandler\Throwing;
         }

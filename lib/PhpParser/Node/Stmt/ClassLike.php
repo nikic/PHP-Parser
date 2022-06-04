@@ -62,7 +62,7 @@ abstract class ClassLike extends Node\Stmt
      *
      * @return Property|null Property node or null if the property does not exist
      */
-    public function getProperty(string $name) {
+    public function getProperty(string $name): ?Property {
         foreach ($this->stmts as $stmt) {
             if ($stmt instanceof Property) {
                 foreach ($stmt->props as $prop) {
@@ -97,7 +97,7 @@ abstract class ClassLike extends Node\Stmt
      *
      * @return ClassMethod|null Method node or null if the method does not exist
      */
-    public function getMethod(string $name) {
+    public function getMethod(string $name): ?ClassMethod {
         $lowerName = strtolower($name);
         foreach ($this->stmts as $stmt) {
             if ($stmt instanceof ClassMethod && $lowerName === $stmt->name->toLowerString()) {

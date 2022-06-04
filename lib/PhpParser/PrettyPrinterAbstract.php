@@ -515,7 +515,7 @@ abstract class PrettyPrinterAbstract
      *
      * @return string Pretty printed node
      */
-    protected function p(Node $node, $parentFormatPreserved = false) : string {
+    protected function p(Node $node, bool $parentFormatPreserved = false) : string {
         // No orig tokens means this is a normal pretty print without preservation of formatting
         if (!$this->origTokens) {
             return $this->{'p' . $node->getType()}($node);
@@ -698,8 +698,8 @@ abstract class PrettyPrinterAbstract
      */
     protected function pArray(
         array $nodes, array $origNodes, int &$pos, int $indentAdjustment,
-        string $parentNodeType, string $subNodeName, $fixup
-    ) {
+        string $parentNodeType, string $subNodeName, ?int $fixup
+    ): ?string {
         $diff = $this->nodeListDiffer->diffWithReplacements($origNodes, $nodes);
 
         $mapKey = $parentNodeType . '->' . $subNodeName;
@@ -948,7 +948,7 @@ abstract class PrettyPrinterAbstract
      *
      * @return string Result of fixed-up print of subnode
      */
-    protected function pFixup(int $fixup, Node $subNode, $parentClass, int $subStartPos, int $subEndPos) : string {
+    protected function pFixup(int $fixup, Node $subNode, ?string $parentClass, int $subStartPos, int $subEndPos) : string {
         switch ($fixup) {
             case self::FIXUP_PREC_LEFT:
             case self::FIXUP_PREC_RIGHT:
@@ -1072,7 +1072,7 @@ abstract class PrettyPrinterAbstract
      *
      * @return string Printed modifiers
      */
-    protected function pModifiers(int $modifiers) {
+    protected function pModifiers(int $modifiers): string {
         return ($modifiers & Stmt\Class_::MODIFIER_PUBLIC    ? 'public '    : '')
              . ($modifiers & Stmt\Class_::MODIFIER_PROTECTED ? 'protected ' : '')
              . ($modifiers & Stmt\Class_::MODIFIER_PRIVATE   ? 'private '   : '')

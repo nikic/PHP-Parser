@@ -98,7 +98,7 @@ class String_ extends Scalar
      *
      * @return string String with escape sequences parsed
      */
-    public static function parseEscapeSequences(string $str, $quote, bool $parseUnicodeEscape = true) : string {
+    public static function parseEscapeSequences(string $str, ?string $quote, bool $parseUnicodeEscape = true) : string {
         if (null !== $quote) {
             $str = str_replace('\\' . $quote, $quote, $str);
         }

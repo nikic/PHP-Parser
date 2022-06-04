@@ -51,7 +51,7 @@ class NodeFinder
      *
      * @return null|Node Found node (or null if none found)
      */
-    public function findFirst($nodes, callable $filter) {
+    public function findFirst($nodes, callable $filter): ?Node {
         if (!is_array($nodes)) {
             $nodes = [$nodes];
         }
@@ -73,7 +73,7 @@ class NodeFinder
      *
      * @return null|Node Found node, which is an instance of $class (or null if none found)
      */
-    public function findFirstInstanceOf($nodes, string $class) {
+    public function findFirstInstanceOf($nodes, string $class): ?Node {
         return $this->findFirst($nodes, function ($node) use ($class) {
             return $node instanceof $class;
         });

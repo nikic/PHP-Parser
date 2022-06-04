@@ -31,7 +31,7 @@ class Differ
      *
      * @return DiffElem[] Diff (edit script)
      */
-    public function diff(array $old, array $new) {
+    public function diff(array $old, array $new): array {
         list($trace, $x, $y) = $this->calculateTrace($old, $new);
         return $this->extractDiff($trace, $x, $y, $old, $new);
     }
@@ -47,7 +47,7 @@ class Differ
      *
      * @return DiffElem[] Diff (edit script), including replace operations
      */
-    public function diffWithReplacements(array $old, array $new) {
+    public function diffWithReplacements(array $old, array $new): array {
         return $this->coalesceReplacements($this->diff($old, $new));
     }
 
@@ -125,7 +125,7 @@ class Differ
      * @param DiffElem[] $diff
      * @return DiffElem[]
      */
-    private function coalesceReplacements(array $diff) {
+    private function coalesceReplacements(array $diff): array {
         $newDiff = [];
         $c = \count($diff);
         for ($i = 0; $i < $c; $i++) {

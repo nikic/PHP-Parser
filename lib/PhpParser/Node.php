@@ -97,7 +97,7 @@ interface Node
      *
      * @return null|Comment\Doc Doc comment object or null
      */
-    public function getDocComment();
+    public function getDocComment(): ?Comment\Doc;
 
     /**
      * Sets the doc comment of the node.

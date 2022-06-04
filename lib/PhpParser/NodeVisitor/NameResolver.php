@@ -50,7 +50,7 @@ class NameResolver extends NodeVisitorAbstract
         return $this->nameContext;
     }
 
-    public function beforeTraverse(array $nodes) {
+    public function beforeTraverse(array $nodes): ?array {
         $this->nameContext->startNamespace();
         return null;
     }

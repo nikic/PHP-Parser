@@ -18,7 +18,7 @@ class Case_ extends Node\Stmt
      * @param Node\Stmt[]    $stmts      Statements
      * @param array          $attributes Additional attributes
      */
-    public function __construct($cond, array $stmts = [], array $attributes = []) {
+    public function __construct(?Node\Expr $cond, array $stmts = [], array $attributes = []) {
         $this->attributes = $attributes;
         $this->cond = $cond;
         $this->stmts = $stmts;

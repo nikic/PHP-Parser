@@ -83,12 +83,12 @@ class MultipleTest extends ParserTest
         $this->expectExceptionMessage('FAIL A');
 
         $parserA = new class implements \PhpParser\Parser {
-            public function parse(string $code, ErrorHandler $errorHandler = null) {
+            public function parse(string $code, ErrorHandler $errorHandler = null): ?array {
                 throw new Error('FAIL A');
             }
         };
         $parserB = new class implements \PhpParser\Parser {
-            public function parse(string $code, ErrorHandler $errorHandler = null) {
+            public function parse(string $code, ErrorHandler $errorHandler = null): ?array {
                 throw new Error('FAIL B');
             }
         };

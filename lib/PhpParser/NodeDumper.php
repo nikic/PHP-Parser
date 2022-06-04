@@ -174,7 +174,7 @@ class NodeDumper
      *
      * @return string|null Dump of position, or null if position information not available
      */
-    protected function dumpPosition(Node $node) {
+    protected function dumpPosition(Node $node): ?string {
         if (!$node->hasAttribute('startLine') || !$node->hasAttribute('endLine')) {
             return null;
         }

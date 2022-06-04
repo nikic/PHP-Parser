@@ -110,7 +110,7 @@ abstract class NodeAbstract implements Node, \JsonSerializable
      *
      * @return null|Comment\Doc Doc comment object or null
      */
-    public function getDocComment() {
+    public function getDocComment(): ?Comment\Doc {
         $comments = $this->getComments();
         for ($i = count($comments) - 1; $i >= 0; $i--) {
             $comment = $comments[$i];

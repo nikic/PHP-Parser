@@ -32,7 +32,7 @@ interface FunctionLike extends Node
      *
      * @return Stmt[]|null
      */
-    public function getStmts();
+    public function getStmts(): ?array;
 
     /**
      * Get PHP attribute groups.
