@@ -99,7 +99,7 @@ function
 foo(
 int $x,
 array &$y = null
-) : Foo
+): Foo
 {}
 
 $foo
@@ -111,7 +111,7 @@ $foo
 ];
 
 function
-() : Bar
+(): Bar
 {};
 
 $x
@@ -134,7 +134,7 @@ class
 X extends \Bar
 {
     public
-    function y() : Y
+    function y(): Y
     {}
 
     private
