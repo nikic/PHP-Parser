@@ -13,6 +13,6 @@ class Test
 {
     public A&B $prop;
 }
-function test(A&B $a) : A&B
+function test(A&B $a): A&B
 {
 }

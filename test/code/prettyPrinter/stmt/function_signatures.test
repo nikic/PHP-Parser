@@ -37,7 +37,7 @@ interface A
     function f10(A ...$a);
     function f11(A &$a);
     function f12(A &...$a);
-    function f13($a) : array;
-    function f14($a) : callable;
-    function f15($a) : B\C;
+    function f13($a): array;
+    function f14($a): callable;
+    function f15($a): B\C;
 }

@@ -267,9 +267,9 @@ class A extends \NS\B implements \NS\C, \NS\D
 #[\NS\X]
 interface A extends \NS\C, \NS\D
 {
-    public function a(\NS\A $a) : \NS\A;
-    public function b(\NS\A|\NS\B|int $a) : \NS\A|\NS\B|int;
-    public function c(\NS\A&\NS\B $a) : \NS\A&\NS\B;
+    public function a(\NS\A $a): \NS\A;
+    public function b(\NS\A|\NS\B|int $a): \NS\A|\NS\B|int;
+    public function c(\NS\A&\NS\B $a): \NS\A&\NS\B;
 }
 #[\NS\X]
 enum E : int
@@ -282,19 +282,19 @@ trait A
 {
 }
 #[\NS\X]
-function f(#[\NS\X] \NS\A $a) : \NS\A
+function f(#[\NS\X] \NS\A $a): \NS\A
 {
 }
-function f2(array $a) : array
+function f2(array $a): array
 {
 }
-function fn3(?\NS\A $a) : ?\NS\A
+function fn3(?\NS\A $a): ?\NS\A
 {
 }
-function fn4(?array $a) : ?array
+function fn4(?array $a): ?array
 {
 }
-#[\NS\X] function (\NS\A $a) : \NS\A {
+#[\NS\X] function (\NS\A $a): \NS\A {
 };
 #[\NS\X] fn(array $a): array => $a;
 fn(\NS\A $a): \NS\A => $a;
