@@ -32,3 +32,15 @@ public abstract function test();
 # After
 abstract public function test();
 ```
+
+A space is now printed between `use` and the following `(` for closures:
+
+```php
+# Before
+function () use($var) {
+};
+
+# After
+function () use ($var) {
+};
+```
