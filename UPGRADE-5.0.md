@@ -44,3 +44,23 @@ function () use($var) {
 function () use ($var) {
 };
 ```
+
+### Changes to token representation
+
+Tokens are now internally represented using the `PhpParser\Token` class, which exposes the same base interface as
+the `PhpToken` class introduced in PHP 8.0. On PHP 8.0 or newer, `PhpParser\Token` extends from `PhpToken`, otherwise
+it extends from a polyfill implementation. The most important parts of the interface may be summarized as follows:
+
+```php
+class Token {
+    public int $id;
+    public string $text;
+    public int $line;
+    public int $pos;
+
+    public function is(int|string|array $kind): bool;
+}
+```
+
+The `Lexer::getTokens()` method will now return an array of `Token`s, rather than an array of arrays and strings.
+Additionally, the token array is now terminated by a sentinel token with ID 0.

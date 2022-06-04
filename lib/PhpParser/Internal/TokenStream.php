@@ -2,6 +2,8 @@
 
 namespace PhpParser\Internal;
 
+use PhpParser\Token;
+
 /**
  * Provides operations on token streams, for use by pretty printer.
  *
@@ -9,7 +11,7 @@ namespace PhpParser\Internal;
  */
 class TokenStream
 {
-    /** @var array Tokens (in token_get_all format) */
+    /** @var Token[] Tokens (in PhpToken::tokenize() format) */
     private $tokens;
     /** @var int[] Map from position to indentation */
     private $indentMap;
@@ -17,7 +19,7 @@ class TokenStream
     /**
      * Create token stream instance.
      *
-     * @param array $tokens Tokens in token_get_all() format
+     * @param Token[] $tokens Tokens in PhpToken::tokenize() format
      */
     public function __construct(array $tokens) {
         $this->tokens = $tokens;
@@ -65,12 +67,11 @@ class TokenStream
         $tokens = $this->tokens;
         $pos--;
         for (; $pos >= 0; $pos--) {
-            $tokenType = $tokens[$pos][0];
-            if ($tokenType === $expectedTokenType) {
+            $token = $tokens[$pos];
+            if ($token->is($expectedTokenType)) {
                 return true;
             }
-            if ($tokenType !== \T_WHITESPACE
-                && $tokenType !== \T_COMMENT && $tokenType !== \T_DOC_COMMENT) {
+            if (!$token->isIgnorable()) {
                 break;
             }
         }
@@ -91,12 +92,11 @@ class TokenStream
         $tokens = $this->tokens;
         $pos++;
         for (; $pos < \count($tokens); $pos++) {
-            $tokenType = $tokens[$pos][0];
-            if ($tokenType === $expectedTokenType) {
+            $token = $tokens[$pos];
+            if ($token->is($expectedTokenType)) {
                 return true;
             }
-            if ($tokenType !== \T_WHITESPACE
-                && $tokenType !== \T_COMMENT && $tokenType !== \T_DOC_COMMENT) {
+            if (!$token->isIgnorable()) {
                 break;
             }
         }
@@ -111,7 +111,7 @@ class TokenStream
             return $pos;
         }
 
-        if ($tokens[$pos][0] !== $skipTokenType) {
+        if (!$tokens[$pos]->is($skipTokenType)) {
             // Shouldn't happen. The skip token MUST be there
             throw new \Exception('Encountered unexpected token');
         }
@@ -128,7 +128,7 @@ class TokenStream
             return $pos;
         }
 
-        if ($tokens[$pos][0] !== $skipTokenType) {
+        if (!$tokens[$pos]->is($skipTokenType)) {
             // Shouldn't happen. The skip token MUST be there
             throw new \Exception('Encountered unexpected token');
         }
@@ -146,8 +146,7 @@ class TokenStream
     public function skipLeftWhitespace(int $pos): int {
         $tokens = $this->tokens;
         for (; $pos >= 0; $pos--) {
-            $type = $tokens[$pos][0];
-            if ($type !== \T_WHITESPACE && $type !== \T_COMMENT && $type !== \T_DOC_COMMENT) {
+            if (!$tokens[$pos]->isIgnorable()) {
                 break;
             }
         }
@@ -163,8 +162,7 @@ class TokenStream
     public function skipRightWhitespace(int $pos): int {
         $tokens = $this->tokens;
         for ($count = \count($tokens); $pos < $count; $pos++) {
-            $type = $tokens[$pos][0];
-            if ($type !== \T_WHITESPACE && $type !== \T_COMMENT && $type !== \T_DOC_COMMENT) {
+            if (!$tokens[$pos]->isIgnorable()) {
                 break;
             }
         }
@@ -174,8 +172,7 @@ class TokenStream
     public function findRight(int $pos, $findTokenType) {
         $tokens = $this->tokens;
         for ($count = \count($tokens); $pos < $count; $pos++) {
-            $type = $tokens[$pos][0];
-            if ($type === $findTokenType) {
+            if ($tokens[$pos]->is($findTokenType)) {
                 return $pos;
             }
         }
@@ -193,7 +190,7 @@ class TokenStream
     public function haveTokenInRange(int $startPos, int $endPos, $tokenType): bool {
         $tokens = $this->tokens;
         for ($pos = $startPos; $pos < $endPos; $pos++) {
-            if ($tokens[$pos][0] === $tokenType) {
+            if ($tokens[$pos]->is($tokenType)) {
                 return true;
             }
         }
@@ -231,23 +228,19 @@ class TokenStream
         $result = '';
         for ($pos = $from; $pos < $to; $pos++) {
             $token = $tokens[$pos];
-            if (\is_array($token)) {
-                $type = $token[0];
-                $content = $token[1];
-                if ($type === \T_CONSTANT_ENCAPSED_STRING || $type === \T_ENCAPSED_AND_WHITESPACE) {
-                    $result .= $content;
-                } else {
-                    // TODO Handle non-space indentation
-                    if ($indent < 0) {
-                        $result .= str_replace("\n" . str_repeat(" ", -$indent), "\n", $content);
-                    } elseif ($indent > 0) {
-                        $result .= str_replace("\n", "\n" . str_repeat(" ", $indent), $content);
-                    } else {
-                        $result .= $content;
-                    }
-                }
+            $id = $token->id;
+            $text = $token->text;
+            if ($id === \T_CONSTANT_ENCAPSED_STRING || $id === \T_ENCAPSED_AND_WHITESPACE) {
+                $result .= $text;
             } else {
-                $result .= $token;
+                // TODO Handle non-space indentation
+                if ($indent < 0) {
+                    $result .= str_replace("\n" . str_repeat(" ", -$indent), "\n", $text);
+                } elseif ($indent > 0) {
+                    $result .= str_replace("\n", "\n" . str_repeat(" ", $indent), $text);
+                } else {
+                    $result .= $text;
+                }
             }
         }
         return $result;
@@ -264,8 +257,8 @@ class TokenStream
         foreach ($this->tokens as $token) {
             $indentMap[] = $indent;
 
-            if ($token[0] === \T_WHITESPACE) {
-                $content = $token[1];
+            if ($token->id === \T_WHITESPACE) {
+                $content = $token->text;
                 $newlinePos = \strrpos($content, "\n");
                 if (false !== $newlinePos) {
                     $indent = \strlen($content) - $newlinePos - 1;

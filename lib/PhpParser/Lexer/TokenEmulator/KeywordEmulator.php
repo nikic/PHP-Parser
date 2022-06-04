@@ -2,6 +2,8 @@
 
 namespace PhpParser\Lexer\TokenEmulator;
 
+use PhpParser\Token;
+
 abstract class KeywordEmulator extends TokenEmulator
 {
     abstract function getKeywordString(): string;
@@ -12,33 +14,31 @@ abstract class KeywordEmulator extends TokenEmulator
         return strpos(strtolower($code), $this->getKeywordString()) !== false;
     }
 
+    /** @param Token[] $tokens */
     protected function isKeywordContext(array $tokens, int $pos): bool
     {
         $previousNonSpaceToken = $this->getPreviousNonSpaceToken($tokens, $pos);
-        return $previousNonSpaceToken === null || $previousNonSpaceToken[0] !== \T_OBJECT_OPERATOR;
+        return $previousNonSpaceToken === null || $previousNonSpaceToken->id !== \T_OBJECT_OPERATOR;
     }
 
     public function emulate(string $code, array $tokens): array
     {
         $keywordString = $this->getKeywordString();
         foreach ($tokens as $i => $token) {
-            if ($token[0] === T_STRING && strtolower($token[1]) === $keywordString
+            if ($token->id === T_STRING && strtolower($token->text) === $keywordString
                     && $this->isKeywordContext($tokens, $i)) {
-                $tokens[$i][0] = $this->getKeywordToken();
+                $token->id = $this->getKeywordToken();
             }
         }
 
         return $tokens;
     }
 
-    /**
-     * @param mixed[] $tokens
-     * @return array|string|null
-     */
-    private function getPreviousNonSpaceToken(array $tokens, int $start)
+    /** @param Token[] $tokens */
+    private function getPreviousNonSpaceToken(array $tokens, int $start): ?Token
     {
         for ($i = $start - 1; $i >= 0; --$i) {
-            if ($tokens[$i][0] === T_WHITESPACE) {
+            if ($tokens[$i]->id === T_WHITESPACE) {
                 continue;
             }
 
@@ -52,8 +52,8 @@ abstract class KeywordEmulator extends TokenEmulator
     {
         $keywordToken = $this->getKeywordToken();
         foreach ($tokens as $i => $token) {
-            if ($token[0] === $keywordToken) {
-                $tokens[$i][0] = \T_STRING;
+            if ($token->id === $keywordToken) {
+                $token->id = \T_STRING;
             }
         }
 

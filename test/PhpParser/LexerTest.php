@@ -250,6 +250,9 @@ class LexerTest extends \PHPUnit\Framework\TestCase
         $lexer->startLexing($code);
 
         while (Tokens::T_HALT_COMPILER !== $lexer->getNextToken());
+        $lexer->getNextToken();
+        $lexer->getNextToken();
+        $lexer->getNextToken();
 
         $this->assertSame($remaining, $lexer->handleHaltCompiler());
         $this->assertSame(0, $lexer->getNextToken());
@@ -257,41 +260,33 @@ class LexerTest extends \PHPUnit\Framework\TestCase
 
     public function provideTestHaltCompiler() {
         return [
+            ['<?php ... __halt_compiler();', ''],
             ['<?php ... __halt_compiler();Remaining Text', 'Remaining Text'],
             ['<?php ... __halt_compiler ( ) ;Remaining Text', 'Remaining Text'],
             ['<?php ... __halt_compiler() ?>Remaining Text', 'Remaining Text'],
-            //array('<?php ... __halt_compiler();' . "\0", "\0"),
-            //array('<?php ... __halt_compiler /* */ ( ) ;Remaining Text', 'Remaining Text'),
+            ['<?php ... __halt_compiler();' . "\0", "\0"],
+            ['<?php ... __halt_compiler /* */ ( ) ;Remaining Text', 'Remaining Text'],
         ];
-    }
-
-    public function testHandleHaltCompilerError() {
-        $this->expectException(Error::class);
-        $this->expectExceptionMessage('__HALT_COMPILER must be followed by "();"');
-        $lexer = $this->getLexer();
-        $lexer->startLexing('<?php ... __halt_compiler invalid ();');
-
-        while (Tokens::T_HALT_COMPILER !== $lexer->getNextToken());
-        $lexer->handleHaltCompiler();
     }
 
     public function testGetTokens() {
         $code = '<?php "a";' . "\n" . '// foo' . "\n" . '// bar' . "\n\n" . '"b";';
         $expectedTokens = [
-            [T_OPEN_TAG, '<?php ', 1],
-            [T_CONSTANT_ENCAPSED_STRING, '"a"', 1],
-            ';',
-            [T_WHITESPACE, "\n", 1],
-            [T_COMMENT, '// foo', 2],
-            [T_WHITESPACE, "\n", 2],
-            [T_COMMENT, '// bar', 3],
-            [T_WHITESPACE, "\n\n", 3],
-            [T_CONSTANT_ENCAPSED_STRING, '"b"', 5],
-            ';',
+            new Token(T_OPEN_TAG, '<?php ', 1, 0),
+            new Token(T_CONSTANT_ENCAPSED_STRING, '"a"', 1, 6),
+            new Token(\ord(';'), ';', 1, 9),
+            new Token(T_WHITESPACE, "\n", 1, 10),
+            new Token(T_COMMENT, '// foo', 2, 11),
+            new Token(T_WHITESPACE, "\n", 2, 17),
+            new Token(T_COMMENT, '// bar', 3, 18),
+            new Token(T_WHITESPACE, "\n\n", 3, 24),
+            new Token(T_CONSTANT_ENCAPSED_STRING, '"b"', 5, 26),
+            new Token(\ord(';'), ';', 5, 29),
+            new Token(0, "\0", 5, 30),
         ];
 
         $lexer = $this->getLexer();
         $lexer->startLexing($code);
-        $this->assertSame($expectedTokens, $lexer->getTokens());
+        $this->assertEquals($expectedTokens, $lexer->getTokens());
     }
 }

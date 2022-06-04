@@ -2,6 +2,8 @@
 
 namespace PhpParser\Lexer\TokenEmulator;
 
+use PhpParser\Token;
+
 /** @internal */
 abstract class TokenEmulator
 {
@@ -10,12 +12,13 @@ abstract class TokenEmulator
     abstract public function isEmulationNeeded(string $code): bool;
 
     /**
-     * @return array Modified Tokens
+     * @param Token[] Original tokens
+     * @return Token[] Modified Tokens
      */
     abstract public function emulate(string $code, array $tokens): array;
 
     /**
-     * @return array Modified Tokens
+     * @return Token[] Modified Tokens
      */
     abstract public function reverseEmulate(string $code, array $tokens): array;
 

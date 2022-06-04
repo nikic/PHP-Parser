@@ -25,7 +25,7 @@ final class EnumTokenEmulator extends KeywordEmulator
     {
         return parent::isKeywordContext($tokens, $pos)
             && isset($tokens[$pos + 2])
-            && $tokens[$pos + 1][0] === \T_WHITESPACE
-            && $tokens[$pos + 2][0] === \T_STRING;
+            && $tokens[$pos + 1]->id === \T_WHITESPACE
+            && $tokens[$pos + 2]->id === \T_STRING;
     }
 }

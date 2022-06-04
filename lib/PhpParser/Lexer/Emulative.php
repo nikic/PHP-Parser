@@ -139,26 +139,7 @@ class Emulative extends Lexer
         $pos = 0;
         for ($i = 0, $c = \count($this->tokens); $i < $c; $i++) {
             $token = $this->tokens[$i];
-            if (\is_string($token)) {
-                if ($patchPos === $pos) {
-                    // Only support replacement for string tokens.
-                    assert($patchType === 'replace');
-                    $this->tokens[$i] = $patchText;
-
-                    // Fetch the next patch
-                    $patchIdx++;
-                    if ($patchIdx >= \count($this->patches)) {
-                        // No more patches, we're done
-                        return;
-                    }
-                    list($patchPos, $patchType, $patchText) = $this->patches[$patchIdx];
-                }
-
-                $pos += \strlen($token);
-                continue;
-            }
-
-            $len = \strlen($token[1]);
+            $len = \strlen($token->text);
             $posDelta = 0;
             while ($patchPos >= $pos && $patchPos < $pos + $len) {
                 $patchTextLen = \strlen($patchText);
@@ -170,21 +151,21 @@ class Emulative extends Lexer
                         $c--;
                     } else {
                         // Remove from token string
-                        $this->tokens[$i][1] = substr_replace(
-                            $token[1], '', $patchPos - $pos + $posDelta, $patchTextLen
+                        $token->text = substr_replace(
+                            $token->text, '', $patchPos - $pos + $posDelta, $patchTextLen
                         );
                         $posDelta -= $patchTextLen;
                     }
                 } elseif ($patchType === 'add') {
                     // Insert into the token string
-                    $this->tokens[$i][1] = substr_replace(
-                        $token[1], $patchText, $patchPos - $pos + $posDelta, 0
+                    $token->text = substr_replace(
+                        $token->text, $patchText, $patchPos - $pos + $posDelta, 0
                     );
                     $posDelta += $patchTextLen;
                 } else if ($patchType === 'replace') {
                     // Replace inside the token string
-                    $this->tokens[$i][1] = substr_replace(
-                        $token[1], $patchText, $patchPos - $pos + $posDelta, $patchTextLen
+                    $token->text = substr_replace(
+                        $token->text, $patchText, $patchPos - $pos + $posDelta, $patchTextLen
                     );
                 } else {
                     assert(false);
@@ -198,10 +179,6 @@ class Emulative extends Lexer
                 }
 
                 list($patchPos, $patchType, $patchText) = $this->patches[$patchIdx];
-
-                // Multiple patches may apply to the same token. Reload the current one to check
-                // If the new patch applies
-                $token = $this->tokens[$i];
             }
 
             $pos += $len;

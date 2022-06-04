@@ -72,7 +72,7 @@ top_statement:
       statement                                             { $$ = $1; }
     | function_declaration_statement                        { $$ = $1; }
     | class_declaration_statement                           { $$ = $1; }
-    | T_HALT_COMPILER
+    | T_HALT_COMPILER '(' ')' ';'
           { $$ = Stmt\HaltCompiler[$this->lexer->handleHaltCompiler()]; }
     | T_NAMESPACE namespace_name ';'
           { $$ = Stmt\Namespace_[$2, null];

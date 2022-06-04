@@ -491,7 +491,7 @@ abstract class PrettyPrinterAbstract
         $pos = 0;
         $result = $this->pArray($stmts, $origStmts, $pos, 0, 'File', 'stmts', null);
         if (null !== $result) {
-            $result .= $this->origTokens->getTokenCode($pos, count($origTokens), 0);
+            $result .= $this->origTokens->getTokenCode($pos, count($origTokens) - 1, 0);
         } else {
             // Fallback
             // TODO Add <?php properly
