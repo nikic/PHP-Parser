@@ -132,15 +132,16 @@ class Emulative extends Lexer
 
         // Load first patch
         $patchIdx = 0;
-
         list($patchPos, $patchType, $patchText) = $this->patches[$patchIdx];
 
         // We use a manual loop over the tokens, because we modify the array on the fly
-        $pos = 0;
+        $posDelta = 0;
         for ($i = 0, $c = \count($this->tokens); $i < $c; $i++) {
             $token = $this->tokens[$i];
+            $pos = $token->pos;
+            $token->pos += $posDelta;
+            $localPosDelta = 0;
             $len = \strlen($token->text);
-            $posDelta = 0;
             while ($patchPos >= $pos && $patchPos < $pos + $len) {
                 $patchTextLen = \strlen($patchText);
                 if ($patchType === 'remove') {
@@ -152,20 +153,20 @@ class Emulative extends Lexer
                     } else {
                         // Remove from token string
                         $token->text = substr_replace(
-                            $token->text, '', $patchPos - $pos + $posDelta, $patchTextLen
+                            $token->text, '', $patchPos - $pos + $localPosDelta, $patchTextLen
                         );
-                        $posDelta -= $patchTextLen;
+                        $localPosDelta -= $patchTextLen;
                     }
                 } elseif ($patchType === 'add') {
                     // Insert into the token string
                     $token->text = substr_replace(
-                        $token->text, $patchText, $patchPos - $pos + $posDelta, 0
+                        $token->text, $patchText, $patchPos - $pos + $localPosDelta, 0
                     );
-                    $posDelta += $patchTextLen;
+                    $localPosDelta += $patchTextLen;
                 } else if ($patchType === 'replace') {
                     // Replace inside the token string
                     $token->text = substr_replace(
-                        $token->text, $patchText, $patchPos - $pos + $posDelta, $patchTextLen
+                        $token->text, $patchText, $patchPos - $pos + $localPosDelta, $patchTextLen
                     );
                 } else {
                     assert(false);
@@ -174,18 +175,16 @@ class Emulative extends Lexer
                 // Fetch the next patch
                 $patchIdx++;
                 if ($patchIdx >= \count($this->patches)) {
-                    // No more patches, we're done
-                    return;
+                    // No more patches. However, we still need to adjust position.
+                    $patchPos = \PHP_INT_MAX;
+                    break;
                 }
 
                 list($patchPos, $patchType, $patchText) = $this->patches[$patchIdx];
             }
 
-            $pos += $len;
+            $posDelta += $localPosDelta;
         }
-
-        // A patch did not apply
-        assert(false);
     }
 
     /**
