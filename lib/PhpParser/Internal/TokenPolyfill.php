@@ -3,7 +3,7 @@
 namespace PhpParser\Internal;
 
 if (\PHP_VERSION_ID >= 80000) {
-    \class_alias('PhpToken', 'PhpParser\TokenPolyfill');
+    class TokenPolyfill extends \PhpToken {}
     return;
 }
 
