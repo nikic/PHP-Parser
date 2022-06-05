@@ -1440,7 +1440,7 @@ abstract class PrettyPrinterAbstract
         // [$find, $extraLeft, $extraRight]
         $this->emptyListInsertionMap = [
             'Expr_ArrowFunction->params' => ['(', '', ''],
-            'Expr_Closure->uses' => [')', ' use(', ')'],
+            'Expr_Closure->uses' => [')', ' use (', ')'],
             'Expr_Closure->params' => ['(', '', ''],
             'Expr_FuncCall->args' => ['(', '', ''],
             'Expr_MethodCall->args' => ['(', '', ''],
