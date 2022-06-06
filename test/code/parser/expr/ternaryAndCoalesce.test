@@ -21,18 +21,12 @@ array(
         expr: Expr_Ternary(
             cond: Expr_Variable(
                 name: a
-                comments: array(
-                    0: // ternary
-                )
             )
             if: Expr_Variable(
                 name: b
             )
             else: Expr_Variable(
                 name: c
-            )
-            comments: array(
-                0: // ternary
             )
         )
         comments: array(
@@ -55,9 +49,6 @@ array(
             cond: Expr_Ternary(
                 cond: Expr_Variable(
                     name: a
-                    comments: array(
-                        0: // precedence
-                    )
                 )
                 if: Expr_Variable(
                     name: b
@@ -65,18 +56,12 @@ array(
                 else: Expr_Variable(
                     name: c
                 )
-                comments: array(
-                    0: // precedence
-                )
             )
             if: Expr_Variable(
                 name: d
             )
             else: Expr_Variable(
                 name: e
-            )
-            comments: array(
-                0: // precedence
             )
         )
         comments: array(
@@ -108,15 +93,9 @@ array(
         expr: Expr_BinaryOp_Coalesce(
             left: Expr_Variable(
                 name: a
-                comments: array(
-                    0: // null coalesce
-                )
             )
             right: Expr_Variable(
                 name: b
-            )
-            comments: array(
-                0: // null coalesce
             )
         )
         comments: array(

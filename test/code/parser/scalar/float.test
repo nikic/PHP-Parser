@@ -76,10 +76,6 @@ array(
     10: Stmt_Expression(
         expr: Scalar_Float(
             value: 1.844674407371E+19
-            comments: array(
-                0: // various integer -> float overflows
-                1: // (all are actually the same number, just in different representations)
-            )
         )
         comments: array(
             0: // various integer -> float overflows

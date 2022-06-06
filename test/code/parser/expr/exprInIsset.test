@@ -17,9 +17,6 @@ array(
                     name: b
                 )
             )
-            comments: array(
-                0: // This is legal.
-            )
         )
         comments: array(
             0: // This is legal.
@@ -36,9 +33,6 @@ array(
                         value: 1
                     )
                 )
-            )
-            comments: array(
-                0: // This is illegal, but not a syntax error.
             )
         )
         comments: array(

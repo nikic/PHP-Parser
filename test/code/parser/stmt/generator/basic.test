@@ -47,9 +47,6 @@ array(
                 expr: Expr_Yield(
                     key: null
                     value: null
-                    comments: array(
-                        0: // statements
-                    )
                 )
                 comments: array(
                     0: // statements
@@ -77,16 +74,10 @@ array(
                 expr: Expr_Assign(
                     var: Expr_Variable(
                         name: data
-                        comments: array(
-                            0: // expressions
-                        )
                     )
                     expr: Expr_Yield(
                         key: null
                         value: null
-                    )
-                    comments: array(
-                        0: // expressions
                     )
                 )
                 comments: array(
@@ -214,9 +205,6 @@ array(
                 expr: Expr_FuncCall(
                     name: Name(
                         name: func
-                        comments: array(
-                            0: // yield in function calls
-                        )
                     )
                     args: array(
                         0: Arg(
@@ -230,9 +218,6 @@ array(
                             byRef: false
                             unpack: false
                         )
-                    )
-                    comments: array(
-                        0: // yield in function calls
                     )
                 )
                 comments: array(

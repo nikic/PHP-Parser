@@ -41,15 +41,9 @@ array(
         expr: Expr_Assign(
             var: Expr_Variable(
                 name: a
-                comments: array(
-                    0: // simple assign
-                )
             )
             expr: Expr_Variable(
                 name: b
-            )
-            comments: array(
-                0: // simple assign
             )
         )
         comments: array(
@@ -60,15 +54,9 @@ array(
         expr: Expr_AssignOp_BitwiseAnd(
             var: Expr_Variable(
                 name: a
-                comments: array(
-                    0: // combined assign
-                )
             )
             expr: Expr_Variable(
                 name: b
-            )
-            comments: array(
-                0: // combined assign
             )
         )
         comments: array(
@@ -199,9 +187,6 @@ array(
         expr: Expr_Assign(
             var: Expr_Variable(
                 name: a
-                comments: array(
-                    0: // chained assign
-                )
             )
             expr: Expr_AssignOp_Mul(
                 var: Expr_Variable(
@@ -216,9 +201,6 @@ array(
                     )
                 )
             )
-            comments: array(
-                0: // chained assign
-            )
         )
         comments: array(
             0: // chained assign
@@ -228,15 +210,9 @@ array(
         expr: Expr_AssignRef(
             var: Expr_Variable(
                 name: a
-                comments: array(
-                    0: // by ref assign
-                )
             )
             expr: Expr_Variable(
                 name: b
-            )
-            comments: array(
-                0: // by ref assign
             )
         )
         comments: array(
@@ -256,15 +232,9 @@ array(
                         unpack: false
                     )
                 )
-                comments: array(
-                    0: // list() assign
-                )
             )
             expr: Expr_Variable(
                 name: b
-            )
-            comments: array(
-                0: // list() assign
             )
         )
         comments: array(
@@ -348,9 +318,6 @@ array(
         expr: Expr_PreInc(
             var: Expr_Variable(
                 name: a
-            )
-            comments: array(
-                0: // inc/dec
             )
         )
         comments: array(

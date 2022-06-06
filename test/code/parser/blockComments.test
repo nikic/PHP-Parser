@@ -22,9 +22,6 @@ array(
                     0: Stmt_Expression(
                         expr: Expr_Variable(
                             name: a
-                            comments: array(
-                                0: // baz
-                            )
                         )
                         comments: array(
                             0: // baz

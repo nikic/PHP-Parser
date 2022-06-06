@@ -83,9 +83,6 @@ array(
                 flags: 0
                 type: Name(
                     name: iterable
-                    comments: array(
-                        0: // PHP 7.0
-                    )
                 )
                 byRef: false
                 variadic: false
@@ -103,9 +100,6 @@ array(
                 flags: 0
                 type: Name(
                     name: object
-                    comments: array(
-                        0: // PHP 7.1
-                    )
                 )
                 byRef: false
                 variadic: false
@@ -123,9 +117,6 @@ array(
                 flags: 0
                 type: Name(
                     name: mixed
-                    comments: array(
-                        0: // PHP 7.2
-                    )
                 )
                 byRef: false
                 variadic: false
@@ -143,9 +134,6 @@ array(
                 flags: 0
                 type: Name(
                     name: null
-                    comments: array(
-                        0: // PHP 8.0
-                    )
                 )
                 byRef: false
                 variadic: false
@@ -163,9 +151,6 @@ array(
                 flags: 0
                 type: Name(
                     name: false
-                    comments: array(
-                        0: // PHP 8.0
-                    )
                 )
                 byRef: false
                 variadic: false
@@ -292,9 +277,6 @@ array(
                 flags: 0
                 type: Name(
                     name: iterable
-                    comments: array(
-                        0: // PHP 7.0
-                    )
                 )
                 byRef: false
                 variadic: false
@@ -312,9 +294,6 @@ array(
                 flags: 0
                 type: Name(
                     name: object
-                    comments: array(
-                        0: // PHP 7.1
-                    )
                 )
                 byRef: false
                 variadic: false
@@ -332,9 +311,6 @@ array(
                 flags: 0
                 type: Name(
                     name: mixed
-                    comments: array(
-                        0: // PHP 7.2
-                    )
                 )
                 byRef: false
                 variadic: false
@@ -352,9 +328,6 @@ array(
                 flags: 0
                 type: Name(
                     name: null
-                    comments: array(
-                        0: // PHP 8.0
-                    )
                 )
                 byRef: false
                 variadic: false
@@ -372,9 +345,6 @@ array(
                 flags: 0
                 type: Name(
                     name: false
-                    comments: array(
-                        0: // PHP 8.0
-                    )
                 )
                 byRef: false
                 variadic: false
@@ -501,9 +471,6 @@ array(
                 flags: 0
                 type: Identifier(
                     name: iterable
-                    comments: array(
-                        0: // PHP 7.0
-                    )
                 )
                 byRef: false
                 variadic: false
@@ -521,9 +488,6 @@ array(
                 flags: 0
                 type: Name(
                     name: object
-                    comments: array(
-                        0: // PHP 7.1
-                    )
                 )
                 byRef: false
                 variadic: false
@@ -541,9 +505,6 @@ array(
                 flags: 0
                 type: Name(
                     name: mixed
-                    comments: array(
-                        0: // PHP 7.2
-                    )
                 )
                 byRef: false
                 variadic: false
@@ -561,9 +522,6 @@ array(
                 flags: 0
                 type: Name(
                     name: null
-                    comments: array(
-                        0: // PHP 8.0
-                    )
                 )
                 byRef: false
                 variadic: false
@@ -581,9 +539,6 @@ array(
                 flags: 0
                 type: Name(
                     name: false
-                    comments: array(
-                        0: // PHP 8.0
-                    )
                 )
                 byRef: false
                 variadic: false
@@ -710,9 +665,6 @@ array(
                 flags: 0
                 type: Identifier(
                     name: iterable
-                    comments: array(
-                        0: // PHP 7.0
-                    )
                 )
                 byRef: false
                 variadic: false
@@ -730,9 +682,6 @@ array(
                 flags: 0
                 type: Identifier(
                     name: object
-                    comments: array(
-                        0: // PHP 7.1
-                    )
                 )
                 byRef: false
                 variadic: false
@@ -750,9 +699,6 @@ array(
                 flags: 0
                 type: Name(
                     name: mixed
-                    comments: array(
-                        0: // PHP 7.2
-                    )
                 )
                 byRef: false
                 variadic: false
@@ -770,9 +716,6 @@ array(
                 flags: 0
                 type: Name(
                     name: null
-                    comments: array(
-                        0: // PHP 8.0
-                    )
                 )
                 byRef: false
                 variadic: false
@@ -790,9 +733,6 @@ array(
                 flags: 0
                 type: Name(
                     name: false
-                    comments: array(
-                        0: // PHP 8.0
-                    )
                 )
                 byRef: false
                 variadic: false
@@ -919,9 +859,6 @@ array(
                 flags: 0
                 type: Identifier(
                     name: iterable
-                    comments: array(
-                        0: // PHP 7.0
-                    )
                 )
                 byRef: false
                 variadic: false
@@ -939,9 +876,6 @@ array(
                 flags: 0
                 type: Identifier(
                     name: object
-                    comments: array(
-                        0: // PHP 7.1
-                    )
                 )
                 byRef: false
                 variadic: false
@@ -959,9 +893,6 @@ array(
                 flags: 0
                 type: Identifier(
                     name: mixed
-                    comments: array(
-                        0: // PHP 7.2
-                    )
                 )
                 byRef: false
                 variadic: false
@@ -979,9 +910,6 @@ array(
                 flags: 0
                 type: Identifier(
                     name: null
-                    comments: array(
-                        0: // PHP 8.0
-                    )
                 )
                 byRef: false
                 variadic: false
@@ -999,9 +927,6 @@ array(
                 flags: 0
                 type: Identifier(
                     name: false
-                    comments: array(
-                        0: // PHP 8.0
-                    )
                 )
                 byRef: false
                 variadic: false
@@ -1128,9 +1053,6 @@ array(
                 flags: 0
                 type: Identifier(
                     name: iterable
-                    comments: array(
-                        0: // PHP 7.0
-                    )
                 )
                 byRef: false
                 variadic: false
@@ -1148,9 +1070,6 @@ array(
                 flags: 0
                 type: Identifier(
                     name: object
-                    comments: array(
-                        0: // PHP 7.1
-                    )
                 )
                 byRef: false
                 variadic: false
@@ -1168,9 +1087,6 @@ array(
                 flags: 0
                 type: Identifier(
                     name: mixed
-                    comments: array(
-                        0: // PHP 7.2
-                    )
                 )
                 byRef: false
                 variadic: false
@@ -1188,9 +1104,6 @@ array(
                 flags: 0
                 type: Identifier(
                     name: null
-                    comments: array(
-                        0: // PHP 8.0
-                    )
                 )
                 byRef: false
                 variadic: false
@@ -1208,9 +1121,6 @@ array(
                 flags: 0
                 type: Identifier(
                     name: false
-                    comments: array(
-                        0: // PHP 8.0
-                    )
                 )
                 byRef: false
                 variadic: false

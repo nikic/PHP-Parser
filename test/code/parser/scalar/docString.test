@@ -37,9 +37,6 @@ array(
     0: Stmt_Expression(
         expr: Scalar_String(
             value:
-            comments: array(
-                0: // empty strings
-            )
         )
         comments: array(
             0: // empty strings
@@ -53,9 +50,6 @@ array(
     2: Stmt_Expression(
         expr: Scalar_String(
             value: Test '" $a \n
-            comments: array(
-                0: // constant encapsed strings
-            )
         )
         comments: array(
             0: // constant encapsed strings
@@ -76,9 +70,6 @@ array(
                 1: Expr_Variable(
                     name: a
                 )
-            )
-            comments: array(
-                0: // encapsed strings
             )
         )
         comments: array(

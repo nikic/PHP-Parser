@@ -18,15 +18,9 @@ array(
         expr: Expr_StaticPropertyFetch(
             class: Name(
                 name: A
-                comments: array(
-                    0: // property name variations
-                )
             )
             name: VarLikeIdentifier(
                 name: b
-            )
-            comments: array(
-                0: // property name variations
             )
         )
         comments: array(
@@ -58,22 +52,13 @@ array(
             var: Expr_StaticPropertyFetch(
                 class: Name(
                     name: A
-                    comments: array(
-                        0: // array access
-                    )
                 )
                 name: VarLikeIdentifier(
                     name: b
                 )
-                comments: array(
-                    0: // array access
-                )
             )
             dim: Scalar_String(
                 value: c
-            )
-            comments: array(
-                0: // array access
             )
         )
         comments: array(

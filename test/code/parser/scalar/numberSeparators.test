@@ -59,12 +59,6 @@ array(
         expr: Expr_ConstFetch(
             name: Name(
                 name: _100
-                comments: array(
-                    0: // already a valid constant name
-                )
-            )
-            comments: array(
-                0: // already a valid constant name
             )
         )
         comments: array(
@@ -74,9 +68,6 @@ array(
     6: Stmt_Expression(
         expr: Scalar_Int(
             value: 100
-            comments: array(
-                0: // syntax errors
-            )
         )
         comments: array(
             0: // syntax errors

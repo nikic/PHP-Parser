@@ -20,14 +20,8 @@ array(
         expr: Expr_FuncCall(
             name: Name(
                 name: a
-                comments: array(
-                    0: // function name variations
-                )
             )
             args: array(
-            )
-            comments: array(
-                0: // function name variations
             )
         )
         comments: array(
@@ -130,21 +124,12 @@ array(
             var: Expr_FuncCall(
                 name: Name(
                     name: a
-                    comments: array(
-                        0: // array dereferencing
-                    )
                 )
                 args: array(
-                )
-                comments: array(
-                    0: // array dereferencing
                 )
             )
             dim: Scalar_String(
                 value: b
-            )
-            comments: array(
-                0: // array dereferencing
             )
         )
         comments: array(

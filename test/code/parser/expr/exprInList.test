@@ -29,15 +29,9 @@ array(
                         unpack: false
                     )
                 )
-                comments: array(
-                    0: // This is legal.
-                )
             )
             expr: Expr_Variable(
                 name: x
-            )
-            comments: array(
-                0: // This is legal.
             )
         )
         comments: array(
@@ -62,15 +56,9 @@ array(
                         unpack: false
                     )
                 )
-                comments: array(
-                    0: // This is illegal, but not a syntax error.
-                )
             )
             expr: Expr_Variable(
                 name: x
-            )
-            comments: array(
-                0: // This is illegal, but not a syntax error.
             )
         )
         comments: array(

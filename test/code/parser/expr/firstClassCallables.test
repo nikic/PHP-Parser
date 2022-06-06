@@ -61,9 +61,6 @@ array(
                 0: VariadicPlaceholder(
                 )
             )
-            comments: array(
-                0: // These are invalid, but accepted on the parser level.
-            )
         )
         comments: array(
             0: // These are invalid, but accepted on the parser level.

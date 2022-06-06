@@ -22,15 +22,9 @@ array(
         expr: Expr_PropertyFetch(
             var: Expr_Variable(
                 name: a
-                comments: array(
-                    0: // property fetch variations
-                )
             )
             name: Identifier(
                 name: b
-            )
-            comments: array(
-                0: // property fetch variations
             )
         )
         comments: array(
@@ -71,17 +65,11 @@ array(
         expr: Expr_MethodCall(
             var: Expr_Variable(
                 name: a
-                comments: array(
-                    0: // method call variations
-                )
             )
             name: Identifier(
                 name: b
             )
             args: array(
-            )
-            comments: array(
-                0: // method call variations
             )
         )
         comments: array(
@@ -136,24 +124,15 @@ array(
             var: Expr_MethodCall(
                 var: Expr_Variable(
                     name: a
-                    comments: array(
-                        0: // array dereferencing
-                    )
                 )
                 name: Identifier(
                     name: b
                 )
                 args: array(
                 )
-                comments: array(
-                    0: // array dereferencing
-                )
             )
             dim: Scalar_String(
                 value: c
-            )
-            comments: array(
-                0: // array dereferencing
             )
         )
         comments: array(

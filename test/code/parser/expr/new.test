@@ -52,9 +52,6 @@ array(
             )
             args: array(
             )
-            comments: array(
-                0: // class name variations
-            )
         )
         comments: array(
             0: // class name variations
@@ -99,9 +96,6 @@ array(
                 )
             )
             args: array(
-            )
-            comments: array(
-                0: // DNCR object access
             )
         )
         comments: array(

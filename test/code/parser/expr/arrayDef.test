@@ -116,9 +116,6 @@ array(
         expr: Expr_Array(
             items: array(
             )
-            comments: array(
-                0: // short array syntax
-            )
         )
         comments: array(
             0: // short array syntax

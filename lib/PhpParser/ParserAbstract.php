@@ -30,6 +30,7 @@ use PhpParser\Node\Stmt\Nop;
 use PhpParser\Node\Stmt\Property;
 use PhpParser\Node\Stmt\TryCatch;
 use PhpParser\Node\UseItem;
+use PhpParser\NodeVisitor\CommentAnnotatingVisitor;
 
 abstract class ParserAbstract implements Parser {
     private const SYMBOL_NONE = -1;
@@ -200,6 +201,11 @@ abstract class ParserAbstract implements Parser {
         $this->semStack = [];
         $this->semValue = null;
         $this->createdArrays = null;
+
+        if ($result !== null) {
+            $traverser = new NodeTraverser(new CommentAnnotatingVisitor($this->tokens));
+            $traverser->traverse($result);
+        }
 
         return $result;
     }
@@ -473,7 +479,7 @@ abstract class ParserAbstract implements Parser {
     protected function getAttributes(int $tokenStartPos, int $tokenEndPos): array {
         $startToken = $this->tokens[$tokenStartPos];
         $afterEndToken = $this->tokens[$tokenEndPos + 1];
-        $attributes = [
+        return [
             'startLine' => $startToken->line,
             'startTokenPos' => $tokenStartPos,
             'startFilePos' => $startToken->pos,
@@ -481,11 +487,6 @@ abstract class ParserAbstract implements Parser {
             'endTokenPos' => $tokenEndPos,
             'endFilePos' => $afterEndToken->pos - 1,
         ];
-        $comments = $this->getCommentsBeforeToken($tokenStartPos);
-        if (!empty($comments)) {
-            $attributes['comments'] = $comments;
-        }
-        return $attributes;
     }
 
     /**
@@ -500,7 +501,7 @@ abstract class ParserAbstract implements Parser {
 
         // Get attributes for the sentinel token.
         $token = $this->tokens[$tokenPos];
-        $attributes = [
+        return [
             'startLine' => $token->line,
             'startTokenPos' => $tokenPos,
             'startFilePos' => $token->pos,
@@ -508,11 +509,6 @@ abstract class ParserAbstract implements Parser {
             'endTokenPos' => $tokenPos,
             'endFilePos' => $token->pos,
         ];
-        $comments = $this->getCommentsBeforeToken($tokenPos);
-        if (!empty($comments)) {
-            $attributes['comments'] = $comments;
-        }
-        return $attributes;
     }
 
     /*
@@ -902,12 +898,9 @@ abstract class ParserAbstract implements Parser {
     }
 
     /**
-     * Get comments before the given token position.
-     *
-     * @return Comment[] Comments
+     * Get last comment before the given token position, if any
      */
-    protected function getCommentsBeforeToken(int $tokenPos): array {
-        $comments = [];
+    protected function getCommentBeforeToken(int $tokenPos): ?Comment {
         while (--$tokenPos >= 0) {
             $token = $this->tokens[$tokenPos];
             if (!isset($this->dropTokens[$token->id])) {
@@ -915,22 +908,21 @@ abstract class ParserAbstract implements Parser {
             }
 
             if ($token->id === \T_COMMENT || $token->id === \T_DOC_COMMENT) {
-                $comments[] = $this->createCommentFromToken($token, $tokenPos);
+                return $this->createCommentFromToken($token, $tokenPos);
             }
         }
-        return \array_reverse($comments);
+        return null;
     }
 
     /**
      * Create a zero-length nop to capture preceding comments, if any.
      */
     protected function maybeCreateZeroLengthNop(int $tokenPos): ?Nop {
-        $comments = $this->getCommentsBeforeToken($tokenPos);
-        if (empty($comments)) {
+        $comment = $this->getCommentBeforeToken($tokenPos);
+        if ($comment === null) {
             return null;
         }
 
-        $comment = $comments[\count($comments) - 1];
         $commentEndLine = $comment->getEndLine();
         $commentEndFilePos = $comment->getEndFilePos();
         $commentEndTokenPos = $comment->getEndTokenPos();
@@ -941,14 +933,12 @@ abstract class ParserAbstract implements Parser {
             'endFilePos' => $commentEndFilePos,
             'startTokenPos' => $commentEndTokenPos + 1,
             'endTokenPos' => $commentEndTokenPos,
-            'comments' => $comments,
         ];
         return new Nop($attributes);
     }
 
     protected function maybeCreateNop(int $tokenStartPos, int $tokenEndPos): ?Nop {
-        $comments = $this->getCommentsBeforeToken($tokenStartPos);
-        if (empty($comments)) {
+        if ($this->getCommentBeforeToken($tokenStartPos) === null) {
             return null;
         }
         return new Nop($this->getAttributes($tokenStartPos, $tokenEndPos));
