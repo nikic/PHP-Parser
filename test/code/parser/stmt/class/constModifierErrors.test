@@ -5,7 +5,6 @@ class A {
     static const X = 1;
 }
 -----
-!!php7
 Cannot use 'static' as constant modifier from 3:5 to 3:10
 array(
     0: Stmt_Class(
@@ -43,7 +42,6 @@ class A {
     abstract const X = 1;
 }
 -----
-!!php7
 Cannot use 'abstract' as constant modifier from 3:5 to 3:12
 array(
     0: Stmt_Class(
@@ -81,7 +79,6 @@ class A {
     readonly const X = 1;
 }
 -----
-!!php7
 Cannot use 'readonly' as constant modifier from 3:5 to 3:12
 array(
     0: Stmt_Class(
@@ -119,7 +116,6 @@ class A {
     public public const X = 1;
 }
 -----
-!!php7
 Multiple access type modifiers are not allowed from 3:12 to 3:17
 array(
     0: Stmt_Class(

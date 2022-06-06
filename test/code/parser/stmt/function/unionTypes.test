@@ -8,7 +8,6 @@ class Test {
 
 function test(A|B $a): int|false {}
 -----
-!!php7
 array(
     0: Stmt_Class(
         attrGroups: array(

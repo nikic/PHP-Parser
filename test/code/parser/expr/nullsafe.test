@@ -8,7 +8,6 @@ new $a?->b;
 "{$a?->b}";
 "$a?->b";
 -----
-!!php7
 array(
     0: Stmt_Expression(
         expr: Expr_NullsafePropertyFetch(

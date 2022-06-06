@@ -8,7 +8,6 @@ Uniform variable syntax in PHP 7 (misc)
 (clone $obj)->b[0](1);
 [0, 1][0] = 1;
 -----
-!!php7
 array(
     0: Stmt_Expression(
         expr: Expr_MethodCall(

@@ -7,7 +7,6 @@ echo match (1) {
     1 => 'Bar',
 };
 -----
-!!php7
 array(
     0: Stmt_Echo(
         exprs: array(
@@ -49,7 +48,6 @@ $value = match (1) {
     0, 1 => 'Foo',
 };
 -----
-!!php7
 array(
     0: Stmt_Expression(
         expr: Expr_Assign(
@@ -92,7 +90,6 @@ $result = match ($operator) {
     BinaryOperator::ADD => $lhs + $rhs,
 };
 -----
-!!php7
 array(
     0: Stmt_Expression(
         expr: Expr_Assign(
@@ -139,7 +136,6 @@ $value = match ($char) {
     default => 'default'
 };
 -----
-!!php7
 array(
     0: Stmt_Expression(
         expr: Expr_Assign(
@@ -180,7 +176,6 @@ $value = match (1) {
     default, => 'Bar',
 };
 -----
-!!php7
 array(
     0: Stmt_Expression(
         expr: Expr_Assign(

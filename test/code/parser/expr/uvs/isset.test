@@ -6,7 +6,6 @@ isset(([0, 1] + [])[0]);
 isset(['a' => 'b']->a);
 isset("str"->a);
 -----
-!!php7
 array(
     0: Stmt_Expression(
         expr: Expr_Isset(

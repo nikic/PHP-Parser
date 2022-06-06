@@ -11,7 +11,6 @@ fn(): int => $x;
 fn($a, $b) => $a and $b;
 fn($a, $b) => $a && $b;
 -----
-!!php7
 fn($a) => $a;
 fn($x = 42) => $x;
 fn(&$x) => $x;

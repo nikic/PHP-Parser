@@ -10,7 +10,6 @@ A::$$b;
 A::$$c[1];
 A::$A::$b;
 -----
-!!php7
 array(
     0: Stmt_Expression(
         expr: Expr_StaticPropertyFetch(

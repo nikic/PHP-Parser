@@ -51,7 +51,7 @@ class CodeTestParser
         return $result;
     }
 
-    private function extractMode($expected) {
+    private function extractMode(string $expected): array {
         $firstNewLine = strpos($expected, "\n");
         if (false === $firstNewLine) {
             $firstNewLine = strlen($expected);

@@ -13,7 +13,6 @@ class Point
     }
 }
 -----
-!!php7
 class Point
 {
     public function __construct(public float $x = 0.0, protected array $y = [], private string $z = 'hello', public readonly int $a = 0)
@@ -35,7 +34,6 @@ class Test
     }
 }
 -----
-!!php7
 class Test
 {
     public $z;

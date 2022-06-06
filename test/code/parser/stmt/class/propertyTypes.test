@@ -9,7 +9,6 @@ class A {
     readonly static public ?int $d;
 }
 -----
-!!php7
 array(
     0: Stmt_Class(
         attrGroups: array(

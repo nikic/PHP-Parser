@@ -7,7 +7,6 @@ list('k' => &$v) = $x;
 [&$v] = $x;
 ['k' => &$v] = $x;
 -----
-!!php7
 array(
     0: Stmt_Expression(
         expr: Expr_Assign(

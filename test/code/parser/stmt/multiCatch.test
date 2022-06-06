@@ -9,7 +9,6 @@ try {
     $z;
 }
 -----
-!!php7
 array(
     0: Stmt_TryCatch(
         stmts: array(

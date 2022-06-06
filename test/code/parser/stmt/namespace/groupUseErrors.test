@@ -5,7 +5,6 @@ Invalid group use syntax
 use Foo\{Bar}
 use Bar\{Foo};
 -----
-!!php7
 Syntax error, unexpected T_USE, expecting ';' from 4:1 to 4:3
 array(
     0: Stmt_GroupUse(
@@ -55,7 +54,6 @@ array(
 // Missing NS separator
 use Foo {Bar, Baz};
 -----
-!!php7
 Syntax error, unexpected '{', expecting ';' from 3:9 to 3:9
 array(
     0: Stmt_Use(

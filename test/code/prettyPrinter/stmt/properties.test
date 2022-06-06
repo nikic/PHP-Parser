@@ -11,7 +11,6 @@ class A
     public readonly int|float $e;
 }
 -----
-!!php7
 class A
 {
     public $a;

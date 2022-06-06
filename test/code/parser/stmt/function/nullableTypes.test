@@ -5,7 +5,6 @@ Nullable types
 function test(?Foo $bar, ?string $foo) : ?Baz {
 }
 -----
-!!php7
 array(
     0: Stmt_Function(
         attrGroups: array(

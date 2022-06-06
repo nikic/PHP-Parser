@@ -31,7 +31,6 @@ $y = #[A11] fn() => 0;
 $a = #[A12] static function() {};
 $b = #[A13] static fn() => 0;
 -----
-!!php7
 array(
     0: Stmt_Function(
         attrGroups: array(

@@ -5,7 +5,6 @@ Readonly class
 readonly class A {
 }
 -----
-!!php7
 array(
     0: Stmt_Class(
         attrGroups: array(
@@ -24,33 +23,9 @@ array(
 -----
 <?php
 
-readonly class A {
-}
------
-!!php5
-Syntax error, unexpected T_READONLY from 3:1 to 3:8
-array(
-    0: Stmt_Class(
-        attrGroups: array(
-        )
-        flags: 0
-        name: Identifier(
-            name: A
-        )
-        extends: null
-        implements: array(
-        )
-        stmts: array(
-        )
-    )
-)
------
-<?php
-
 final readonly class A {
 }
 -----
-!!php7
 array(
     0: Stmt_Class(
         attrGroups: array(

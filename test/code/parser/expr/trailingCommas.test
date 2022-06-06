@@ -9,7 +9,6 @@ new Foo($a, $b, );
 unset($a, $b, );
 isset($a, $b, );
 -----
-!!php7
 array(
     0: Stmt_Expression(
         expr: Expr_FuncCall(

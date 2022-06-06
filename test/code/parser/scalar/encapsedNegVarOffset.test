@@ -7,7 +7,6 @@ Encapsed string negative var offsets
 "$a[-00]";
 "$a[@@{ -PHP_INT_MAX - 1 }@@]";
 -----
-!!php7
 array(
     0: Stmt_Expression(
         expr: Scalar_Encapsed(

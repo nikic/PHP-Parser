@@ -14,7 +14,6 @@ class Bar {
     public $prop = new Foo;
 }
 -----
-!!php7
 array(
     0: Stmt_Const(
         consts: array(

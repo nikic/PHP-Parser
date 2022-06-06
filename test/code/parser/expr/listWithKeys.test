@@ -5,7 +5,6 @@ List destructing with keys
 list('a' => $b) = ['a' => 'b'];
 list('a' => list($b => $c), 'd' => $e) = $x;
 -----
-!!php7
 array(
     0: Stmt_Expression(
         expr: Expr_Assign(

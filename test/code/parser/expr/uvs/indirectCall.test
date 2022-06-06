@@ -15,7 +15,6 @@ id(['udef', 'id'])[1]()('var_dump')(5);
 ('i' . 'd')()('var_dump')(13);
 '\id'('var_dump')(14);
 -----
-!!php7
 array(
     0: Stmt_Expression(
         expr: Expr_FuncCall(

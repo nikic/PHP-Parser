@@ -3,7 +3,6 @@ Scalar type declarations
 <?php
 function test(bool $a, Int $b, FLOAT $c, StRiNg $d, iterable $e, object $f, mixed $g) : void {}
 -----
-!!php7
 array(
     0: Stmt_Function(
         attrGroups: array(

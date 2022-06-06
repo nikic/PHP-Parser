@@ -14,7 +14,6 @@ function gen() {
     var_dump([yield "k1" => (yield "k2") => "a" . "b"]);
 }
 -----
-!!php7
 array(
     0: Stmt_Function(
         attrGroups: array(

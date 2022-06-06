@@ -68,7 +68,6 @@ array(
 -----
 <?php class C { readonly readonly $a; }
 -----
-!!php7
 Multiple readonly modifiers are not allowed from 1:26 to 1:33
 array(
     0: Stmt_Class(
@@ -232,7 +231,6 @@ array(
 -----
 <?php abstract final class A { }
 -----
-!!php7
 Cannot use the final modifier on an abstract class from 1:16 to 1:20
 array(
     0: Stmt_Class(
@@ -246,58 +244,6 @@ array(
         implements: array(
         )
         stmts: array(
-        )
-    )
-)
------
-<?php abstract final class A { }
-// Type in the partial parse could conceivably be any of 0, 16 or 32
------
-!!php5
-Syntax error, unexpected T_FINAL, expecting T_CLASS from 1:16 to 1:20
-array(
-    0: Stmt_Class(
-        attrGroups: array(
-        )
-        flags: MODIFIER_FINAL (32)
-        name: Identifier(
-            name: A
-        )
-        extends: null
-        implements: array(
-        )
-        stmts: array(
-        )
-    )
-    1: Stmt_Nop(
-        comments: array(
-            0: // Type in the partial parse could conceivably be any of 0, 16 or 32
-        )
-    )
-)
------
-<?php readonly class A { }
-// Type in the partial parse could conceivably be any of 0, 16 or 32
------
-!!php5
-Syntax error, unexpected T_READONLY from 1:7 to 1:14
-array(
-    0: Stmt_Class(
-        attrGroups: array(
-        )
-        flags: 0
-        name: Identifier(
-            name: A
-        )
-        extends: null
-        implements: array(
-        )
-        stmts: array(
-        )
-    )
-    1: Stmt_Nop(
-        comments: array(
-            0: // Type in the partial parse could conceivably be any of 0, 16 or 32
         )
     )
 )

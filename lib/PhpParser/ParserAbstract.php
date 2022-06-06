@@ -28,6 +28,11 @@ abstract class ParserAbstract implements Parser
 {
     const SYMBOL_NONE = -1;
 
+    /** @var Lexer Lexer that is used when parsing */
+    protected $lexer;
+    /** @var int PHP version ID to target on a best-effort basis (e.g. 80100) */
+    protected $phpVersion;
+
     /*
      * The following members will be filled with generated parsing data:
      */
@@ -95,8 +100,6 @@ abstract class ParserAbstract implements Parser
      * The following members are part of the parser state:
      */
 
-    /** @var Lexer Lexer that is used when parsing */
-    protected $lexer;
     /** @var mixed Temporary value containing the result of last semantic action (reduction) */
     protected $semValue;
     /** @var array Semantic value stack (contains values of tokens and semantic action results) */
@@ -123,20 +126,29 @@ abstract class ParserAbstract implements Parser
     /**
      * Creates a parser instance.
      *
-     * Options: Currently none.
+     * Options:
+     *  * phpVersion: ?string, defaults to latest supported. This option is best-effort: Even if
+     *    specified, parsing will generally assume the latest supported version and only adjust
+     *    behavior in minor ways, for example by omitting errors in older versions and
+     *    interpreting type hints as a name or identifier depending on version.
      *
      * @param Lexer $lexer A lexer
      * @param array $options Options array.
      */
     public function __construct(Lexer $lexer, array $options = []) {
         $this->lexer = $lexer;
-
-        if (isset($options['throwOnError'])) {
-            throw new \LogicException(
-                '"throwOnError" is no longer supported, use "errorHandler" instead');
-        }
+        $phpVersion = $options['phpVersion'] ?? null;
+        $this->phpVersion = $phpVersion ? $this->parseVersion($phpVersion) : 80200;
 
         $this->initReduceCallbacks();
+    }
+
+    private function parseVersion(string $version): int {
+        if (!preg_match('/^(\d+)\.(\d+)/', $version, $matches)) {
+            throw new \LogicException("Invalid PHP version \"$version\"");
+        }
+
+        return $matches[1] * 10000 + $matches[2] * 100;
     }
 
     /**
@@ -596,74 +608,19 @@ abstract class ParserAbstract implements Parser
         return $style;
     }
 
-    /**
-     * Fix up parsing of static property calls in PHP 5.
-     *
-     * In PHP 5 A::$b[c][d] and A::$b[c][d]() have very different interpretation. The former is
-     * interpreted as (A::$b)[c][d], while the latter is the same as A::{$b[c][d]}(). We parse the
-     * latter as the former initially and this method fixes the AST into the correct form when we
-     * encounter the "()".
-     *
-     * @param  Node\Expr\StaticPropertyFetch|Node\Expr\ArrayDimFetch $prop
-     * @param  Node\Arg[] $args
-     * @param  array      $attributes
-     *
-     * @return Expr\StaticCall
-     */
-    protected function fixupPhp5StaticPropCall($prop, array $args, array $attributes) : Expr\StaticCall {
-        if ($prop instanceof Node\Expr\StaticPropertyFetch) {
-            $name = $prop->name instanceof VarLikeIdentifier
-                ? $prop->name->toString() : $prop->name;
-            $var = new Expr\Variable($name, $prop->name->getAttributes());
-            return new Expr\StaticCall($prop->class, $var, $args, $attributes);
-        } elseif ($prop instanceof Node\Expr\ArrayDimFetch) {
-            $tmp = $prop;
-            while ($tmp->var instanceof Node\Expr\ArrayDimFetch) {
-                $tmp = $tmp->var;
-            }
-
-            /** @var Expr\StaticPropertyFetch $staticProp */
-            $staticProp = $tmp->var;
-
-            // Set start attributes to attributes of innermost node
-            $tmp = $prop;
-            $this->fixupStartAttributes($tmp, $staticProp->name);
-            while ($tmp->var instanceof Node\Expr\ArrayDimFetch) {
-                $tmp = $tmp->var;
-                $this->fixupStartAttributes($tmp, $staticProp->name);
-            }
-
-            $name = $staticProp->name instanceof VarLikeIdentifier
-                ? $staticProp->name->toString() : $staticProp->name;
-            $tmp->var = new Expr\Variable($name, $staticProp->name->getAttributes());
-            return new Expr\StaticCall($staticProp->class, $prop, $args, $attributes);
-        } else {
-            throw new \Exception;
-        }
-    }
-
-    protected function fixupStartAttributes(Node $to, Node $from) {
-        $startAttributes = ['startLine', 'startFilePos', 'startTokenPos'];
-        foreach ($startAttributes as $startAttribute) {
-            if ($from->hasAttribute($startAttribute)) {
-                $to->setAttribute($startAttribute, $from->getAttribute($startAttribute));
-            }
-        }
-    }
-
     protected function handleBuiltinTypes(Name $name) {
         $builtinTypes = [
-            'bool'     => true,
-            'int'      => true,
-            'float'    => true,
-            'string'   => true,
-            'iterable' => true,
-            'void'     => true,
-            'object'   => true,
-            'null'     => true,
-            'false'    => true,
-            'mixed'    => true,
-            'never'    => true,
+            'bool'     => 70000,
+            'int'      => 70000,
+            'float'    => 70000,
+            'string'   => 70000,
+            'iterable' => 70100,
+            'void'     => 70100,
+            'object'   => 70200,
+            'null'     => 80000,
+            'false'    => 80000,
+            'mixed'    => 80000,
+            'never'    => 80100,
         ];
 
         if (!$name->isUnqualified()) {
@@ -671,7 +628,8 @@ abstract class ParserAbstract implements Parser
         }
 
         $lowerName = $name->toLowerString();
-        if (!isset($builtinTypes[$lowerName])) {
+        $minVersion = $builtinTypes[$lowerName] ?? null;
+        if ($minVersion === null || $this->phpVersion < $minVersion) {
             return $name;
         }
 

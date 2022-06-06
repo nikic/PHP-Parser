@@ -808,6 +808,12 @@ expr:
     | array_short_syntax '=' expr                           { $$ = Expr\Assign[$1, $3]; }
     | variable '=' expr                                     { $$ = Expr\Assign[$1, $3]; }
     | variable '=' ampersand variable                       { $$ = Expr\AssignRef[$1, $4]; }
+    | variable '=' ampersand new_expr
+          { $$ = Expr\AssignRef[$1, $4];
+            if ($this->phpVersion >= 70000) {
+                $this->emitError(new Error('Cannot assign new by reference', attributes()));
+            }
+          }
     | new_expr                                              { $$ = $1; }
     | match                                                 { $$ = $1; }
     | T_CLONE expr                                          { $$ = Expr\Clone_[$2]; }
@@ -1031,7 +1037,8 @@ dereferencable_scalar:
 ;
 
 scalar:
-      T_LNUMBER                                             { $$ = $this->parseLNumber($1, attributes()); }
+      T_LNUMBER
+          { $$ = $this->parseLNumber($1, attributes(), $this->phpVersion < 70000); }
     | T_DNUMBER                                             { $$ = Scalar\DNumber::fromString($1, attributes()); }
     | dereferencable_scalar                                 { $$ = $1; }
     | constant                                              { $$ = $1; }

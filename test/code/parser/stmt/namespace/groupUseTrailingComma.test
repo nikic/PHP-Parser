@@ -4,7 +4,6 @@ Group use can have trailing comma
 use A\{B,};
 use function A\{b,};
 -----
-!!php7
 array(
     0: Stmt_GroupUse(
         type: TYPE_UNKNOWN (0)

@@ -6,7 +6,6 @@ isset(($a), (($b)));
 // This is illegal, but not a syntax error.
 isset(1 + 1);
 -----
-!!php7
 array(
     0: Stmt_Expression(
         expr: Expr_Isset(
