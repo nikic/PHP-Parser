@@ -91,7 +91,7 @@ class TokenStream
     public function haveTokenImmediatelyAfter(int $pos, $expectedTokenType) : bool {
         $tokens = $this->tokens;
         $pos++;
-        for (; $pos < \count($tokens); $pos++) {
+        for ($c = \count($tokens); $pos < $c; $pos++) {
             $token = $tokens[$pos];
             if ($token->is($expectedTokenType)) {
                 return true;
