@@ -22,6 +22,36 @@ However, some aspects of PHP 5 parsing are no longer supported:
  * Declarations of the form `global $$var[0]` are not supported in PHP 7 and will cause a parse error. In error recovery mode, it is possible to continue parsing after such declarations.
  * The PHP 7 parser will accept many constructs that are not valid in PHP 5. However, this was also true of the dedicated PHP 5 parser.
 
+### Changes to the parser factory
+
+The `ParserFactory::create()` method is deprecated in favor of three new methods that provide more fine-grained control over the PHP version being targeted:
+
+ * `createForNewestSupportedVersion()`: Use this if you don't know the PHP version of the code you're parsing. It's better to assume a too new version than a too old one.
+ * `createForHostVersion()`: Use this if you're parsing code for the PHP version you're running on.
+ * `createForVersion()`: Use this if you know the PHP version of the code you want to parse.
+
+In all cases, the PHP version is a fairly weak hint that is only used on a best-effort basis. The parser will usually accept code for newer versions if it does not have any backwards-compatibility implications.
+
+For example, if you specify version `"8.0"`, then `class ReadOnly {}` is treated as a valid class declaration, while using `public readonly int $prop` will lead to a parse error. However, `final public const X = Y;` will be accepted in both cases.
+
+```
+use PhpParser\ParserFactory;
+$factory = new ParserFactory;
+
+# Before
+$parser = $factory->create(ParserFactory::PREFER_PHP7);
+
+# After (this is roughly equivalent to PREFER_PHP7 behavior)
+$parser = $factory->createForNewestSupportedVersion();
+# Or
+$parser = $factory->createForHostVersion();
+
+# Before
+$parser = $factory->create(ParserFactory::ONLY_PHP5);
+# After (supported on a best-effort basis)
+$parser = $factory->createForVersion("5.6");
+```
+
 ### Changes to the default pretty printer
 
 A number of changes to the standard pretty printer have been made, to make it match contemporary coding style conventions (and in particular PSR-12). Options to restore the previous behavior are not provided, but it is possible to override the formatting methods (such as `pStmt_ClassMethod`) with your preferred formatting.

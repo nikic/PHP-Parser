@@ -38,15 +38,15 @@ class CodeParsingTest extends CodeTestAbstract
     }
 
     public function createParser(?string $version): Parser {
-        $lexer = new Lexer\Emulative(['usedAttributes' => [
-            'startLine', 'endLine',
-            'startFilePos', 'endFilePos',
-            'startTokenPos', 'endTokenPos',
-            'comments'
-        ]]);
-        return new Parser\Php7($lexer, [
-            'phpVersion' => $version,
-        ]);
+        $factory = new ParserFactory();
+        return $factory->createForVersion(
+            $version ?? $factory->getNewestSupportedVersion(),
+            ['usedAttributes' => [
+                'startLine', 'endLine',
+                'startFilePos', 'endFilePos',
+                'startTokenPos', 'endTokenPos',
+                'comments'
+            ]]);
     }
 
     // Must be public for updateTests.php
