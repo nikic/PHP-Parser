@@ -41,7 +41,7 @@ In all cases, the PHP version is a fairly weak hint that is only used on a best-
 
 For example, if you specify version `"8.0"`, then `class ReadOnly {}` is treated as a valid class declaration, while using `public readonly int $prop` will lead to a parse error. However, `final public const X = Y;` will be accepted in both cases.
 
-```
+```php
 use PhpParser\ParserFactory;
 $factory = new ParserFactory;
 
