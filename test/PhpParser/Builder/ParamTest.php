@@ -91,7 +91,7 @@ class ParamTest extends \PHPUnit\Framework\TestCase
      */
     public function testTypes($typeHint, $expectedType) {
         $node = $this->createParamBuilder('test')
-            ->setTypeHint($typeHint)
+            ->setType($typeHint)
             ->getNode()
         ;
         $type = $node->type;

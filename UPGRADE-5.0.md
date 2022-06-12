@@ -7,7 +7,7 @@ PHP-Parser now requires PHP 7.1 or newer to run. It is however still possible to
 
 ### PHP 5 parsing support
 
-The dedicated parser for PHP 5 has been removed (including the `ONLY_PHP5` and `PREFER_PHP5` ParserFactory options). The PHP 7 parser now supports a `phpVersion` option, which can be used to improve compatibility with older PHP versions.
+The dedicated parser for PHP 5 has been removed. The PHP 7 parser now supports a `phpVersion` option, which can be used to improve compatibility with older PHP versions.
 
 In particular, if an older `phpVersion` is specified, then:
 
@@ -21,6 +21,13 @@ However, some aspects of PHP 5 parsing are no longer supported:
  * Some variables like `$$foo[0]` are valid in both PHP 5 and PHP 7, but have different interpretation. In that case, the PHP 7 AST will always be constructed (`($$foo)[0]` rather than `${$foo[0]}`).
  * Declarations of the form `global $$var[0]` are not supported in PHP 7 and will cause a parse error. In error recovery mode, it is possible to continue parsing after such declarations.
  * The PHP 7 parser will accept many constructs that are not valid in PHP 5. However, this was also true of the dedicated PHP 5 parser.
+
+The following symbols are affected by this removal:
+
+ * The `PhpParser\Parser\Php5` class has been removed.
+ * The `PhpParser\Parser\Multiple` class has been removed. While not strictly related to PHP 5 support, this functionality is no longer useful without it.
+ * The `PhpParser\ParserFactory::ONLY_PHP5` and `PREFER_PHP5` options have been removed.
+ * The `PhpParser\ParserFactory::PREFER_PHP7` option is now equivalent to `ONLY_PHP7`.
 
 ### Changes to the parser factory
 
@@ -111,3 +118,7 @@ class Token {
 
 The `Lexer::getTokens()` method will now return an array of `Token`s, rather than an array of arrays and strings.
 Additionally, the token array is now terminated by a sentinel token with ID 0.
+
+### Other removed functionality
+
+ * The deprecated `Builder\Param::setTypeHint()` method has been removed in favor of `Builder\Param::setType()`.

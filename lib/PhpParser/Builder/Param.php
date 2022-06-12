@@ -61,19 +61,6 @@ class Param implements PhpParser\Builder
     }
 
     /**
-     * Sets type for the parameter.
-     *
-     * @param string|Node\Name|Node\Identifier|Node\ComplexType $type Parameter type
-     *
-     * @return $this The builder instance (for fluid interface)
-     *
-     * @deprecated Use setType() instead
-     */
-    public function setTypeHint($type) {
-        return $this->setType($type);
-    }
-
-    /**
      * Make the parameter accept the value by reference.
      *
      * @return $this The builder instance (for fluid interface)
