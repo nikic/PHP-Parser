@@ -3,6 +3,7 @@
 namespace PhpParser\Node\Expr;
 
 use PhpParser\Node;
+use PhpParser\Node\ClosureUse;
 use PhpParser\Node\Expr;
 use PhpParser\Node\FunctionLike;
 

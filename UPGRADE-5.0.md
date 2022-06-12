@@ -59,6 +59,14 @@ $parser = $factory->create(ParserFactory::ONLY_PHP5);
 $parser = $factory->createForVersion("5.6");
 ```
 
+### Renamed nodes
+
+A number of AST nodes have been renamed or moved in the AST hierarchy:
+
+ * `Node\Expr\ClosureUse` is now `Node\ClosureUse` and no longer extends `Node\Expr`. The `ClosureUse` node can only occur inside closure use lists, not as a general expression.
+
+The old class names have been retained as aliases for backwards compatibility. However, the `Node::getType()` method will now always return the new name (e.g. `ClosureUse` instead of `Expr_ClosureUse`).
+
 ### Changes to the default pretty printer
 
 A number of changes to the standard pretty printer have been made, to make it match contemporary coding style conventions (and in particular PSR-12). Options to restore the previous behavior are not provided, but it is possible to override the formatting methods (such as `pStmt_ClassMethod`) with your preferred formatting.

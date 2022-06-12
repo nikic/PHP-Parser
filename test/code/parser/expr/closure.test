@@ -63,7 +63,7 @@ array(
                 )
             )
             uses: array(
-                0: Expr_ClosureUse(
+                0: ClosureUse(
                     var: Expr_Variable(
                         name: b
                     )
@@ -84,13 +84,13 @@ array(
             params: array(
             )
             uses: array(
-                0: Expr_ClosureUse(
+                0: ClosureUse(
                     var: Expr_Variable(
                         name: a
                     )
                     byRef: false
                 )
-                1: Expr_ClosureUse(
+                1: ClosureUse(
                     var: Expr_Variable(
                         name: b
                     )
@@ -182,7 +182,7 @@ array(
             params: array(
             )
             uses: array(
-                0: Expr_ClosureUse(
+                0: ClosureUse(
                     var: Expr_Variable(
                         name: a
                     )

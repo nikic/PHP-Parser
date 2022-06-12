@@ -649,7 +649,7 @@ class Standard extends PrettyPrinterAbstract
             . $this->p($node->expr);
     }
 
-    protected function pExpr_ClosureUse(Expr\ClosureUse $node) {
+    protected function pClosureUse(Node\ClosureUse $node) {
         return ($node->byRef ? '&' : '') . $this->p($node->var);
     }
 

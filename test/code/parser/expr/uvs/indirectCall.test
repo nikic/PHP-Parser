@@ -302,7 +302,7 @@ array(
                                         )
                                     )
                                     uses: array(
-                                        0: Expr_ClosureUse(
+                                        0: ClosureUse(
                                             var: Expr_Variable(
                                                 name: f
                                             )
