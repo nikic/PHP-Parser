@@ -177,6 +177,12 @@ EOC;
             [" (  REAL )  5.0", ['kind' => Expr\Cast\Double::KIND_REAL]],
         ];
     }
+
+    public function testGetLexer() {
+        $lexer = new Lexer;
+        $parser = $this->getParser($lexer);
+        $this->assertSame($lexer, $parser->getLexer());
+    }
 }
 
 class InvalidTokenLexer extends Lexer

@@ -15,4 +15,11 @@ interface Parser
      *                          the parser was unable to recover from an error).
      */
     public function parse(string $code, ErrorHandler $errorHandler = null): ?array;
+
+    /**
+     * Return the lexer used by this parser instance.
+     *
+     * @return Lexer
+     */
+    public function getLexer(): Lexer;
 }

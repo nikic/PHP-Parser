@@ -184,6 +184,10 @@ abstract class ParserAbstract implements Parser
         return $result;
     }
 
+    public function getLexer(): Lexer {
+        return $this->lexer;
+    }
+
     protected function doParse() {
         // We start off with no lookahead-token
         $symbol = self::SYMBOL_NONE;
