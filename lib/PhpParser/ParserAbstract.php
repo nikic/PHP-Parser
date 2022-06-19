@@ -23,6 +23,7 @@ use PhpParser\Node\Stmt\Property;
 use PhpParser\Node\Stmt\TryCatch;
 use PhpParser\Node\Stmt\UseUse;
 use PhpParser\Node\VarLikeIdentifier;
+use PhpParser\Parser\Tokens;
 
 abstract class ParserAbstract implements Parser
 {
@@ -57,7 +58,9 @@ abstract class ParserAbstract implements Parser
     /** @var int Number of non-leaf states */
     protected $numNonLeafStates;
 
-    /** @var int[] Map of lexer tokens to internal symbols */
+    /** @var int[] Map of PHP token IDs to internal symbols */
+    protected $phpTokenToSymbol;
+    /** @var int[] Map of external symbols (Tokens::T_*) to internal symbols */
     protected $tokenToSymbol;
     /** @var string[] Map of symbols to their names */
     protected $symbolToName;
@@ -141,6 +144,7 @@ abstract class ParserAbstract implements Parser
         $this->phpVersion = $phpVersion ? $this->parseVersion($phpVersion) : 80200;
 
         $this->initReduceCallbacks();
+        $this->phpTokenToSymbol = $this->createTokenMap();
     }
 
     private function parseVersion(string $version): int {
@@ -220,17 +224,14 @@ abstract class ParserAbstract implements Parser
                     // reduced after a token was read but not yet shifted.
                     $tokenId = $this->lexer->getNextToken($tokenValue, $startAttributes, $endAttributes);
 
-                    // map the lexer token id to the internally used symbols
-                    $symbol = $tokenId >= 0 && $tokenId < $this->tokenToSymbolMapSize
-                        ? $this->tokenToSymbol[$tokenId]
-                        : $this->invalidSymbol;
-
-                    if ($symbol === $this->invalidSymbol) {
+                    // Map the lexer token id to the internally used symbols.
+                    if (!isset($this->phpTokenToSymbol[$tokenId])) {
                         throw new \RangeException(sprintf(
                             'The lexer returned an invalid token (id=%d, value=%s)',
                             $tokenId, $tokenValue
                         ));
                     }
+                    $symbol = $this->phpTokenToSymbol[$tokenId];
 
                     // Allow productions to access the start attributes of the lookahead token.
                     $this->lookaheadStartAttributes = $startAttributes;
@@ -993,5 +994,66 @@ abstract class ParserAbstract implements Parser
                 $this->getAttributesAt($namePos)
             ));
         }
+    }
+
+    /**
+     * Creates the token map.
+     *
+     * The token map maps the PHP internal token identifiers
+     * to the identifiers used by the Parser. Additionally it
+     * maps T_OPEN_TAG_WITH_ECHO to T_ECHO and T_CLOSE_TAG to ';'.
+     *
+     * @return array The token map
+     */
+    protected function createTokenMap(): array {
+        $tokenMap = [];
+
+        for ($i = 0; $i < 1000; ++$i) {
+            if ($i < 256) {
+                // Single-char tokens use an identity mapping.
+                $tokenMap[$i] = $i;
+            } else if (\T_DOUBLE_COLON === $i) {
+                // T_DOUBLE_COLON is equivalent to T_PAAMAYIM_NEKUDOTAYIM
+                $tokenMap[$i] = Tokens::T_PAAMAYIM_NEKUDOTAYIM;
+            } elseif(\T_OPEN_TAG_WITH_ECHO === $i) {
+                // T_OPEN_TAG_WITH_ECHO with dropped T_OPEN_TAG results in T_ECHO
+                $tokenMap[$i] = Tokens::T_ECHO;
+            } elseif(\T_CLOSE_TAG === $i) {
+                // T_CLOSE_TAG is equivalent to ';'
+                $tokenMap[$i] = ord(';');
+            } elseif ('UNKNOWN' !== $name = token_name($i)) {
+                if (defined($name = Tokens::class . '::' . $name)) {
+                    // Other tokens can be mapped directly
+                    $tokenMap[$i] = constant($name);
+                }
+            }
+        }
+
+        // Assign tokens for which we define compatibility constants, as token_name() does not know them.
+        $tokenMap[\T_FN] = Tokens::T_FN;
+        $tokenMap[\T_COALESCE_EQUAL] = Tokens::T_COALESCE_EQUAL;
+        $tokenMap[\T_NAME_QUALIFIED] = Tokens::T_NAME_QUALIFIED;
+        $tokenMap[\T_NAME_FULLY_QUALIFIED] = Tokens::T_NAME_FULLY_QUALIFIED;
+        $tokenMap[\T_NAME_RELATIVE] = Tokens::T_NAME_RELATIVE;
+        $tokenMap[\T_MATCH] = Tokens::T_MATCH;
+        $tokenMap[\T_NULLSAFE_OBJECT_OPERATOR] = Tokens::T_NULLSAFE_OBJECT_OPERATOR;
+        $tokenMap[\T_ATTRIBUTE] = Tokens::T_ATTRIBUTE;
+        $tokenMap[\T_AMPERSAND_NOT_FOLLOWED_BY_VAR_OR_VARARG] = Tokens::T_AMPERSAND_NOT_FOLLOWED_BY_VAR_OR_VARARG;
+        $tokenMap[\T_AMPERSAND_FOLLOWED_BY_VAR_OR_VARARG] = Tokens::T_AMPERSAND_FOLLOWED_BY_VAR_OR_VARARG;
+        $tokenMap[\T_ENUM] = Tokens::T_ENUM;
+        $tokenMap[\T_READONLY] = Tokens::T_READONLY;
+
+        // We have create a map from PHP token IDs to external symbol IDs.
+        // Now map them to the internal symbol ID.
+        $fullTokenMap = [];
+        foreach ($tokenMap as $phpToken => $extSymbol) {
+            $intSymbol = $this->tokenToSymbol[$extSymbol];
+            if ($intSymbol === $this->invalidSymbol) {
+                continue;
+            }
+            $fullTokenMap[$phpToken] = $intSymbol;
+        }
+
+        return $fullTokenMap;
     }
 }

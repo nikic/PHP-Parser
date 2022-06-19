@@ -37,9 +37,6 @@ class Lexer
      *                       first three. For more info see getNextToken() docs.
      */
     public function __construct(array $options = []) {
-        // Create Map from internal tokens to PhpParser tokens.
-        $this->tokenMap = $this->createTokenMap();
-
         // map of tokens to drop while lexing (the map is only used for isset lookup,
         // that's why the value is simply set to 1; the value is never actually used.)
         $this->dropTokens = array_fill_keys(
@@ -238,7 +235,7 @@ class Lexer
                 $endAttributes['endFilePos'] = ($nextToken ? $nextToken->pos : $token->getEndPos()) - 1;
             }
 
-            return $this->tokenMap[$id];
+            return $id;
         }
     }
 
@@ -271,55 +268,5 @@ class Lexer
 
         // Return text after __halt_compiler.
         return $nextToken->id === \T_INLINE_HTML ? $nextToken->text : '';
-    }
-
-    /**
-     * Creates the token map.
-     *
-     * The token map maps the PHP internal token identifiers
-     * to the identifiers used by the Parser. Additionally it
-     * maps T_OPEN_TAG_WITH_ECHO to T_ECHO and T_CLOSE_TAG to ';'.
-     *
-     * @return array The token map
-     */
-    protected function createTokenMap(): array {
-        $tokenMap = [];
-
-        for ($i = 0; $i < 1000; ++$i) {
-            if ($i < 256) {
-                // Single-char tokens use an identity mapping.
-                $tokenMap[$i] = $i;
-            } else if (\T_DOUBLE_COLON === $i) {
-                // T_DOUBLE_COLON is equivalent to T_PAAMAYIM_NEKUDOTAYIM
-                $tokenMap[$i] = Tokens::T_PAAMAYIM_NEKUDOTAYIM;
-            } elseif(\T_OPEN_TAG_WITH_ECHO === $i) {
-                // T_OPEN_TAG_WITH_ECHO with dropped T_OPEN_TAG results in T_ECHO
-                $tokenMap[$i] = Tokens::T_ECHO;
-            } elseif(\T_CLOSE_TAG === $i) {
-                // T_CLOSE_TAG is equivalent to ';'
-                $tokenMap[$i] = ord(';');
-            } elseif ('UNKNOWN' !== $name = token_name($i)) {
-                if (defined($name = Tokens::class . '::' . $name)) {
-                    // Other tokens can be mapped directly
-                    $tokenMap[$i] = constant($name);
-                }
-            }
-        }
-
-        // Assign tokens for which we define compatibility constants, as token_name() does not know them.
-        $tokenMap[\T_FN] = Tokens::T_FN;
-        $tokenMap[\T_COALESCE_EQUAL] = Tokens::T_COALESCE_EQUAL;
-        $tokenMap[\T_NAME_QUALIFIED] = Tokens::T_NAME_QUALIFIED;
-        $tokenMap[\T_NAME_FULLY_QUALIFIED] = Tokens::T_NAME_FULLY_QUALIFIED;
-        $tokenMap[\T_NAME_RELATIVE] = Tokens::T_NAME_RELATIVE;
-        $tokenMap[\T_MATCH] = Tokens::T_MATCH;
-        $tokenMap[\T_NULLSAFE_OBJECT_OPERATOR] = Tokens::T_NULLSAFE_OBJECT_OPERATOR;
-        $tokenMap[\T_ATTRIBUTE] = Tokens::T_ATTRIBUTE;
-        $tokenMap[\T_AMPERSAND_NOT_FOLLOWED_BY_VAR_OR_VARARG] = Tokens::T_AMPERSAND_NOT_FOLLOWED_BY_VAR_OR_VARARG;
-        $tokenMap[\T_AMPERSAND_FOLLOWED_BY_VAR_OR_VARARG] = Tokens::T_AMPERSAND_FOLLOWED_BY_VAR_OR_VARARG;
-        $tokenMap[\T_ENUM] = Tokens::T_ENUM;
-        $tokenMap[\T_READONLY] = Tokens::T_READONLY;
-
-        return $tokenMap;
     }
 }
