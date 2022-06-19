@@ -23,6 +23,10 @@ use PhpParser\Node\Stmt;
  */
 class #(-p) extends \PhpParser\ParserAbstract
 {
+#tokenval
+    const %s = %n;
+#endtokenval
+
     protected $tokenToSymbolMapSize = #(YYMAXLEX);
     protected $actionTableSize = #(YYLAST);
     protected $gotoTableSize = #(YYGLAST);
