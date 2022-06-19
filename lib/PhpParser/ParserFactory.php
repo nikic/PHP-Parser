@@ -3,6 +3,7 @@
 namespace PhpParser;
 
 use PhpParser\Parser\Php7;
+use PhpParser\Parser\Php8;
 
 class ParserFactory
 {
@@ -45,6 +46,9 @@ class ParserFactory
             $lexer = new Lexer($lexerOptions);
         } else {
             $lexer = new Lexer\Emulative($lexerOptions + ['phpVersion' => $version]);
+        }
+        if (version_compare($version, '8.0', '>=')) {
+            return new Php8($lexer, $parserOptions + ['phpVersion' => $version]);
         }
         return new Php7($lexer, $parserOptions + ['phpVersion' => $version]);
     }

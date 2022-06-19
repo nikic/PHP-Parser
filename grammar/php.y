@@ -21,8 +21,15 @@
 %left T_AMPERSAND_NOT_FOLLOWED_BY_VAR_OR_VARARG T_AMPERSAND_FOLLOWED_BY_VAR_OR_VARARG
 %nonassoc T_IS_EQUAL T_IS_NOT_EQUAL T_IS_IDENTICAL T_IS_NOT_IDENTICAL T_SPACESHIP
 %nonassoc '<' T_IS_SMALLER_OR_EQUAL '>' T_IS_GREATER_OR_EQUAL
+#if PHP7
 %left T_SL T_SR
 %left '+' '-' '.'
+#endif
+#if PHP8
+%left '.'
+%left T_SL T_SR
+%left '+' '-'
+#endif
 %left '*' '/' '%'
 %right '!'
 %nonassoc T_INSTANCEOF

@@ -2,10 +2,12 @@
 
 require __DIR__ . '/phpyLang.php';
 
-$grammarFileToName = [
-    __DIR__ . '/php7.y' => 'Php7',
+$parserToDefines = [
+    'Php7' => ['PHP7' => true],
+    'Php8' => ['PHP8' => true],
 ];
 
+$grammarFile    = __DIR__ . '/php.y';
 $skeletonFile   = __DIR__ . '/parser.template';
 $tmpGrammarFile = __DIR__ . '/tmp_parser.phpy';
 $tmpResultFile  = __DIR__ . '/tmp_parser.php';
@@ -25,10 +27,11 @@ $optionKeepTmpGrammar = isset($options['--keep-tmp-grammar']);
 /// Main script ///
 ///////////////////
 
-foreach ($grammarFileToName as $grammarFile => $name) {
+foreach ($parserToDefines as $name => $defines) {
     echo "Building temporary $name grammar file.\n";
 
     $grammarCode = file_get_contents($grammarFile);
+    $grammarCode = replaceIfBlocks($grammarCode, $defines);
     $grammarCode = preprocessGrammar($grammarCode);
 
     file_put_contents($tmpGrammarFile, $grammarCode);
@@ -67,4 +70,11 @@ function execCmd($cmd) {
         echo $output;
     }
     return $output;
+}
+
+function replaceIfBlocks(string $code, array $defines): string {
+    return preg_replace_callback('/\n#if\s+(\w+)\n(.*?)\n#endif/s', function ($matches) use ($defines) {
+        $value = $defines[$matches[1]] ?? false;
+        return $value ? $matches[2] : '';
+    }, $code);
 }
