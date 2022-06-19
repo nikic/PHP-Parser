@@ -621,6 +621,7 @@ abstract class ParserAbstract implements Parser
             'false'    => 80000,
             'mixed'    => 80000,
             'never'    => 80100,
+            'true'     => 80200,
         ];
 
         if (!$name->isUnqualified()) {
