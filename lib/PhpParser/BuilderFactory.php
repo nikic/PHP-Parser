@@ -382,6 +382,36 @@ class BuilderFactory
     }
 
     /**
+     * Creates a Nullable Type out of a non-normalized type
+     *
+     * @param string|Name|Identifier|Node\NullableType $type
+     *
+     * @return Node\NullableType
+     */
+    public function nullableType($type) : Node\NullableType {
+        if ($type instanceof Node\NullableType) {
+            return $type;
+        }
+
+        if (!is_string($type) && !($type instanceof Name) && !($type instanceof Identifier)) {
+            throw new \LogicException('Type must be a string, or an instance of Name, Identifier or NullableType');
+        }
+
+        if (strlen($type) > 0 && $type[0] === '?') {
+            $type = substr($type, 1);
+        }
+
+        $notNullableTypes = [
+            'void', 'mixed', 'never',
+        ];
+        if (in_array((string) $type, $notNullableTypes)) {
+            throw new \LogicException(sprintf('%s type cannot be nullable', $type));
+        }
+
+        return new Node\NullableType(BuilderHelpers::normalizeType($type));
+    }
+
+    /**
      * @param string|Expr $expr
      * @return Expr
      */

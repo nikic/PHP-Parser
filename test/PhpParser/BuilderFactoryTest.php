@@ -264,6 +264,53 @@ class BuilderFactoryTest extends \PHPUnit\Framework\TestCase
         (new BuilderFactory())->var(new Node\Stmt\Return_());
     }
 
+    public function testNullableType() {
+        $builderFactory = new BuilderFactory();
+        $this->assertEquals(new Node\NullableType(new Node\Identifier('array')), $builderFactory->nullableType('array'));
+        $this->assertEquals(new Node\NullableType(new Node\Identifier('callable')), $builderFactory->nullableType('callable'));
+        $this->assertEquals(new Node\NullableType(new Node\Identifier('string')), $builderFactory->nullableType('string'));
+        $this->assertEquals(new Node\NullableType(new Node\Identifier('int')), $builderFactory->nullableType('int'));
+        $this->assertEquals(new Node\NullableType(new Node\Identifier('float')), $builderFactory->nullableType('float'));
+        $this->assertEquals(new Node\NullableType(new Node\Identifier('bool')), $builderFactory->nullableType('bool'));
+        $this->assertEquals(new Node\NullableType(new Node\Identifier('iterable')), $builderFactory->nullableType('iterable'));
+        $this->assertEquals(new Node\NullableType(new Node\Identifier('object')), $builderFactory->nullableType('object'));
+        $this->assertEquals(new Node\NullableType(new Node\Identifier('object')), $builderFactory->nullableType('?object'));
+
+        $intIdentifier = new Node\Identifier('int');
+        $intIdentifierNullable = new Node\NullableType($intIdentifier);
+        $intIdentifierDone = $builderFactory->nullableType($intIdentifierNullable);
+        $this->assertSame($intIdentifierNullable, $intIdentifierDone);
+        $this->assertSame($intIdentifier, $intIdentifierDone->type);
+
+        $intName = new Node\Name('int');
+        $intNameNullable = new Node\NullableType($intName);
+        $intNameDone = $builderFactory->nullableType($intNameNullable);
+        $this->assertSame($intNameNullable, $intNameDone);
+        $this->assertSame($intName, $intNameDone->type);
+
+        $this->expectException(\LogicException::class);
+        $this->expectExceptionMessage('Type must be a string, or an instance of Name, Identifier or NullableType');
+        $builderFactory->nullableType(new Node\UnionType(['int', 'string']));
+    }
+
+    public function testNullableTypeNullableVoid() {
+        $this->expectException(\LogicException::class);
+        $this->expectExceptionMessage('void type cannot be nullable');
+        (new BuilderFactory())->nullableType('void');
+    }
+
+    public function testNullableTypeNullableMixed() {
+        $this->expectException(\LogicException::class);
+        $this->expectExceptionMessage('mixed type cannot be nullable');
+        (new BuilderFactory())->nullableType('mixed');
+    }
+
+    public function testNullableTypeNullableNever() {
+        $this->expectException(\LogicException::class);
+        $this->expectExceptionMessage('never type cannot be nullable');
+        (new BuilderFactory())->nullableType('never');
+    }
+
     public function testIntegration() {
         $factory = new BuilderFactory;
         $node = $factory->namespace('Name\Space')
