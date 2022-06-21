@@ -155,6 +155,49 @@ class BuilderFactory
     }
 
     /**
+     * Creates a union type with types.
+     *
+     * @param string|Name|Identifier ...$types Name of the function
+     *
+     * @return Node\UnionType The created union type
+     */
+    public function unionType(...$types) : Node\UnionType {
+        $numberOfTypes = count($types);
+        if ($numberOfTypes < 2) {
+            throw new \LogicException('Expected at least two types in the Union Type');
+        }
+
+        $standaloneTypes = [
+            'void', 'mixed', 'never',
+        ];
+
+        $registeredTypes = [];
+        $typesForUnion = [];
+        foreach ($types as $type) {
+            if (!is_string($type) && !($type instanceof Node\Identifier) && !($type instanceof Node\Name)) {
+                throw new \LogicException('Union type can be created only from string, Node\Identifier or Node\Name');
+            }
+
+            if (in_array($type, $standaloneTypes, true)) {
+                throw new \LogicException(sprintf('%s can be only used as standalone type', $type));
+            }
+
+            if (strpos((string) $type, '?') !== false) {
+                throw new \LogicException('Union type should not contain nullable type, use null instead');
+            }
+
+            $normalizedType = BuilderHelpers::normalizeType($type);
+            if (in_array((string) $normalizedType, $registeredTypes, true)) {
+                throw new \LogicException(sprintf('Duplicate type %s is redundant', $normalizedType));
+            }
+            $registeredTypes[] = (string) $normalizedType;
+            $typesForUnion[] = $normalizedType;
+        }
+
+        return new Node\UnionType($typesForUnion);
+    }
+
+    /**
      * Creates a namespace/class use builder.
      *
      * @param Node\Name|string $name Name of the entity (namespace or class) to alias

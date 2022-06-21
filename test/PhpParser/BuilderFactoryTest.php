@@ -8,6 +8,7 @@ use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\BinaryOp\Concat;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Name;
+use PhpParser\Node\NullableType;
 use PhpParser\Node\Scalar\LNumber;
 use PhpParser\Node\Scalar\String_;
 
@@ -264,6 +265,59 @@ class BuilderFactoryTest extends \PHPUnit\Framework\TestCase
         (new BuilderFactory())->var(new Node\Stmt\Return_());
     }
 
+    public function testUnionType() {
+        $this->assertEquals(
+            new Node\UnionType([new Node\Identifier('int'), new Node\Identifier('string')]),
+            (new BuilderFactory())->unionType('int', 'string')
+        );
+
+        $this->expectException(\LogicException::class);
+        $this->expectExceptionMessage('Expected at least two types in the Union Type');
+        (new BuilderFactory())->unionType('int');
+    }
+
+    public function testUnionTypeFromUnionType() {
+        $this->expectException(\LogicException::class);
+        $this->expectExceptionMessage('Union type can be created only from string, Node\Identifier or Node\Name');
+        (new BuilderFactory())->unionType('int', (new BuilderFactory())->unionType('int', 'string'));
+    }
+
+    public function testUnionTypeNullableString() {
+        $this->expectException(\LogicException::class);
+        $this->expectExceptionMessage('Union type should not contain nullable type, use null instead');
+        (new BuilderFactory())->unionType('string', '?int');
+    }
+
+    public function testUnionTypeNullable() {
+        $this->expectException(\LogicException::class);
+        $this->expectExceptionMessage('Union type can be created only from string, Node\Identifier or Node\Name');
+        (new BuilderFactory())->unionType('string', new NullableType('string'));
+    }
+
+    public function testUnionTypeDuplicatedType() {
+        $this->expectException(\LogicException::class);
+        $this->expectExceptionMessage('Duplicate type string is redundant');
+        (new BuilderFactory())->unionType('string', 'string');
+    }
+
+    public function testUnionTypeVoidNotStandalone() {
+        $this->expectException(\LogicException::class);
+        $this->expectExceptionMessage('void can be only used as standalone type');
+        (new BuilderFactory())->unionType('void', 'int');
+    }
+
+    public function testUnionTypeMixedNotStandalone() {
+        $this->expectException(\LogicException::class);
+        $this->expectExceptionMessage('mixed can be only used as standalone type');
+        (new BuilderFactory())->unionType('mixed', 'int');
+    }
+
+    public function testUnionTypeNeverNotStandalone() {
+        $this->expectException(\LogicException::class);
+        $this->expectExceptionMessage('never can be only used as standalone type');
+        (new BuilderFactory())->unionType('never', 'int');
+    }
+
     public function testIntegration() {
         $factory = new BuilderFactory;
         $node = $factory->namespace('Name\Space')
@@ -288,6 +342,7 @@ class BuilderFactoryTest extends \PHPUnit\Framework\TestCase
 
                 ->addStmt($factory->method('firstMethod')
                     ->addAttribute($factory->attribute('Route', ['/index', 'name' => 'homepage']))
+                    ->setReturnType($factory->unionType('int', 'string'))
                 )
 
                 ->addStmt($factory->method('someMethod')
@@ -353,7 +408,7 @@ abstract class SomeClass extends SomeOtherClass implements A\Few, \Interfaces
     #[Column(options: array('unsigned' => true))]
     public int $integerProperty = 1;
     #[Route('/index', name: 'homepage')]
-    function firstMethod()
+    function firstMethod() : int|string
     {
     }
     /**
