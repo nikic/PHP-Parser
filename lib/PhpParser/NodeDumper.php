@@ -55,7 +55,7 @@ class NodeDumper
             foreach ($node->getSubNodeNames() as $key) {
                 $r .= "\n    " . $key . ': ';
 
-                $value = $node->$key;
+                $value = $node->{$key};
                 if (null === $value) {
                     $r .= 'null';
                 } elseif (false === $value) {

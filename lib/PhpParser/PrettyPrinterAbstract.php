@@ -556,8 +556,8 @@ abstract class PrettyPrinterAbstract
         $result = '';
         $pos = $startPos;
         foreach ($node->getSubNodeNames() as $subNodeName) {
-            $subNode = $node->$subNodeName;
-            $origSubNode = $origNode->$subNodeName;
+            $subNode = $node->{$subNodeName};
+            $origSubNode = $origNode->{$subNodeName};
 
             if ((!$subNode instanceof Node && $subNode !== null)
                 || (!$origSubNode instanceof Node && $origSubNode !== null)

@@ -60,7 +60,7 @@ class JsonDecoder
                 continue;
             }
 
-            $node->$name = $this->decodeRecursive($subNode);
+            $node->{$name} = $this->decodeRecursive($subNode);
         }
 
         return $node;
