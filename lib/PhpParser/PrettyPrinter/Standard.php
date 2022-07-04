@@ -1024,7 +1024,7 @@ class Standard extends PrettyPrinterAbstract
             | (?<=[\xF0-\xF4])[\x80-\xBF](?![\x80-\xBF]{2}) # Short 4 byte sequence
             | (?<=[\xF0-\xF4][\x80-\xBF])[\x80-\xBF](?![\x80-\xBF]) # Short 4 byte sequence (2)
         )/x';
-        return preg_replace_callback($regex, function ($matches) {
+        return preg_replace_callback($regex, static function ($matches) {
             assert(strlen($matches[0]) === 1);
             $hex = dechex(ord($matches[0]));;
             return '\\x' . str_pad($hex, 2, '0', \STR_PAD_LEFT);

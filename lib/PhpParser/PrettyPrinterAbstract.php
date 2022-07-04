@@ -1141,7 +1141,7 @@ abstract class PrettyPrinterAbstract
     protected function initializeNodeListDiffer() {
         if ($this->nodeListDiffer) return;
 
-        $this->nodeListDiffer = new Internal\Differ(function ($a, $b) {
+        $this->nodeListDiffer = new Internal\Differ(static function ($a, $b) {
             if ($a instanceof Node && $b instanceof Node) {
                 return $a === $b->getAttribute('origNode');
             }

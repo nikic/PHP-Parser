@@ -72,7 +72,7 @@ class Emulative extends Lexer
     }
 
     public function startLexing(string $code, ErrorHandler $errorHandler = null) {
-        $emulators = array_filter($this->emulators, function($emulator) use($code) {
+        $emulators = array_filter($this->emulators, static function($emulator) use($code) {
             return $emulator->isEmulationNeeded($code);
         });
 
@@ -119,7 +119,7 @@ class Emulative extends Lexer
     {
         // Patches may be contributed by different emulators.
         // Make sure they are sorted by increasing patch position.
-        usort($this->patches, function($p1, $p2) {
+        usort($this->patches, static function($p1, $p2) {
             return $p1[0] <=> $p2[0];
         });
     }

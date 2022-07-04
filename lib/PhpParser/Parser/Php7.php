@@ -1417,13 +1417,13 @@ class Php7 extends \PhpParser\ParserAbstract
             97 => function ($stackPos) {
                  $this->semValue = new Expr\Variable(substr($this->semStack[$stackPos-(1-1)], 1), $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
             },
-            98 => function ($stackPos) {
+            98 => static function ($stackPos) {
                  /* nothing */
             },
-            99 => function ($stackPos) {
+            99 => static function ($stackPos) {
                  /* nothing */
             },
-            100 => function ($stackPos) {
+            100 => static function ($stackPos) {
                  /* nothing */
             },
             101 => function ($stackPos) {
@@ -2887,7 +2887,7 @@ class Php7 extends \PhpParser\ParserAbstract
             572 => function ($stackPos) {
                 $this->semValue = $this->semStack[$stackPos];
             },
-            573 => function ($stackPos) {
+            573 => static function ($stackPos) {
                  /* do nothing -- prevent default action of $$=$this->semStack[$1]. See $551. */
             },
             574 => function ($stackPos) {
