@@ -1120,491 +1120,491 @@ class Php7 extends \PhpParser\ParserAbstract
             2,    1
     );
 
-    protected function initReduceCallbacks() {
+    protected function initReduceCallbacks(): void {
         $this->reduceCallbacks = [
-            0 => function ($stackPos) {
+            0 => function ($stackPos): void {
                 $this->semValue = $this->semStack[$stackPos];
             },
-            1 => function ($stackPos) {
+            1 => function ($stackPos): void {
                  $this->semValue = $this->handleNamespaces($this->semStack[$stackPos-(1-1)]);
             },
-            2 => function ($stackPos) {
+            2 => function ($stackPos): void {
                  if (is_array($this->semStack[$stackPos-(2-2)])) { $this->semValue = array_merge($this->semStack[$stackPos-(2-1)], $this->semStack[$stackPos-(2-2)]); } else { $this->semStack[$stackPos-(2-1)][] = $this->semStack[$stackPos-(2-2)]; $this->semValue = $this->semStack[$stackPos-(2-1)]; };
             },
-            3 => function ($stackPos) {
+            3 => function ($stackPos): void {
                  $this->semValue = array();
             },
-            4 => function ($stackPos) {
+            4 => function ($stackPos): void {
                  $startAttributes = $this->lookaheadStartAttributes; if (isset($startAttributes['comments'])) { $nop = new Stmt\Nop($this->createCommentNopAttributes($startAttributes['comments'])); } else { $nop = null; };
             if ($nop !== null) { $this->semStack[$stackPos-(1-1)][] = $nop; } $this->semValue = $this->semStack[$stackPos-(1-1)];
             },
-            5 => function ($stackPos) {
+            5 => function ($stackPos): void {
                 $this->semValue = $this->semStack[$stackPos];
             },
-            6 => function ($stackPos) {
+            6 => function ($stackPos): void {
                 $this->semValue = $this->semStack[$stackPos];
             },
-            7 => function ($stackPos) {
+            7 => function ($stackPos): void {
                 $this->semValue = $this->semStack[$stackPos];
             },
-            8 => function ($stackPos) {
+            8 => function ($stackPos): void {
                 $this->semValue = $this->semStack[$stackPos];
             },
-            9 => function ($stackPos) {
+            9 => function ($stackPos): void {
                 $this->semValue = $this->semStack[$stackPos];
             },
-            10 => function ($stackPos) {
+            10 => function ($stackPos): void {
                 $this->semValue = $this->semStack[$stackPos];
             },
-            11 => function ($stackPos) {
+            11 => function ($stackPos): void {
                 $this->semValue = $this->semStack[$stackPos];
             },
-            12 => function ($stackPos) {
+            12 => function ($stackPos): void {
                 $this->semValue = $this->semStack[$stackPos];
             },
-            13 => function ($stackPos) {
+            13 => function ($stackPos): void {
                 $this->semValue = $this->semStack[$stackPos];
             },
-            14 => function ($stackPos) {
+            14 => function ($stackPos): void {
                 $this->semValue = $this->semStack[$stackPos];
             },
-            15 => function ($stackPos) {
+            15 => function ($stackPos): void {
                 $this->semValue = $this->semStack[$stackPos];
             },
-            16 => function ($stackPos) {
+            16 => function ($stackPos): void {
                 $this->semValue = $this->semStack[$stackPos];
             },
-            17 => function ($stackPos) {
+            17 => function ($stackPos): void {
                 $this->semValue = $this->semStack[$stackPos];
             },
-            18 => function ($stackPos) {
+            18 => function ($stackPos): void {
                 $this->semValue = $this->semStack[$stackPos];
             },
-            19 => function ($stackPos) {
+            19 => function ($stackPos): void {
                 $this->semValue = $this->semStack[$stackPos];
             },
-            20 => function ($stackPos) {
+            20 => function ($stackPos): void {
                 $this->semValue = $this->semStack[$stackPos];
             },
-            21 => function ($stackPos) {
+            21 => function ($stackPos): void {
                 $this->semValue = $this->semStack[$stackPos];
             },
-            22 => function ($stackPos) {
+            22 => function ($stackPos): void {
                 $this->semValue = $this->semStack[$stackPos];
             },
-            23 => function ($stackPos) {
+            23 => function ($stackPos): void {
                 $this->semValue = $this->semStack[$stackPos];
             },
-            24 => function ($stackPos) {
+            24 => function ($stackPos): void {
                 $this->semValue = $this->semStack[$stackPos];
             },
-            25 => function ($stackPos) {
+            25 => function ($stackPos): void {
                 $this->semValue = $this->semStack[$stackPos];
             },
-            26 => function ($stackPos) {
+            26 => function ($stackPos): void {
                 $this->semValue = $this->semStack[$stackPos];
             },
-            27 => function ($stackPos) {
+            27 => function ($stackPos): void {
                 $this->semValue = $this->semStack[$stackPos];
             },
-            28 => function ($stackPos) {
+            28 => function ($stackPos): void {
                 $this->semValue = $this->semStack[$stackPos];
             },
-            29 => function ($stackPos) {
+            29 => function ($stackPos): void {
                 $this->semValue = $this->semStack[$stackPos];
             },
-            30 => function ($stackPos) {
+            30 => function ($stackPos): void {
                 $this->semValue = $this->semStack[$stackPos];
             },
-            31 => function ($stackPos) {
+            31 => function ($stackPos): void {
                 $this->semValue = $this->semStack[$stackPos];
             },
-            32 => function ($stackPos) {
+            32 => function ($stackPos): void {
                 $this->semValue = $this->semStack[$stackPos];
             },
-            33 => function ($stackPos) {
+            33 => function ($stackPos): void {
                 $this->semValue = $this->semStack[$stackPos];
             },
-            34 => function ($stackPos) {
+            34 => function ($stackPos): void {
                 $this->semValue = $this->semStack[$stackPos];
             },
-            35 => function ($stackPos) {
+            35 => function ($stackPos): void {
                 $this->semValue = $this->semStack[$stackPos];
             },
-            36 => function ($stackPos) {
+            36 => function ($stackPos): void {
                 $this->semValue = $this->semStack[$stackPos];
             },
-            37 => function ($stackPos) {
+            37 => function ($stackPos): void {
                 $this->semValue = $this->semStack[$stackPos];
             },
-            38 => function ($stackPos) {
+            38 => function ($stackPos): void {
                 $this->semValue = $this->semStack[$stackPos];
             },
-            39 => function ($stackPos) {
+            39 => function ($stackPos): void {
                 $this->semValue = $this->semStack[$stackPos];
             },
-            40 => function ($stackPos) {
+            40 => function ($stackPos): void {
                 $this->semValue = $this->semStack[$stackPos];
             },
-            41 => function ($stackPos) {
+            41 => function ($stackPos): void {
                 $this->semValue = $this->semStack[$stackPos];
             },
-            42 => function ($stackPos) {
+            42 => function ($stackPos): void {
                 $this->semValue = $this->semStack[$stackPos];
             },
-            43 => function ($stackPos) {
+            43 => function ($stackPos): void {
                 $this->semValue = $this->semStack[$stackPos];
             },
-            44 => function ($stackPos) {
+            44 => function ($stackPos): void {
                 $this->semValue = $this->semStack[$stackPos];
             },
-            45 => function ($stackPos) {
+            45 => function ($stackPos): void {
                 $this->semValue = $this->semStack[$stackPos];
             },
-            46 => function ($stackPos) {
+            46 => function ($stackPos): void {
                 $this->semValue = $this->semStack[$stackPos];
             },
-            47 => function ($stackPos) {
+            47 => function ($stackPos): void {
                 $this->semValue = $this->semStack[$stackPos];
             },
-            48 => function ($stackPos) {
+            48 => function ($stackPos): void {
                 $this->semValue = $this->semStack[$stackPos];
             },
-            49 => function ($stackPos) {
+            49 => function ($stackPos): void {
                 $this->semValue = $this->semStack[$stackPos];
             },
-            50 => function ($stackPos) {
+            50 => function ($stackPos): void {
                 $this->semValue = $this->semStack[$stackPos];
             },
-            51 => function ($stackPos) {
+            51 => function ($stackPos): void {
                 $this->semValue = $this->semStack[$stackPos];
             },
-            52 => function ($stackPos) {
+            52 => function ($stackPos): void {
                 $this->semValue = $this->semStack[$stackPos];
             },
-            53 => function ($stackPos) {
+            53 => function ($stackPos): void {
                 $this->semValue = $this->semStack[$stackPos];
             },
-            54 => function ($stackPos) {
+            54 => function ($stackPos): void {
                 $this->semValue = $this->semStack[$stackPos];
             },
-            55 => function ($stackPos) {
+            55 => function ($stackPos): void {
                 $this->semValue = $this->semStack[$stackPos];
             },
-            56 => function ($stackPos) {
+            56 => function ($stackPos): void {
                 $this->semValue = $this->semStack[$stackPos];
             },
-            57 => function ($stackPos) {
+            57 => function ($stackPos): void {
                 $this->semValue = $this->semStack[$stackPos];
             },
-            58 => function ($stackPos) {
+            58 => function ($stackPos): void {
                 $this->semValue = $this->semStack[$stackPos];
             },
-            59 => function ($stackPos) {
+            59 => function ($stackPos): void {
                 $this->semValue = $this->semStack[$stackPos];
             },
-            60 => function ($stackPos) {
+            60 => function ($stackPos): void {
                 $this->semValue = $this->semStack[$stackPos];
             },
-            61 => function ($stackPos) {
+            61 => function ($stackPos): void {
                 $this->semValue = $this->semStack[$stackPos];
             },
-            62 => function ($stackPos) {
+            62 => function ($stackPos): void {
                 $this->semValue = $this->semStack[$stackPos];
             },
-            63 => function ($stackPos) {
+            63 => function ($stackPos): void {
                 $this->semValue = $this->semStack[$stackPos];
             },
-            64 => function ($stackPos) {
+            64 => function ($stackPos): void {
                 $this->semValue = $this->semStack[$stackPos];
             },
-            65 => function ($stackPos) {
+            65 => function ($stackPos): void {
                 $this->semValue = $this->semStack[$stackPos];
             },
-            66 => function ($stackPos) {
+            66 => function ($stackPos): void {
                 $this->semValue = $this->semStack[$stackPos];
             },
-            67 => function ($stackPos) {
+            67 => function ($stackPos): void {
                 $this->semValue = $this->semStack[$stackPos];
             },
-            68 => function ($stackPos) {
+            68 => function ($stackPos): void {
                 $this->semValue = $this->semStack[$stackPos];
             },
-            69 => function ($stackPos) {
+            69 => function ($stackPos): void {
                 $this->semValue = $this->semStack[$stackPos];
             },
-            70 => function ($stackPos) {
+            70 => function ($stackPos): void {
                 $this->semValue = $this->semStack[$stackPos];
             },
-            71 => function ($stackPos) {
+            71 => function ($stackPos): void {
                 $this->semValue = $this->semStack[$stackPos];
             },
-            72 => function ($stackPos) {
+            72 => function ($stackPos): void {
                 $this->semValue = $this->semStack[$stackPos];
             },
-            73 => function ($stackPos) {
+            73 => function ($stackPos): void {
                 $this->semValue = $this->semStack[$stackPos];
             },
-            74 => function ($stackPos) {
+            74 => function ($stackPos): void {
                 $this->semValue = $this->semStack[$stackPos];
             },
-            75 => function ($stackPos) {
+            75 => function ($stackPos): void {
                 $this->semValue = $this->semStack[$stackPos];
             },
-            76 => function ($stackPos) {
+            76 => function ($stackPos): void {
                 $this->semValue = $this->semStack[$stackPos];
             },
-            77 => function ($stackPos) {
+            77 => function ($stackPos): void {
                 $this->semValue = $this->semStack[$stackPos];
             },
-            78 => function ($stackPos) {
+            78 => function ($stackPos): void {
                 $this->semValue = $this->semStack[$stackPos];
             },
-            79 => function ($stackPos) {
+            79 => function ($stackPos): void {
                 $this->semValue = $this->semStack[$stackPos];
             },
-            80 => function ($stackPos) {
+            80 => function ($stackPos): void {
                 $this->semValue = $this->semStack[$stackPos];
             },
-            81 => function ($stackPos) {
+            81 => function ($stackPos): void {
                 $this->semValue = $this->semStack[$stackPos];
             },
-            82 => function ($stackPos) {
+            82 => function ($stackPos): void {
                 $this->semValue = $this->semStack[$stackPos];
             },
-            83 => function ($stackPos) {
+            83 => function ($stackPos): void {
                 $this->semValue = $this->semStack[$stackPos];
             },
-            84 => function ($stackPos) {
+            84 => function ($stackPos): void {
                 $this->semValue = $this->semStack[$stackPos];
             },
-            85 => function ($stackPos) {
+            85 => function ($stackPos): void {
                 $this->semValue = $this->semStack[$stackPos];
             },
-            86 => function ($stackPos) {
+            86 => function ($stackPos): void {
                  $this->semValue = new Node\Identifier($this->semStack[$stackPos-(1-1)], $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
             },
-            87 => function ($stackPos) {
+            87 => function ($stackPos): void {
                  $this->semValue = new Node\Identifier($this->semStack[$stackPos-(1-1)], $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
             },
-            88 => function ($stackPos) {
+            88 => function ($stackPos): void {
                  $this->semValue = new Node\Identifier($this->semStack[$stackPos-(1-1)], $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
             },
-            89 => function ($stackPos) {
+            89 => function ($stackPos): void {
                  $this->semValue = new Node\Identifier($this->semStack[$stackPos-(1-1)], $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
             },
-            90 => function ($stackPos) {
+            90 => function ($stackPos): void {
                  $this->semValue = new Name($this->semStack[$stackPos-(1-1)], $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
             },
-            91 => function ($stackPos) {
+            91 => function ($stackPos): void {
                  $this->semValue = new Name($this->semStack[$stackPos-(1-1)], $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
             },
-            92 => function ($stackPos) {
+            92 => function ($stackPos): void {
                  $this->semValue = new Name($this->semStack[$stackPos-(1-1)], $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
             },
-            93 => function ($stackPos) {
+            93 => function ($stackPos): void {
                  $this->semValue = new Name($this->semStack[$stackPos-(1-1)], $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
             },
-            94 => function ($stackPos) {
+            94 => function ($stackPos): void {
                  $this->semValue = new Name($this->semStack[$stackPos-(1-1)], $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
             },
-            95 => function ($stackPos) {
+            95 => function ($stackPos): void {
                  $this->semValue = $this->semStack[$stackPos-(1-1)];
             },
-            96 => function ($stackPos) {
+            96 => function ($stackPos): void {
                  $this->semValue = new Name(substr($this->semStack[$stackPos-(1-1)], 1), $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
             },
-            97 => function ($stackPos) {
+            97 => function ($stackPos): void {
                  $this->semValue = new Expr\Variable(substr($this->semStack[$stackPos-(1-1)], 1), $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
             },
-            98 => function ($stackPos) {
+            98 => function ($stackPos): void {
                  /* nothing */
             },
-            99 => function ($stackPos) {
+            99 => function ($stackPos): void {
                  /* nothing */
             },
-            100 => function ($stackPos) {
+            100 => function ($stackPos): void {
                  /* nothing */
             },
-            101 => function ($stackPos) {
+            101 => function ($stackPos): void {
                  $this->emitError(new Error('A trailing comma is not allowed here', $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes));
             },
-            102 => function ($stackPos) {
+            102 => function ($stackPos): void {
                 $this->semValue = $this->semStack[$stackPos];
             },
-            103 => function ($stackPos) {
+            103 => function ($stackPos): void {
                 $this->semValue = $this->semStack[$stackPos];
             },
-            104 => function ($stackPos) {
+            104 => function ($stackPos): void {
                  $this->semValue = new Node\Attribute($this->semStack[$stackPos-(1-1)], [], $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
             },
-            105 => function ($stackPos) {
+            105 => function ($stackPos): void {
                  $this->semValue = new Node\Attribute($this->semStack[$stackPos-(2-1)], $this->semStack[$stackPos-(2-2)], $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes);
             },
-            106 => function ($stackPos) {
+            106 => function ($stackPos): void {
                  $this->semValue = array($this->semStack[$stackPos-(1-1)]);
             },
-            107 => function ($stackPos) {
+            107 => function ($stackPos): void {
                  $this->semStack[$stackPos-(3-1)][] = $this->semStack[$stackPos-(3-3)]; $this->semValue = $this->semStack[$stackPos-(3-1)];
             },
-            108 => function ($stackPos) {
+            108 => function ($stackPos): void {
                  $this->semValue = new Node\AttributeGroup($this->semStack[$stackPos-(4-2)], $this->startAttributeStack[$stackPos-(4-1)] + $this->endAttributes);
             },
-            109 => function ($stackPos) {
+            109 => function ($stackPos): void {
                  $this->semValue = array($this->semStack[$stackPos-(1-1)]);
             },
-            110 => function ($stackPos) {
+            110 => function ($stackPos): void {
                  $this->semStack[$stackPos-(2-1)][] = $this->semStack[$stackPos-(2-2)]; $this->semValue = $this->semStack[$stackPos-(2-1)];
             },
-            111 => function ($stackPos) {
+            111 => function ($stackPos): void {
                  $this->semValue = [];
             },
-            112 => function ($stackPos) {
+            112 => function ($stackPos): void {
                  $this->semValue = $this->semStack[$stackPos-(1-1)];
             },
-            113 => function ($stackPos) {
+            113 => function ($stackPos): void {
                  $this->semValue = $this->semStack[$stackPos-(1-1)];
             },
-            114 => function ($stackPos) {
+            114 => function ($stackPos): void {
                  $this->semValue = $this->semStack[$stackPos-(1-1)];
             },
-            115 => function ($stackPos) {
+            115 => function ($stackPos): void {
                  $this->semValue = $this->semStack[$stackPos-(1-1)];
             },
-            116 => function ($stackPos) {
+            116 => function ($stackPos): void {
                  $this->semValue = new Stmt\HaltCompiler($this->lexer->handleHaltCompiler(), $this->startAttributeStack[$stackPos-(4-1)] + $this->endAttributes);
             },
-            117 => function ($stackPos) {
+            117 => function ($stackPos): void {
                  $this->semValue = new Stmt\Namespace_($this->semStack[$stackPos-(3-2)], null, $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
             $this->semValue->setAttribute('kind', Stmt\Namespace_::KIND_SEMICOLON);
             $this->checkNamespace($this->semValue);
             },
-            118 => function ($stackPos) {
+            118 => function ($stackPos): void {
                  $this->semValue = new Stmt\Namespace_($this->semStack[$stackPos-(5-2)], $this->semStack[$stackPos-(5-4)], $this->startAttributeStack[$stackPos-(5-1)] + $this->endAttributes);
             $this->semValue->setAttribute('kind', Stmt\Namespace_::KIND_BRACED);
             $this->checkNamespace($this->semValue);
             },
-            119 => function ($stackPos) {
+            119 => function ($stackPos): void {
                  $this->semValue = new Stmt\Namespace_(null, $this->semStack[$stackPos-(4-3)], $this->startAttributeStack[$stackPos-(4-1)] + $this->endAttributes);
             $this->semValue->setAttribute('kind', Stmt\Namespace_::KIND_BRACED);
             $this->checkNamespace($this->semValue);
             },
-            120 => function ($stackPos) {
+            120 => function ($stackPos): void {
                  $this->semValue = new Stmt\Use_($this->semStack[$stackPos-(3-2)], Stmt\Use_::TYPE_NORMAL, $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
             },
-            121 => function ($stackPos) {
+            121 => function ($stackPos): void {
                  $this->semValue = new Stmt\Use_($this->semStack[$stackPos-(4-3)], $this->semStack[$stackPos-(4-2)], $this->startAttributeStack[$stackPos-(4-1)] + $this->endAttributes);
             },
-            122 => function ($stackPos) {
+            122 => function ($stackPos): void {
                  $this->semValue = $this->semStack[$stackPos-(2-1)];
             },
-            123 => function ($stackPos) {
+            123 => function ($stackPos): void {
                  $this->semValue = new Stmt\Const_($this->semStack[$stackPos-(3-2)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
             },
-            124 => function ($stackPos) {
+            124 => function ($stackPos): void {
                  $this->semValue = Stmt\Use_::TYPE_FUNCTION;
             },
-            125 => function ($stackPos) {
+            125 => function ($stackPos): void {
                  $this->semValue = Stmt\Use_::TYPE_CONSTANT;
             },
-            126 => function ($stackPos) {
+            126 => function ($stackPos): void {
                  $this->semValue = new Stmt\GroupUse($this->semStack[$stackPos-(7-3)], $this->semStack[$stackPos-(7-6)], $this->semStack[$stackPos-(7-2)], $this->startAttributeStack[$stackPos-(7-1)] + $this->endAttributes);
             },
-            127 => function ($stackPos) {
+            127 => function ($stackPos): void {
                  $this->semValue = new Stmt\GroupUse($this->semStack[$stackPos-(6-2)], $this->semStack[$stackPos-(6-5)], Stmt\Use_::TYPE_UNKNOWN, $this->startAttributeStack[$stackPos-(6-1)] + $this->endAttributes);
             },
-            128 => function ($stackPos) {
+            128 => function ($stackPos): void {
                  $this->semValue = $this->semStack[$stackPos-(2-1)];
             },
-            129 => function ($stackPos) {
+            129 => function ($stackPos): void {
                  $this->semStack[$stackPos-(3-1)][] = $this->semStack[$stackPos-(3-3)]; $this->semValue = $this->semStack[$stackPos-(3-1)];
             },
-            130 => function ($stackPos) {
+            130 => function ($stackPos): void {
                  $this->semValue = array($this->semStack[$stackPos-(1-1)]);
             },
-            131 => function ($stackPos) {
+            131 => function ($stackPos): void {
                  $this->semValue = $this->semStack[$stackPos-(2-1)];
             },
-            132 => function ($stackPos) {
+            132 => function ($stackPos): void {
                  $this->semStack[$stackPos-(3-1)][] = $this->semStack[$stackPos-(3-3)]; $this->semValue = $this->semStack[$stackPos-(3-1)];
             },
-            133 => function ($stackPos) {
+            133 => function ($stackPos): void {
                  $this->semValue = array($this->semStack[$stackPos-(1-1)]);
             },
-            134 => function ($stackPos) {
+            134 => function ($stackPos): void {
                  $this->semValue = $this->semStack[$stackPos-(2-1)];
             },
-            135 => function ($stackPos) {
+            135 => function ($stackPos): void {
                  $this->semStack[$stackPos-(3-1)][] = $this->semStack[$stackPos-(3-3)]; $this->semValue = $this->semStack[$stackPos-(3-1)];
             },
-            136 => function ($stackPos) {
+            136 => function ($stackPos): void {
                  $this->semValue = array($this->semStack[$stackPos-(1-1)]);
             },
-            137 => function ($stackPos) {
+            137 => function ($stackPos): void {
                  $this->semValue = new Stmt\UseUse($this->semStack[$stackPos-(1-1)], null, Stmt\Use_::TYPE_UNKNOWN, $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes); $this->checkUseUse($this->semValue, $stackPos-(1-1));
             },
-            138 => function ($stackPos) {
+            138 => function ($stackPos): void {
                  $this->semValue = new Stmt\UseUse($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], Stmt\Use_::TYPE_UNKNOWN, $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes); $this->checkUseUse($this->semValue, $stackPos-(3-3));
             },
-            139 => function ($stackPos) {
+            139 => function ($stackPos): void {
                  $this->semValue = new Stmt\UseUse($this->semStack[$stackPos-(1-1)], null, Stmt\Use_::TYPE_UNKNOWN, $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes); $this->checkUseUse($this->semValue, $stackPos-(1-1));
             },
-            140 => function ($stackPos) {
+            140 => function ($stackPos): void {
                  $this->semValue = new Stmt\UseUse($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], Stmt\Use_::TYPE_UNKNOWN, $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes); $this->checkUseUse($this->semValue, $stackPos-(3-3));
             },
-            141 => function ($stackPos) {
+            141 => function ($stackPos): void {
                  $this->semValue = $this->semStack[$stackPos-(1-1)]; $this->semValue->type = Stmt\Use_::TYPE_NORMAL;
             },
-            142 => function ($stackPos) {
+            142 => function ($stackPos): void {
                  $this->semValue = $this->semStack[$stackPos-(2-2)]; $this->semValue->type = $this->semStack[$stackPos-(2-1)];
             },
-            143 => function ($stackPos) {
+            143 => function ($stackPos): void {
                  $this->semValue = $this->semStack[$stackPos-(2-1)];
             },
-            144 => function ($stackPos) {
+            144 => function ($stackPos): void {
                  $this->semStack[$stackPos-(3-1)][] = $this->semStack[$stackPos-(3-3)]; $this->semValue = $this->semStack[$stackPos-(3-1)];
             },
-            145 => function ($stackPos) {
+            145 => function ($stackPos): void {
                  $this->semValue = array($this->semStack[$stackPos-(1-1)]);
             },
-            146 => function ($stackPos) {
+            146 => function ($stackPos): void {
                  $this->semValue = new Node\Const_($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
             },
-            147 => function ($stackPos) {
+            147 => function ($stackPos): void {
                  $this->semValue = $this->semStack[$stackPos-(2-1)];
             },
-            148 => function ($stackPos) {
+            148 => function ($stackPos): void {
                  $this->semStack[$stackPos-(3-1)][] = $this->semStack[$stackPos-(3-3)]; $this->semValue = $this->semStack[$stackPos-(3-1)];
             },
-            149 => function ($stackPos) {
+            149 => function ($stackPos): void {
                  $this->semValue = array($this->semStack[$stackPos-(1-1)]);
             },
-            150 => function ($stackPos) {
+            150 => function ($stackPos): void {
                  $this->semValue = new Node\Const_($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
             },
-            151 => function ($stackPos) {
+            151 => function ($stackPos): void {
                  if (is_array($this->semStack[$stackPos-(2-2)])) { $this->semValue = array_merge($this->semStack[$stackPos-(2-1)], $this->semStack[$stackPos-(2-2)]); } else { $this->semStack[$stackPos-(2-1)][] = $this->semStack[$stackPos-(2-2)]; $this->semValue = $this->semStack[$stackPos-(2-1)]; };
             },
-            152 => function ($stackPos) {
+            152 => function ($stackPos): void {
                  $this->semValue = array();
             },
-            153 => function ($stackPos) {
+            153 => function ($stackPos): void {
                  $startAttributes = $this->lookaheadStartAttributes; if (isset($startAttributes['comments'])) { $nop = new Stmt\Nop($this->createCommentNopAttributes($startAttributes['comments'])); } else { $nop = null; };
             if ($nop !== null) { $this->semStack[$stackPos-(1-1)][] = $nop; } $this->semValue = $this->semStack[$stackPos-(1-1)];
             },
-            154 => function ($stackPos) {
+            154 => function ($stackPos): void {
                  $this->semValue = $this->semStack[$stackPos-(1-1)];
             },
-            155 => function ($stackPos) {
+            155 => function ($stackPos): void {
                  $this->semValue = $this->semStack[$stackPos-(1-1)];
             },
-            156 => function ($stackPos) {
+            156 => function ($stackPos): void {
                  $this->semValue = $this->semStack[$stackPos-(1-1)];
             },
-            157 => function ($stackPos) {
+            157 => function ($stackPos): void {
                  throw new Error('__HALT_COMPILER() can only be used from the outermost scope', $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
             },
-            158 => function ($stackPos) {
+            158 => function ($stackPos): void {
 
         if ($this->semStack[$stackPos-(3-2)]) {
             $this->semValue = $this->semStack[$stackPos-(3-2)]; $attrs = $this->startAttributeStack[$stackPos-(3-1)]; $stmts = $this->semValue; if (!empty($attrs['comments'])) {$stmts[0]->setAttribute('comments', array_merge($attrs['comments'], $stmts[0]->getAttribute('comments', []))); };
@@ -1614,46 +1614,46 @@ class Php7 extends \PhpParser\ParserAbstract
         }
 
             },
-            159 => function ($stackPos) {
+            159 => function ($stackPos): void {
                  $this->semValue = new Stmt\If_($this->semStack[$stackPos-(7-3)], ['stmts' => is_array($this->semStack[$stackPos-(7-5)]) ? $this->semStack[$stackPos-(7-5)] : array($this->semStack[$stackPos-(7-5)]), 'elseifs' => $this->semStack[$stackPos-(7-6)], 'else' => $this->semStack[$stackPos-(7-7)]], $this->startAttributeStack[$stackPos-(7-1)] + $this->endAttributes);
             },
-            160 => function ($stackPos) {
+            160 => function ($stackPos): void {
                  $this->semValue = new Stmt\If_($this->semStack[$stackPos-(10-3)], ['stmts' => $this->semStack[$stackPos-(10-6)], 'elseifs' => $this->semStack[$stackPos-(10-7)], 'else' => $this->semStack[$stackPos-(10-8)]], $this->startAttributeStack[$stackPos-(10-1)] + $this->endAttributes);
             },
-            161 => function ($stackPos) {
+            161 => function ($stackPos): void {
                  $this->semValue = new Stmt\While_($this->semStack[$stackPos-(5-3)], $this->semStack[$stackPos-(5-5)], $this->startAttributeStack[$stackPos-(5-1)] + $this->endAttributes);
             },
-            162 => function ($stackPos) {
+            162 => function ($stackPos): void {
                  $this->semValue = new Stmt\Do_($this->semStack[$stackPos-(7-5)], is_array($this->semStack[$stackPos-(7-2)]) ? $this->semStack[$stackPos-(7-2)] : array($this->semStack[$stackPos-(7-2)]), $this->startAttributeStack[$stackPos-(7-1)] + $this->endAttributes);
             },
-            163 => function ($stackPos) {
+            163 => function ($stackPos): void {
                  $this->semValue = new Stmt\For_(['init' => $this->semStack[$stackPos-(9-3)], 'cond' => $this->semStack[$stackPos-(9-5)], 'loop' => $this->semStack[$stackPos-(9-7)], 'stmts' => $this->semStack[$stackPos-(9-9)]], $this->startAttributeStack[$stackPos-(9-1)] + $this->endAttributes);
             },
-            164 => function ($stackPos) {
+            164 => function ($stackPos): void {
                  $this->semValue = new Stmt\Switch_($this->semStack[$stackPos-(5-3)], $this->semStack[$stackPos-(5-5)], $this->startAttributeStack[$stackPos-(5-1)] + $this->endAttributes);
             },
-            165 => function ($stackPos) {
+            165 => function ($stackPos): void {
                  $this->semValue = new Stmt\Break_($this->semStack[$stackPos-(3-2)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
             },
-            166 => function ($stackPos) {
+            166 => function ($stackPos): void {
                  $this->semValue = new Stmt\Continue_($this->semStack[$stackPos-(3-2)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
             },
-            167 => function ($stackPos) {
+            167 => function ($stackPos): void {
                  $this->semValue = new Stmt\Return_($this->semStack[$stackPos-(3-2)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
             },
-            168 => function ($stackPos) {
+            168 => function ($stackPos): void {
                  $this->semValue = new Stmt\Global_($this->semStack[$stackPos-(3-2)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
             },
-            169 => function ($stackPos) {
+            169 => function ($stackPos): void {
                  $this->semValue = new Stmt\Static_($this->semStack[$stackPos-(3-2)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
             },
-            170 => function ($stackPos) {
+            170 => function ($stackPos): void {
                  $this->semValue = new Stmt\Echo_($this->semStack[$stackPos-(3-2)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
             },
-            171 => function ($stackPos) {
+            171 => function ($stackPos): void {
                  $this->semValue = new Stmt\InlineHTML($this->semStack[$stackPos-(1-1)], $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
             },
-            172 => function ($stackPos) {
+            172 => function ($stackPos): void {
 
         $e = $this->semStack[$stackPos-(2-1)];
         if ($e instanceof Expr\Throw_) {
@@ -1665,1313 +1665,1313 @@ class Php7 extends \PhpParser\ParserAbstract
         }
 
             },
-            173 => function ($stackPos) {
+            173 => function ($stackPos): void {
                  $this->semValue = new Stmt\Unset_($this->semStack[$stackPos-(5-3)], $this->startAttributeStack[$stackPos-(5-1)] + $this->endAttributes);
             },
-            174 => function ($stackPos) {
+            174 => function ($stackPos): void {
                  $this->semValue = new Stmt\Foreach_($this->semStack[$stackPos-(7-3)], $this->semStack[$stackPos-(7-5)][0], ['keyVar' => null, 'byRef' => $this->semStack[$stackPos-(7-5)][1], 'stmts' => $this->semStack[$stackPos-(7-7)]], $this->startAttributeStack[$stackPos-(7-1)] + $this->endAttributes);
             },
-            175 => function ($stackPos) {
+            175 => function ($stackPos): void {
                  $this->semValue = new Stmt\Foreach_($this->semStack[$stackPos-(9-3)], $this->semStack[$stackPos-(9-7)][0], ['keyVar' => $this->semStack[$stackPos-(9-5)], 'byRef' => $this->semStack[$stackPos-(9-7)][1], 'stmts' => $this->semStack[$stackPos-(9-9)]], $this->startAttributeStack[$stackPos-(9-1)] + $this->endAttributes);
             },
-            176 => function ($stackPos) {
+            176 => function ($stackPos): void {
                  $this->semValue = new Stmt\Foreach_($this->semStack[$stackPos-(6-3)], new Expr\Error($this->startAttributeStack[$stackPos-(6-4)] + $this->endAttributeStack[$stackPos-(6-4)]), ['stmts' => $this->semStack[$stackPos-(6-6)]], $this->startAttributeStack[$stackPos-(6-1)] + $this->endAttributes);
             },
-            177 => function ($stackPos) {
+            177 => function ($stackPos): void {
                  $this->semValue = new Stmt\Declare_($this->semStack[$stackPos-(5-3)], $this->semStack[$stackPos-(5-5)], $this->startAttributeStack[$stackPos-(5-1)] + $this->endAttributes);
             },
-            178 => function ($stackPos) {
+            178 => function ($stackPos): void {
                  $this->semValue = new Stmt\TryCatch($this->semStack[$stackPos-(6-3)], $this->semStack[$stackPos-(6-5)], $this->semStack[$stackPos-(6-6)], $this->startAttributeStack[$stackPos-(6-1)] + $this->endAttributes); $this->checkTryCatch($this->semValue);
             },
-            179 => function ($stackPos) {
+            179 => function ($stackPos): void {
                  $this->semValue = new Stmt\Goto_($this->semStack[$stackPos-(3-2)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
             },
-            180 => function ($stackPos) {
+            180 => function ($stackPos): void {
                  $this->semValue = new Stmt\Label($this->semStack[$stackPos-(2-1)], $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes);
             },
-            181 => function ($stackPos) {
+            181 => function ($stackPos): void {
                  $this->semValue = array(); /* means: no statement */
             },
-            182 => function ($stackPos) {
+            182 => function ($stackPos): void {
                  $this->semValue = $this->semStack[$stackPos-(1-1)];
             },
-            183 => function ($stackPos) {
+            183 => function ($stackPos): void {
                  $startAttributes = $this->startAttributeStack[$stackPos-(1-1)]; if (isset($startAttributes['comments'])) { $this->semValue = new Stmt\Nop($startAttributes + $this->endAttributes); } else { $this->semValue = null; };
             if ($this->semValue === null) $this->semValue = array(); /* means: no statement */
             },
-            184 => function ($stackPos) {
+            184 => function ($stackPos): void {
                  $this->semValue = array();
             },
-            185 => function ($stackPos) {
+            185 => function ($stackPos): void {
                  $this->semStack[$stackPos-(2-1)][] = $this->semStack[$stackPos-(2-2)]; $this->semValue = $this->semStack[$stackPos-(2-1)];
             },
-            186 => function ($stackPos) {
+            186 => function ($stackPos): void {
                  $this->semValue = array($this->semStack[$stackPos-(1-1)]);
             },
-            187 => function ($stackPos) {
+            187 => function ($stackPos): void {
                  $this->semStack[$stackPos-(3-1)][] = $this->semStack[$stackPos-(3-3)]; $this->semValue = $this->semStack[$stackPos-(3-1)];
             },
-            188 => function ($stackPos) {
+            188 => function ($stackPos): void {
                  $this->semValue = new Stmt\Catch_($this->semStack[$stackPos-(8-3)], $this->semStack[$stackPos-(8-4)], $this->semStack[$stackPos-(8-7)], $this->startAttributeStack[$stackPos-(8-1)] + $this->endAttributes);
             },
-            189 => function ($stackPos) {
+            189 => function ($stackPos): void {
                  $this->semValue = null;
             },
-            190 => function ($stackPos) {
+            190 => function ($stackPos): void {
                  $this->semValue = new Stmt\Finally_($this->semStack[$stackPos-(4-3)], $this->startAttributeStack[$stackPos-(4-1)] + $this->endAttributes);
             },
-            191 => function ($stackPos) {
+            191 => function ($stackPos): void {
                  $this->semValue = $this->semStack[$stackPos-(2-1)];
             },
-            192 => function ($stackPos) {
+            192 => function ($stackPos): void {
                  $this->semValue = array($this->semStack[$stackPos-(1-1)]);
             },
-            193 => function ($stackPos) {
+            193 => function ($stackPos): void {
                  $this->semStack[$stackPos-(3-1)][] = $this->semStack[$stackPos-(3-3)]; $this->semValue = $this->semStack[$stackPos-(3-1)];
             },
-            194 => function ($stackPos) {
+            194 => function ($stackPos): void {
                  $this->semValue = false;
             },
-            195 => function ($stackPos) {
+            195 => function ($stackPos): void {
                  $this->semValue = true;
             },
-            196 => function ($stackPos) {
+            196 => function ($stackPos): void {
                  $this->semValue = false;
             },
-            197 => function ($stackPos) {
+            197 => function ($stackPos): void {
                  $this->semValue = true;
             },
-            198 => function ($stackPos) {
+            198 => function ($stackPos): void {
                  $this->semValue = false;
             },
-            199 => function ($stackPos) {
+            199 => function ($stackPos): void {
                  $this->semValue = true;
             },
-            200 => function ($stackPos) {
+            200 => function ($stackPos): void {
                  $this->semValue = $this->semStack[$stackPos-(3-2)];
             },
-            201 => function ($stackPos) {
+            201 => function ($stackPos): void {
                  $this->semValue = [];
             },
-            202 => function ($stackPos) {
+            202 => function ($stackPos): void {
                  $this->semValue = new Stmt\Function_($this->semStack[$stackPos-(8-3)], ['byRef' => $this->semStack[$stackPos-(8-2)], 'params' => $this->semStack[$stackPos-(8-5)], 'returnType' => $this->semStack[$stackPos-(8-7)], 'stmts' => $this->semStack[$stackPos-(8-8)], 'attrGroups' => []], $this->startAttributeStack[$stackPos-(8-1)] + $this->endAttributes);
             },
-            203 => function ($stackPos) {
+            203 => function ($stackPos): void {
                  $this->semValue = new Stmt\Function_($this->semStack[$stackPos-(9-4)], ['byRef' => $this->semStack[$stackPos-(9-3)], 'params' => $this->semStack[$stackPos-(9-6)], 'returnType' => $this->semStack[$stackPos-(9-8)], 'stmts' => $this->semStack[$stackPos-(9-9)], 'attrGroups' => $this->semStack[$stackPos-(9-1)]], $this->startAttributeStack[$stackPos-(9-1)] + $this->endAttributes);
             },
-            204 => function ($stackPos) {
+            204 => function ($stackPos): void {
                  $this->semValue = new Stmt\Class_($this->semStack[$stackPos-(8-3)], ['type' => $this->semStack[$stackPos-(8-2)], 'extends' => $this->semStack[$stackPos-(8-4)], 'implements' => $this->semStack[$stackPos-(8-5)], 'stmts' => $this->semStack[$stackPos-(8-7)], 'attrGroups' => $this->semStack[$stackPos-(8-1)]], $this->startAttributeStack[$stackPos-(8-1)] + $this->endAttributes);
             $this->checkClass($this->semValue, $stackPos-(8-3));
             },
-            205 => function ($stackPos) {
+            205 => function ($stackPos): void {
                  $this->semValue = new Stmt\Interface_($this->semStack[$stackPos-(7-3)], ['extends' => $this->semStack[$stackPos-(7-4)], 'stmts' => $this->semStack[$stackPos-(7-6)], 'attrGroups' => $this->semStack[$stackPos-(7-1)]], $this->startAttributeStack[$stackPos-(7-1)] + $this->endAttributes);
             $this->checkInterface($this->semValue, $stackPos-(7-3));
             },
-            206 => function ($stackPos) {
+            206 => function ($stackPos): void {
                  $this->semValue = new Stmt\Trait_($this->semStack[$stackPos-(6-3)], ['stmts' => $this->semStack[$stackPos-(6-5)], 'attrGroups' => $this->semStack[$stackPos-(6-1)]], $this->startAttributeStack[$stackPos-(6-1)] + $this->endAttributes);
             },
-            207 => function ($stackPos) {
+            207 => function ($stackPos): void {
                  $this->semValue = new Stmt\Enum_($this->semStack[$stackPos-(8-3)], ['scalarType' => $this->semStack[$stackPos-(8-4)], 'implements' => $this->semStack[$stackPos-(8-5)], 'stmts' => $this->semStack[$stackPos-(8-7)], 'attrGroups' => $this->semStack[$stackPos-(8-1)]], $this->startAttributeStack[$stackPos-(8-1)] + $this->endAttributes);
             $this->checkEnum($this->semValue, $stackPos-(8-3));
             },
-            208 => function ($stackPos) {
+            208 => function ($stackPos): void {
                  $this->semValue = null;
             },
-            209 => function ($stackPos) {
+            209 => function ($stackPos): void {
                  $this->semValue = $this->semStack[$stackPos-(2-2)];
             },
-            210 => function ($stackPos) {
+            210 => function ($stackPos): void {
                  $this->semValue = null;
             },
-            211 => function ($stackPos) {
+            211 => function ($stackPos): void {
                  $this->semValue = $this->semStack[$stackPos-(2-2)];
             },
-            212 => function ($stackPos) {
+            212 => function ($stackPos): void {
                  $this->semValue = 0;
             },
-            213 => function ($stackPos) {
+            213 => function ($stackPos): void {
                  $this->semValue = $this->semStack[$stackPos-(2-1)];
             },
-            214 => function ($stackPos) {
+            214 => function ($stackPos): void {
                  $this->semValue = $this->semStack[$stackPos-(1-1)];
             },
-            215 => function ($stackPos) {
+            215 => function ($stackPos): void {
                  $this->checkClassModifier($this->semStack[$stackPos-(2-1)], $this->semStack[$stackPos-(2-2)], $stackPos-(2-2)); $this->semValue = $this->semStack[$stackPos-(2-1)] | $this->semStack[$stackPos-(2-2)];
             },
-            216 => function ($stackPos) {
+            216 => function ($stackPos): void {
                  $this->semValue = Stmt\Class_::MODIFIER_ABSTRACT;
             },
-            217 => function ($stackPos) {
+            217 => function ($stackPos): void {
                  $this->semValue = Stmt\Class_::MODIFIER_FINAL;
             },
-            218 => function ($stackPos) {
+            218 => function ($stackPos): void {
                  $this->semValue = Stmt\Class_::MODIFIER_READONLY;
             },
-            219 => function ($stackPos) {
+            219 => function ($stackPos): void {
                  $this->semValue = null;
             },
-            220 => function ($stackPos) {
+            220 => function ($stackPos): void {
                  $this->semValue = $this->semStack[$stackPos-(2-2)];
             },
-            221 => function ($stackPos) {
+            221 => function ($stackPos): void {
                  $this->semValue = array();
             },
-            222 => function ($stackPos) {
+            222 => function ($stackPos): void {
                  $this->semValue = $this->semStack[$stackPos-(2-2)];
             },
-            223 => function ($stackPos) {
+            223 => function ($stackPos): void {
                  $this->semValue = array();
             },
-            224 => function ($stackPos) {
+            224 => function ($stackPos): void {
                  $this->semValue = $this->semStack[$stackPos-(2-2)];
             },
-            225 => function ($stackPos) {
+            225 => function ($stackPos): void {
                  $this->semValue = $this->semStack[$stackPos-(2-1)];
             },
-            226 => function ($stackPos) {
+            226 => function ($stackPos): void {
                  $this->semValue = array($this->semStack[$stackPos-(1-1)]);
             },
-            227 => function ($stackPos) {
+            227 => function ($stackPos): void {
                  $this->semStack[$stackPos-(3-1)][] = $this->semStack[$stackPos-(3-3)]; $this->semValue = $this->semStack[$stackPos-(3-1)];
             },
-            228 => function ($stackPos) {
+            228 => function ($stackPos): void {
                  $this->semValue = is_array($this->semStack[$stackPos-(1-1)]) ? $this->semStack[$stackPos-(1-1)] : array($this->semStack[$stackPos-(1-1)]);
             },
-            229 => function ($stackPos) {
+            229 => function ($stackPos): void {
                  $this->semValue = $this->semStack[$stackPos-(4-2)];
             },
-            230 => function ($stackPos) {
+            230 => function ($stackPos): void {
                  $this->semValue = is_array($this->semStack[$stackPos-(1-1)]) ? $this->semStack[$stackPos-(1-1)] : array($this->semStack[$stackPos-(1-1)]);
             },
-            231 => function ($stackPos) {
+            231 => function ($stackPos): void {
                  $this->semValue = $this->semStack[$stackPos-(4-2)];
             },
-            232 => function ($stackPos) {
+            232 => function ($stackPos): void {
                  $this->semValue = is_array($this->semStack[$stackPos-(1-1)]) ? $this->semStack[$stackPos-(1-1)] : array($this->semStack[$stackPos-(1-1)]);
             },
-            233 => function ($stackPos) {
+            233 => function ($stackPos): void {
                  $this->semValue = null;
             },
-            234 => function ($stackPos) {
+            234 => function ($stackPos): void {
                  $this->semValue = $this->semStack[$stackPos-(4-2)];
             },
-            235 => function ($stackPos) {
+            235 => function ($stackPos): void {
                  $this->semValue = $this->semStack[$stackPos-(2-1)];
             },
-            236 => function ($stackPos) {
+            236 => function ($stackPos): void {
                  $this->semValue = array($this->semStack[$stackPos-(1-1)]);
             },
-            237 => function ($stackPos) {
+            237 => function ($stackPos): void {
                  $this->semStack[$stackPos-(3-1)][] = $this->semStack[$stackPos-(3-3)]; $this->semValue = $this->semStack[$stackPos-(3-1)];
             },
-            238 => function ($stackPos) {
+            238 => function ($stackPos): void {
                  $this->semValue = new Stmt\DeclareDeclare($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
             },
-            239 => function ($stackPos) {
+            239 => function ($stackPos): void {
                  $this->semValue = $this->semStack[$stackPos-(3-2)];
             },
-            240 => function ($stackPos) {
+            240 => function ($stackPos): void {
                  $this->semValue = $this->semStack[$stackPos-(4-3)];
             },
-            241 => function ($stackPos) {
+            241 => function ($stackPos): void {
                  $this->semValue = $this->semStack[$stackPos-(4-2)];
             },
-            242 => function ($stackPos) {
+            242 => function ($stackPos): void {
                  $this->semValue = $this->semStack[$stackPos-(5-3)];
             },
-            243 => function ($stackPos) {
+            243 => function ($stackPos): void {
                  $this->semValue = array();
             },
-            244 => function ($stackPos) {
+            244 => function ($stackPos): void {
                  $this->semStack[$stackPos-(2-1)][] = $this->semStack[$stackPos-(2-2)]; $this->semValue = $this->semStack[$stackPos-(2-1)];
             },
-            245 => function ($stackPos) {
+            245 => function ($stackPos): void {
                  $this->semValue = new Stmt\Case_($this->semStack[$stackPos-(4-2)], $this->semStack[$stackPos-(4-4)], $this->startAttributeStack[$stackPos-(4-1)] + $this->endAttributes);
             },
-            246 => function ($stackPos) {
+            246 => function ($stackPos): void {
                  $this->semValue = new Stmt\Case_(null, $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
             },
-            247 => function ($stackPos) {
+            247 => function ($stackPos): void {
                 $this->semValue = $this->semStack[$stackPos];
             },
-            248 => function ($stackPos) {
+            248 => function ($stackPos): void {
                 $this->semValue = $this->semStack[$stackPos];
             },
-            249 => function ($stackPos) {
+            249 => function ($stackPos): void {
                  $this->semValue = new Expr\Match_($this->semStack[$stackPos-(7-3)], $this->semStack[$stackPos-(7-6)], $this->startAttributeStack[$stackPos-(7-1)] + $this->endAttributes);
             },
-            250 => function ($stackPos) {
+            250 => function ($stackPos): void {
                  $this->semValue = [];
             },
-            251 => function ($stackPos) {
+            251 => function ($stackPos): void {
                  $this->semValue = $this->semStack[$stackPos-(2-1)];
             },
-            252 => function ($stackPos) {
+            252 => function ($stackPos): void {
                  $this->semValue = array($this->semStack[$stackPos-(1-1)]);
             },
-            253 => function ($stackPos) {
+            253 => function ($stackPos): void {
                  $this->semStack[$stackPos-(3-1)][] = $this->semStack[$stackPos-(3-3)]; $this->semValue = $this->semStack[$stackPos-(3-1)];
             },
-            254 => function ($stackPos) {
+            254 => function ($stackPos): void {
                  $this->semValue = new Node\MatchArm($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
             },
-            255 => function ($stackPos) {
+            255 => function ($stackPos): void {
                  $this->semValue = new Node\MatchArm(null, $this->semStack[$stackPos-(4-4)], $this->startAttributeStack[$stackPos-(4-1)] + $this->endAttributes);
             },
-            256 => function ($stackPos) {
+            256 => function ($stackPos): void {
                  $this->semValue = is_array($this->semStack[$stackPos-(1-1)]) ? $this->semStack[$stackPos-(1-1)] : array($this->semStack[$stackPos-(1-1)]);
             },
-            257 => function ($stackPos) {
+            257 => function ($stackPos): void {
                  $this->semValue = $this->semStack[$stackPos-(4-2)];
             },
-            258 => function ($stackPos) {
+            258 => function ($stackPos): void {
                  $this->semValue = array();
             },
-            259 => function ($stackPos) {
+            259 => function ($stackPos): void {
                  $this->semStack[$stackPos-(2-1)][] = $this->semStack[$stackPos-(2-2)]; $this->semValue = $this->semStack[$stackPos-(2-1)];
             },
-            260 => function ($stackPos) {
+            260 => function ($stackPos): void {
                  $this->semValue = new Stmt\ElseIf_($this->semStack[$stackPos-(5-3)], is_array($this->semStack[$stackPos-(5-5)]) ? $this->semStack[$stackPos-(5-5)] : array($this->semStack[$stackPos-(5-5)]), $this->startAttributeStack[$stackPos-(5-1)] + $this->endAttributes);
             },
-            261 => function ($stackPos) {
+            261 => function ($stackPos): void {
                  $this->semValue = array();
             },
-            262 => function ($stackPos) {
+            262 => function ($stackPos): void {
                  $this->semStack[$stackPos-(2-1)][] = $this->semStack[$stackPos-(2-2)]; $this->semValue = $this->semStack[$stackPos-(2-1)];
             },
-            263 => function ($stackPos) {
+            263 => function ($stackPos): void {
                  $this->semValue = new Stmt\ElseIf_($this->semStack[$stackPos-(6-3)], $this->semStack[$stackPos-(6-6)], $this->startAttributeStack[$stackPos-(6-1)] + $this->endAttributes);
             },
-            264 => function ($stackPos) {
+            264 => function ($stackPos): void {
                  $this->semValue = null;
             },
-            265 => function ($stackPos) {
+            265 => function ($stackPos): void {
                  $this->semValue = new Stmt\Else_(is_array($this->semStack[$stackPos-(2-2)]) ? $this->semStack[$stackPos-(2-2)] : array($this->semStack[$stackPos-(2-2)]), $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes);
             },
-            266 => function ($stackPos) {
+            266 => function ($stackPos): void {
                  $this->semValue = null;
             },
-            267 => function ($stackPos) {
+            267 => function ($stackPos): void {
                  $this->semValue = new Stmt\Else_($this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
             },
-            268 => function ($stackPos) {
+            268 => function ($stackPos): void {
                  $this->semValue = array($this->semStack[$stackPos-(1-1)], false);
             },
-            269 => function ($stackPos) {
+            269 => function ($stackPos): void {
                  $this->semValue = array($this->semStack[$stackPos-(2-2)], true);
             },
-            270 => function ($stackPos) {
+            270 => function ($stackPos): void {
                  $this->semValue = array($this->semStack[$stackPos-(1-1)], false);
             },
-            271 => function ($stackPos) {
+            271 => function ($stackPos): void {
                  $this->semValue = array($this->semStack[$stackPos-(1-1)], false);
             },
-            272 => function ($stackPos) {
+            272 => function ($stackPos): void {
                  $this->semValue = $this->semStack[$stackPos-(2-1)];
             },
-            273 => function ($stackPos) {
+            273 => function ($stackPos): void {
                  $this->semValue = array();
             },
-            274 => function ($stackPos) {
+            274 => function ($stackPos): void {
                  $this->semValue = array($this->semStack[$stackPos-(1-1)]);
             },
-            275 => function ($stackPos) {
+            275 => function ($stackPos): void {
                  $this->semStack[$stackPos-(3-1)][] = $this->semStack[$stackPos-(3-3)]; $this->semValue = $this->semStack[$stackPos-(3-1)];
             },
-            276 => function ($stackPos) {
+            276 => function ($stackPos): void {
                  $this->semValue = 0;
             },
-            277 => function ($stackPos) {
+            277 => function ($stackPos): void {
                  $this->checkModifier($this->semStack[$stackPos-(2-1)], $this->semStack[$stackPos-(2-2)], $stackPos-(2-2)); $this->semValue = $this->semStack[$stackPos-(2-1)] | $this->semStack[$stackPos-(2-2)];
             },
-            278 => function ($stackPos) {
+            278 => function ($stackPos): void {
                  $this->semValue = Stmt\Class_::MODIFIER_PUBLIC;
             },
-            279 => function ($stackPos) {
+            279 => function ($stackPos): void {
                  $this->semValue = Stmt\Class_::MODIFIER_PROTECTED;
             },
-            280 => function ($stackPos) {
+            280 => function ($stackPos): void {
                  $this->semValue = Stmt\Class_::MODIFIER_PRIVATE;
             },
-            281 => function ($stackPos) {
+            281 => function ($stackPos): void {
                  $this->semValue = Stmt\Class_::MODIFIER_READONLY;
             },
-            282 => function ($stackPos) {
+            282 => function ($stackPos): void {
                  $this->semValue = new Node\Param($this->semStack[$stackPos-(6-6)], null, $this->semStack[$stackPos-(6-3)], $this->semStack[$stackPos-(6-4)], $this->semStack[$stackPos-(6-5)], $this->startAttributeStack[$stackPos-(6-1)] + $this->endAttributes, $this->semStack[$stackPos-(6-2)], $this->semStack[$stackPos-(6-1)]);
             $this->checkParam($this->semValue);
             },
-            283 => function ($stackPos) {
+            283 => function ($stackPos): void {
                  $this->semValue = new Node\Param($this->semStack[$stackPos-(8-6)], $this->semStack[$stackPos-(8-8)], $this->semStack[$stackPos-(8-3)], $this->semStack[$stackPos-(8-4)], $this->semStack[$stackPos-(8-5)], $this->startAttributeStack[$stackPos-(8-1)] + $this->endAttributes, $this->semStack[$stackPos-(8-2)], $this->semStack[$stackPos-(8-1)]);
             $this->checkParam($this->semValue);
             },
-            284 => function ($stackPos) {
+            284 => function ($stackPos): void {
                  $this->semValue = new Node\Param(new Expr\Error($this->startAttributeStack[$stackPos-(6-1)] + $this->endAttributes), null, $this->semStack[$stackPos-(6-3)], $this->semStack[$stackPos-(6-4)], $this->semStack[$stackPos-(6-5)], $this->startAttributeStack[$stackPos-(6-1)] + $this->endAttributes, $this->semStack[$stackPos-(6-2)], $this->semStack[$stackPos-(6-1)]);
             },
-            285 => function ($stackPos) {
+            285 => function ($stackPos): void {
                  $this->semValue = $this->semStack[$stackPos-(1-1)];
             },
-            286 => function ($stackPos) {
+            286 => function ($stackPos): void {
                  $this->semValue = new Node\NullableType($this->semStack[$stackPos-(2-2)], $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes);
             },
-            287 => function ($stackPos) {
+            287 => function ($stackPos): void {
                  $this->semValue = new Node\UnionType($this->semStack[$stackPos-(1-1)], $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
             },
-            288 => function ($stackPos) {
+            288 => function ($stackPos): void {
                  $this->semValue = new Node\IntersectionType($this->semStack[$stackPos-(1-1)], $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
             },
-            289 => function ($stackPos) {
+            289 => function ($stackPos): void {
                  $this->semValue = $this->semStack[$stackPos-(1-1)];
             },
-            290 => function ($stackPos) {
+            290 => function ($stackPos): void {
                  $this->semValue = new Node\Name('static', $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
             },
-            291 => function ($stackPos) {
+            291 => function ($stackPos): void {
                  $this->semValue = $this->handleBuiltinTypes($this->semStack[$stackPos-(1-1)]);
             },
-            292 => function ($stackPos) {
+            292 => function ($stackPos): void {
                  $this->semValue = new Node\Identifier('array', $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
             },
-            293 => function ($stackPos) {
+            293 => function ($stackPos): void {
                  $this->semValue = new Node\Identifier('callable', $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
             },
-            294 => function ($stackPos) {
+            294 => function ($stackPos): void {
                  $this->semValue = array($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)]);
             },
-            295 => function ($stackPos) {
+            295 => function ($stackPos): void {
                  $this->semStack[$stackPos-(3-1)][] = $this->semStack[$stackPos-(3-3)]; $this->semValue = $this->semStack[$stackPos-(3-1)];
             },
-            296 => function ($stackPos) {
+            296 => function ($stackPos): void {
                  $this->semValue = array($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)]);
             },
-            297 => function ($stackPos) {
+            297 => function ($stackPos): void {
                  $this->semStack[$stackPos-(3-1)][] = $this->semStack[$stackPos-(3-3)]; $this->semValue = $this->semStack[$stackPos-(3-1)];
             },
-            298 => function ($stackPos) {
+            298 => function ($stackPos): void {
                  $this->semValue = array($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)]);
             },
-            299 => function ($stackPos) {
+            299 => function ($stackPos): void {
                  $this->semStack[$stackPos-(3-1)][] = $this->semStack[$stackPos-(3-3)]; $this->semValue = $this->semStack[$stackPos-(3-1)];
             },
-            300 => function ($stackPos) {
+            300 => function ($stackPos): void {
                  $this->semValue = array($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)]);
             },
-            301 => function ($stackPos) {
+            301 => function ($stackPos): void {
                  $this->semStack[$stackPos-(3-1)][] = $this->semStack[$stackPos-(3-3)]; $this->semValue = $this->semStack[$stackPos-(3-1)];
             },
-            302 => function ($stackPos) {
+            302 => function ($stackPos): void {
                  $this->semValue = $this->semStack[$stackPos-(1-1)];
             },
-            303 => function ($stackPos) {
+            303 => function ($stackPos): void {
                  $this->semValue = new Node\NullableType($this->semStack[$stackPos-(2-2)], $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes);
             },
-            304 => function ($stackPos) {
+            304 => function ($stackPos): void {
                  $this->semValue = new Node\UnionType($this->semStack[$stackPos-(1-1)], $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
             },
-            305 => function ($stackPos) {
+            305 => function ($stackPos): void {
                  $this->semValue = new Node\IntersectionType($this->semStack[$stackPos-(1-1)], $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
             },
-            306 => function ($stackPos) {
+            306 => function ($stackPos): void {
                  $this->semValue = null;
             },
-            307 => function ($stackPos) {
+            307 => function ($stackPos): void {
                  $this->semValue = $this->semStack[$stackPos-(1-1)];
             },
-            308 => function ($stackPos) {
+            308 => function ($stackPos): void {
                  $this->semValue = null;
             },
-            309 => function ($stackPos) {
+            309 => function ($stackPos): void {
                  $this->semValue = $this->semStack[$stackPos-(2-2)];
             },
-            310 => function ($stackPos) {
+            310 => function ($stackPos): void {
                  $this->semValue = null;
             },
-            311 => function ($stackPos) {
+            311 => function ($stackPos): void {
                  $this->semValue = array();
             },
-            312 => function ($stackPos) {
+            312 => function ($stackPos): void {
                  $this->semValue = $this->semStack[$stackPos-(4-2)];
             },
-            313 => function ($stackPos) {
+            313 => function ($stackPos): void {
                  $this->semValue = array($this->semStack[$stackPos-(3-2)]);
             },
-            314 => function ($stackPos) {
+            314 => function ($stackPos): void {
                  $this->semValue = new Node\VariadicPlaceholder($this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
             },
-            315 => function ($stackPos) {
+            315 => function ($stackPos): void {
                  $this->semValue = array($this->semStack[$stackPos-(1-1)]);
             },
-            316 => function ($stackPos) {
+            316 => function ($stackPos): void {
                  $this->semStack[$stackPos-(3-1)][] = $this->semStack[$stackPos-(3-3)]; $this->semValue = $this->semStack[$stackPos-(3-1)];
             },
-            317 => function ($stackPos) {
+            317 => function ($stackPos): void {
                  $this->semValue = new Node\Arg($this->semStack[$stackPos-(1-1)], false, false, $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
             },
-            318 => function ($stackPos) {
+            318 => function ($stackPos): void {
                  $this->semValue = new Node\Arg($this->semStack[$stackPos-(2-2)], true, false, $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes);
             },
-            319 => function ($stackPos) {
+            319 => function ($stackPos): void {
                  $this->semValue = new Node\Arg($this->semStack[$stackPos-(2-2)], false, true, $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes);
             },
-            320 => function ($stackPos) {
+            320 => function ($stackPos): void {
                  $this->semValue = new Node\Arg($this->semStack[$stackPos-(3-3)], false, false, $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes, $this->semStack[$stackPos-(3-1)]);
             },
-            321 => function ($stackPos) {
+            321 => function ($stackPos): void {
                  $this->semValue = $this->semStack[$stackPos-(2-1)];
             },
-            322 => function ($stackPos) {
+            322 => function ($stackPos): void {
                  $this->semStack[$stackPos-(3-1)][] = $this->semStack[$stackPos-(3-3)]; $this->semValue = $this->semStack[$stackPos-(3-1)];
             },
-            323 => function ($stackPos) {
+            323 => function ($stackPos): void {
                  $this->semValue = array($this->semStack[$stackPos-(1-1)]);
             },
-            324 => function ($stackPos) {
+            324 => function ($stackPos): void {
                  $this->semValue = $this->semStack[$stackPos-(1-1)];
             },
-            325 => function ($stackPos) {
+            325 => function ($stackPos): void {
                  $this->semValue = $this->semStack[$stackPos-(2-1)];
             },
-            326 => function ($stackPos) {
+            326 => function ($stackPos): void {
                  $this->semStack[$stackPos-(3-1)][] = $this->semStack[$stackPos-(3-3)]; $this->semValue = $this->semStack[$stackPos-(3-1)];
             },
-            327 => function ($stackPos) {
+            327 => function ($stackPos): void {
                  $this->semValue = array($this->semStack[$stackPos-(1-1)]);
             },
-            328 => function ($stackPos) {
+            328 => function ($stackPos): void {
                  $this->semValue = new Stmt\StaticVar($this->semStack[$stackPos-(1-1)], null, $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
             },
-            329 => function ($stackPos) {
+            329 => function ($stackPos): void {
                  $this->semValue = new Stmt\StaticVar($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
             },
-            330 => function ($stackPos) {
+            330 => function ($stackPos): void {
                  if ($this->semStack[$stackPos-(2-2)] !== null) { $this->semStack[$stackPos-(2-1)][] = $this->semStack[$stackPos-(2-2)]; $this->semValue = $this->semStack[$stackPos-(2-1)]; }
             },
-            331 => function ($stackPos) {
+            331 => function ($stackPos): void {
                  $this->semValue = array();
             },
-            332 => function ($stackPos) {
+            332 => function ($stackPos): void {
                  $startAttributes = $this->lookaheadStartAttributes; if (isset($startAttributes['comments'])) { $nop = new Stmt\Nop($this->createCommentNopAttributes($startAttributes['comments'])); } else { $nop = null; };
             if ($nop !== null) { $this->semStack[$stackPos-(1-1)][] = $nop; } $this->semValue = $this->semStack[$stackPos-(1-1)];
             },
-            333 => function ($stackPos) {
+            333 => function ($stackPos): void {
                  $this->semValue = new Stmt\Property($this->semStack[$stackPos-(5-2)], $this->semStack[$stackPos-(5-4)], $this->startAttributeStack[$stackPos-(5-1)] + $this->endAttributes, $this->semStack[$stackPos-(5-3)], $this->semStack[$stackPos-(5-1)]);
             $this->checkProperty($this->semValue, $stackPos-(5-2));
             },
-            334 => function ($stackPos) {
+            334 => function ($stackPos): void {
                  $this->semValue = new Stmt\ClassConst($this->semStack[$stackPos-(5-4)], $this->semStack[$stackPos-(5-2)], $this->startAttributeStack[$stackPos-(5-1)] + $this->endAttributes, $this->semStack[$stackPos-(5-1)]);
             $this->checkClassConst($this->semValue, $stackPos-(5-2));
             },
-            335 => function ($stackPos) {
+            335 => function ($stackPos): void {
                  $this->semValue = new Stmt\ClassMethod($this->semStack[$stackPos-(10-5)], ['type' => $this->semStack[$stackPos-(10-2)], 'byRef' => $this->semStack[$stackPos-(10-4)], 'params' => $this->semStack[$stackPos-(10-7)], 'returnType' => $this->semStack[$stackPos-(10-9)], 'stmts' => $this->semStack[$stackPos-(10-10)], 'attrGroups' => $this->semStack[$stackPos-(10-1)]], $this->startAttributeStack[$stackPos-(10-1)] + $this->endAttributes);
             $this->checkClassMethod($this->semValue, $stackPos-(10-2));
             },
-            336 => function ($stackPos) {
+            336 => function ($stackPos): void {
                  $this->semValue = new Stmt\TraitUse($this->semStack[$stackPos-(3-2)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
             },
-            337 => function ($stackPos) {
+            337 => function ($stackPos): void {
                  $this->semValue = new Stmt\EnumCase($this->semStack[$stackPos-(5-3)], $this->semStack[$stackPos-(5-4)], $this->semStack[$stackPos-(5-1)], $this->startAttributeStack[$stackPos-(5-1)] + $this->endAttributes);
             },
-            338 => function ($stackPos) {
+            338 => function ($stackPos): void {
                  $this->semValue = null; /* will be skipped */
             },
-            339 => function ($stackPos) {
+            339 => function ($stackPos): void {
                  $this->semValue = array();
             },
-            340 => function ($stackPos) {
+            340 => function ($stackPos): void {
                  $this->semValue = $this->semStack[$stackPos-(3-2)];
             },
-            341 => function ($stackPos) {
+            341 => function ($stackPos): void {
                  $this->semValue = array();
             },
-            342 => function ($stackPos) {
+            342 => function ($stackPos): void {
                  $this->semStack[$stackPos-(2-1)][] = $this->semStack[$stackPos-(2-2)]; $this->semValue = $this->semStack[$stackPos-(2-1)];
             },
-            343 => function ($stackPos) {
+            343 => function ($stackPos): void {
                  $this->semValue = new Stmt\TraitUseAdaptation\Precedence($this->semStack[$stackPos-(4-1)][0], $this->semStack[$stackPos-(4-1)][1], $this->semStack[$stackPos-(4-3)], $this->startAttributeStack[$stackPos-(4-1)] + $this->endAttributes);
             },
-            344 => function ($stackPos) {
+            344 => function ($stackPos): void {
                  $this->semValue = new Stmt\TraitUseAdaptation\Alias($this->semStack[$stackPos-(5-1)][0], $this->semStack[$stackPos-(5-1)][1], $this->semStack[$stackPos-(5-3)], $this->semStack[$stackPos-(5-4)], $this->startAttributeStack[$stackPos-(5-1)] + $this->endAttributes);
             },
-            345 => function ($stackPos) {
+            345 => function ($stackPos): void {
                  $this->semValue = new Stmt\TraitUseAdaptation\Alias($this->semStack[$stackPos-(4-1)][0], $this->semStack[$stackPos-(4-1)][1], $this->semStack[$stackPos-(4-3)], null, $this->startAttributeStack[$stackPos-(4-1)] + $this->endAttributes);
             },
-            346 => function ($stackPos) {
+            346 => function ($stackPos): void {
                  $this->semValue = new Stmt\TraitUseAdaptation\Alias($this->semStack[$stackPos-(4-1)][0], $this->semStack[$stackPos-(4-1)][1], null, $this->semStack[$stackPos-(4-3)], $this->startAttributeStack[$stackPos-(4-1)] + $this->endAttributes);
             },
-            347 => function ($stackPos) {
+            347 => function ($stackPos): void {
                  $this->semValue = new Stmt\TraitUseAdaptation\Alias($this->semStack[$stackPos-(4-1)][0], $this->semStack[$stackPos-(4-1)][1], null, $this->semStack[$stackPos-(4-3)], $this->startAttributeStack[$stackPos-(4-1)] + $this->endAttributes);
             },
-            348 => function ($stackPos) {
+            348 => function ($stackPos): void {
                  $this->semValue = array($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)]);
             },
-            349 => function ($stackPos) {
+            349 => function ($stackPos): void {
                  $this->semValue = $this->semStack[$stackPos-(1-1)];
             },
-            350 => function ($stackPos) {
+            350 => function ($stackPos): void {
                  $this->semValue = array(null, $this->semStack[$stackPos-(1-1)]);
             },
-            351 => function ($stackPos) {
+            351 => function ($stackPos): void {
                  $this->semValue = null;
             },
-            352 => function ($stackPos) {
+            352 => function ($stackPos): void {
                  $this->semValue = $this->semStack[$stackPos-(1-1)];
             },
-            353 => function ($stackPos) {
+            353 => function ($stackPos): void {
                  $this->semValue = $this->semStack[$stackPos-(1-1)];
             },
-            354 => function ($stackPos) {
+            354 => function ($stackPos): void {
                  $this->semValue = 0;
             },
-            355 => function ($stackPos) {
+            355 => function ($stackPos): void {
                  $this->semValue = 0;
             },
-            356 => function ($stackPos) {
+            356 => function ($stackPos): void {
                  $this->semValue = $this->semStack[$stackPos-(1-1)];
             },
-            357 => function ($stackPos) {
+            357 => function ($stackPos): void {
                  $this->semValue = $this->semStack[$stackPos-(1-1)];
             },
-            358 => function ($stackPos) {
+            358 => function ($stackPos): void {
                  $this->checkModifier($this->semStack[$stackPos-(2-1)], $this->semStack[$stackPos-(2-2)], $stackPos-(2-2)); $this->semValue = $this->semStack[$stackPos-(2-1)] | $this->semStack[$stackPos-(2-2)];
             },
-            359 => function ($stackPos) {
+            359 => function ($stackPos): void {
                  $this->semValue = Stmt\Class_::MODIFIER_PUBLIC;
             },
-            360 => function ($stackPos) {
+            360 => function ($stackPos): void {
                  $this->semValue = Stmt\Class_::MODIFIER_PROTECTED;
             },
-            361 => function ($stackPos) {
+            361 => function ($stackPos): void {
                  $this->semValue = Stmt\Class_::MODIFIER_PRIVATE;
             },
-            362 => function ($stackPos) {
+            362 => function ($stackPos): void {
                  $this->semValue = Stmt\Class_::MODIFIER_STATIC;
             },
-            363 => function ($stackPos) {
+            363 => function ($stackPos): void {
                  $this->semValue = Stmt\Class_::MODIFIER_ABSTRACT;
             },
-            364 => function ($stackPos) {
+            364 => function ($stackPos): void {
                  $this->semValue = Stmt\Class_::MODIFIER_FINAL;
             },
-            365 => function ($stackPos) {
+            365 => function ($stackPos): void {
                  $this->semValue = Stmt\Class_::MODIFIER_READONLY;
             },
-            366 => function ($stackPos) {
+            366 => function ($stackPos): void {
                  $this->semValue = $this->semStack[$stackPos-(2-1)];
             },
-            367 => function ($stackPos) {
+            367 => function ($stackPos): void {
                  $this->semValue = array($this->semStack[$stackPos-(1-1)]);
             },
-            368 => function ($stackPos) {
+            368 => function ($stackPos): void {
                  $this->semStack[$stackPos-(3-1)][] = $this->semStack[$stackPos-(3-3)]; $this->semValue = $this->semStack[$stackPos-(3-1)];
             },
-            369 => function ($stackPos) {
+            369 => function ($stackPos): void {
                  $this->semValue = new Node\VarLikeIdentifier(substr($this->semStack[$stackPos-(1-1)], 1), $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
             },
-            370 => function ($stackPos) {
+            370 => function ($stackPos): void {
                  $this->semValue = new Stmt\PropertyProperty($this->semStack[$stackPos-(1-1)], null, $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
             },
-            371 => function ($stackPos) {
+            371 => function ($stackPos): void {
                  $this->semValue = new Stmt\PropertyProperty($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
             },
-            372 => function ($stackPos) {
+            372 => function ($stackPos): void {
                  $this->semValue = $this->semStack[$stackPos-(2-1)];
             },
-            373 => function ($stackPos) {
+            373 => function ($stackPos): void {
                  $this->semValue = $this->semStack[$stackPos-(2-1)];
             },
-            374 => function ($stackPos) {
+            374 => function ($stackPos): void {
                  $this->semStack[$stackPos-(3-1)][] = $this->semStack[$stackPos-(3-3)]; $this->semValue = $this->semStack[$stackPos-(3-1)];
             },
-            375 => function ($stackPos) {
+            375 => function ($stackPos): void {
                  $this->semValue = array($this->semStack[$stackPos-(1-1)]);
             },
-            376 => function ($stackPos) {
+            376 => function ($stackPos): void {
                  $this->semValue = array();
             },
-            377 => function ($stackPos) {
+            377 => function ($stackPos): void {
                  $this->semValue = $this->semStack[$stackPos-(1-1)];
             },
-            378 => function ($stackPos) {
+            378 => function ($stackPos): void {
                  $this->semValue = $this->semStack[$stackPos-(1-1)];
             },
-            379 => function ($stackPos) {
+            379 => function ($stackPos): void {
                  $this->semValue = new Expr\Assign($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
             },
-            380 => function ($stackPos) {
+            380 => function ($stackPos): void {
                  $this->semValue = new Expr\Assign($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
             },
-            381 => function ($stackPos) {
+            381 => function ($stackPos): void {
                  $this->semValue = new Expr\Assign($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
             },
-            382 => function ($stackPos) {
+            382 => function ($stackPos): void {
                  $this->semValue = new Expr\AssignRef($this->semStack[$stackPos-(4-1)], $this->semStack[$stackPos-(4-4)], $this->startAttributeStack[$stackPos-(4-1)] + $this->endAttributes);
             },
-            383 => function ($stackPos) {
+            383 => function ($stackPos): void {
                  $this->semValue = new Expr\AssignRef($this->semStack[$stackPos-(4-1)], $this->semStack[$stackPos-(4-4)], $this->startAttributeStack[$stackPos-(4-1)] + $this->endAttributes);
             if ($this->phpVersion >= 70000) {
                 $this->emitError(new Error('Cannot assign new by reference', $this->startAttributeStack[$stackPos-(4-1)] + $this->endAttributes));
             }
 
             },
-            384 => function ($stackPos) {
+            384 => function ($stackPos): void {
                  $this->semValue = $this->semStack[$stackPos-(1-1)];
             },
-            385 => function ($stackPos) {
+            385 => function ($stackPos): void {
                  $this->semValue = $this->semStack[$stackPos-(1-1)];
             },
-            386 => function ($stackPos) {
+            386 => function ($stackPos): void {
                  $this->semValue = new Expr\Clone_($this->semStack[$stackPos-(2-2)], $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes);
             },
-            387 => function ($stackPos) {
+            387 => function ($stackPos): void {
                  $this->semValue = new Expr\AssignOp\Plus($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
             },
-            388 => function ($stackPos) {
+            388 => function ($stackPos): void {
                  $this->semValue = new Expr\AssignOp\Minus($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
             },
-            389 => function ($stackPos) {
+            389 => function ($stackPos): void {
                  $this->semValue = new Expr\AssignOp\Mul($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
             },
-            390 => function ($stackPos) {
+            390 => function ($stackPos): void {
                  $this->semValue = new Expr\AssignOp\Div($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
             },
-            391 => function ($stackPos) {
+            391 => function ($stackPos): void {
                  $this->semValue = new Expr\AssignOp\Concat($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
             },
-            392 => function ($stackPos) {
+            392 => function ($stackPos): void {
                  $this->semValue = new Expr\AssignOp\Mod($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
             },
-            393 => function ($stackPos) {
+            393 => function ($stackPos): void {
                  $this->semValue = new Expr\AssignOp\BitwiseAnd($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
             },
-            394 => function ($stackPos) {
+            394 => function ($stackPos): void {
                  $this->semValue = new Expr\AssignOp\BitwiseOr($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
             },
-            395 => function ($stackPos) {
+            395 => function ($stackPos): void {
                  $this->semValue = new Expr\AssignOp\BitwiseXor($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
             },
-            396 => function ($stackPos) {
+            396 => function ($stackPos): void {
                  $this->semValue = new Expr\AssignOp\ShiftLeft($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
             },
-            397 => function ($stackPos) {
+            397 => function ($stackPos): void {
                  $this->semValue = new Expr\AssignOp\ShiftRight($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
             },
-            398 => function ($stackPos) {
+            398 => function ($stackPos): void {
                  $this->semValue = new Expr\AssignOp\Pow($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
             },
-            399 => function ($stackPos) {
+            399 => function ($stackPos): void {
                  $this->semValue = new Expr\AssignOp\Coalesce($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
             },
-            400 => function ($stackPos) {
+            400 => function ($stackPos): void {
                  $this->semValue = new Expr\PostInc($this->semStack[$stackPos-(2-1)], $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes);
             },
-            401 => function ($stackPos) {
+            401 => function ($stackPos): void {
                  $this->semValue = new Expr\PreInc($this->semStack[$stackPos-(2-2)], $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes);
             },
-            402 => function ($stackPos) {
+            402 => function ($stackPos): void {
                  $this->semValue = new Expr\PostDec($this->semStack[$stackPos-(2-1)], $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes);
             },
-            403 => function ($stackPos) {
+            403 => function ($stackPos): void {
                  $this->semValue = new Expr\PreDec($this->semStack[$stackPos-(2-2)], $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes);
             },
-            404 => function ($stackPos) {
+            404 => function ($stackPos): void {
                  $this->semValue = new Expr\BinaryOp\BooleanOr($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
             },
-            405 => function ($stackPos) {
+            405 => function ($stackPos): void {
                  $this->semValue = new Expr\BinaryOp\BooleanAnd($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
             },
-            406 => function ($stackPos) {
+            406 => function ($stackPos): void {
                  $this->semValue = new Expr\BinaryOp\LogicalOr($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
             },
-            407 => function ($stackPos) {
+            407 => function ($stackPos): void {
                  $this->semValue = new Expr\BinaryOp\LogicalAnd($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
             },
-            408 => function ($stackPos) {
+            408 => function ($stackPos): void {
                  $this->semValue = new Expr\BinaryOp\LogicalXor($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
             },
-            409 => function ($stackPos) {
+            409 => function ($stackPos): void {
                  $this->semValue = new Expr\BinaryOp\BitwiseOr($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
             },
-            410 => function ($stackPos) {
+            410 => function ($stackPos): void {
                  $this->semValue = new Expr\BinaryOp\BitwiseAnd($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
             },
-            411 => function ($stackPos) {
+            411 => function ($stackPos): void {
                  $this->semValue = new Expr\BinaryOp\BitwiseAnd($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
             },
-            412 => function ($stackPos) {
+            412 => function ($stackPos): void {
                  $this->semValue = new Expr\BinaryOp\BitwiseXor($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
             },
-            413 => function ($stackPos) {
+            413 => function ($stackPos): void {
                  $this->semValue = new Expr\BinaryOp\Concat($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
             },
-            414 => function ($stackPos) {
+            414 => function ($stackPos): void {
                  $this->semValue = new Expr\BinaryOp\Plus($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
             },
-            415 => function ($stackPos) {
+            415 => function ($stackPos): void {
                  $this->semValue = new Expr\BinaryOp\Minus($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
             },
-            416 => function ($stackPos) {
+            416 => function ($stackPos): void {
                  $this->semValue = new Expr\BinaryOp\Mul($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
             },
-            417 => function ($stackPos) {
+            417 => function ($stackPos): void {
                  $this->semValue = new Expr\BinaryOp\Div($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
             },
-            418 => function ($stackPos) {
+            418 => function ($stackPos): void {
                  $this->semValue = new Expr\BinaryOp\Mod($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
             },
-            419 => function ($stackPos) {
+            419 => function ($stackPos): void {
                  $this->semValue = new Expr\BinaryOp\ShiftLeft($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
             },
-            420 => function ($stackPos) {
+            420 => function ($stackPos): void {
                  $this->semValue = new Expr\BinaryOp\ShiftRight($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
             },
-            421 => function ($stackPos) {
+            421 => function ($stackPos): void {
                  $this->semValue = new Expr\BinaryOp\Pow($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
             },
-            422 => function ($stackPos) {
+            422 => function ($stackPos): void {
                  $this->semValue = new Expr\UnaryPlus($this->semStack[$stackPos-(2-2)], $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes);
             },
-            423 => function ($stackPos) {
+            423 => function ($stackPos): void {
                  $this->semValue = new Expr\UnaryMinus($this->semStack[$stackPos-(2-2)], $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes);
             },
-            424 => function ($stackPos) {
+            424 => function ($stackPos): void {
                  $this->semValue = new Expr\BooleanNot($this->semStack[$stackPos-(2-2)], $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes);
             },
-            425 => function ($stackPos) {
+            425 => function ($stackPos): void {
                  $this->semValue = new Expr\BitwiseNot($this->semStack[$stackPos-(2-2)], $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes);
             },
-            426 => function ($stackPos) {
+            426 => function ($stackPos): void {
                  $this->semValue = new Expr\BinaryOp\Identical($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
             },
-            427 => function ($stackPos) {
+            427 => function ($stackPos): void {
                  $this->semValue = new Expr\BinaryOp\NotIdentical($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
             },
-            428 => function ($stackPos) {
+            428 => function ($stackPos): void {
                  $this->semValue = new Expr\BinaryOp\Equal($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
             },
-            429 => function ($stackPos) {
+            429 => function ($stackPos): void {
                  $this->semValue = new Expr\BinaryOp\NotEqual($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
             },
-            430 => function ($stackPos) {
+            430 => function ($stackPos): void {
                  $this->semValue = new Expr\BinaryOp\Spaceship($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
             },
-            431 => function ($stackPos) {
+            431 => function ($stackPos): void {
                  $this->semValue = new Expr\BinaryOp\Smaller($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
             },
-            432 => function ($stackPos) {
+            432 => function ($stackPos): void {
                  $this->semValue = new Expr\BinaryOp\SmallerOrEqual($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
             },
-            433 => function ($stackPos) {
+            433 => function ($stackPos): void {
                  $this->semValue = new Expr\BinaryOp\Greater($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
             },
-            434 => function ($stackPos) {
+            434 => function ($stackPos): void {
                  $this->semValue = new Expr\BinaryOp\GreaterOrEqual($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
             },
-            435 => function ($stackPos) {
+            435 => function ($stackPos): void {
                  $this->semValue = new Expr\Instanceof_($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
             },
-            436 => function ($stackPos) {
+            436 => function ($stackPos): void {
                  $this->semValue = $this->semStack[$stackPos-(3-2)];
             },
-            437 => function ($stackPos) {
+            437 => function ($stackPos): void {
                  $this->semValue = new Expr\Ternary($this->semStack[$stackPos-(5-1)], $this->semStack[$stackPos-(5-3)], $this->semStack[$stackPos-(5-5)], $this->startAttributeStack[$stackPos-(5-1)] + $this->endAttributes);
             },
-            438 => function ($stackPos) {
+            438 => function ($stackPos): void {
                  $this->semValue = new Expr\Ternary($this->semStack[$stackPos-(4-1)], null, $this->semStack[$stackPos-(4-4)], $this->startAttributeStack[$stackPos-(4-1)] + $this->endAttributes);
             },
-            439 => function ($stackPos) {
+            439 => function ($stackPos): void {
                  $this->semValue = new Expr\BinaryOp\Coalesce($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
             },
-            440 => function ($stackPos) {
+            440 => function ($stackPos): void {
                  $this->semValue = new Expr\Isset_($this->semStack[$stackPos-(4-3)], $this->startAttributeStack[$stackPos-(4-1)] + $this->endAttributes);
             },
-            441 => function ($stackPos) {
+            441 => function ($stackPos): void {
                  $this->semValue = new Expr\Empty_($this->semStack[$stackPos-(4-3)], $this->startAttributeStack[$stackPos-(4-1)] + $this->endAttributes);
             },
-            442 => function ($stackPos) {
+            442 => function ($stackPos): void {
                  $this->semValue = new Expr\Include_($this->semStack[$stackPos-(2-2)], Expr\Include_::TYPE_INCLUDE, $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes);
             },
-            443 => function ($stackPos) {
+            443 => function ($stackPos): void {
                  $this->semValue = new Expr\Include_($this->semStack[$stackPos-(2-2)], Expr\Include_::TYPE_INCLUDE_ONCE, $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes);
             },
-            444 => function ($stackPos) {
+            444 => function ($stackPos): void {
                  $this->semValue = new Expr\Eval_($this->semStack[$stackPos-(4-3)], $this->startAttributeStack[$stackPos-(4-1)] + $this->endAttributes);
             },
-            445 => function ($stackPos) {
+            445 => function ($stackPos): void {
                  $this->semValue = new Expr\Include_($this->semStack[$stackPos-(2-2)], Expr\Include_::TYPE_REQUIRE, $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes);
             },
-            446 => function ($stackPos) {
+            446 => function ($stackPos): void {
                  $this->semValue = new Expr\Include_($this->semStack[$stackPos-(2-2)], Expr\Include_::TYPE_REQUIRE_ONCE, $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes);
             },
-            447 => function ($stackPos) {
+            447 => function ($stackPos): void {
                  $this->semValue = new Expr\Cast\Int_($this->semStack[$stackPos-(2-2)], $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes);
             },
-            448 => function ($stackPos) {
+            448 => function ($stackPos): void {
                  $attrs = $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes;
             $attrs['kind'] = $this->getFloatCastKind($this->semStack[$stackPos-(2-1)]);
             $this->semValue = new Expr\Cast\Double($this->semStack[$stackPos-(2-2)], $attrs);
             },
-            449 => function ($stackPos) {
+            449 => function ($stackPos): void {
                  $this->semValue = new Expr\Cast\String_($this->semStack[$stackPos-(2-2)], $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes);
             },
-            450 => function ($stackPos) {
+            450 => function ($stackPos): void {
                  $this->semValue = new Expr\Cast\Array_($this->semStack[$stackPos-(2-2)], $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes);
             },
-            451 => function ($stackPos) {
+            451 => function ($stackPos): void {
                  $this->semValue = new Expr\Cast\Object_($this->semStack[$stackPos-(2-2)], $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes);
             },
-            452 => function ($stackPos) {
+            452 => function ($stackPos): void {
                  $this->semValue = new Expr\Cast\Bool_($this->semStack[$stackPos-(2-2)], $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes);
             },
-            453 => function ($stackPos) {
+            453 => function ($stackPos): void {
                  $this->semValue = new Expr\Cast\Unset_($this->semStack[$stackPos-(2-2)], $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes);
             },
-            454 => function ($stackPos) {
+            454 => function ($stackPos): void {
                  $attrs = $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes;
             $attrs['kind'] = strtolower($this->semStack[$stackPos-(2-1)]) === 'exit' ? Expr\Exit_::KIND_EXIT : Expr\Exit_::KIND_DIE;
             $this->semValue = new Expr\Exit_($this->semStack[$stackPos-(2-2)], $attrs);
             },
-            455 => function ($stackPos) {
+            455 => function ($stackPos): void {
                  $this->semValue = new Expr\ErrorSuppress($this->semStack[$stackPos-(2-2)], $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes);
             },
-            456 => function ($stackPos) {
+            456 => function ($stackPos): void {
                  $this->semValue = $this->semStack[$stackPos-(1-1)];
             },
-            457 => function ($stackPos) {
+            457 => function ($stackPos): void {
                  $this->semValue = new Expr\ShellExec($this->semStack[$stackPos-(3-2)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
             },
-            458 => function ($stackPos) {
+            458 => function ($stackPos): void {
                  $this->semValue = new Expr\Print_($this->semStack[$stackPos-(2-2)], $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes);
             },
-            459 => function ($stackPos) {
+            459 => function ($stackPos): void {
                  $this->semValue = new Expr\Yield_(null, null, $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
             },
-            460 => function ($stackPos) {
+            460 => function ($stackPos): void {
                  $this->semValue = new Expr\Yield_($this->semStack[$stackPos-(2-2)], null, $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes);
             },
-            461 => function ($stackPos) {
+            461 => function ($stackPos): void {
                  $this->semValue = new Expr\Yield_($this->semStack[$stackPos-(4-4)], $this->semStack[$stackPos-(4-2)], $this->startAttributeStack[$stackPos-(4-1)] + $this->endAttributes);
             },
-            462 => function ($stackPos) {
+            462 => function ($stackPos): void {
                  $this->semValue = new Expr\YieldFrom($this->semStack[$stackPos-(2-2)], $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes);
             },
-            463 => function ($stackPos) {
+            463 => function ($stackPos): void {
                  $this->semValue = new Expr\Throw_($this->semStack[$stackPos-(2-2)], $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes);
             },
-            464 => function ($stackPos) {
+            464 => function ($stackPos): void {
                  $this->semValue = new Expr\ArrowFunction(['static' => false, 'byRef' => $this->semStack[$stackPos-(8-2)], 'params' => $this->semStack[$stackPos-(8-4)], 'returnType' => $this->semStack[$stackPos-(8-6)], 'expr' => $this->semStack[$stackPos-(8-8)], 'attrGroups' => []], $this->startAttributeStack[$stackPos-(8-1)] + $this->endAttributes);
             },
-            465 => function ($stackPos) {
+            465 => function ($stackPos): void {
                  $this->semValue = new Expr\ArrowFunction(['static' => true, 'byRef' => $this->semStack[$stackPos-(9-3)], 'params' => $this->semStack[$stackPos-(9-5)], 'returnType' => $this->semStack[$stackPos-(9-7)], 'expr' => $this->semStack[$stackPos-(9-9)], 'attrGroups' => []], $this->startAttributeStack[$stackPos-(9-1)] + $this->endAttributes);
             },
-            466 => function ($stackPos) {
+            466 => function ($stackPos): void {
                  $this->semValue = new Expr\Closure(['static' => false, 'byRef' => $this->semStack[$stackPos-(8-2)], 'params' => $this->semStack[$stackPos-(8-4)], 'uses' => $this->semStack[$stackPos-(8-6)], 'returnType' => $this->semStack[$stackPos-(8-7)], 'stmts' => $this->semStack[$stackPos-(8-8)], 'attrGroups' => []], $this->startAttributeStack[$stackPos-(8-1)] + $this->endAttributes);
             },
-            467 => function ($stackPos) {
+            467 => function ($stackPos): void {
                  $this->semValue = new Expr\Closure(['static' => true, 'byRef' => $this->semStack[$stackPos-(9-3)], 'params' => $this->semStack[$stackPos-(9-5)], 'uses' => $this->semStack[$stackPos-(9-7)], 'returnType' => $this->semStack[$stackPos-(9-8)], 'stmts' => $this->semStack[$stackPos-(9-9)], 'attrGroups' => []], $this->startAttributeStack[$stackPos-(9-1)] + $this->endAttributes);
             },
-            468 => function ($stackPos) {
+            468 => function ($stackPos): void {
                  $this->semValue = new Expr\ArrowFunction(['static' => false, 'byRef' => $this->semStack[$stackPos-(9-3)], 'params' => $this->semStack[$stackPos-(9-5)], 'returnType' => $this->semStack[$stackPos-(9-7)], 'expr' => $this->semStack[$stackPos-(9-9)], 'attrGroups' => $this->semStack[$stackPos-(9-1)]], $this->startAttributeStack[$stackPos-(9-1)] + $this->endAttributes);
             },
-            469 => function ($stackPos) {
+            469 => function ($stackPos): void {
                  $this->semValue = new Expr\ArrowFunction(['static' => true, 'byRef' => $this->semStack[$stackPos-(10-4)], 'params' => $this->semStack[$stackPos-(10-6)], 'returnType' => $this->semStack[$stackPos-(10-8)], 'expr' => $this->semStack[$stackPos-(10-10)], 'attrGroups' => $this->semStack[$stackPos-(10-1)]], $this->startAttributeStack[$stackPos-(10-1)] + $this->endAttributes);
             },
-            470 => function ($stackPos) {
+            470 => function ($stackPos): void {
                  $this->semValue = new Expr\Closure(['static' => false, 'byRef' => $this->semStack[$stackPos-(9-3)], 'params' => $this->semStack[$stackPos-(9-5)], 'uses' => $this->semStack[$stackPos-(9-7)], 'returnType' => $this->semStack[$stackPos-(9-8)], 'stmts' => $this->semStack[$stackPos-(9-9)], 'attrGroups' => $this->semStack[$stackPos-(9-1)]], $this->startAttributeStack[$stackPos-(9-1)] + $this->endAttributes);
             },
-            471 => function ($stackPos) {
+            471 => function ($stackPos): void {
                  $this->semValue = new Expr\Closure(['static' => true, 'byRef' => $this->semStack[$stackPos-(10-4)], 'params' => $this->semStack[$stackPos-(10-6)], 'uses' => $this->semStack[$stackPos-(10-8)], 'returnType' => $this->semStack[$stackPos-(10-9)], 'stmts' => $this->semStack[$stackPos-(10-10)], 'attrGroups' => $this->semStack[$stackPos-(10-1)]], $this->startAttributeStack[$stackPos-(10-1)] + $this->endAttributes);
             },
-            472 => function ($stackPos) {
+            472 => function ($stackPos): void {
                  $this->semValue = array(new Stmt\Class_(null, ['type' => 0, 'extends' => $this->semStack[$stackPos-(8-4)], 'implements' => $this->semStack[$stackPos-(8-5)], 'stmts' => $this->semStack[$stackPos-(8-7)], 'attrGroups' => $this->semStack[$stackPos-(8-1)]], $this->startAttributeStack[$stackPos-(8-1)] + $this->endAttributes), $this->semStack[$stackPos-(8-3)]);
             $this->checkClass($this->semValue[0], -1);
             },
-            473 => function ($stackPos) {
+            473 => function ($stackPos): void {
                  $this->semValue = new Expr\New_($this->semStack[$stackPos-(3-2)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
             },
-            474 => function ($stackPos) {
+            474 => function ($stackPos): void {
                  list($class, $ctorArgs) = $this->semStack[$stackPos-(2-2)]; $this->semValue = new Expr\New_($class, $ctorArgs, $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes);
             },
-            475 => function ($stackPos) {
+            475 => function ($stackPos): void {
                  $this->semValue = array();
             },
-            476 => function ($stackPos) {
+            476 => function ($stackPos): void {
                  $this->semValue = $this->semStack[$stackPos-(4-3)];
             },
-            477 => function ($stackPos) {
+            477 => function ($stackPos): void {
                  $this->semValue = $this->semStack[$stackPos-(2-1)];
             },
-            478 => function ($stackPos) {
+            478 => function ($stackPos): void {
                  $this->semValue = array($this->semStack[$stackPos-(1-1)]);
             },
-            479 => function ($stackPos) {
+            479 => function ($stackPos): void {
                  $this->semStack[$stackPos-(3-1)][] = $this->semStack[$stackPos-(3-3)]; $this->semValue = $this->semStack[$stackPos-(3-1)];
             },
-            480 => function ($stackPos) {
+            480 => function ($stackPos): void {
                  $this->semValue = new Expr\ClosureUse($this->semStack[$stackPos-(2-2)], $this->semStack[$stackPos-(2-1)], $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes);
             },
-            481 => function ($stackPos) {
+            481 => function ($stackPos): void {
                  $this->semValue = new Expr\FuncCall($this->semStack[$stackPos-(2-1)], $this->semStack[$stackPos-(2-2)], $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes);
             },
-            482 => function ($stackPos) {
+            482 => function ($stackPos): void {
                  $this->semValue = new Expr\FuncCall($this->semStack[$stackPos-(2-1)], $this->semStack[$stackPos-(2-2)], $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes);
             },
-            483 => function ($stackPos) {
+            483 => function ($stackPos): void {
                  $this->semValue = new Expr\StaticCall($this->semStack[$stackPos-(4-1)], $this->semStack[$stackPos-(4-3)], $this->semStack[$stackPos-(4-4)], $this->startAttributeStack[$stackPos-(4-1)] + $this->endAttributes);
             },
-            484 => function ($stackPos) {
+            484 => function ($stackPos): void {
                  $this->semValue = new Name($this->semStack[$stackPos-(1-1)], $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
             },
-            485 => function ($stackPos) {
+            485 => function ($stackPos): void {
                  $this->semValue = $this->semStack[$stackPos-(1-1)];
             },
-            486 => function ($stackPos) {
+            486 => function ($stackPos): void {
                  $this->semValue = new Name($this->semStack[$stackPos-(1-1)], $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
             },
-            487 => function ($stackPos) {
+            487 => function ($stackPos): void {
                  $this->semValue = new Name($this->semStack[$stackPos-(1-1)], $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
             },
-            488 => function ($stackPos) {
+            488 => function ($stackPos): void {
                  $this->semValue = new Name\FullyQualified(substr($this->semStack[$stackPos-(1-1)], 1), $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
             },
-            489 => function ($stackPos) {
+            489 => function ($stackPos): void {
                  $this->semValue = new Name\Relative(substr($this->semStack[$stackPos-(1-1)], 10), $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
             },
-            490 => function ($stackPos) {
+            490 => function ($stackPos): void {
                  $this->semValue = $this->semStack[$stackPos-(1-1)];
             },
-            491 => function ($stackPos) {
+            491 => function ($stackPos): void {
                  $this->semValue = $this->semStack[$stackPos-(1-1)];
             },
-            492 => function ($stackPos) {
+            492 => function ($stackPos): void {
                  $this->semValue = $this->semStack[$stackPos-(3-2)];
             },
-            493 => function ($stackPos) {
+            493 => function ($stackPos): void {
                  $this->semValue = new Expr\Error($this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes); $this->errorState = 2;
             },
-            494 => function ($stackPos) {
+            494 => function ($stackPos): void {
                  $this->semValue = $this->semStack[$stackPos-(1-1)];
             },
-            495 => function ($stackPos) {
+            495 => function ($stackPos): void {
                  $this->semValue = $this->semStack[$stackPos-(1-1)];
             },
-            496 => function ($stackPos) {
+            496 => function ($stackPos): void {
                  $this->semValue = null;
             },
-            497 => function ($stackPos) {
+            497 => function ($stackPos): void {
                  $this->semValue = $this->semStack[$stackPos-(3-2)];
             },
-            498 => function ($stackPos) {
+            498 => function ($stackPos): void {
                  $this->semValue = array();
             },
-            499 => function ($stackPos) {
+            499 => function ($stackPos): void {
                  $this->semValue = array(new Scalar\EncapsedStringPart(Scalar\String_::parseEscapeSequences($this->semStack[$stackPos-(1-1)], '`'), $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes));
             },
-            500 => function ($stackPos) {
+            500 => function ($stackPos): void {
                  foreach ($this->semStack[$stackPos-(1-1)] as $s) { if ($s instanceof Node\Scalar\EncapsedStringPart) { $s->value = Node\Scalar\String_::parseEscapeSequences($s->value, '`', true); } }; $this->semValue = $this->semStack[$stackPos-(1-1)];
             },
-            501 => function ($stackPos) {
+            501 => function ($stackPos): void {
                  $this->semValue = array();
             },
-            502 => function ($stackPos) {
+            502 => function ($stackPos): void {
                  $this->semValue = $this->semStack[$stackPos-(1-1)];
             },
-            503 => function ($stackPos) {
+            503 => function ($stackPos): void {
                  $this->semValue = new Expr\ConstFetch($this->semStack[$stackPos-(1-1)], $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
             },
-            504 => function ($stackPos) {
+            504 => function ($stackPos): void {
                  $this->semValue = new Scalar\MagicConst\Line($this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
             },
-            505 => function ($stackPos) {
+            505 => function ($stackPos): void {
                  $this->semValue = new Scalar\MagicConst\File($this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
             },
-            506 => function ($stackPos) {
+            506 => function ($stackPos): void {
                  $this->semValue = new Scalar\MagicConst\Dir($this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
             },
-            507 => function ($stackPos) {
+            507 => function ($stackPos): void {
                  $this->semValue = new Scalar\MagicConst\Class_($this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
             },
-            508 => function ($stackPos) {
+            508 => function ($stackPos): void {
                  $this->semValue = new Scalar\MagicConst\Trait_($this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
             },
-            509 => function ($stackPos) {
+            509 => function ($stackPos): void {
                  $this->semValue = new Scalar\MagicConst\Method($this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
             },
-            510 => function ($stackPos) {
+            510 => function ($stackPos): void {
                  $this->semValue = new Scalar\MagicConst\Function_($this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
             },
-            511 => function ($stackPos) {
+            511 => function ($stackPos): void {
                  $this->semValue = new Scalar\MagicConst\Namespace_($this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
             },
-            512 => function ($stackPos) {
+            512 => function ($stackPos): void {
                  $this->semValue = new Expr\ClassConstFetch($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
             },
-            513 => function ($stackPos) {
+            513 => function ($stackPos): void {
                  $this->semValue = new Expr\ClassConstFetch($this->semStack[$stackPos-(3-1)], new Expr\Error($this->startAttributeStack[$stackPos-(3-3)] + $this->endAttributeStack[$stackPos-(3-3)]), $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes); $this->errorState = 2;
             },
-            514 => function ($stackPos) {
+            514 => function ($stackPos): void {
                  $attrs = $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes; $attrs['kind'] = Expr\Array_::KIND_SHORT;
             $this->semValue = new Expr\Array_($this->semStack[$stackPos-(3-2)], $attrs);
             },
-            515 => function ($stackPos) {
+            515 => function ($stackPos): void {
                  $attrs = $this->startAttributeStack[$stackPos-(4-1)] + $this->endAttributes; $attrs['kind'] = Expr\Array_::KIND_LONG;
             $this->semValue = new Expr\Array_($this->semStack[$stackPos-(4-3)], $attrs);
             },
-            516 => function ($stackPos) {
+            516 => function ($stackPos): void {
                  $this->semValue = $this->semStack[$stackPos-(1-1)];
             },
-            517 => function ($stackPos) {
+            517 => function ($stackPos): void {
                  $this->semValue = Scalar\String_::fromString($this->semStack[$stackPos-(1-1)], $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
             },
-            518 => function ($stackPos) {
+            518 => function ($stackPos): void {
                  $attrs = $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes; $attrs['kind'] = Scalar\String_::KIND_DOUBLE_QUOTED;
             foreach ($this->semStack[$stackPos-(3-2)] as $s) { if ($s instanceof Node\Scalar\EncapsedStringPart) { $s->value = Node\Scalar\String_::parseEscapeSequences($s->value, '"', true); } }; $this->semValue = new Scalar\Encapsed($this->semStack[$stackPos-(3-2)], $attrs);
             },
-            519 => function ($stackPos) {
+            519 => function ($stackPos): void {
                  $this->semValue = $this->parseLNumber($this->semStack[$stackPos-(1-1)], $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes, $this->phpVersion < 70000);
             },
-            520 => function ($stackPos) {
+            520 => function ($stackPos): void {
                  $this->semValue = Scalar\DNumber::fromString($this->semStack[$stackPos-(1-1)], $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
             },
-            521 => function ($stackPos) {
+            521 => function ($stackPos): void {
                  $this->semValue = $this->semStack[$stackPos-(1-1)];
             },
-            522 => function ($stackPos) {
+            522 => function ($stackPos): void {
                  $this->semValue = $this->semStack[$stackPos-(1-1)];
             },
-            523 => function ($stackPos) {
+            523 => function ($stackPos): void {
                  $this->semValue = $this->semStack[$stackPos-(1-1)];
             },
-            524 => function ($stackPos) {
+            524 => function ($stackPos): void {
                  $this->semValue = $this->parseDocString($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-2)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes, $this->startAttributeStack[$stackPos-(3-3)] + $this->endAttributeStack[$stackPos-(3-3)], true);
             },
-            525 => function ($stackPos) {
+            525 => function ($stackPos): void {
                  $this->semValue = $this->parseDocString($this->semStack[$stackPos-(2-1)], '', $this->semStack[$stackPos-(2-2)], $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes, $this->startAttributeStack[$stackPos-(2-2)] + $this->endAttributeStack[$stackPos-(2-2)], true);
             },
-            526 => function ($stackPos) {
+            526 => function ($stackPos): void {
                  $this->semValue = $this->parseDocString($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-2)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes, $this->startAttributeStack[$stackPos-(3-3)] + $this->endAttributeStack[$stackPos-(3-3)], true);
             },
-            527 => function ($stackPos) {
+            527 => function ($stackPos): void {
                  $this->semValue = null;
             },
-            528 => function ($stackPos) {
+            528 => function ($stackPos): void {
                  $this->semValue = $this->semStack[$stackPos-(1-1)];
             },
-            529 => function ($stackPos) {
+            529 => function ($stackPos): void {
                  $this->semValue = $this->semStack[$stackPos-(1-1)];
             },
-            530 => function ($stackPos) {
+            530 => function ($stackPos): void {
                  $this->semValue = $this->semStack[$stackPos-(3-2)];
             },
-            531 => function ($stackPos) {
+            531 => function ($stackPos): void {
                  $this->semValue = $this->semStack[$stackPos-(1-1)];
             },
-            532 => function ($stackPos) {
+            532 => function ($stackPos): void {
                  $this->semValue = $this->semStack[$stackPos-(1-1)];
             },
-            533 => function ($stackPos) {
+            533 => function ($stackPos): void {
                  $this->semValue = $this->semStack[$stackPos-(1-1)];
             },
-            534 => function ($stackPos) {
+            534 => function ($stackPos): void {
                  $this->semValue = $this->semStack[$stackPos-(1-1)];
             },
-            535 => function ($stackPos) {
+            535 => function ($stackPos): void {
                  $this->semValue = $this->semStack[$stackPos-(1-1)];
             },
-            536 => function ($stackPos) {
+            536 => function ($stackPos): void {
                  $this->semValue = $this->semStack[$stackPos-(3-2)];
             },
-            537 => function ($stackPos) {
+            537 => function ($stackPos): void {
                  $this->semValue = $this->semStack[$stackPos-(1-1)];
             },
-            538 => function ($stackPos) {
+            538 => function ($stackPos): void {
                  $this->semValue = $this->semStack[$stackPos-(1-1)];
             },
-            539 => function ($stackPos) {
+            539 => function ($stackPos): void {
                  $this->semValue = new Expr\ArrayDimFetch($this->semStack[$stackPos-(4-1)], $this->semStack[$stackPos-(4-3)], $this->startAttributeStack[$stackPos-(4-1)] + $this->endAttributes);
             },
-            540 => function ($stackPos) {
+            540 => function ($stackPos): void {
                  $this->semValue = new Expr\ArrayDimFetch($this->semStack[$stackPos-(4-1)], $this->semStack[$stackPos-(4-3)], $this->startAttributeStack[$stackPos-(4-1)] + $this->endAttributes);
             },
-            541 => function ($stackPos) {
+            541 => function ($stackPos): void {
                  $this->semValue = $this->semStack[$stackPos-(1-1)];
             },
-            542 => function ($stackPos) {
+            542 => function ($stackPos): void {
                  $this->semValue = new Expr\MethodCall($this->semStack[$stackPos-(4-1)], $this->semStack[$stackPos-(4-3)], $this->semStack[$stackPos-(4-4)], $this->startAttributeStack[$stackPos-(4-1)] + $this->endAttributes);
             },
-            543 => function ($stackPos) {
+            543 => function ($stackPos): void {
                  $this->semValue = new Expr\NullsafeMethodCall($this->semStack[$stackPos-(4-1)], $this->semStack[$stackPos-(4-3)], $this->semStack[$stackPos-(4-4)], $this->startAttributeStack[$stackPos-(4-1)] + $this->endAttributes);
             },
-            544 => function ($stackPos) {
+            544 => function ($stackPos): void {
                  $this->semValue = null;
             },
-            545 => function ($stackPos) {
+            545 => function ($stackPos): void {
                  $this->semValue = $this->semStack[$stackPos-(1-1)];
             },
-            546 => function ($stackPos) {
+            546 => function ($stackPos): void {
                  $this->semValue = $this->semStack[$stackPos-(1-1)];
             },
-            547 => function ($stackPos) {
+            547 => function ($stackPos): void {
                  $this->semValue = $this->semStack[$stackPos-(1-1)];
             },
-            548 => function ($stackPos) {
+            548 => function ($stackPos): void {
                  $this->semValue = new Expr\PropertyFetch($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
             },
-            549 => function ($stackPos) {
+            549 => function ($stackPos): void {
                  $this->semValue = new Expr\NullsafePropertyFetch($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
             },
-            550 => function ($stackPos) {
+            550 => function ($stackPos): void {
                  $this->semValue = $this->semStack[$stackPos-(1-1)];
             },
-            551 => function ($stackPos) {
+            551 => function ($stackPos): void {
                  $this->semValue = new Expr\Variable($this->semStack[$stackPos-(4-3)], $this->startAttributeStack[$stackPos-(4-1)] + $this->endAttributes);
             },
-            552 => function ($stackPos) {
+            552 => function ($stackPos): void {
                  $this->semValue = new Expr\Variable($this->semStack[$stackPos-(2-2)], $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes);
             },
-            553 => function ($stackPos) {
+            553 => function ($stackPos): void {
                  $this->semValue = new Expr\Variable(new Expr\Error($this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes), $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes); $this->errorState = 2;
             },
-            554 => function ($stackPos) {
+            554 => function ($stackPos): void {
                  $var = $this->semStack[$stackPos-(1-1)]->name; $this->semValue = \is_string($var) ? new Node\VarLikeIdentifier($var, $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes) : $var;
             },
-            555 => function ($stackPos) {
+            555 => function ($stackPos): void {
                  $this->semValue = new Expr\StaticPropertyFetch($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
             },
-            556 => function ($stackPos) {
+            556 => function ($stackPos): void {
                  $this->semValue = $this->semStack[$stackPos-(1-1)];
             },
-            557 => function ($stackPos) {
+            557 => function ($stackPos): void {
                  $this->semValue = new Expr\ArrayDimFetch($this->semStack[$stackPos-(4-1)], $this->semStack[$stackPos-(4-3)], $this->startAttributeStack[$stackPos-(4-1)] + $this->endAttributes);
             },
-            558 => function ($stackPos) {
+            558 => function ($stackPos): void {
                  $this->semValue = new Expr\ArrayDimFetch($this->semStack[$stackPos-(4-1)], $this->semStack[$stackPos-(4-3)], $this->startAttributeStack[$stackPos-(4-1)] + $this->endAttributes);
             },
-            559 => function ($stackPos) {
+            559 => function ($stackPos): void {
                  $this->semValue = new Expr\PropertyFetch($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
             },
-            560 => function ($stackPos) {
+            560 => function ($stackPos): void {
                  $this->semValue = new Expr\NullsafePropertyFetch($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
             },
-            561 => function ($stackPos) {
+            561 => function ($stackPos): void {
                  $this->semValue = new Expr\StaticPropertyFetch($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
             },
-            562 => function ($stackPos) {
+            562 => function ($stackPos): void {
                  $this->semValue = new Expr\StaticPropertyFetch($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
             },
-            563 => function ($stackPos) {
+            563 => function ($stackPos): void {
                  $this->semValue = $this->semStack[$stackPos-(1-1)];
             },
-            564 => function ($stackPos) {
+            564 => function ($stackPos): void {
                  $this->semValue = $this->semStack[$stackPos-(3-2)];
             },
-            565 => function ($stackPos) {
+            565 => function ($stackPos): void {
                  $this->semValue = $this->semStack[$stackPos-(1-1)];
             },
-            566 => function ($stackPos) {
+            566 => function ($stackPos): void {
                  $this->semValue = $this->semStack[$stackPos-(1-1)];
             },
-            567 => function ($stackPos) {
+            567 => function ($stackPos): void {
                  $this->semValue = $this->semStack[$stackPos-(3-2)];
             },
-            568 => function ($stackPos) {
+            568 => function ($stackPos): void {
                  $this->semValue = $this->semStack[$stackPos-(1-1)];
             },
-            569 => function ($stackPos) {
+            569 => function ($stackPos): void {
                  $this->semValue = new Expr\Error($this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes); $this->errorState = 2;
             },
-            570 => function ($stackPos) {
+            570 => function ($stackPos): void {
                  $this->semValue = new Expr\List_($this->semStack[$stackPos-(4-3)], $this->startAttributeStack[$stackPos-(4-1)] + $this->endAttributes);
             },
-            571 => function ($stackPos) {
+            571 => function ($stackPos): void {
                  $this->semValue = $this->semStack[$stackPos-(1-1)]; $end = count($this->semValue)-1; if ($this->semValue[$end] === null) array_pop($this->semValue);
             },
-            572 => function ($stackPos) {
+            572 => function ($stackPos): void {
                 $this->semValue = $this->semStack[$stackPos];
             },
-            573 => function ($stackPos) {
+            573 => function ($stackPos): void {
                  /* do nothing -- prevent default action of $$=$this->semStack[$1]. See $551. */
             },
-            574 => function ($stackPos) {
+            574 => function ($stackPos): void {
                  $this->semStack[$stackPos-(3-1)][] = $this->semStack[$stackPos-(3-3)]; $this->semValue = $this->semStack[$stackPos-(3-1)];
             },
-            575 => function ($stackPos) {
+            575 => function ($stackPos): void {
                  $this->semValue = array($this->semStack[$stackPos-(1-1)]);
             },
-            576 => function ($stackPos) {
+            576 => function ($stackPos): void {
                  $this->semValue = new Expr\ArrayItem($this->semStack[$stackPos-(1-1)], null, false, $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
             },
-            577 => function ($stackPos) {
+            577 => function ($stackPos): void {
                  $this->semValue = new Expr\ArrayItem($this->semStack[$stackPos-(2-2)], null, true, $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes);
             },
-            578 => function ($stackPos) {
+            578 => function ($stackPos): void {
                  $this->semValue = new Expr\ArrayItem($this->semStack[$stackPos-(1-1)], null, false, $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
             },
-            579 => function ($stackPos) {
+            579 => function ($stackPos): void {
                  $this->semValue = new Expr\ArrayItem($this->semStack[$stackPos-(3-3)], $this->semStack[$stackPos-(3-1)], false, $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
             },
-            580 => function ($stackPos) {
+            580 => function ($stackPos): void {
                  $this->semValue = new Expr\ArrayItem($this->semStack[$stackPos-(4-4)], $this->semStack[$stackPos-(4-1)], true, $this->startAttributeStack[$stackPos-(4-1)] + $this->endAttributes);
             },
-            581 => function ($stackPos) {
+            581 => function ($stackPos): void {
                  $this->semValue = new Expr\ArrayItem($this->semStack[$stackPos-(3-3)], $this->semStack[$stackPos-(3-1)], false, $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
             },
-            582 => function ($stackPos) {
+            582 => function ($stackPos): void {
                  $this->semValue = new Expr\ArrayItem($this->semStack[$stackPos-(2-2)], null, false, $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes, true, $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes);
             },
-            583 => function ($stackPos) {
+            583 => function ($stackPos): void {
                  $this->semValue = null;
             },
-            584 => function ($stackPos) {
+            584 => function ($stackPos): void {
                  $this->semStack[$stackPos-(2-1)][] = $this->semStack[$stackPos-(2-2)]; $this->semValue = $this->semStack[$stackPos-(2-1)];
             },
-            585 => function ($stackPos) {
+            585 => function ($stackPos): void {
                  $this->semStack[$stackPos-(2-1)][] = $this->semStack[$stackPos-(2-2)]; $this->semValue = $this->semStack[$stackPos-(2-1)];
             },
-            586 => function ($stackPos) {
+            586 => function ($stackPos): void {
                  $this->semValue = array($this->semStack[$stackPos-(1-1)]);
             },
-            587 => function ($stackPos) {
+            587 => function ($stackPos): void {
                  $this->semValue = array($this->semStack[$stackPos-(2-1)], $this->semStack[$stackPos-(2-2)]);
             },
-            588 => function ($stackPos) {
+            588 => function ($stackPos): void {
                  $this->semValue = new Scalar\EncapsedStringPart($this->semStack[$stackPos-(1-1)], $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
             },
-            589 => function ($stackPos) {
+            589 => function ($stackPos): void {
                  $this->semValue = new Expr\Variable($this->semStack[$stackPos-(1-1)], $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
             },
-            590 => function ($stackPos) {
+            590 => function ($stackPos): void {
                  $this->semValue = $this->semStack[$stackPos-(1-1)];
             },
-            591 => function ($stackPos) {
+            591 => function ($stackPos): void {
                  $this->semValue = new Expr\ArrayDimFetch($this->semStack[$stackPos-(4-1)], $this->semStack[$stackPos-(4-3)], $this->startAttributeStack[$stackPos-(4-1)] + $this->endAttributes);
             },
-            592 => function ($stackPos) {
+            592 => function ($stackPos): void {
                  $this->semValue = new Expr\PropertyFetch($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
             },
-            593 => function ($stackPos) {
+            593 => function ($stackPos): void {
                  $this->semValue = new Expr\NullsafePropertyFetch($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
             },
-            594 => function ($stackPos) {
+            594 => function ($stackPos): void {
                  $this->semValue = new Expr\Variable($this->semStack[$stackPos-(3-2)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
             },
-            595 => function ($stackPos) {
+            595 => function ($stackPos): void {
                  $this->semValue = new Expr\Variable($this->semStack[$stackPos-(3-2)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
             },
-            596 => function ($stackPos) {
+            596 => function ($stackPos): void {
                  $this->semValue = new Expr\ArrayDimFetch($this->semStack[$stackPos-(6-2)], $this->semStack[$stackPos-(6-4)], $this->startAttributeStack[$stackPos-(6-1)] + $this->endAttributes);
             },
-            597 => function ($stackPos) {
+            597 => function ($stackPos): void {
                  $this->semValue = $this->semStack[$stackPos-(3-2)];
             },
-            598 => function ($stackPos) {
+            598 => function ($stackPos): void {
                  $this->semValue = new Scalar\String_($this->semStack[$stackPos-(1-1)], $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
             },
-            599 => function ($stackPos) {
+            599 => function ($stackPos): void {
                  $this->semValue = $this->parseNumString($this->semStack[$stackPos-(1-1)], $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
             },
-            600 => function ($stackPos) {
+            600 => function ($stackPos): void {
                  $this->semValue = $this->parseNumString('-' . $this->semStack[$stackPos-(2-2)], $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes);
             },
-            601 => function ($stackPos) {
+            601 => function ($stackPos): void {
                  $this->semValue = $this->semStack[$stackPos-(1-1)];
             },
         ];

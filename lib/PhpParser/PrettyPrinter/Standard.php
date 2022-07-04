@@ -228,7 +228,7 @@ class Standard extends PrettyPrinterAbstract
         return preg_match('/^-?[0-9]+$/', $stringValue) ? $stringValue . '.0' : $stringValue;
     }
 
-    protected function pScalar_EncapsedStringPart(Scalar\EncapsedStringPart $node) {
+    protected function pScalar_EncapsedStringPart(Scalar\EncapsedStringPart $node): void {
         throw new \LogicException('Cannot directly print EncapsedStringPart');
     }
 
@@ -559,7 +559,7 @@ class Standard extends PrettyPrinterAbstract
 
     // Other
 
-    protected function pExpr_Error(Expr\Error $node) {
+    protected function pExpr_Error(Expr\Error $node): void {
         throw new \LogicException('Cannot pretty-print AST with Error nodes');
     }
 
