@@ -195,9 +195,11 @@ class Name extends NodeAbstract
     public static function concat($name1, $name2, array $attributes = []) {
         if (null === $name1 && null === $name2) {
             return null;
-        } elseif (null === $name1) {
+        }
+        if (null === $name1) {
             return new static(self::prepareName($name2), $attributes);
-        } elseif (null === $name2) {
+        }
+        if (null === $name2) {
             return new static(self::prepareName($name1), $attributes);
         } else {
             return new static(
@@ -221,13 +223,15 @@ class Name extends NodeAbstract
             }
 
             return explode('\\', $name);
-        } elseif (\is_array($name)) {
+        }
+        if (\is_array($name)) {
             if (empty($name)) {
                 throw new \InvalidArgumentException('Name cannot be empty');
             }
 
             return $name;
-        } elseif ($name instanceof self) {
+        }
+        if ($name instanceof self) {
             return $name->parts;
         }
 

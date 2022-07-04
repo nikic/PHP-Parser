@@ -155,7 +155,8 @@ class Comment implements \JsonSerializable
         if (false === $newlinePos) {
             // Single line comments don't need further processing
             return $text;
-        } elseif (preg_match('((*BSR_ANYCRLF)(*ANYCRLF)^.*(?:\R\s+\*.*)+$)', $text)) {
+        }
+        if (preg_match('((*BSR_ANYCRLF)(*ANYCRLF)^.*(?:\R\s+\*.*)+$)', $text)) {
             // Multi line comment of the type
             //
             //     /*
@@ -165,7 +166,8 @@ class Comment implements \JsonSerializable
             //
             // is handled by replacing the whitespace sequences before the * by a single space
             return preg_replace('(^\s+\*)m', ' *', $this->text);
-        } elseif (preg_match('(^/\*\*?\s*[\r\n])', $text) && preg_match('(\n(\s*)\*/$)', $text, $matches)) {
+        }
+        if (preg_match('(^/\*\*?\s*[\r\n])', $text) && preg_match('(\n(\s*)\*/$)', $text, $matches)) {
             // Multi line comment of the type
             //
             //    /*
@@ -177,7 +179,8 @@ class Comment implements \JsonSerializable
             // */ on all lines. So if the last line is "    */", then "    " is removed at the
             // start of all lines.
             return preg_replace('(^' . preg_quote($matches[1]) . ')m', '', $text);
-        } elseif (preg_match('(^/\*\*?\s*(?!\s))', $text, $matches)) {
+        }
+        if (preg_match('(^/\*\*?\s*(?!\s))', $text, $matches)) {
             // Multi line comment of the type
             //
             //     /* Some text.

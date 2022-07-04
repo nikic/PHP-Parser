@@ -206,7 +206,8 @@ class Standard extends PrettyPrinterAbstract
         if (!is_finite($node->value)) {
             if ($node->value === \INF) {
                 return '\INF';
-            } elseif ($node->value === -\INF) {
+            }
+            if ($node->value === -\INF) {
                 return '-\INF';
             } else {
                 return '\NAN';
