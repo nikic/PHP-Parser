@@ -114,7 +114,7 @@ class TraitUseAdaptation implements Builder
         return $this;
     }
 
-    protected function setModifier(int $modifier) {
+    protected function setModifier(int $modifier): void {
         if ($this->type === self::TYPE_UNDEFINED) {
             $this->type = self::TYPE_ALIAS;
         }

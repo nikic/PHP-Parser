@@ -389,7 +389,7 @@ abstract class ParserAbstract implements Parser
         throw new \RuntimeException('Reached end of parser loop');
     }
 
-    protected function emitError(Error $error) {
+    protected function emitError(Error $error): void {
         $this->errorHandler->handleError($error);
     }
 
@@ -545,7 +545,7 @@ abstract class ParserAbstract implements Parser
         }
     }
 
-    private function fixupNamespaceAttributes(Node\Stmt\Namespace_ $stmt) {
+    private function fixupNamespaceAttributes(Node\Stmt\Namespace_ $stmt): void {
         // We moved the statements into the namespace node, as such the end of the namespace node
         // needs to be extended to the end of the statements.
         if (empty($stmt->stmts)) {
@@ -839,7 +839,7 @@ abstract class ParserAbstract implements Parser
         return $attributes;
     }
 
-    protected function checkClassModifier($a, $b, $modifierPos) {
+    protected function checkClassModifier($a, $b, $modifierPos): void {
         try {
             Class_::verifyClassModifier($a, $b);
         } catch (Error $error) {
@@ -848,7 +848,7 @@ abstract class ParserAbstract implements Parser
         }
     }
 
-    protected function checkModifier($a, $b, $modifierPos) {
+    protected function checkModifier($a, $b, $modifierPos): void {
         // Jumping through some hoops here because verifyModifier() is also used elsewhere
         try {
             Class_::verifyModifier($a, $b);
@@ -858,7 +858,7 @@ abstract class ParserAbstract implements Parser
         }
     }
 
-    protected function checkParam(Param $node) {
+    protected function checkParam(Param $node): void {
         if ($node->variadic && null !== $node->default) {
             $this->emitError(new Error(
                 'Variadic parameter cannot have a default value',
@@ -867,7 +867,7 @@ abstract class ParserAbstract implements Parser
         }
     }
 
-    protected function checkTryCatch(TryCatch $node) {
+    protected function checkTryCatch(TryCatch $node): void {
         if (empty($node->catches) && null === $node->finally) {
             $this->emitError(new Error(
                 'Cannot use try without catch or finally', $node->getAttributes()
@@ -875,7 +875,7 @@ abstract class ParserAbstract implements Parser
         }
     }
 
-    protected function checkNamespace(Namespace_ $node) {
+    protected function checkNamespace(Namespace_ $node): void {
         if (null !== $node->stmts) {
             foreach ($node->stmts as $stmt) {
                 if ($stmt instanceof Namespace_) {
@@ -887,7 +887,7 @@ abstract class ParserAbstract implements Parser
         }
     }
 
-    private function checkClassName($name, $namePos) {
+    private function checkClassName($name, $namePos): void {
         if (null !== $name && $name->isSpecialClassName()) {
             $this->emitError(new Error(
                 sprintf('Cannot use \'%s\' as class name as it is reserved', $name),
@@ -896,7 +896,7 @@ abstract class ParserAbstract implements Parser
         }
     }
 
-    private function checkImplementedInterfaces(array $interfaces) {
+    private function checkImplementedInterfaces(array $interfaces): void {
         foreach ($interfaces as $interface) {
             if ($interface->isSpecialClassName()) {
                 $this->emitError(new Error(
@@ -907,7 +907,7 @@ abstract class ParserAbstract implements Parser
         }
     }
 
-    protected function checkClass(Class_ $node, $namePos) {
+    protected function checkClass(Class_ $node, $namePos): void {
         $this->checkClassName($node->name, $namePos);
 
         if ($node->extends && $node->extends->isSpecialClassName()) {
@@ -920,17 +920,17 @@ abstract class ParserAbstract implements Parser
         $this->checkImplementedInterfaces($node->implements);
     }
 
-    protected function checkInterface(Interface_ $node, $namePos) {
+    protected function checkInterface(Interface_ $node, $namePos): void {
         $this->checkClassName($node->name, $namePos);
         $this->checkImplementedInterfaces($node->extends);
     }
 
-    protected function checkEnum(Enum_ $node, $namePos) {
+    protected function checkEnum(Enum_ $node, $namePos): void {
         $this->checkClassName($node->name, $namePos);
         $this->checkImplementedInterfaces($node->implements);
     }
 
-    protected function checkClassMethod(ClassMethod $node, $modifierPos) {
+    protected function checkClassMethod(ClassMethod $node, $modifierPos): void {
         if ($node->flags & Class_::MODIFIER_STATIC) {
             switch ($node->name->toLowerString()) {
                 case '__construct':
@@ -958,7 +958,7 @@ abstract class ParserAbstract implements Parser
         }
     }
 
-    protected function checkClassConst(ClassConst $node, $modifierPos) {
+    protected function checkClassConst(ClassConst $node, $modifierPos): void {
         if ($node->flags & Class_::MODIFIER_STATIC) {
             $this->emitError(new Error(
                 "Cannot use 'static' as constant modifier",
@@ -976,7 +976,7 @@ abstract class ParserAbstract implements Parser
         }
     }
 
-    protected function checkProperty(Property $node, $modifierPos) {
+    protected function checkProperty(Property $node, $modifierPos): void {
         if ($node->flags & Class_::MODIFIER_ABSTRACT) {
             $this->emitError(new Error('Properties cannot be declared abstract',
                 $this->getAttributesAt($modifierPos)));
@@ -988,7 +988,7 @@ abstract class ParserAbstract implements Parser
         }
     }
 
-    protected function checkUseUse(UseUse $node, $namePos) {
+    protected function checkUseUse(UseUse $node, $namePos): void {
         if ($node->alias && $node->alias->isSpecialClassName()) {
             $this->emitError(new Error(
                 sprintf(

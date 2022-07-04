@@ -54,7 +54,7 @@ class NodeTraverser implements NodeTraverserInterface
      *
      * @param NodeVisitor $visitor Visitor to add
      */
-    public function addVisitor(NodeVisitor $visitor) {
+    public function addVisitor(NodeVisitor $visitor): void {
         $this->visitors[] = $visitor;
     }
 
@@ -63,7 +63,7 @@ class NodeTraverser implements NodeTraverserInterface
      *
      * @param NodeVisitor $visitor
      */
-    public function removeVisitor(NodeVisitor $visitor) {
+    public function removeVisitor(NodeVisitor $visitor): void {
         foreach ($this->visitors as $index => $storedVisitor) {
             if ($storedVisitor === $visitor) {
                 unset($this->visitors[$index]);
@@ -272,7 +272,7 @@ class NodeTraverser implements NodeTraverserInterface
         return $nodes;
     }
 
-    private function ensureReplacementReasonable($old, $new) {
+    private function ensureReplacementReasonable($old, $new): void {
         if ($old instanceof Node\Stmt && $new instanceof Node\Expr) {
             throw new \LogicException(
                 "Trying to replace statement ({$old->getType()}) " .

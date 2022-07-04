@@ -12,7 +12,7 @@ use PhpParser\ErrorHandler;
  */
 class Throwing implements ErrorHandler
 {
-    public function handleError(Error $error) {
+    public function handleError(Error $error): void {
         throw $error;
     }
 }
