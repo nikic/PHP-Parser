@@ -23,7 +23,7 @@ class Catch_ extends Node\Stmt
      * @param array                 $attributes Additional attributes
      */
     public function __construct(
-        array $types, Expr\Variable $var = null, array $stmts = [], array $attributes = []
+        array $types, ?Expr\Variable $var = null, array $stmts = [], array $attributes = []
     ) {
         $this->attributes = $attributes;
         $this->types = $types;

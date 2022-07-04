@@ -19,7 +19,7 @@ class Exit_ extends Expr
      * @param null|Expr $expr       Expression
      * @param array                    $attributes Additional attributes
      */
-    public function __construct(Expr $expr = null, array $attributes = []) {
+    public function __construct(?Expr $expr = null, array $attributes = []) {
         $this->attributes = $attributes;
         $this->expr = $expr;
     }

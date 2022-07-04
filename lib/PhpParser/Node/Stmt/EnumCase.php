@@ -20,7 +20,7 @@ class EnumCase extends Node\Stmt
      * @param AttributeGroup[]          $attrGroups PHP attribute groups
      * @param array                     $attributes Additional attributes
      */
-    public function __construct($name, Node\Expr $expr = null, array $attrGroups = [], array $attributes = []) {
+    public function __construct($name, ?Node\Expr $expr = null, array $attrGroups = [], array $attributes = []) {
         parent::__construct($attributes);
         $this->name = \is_string($name) ? new Node\Identifier($name) : $name;
         $this->expr = $expr;
