@@ -6,7 +6,6 @@ namespace PhpParser;
  * This parser is based on a skeleton written by Moriyoshi Koizumi, which in
  * turn is based on work by Masato Bito.
  */
-use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\Cast\Double;
 use PhpParser\Node\Name;
 use PhpParser\Node\Param;
@@ -22,7 +21,6 @@ use PhpParser\Node\Stmt\Namespace_;
 use PhpParser\Node\Stmt\Property;
 use PhpParser\Node\Stmt\TryCatch;
 use PhpParser\Node\Stmt\UseUse;
-use PhpParser\Node\VarLikeIdentifier;
 use PhpParser\Parser\Tokens;
 
 abstract class ParserAbstract implements Parser
