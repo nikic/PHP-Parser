@@ -9,7 +9,7 @@ abstract class KeywordEmulator extends TokenEmulator
     abstract function getKeywordString(): string;
     abstract function getKeywordToken(): int;
 
-    public function isEmulationNeeded(string $code): bool
+    final public function isEmulationNeeded(string $code): bool
     {
         return strpos(strtolower($code), $this->getKeywordString()) !== false;
     }
@@ -21,7 +21,7 @@ abstract class KeywordEmulator extends TokenEmulator
         return $previousNonSpaceToken === null || $previousNonSpaceToken->id !== \T_OBJECT_OPERATOR;
     }
 
-    public function emulate(string $code, array $tokens): array
+    final public function emulate(string $code, array $tokens): array
     {
         $keywordString = $this->getKeywordString();
         foreach ($tokens as $i => $token) {
@@ -48,7 +48,7 @@ abstract class KeywordEmulator extends TokenEmulator
         return null;
     }
 
-    public function reverseEmulate(string $code, array $tokens): array
+    final public function reverseEmulate(string $code, array $tokens): array
     {
         $keywordToken = $this->getKeywordToken();
         foreach ($tokens as $i => $token) {

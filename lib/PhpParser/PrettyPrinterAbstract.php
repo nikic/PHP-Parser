@@ -194,7 +194,7 @@ abstract class PrettyPrinterAbstract
      *
      * @return string Pretty printed statements
      */
-    public function prettyPrint(array $stmts) : string {
+    final public function prettyPrint(array $stmts) : string {
         $this->resetState();
         $this->preprocessNodes($stmts);
 
@@ -208,7 +208,7 @@ abstract class PrettyPrinterAbstract
      *
      * @return string Pretty printed node
      */
-    public function prettyPrintExpr(Expr $node) : string {
+    final public function prettyPrintExpr(Expr $node) : string {
         $this->resetState();
         return $this->handleMagicTokens($this->p($node));
     }
@@ -220,7 +220,7 @@ abstract class PrettyPrinterAbstract
      *
      * @return string Pretty printed statements
      */
-    public function prettyPrintFile(array $stmts) : string {
+    final public function prettyPrintFile(array $stmts) : string {
         if (!$stmts) {
             return "<?php\n\n";
         }
@@ -473,7 +473,7 @@ abstract class PrettyPrinterAbstract
      *
      * @return string
      */
-    public function printFormatPreserving(array $stmts, array $origStmts, array $origTokens) : string {
+    final public function printFormatPreserving(array $stmts, array $origStmts, array $origTokens) : string {
         $this->initializeNodeListDiffer();
         $this->initializeLabelCharMap();
         $this->initializeFixupMap();

@@ -15,7 +15,7 @@ abstract class MagicConst extends Scalar
         $this->attributes = $attributes;
     }
 
-    public function getSubNodeNames() : array {
+    final public function getSubNodeNames() : array {
         return [];
     }
 

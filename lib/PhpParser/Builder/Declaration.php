@@ -18,7 +18,7 @@ abstract class Declaration implements PhpParser\Builder
      *
      * @return $this The builder instance (for fluid interface)
      */
-    public function addStmts(array $stmts) {
+    final public function addStmts(array $stmts) {
         foreach ($stmts as $stmt) {
             $this->addStmt($stmt);
         }
@@ -33,7 +33,7 @@ abstract class Declaration implements PhpParser\Builder
      *
      * @return $this The builder instance (for fluid interface)
      */
-    public function setDocComment($docComment) {
+    final public function setDocComment($docComment) {
         $this->attributes['comments'] = [
             BuilderHelpers::normalizeDocComment($docComment)
         ];
