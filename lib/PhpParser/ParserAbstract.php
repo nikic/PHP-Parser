@@ -25,7 +25,7 @@ use PhpParser\Parser\Tokens;
 
 abstract class ParserAbstract implements Parser
 {
-    const SYMBOL_NONE = -1;
+    private const SYMBOL_NONE = -1;
 
     /** @var Lexer Lexer that is used when parsing */
     protected $lexer;

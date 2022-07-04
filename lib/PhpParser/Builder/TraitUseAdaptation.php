@@ -9,9 +9,9 @@ use PhpParser\Node\Stmt;
 
 class TraitUseAdaptation implements Builder
 {
-    const TYPE_UNDEFINED  = 0;
-    const TYPE_ALIAS      = 1;
-    const TYPE_PRECEDENCE = 2;
+    public const TYPE_UNDEFINED  = 0;
+    public const TYPE_ALIAS      = 1;
+    public const TYPE_PRECEDENCE = 2;
 
     /** @var int Type of building adaptation */
     protected $type;

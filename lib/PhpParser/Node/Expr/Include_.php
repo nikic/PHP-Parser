@@ -6,10 +6,10 @@ use PhpParser\Node\Expr;
 
 class Include_ extends Expr
 {
-    const TYPE_INCLUDE      = 1;
-    const TYPE_INCLUDE_ONCE = 2;
-    const TYPE_REQUIRE      = 3;
-    const TYPE_REQUIRE_ONCE = 4;
+    public const TYPE_INCLUDE      = 1;
+    public const TYPE_INCLUDE_ONCE = 2;
+    public const TYPE_REQUIRE      = 3;
+    public const TYPE_REQUIRE_ONCE = 4;
 
     /** @var Expr Expression */
     public $expr;

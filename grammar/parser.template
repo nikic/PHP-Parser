@@ -24,7 +24,7 @@ use PhpParser\Node\Stmt;
 class #(-p) extends \PhpParser\ParserAbstract
 {
 #tokenval
-    const %s = %n;
+    public const %s = %n;
 #endtokenval
 
     protected $tokenToSymbolMapSize = #(YYMAXLEX);
