@@ -224,7 +224,7 @@ final class BuilderHelpers
             return $value;
         }
 
-        if (is_null($value)) {
+        if (null === $value) {
             return new Expr\ConstFetch(
                 new Name('null')
             );
