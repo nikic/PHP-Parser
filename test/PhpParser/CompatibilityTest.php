@@ -8,11 +8,11 @@ class CompatibilityTest extends \PHPUnit\Framework\TestCase
 {
     public function testAliases1() {
         $node = new Node\ClosureUse(new Expr\Variable('x'));
-        $this->assertTrue($node instanceof Expr\ClosureUse);
+        $this->assertInstanceOf(Expr\ClosureUse::class, $node);
     }
 
     public function testAliases2() {
         $node = new Node\Expr\ClosureUse(new Expr\Variable('x'));
-        $this->assertTrue($node instanceof Node\ClosureUse);
+        $this->assertInstanceOf(Node\ClosureUse::class, $node);
     }
 }
