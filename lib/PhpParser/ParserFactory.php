@@ -21,7 +21,7 @@ class ParserFactory
      *
      * @deprecated Use createForVersion(), createForNewestSupportedVersion() or createForHostVersion() instead.
      */
-    public function create(int $kind, Lexer $lexer = null, array $parserOptions = []): Parser {
+    public function create(int $kind, ?Lexer $lexer = null, array $parserOptions = []): Parser {
         if (null === $lexer) {
             $lexer = new Lexer\Emulative();
         }

@@ -150,7 +150,7 @@ class Name extends NodeAbstract
      *
      * @return static|null Sliced name
      */
-    public function slice(int $offset, int $length = null) {
+    public function slice(int $offset, ?int $length = null) {
         $numParts = count($this->parts);
 
         $realOffset = $offset < 0 ? $offset + $numParts : $offset;
