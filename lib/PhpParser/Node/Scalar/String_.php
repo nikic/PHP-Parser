@@ -115,9 +115,11 @@ class String_ extends Scalar
 
                 if (isset(self::$replacements[$str])) {
                     return self::$replacements[$str];
-                } elseif ('x' === $str[0] || 'X' === $str[0]) {
+                }
+                if ('x' === $str[0] || 'X' === $str[0]) {
                     return chr(hexdec(substr($str, 1)));
-                } elseif ('u' === $str[0]) {
+                }
+                if ('u' === $str[0]) {
                     return self::codePointToUtf8(hexdec($matches[2]));
                 } else {
                     return chr(octdec($str));

@@ -289,7 +289,8 @@ abstract class ParserAbstract implements Parser
                     /* accept */
                     //$this->traceAccept();
                     return $this->semValue;
-                } elseif ($rule !== $this->unexpectedTokenRule) {
+                }
+                if ($rule !== $this->unexpectedTokenRule) {
                     /* reduce */
                     //$this->traceReduce($rule);
 
@@ -494,7 +495,8 @@ abstract class ParserAbstract implements Parser
         if (null === $style) {
             // not namespaced, nothing to do
             return $stmts;
-        } elseif ('brace' === $style) {
+        }
+        if ('brace' === $style) {
             // For braced namespaces we only have to check that there are no invalid statements between the namespaces
             $afterFirstNamespace = false;
             foreach ($stmts as $stmt) {
