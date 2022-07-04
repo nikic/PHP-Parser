@@ -7,8 +7,8 @@ use PhpParser\Parser\Php8;
 
 class ParserFactory
 {
-    const PREFER_PHP7 = 1;
-    const ONLY_PHP7 = 3;
+    public const PREFER_PHP7 = 1;
+    public const ONLY_PHP7 = 3;
 
     /**
      * Creates a Parser instance, according to the provided kind.

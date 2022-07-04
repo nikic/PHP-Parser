@@ -6,8 +6,8 @@ use PhpParser\Token;
 
 abstract class KeywordEmulator extends TokenEmulator
 {
-    abstract function getKeywordString(): string;
-    abstract function getKeywordToken(): int;
+    abstract public function getKeywordString(): string;
+    abstract public function getKeywordToken(): int;
 
     public function isEmulationNeeded(string $code): bool
     {

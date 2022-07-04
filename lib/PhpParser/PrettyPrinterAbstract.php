@@ -14,13 +14,13 @@ use PhpParser\Node\Stmt;
 
 abstract class PrettyPrinterAbstract
 {
-    const FIXUP_PREC_LEFT       = 0; // LHS operand affected by precedence
-    const FIXUP_PREC_RIGHT      = 1; // RHS operand affected by precedence
-    const FIXUP_CALL_LHS        = 2; // LHS of call
-    const FIXUP_DEREF_LHS       = 3; // LHS of dereferencing operation
-    const FIXUP_BRACED_NAME     = 4; // Name operand that may require bracing
-    const FIXUP_VAR_BRACED_NAME = 5; // Name operand that may require ${} bracing
-    const FIXUP_ENCAPSED        = 6; // Encapsed string part
+    public const FIXUP_PREC_LEFT       = 0; // LHS operand affected by precedence
+    public const FIXUP_PREC_RIGHT      = 1; // RHS operand affected by precedence
+    public const FIXUP_CALL_LHS        = 2; // LHS of call
+    public const FIXUP_DEREF_LHS       = 3; // LHS of dereferencing operation
+    public const FIXUP_BRACED_NAME     = 4; // Name operand that may require bracing
+    public const FIXUP_VAR_BRACED_NAME = 5; // Name operand that may require ${} bracing
+    public const FIXUP_ENCAPSED        = 6; // Encapsed string part
 
     protected $precedenceMap = [
         // [precedence, associativity]
