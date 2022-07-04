@@ -106,7 +106,7 @@ class Class_ extends Declaration
             Stmt\ClassMethod::class => &$this->methods,
         ];
 
-        $class = \get_class($stmt);
+        $class = $stmt::class;
         if (!isset($targets[$class])) {
             throw new \LogicException(sprintf('Unexpected node of type "%s"', $stmt->getType()));
         }

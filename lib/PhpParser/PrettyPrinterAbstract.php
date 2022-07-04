@@ -359,7 +359,7 @@ abstract class PrettyPrinterAbstract
      * @return string The pretty printed node
      */
     protected function pPrec(Node $node, int $parentPrecedence, int $parentAssociativity, int $childPosition) : string {
-        $class = \get_class($node);
+        $class = $node::class;
         if (isset($this->precedenceMap[$class])) {
             $childPrecedence = $this->precedenceMap[$class][0];
             if ($childPrecedence > $parentPrecedence
@@ -527,8 +527,8 @@ abstract class PrettyPrinterAbstract
             return $this->pFallback($node);
         }
 
-        $class = \get_class($node);
-        \assert($class === \get_class($origNode));
+        $class = $node::class;
+        \assert($class === $origNode::class);
 
         $startPos = $origNode->getStartTokenPos();
         $endPos = $origNode->getEndTokenPos();
