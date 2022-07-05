@@ -2,7 +2,6 @@
 
 namespace PhpParser\Node;
 
-use PhpParser\NodeAbstract;
 
 class IntersectionType extends ComplexType
 {

@@ -71,7 +71,7 @@ class Emulative extends Lexer
         }
     }
 
-    public function startLexing(string $code, ErrorHandler $errorHandler = null) {
+    public function startLexing(string $code, ?ErrorHandler $errorHandler = null) {
         $emulators = array_filter($this->emulators, static function($emulator) use($code) {
             return $emulator->isEmulationNeeded($code);
         });
