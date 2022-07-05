@@ -2,7 +2,6 @@
 
 namespace PhpParser\Node;
 
-use PhpParser\Node\VariadicPlaceholder;
 use PhpParser\NodeAbstract;
 
 class Arg extends NodeAbstract
@@ -27,7 +26,7 @@ class Arg extends NodeAbstract
      */
     public function __construct(
         Expr $value, bool $byRef = false, bool $unpack = false, array $attributes = [],
-        Identifier $name = null
+        ?Identifier $name = null
     ) {
         $this->attributes = $attributes;
         $this->name = $name;

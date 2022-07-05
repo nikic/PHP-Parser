@@ -18,7 +18,7 @@ class PropertyProperty extends Node\Stmt
      * @param null|Node\Expr                $default    Default value
      * @param array                         $attributes Additional attributes
      */
-    public function __construct($name, Node\Expr $default = null, array $attributes = []) {
+    public function __construct($name, ?Node\Expr $default = null, array $attributes = []) {
         $this->attributes = $attributes;
         $this->name = \is_string($name) ? new Node\VarLikeIdentifier($name) : $name;
         $this->default = $default;

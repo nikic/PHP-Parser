@@ -6,7 +6,6 @@ namespace PhpParser;
  * This parser is based on a skeleton written by Moriyoshi Koizumi, which in
  * turn is based on work by Masato Bito.
  */
-use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\Cast\Double;
 use PhpParser\Node\Name;
 use PhpParser\Node\Param;
@@ -22,7 +21,6 @@ use PhpParser\Node\Stmt\Namespace_;
 use PhpParser\Node\Stmt\Property;
 use PhpParser\Node\Stmt\TryCatch;
 use PhpParser\Node\Stmt\UseUse;
-use PhpParser\Node\VarLikeIdentifier;
 use PhpParser\Parser\Tokens;
 
 abstract class ParserAbstract implements Parser
@@ -168,7 +166,7 @@ abstract class ParserAbstract implements Parser
      * @return Node\Stmt[]|null Array of statements (or null non-throwing error handler is used and
      *                          the parser was unable to recover from an error).
      */
-    final public function parse(string $code, ErrorHandler $errorHandler = null): ?array {
+    final public function parse(string $code, ?ErrorHandler $errorHandler = null): ?array {
         $this->errorHandler = $errorHandler ?: new ErrorHandler\Throwing;
 
         $this->lexer->startLexing($code, $this->errorHandler);
@@ -291,7 +289,8 @@ abstract class ParserAbstract implements Parser
                     /* accept */
                     //$this->traceAccept();
                     return $this->semValue;
-                } elseif ($rule !== $this->unexpectedTokenRule) {
+                }
+                if ($rule !== $this->unexpectedTokenRule) {
                     /* reduce */
                     //$this->traceReduce($rule);
 
@@ -496,7 +495,8 @@ abstract class ParserAbstract implements Parser
         if (null === $style) {
             // not namespaced, nothing to do
             return $stmts;
-        } elseif ('brace' === $style) {
+        }
+        if ('brace' === $style) {
             // For braced namespaces we only have to check that there are no invalid statements between the namespaces
             $afterFirstNamespace = false;
             foreach ($stmts as $stmt) {
