@@ -22,7 +22,7 @@ abstract class TokenEmulator
      */
     abstract public function reverseEmulate(string $code, array $tokens): array;
 
-    final public function preprocessCode(string $code, array &$patches): string {
+    public function preprocessCode(string $code, array &$patches): string {
         return $code;
     }
 }
