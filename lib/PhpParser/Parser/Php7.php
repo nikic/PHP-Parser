@@ -153,10 +153,10 @@ class Php7 extends \PhpParser\ParserAbstract
     public const T_DIR = 389;
     public const T_NS_SEPARATOR = 390;
     public const T_ELLIPSIS = 391;
-    public const T_NAME_FULLY_QUALIFIED = 392;
-    public const T_NAME_QUALIFIED = 393;
-    public const T_NAME_RELATIVE = 394;
-    public const T_ATTRIBUTE = 395;
+    private const T_NAME_FULLY_QUALIFIED = 392;
+    private const T_NAME_QUALIFIED = 393;
+    private const T_NAME_RELATIVE = 394;
+    private const T_ATTRIBUTE = 395;
 
     protected $tokenToSymbolMapSize = 396;
     protected $actionTableSize = 1215;
