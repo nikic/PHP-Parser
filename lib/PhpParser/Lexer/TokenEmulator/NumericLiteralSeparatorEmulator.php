@@ -10,10 +10,10 @@ final class NumericLiteralSeparatorEmulator extends TokenEmulator
     public const BIN = '(?:0b[01]+(?:_[01]+)*)';
     public const HEX = '(?:0x[0-9a-f]+(?:_[0-9a-f]+)*)';
     public const DEC = '(?:[0-9]+(?:_[0-9]+)*)';
-    public private SIMPLE_FLOAT = '(?:' . self::DEC . '\.' . self::DEC . '?|\.' . self::DEC . ')';
-    public private EXP = '(?:e[+-]?' . self::DEC . ')';
-    public private FLOAT = '(?:' . self::SIMPLE_FLOAT . self::EXP . '?|' . self::DEC . self::EXP . ')';
-    public private NUMBER = '~' . self::FLOAT . '|' . self::BIN . '|' . self::HEX . '|' . self::DEC . '~iA';
+    public const SIMPLE_FLOAT = '(?:' . self::DEC . '\.' . self::DEC . '?|\.' . self::DEC . ')';
+    public const EXP = '(?:e[+-]?' . self::DEC . ')';
+    public const FLOAT = '(?:' . self::SIMPLE_FLOAT . self::EXP . '?|' . self::DEC . self::EXP . ')';
+    public const NUMBER = '~' . self::FLOAT . '|' . self::BIN . '|' . self::HEX . '|' . self::DEC . '~iA';
 
     public function getPhpVersion(): string
     {
