@@ -14,9 +14,9 @@ use PhpParser\Node\Stmt;
 
 abstract class PrettyPrinterAbstract
 {
-    public const FIXUP_PREC_LEFT          = 0; // LHS operand affected by precedence
-    public const FIXUP_PREC_RIGHT         = 1; // RHS operand affected by precedence
-    public const FIXUP_CALL_LHS           = 2; // LHS of call
+    protected const FIXUP_PREC_LEFT       = 0; // LHS operand affected by precedence
+    protected const FIXUP_PREC_RIGHT      = 1; // RHS operand affected by precedence
+    protected const FIXUP_CALL_LHS        = 2; // LHS of call
     protected const FIXUP_DEREF_LHS       = 3; // LHS of dereferencing operation
     protected const FIXUP_BRACED_NAME     = 4; // Name operand that may require bracing
     protected const FIXUP_VAR_BRACED_NAME = 5; // Name operand that may require ${} bracing
