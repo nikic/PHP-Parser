@@ -2,6 +2,7 @@
 
 namespace PhpParser\Node;
 
+use PhpParser\Node\Stmt\Class_;
 use PhpParser\NodeAbstract;
 
 class Param extends NodeAbstract {
@@ -55,5 +56,9 @@ class Param extends NodeAbstract {
 
     public function getType(): string {
         return 'Param';
+    }
+
+    public function isReadonly() : bool {
+        return (bool) ($this->flags & Class_::MODIFIER_READONLY);
     }
 }
