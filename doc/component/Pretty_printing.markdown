@@ -31,7 +31,7 @@ expression.
 Customizing the formatting
 --------------------------
 
-Apart from an `shortArraySyntax` option, the default pretty printer does not provide any
+Apart from an `shortArraySyntax` and `shortListSyntax` options, the default pretty printer does not provide any
 functionality to customize the formatting of the generated code. The pretty printer does respect a
 number of `kind` attributes used by some notes (e.g., whether an integer should be printed as
 decimal, hexadecimal, etc), but there are no options to control brace placement or similar.
