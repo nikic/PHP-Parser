@@ -555,7 +555,9 @@ class Standard extends PrettyPrinterAbstract
     }
 
     protected function pExpr_List(Expr\List_ $node) {
-        return 'list(' . $this->pCommaSeparated($node->items) . ')';
+        return empty($this->options['shortListSyntax'])
+            ? 'list(' . $this->pCommaSeparated($node->items) . ')'
+            : '[' . $this->pCommaSeparated($node->items) . ']';
     }
 
     // Other
@@ -574,7 +576,7 @@ class Standard extends PrettyPrinterAbstract
 
     protected function pExpr_Array(Expr\Array_ $node) {
         $syntax = $node->getAttribute('kind',
-            $this->options['shortArraySyntax'] ? Expr\Array_::KIND_SHORT : Expr\Array_::KIND_LONG);
+            empty($this->options['shortArraySyntax']) ? Expr\Array_::KIND_LONG : Expr\Array_::KIND_SHORT);
         if ($syntax === Expr\Array_::KIND_SHORT) {
             return '[' . $this->pMaybeMultiline($node->items, true) . ']';
         } else {
