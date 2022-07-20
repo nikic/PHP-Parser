@@ -144,7 +144,7 @@ abstract class PrettyPrinterAbstract
      * Supported options:
      *  * bool $shortArraySyntax = false: Whether to use [] instead of array() as the default array
      *                                    syntax, if the node does not specify a format.
-     *  * bool $shortListSyntax = false: Whether to use [] instead of list() as the default list
+     *  * bool $shortListSyntax = false:  Whether to use [] instead of list() as the default list
      *                                    syntax, if the node does not specify a format.
      *
      * @param array $options Dictionary of formatting options
