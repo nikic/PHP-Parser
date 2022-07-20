@@ -100,7 +100,10 @@ abstract class PrettyPrinterAbstract
     /** @var bool Whether semicolon namespaces can be used (i.e. no global namespace is used) */
     protected $canUseSemicolonNamespaces;
     /** @var array Pretty printer options */
-    protected $options;
+    protected $options = [
+        'shortArraySyntax' => false, 
+        'shortListSyntax' => false,
+    ];
 
     /** @var TokenStream Original tokens for use in format-preserving pretty print */
     protected $origTokens;
@@ -141,14 +144,14 @@ abstract class PrettyPrinterAbstract
      * Supported options:
      *  * bool $shortArraySyntax = false: Whether to use [] instead of array() as the default array
      *                                    syntax, if the node does not specify a format.
+     *  * bool $shortListSyntax = false: Whether to use [] instead of list() as the default list
+     *                                    syntax, if the node does not specify a format.
      *
      * @param array $options Dictionary of formatting options
      */
     public function __construct(array $options = []) {
         $this->docStringEndToken = '_DOC_STRING_END_' . mt_rand();
-
-        $defaultOptions = ['shortArraySyntax' => false];
-        $this->options = $options + $defaultOptions;
+        $this->options = $options + $this->options;
     }
 
     /**
