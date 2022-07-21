@@ -23,21 +23,23 @@ class ClassMethod extends Node\Stmt implements FunctionLike
     public $attrGroups;
 
     private static $magicNames = [
-        '__construct'  => true,
-        '__destruct'   => true,
-        '__call'       => true,
-        '__callstatic' => true,
-        '__get'        => true,
-        '__set'        => true,
-        '__isset'      => true,
-        '__unset'      => true,
-        '__sleep'      => true,
-        '__wakeup'     => true,
-        '__tostring'   => true,
-        '__set_state'  => true,
-        '__clone'      => true,
-        '__invoke'     => true,
-        '__debuginfo'  => true,
+        '__construct'   => true,
+        '__destruct'    => true,
+        '__call'        => true,
+        '__callstatic'  => true,
+        '__get'         => true,
+        '__set'         => true,
+        '__isset'       => true,
+        '__unset'       => true,
+        '__sleep'       => true,
+        '__wakeup'      => true,
+        '__tostring'    => true,
+        '__set_state'   => true,
+        '__clone'       => true,
+        '__invoke'      => true,
+        '__debuginfo'   => true,
+        '__serialize'   => true,
+        '__unserialize' => true,
     ];
 
     /**
