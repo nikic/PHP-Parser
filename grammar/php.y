@@ -703,14 +703,24 @@ type_without_static:
     | T_CALLABLE                                            { $$ = Node\Identifier['callable']; }
 ;
 
+union_type_element:
+                type { $$ = $1; }
+        |        '(' intersection_type ')' { $$ = $2; }
+;
+
 union_type:
-      type '|' type                                         { init($1, $3); }
-    | union_type '|' type                                   { push($1, $3); }
+      union_type_element '|' union_type_element             { init($1, $3); }
+    | union_type '|' union_type_element                     { push($1, $3); }
+;
+
+union_type_without_static_element:
+                type_without_static { $$ = $1; }
+        |        '(' intersection_type_without_static ')' { $$ = $2; }
 ;
 
 union_type_without_static:
-      type_without_static '|' type_without_static           { init($1, $3); }
-    | union_type_without_static '|' type_without_static     { push($1, $3); }
+      union_type_without_static_element '|' union_type_without_static_element   { init($1, $3); }
+    | union_type_without_static '|' union_type_without_static_element           { push($1, $3); }
 ;
 
 intersection_type:
