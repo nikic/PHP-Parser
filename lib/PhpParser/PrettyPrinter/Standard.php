@@ -574,7 +574,7 @@ class Standard extends PrettyPrinterAbstract
 
     protected function pExpr_Array(Expr\Array_ $node) {
         $syntax = $node->getAttribute('kind',
-            $this->options['shortArraySyntax'] ? Expr\Array_::KIND_SHORT : Expr\Array_::KIND_LONG);
+            $this->shortArraySyntax ? Expr\Array_::KIND_SHORT : Expr\Array_::KIND_LONG);
         if ($syntax === Expr\Array_::KIND_SHORT) {
             return '[' . $this->pMaybeMultiline($node->items, true) . ']';
         } else {

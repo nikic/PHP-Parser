@@ -98,6 +98,13 @@ class PhpVersion {
     }
 
     /**
+     * Whether this version supports [] array literals.
+     */
+    public function supportsShortArraySyntax(): bool {
+        return $this->id >= 50400;
+    }
+
+    /**
      * Whether this version allows "$var =& new Obj".
      */
     public function allowsAssignNewByReference(): bool {

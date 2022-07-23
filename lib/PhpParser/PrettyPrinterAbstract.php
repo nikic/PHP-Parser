@@ -99,8 +99,10 @@ abstract class PrettyPrinterAbstract
     protected $docStringEndToken;
     /** @var bool Whether semicolon namespaces can be used (i.e. no global namespace is used) */
     protected $canUseSemicolonNamespaces;
-    /** @var array Pretty printer options */
-    protected $options;
+    /** @var bool Whether to use short array syntax if the node specifies no preference */
+    protected $shortArraySyntax;
+    /** @var PhpVersion PHP version to target */
+    protected $phpVersion;
 
     /** @var TokenStream Original tokens for use in format-preserving pretty print */
     protected $origTokens;
@@ -139,16 +141,23 @@ abstract class PrettyPrinterAbstract
      * Creates a pretty printer instance using the given options.
      *
      * Supported options:
-     *  * bool $shortArraySyntax = false: Whether to use [] instead of array() as the default array
-     *                                    syntax, if the node does not specify a format.
+     *  * PhpVersion $phpVersion: The PHP version to target (default to PHP 7.0). This option
+     *                            controls compatibility of the generated code with older PHP
+     *                            versions in cases where a simple stylistic choice exists (e.g.
+     *                            array() vs []). It is safe to pretty-print an AST for a newer
+     *                            PHP version while specifying an older target (but the result will
+     *                            of course not be compatible with the older version in that case).
+     *  * bool $shortArraySyntax: Whether to use [] instead of array() as the default array
+     *                            syntax, if the node does not specify a format. Defaults to whether
+     *                            the phpVersion support short array syntax.
      *
      * @param array $options Dictionary of formatting options
      */
     public function __construct(array $options = []) {
         $this->docStringEndToken = '_DOC_STRING_END_' . mt_rand();
-
-        $defaultOptions = ['shortArraySyntax' => false];
-        $this->options = $options + $defaultOptions;
+        $this->phpVersion = $options['phpVersion'] ?? PhpVersion::fromComponents(7, 0);
+        $this->shortArraySyntax =
+            $options['shortArraySyntax'] ?? $this->phpVersion->supportsShortArraySyntax();
     }
 
     /**
