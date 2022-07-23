@@ -2040,7 +2040,7 @@ class Php8 extends \PhpParser\ParserAbstract
                  $this->semValue = $this->semStack[$stackPos-(1-1)];
             },
             295 => function ($stackPos) {
-                 $this->semValue = $this->semStack[$stackPos-(3-2)];
+                 $this->semValue = new Node\IntersectionType($this->semStack[$stackPos-(3-2)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
             },
             296 => function ($stackPos) {
                  $this->semValue = array($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)]);
@@ -2052,7 +2052,7 @@ class Php8 extends \PhpParser\ParserAbstract
                  $this->semValue = $this->semStack[$stackPos-(1-1)];
             },
             299 => function ($stackPos) {
-                 $this->semValue = $this->semStack[$stackPos-(3-2)];
+                 $this->semValue = new Node\IntersectionType($this->semStack[$stackPos-(3-2)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
             },
             300 => function ($stackPos) {
                  $this->semValue = array($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)]);

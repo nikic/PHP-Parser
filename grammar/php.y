@@ -705,7 +705,7 @@ type_without_static:
 
 union_type_element:
                 type { $$ = $1; }
-        |        '(' intersection_type ')' { $$ = $2; }
+        |        '(' intersection_type ')' { $$ = Node\IntersectionType[$2]; }
 ;
 
 union_type:
@@ -715,7 +715,7 @@ union_type:
 
 union_type_without_static_element:
                 type_without_static { $$ = $1; }
-        |        '(' intersection_type_without_static ')' { $$ = $2; }
+        |        '(' intersection_type_without_static ')' { $$ = Node\IntersectionType[$2]; }
 ;
 
 union_type_without_static:

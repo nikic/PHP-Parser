@@ -26,27 +26,31 @@ array(
                 flags: MODIFIER_PUBLIC (1)
                 type: UnionType(
                     types: array(
-                        0: array(
-                            0: Name(
-                                parts: array(
-                                    0: A
+                        0: IntersectionType(
+                            types: array(
+                                0: Name(
+                                    parts: array(
+                                        0: A
+                                    )
                                 )
-                            )
-                            1: Name(
-                                parts: array(
-                                    0: B
+                                1: Name(
+                                    parts: array(
+                                        0: B
+                                    )
                                 )
                             )
                         )
-                        1: array(
-                            0: Name(
-                                parts: array(
-                                    0: X
+                        1: IntersectionType(
+                            types: array(
+                                0: Name(
+                                    parts: array(
+                                        0: X
+                                    )
                                 )
-                            )
-                            1: Name(
-                                parts: array(
-                                    0: Y
+                                1: Name(
+                                    parts: array(
+                                        0: Y
+                                    )
                                 )
                             )
                         )
@@ -77,27 +81,31 @@ array(
                 flags: 0
                 type: UnionType(
                     types: array(
-                        0: array(
-                            0: Name(
-                                parts: array(
-                                    0: A
+                        0: IntersectionType(
+                            types: array(
+                                0: Name(
+                                    parts: array(
+                                        0: A
+                                    )
                                 )
-                            )
-                            1: Name(
-                                parts: array(
-                                    0: B
+                                1: Name(
+                                    parts: array(
+                                        0: B
+                                    )
                                 )
                             )
                         )
-                        1: array(
-                            0: Name(
-                                parts: array(
-                                    0: X
+                        1: IntersectionType(
+                            types: array(
+                                0: Name(
+                                    parts: array(
+                                        0: X
+                                    )
                                 )
-                            )
-                            1: Name(
-                                parts: array(
-                                    0: Y
+                                1: Name(
+                                    parts: array(
+                                        0: Y
+                                    )
                                 )
                             )
                         )
@@ -113,27 +121,31 @@ array(
         )
         returnType: UnionType(
             types: array(
-                0: array(
-                    0: Name(
-                        parts: array(
-                            0: A
+                0: IntersectionType(
+                    types: array(
+                        0: Name(
+                            parts: array(
+                                0: A
+                            )
                         )
-                    )
-                    1: Name(
-                        parts: array(
-                            0: B
+                        1: Name(
+                            parts: array(
+                                0: B
+                            )
                         )
                     )
                 )
-                1: array(
-                    0: Name(
-                        parts: array(
-                            0: X
+                1: IntersectionType(
+                    types: array(
+                        0: Name(
+                            parts: array(
+                                0: X
+                            )
                         )
-                    )
-                    1: Name(
-                        parts: array(
-                            0: Y
+                        1: Name(
+                            parts: array(
+                                0: Y
+                            )
                         )
                     )
                 )
