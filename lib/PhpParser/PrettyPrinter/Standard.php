@@ -236,63 +236,63 @@ class Standard extends PrettyPrinterAbstract
     // Assignments
 
     protected function pExpr_Assign(Expr\Assign $node) {
-        return $this->pInfixOp(Expr\Assign::class, $node->var, ' = ', $node->expr);
+        return $this->pPrefixOp(Expr\Assign::class, $this->p($node->var) . ' = ', $node->expr);
     }
 
     protected function pExpr_AssignRef(Expr\AssignRef $node) {
-        return $this->pInfixOp(Expr\AssignRef::class, $node->var, ' =& ', $node->expr);
+        return $this->pPrefixOp(Expr\AssignRef::class, $this->p($node->var) . ' =& ', $node->expr);
     }
 
     protected function pExpr_AssignOp_Plus(AssignOp\Plus $node) {
-        return $this->pInfixOp(AssignOp\Plus::class, $node->var, ' += ', $node->expr);
+        return $this->pPrefixOp(AssignOp\Plus::class, $this->p($node->var) . ' += ', $node->expr);
     }
 
     protected function pExpr_AssignOp_Minus(AssignOp\Minus $node) {
-        return $this->pInfixOp(AssignOp\Minus::class, $node->var, ' -= ', $node->expr);
+        return $this->pPrefixOp(AssignOp\Minus::class, $this->p($node->var) . ' -= ', $node->expr);
     }
 
     protected function pExpr_AssignOp_Mul(AssignOp\Mul $node) {
-        return $this->pInfixOp(AssignOp\Mul::class, $node->var, ' *= ', $node->expr);
+        return $this->pPrefixOp(AssignOp\Mul::class, $this->p($node->var) . ' *= ', $node->expr);
     }
 
     protected function pExpr_AssignOp_Div(AssignOp\Div $node) {
-        return $this->pInfixOp(AssignOp\Div::class, $node->var, ' /= ', $node->expr);
+        return $this->pPrefixOp(AssignOp\Div::class, $this->p($node->var) . ' /= ', $node->expr);
     }
 
     protected function pExpr_AssignOp_Concat(AssignOp\Concat $node) {
-        return $this->pInfixOp(AssignOp\Concat::class, $node->var, ' .= ', $node->expr);
+        return $this->pPrefixOp(AssignOp\Concat::class, $this->p($node->var) . ' .= ', $node->expr);
     }
 
     protected function pExpr_AssignOp_Mod(AssignOp\Mod $node) {
-        return $this->pInfixOp(AssignOp\Mod::class, $node->var, ' %= ', $node->expr);
+        return $this->pPrefixOp(AssignOp\Mod::class, $this->p($node->var) . ' %= ', $node->expr);
     }
 
     protected function pExpr_AssignOp_BitwiseAnd(AssignOp\BitwiseAnd $node) {
-        return $this->pInfixOp(AssignOp\BitwiseAnd::class, $node->var, ' &= ', $node->expr);
+        return $this->pPrefixOp(AssignOp\BitwiseAnd::class, $this->p($node->var) . ' &= ', $node->expr);
     }
 
     protected function pExpr_AssignOp_BitwiseOr(AssignOp\BitwiseOr $node) {
-        return $this->pInfixOp(AssignOp\BitwiseOr::class, $node->var, ' |= ', $node->expr);
+        return $this->pPrefixOp(AssignOp\BitwiseOr::class, $this->p($node->var) . ' |= ', $node->expr);
     }
 
     protected function pExpr_AssignOp_BitwiseXor(AssignOp\BitwiseXor $node) {
-        return $this->pInfixOp(AssignOp\BitwiseXor::class, $node->var, ' ^= ', $node->expr);
+        return $this->pPrefixOp(AssignOp\BitwiseXor::class, $this->p($node->var) . ' ^= ', $node->expr);
     }
 
     protected function pExpr_AssignOp_ShiftLeft(AssignOp\ShiftLeft $node) {
-        return $this->pInfixOp(AssignOp\ShiftLeft::class, $node->var, ' <<= ', $node->expr);
+        return $this->pPrefixOp(AssignOp\ShiftLeft::class, $this->p($node->var) . ' <<= ', $node->expr);
     }
 
     protected function pExpr_AssignOp_ShiftRight(AssignOp\ShiftRight $node) {
-        return $this->pInfixOp(AssignOp\ShiftRight::class, $node->var, ' >>= ', $node->expr);
+        return $this->pPrefixOp(AssignOp\ShiftRight::class, $this->p($node->var) . ' >>= ', $node->expr);
     }
 
     protected function pExpr_AssignOp_Pow(AssignOp\Pow $node) {
-        return $this->pInfixOp(AssignOp\Pow::class, $node->var, ' **= ', $node->expr);
+        return $this->pPrefixOp(AssignOp\Pow::class, $this->p($node->var) . ' **= ', $node->expr);
     }
 
     protected function pExpr_AssignOp_Coalesce(AssignOp\Coalesce $node) {
-        return $this->pInfixOp(AssignOp\Coalesce::class, $node->var, ' ??= ', $node->expr);
+        return $this->pPrefixOp(AssignOp\Coalesce::class, $this->p($node->var) . ' ??= ', $node->expr);
     }
 
     // Binary expressions

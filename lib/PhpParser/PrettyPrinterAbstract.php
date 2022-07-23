@@ -63,7 +63,6 @@ abstract class PrettyPrinterAbstract
         BinaryOp\BooleanOr::class      => [130, -1],
         BinaryOp\Coalesce::class       => [140,  1],
         Expr\Ternary::class            => [150,  0],
-        // parser uses %left for assignments, but they really behave as %right
         Expr\Assign::class             => [160,  1],
         Expr\AssignRef::class          => [160,  1],
         AssignOp\Plus::class           => [160,  1],
@@ -335,20 +334,6 @@ abstract class PrettyPrinterAbstract
     protected function pPrefixOp(string $class, string $operatorString, Node $node) : string {
         list($precedence, $associativity) = $this->precedenceMap[$class];
         return $operatorString . $this->pPrec($node, $precedence, $associativity, 1);
-    }
-
-    /**
-     * Pretty-print a postfix operation while taking precedence into account.
-     *
-     * @param string $class          Node class of operator
-     * @param string $operatorString String representation of the operator
-     * @param Node   $node           Node
-     *
-     * @return string Pretty printed postfix operation
-     */
-    protected function pPostfixOp(string $class, Node $node, string $operatorString) : string {
-        list($precedence, $associativity) = $this->precedenceMap[$class];
-        return $this->pPrec($node, $precedence, $associativity, -1) . $operatorString;
     }
 
     /**
@@ -1222,24 +1207,15 @@ abstract class PrettyPrinterAbstract
             ];
         }
 
-        $assignOps = [
-            Expr\Assign::class, Expr\AssignRef::class, AssignOp\Plus::class, AssignOp\Minus::class,
-            AssignOp\Mul::class, AssignOp\Div::class, AssignOp\Concat::class, AssignOp\Mod::class,
-            AssignOp\BitwiseAnd::class, AssignOp\BitwiseOr::class, AssignOp\BitwiseXor::class,
-            AssignOp\ShiftLeft::class, AssignOp\ShiftRight::class, AssignOp\Pow::class, AssignOp\Coalesce::class
-        ];
-        foreach ($assignOps as $assignOp) {
-            $this->fixupMap[$assignOp] = [
-                'var' => self::FIXUP_PREC_LEFT,
-                'expr' => self::FIXUP_PREC_RIGHT,
-            ];
-        }
-
         $prefixOps = [
             Expr\BitwiseNot::class, Expr\BooleanNot::class, Expr\UnaryPlus::class, Expr\UnaryMinus::class,
             Cast\Int_::class, Cast\Double::class, Cast\String_::class, Cast\Array_::class,
             Cast\Object_::class, Cast\Bool_::class, Cast\Unset_::class, Expr\ErrorSuppress::class,
             Expr\YieldFrom::class, Expr\Print_::class, Expr\Include_::class,
+            Expr\Assign::class, Expr\AssignRef::class, AssignOp\Plus::class, AssignOp\Minus::class,
+            AssignOp\Mul::class, AssignOp\Div::class, AssignOp\Concat::class, AssignOp\Mod::class,
+            AssignOp\BitwiseAnd::class, AssignOp\BitwiseOr::class, AssignOp\BitwiseXor::class,
+            AssignOp\ShiftLeft::class, AssignOp\ShiftRight::class, AssignOp\Pow::class, AssignOp\Coalesce::class
         ];
         foreach ($prefixOps as $prefixOp) {
             $this->fixupMap[$prefixOp] = ['expr' => self::FIXUP_PREC_RIGHT];
