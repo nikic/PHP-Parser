@@ -29,7 +29,7 @@ abstract class ParserAbstract implements Parser
 
     /** @var Lexer Lexer that is used when parsing */
     protected $lexer;
-    /** @var int PHP version ID to target on a best-effort basis (e.g. 80100) */
+    /** @var PhpVersion PHP version to target on a best-effort basis */
     protected $phpVersion;
 
     /*
@@ -128,29 +128,21 @@ abstract class ParserAbstract implements Parser
      * Creates a parser instance.
      *
      * Options:
-     *  * phpVersion: ?string, defaults to latest supported. This option is best-effort: Even if
-     *    specified, parsing will generally assume the latest supported version and only adjust
-     *    behavior in minor ways, for example by omitting errors in older versions and
-     *    interpreting type hints as a name or identifier depending on version.
+     *  * phpVersion: ?PhpVersion,
      *
      * @param Lexer $lexer A lexer
-     * @param array $options Options array.
+     * @param PhpVersion $phpVersion PHP version to target, defaults to latest supported. This
+     *        option is best-effort: Even if specified, parsing will generally assume the latest
+     *        supported version and only adjust behavior in minor ways, for example by omitting
+     *        errors in older versions and interpreting type hints as a name or identifier depending
+     *        on version.
      */
-    public function __construct(Lexer $lexer, array $options = []) {
+    public function __construct(Lexer $lexer, ?PhpVersion $phpVersion = null) {
         $this->lexer = $lexer;
-        $phpVersion = $options['phpVersion'] ?? null;
-        $this->phpVersion = $phpVersion ? $this->parseVersion($phpVersion) : 80200;
+        $this->phpVersion = $phpVersion ?? PhpVersion::getNewestSupported();
 
         $this->initReduceCallbacks();
         $this->phpTokenToSymbol = $this->createTokenMap();
-    }
-
-    private function parseVersion(string $version): int {
-        if (!preg_match('/^(\d+)\.(\d+)/', $version, $matches)) {
-            throw new \LogicException("Invalid PHP version \"$version\"");
-        }
-
-        return $matches[1] * 10000 + $matches[2] * 100;
     }
 
     /**
@@ -614,28 +606,12 @@ abstract class ParserAbstract implements Parser
     }
 
     protected function handleBuiltinTypes(Name $name) {
-        $builtinTypes = [
-            'bool'     => 70000,
-            'int'      => 70000,
-            'float'    => 70000,
-            'string'   => 70000,
-            'iterable' => 70100,
-            'void'     => 70100,
-            'object'   => 70200,
-            'null'     => 80000,
-            'false'    => 80000,
-            'mixed'    => 80000,
-            'never'    => 80100,
-            'true'     => 80200,
-        ];
-
         if (!$name->isUnqualified()) {
             return $name;
         }
 
         $lowerName = $name->toLowerString();
-        $minVersion = $builtinTypes[$lowerName] ?? null;
-        if ($minVersion === null || $this->phpVersion < $minVersion) {
+        if (!$this->phpVersion->supportsBuiltinType($lowerName)) {
             return $name;
         }
 

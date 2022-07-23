@@ -17,31 +17,34 @@ use PhpParser\Lexer\TokenEmulator\NumericLiteralSeparatorEmulator;
 use PhpParser\Lexer\TokenEmulator\ReadonlyTokenEmulator;
 use PhpParser\Lexer\TokenEmulator\ReverseEmulator;
 use PhpParser\Lexer\TokenEmulator\TokenEmulator;
+use PhpParser\PhpVersion;
 
 class Emulative extends Lexer
 {
-    public const PHP_7_3 = '7.3dev';
-    public const PHP_7_4 = '7.4dev';
-    public const PHP_8_0 = '8.0dev';
-    public const PHP_8_1 = '8.1dev';
-
     /** @var mixed[] Patches used to reverse changes introduced in the code */
     private $patches = [];
 
     /** @var TokenEmulator[] */
     private $emulators = [];
 
-    /** @var string */
+    /** @var PhpVersion */
     private $targetPhpVersion;
+    /** @var PhpVersion */
+    private $hostPhpVersion;
 
     /**
-     * @param mixed[] $options Lexer options. In addition to the usual options,
-     *                         accepts a 'phpVersion' string that specifies the
+     * @param mixed[] $options Lexer options. In addition to the usual options, accepts a
+     *                         'phpVersion' (PhpVersion object or string) that specifies the
      *                         version to emulate. Defaults to newest supported.
      */
     public function __construct(array $options = [])
     {
-        $this->targetPhpVersion = $options['phpVersion'] ?? Emulative::PHP_8_1;
+        $version = $options['phpVersion'] ?? PhpVersion::getNewestSupported();
+        if (!$version instanceof PhpVersion) {
+            $version = PhpVersion::fromString($version);
+        }
+        $this->targetPhpVersion = $version;
+        $this->hostPhpVersion = PhpVersion::getHostVersion();
         unset($options['phpVersion']);
 
         parent::__construct($options);
@@ -105,14 +108,14 @@ class Emulative extends Lexer
         }
     }
 
-    private function isForwardEmulationNeeded(string $emulatorPhpVersion): bool {
-        return version_compare(\PHP_VERSION, $emulatorPhpVersion, '<')
-            && version_compare($this->targetPhpVersion, $emulatorPhpVersion, '>=');
+    private function isForwardEmulationNeeded(PhpVersion $emulatorPhpVersion): bool {
+        return $this->hostPhpVersion->older($emulatorPhpVersion)
+            && $this->targetPhpVersion->newerOrEqual($emulatorPhpVersion);
     }
 
-    private function isReverseEmulationNeeded(string $emulatorPhpVersion): bool {
-        return version_compare(\PHP_VERSION, $emulatorPhpVersion, '>=')
-            && version_compare($this->targetPhpVersion, $emulatorPhpVersion, '<');
+    private function isReverseEmulationNeeded(PhpVersion $emulatorPhpVersion): bool {
+        return $this->hostPhpVersion->newerOrEqual($emulatorPhpVersion)
+            && $this->targetPhpVersion->older($emulatorPhpVersion);
     }
 
     private function sortPatches()

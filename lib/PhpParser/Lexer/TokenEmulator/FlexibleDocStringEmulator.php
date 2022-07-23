@@ -2,7 +2,7 @@
 
 namespace PhpParser\Lexer\TokenEmulator;
 
-use PhpParser\Lexer\Emulative;
+use PhpParser\PhpVersion;
 
 final class FlexibleDocStringEmulator extends TokenEmulator
 {
@@ -12,9 +12,9 @@ final class FlexibleDocStringEmulator extends TokenEmulator
 (?<indentation>\h*)\2(?![a-zA-Z0-9_\x80-\xff])(?<separator>(?:;?[\r\n])?)/x
 REGEX;
 
-    public function getPhpVersion(): string
+    public function getPhpVersion(): PhpVersion
     {
-        return Emulative::PHP_7_3;
+        return PhpVersion::fromComponents(7, 3);
     }
 
     public function isEmulationNeeded(string $code) : bool

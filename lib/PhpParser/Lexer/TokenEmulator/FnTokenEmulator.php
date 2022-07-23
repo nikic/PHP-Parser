@@ -2,13 +2,13 @@
 
 namespace PhpParser\Lexer\TokenEmulator;
 
-use PhpParser\Lexer\Emulative;
+use PhpParser\PhpVersion;
 
 final class FnTokenEmulator extends KeywordEmulator
 {
-    public function getPhpVersion(): string
+    public function getPhpVersion(): PhpVersion
     {
-        return Emulative::PHP_7_4;
+        return PhpVersion::fromComponents(7, 4);
     }
 
     public function getKeywordString(): string

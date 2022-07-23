@@ -928,7 +928,7 @@ expr:
     | variable '=' ampersand variable                       { $$ = Expr\AssignRef[$1, $4]; }
     | variable '=' ampersand new_expr
           { $$ = Expr\AssignRef[$1, $4];
-            if ($this->phpVersion >= 70000) {
+            if (!$this->phpVersion->allowsAssignNewByReference()) {
                 $this->emitError(new Error('Cannot assign new by reference', attributes()));
             }
           }
@@ -1156,7 +1156,7 @@ dereferencable_scalar:
 
 scalar:
       T_LNUMBER
-          { $$ = $this->parseLNumber($1, attributes(), $this->phpVersion < 70000); }
+          { $$ = $this->parseLNumber($1, attributes(), $this->phpVersion->allowsInvalidOctals()); }
     | T_DNUMBER                                             { $$ = Scalar\DNumber::fromString($1, attributes()); }
     | dereferencable_scalar                                 { $$ = $1; }
     | constant                                              { $$ = $1; }

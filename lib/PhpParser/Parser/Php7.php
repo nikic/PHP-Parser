@@ -2307,7 +2307,7 @@ class Php7 extends \PhpParser\ParserAbstract
             },
             383 => function ($stackPos) {
                  $this->semValue = new Expr\AssignRef($this->semStack[$stackPos-(4-1)], $this->semStack[$stackPos-(4-4)], $this->startAttributeStack[$stackPos-(4-1)] + $this->endAttributes);
-            if ($this->phpVersion >= 70000) {
+            if (!$this->phpVersion->allowsAssignNewByReference()) {
                 $this->emitError(new Error('Cannot assign new by reference', $this->startAttributeStack[$stackPos-(4-1)] + $this->endAttributes));
             }
 
@@ -2726,7 +2726,7 @@ class Php7 extends \PhpParser\ParserAbstract
             foreach ($this->semStack[$stackPos-(3-2)] as $s) { if ($s instanceof Node\Scalar\EncapsedStringPart) { $s->value = Node\Scalar\String_::parseEscapeSequences($s->value, '"', true); } }; $this->semValue = new Scalar\Encapsed($this->semStack[$stackPos-(3-2)], $attrs);
             },
             519 => function ($stackPos) {
-                 $this->semValue = $this->parseLNumber($this->semStack[$stackPos-(1-1)], $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes, $this->phpVersion < 70000);
+                 $this->semValue = $this->parseLNumber($this->semStack[$stackPos-(1-1)], $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes, $this->phpVersion->allowsInvalidOctals());
             },
             520 => function ($stackPos) {
                  $this->semValue = Scalar\DNumber::fromString($this->semStack[$stackPos-(1-1)], $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);

@@ -2,12 +2,13 @@
 
 namespace PhpParser\Lexer\TokenEmulator;
 
+use PhpParser\PhpVersion;
 use PhpParser\Token;
 
 /** @internal */
 abstract class TokenEmulator
 {
-    abstract public function getPhpVersion(): string;
+    abstract public function getPhpVersion(): PhpVersion;
 
     abstract public function isEmulationNeeded(string $code): bool;
 

@@ -7,9 +7,9 @@ PHP-Parser now requires PHP 7.1 or newer to run. It is however still possible to
 
 ### PHP 5 parsing support
 
-The dedicated parser for PHP 5 has been removed. The PHP 7 parser now supports a `phpVersion` option, which can be used to improve compatibility with older PHP versions.
+The dedicated parser for PHP 5 has been removed. The PHP 7 parser now accepts a `PhpVersion` argument, which can be used to improve compatibility with older PHP versions.
 
-In particular, if an older `phpVersion` is specified, then:
+In particular, if an older `PhpVersion` is specified, then:
 
  * For versions before PHP 7.0, `$foo =& new Bar()` assignments are allowed without error.
  * For versions before PHP 7.0, invalid octal literals `089` are allowed without error.
@@ -43,6 +43,8 @@ For example, if you specify version `"8.0"`, then `class ReadOnly {}` is treated
 
 ```php
 use PhpParser\ParserFactory;
+use PhpParser\PhpVersion;
+
 $factory = new ParserFactory;
 
 # Before
@@ -56,7 +58,7 @@ $parser = $factory->createForHostVersion();
 # Before
 $parser = $factory->create(ParserFactory::ONLY_PHP5);
 # After (supported on a best-effort basis)
-$parser = $factory->createForVersion("5.6");
+$parser = $factory->createForVersion(PhpVersion::fromString("5.6"));
 ```
 
 ### Renamed nodes

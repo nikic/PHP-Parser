@@ -39,8 +39,10 @@ class CodeParsingTest extends CodeTestAbstract
 
     public function createParser(?string $version): Parser {
         $factory = new ParserFactory();
+        $version = $version === null
+            ? PhpVersion::getNewestSupported() : PhpVersion::fromString($version);
         return $factory->createForVersion(
-            $version ?? $factory->getNewestSupportedVersion(),
+            $version,
             ['usedAttributes' => [
                 'startLine', 'endLine',
                 'startFilePos', 'endFilePos',
