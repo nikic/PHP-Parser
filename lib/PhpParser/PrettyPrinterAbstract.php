@@ -27,10 +27,6 @@ abstract class PrettyPrinterAbstract
         // where for precedence -1 is %left, 0 is %nonassoc and 1 is %right
         BinaryOp\Pow::class            => [  0,  1],
         Expr\BitwiseNot::class         => [ 10,  1],
-        Expr\PreInc::class             => [ 10,  1],
-        Expr\PreDec::class             => [ 10,  1],
-        Expr\PostInc::class            => [ 10, -1],
-        Expr\PostDec::class            => [ 10, -1],
         Expr\UnaryPlus::class          => [ 10,  1],
         Expr\UnaryMinus::class         => [ 10,  1],
         Cast\Int_::class               => [ 10,  1],
@@ -1169,10 +1165,6 @@ abstract class PrettyPrinterAbstract
         if ($this->fixupMap) return;
 
         $this->fixupMap = [
-            Expr\PreInc::class => ['var' => self::FIXUP_PREC_RIGHT],
-            Expr\PreDec::class => ['var' => self::FIXUP_PREC_RIGHT],
-            Expr\PostInc::class => ['var' => self::FIXUP_PREC_LEFT],
-            Expr\PostDec::class => ['var' => self::FIXUP_PREC_LEFT],
             Expr\Instanceof_::class => [
                 'expr' => self::FIXUP_PREC_LEFT,
                 'class' => self::FIXUP_PREC_RIGHT, // TODO: FIXUP_NEW_VARIABLE

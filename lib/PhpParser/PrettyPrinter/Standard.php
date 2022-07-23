@@ -439,19 +439,19 @@ class Standard extends PrettyPrinterAbstract
     }
 
     protected function pExpr_PreInc(Expr\PreInc $node) {
-        return $this->pPrefixOp(Expr\PreInc::class, '++', $node->var);
+        return '++' . $this->p($node->var);
     }
 
     protected function pExpr_PreDec(Expr\PreDec $node) {
-        return $this->pPrefixOp(Expr\PreDec::class, '--', $node->var);
+        return '--' . $this->p($node->var);
     }
 
     protected function pExpr_PostInc(Expr\PostInc $node) {
-        return $this->pPostfixOp(Expr\PostInc::class, $node->var, '++');
+        return $this->p($node->var) . '++';
     }
 
     protected function pExpr_PostDec(Expr\PostDec $node) {
-        return $this->pPostfixOp(Expr\PostDec::class, $node->var, '--');
+        return $this->p($node->var) . '--';
     }
 
     protected function pExpr_ErrorSuppress(Expr\ErrorSuppress $node) {

@@ -44,7 +44,7 @@ print ($a and print $b);
 +(++$a);
 
 // The following will currently add unnecessary parentheses, because the pretty printer is not aware that assignment
-// and incdec only work on variables.
+// only works on variables.
 !$a = $b;
 ++$a ** $b;
 $a ** $b++;
@@ -80,7 +80,7 @@ print ($a and print $b);
 -(--$a);
 +(++$a);
 // The following will currently add unnecessary parentheses, because the pretty printer is not aware that assignment
-// and incdec only work on variables.
+// only works on variables.
 !($a = $b);
-(++$a) ** $b;
-$a ** ($b++);
+++$a ** $b;
+$a ** $b++;
