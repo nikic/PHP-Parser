@@ -48,6 +48,7 @@ print ($a and print $b);
 !$a = $b;
 ++$a ** $b;
 $a ** $b++;
+$a . ($b = $c) . $d;
 -----
 echo 'abc' . 'cde' . 'fgh';
 echo 'abc' . ('cde' . 'fgh');
@@ -84,3 +85,4 @@ print ($a and print $b);
 !($a = $b);
 ++$a ** $b;
 $a ** $b++;
+$a . ($b = $c) . $d;
