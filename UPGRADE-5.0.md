@@ -109,6 +109,23 @@ function () use ($var) {
 };
 ```
 
+Backslashes in single-quoted strings are now only printed if they are necessary:
+
+```php
+# Before
+'Foo\\Bar';
+'\\\\';
+
+# After
+'Foo\Bar';
+'\\\\';
+```
+
+The pretty printer now accepts a `phpVersion` option, which accepts a `PhpVersion` object and defaults to PHP 7.0. The pretty printer will make formatting choices to make the code valid for that version. It currently controls the following behavior:
+
+* For PHP >= 7.0 (default), short array syntax `[]` will be used by default. This does not affect nodes that specify an explicit array syntax using the `kind` attribute.
+* For PHP >= 7.3, a newline is no longer forced after heredoc/nowdoc strings, as the requirement for this has been removed with the introduction of flexible heredoc/nowdoc strings.
+
 ### Changes to token representation
 
 Tokens are now internally represented using the `PhpParser\Token` class, which exposes the same base interface as
