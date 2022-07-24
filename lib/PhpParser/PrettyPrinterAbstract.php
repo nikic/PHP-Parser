@@ -90,7 +90,8 @@ abstract class PrettyPrinterAbstract
     protected $indentLevel;
     /** @var string Newline including current indentation. */
     protected $nl;
-    /** @var string Token placed at end of doc string to ensure it is followed by a newline. */
+    /** @var string|null Token placed at end of doc string to ensure it is followed by a newline.
+     *                   Null if flexible doc strings are used. */
     protected $docStringEndToken;
     /** @var bool Whether semicolon namespaces can be used (i.e. no global namespace is used) */
     protected $canUseSemicolonNamespaces;
@@ -149,10 +150,11 @@ abstract class PrettyPrinterAbstract
      * @param array $options Dictionary of formatting options
      */
     public function __construct(array $options = []) {
-        $this->docStringEndToken = '_DOC_STRING_END_' . mt_rand();
         $this->phpVersion = $options['phpVersion'] ?? PhpVersion::fromComponents(7, 0);
         $this->shortArraySyntax =
             $options['shortArraySyntax'] ?? $this->phpVersion->supportsShortArraySyntax();
+        $this->docStringEndToken =
+            $this->phpVersion->supportsFlexibleHeredoc() ? null : '_DOC_STRING_END_' . mt_rand();
     }
 
     /**
@@ -263,10 +265,12 @@ abstract class PrettyPrinterAbstract
      * @param string $str
      * @return string
      */
-    protected function handleMagicTokens(string $str) : string {
-        // Replace doc-string-end tokens with nothing or a newline
-        $str = str_replace($this->docStringEndToken . ";\n", ";\n", $str);
-        $str = str_replace($this->docStringEndToken, "\n", $str);
+    protected function handleMagicTokens(string $str): string {
+        if ($this->docStringEndToken !== null) {
+            // Replace doc-string-end tokens with nothing or a newline
+            $str = str_replace($this->docStringEndToken . ";\n", ";\n", $str);
+            $str = str_replace($this->docStringEndToken, "\n", $str);
+        }
 
         return $str;
     }

@@ -105,6 +105,13 @@ class PhpVersion {
     }
 
     /**
+     * Whether this version supports flexible heredoc/nowdoc.
+     */
+    public function supportsFlexibleHeredoc(): bool {
+        return $this->id >= 70300;
+    }
+
+    /**
      * Whether this version allows "$var =& new Obj".
      */
     public function allowsAssignNewByReference(): bool {
