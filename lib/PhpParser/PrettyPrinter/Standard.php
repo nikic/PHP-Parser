@@ -997,7 +997,12 @@ class Standard extends PrettyPrinterAbstract
     }
 
     protected function pSingleQuotedString(string $string) {
-        return '\'' . addcslashes($string, '\'\\') . '\'';
+        // It is idiomatic to only escape backslashes when necessary, i.e. when followed by ', \ or
+        // the end of the string ('Foo\Bar' instead of 'Foo\\Bar'). However, we also don't want to
+        // produce an odd number of backslashes, so '\\\\a' should not get rendered as '\\\a', even
+        // though that would be legal.
+        $regex = '/\'|\\\\(?=[\'\\\\]|$)|(?<=\\\\)\\\\/';
+        return '\'' . preg_replace($regex, '\\\\$0', $string) . '\'';
     }
 
     protected function escapeString($string, $quote) {
