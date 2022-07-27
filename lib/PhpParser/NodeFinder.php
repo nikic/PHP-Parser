@@ -38,7 +38,7 @@ class NodeFinder
      * @return Node[] Found nodes (all instances of $class)
      */
     public function findInstanceOf($nodes, string $class) : array {
-        return $this->find($nodes, function ($node) use ($class) {
+        return $this->find($nodes, static function ($node) use ($class) {
             return $node instanceof $class;
         });
     }
@@ -74,7 +74,7 @@ class NodeFinder
      * @return null|Node Found node, which is an instance of $class (or null if none found)
      */
     public function findFirstInstanceOf($nodes, string $class): ?Node {
-        return $this->findFirst($nodes, function ($node) use ($class) {
+        return $this->findFirst($nodes, static function ($node) use ($class) {
             return $node instanceof $class;
         });
     }

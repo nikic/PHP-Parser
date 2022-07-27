@@ -38,7 +38,7 @@ class ConstExprEvaluator
      * @param callable|null $fallbackEvaluator To call if subexpression cannot be evaluated
      */
     public function __construct(?callable $fallbackEvaluator = null) {
-        $this->fallbackEvaluator = $fallbackEvaluator ?? function(Expr $expr) {
+        $this->fallbackEvaluator = $fallbackEvaluator ?? static function(Expr $expr) {
             throw new ConstExprEvaluationException(
                 "Expression of type {$expr->getType()} cannot be evaluated"
             );
@@ -63,7 +63,7 @@ class ConstExprEvaluator
      * @throws ConstExprEvaluationException if the expression cannot be evaluated or an error occurred
      */
     public function evaluateSilently(Expr $expr) {
-        set_error_handler(function($num, $str, $file, $line) {
+        set_error_handler(static function($num, $str, $file, $line) {
             throw new \ErrorException($str, 0, $num, $file, $line);
         });
 
