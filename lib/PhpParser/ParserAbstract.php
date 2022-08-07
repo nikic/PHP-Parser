@@ -21,7 +21,6 @@ use PhpParser\Node\Stmt\Namespace_;
 use PhpParser\Node\Stmt\Property;
 use PhpParser\Node\Stmt\TryCatch;
 use PhpParser\Node\Stmt\UseUse;
-use PhpParser\Parser\Tokens;
 
 abstract class ParserAbstract implements Parser
 {
