@@ -10,7 +10,7 @@ class UnionType extends ComplexType
     /**
      * Constructs a union type.
      *
-     * @param (Identifier|Name)[] $types      Types
+     * @param (Identifier|Name|IntersectionType)[] $types      Types
      * @param array               $attributes Additional attributes
      */
     public function __construct(array $types, array $attributes = []) {
