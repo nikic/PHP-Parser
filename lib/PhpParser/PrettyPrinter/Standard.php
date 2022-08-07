@@ -622,7 +622,7 @@ class Standard extends PrettyPrinterAbstract
         return $this->pAttrGroups($node->attrGroups, true)
              . ($node->static ? 'static ' : '')
              . 'function ' . ($node->byRef ? '&' : '')
-             . '(' . $this->pMaybeMultiline($node->params) . ')'
+             . '(' . $this->pMaybeMultiline($node->params, $this->phpVersion->supportsTrailingCommaInParamList()) . ')'
              . (!empty($node->uses) ? ' use (' . $this->pCommaSeparated($node->uses) . ')' : '')
              . (null !== $node->returnType ? ': ' . $this->p($node->returnType) : '')
              . ' {' . $this->pStmts($node->stmts) . $this->nl . '}';
@@ -644,7 +644,7 @@ class Standard extends PrettyPrinterAbstract
         return $this->pAttrGroups($node->attrGroups, true)
             . ($node->static ? 'static ' : '')
             . 'fn' . ($node->byRef ? '&' : '')
-            . '(' . $this->pMaybeMultiline($node->params) . ')'
+            . '(' . $this->pMaybeMultiline($node->params, $this->phpVersion->supportsTrailingCommaInParamList()) . ')'
             . (null !== $node->returnType ? ': ' . $this->p($node->returnType) : '')
             . ' => '
             . $this->p($node->expr);
@@ -797,7 +797,7 @@ class Standard extends PrettyPrinterAbstract
         return $this->pAttrGroups($node->attrGroups)
              . $this->pModifiers($node->flags)
              . 'function ' . ($node->byRef ? '&' : '') . $node->name
-             . '(' . $this->pMaybeMultiline($node->params) . ')'
+             . '(' . $this->pMaybeMultiline($node->params, $this->phpVersion->supportsTrailingCommaInParamList()) . ')'
              . (null !== $node->returnType ? ': ' . $this->p($node->returnType) : '')
              . (null !== $node->stmts
                 ? $this->nl . '{' . $this->pStmts($node->stmts) . $this->nl . '}'
@@ -813,7 +813,7 @@ class Standard extends PrettyPrinterAbstract
     protected function pStmt_Function(Stmt\Function_ $node) {
         return $this->pAttrGroups($node->attrGroups)
              . 'function ' . ($node->byRef ? '&' : '') . $node->name
-             . '(' . $this->pMaybeMultiline($node->params) . ')'
+             . '(' . $this->pMaybeMultiline($node->params, $this->phpVersion->supportsTrailingCommaInParamList()) . ')'
              . (null !== $node->returnType ? ': ' . $this->p($node->returnType) : '')
              . $this->nl . '{' . $this->pStmts($node->stmts) . $this->nl . '}';
     }

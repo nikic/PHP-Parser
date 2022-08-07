@@ -51,3 +51,56 @@ fn(
     // Comment
     $param
 ) => 42;
+-----
+<?php
+
+class Test {
+    function test(
+        // Comment
+        $param
+    ) {
+    }
+}
+
+function test(
+    // Comment
+    $param
+) {
+}
+
+function(
+    // Comment
+    $param
+) {
+};
+
+fn(
+    // Comment
+    $param
+) => 42;
+-----
+!!version=8.0
+class Test
+{
+    function test(
+        // Comment
+        $param,
+    )
+    {
+    }
+}
+function test(
+    // Comment
+    $param,
+)
+{
+}
+function (
+    // Comment
+    $param,
+) {
+};
+fn(
+    // Comment
+    $param,
+) => 42;

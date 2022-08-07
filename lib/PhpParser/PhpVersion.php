@@ -112,6 +112,13 @@ class PhpVersion {
     }
 
     /**
+     * Whether this version supports trailing commas in parameter lists.
+     */
+    public function supportsTrailingCommaInParamList(): bool {
+        return $this->id >= 80000;
+    }
+
+    /**
      * Whether this version allows "$var =& new Obj".
      */
     public function allowsAssignNewByReference(): bool {
