@@ -1,0 +1,36 @@
+<?php declare(strict_types=1);
+
+namespace PhpParser\PrettyPrinter;
+
+use PhpParser\Node\Stmt;
+
+/**
+ * Prints PHP stubs.
+ */
+class Stub extends Standard
+{
+    protected function pStmt_ClassMethod(Stmt\ClassMethod $node) : string {
+        // no method body
+        return $this->pAttrGroups($node->attrGroups)
+             . $this->pModifiers($node->flags)
+             . 'function ' . ($node->byRef ? '&' : '') . $node->name
+             . '(' . $this->pMaybeMultiline($node->params) . ')'
+             . (null !== $node->returnType ? ': ' . $this->p($node->returnType) : '')
+             . (null !== $node->stmts ? ' {}' : ';');
+    }
+
+    protected function pStmt_Function(Stmt\Function_ $node) : string {
+        // no function body
+        return $this->pAttrGroups($node->attrGroups)
+             . 'function ' . ($node->byRef ? '&' : '') . $node->name
+             . '(' . $this->pMaybeMultiline($node->params) . ')'
+             . (null !== $node->returnType ? ': ' . $this->p($node->returnType) : '')
+             . ' {}';
+    }
+
+    protected function pComments(array $comments) : string {
+        // no extra comments
+        $comment = end($comments);
+        return str_replace(["\r\n", "\n"], $this->nl, $comment->getReformattedText());
+    }
+}
