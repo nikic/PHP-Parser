@@ -147,7 +147,7 @@ class Comment implements \JsonSerializable
      * without trailing whitespace on the first line, but with trailing whitespace
      * on all subsequent lines.
      *
-     * @return string|null
+     * @return string
      */
     public function getReformattedText() {
         if ($this->startLine === $this->endLine) {
@@ -163,7 +163,7 @@ class Comment implements \JsonSerializable
             //      */
             //
             // is handled by replacing the whitespace sequences before the * by a single space
-            return preg_replace('(^\s+\*)m', ' *', $this->text);
+            return (string) preg_replace('(^\s+\*)m', ' *', $this->text);
         }
         if (preg_match('(^/\*\*?\s*[\r\n])', $this->text) && preg_match('(\n(\s*)\*/$)', $this->text, $matches)) {
             // Multi line comment of the type
@@ -176,7 +176,7 @@ class Comment implements \JsonSerializable
             // is handled by removing the whitespace sequence on the line before the closing
             // */ on all lines. So if the last line is "    */", then "    " is removed at the
             // start of all lines.
-            return preg_replace('(^' . preg_quote($matches[1]) . ')m', '', $this->text);
+            return (string) preg_replace('(^' . preg_quote($matches[1]) . ')m', '', $this->text);
         }
         if (preg_match('(^/\*\*?\s*(?!\s))', $this->text, $matches)) {
             // Multi line comment of the type
@@ -190,7 +190,7 @@ class Comment implements \JsonSerializable
             // lines and the length of the "/* " opening sequence.
             $prefixLen = $this->getShortestWhitespacePrefixLen(explode("\n", $this->text, 2)[1]);
             $removeLen = $prefixLen - strlen($matches[0]);
-            return preg_replace('(^\s{' . $removeLen . '})m', '', $this->text);
+            return (string) preg_replace('(^\s{' . $removeLen . '})m', '', $this->text);
         }
 
         // No idea how to format this comment, so simply return as is
