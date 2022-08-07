@@ -150,7 +150,7 @@ class Comment implements \JsonSerializable
      * @return string|null
      */
     public function getReformattedText() {
-        if (0 < ($this->endLine - $this->startLine)) {
+        if ($this->startLine === $this->endLine) {
             // Single line comments don't need further processing
             return $this->text;
         }
