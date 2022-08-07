@@ -150,9 +150,9 @@ class Comment implements \JsonSerializable
      * @return string
      */
     public function getReformattedText() {
-        if ($this->startLine === $this->endLine) {
+        if ($this->startLine === $this->endLine && $this->endLine !== -1) {
             // Single line comments don't need further processing
-            return $this->text;
+            return trim($this->text);
         }
         if (preg_match('((*BSR_ANYCRLF)(*ANYCRLF)^.*(?:\R\s+\*.*)+$)', $this->text)) {
             // Multi line comment of the type
@@ -165,7 +165,7 @@ class Comment implements \JsonSerializable
             // is handled by replacing the whitespace sequences before the * by a single space
             return (string) preg_replace('(^\s+\*)m', ' *', $this->text);
         }
-        if (preg_match('(^/\*\*?\s*[\r\n])', $this->text) && preg_match('(\n(\s*)\*/$)', $this->text, $matches)) {
+        if (preg_match('(^/\*+\s*[\r\n])', $this->text) && preg_match('(^(\s*)\*/$)m', $this->text, $matches)) {
             // Multi line comment of the type
             //
             //    /*
@@ -178,7 +178,7 @@ class Comment implements \JsonSerializable
             // start of all lines.
             return (string) preg_replace('(^' . preg_quote($matches[1]) . ')m', '', $this->text);
         }
-        if (preg_match('(^/\*\*?\s*(?!\s))', $this->text, $matches)) {
+        if (preg_match('(^/\*+\s*(?!\s))m', $this->text, $matches)) {
             // Multi line comment of the type
             //
             //     /* Some text.
@@ -209,7 +209,7 @@ class Comment implements \JsonSerializable
         $lines = explode("\n", $str);
         $shortestPrefixLen = \PHP_INT_MAX;
         foreach ($lines as $line) {
-            preg_match('(^\s*)', $line, $matches);
+            preg_match('(^\s*)m', $line, $matches);
             $prefixLen = strlen($matches[0]);
             if ($prefixLen < $shortestPrefixLen) {
                 $shortestPrefixLen = $prefixLen;
