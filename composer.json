@@ -14,7 +14,8 @@
     ],
     "require": {
         "php": ">=7.1",
-        "ext-tokenizer": "*"
+        "ext-tokenizer": "*",
+        "ext-json": "*"
     },
     "require-dev": {
         "phpunit/phpunit": "^6.5 || ^7.0 || ^8.0 || ^9.0",
