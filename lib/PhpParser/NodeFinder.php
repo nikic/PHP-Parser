@@ -34,10 +34,10 @@ class NodeFinder
 
      * @template TNode as Node
      *
-     * @param Node|Node[] $nodes    Single node or array of nodes to search in
-     * @param class-string<TNode>   $class Class name
+     * @param Node|Node[] $nodes  Single node or array of nodes to search in
+     * @param class-string<TNode> $class Class name
      *
-     * @return TNode[]              Found nodes (all instances of $class)
+     * @return TNode[]            Found nodes (all instances of $class)
      */
     public function findInstanceOf($nodes, string $class) : array {
         return $this->find($nodes, function ($node) use ($class) {
@@ -72,10 +72,10 @@ class NodeFinder
      *
      * @template TNode as Node
      *
-     * @param Node|Node[] $nodes    Single node or array of nodes to search in
-     * @param class-string<TNode>   $class Class name
+     * @param Node|Node[] $nodes  Single node or array of nodes to search in
+     * @param class-string<TNode> $class Class name
      *
-     * @return null|TNode           Found node, which is an instance of $class (or null if none found)
+     * @return null|TNode         Found node, which is an instance of $class (or null if none found)
      */
     public function findFirstInstanceOf($nodes, string $class): ?Node {
         return $this->findFirst($nodes, function ($node) use ($class) {
