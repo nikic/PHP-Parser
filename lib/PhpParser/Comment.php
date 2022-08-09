@@ -150,50 +150,47 @@ class Comment implements \JsonSerializable
      * @return string
      */
     public function getReformattedText() {
-        if ($this->startLine === $this->endLine && $this->endLine !== -1) {
-            // Single line comments don't need further processing
-            return trim($this->text);
-        }
-        if (preg_match('((*BSR_ANYCRLF)(*ANYCRLF)^.*(?:\R\s+\*.*)+$)', $this->text)) {
-            // Multi line comment of the type
-            //
-            //     /*
-            //      * Some text.
-            //      * Some more text.
-            //      */
-            //
-            // is handled by replacing the whitespace sequences before the * by a single space
-            return (string) preg_replace('(^\s+\*)m', ' *', $this->text);
-        }
-        if (preg_match('(^/\*+\s*[\r\n])', $this->text) && preg_match('(^(\s*)\*/$)m', $this->text, $matches)) {
-            // Multi line comment of the type
-            //
-            //    /*
-            //        Some text.
-            //        Some more text.
-            //    */
-            //
-            // is handled by removing the whitespace sequence on the line before the closing
-            // */ on all lines. So if the last line is "    */", then "    " is removed at the
-            // start of all lines.
-            return (string) preg_replace('(^' . preg_quote($matches[1]) . ')m', '', $this->text);
-        }
-        if (preg_match('(^/\*+\s*(?!\s))m', $this->text, $matches)) {
-            // Multi line comment of the type
-            //
-            //     /* Some text.
-            //        Some more text.
-            //          Indented text.
-            //        Even more text. */
-            //
-            // is handled by removing the difference between the shortest whitespace prefix on all
-            // lines and the length of the "/* " opening sequence.
-            $prefixLen = $this->getShortestWhitespacePrefixLen(explode("\n", $this->text, 2)[1]);
-            $removeLen = $prefixLen - strlen($matches[0]);
-            return (string) preg_replace('(^\s{' . $removeLen . '})m', '', $this->text);
+        if ($this->startLine !== $this->endLine || $this->startLine !== -1) {
+            if (preg_match('((*BSR_ANYCRLF)(*ANYCRLF)^.*(?:\R\s+\*.*)+$)m', $this->text)) {
+                // Multi line comment of the type
+                //
+                //     /*
+                //      * Some text.
+                //      * Some more text.
+                //      */
+                //
+                // is handled by replacing the whitespace sequences before the * by a single space
+                return (string) preg_replace('(^\s+\*)m', ' *', $this->text);
+            }
+            if (preg_match('(^/\*+\s*[\r\n])m', $this->text) && preg_match('(^(\s*)\*/$)m', $this->text, $matches)) {
+                // Multi line comment of the type
+                //
+                //    /*
+                //        Some text.
+                //        Some more text.
+                //    */
+                //
+                // is handled by removing the whitespace sequence on the line before the closing
+                // */ on all lines. So if the last line is "    */", then "    " is removed at the
+                // start of all lines.
+                return (string) preg_replace('(^' . preg_quote($matches[1]) . ')m', '', $this->text);
+            }
+            if (preg_match('(^/\*+\s*(?!\s))m', $this->text, $matches)) {
+                // Multi line comment of the type
+                //
+                //     /* Some text.
+                //        Some more text.
+                //          Indented text.
+                //        Even more text. */
+                //
+                // is handled by removing the difference between the shortest whitespace prefix on all
+                // lines and the length of the "/* " opening sequence.
+                $prefixLen = $this->getShortestWhitespacePrefixLen(explode("\n", $this->text, 2)[1]);
+                $removeLen = $prefixLen - strlen($matches[0]);
+                return (string) preg_replace('(^\s{' . $removeLen . '})m', '', $this->text);
+            }
         }
 
-        // No idea how to format this comment, so simply return as is
         return $this->text;
     }
 
