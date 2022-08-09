@@ -162,7 +162,7 @@ class Comment implements \JsonSerializable
                 // is handled by replacing the whitespace sequences before the * by a single space
                 return (string) preg_replace('(^\s+\*)m', ' *', $this->text);
             }
-            if (preg_match('(^/\*+\s*[\r\n])', $this->text) && preg_match('(^(\s*)\*/$)', $this->text, $matches)) {
+            if (preg_match('(^/\*+\s*[\r\n])', $this->text) && preg_match('(^(\s*)\*/$)m', $this->text, $matches)) {
                 // Multi line comment of the type
                 //
                 //    /*
@@ -175,7 +175,7 @@ class Comment implements \JsonSerializable
                 // start of all lines.
                 return (string) preg_replace('(^' . preg_quote($matches[1]) . ')m', '', $this->text);
             }
-            if (preg_match('(^/\*+\s*(?!\s))', $this->text, $matches)) {
+            if (preg_match('(^/\*+\s*(?!\s))m', $this->text, $matches)) {
                 // Multi line comment of the type
                 //
                 //     /* Some text.
