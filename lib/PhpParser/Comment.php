@@ -190,7 +190,6 @@ class Comment implements \JsonSerializable
                 return (string) preg_replace('(^\s{' . $removeLen . '})m', '', $this->text);
             }
         }
-
         return trim($this->text);
     }
 
