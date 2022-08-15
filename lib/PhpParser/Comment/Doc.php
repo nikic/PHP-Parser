@@ -28,11 +28,4 @@ class Doc extends Comment
     public function getRelatedNode() : ?Node {
         return $this->relatedNode;
     }
-
-    /**
-     * @inheritDoc
-     */
-    public function jsonSerialize() : array {
-        return ['relatedNode' => $this->relatedNode] + parent::jsonSerialize();
-    }
 }
