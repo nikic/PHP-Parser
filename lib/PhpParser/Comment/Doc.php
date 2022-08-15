@@ -25,7 +25,7 @@ class Doc extends Comment
         $this->node = $node;
     }
 
-    public function getNode() ?Node {
+    public function getNode() : ?Node {
         return $this->node;
     }
 }
