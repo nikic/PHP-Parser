@@ -11,21 +11,28 @@ use PhpParser\Node;
  */
 class Doc extends Comment
 {
-    /** @var null|Node The comment node */
-    protected $node;
+    /** @var null|Node The related node */
+    protected $relatedNode;
 
     /**
-     * @throws Error if the node not related to the comment
+     * @throws Error if the node not related to the doc comment
      */
-    public function setNode(Node $node) {
+    public function setRelatedNode(Node $node) {
         $comment = $node->getDocComment();
         if ($comment != $this) {
-            throw new Error('The node not related to the comment.', $node->getAttributes());
+            throw new Error('The node not related to the doc comment.', $node->getAttributes());
         }
-        $this->node = $node;
+        $this->relatedNode = $node;
     }
 
-    public function getNode() : ?Node {
-        return $this->node;
+    public function getRelatedNode() : ?Node {
+        return $this->relatedNode;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function jsonSerialize() : array {
+        return ['relatedNode' => $this->relatedNode] + parent::jsonSerialize();
     }
 }
