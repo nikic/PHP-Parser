@@ -110,7 +110,7 @@ abstract class NodeAbstract implements Node, \JsonSerializable
      *
      * @return null|Comment\Doc Doc comment object or null
      */
-    public function getDocComment(): ?Comment\Doc {
+    public function getDocComment() : ?Comment\Doc {
         $comments = $this->getComments();
         for ($i = count($comments) - 1; $i >= 0; $i--) {
             $comment = $comments[$i];
@@ -145,8 +145,18 @@ abstract class NodeAbstract implements Node, \JsonSerializable
         $this->setAttribute('comments', $comments);
     }
 
+    protected function attachToDocComment() {
+        $docComment = $this->getDocComment();
+        if ($docComment !== null) {
+            $docComment->setNode($this);
+        }
+    }
+
     public function setAttribute(string $key, $value) {
         $this->attributes[$key] = $value;
+        if ($key === 'comments') {
+            $this->attachToDocComment();
+        }
     }
 
     public function hasAttribute(string $key) : bool {
@@ -167,6 +177,9 @@ abstract class NodeAbstract implements Node, \JsonSerializable
 
     public function setAttributes(array $attributes) {
         $this->attributes = $attributes;
+        if (!empty($attributes['comments'])) {
+            $this->attachToDocComment();
+        }
     }
 
     /**
