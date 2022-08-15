@@ -4,12 +4,13 @@ namespace PhpParser;
 
 abstract class NodeAbstract implements Node, \JsonSerializable
 {
-    protected $attributes;
+    /** @var array An array of attributes */
+    protected $attributes = [];
 
     /**
      * Creates a Node.
      *
-     * @param array $attributes Array of attributes
+     * @param array $attributes An array of attributes
      */
     public function __construct(array $attributes = []) {
         $this->attributes = $attributes;
@@ -145,18 +146,8 @@ abstract class NodeAbstract implements Node, \JsonSerializable
         $this->setAttribute('comments', $comments);
     }
 
-    protected function attachToDocComment() {
-        $docComment = $this->getDocComment();
-        if ($docComment !== null) {
-            $docComment->setRelatedNode($this);
-        }
-    }
-
     public function setAttribute(string $key, $value) {
         $this->attributes[$key] = $value;
-        if ($key === 'comments') {
-            $this->attachToDocComment();
-        }
     }
 
     public function hasAttribute(string $key) : bool {
@@ -177,9 +168,6 @@ abstract class NodeAbstract implements Node, \JsonSerializable
 
     public function setAttributes(array $attributes) {
         $this->attributes = $attributes;
-        if (!empty($attributes['comments'])) {
-            $this->attachToDocComment();
-        }
     }
 
     /**
