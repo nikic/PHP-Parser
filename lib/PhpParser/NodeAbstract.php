@@ -148,7 +148,7 @@ abstract class NodeAbstract implements Node, \JsonSerializable
     protected function attachToDocComment() {
         $docComment = $this->getDocComment();
         if ($docComment !== null) {
-            $docComment->setNode($this);
+            $docComment->setRelatedNode($this);
         }
     }
 
