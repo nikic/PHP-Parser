@@ -17,8 +17,7 @@ class Doc extends Comment
     /**
      * @throws Error if the node not related to the comment
      */
-    public function setNode(Node $node)
-    {
+    public function setNode(Node $node) {
         $comment = $node->getDocComment();
         if ($comment != $this) {
             throw new Error('The node not related to the comment.', $node->getAttributes());
@@ -26,8 +25,7 @@ class Doc extends Comment
         $this->node = $node;
     }
 
-    public function getNode() ?Node
-    {
+    public function getNode() ?Node {
         return $this->node;
     }
 }
