@@ -5,12 +5,15 @@ namespace PhpParser;
 /**
  * A PHP version, representing only the major and minor version components.
  */
-class PhpVersion {
+class PhpVersion
+{
     /** @var int Version ID in PHP_VERSION_ID format */
     public $id;
 
     /** @var int[] Minimum versions for builtin types */
     private const BUILTIN_TYPE_VERSIONS = [
+        'array'    => 50400,
+        'callable' => 50400,
         'bool'     => 70000,
         'int'      => 70000,
         'float'    => 70000,
@@ -102,6 +105,13 @@ class PhpVersion {
      */
     public function supportsShortArraySyntax(): bool {
         return $this->id >= 50400;
+    }
+
+    /**
+     * Whether this version supports [] list literals (symmetric array destructuring).
+     */
+    public function supportsShortListSyntax(): bool {
+        return $this->id >= 70100;
     }
 
     /**
