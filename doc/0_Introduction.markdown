@@ -29,7 +29,7 @@ What can it parse?
 The parser supports parsing PHP 5.2-8.0, with the following exceptions:
 
  * Namespaced names containing whitespace (e.g. `Foo \ Bar` instead of `Foo\Bar`) are not supported.
-   These are illegal in PHP 8, but are legal in earlier version. However, PHP-Parser does not
+   These are illegal in PHP 8, but are legal in earlier versions. However, PHP-Parser does not
    support them for any version.
 
 As the parser is based on the tokens returned by `token_get_all` (which is only able to lex the PHP
