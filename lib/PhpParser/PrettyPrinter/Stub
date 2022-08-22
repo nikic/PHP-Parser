@@ -9,8 +9,25 @@ use PhpParser\Node\Stmt;
  */
 class Stub extends Standard
 {
+    protected function pStmt_Property(Stmt\Property $node) : string {
+        // hide private property
+        if ($node->isPrivate()) {
+            return '';
+        }
+
+        return $this->pAttrGroups($node->attrGroups)
+            . (0 === $node->flags ? 'var ' : $this->pModifiers($node->flags))
+            . ($node->type ? $this->p($node->type) . ' ' : '')
+            . $this->pCommaSeparated($node->props) . ';';
+    }
+
     protected function pStmt_ClassMethod(Stmt\ClassMethod $node) : string {
-        // no method body
+        // hide private method
+        if ($node->isPrivate()) {
+            return '';
+        }
+
+        // empty method body
         return $this->pAttrGroups($node->attrGroups)
              . $this->pModifiers($node->flags)
              . 'function ' . ($node->byRef ? '&' : '') . $node->name
@@ -20,7 +37,7 @@ class Stub extends Standard
     }
 
     protected function pStmt_Function(Stmt\Function_ $node) : string {
-        // no function body
+        // empty function body
         return $this->pAttrGroups($node->attrGroups)
              . 'function ' . ($node->byRef ? '&' : '') . $node->name
              . '(' . $this->pMaybeMultiline($node->params) . ')'
@@ -28,9 +45,50 @@ class Stub extends Standard
              . ' {}';
     }
 
+    /**
+     * @inheritDoc
+     */
     protected function pComments(array $comments) : string {
-        // no extra comments
-        $comment = end($comments);
-        return str_replace(["\r\n", "\n"], $this->nl, $comment->getReformattedText());
+        // print only last DocComment
+        return \str_replace(["\r\n", "\n"], $this->nl, end($comments)->getReformattedText());
+    }
+
+    /**
+     * @inheritDoc
+     */
+    protected function pStmts(array $nodes, bool $indent = true) : string {
+        if ($indent) {
+            $this->indent();
+        }
+
+        $result = '';
+        foreach ($nodes as $node) {
+            $pNode = $this->p($node);
+            if ($pNode === '') {
+                continue;
+            }
+            if (
+                $node instanceof Stmt\Property
+                || $node instanceof Stmt\Class_
+                || $node instanceof Stmt\ClassMethod
+                || $node instanceof Stmt\Function_
+            ) {
+                $docComment = $node->getDocComment();
+                if ($docComment !== null) {
+                    $result .= $this->nl . $this->pComments([$docComment]);
+                }
+            }
+            if ($node instanceof Stmt\Nop) {
+                continue;
+            }
+
+            $result .= $this->nl . $pNode;
+        }
+
+        if ($indent) {
+            $this->outdent();
+        }
+
+        return $result;
     }
 }
