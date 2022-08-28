@@ -108,9 +108,9 @@ class PhpVersion
     }
 
     /**
-     * Whether this version supports [] list literals (symmetric array destructuring).
+     * Whether this version supports [] for symmetric destructuring.
      */
-    public function supportsShortListSyntax() : bool {
+    public function supportsShortArrayDestructuring(): bool {
         return $this->id >= 70100;
     }
 

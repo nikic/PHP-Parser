@@ -645,7 +645,8 @@ foreach_variable:
       variable                                              { $$ = array($1, false); }
     | ampersand variable                                    { $$ = array($2, true); }
     | list_expr                                             { $$ = array($1, false); }
-    | array_short_syntax                                    { $$ = array($1, false); }
+    | array_short_syntax
+          { $$ = array($this->fixupArrayDestructuring($1), false); }
 ;
 
 parameter_list:
@@ -941,7 +942,8 @@ for_expr:
 expr:
       variable                                              { $$ = $1; }
     | list_expr '=' expr                                    { $$ = Expr\Assign[$1, $3]; }
-    | array_short_syntax '=' expr                           { $$ = Expr\Assign[$1, $3]; }
+    | array_short_syntax '=' expr
+          { $$ = Expr\Assign[$this->fixupArrayDestructuring($1), $3]; }
     | variable '=' expr                                     { $$ = Expr\Assign[$1, $3]; }
     | variable '=' ampersand variable                       { $$ = Expr\AssignRef[$1, $4]; }
     | variable '=' ampersand new_expr
@@ -1278,7 +1280,8 @@ property_name:
 ;
 
 list_expr:
-      T_LIST '(' inner_array_pair_list ')'                  { $$ = Expr\List_[$3]; }
+      T_LIST '(' inner_array_pair_list ')'
+          { $$ = Expr\List_[$3]; $$->setAttribute('kind', Expr\List_::KIND_LIST); }
 ;
 
 array_pair_list:

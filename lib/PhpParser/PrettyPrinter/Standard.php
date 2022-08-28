@@ -563,7 +563,13 @@ class Standard extends PrettyPrinterAbstract
     }
 
     protected function pExpr_List(Expr\List_ $node) {
-        return 'list(' . $this->pCommaSeparated($node->items) . ')';
+        $syntax = $node->getAttribute('kind',
+            $this->phpVersion->supportsShortArrayDestructuring() ? Expr\List_::KIND_ARRAY : Expr\List_::KIND_LIST);
+        if ($syntax === Expr\List_::KIND_ARRAY) {
+            return '[' . $this->pMaybeMultiline($node->items, true) . ']';
+        } else {
+            return 'list(' . $this->pMaybeMultiline($node->items, true) . ')';
+        }
     }
 
     // Other

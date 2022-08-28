@@ -1989,7 +1989,7 @@ class Php7 extends \PhpParser\ParserAbstract
                  $this->semValue = array($this->semStack[$stackPos-(1-1)], false);
             },
             271 => function ($stackPos) {
-                 $this->semValue = array($this->semStack[$stackPos-(1-1)], false);
+                 $this->semValue = array($this->fixupArrayDestructuring($this->semStack[$stackPos-(1-1)]), false);
             },
             272 => function ($stackPos) {
                  $this->semValue = $this->semStack[$stackPos-(2-1)];
@@ -2340,7 +2340,7 @@ class Php7 extends \PhpParser\ParserAbstract
                  $this->semValue = new Expr\Assign($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
             },
             386 => function ($stackPos) {
-                 $this->semValue = new Expr\Assign($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\Assign($this->fixupArrayDestructuring($this->semStack[$stackPos-(3-1)]), $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
             },
             387 => function ($stackPos) {
                  $this->semValue = new Expr\Assign($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
@@ -2922,7 +2922,7 @@ class Php7 extends \PhpParser\ParserAbstract
                  $this->semValue = new Expr\Error($this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes); $this->errorState = 2;
             },
             576 => function ($stackPos) {
-                 $this->semValue = new Expr\List_($this->semStack[$stackPos-(4-3)], $this->startAttributeStack[$stackPos-(4-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\List_($this->semStack[$stackPos-(4-3)], $this->startAttributeStack[$stackPos-(4-1)] + $this->endAttributes); $this->semValue->setAttribute('kind', Expr\List_::KIND_LIST);
             },
             577 => function ($stackPos) {
                  $this->semValue = $this->semStack[$stackPos-(1-1)]; $end = count($this->semValue)-1; if ($this->semValue[$end] === null) array_pop($this->semValue);
