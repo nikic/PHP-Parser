@@ -15,10 +15,7 @@ class Stub extends Standard
             return '';
         }
 
-        return $this->pAttrGroups($node->attrGroups)
-            . (0 === $node->flags ? 'var ' : $this->pModifiers($node->flags))
-            . ($node->type ? $this->p($node->type) . ' ' : '')
-            . $this->pCommaSeparated($node->props) . ';';
+        return parent::pStmt_Property($node);
     }
 
     protected function pStmt_ClassMethod(Stmt\ClassMethod $node) : string {
