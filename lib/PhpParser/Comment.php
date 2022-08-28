@@ -150,7 +150,7 @@ class Comment implements \JsonSerializable
      * @return mixed|string
      */
     public function getReformattedText() {
-        $text = trim($this->text);
+        $text = $this->text;
         $newlinePos = strpos($text, "\n");
         if (false === $newlinePos) {
             // Single line comments don't need further processing

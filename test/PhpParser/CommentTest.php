@@ -31,7 +31,7 @@ class CommentTest extends \PHPUnit\Framework\TestCase
 
     public function provideTestReformatting() {
         return [
-            ['// Some text' . "\n", '// Some text'],
+            ['// Some text', '// Some text'],
             ['/* Some text */', '/* Some text */'],
             [
                 '/**

@@ -105,10 +105,24 @@ class PhpVersion {
     }
 
     /**
+     * Whether this version supports [] for destructuring.
+     */
+    public function supportsShortArrayDestructuring(): bool {
+        return $this->id >= 70100;
+    }
+
+    /**
      * Whether this version supports flexible heredoc/nowdoc.
      */
     public function supportsFlexibleHeredoc(): bool {
         return $this->id >= 70300;
+    }
+
+    /**
+     * Whether this version supports trailing commas in parameter lists.
+     */
+    public function supportsTrailingCommaInParamList(): bool {
+        return $this->id >= 80000;
     }
 
     /**

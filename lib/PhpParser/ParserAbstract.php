@@ -6,6 +6,9 @@ namespace PhpParser;
  * This parser is based on a skeleton written by Moriyoshi Koizumi, which in
  * turn is based on work by Masato Bito.
  */
+
+use PhpParser\Node\Expr;
+use PhpParser\Node\Expr\Array_;
 use PhpParser\Node\Expr\Cast\Double;
 use PhpParser\Node\Name;
 use PhpParser\Node\Param;
@@ -21,7 +24,6 @@ use PhpParser\Node\Stmt\Namespace_;
 use PhpParser\Node\Stmt\Property;
 use PhpParser\Node\Stmt\TryCatch;
 use PhpParser\Node\Stmt\UseUse;
-use PhpParser\Parser\Tokens;
 
 abstract class ParserAbstract implements Parser
 {
@@ -813,6 +815,17 @@ abstract class ParserAbstract implements Parser
             $attributes['endTokenPos'] = $commentEndTokenPos;
         }
         return $attributes;
+    }
+
+    protected function fixupArrayDestructuring(Array_ $node) {
+        return new Expr\List_(array_map(function(?Expr\ArrayItem $item) {
+            if ($item !== null && $item->value instanceof Array_) {
+                return new Expr\ArrayItem(
+                    $this->fixupArrayDestructuring($item->value),
+                    $item->key, $item->byRef, $item->getAttributes());
+            }
+            return $item;
+        }, $node->items), ['kind' => Expr\List_::KIND_ARRAY] + $node->getAttributes());
     }
 
     protected function checkClassModifier($a, $b, $modifierPos) {
