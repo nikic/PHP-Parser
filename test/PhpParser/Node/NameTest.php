@@ -73,6 +73,12 @@ class NameTest extends \PHPUnit\Framework\TestCase
         (new Name('foo\bar\baz'))->slice(0, -4);
     }
 
+    public function testSliceLengthTooLargeWithOffset() {
+        $this->expectException(\OutOfBoundsException::class);
+        $this->expectExceptionMessage('Length 3 is out of bounds');
+        (new Name('foo\bar\baz'))->slice(1, 3);
+    }
+
     public function testConcat() {
         $this->assertEquals(new Name('foo\bar\baz'), Name::concat('foo', 'bar\baz'));
         $this->assertEquals(

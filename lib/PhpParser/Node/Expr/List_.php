@@ -6,6 +6,10 @@ use PhpParser\Node\Expr;
 
 class List_ extends Expr
 {
+    // For use in "kind" attribute
+    public const KIND_LIST = 1; // list() syntax
+    public const KIND_ARRAY = 2; // [] syntax
+
     /** @var (ArrayItem|null)[] List of items to assign to */
     public $items;
 
