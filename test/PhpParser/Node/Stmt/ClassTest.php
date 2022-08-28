@@ -2,12 +2,13 @@
 
 namespace PhpParser\Node\Stmt;
 
+use PhpParser\Modifiers;
 use PhpParser\Node\Scalar\String_;
 
 class ClassTest extends \PHPUnit\Framework\TestCase
 {
     public function testIsAbstract() {
-        $class = new Class_('Foo', ['type' => Class_::MODIFIER_ABSTRACT]);
+        $class = new Class_('Foo', ['type' => Modifiers::ABSTRACT]);
         $this->assertTrue($class->isAbstract());
 
         $class = new Class_('Foo');
@@ -15,7 +16,7 @@ class ClassTest extends \PHPUnit\Framework\TestCase
     }
 
     public function testIsFinal() {
-        $class = new Class_('Foo', ['type' => Class_::MODIFIER_FINAL]);
+        $class = new Class_('Foo', ['type' => Modifiers::FINAL]);
         $this->assertTrue($class->isFinal());
 
         $class = new Class_('Foo');
@@ -78,8 +79,8 @@ class ClassTest extends \PHPUnit\Framework\TestCase
     public function testGetProperties()
     {
         $properties = [
-            new Property(Class_::MODIFIER_PUBLIC, [new PropertyProperty('foo')]),
-            new Property(Class_::MODIFIER_PUBLIC, [new PropertyProperty('bar')]),
+            new Property(Modifiers::PUBLIC, [new PropertyProperty('foo')]),
+            new Property(Modifiers::PUBLIC, [new PropertyProperty('bar')]),
         ];
         $class = new Class_('Foo', [
             'stmts' => [
@@ -96,9 +97,9 @@ class ClassTest extends \PHPUnit\Framework\TestCase
 
     public function testGetProperty() {
         $properties = [
-            $fooProp = new Property(Class_::MODIFIER_PUBLIC, [new PropertyProperty('foo1')]),
-            $barProp = new Property(Class_::MODIFIER_PUBLIC, [new PropertyProperty('BAR1')]),
-            $fooBarProp = new Property(Class_::MODIFIER_PUBLIC, [new PropertyProperty('foo2'), new PropertyProperty('bar2')]),
+            $fooProp = new Property(Modifiers::PUBLIC, [new PropertyProperty('foo1')]),
+            $barProp = new Property(Modifiers::PUBLIC, [new PropertyProperty('BAR1')]),
+            $fooBarProp = new Property(Modifiers::PUBLIC, [new PropertyProperty('foo2'), new PropertyProperty('bar2')]),
         ];
         $class = new Class_('Foo', [
             'stmts' => [

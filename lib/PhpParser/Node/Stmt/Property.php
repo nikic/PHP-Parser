@@ -2,6 +2,7 @@
 
 namespace PhpParser\Node\Stmt;
 
+use PhpParser\Modifiers;
 use PhpParser\Node;
 use PhpParser\Node\ComplexType;
 use PhpParser\Node\Identifier;
@@ -45,8 +46,8 @@ class Property extends Node\Stmt
      * @return bool
      */
     public function isPublic() : bool {
-        return ($this->flags & Class_::MODIFIER_PUBLIC) !== 0
-            || ($this->flags & Class_::VISIBILITY_MODIFIER_MASK) === 0;
+        return ($this->flags & Modifiers::PUBLIC) !== 0
+            || ($this->flags & Modifiers::VISIBILITY_MASK) === 0;
     }
 
     /**
@@ -55,7 +56,7 @@ class Property extends Node\Stmt
      * @return bool
      */
     public function isProtected() : bool {
-        return (bool) ($this->flags & Class_::MODIFIER_PROTECTED);
+        return (bool) ($this->flags & Modifiers::PROTECTED);
     }
 
     /**
@@ -64,7 +65,7 @@ class Property extends Node\Stmt
      * @return bool
      */
     public function isPrivate() : bool {
-        return (bool) ($this->flags & Class_::MODIFIER_PRIVATE);
+        return (bool) ($this->flags & Modifiers::PRIVATE);
     }
 
     /**
@@ -73,7 +74,7 @@ class Property extends Node\Stmt
      * @return bool
      */
     public function isStatic() : bool {
-        return (bool) ($this->flags & Class_::MODIFIER_STATIC);
+        return (bool) ($this->flags & Modifiers::STATIC);
     }
 
     /**
@@ -82,7 +83,7 @@ class Property extends Node\Stmt
      * @return bool
      */
     public function isReadonly() : bool {
-        return (bool) ($this->flags & Class_::MODIFIER_READONLY);
+        return (bool) ($this->flags & Modifiers::READONLY);
     }
 
     public function getType() : string {

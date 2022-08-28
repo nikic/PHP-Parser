@@ -3,6 +3,7 @@
 namespace PhpParser\Builder;
 
 use PhpParser\Comment;
+use PhpParser\Modifiers;
 use PhpParser\Node;
 use PhpParser\Node\Arg;
 use PhpParser\Node\Attribute;
@@ -48,7 +49,7 @@ class ClassTest extends \PHPUnit\Framework\TestCase
 
         $this->assertEquals(
             new Stmt\Class_('Test', [
-                'flags' => Stmt\Class_::MODIFIER_ABSTRACT
+                'flags' => Modifiers::ABSTRACT
             ]),
             $node
         );
@@ -62,7 +63,7 @@ class ClassTest extends \PHPUnit\Framework\TestCase
 
         $this->assertEquals(
             new Stmt\Class_('Test', [
-                'flags' => Stmt\Class_::MODIFIER_FINAL
+                'flags' => Modifiers::FINAL
             ]),
             $node
         );
@@ -76,7 +77,7 @@ class ClassTest extends \PHPUnit\Framework\TestCase
 
         $this->assertEquals(
             new Stmt\Class_('Test', [
-                'flags' => Stmt\Class_::MODIFIER_READONLY
+                'flags' => Modifiers::READONLY
             ]),
             $node
         );
@@ -85,7 +86,7 @@ class ClassTest extends \PHPUnit\Framework\TestCase
     public function testStatementOrder() {
         $method = new Stmt\ClassMethod('testMethod');
         $property = new Stmt\Property(
-            Stmt\Class_::MODIFIER_PUBLIC,
+            Modifiers::PUBLIC,
             [new Stmt\PropertyProperty('testProperty')]
         );
         $const = new Stmt\ClassConst([

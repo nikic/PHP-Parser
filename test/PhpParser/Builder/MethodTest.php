@@ -3,6 +3,7 @@
 namespace PhpParser\Builder;
 
 use PhpParser\Comment;
+use PhpParser\Modifiers;
 use PhpParser\Node;
 use PhpParser\Node\Arg;
 use PhpParser\Node\Attribute;
@@ -31,9 +32,7 @@ class MethodTest extends \PHPUnit\Framework\TestCase
 
         $this->assertEquals(
             new Stmt\ClassMethod('test', [
-                'flags' => Stmt\Class_::MODIFIER_PUBLIC
-                         | Stmt\Class_::MODIFIER_ABSTRACT
-                         | Stmt\Class_::MODIFIER_STATIC,
+                'flags' => Modifiers::PUBLIC | Modifiers::ABSTRACT | Modifiers::STATIC,
                 'stmts' => null,
             ]),
             $node
@@ -47,8 +46,7 @@ class MethodTest extends \PHPUnit\Framework\TestCase
 
         $this->assertEquals(
             new Stmt\ClassMethod('test', [
-                'flags' => Stmt\Class_::MODIFIER_PROTECTED
-                         | Stmt\Class_::MODIFIER_FINAL
+                'flags' => Modifiers::PROTECTED | Modifiers::FINAL
             ]),
             $node
         );
@@ -60,7 +58,7 @@ class MethodTest extends \PHPUnit\Framework\TestCase
 
         $this->assertEquals(
             new Stmt\ClassMethod('test', [
-                'type' => Stmt\Class_::MODIFIER_PRIVATE
+                'type' => Modifiers::PRIVATE
             ]),
             $node
         );

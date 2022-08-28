@@ -3,6 +3,7 @@
 namespace PhpParser\Builder;
 
 use PhpParser\Comment;
+use PhpParser\Modifiers;
 use PhpParser\Node\Arg;
 use PhpParser\Node\Attribute;
 use PhpParser\Node\AttributeGroup;
@@ -28,8 +29,7 @@ class PropertyTest extends \PHPUnit\Framework\TestCase
 
         $this->assertEquals(
             new Stmt\Property(
-                Stmt\Class_::MODIFIER_PRIVATE
-              | Stmt\Class_::MODIFIER_STATIC,
+                Modifiers::PRIVATE | Modifiers::STATIC,
                 [
                     new Stmt\PropertyProperty('test')
                 ]
@@ -44,7 +44,7 @@ class PropertyTest extends \PHPUnit\Framework\TestCase
 
         $this->assertEquals(
             new Stmt\Property(
-                Stmt\Class_::MODIFIER_PROTECTED,
+                Modifiers::PROTECTED,
                 [
                     new Stmt\PropertyProperty('test')
                 ]
@@ -59,7 +59,7 @@ class PropertyTest extends \PHPUnit\Framework\TestCase
 
         $this->assertEquals(
             new Stmt\Property(
-                Stmt\Class_::MODIFIER_PUBLIC,
+                Modifiers::PUBLIC,
                 [
                     new Stmt\PropertyProperty('test')
                 ]
@@ -74,7 +74,7 @@ class PropertyTest extends \PHPUnit\Framework\TestCase
 
         $this->assertEquals(
             new Stmt\Property(
-                Stmt\Class_::MODIFIER_READONLY,
+                Modifiers::READONLY,
                 [
                     new Stmt\PropertyProperty('test')
                 ]
@@ -89,7 +89,7 @@ class PropertyTest extends \PHPUnit\Framework\TestCase
             ->getNode();
 
         $this->assertEquals(new Stmt\Property(
-            Stmt\Class_::MODIFIER_PUBLIC,
+            Modifiers::PUBLIC,
             [
                 new Stmt\PropertyProperty('test')
             ],
@@ -125,7 +125,7 @@ class PropertyTest extends \PHPUnit\Framework\TestCase
 
         $this->assertEquals(
             new Stmt\Property(
-                Stmt\Class_::MODIFIER_PUBLIC,
+                Modifiers::PUBLIC,
                 [
                     new Stmt\PropertyProperty('test')
                 ],

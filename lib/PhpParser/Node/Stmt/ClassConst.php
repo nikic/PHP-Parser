@@ -2,6 +2,7 @@
 
 namespace PhpParser\Node\Stmt;
 
+use PhpParser\Modifiers;
 use PhpParser\Node;
 
 class ClassConst extends Node\Stmt
@@ -43,8 +44,8 @@ class ClassConst extends Node\Stmt
      * @return bool
      */
     public function isPublic() : bool {
-        return ($this->flags & Class_::MODIFIER_PUBLIC) !== 0
-            || ($this->flags & Class_::VISIBILITY_MODIFIER_MASK) === 0;
+        return ($this->flags & Modifiers::PUBLIC) !== 0
+            || ($this->flags & Modifiers::VISIBILITY_MASK) === 0;
     }
 
     /**
@@ -53,7 +54,7 @@ class ClassConst extends Node\Stmt
      * @return bool
      */
     public function isProtected() : bool {
-        return (bool) ($this->flags & Class_::MODIFIER_PROTECTED);
+        return (bool) ($this->flags & Modifiers::PROTECTED);
     }
 
     /**
@@ -62,7 +63,7 @@ class ClassConst extends Node\Stmt
      * @return bool
      */
     public function isPrivate() : bool {
-        return (bool) ($this->flags & Class_::MODIFIER_PRIVATE);
+        return (bool) ($this->flags & Modifiers::PRIVATE);
     }
 
     /**
@@ -71,7 +72,7 @@ class ClassConst extends Node\Stmt
      * @return bool
      */
     public function isFinal() : bool {
-        return (bool) ($this->flags & Class_::MODIFIER_FINAL);
+        return (bool) ($this->flags & Modifiers::FINAL);
     }
 
     public function getType() : string {

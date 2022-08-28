@@ -7,6 +7,7 @@ namespace PhpParser;
  * turn is based on work by Masato Bito.
  */
 
+use PhpParser\Modifiers;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\Array_;
 use PhpParser\Node\Expr\Cast\Double;
@@ -920,7 +921,7 @@ abstract class ParserAbstract implements Parser
     }
 
     protected function checkClassMethod(ClassMethod $node, $modifierPos) {
-        if ($node->flags & Class_::MODIFIER_STATIC) {
+        if ($node->flags & Modifiers::STATIC) {
             switch ($node->name->toLowerString()) {
                 case '__construct':
                     $this->emitError(new Error(
@@ -940,7 +941,7 @@ abstract class ParserAbstract implements Parser
             }
         }
 
-        if ($node->flags & Class_::MODIFIER_READONLY) {
+        if ($node->flags & Modifiers::READONLY) {
             $this->emitError(new Error(
                 sprintf('Method %s() cannot be readonly', $node->name),
                 $this->getAttributesAt($modifierPos)));
@@ -948,17 +949,17 @@ abstract class ParserAbstract implements Parser
     }
 
     protected function checkClassConst(ClassConst $node, $modifierPos) {
-        if ($node->flags & Class_::MODIFIER_STATIC) {
+        if ($node->flags & Modifiers::STATIC) {
             $this->emitError(new Error(
                 "Cannot use 'static' as constant modifier",
                 $this->getAttributesAt($modifierPos)));
         }
-        if ($node->flags & Class_::MODIFIER_ABSTRACT) {
+        if ($node->flags & Modifiers::ABSTRACT) {
             $this->emitError(new Error(
                 "Cannot use 'abstract' as constant modifier",
                 $this->getAttributesAt($modifierPos)));
         }
-        if ($node->flags & Class_::MODIFIER_READONLY) {
+        if ($node->flags & Modifiers::READONLY) {
             $this->emitError(new Error(
                 "Cannot use 'readonly' as constant modifier",
                 $this->getAttributesAt($modifierPos)));
@@ -966,12 +967,12 @@ abstract class ParserAbstract implements Parser
     }
 
     protected function checkProperty(Property $node, $modifierPos) {
-        if ($node->flags & Class_::MODIFIER_ABSTRACT) {
+        if ($node->flags & Modifiers::ABSTRACT) {
             $this->emitError(new Error('Properties cannot be declared abstract',
                 $this->getAttributesAt($modifierPos)));
         }
 
-        if ($node->flags & Class_::MODIFIER_FINAL) {
+        if ($node->flags & Modifiers::FINAL) {
             $this->emitError(new Error('Properties cannot be declared final',
                 $this->getAttributesAt($modifierPos)));
         }

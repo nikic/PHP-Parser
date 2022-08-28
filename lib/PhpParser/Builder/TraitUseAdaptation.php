@@ -4,6 +4,7 @@ namespace PhpParser\Builder;
 
 use PhpParser\Builder;
 use PhpParser\BuilderHelpers;
+use PhpParser\Modifiers;
 use PhpParser\Node;
 use PhpParser\Node\Stmt;
 
@@ -63,7 +64,7 @@ class TraitUseAdaptation implements Builder
      * @return $this The builder instance (for fluid interface)
      */
     public function makePublic() {
-        $this->setModifier(Stmt\Class_::MODIFIER_PUBLIC);
+        $this->setModifier(Modifiers::PUBLIC);
         return $this;
     }
 
@@ -73,7 +74,7 @@ class TraitUseAdaptation implements Builder
      * @return $this The builder instance (for fluid interface)
      */
     public function makeProtected() {
-        $this->setModifier(Stmt\Class_::MODIFIER_PROTECTED);
+        $this->setModifier(Modifiers::PROTECTED);
         return $this;
     }
 
@@ -83,7 +84,7 @@ class TraitUseAdaptation implements Builder
      * @return $this The builder instance (for fluid interface)
      */
     public function makePrivate() {
-        $this->setModifier(Stmt\Class_::MODIFIER_PRIVATE);
+        $this->setModifier(Modifiers::PRIVATE);
         return $this;
     }
 

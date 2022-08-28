@@ -1067,13 +1067,13 @@ abstract class PrettyPrinterAbstract
      * @return string Printed modifiers
      */
     protected function pModifiers(int $modifiers): string {
-        return ($modifiers & Stmt\Class_::MODIFIER_FINAL     ? 'final '     : '')
-             . ($modifiers & Stmt\Class_::MODIFIER_ABSTRACT  ? 'abstract '  : '')
-             . ($modifiers & Stmt\Class_::MODIFIER_PUBLIC    ? 'public '    : '')
-             . ($modifiers & Stmt\Class_::MODIFIER_PROTECTED ? 'protected ' : '')
-             . ($modifiers & Stmt\Class_::MODIFIER_PRIVATE   ? 'private '   : '')
-             . ($modifiers & Stmt\Class_::MODIFIER_STATIC    ? 'static '    : '')
-             . ($modifiers & Stmt\Class_::MODIFIER_READONLY  ? 'readonly '  : '');
+        return ($modifiers & Modifiers::FINAL     ? 'final '     : '')
+             . ($modifiers & Modifiers::ABSTRACT  ? 'abstract '  : '')
+             . ($modifiers & Modifiers::PUBLIC    ? 'public '    : '')
+             . ($modifiers & Modifiers::PROTECTED ? 'protected ' : '')
+             . ($modifiers & Modifiers::PRIVATE   ? 'private '   : '')
+             . ($modifiers & Modifiers::STATIC    ? 'static '    : '')
+             . ($modifiers & Modifiers::READONLY  ? 'readonly '  : '');
     }
 
     /**

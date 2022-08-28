@@ -79,6 +79,21 @@ A number of AST nodes have been renamed or moved in the AST hierarchy:
 
 The old class names have been retained as aliases for backwards compatibility. However, the `Node::getType()` method will now always return the new name (e.g. `ClosureUse` instead of `Expr_ClosureUse`).
 
+### Modifiers
+
+Modifier flags (as used by the `$flags` subnode of `Class_`, `ClassMethod`, `Property`, etc.) are now available as class constants on a separate `PhpParser\Modifiers` class, instead of being part of `PhpParser\Node\Stmt\Class_`, to make it clearer that these are used by many different nodes. The old constants are deprecated, but are still available.
+
+```
+PhpParser\Node\Stmt\Class_::MODIFIER_PUBLIC    -> PhpParser\Modifiers::PUBLIC
+PhpParser\Node\Stmt\Class_::MODIFIER_PROTECTED -> PhpParser\Modifiers::PROTECTED
+PhpParser\Node\Stmt\Class_::MODIFIER_PRIVATE   -> PhpParser\Modifiers::PRIVATE
+PhpParser\Node\Stmt\Class_::MODIFIER_STATIC    -> PhpParser\Modifiers::STATIC
+PhpParser\Node\Stmt\Class_::MODIFIER_ABSTRACT  -> PhpParser\Modifiers::ABSTRACT
+PhpParser\Node\Stmt\Class_::MODIFIER_FINAL     -> PhpParser\Modifiers::FINAL
+PhpParser\Node\Stmt\Class_::MODIFIER_READONLY  -> PhpParser\Modifiers::READONLY
+PhpParser\Node\Stmt\Class_::VISIBILITY_MODIFIER_MASK -> PhpParser\Modifiers::VISIBILITY_MASK
+```
+
 ### Changes to the default pretty printer
 
 A number of changes to the standard pretty printer have been made, to make it match contemporary coding style conventions (and in particular PSR-12). Options to restore the previous behavior are not provided, but it is possible to override the formatting methods (such as `pStmt_ClassMethod`) with your preferred formatting.

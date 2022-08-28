@@ -3,6 +3,7 @@
 namespace PhpParser\Parser;
 
 use PhpParser\Error;
+use PhpParser\Modifiers;
 use PhpParser\Node;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Name;
@@ -1842,13 +1843,13 @@ class Php8 extends \PhpParser\ParserAbstract
                  $this->checkClassModifier($this->semStack[$stackPos-(2-1)], $this->semStack[$stackPos-(2-2)], $stackPos-(2-2)); $this->semValue = $this->semStack[$stackPos-(2-1)] | $this->semStack[$stackPos-(2-2)];
             },
             216 => function ($stackPos) {
-                 $this->semValue = Stmt\Class_::MODIFIER_ABSTRACT;
+                 $this->semValue = Modifiers::ABSTRACT;
             },
             217 => function ($stackPos) {
-                 $this->semValue = Stmt\Class_::MODIFIER_FINAL;
+                 $this->semValue = Modifiers::FINAL;
             },
             218 => function ($stackPos) {
-                 $this->semValue = Stmt\Class_::MODIFIER_READONLY;
+                 $this->semValue = Modifiers::READONLY;
             },
             219 => function ($stackPos) {
                  $this->semValue = null;
@@ -2028,16 +2029,16 @@ class Php8 extends \PhpParser\ParserAbstract
                  $this->checkModifier($this->semStack[$stackPos-(2-1)], $this->semStack[$stackPos-(2-2)], $stackPos-(2-2)); $this->semValue = $this->semStack[$stackPos-(2-1)] | $this->semStack[$stackPos-(2-2)];
             },
             278 => function ($stackPos) {
-                 $this->semValue = Stmt\Class_::MODIFIER_PUBLIC;
+                 $this->semValue = Modifiers::PUBLIC;
             },
             279 => function ($stackPos) {
-                 $this->semValue = Stmt\Class_::MODIFIER_PROTECTED;
+                 $this->semValue = Modifiers::PROTECTED;
             },
             280 => function ($stackPos) {
-                 $this->semValue = Stmt\Class_::MODIFIER_PRIVATE;
+                 $this->semValue = Modifiers::PRIVATE;
             },
             281 => function ($stackPos) {
-                 $this->semValue = Stmt\Class_::MODIFIER_READONLY;
+                 $this->semValue = Modifiers::READONLY;
             },
             282 => function ($stackPos) {
                  $this->semValue = new Node\Param($this->semStack[$stackPos-(6-6)], null, $this->semStack[$stackPos-(6-3)], $this->semStack[$stackPos-(6-4)], $this->semStack[$stackPos-(6-5)], $this->startAttributeStack[$stackPos-(6-1)] + $this->endAttributes, $this->semStack[$stackPos-(6-2)], $this->semStack[$stackPos-(6-1)]);
@@ -2295,25 +2296,25 @@ class Php8 extends \PhpParser\ParserAbstract
                  $this->checkModifier($this->semStack[$stackPos-(2-1)], $this->semStack[$stackPos-(2-2)], $stackPos-(2-2)); $this->semValue = $this->semStack[$stackPos-(2-1)] | $this->semStack[$stackPos-(2-2)];
             },
             365 => function ($stackPos) {
-                 $this->semValue = Stmt\Class_::MODIFIER_PUBLIC;
+                 $this->semValue = Modifiers::PUBLIC;
             },
             366 => function ($stackPos) {
-                 $this->semValue = Stmt\Class_::MODIFIER_PROTECTED;
+                 $this->semValue = Modifiers::PROTECTED;
             },
             367 => function ($stackPos) {
-                 $this->semValue = Stmt\Class_::MODIFIER_PRIVATE;
+                 $this->semValue = Modifiers::PRIVATE;
             },
             368 => function ($stackPos) {
-                 $this->semValue = Stmt\Class_::MODIFIER_STATIC;
+                 $this->semValue = Modifiers::STATIC;
             },
             369 => function ($stackPos) {
-                 $this->semValue = Stmt\Class_::MODIFIER_ABSTRACT;
+                 $this->semValue = Modifiers::ABSTRACT;
             },
             370 => function ($stackPos) {
-                 $this->semValue = Stmt\Class_::MODIFIER_FINAL;
+                 $this->semValue = Modifiers::FINAL;
             },
             371 => function ($stackPos) {
-                 $this->semValue = Stmt\Class_::MODIFIER_READONLY;
+                 $this->semValue = Modifiers::READONLY;
             },
             372 => function ($stackPos) {
                  $this->semValue = $this->semStack[$stackPos-(2-1)];
