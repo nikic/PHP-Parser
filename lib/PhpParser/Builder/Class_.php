@@ -9,8 +9,7 @@ use PhpParser\Node;
 use PhpParser\Node\Name;
 use PhpParser\Node\Stmt;
 
-class Class_ extends Declaration
-{
+class Class_ extends Declaration {
     protected $name;
 
     protected $extends = null;
@@ -135,7 +134,7 @@ class Class_ extends Declaration
      *
      * @return Stmt\Class_ The built class node
      */
-    public function getNode() : PhpParser\Node {
+    public function getNode(): PhpParser\Node {
         return new Stmt\Class_($this->name, [
             'flags' => $this->flags,
             'extends' => $this->extends,

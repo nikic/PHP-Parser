@@ -4,8 +4,7 @@ namespace PhpParser\Node\Stmt;
 
 use PhpParser\Node;
 
-class PropertyProperty extends Node\Stmt
-{
+class PropertyProperty extends Node\Stmt {
     /** @var Node\VarLikeIdentifier Name */
     public $name;
     /** @var null|Node\Expr Default */
@@ -24,11 +23,11 @@ class PropertyProperty extends Node\Stmt
         $this->default = $default;
     }
 
-    public function getSubNodeNames() : array {
+    public function getSubNodeNames(): array {
         return ['name', 'default'];
     }
-    
-    public function getType() : string {
+
+    public function getType(): string {
         return 'Stmt_PropertyProperty';
     }
 }

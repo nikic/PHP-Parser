@@ -5,8 +5,7 @@ namespace PhpParser;
 use PhpParser\NodeVisitor\FindingVisitor;
 use PhpParser\NodeVisitor\FirstFindingVisitor;
 
-class NodeFinder
-{
+class NodeFinder {
     /**
      * Find all nodes satisfying a filter callback.
      *
@@ -15,14 +14,14 @@ class NodeFinder
      *
      * @return Node[] Found nodes satisfying the filter callback
      */
-    public function find($nodes, callable $filter) : array {
+    public function find($nodes, callable $filter): array {
         if (!is_array($nodes)) {
             $nodes = [$nodes];
         }
 
         $visitor = new FindingVisitor($filter);
 
-        $traverser = new NodeTraverser;
+        $traverser = new NodeTraverser();
         $traverser->addVisitor($visitor);
         $traverser->traverse($nodes);
 
@@ -39,7 +38,7 @@ class NodeFinder
      *
      * @return TNode[]            Found nodes (all instances of $class)
      */
-    public function findInstanceOf($nodes, string $class) : array {
+    public function findInstanceOf($nodes, string $class): array {
         return $this->find($nodes, function ($node) use ($class) {
             return $node instanceof $class;
         });
@@ -60,7 +59,7 @@ class NodeFinder
 
         $visitor = new FirstFindingVisitor($filter);
 
-        $traverser = new NodeTraverser;
+        $traverser = new NodeTraverser();
         $traverser->addVisitor($visitor);
         $traverser->traverse($nodes);
 

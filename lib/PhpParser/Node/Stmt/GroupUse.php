@@ -5,8 +5,7 @@ namespace PhpParser\Node\Stmt;
 use PhpParser\Node\Name;
 use PhpParser\Node\Stmt;
 
-class GroupUse extends Stmt
-{
+class GroupUse extends Stmt {
     /** @var int Type of group use */
     public $type;
     /** @var Name Prefix for uses */
@@ -29,11 +28,11 @@ class GroupUse extends Stmt
         $this->uses = $uses;
     }
 
-    public function getSubNodeNames() : array {
+    public function getSubNodeNames(): array {
         return ['type', 'prefix', 'uses'];
     }
-    
-    public function getType() : string {
+
+    public function getType(): string {
         return 'Stmt_GroupUse';
     }
 }

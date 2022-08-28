@@ -11,8 +11,7 @@ use PhpParser\Node\Name;
 use PhpParser\Node\Stmt;
 use PhpParser\Node\ComplexType;
 
-class Property implements PhpParser\Builder
-{
+class Property implements PhpParser\Builder {
     protected $name;
 
     protected $flags = 0;
@@ -148,7 +147,7 @@ class Property implements PhpParser\Builder
      *
      * @return Stmt\Property The built property node
      */
-    public function getNode() : PhpParser\Node {
+    public function getNode(): PhpParser\Node {
         return new Stmt\Property(
             $this->flags !== 0 ? $this->flags : Modifiers::PUBLIC,
             [

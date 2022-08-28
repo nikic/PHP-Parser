@@ -4,8 +4,7 @@ namespace PhpParser\Node\Expr;
 
 use PhpParser\Node\Expr;
 
-class UnaryMinus extends Expr
-{
+class UnaryMinus extends Expr {
     /** @var Expr Expression */
     public $expr;
 
@@ -20,11 +19,11 @@ class UnaryMinus extends Expr
         $this->expr = $expr;
     }
 
-    public function getSubNodeNames() : array {
+    public function getSubNodeNames(): array {
         return ['expr'];
     }
-    
-    public function getType() : string {
+
+    public function getType(): string {
         return 'Expr_UnaryMinus';
     }
 }

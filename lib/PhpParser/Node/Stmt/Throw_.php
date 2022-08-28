@@ -4,8 +4,7 @@ namespace PhpParser\Node\Stmt;
 
 use PhpParser\Node;
 
-class Throw_ extends Node\Stmt
-{
+class Throw_ extends Node\Stmt {
     /** @var Node\Expr Expression */
     public $expr;
 
@@ -20,11 +19,11 @@ class Throw_ extends Node\Stmt
         $this->expr = $expr;
     }
 
-    public function getSubNodeNames() : array {
+    public function getSubNodeNames(): array {
         return ['expr'];
     }
-    
-    public function getType() : string {
+
+    public function getType(): string {
         return 'Stmt_Throw';
     }
 }

@@ -10,8 +10,7 @@ use PhpParser\NodeVisitorAbstract;
  * This visitor can be used to find the first node satisfying some criterion determined by
  * a filter callback.
  */
-class FirstFindingVisitor extends NodeVisitorAbstract
-{
+class FirstFindingVisitor extends NodeVisitorAbstract {
     /** @var callable Filter callback */
     protected $filterCallback;
     /** @var null|Node Found node */

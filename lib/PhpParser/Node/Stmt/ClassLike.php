@@ -4,8 +4,7 @@ namespace PhpParser\Node\Stmt;
 
 use PhpParser\Node;
 
-abstract class ClassLike extends Node\Stmt
-{
+abstract class ClassLike extends Node\Stmt {
     /** @var Node\Identifier|null Name */
     public $name;
     /** @var Node\Stmt[] Statements */
@@ -19,7 +18,7 @@ abstract class ClassLike extends Node\Stmt
     /**
      * @return TraitUse[]
      */
-    public function getTraitUses() : array {
+    public function getTraitUses(): array {
         $traitUses = [];
         foreach ($this->stmts as $stmt) {
             if ($stmt instanceof TraitUse) {
@@ -32,7 +31,7 @@ abstract class ClassLike extends Node\Stmt
     /**
      * @return ClassConst[]
      */
-    public function getConstants() : array {
+    public function getConstants(): array {
         $constants = [];
         foreach ($this->stmts as $stmt) {
             if ($stmt instanceof ClassConst) {
@@ -45,7 +44,7 @@ abstract class ClassLike extends Node\Stmt
     /**
      * @return Property[]
      */
-    public function getProperties() : array {
+    public function getProperties(): array {
         $properties = [];
         foreach ($this->stmts as $stmt) {
             if ($stmt instanceof Property) {
@@ -80,7 +79,7 @@ abstract class ClassLike extends Node\Stmt
      *
      * @return ClassMethod[]
      */
-    public function getMethods() : array {
+    public function getMethods(): array {
         $methods = [];
         foreach ($this->stmts as $stmt) {
             if ($stmt instanceof ClassMethod) {

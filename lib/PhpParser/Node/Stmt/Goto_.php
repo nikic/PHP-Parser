@@ -5,8 +5,7 @@ namespace PhpParser\Node\Stmt;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Stmt;
 
-class Goto_ extends Stmt
-{
+class Goto_ extends Stmt {
     /** @var Identifier Name of label to jump to */
     public $name;
 
@@ -21,11 +20,11 @@ class Goto_ extends Stmt
         $this->name = \is_string($name) ? new Identifier($name) : $name;
     }
 
-    public function getSubNodeNames() : array {
+    public function getSubNodeNames(): array {
         return ['name'];
     }
-    
-    public function getType() : string {
+
+    public function getType(): string {
         return 'Stmt_Goto';
     }
 }

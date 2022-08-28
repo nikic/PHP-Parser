@@ -4,8 +4,7 @@ namespace PhpParser\Node\Stmt\TraitUseAdaptation;
 
 use PhpParser\Node;
 
-class Precedence extends Node\Stmt\TraitUseAdaptation
-{
+class Precedence extends Node\Stmt\TraitUseAdaptation {
     /** @var Node\Name[] Overwritten traits */
     public $insteadof;
 
@@ -24,11 +23,11 @@ class Precedence extends Node\Stmt\TraitUseAdaptation
         $this->insteadof = $insteadof;
     }
 
-    public function getSubNodeNames() : array {
+    public function getSubNodeNames(): array {
         return ['trait', 'method', 'insteadof'];
     }
-    
-    public function getType() : string {
+
+    public function getType(): string {
         return 'Stmt_TraitUseAdaptation_Precedence';
     }
 }

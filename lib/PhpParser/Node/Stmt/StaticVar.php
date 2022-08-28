@@ -5,8 +5,7 @@ namespace PhpParser\Node\Stmt;
 use PhpParser\Node;
 use PhpParser\Node\Expr;
 
-class StaticVar extends Node\Stmt
-{
+class StaticVar extends Node\Stmt {
     /** @var Expr\Variable Variable */
     public $var;
     /** @var null|Node\Expr Default value */
@@ -27,11 +26,11 @@ class StaticVar extends Node\Stmt
         $this->default = $default;
     }
 
-    public function getSubNodeNames() : array {
+    public function getSubNodeNames(): array {
         return ['var', 'default'];
     }
-    
-    public function getType() : string {
+
+    public function getType(): string {
         return 'Stmt_StaticVar';
     }
 }

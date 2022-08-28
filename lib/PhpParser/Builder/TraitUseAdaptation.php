@@ -8,8 +8,7 @@ use PhpParser\Modifiers;
 use PhpParser\Node;
 use PhpParser\Node\Stmt;
 
-class TraitUseAdaptation implements Builder
-{
+class TraitUseAdaptation implements Builder {
     public const TYPE_UNDEFINED  = 0;
     public const TYPE_ALIAS      = 1;
     public const TYPE_PRECEDENCE = 2;
@@ -34,7 +33,7 @@ class TraitUseAdaptation implements Builder
     public function __construct($trait, $method) {
         $this->type = self::TYPE_UNDEFINED;
 
-        $this->trait = is_null($trait)? null: BuilderHelpers::normalizeName($trait);
+        $this->trait = is_null($trait) ? null : BuilderHelpers::normalizeName($trait);
         $this->method = BuilderHelpers::normalizeIdentifier($method);
     }
 
@@ -136,7 +135,7 @@ class TraitUseAdaptation implements Builder
      *
      * @return Node The built node
      */
-    public function getNode() : Node {
+    public function getNode(): Node {
         switch ($this->type) {
             case self::TYPE_ALIAS:
                 return new Stmt\TraitUseAdaptation\Alias($this->trait, $this->method, $this->modifier, $this->alias);

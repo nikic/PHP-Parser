@@ -4,8 +4,7 @@ namespace PhpParser\Node\Scalar;
 
 use PhpParser\Node\Scalar;
 
-class EncapsedStringPart extends Scalar
-{
+class EncapsedStringPart extends Scalar {
     /** @var string String value */
     public $value;
 
@@ -20,11 +19,11 @@ class EncapsedStringPart extends Scalar
         $this->value = $value;
     }
 
-    public function getSubNodeNames() : array {
+    public function getSubNodeNames(): array {
         return ['value'];
     }
-    
-    public function getType() : string {
+
+    public function getType(): string {
         return 'Scalar_EncapsedStringPart';
     }
 }

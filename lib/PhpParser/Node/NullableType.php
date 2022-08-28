@@ -2,8 +2,7 @@
 
 namespace PhpParser\Node;
 
-class NullableType extends ComplexType
-{
+class NullableType extends ComplexType {
     /** @var Identifier|Name Type */
     public $type;
 
@@ -18,11 +17,11 @@ class NullableType extends ComplexType
         $this->type = \is_string($type) ? new Identifier($type) : $type;
     }
 
-    public function getSubNodeNames() : array {
+    public function getSubNodeNames(): array {
         return ['type'];
     }
-    
-    public function getType() : string {
+
+    public function getType(): string {
         return 'NullableType';
     }
 }

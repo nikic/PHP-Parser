@@ -12,8 +12,7 @@ use PhpParser\Node\Expr\Cast;
 use PhpParser\Node\Scalar;
 use PhpParser\Node\Stmt;
 
-abstract class PrettyPrinterAbstract
-{
+abstract class PrettyPrinterAbstract {
     protected const FIXUP_PREC_LEFT       = 0; // LHS operand affected by precedence
     protected const FIXUP_PREC_RIGHT      = 1; // RHS operand affected by precedence
     protected const FIXUP_CALL_LHS        = 2; // LHS of call
@@ -200,7 +199,7 @@ abstract class PrettyPrinterAbstract
      *
      * @return string Pretty printed statements
      */
-    public function prettyPrint(array $stmts) : string {
+    public function prettyPrint(array $stmts): string {
         $this->resetState();
         $this->preprocessNodes($stmts);
 
@@ -214,7 +213,7 @@ abstract class PrettyPrinterAbstract
      *
      * @return string Pretty printed node
      */
-    public function prettyPrintExpr(Expr $node) : string {
+    public function prettyPrintExpr(Expr $node): string {
         $this->resetState();
         return $this->handleMagicTokens($this->p($node));
     }
@@ -226,7 +225,7 @@ abstract class PrettyPrinterAbstract
      *
      * @return string Pretty printed statements
      */
-    public function prettyPrintFile(array $stmts) : string {
+    public function prettyPrintFile(array $stmts): string {
         if (!$stmts) {
             return "<?php\n\n";
         }
@@ -283,7 +282,7 @@ abstract class PrettyPrinterAbstract
      *
      * @return string Pretty printed statements
      */
-    protected function pStmts(array $nodes, bool $indent = true) : string {
+    protected function pStmts(array $nodes, bool $indent = true): string {
         if ($indent) {
             $this->indent();
         }
@@ -318,7 +317,7 @@ abstract class PrettyPrinterAbstract
      *
      * @return string Pretty printed infix operation
      */
-    protected function pInfixOp(string $class, Node $leftNode, string $operatorString, Node $rightNode) : string {
+    protected function pInfixOp(string $class, Node $leftNode, string $operatorString, Node $rightNode): string {
         list($precedence, $associativity) = $this->precedenceMap[$class];
 
         return $this->pPrec($leftNode, $precedence, $associativity, -1)
@@ -335,7 +334,7 @@ abstract class PrettyPrinterAbstract
      *
      * @return string Pretty printed prefix operation
      */
-    protected function pPrefixOp(string $class, string $operatorString, Node $node) : string {
+    protected function pPrefixOp(string $class, string $operatorString, Node $node): string {
         list($precedence, $associativity) = $this->precedenceMap[$class];
         return $operatorString . $this->pPrec($node, $precedence, $associativity, 1);
     }
@@ -352,7 +351,7 @@ abstract class PrettyPrinterAbstract
      *
      * @return string The pretty printed node
      */
-    protected function pPrec(Node $node, int $parentPrecedence, int $parentAssociativity, int $childPosition) : string {
+    protected function pPrec(Node $node, int $parentPrecedence, int $parentAssociativity, int $childPosition): string {
         $class = \get_class($node);
         if (isset($this->precedenceMap[$class])) {
             $childPrecedence = $this->precedenceMap[$class][0];
@@ -374,7 +373,7 @@ abstract class PrettyPrinterAbstract
      *
      * @return string Imploded pretty printed nodes
      */
-    protected function pImplode(array $nodes, string $glue = '') : string {
+    protected function pImplode(array $nodes, string $glue = ''): string {
         $pNodes = [];
         foreach ($nodes as $node) {
             if (null === $node) {
@@ -394,7 +393,7 @@ abstract class PrettyPrinterAbstract
      *
      * @return string Comma separated pretty printed nodes
      */
-    protected function pCommaSeparated(array $nodes) : string {
+    protected function pCommaSeparated(array $nodes): string {
         return $this->pImplode($nodes, ', ');
     }
 
@@ -408,7 +407,7 @@ abstract class PrettyPrinterAbstract
      *
      * @return string Comma separated pretty printed nodes in multiline style
      */
-    protected function pCommaSeparatedMultiline(array $nodes, bool $trailingComma) : string {
+    protected function pCommaSeparatedMultiline(array $nodes, bool $trailingComma): string {
         $this->indent();
 
         $result = '';
@@ -440,7 +439,7 @@ abstract class PrettyPrinterAbstract
      *
      * @return string Reformatted text of comments
      */
-    protected function pComments(array $comments) : string {
+    protected function pComments(array $comments): string {
         $formattedComments = [];
 
         foreach ($comments as $comment) {
@@ -467,7 +466,7 @@ abstract class PrettyPrinterAbstract
      *
      * @return string
      */
-    public function printFormatPreserving(array $stmts, array $origStmts, array $origTokens) : string {
+    public function printFormatPreserving(array $stmts, array $origStmts, array $origTokens): string {
         $this->initializeNodeListDiffer();
         $this->initializeLabelCharMap();
         $this->initializeFixupMap();
@@ -509,7 +508,7 @@ abstract class PrettyPrinterAbstract
      *
      * @return string Pretty printed node
      */
-    protected function p(Node $node, bool $parentFormatPreserved = false) : string {
+    protected function p(Node $node, bool $parentFormatPreserved = false): string {
         // No orig tokens means this is a normal pretty print without preservation of formatting
         if (!$this->origTokens) {
             return $this->{'p' . $node->getType()}($node);
@@ -942,7 +941,7 @@ abstract class PrettyPrinterAbstract
      *
      * @return string Result of fixed-up print of subnode
      */
-    protected function pFixup(int $fixup, Node $subNode, ?string $parentClass, int $subStartPos, int $subEndPos) : string {
+    protected function pFixup(int $fixup, Node $subNode, ?string $parentClass, int $subStartPos, int $subEndPos): string {
         switch ($fixup) {
             case self::FIXUP_PREC_LEFT:
             case self::FIXUP_PREC_RIGHT:
@@ -1024,7 +1023,7 @@ abstract class PrettyPrinterAbstract
      *
      * @return bool Whether parentheses are required
      */
-    protected function callLhsRequiresParens(Node $node) : bool {
+    protected function callLhsRequiresParens(Node $node): bool {
         return !($node instanceof Node\Name
             || $node instanceof Expr\Variable
             || $node instanceof Expr\ArrayDimFetch
@@ -1042,7 +1041,7 @@ abstract class PrettyPrinterAbstract
      *
      * @return bool Whether parentheses are required
      */
-    protected function dereferenceLhsRequiresParens(Node $node) : bool {
+    protected function dereferenceLhsRequiresParens(Node $node): bool {
         return !($node instanceof Expr\Variable
             || $node instanceof Node\Name
             || $node instanceof Expr\ArrayDimFetch
@@ -1067,13 +1066,13 @@ abstract class PrettyPrinterAbstract
      * @return string Printed modifiers
      */
     protected function pModifiers(int $modifiers): string {
-        return ($modifiers & Modifiers::FINAL     ? 'final '     : '')
-             . ($modifiers & Modifiers::ABSTRACT  ? 'abstract '  : '')
-             . ($modifiers & Modifiers::PUBLIC    ? 'public '    : '')
+        return ($modifiers & Modifiers::FINAL ? 'final ' : '')
+             . ($modifiers & Modifiers::ABSTRACT ? 'abstract ' : '')
+             . ($modifiers & Modifiers::PUBLIC ? 'public ' : '')
              . ($modifiers & Modifiers::PROTECTED ? 'protected ' : '')
-             . ($modifiers & Modifiers::PRIVATE   ? 'private '   : '')
-             . ($modifiers & Modifiers::STATIC    ? 'static '    : '')
-             . ($modifiers & Modifiers::READONLY  ? 'readonly '  : '');
+             . ($modifiers & Modifiers::PRIVATE ? 'private ' : '')
+             . ($modifiers & Modifiers::STATIC ? 'static ' : '')
+             . ($modifiers & Modifiers::READONLY ? 'readonly ' : '');
     }
 
     /**
@@ -1083,7 +1082,7 @@ abstract class PrettyPrinterAbstract
      *
      * @return bool Whether multiline formatting is used
      */
-    protected function isMultiline(array $nodes) : bool {
+    protected function isMultiline(array $nodes): bool {
         if (\count($nodes) < 2) {
             return false;
         }
@@ -1116,7 +1115,9 @@ abstract class PrettyPrinterAbstract
      * The label char map determines whether a certain character may occur in a label.
      */
     protected function initializeLabelCharMap() {
-        if ($this->labelCharMap) return;
+        if ($this->labelCharMap) {
+            return;
+        }
 
         $this->labelCharMap = [];
         for ($i = 0; $i < 256; $i++) {
@@ -1133,7 +1134,9 @@ abstract class PrettyPrinterAbstract
      * The node list differ is used to determine differences between two array subnodes.
      */
     protected function initializeNodeListDiffer() {
-        if ($this->nodeListDiffer) return;
+        if ($this->nodeListDiffer) {
+            return;
+        }
 
         $this->nodeListDiffer = new Internal\Differ(function ($a, $b) {
             if ($a instanceof Node && $b instanceof Node) {
@@ -1151,7 +1154,9 @@ abstract class PrettyPrinterAbstract
      * some kind of "fixup" operation, e.g. the addition of parenthesis or braces.
      */
     protected function initializeFixupMap() {
-        if ($this->fixupMap) return;
+        if ($this->fixupMap) {
+            return;
+        }
 
         $this->fixupMap = [
             Expr\Instanceof_::class => [
@@ -1233,7 +1238,9 @@ abstract class PrettyPrinterAbstract
      * certain node is replaced by null.
      */
     protected function initializeRemovalMap() {
-        if ($this->removalMap) return;
+        if ($this->removalMap) {
+            return;
+        }
 
         $stripBoth = ['left' => \T_WHITESPACE, 'right' => \T_WHITESPACE];
         $stripLeft = ['left' => \T_WHITESPACE];
@@ -1278,7 +1285,9 @@ abstract class PrettyPrinterAbstract
     }
 
     protected function initializeInsertionMap() {
-        if ($this->insertionMap) return;
+        if ($this->insertionMap) {
+            return;
+        }
 
         // TODO: "yield" where both key and value are inserted doesn't work
         // [$find, $beforeToken, $extraLeft, $extraRight]
@@ -1320,7 +1329,9 @@ abstract class PrettyPrinterAbstract
     }
 
     protected function initializeListInsertionMap() {
-        if ($this->listInsertionMap) return;
+        if ($this->listInsertionMap) {
+            return;
+        }
 
         $this->listInsertionMap = [
             // special
@@ -1414,7 +1425,9 @@ abstract class PrettyPrinterAbstract
     }
 
     protected function initializeEmptyListInsertionMap() {
-        if ($this->emptyListInsertionMap) return;
+        if ($this->emptyListInsertionMap) {
+            return;
+        }
 
         // TODO Insertion into empty statement lists.
 
@@ -1467,7 +1480,9 @@ abstract class PrettyPrinterAbstract
     }
 
     protected function initializeModifierChangeMap() {
-        if ($this->modifierChangeMap) return;
+        if ($this->modifierChangeMap) {
+            return;
+        }
 
         $this->modifierChangeMap = [
             'Stmt_ClassConst->flags' => \T_CONST,

@@ -5,8 +5,7 @@ namespace PhpParser\Node;
 use PhpParser\Node;
 use PhpParser\NodeAbstract;
 
-class Attribute extends NodeAbstract
-{
+class Attribute extends NodeAbstract {
     /** @var Name Attribute name */
     public $name;
 
@@ -24,11 +23,11 @@ class Attribute extends NodeAbstract
         $this->args = $args;
     }
 
-    public function getSubNodeNames() : array {
+    public function getSubNodeNames(): array {
         return ['name', 'args'];
     }
 
-    public function getType() : string {
+    public function getType(): string {
         return 'Attribute';
     }
 }

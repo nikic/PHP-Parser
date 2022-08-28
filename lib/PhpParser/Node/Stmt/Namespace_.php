@@ -4,8 +4,7 @@ namespace PhpParser\Node\Stmt;
 
 use PhpParser\Node;
 
-class Namespace_ extends Node\Stmt
-{
+class Namespace_ extends Node\Stmt {
     /* For use in the "kind" attribute */
     public const KIND_SEMICOLON = 1;
     public const KIND_BRACED = 2;
@@ -28,11 +27,11 @@ class Namespace_ extends Node\Stmt
         $this->stmts = $stmts;
     }
 
-    public function getSubNodeNames() : array {
+    public function getSubNodeNames(): array {
         return ['name', 'stmts'];
     }
-    
-    public function getType() : string {
+
+    public function getType(): string {
         return 'Stmt_Namespace';
     }
 }

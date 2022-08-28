@@ -7,8 +7,7 @@ use PhpParser\BuilderHelpers;
 use PhpParser\Node;
 use PhpParser\Node\Stmt;
 
-class TraitUse implements Builder
-{
+class TraitUse implements Builder {
     protected $traits = [];
     protected $adaptations = [];
 
@@ -58,7 +57,7 @@ class TraitUse implements Builder
      *
      * @return Node The built node
      */
-    public function getNode() : Node {
+    public function getNode(): Node {
         return new Stmt\TraitUse($this->traits, $this->adaptations);
     }
 }

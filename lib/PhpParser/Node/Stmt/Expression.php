@@ -7,8 +7,7 @@ use PhpParser\Node;
 /**
  * Represents statements of type "expr;"
  */
-class Expression extends Node\Stmt
-{
+class Expression extends Node\Stmt {
     /** @var Node\Expr Expression */
     public $expr;
 
@@ -23,11 +22,11 @@ class Expression extends Node\Stmt
         $this->expr = $expr;
     }
 
-    public function getSubNodeNames() : array {
+    public function getSubNodeNames(): array {
         return ['expr'];
     }
-    
-    public function getType() : string {
+
+    public function getType(): string {
         return 'Stmt_Expression';
     }
 }

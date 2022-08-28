@@ -4,32 +4,27 @@ namespace PhpParser\Lexer\TokenEmulator;
 
 use PhpParser\PhpVersion;
 
-final class FlexibleDocStringEmulator extends TokenEmulator
-{
+final class FlexibleDocStringEmulator extends TokenEmulator {
     private const FLEXIBLE_DOC_STRING_REGEX = <<<'REGEX'
 /<<<[ \t]*(['"]?)([a-zA-Z_\x80-\xff][a-zA-Z0-9_\x80-\xff]*)\1\r?\n
 (?:.*\r?\n)*?
 (?<indentation>\h*)\2(?![a-zA-Z0-9_\x80-\xff])(?<separator>(?:;?[\r\n])?)/x
 REGEX;
 
-    public function getPhpVersion(): PhpVersion
-    {
+    public function getPhpVersion(): PhpVersion {
         return PhpVersion::fromComponents(7, 3);
     }
 
-    public function isEmulationNeeded(string $code) : bool
-    {
+    public function isEmulationNeeded(string $code): bool {
         return strpos($code, '<<<') !== false;
     }
 
-    public function emulate(string $code, array $tokens): array
-    {
+    public function emulate(string $code, array $tokens): array {
         // Handled by preprocessing + fixup.
         return $tokens;
     }
 
-    public function reverseEmulate(string $code, array $tokens): array
-    {
+    public function reverseEmulate(string $code, array $tokens): array {
         // Not supported.
         return $tokens;
     }

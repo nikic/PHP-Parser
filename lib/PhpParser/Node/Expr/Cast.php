@@ -4,8 +4,7 @@ namespace PhpParser\Node\Expr;
 
 use PhpParser\Node\Expr;
 
-abstract class Cast extends Expr
-{
+abstract class Cast extends Expr {
     /** @var Expr Expression */
     public $expr;
 
@@ -20,7 +19,7 @@ abstract class Cast extends Expr
         $this->expr = $expr;
     }
 
-    public function getSubNodeNames() : array {
+    public function getSubNodeNames(): array {
         return ['expr'];
     }
 }

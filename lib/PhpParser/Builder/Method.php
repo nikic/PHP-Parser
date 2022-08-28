@@ -8,8 +8,7 @@ use PhpParser\Modifiers;
 use PhpParser\Node;
 use PhpParser\Node\Stmt;
 
-class Method extends FunctionLike
-{
+class Method extends FunctionLike {
     protected $name;
     protected $flags = 0;
 
@@ -134,7 +133,7 @@ class Method extends FunctionLike
      *
      * @return Stmt\ClassMethod The built method node
      */
-    public function getNode() : Node {
+    public function getNode(): Node {
         return new Stmt\ClassMethod($this->name, [
             'flags'      => $this->flags,
             'byRef'      => $this->returnByRef,

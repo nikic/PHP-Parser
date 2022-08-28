@@ -12,8 +12,7 @@ use PhpParser\Node\Const_;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Stmt;
 
-class ClassConst implements PhpParser\Builder
-{
+class ClassConst implements PhpParser\Builder {
     protected $flags = 0;
     protected $attributes = [];
     protected $constants = [];

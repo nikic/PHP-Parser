@@ -6,8 +6,7 @@ use PhpParser\Parser\Tokens;
 
 require __DIR__ . '/compatibility_tokens.php';
 
-class Lexer
-{
+class Lexer {
     /** @var string Code being tokenized */
     protected $code;
     /** @var Token[] Array of tokens */

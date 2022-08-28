@@ -2,8 +2,7 @@
 
 namespace PhpParser;
 
-interface NodeVisitor
-{
+interface NodeVisitor {
     /**
      * Called once before traversal.
      *

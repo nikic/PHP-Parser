@@ -4,8 +4,7 @@ namespace PhpParser\Node\Stmt;
 
 use PhpParser\Node;
 
-class Declare_ extends Node\Stmt
-{
+class Declare_ extends Node\Stmt {
     /** @var DeclareDeclare[] List of declares */
     public $declares;
     /** @var Node\Stmt[]|null Statements */
@@ -24,11 +23,11 @@ class Declare_ extends Node\Stmt
         $this->stmts = $stmts;
     }
 
-    public function getSubNodeNames() : array {
+    public function getSubNodeNames(): array {
         return ['declares', 'stmts'];
     }
-    
-    public function getType() : string {
+
+    public function getType(): string {
         return 'Stmt_Declare';
     }
 }

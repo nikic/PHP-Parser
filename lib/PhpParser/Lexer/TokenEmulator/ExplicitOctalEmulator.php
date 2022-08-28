@@ -31,8 +31,7 @@ class ExplicitOctalEmulator extends TokenEmulator {
         return $tokens;
     }
 
-    private function resolveIntegerOrFloatToken(string $str): int
-    {
+    private function resolveIntegerOrFloatToken(string $str): int {
         $str = substr($str, 1);
         $str = str_replace('_', '', $str);
         $num = octdec($str);

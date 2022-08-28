@@ -5,8 +5,7 @@ namespace PhpParser\Node\Expr;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Identifier;
 
-class NullsafePropertyFetch extends Expr
-{
+class NullsafePropertyFetch extends Expr {
     /** @var Expr Variable holding object */
     public $var;
     /** @var Identifier|Expr Property name */
@@ -25,11 +24,11 @@ class NullsafePropertyFetch extends Expr
         $this->name = \is_string($name) ? new Identifier($name) : $name;
     }
 
-    public function getSubNodeNames() : array {
+    public function getSubNodeNames(): array {
         return ['var', 'name'];
     }
-    
-    public function getType() : string {
+
+    public function getType(): string {
         return 'Expr_NullsafePropertyFetch';
     }
 }

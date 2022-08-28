@@ -8,8 +8,7 @@ use PhpParser\Node\Stmt\GroupUse;
 use PhpParser\Node\Stmt\Use_;
 use PhpParser\Node\Stmt\UseUse;
 
-class NodeDumper
-{
+class NodeDumper {
     private $dumpComments;
     private $dumpPositions;
     private $code;
@@ -39,7 +38,7 @@ class NodeDumper
      *
      * @return string Dumped value
      */
-    public function dump($node, ?string $code = null) : string {
+    public function dump($node, ?string $code = null): string {
         $this->code = $code;
         return $this->dumpRecursive($node);
     }

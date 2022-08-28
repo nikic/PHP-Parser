@@ -6,8 +6,7 @@ use PhpParser\Error;
 use PhpParser\Modifiers;
 use PhpParser\Node;
 
-class Class_ extends ClassLike
-{
+class Class_ extends ClassLike {
     /** @deprecated Use Modifiers::PUBLIC instead */
     public const MODIFIER_PUBLIC    =  1;
     /** @deprecated Use Modifiers::PROTECTED instead */
@@ -55,7 +54,7 @@ class Class_ extends ClassLike
         $this->attrGroups = $subNodes['attrGroups'] ?? [];
     }
 
-    public function getSubNodeNames() : array {
+    public function getSubNodeNames(): array {
         return ['attrGroups', 'flags', 'name', 'extends', 'implements', 'stmts'];
     }
 
@@ -64,7 +63,7 @@ class Class_ extends ClassLike
      *
      * @return bool
      */
-    public function isAbstract() : bool {
+    public function isAbstract(): bool {
         return (bool) ($this->flags & Modifiers::ABSTRACT);
     }
 
@@ -73,11 +72,11 @@ class Class_ extends ClassLike
      *
      * @return bool
      */
-    public function isFinal() : bool {
+    public function isFinal(): bool {
         return (bool) ($this->flags & Modifiers::FINAL);
     }
 
-    public function isReadonly() : bool {
+    public function isReadonly(): bool {
         return (bool) ($this->flags & Modifiers::READONLY);
     }
 
@@ -86,7 +85,7 @@ class Class_ extends ClassLike
      *
      * @return bool
      */
-    public function isAnonymous() : bool {
+    public function isAnonymous(): bool {
         return null === $this->name;
     }
 
@@ -140,7 +139,7 @@ class Class_ extends ClassLike
         }
     }
 
-    public function getType() : string {
+    public function getType(): string {
         return 'Stmt_Class';
     }
 }

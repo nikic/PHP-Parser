@@ -8,8 +8,7 @@ use PhpParser\Node\ComplexType;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Name;
 
-class Property extends Node\Stmt
-{
+class Property extends Node\Stmt {
     /** @var int Modifiers */
     public $flags;
     /** @var PropertyProperty[] Properties */
@@ -36,7 +35,7 @@ class Property extends Node\Stmt
         $this->attrGroups = $attrGroups;
     }
 
-    public function getSubNodeNames() : array {
+    public function getSubNodeNames(): array {
         return ['attrGroups', 'flags', 'type', 'props'];
     }
 
@@ -45,7 +44,7 @@ class Property extends Node\Stmt
      *
      * @return bool
      */
-    public function isPublic() : bool {
+    public function isPublic(): bool {
         return ($this->flags & Modifiers::PUBLIC) !== 0
             || ($this->flags & Modifiers::VISIBILITY_MASK) === 0;
     }
@@ -55,7 +54,7 @@ class Property extends Node\Stmt
      *
      * @return bool
      */
-    public function isProtected() : bool {
+    public function isProtected(): bool {
         return (bool) ($this->flags & Modifiers::PROTECTED);
     }
 
@@ -64,7 +63,7 @@ class Property extends Node\Stmt
      *
      * @return bool
      */
-    public function isPrivate() : bool {
+    public function isPrivate(): bool {
         return (bool) ($this->flags & Modifiers::PRIVATE);
     }
 
@@ -73,7 +72,7 @@ class Property extends Node\Stmt
      *
      * @return bool
      */
-    public function isStatic() : bool {
+    public function isStatic(): bool {
         return (bool) ($this->flags & Modifiers::STATIC);
     }
 
@@ -82,11 +81,11 @@ class Property extends Node\Stmt
      *
      * @return bool
      */
-    public function isReadonly() : bool {
+    public function isReadonly(): bool {
         return (bool) ($this->flags & Modifiers::READONLY);
     }
 
-    public function getType() : string {
+    public function getType(): string {
         return 'Stmt_Property';
     }
 }

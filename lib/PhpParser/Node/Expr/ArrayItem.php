@@ -4,8 +4,7 @@ namespace PhpParser\Node\Expr;
 
 use PhpParser\Node\Expr;
 
-class ArrayItem extends Expr
-{
+class ArrayItem extends Expr {
     /** @var null|Expr Key */
     public $key;
     /** @var Expr Value */
@@ -31,11 +30,11 @@ class ArrayItem extends Expr
         $this->unpack = $unpack;
     }
 
-    public function getSubNodeNames() : array {
+    public function getSubNodeNames(): array {
         return ['key', 'value', 'byRef', 'unpack'];
     }
 
-    public function getType() : string {
+    public function getType(): string {
         return 'Expr_ArrayItem';
     }
 }

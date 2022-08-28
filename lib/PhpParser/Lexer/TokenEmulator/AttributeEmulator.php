@@ -5,20 +5,16 @@ namespace PhpParser\Lexer\TokenEmulator;
 use PhpParser\PhpVersion;
 use PhpParser\Token;
 
-final class AttributeEmulator extends TokenEmulator
-{
-    public function getPhpVersion(): PhpVersion
-    {
+final class AttributeEmulator extends TokenEmulator {
+    public function getPhpVersion(): PhpVersion {
         return PhpVersion::fromComponents(8, 0);
     }
 
-    public function isEmulationNeeded(string $code) : bool
-    {
+    public function isEmulationNeeded(string $code): bool {
         return strpos($code, '#[') !== false;
     }
 
-    public function emulate(string $code, array $tokens): array
-    {
+    public function emulate(string $code, array $tokens): array {
         // We need to manually iterate and manage a count because we'll change
         // the tokens array on the way.
         for ($i = 0, $c = count($tokens); $i < $c; ++$i) {
@@ -35,8 +31,7 @@ final class AttributeEmulator extends TokenEmulator
         return $tokens;
     }
 
-    public function reverseEmulate(string $code, array $tokens): array
-    {
+    public function reverseEmulate(string $code, array $tokens): array {
         // TODO
         return $tokens;
     }
