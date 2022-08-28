@@ -105,6 +105,13 @@ class PhpVersion {
     }
 
     /**
+     * Whether this version supports [] for destructuring.
+     */
+    public function supportsShortArrayDestructuring(): bool {
+        return $this->id >= 70100;
+    }
+
+    /**
      * Whether this version supports flexible heredoc/nowdoc.
      */
     public function supportsFlexibleHeredoc(): bool {

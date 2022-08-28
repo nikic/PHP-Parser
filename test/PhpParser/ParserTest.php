@@ -178,6 +178,15 @@ EOC;
         ];
     }
 
+    public function testListKindAttribute() {
+        $parser = $this->getParser(new Lexer\Emulative);
+        $stmts = $parser->parse('<?php list(list($x)) = $y; [[$x]] = $y;');
+        $this->assertSame($stmts[0]->expr->var->getAttribute('kind'), Expr\List_::KIND_LIST);
+        $this->assertSame($stmts[0]->expr->var->items[0]->value->getAttribute('kind'), Expr\List_::KIND_LIST);
+        $this->assertSame($stmts[1]->expr->var->getAttribute('kind'), Expr\List_::KIND_ARRAY);
+        $this->assertSame($stmts[1]->expr->var->items[0]->value->getAttribute('kind'), Expr\List_::KIND_ARRAY);
+    }
+
     public function testGetLexer() {
         $lexer = new Lexer;
         $parser = $this->getParser($lexer);
