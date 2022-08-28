@@ -10,7 +10,7 @@ Array destructuring
 array(
     0: Stmt_Expression(
         expr: Expr_Assign(
-            var: Expr_Array(
+            var: Expr_List(
                 items: array(
                     0: Expr_ArrayItem(
                         key: null
@@ -54,7 +54,7 @@ array(
     )
     1: Stmt_Expression(
         expr: Expr_Assign(
-            var: Expr_Array(
+            var: Expr_List(
                 items: array(
                     0: null
                     1: Expr_ArrayItem(
@@ -85,16 +85,16 @@ array(
     )
     2: Stmt_Expression(
         expr: Expr_Assign(
-            var: Expr_Array(
+            var: Expr_List(
                 items: array(
                     0: null
                     1: Expr_ArrayItem(
                         key: null
-                        value: Expr_Array(
+                        value: Expr_List(
                             items: array(
                                 0: Expr_ArrayItem(
                                     key: null
-                                    value: Expr_Array(
+                                    value: Expr_List(
                                         items: array(
                                             0: Expr_ArrayItem(
                                                 key: null
@@ -131,7 +131,7 @@ array(
     )
     3: Stmt_Expression(
         expr: Expr_Assign(
-            var: Expr_Array(
+            var: Expr_List(
                 items: array(
                     0: Expr_ArrayItem(
                         key: Scalar_String(

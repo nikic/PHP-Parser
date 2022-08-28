@@ -2,12 +2,12 @@
 
 namespace PhpParser\Lexer\TokenEmulator;
 
-use PhpParser\Lexer\Emulative;
+use PhpParser\PhpVersion;
 use PhpParser\Token;
 
 class ExplicitOctalEmulator extends TokenEmulator {
-    public function getPhpVersion(): string {
-        return Emulative::PHP_8_1;
+    public function getPhpVersion(): PhpVersion {
+        return PhpVersion::fromComponents(8, 1);
     }
 
     public function isEmulationNeeded(string $code): bool {

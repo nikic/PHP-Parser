@@ -2,7 +2,6 @@
 
 namespace PhpParser\Node;
 
-use PhpParser\Node;
 use PhpParser\NodeAbstract;
 
 class AttributeGroup extends NodeAbstract

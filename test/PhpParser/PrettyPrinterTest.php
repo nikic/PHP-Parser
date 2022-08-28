@@ -19,8 +19,9 @@ class PrettyPrinterTest extends CodeTestAbstract
         $lexer = new Lexer\Emulative;
         $parser = new Parser\Php7($lexer);
 
-        list(, $options) = $this->parseModeLine($modeLine);
-        $prettyPrinter = new Standard($options);
+        $options = $this->parseModeLine($modeLine);
+        $version = isset($options['version']) ? PhpVersion::fromString($options['version']) : null;
+        $prettyPrinter = new Standard(['phpVersion' => $version]);
 
         $output = canonicalize($prettyPrinter->$method($parser->parse($code)));
         $this->assertSame($expected, $output, $name);
@@ -70,13 +71,6 @@ class PrettyPrinterTest extends CodeTestAbstract
         $stmts = [new Stmt\InlineHTML('Hello World!', ['comments' => [$comment]])];
         $expected = "<?php\n\n/**\n * This is a comment\n */\n?>\nHello World!";
         $this->assertSame($expected, $prettyPrinter->prettyPrintFile($stmts));
-    }
-
-    private function parseModeLine($modeLine) {
-        $parts = explode(' ', (string) $modeLine, 2);
-        $version = $parts[0] ?? 'both';
-        $options = isset($parts[1]) ? json_decode($parts[1], true) : [];
-        return [$version, $options];
     }
 
     public function testArraySyntaxDefault() {

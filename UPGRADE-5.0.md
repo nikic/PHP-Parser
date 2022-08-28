@@ -7,9 +7,9 @@ PHP-Parser now requires PHP 7.1 or newer to run. It is however still possible to
 
 ### PHP 5 parsing support
 
-The dedicated parser for PHP 5 has been removed. The PHP 7 parser now supports a `phpVersion` option, which can be used to improve compatibility with older PHP versions.
+The dedicated parser for PHP 5 has been removed. The PHP 7 parser now accepts a `PhpVersion` argument, which can be used to improve compatibility with older PHP versions.
 
-In particular, if an older `phpVersion` is specified, then:
+In particular, if an older `PhpVersion` is specified, then:
 
  * For versions before PHP 7.0, `$foo =& new Bar()` assignments are allowed without error.
  * For versions before PHP 7.0, invalid octal literals `089` are allowed without error.
@@ -43,6 +43,8 @@ For example, if you specify version `"8.0"`, then `class ReadOnly {}` is treated
 
 ```php
 use PhpParser\ParserFactory;
+use PhpParser\PhpVersion;
+
 $factory = new ParserFactory;
 
 # Before
@@ -56,8 +58,18 @@ $parser = $factory->createForHostVersion();
 # Before
 $parser = $factory->create(ParserFactory::ONLY_PHP5);
 # After (supported on a best-effort basis)
-$parser = $factory->createForVersion("5.6");
+$parser = $factory->createForVersion(PhpVersion::fromString("5.6"));
 ```
+
+### Changes to the array destructuring representation
+
+Previously, the `list($x) = $y` destructuring syntax was represented using a `Node\Expr\List_`
+node, while `[$x] = $y` used a `Node\Expr\Array_` node, the same used for the creation (rather than
+destructuring) of arrays.
+
+Now, destructuring is always represented using `Node\Expr\List_`. The `kind` attribute with value
+`Node\Expr\List_::KIND_LIST` or `Node\Expr\List_::KIND_ARRAY` specifies which syntax was actually
+used.
 
 ### Renamed nodes
 
@@ -106,6 +118,25 @@ function () use($var) {
 function () use ($var) {
 };
 ```
+
+Backslashes in single-quoted strings are now only printed if they are necessary:
+
+```php
+# Before
+'Foo\\Bar';
+'\\\\';
+
+# After
+'Foo\Bar';
+'\\\\';
+```
+
+The pretty printer now accepts a `phpVersion` option, which accepts a `PhpVersion` object and defaults to PHP 7.0. The pretty printer will make formatting choices to make the code valid for that version. It currently controls the following behavior:
+
+* For PHP >= 7.0 (default), short array syntax `[]` will be used by default. This does not affect nodes that specify an explicit array syntax using the `kind` attribute.
+* For PHP >= 7.1, the short array syntax `[]` will be used for destructuring by default (instead of
+  `list()`). This does not affect nodes that specify and explicit syntax using the `kind` attribute.
+* For PHP >= 7.3, a newline is no longer forced after heredoc/nowdoc strings, as the requirement for this has been removed with the introduction of flexible heredoc/nowdoc strings.
 
 ### Changes to token representation
 

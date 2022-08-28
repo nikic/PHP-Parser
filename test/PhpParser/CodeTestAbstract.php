@@ -23,4 +23,21 @@ abstract class CodeTestAbstract extends \PHPUnit\Framework\TestCase
 
         return $allTests;
     }
+
+    protected function parseModeLine(?string $modeLine): array {
+        if ($modeLine === null) {
+            return [];
+        }
+
+        $modes = [];
+        foreach (explode(',', $modeLine) as $mode) {
+            $kv = explode('=', $mode, 2);
+            if (isset($kv[1])) {
+                $modes[$kv[0]] = $kv[1];
+            } else {
+                $modes[$kv[0]] = true;
+            }
+        }
+        return $modes;
+    }
 }

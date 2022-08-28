@@ -7,15 +7,15 @@ use PhpParser\Node;
 
 class Class_ extends ClassLike
 {
-    const MODIFIER_PUBLIC    =  1;
-    const MODIFIER_PROTECTED =  2;
-    const MODIFIER_PRIVATE   =  4;
-    const MODIFIER_STATIC    =  8;
-    const MODIFIER_ABSTRACT  = 16;
-    const MODIFIER_FINAL     = 32;
-    const MODIFIER_READONLY  = 64;
+    public const MODIFIER_PUBLIC    =  1;
+    public const MODIFIER_PROTECTED =  2;
+    public const MODIFIER_PRIVATE   =  4;
+    public const MODIFIER_STATIC    =  8;
+    public const MODIFIER_ABSTRACT  = 16;
+    public const MODIFIER_FINAL     = 32;
+    public const MODIFIER_READONLY  = 64;
 
-    const VISIBILITY_MODIFIER_MASK = 7; // 1 | 2 | 4
+    public const VISIBILITY_MODIFIER_MASK = 7; // 1 | 2 | 4
 
     /** @var int Type */
     public $flags;

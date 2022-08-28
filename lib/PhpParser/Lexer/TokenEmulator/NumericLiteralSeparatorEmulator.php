@@ -2,22 +2,22 @@
 
 namespace PhpParser\Lexer\TokenEmulator;
 
-use PhpParser\Lexer\Emulative;
+use PhpParser\PhpVersion;
 use PhpParser\Token;
 
 final class NumericLiteralSeparatorEmulator extends TokenEmulator
 {
-    const BIN = '(?:0b[01]+(?:_[01]+)*)';
-    const HEX = '(?:0x[0-9a-f]+(?:_[0-9a-f]+)*)';
-    const DEC = '(?:[0-9]+(?:_[0-9]+)*)';
-    const SIMPLE_FLOAT = '(?:' . self::DEC . '\.' . self::DEC . '?|\.' . self::DEC . ')';
-    const EXP = '(?:e[+-]?' . self::DEC . ')';
-    const FLOAT = '(?:' . self::SIMPLE_FLOAT . self::EXP . '?|' . self::DEC . self::EXP . ')';
-    const NUMBER = '~' . self::FLOAT . '|' . self::BIN . '|' . self::HEX . '|' . self::DEC . '~iA';
+    private const BIN = '(?:0b[01]+(?:_[01]+)*)';
+    private const HEX = '(?:0x[0-9a-f]+(?:_[0-9a-f]+)*)';
+    private const DEC = '(?:[0-9]+(?:_[0-9]+)*)';
+    private const SIMPLE_FLOAT = '(?:' . self::DEC . '\.' . self::DEC . '?|\.' . self::DEC . ')';
+    private const EXP = '(?:e[+-]?' . self::DEC . ')';
+    private const FLOAT = '(?:' . self::SIMPLE_FLOAT . self::EXP . '?|' . self::DEC . self::EXP . ')';
+    private const NUMBER = '~' . self::FLOAT . '|' . self::BIN . '|' . self::HEX . '|' . self::DEC . '~iA';
 
-    public function getPhpVersion(): string
+    public function getPhpVersion(): PhpVersion
     {
-        return Emulative::PHP_7_4;
+        return PhpVersion::fromComponents(7, 4);
     }
 
     public function isEmulationNeeded(string $code) : bool

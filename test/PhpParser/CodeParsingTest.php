@@ -11,12 +11,7 @@ class CodeParsingTest extends CodeTestAbstract
      * @dataProvider provideTestParse
      */
     public function testParse($name, $code, $expected, $modeLine) {
-        if (null !== $modeLine) {
-            $modes = $this->parseModeLine($modeLine);
-        } else {
-            $modes = [];
-        }
-
+        $modes = $this->parseModeLine($modeLine);
         $parser = $this->createParser($modes['version'] ?? null);
         list($stmts, $output) = $this->getParseOutput($parser, $code, $modes);
 
@@ -24,23 +19,12 @@ class CodeParsingTest extends CodeTestAbstract
         $this->checkAttributes($stmts);
     }
 
-    private function parseModeLine(string $modeLine): array {
-        $modes = [];
-        foreach (explode(',', $modeLine) as $mode) {
-            $kv = explode('=', $mode, 2);
-            if (isset($kv[1])) {
-                $modes[$kv[0]] = $kv[1];
-            } else {
-                $modes[$kv[0]] = true;
-            }
-        }
-        return $modes;
-    }
-
     public function createParser(?string $version): Parser {
         $factory = new ParserFactory();
+        $version = $version === null
+            ? PhpVersion::getNewestSupported() : PhpVersion::fromString($version);
         return $factory->createForVersion(
-            $version ?? $factory->getNewestSupportedVersion(),
+            $version,
             ['usedAttributes' => [
                 'startLine', 'endLine',
                 'startFilePos', 'endFilePos',

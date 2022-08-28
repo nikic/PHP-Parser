@@ -349,8 +349,8 @@ abstract class SomeClass extends SomeOtherClass implements A\Few, \Interfaces
     public const CONST_WITH_ATTRIBUTE = 1;
     private const FIRST_CLASS_CONST = 1, SECOND_CLASS_CONST = 2;
     protected $someProperty;
-    private $anotherProperty = array(1, 2, 3);
-    #[Column(options: array('unsigned' => true))]
+    private $anotherProperty = [1, 2, 3];
+    #[Column(options: ['unsigned' => true])]
     public int $integerProperty = 1;
     #[Route('/index', name: 'homepage')]
     function firstMethod()

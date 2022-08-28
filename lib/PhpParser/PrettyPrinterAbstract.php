@@ -14,23 +14,19 @@ use PhpParser\Node\Stmt;
 
 abstract class PrettyPrinterAbstract
 {
-    const FIXUP_PREC_LEFT       = 0; // LHS operand affected by precedence
-    const FIXUP_PREC_RIGHT      = 1; // RHS operand affected by precedence
-    const FIXUP_CALL_LHS        = 2; // LHS of call
-    const FIXUP_DEREF_LHS       = 3; // LHS of dereferencing operation
-    const FIXUP_BRACED_NAME     = 4; // Name operand that may require bracing
-    const FIXUP_VAR_BRACED_NAME = 5; // Name operand that may require ${} bracing
-    const FIXUP_ENCAPSED        = 6; // Encapsed string part
+    protected const FIXUP_PREC_LEFT       = 0; // LHS operand affected by precedence
+    protected const FIXUP_PREC_RIGHT      = 1; // RHS operand affected by precedence
+    protected const FIXUP_CALL_LHS        = 2; // LHS of call
+    protected const FIXUP_DEREF_LHS       = 3; // LHS of dereferencing operation
+    protected const FIXUP_BRACED_NAME     = 4; // Name operand that may require bracing
+    protected const FIXUP_VAR_BRACED_NAME = 5; // Name operand that may require ${} bracing
+    protected const FIXUP_ENCAPSED        = 6; // Encapsed string part
 
     protected $precedenceMap = [
         // [precedence, associativity]
         // where for precedence -1 is %left, 0 is %nonassoc and 1 is %right
         BinaryOp\Pow::class            => [  0,  1],
         Expr\BitwiseNot::class         => [ 10,  1],
-        Expr\PreInc::class             => [ 10,  1],
-        Expr\PreDec::class             => [ 10,  1],
-        Expr\PostInc::class            => [ 10, -1],
-        Expr\PostDec::class            => [ 10, -1],
         Expr\UnaryPlus::class          => [ 10,  1],
         Expr\UnaryMinus::class         => [ 10,  1],
         Cast\Int_::class               => [ 10,  1],
@@ -67,7 +63,6 @@ abstract class PrettyPrinterAbstract
         BinaryOp\BooleanOr::class      => [130, -1],
         BinaryOp\Coalesce::class       => [140,  1],
         Expr\Ternary::class            => [150,  0],
-        // parser uses %left for assignments, but they really behave as %right
         Expr\Assign::class             => [160,  1],
         Expr\AssignRef::class          => [160,  1],
         AssignOp\Plus::class           => [160,  1],
@@ -95,15 +90,17 @@ abstract class PrettyPrinterAbstract
     protected $indentLevel;
     /** @var string Newline including current indentation. */
     protected $nl;
-    /** @var string Token placed at end of doc string to ensure it is followed by a newline. */
+    /** @var string|null Token placed at end of doc string to ensure it is followed by a newline.
+     *                   Null if flexible doc strings are used. */
     protected $docStringEndToken;
     /** @var bool Whether semicolon namespaces can be used (i.e. no global namespace is used) */
     protected $canUseSemicolonNamespaces;
-    /** @var array Pretty printer options */
-    protected $options = [
-        'shortArraySyntax' => false, 
-        'shortListSyntax' => false,
-    ];
+    /** @var bool Whether to use short array syntax if the node specifies no preference */
+    protected $shortArraySyntax;
+    /** @var bool Whether to use short array destructuring (short list() syntax) */
+    protected $shortArrayDestructuring;
+    /** @var PhpVersion PHP version to target */
+    protected $phpVersion;
 
     /** @var TokenStream Original tokens for use in format-preserving pretty print */
     protected $origTokens;
@@ -142,16 +139,28 @@ abstract class PrettyPrinterAbstract
      * Creates a pretty printer instance using the given options.
      *
      * Supported options:
-     *  * bool $shortArraySyntax = false: Whether to use [] instead of array() as the default array
-     *                                    syntax, if the node does not specify a format.
-     *  * bool $shortListSyntax = false:  Whether to use [] instead of list() as the default list
-     *                                    syntax, if the node does not specify a format.
+     *  * PhpVersion $phpVersion:        The PHP version to target (default to PHP 7.0). This option
+     *                                   controls compatibility of the generated code with older PHP
+     *                                   versions in cases where a simple stylistic choice exists (e.g.
+     *                                   array() vs []). It is safe to pretty-print an AST for a newer
+     *                                   PHP version while specifying an older target (but the result will
+     *                                   of course not be compatible with the older version in that case).
+     *  * bool $shortArraySyntax:        Whether to use [] instead of array() as the default array
+     *                                   syntax, if the node does not specify a format. Defaults to whether
+     *                                   the phpVersion support short array syntax.
+     *  * bool $shortArrayDestructuring: Whether to use short array destructuring. Defaults to whether
+     *                                   the phpVersion support short list() syntax.
      *
      * @param array $options Dictionary of formatting options
      */
     public function __construct(array $options = []) {
-        $this->docStringEndToken = '_DOC_STRING_END_' . mt_rand();
-        $this->options = $options + $this->options;
+        $this->phpVersion = $options['phpVersion'] ?? PhpVersion::fromComponents(7, 0);
+        $this->shortArraySyntax =
+            $options['shortArraySyntax'] ?? $this->phpVersion->supportsShortArraySyntax();
+        $this->shortArrayDestructuring =
+            $options['shortArrayDestructuring'] ?? $this->phpVersion->supportsShortArrayDestructuring();
+        $this->docStringEndToken =
+            $this->phpVersion->supportsFlexibleHeredoc() ? null : '_DOC_STRING_END_' . mt_rand();
     }
 
     /**
@@ -262,10 +271,12 @@ abstract class PrettyPrinterAbstract
      * @param string $str
      * @return string
      */
-    protected function handleMagicTokens(string $str) : string {
-        // Replace doc-string-end tokens with nothing or a newline
-        $str = str_replace($this->docStringEndToken . ";\n", ";\n", $str);
-        $str = str_replace($this->docStringEndToken, "\n", $str);
+    protected function handleMagicTokens(string $str): string {
+        if ($this->docStringEndToken !== null) {
+            // Replace doc-string-end tokens with nothing or a newline
+            $str = str_replace($this->docStringEndToken . ";\n", ";\n", $str);
+            $str = str_replace($this->docStringEndToken, "\n", $str);
+        }
 
         return $str;
     }
@@ -333,20 +344,6 @@ abstract class PrettyPrinterAbstract
     protected function pPrefixOp(string $class, string $operatorString, Node $node) : string {
         list($precedence, $associativity) = $this->precedenceMap[$class];
         return $operatorString . $this->pPrec($node, $precedence, $associativity, 1);
-    }
-
-    /**
-     * Pretty-print a postfix operation while taking precedence into account.
-     *
-     * @param string $class          Node class of operator
-     * @param string $operatorString String representation of the operator
-     * @param Node   $node           Node
-     *
-     * @return string Pretty printed postfix operation
-     */
-    protected function pPostfixOp(string $class, Node $node, string $operatorString) : string {
-        list($precedence, $associativity) = $this->precedenceMap[$class];
-        return $this->pPrec($node, $precedence, $associativity, -1) . $operatorString;
     }
 
     /**
@@ -1163,10 +1160,6 @@ abstract class PrettyPrinterAbstract
         if ($this->fixupMap) return;
 
         $this->fixupMap = [
-            Expr\PreInc::class => ['var' => self::FIXUP_PREC_RIGHT],
-            Expr\PreDec::class => ['var' => self::FIXUP_PREC_RIGHT],
-            Expr\PostInc::class => ['var' => self::FIXUP_PREC_LEFT],
-            Expr\PostDec::class => ['var' => self::FIXUP_PREC_LEFT],
             Expr\Instanceof_::class => [
                 'expr' => self::FIXUP_PREC_LEFT,
                 'class' => self::FIXUP_PREC_RIGHT, // TODO: FIXUP_NEW_VARIABLE
@@ -1224,24 +1217,15 @@ abstract class PrettyPrinterAbstract
             ];
         }
 
-        $assignOps = [
-            Expr\Assign::class, Expr\AssignRef::class, AssignOp\Plus::class, AssignOp\Minus::class,
-            AssignOp\Mul::class, AssignOp\Div::class, AssignOp\Concat::class, AssignOp\Mod::class,
-            AssignOp\BitwiseAnd::class, AssignOp\BitwiseOr::class, AssignOp\BitwiseXor::class,
-            AssignOp\ShiftLeft::class, AssignOp\ShiftRight::class, AssignOp\Pow::class, AssignOp\Coalesce::class
-        ];
-        foreach ($assignOps as $assignOp) {
-            $this->fixupMap[$assignOp] = [
-                'var' => self::FIXUP_PREC_LEFT,
-                'expr' => self::FIXUP_PREC_RIGHT,
-            ];
-        }
-
         $prefixOps = [
             Expr\BitwiseNot::class, Expr\BooleanNot::class, Expr\UnaryPlus::class, Expr\UnaryMinus::class,
             Cast\Int_::class, Cast\Double::class, Cast\String_::class, Cast\Array_::class,
             Cast\Object_::class, Cast\Bool_::class, Cast\Unset_::class, Expr\ErrorSuppress::class,
             Expr\YieldFrom::class, Expr\Print_::class, Expr\Include_::class,
+            Expr\Assign::class, Expr\AssignRef::class, AssignOp\Plus::class, AssignOp\Minus::class,
+            AssignOp\Mul::class, AssignOp\Div::class, AssignOp\Concat::class, AssignOp\Mod::class,
+            AssignOp\BitwiseAnd::class, AssignOp\BitwiseOr::class, AssignOp\BitwiseXor::class,
+            AssignOp\ShiftLeft::class, AssignOp\ShiftRight::class, AssignOp\Pow::class, AssignOp\Coalesce::class
         ];
         foreach ($prefixOps as $prefixOp) {
             $this->fixupMap[$prefixOp] = ['expr' => self::FIXUP_PREC_RIGHT];

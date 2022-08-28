@@ -11,13 +11,13 @@ class Use_ extends Stmt
      * TYPE_UNKNOWN while the other has one of the three other possible types. For normal use statements the type on the
      * Stmt\UseUse is unknown. It's only the other way around for mixed group use declarations.
      */
-    const TYPE_UNKNOWN = 0;
+    public const TYPE_UNKNOWN = 0;
     /** Class or namespace import */
-    const TYPE_NORMAL = 1;
+    public const TYPE_NORMAL = 1;
     /** Function import */
-    const TYPE_FUNCTION = 2;
+    public const TYPE_FUNCTION = 2;
     /** Constant import */
-    const TYPE_CONSTANT = 3;
+    public const TYPE_CONSTANT = 3;
 
     /** @var int Type of alias */
     public $type;

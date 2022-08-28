@@ -65,7 +65,7 @@ class Foo {
     }
 }
 -----
-$stmts[0]->stmts[0]->stmts[0]->setAttribute('comments', [new Comment("// I'm a new comment\n")]);
+$stmts[0]->stmts[0]->stmts[0]->setAttribute('comments', [new Comment("// I'm a new comment")]);
 -----
 <?php
 class Foo {

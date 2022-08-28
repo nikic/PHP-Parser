@@ -162,7 +162,7 @@ class Name extends NodeAbstract
             $realLength = $numParts - $realOffset;
         } else {
             $realLength = $length < 0 ? $length + $numParts - $realOffset : $length;
-            if ($realLength < 0 || $realLength > $numParts) {
+            if ($realLength < 0 || $realLength > $numParts - $realOffset) {
                 throw new \OutOfBoundsException(sprintf('Length %d is out of bounds', $length));
             }
         }

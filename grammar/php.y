@@ -645,7 +645,8 @@ foreach_variable:
       variable                                              { $$ = array($1, false); }
     | ampersand variable                                    { $$ = array($2, true); }
     | list_expr                                             { $$ = array($1, false); }
-    | array_short_syntax                                    { $$ = array($1, false); }
+    | array_short_syntax
+          { $$ = array($this->fixupArrayDestructuring($1), false); }
 ;
 
 parameter_list:
@@ -689,7 +690,7 @@ type_expr:
       type                                                  { $$ = $1; }
     | '?' type                                              { $$ = Node\NullableType[$2]; }
     | union_type                                            { $$ = Node\UnionType[$1]; }
-    | intersection_type                                     { $$ = Node\IntersectionType[$1]; }
+    | intersection_type                                     { $$ = $1; }
 ;
 
 type:
@@ -703,34 +704,52 @@ type_without_static:
     | T_CALLABLE                                            { $$ = Node\Identifier['callable']; }
 ;
 
+union_type_element:
+                type { $$ = $1; }
+        |        '(' intersection_type ')' { $$ = $2; }
+;
+
 union_type:
-      type '|' type                                         { init($1, $3); }
-    | union_type '|' type                                   { push($1, $3); }
+      union_type_element '|' union_type_element             { init($1, $3); }
+    | union_type '|' union_type_element                     { push($1, $3); }
+;
+
+union_type_without_static_element:
+                type_without_static { $$ = $1; }
+        |        '(' intersection_type_without_static ')' { $$ = $2; }
 ;
 
 union_type_without_static:
-      type_without_static '|' type_without_static           { init($1, $3); }
-    | union_type_without_static '|' type_without_static     { push($1, $3); }
+      union_type_without_static_element '|' union_type_without_static_element   { init($1, $3); }
+    | union_type_without_static '|' union_type_without_static_element           { push($1, $3); }
+;
+
+intersection_type_list:
+      type T_AMPERSAND_NOT_FOLLOWED_BY_VAR_OR_VARARG type   { init($1, $3); }
+    | intersection_type_list T_AMPERSAND_NOT_FOLLOWED_BY_VAR_OR_VARARG type
+          { push($1, $3); }
 ;
 
 intersection_type:
-      type T_AMPERSAND_NOT_FOLLOWED_BY_VAR_OR_VARARG type   { init($1, $3); }
-    | intersection_type T_AMPERSAND_NOT_FOLLOWED_BY_VAR_OR_VARARG type
+      intersection_type_list { $$ = Node\IntersectionType[$1]; }
+;
+
+intersection_type_without_static_list:
+      type_without_static T_AMPERSAND_NOT_FOLLOWED_BY_VAR_OR_VARARG type_without_static
+          { init($1, $3); }
+    | intersection_type_without_static_list T_AMPERSAND_NOT_FOLLOWED_BY_VAR_OR_VARARG type_without_static
           { push($1, $3); }
 ;
 
 intersection_type_without_static:
-      type_without_static T_AMPERSAND_NOT_FOLLOWED_BY_VAR_OR_VARARG type_without_static
-          { init($1, $3); }
-    | intersection_type_without_static T_AMPERSAND_NOT_FOLLOWED_BY_VAR_OR_VARARG type_without_static
-          { push($1, $3); }
+      intersection_type_without_static_list { $$ = Node\IntersectionType[$1]; }
 ;
 
 type_expr_without_static:
       type_without_static                                   { $$ = $1; }
     | '?' type_without_static                               { $$ = Node\NullableType[$2]; }
     | union_type_without_static                             { $$ = Node\UnionType[$1]; }
-    | intersection_type_without_static                      { $$ = Node\IntersectionType[$1]; }
+    | intersection_type_without_static                      { $$ = $1; }
 ;
 
 optional_type_without_static:
@@ -923,12 +942,13 @@ for_expr:
 expr:
       variable                                              { $$ = $1; }
     | list_expr '=' expr                                    { $$ = Expr\Assign[$1, $3]; }
-    | array_short_syntax '=' expr                           { $$ = Expr\Assign[$1, $3]; }
+    | array_short_syntax '=' expr
+          { $$ = Expr\Assign[$this->fixupArrayDestructuring($1), $3]; }
     | variable '=' expr                                     { $$ = Expr\Assign[$1, $3]; }
     | variable '=' ampersand variable                       { $$ = Expr\AssignRef[$1, $4]; }
     | variable '=' ampersand new_expr
           { $$ = Expr\AssignRef[$1, $4];
-            if ($this->phpVersion >= 70000) {
+            if (!$this->phpVersion->allowsAssignNewByReference()) {
                 $this->emitError(new Error('Cannot assign new by reference', attributes()));
             }
           }
@@ -1156,7 +1176,7 @@ dereferencable_scalar:
 
 scalar:
       T_LNUMBER
-          { $$ = $this->parseLNumber($1, attributes(), $this->phpVersion < 70000); }
+          { $$ = $this->parseLNumber($1, attributes(), $this->phpVersion->allowsInvalidOctals()); }
     | T_DNUMBER                                             { $$ = Scalar\DNumber::fromString($1, attributes()); }
     | dereferencable_scalar                                 { $$ = $1; }
     | constant                                              { $$ = $1; }
@@ -1260,7 +1280,8 @@ property_name:
 ;
 
 list_expr:
-      T_LIST '(' inner_array_pair_list ')'                  { $$ = Expr\List_[$3]; }
+      T_LIST '(' inner_array_pair_list ')'
+          { $$ = Expr\List_[$3]; $$->setAttribute('kind', Expr\List_::KIND_LIST); }
 ;
 
 array_pair_list:
