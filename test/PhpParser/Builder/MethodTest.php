@@ -16,8 +16,7 @@ use PhpParser\Node\Scalar\LNumber;
 use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt;
 
-class MethodTest extends \PHPUnit\Framework\TestCase
-{
+class MethodTest extends \PHPUnit\Framework\TestCase {
     public function createMethodBuilder($name) {
         return new Method($name);
     }

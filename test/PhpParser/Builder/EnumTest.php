@@ -12,8 +12,7 @@ use PhpParser\Node\Name;
 use PhpParser\Node\Scalar\LNumber;
 use PhpParser\Node\Stmt;
 
-class EnumTest extends \PHPUnit\Framework\TestCase
-{
+class EnumTest extends \PHPUnit\Framework\TestCase {
     protected function createEnumBuilder($class) {
         return new Enum_($class);
     }

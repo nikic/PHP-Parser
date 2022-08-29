@@ -6,8 +6,7 @@ use PhpParser\Builder;
 use PhpParser\Node\Name;
 use PhpParser\Node\Stmt;
 
-class UseTest extends \PHPUnit\Framework\TestCase
-{
+class UseTest extends \PHPUnit\Framework\TestCase {
     protected function createUseBuilder($name, $type = Stmt\Use_::TYPE_NORMAL) {
         return new Builder\Use_($name, $type);
     }

@@ -3,6 +3,7 @@
 $finder = PhpCsFixer\Finder::create()
     ->exclude('PhpParser/Parser')
     ->in(__DIR__ . '/lib')
+    ->in(__DIR__ . '/test')
 ;
 
 $config = new PhpCsFixer\Config();

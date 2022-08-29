@@ -13,10 +13,9 @@ use PhpParser\Node\Stmt;
 use PhpParser\Parser\Php7;
 use PhpParser\PrettyPrinter\Standard;
 
-class PrettyPrinterTest extends CodeTestAbstract
-{
+class PrettyPrinterTest extends CodeTestAbstract {
     protected function doTestPrettyPrintMethod($method, $name, $code, $expected, $modeLine) {
-        $lexer = new Lexer\Emulative;
+        $lexer = new Lexer\Emulative();
         $parser = new Parser\Php7($lexer);
 
         $options = $this->parseModeLine($modeLine);
@@ -52,7 +51,7 @@ class PrettyPrinterTest extends CodeTestAbstract
     }
 
     public function testPrettyPrintExpr() {
-        $prettyPrinter = new Standard;
+        $prettyPrinter = new Standard();
         $expr = new Expr\BinaryOp\Mul(
             new Expr\BinaryOp\Plus(new Expr\Variable('a'), new Expr\Variable('b')),
             new Expr\Variable('c')
@@ -66,7 +65,7 @@ class PrettyPrinterTest extends CodeTestAbstract
     }
 
     public function testCommentBeforeInlineHTML() {
-        $prettyPrinter = new PrettyPrinter\Standard;
+        $prettyPrinter = new PrettyPrinter\Standard();
         $comment = new Comment\Doc("/**\n * This is a comment\n */");
         $stmts = [new Stmt\InlineHTML('Hello World!', ['comments' => [$comment]])];
         $expected = "<?php\n\n/**\n * This is a comment\n */\n?>\nHello World!";
@@ -86,7 +85,7 @@ class PrettyPrinterTest extends CodeTestAbstract
      * @dataProvider provideTestKindAttributes
      */
     public function testKindAttributes($node, $expected) {
-        $prttyPrinter = new PrettyPrinter\Standard;
+        $prttyPrinter = new PrettyPrinter\Standard();
         $result = $prttyPrinter->prettyPrintExpr($node);
         $this->assertSame($expected, $result);
     }
@@ -132,7 +131,7 @@ class PrettyPrinterTest extends CodeTestAbstract
 
     /** @dataProvider provideTestUnnaturalLiterals */
     public function testUnnaturalLiterals($node, $expected) {
-        $prttyPrinter = new PrettyPrinter\Standard;
+        $prttyPrinter = new PrettyPrinter\Standard();
         $result = $prttyPrinter->prettyPrintExpr($node);
         $this->assertSame($expected, $result);
     }
@@ -156,7 +155,7 @@ class PrettyPrinterTest extends CodeTestAbstract
         $stmts = [new Stmt\Expression(
             new Expr\PropertyFetch(new Expr\Variable('a'), new Expr\Error())
         )];
-        $prettyPrinter = new PrettyPrinter\Standard;
+        $prettyPrinter = new PrettyPrinter\Standard();
         $prettyPrinter->prettyPrint($stmts);
     }
 
@@ -166,7 +165,7 @@ class PrettyPrinterTest extends CodeTestAbstract
         $stmts = [new Stmt\Expression(
             new Expr\ClassConstFetch(new Name('Foo'), new Expr\Error())
         )];
-        $prettyPrinter = new PrettyPrinter\Standard;
+        $prettyPrinter = new PrettyPrinter\Standard();
         $prettyPrinter->prettyPrint($stmts);
     }
 
@@ -174,7 +173,7 @@ class PrettyPrinterTest extends CodeTestAbstract
         $this->expectException(\LogicException::class);
         $this->expectExceptionMessage('Cannot directly print EncapsedStringPart');
         $expr = new Node\Scalar\EncapsedStringPart('foo');
-        $prettyPrinter = new PrettyPrinter\Standard;
+        $prettyPrinter = new PrettyPrinter\Standard();
         $prettyPrinter->prettyPrintExpr($expr);
     }
 

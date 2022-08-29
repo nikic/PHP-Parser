@@ -15,8 +15,7 @@ use PhpParser\Node\Scalar;
 use PhpParser\Node\Scalar\LNumber;
 use PhpParser\Node\Stmt;
 
-class ClassConstTest extends \PHPUnit\Framework\TestCase
-{
+class ClassConstTest extends \PHPUnit\Framework\TestCase {
     public function createClassConstBuilder($name, $value) {
         return new ClassConst($name, $value);
     }
@@ -45,7 +44,7 @@ class ClassConstTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(
             new Stmt\ClassConst(
                 [
-                    new Const_("TEST", new LNumber(1) )
+                    new Const_("TEST", new LNumber(1))
                 ],
                 Modifiers::PROTECTED
             ),
@@ -60,7 +59,7 @@ class ClassConstTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(
             new Stmt\ClassConst(
                 [
-                    new Const_("TEST", new LNumber(1) )
+                    new Const_("TEST", new LNumber(1))
                 ],
                 Modifiers::PUBLIC
             ),
@@ -75,7 +74,7 @@ class ClassConstTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(
             new Stmt\ClassConst(
                 [
-                    new Const_("TEST", new LNumber(1) )
+                    new Const_("TEST", new LNumber(1))
                 ],
                 Modifiers::FINAL
             ),
@@ -84,7 +83,7 @@ class ClassConstTest extends \PHPUnit\Framework\TestCase
     }
 
     public function testDocComment() {
-        $node = $this->createClassConstBuilder('TEST',1)
+        $node = $this->createClassConstBuilder('TEST', 1)
             ->setDocComment('/** Test */')
             ->makePublic()
             ->getNode();
@@ -92,7 +91,7 @@ class ClassConstTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(
             new Stmt\ClassConst(
                 [
-                    new Const_("TEST", new LNumber(1) )
+                    new Const_("TEST", new LNumber(1))
                 ],
                 Modifiers::PUBLIC,
                 [
@@ -104,8 +103,8 @@ class ClassConstTest extends \PHPUnit\Framework\TestCase
     }
 
     public function testAddConst() {
-        $node = $this->createClassConstBuilder('FIRST_TEST',1)
-            ->addConst("SECOND_TEST",2)
+        $node = $this->createClassConstBuilder('FIRST_TEST', 1)
+            ->addConst("SECOND_TEST", 2)
             ->getNode();
 
         $this->assertEquals(
@@ -133,7 +132,7 @@ class ClassConstTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(
             new Stmt\ClassConst(
                 [
-                    new Const_("ATTR_GROUP", new LNumber(1) )
+                    new Const_("ATTR_GROUP", new LNumber(1))
                 ],
                 0,
                 [],
@@ -202,8 +201,8 @@ class ClassConstTest extends \PHPUnit\Framework\TestCase
                 ])
             ],
             [
-                new Scalar\MagicConst\Dir,
-                new Scalar\MagicConst\Dir
+                new Scalar\MagicConst\Dir(),
+                new Scalar\MagicConst\Dir()
             ]
         ];
     }

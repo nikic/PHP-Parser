@@ -7,8 +7,7 @@ use PhpParser\Node\Scalar;
 use PhpParser\Node\Stmt;
 use PhpParser\Node\Expr;
 
-class BuilderHelpersTest extends \PHPUnit\Framework\TestCase
-{
+class BuilderHelpersTest extends \PHPUnit\Framework\TestCase {
     public function testNormalizeNode() {
         $builder = new Class_('SomeClass');
         $this->assertEquals($builder->getNode(), BuilderHelpers::normalizeNode($builder));

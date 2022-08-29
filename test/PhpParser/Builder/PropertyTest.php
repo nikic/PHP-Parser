@@ -14,8 +14,7 @@ use PhpParser\Node\Scalar;
 use PhpParser\Node\Scalar\LNumber;
 use PhpParser\Node\Stmt;
 
-class PropertyTest extends \PHPUnit\Framework\TestCase
-{
+class PropertyTest extends \PHPUnit\Framework\TestCase {
     public function createPropertyBuilder($name) {
         return new Property($name);
     }
@@ -185,8 +184,8 @@ class PropertyTest extends \PHPUnit\Framework\TestCase
                 ])
             ],
             [
-                new Scalar\MagicConst\Dir,
-                new Scalar\MagicConst\Dir
+                new Scalar\MagicConst\Dir(),
+                new Scalar\MagicConst\Dir()
             ]
         ];
     }

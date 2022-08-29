@@ -8,8 +8,7 @@ use PhpParser\LexerTest;
 
 require __DIR__ . '/../../../lib/PhpParser/compatibility_tokens.php';
 
-class EmulativeTest extends LexerTest
-{
+class EmulativeTest extends LexerTest {
     protected function getLexer(array $options = []) {
         return new Emulative($options);
     }
@@ -133,7 +132,7 @@ class EmulativeTest extends LexerTest
      * @dataProvider provideTestLexNewFeatures
      */
     public function testErrorAfterEmulation($code) {
-        $errorHandler = new ErrorHandler\Collecting;
+        $errorHandler = new ErrorHandler\Collecting();
         $lexer = $this->getLexer();
         $lexer->startLexing('<?php ' . $code . "\0", $errorHandler);
 

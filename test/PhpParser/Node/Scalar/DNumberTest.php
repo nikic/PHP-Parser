@@ -6,10 +6,8 @@ namespace PhpParser\Node\Scalar;
 use PhpParser\Node\Stmt\Echo_;
 use PhpParser\ParserFactory;
 
-class DNumberTest extends \PHPUnit\Framework\TestCase
-{
-    public function testRawValue()
-    {
+class DNumberTest extends \PHPUnit\Framework\TestCase {
+    public function testRawValue() {
         $parser = (new ParserFactory())->create(ParserFactory::PREFER_PHP7);
         $nodes = $parser->parse('<?php echo 1_234.56;');
 

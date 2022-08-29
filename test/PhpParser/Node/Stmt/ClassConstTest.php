@@ -4,8 +4,7 @@ namespace PhpParser\Node\Stmt;
 
 use PhpParser\Modifiers;
 
-class ClassConstTest extends \PHPUnit\Framework\TestCase
-{
+class ClassConstTest extends \PHPUnit\Framework\TestCase {
     /**
      * @dataProvider provideModifiers
      */

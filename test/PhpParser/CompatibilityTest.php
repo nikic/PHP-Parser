@@ -4,8 +4,7 @@ namespace PhpParser;
 
 use PhpParser\Node\Expr;
 
-class CompatibilityTest extends \PHPUnit\Framework\TestCase
-{
+class CompatibilityTest extends \PHPUnit\Framework\TestCase {
     public function testAliases1() {
         $node = new Node\ClosureUse(new Expr\Variable('x'));
         $this->assertTrue($node instanceof Expr\ClosureUse);

@@ -6,11 +6,10 @@ use PhpParser\Node;
 use PhpParser\Node\Expr;
 use PhpParser\NodeTraverser;
 
-class FirstFindingVisitorTest extends \PHPUnit\Framework\TestCase
-{
+class FirstFindingVisitorTest extends \PHPUnit\Framework\TestCase {
     public function testFindFirstVariable() {
         $traverser = new NodeTraverser();
-        $visitor = new FirstFindingVisitor(function(Node $node) {
+        $visitor = new FirstFindingVisitor(function (Node $node) {
             return $node instanceof Node\Expr\Variable;
         });
         $traverser->addVisitor($visitor);
@@ -24,7 +23,7 @@ class FirstFindingVisitorTest extends \PHPUnit\Framework\TestCase
 
     public function testFindNone() {
         $traverser = new NodeTraverser();
-        $visitor = new FirstFindingVisitor(function(Node $node) {
+        $visitor = new FirstFindingVisitor(function (Node $node) {
             return $node instanceof Node\Expr\BinaryOp;
         });
         $traverser->addVisitor($visitor);

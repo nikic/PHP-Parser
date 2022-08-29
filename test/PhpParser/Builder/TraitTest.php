@@ -18,8 +18,7 @@ use PhpParser\Node\Stmt\Property;
 use PhpParser\Node\Stmt\PropertyProperty;
 use PhpParser\Node\Stmt\TraitUse;
 
-class TraitTest extends \PHPUnit\Framework\TestCase
-{
+class TraitTest extends \PHPUnit\Framework\TestCase {
     protected function createTraitBuilder($class) {
         return new Trait_($class);
     }
@@ -76,8 +75,7 @@ class TraitTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($methods, $trait->getMethods());
     }
 
-    public function testGetProperties()
-    {
+    public function testGetProperties() {
         $properties = [
             new Property(Modifiers::PUBLIC, [new PropertyProperty('foo')]),
             new Property(Modifiers::PUBLIC, [new PropertyProperty('bar')]),

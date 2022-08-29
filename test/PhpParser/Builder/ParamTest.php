@@ -12,8 +12,7 @@ use PhpParser\Node\Name;
 use PhpParser\Node\Scalar;
 use PhpParser\Node\Scalar\LNumber;
 
-class ParamTest extends \PHPUnit\Framework\TestCase
-{
+class ParamTest extends \PHPUnit\Framework\TestCase {
     public function createParamBuilder($name) {
         return new Param($name);
     }
@@ -78,8 +77,8 @@ class ParamTest extends \PHPUnit\Framework\TestCase
                 ])
             ],
             [
-                new Scalar\MagicConst\Dir,
-                new Scalar\MagicConst\Dir
+                new Scalar\MagicConst\Dir(),
+                new Scalar\MagicConst\Dir()
             ]
         ];
     }
@@ -178,7 +177,7 @@ class ParamTest extends \PHPUnit\Framework\TestCase
     public function testInvalidTypeError() {
         $this->expectException(\LogicException::class);
         $this->expectExceptionMessage('Type must be a string, or an instance of Name, Identifier or ComplexType');
-        $this->createParamBuilder('test')->setType(new \stdClass);
+        $this->createParamBuilder('test')->setType(new \stdClass());
     }
 
     public function testByRef() {

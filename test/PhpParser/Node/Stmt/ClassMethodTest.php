@@ -7,8 +7,7 @@ use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Name;
 use PhpParser\Node\Param;
 
-class ClassMethodTest extends \PHPUnit\Framework\TestCase
-{
+class ClassMethodTest extends \PHPUnit\Framework\TestCase {
     /**
      * @dataProvider provideModifiers
      */
@@ -50,8 +49,7 @@ class ClassMethodTest extends \PHPUnit\Framework\TestCase
      *
      * @param string $modifier Node type modifier
      */
-    public function testImplicitPublic(string $modifier)
-    {
+    public function testImplicitPublic(string $modifier) {
         $node = new ClassMethod('foo', [
             'type' => constant(Modifiers::class . '::' . strtoupper($modifier))
         ]);

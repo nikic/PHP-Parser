@@ -5,8 +5,7 @@ namespace PhpParser\Node\Stmt;
 use PhpParser\Modifiers;
 use PhpParser\Node\Scalar\String_;
 
-class ClassTest extends \PHPUnit\Framework\TestCase
-{
+class ClassTest extends \PHPUnit\Framework\TestCase {
     public function testIsAbstract() {
         $class = new Class_('Foo', ['type' => Modifiers::ABSTRACT]);
         $this->assertTrue($class->isAbstract());
@@ -76,8 +75,7 @@ class ClassTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($constants, $class->getConstants());
     }
 
-    public function testGetProperties()
-    {
+    public function testGetProperties() {
         $properties = [
             new Property(Modifiers::PUBLIC, [new PropertyProperty('foo')]),
             new Property(Modifiers::PUBLIC, [new PropertyProperty('bar')]),

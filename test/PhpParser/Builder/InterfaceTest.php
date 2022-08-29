@@ -13,14 +13,13 @@ use PhpParser\Node\Scalar\DNumber;
 use PhpParser\Node\Scalar\LNumber;
 use PhpParser\Node\Stmt;
 
-class InterfaceTest extends \PHPUnit\Framework\TestCase
-{
+class InterfaceTest extends \PHPUnit\Framework\TestCase {
     protected function createInterfaceBuilder() {
         return new Interface_('Contract');
     }
 
     private function dump($node) {
-        $pp = new \PhpParser\PrettyPrinter\Standard;
+        $pp = new \PhpParser\PrettyPrinter\Standard();
         return $pp->prettyPrint([$node]);
     }
 

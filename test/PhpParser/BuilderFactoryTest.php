@@ -11,13 +11,12 @@ use PhpParser\Node\Name;
 use PhpParser\Node\Scalar\LNumber;
 use PhpParser\Node\Scalar\String_;
 
-class BuilderFactoryTest extends \PHPUnit\Framework\TestCase
-{
+class BuilderFactoryTest extends \PHPUnit\Framework\TestCase {
     /**
      * @dataProvider provideTestFactory
      */
     public function testFactory($methodName, $className) {
-        $factory = new BuilderFactory;
+        $factory = new BuilderFactory();
         $this->assertInstanceOf($className, $factory->$methodName('test'));
     }
 
@@ -40,8 +39,8 @@ class BuilderFactoryTest extends \PHPUnit\Framework\TestCase
     }
 
     public function testFactoryClassConst() {
-        $factory = new BuilderFactory;
-        $this->assertInstanceOf(Builder\ClassConst::class, $factory->classConst('TEST',1));
+        $factory = new BuilderFactory();
+        $this->assertInstanceOf(Builder\ClassConst::class, $factory->classConst('TEST', 1));
     }
 
     public function testAttribute() {
@@ -265,7 +264,7 @@ class BuilderFactoryTest extends \PHPUnit\Framework\TestCase
     }
 
     public function testIntegration() {
-        $factory = new BuilderFactory;
+        $factory = new BuilderFactory();
         $node = $factory->namespace('Name\Space')
             ->addStmt($factory->use('Foo\Bar\SomeOtherClass'))
             ->addStmt($factory->use('Foo\Bar')->as('A'))
@@ -322,7 +321,7 @@ class BuilderFactoryTest extends \PHPUnit\Framework\TestCase
                 )
 
                 ->addStmt($factory->classConst("FIRST_CLASS_CONST", 1)
-                    ->addConst("SECOND_CLASS_CONST",2)
+                    ->addConst("SECOND_CLASS_CONST", 2)
                     ->makePrivate()))
             ->getNode()
         ;

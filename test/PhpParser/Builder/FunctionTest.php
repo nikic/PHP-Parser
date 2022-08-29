@@ -15,8 +15,7 @@ use PhpParser\Node\Scalar\LNumber;
 use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt;
 
-class FunctionTest extends \PHPUnit\Framework\TestCase
-{
+class FunctionTest extends \PHPUnit\Framework\TestCase {
     public function createFunctionBuilder($name) {
         return new Function_($name);
     }

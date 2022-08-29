@@ -13,8 +13,7 @@ use PhpParser\Node\Name;
 use PhpParser\Node\Scalar\LNumber;
 use PhpParser\Node\Stmt;
 
-class ClassTest extends \PHPUnit\Framework\TestCase
-{
+class ClassTest extends \PHPUnit\Framework\TestCase {
     protected function createClassBuilder($class) {
         return new Class_($class);
     }

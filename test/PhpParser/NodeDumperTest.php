@@ -2,8 +2,7 @@
 
 namespace PhpParser;
 
-class NodeDumperTest extends \PHPUnit\Framework\TestCase
-{
+class NodeDumperTest extends \PHPUnit\Framework\TestCase {
     private function canonicalize($string) {
         return str_replace("\r\n", "\n", $string);
     }
@@ -12,7 +11,7 @@ class NodeDumperTest extends \PHPUnit\Framework\TestCase
      * @dataProvider provideTestDump
      */
     public function testDump($node, $dump) {
-        $dumper = new NodeDumper;
+        $dumper = new NodeDumper();
 
         $this->assertSame($this->canonicalize($dump), $this->canonicalize($dumper->dump($node)));
     }
@@ -62,7 +61,7 @@ class NodeDumperTest extends \PHPUnit\Framework\TestCase
     }
 
     public function testDumpWithPositions() {
-        $parser = (new ParserFactory)->create(
+        $parser = (new ParserFactory())->create(
             ParserFactory::ONLY_PHP7,
             new Lexer(['usedAttributes' => ['startLine', 'endLine', 'startFilePos', 'endFilePos']])
         );
@@ -100,7 +99,7 @@ OUT;
     public function testError() {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Can only dump nodes and arrays.');
-        $dumper = new NodeDumper;
-        $dumper->dump(new \stdClass);
+        $dumper = new NodeDumper();
+        $dumper->dump(new \stdClass());
     }
 }
