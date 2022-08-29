@@ -5,8 +5,7 @@ namespace PhpParser;
 /**
  * A PHP version, representing only the major and minor version components.
  */
-class PhpVersion
-{
+class PhpVersion {
     /** @var int Version ID in PHP_VERSION_ID format */
     public $id;
 
@@ -43,14 +42,14 @@ class PhpVersion
      * Get the newest PHP version supported by this library. Support for this version may be partial,
      * if it is still under development.
      */
-    public static function getNewestSupported() : self {
+    public static function getNewestSupported(): self {
         return self::fromComponents(8, 2);
     }
 
     /**
      * Get the host PHP version, that is the PHP version we're currently running on.
      */
-    public static function getHostVersion() : self {
+    public static function getHostVersion(): self {
         return self::fromComponents(\PHP_MAJOR_VERSION, \PHP_MINOR_VERSION);
     }
 
@@ -95,7 +94,7 @@ class PhpVersion
     /**
      * Check whether this PHP version supports the given builtin type. Type name must be lowercase.
      */
-    public function supportsBuiltinType(string $type) : bool {
+    public function supportsBuiltinType(string $type): bool {
         $minVersion = self::BUILTIN_TYPE_VERSIONS[$type] ?? null;
         return $minVersion !== null && $this->id >= $minVersion;
     }
