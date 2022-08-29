@@ -11,6 +11,8 @@ class PhpVersion {
 
     /** @var int[] Minimum versions for builtin types */
     private const BUILTIN_TYPE_VERSIONS = [
+        'array'    => 50100,
+        'callable' => 50400,
         'bool'     => 70000,
         'int'      => 70000,
         'float'    => 70000,
