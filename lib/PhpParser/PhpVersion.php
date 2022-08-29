@@ -35,7 +35,7 @@ class PhpVersion
     /**
      * Create a PhpVersion object from major and minor version components.
      */
-    public static function fromComponents(int $major, int $minor) : self {
+    public static function fromComponents(int $major, int $minor): self {
         return new self($major * 10000 + $minor * 100);
     }
 
@@ -57,7 +57,7 @@ class PhpVersion
     /**
      * Parse the version from a string like "8.1".
      */
-    public static function fromString(string $version) : self {
+    public static function fromString(string $version): self {
         if (!preg_match('/^(\d+)\.(\d+)/', $version, $matches)) {
             throw new \LogicException("Invalid PHP version \"$version\"");
         }
@@ -67,28 +67,28 @@ class PhpVersion
     /**
      * Check whether two versions are the same.
      */
-    public function equals(PhpVersion $other) : bool {
+    public function equals(PhpVersion $other): bool {
         return $this->id === $other->id;
     }
 
     /**
      * Check whether this version is greater than or equal to the argument.
      */
-    public function newerOrEqual(PhpVersion $other) : bool {
+    public function newerOrEqual(PhpVersion $other): bool {
         return $this->id >= $other->id;
     }
 
     /**
      * Check whether this version is older than the argument.
      */
-    public function older(PhpVersion $other) : bool {
+    public function older(PhpVersion $other): bool {
         return $this->id < $other->id;
     }
 
     /**
      * Check whether this is the host PHP version.
      */
-    public function isHostVersion() : bool {
+    public function isHostVersion(): bool {
         return $this->equals(self::getHostVersion());
     }
 
@@ -103,7 +103,7 @@ class PhpVersion
     /**
      * Whether this version supports [] array literals.
      */
-    public function supportsShortArraySyntax() : bool {
+    public function supportsShortArraySyntax(): bool {
         return $this->id >= 50400;
     }
 
@@ -117,28 +117,28 @@ class PhpVersion
     /**
      * Whether this version supports flexible heredoc/nowdoc.
      */
-    public function supportsFlexibleHeredoc() : bool {
+    public function supportsFlexibleHeredoc(): bool {
         return $this->id >= 70300;
     }
 
     /**
      * Whether this version supports trailing commas in parameter lists.
      */
-    public function supportsTrailingCommaInParamList() : bool {
+    public function supportsTrailingCommaInParamList(): bool {
         return $this->id >= 80000;
     }
 
     /**
      * Whether this version allows "$var =& new Obj".
      */
-    public function allowsAssignNewByReference() : bool {
+    public function allowsAssignNewByReference(): bool {
         return $this->id < 70000;
     }
 
     /**
      * Whether this version allows invalid octals like "08".
      */
-    public function allowsInvalidOctals() : bool {
+    public function allowsInvalidOctals(): bool {
         return $this->id < 70000;
     }
 }
