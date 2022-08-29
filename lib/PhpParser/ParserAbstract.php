@@ -7,6 +7,7 @@ namespace PhpParser;
  * turn is based on work by Masato Bito.
  */
 
+use PhpParser\Modifiers;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\Array_;
 use PhpParser\Node\Expr\Cast\Double;
@@ -25,8 +26,7 @@ use PhpParser\Node\Stmt\Property;
 use PhpParser\Node\Stmt\TryCatch;
 use PhpParser\Node\Stmt\UseUse;
 
-abstract class ParserAbstract implements Parser
-{
+abstract class ParserAbstract implements Parser {
     private const SYMBOL_NONE = -1;
 
     /** @var Lexer Lexer that is used when parsing */
@@ -161,7 +161,7 @@ abstract class ParserAbstract implements Parser
      *                          the parser was unable to recover from an error).
      */
     public function parse(string $code, ?ErrorHandler $errorHandler = null): ?array {
-        $this->errorHandler = $errorHandler ?: new ErrorHandler\Throwing;
+        $this->errorHandler = $errorHandler ?: new ErrorHandler\Throwing();
 
         $this->lexer->startLexing($code, $this->errorHandler);
         $result = $this->doParse();
@@ -327,6 +327,7 @@ abstract class ParserAbstract implements Parser
                             $msg = $this->getErrorMessage($symbol, $state);
                             $this->emitError(new Error($msg, $startAttributes + $endAttributes));
                             // Break missing intentionally
+                            // no break
                         case 1:
                         case 2:
                             $this->errorState = 3;
@@ -394,7 +395,7 @@ abstract class ParserAbstract implements Parser
      *
      * @return string Formatted error message
      */
-    protected function getErrorMessage(int $symbol, int $state) : string {
+    protected function getErrorMessage(int $symbol, int $state): string {
         $expectedString = '';
         if ($expected = $this->getExpectedTokens($state)) {
             $expectedString = ', expecting ' . implode(' or ', $expected);
@@ -410,7 +411,7 @@ abstract class ParserAbstract implements Parser
      *
      * @return string[] Expected tokens. If too many, an empty array is returned.
      */
-    protected function getExpectedTokens(int $state) : array {
+    protected function getExpectedTokens(int $state): array {
         $expected = [];
 
         $base = $this->actionBase[$state];
@@ -483,7 +484,7 @@ abstract class ParserAbstract implements Parser
      * @param Node\Stmt[] $stmts
      * @return Node\Stmt[]
      */
-    protected function handleNamespaces(array $stmts) : array {
+    protected function handleNamespaces(array $stmts): array {
         $hasErrored = false;
         $style = $this->getNamespacingStyle($stmts);
         if (null === $style) {
@@ -627,12 +628,11 @@ abstract class ParserAbstract implements Parser
      *
      * @return array Combined start and end attributes
      */
-    protected function getAttributesAt(int $pos) : array {
+    protected function getAttributesAt(int $pos): array {
         return $this->startAttributeStack[$pos] + $this->endAttributeStack[$pos];
     }
 
-    protected function getFloatCastKind(string $cast): int
-    {
+    protected function getFloatCastKind(string $cast): int {
         $cast = strtolower($cast);
         if (strpos($cast, 'float') !== false) {
             return Double::KIND_FLOAT;
@@ -818,7 +818,7 @@ abstract class ParserAbstract implements Parser
     }
 
     protected function fixupArrayDestructuring(Array_ $node) {
-        return new Expr\List_(array_map(function(?Expr\ArrayItem $item) {
+        return new Expr\List_(array_map(function (?Expr\ArrayItem $item) {
             if ($item !== null && $item->value instanceof Array_) {
                 return new Expr\ArrayItem(
                     $this->fixupArrayDestructuring($item->value),
@@ -920,7 +920,7 @@ abstract class ParserAbstract implements Parser
     }
 
     protected function checkClassMethod(ClassMethod $node, $modifierPos) {
-        if ($node->flags & Class_::MODIFIER_STATIC) {
+        if ($node->flags & Modifiers::STATIC) {
             switch ($node->name->toLowerString()) {
                 case '__construct':
                     $this->emitError(new Error(
@@ -940,7 +940,7 @@ abstract class ParserAbstract implements Parser
             }
         }
 
-        if ($node->flags & Class_::MODIFIER_READONLY) {
+        if ($node->flags & Modifiers::READONLY) {
             $this->emitError(new Error(
                 sprintf('Method %s() cannot be readonly', $node->name),
                 $this->getAttributesAt($modifierPos)));
@@ -948,17 +948,17 @@ abstract class ParserAbstract implements Parser
     }
 
     protected function checkClassConst(ClassConst $node, $modifierPos) {
-        if ($node->flags & Class_::MODIFIER_STATIC) {
+        if ($node->flags & Modifiers::STATIC) {
             $this->emitError(new Error(
                 "Cannot use 'static' as constant modifier",
                 $this->getAttributesAt($modifierPos)));
         }
-        if ($node->flags & Class_::MODIFIER_ABSTRACT) {
+        if ($node->flags & Modifiers::ABSTRACT) {
             $this->emitError(new Error(
                 "Cannot use 'abstract' as constant modifier",
                 $this->getAttributesAt($modifierPos)));
         }
-        if ($node->flags & Class_::MODIFIER_READONLY) {
+        if ($node->flags & Modifiers::READONLY) {
             $this->emitError(new Error(
                 "Cannot use 'readonly' as constant modifier",
                 $this->getAttributesAt($modifierPos)));
@@ -966,12 +966,12 @@ abstract class ParserAbstract implements Parser
     }
 
     protected function checkProperty(Property $node, $modifierPos) {
-        if ($node->flags & Class_::MODIFIER_ABSTRACT) {
+        if ($node->flags & Modifiers::ABSTRACT) {
             $this->emitError(new Error('Properties cannot be declared abstract',
                 $this->getAttributesAt($modifierPos)));
         }
 
-        if ($node->flags & Class_::MODIFIER_FINAL) {
+        if ($node->flags & Modifiers::FINAL) {
             $this->emitError(new Error('Properties cannot be declared final',
                 $this->getAttributesAt($modifierPos)));
         }
@@ -1005,13 +1005,13 @@ abstract class ParserAbstract implements Parser
             if ($i < 256) {
                 // Single-char tokens use an identity mapping.
                 $tokenMap[$i] = $i;
-            } else if (\T_DOUBLE_COLON === $i) {
+            } elseif (\T_DOUBLE_COLON === $i) {
                 // T_DOUBLE_COLON is equivalent to T_PAAMAYIM_NEKUDOTAYIM
                 $tokenMap[$i] = static::T_PAAMAYIM_NEKUDOTAYIM;
-            } elseif(\T_OPEN_TAG_WITH_ECHO === $i) {
+            } elseif (\T_OPEN_TAG_WITH_ECHO === $i) {
                 // T_OPEN_TAG_WITH_ECHO with dropped T_OPEN_TAG results in T_ECHO
                 $tokenMap[$i] = static::T_ECHO;
-            } elseif(\T_CLOSE_TAG === $i) {
+            } elseif (\T_CLOSE_TAG === $i) {
                 // T_CLOSE_TAG is equivalent to ';'
                 $tokenMap[$i] = ord(';');
             } elseif ('UNKNOWN' !== $name = token_name($i)) {

@@ -4,8 +4,7 @@ namespace PhpParser\Node\Stmt;
 
 use PhpParser\Node;
 
-class DeclareDeclare extends Node\Stmt
-{
+class DeclareDeclare extends Node\Stmt {
     /** @var Node\Identifier Key */
     public $key;
     /** @var Node\Expr Value */
@@ -24,11 +23,11 @@ class DeclareDeclare extends Node\Stmt
         $this->value = $value;
     }
 
-    public function getSubNodeNames() : array {
+    public function getSubNodeNames(): array {
         return ['key', 'value'];
     }
-    
-    public function getType() : string {
+
+    public function getType(): string {
         return 'Stmt_DeclareDeclare';
     }
 }

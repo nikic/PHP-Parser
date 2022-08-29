@@ -8,8 +8,7 @@ use PhpParser\Node\Stmt\GroupUse;
 use PhpParser\Node\Stmt\Use_;
 use PhpParser\Node\Stmt\UseUse;
 
-class NodeDumper
-{
+class NodeDumper {
     private $dumpComments;
     private $dumpPositions;
     private $code;
@@ -39,7 +38,7 @@ class NodeDumper
      *
      * @return string Dumped value
      */
-    public function dump($node, ?string $code = null) : string {
+    public function dump($node, ?string $code = null): string {
         $this->code = $code;
         return $this->dumpRecursive($node);
     }
@@ -110,25 +109,25 @@ class NodeDumper
 
     protected function dumpFlags($flags) {
         $strs = [];
-        if ($flags & Class_::MODIFIER_PUBLIC) {
+        if ($flags & Modifiers::PUBLIC) {
             $strs[] = 'MODIFIER_PUBLIC';
         }
-        if ($flags & Class_::MODIFIER_PROTECTED) {
+        if ($flags & Modifiers::PROTECTED) {
             $strs[] = 'MODIFIER_PROTECTED';
         }
-        if ($flags & Class_::MODIFIER_PRIVATE) {
+        if ($flags & Modifiers::PRIVATE) {
             $strs[] = 'MODIFIER_PRIVATE';
         }
-        if ($flags & Class_::MODIFIER_ABSTRACT) {
+        if ($flags & Modifiers::ABSTRACT) {
             $strs[] = 'MODIFIER_ABSTRACT';
         }
-        if ($flags & Class_::MODIFIER_STATIC) {
+        if ($flags & Modifiers::STATIC) {
             $strs[] = 'MODIFIER_STATIC';
         }
-        if ($flags & Class_::MODIFIER_FINAL) {
+        if ($flags & Modifiers::FINAL) {
             $strs[] = 'MODIFIER_FINAL';
         }
-        if ($flags & Class_::MODIFIER_READONLY) {
+        if ($flags & Modifiers::READONLY) {
             $strs[] = 'MODIFIER_READONLY';
         }
 

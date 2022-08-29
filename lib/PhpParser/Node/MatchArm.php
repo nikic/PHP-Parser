@@ -5,8 +5,7 @@ namespace PhpParser\Node;
 use PhpParser\Node;
 use PhpParser\NodeAbstract;
 
-class MatchArm extends NodeAbstract
-{
+class MatchArm extends NodeAbstract {
     /** @var null|Node\Expr[] */
     public $conds;
     /** @var Node\Expr */
@@ -21,11 +20,11 @@ class MatchArm extends NodeAbstract
         $this->attributes = $attributes;
     }
 
-    public function getSubNodeNames() : array {
+    public function getSubNodeNames(): array {
         return ['conds', 'body'];
     }
 
-    public function getType() : string {
+    public function getType(): string {
         return 'MatchArm';
     }
 }

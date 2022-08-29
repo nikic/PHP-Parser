@@ -3,6 +3,7 @@
 namespace PhpParser\Builder;
 
 use PhpParser\Comment;
+use PhpParser\Modifiers;
 use PhpParser\Node\Arg;
 use PhpParser\Node\Attribute;
 use PhpParser\Node\AttributeGroup;
@@ -27,7 +28,7 @@ class TraitTest extends \PHPUnit\Framework\TestCase
         $method1 = new Stmt\ClassMethod('test1');
         $method2 = new Stmt\ClassMethod('test2');
         $method3 = new Stmt\ClassMethod('test3');
-        $prop = new Stmt\Property(Stmt\Class_::MODIFIER_PUBLIC, [
+        $prop = new Stmt\Property(Modifiers::PUBLIC, [
             new Stmt\PropertyProperty('test')
         ]);
         $use = new Stmt\TraitUse([new Name('OtherTrait')]);
@@ -78,8 +79,8 @@ class TraitTest extends \PHPUnit\Framework\TestCase
     public function testGetProperties()
     {
         $properties = [
-            new Property(Class_::MODIFIER_PUBLIC, [new PropertyProperty('foo')]),
-            new Property(Class_::MODIFIER_PUBLIC, [new PropertyProperty('bar')]),
+            new Property(Modifiers::PUBLIC, [new PropertyProperty('foo')]),
+            new Property(Modifiers::PUBLIC, [new PropertyProperty('bar')]),
         ];
         $trait = new Stmt\Trait_('Foo', [
             'stmts' => [

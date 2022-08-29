@@ -7,8 +7,7 @@ use PhpParser\Node\Expr;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\VariadicPlaceholder;
 
-class NullsafeMethodCall extends CallLike
-{
+class NullsafeMethodCall extends CallLike {
     /** @var Expr Variable holding object */
     public $var;
     /** @var Identifier|Expr Method name */
@@ -31,11 +30,11 @@ class NullsafeMethodCall extends CallLike
         $this->args = $args;
     }
 
-    public function getSubNodeNames() : array {
+    public function getSubNodeNames(): array {
         return ['var', 'name', 'args'];
     }
-    
-    public function getType() : string {
+
+    public function getType(): string {
         return 'Expr_NullsafeMethodCall';
     }
 

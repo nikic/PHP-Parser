@@ -10,8 +10,7 @@ use PhpParser\Node;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Stmt;
 
-class EnumCase implements PhpParser\Builder
-{
+class EnumCase implements PhpParser\Builder {
     protected $name;
     protected $value = null;
     protected $attributes = [];

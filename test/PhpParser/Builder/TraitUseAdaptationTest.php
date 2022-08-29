@@ -2,6 +2,7 @@
 
 namespace PhpParser\Builder;
 
+use PhpParser\Modifiers;
 use PhpParser\Node\Name;
 use PhpParser\Node\Stmt;
 use PhpParser\Node\Stmt\Class_;
@@ -21,17 +22,17 @@ class TraitUseAdaptationTest extends \PHPUnit\Framework\TestCase
         );
 
         $this->assertEquals(
-            new Stmt\TraitUseAdaptation\Alias(null, 'foo', Class_::MODIFIER_PUBLIC, null),
+            new Stmt\TraitUseAdaptation\Alias(null, 'foo', Modifiers::PUBLIC, null),
             (clone $builder)->makePublic()->getNode()
         );
 
         $this->assertEquals(
-            new Stmt\TraitUseAdaptation\Alias(null, 'foo', Class_::MODIFIER_PROTECTED, null),
+            new Stmt\TraitUseAdaptation\Alias(null, 'foo', Modifiers::PROTECTED, null),
             (clone $builder)->makeProtected()->getNode()
         );
 
         $this->assertEquals(
-            new Stmt\TraitUseAdaptation\Alias(null, 'foo', Class_::MODIFIER_PRIVATE, null),
+            new Stmt\TraitUseAdaptation\Alias(null, 'foo', Modifiers::PRIVATE, null),
             (clone $builder)->makePrivate()->getNode()
         );
     }

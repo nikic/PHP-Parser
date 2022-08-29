@@ -6,8 +6,7 @@ use PhpParser\PhpVersion;
 use PhpParser\Token;
 
 /** @internal */
-abstract class TokenEmulator
-{
+abstract class TokenEmulator {
     abstract public function getPhpVersion(): PhpVersion;
 
     abstract public function isEmulationNeeded(string $code): bool;

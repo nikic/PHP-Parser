@@ -5,8 +5,7 @@ namespace PhpParser\Node\Scalar;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Scalar;
 
-class Encapsed extends Scalar
-{
+class Encapsed extends Scalar {
     /** @var Expr[] list of string parts */
     public $parts;
 
@@ -21,11 +20,11 @@ class Encapsed extends Scalar
         $this->parts = $parts;
     }
 
-    public function getSubNodeNames() : array {
+    public function getSubNodeNames(): array {
         return ['parts'];
     }
-    
-    public function getType() : string {
+
+    public function getType(): string {
         return 'Scalar_Encapsed';
     }
 }

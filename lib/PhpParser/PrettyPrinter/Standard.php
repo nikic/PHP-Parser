@@ -13,8 +13,7 @@ use PhpParser\Node\Scalar\MagicConst;
 use PhpParser\Node\Stmt;
 use PhpParser\PrettyPrinterAbstract;
 
-class Standard extends PrettyPrinterAbstract
-{
+class Standard extends PrettyPrinterAbstract {
     // Special nodes
 
     protected function pParam(Node\Param $node) {
@@ -142,6 +141,7 @@ class Standard extends PrettyPrinterAbstract
                          . $this->docStringEndToken;
                 }
                 /* break missing intentionally */
+                // no break
             case Scalar\String_::KIND_SINGLE_QUOTED:
                 return $this->pSingleQuotedString($node->value);
             case Scalar\String_::KIND_HEREDOC:
@@ -155,7 +155,8 @@ class Standard extends PrettyPrinterAbstract
                     return "<<<$label\n" . $escaped . "\n$label"
                          . $this->docStringEndToken;
                 }
-            /* break missing intentionally */
+                /* break missing intentionally */
+                // no break
             case Scalar\String_::KIND_DOUBLE_QUOTED:
                 return '"' . $this->escapeString($node->value, '"') . '"';
         }
@@ -791,7 +792,7 @@ class Standard extends PrettyPrinterAbstract
         return (null !== $node->trait ? $this->p($node->trait) . '::' : '')
              . $node->method . ' as'
              . (null !== $node->newModifier ? ' ' . rtrim($this->pModifiers($node->newModifier), ' ') : '')
-             . (null !== $node->newName     ? ' ' . $node->newName                        : '')
+             . (null !== $node->newName ? ' ' . $node->newName : '')
              . ';';
     }
 
@@ -1046,7 +1047,8 @@ class Standard extends PrettyPrinterAbstract
         )/x';
         return preg_replace_callback($regex, function ($matches) {
             assert(strlen($matches[0]) === 1);
-            $hex = dechex(ord($matches[0]));;
+            $hex = dechex(ord($matches[0]));
+            ;
             return '\\x' . str_pad($hex, 2, '0', \STR_PAD_LEFT);
         }, $escaped);
     }
@@ -1074,7 +1076,7 @@ class Standard extends PrettyPrinterAbstract
     protected function pDereferenceLhs(Node $node) {
         if (!$this->dereferenceLhsRequiresParens($node)) {
             return $this->p($node);
-        } else  {
+        } else {
             return '(' . $this->p($node) . ')';
         }
     }
@@ -1082,7 +1084,7 @@ class Standard extends PrettyPrinterAbstract
     protected function pCallLhs(Node $node) {
         if (!$this->callLhsRequiresParens($node)) {
             return $this->p($node);
-        } else  {
+        } else {
             return '(' . $this->p($node) . ')';
         }
     }

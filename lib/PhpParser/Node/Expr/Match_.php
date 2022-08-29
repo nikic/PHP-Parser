@@ -5,8 +5,7 @@ namespace PhpParser\Node\Expr;
 use PhpParser\Node;
 use PhpParser\Node\MatchArm;
 
-class Match_ extends Node\Expr
-{
+class Match_ extends Node\Expr {
     /** @var Node\Expr */
     public $cond;
     /** @var MatchArm[] */
@@ -21,11 +20,11 @@ class Match_ extends Node\Expr
         $this->arms = $arms;
     }
 
-    public function getSubNodeNames() : array {
+    public function getSubNodeNames(): array {
         return ['cond', 'arms'];
     }
 
-    public function getType() : string {
+    public function getType(): string {
         return 'Expr_Match';
     }
 }

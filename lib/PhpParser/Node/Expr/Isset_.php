@@ -4,8 +4,7 @@ namespace PhpParser\Node\Expr;
 
 use PhpParser\Node\Expr;
 
-class Isset_ extends Expr
-{
+class Isset_ extends Expr {
     /** @var Expr[] Variables */
     public $vars;
 
@@ -20,11 +19,11 @@ class Isset_ extends Expr
         $this->vars = $vars;
     }
 
-    public function getSubNodeNames() : array {
+    public function getSubNodeNames(): array {
         return ['vars'];
     }
-    
-    public function getType() : string {
+
+    public function getType(): string {
         return 'Expr_Isset';
     }
 }

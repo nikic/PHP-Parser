@@ -2,6 +2,8 @@
 
 namespace PhpParser\Node\Stmt;
 
+use PhpParser\Modifiers;
+
 class ClassConstTest extends \PHPUnit\Framework\TestCase
 {
     /**
@@ -10,7 +12,7 @@ class ClassConstTest extends \PHPUnit\Framework\TestCase
     public function testModifiers($modifier) {
         $node = new ClassConst(
             [], // invalid
-            constant('PhpParser\Node\Stmt\Class_::MODIFIER_' . strtoupper($modifier))
+            constant(Modifiers::class . '::' . strtoupper($modifier))
         );
 
         $this->assertTrue($node->{'is' . $modifier}());

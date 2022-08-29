@@ -509,9 +509,9 @@ class_modifiers:
 ;
 
 class_modifier:
-      T_ABSTRACT                                            { $$ = Stmt\Class_::MODIFIER_ABSTRACT; }
-    | T_FINAL                                               { $$ = Stmt\Class_::MODIFIER_FINAL; }
-    | T_READONLY                                            { $$ = Stmt\Class_::MODIFIER_READONLY; }
+      T_ABSTRACT                                            { $$ = Modifiers::ABSTRACT; }
+    | T_FINAL                                               { $$ = Modifiers::FINAL; }
+    | T_READONLY                                            { $$ = Modifiers::READONLY; }
 ;
 
 extends_from:
@@ -666,10 +666,10 @@ optional_property_modifiers:
 ;
 
 property_modifier:
-      T_PUBLIC                  { $$ = Stmt\Class_::MODIFIER_PUBLIC; }
-    | T_PROTECTED               { $$ = Stmt\Class_::MODIFIER_PROTECTED; }
-    | T_PRIVATE                 { $$ = Stmt\Class_::MODIFIER_PRIVATE; }
-    | T_READONLY                { $$ = Stmt\Class_::MODIFIER_READONLY; }
+      T_PUBLIC                  { $$ = Modifiers::PUBLIC; }
+    | T_PROTECTED               { $$ = Modifiers::PROTECTED; }
+    | T_PRIVATE                 { $$ = Modifiers::PRIVATE; }
+    | T_READONLY                { $$ = Modifiers::READONLY; }
 ;
 
 parameter:
@@ -893,13 +893,13 @@ non_empty_member_modifiers:
 ;
 
 member_modifier:
-      T_PUBLIC                                              { $$ = Stmt\Class_::MODIFIER_PUBLIC; }
-    | T_PROTECTED                                           { $$ = Stmt\Class_::MODIFIER_PROTECTED; }
-    | T_PRIVATE                                             { $$ = Stmt\Class_::MODIFIER_PRIVATE; }
-    | T_STATIC                                              { $$ = Stmt\Class_::MODIFIER_STATIC; }
-    | T_ABSTRACT                                            { $$ = Stmt\Class_::MODIFIER_ABSTRACT; }
-    | T_FINAL                                               { $$ = Stmt\Class_::MODIFIER_FINAL; }
-    | T_READONLY                                            { $$ = Stmt\Class_::MODIFIER_READONLY; }
+      T_PUBLIC                                              { $$ = Modifiers::PUBLIC; }
+    | T_PROTECTED                                           { $$ = Modifiers::PROTECTED; }
+    | T_PRIVATE                                             { $$ = Modifiers::PRIVATE; }
+    | T_STATIC                                              { $$ = Modifiers::STATIC; }
+    | T_ABSTRACT                                            { $$ = Modifiers::ABSTRACT; }
+    | T_FINAL                                               { $$ = Modifiers::FINAL; }
+    | T_READONLY                                            { $$ = Modifiers::READONLY; }
 ;
 
 property_declaration_list:

@@ -4,8 +4,7 @@ namespace PhpParser\Node\Stmt;
 
 use PhpParser\Node;
 
-class Interface_ extends ClassLike
-{
+class Interface_ extends ClassLike {
     /** @var Node\Name[] Extended interfaces */
     public $extends;
 
@@ -27,11 +26,11 @@ class Interface_ extends ClassLike
         $this->attrGroups = $subNodes['attrGroups'] ?? [];
     }
 
-    public function getSubNodeNames() : array {
+    public function getSubNodeNames(): array {
         return ['attrGroups', 'name', 'extends', 'stmts'];
     }
 
-    public function getType() : string {
+    public function getType(): string {
         return 'Stmt_Interface';
     }
 }

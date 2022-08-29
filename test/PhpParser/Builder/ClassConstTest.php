@@ -3,6 +3,7 @@
 namespace PhpParser\Builder;
 
 use PhpParser\Comment;
+use PhpParser\Modifiers;
 use PhpParser\Node\Arg;
 use PhpParser\Node\Attribute;
 use PhpParser\Node\AttributeGroup;
@@ -31,7 +32,7 @@ class ClassConstTest extends \PHPUnit\Framework\TestCase
                 [
                     new Const_("TEST", new LNumber(1))
                 ],
-                Stmt\Class_::MODIFIER_PRIVATE
+                Modifiers::PRIVATE
             ),
             $node
         );
@@ -46,7 +47,7 @@ class ClassConstTest extends \PHPUnit\Framework\TestCase
                 [
                     new Const_("TEST", new LNumber(1) )
                 ],
-                Stmt\Class_::MODIFIER_PROTECTED
+                Modifiers::PROTECTED
             ),
             $node
         );
@@ -61,7 +62,7 @@ class ClassConstTest extends \PHPUnit\Framework\TestCase
                 [
                     new Const_("TEST", new LNumber(1) )
                 ],
-                Stmt\Class_::MODIFIER_PUBLIC
+                Modifiers::PUBLIC
             ),
             $node
         );
@@ -76,7 +77,7 @@ class ClassConstTest extends \PHPUnit\Framework\TestCase
                 [
                     new Const_("TEST", new LNumber(1) )
                 ],
-                Stmt\Class_::MODIFIER_FINAL
+                Modifiers::FINAL
             ),
             $node
         );
@@ -93,7 +94,7 @@ class ClassConstTest extends \PHPUnit\Framework\TestCase
                 [
                     new Const_("TEST", new LNumber(1) )
                 ],
-                Stmt\Class_::MODIFIER_PUBLIC,
+                Modifiers::PUBLIC,
                 [
                     'comments' => [new Comment\Doc('/** Test */')]
                 ]

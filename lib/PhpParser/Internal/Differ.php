@@ -10,8 +10,7 @@ namespace PhpParser\Internal;
  *
  * @internal
  */
-class Differ
-{
+class Differ {
     private $isEqual;
 
     /**

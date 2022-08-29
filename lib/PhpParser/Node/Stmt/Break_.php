@@ -4,8 +4,7 @@ namespace PhpParser\Node\Stmt;
 
 use PhpParser\Node;
 
-class Break_ extends Node\Stmt
-{
+class Break_ extends Node\Stmt {
     /** @var null|Node\Expr Number of loops to break */
     public $num;
 
@@ -20,11 +19,11 @@ class Break_ extends Node\Stmt
         $this->num = $num;
     }
 
-    public function getSubNodeNames() : array {
+    public function getSubNodeNames(): array {
         return ['num'];
     }
-    
-    public function getType() : string {
+
+    public function getType(): string {
         return 'Stmt_Break';
     }
 }
