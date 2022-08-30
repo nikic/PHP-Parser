@@ -1,9 +1,7 @@
 What do all those files mean?
 =============================
 
- * `php5.y`:             PHP 5 grammar written in a pseudo language
- * `php7.y`:             PHP 7 grammar written in a pseudo language
- * `tokens.y`:           Tokens definition shared between PHP 5 and PHP 7 grammars
+ * `tokens.y`:           Tokens definition shared between PHP 5-8 grammars
  * `parser.template`:    A `kmyacc` parser prototype file for PHP
  * `tokens.template`:    A `kmyacc` prototype file for the `Tokens` class
  * `rebuildParsers.php`: Preprocesses the grammar and builds the parser using `kmyacc`
