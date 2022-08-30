@@ -3,6 +3,9 @@
 namespace PhpParser;
 
 class TokenTest extends \PHPUnit\Framework\TestCase {
+    /**
+     * @requires PHP >= 8.0
+     */
     public function testTokenize() {
         $code = file_get_contents(__FILE__);
         $tokens = \PhpToken::tokenize($code);
@@ -16,18 +19,25 @@ class TokenTest extends \PHPUnit\Framework\TestCase {
     }
 
     public function testGetTokenName() {
+        $token = new Token(\ord(','), ',');
+        $this->assertSame(',', $token->getTokenName());
+        $token = new Token(\T_WHITESPACE, ' ');
+        $this->assertSame('T_WHITESPACE', $token->getTokenName());
+    }
+
+    /**
+     * @covers Token::getTokenName
+     * @requires PHP >= 8.0
+     */
+    public function testGetTokenNameVsNativeMethod() {
         // named tokens
         $token = new \PhpToken(\T_ECHO, 'echo');
         $polyfillToken = new Token(\T_ECHO, 'echo');
         $this->assertSame($token->getTokenName(), $polyfillToken->getTokenName());
-        $token = new Token(\T_WHITESPACE, ' ');
-        $this->assertSame('T_WHITESPACE', $token->getTokenName());
         // single char tokens
         $token = new \PhpToken(\ord(';'), ';');
         $polyfillToken = new Token(\ord(';'), ';');
         $this->assertSame($token->getTokenName(), $polyfillToken->getTokenName());
-        $token = new Token(\ord(','), ',');
-        $this->assertSame(',', $token->getTokenName());
         // unknown token
         $token = new \PhpToken(10000, "\0");
         $polyfillToken = new Token(10000, "\0");
@@ -35,6 +45,22 @@ class TokenTest extends \PHPUnit\Framework\TestCase {
     }
 
     public function testIs() {
+        $token = new Token(\ord(','), ',');
+        $this->assertTrue($token->is(\ord(',')));
+        $this->assertFalse($token->is(\ord(';')));
+        $this->assertTrue($token->is(','));
+        $this->assertFalse($token->is(';'));
+        $this->assertTrue($token->is([\ord(','), \ord(';')]));
+        $this->assertFalse($token->is([\ord('!'), \ord(';')]));
+        $this->assertTrue($token->is([',', ';']));
+        $this->assertFalse($token->is(['!', ';']));
+    }
+
+    /**
+     * @covers Token::is
+     * @requires PHP >= 8.0
+     */
+    public function testIsVsNativeMethod() {
         // single token
         $token = new \PhpToken(\T_ECHO, 'echo');
         $polyfillToken = new Token(\T_ECHO, 'echo');
@@ -55,16 +81,6 @@ class TokenTest extends \PHPUnit\Framework\TestCase {
             $token->is([\T_INTERFACE, 'class', 334]),
             $polyfillToken->is([\T_INTERFACE, 'class', 334])
         );
-
-        $token = new Token(\ord(','), ',');
-        $this->assertTrue($token->is(\ord(',')));
-        $this->assertFalse($token->is(\ord(';')));
-        $this->assertTrue($token->is(','));
-        $this->assertFalse($token->is(';'));
-        $this->assertTrue($token->is([\ord(','), \ord(';')]));
-        $this->assertFalse($token->is([\ord('!'), \ord(';')]));
-        $this->assertTrue($token->is([',', ';']));
-        $this->assertFalse($token->is(['!', ';']));
     }
 
     /** @dataProvider provideTestIsIgnorable */
