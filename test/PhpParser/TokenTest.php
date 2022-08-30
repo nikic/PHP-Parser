@@ -3,11 +3,35 @@
 namespace PhpParser;
 
 class TokenTest extends \PHPUnit\Framework\TestCase {
+    public function testTokenize() {
+        $code = file_get_contents(__FILE__);
+        $tokens = \PhpToken::tokenize($code);
+        $polyfillTokens = PhpTokenPolyfill::tokenize($code);
+        $this->assertEqualsCanonicalizing((array) $tokens[1], (array) $polyfillTokens[1]);
+        $this->assertEqualsCanonicalizing((array) $tokens[50], (array) $polyfillTokens[50]);
+        $this->assertEqualsCanonicalizing((array) $tokens[100], (array) $polyfillTokens[100]);
+        $this->assertEqualsCanonicalizing((array) $tokens[150], (array) $polyfillTokens[150]);
+        $this->assertEqualsCanonicalizing((array) $tokens[200], (array) $polyfillTokens[200]);
+        $this->assertEqualsCanonicalizing((array) $tokens[250], (array) $polyfillTokens[250]);
+    }
+
     public function testGetTokenName() {
-        $token = new Token(\ord(','), ',');
-        $this->assertSame(',', $token->getTokenName());
+        // named tokens
+        $token = new \PhpToken(\T_ECHO, 'echo');
+        $polyfillToken = new PhpTokenPolyfill(\T_ECHO, 'echo');
+        $this->assertSame($token->getTokenName(), $polyfillToken->getTokenName());
         $token = new Token(\T_WHITESPACE, ' ');
         $this->assertSame('T_WHITESPACE', $token->getTokenName());
+        // single char tokens
+        $token = new \PhpToken(\ord(';'), ';');
+        $polyfillToken = new PhpTokenPolyfill(\ord(';'), ';');
+        $this->assertSame($token->getTokenName(), $polyfillToken->getTokenName());
+        $token = new Token(\ord(','), ',');
+        $this->assertSame(',', $token->getTokenName());
+        // unknown token
+        $token = new \PhpToken(10000, "\0");
+        $polyfillToken = new PhpTokenPolyfill(10000, "\0");
+        $this->assertSame($token->getTokenName(), $polyfillToken->getTokenName());
     }
 
     public function testIs() {
@@ -20,6 +44,27 @@ class TokenTest extends \PHPUnit\Framework\TestCase {
         $this->assertFalse($token->is([\ord('!'), \ord(';')]));
         $this->assertTrue($token->is([',', ';']));
         $this->assertFalse($token->is(['!', ';']));
+        
+        // single token
+        $token = new \PhpToken(\T_ECHO, 'echo');
+        $polyfillToken = new PhpTokenPolyfill(\T_ECHO, 'echo');
+        $this->assertSame($token->is(\T_ECHO), $polyfillToken->is(\T_ECHO));
+        $this->assertSame($token->is('echo'), $polyfillToken->is('echo'));
+        $this->assertSame($token->is('T_ECHO'), $polyfillToken->is('T_ECHO'));
+        // token set
+        $token = new \PhpToken(\T_TRAIT, 'trait');
+        $polyfillToken = new PhpTokenPolyfill(\T_TRAIT, 'trait');
+        $this->assertSame(
+            $token->is([\T_INTERFACE, \T_CLASS, \T_TRAIT]),
+            $polyfillToken->is([\T_INTERFACE, \T_CLASS, \T_TRAIT])
+        );
+        // mixed set
+        $token = new \PhpToken(\T_TRAIT, 'trait');
+        $polyfillToken = new PhpTokenPolyfill(\T_TRAIT, 'trait');
+        $this->assertSame(
+            $token->is([\T_INTERFACE, 'class', 334]),
+            $polyfillToken->is([\T_INTERFACE, 'class', 334])
+        );
     }
 
     /** @dataProvider provideTestIsIgnorable */
@@ -31,6 +76,9 @@ class TokenTest extends \PHPUnit\Framework\TestCase {
     public function provideTestIsIgnorable() {
         return [
             [\T_STRING, 'foo', false],
+            [\T_CLOSE_TAG, '?>', false],
+            [\T_OPEN_TAG_WITH_ECHO, '<?=', false],
+            [\T_INLINE_HTML, 'inline <b>HTML</b>', false],
             [\T_WHITESPACE, ' ', true],
             [\T_COMMENT, '// foo', true],
             [\T_DOC_COMMENT, '/** foo */', true],
