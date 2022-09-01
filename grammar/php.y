@@ -1166,8 +1166,9 @@ array_short_syntax:
 dereferencable_scalar:
       T_ARRAY '(' array_pair_list ')'
           { $attrs = attributes(); $attrs['kind'] = Expr\Array_::KIND_LONG;
-            $$ = new Expr\Array_($3, $attrs); }
-    | array_short_syntax                                    { $$ = $1; }
+            $$ = new Expr\Array_($3, $attrs);
+            $this->createdArrays->attach($$); }
+    | array_short_syntax                                    { $$ = $1; $this->createdArrays->attach($$); }
     | T_CONSTANT_ENCAPSED_STRING                            { $$ = Scalar\String_::fromString($1, attributes()); }
     | '"' encaps_list '"'
           { $attrs = attributes(); $attrs['kind'] = Scalar\String_::KIND_DOUBLE_QUOTED;
@@ -1281,12 +1282,13 @@ property_name:
 
 list_expr:
       T_LIST '(' inner_array_pair_list ')'
-          { $$ = Expr\List_[$3]; $$->setAttribute('kind', Expr\List_::KIND_LIST); }
+          { $$ = Expr\List_[$3]; $$->setAttribute('kind', Expr\List_::KIND_LIST);
+            $this->postprocessList($$); }
 ;
 
 array_pair_list:
       inner_array_pair_list
-          { $$ = $1; $end = count($$)-1; if ($$[$end] === null) array_pop($$); }
+          { $$ = $1; $end = count($$)-1; if ($$[$end]->value instanceof Expr\Error) array_pop($$); }
 ;
 
 comma_or_error:
@@ -1308,7 +1310,11 @@ array_pair:
     | expr T_DOUBLE_ARROW ampersand variable                { $$ = Expr\ArrayItem[$4, $1,   true]; }
     | expr T_DOUBLE_ARROW list_expr                         { $$ = Expr\ArrayItem[$3, $1,   false]; }
     | T_ELLIPSIS expr                                       { $$ = Expr\ArrayItem[$2, null, false, attributes(), true]; }
-    | /* empty */                                           { $$ = null; }
+    | /* empty */
+        { /* Create an Error node now to remember the position. We'll later either report an error,
+             or convert this into a null element, depending on whether this is a creation or destructuring context. */
+          $attrs = $this->createEmptyElemAttributes($this->lookaheadStartAttributes);
+          $$ = new Expr\ArrayItem(new Expr\Error($attrs), null, false, $attrs); }
 ;
 
 encaps_list:

@@ -2776,9 +2776,10 @@ class Php8 extends \PhpParser\ParserAbstract
             521 => function ($stackPos) {
                  $attrs = $this->startAttributeStack[$stackPos-(4-1)] + $this->endAttributes; $attrs['kind'] = Expr\Array_::KIND_LONG;
             $this->semValue = new Expr\Array_($this->semStack[$stackPos-(4-3)], $attrs);
+            $this->createdArrays->attach($this->semValue);
             },
             522 => function ($stackPos) {
-                 $this->semValue = $this->semStack[$stackPos-(1-1)];
+                 $this->semValue = $this->semStack[$stackPos-(1-1)]; $this->createdArrays->attach($this->semValue);
             },
             523 => function ($stackPos) {
                  $this->semValue = Scalar\String_::fromString($this->semStack[$stackPos-(1-1)], $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
@@ -2942,9 +2943,10 @@ class Php8 extends \PhpParser\ParserAbstract
             },
             576 => function ($stackPos) {
                  $this->semValue = new Expr\List_($this->semStack[$stackPos-(4-3)], $this->startAttributeStack[$stackPos-(4-1)] + $this->endAttributes); $this->semValue->setAttribute('kind', Expr\List_::KIND_LIST);
+            $this->postprocessList($this->semValue);
             },
             577 => function ($stackPos) {
-                 $this->semValue = $this->semStack[$stackPos-(1-1)]; $end = count($this->semValue)-1; if ($this->semValue[$end] === null) array_pop($this->semValue);
+                 $this->semValue = $this->semStack[$stackPos-(1-1)]; $end = count($this->semValue)-1; if ($this->semValue[$end]->value instanceof Expr\Error) array_pop($this->semValue);
             },
             578 => function ($stackPos) {
                 $this->semValue = $this->semStack[$stackPos];
@@ -2980,7 +2982,10 @@ class Php8 extends \PhpParser\ParserAbstract
                  $this->semValue = new Expr\ArrayItem($this->semStack[$stackPos-(2-2)], null, false, $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes, true, $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes);
             },
             589 => function ($stackPos) {
-                 $this->semValue = null;
+                 /* Create an Error node now to remember the position. We'll later either report an error,
+             or convert this into a null element, depending on whether this is a creation or destructuring context. */
+          $attrs = $this->createEmptyElemAttributes($this->lookaheadStartAttributes);
+          $this->semValue = new Expr\ArrayItem(new Expr\Error($attrs), null, false, $attrs);
             },
             590 => function ($stackPos) {
                  $this->semStack[$stackPos-(2-1)][] = $this->semStack[$stackPos-(2-2)]; $this->semValue = $this->semStack[$stackPos-(2-1)];

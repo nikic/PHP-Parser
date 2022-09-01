@@ -4,7 +4,7 @@ Array destructuring
 
 [$a, $b] = [$c, $d];
 [, $a, , , $b, ,] = $foo;
-[, [[$a]], $b] = $bar;
+[, [[$a, , $x]], $b] = $bar;
 ['a' => $b, 'b' => $a] = $baz;
 -----
 array(
@@ -100,6 +100,15 @@ array(
                                                 key: null
                                                 value: Expr_Variable(
                                                     name: a
+                                                )
+                                                byRef: false
+                                                unpack: false
+                                            )
+                                            1: null
+                                            2: Expr_ArrayItem(
+                                                key: null
+                                                value: Expr_Variable(
+                                                    name: x
                                                 )
                                                 byRef: false
                                                 unpack: false
