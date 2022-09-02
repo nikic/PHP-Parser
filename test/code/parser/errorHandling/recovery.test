@@ -1268,7 +1268,7 @@ array(
             )
             expr: Expr_Array(
                 items: array(
-                    0: Expr_ArrayItem(
+                    0: ArrayItem(
                         key: null
                         value: Expr_PropertyFetch(
                             var: Expr_Variable(
@@ -1281,7 +1281,7 @@ array(
                         byRef: false
                         unpack: false
                     )
-                    1: Expr_ArrayItem(
+                    1: ArrayItem(
                         key: null
                         value: Expr_MethodCall(
                             var: Expr_Variable(
@@ -1307,7 +1307,7 @@ array(
             )
             expr: Expr_Array(
                 items: array(
-                    0: Expr_ArrayItem(
+                    0: ArrayItem(
                         key: null
                         value: Expr_Variable(
                             name: value
@@ -1315,7 +1315,7 @@ array(
                         byRef: false
                         unpack: false
                     )
-                    1: Expr_ArrayItem(
+                    1: ArrayItem(
                         key: null
                         value: Expr_Variable(
                             name: oopsAnotherValue
@@ -1334,7 +1334,7 @@ array(
             )
             expr: Expr_Array(
                 items: array(
-                    0: Expr_ArrayItem(
+                    0: ArrayItem(
                         key: Scalar_String(
                             value: key
                         )
@@ -1344,7 +1344,7 @@ array(
                         byRef: false
                         unpack: false
                     )
-                    1: Expr_ArrayItem(
+                    1: ArrayItem(
                         key: null
                         value: Expr_Variable(
                             name: oopsAnotherValue

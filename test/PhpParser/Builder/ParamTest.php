@@ -58,19 +58,19 @@ class ParamTest extends \PHPUnit\Framework\TestCase {
             [
                 [1, 2, 3],
                 new Expr\Array_([
-                    new Expr\ArrayItem(new Scalar\LNumber(1)),
-                    new Expr\ArrayItem(new Scalar\LNumber(2)),
-                    new Expr\ArrayItem(new Scalar\LNumber(3)),
+                    new Node\ArrayItem(new Scalar\LNumber(1)),
+                    new Node\ArrayItem(new Scalar\LNumber(2)),
+                    new Node\ArrayItem(new Scalar\LNumber(3)),
                 ])
             ],
             [
                 ['foo' => 'bar', 'bar' => 'foo'],
                 new Expr\Array_([
-                    new Expr\ArrayItem(
+                    new Node\ArrayItem(
                         new Scalar\String_('bar'),
                         new Scalar\String_('foo')
                     ),
-                    new Expr\ArrayItem(
+                    new Node\ArrayItem(
                         new Scalar\String_('foo'),
                         new Scalar\String_('bar')
                     ),

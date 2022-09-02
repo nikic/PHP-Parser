@@ -2,6 +2,7 @@
 
 namespace PhpParser\Node\Expr;
 
+use PhpParser\Node\ArrayItem;
 use PhpParser\Node\Expr;
 
 class Array_ extends Expr {

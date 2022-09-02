@@ -145,7 +145,7 @@ array(
                                     name: null
                                     value: Expr_Array(
                                         items: array(
-                                            0: Expr_ArrayItem(
+                                            0: ArrayItem(
                                                 key: null
                                                 value: Scalar_String(
                                                     value: udef
@@ -153,7 +153,7 @@ array(
                                                 byRef: false
                                                 unpack: false
                                             )
-                                            1: Expr_ArrayItem(
+                                            1: ArrayItem(
                                                 key: null
                                                 value: Scalar_String(
                                                     value: id
@@ -365,7 +365,7 @@ array(
                         name: Expr_FuncCall(
                             name: Expr_Array(
                                 items: array(
-                                    0: Expr_ArrayItem(
+                                    0: ArrayItem(
                                         key: null
                                         value: Expr_Variable(
                                             name: obj
@@ -373,7 +373,7 @@ array(
                                         byRef: false
                                         unpack: false
                                     )
-                                    1: Expr_ArrayItem(
+                                    1: ArrayItem(
                                         key: null
                                         value: Scalar_String(
                                             value: id

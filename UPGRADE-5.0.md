@@ -76,6 +76,7 @@ used.
 A number of AST nodes have been renamed or moved in the AST hierarchy:
 
  * `Node\Expr\ClosureUse` is now `Node\ClosureUse` and no longer extends `Node\Expr`. The `ClosureUse` node can only occur inside closure use lists, not as a general expression.
+ * `Node\Expr\ArrayItem` is now `Node\ArrayItem` and no longer extends `Node\Expr`. The `ArrayItem` node can only occur inside array/list constructs, not as a general expression.
 
 The old class names have been retained as aliases for backwards compatibility. However, the `Node::getType()` method will now always return the new name (e.g. `ClosureUse` instead of `Expr_ClosureUse`).
 

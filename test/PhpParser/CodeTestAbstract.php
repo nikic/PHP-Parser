@@ -23,7 +23,7 @@ abstract class CodeTestAbstract extends \PHPUnit\Framework\TestCase {
         return $allTests;
     }
 
-    protected function parseModeLine(?string $modeLine): array {
+    public function parseModeLine(?string $modeLine): array {
         if ($modeLine === null) {
             return [];
         }

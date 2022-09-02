@@ -185,8 +185,8 @@ class BuilderHelpersTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals(new Scalar\String_('text'), BuilderHelpers::normalizeValue('text'));
         $this->assertEquals(
             new Expr\Array_([
-                new Expr\ArrayItem(new Scalar\LNumber(0)),
-                new Expr\ArrayItem(new Scalar\LNumber(1), new Scalar\String_('test')),
+                new Node\ArrayItem(new Scalar\LNumber(0)),
+                new Node\ArrayItem(new Scalar\LNumber(1), new Scalar\String_('test')),
             ]),
             BuilderHelpers::normalizeValue([
                 0,

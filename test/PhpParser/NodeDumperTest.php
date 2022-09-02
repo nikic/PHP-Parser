@@ -42,11 +42,11 @@ class NodeDumperTest extends \PHPUnit\Framework\TestCase {
             ],
             [
                 new Node\Expr\Array_([
-                    new Node\Expr\ArrayItem(new Node\Scalar\String_('Foo'))
+                    new Node\ArrayItem(new Node\Scalar\String_('Foo'))
                 ]),
 'Expr_Array(
     items: array(
-        0: Expr_ArrayItem(
+        0: ArrayItem(
             key: null
             value: Scalar_String(
                 value: Foo

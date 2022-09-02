@@ -75,7 +75,7 @@ class PrettyPrinterTest extends CodeTestAbstract {
     public function testArraySyntaxDefault() {
         $prettyPrinter = new Standard(['shortArraySyntax' => true]);
         $expr = new Expr\Array_([
-            new Expr\ArrayItem(new String_('val'), new String_('key'))
+            new Node\ArrayItem(new String_('val'), new String_('key'))
         ]);
         $expected = "['key' => 'val']";
         $this->assertSame($expected, $prettyPrinter->prettyPrintExpr($expr));

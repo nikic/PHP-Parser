@@ -12,7 +12,7 @@ array(
     0: Stmt_Expression[3:1 - 3:9](
         expr: Expr_Array[3:1 - 3:8](
             items: array(
-                0: Expr_ArrayItem[3:2 - 3:2](
+                0: ArrayItem[3:2 - 3:2](
                     key: null
                     value: Scalar_LNumber[3:2 - 3:2](
                         value: 1
@@ -20,14 +20,14 @@ array(
                     byRef: false
                     unpack: false
                 )
-                1: Expr_ArrayItem[3:5 - 3:5](
+                1: ArrayItem[3:5 - 3:5](
                     key: null
                     value: Expr_Error[3:5 - 3:5](
                     )
                     byRef: false
                     unpack: false
                 )
-                2: Expr_ArrayItem[3:7 - 3:7](
+                2: ArrayItem[3:7 - 3:7](
                     key: null
                     value: Scalar_LNumber[3:7 - 3:7](
                         value: 2
@@ -41,7 +41,7 @@ array(
     1: Stmt_Expression[4:1 - 4:14](
         expr: Expr_Array[4:1 - 4:13](
             items: array(
-                0: Expr_ArrayItem[4:7 - 4:7](
+                0: ArrayItem[4:7 - 4:7](
                     key: null
                     value: Scalar_LNumber[4:7 - 4:7](
                         value: 1
@@ -49,14 +49,14 @@ array(
                     byRef: false
                     unpack: false
                 )
-                1: Expr_ArrayItem[4:10 - 4:10](
+                1: ArrayItem[4:10 - 4:10](
                     key: null
                     value: Expr_Error[4:10 - 4:10](
                     )
                     byRef: false
                     unpack: false
                 )
-                2: Expr_ArrayItem[4:12 - 4:12](
+                2: ArrayItem[4:12 - 4:12](
                     key: null
                     value: Scalar_LNumber[4:12 - 4:12](
                         value: 2

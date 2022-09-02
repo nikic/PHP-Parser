@@ -12,7 +12,7 @@ array(
         expr: Expr_Assign(
             var: Expr_List(
                 items: array(
-                    0: Expr_ArrayItem(
+                    0: ArrayItem(
                         key: null
                         value: Expr_Variable(
                             name: v
@@ -31,7 +31,7 @@ array(
         expr: Expr_Assign(
             var: Expr_List(
                 items: array(
-                    0: Expr_ArrayItem(
+                    0: ArrayItem(
                         key: Scalar_String(
                             value: k
                         )
@@ -52,7 +52,7 @@ array(
         expr: Expr_Assign(
             var: Expr_List(
                 items: array(
-                    0: Expr_ArrayItem(
+                    0: ArrayItem(
                         key: null
                         value: Expr_Variable(
                             name: v
@@ -71,7 +71,7 @@ array(
         expr: Expr_Assign(
             var: Expr_List(
                 items: array(
-                    0: Expr_ArrayItem(
+                    0: ArrayItem(
                         key: Scalar_String(
                             value: k
                         )

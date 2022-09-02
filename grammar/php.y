@@ -1303,18 +1303,18 @@ inner_array_pair_list:
 ;
 
 array_pair:
-      expr                                                  { $$ = Expr\ArrayItem[$1, null, false]; }
-    | ampersand variable                                    { $$ = Expr\ArrayItem[$2, null, true]; }
-    | list_expr                                             { $$ = Expr\ArrayItem[$1, null, false]; }
-    | expr T_DOUBLE_ARROW expr                              { $$ = Expr\ArrayItem[$3, $1,   false]; }
-    | expr T_DOUBLE_ARROW ampersand variable                { $$ = Expr\ArrayItem[$4, $1,   true]; }
-    | expr T_DOUBLE_ARROW list_expr                         { $$ = Expr\ArrayItem[$3, $1,   false]; }
-    | T_ELLIPSIS expr                                       { $$ = Expr\ArrayItem[$2, null, false, attributes(), true]; }
+      expr                                                  { $$ = Node\ArrayItem[$1, null, false]; }
+    | ampersand variable                                    { $$ = Node\ArrayItem[$2, null, true]; }
+    | list_expr                                             { $$ = Node\ArrayItem[$1, null, false]; }
+    | expr T_DOUBLE_ARROW expr                              { $$ = Node\ArrayItem[$3, $1,   false]; }
+    | expr T_DOUBLE_ARROW ampersand variable                { $$ = Node\ArrayItem[$4, $1,   true]; }
+    | expr T_DOUBLE_ARROW list_expr                         { $$ = Node\ArrayItem[$3, $1,   false]; }
+    | T_ELLIPSIS expr                                       { $$ = Node\ArrayItem[$2, null, false, attributes(), true]; }
     | /* empty */
         { /* Create an Error node now to remember the position. We'll later either report an error,
              or convert this into a null element, depending on whether this is a creation or destructuring context. */
           $attrs = $this->createEmptyElemAttributes($this->lookaheadStartAttributes);
-          $$ = new Expr\ArrayItem(new Expr\Error($attrs), null, false, $attrs); }
+          $$ = new Node\ArrayItem(new Expr\Error($attrs), null, false, $attrs); }
 ;
 
 encaps_list:
