@@ -820,7 +820,7 @@ array(
     )
     10: Stmt_Static(
         vars: array(
-            0: Stmt_StaticVar(
+            0: StaticVar(
                 var: Expr_Variable(
                     name: a
                 )

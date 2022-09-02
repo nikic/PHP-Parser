@@ -957,7 +957,7 @@ class Standard extends PrettyPrinterAbstract {
         return 'global ' . $this->pCommaSeparated($node->vars) . ';';
     }
 
-    protected function pStmt_StaticVar(Stmt\StaticVar $node) {
+    protected function pStaticVar(Node\StaticVar $node) {
         return $this->p($node->var)
              . (null !== $node->default ? ' = ' . $this->p($node->default) : '');
     }

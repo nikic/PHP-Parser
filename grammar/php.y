@@ -809,8 +809,8 @@ non_empty_static_var_list:
 ;
 
 static_var:
-      plain_variable                                        { $$ = Stmt\StaticVar[$1, null]; }
-    | plain_variable '=' expr                               { $$ = Stmt\StaticVar[$1, $3]; }
+      plain_variable                                        { $$ = Node\StaticVar[$1, null]; }
+    | plain_variable '=' expr                               { $$ = Node\StaticVar[$1, $3]; }
 ;
 
 class_statement_list_ex:

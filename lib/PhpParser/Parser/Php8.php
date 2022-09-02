@@ -2199,10 +2199,10 @@ class Php8 extends \PhpParser\ParserAbstract
                  $this->semValue = array($this->semStack[$stackPos-(1-1)]);
             },
             334 => function ($stackPos) {
-                 $this->semValue = new Stmt\StaticVar($this->semStack[$stackPos-(1-1)], null, $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
+                 $this->semValue = new Node\StaticVar($this->semStack[$stackPos-(1-1)], null, $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
             },
             335 => function ($stackPos) {
-                 $this->semValue = new Stmt\StaticVar($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
+                 $this->semValue = new Node\StaticVar($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
             },
             336 => function ($stackPos) {
                  if ($this->semStack[$stackPos-(2-2)] !== null) { $this->semStack[$stackPos-(2-1)][] = $this->semStack[$stackPos-(2-2)]; $this->semValue = $this->semStack[$stackPos-(2-1)]; }
