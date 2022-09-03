@@ -61,18 +61,51 @@ class NodeTraverserTest extends \PHPUnit\Framework\TestCase {
         ], $visitor2->trace);
     }
 
-    public function testRemove() {
+    public function testRemoveFromLeave() {
         $str1Node = new String_('Foo');
         $str2Node = new String_('Bar');
 
         $visitor = new NodeVisitorForTesting([
             ['leaveNode', $str1Node, NodeTraverser::REMOVE_NODE],
         ]);
+        $visitor2 = new NodeVisitorForTesting();
 
         $traverser = new NodeTraverser();
         $traverser->addVisitor($visitor);
+        $traverser->addVisitor($visitor2);
 
-        $this->assertEquals([$str2Node], $traverser->traverse([$str1Node, $str2Node]));
+        $stmts = [$str1Node, $str2Node];
+        $this->assertEquals([$str2Node], $traverser->traverse($stmts));
+        $this->assertEquals([
+            ['beforeTraverse', $stmts],
+            ['enterNode', $str1Node],
+            ['enterNode', $str2Node],
+            ['leaveNode', $str2Node],
+            ['afterTraverse', [$str2Node]],
+        ], $visitor2->trace);
+    }
+
+    public function testRemoveFromEnter() {
+        $str1Node = new String_('Foo');
+        $str2Node = new String_('Bar');
+
+        $visitor = new NodeVisitorForTesting([
+            ['enterNode', $str1Node, NodeTraverser::REMOVE_NODE],
+        ]);
+        $visitor2 = new NodeVisitorForTesting();
+
+        $traverser = new NodeTraverser();
+        $traverser->addVisitor($visitor);
+        $traverser->addVisitor($visitor2);
+
+        $stmts = [$str1Node, $str2Node];
+        $this->assertEquals([$str2Node], $traverser->traverse($stmts));
+        $this->assertEquals([
+            ['beforeTraverse', $stmts],
+            ['enterNode', $str2Node],
+            ['leaveNode', $str2Node],
+            ['afterTraverse', [$str2Node]],
+        ], $visitor2->trace);
     }
 
     public function testMerge() {
