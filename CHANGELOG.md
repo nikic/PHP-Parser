@@ -1,7 +1,17 @@
-Version 4.14.1-dev
-------------------
+Version 4.15.0 (2022-09-03)
+---------------------------
 
-Nothing yet.
+### Added
+
+* PHP 8.2: Added support for `true` type.
+* PHP 8.2: Added support for DNF types.
+
+### Fixed
+
+* Support `readonly` as a function name.
+* Added `__serialize` and `__unserialize` to magic method list.
+* Fixed bounds check in `Name::slice()`.
+* Fixed formatting preservation when adding attributes to a class/method/etc that previously had none.
 
 Version 4.14.0 (2022-05-31)
 ---------------------------
