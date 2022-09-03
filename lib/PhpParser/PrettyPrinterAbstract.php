@@ -826,8 +826,10 @@ abstract class PrettyPrinterAbstract {
 
                 // We go multiline if the original code was multiline,
                 // or if it's an array item with a comment above it.
+                // Match always uses multiline formatting.
                 if ($insertStr === ', ' &&
-                    ($this->isMultiline($origNodes) || $arrItem->getComments())
+                    ($this->isMultiline($origNodes) || $arrItem->getComments() ||
+                     $parentNodeClass === Expr\Match_::class)
                 ) {
                     $insertStr = ',';
                     $insertNewline = true;
@@ -1378,7 +1380,7 @@ abstract class PrettyPrinterAbstract {
             Stmt\Global_::class . '->vars' => ', ',
             Stmt\GroupUse::class . '->uses' => ', ',
             Stmt\Interface_::class . '->extends' => ', ',
-            //Expr\Match_::class . '->arms' => ', ',
+            Expr\Match_::class . '->arms' => ', ',
             Stmt\Property::class . '->props' => ', ',
             Stmt\StaticVar::class . '->vars' => ', ',
             Stmt\TraitUse::class . '->traits' => ', ',
