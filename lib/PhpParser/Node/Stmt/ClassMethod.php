@@ -47,7 +47,7 @@ class ClassMethod extends Node\Stmt implements FunctionLike {
      *
      * @param string|Node\Identifier $name Name
      * @param array $subNodes   Array of the following optional subnodes:
-     *                          'flags       => MODIFIER_PUBLIC: Flags
+     *                          'flags       => 0              : Flags
      *                          'byRef'      => false          : Whether to return by reference
      *                          'params'     => array()        : Parameters
      *                          'returnType' => null           : Return type
