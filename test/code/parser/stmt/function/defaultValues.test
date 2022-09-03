@@ -103,7 +103,7 @@ array(
                     name: g
                 )
                 default: Expr_UnaryMinus(
-                    expr: Scalar_DNumber(
+                    expr: Scalar_Float(
                         value: 1
                     )
                 )

@@ -4,7 +4,7 @@ namespace PhpParser;
 
 use PhpParser\Node\Expr;
 use PhpParser\Node\Name;
-use PhpParser\Node\Scalar\DNumber;
+use PhpParser\Node\Scalar\Float_;
 use PhpParser\Node\Scalar\Encapsed;
 use PhpParser\Node\Scalar\EncapsedStringPart;
 use PhpParser\Node\Scalar\LNumber;
@@ -143,9 +143,9 @@ class PrettyPrinterTest extends CodeTestAbstract {
             [new LNumber(-1, ['kind' => LNumber::KIND_BIN]), '-0b1'],
             [new LNumber(-1, ['kind' => LNumber::KIND_OCT]), '-01'],
             [new LNumber(-1, ['kind' => LNumber::KIND_HEX]), '-0x1'],
-            [new DNumber(\INF), '\INF'],
-            [new DNumber(-\INF), '-\INF'],
-            [new DNumber(-\NAN), '\NAN'],
+            [new Float_(\INF), '\INF'],
+            [new Float_(-\INF), '-\INF'],
+            [new Float_(-\NAN), '\NAN'],
         ];
     }
 

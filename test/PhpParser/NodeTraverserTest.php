@@ -332,7 +332,7 @@ class NodeTraverserTest extends \PHPUnit\Framework\TestCase {
             ['leaveNode', $expr, 'foobar'],
         ]);
         $visitor5 = new NodeVisitorForTesting([
-            ['leaveNode', $num, [new Node\Scalar\DNumber(42.0)]],
+            ['leaveNode', $num, [new Node\Scalar\Float_(42.0)]],
         ]);
         $visitor6 = new NodeVisitorForTesting([
             ['leaveNode', $expr, false],

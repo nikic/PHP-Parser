@@ -9,7 +9,7 @@ use PhpParser\Node\Attribute;
 use PhpParser\Node\AttributeGroup;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Name;
-use PhpParser\Node\Scalar\DNumber;
+use PhpParser\Node\Scalar\Float_;
 use PhpParser\Node\Scalar\LNumber;
 use PhpParser\Node\Stmt;
 
@@ -50,7 +50,7 @@ class InterfaceTest extends \PHPUnit\Framework\TestCase {
 
     public function testAddConst() {
         $const = new Stmt\ClassConst([
-            new Node\Const_('SPEED_OF_LIGHT', new DNumber(299792458.0))
+            new Node\Const_('SPEED_OF_LIGHT', new Float_(299792458.0))
         ]);
         $contract = $this->createInterfaceBuilder()->addStmt($const)->getNode();
         $this->assertSame(299792458.0, $contract->stmts[0]->consts[0]->value->value);
@@ -58,7 +58,7 @@ class InterfaceTest extends \PHPUnit\Framework\TestCase {
 
     public function testOrder() {
         $const = new Stmt\ClassConst([
-            new Node\Const_('SPEED_OF_LIGHT', new DNumber(299792458))
+            new Node\Const_('SPEED_OF_LIGHT', new Float_(299792458))
         ]);
         $method = new Stmt\ClassMethod('doSomething');
         $contract = $this->createInterfaceBuilder()
@@ -105,7 +105,7 @@ class InterfaceTest extends \PHPUnit\Framework\TestCase {
 
     public function testFullFunctional() {
         $const = new Stmt\ClassConst([
-            new Node\Const_('SPEED_OF_LIGHT', new DNumber(299792458))
+            new Node\Const_('SPEED_OF_LIGHT', new Float_(299792458))
         ]);
         $method = new Stmt\ClassMethod('doSomething');
         $contract = $this->createInterfaceBuilder()

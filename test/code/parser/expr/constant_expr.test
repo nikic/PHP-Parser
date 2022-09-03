@@ -82,10 +82,10 @@ array(
                     name: T_3
                 )
                 value: Expr_BinaryOp_Plus(
-                    left: Scalar_DNumber(
+                    left: Scalar_Float(
                         value: 1.5
                     )
-                    right: Scalar_DNumber(
+                    right: Scalar_Float(
                         value: 1.5
                     )
                 )
@@ -117,10 +117,10 @@ array(
                 )
                 value: Expr_BinaryOp_Mul(
                     left: Expr_BinaryOp_Plus(
-                        left: Scalar_DNumber(
+                        left: Scalar_Float(
                             value: 1.5
                         )
-                        right: Scalar_DNumber(
+                        right: Scalar_Float(
                             value: 1.5
                         )
                     )
@@ -151,7 +151,7 @@ array(
                             value: 3
                         )
                     )
-                    right: Scalar_DNumber(
+                    right: Scalar_Float(
                         value: 4
                     )
                 )

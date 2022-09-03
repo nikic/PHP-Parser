@@ -31,7 +31,7 @@ Syntax error, unexpected T_STRING from 19:2 to 19:4
 Syntax error, unexpected T_STRING from 20:2 to 20:4
 array(
     0: Stmt_Expression(
-        expr: Scalar_DNumber(
+        expr: Scalar_Float(
             value: 6.674083E-11
         )
     )
@@ -122,12 +122,12 @@ array(
         )
     )
     12: Stmt_Expression(
-        expr: Scalar_DNumber(
+        expr: Scalar_Float(
             value: 0
         )
     )
     13: Stmt_Expression(
-        expr: Scalar_DNumber(
+        expr: Scalar_Float(
             value: 1
         )
     )

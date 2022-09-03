@@ -3,6 +3,7 @@
 namespace PhpParser;
 
 use PhpParser\Node\Expr;
+use PhpParser\Node\Scalar;
 use PhpParser\Node\Stmt;
 
 class CompatibilityTest extends \PHPUnit\Framework\TestCase {
@@ -15,6 +16,8 @@ class CompatibilityTest extends \PHPUnit\Framework\TestCase {
         $this->assertTrue($node instanceof Expr\ArrayItem);
         $node = new Node\StaticVar($var);
         $this->assertTrue($node instanceof Stmt\StaticVar);
+        $node = new Scalar\Float_(1.0);
+        $this->assertTrue($node instanceof Scalar\DNumber);
     }
 
     /** @runInSeparateProcess */
@@ -26,5 +29,7 @@ class CompatibilityTest extends \PHPUnit\Framework\TestCase {
         $this->assertTrue($node instanceof Node\ArrayItem);
         $node = new Node\Stmt\StaticVar($var);
         $this->assertTrue($node instanceof Node\StaticVar);
+        $node = new Node\Scalar\DNumber(1.0);
+        $this->assertTrue($node instanceof Scalar\Float_);
     }
 }

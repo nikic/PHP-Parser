@@ -240,7 +240,7 @@ final class BuilderHelpers {
         }
 
         if (is_float($value)) {
-            return new Scalar\DNumber($value);
+            return new Scalar\Float_($value);
         }
 
         if (is_string($value)) {

@@ -211,7 +211,7 @@ class Standard extends PrettyPrinterAbstract {
         throw new \Exception('Invalid number kind');
     }
 
-    protected function pScalar_DNumber(Scalar\DNumber $node) {
+    protected function pScalar_Float(Scalar\Float_ $node) {
         if (!is_finite($node->value)) {
             if ($node->value === \INF) {
                 return '\INF';

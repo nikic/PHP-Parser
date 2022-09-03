@@ -23,7 +23,7 @@ array(
         )
     )
     3: Stmt_Expression(
-        expr: Scalar_DNumber(
+        expr: Scalar_Float(
             value: 9.2233720368548E+18
         )
     )

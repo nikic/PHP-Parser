@@ -181,7 +181,7 @@ class BuilderHelpersTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals(new Expr\ConstFetch(new Node\Name('true')), BuilderHelpers::normalizeValue(true));
         $this->assertEquals(new Expr\ConstFetch(new Node\Name('false')), BuilderHelpers::normalizeValue(false));
         $this->assertEquals(new Scalar\LNumber(2), BuilderHelpers::normalizeValue(2));
-        $this->assertEquals(new Scalar\DNumber(2.5), BuilderHelpers::normalizeValue(2.5));
+        $this->assertEquals(new Scalar\Float_(2.5), BuilderHelpers::normalizeValue(2.5));
         $this->assertEquals(new Scalar\String_('text'), BuilderHelpers::normalizeValue('text'));
         $this->assertEquals(
             new Expr\Array_([

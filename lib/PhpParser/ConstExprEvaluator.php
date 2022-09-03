@@ -103,7 +103,7 @@ class ConstExprEvaluator {
 
     private function evaluate(Expr $expr) {
         if ($expr instanceof Scalar\LNumber
-            || $expr instanceof Scalar\DNumber
+            || $expr instanceof Scalar\Float_
             || $expr instanceof Scalar\String_
         ) {
             return $expr->value;

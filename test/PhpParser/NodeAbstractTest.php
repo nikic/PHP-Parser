@@ -268,7 +268,7 @@ PHP;
                     }
                 },
                 "default": {
-                    "nodeType": "Scalar_DNumber",
+                    "nodeType": "Scalar_Float",
                     "value": 1,
                     "attributes": {
                         "startLine": 4,
@@ -425,7 +425,7 @@ JSON;
                     "name": "b"
                 },
                 "default": {
-                    "nodeType": "Scalar_DNumber",
+                    "nodeType": "Scalar_Float",
                     "attributes": {
                         "startLine": 4,
                         "endLine": 4,

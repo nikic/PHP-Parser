@@ -49,7 +49,7 @@ class ParamTest extends \PHPUnit\Framework\TestCase {
             ],
             [
                 3.1415,
-                new Scalar\DNumber(3.1415)
+                new Scalar\Float_(3.1415)
             ],
             [
                 'Hallo World',

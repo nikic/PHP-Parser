@@ -19,7 +19,7 @@ array(
                 name: Identifier(
                     name: B
                 )
-                value: Scalar_DNumber(
+                value: Scalar_Float(
                     value: 1
                 )
             )

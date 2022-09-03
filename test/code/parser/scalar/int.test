@@ -29,7 +29,7 @@ array(
         )
     )
     3: Stmt_Expression(
-        expr: Scalar_DNumber(
+        expr: Scalar_Float(
             value: @@{ PHP_INT_MAX + 1 }@@
         )
     )

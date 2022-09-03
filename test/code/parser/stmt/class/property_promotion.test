@@ -44,7 +44,7 @@ array(
                         var: Expr_Variable(
                             name: x
                         )
-                        default: Scalar_DNumber(
+                        default: Scalar_Float(
                             value: 0
                         )
                     )

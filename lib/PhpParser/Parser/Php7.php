@@ -2774,7 +2774,7 @@ class Php7 extends \PhpParser\ParserAbstract
                  $this->semValue = $this->parseLNumber($this->semStack[$stackPos-(1-1)], $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes, $this->phpVersion->allowsInvalidOctals());
             },
             526 => function ($stackPos) {
-                 $this->semValue = Scalar\DNumber::fromString($this->semStack[$stackPos-(1-1)], $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
+                 $this->semValue = Scalar\Float_::fromString($this->semStack[$stackPos-(1-1)], $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
             },
             527 => function ($stackPos) {
                  $this->semValue = $this->semStack[$stackPos-(1-1)];
