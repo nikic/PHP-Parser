@@ -28,6 +28,8 @@ class CompatibilityTest extends \PHPUnit\Framework\TestCase {
         $this->assertTrue($part instanceof Scalar\EncapsedStringPart);
         $node = new Scalar\InterpolatedString([$part]);
         $this->assertTrue($node instanceof Scalar\Encapsed);
+        $node = new Node\DeclareItem('strict_types', new Scalar\Int_(1));
+        $this->assertTrue($node instanceof Stmt\DeclareDeclare);
     }
 
     /**
@@ -50,5 +52,7 @@ class CompatibilityTest extends \PHPUnit\Framework\TestCase {
         $this->assertTrue($part instanceof Node\InterpolatedStringPart);
         $node = new Scalar\Encapsed([$part]);
         $this->assertTrue($node instanceof Scalar\InterpolatedString);
+        $node = new Stmt\DeclareDeclare('strict_types', new Scalar\LNumber(1));
+        $this->assertTrue($node instanceof Node\DeclareItem);
     }
 }

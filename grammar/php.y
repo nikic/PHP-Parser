@@ -564,7 +564,7 @@ non_empty_declare_list:
 ;
 
 declare_list_element:
-      identifier_not_reserved '=' expr                      { $$ = Stmt\DeclareDeclare[$1, $3]; }
+      identifier_not_reserved '=' expr                      { $$ = Node\DeclareItem[$1, $3]; }
 ;
 
 switch_case_list:

@@ -1891,7 +1891,7 @@ class Php7 extends \PhpParser\ParserAbstract
                  $this->semStack[$stackPos-(3-1)][] = $this->semStack[$stackPos-(3-3)]; $this->semValue = $this->semStack[$stackPos-(3-1)];
             },
             238 => function ($stackPos) {
-                 $this->semValue = new Stmt\DeclareDeclare($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
+                 $this->semValue = new Node\DeclareItem($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
             },
             239 => function ($stackPos) {
                  $this->semValue = $this->semStack[$stackPos-(3-2)];

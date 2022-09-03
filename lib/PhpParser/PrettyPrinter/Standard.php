@@ -838,7 +838,7 @@ class Standard extends PrettyPrinterAbstract {
              . (null !== $node->stmts ? ' {' . $this->pStmts($node->stmts) . $this->nl . '}' : ';');
     }
 
-    protected function pStmt_DeclareDeclare(Stmt\DeclareDeclare $node) {
+    protected function pDeclareItem(Node\DeclareItem $node) {
         return $node->key . '=' . $this->p($node->value);
     }
 
