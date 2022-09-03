@@ -9,6 +9,7 @@ use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\AssignOp;
 use PhpParser\Node\Expr\BinaryOp;
 use PhpParser\Node\Expr\Cast;
+use PhpParser\Node\Param;
 use PhpParser\Node\Scalar;
 use PhpParser\Node\Stmt;
 
@@ -128,7 +129,7 @@ abstract class PrettyPrinterAbstract {
      */
     protected $listInsertionMap;
     protected $emptyListInsertionMap;
-    /** @var int[] Map from "{$node->getType()}->{$subNode}" to token before which the modifiers
+    /** @var int[] Map from "{$class}->{$subNode}" to token before which the modifiers
      *             should be reprinted. */
     protected $modifierChangeMap;
 
@@ -576,7 +577,7 @@ abstract class PrettyPrinterAbstract {
 
                 if (is_int($subNode) && is_int($origSubNode)) {
                     // Check if this is a modifier change
-                    $key = $type . '->' . $subNodeName;
+                    $key = $class . '->' . $subNodeName;
                     if (!isset($this->modifierChangeMap[$key])) {
                         return $this->pFallback($fallbackNode);
                     }
@@ -1495,12 +1496,12 @@ abstract class PrettyPrinterAbstract {
         }
 
         $this->modifierChangeMap = [
-            'Stmt_ClassConst->flags' => \T_CONST,
-            'Stmt_ClassMethod->flags' => \T_FUNCTION,
-            'Stmt_Class->flags' => \T_CLASS,
-            'Stmt_Property->flags' => \T_VARIABLE,
-            'Param->flags' => \T_VARIABLE,
-            //'Stmt_TraitUseAdaptation_Alias->newModifier' => 0, // TODO
+            Stmt\ClassConst::class . '->flags' => \T_CONST,
+            Stmt\ClassMethod::class . '->flags' => \T_FUNCTION,
+            Stmt\Class_::class . '->flags' => \T_CLASS,
+            Stmt\Property::class . '->flags' => \T_VARIABLE,
+            Param::class . '->flags' => \T_VARIABLE,
+            //Stmt\TraitUseAdaptation\Alias::class . '->newModifier' => 0, // TODO
         ];
 
         // List of integer subnodes that are not modifiers:
