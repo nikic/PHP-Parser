@@ -43,7 +43,7 @@ $foo
 ? $bar :
 $baz;
 [ $a => $b
-, $c => $d];
+, $c => & $d];
 
 yield
 $foo
@@ -149,7 +149,7 @@ $foo
 ?:
 $baz;
 [ $a => $b
-, $d];
+, & $d];
 
 yield
 $bar;

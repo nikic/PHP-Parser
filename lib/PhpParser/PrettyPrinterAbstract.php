@@ -1250,7 +1250,7 @@ abstract class PrettyPrinterAbstract {
         $stripEquals = ['left' => '='];
         $this->removalMap = [
             'Expr_ArrayDimFetch->dim' => $stripBoth,
-            'Expr_ArrayItem->key' => $stripDoubleArrow,
+            'ArrayItem->key' => $stripDoubleArrow,
             'Expr_ArrowFunction->returnType' => $stripColon,
             'Expr_Closure->returnType' => $stripColon,
             'Expr_Exit->expr' => $stripBoth,
@@ -1293,7 +1293,7 @@ abstract class PrettyPrinterAbstract {
         // [$find, $beforeToken, $extraLeft, $extraRight]
         $this->insertionMap = [
             'Expr_ArrayDimFetch->dim' => ['[', false, null, null],
-            'Expr_ArrayItem->key' => [null, false, null, ' => '],
+            'ArrayItem->key' => [null, false, null, ' => '],
             'Expr_ArrowFunction->returnType' => [')', false, ': ', null],
             'Expr_Closure->returnType' => [')', false, ': ', null],
             'Expr_Ternary->if' => ['?', false, ' ', ' '],
