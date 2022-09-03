@@ -777,7 +777,7 @@ abstract class ParserAbstract implements Parser {
             return new String_($contents, $attributes);
         } else {
             assert(count($contents) > 0);
-            if (!$contents[0] instanceof Node\Scalar\EncapsedStringPart) {
+            if (!$contents[0] instanceof Node\InterpolatedStringPart) {
                 // If there is no leading encapsed string part, pretend there is an empty one
                 $this->stripIndentation(
                     '', $indentLen, $indentChar, true, false, $contents[0]->getAttributes()
@@ -786,7 +786,7 @@ abstract class ParserAbstract implements Parser {
 
             $newContents = [];
             foreach ($contents as $i => $part) {
-                if ($part instanceof Node\Scalar\EncapsedStringPart) {
+                if ($part instanceof Node\InterpolatedStringPart) {
                     $isLast = $i === \count($contents) - 1;
                     $part->value = $this->stripIndentation(
                         $part->value, $indentLen, $indentChar,

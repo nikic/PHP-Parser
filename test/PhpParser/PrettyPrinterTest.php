@@ -6,7 +6,7 @@ use PhpParser\Node\Expr;
 use PhpParser\Node\Name;
 use PhpParser\Node\Scalar\Float_;
 use PhpParser\Node\Scalar\Encapsed;
-use PhpParser\Node\Scalar\EncapsedStringPart;
+use PhpParser\Node\InterpolatedStringPart;
 use PhpParser\Node\Scalar\Int_;
 use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt;
@@ -115,17 +115,17 @@ class PrettyPrinterTest extends CodeTestAbstract {
             // Empty doc string variations (encapsed variant does not occur naturally)
             [new String_("", $nowdoc), "<<<'STR'\nSTR\n"],
             [new String_("", $heredoc), "<<<STR\nSTR\n"],
-            [new Encapsed([new EncapsedStringPart('')], $heredoc), "<<<STR\nSTR\n"],
+            [new Encapsed([new InterpolatedStringPart('')], $heredoc), "<<<STR\nSTR\n"],
             // Encapsed doc string variations
-            [new Encapsed([new EncapsedStringPart('foo')], $heredoc), "<<<STR\nfoo\nSTR\n"],
-            [new Encapsed([new EncapsedStringPart('foo'), new Expr\Variable('y')], $heredoc), "<<<STR\nfoo{\$y}\nSTR\n"],
-            [new Encapsed([new EncapsedStringPart("\nSTR"), new Expr\Variable('y')], $heredoc), "<<<STR\n\nSTR{\$y}\nSTR\n"],
-            [new Encapsed([new EncapsedStringPart("\nSTR"), new Expr\Variable('y')], $heredoc), "<<<STR\n\nSTR{\$y}\nSTR\n"],
-            [new Encapsed([new Expr\Variable('y'), new EncapsedStringPart("STR\n")], $heredoc), "<<<STR\n{\$y}STR\n\nSTR\n"],
+            [new Encapsed([new InterpolatedStringPart('foo')], $heredoc), "<<<STR\nfoo\nSTR\n"],
+            [new Encapsed([new InterpolatedStringPart('foo'), new Expr\Variable('y')], $heredoc), "<<<STR\nfoo{\$y}\nSTR\n"],
+            [new Encapsed([new InterpolatedStringPart("\nSTR"), new Expr\Variable('y')], $heredoc), "<<<STR\n\nSTR{\$y}\nSTR\n"],
+            [new Encapsed([new InterpolatedStringPart("\nSTR"), new Expr\Variable('y')], $heredoc), "<<<STR\n\nSTR{\$y}\nSTR\n"],
+            [new Encapsed([new Expr\Variable('y'), new InterpolatedStringPart("STR\n")], $heredoc), "<<<STR\n{\$y}STR\n\nSTR\n"],
             // Encapsed doc string fallback
-            [new Encapsed([new Expr\Variable('y'), new EncapsedStringPart("\nSTR")], $heredoc), '"{$y}\\nSTR"'],
-            [new Encapsed([new EncapsedStringPart("STR\n"), new Expr\Variable('y')], $heredoc), '"STR\\n{$y}"'],
-            [new Encapsed([new EncapsedStringPart("STR")], $heredoc), '"STR"'],
+            [new Encapsed([new Expr\Variable('y'), new InterpolatedStringPart("\nSTR")], $heredoc), '"{$y}\\nSTR"'],
+            [new Encapsed([new InterpolatedStringPart("STR\n"), new Expr\Variable('y')], $heredoc), '"STR\\n{$y}"'],
+            [new Encapsed([new InterpolatedStringPart("STR")], $heredoc), '"STR"'],
         ];
     }
 
@@ -167,14 +167,6 @@ class PrettyPrinterTest extends CodeTestAbstract {
         )];
         $prettyPrinter = new PrettyPrinter\Standard();
         $prettyPrinter->prettyPrint($stmts);
-    }
-
-    public function testPrettyPrintEncapsedStringPart() {
-        $this->expectException(\LogicException::class);
-        $this->expectExceptionMessage('Cannot directly print EncapsedStringPart');
-        $expr = new Node\Scalar\EncapsedStringPart('foo');
-        $prettyPrinter = new PrettyPrinter\Standard();
-        $prettyPrinter->prettyPrintExpr($expr);
     }
 
     /**

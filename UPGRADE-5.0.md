@@ -77,6 +77,8 @@ A number of AST nodes have been renamed or moved in the AST hierarchy:
 
  * `Node\Scalar\LNumber` is now `Node\Scalar\Int_`.
  * `Node\Scalar\DNumber` is now `Node\Scalar\Float_`.
+ * `Node\Scalar\EncapsedStringPart` is now `Node\InterpolatedStringPart` and no longer extends
+   `Node\Scalar` or `Node\Expr`.
  * `Node\Expr\ClosureUse` is now `Node\ClosureUse` and no longer extends `Node\Expr`.
  * `Node\Expr\ArrayItem` is now `Node\ArrayItem` and no longer extends `Node\Expr`.
  * `Node\Stmt\StaticVar` is now `Node\StaticVar` and no longer extends `Node\Stmt`.

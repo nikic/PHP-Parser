@@ -1,15 +1,15 @@
 <?php declare(strict_types=1);
 
-namespace PhpParser\Node\Scalar;
+namespace PhpParser\Node;
 
-use PhpParser\Node\Scalar;
+use PhpParser\NodeAbstract;
 
-class EncapsedStringPart extends Scalar {
+class InterpolatedStringPart extends NodeAbstract {
     /** @var string String value */
     public $value;
 
     /**
-     * Constructs a node representing a string part of an encapsed string.
+     * Constructs a node representing a string part of an interpolated string.
      *
      * @param string $value      String value
      * @param array  $attributes Additional attributes
@@ -24,6 +24,6 @@ class EncapsedStringPart extends Scalar {
     }
 
     public function getType(): string {
-        return 'Scalar_EncapsedStringPart';
+        return 'InterpolatedStringPart';
     }
 }

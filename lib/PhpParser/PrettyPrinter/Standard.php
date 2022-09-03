@@ -168,7 +168,7 @@ class Standard extends PrettyPrinterAbstract {
             $label = $node->getAttribute('docLabel');
             if ($label && !$this->encapsedContainsEndLabel($node->parts, $label)) {
                 if (count($node->parts) === 1
-                    && $node->parts[0] instanceof Scalar\EncapsedStringPart
+                    && $node->parts[0] instanceof Node\InterpolatedStringPart
                     && $node->parts[0]->value === ''
                 ) {
                     return "<<<$label\n$label" . $this->docStringEndToken;
@@ -236,10 +236,6 @@ class Standard extends PrettyPrinterAbstract {
 
         // ensure that number is really printed as float
         return preg_match('/^-?[0-9]+$/', $stringValue) ? $stringValue . '.0' : $stringValue;
-    }
-
-    protected function pScalar_EncapsedStringPart(Scalar\EncapsedStringPart $node) {
-        throw new \LogicException('Cannot directly print EncapsedStringPart');
     }
 
     // Assignments
@@ -1001,7 +997,7 @@ class Standard extends PrettyPrinterAbstract {
     protected function pEncapsList(array $encapsList, $quote) {
         $return = '';
         foreach ($encapsList as $element) {
-            if ($element instanceof Scalar\EncapsedStringPart) {
+            if ($element instanceof Node\InterpolatedStringPart) {
                 $return .= $this->escapeString($element->value, $quote);
             } else {
                 $return .= '{' . $this->p($element) . '}';
@@ -1064,7 +1060,7 @@ class Standard extends PrettyPrinterAbstract {
         foreach ($parts as $i => $part) {
             $atStart = $i === 0;
             $atEnd = $i === count($parts) - 1;
-            if ($part instanceof Scalar\EncapsedStringPart
+            if ($part instanceof Node\InterpolatedStringPart
                 && $this->containsEndLabel($part->value, $label, $atStart, $atEnd)
             ) {
                 return true;

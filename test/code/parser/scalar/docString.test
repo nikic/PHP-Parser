@@ -66,7 +66,7 @@ array(
     4: Stmt_Expression(
         expr: Scalar_Encapsed(
             parts: array(
-                0: Scalar_EncapsedStringPart(
+                0: InterpolatedStringPart(
                     value: Test
                 )
                 1: Expr_Variable(
@@ -84,13 +84,13 @@ array(
     5: Stmt_Expression(
         expr: Scalar_Encapsed(
             parts: array(
-                0: Scalar_EncapsedStringPart(
+                0: InterpolatedStringPart(
                     value: Test
                 )
                 1: Expr_Variable(
                     name: a
                 )
-                2: Scalar_EncapsedStringPart(
+                2: InterpolatedStringPart(
                     value:  and
                 )
                 3: Expr_PropertyFetch(
@@ -101,7 +101,7 @@ array(
                         name: c
                     )
                 )
-                4: Scalar_EncapsedStringPart(
+                4: InterpolatedStringPart(
                     value:  test
                 )
             )

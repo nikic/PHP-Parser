@@ -25,7 +25,7 @@ array(
         expr: Expr_ArrayDimFetch(
             var: Scalar_Encapsed(
                 parts: array(
-                    0: Scalar_EncapsedStringPart(
+                    0: InterpolatedStringPart(
                         value: foo
                     )
                     1: Expr_Variable(
@@ -42,7 +42,7 @@ array(
         expr: Expr_MethodCall(
             var: Scalar_Encapsed(
                 parts: array(
-                    0: Scalar_EncapsedStringPart(
+                    0: InterpolatedStringPart(
                         value: foo
                     )
                     1: Expr_Variable(

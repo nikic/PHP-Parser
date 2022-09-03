@@ -37,7 +37,7 @@ array(
                 0: Expr_Variable(
                     name: var
                 )
-                1: Scalar_EncapsedStringPart(
+                1: InterpolatedStringPart(
                     value:
 
                 )
@@ -67,7 +67,7 @@ array(
                 0: Expr_Variable(
                     name: var
                 )
-                1: Scalar_EncapsedStringPart(
+                1: InterpolatedStringPart(
                     value:
 
                 )

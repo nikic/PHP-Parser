@@ -2707,10 +2707,10 @@ class Php7 extends \PhpParser\ParserAbstract
                  $this->semValue = array();
             },
             505 => function ($stackPos) {
-                 $this->semValue = array(new Scalar\EncapsedStringPart(Scalar\String_::parseEscapeSequences($this->semStack[$stackPos-(1-1)], '`'), $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes));
+                 $this->semValue = array(new Node\InterpolatedStringPart(Scalar\String_::parseEscapeSequences($this->semStack[$stackPos-(1-1)], '`'), $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes));
             },
             506 => function ($stackPos) {
-                 foreach ($this->semStack[$stackPos-(1-1)] as $s) { if ($s instanceof Node\Scalar\EncapsedStringPart) { $s->value = Node\Scalar\String_::parseEscapeSequences($s->value, '`', true); } }; $this->semValue = $this->semStack[$stackPos-(1-1)];
+                 foreach ($this->semStack[$stackPos-(1-1)] as $s) { if ($s instanceof Node\InterpolatedStringPart) { $s->value = Node\Scalar\String_::parseEscapeSequences($s->value, '`', true); } }; $this->semValue = $this->semStack[$stackPos-(1-1)];
             },
             507 => function ($stackPos) {
                  $this->semValue = array();
@@ -2768,7 +2768,7 @@ class Php7 extends \PhpParser\ParserAbstract
             },
             524 => function ($stackPos) {
                  $attrs = $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes; $attrs['kind'] = Scalar\String_::KIND_DOUBLE_QUOTED;
-            foreach ($this->semStack[$stackPos-(3-2)] as $s) { if ($s instanceof Node\Scalar\EncapsedStringPart) { $s->value = Node\Scalar\String_::parseEscapeSequences($s->value, '"', true); } }; $this->semValue = new Scalar\Encapsed($this->semStack[$stackPos-(3-2)], $attrs);
+            foreach ($this->semStack[$stackPos-(3-2)] as $s) { if ($s instanceof Node\InterpolatedStringPart) { $s->value = Node\Scalar\String_::parseEscapeSequences($s->value, '"', true); } }; $this->semValue = new Scalar\Encapsed($this->semStack[$stackPos-(3-2)], $attrs);
             },
             525 => function ($stackPos) {
                  $this->semValue = $this->parseLNumber($this->semStack[$stackPos-(1-1)], $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes, $this->phpVersion->allowsInvalidOctals());
@@ -2982,7 +2982,7 @@ class Php7 extends \PhpParser\ParserAbstract
                  $this->semValue = array($this->semStack[$stackPos-(2-1)], $this->semStack[$stackPos-(2-2)]);
             },
             594 => function ($stackPos) {
-                 $this->semValue = new Scalar\EncapsedStringPart($this->semStack[$stackPos-(1-1)], $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
+                 $this->semValue = new Node\InterpolatedStringPart($this->semStack[$stackPos-(1-1)], $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
             },
             595 => function ($stackPos) {
                  $this->semValue = new Expr\Variable($this->semStack[$stackPos-(1-1)], $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);

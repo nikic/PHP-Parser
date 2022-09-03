@@ -975,7 +975,7 @@ abstract class PrettyPrinterAbstract {
                 }
                 break;
             case self::FIXUP_ENCAPSED:
-                if (!$subNode instanceof Scalar\EncapsedStringPart
+                if (!$subNode instanceof Node\InterpolatedStringPart
                     && !$this->origTokens->haveBraces($subStartPos, $subEndPos)
                 ) {
                     return '{' . $this->p($subNode) . '}';

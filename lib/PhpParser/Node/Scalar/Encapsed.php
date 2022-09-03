@@ -3,17 +3,18 @@
 namespace PhpParser\Node\Scalar;
 
 use PhpParser\Node\Expr;
+use PhpParser\Node\InterpolatedStringPart;
 use PhpParser\Node\Scalar;
 
 class Encapsed extends Scalar {
-    /** @var Expr[] list of string parts */
+    /** @var (Expr|InterpolatedStringPart)[] list of string parts */
     public $parts;
 
     /**
-     * Constructs an encapsed string node.
+     * Constructs an interpolated string node.
      *
-     * @param Expr[] $parts      Encaps list
-     * @param array  $attributes Additional attributes
+     * @param (Expr|InterpolatedStringPart)[] $parts      Interpolated string parts
+     * @param array                           $attributes Additional attributes
      */
     public function __construct(array $parts, array $attributes = []) {
         $this->attributes = $attributes;
