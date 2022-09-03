@@ -5,13 +5,17 @@ namespace PhpParser;
 use PhpParser\Internal\DiffElem;
 use PhpParser\Internal\PrintableNewAnonClassNode;
 use PhpParser\Internal\TokenStream;
+use PhpParser\Node\AttributeGroup;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\AssignOp;
 use PhpParser\Node\Expr\BinaryOp;
 use PhpParser\Node\Expr\Cast;
+use PhpParser\Node\IntersectionType;
+use PhpParser\Node\MatchArm;
 use PhpParser\Node\Param;
 use PhpParser\Node\Scalar;
 use PhpParser\Node\Stmt;
+use PhpParser\Node\UnionType;
 
 abstract class PrettyPrinterAbstract {
     protected const FIXUP_PREC_LEFT       = 0; // LHS operand affected by precedence
@@ -124,10 +128,11 @@ abstract class PrettyPrinterAbstract {
      */
     protected $insertionMap;
     /**
-     * @var string[] Map From "{$node->getType()}->{$subNode}" to string that should be inserted
+     * @var string[] Map From "{$class}->{$subNode}" to string that should be inserted
      *               between elements of this list subnode.
      */
     protected $listInsertionMap;
+
     protected $emptyListInsertionMap;
     /** @var int[] Map from "{$class}->{$subNode}" to token before which the modifiers
      *             should be reprinted. */
@@ -533,6 +538,7 @@ abstract class PrettyPrinterAbstract {
             // Normalize node structure of anonymous classes
             $node = PrintableNewAnonClassNode::fromNewNode($node);
             $origNode = PrintableNewAnonClassNode::fromNewNode($origNode);
+            $class = PrintableNewAnonClassNode::class;
         }
 
         // InlineHTML node does not contain closing and opening PHP tags. If the parent formatting
@@ -564,7 +570,7 @@ abstract class PrettyPrinterAbstract {
                 if (is_array($subNode) && is_array($origSubNode)) {
                     // Array subnode changed, we might be able to reconstruct it
                     $listResult = $this->pArray(
-                        $subNode, $origSubNode, $pos, $indentAdjustment, $type, $subNodeName,
+                        $subNode, $origSubNode, $pos, $indentAdjustment, $class, $subNodeName,
                         $fixupInfo[$subNodeName] ?? null
                     );
                     if (null === $listResult) {
@@ -684,19 +690,19 @@ abstract class PrettyPrinterAbstract {
      * @param array       $origNodes        Original nodes
      * @param int         $pos              Current token position (updated by reference)
      * @param int         $indentAdjustment Adjustment for indentation
-     * @param string      $parentNodeType   Type of the containing node.
+     * @param string      $parentNodeClass  Class of the containing node.
      * @param string      $subNodeName      Name of array subnode.
      * @param null|int    $fixup            Fixup information for array item nodes
      *
      * @return null|string Result of pretty print or null if cannot preserve formatting
      */
     protected function pArray(
-        array $nodes, array $origNodes, int &$pos, int $indentAdjustment,
-        string $parentNodeType, string $subNodeName, ?int $fixup
+        array  $nodes, array $origNodes, int &$pos, int $indentAdjustment,
+        string $parentNodeClass, string $subNodeName, ?int $fixup
     ): ?string {
         $diff = $this->nodeListDiffer->diffWithReplacements($origNodes, $nodes);
 
-        $mapKey = $parentNodeType . '->' . $subNodeName;
+        $mapKey = $parentNodeClass . '->' . $subNodeName;
         $insertStr = $this->listInsertionMap[$mapKey] ?? null;
         $isStmtList = $subNodeName === 'stmts';
 
@@ -1338,87 +1344,89 @@ abstract class PrettyPrinterAbstract {
             // special
             //'Expr_ShellExec->parts' => '', // TODO These need to be treated more carefully
             //'Scalar_InterpolatedString->parts' => '',
-            'Stmt_Catch->types' => '|',
-            'UnionType->types' => '|',
-            'IntersectionType->types' => '&',
-            'Stmt_If->elseifs' => ' ',
-            'Stmt_TryCatch->catches' => ' ',
+            Stmt\Catch_::class . '->types' => '|',
+            UnionType::class . '->types' => '|',
+            IntersectionType::class . '->types' => '&',
+            Stmt\If_::class . '->elseifs' => ' ',
+            Stmt\TryCatch::class . '->catches' => ' ',
 
             // comma-separated lists
-            'Expr_Array->items' => ', ',
-            'Expr_ArrowFunction->params' => ', ',
-            'Expr_Closure->params' => ', ',
-            'Expr_Closure->uses' => ', ',
-            'Expr_FuncCall->args' => ', ',
-            'Expr_Isset->vars' => ', ',
-            'Expr_List->items' => ', ',
-            'Expr_MethodCall->args' => ', ',
-            'Expr_NullsafeMethodCall->args' => ', ',
-            'Expr_New->args' => ', ',
-            'Expr_PrintableNewAnonClass->args' => ', ',
-            'Expr_StaticCall->args' => ', ',
-            'Stmt_ClassConst->consts' => ', ',
-            'Stmt_ClassMethod->params' => ', ',
-            'Stmt_Class->implements' => ', ',
-            'Stmt_Enum->implements' => ', ',
-            'Expr_PrintableNewAnonClass->implements' => ', ',
-            'Stmt_Const->consts' => ', ',
-            'Stmt_Declare->declares' => ', ',
-            'Stmt_Echo->exprs' => ', ',
-            'Stmt_For->init' => ', ',
-            'Stmt_For->cond' => ', ',
-            'Stmt_For->loop' => ', ',
-            'Stmt_Function->params' => ', ',
-            'Stmt_Global->vars' => ', ',
-            'Stmt_GroupUse->uses' => ', ',
-            'Stmt_Interface->extends' => ', ',
-            'Stmt_Match->arms' => ', ',
-            'Stmt_Property->props' => ', ',
-            'Stmt_StaticVar->vars' => ', ',
-            'Stmt_TraitUse->traits' => ', ',
-            'Stmt_TraitUseAdaptation_Precedence->insteadof' => ', ',
-            'Stmt_Unset->vars' => ', ',
-            'Stmt_Use->uses' => ', ',
-            'MatchArm->conds' => ', ',
-            'AttributeGroup->attrs' => ', ',
+            Expr\Array_::class . '->items' => ', ',
+            Expr\ArrowFunction::class . '->params' => ', ',
+            Expr\Closure::class . '->params' => ', ',
+            Expr\Closure::class . '->uses' => ', ',
+            Expr\FuncCall::class . '->args' => ', ',
+            Expr\Isset_::class . '->vars' => ', ',
+            Expr\List_::class . '->items' => ', ',
+            Expr\MethodCall::class . '->args' => ', ',
+            Expr\NullsafeMethodCall::class . '->args' => ', ',
+            Expr\New_::class . '->args' => ', ',
+            PrintableNewAnonClassNode::class . '->args' => ', ',
+            Expr\StaticCall::class . '->args' => ', ',
+            Stmt\ClassConst::class . '->consts' => ', ',
+            Stmt\ClassMethod::class . '->params' => ', ',
+            Stmt\Class_::class . '->implements' => ', ',
+            Stmt\Enum_::class . '->implements' => ', ',
+            PrintableNewAnonClassNode::class . '->implements' => ', ',
+            Stmt\Const_::class . '->consts' => ', ',
+            Stmt\Declare_::class . '->declares' => ', ',
+            Stmt\Echo_::class . '->exprs' => ', ',
+            Stmt\For_::class . '->init' => ', ',
+            Stmt\For_::class . '->cond' => ', ',
+            Stmt\For_::class . '->loop' => ', ',
+            Stmt\Function_::class . '->params' => ', ',
+            Stmt\Global_::class . '->vars' => ', ',
+            Stmt\GroupUse::class . '->uses' => ', ',
+            Stmt\Interface_::class . '->extends' => ', ',
+            //Expr\Match_::class . '->arms' => ', ',
+            Stmt\Property::class . '->props' => ', ',
+            Stmt\StaticVar::class . '->vars' => ', ',
+            Stmt\TraitUse::class . '->traits' => ', ',
+            Stmt\TraitUseAdaptation\Precedence::class . '->insteadof' => ', ',
+            Stmt\Unset_::class .  '->vars' => ', ',
+            Stmt\UseUse::class . '->uses' => ', ',
+            MatchArm::class . '->conds' => ', ',
+            AttributeGroup::class . '->attrs' => ', ',
 
             // statement lists
-            'Expr_Closure->stmts' => "\n",
-            'Stmt_Case->stmts' => "\n",
-            'Stmt_Catch->stmts' => "\n",
-            'Stmt_Class->stmts' => "\n",
-            'Stmt_Enum->stmts' => "\n",
-            'Expr_PrintableNewAnonClass->stmts' => "\n",
-            'Stmt_Interface->stmts' => "\n",
-            'Stmt_Trait->stmts' => "\n",
-            'Stmt_ClassMethod->stmts' => "\n",
-            'Stmt_Declare->stmts' => "\n",
-            'Stmt_Do->stmts' => "\n",
-            'Stmt_ElseIf->stmts' => "\n",
-            'Stmt_Else->stmts' => "\n",
-            'Stmt_Finally->stmts' => "\n",
-            'Stmt_Foreach->stmts' => "\n",
-            'Stmt_For->stmts' => "\n",
-            'Stmt_Function->stmts' => "\n",
-            'Stmt_If->stmts' => "\n",
-            'Stmt_Namespace->stmts' => "\n",
-            'Stmt_Class->attrGroups' => "\n",
-            'Stmt_Enum->attrGroups' => "\n",
-            'Stmt_EnumCase->attrGroups' => "\n",
-            'Stmt_Interface->attrGroups' => "\n",
-            'Stmt_Trait->attrGroups' => "\n",
-            'Stmt_Function->attrGroups' => "\n",
-            'Stmt_ClassMethod->attrGroups' => "\n",
-            'Stmt_ClassConst->attrGroups' => "\n",
-            'Stmt_Property->attrGroups' => "\n",
-            'Expr_PrintableNewAnonClass->attrGroups' => ' ',
-            'Expr_Closure->attrGroups' => ' ',
-            'Expr_ArrowFunction->attrGroups' => ' ',
-            'Param->attrGroups' => ' ',
-            'Stmt_Switch->cases' => "\n",
-            'Stmt_TraitUse->adaptations' => "\n",
-            'Stmt_TryCatch->stmts' => "\n",
-            'Stmt_While->stmts' => "\n",
+            Expr\Closure::class . '->stmts' => "\n",
+            Stmt\Case_::class . '->stmts' => "\n",
+            Stmt\Catch_::class . '->stmts' => "\n",
+            Stmt\Class_::class . '->stmts' => "\n",
+            Stmt\Enum_::class . '->stmts' => "\n",
+            PrintableNewAnonClassNode::class . '->stmts' => "\n",
+            Stmt\Interface_::class . '->stmts' => "\n",
+            Stmt\Trait_::class . '->stmts' => "\n",
+            Stmt\ClassMethod::class . '->stmts' => "\n",
+            Stmt\Declare_::class . '->stmts' => "\n",
+            Stmt\Do_::class . '->stmts' => "\n",
+            Stmt\ElseIf_::class . '->stmts' => "\n",
+            Stmt\Else_::class . '->stmts' => "\n",
+            Stmt\Finally_::class . '->stmts' => "\n",
+            Stmt\Foreach_::class . '->stmts' => "\n",
+            Stmt\For_::class . '->stmts' => "\n",
+            Stmt\Function_::class . '->stmts' => "\n",
+            Stmt\If_::class . '->stmts' => "\n",
+            Stmt\Namespace_::class . '->stmts' => "\n",
+
+            // Attribute groups
+            Stmt\Class_::class . '->attrGroups' => "\n",
+            Stmt\Enum_::class . '->attrGroups' => "\n",
+            Stmt\EnumCase::class . '->attrGroups' => "\n",
+            Stmt\Interface_::class . '->attrGroups' => "\n",
+            Stmt\Trait_::class . '->attrGroups' => "\n",
+            Stmt\Function_::class . '->attrGroups' => "\n",
+            Stmt\ClassMethod::class . '->attrGroups' => "\n",
+            Stmt\ClassConst::class . '->attrGroups' => "\n",
+            Stmt\Property::class . '->attrGroups' => "\n",
+            PrintableNewAnonClassNode::class . '->attrGroups' => ' ',
+            Expr\Closure::class . '->attrGroups' => ' ',
+            Expr\ArrowFunction::class . '->attrGroups' => ' ',
+            Param::class . '->attrGroups' => ' ',
+            Stmt\Switch_::class . '->cases' => "\n",
+            Stmt\TraitUse::class . '->adaptations' => "\n",
+            Stmt\TryCatch::class . '->stmts' => "\n",
+            Stmt\While_::class . '->stmts' => "\n",
 
             // dummy for top-level context
             'File->stmts' => "\n",
@@ -1434,31 +1442,31 @@ abstract class PrettyPrinterAbstract {
 
         // [$find, $extraLeft, $extraRight]
         $this->emptyListInsertionMap = [
-            'Expr_ArrowFunction->params' => ['(', '', ''],
-            'Expr_Closure->uses' => [')', ' use (', ')'],
-            'Expr_Closure->params' => ['(', '', ''],
-            'Expr_FuncCall->args' => ['(', '', ''],
-            'Expr_MethodCall->args' => ['(', '', ''],
-            'Expr_NullsafeMethodCall->args' => ['(', '', ''],
-            'Expr_New->args' => ['(', '', ''],
-            'Expr_PrintableNewAnonClass->args' => ['(', '', ''],
-            'Expr_PrintableNewAnonClass->implements' => [null, ' implements ', ''],
-            'Expr_StaticCall->args' => ['(', '', ''],
-            'Stmt_Class->implements' => [null, ' implements ', ''],
-            'Stmt_Enum->implements' => [null, ' implements ', ''],
-            'Stmt_ClassMethod->params' => ['(', '', ''],
-            'Stmt_Interface->extends' => [null, ' extends ', ''],
-            'Stmt_Function->params' => ['(', '', ''],
-            'Stmt_Interface->attrGroups' => [null, '', "\n"],
-            'Stmt_Class->attrGroups' => [null, '', "\n"],
-            'Stmt_ClassConst->attrGroups' => [null, '', "\n"],
-            'Stmt_ClassMethod->attrGroups' => [null, '', "\n"],
-            'Stmt_Function->attrGroups' => [null, '', "\n"],
-            'Stmt_Property->attrGroups' => [null, '', "\n"],
-            'Stmt_Trait->attrGroups' => [null, '', "\n"],
-            'Expr_ArrowFunction->attrGroups' => [null, '', ' '],
-            'Expr_Closure->attrGroups' => [null, '', ' '],
-            'Expr_PrintableNewAnonClass->attrGroups' => [\T_NEW, ' ', ''],
+            Expr\ArrowFunction::class . '->params' => ['(', '', ''],
+            Expr\Closure::class . '->uses' => [')', ' use (', ')'],
+            Expr\Closure::class . '->params' => ['(', '', ''],
+            Expr\FuncCall::class . '->args' => ['(', '', ''],
+            Expr\MethodCall::class . '->args' => ['(', '', ''],
+            Expr\NullsafeMethodCall::class . '->args' => ['(', '', ''],
+            Expr\New_::class . '->args' => ['(', '', ''],
+            PrintableNewAnonClassNode::class . '->args' => ['(', '', ''],
+            PrintableNewAnonClassNode::class . '->implements' => [null, ' implements ', ''],
+            Expr\StaticCall::class . '->args' => ['(', '', ''],
+            Stmt\Class_::class . '->implements' => [null, ' implements ', ''],
+            Stmt\Enum_::class . '->implements' => [null, ' implements ', ''],
+            Stmt\ClassMethod::class . '->params' => ['(', '', ''],
+            Stmt\Interface_::class . '->extends' => [null, ' extends ', ''],
+            Stmt\Function_::class . '->params' => ['(', '', ''],
+            Stmt\Interface_::class . '->attrGroups' => [null, '', "\n"],
+            Stmt\Class_::class . '->attrGroups' => [null, '', "\n"],
+            Stmt\ClassConst::class . '->attrGroups' => [null, '', "\n"],
+            Stmt\ClassMethod::class . '->attrGroups' => [null, '', "\n"],
+            Stmt\Function_::class . '->attrGroups' => [null, '', "\n"],
+            Stmt\Property::class . '->attrGroups' => [null, '', "\n"],
+            Stmt\Trait_::class . '->attrGroups' => [null, '', "\n"],
+            Expr\ArrowFunction::class . '->attrGroups' => [null, '', ' '],
+            Expr\Closure::class . '->attrGroups' => [null, '', ' '],
+            PrintableNewAnonClassNode::class . '->attrGroups' => [\T_NEW, ' ', ''],
 
             /* These cannot be empty to start with:
              * Expr_Isset->vars
