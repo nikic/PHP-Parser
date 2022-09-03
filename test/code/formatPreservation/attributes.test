@@ -102,7 +102,6 @@ function() {};
 fn()
     => 42;
 -----
-// TODO: Currently we lose formatting for this case.
 $attrGroup = new Node\AttributeGroup([
     new Node\Attribute(new Node\Name('A'), []),
 ]);
@@ -119,39 +118,32 @@ $stmts[6]->expr->attrGroups[] = $attrGroup;
 -----
 <?php
 #[A]
-class X
-{
+class X {
     #[A]
-    public function m()
-    {
-    }
+    public function m() {}
+
     #[A]
-    public $prop;
+    public
+        $prop;
+
     #[A]
-    const X = 42;
+    const
+        X = 42;
 }
 
 #[A]
-trait X
-{
-}
+trait X {}
 
 #[A]
-interface X
-{
-}
+interface X {}
 
 #[A]
-function f()
-{
-}
+function f() {}
 
-new #[A] class
-{
-};
-#[A] function () {
-};
-#[A] fn() => 42;
+new #[A] class {};
+#[A] function() {};
+#[A] fn()
+    => 42;
 -----
 <?php
 
