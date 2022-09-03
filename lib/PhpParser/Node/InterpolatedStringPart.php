@@ -27,3 +27,6 @@ class InterpolatedStringPart extends NodeAbstract {
         return 'InterpolatedStringPart';
     }
 }
+
+// @deprecated compatibility alias
+class_alias(InterpolatedStringPart::class, Scalar\EncapsedStringPart::class);

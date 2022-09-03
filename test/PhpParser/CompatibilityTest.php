@@ -3,6 +3,7 @@
 namespace PhpParser;
 
 use PhpParser\Node\Expr;
+use PhpParser\Node\InterpolatedStringPart;
 use PhpParser\Node\Scalar;
 use PhpParser\Node\Stmt;
 
@@ -23,6 +24,8 @@ class CompatibilityTest extends \PHPUnit\Framework\TestCase {
         $this->assertTrue($node instanceof Scalar\DNumber);
         $node = new Scalar\Int_(1);
         $this->assertTrue($node instanceof Scalar\LNumber);
+        $node = new InterpolatedStringPart('foo');
+        $this->assertTrue($node instanceof Scalar\EncapsedStringPart);
     }
 
     /**
@@ -41,5 +44,7 @@ class CompatibilityTest extends \PHPUnit\Framework\TestCase {
         $this->assertTrue($node instanceof Scalar\Float_);
         $node = new Node\Scalar\LNumber(1);
         $this->assertTrue($node instanceof Scalar\Int_);
+        $node = new Node\Scalar\EncapsedStringPart('foo');
+        $this->assertTrue($node instanceof Node\InterpolatedStringPart);
     }
 }
