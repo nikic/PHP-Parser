@@ -108,6 +108,31 @@ class NodeTraverserTest extends \PHPUnit\Framework\TestCase {
         ], $visitor2->trace);
     }
 
+    public function testReturnArrayFromEnter() {
+        $str1Node = new String_('Str1');
+        $str2Node = new String_('Str2');
+        $str3Node = new String_('Str3');
+        $str4Node = new String_('Str4');
+
+        $visitor = new NodeVisitorForTesting([
+            ['enterNode', $str1Node, [$str3Node, $str4Node]],
+        ]);
+        $visitor2 = new NodeVisitorForTesting();
+
+        $traverser = new NodeTraverser();
+        $traverser->addVisitor($visitor);
+        $traverser->addVisitor($visitor2);
+
+        $stmts = [$str1Node, $str2Node];
+        $this->assertEquals([$str3Node, $str4Node, $str2Node], $traverser->traverse($stmts));
+        $this->assertEquals([
+            ['beforeTraverse', $stmts],
+            ['enterNode', $str2Node],
+            ['leaveNode', $str2Node],
+            ['afterTraverse', [$str3Node, $str4Node, $str2Node]],
+        ], $visitor2->trace);
+    }
+
     public function testMerge() {
         $strStart  = new String_('Start');
         $strMiddle = new String_('End');

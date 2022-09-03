@@ -201,6 +201,9 @@ class NodeTraverser implements NodeTraverserInterface {
                         if ($return instanceof Node) {
                             $this->ensureReplacementReasonable($node, $return);
                             $node = $return;
+                        } else if (\is_array($return)) {
+                            $doNodes[] = [$i, $return];
+                            continue 2;
                         } else if (self::REMOVE_NODE === $return) {
                             $doNodes[] = [$i, []];
                             continue 2;
