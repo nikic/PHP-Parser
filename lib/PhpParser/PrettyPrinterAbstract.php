@@ -927,7 +927,7 @@ abstract class PrettyPrinterAbstract
                 $result .= $this->p($delayedAddNode, true);
                 $first = false;
             }
-            $result .= $extraRight;
+            $result .= $extraRight === "\n" ? $this->nl : $extraRight;
         }
 
         return $result;
@@ -1454,6 +1454,16 @@ abstract class PrettyPrinterAbstract
             'Stmt_ClassMethod->params' => ['(', '', ''],
             'Stmt_Interface->extends' => [null, ' extends ', ''],
             'Stmt_Function->params' => ['(', '', ''],
+            'Stmt_Interface->attrGroups' => [null, '', "\n"],
+            'Stmt_Class->attrGroups' => [null, '', "\n"],
+            'Stmt_ClassConst->attrGroups' => [null, '', "\n"],
+            'Stmt_ClassMethod->attrGroups' => [null, '', "\n"],
+            'Stmt_Function->attrGroups' => [null, '', "\n"],
+            'Stmt_Property->attrGroups' => [null, '', "\n"],
+            'Stmt_Trait->attrGroups' => [null, '', "\n"],
+            'Expr_ArrowFunction->attrGroups' => [null, '', ' '],
+            'Expr_Closure->attrGroups' => [null, '', ' '],
+            'Expr_PrintableNewAnonClass->attrGroups' => [\T_NEW, ' ', ''],
 
             /* These cannot be empty to start with:
              * Expr_Isset->vars
