@@ -730,7 +730,7 @@ class Standard extends PrettyPrinterAbstract {
              . '\{' . $this->pCommaSeparated($node->uses) . '};';
     }
 
-    protected function pStmt_UseUse(Stmt\UseUse $node) {
+    protected function pUseItem(Node\UseItem $node) {
         return $this->pUseType($node->type) . $this->p($node->name)
              . (null !== $node->alias ? ' as ' . $node->alias : '');
     }

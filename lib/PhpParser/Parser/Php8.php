@@ -1585,16 +1585,16 @@ class Php8 extends \PhpParser\ParserAbstract
                  $this->semValue = array($this->semStack[$stackPos-(1-1)]);
             },
             137 => function ($stackPos) {
-                 $this->semValue = new Stmt\UseUse($this->semStack[$stackPos-(1-1)], null, Stmt\Use_::TYPE_UNKNOWN, $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes); $this->checkUseUse($this->semValue, $stackPos-(1-1));
+                 $this->semValue = new Node\UseItem($this->semStack[$stackPos-(1-1)], null, Stmt\Use_::TYPE_UNKNOWN, $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes); $this->checkUseUse($this->semValue, $stackPos-(1-1));
             },
             138 => function ($stackPos) {
-                 $this->semValue = new Stmt\UseUse($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], Stmt\Use_::TYPE_UNKNOWN, $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes); $this->checkUseUse($this->semValue, $stackPos-(3-3));
+                 $this->semValue = new Node\UseItem($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], Stmt\Use_::TYPE_UNKNOWN, $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes); $this->checkUseUse($this->semValue, $stackPos-(3-3));
             },
             139 => function ($stackPos) {
-                 $this->semValue = new Stmt\UseUse($this->semStack[$stackPos-(1-1)], null, Stmt\Use_::TYPE_UNKNOWN, $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes); $this->checkUseUse($this->semValue, $stackPos-(1-1));
+                 $this->semValue = new Node\UseItem($this->semStack[$stackPos-(1-1)], null, Stmt\Use_::TYPE_UNKNOWN, $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes); $this->checkUseUse($this->semValue, $stackPos-(1-1));
             },
             140 => function ($stackPos) {
-                 $this->semValue = new Stmt\UseUse($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], Stmt\Use_::TYPE_UNKNOWN, $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes); $this->checkUseUse($this->semValue, $stackPos-(3-3));
+                 $this->semValue = new Node\UseItem($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], Stmt\Use_::TYPE_UNKNOWN, $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes); $this->checkUseUse($this->semValue, $stackPos-(3-3));
             },
             141 => function ($stackPos) {
                  $this->semValue = $this->semStack[$stackPos-(1-1)]; $this->semValue->type = Stmt\Use_::TYPE_NORMAL;

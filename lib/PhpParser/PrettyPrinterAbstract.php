@@ -1507,6 +1507,6 @@ abstract class PrettyPrinterAbstract {
         // Expr_Include->type
         // Stmt_GroupUse->type
         // Stmt_Use->type
-        // Stmt_UseUse->type
+        // UseItem->type
     }
 }

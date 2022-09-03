@@ -4,6 +4,7 @@ namespace PhpParser;
 
 use PhpParser\Node\Expr;
 use PhpParser\Node\InterpolatedStringPart;
+use PhpParser\Node\Name;
 use PhpParser\Node\Scalar;
 use PhpParser\Node\Stmt;
 
@@ -32,6 +33,8 @@ class CompatibilityTest extends \PHPUnit\Framework\TestCase {
         $this->assertTrue($node instanceof Stmt\DeclareDeclare);
         $node = new Node\PropertyItem('x');
         $this->assertTrue($node instanceof Stmt\PropertyProperty);
+        $node = new Node\UseItem(new Name('X'));
+        $this->assertTrue($node instanceof Stmt\UseUse);
     }
 
     /**
@@ -58,5 +61,7 @@ class CompatibilityTest extends \PHPUnit\Framework\TestCase {
         $this->assertTrue($node instanceof Node\DeclareItem);
         $node = new Stmt\PropertyProperty('x');
         $this->assertTrue($node instanceof Node\PropertyItem);
+        $node = new Stmt\UseUse(new Name('X'));
+        $this->assertTrue($node instanceof Node\UseItem);
     }
 }

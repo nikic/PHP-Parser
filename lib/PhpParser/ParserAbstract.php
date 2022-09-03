@@ -24,7 +24,7 @@ use PhpParser\Node\Stmt\Interface_;
 use PhpParser\Node\Stmt\Namespace_;
 use PhpParser\Node\Stmt\Property;
 use PhpParser\Node\Stmt\TryCatch;
-use PhpParser\Node\Stmt\UseUse;
+use PhpParser\Node\UseItem;
 
 abstract class ParserAbstract implements Parser {
     private const SYMBOL_NONE = -1;
@@ -1021,7 +1021,7 @@ abstract class ParserAbstract implements Parser {
         }
     }
 
-    protected function checkUseUse(UseUse $node, $namePos) {
+    protected function checkUseUse(UseItem $node, $namePos) {
         if ($node->alias && $node->alias->isSpecialClassName()) {
             $this->emitError(new Error(
                 sprintf(

@@ -298,16 +298,16 @@ non_empty_inline_use_declarations:
 
 unprefixed_use_declaration:
       namespace_name
-          { $$ = Stmt\UseUse[$1, null, Stmt\Use_::TYPE_UNKNOWN]; $this->checkUseUse($$, #1); }
+          { $$ = Node\UseItem[$1, null, Stmt\Use_::TYPE_UNKNOWN]; $this->checkUseUse($$, #1); }
     | namespace_name T_AS identifier_not_reserved
-          { $$ = Stmt\UseUse[$1, $3, Stmt\Use_::TYPE_UNKNOWN]; $this->checkUseUse($$, #3); }
+          { $$ = Node\UseItem[$1, $3, Stmt\Use_::TYPE_UNKNOWN]; $this->checkUseUse($$, #3); }
 ;
 
 use_declaration:
       legacy_namespace_name
-          { $$ = Stmt\UseUse[$1, null, Stmt\Use_::TYPE_UNKNOWN]; $this->checkUseUse($$, #1); }
+          { $$ = Node\UseItem[$1, null, Stmt\Use_::TYPE_UNKNOWN]; $this->checkUseUse($$, #1); }
     | legacy_namespace_name T_AS identifier_not_reserved
-          { $$ = Stmt\UseUse[$1, $3, Stmt\Use_::TYPE_UNKNOWN]; $this->checkUseUse($$, #3); }
+          { $$ = Node\UseItem[$1, $3, Stmt\Use_::TYPE_UNKNOWN]; $this->checkUseUse($$, #3); }
 ;
 
 inline_use_declaration:

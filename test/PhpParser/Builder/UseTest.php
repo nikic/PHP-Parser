@@ -14,22 +14,22 @@ class UseTest extends \PHPUnit\Framework\TestCase {
     public function testCreation() {
         $node = $this->createUseBuilder('Foo\Bar')->getNode();
         $this->assertEquals(new Stmt\Use_([
-            new Stmt\UseUse(new Name('Foo\Bar'), null)
+            new \PhpParser\Node\UseItem(new Name('Foo\Bar'), null)
         ]), $node);
 
         $node = $this->createUseBuilder(new Name('Foo\Bar'))->as('XYZ')->getNode();
         $this->assertEquals(new Stmt\Use_([
-            new Stmt\UseUse(new Name('Foo\Bar'), 'XYZ')
+            new \PhpParser\Node\UseItem(new Name('Foo\Bar'), 'XYZ')
         ]), $node);
 
         $node = $this->createUseBuilder('foo\bar', Stmt\Use_::TYPE_FUNCTION)->as('foo')->getNode();
         $this->assertEquals(new Stmt\Use_([
-            new Stmt\UseUse(new Name('foo\bar'), 'foo')
+            new \PhpParser\Node\UseItem(new Name('foo\bar'), 'foo')
         ], Stmt\Use_::TYPE_FUNCTION), $node);
 
         $node = $this->createUseBuilder('foo\BAR', Stmt\Use_::TYPE_CONSTANT)->as('FOO')->getNode();
         $this->assertEquals(new Stmt\Use_([
-            new Stmt\UseUse(new Name('foo\BAR'), 'FOO')
+            new \PhpParser\Node\UseItem(new Name('foo\BAR'), 'FOO')
         ], Stmt\Use_::TYPE_CONSTANT), $node);
     }
 }

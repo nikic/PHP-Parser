@@ -463,7 +463,7 @@ array(
             0: Stmt_Use(
                 type: TYPE_NORMAL (1)
                 uses: array(
-                    0: Stmt_UseUse(
+                    0: UseItem(
                         type: TYPE_UNKNOWN (0)
                         name: Name(
                             parts: array(
@@ -477,7 +477,7 @@ array(
             1: Stmt_Use(
                 type: TYPE_FUNCTION (2)
                 uses: array(
-                    0: Stmt_UseUse(
+                    0: UseItem(
                         type: TYPE_UNKNOWN (0)
                         name: Name(
                             parts: array(
@@ -496,7 +496,7 @@ array(
                     )
                 )
                 uses: array(
-                    0: Stmt_UseUse(
+                    0: UseItem(
                         type: TYPE_NORMAL (1)
                         name: Name(
                             parts: array(
@@ -624,7 +624,7 @@ array(
             )
         )
         uses: array(
-            0: Stmt_UseUse(
+            0: UseItem(
                 type: TYPE_NORMAL (1)
                 name: Name(
                     parts: array(
@@ -643,7 +643,7 @@ array(
             )
         )
         uses: array(
-            0: Stmt_UseUse(
+            0: UseItem(
                 type: TYPE_UNKNOWN (0)
                 name: Name(
                     parts: array(
@@ -657,7 +657,7 @@ array(
     2: Stmt_Use(
         type: TYPE_NORMAL (1)
         uses: array(
-            0: Stmt_UseUse(
+            0: UseItem(
                 type: TYPE_UNKNOWN (0)
                 name: Name(
                     parts: array(
