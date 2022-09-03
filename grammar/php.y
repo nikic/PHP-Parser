@@ -917,8 +917,8 @@ property_decl_name:
 ;
 
 property_declaration:
-      property_decl_name                                    { $$ = Stmt\PropertyProperty[$1, null]; }
-    | property_decl_name '=' expr                           { $$ = Stmt\PropertyProperty[$1, $3]; }
+      property_decl_name                                    { $$ = Node\PropertyItem[$1, null]; }
+    | property_decl_name '=' expr                           { $$ = Node\PropertyItem[$1, $3]; }
 ;
 
 expr_list_forbid_comma:

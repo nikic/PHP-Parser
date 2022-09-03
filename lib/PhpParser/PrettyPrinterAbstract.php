@@ -1272,7 +1272,7 @@ abstract class PrettyPrinterAbstract {
             'Stmt_If->else' => $stripLeft,
             'Stmt_Namespace->name' => $stripLeft,
             'Stmt_Property->type' => $stripRight,
-            'Stmt_PropertyProperty->default' => $stripEquals,
+            'PropertyItem->default' => $stripEquals,
             'Stmt_Return->expr' => $stripBoth,
             'Stmt_StaticVar->default' => $stripEquals,
             'Stmt_TraitUseAdaptation_Alias->newName' => $stripLeft,
@@ -1314,7 +1314,7 @@ abstract class PrettyPrinterAbstract {
             'Stmt_If->else' => [null, false, ' ', null],
             'Stmt_Namespace->name' => [\T_NAMESPACE, false, ' ', null],
             'Stmt_Property->type' => [\T_VARIABLE, true, null, ' '],
-            'Stmt_PropertyProperty->default' => [null, false, ' = ', null],
+            'PropertyItem->default' => [null, false, ' = ', null],
             'Stmt_Return->expr' => [\T_RETURN, false, ' ', null],
             'Stmt_StaticVar->default' => [null, false, ' = ', null],
             //'Stmt_TraitUseAdaptation_Alias->newName' => [T_AS, false, ' ', null], // TODO

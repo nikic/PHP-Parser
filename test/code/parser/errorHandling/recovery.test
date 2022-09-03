@@ -756,7 +756,7 @@ array(
                 flags: PUBLIC (1)
                 type: null
                 props: array(
-                    0: Stmt_PropertyProperty(
+                    0: PropertyItem(
                         name: VarLikeIdentifier(
                             name: x
                         )
@@ -916,7 +916,7 @@ array(
                 flags: PUBLIC (1)
                 type: null
                 props: array(
-                    0: Stmt_PropertyProperty(
+                    0: PropertyItem(
                         name: VarLikeIdentifier(
                             name: bar
                         )
@@ -1424,7 +1424,7 @@ array(
                 flags: PRIVATE (4)
                 type: null
                 props: array(
-                    0: Stmt_PropertyProperty(
+                    0: PropertyItem(
                         name: VarLikeIdentifier(
                             name: foo
                         )

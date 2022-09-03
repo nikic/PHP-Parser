@@ -799,7 +799,7 @@ class Standard extends PrettyPrinterAbstract {
             . $this->pCommaSeparated($node->props) . ';';
     }
 
-    protected function pStmt_PropertyProperty(Stmt\PropertyProperty $node) {
+    protected function pPropertyItem(Node\PropertyItem $node) {
         return '$' . $node->name
              . (null !== $node->default ? ' = ' . $this->p($node->default) : '');
     }

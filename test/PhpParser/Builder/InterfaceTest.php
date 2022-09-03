@@ -99,8 +99,8 @@ class InterfaceTest extends \PHPUnit\Framework\TestCase {
 
     public function testInvalidStmtError() {
         $this->expectException(\LogicException::class);
-        $this->expectExceptionMessage('Unexpected node of type "Stmt_PropertyProperty"');
-        $this->createInterfaceBuilder()->addStmt(new Stmt\PropertyProperty('invalid'));
+        $this->expectExceptionMessage('Unexpected node of type "PropertyItem"');
+        $this->createInterfaceBuilder()->addStmt(new Node\PropertyItem('invalid'));
     }
 
     public function testFullFunctional() {

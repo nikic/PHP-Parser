@@ -129,9 +129,9 @@ DOC;
 
     public function testInvalidStmtError() {
         $this->expectException(\LogicException::class);
-        $this->expectExceptionMessage('Unexpected node of type "Stmt_PropertyProperty"');
+        $this->expectExceptionMessage('Unexpected node of type "PropertyItem"');
         $this->createEnumBuilder('Test')
-            ->addStmt(new Stmt\PropertyProperty('property'))
+            ->addStmt(new Node\PropertyItem('property'))
         ;
     }
 

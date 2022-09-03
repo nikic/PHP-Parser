@@ -24,7 +24,7 @@ array(
                 flags: PROTECTED (2)
                 type: null
                 props: array(
-                    0: Stmt_PropertyProperty(
+                    0: PropertyItem(
                         name: VarLikeIdentifier(
                             name: a
                         )

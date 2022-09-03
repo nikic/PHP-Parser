@@ -30,7 +30,7 @@ class PropertyTest extends \PHPUnit\Framework\TestCase {
             new Stmt\Property(
                 Modifiers::PRIVATE | Modifiers::STATIC,
                 [
-                    new Stmt\PropertyProperty('test')
+                    new \PhpParser\Node\PropertyItem('test')
                 ]
             ),
             $node
@@ -45,7 +45,7 @@ class PropertyTest extends \PHPUnit\Framework\TestCase {
             new Stmt\Property(
                 Modifiers::PROTECTED,
                 [
-                    new Stmt\PropertyProperty('test')
+                    new \PhpParser\Node\PropertyItem('test')
                 ]
             ),
             $node
@@ -60,7 +60,7 @@ class PropertyTest extends \PHPUnit\Framework\TestCase {
             new Stmt\Property(
                 Modifiers::PUBLIC,
                 [
-                    new Stmt\PropertyProperty('test')
+                    new \PhpParser\Node\PropertyItem('test')
                 ]
             ),
             $node
@@ -75,7 +75,7 @@ class PropertyTest extends \PHPUnit\Framework\TestCase {
             new Stmt\Property(
                 Modifiers::READONLY,
                 [
-                    new Stmt\PropertyProperty('test')
+                    new \PhpParser\Node\PropertyItem('test')
                 ]
             ),
             $node
@@ -90,7 +90,7 @@ class PropertyTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals(new Stmt\Property(
             Modifiers::PUBLIC,
             [
-                new Stmt\PropertyProperty('test')
+                new \PhpParser\Node\PropertyItem('test')
             ],
             [
                 'comments' => [new Comment\Doc('/** Test */')]
@@ -126,7 +126,7 @@ class PropertyTest extends \PHPUnit\Framework\TestCase {
             new Stmt\Property(
                 Modifiers::PUBLIC,
                 [
-                    new Stmt\PropertyProperty('test')
+                    new \PhpParser\Node\PropertyItem('test')
                 ],
                 [],
                 null,

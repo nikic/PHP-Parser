@@ -83,6 +83,7 @@ A number of AST nodes have been renamed or moved in the AST hierarchy:
  * `Node\Expr\ArrayItem` is now `Node\ArrayItem` and no longer extends `Node\Expr`.
  * `Node\Expr\ClosureUse` is now `Node\ClosureUse` and no longer extends `Node\Expr`.
  * `Node\Stmt\DeclareDeclare` is now `Node\DeclareItem` and no longer extends `Node\Stmt`.
+ * `Node\Stmt\PropertyProperty` is now `Node\PropertyItem` and no longer extends `Node\Stmt`.
  * `Node\Stmt\StaticVar` is now `Node\StaticVar` and no longer extends `Node\Stmt`.
 
 The old class names have been retained as aliases for backwards compatibility. However, the `Node::getType()` method will now always return the new name (e.g. `ClosureUse` instead of `Expr_ClosureUse`).

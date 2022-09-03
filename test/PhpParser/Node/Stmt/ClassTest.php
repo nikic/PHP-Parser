@@ -3,6 +3,7 @@
 namespace PhpParser\Node\Stmt;
 
 use PhpParser\Modifiers;
+use PhpParser\Node\PropertyItem;
 use PhpParser\Node\Scalar\String_;
 
 class ClassTest extends \PHPUnit\Framework\TestCase {
@@ -77,8 +78,8 @@ class ClassTest extends \PHPUnit\Framework\TestCase {
 
     public function testGetProperties() {
         $properties = [
-            new Property(Modifiers::PUBLIC, [new PropertyProperty('foo')]),
-            new Property(Modifiers::PUBLIC, [new PropertyProperty('bar')]),
+            new Property(Modifiers::PUBLIC, [new PropertyItem('foo')]),
+            new Property(Modifiers::PUBLIC, [new PropertyItem('bar')]),
         ];
         $class = new Class_('Foo', [
             'stmts' => [
@@ -95,9 +96,9 @@ class ClassTest extends \PHPUnit\Framework\TestCase {
 
     public function testGetProperty() {
         $properties = [
-            $fooProp = new Property(Modifiers::PUBLIC, [new PropertyProperty('foo1')]),
-            $barProp = new Property(Modifiers::PUBLIC, [new PropertyProperty('BAR1')]),
-            $fooBarProp = new Property(Modifiers::PUBLIC, [new PropertyProperty('foo2'), new PropertyProperty('bar2')]),
+            $fooProp = new Property(Modifiers::PUBLIC, [new PropertyItem('foo1')]),
+            $barProp = new Property(Modifiers::PUBLIC, [new PropertyItem('BAR1')]),
+            $fooBarProp = new Property(Modifiers::PUBLIC, [new PropertyItem('foo2'), new PropertyItem('bar2')]),
         ];
         $class = new Class_('Foo', [
             'stmts' => [

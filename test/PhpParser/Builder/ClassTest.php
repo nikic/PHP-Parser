@@ -86,7 +86,7 @@ class ClassTest extends \PHPUnit\Framework\TestCase {
         $method = new Stmt\ClassMethod('testMethod');
         $property = new Stmt\Property(
             Modifiers::PUBLIC,
-            [new Stmt\PropertyProperty('testProperty')]
+            [new Node\PropertyItem('testProperty')]
         );
         $const = new Stmt\ClassConst([
             new Node\Const_('TEST_CONST', new Node\Scalar\String_('ABC'))

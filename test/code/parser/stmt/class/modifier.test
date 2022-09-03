@@ -21,7 +21,7 @@ array(
                 flags: PUBLIC (1)
                 type: null
                 props: array(
-                    0: Stmt_PropertyProperty(
+                    0: PropertyItem(
                         name: VarLikeIdentifier(
                             name: a
                         )
@@ -54,7 +54,7 @@ array(
                 flags: PUBLIC | PROTECTED (3)
                 type: null
                 props: array(
-                    0: Stmt_PropertyProperty(
+                    0: PropertyItem(
                         name: VarLikeIdentifier(
                             name: a
                         )
@@ -87,7 +87,7 @@ array(
                 flags: READONLY (64)
                 type: null
                 props: array(
-                    0: Stmt_PropertyProperty(
+                    0: PropertyItem(
                         name: VarLikeIdentifier(
                             name: a
                         )
@@ -152,7 +152,7 @@ array(
                 flags: STATIC (8)
                 type: null
                 props: array(
-                    0: Stmt_PropertyProperty(
+                    0: PropertyItem(
                         name: VarLikeIdentifier(
                             name: a
                         )
@@ -269,7 +269,7 @@ array(
                 flags: ABSTRACT (16)
                 type: null
                 props: array(
-                    0: Stmt_PropertyProperty(
+                    0: PropertyItem(
                         name: VarLikeIdentifier(
                             name: b
                         )
@@ -302,7 +302,7 @@ array(
                 flags: FINAL (32)
                 type: null
                 props: array(
-                    0: Stmt_PropertyProperty(
+                    0: PropertyItem(
                         name: VarLikeIdentifier(
                             name: a
                         )

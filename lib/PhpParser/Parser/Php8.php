@@ -2329,10 +2329,10 @@ class Php8 extends \PhpParser\ParserAbstract
                  $this->semValue = new Node\VarLikeIdentifier(substr($this->semStack[$stackPos-(1-1)], 1), $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
             },
             376 => function ($stackPos) {
-                 $this->semValue = new Stmt\PropertyProperty($this->semStack[$stackPos-(1-1)], null, $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
+                 $this->semValue = new Node\PropertyItem($this->semStack[$stackPos-(1-1)], null, $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
             },
             377 => function ($stackPos) {
-                 $this->semValue = new Stmt\PropertyProperty($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
+                 $this->semValue = new Node\PropertyItem($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
             },
             378 => function ($stackPos) {
                  $this->semValue = $this->semStack[$stackPos-(2-1)];

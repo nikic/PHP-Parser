@@ -26,7 +26,7 @@ array(
                 flags: 0
                 type: null
                 props: array(
-                    0: Stmt_PropertyProperty(
+                    0: PropertyItem(
                         name: VarLikeIdentifier(
                             name: foo
                         )

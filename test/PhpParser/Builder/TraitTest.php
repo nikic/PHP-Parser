@@ -15,7 +15,7 @@ use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassConst;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Property;
-use PhpParser\Node\Stmt\PropertyProperty;
+use PhpParser\Node\PropertyItem;
 use PhpParser\Node\Stmt\TraitUse;
 
 class TraitTest extends \PHPUnit\Framework\TestCase {
@@ -28,7 +28,7 @@ class TraitTest extends \PHPUnit\Framework\TestCase {
         $method2 = new Stmt\ClassMethod('test2');
         $method3 = new Stmt\ClassMethod('test3');
         $prop = new Stmt\Property(Modifiers::PUBLIC, [
-            new Stmt\PropertyProperty('test')
+            new \PhpParser\Node\PropertyItem('test')
         ]);
         $use = new Stmt\TraitUse([new Name('OtherTrait')]);
         $trait = $this->createTraitBuilder('TestTrait')
@@ -77,8 +77,8 @@ class TraitTest extends \PHPUnit\Framework\TestCase {
 
     public function testGetProperties() {
         $properties = [
-            new Property(Modifiers::PUBLIC, [new PropertyProperty('foo')]),
-            new Property(Modifiers::PUBLIC, [new PropertyProperty('bar')]),
+            new Property(Modifiers::PUBLIC, [new PropertyItem('foo')]),
+            new Property(Modifiers::PUBLIC, [new PropertyItem('bar')]),
         ];
         $trait = new Stmt\Trait_('Foo', [
             'stmts' => [

@@ -3,6 +3,7 @@
 namespace PhpParser\Node\Stmt;
 
 use PhpParser\Node;
+use PhpParser\Node\PropertyItem;
 
 abstract class ClassLike extends Node\Stmt {
     /** @var Node\Identifier|null Name */
@@ -65,7 +66,7 @@ abstract class ClassLike extends Node\Stmt {
         foreach ($this->stmts as $stmt) {
             if ($stmt instanceof Property) {
                 foreach ($stmt->props as $prop) {
-                    if ($prop instanceof PropertyProperty && $name === $prop->name->toString()) {
+                    if ($prop instanceof PropertyItem && $name === $prop->name->toString()) {
                         return $stmt;
                     }
                 }
