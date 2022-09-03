@@ -1,0 +1,25 @@
+Add attribute body space
+-----
+<?php
+
+function some()
+{
+    $value = 100;
+
+    return $value;
+}
+
+-----
+$stmts[0]->attrGroups[] = new Node\AttributeGroup([
+    new Node\Attribute(new Node\Name('B'), [])
+]);
+-----
+<?php
+
+#[B]
+function some()
+{
+    $value = 100;
+
+    return $value;
+}

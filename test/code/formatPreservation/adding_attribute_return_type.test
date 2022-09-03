@@ -1,0 +1,19 @@
+Add attribute body space
+-----
+<?php
+
+function some() : int
+{
+}
+
+-----
+$stmts[0]->attrGroups[] = new Node\AttributeGroup([
+    new Node\Attribute(new Node\Name('B'), [])
+]);
+-----
+<?php
+
+#[B]
+function some() : int
+{
+}
