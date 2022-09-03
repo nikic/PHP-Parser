@@ -13,7 +13,7 @@ use PhpParser\Node\Expr\Array_;
 use PhpParser\Node\Expr\Cast\Double;
 use PhpParser\Node\Name;
 use PhpParser\Node\Param;
-use PhpParser\Node\Scalar\Encapsed;
+use PhpParser\Node\Scalar\InterpolatedString;
 use PhpParser\Node\Scalar\Int_;
 use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt\Class_;
@@ -802,7 +802,7 @@ abstract class ParserAbstract implements Parser {
                 }
                 $newContents[] = $part;
             }
-            return new Encapsed($newContents, $attributes);
+            return new InterpolatedString($newContents, $attributes);
         }
     }
 

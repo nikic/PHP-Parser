@@ -1193,7 +1193,7 @@ abstract class PrettyPrinterAbstract {
                 'var' => self::FIXUP_DEREF_LHS,
                 'name' => self::FIXUP_BRACED_NAME,
             ],
-            Scalar\Encapsed::class => [
+            Scalar\InterpolatedString::class => [
                 'parts' => self::FIXUP_ENCAPSED,
             ],
         ];
@@ -1336,7 +1336,7 @@ abstract class PrettyPrinterAbstract {
         $this->listInsertionMap = [
             // special
             //'Expr_ShellExec->parts' => '', // TODO These need to be treated more carefully
-            //'Scalar_Encapsed->parts' => '',
+            //'Scalar_InterpolatedString->parts' => '',
             'Stmt_Catch->types' => '|',
             'UnionType->types' => '|',
             'IntersectionType->types' => '&',

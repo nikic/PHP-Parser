@@ -1172,7 +1172,7 @@ dereferencable_scalar:
     | T_CONSTANT_ENCAPSED_STRING                            { $$ = Scalar\String_::fromString($1, attributes()); }
     | '"' encaps_list '"'
           { $attrs = attributes(); $attrs['kind'] = Scalar\String_::KIND_DOUBLE_QUOTED;
-            parseEncapsed($2, '"', true); $$ = new Scalar\Encapsed($2, $attrs); }
+            parseEncapsed($2, '"', true); $$ = new Scalar\InterpolatedString($2, $attrs); }
 ;
 
 scalar:

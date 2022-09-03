@@ -64,7 +64,7 @@ array(
         )
     )
     4: Stmt_Expression(
-        expr: Scalar_Encapsed(
+        expr: Scalar_InterpolatedString(
             parts: array(
                 0: InterpolatedStringPart(
                     value: Test
@@ -82,7 +82,7 @@ array(
         )
     )
     5: Stmt_Expression(
-        expr: Scalar_Encapsed(
+        expr: Scalar_InterpolatedString(
             parts: array(
                 0: InterpolatedStringPart(
                     value: Test

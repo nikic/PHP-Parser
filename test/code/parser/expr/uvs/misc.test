@@ -23,7 +23,7 @@ array(
     )
     1: Stmt_Expression(
         expr: Expr_ArrayDimFetch(
-            var: Scalar_Encapsed(
+            var: Scalar_InterpolatedString(
                 parts: array(
                     0: InterpolatedStringPart(
                         value: foo
@@ -40,7 +40,7 @@ array(
     )
     2: Stmt_Expression(
         expr: Expr_MethodCall(
-            var: Scalar_Encapsed(
+            var: Scalar_InterpolatedString(
                 parts: array(
                     0: InterpolatedStringPart(
                         value: foo
