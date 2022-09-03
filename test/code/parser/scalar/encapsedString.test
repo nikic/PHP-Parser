@@ -72,7 +72,7 @@ array(
                     var: Expr_Variable(
                         name: A
                     )
-                    dim: Scalar_LNumber(
+                    dim: Scalar_Int(
                         value: 0
                     )
                 )
@@ -86,7 +86,7 @@ array(
                     var: Expr_Variable(
                         name: A
                     )
-                    dim: Scalar_LNumber(
+                    dim: Scalar_Int(
                         value: 1234
                     )
                 )

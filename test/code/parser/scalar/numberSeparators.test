@@ -36,22 +36,22 @@ array(
         )
     )
     1: Stmt_Expression(
-        expr: Scalar_LNumber(
+        expr: Scalar_Int(
             value: 299792458
         )
     )
     2: Stmt_Expression(
-        expr: Scalar_LNumber(
+        expr: Scalar_Int(
             value: 3405705229
         )
     )
     3: Stmt_Expression(
-        expr: Scalar_LNumber(
+        expr: Scalar_Int(
             value: 95
         )
     )
     4: Stmt_Expression(
-        expr: Scalar_LNumber(
+        expr: Scalar_Int(
             value: 48673
         )
     )
@@ -74,7 +74,7 @@ array(
         )
     )
     6: Stmt_Expression(
-        expr: Scalar_LNumber(
+        expr: Scalar_Int(
             value: 100
             comments: array(
                 0: // syntax errors
@@ -94,7 +94,7 @@ array(
         )
     )
     8: Stmt_Expression(
-        expr: Scalar_LNumber(
+        expr: Scalar_Int(
             value: 1
         )
     )
@@ -108,7 +108,7 @@ array(
         )
     )
     10: Stmt_Expression(
-        expr: Scalar_LNumber(
+        expr: Scalar_Int(
             value: 1
         )
     )
@@ -141,7 +141,7 @@ array(
         )
     )
     15: Stmt_Expression(
-        expr: Scalar_LNumber(
+        expr: Scalar_Int(
             value: 0
         )
     )
@@ -155,7 +155,7 @@ array(
         )
     )
     17: Stmt_Expression(
-        expr: Scalar_LNumber(
+        expr: Scalar_Int(
             value: 0
         )
     )
@@ -169,7 +169,7 @@ array(
         )
     )
     19: Stmt_Expression(
-        expr: Scalar_LNumber(
+        expr: Scalar_Int(
             value: 1
         )
     )
@@ -183,7 +183,7 @@ array(
         )
     )
     21: Stmt_Expression(
-        expr: Scalar_LNumber(
+        expr: Scalar_Int(
             value: 1
         )
     )

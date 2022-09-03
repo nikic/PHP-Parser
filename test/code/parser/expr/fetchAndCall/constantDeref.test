@@ -21,7 +21,7 @@ array(
             var: Scalar_String(
                 value: abc
             )
-            dim: Scalar_LNumber(
+            dim: Scalar_Int(
                 value: 2
             )
         )
@@ -33,15 +33,15 @@ array(
                     var: Scalar_String(
                         value: abc
                     )
-                    dim: Scalar_LNumber(
+                    dim: Scalar_Int(
                         value: 2
                     )
                 )
-                dim: Scalar_LNumber(
+                dim: Scalar_Int(
                     value: 0
                 )
             )
-            dim: Scalar_LNumber(
+            dim: Scalar_Int(
                 value: 0
             )
         )
@@ -52,7 +52,7 @@ array(
                 items: array(
                     0: ArrayItem(
                         key: null
-                        value: Scalar_LNumber(
+                        value: Scalar_Int(
                             value: 1
                         )
                         byRef: false
@@ -60,7 +60,7 @@ array(
                     )
                     1: ArrayItem(
                         key: null
-                        value: Scalar_LNumber(
+                        value: Scalar_Int(
                             value: 2
                         )
                         byRef: false
@@ -68,7 +68,7 @@ array(
                     )
                     2: ArrayItem(
                         key: null
-                        value: Scalar_LNumber(
+                        value: Scalar_Int(
                             value: 3
                         )
                         byRef: false
@@ -76,7 +76,7 @@ array(
                     )
                 )
             )
-            dim: Scalar_LNumber(
+            dim: Scalar_Int(
                 value: 2
             )
         )
@@ -89,7 +89,7 @@ array(
                         items: array(
                             0: ArrayItem(
                                 key: null
-                                value: Scalar_LNumber(
+                                value: Scalar_Int(
                                     value: 1
                                 )
                                 byRef: false
@@ -97,7 +97,7 @@ array(
                             )
                             1: ArrayItem(
                                 key: null
-                                value: Scalar_LNumber(
+                                value: Scalar_Int(
                                     value: 2
                                 )
                                 byRef: false
@@ -105,7 +105,7 @@ array(
                             )
                             2: ArrayItem(
                                 key: null
-                                value: Scalar_LNumber(
+                                value: Scalar_Int(
                                     value: 3
                                 )
                                 byRef: false
@@ -113,15 +113,15 @@ array(
                             )
                         )
                     )
-                    dim: Scalar_LNumber(
+                    dim: Scalar_Int(
                         value: 2
                     )
                 )
-                dim: Scalar_LNumber(
+                dim: Scalar_Int(
                     value: 0
                 )
             )
-            dim: Scalar_LNumber(
+            dim: Scalar_Int(
                 value: 0
             )
         )
@@ -132,7 +132,7 @@ array(
                 items: array(
                     0: ArrayItem(
                         key: null
-                        value: Scalar_LNumber(
+                        value: Scalar_Int(
                             value: 1
                         )
                         byRef: false
@@ -140,7 +140,7 @@ array(
                     )
                     1: ArrayItem(
                         key: null
-                        value: Scalar_LNumber(
+                        value: Scalar_Int(
                             value: 2
                         )
                         byRef: false
@@ -148,7 +148,7 @@ array(
                     )
                     2: ArrayItem(
                         key: null
-                        value: Scalar_LNumber(
+                        value: Scalar_Int(
                             value: 3
                         )
                         byRef: false
@@ -156,7 +156,7 @@ array(
                     )
                 )
             )
-            dim: Scalar_LNumber(
+            dim: Scalar_Int(
                 value: 2
             )
         )
@@ -169,7 +169,7 @@ array(
                         items: array(
                             0: ArrayItem(
                                 key: null
-                                value: Scalar_LNumber(
+                                value: Scalar_Int(
                                     value: 1
                                 )
                                 byRef: false
@@ -177,7 +177,7 @@ array(
                             )
                             1: ArrayItem(
                                 key: null
-                                value: Scalar_LNumber(
+                                value: Scalar_Int(
                                     value: 2
                                 )
                                 byRef: false
@@ -185,7 +185,7 @@ array(
                             )
                             2: ArrayItem(
                                 key: null
-                                value: Scalar_LNumber(
+                                value: Scalar_Int(
                                     value: 3
                                 )
                                 byRef: false
@@ -193,15 +193,15 @@ array(
                             )
                         )
                     )
-                    dim: Scalar_LNumber(
+                    dim: Scalar_Int(
                         value: 2
                     )
                 )
-                dim: Scalar_LNumber(
+                dim: Scalar_Int(
                     value: 0
                 )
             )
-            dim: Scalar_LNumber(
+            dim: Scalar_Int(
                 value: 0
             )
         )
@@ -215,7 +215,7 @@ array(
                     )
                 )
             )
-            dim: Scalar_LNumber(
+            dim: Scalar_Int(
                 value: 0
             )
         )
@@ -232,7 +232,7 @@ array(
                     name: BAR
                 )
             )
-            dim: Scalar_LNumber(
+            dim: Scalar_Int(
                 value: 1
             )
         )
@@ -249,15 +249,15 @@ array(
                             name: BAR
                         )
                     )
-                    dim: Scalar_LNumber(
+                    dim: Scalar_Int(
                         value: 2
                     )
                 )
-                dim: Scalar_LNumber(
+                dim: Scalar_Int(
                     value: 1
                 )
             )
-            dim: Scalar_LNumber(
+            dim: Scalar_Int(
                 value: 0
             )
         )

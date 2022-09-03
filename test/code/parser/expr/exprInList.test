@@ -51,10 +51,10 @@ array(
                     0: ArrayItem(
                         key: null
                         value: Expr_BinaryOp_Plus(
-                            left: Scalar_LNumber(
+                            left: Scalar_Int(
                                 value: 1
                             )
-                            right: Scalar_LNumber(
+                            right: Scalar_Int(
                                 value: 1
                             )
                         )

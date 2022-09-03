@@ -32,7 +32,7 @@ array(
                 items: array(
                     0: ArrayItem(
                         key: null
-                        value: Scalar_LNumber(
+                        value: Scalar_Int(
                             value: 1
                         )
                         byRef: false
@@ -40,7 +40,7 @@ array(
                     )
                     1: ArrayItem(
                         key: null
-                        value: Scalar_LNumber(
+                        value: Scalar_Int(
                             value: 2
                         )
                         byRef: false
@@ -48,7 +48,7 @@ array(
                     )
                     2: ArrayItem(
                         key: null
-                        value: Scalar_LNumber(
+                        value: Scalar_Int(
                             value: 3
                         )
                         byRef: false
@@ -74,7 +74,7 @@ array(
                     items: array(
                         0: ArrayItem(
                             key: null
-                            value: Scalar_LNumber(
+                            value: Scalar_Int(
                                 value: 4
                             )
                             byRef: false
@@ -82,7 +82,7 @@ array(
                         )
                         1: ArrayItem(
                             key: null
-                            value: Scalar_LNumber(
+                            value: Scalar_Int(
                                 value: 5
                             )
                             byRef: false
@@ -110,7 +110,7 @@ array(
                         var: Expr_Variable(
                             name: i
                         )
-                        expr: Scalar_LNumber(
+                        expr: Scalar_Int(
                             value: 11
                         )
                     )
@@ -120,7 +120,7 @@ array(
                         left: Expr_Variable(
                             name: i
                         )
-                        right: Scalar_LNumber(
+                        right: Scalar_Int(
                             value: 15
                         )
                     )
@@ -169,7 +169,7 @@ array(
                         items: array(
                             0: ArrayItem(
                                 key: null
-                                value: Scalar_LNumber(
+                                value: Scalar_Int(
                                     value: 1
                                 )
                                 byRef: false
@@ -177,7 +177,7 @@ array(
                             )
                             1: ArrayItem(
                                 key: null
-                                value: Scalar_LNumber(
+                                value: Scalar_Int(
                                     value: 2
                                 )
                                 byRef: false
@@ -185,7 +185,7 @@ array(
                             )
                             2: ArrayItem(
                                 key: null
-                                value: Scalar_LNumber(
+                                value: Scalar_Int(
                                     value: 3
                                 )
                                 byRef: false
@@ -311,7 +311,7 @@ array(
             items: array(
                 0: ArrayItem(
                     key: null
-                    value: Scalar_LNumber(
+                    value: Scalar_Int(
                         value: 0
                     )
                     byRef: false
@@ -341,7 +341,7 @@ array(
                 )
                 3: ArrayItem(
                     key: null
-                    value: Scalar_LNumber(
+                    value: Scalar_Int(
                         value: 6
                     )
                     byRef: false
@@ -349,7 +349,7 @@ array(
                 )
                 4: ArrayItem(
                     key: null
-                    value: Scalar_LNumber(
+                    value: Scalar_Int(
                         value: 7
                     )
                     byRef: false
@@ -357,7 +357,7 @@ array(
                 )
                 5: ArrayItem(
                     key: null
-                    value: Scalar_LNumber(
+                    value: Scalar_Int(
                         value: 8
                     )
                     byRef: false
@@ -365,7 +365,7 @@ array(
                 )
                 6: ArrayItem(
                     key: null
-                    value: Scalar_LNumber(
+                    value: Scalar_Int(
                         value: 9
                     )
                     byRef: false
@@ -373,7 +373,7 @@ array(
                 )
                 7: ArrayItem(
                     key: null
-                    value: Scalar_LNumber(
+                    value: Scalar_Int(
                         value: 10
                     )
                     byRef: false
@@ -401,7 +401,7 @@ array(
             items: array(
                 0: ArrayItem(
                     key: null
-                    value: Scalar_LNumber(
+                    value: Scalar_Int(
                         value: 0
                     )
                     byRef: false

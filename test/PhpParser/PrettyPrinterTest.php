@@ -7,7 +7,7 @@ use PhpParser\Node\Name;
 use PhpParser\Node\Scalar\Float_;
 use PhpParser\Node\Scalar\Encapsed;
 use PhpParser\Node\Scalar\EncapsedStringPart;
-use PhpParser\Node\Scalar\LNumber;
+use PhpParser\Node\Scalar\Int_;
 use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt;
 use PhpParser\Parser\Php7;
@@ -138,11 +138,11 @@ class PrettyPrinterTest extends CodeTestAbstract {
 
     public function provideTestUnnaturalLiterals() {
         return [
-            [new LNumber(-1), '-1'],
-            [new LNumber(-PHP_INT_MAX - 1), '(-' . PHP_INT_MAX . '-1)'],
-            [new LNumber(-1, ['kind' => LNumber::KIND_BIN]), '-0b1'],
-            [new LNumber(-1, ['kind' => LNumber::KIND_OCT]), '-01'],
-            [new LNumber(-1, ['kind' => LNumber::KIND_HEX]), '-0x1'],
+            [new Int_(-1), '-1'],
+            [new Int_(-PHP_INT_MAX - 1), '(-' . PHP_INT_MAX . '-1)'],
+            [new Int_(-1, ['kind' => Int_::KIND_BIN]), '-0b1'],
+            [new Int_(-1, ['kind' => Int_::KIND_OCT]), '-01'],
+            [new Int_(-1, ['kind' => Int_::KIND_HEX]), '-0x1'],
             [new Float_(\INF), '\INF'],
             [new Float_(-\INF), '-\INF'],
             [new Float_(-\NAN), '\NAN'],

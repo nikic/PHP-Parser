@@ -10,7 +10,7 @@ use PhpParser\Node\AttributeGroup;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Name;
 use PhpParser\Node\Scalar\Float_;
-use PhpParser\Node\Scalar\LNumber;
+use PhpParser\Node\Scalar\Int_;
 use PhpParser\Node\Stmt;
 
 class InterfaceTest extends \PHPUnit\Framework\TestCase {
@@ -84,7 +84,7 @@ class InterfaceTest extends \PHPUnit\Framework\TestCase {
     public function testAddAttribute() {
         $attribute = new Attribute(
             new Name('Attr'),
-            [new Arg(new LNumber(1), false, false, [], new Identifier('name'))]
+            [new Arg(new Int_(1), false, false, [], new Identifier('name'))]
         );
         $attributeGroup = new AttributeGroup([$attribute]);
 

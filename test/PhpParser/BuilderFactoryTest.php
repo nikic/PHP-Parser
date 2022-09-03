@@ -8,7 +8,7 @@ use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\BinaryOp\Concat;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Name;
-use PhpParser\Node\Scalar\LNumber;
+use PhpParser\Node\Scalar\Int_;
 use PhpParser\Node\Scalar\String_;
 
 class BuilderFactoryTest extends \PHPUnit\Framework\TestCase {
@@ -141,7 +141,7 @@ class BuilderFactoryTest extends \PHPUnit\Framework\TestCase {
             new Expr\MethodCall(
                 new Expr\Variable('obj'),
                 new Identifier('method'),
-                [new Arg(new LNumber(42))]
+                [new Arg(new Int_(42))]
             ),
             $factory->methodCall(new Expr\Variable('obj'), 'method', [42])
         );

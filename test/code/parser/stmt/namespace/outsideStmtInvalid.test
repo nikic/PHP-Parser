@@ -9,14 +9,14 @@ Namespace declaration statement has to be the very first statement in the script
 array(
     0: Stmt_Echo(
         exprs: array(
-            0: Scalar_LNumber(
+            0: Scalar_Int(
                 value: 1
             )
         )
     )
     1: Stmt_Echo(
         exprs: array(
-            0: Scalar_LNumber(
+            0: Scalar_Int(
                 value: 2
             )
         )
@@ -49,7 +49,7 @@ array(
     )
     1: Stmt_Echo(
         exprs: array(
-            0: Scalar_LNumber(
+            0: Scalar_Int(
                 value: 1
             )
         )
@@ -79,7 +79,7 @@ array(
                 key: Identifier(
                     name: ticks
                 )
-                value: Scalar_LNumber(
+                value: Scalar_Int(
                     value: 1
                 )
             )

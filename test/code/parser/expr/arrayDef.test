@@ -129,7 +129,7 @@ array(
             items: array(
                 0: ArrayItem(
                     key: null
-                    value: Scalar_LNumber(
+                    value: Scalar_Int(
                         value: 1
                     )
                     byRef: false
@@ -137,7 +137,7 @@ array(
                 )
                 1: ArrayItem(
                     key: null
-                    value: Scalar_LNumber(
+                    value: Scalar_Int(
                         value: 2
                     )
                     byRef: false
@@ -145,7 +145,7 @@ array(
                 )
                 2: ArrayItem(
                     key: null
-                    value: Scalar_LNumber(
+                    value: Scalar_Int(
                         value: 3
                     )
                     byRef: false

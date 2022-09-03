@@ -48,7 +48,7 @@ array(
                     name: Identifier(
                         name: class
                     )
-                    value: Scalar_LNumber(
+                    value: Scalar_Int(
                         value: 0
                     )
                     byRef: false

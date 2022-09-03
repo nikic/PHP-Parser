@@ -75,6 +75,7 @@ used.
 
 A number of AST nodes have been renamed or moved in the AST hierarchy:
 
+ * `Node\Scalar\LNumber` is now `Node\Scalar\Int_`.
  * `Node\Scalar\DNumber` is now `Node\Scalar\Float_`.
  * `Node\Expr\ClosureUse` is now `Node\ClosureUse` and no longer extends `Node\Expr`.
  * `Node\Expr\ArrayItem` is now `Node\ArrayItem` and no longer extends `Node\Expr`.

@@ -93,7 +93,7 @@ array(
                         var: Expr_Variable(
                             name: a
                         )
-                        default: Scalar_LNumber(
+                        default: Scalar_Int(
                             value: 0
                         )
                     )

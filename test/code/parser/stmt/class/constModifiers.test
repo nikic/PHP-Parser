@@ -31,7 +31,7 @@ array(
                         name: Identifier(
                             name: A
                         )
-                        value: Scalar_LNumber(
+                        value: Scalar_Int(
                             value: 1
                         )
                     )
@@ -46,7 +46,7 @@ array(
                         name: Identifier(
                             name: B
                         )
-                        value: Scalar_LNumber(
+                        value: Scalar_Int(
                             value: 2
                         )
                     )
@@ -61,7 +61,7 @@ array(
                         name: Identifier(
                             name: C
                         )
-                        value: Scalar_LNumber(
+                        value: Scalar_Int(
                             value: 3
                         )
                     )
@@ -76,7 +76,7 @@ array(
                         name: Identifier(
                             name: D
                         )
-                        value: Scalar_LNumber(
+                        value: Scalar_Int(
                             value: 4
                         )
                     )
@@ -91,7 +91,7 @@ array(
                         name: Identifier(
                             name: E
                         )
-                        value: Scalar_LNumber(
+                        value: Scalar_Int(
                             value: 5
                         )
                     )

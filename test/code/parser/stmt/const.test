@@ -11,7 +11,7 @@ array(
                 name: Identifier(
                     name: A
                 )
-                value: Scalar_LNumber(
+                value: Scalar_Int(
                     value: 0
                 )
             )

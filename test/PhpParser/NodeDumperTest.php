@@ -75,7 +75,7 @@ array(
             var: Expr_Variable[2:1 - 2:2](
                 name: a
             )
-            expr: Scalar_LNumber[2:6 - 2:6](
+            expr: Scalar_Int[2:6 - 2:6](
                 value: 1
             )
         )

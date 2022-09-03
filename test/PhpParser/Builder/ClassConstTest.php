@@ -12,7 +12,7 @@ use PhpParser\Node\Expr;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Name;
 use PhpParser\Node\Scalar;
-use PhpParser\Node\Scalar\LNumber;
+use PhpParser\Node\Scalar\Int_;
 use PhpParser\Node\Stmt;
 
 class ClassConstTest extends \PHPUnit\Framework\TestCase {
@@ -29,7 +29,7 @@ class ClassConstTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals(
             new Stmt\ClassConst(
                 [
-                    new Const_("TEST", new LNumber(1))
+                    new Const_("TEST", new Int_(1))
                 ],
                 Modifiers::PRIVATE
             ),
@@ -44,7 +44,7 @@ class ClassConstTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals(
             new Stmt\ClassConst(
                 [
-                    new Const_("TEST", new LNumber(1))
+                    new Const_("TEST", new Int_(1))
                 ],
                 Modifiers::PROTECTED
             ),
@@ -59,7 +59,7 @@ class ClassConstTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals(
             new Stmt\ClassConst(
                 [
-                    new Const_("TEST", new LNumber(1))
+                    new Const_("TEST", new Int_(1))
                 ],
                 Modifiers::PUBLIC
             ),
@@ -74,7 +74,7 @@ class ClassConstTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals(
             new Stmt\ClassConst(
                 [
-                    new Const_("TEST", new LNumber(1))
+                    new Const_("TEST", new Int_(1))
                 ],
                 Modifiers::FINAL
             ),
@@ -91,7 +91,7 @@ class ClassConstTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals(
             new Stmt\ClassConst(
                 [
-                    new Const_("TEST", new LNumber(1))
+                    new Const_("TEST", new Int_(1))
                 ],
                 Modifiers::PUBLIC,
                 [
@@ -110,8 +110,8 @@ class ClassConstTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals(
             new Stmt\ClassConst(
                 [
-                    new Const_("FIRST_TEST", new LNumber(1)),
-                    new Const_("SECOND_TEST", new LNumber(2))
+                    new Const_("FIRST_TEST", new Int_(1)),
+                    new Const_("SECOND_TEST", new Int_(2))
                 ]
             ),
             $node
@@ -121,7 +121,7 @@ class ClassConstTest extends \PHPUnit\Framework\TestCase {
     public function testAddAttribute() {
         $attribute = new Attribute(
             new Name('Attr'),
-            [new Arg(new LNumber(1), false, false, [], new Identifier('name'))]
+            [new Arg(new Int_(1), false, false, [], new Identifier('name'))]
         );
         $attributeGroup = new AttributeGroup([$attribute]);
 
@@ -132,7 +132,7 @@ class ClassConstTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals(
             new Stmt\ClassConst(
                 [
-                    new Const_("ATTR_GROUP", new LNumber(1))
+                    new Const_("ATTR_GROUP", new Int_(1))
                 ],
                 0,
                 [],
@@ -169,7 +169,7 @@ class ClassConstTest extends \PHPUnit\Framework\TestCase {
             ],
             [
                 31415,
-                new Scalar\LNumber(31415)
+                new Scalar\Int_(31415)
             ],
             [
                 3.1415,
@@ -182,9 +182,9 @@ class ClassConstTest extends \PHPUnit\Framework\TestCase {
             [
                 [1, 2, 3],
                 new Expr\Array_([
-                    new \PhpParser\Node\ArrayItem(new Scalar\LNumber(1)),
-                    new \PhpParser\Node\ArrayItem(new Scalar\LNumber(2)),
-                    new \PhpParser\Node\ArrayItem(new Scalar\LNumber(3)),
+                    new \PhpParser\Node\ArrayItem(new Scalar\Int_(1)),
+                    new \PhpParser\Node\ArrayItem(new Scalar\Int_(2)),
+                    new \PhpParser\Node\ArrayItem(new Scalar\Int_(3)),
                 ])
             ],
             [

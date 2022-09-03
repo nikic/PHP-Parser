@@ -14,7 +14,7 @@ use PhpParser\Node\Expr\Cast\Double;
 use PhpParser\Node\Name;
 use PhpParser\Node\Param;
 use PhpParser\Node\Scalar\Encapsed;
-use PhpParser\Node\Scalar\LNumber;
+use PhpParser\Node\Scalar\Int_;
 use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassConst;
@@ -664,11 +664,11 @@ abstract class ParserAbstract implements Parser {
 
     protected function parseLNumber($str, $attributes, $allowInvalidOctal = false) {
         try {
-            return LNumber::fromString($str, $attributes, $allowInvalidOctal);
+            return Int_::fromString($str, $attributes, $allowInvalidOctal);
         } catch (Error $error) {
             $this->emitError($error);
             // Use dummy value
-            return new LNumber(0, $attributes);
+            return new Int_(0, $attributes);
         }
     }
 
@@ -678,7 +678,7 @@ abstract class ParserAbstract implements Parser {
      * @param string $str        Number string
      * @param array  $attributes Attributes
      *
-     * @return LNumber|String_ Integer or string node.
+     * @return Int_|String_ Integer or string node.
      */
     protected function parseNumString(string $str, array $attributes) {
         if (!preg_match('/^(?:0|-?[1-9][0-9]*)$/', $str)) {
@@ -690,7 +690,7 @@ abstract class ParserAbstract implements Parser {
             return new String_($str, $attributes);
         }
 
-        return new LNumber($num, $attributes);
+        return new Int_($num, $attributes);
     }
 
     protected function stripIndentation(

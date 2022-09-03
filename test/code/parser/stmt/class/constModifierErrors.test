@@ -27,7 +27,7 @@ array(
                         name: Identifier(
                             name: X
                         )
-                        value: Scalar_LNumber(
+                        value: Scalar_Int(
                             value: 1
                         )
                     )
@@ -64,7 +64,7 @@ array(
                         name: Identifier(
                             name: X
                         )
-                        value: Scalar_LNumber(
+                        value: Scalar_Int(
                             value: 1
                         )
                     )
@@ -101,7 +101,7 @@ array(
                         name: Identifier(
                             name: X
                         )
-                        value: Scalar_LNumber(
+                        value: Scalar_Int(
                             value: 1
                         )
                     )
@@ -138,7 +138,7 @@ array(
                         name: Identifier(
                             name: X
                         )
-                        value: Scalar_LNumber(
+                        value: Scalar_Int(
                             value: 1
                         )
                     )

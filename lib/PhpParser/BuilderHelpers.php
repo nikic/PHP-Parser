@@ -236,7 +236,7 @@ final class BuilderHelpers {
         }
 
         if (is_int($value)) {
-            return new Scalar\LNumber($value);
+            return new Scalar\Int_($value);
         }
 
         if (is_float($value)) {

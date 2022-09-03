@@ -93,7 +93,7 @@ if (42) {}
 -----
 array(
     0: Stmt_If(
-        cond: Scalar_LNumber(
+        cond: Scalar_Int(
             value: 42
         )
         stmts: array(

@@ -315,7 +315,7 @@ class NodeTraverserTest extends \PHPUnit\Framework\TestCase {
     }
 
     public function provideTestInvalidReturn() {
-        $num = new Node\Scalar\LNumber(42);
+        $num = new Node\Scalar\Int_(42);
         $expr = new Node\Stmt\Expression($num);
         $stmts = [$expr];
 
@@ -338,7 +338,7 @@ class NodeTraverserTest extends \PHPUnit\Framework\TestCase {
             ['leaveNode', $expr, false],
         ]);
         $visitor7 = new NodeVisitorForTesting([
-            ['enterNode', $expr, new Node\Scalar\LNumber(42)],
+            ['enterNode', $expr, new Node\Scalar\Int_(42)],
         ]);
         $visitor8 = new NodeVisitorForTesting([
             ['enterNode', $num, new Node\Stmt\Return_()],
@@ -351,8 +351,8 @@ class NodeTraverserTest extends \PHPUnit\Framework\TestCase {
             [$stmts, $visitor4, 'leaveNode() returned invalid value of type string'],
             [$stmts, $visitor5, 'leaveNode() may only return an array if the parent structure is an array'],
             [$stmts, $visitor6, 'bool(false) return from leaveNode() no longer supported. Return NodeTraverser::REMOVE_NODE instead'],
-            [$stmts, $visitor7, 'Trying to replace statement (Stmt_Expression) with expression (Scalar_LNumber). Are you missing a Stmt_Expression wrapper?'],
-            [$stmts, $visitor8, 'Trying to replace expression (Scalar_LNumber) with statement (Stmt_Return)'],
+            [$stmts, $visitor7, 'Trying to replace statement (Stmt_Expression) with expression (Scalar_Int). Are you missing a Stmt_Expression wrapper?'],
+            [$stmts, $visitor8, 'Trying to replace expression (Scalar_Int) with statement (Stmt_Return)'],
         ];
     }
 }

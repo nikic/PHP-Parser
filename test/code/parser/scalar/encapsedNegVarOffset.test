@@ -29,7 +29,7 @@ array(
                     var: Expr_Variable(
                         name: a
                     )
-                    dim: Scalar_LNumber(
+                    dim: Scalar_Int(
                         value: -1
                     )
                 )
@@ -71,7 +71,7 @@ array(
                     var: Expr_Variable(
                         name: a
                     )
-                    dim: Scalar_LNumber(
+                    dim: Scalar_Int(
                         value: @@{ -PHP_INT_MAX - 1 }@@
                     )
                 )

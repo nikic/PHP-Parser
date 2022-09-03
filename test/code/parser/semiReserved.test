@@ -157,7 +157,7 @@ array(
                         name: Identifier(
                             name: TRAIT
                         )
-                        value: Scalar_LNumber(
+                        value: Scalar_Int(
                             value: 3
                         )
                     )
@@ -165,7 +165,7 @@ array(
                         name: Identifier(
                             name: FINAL
                         )
-                        value: Scalar_LNumber(
+                        value: Scalar_Int(
                             value: 4
                         )
                     )
@@ -180,7 +180,7 @@ array(
                         name: Identifier(
                             name: __CLASS__
                         )
-                        value: Scalar_LNumber(
+                        value: Scalar_Int(
                             value: 1
                         )
                     )
@@ -188,7 +188,7 @@ array(
                         name: Identifier(
                             name: __TRAIT__
                         )
-                        value: Scalar_LNumber(
+                        value: Scalar_Int(
                             value: 2
                         )
                     )
@@ -196,7 +196,7 @@ array(
                         name: Identifier(
                             name: __FUNCTION__
                         )
-                        value: Scalar_LNumber(
+                        value: Scalar_Int(
                             value: 3
                         )
                     )
@@ -204,7 +204,7 @@ array(
                         name: Identifier(
                             name: __METHOD__
                         )
-                        value: Scalar_LNumber(
+                        value: Scalar_Int(
                             value: 4
                         )
                     )
@@ -212,7 +212,7 @@ array(
                         name: Identifier(
                             name: __LINE__
                         )
-                        value: Scalar_LNumber(
+                        value: Scalar_Int(
                             value: 5
                         )
                     )
@@ -220,7 +220,7 @@ array(
                         name: Identifier(
                             name: __FILE__
                         )
-                        value: Scalar_LNumber(
+                        value: Scalar_Int(
                             value: 6
                         )
                     )
@@ -228,7 +228,7 @@ array(
                         name: Identifier(
                             name: __DIR__
                         )
-                        value: Scalar_LNumber(
+                        value: Scalar_Int(
                             value: 7
                         )
                     )
@@ -236,7 +236,7 @@ array(
                         name: Identifier(
                             name: __NAMESPACE__
                         )
-                        value: Scalar_LNumber(
+                        value: Scalar_Int(
                             value: 8
                         )
                     )

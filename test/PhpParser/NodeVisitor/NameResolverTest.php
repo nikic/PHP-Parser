@@ -336,7 +336,7 @@ EOC;
             new Stmt\Interface_('B'),
             new Stmt\Function_('C'),
             new Stmt\Const_([
-                new Node\Const_('D', new Node\Scalar\LNumber(42))
+                new Node\Const_('D', new Node\Scalar\Int_(42))
             ]),
             new Stmt\Trait_('E'),
             new Expr\New_(new Stmt\Class_(null)),

@@ -11,7 +11,7 @@ use PhpParser\Node\Expr;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Name;
 use PhpParser\Node\Scalar;
-use PhpParser\Node\Scalar\LNumber;
+use PhpParser\Node\Scalar\Int_;
 use PhpParser\Node\Stmt;
 
 class PropertyTest extends \PHPUnit\Framework\TestCase {
@@ -113,7 +113,7 @@ class PropertyTest extends \PHPUnit\Framework\TestCase {
     public function testAddAttribute() {
         $attribute = new Attribute(
             new Name('Attr'),
-            [new Arg(new LNumber(1), false, false, [], new Identifier('name'))]
+            [new Arg(new Int_(1), false, false, [], new Identifier('name'))]
         );
         $attributeGroup = new AttributeGroup([$attribute]);
 
@@ -152,7 +152,7 @@ class PropertyTest extends \PHPUnit\Framework\TestCase {
             ],
             [
                 31415,
-                new Scalar\LNumber(31415)
+                new Scalar\Int_(31415)
             ],
             [
                 3.1415,
@@ -165,9 +165,9 @@ class PropertyTest extends \PHPUnit\Framework\TestCase {
             [
                 [1, 2, 3],
                 new Expr\Array_([
-                    new \PhpParser\Node\ArrayItem(new Scalar\LNumber(1)),
-                    new \PhpParser\Node\ArrayItem(new Scalar\LNumber(2)),
-                    new \PhpParser\Node\ArrayItem(new Scalar\LNumber(3)),
+                    new \PhpParser\Node\ArrayItem(new Scalar\Int_(1)),
+                    new \PhpParser\Node\ArrayItem(new Scalar\Int_(2)),
+                    new \PhpParser\Node\ArrayItem(new Scalar\Int_(3)),
                 ])
             ],
             [

@@ -57,7 +57,7 @@ array(
                     var: Expr_Variable(
                         name: x
                     )
-                    default: Scalar_LNumber(
+                    default: Scalar_Int(
                         value: 42
                     )
                 )

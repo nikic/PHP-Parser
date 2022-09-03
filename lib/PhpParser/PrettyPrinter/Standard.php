@@ -181,15 +181,15 @@ class Standard extends PrettyPrinterAbstract {
         return '"' . $this->pEncapsList($node->parts, '"') . '"';
     }
 
-    protected function pScalar_LNumber(Scalar\LNumber $node) {
+    protected function pScalar_Int(Scalar\Int_ $node) {
         if ($node->value === -\PHP_INT_MAX-1) {
             // PHP_INT_MIN cannot be represented as a literal,
             // because the sign is not part of the literal
             return '(-' . \PHP_INT_MAX . '-1)';
         }
 
-        $kind = $node->getAttribute('kind', Scalar\LNumber::KIND_DEC);
-        if (Scalar\LNumber::KIND_DEC === $kind) {
+        $kind = $node->getAttribute('kind', Scalar\Int_::KIND_DEC);
+        if (Scalar\Int_::KIND_DEC === $kind) {
             return (string) $node->value;
         }
 
@@ -201,11 +201,11 @@ class Standard extends PrettyPrinterAbstract {
             $str = (string) $node->value;
         }
         switch ($kind) {
-            case Scalar\LNumber::KIND_BIN:
+            case Scalar\Int_::KIND_BIN:
                 return $sign . '0b' . base_convert($str, 10, 2);
-            case Scalar\LNumber::KIND_OCT:
+            case Scalar\Int_::KIND_OCT:
                 return $sign . '0' . base_convert($str, 10, 8);
-            case Scalar\LNumber::KIND_HEX:
+            case Scalar\Int_::KIND_HEX:
                 return $sign . '0x' . base_convert($str, 10, 16);
         }
         throw new \Exception('Invalid number kind');
