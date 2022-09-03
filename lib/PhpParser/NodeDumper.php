@@ -110,25 +110,25 @@ class NodeDumper {
     protected function dumpFlags($flags) {
         $strs = [];
         if ($flags & Modifiers::PUBLIC) {
-            $strs[] = 'MODIFIER_PUBLIC';
+            $strs[] = 'PUBLIC';
         }
         if ($flags & Modifiers::PROTECTED) {
-            $strs[] = 'MODIFIER_PROTECTED';
+            $strs[] = 'PROTECTED';
         }
         if ($flags & Modifiers::PRIVATE) {
-            $strs[] = 'MODIFIER_PRIVATE';
+            $strs[] = 'PRIVATE';
         }
         if ($flags & Modifiers::ABSTRACT) {
-            $strs[] = 'MODIFIER_ABSTRACT';
+            $strs[] = 'ABSTRACT';
         }
         if ($flags & Modifiers::STATIC) {
-            $strs[] = 'MODIFIER_STATIC';
+            $strs[] = 'STATIC';
         }
         if ($flags & Modifiers::FINAL) {
-            $strs[] = 'MODIFIER_FINAL';
+            $strs[] = 'FINAL';
         }
         if ($flags & Modifiers::READONLY) {
-            $strs[] = 'MODIFIER_READONLY';
+            $strs[] = 'READONLY';
         }
 
         if ($strs) {

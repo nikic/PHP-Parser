@@ -143,7 +143,7 @@ array(
                         )
                     )
                 )
-                flags: MODIFIER_PUBLIC (1)
+                flags: PUBLIC (1)
                 byRef: false
                 name: Identifier(
                     name: m
@@ -195,7 +195,7 @@ array(
                         )
                     )
                 )
-                flags: MODIFIER_PUBLIC (1)
+                flags: PUBLIC (1)
                 type: null
                 props: array(
                     0: Stmt_PropertyProperty(

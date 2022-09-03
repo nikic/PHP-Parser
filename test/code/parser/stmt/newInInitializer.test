@@ -146,7 +146,7 @@ array(
             1: Stmt_Property(
                 attrGroups: array(
                 )
-                flags: MODIFIER_PUBLIC (1)
+                flags: PUBLIC (1)
                 type: null
                 props: array(
                     0: Stmt_PropertyProperty(

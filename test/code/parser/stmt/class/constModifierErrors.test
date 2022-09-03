@@ -21,7 +21,7 @@ array(
             0: Stmt_ClassConst(
                 attrGroups: array(
                 )
-                flags: MODIFIER_STATIC (8)
+                flags: STATIC (8)
                 consts: array(
                     0: Const(
                         name: Identifier(
@@ -58,7 +58,7 @@ array(
             0: Stmt_ClassConst(
                 attrGroups: array(
                 )
-                flags: MODIFIER_ABSTRACT (16)
+                flags: ABSTRACT (16)
                 consts: array(
                     0: Const(
                         name: Identifier(
@@ -95,7 +95,7 @@ array(
             0: Stmt_ClassConst(
                 attrGroups: array(
                 )
-                flags: MODIFIER_READONLY (64)
+                flags: READONLY (64)
                 consts: array(
                     0: Const(
                         name: Identifier(
@@ -132,7 +132,7 @@ array(
             0: Stmt_ClassConst(
                 attrGroups: array(
                 )
-                flags: MODIFIER_PUBLIC (1)
+                flags: PUBLIC (1)
                 consts: array(
                     0: Const(
                         name: Identifier(

@@ -40,7 +40,7 @@ array(
             1: Stmt_ClassConst(
                 attrGroups: array(
                 )
-                flags: MODIFIER_PUBLIC (1)
+                flags: PUBLIC (1)
                 consts: array(
                     0: Const(
                         name: Identifier(
@@ -55,7 +55,7 @@ array(
             2: Stmt_ClassConst(
                 attrGroups: array(
                 )
-                flags: MODIFIER_PROTECTED (2)
+                flags: PROTECTED (2)
                 consts: array(
                     0: Const(
                         name: Identifier(
@@ -70,7 +70,7 @@ array(
             3: Stmt_ClassConst(
                 attrGroups: array(
                 )
-                flags: MODIFIER_PRIVATE (4)
+                flags: PRIVATE (4)
                 consts: array(
                     0: Const(
                         name: Identifier(
@@ -85,7 +85,7 @@ array(
             4: Stmt_ClassConst(
                 attrGroups: array(
                 )
-                flags: MODIFIER_FINAL (32)
+                flags: FINAL (32)
                 consts: array(
                     0: Const(
                         name: Identifier(

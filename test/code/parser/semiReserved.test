@@ -95,7 +95,7 @@ array(
             2: Stmt_ClassMethod(
                 attrGroups: array(
                 )
-                flags: MODIFIER_STATIC (8)
+                flags: STATIC (8)
                 byRef: false
                 name: Identifier(
                     name: list
@@ -109,7 +109,7 @@ array(
             3: Stmt_ClassMethod(
                 attrGroups: array(
                 )
-                flags: MODIFIER_STATIC (8)
+                flags: STATIC (8)
                 byRef: false
                 name: Identifier(
                     name: protected
@@ -123,7 +123,7 @@ array(
             4: Stmt_Property(
                 attrGroups: array(
                 )
-                flags: MODIFIER_PUBLIC (1)
+                flags: PUBLIC (1)
                 type: null
                 props: array(
                     0: Stmt_PropertyProperty(
@@ -137,7 +137,7 @@ array(
             5: Stmt_Property(
                 attrGroups: array(
                 )
-                flags: MODIFIER_PUBLIC (1)
+                flags: PUBLIC (1)
                 type: null
                 props: array(
                     0: Stmt_PropertyProperty(
@@ -426,7 +426,7 @@ array(
                         method: Identifier(
                             name: throw
                         )
-                        newModifier: MODIFIER_PROTECTED (2)
+                        newModifier: PROTECTED (2)
                         newName: Identifier(
                             name: public
                         )
@@ -440,7 +440,7 @@ array(
                         method: Identifier(
                             name: self
                         )
-                        newModifier: MODIFIER_PROTECTED (2)
+                        newModifier: PROTECTED (2)
                         newName: null
                     )
                     4: Stmt_TraitUseAdaptation_Alias(
