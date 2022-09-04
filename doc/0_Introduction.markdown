@@ -1,7 +1,7 @@
 Introduction
 ============
 
-This project is a PHP 5.2 to PHP 8.0 parser **written in PHP itself**.
+This project is a PHP parser **written in PHP itself**.
 
 What is this for?
 -----------------
@@ -26,16 +26,29 @@ programmatic PHP code analysis are incidentally PHP developers, not C developers
 What can it parse?
 ------------------
 
-The parser supports parsing PHP 5.2-8.0, with the following exceptions:
+The parser supports parsing PHP 7 and PHP 8 code, with the following exceptions:
 
  * Namespaced names containing whitespace (e.g. `Foo \ Bar` instead of `Foo\Bar`) are not supported.
    These are illegal in PHP 8, but are legal in earlier versions. However, PHP-Parser does not
    support them for any version.
 
+PHP-Parser 4.x had full support for parsing PHP 5. PHP-Parser 5.x has only limited support, with the
+following caveats:
+
+ * Some variable expressions like `$$foo[0]` are valid in both PHP 5 and PHP 7, but have different 
+   interpretation. In such cases, the PHP 7 AST will always be constructed (using `($$foo)[0]`
+   rather than `${$foo[0]}`).
+ * Declarations of the form `global $$var[0]` are not supported in PHP 7 and will cause a parse 
+   error. In error recovery mode, it is possible to continue parsing after such declarations.
+
 As the parser is based on the tokens returned by `token_get_all` (which is only able to lex the PHP
 version it runs on), additionally a wrapper for emulating tokens from newer versions is provided.
-This allows to parse PHP 7.4 source code running on PHP 7.0, for example. This emulation is somewhat
-hacky and not perfect, but it should work well on any sane code.
+This allows to parse PHP 8.0 source code running on PHP 7.1, for example. This emulation is not
+perfect, but works well in practice.
+
+Finally, it should be noted that the parser aims to accept all valid code, not reject all invalid
+code. It will generally accept code that is only valid in newer versions (even when targeting an
+older one), and accept code that is syntactically correct, but would result in a compiler error.
 
 What output does it produce?
 ----------------------------
@@ -63,7 +76,7 @@ This matches the structure of the code: An echo statement, which takes two strin
 with the values `Hi` and `World`.
 
 You can also see that the AST does not contain any whitespace information (but most comments are saved).
-So using it for formatting analysis is not possible.
+However, it does retain accurate position information, which can be used to inspect precise formatting.
 
 What else can it do?
 --------------------
@@ -74,7 +87,7 @@ Apart from the parser itself this package also bundles support for some other, r
    that "pretty printing" does not imply that the output is especially pretty. It's just how it's
    called ;)
  * Support for serializing and unserializing the node tree to JSON
- * Support for dumping the node tree in a human readable form (see the section above for an
+ * Support for dumping the node tree in a human-readable form (see the section above for an
    example of how the output looks like)
  * Infrastructure for traversing and changing the AST (node traverser and node visitors)
  * A node visitor for resolving namespaced names

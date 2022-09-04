@@ -15,7 +15,6 @@ class Lexer {
     protected $pos;
     protected $prevCloseTagHasNewline;
 
-    protected $tokenMap;
     protected $dropTokens;
 
     private $attributeStartLineUsed;
