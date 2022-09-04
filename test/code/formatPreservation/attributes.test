@@ -105,7 +105,11 @@ fn()
 $attrGroup = new Node\AttributeGroup([
     new Node\Attribute(new Node\Name('A'), []),
 ]);
+$attrGroup2 = new Node\AttributeGroup([
+    new Node\Attribute(new Node\Name('B'), []),
+]);
 $stmts[0]->attrGroups[] = $attrGroup;
+$stmts[0]->attrGroups[] = $attrGroup2;
 $stmts[0]->stmts[0]->attrGroups[] = $attrGroup;
 $stmts[0]->stmts[1]->attrGroups[] = $attrGroup;
 $stmts[0]->stmts[2]->attrGroups[] = $attrGroup;
@@ -118,6 +122,7 @@ $stmts[6]->expr->attrGroups[] = $attrGroup;
 -----
 <?php
 #[A]
+#[B]
 class X {
     #[A]
     public function m() {}
