@@ -1,6 +1,11 @@
 Version 5.0.0-dev
 -----------------
 
+Nothing yet.
+
+Version 5.0.0-alpha1 (2022-09-04)
+---------------------------------
+
 See UPGRADE-5.0 for detailed migration instructions.
 
 ### Changed
@@ -26,6 +31,14 @@ See UPGRADE-5.0 for detailed migration instructions.
 
 * The PHP 5 parser has been removed. The PHP 7 parser has been adjusted to deal with PHP 5 code
   more gracefully.
+
+Version 4.15.1 (2022-09-04)
+---------------------------
+
+### Fixed
+
+* Fixed formatting preservation when adding *multiple* attributes to a class/method/etc that
+  previously had none. This fixes a regression in the 4.15.0 release.
 
 Version 4.15.0 (2022-09-03)
 ---------------------------
