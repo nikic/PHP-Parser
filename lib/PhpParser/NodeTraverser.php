@@ -107,7 +107,7 @@ class NodeTraverser implements NodeTraverserInterface {
      */
     protected function traverseNode(Node $node): Node {
         foreach ($node->getSubNodeNames() as $name) {
-            $subNode =& $node->$name;
+            $subNode =& $node->{$name};
 
             if (\is_array($subNode)) {
                 $subNode = $this->traverseArray($subNode);
