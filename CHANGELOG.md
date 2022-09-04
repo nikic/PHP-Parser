@@ -1,3 +1,11 @@
+Version 4.15.1 (2022-09-04)
+---------------------------
+
+### Fixed
+
+* Fixed formatting preservation when adding *multiple* attributes to a class/method/etc that
+  previously had none. This fixes a regression in the 4.15.0 release.
+
 Version 4.15.0 (2022-09-03)
 ---------------------------
 
