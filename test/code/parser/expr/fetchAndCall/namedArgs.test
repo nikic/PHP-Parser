@@ -4,7 +4,6 @@ Named arguments
 foo(a: $b, c: $d);
 bar(class: 0);
 -----
-!!php7
 array(
     0: Stmt_Expression(
         expr: Expr_FuncCall(
@@ -49,7 +48,7 @@ array(
                     name: Identifier(
                         name: class
                     )
-                    value: Scalar_LNumber(
+                    value: Scalar_Int(
                         value: 0
                     )
                     byRef: false

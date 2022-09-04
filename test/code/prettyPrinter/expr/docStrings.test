@@ -84,3 +84,13 @@ STR;
     Bar
 STR;
 }
+-----
+<?php
+foo(<<<STR
+abc
+STR);
+-----
+!!version=7.3
+foo(<<<STR
+abc
+STR);

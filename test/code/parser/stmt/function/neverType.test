@@ -3,7 +3,6 @@ Never type
 <?php
 function test(): never {}
 -----
-!!php7
 array(
     0: Stmt_Function(
         attrGroups: array(

@@ -11,7 +11,6 @@ fn(): int => $x;
 fn($a, $b) => $a and $b;
 fn($a, $b) => $a && $b;
 -----
-!!php7
 array(
     0: Stmt_Expression(
         expr: Expr_ArrowFunction(
@@ -58,7 +57,7 @@ array(
                     var: Expr_Variable(
                         name: x
                     )
-                    default: Scalar_LNumber(
+                    default: Scalar_Int(
                         value: 42
                     )
                 )

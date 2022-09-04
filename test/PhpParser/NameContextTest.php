@@ -5,8 +5,7 @@ namespace PhpParser;
 use PhpParser\Node\Name;
 use PhpParser\Node\Stmt\Use_;
 
-class NameContextTest extends \PHPUnit\Framework\TestCase
-{
+class NameContextTest extends \PHPUnit\Framework\TestCase {
     /**
      * @dataProvider provideTestGetPossibleNames
      */

@@ -2,10 +2,9 @@
 
 namespace PhpParser;
 
-use PhpParser\Parser\Tokens;
+require __DIR__ . '/../../lib/PhpParser/compatibility_tokens.php';
 
-class LexerTest extends \PHPUnit\Framework\TestCase
-{
+class LexerTest extends \PHPUnit\Framework\TestCase {
     /* To allow overwriting in parent class */
     protected function getLexer(array $options = []) {
         return new Lexer($options);
@@ -72,15 +71,15 @@ class LexerTest extends \PHPUnit\Framework\TestCase
                 [],
                 [
                     [
-                        Tokens::T_STRING, 'tokens',
+                        \T_STRING, 'tokens',
                         ['startLine' => 1], ['endLine' => 1]
                     ],
                     [
-                        ord(';'), '?>',
+                        \T_CLOSE_TAG, '?>',
                         ['startLine' => 1], ['endLine' => 1]
                     ],
                     [
-                        Tokens::T_INLINE_HTML, 'plaintext',
+                        \T_INLINE_HTML, 'plaintext',
                         ['startLine' => 1, 'hasLeadingNewline' => false],
                         ['endLine' => 1]
                     ],
@@ -96,7 +95,7 @@ class LexerTest extends \PHPUnit\Framework\TestCase
                         ['startLine' => 2], ['endLine' => 2]
                     ],
                     [
-                        Tokens::T_STRING, 'token',
+                        \T_STRING, 'token',
                         ['startLine' => 2], ['endLine' => 2]
                     ],
                     [
@@ -119,7 +118,7 @@ class LexerTest extends \PHPUnit\Framework\TestCase
                 [],
                 [
                     [
-                        Tokens::T_STRING, 'token',
+                        \T_STRING, 'token',
                         [
                             'startLine' => 2,
                             'comments' => [
@@ -143,7 +142,7 @@ class LexerTest extends \PHPUnit\Framework\TestCase
                 [],
                 [
                     [
-                        Tokens::T_CONSTANT_ENCAPSED_STRING, '"foo' . "\n" . 'bar"',
+                        \T_CONSTANT_ENCAPSED_STRING, '"foo' . "\n" . 'bar"',
                         ['startLine' => 1], ['endLine' => 2]
                     ],
                 ]
@@ -154,7 +153,7 @@ class LexerTest extends \PHPUnit\Framework\TestCase
                 ['usedAttributes' => ['startFilePos', 'endFilePos']],
                 [
                     [
-                        Tokens::T_CONSTANT_ENCAPSED_STRING, '"a"',
+                        \T_CONSTANT_ENCAPSED_STRING, '"a"',
                         ['startFilePos' => 6], ['endFilePos' => 8]
                     ],
                     [
@@ -162,7 +161,7 @@ class LexerTest extends \PHPUnit\Framework\TestCase
                         ['startFilePos' => 9], ['endFilePos' => 9]
                     ],
                     [
-                        Tokens::T_CONSTANT_ENCAPSED_STRING, '"b"',
+                        \T_CONSTANT_ENCAPSED_STRING, '"b"',
                         ['startFilePos' => 18], ['endFilePos' => 20]
                     ],
                     [
@@ -177,7 +176,7 @@ class LexerTest extends \PHPUnit\Framework\TestCase
                 ['usedAttributes' => ['startTokenPos', 'endTokenPos']],
                 [
                     [
-                        Tokens::T_CONSTANT_ENCAPSED_STRING, '"a"',
+                        \T_CONSTANT_ENCAPSED_STRING, '"a"',
                         ['startTokenPos' => 1], ['endTokenPos' => 1]
                     ],
                     [
@@ -185,7 +184,7 @@ class LexerTest extends \PHPUnit\Framework\TestCase
                         ['startTokenPos' => 2], ['endTokenPos' => 2]
                     ],
                     [
-                        Tokens::T_CONSTANT_ENCAPSED_STRING, '"b"',
+                        \T_CONSTANT_ENCAPSED_STRING, '"b"',
                         ['startTokenPos' => 6], ['endTokenPos' => 6]
                     ],
                     [
@@ -200,7 +199,7 @@ class LexerTest extends \PHPUnit\Framework\TestCase
                 ['usedAttributes' => []],
                 [
                     [
-                        Tokens::T_VARIABLE, '$bar',
+                        \T_VARIABLE, '$bar',
                         [], []
                     ],
                     [
@@ -220,11 +219,11 @@ class LexerTest extends \PHPUnit\Framework\TestCase
                 '<?php Foo\Bar \Foo\Bar namespace\Foo\Bar Foo\Bar\\',
                 ['usedAttributes' => []],
                 [
-                    [Tokens::T_NAME_QUALIFIED, 'Foo\Bar', [], []],
-                    [Tokens::T_NAME_FULLY_QUALIFIED, '\Foo\Bar', [], []],
-                    [Tokens::T_NAME_RELATIVE, 'namespace\Foo\Bar', [], []],
-                    [Tokens::T_NAME_QUALIFIED, 'Foo\Bar', [], []],
-                    [Tokens::T_NS_SEPARATOR, '\\', [], []],
+                    [\T_NAME_QUALIFIED, 'Foo\Bar', [], []],
+                    [\T_NAME_FULLY_QUALIFIED, '\Foo\Bar', [], []],
+                    [\T_NAME_RELATIVE, 'namespace\Foo\Bar', [], []],
+                    [\T_NAME_QUALIFIED, 'Foo\Bar', [], []],
+                    [\T_NS_SEPARATOR, '\\', [], []],
                 ]
             ],
             // tests PHP 8 T_NAME_* emulation with reserved keywords
@@ -232,11 +231,11 @@ class LexerTest extends \PHPUnit\Framework\TestCase
                 '<?php fn\use \fn\use namespace\fn\use fn\use\\',
                 ['usedAttributes' => []],
                 [
-                    [Tokens::T_NAME_QUALIFIED, 'fn\use', [], []],
-                    [Tokens::T_NAME_FULLY_QUALIFIED, '\fn\use', [], []],
-                    [Tokens::T_NAME_RELATIVE, 'namespace\fn\use', [], []],
-                    [Tokens::T_NAME_QUALIFIED, 'fn\use', [], []],
-                    [Tokens::T_NS_SEPARATOR, '\\', [], []],
+                    [\T_NAME_QUALIFIED, 'fn\use', [], []],
+                    [\T_NAME_FULLY_QUALIFIED, '\fn\use', [], []],
+                    [\T_NAME_RELATIVE, 'namespace\fn\use', [], []],
+                    [\T_NAME_QUALIFIED, 'fn\use', [], []],
+                    [\T_NS_SEPARATOR, '\\', [], []],
                 ]
             ],
         ];
@@ -249,7 +248,10 @@ class LexerTest extends \PHPUnit\Framework\TestCase
         $lexer = $this->getLexer();
         $lexer->startLexing($code);
 
-        while (Tokens::T_HALT_COMPILER !== $lexer->getNextToken());
+        while (\T_HALT_COMPILER !== $lexer->getNextToken());
+        $lexer->getNextToken();
+        $lexer->getNextToken();
+        $lexer->getNextToken();
 
         $this->assertSame($remaining, $lexer->handleHaltCompiler());
         $this->assertSame(0, $lexer->getNextToken());
@@ -257,41 +259,33 @@ class LexerTest extends \PHPUnit\Framework\TestCase
 
     public function provideTestHaltCompiler() {
         return [
+            ['<?php ... __halt_compiler();', ''],
             ['<?php ... __halt_compiler();Remaining Text', 'Remaining Text'],
             ['<?php ... __halt_compiler ( ) ;Remaining Text', 'Remaining Text'],
             ['<?php ... __halt_compiler() ?>Remaining Text', 'Remaining Text'],
-            //array('<?php ... __halt_compiler();' . "\0", "\0"),
-            //array('<?php ... __halt_compiler /* */ ( ) ;Remaining Text', 'Remaining Text'),
+            ['<?php ... __halt_compiler();' . "\0", "\0"],
+            ['<?php ... __halt_compiler /* */ ( ) ;Remaining Text', 'Remaining Text'],
         ];
-    }
-
-    public function testHandleHaltCompilerError() {
-        $this->expectException(Error::class);
-        $this->expectExceptionMessage('__HALT_COMPILER must be followed by "();"');
-        $lexer = $this->getLexer();
-        $lexer->startLexing('<?php ... __halt_compiler invalid ();');
-
-        while (Tokens::T_HALT_COMPILER !== $lexer->getNextToken());
-        $lexer->handleHaltCompiler();
     }
 
     public function testGetTokens() {
         $code = '<?php "a";' . "\n" . '// foo' . "\n" . '// bar' . "\n\n" . '"b";';
         $expectedTokens = [
-            [T_OPEN_TAG, '<?php ', 1],
-            [T_CONSTANT_ENCAPSED_STRING, '"a"', 1],
-            ';',
-            [T_WHITESPACE, "\n", 1],
-            [T_COMMENT, '// foo', 2],
-            [T_WHITESPACE, "\n", 2],
-            [T_COMMENT, '// bar', 3],
-            [T_WHITESPACE, "\n\n", 3],
-            [T_CONSTANT_ENCAPSED_STRING, '"b"', 5],
-            ';',
+            new Token(T_OPEN_TAG, '<?php ', 1, 0),
+            new Token(T_CONSTANT_ENCAPSED_STRING, '"a"', 1, 6),
+            new Token(\ord(';'), ';', 1, 9),
+            new Token(T_WHITESPACE, "\n", 1, 10),
+            new Token(T_COMMENT, '// foo', 2, 11),
+            new Token(T_WHITESPACE, "\n", 2, 17),
+            new Token(T_COMMENT, '// bar', 3, 18),
+            new Token(T_WHITESPACE, "\n\n", 3, 24),
+            new Token(T_CONSTANT_ENCAPSED_STRING, '"b"', 5, 26),
+            new Token(\ord(';'), ';', 5, 29),
+            new Token(0, "\0", 5, 30),
         ];
 
         $lexer = $this->getLexer();
         $lexer->startLexing($code);
-        $this->assertSame($expectedTokens, $lexer->getTokens());
+        $this->assertEquals($expectedTokens, $lexer->getTokens());
     }
 }

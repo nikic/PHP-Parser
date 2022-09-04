@@ -41,7 +41,7 @@ class Foo extends Bar implements ABC, \DEF, namespace\GHI
     public function foo()
     {
     }
-    static abstract function bar()
+    abstract static function bar()
     {
     }
 }

@@ -5,8 +5,7 @@ namespace PhpParser;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Scalar\String_;
 
-class NodeTraverserTest extends \PHPUnit\Framework\TestCase
-{
+class NodeTraverserTest extends \PHPUnit\Framework\TestCase {
     public function testNonModifying() {
         $str1Node = new String_('Foo');
         $str2Node = new String_('Bar');
@@ -14,7 +13,7 @@ class NodeTraverserTest extends \PHPUnit\Framework\TestCase
         $stmts    = [$echoNode];
 
         $visitor = new NodeVisitorForTesting();
-        $traverser = new NodeTraverser;
+        $traverser = new NodeTraverser();
         $traverser->addVisitor($visitor);
 
         $this->assertEquals($stmts, $traverser->traverse($stmts));
@@ -46,7 +45,7 @@ class NodeTraverserTest extends \PHPUnit\Framework\TestCase
         ]);
         $visitor2 = new NodeVisitorForTesting();
 
-        $traverser = new NodeTraverser;
+        $traverser = new NodeTraverser();
         $traverser->addVisitor($visitor1);
         $traverser->addVisitor($visitor2);
 
@@ -62,18 +61,76 @@ class NodeTraverserTest extends \PHPUnit\Framework\TestCase
         ], $visitor2->trace);
     }
 
-    public function testRemove() {
+    public function testRemoveFromLeave() {
         $str1Node = new String_('Foo');
         $str2Node = new String_('Bar');
 
         $visitor = new NodeVisitorForTesting([
             ['leaveNode', $str1Node, NodeTraverser::REMOVE_NODE],
         ]);
+        $visitor2 = new NodeVisitorForTesting();
 
-        $traverser = new NodeTraverser;
+        $traverser = new NodeTraverser();
         $traverser->addVisitor($visitor);
+        $traverser->addVisitor($visitor2);
 
-        $this->assertEquals([$str2Node], $traverser->traverse([$str1Node, $str2Node]));
+        $stmts = [$str1Node, $str2Node];
+        $this->assertEquals([$str2Node], $traverser->traverse($stmts));
+        $this->assertEquals([
+            ['beforeTraverse', $stmts],
+            ['enterNode', $str1Node],
+            ['enterNode', $str2Node],
+            ['leaveNode', $str2Node],
+            ['afterTraverse', [$str2Node]],
+        ], $visitor2->trace);
+    }
+
+    public function testRemoveFromEnter() {
+        $str1Node = new String_('Foo');
+        $str2Node = new String_('Bar');
+
+        $visitor = new NodeVisitorForTesting([
+            ['enterNode', $str1Node, NodeTraverser::REMOVE_NODE],
+        ]);
+        $visitor2 = new NodeVisitorForTesting();
+
+        $traverser = new NodeTraverser();
+        $traverser->addVisitor($visitor);
+        $traverser->addVisitor($visitor2);
+
+        $stmts = [$str1Node, $str2Node];
+        $this->assertEquals([$str2Node], $traverser->traverse($stmts));
+        $this->assertEquals([
+            ['beforeTraverse', $stmts],
+            ['enterNode', $str2Node],
+            ['leaveNode', $str2Node],
+            ['afterTraverse', [$str2Node]],
+        ], $visitor2->trace);
+    }
+
+    public function testReturnArrayFromEnter() {
+        $str1Node = new String_('Str1');
+        $str2Node = new String_('Str2');
+        $str3Node = new String_('Str3');
+        $str4Node = new String_('Str4');
+
+        $visitor = new NodeVisitorForTesting([
+            ['enterNode', $str1Node, [$str3Node, $str4Node]],
+        ]);
+        $visitor2 = new NodeVisitorForTesting();
+
+        $traverser = new NodeTraverser();
+        $traverser->addVisitor($visitor);
+        $traverser->addVisitor($visitor2);
+
+        $stmts = [$str1Node, $str2Node];
+        $this->assertEquals([$str3Node, $str4Node, $str2Node], $traverser->traverse($stmts));
+        $this->assertEquals([
+            ['beforeTraverse', $stmts],
+            ['enterNode', $str2Node],
+            ['leaveNode', $str2Node],
+            ['afterTraverse', [$str3Node, $str4Node, $str2Node]],
+        ], $visitor2->trace);
     }
 
     public function testMerge() {
@@ -87,7 +144,7 @@ class NodeTraverserTest extends \PHPUnit\Framework\TestCase
             ['leaveNode', $strMiddle, [$strR1, $strR2]],
         ]);
 
-        $traverser = new NodeTraverser;
+        $traverser = new NodeTraverser();
         $traverser->addVisitor($visitor);
 
         $this->assertEquals(
@@ -102,7 +159,7 @@ class NodeTraverserTest extends \PHPUnit\Framework\TestCase
         $strNode = new String_('Foo');
         $stmts = [[[$strNode]]];
 
-        $traverser = new NodeTraverser;
+        $traverser = new NodeTraverser();
         $this->assertEquals($stmts, $traverser->traverse($stmts));
     }
 
@@ -132,7 +189,7 @@ class NodeTraverserTest extends \PHPUnit\Framework\TestCase
             ['afterTraverse', $stmts],
         ];
 
-        $traverser = new NodeTraverser;
+        $traverser = new NodeTraverser();
         $traverser->addVisitor($visitor1);
         $traverser->addVisitor($visitor2);
 
@@ -158,7 +215,7 @@ class NodeTraverserTest extends \PHPUnit\Framework\TestCase
         ]);
         $visitor2 = new NodeVisitorForTesting();
 
-        $traverser = new NodeTraverser;
+        $traverser = new NodeTraverser();
         $traverser->addVisitor($visitor1);
         $traverser->addVisitor($visitor2);
 
@@ -195,7 +252,7 @@ class NodeTraverserTest extends \PHPUnit\Framework\TestCase
         $visitor = new NodeVisitorForTesting([
             ['enterNode', $mulNode, NodeTraverser::STOP_TRAVERSAL],
         ]);
-        $traverser = new NodeTraverser;
+        $traverser = new NodeTraverser();
         $traverser->addVisitor($visitor);
         $this->assertEquals($stmts, $traverser->traverse($stmts));
         $this->assertEquals([
@@ -208,7 +265,7 @@ class NodeTraverserTest extends \PHPUnit\Framework\TestCase
         $visitor = new NodeVisitorForTesting([
             ['enterNode', $varNode1, NodeTraverser::STOP_TRAVERSAL],
         ]);
-        $traverser = new NodeTraverser;
+        $traverser = new NodeTraverser();
         $traverser->addVisitor($visitor);
         $this->assertEquals($stmts, $traverser->traverse($stmts));
         $this->assertEquals([
@@ -222,7 +279,7 @@ class NodeTraverserTest extends \PHPUnit\Framework\TestCase
         $visitor = new NodeVisitorForTesting([
             ['leaveNode', $varNode1, NodeTraverser::STOP_TRAVERSAL],
         ]);
-        $traverser = new NodeTraverser;
+        $traverser = new NodeTraverser();
         $traverser->addVisitor($visitor);
         $this->assertEquals($stmts, $traverser->traverse($stmts));
         $this->assertEquals([
@@ -237,7 +294,7 @@ class NodeTraverserTest extends \PHPUnit\Framework\TestCase
         $visitor = new NodeVisitorForTesting([
             ['leaveNode', $mulNode, NodeTraverser::STOP_TRAVERSAL],
         ]);
-        $traverser = new NodeTraverser;
+        $traverser = new NodeTraverser();
         $traverser->addVisitor($visitor);
         $this->assertEquals($stmts, $traverser->traverse($stmts));
         $this->assertEquals([
@@ -256,7 +313,7 @@ class NodeTraverserTest extends \PHPUnit\Framework\TestCase
             ['leaveNode', $mulNode, NodeTraverser::REMOVE_NODE],
             ['enterNode', $printNode, NodeTraverser::STOP_TRAVERSAL],
         ]);
-        $traverser = new NodeTraverser;
+        $traverser = new NodeTraverser();
         $traverser->addVisitor($visitor);
         $this->assertEquals([$printNode], $traverser->traverse($stmts));
         $this->assertEquals([
@@ -273,11 +330,11 @@ class NodeTraverserTest extends \PHPUnit\Framework\TestCase
     }
 
     public function testRemovingVisitor() {
-        $visitor1 = new class extends NodeVisitorAbstract {};
-        $visitor2 = new class extends NodeVisitorAbstract {};
-        $visitor3 = new class extends NodeVisitorAbstract {};
+        $visitor1 = new class () extends NodeVisitorAbstract {};
+        $visitor2 = new class () extends NodeVisitorAbstract {};
+        $visitor3 = new class () extends NodeVisitorAbstract {};
 
-        $traverser = new NodeTraverser;
+        $traverser = new NodeTraverser();
         $traverser->addVisitor($visitor1);
         $traverser->addVisitor($visitor2);
         $traverser->addVisitor($visitor3);
@@ -298,7 +355,7 @@ class NodeTraverserTest extends \PHPUnit\Framework\TestCase
     public function testNoCloneNodes() {
         $stmts = [new Node\Stmt\Echo_([new String_('Foo'), new String_('Bar')])];
 
-        $traverser = new NodeTraverser;
+        $traverser = new NodeTraverser();
 
         $this->assertSame($stmts, $traverser->traverse($stmts));
     }
@@ -316,7 +373,7 @@ class NodeTraverserTest extends \PHPUnit\Framework\TestCase
     }
 
     public function provideTestInvalidReturn() {
-        $num = new Node\Scalar\LNumber(42);
+        $num = new Node\Scalar\Int_(42);
         $expr = new Node\Stmt\Expression($num);
         $stmts = [$expr];
 
@@ -333,13 +390,13 @@ class NodeTraverserTest extends \PHPUnit\Framework\TestCase
             ['leaveNode', $expr, 'foobar'],
         ]);
         $visitor5 = new NodeVisitorForTesting([
-            ['leaveNode', $num, [new Node\Scalar\DNumber(42.0)]],
+            ['leaveNode', $num, [new Node\Scalar\Float_(42.0)]],
         ]);
         $visitor6 = new NodeVisitorForTesting([
             ['leaveNode', $expr, false],
         ]);
         $visitor7 = new NodeVisitorForTesting([
-            ['enterNode', $expr, new Node\Scalar\LNumber(42)],
+            ['enterNode', $expr, new Node\Scalar\Int_(42)],
         ]);
         $visitor8 = new NodeVisitorForTesting([
             ['enterNode', $num, new Node\Stmt\Return_()],
@@ -352,8 +409,8 @@ class NodeTraverserTest extends \PHPUnit\Framework\TestCase
             [$stmts, $visitor4, 'leaveNode() returned invalid value of type string'],
             [$stmts, $visitor5, 'leaveNode() may only return an array if the parent structure is an array'],
             [$stmts, $visitor6, 'bool(false) return from leaveNode() no longer supported. Return NodeTraverser::REMOVE_NODE instead'],
-            [$stmts, $visitor7, 'Trying to replace statement (Stmt_Expression) with expression (Scalar_LNumber). Are you missing a Stmt_Expression wrapper?'],
-            [$stmts, $visitor8, 'Trying to replace expression (Scalar_LNumber) with statement (Stmt_Return)'],
+            [$stmts, $visitor7, 'Trying to replace statement (Stmt_Expression) with expression (Scalar_Int). Are you missing a Stmt_Expression wrapper?'],
+            [$stmts, $visitor8, 'Trying to replace expression (Scalar_Int) with statement (Stmt_Return)'],
         ];
     }
 }

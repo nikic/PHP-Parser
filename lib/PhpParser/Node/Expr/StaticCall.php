@@ -8,8 +8,7 @@ use PhpParser\Node\Expr;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\VariadicPlaceholder;
 
-class StaticCall extends CallLike
-{
+class StaticCall extends CallLike {
     /** @var Node\Name|Expr Class name */
     public $class;
     /** @var Identifier|Expr Method name */
@@ -32,11 +31,11 @@ class StaticCall extends CallLike
         $this->args = $args;
     }
 
-    public function getSubNodeNames() : array {
+    public function getSubNodeNames(): array {
         return ['class', 'name', 'args'];
     }
-    
-    public function getType() : string {
+
+    public function getType(): string {
         return 'Expr_StaticCall';
     }
 

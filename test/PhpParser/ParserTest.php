@@ -7,8 +7,7 @@ use PhpParser\Node\Scalar;
 use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt;
 
-abstract class ParserTest extends \PHPUnit\Framework\TestCase
-{
+abstract class ParserTest extends \PHPUnit\Framework\TestCase {
     /** @returns Parser */
     abstract protected function getParser(Lexer $lexer);
 
@@ -108,7 +107,7 @@ EOC;
     public function testInvalidToken() {
         $this->expectException(\RangeException::class);
         $this->expectExceptionMessage('The lexer returned an invalid token (id=999, value=foobar)');
-        $lexer = new InvalidTokenLexer;
+        $lexer = new InvalidTokenLexer();
         $parser = $this->getParser($lexer);
         $parser->parse('dummy');
     }
@@ -117,7 +116,7 @@ EOC;
      * @dataProvider provideTestExtraAttributes
      */
     public function testExtraAttributes($code, $expectedAttributes) {
-        $parser = $this->getParser(new Lexer\Emulative);
+        $parser = $this->getParser(new Lexer\Emulative());
         $stmts = $parser->parse("<?php $code;");
         $node = $stmts[0] instanceof Stmt\Expression ? $stmts[0]->expr : $stmts[0];
         $attributes = $node->getAttributes();
@@ -128,15 +127,15 @@ EOC;
 
     public function provideTestExtraAttributes() {
         return [
-            ['0', ['kind' => Scalar\LNumber::KIND_DEC]],
-            ['9', ['kind' => Scalar\LNumber::KIND_DEC]],
-            ['07', ['kind' => Scalar\LNumber::KIND_OCT]],
-            ['0xf', ['kind' => Scalar\LNumber::KIND_HEX]],
-            ['0XF', ['kind' => Scalar\LNumber::KIND_HEX]],
-            ['0b1', ['kind' => Scalar\LNumber::KIND_BIN]],
-            ['0B1', ['kind' => Scalar\LNumber::KIND_BIN]],
-            ['0o7', ['kind' => Scalar\LNumber::KIND_OCT]],
-            ['0O7', ['kind' => Scalar\LNumber::KIND_OCT]],
+            ['0', ['kind' => Scalar\Int_::KIND_DEC]],
+            ['9', ['kind' => Scalar\Int_::KIND_DEC]],
+            ['07', ['kind' => Scalar\Int_::KIND_OCT]],
+            ['0xf', ['kind' => Scalar\Int_::KIND_HEX]],
+            ['0XF', ['kind' => Scalar\Int_::KIND_HEX]],
+            ['0b1', ['kind' => Scalar\Int_::KIND_BIN]],
+            ['0B1', ['kind' => Scalar\Int_::KIND_BIN]],
+            ['0o7', ['kind' => Scalar\Int_::KIND_OCT]],
+            ['0O7', ['kind' => Scalar\Int_::KIND_OCT]],
             ['[]', ['kind' => Expr\Array_::KIND_SHORT]],
             ['array()', ['kind' => Expr\Array_::KIND_LONG]],
             ["'foo'", ['kind' => String_::KIND_SINGLE_QUOTED]],
@@ -177,11 +176,25 @@ EOC;
             [" (  REAL )  5.0", ['kind' => Expr\Cast\Double::KIND_REAL]],
         ];
     }
+
+    public function testListKindAttribute() {
+        $parser = $this->getParser(new Lexer\Emulative());
+        $stmts = $parser->parse('<?php list(list($x)) = $y; [[$x]] = $y;');
+        $this->assertSame($stmts[0]->expr->var->getAttribute('kind'), Expr\List_::KIND_LIST);
+        $this->assertSame($stmts[0]->expr->var->items[0]->value->getAttribute('kind'), Expr\List_::KIND_LIST);
+        $this->assertSame($stmts[1]->expr->var->getAttribute('kind'), Expr\List_::KIND_ARRAY);
+        $this->assertSame($stmts[1]->expr->var->items[0]->value->getAttribute('kind'), Expr\List_::KIND_ARRAY);
+    }
+
+    public function testGetLexer() {
+        $lexer = new Lexer();
+        $parser = $this->getParser($lexer);
+        $this->assertSame($lexer, $parser->getLexer());
+    }
 }
 
-class InvalidTokenLexer extends Lexer
-{
-    public function getNextToken(&$value = null, &$startAttributes = null, &$endAttributes = null) : int {
+class InvalidTokenLexer extends Lexer {
+    public function getNextToken(&$value = null, &$startAttributes = null, &$endAttributes = null): int {
         $value = 'foobar';
         return 999;
     }

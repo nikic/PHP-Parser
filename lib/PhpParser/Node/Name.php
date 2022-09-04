@@ -4,8 +4,7 @@ namespace PhpParser\Node;
 
 use PhpParser\NodeAbstract;
 
-class Name extends NodeAbstract
-{
+class Name extends NodeAbstract {
     /** @var string[] Parts of the name */
     public $parts;
 
@@ -26,7 +25,7 @@ class Name extends NodeAbstract
         $this->parts = self::prepareName($name);
     }
 
-    public function getSubNodeNames() : array {
+    public function getSubNodeNames(): array {
         return ['parts'];
     }
 
@@ -35,7 +34,7 @@ class Name extends NodeAbstract
      *
      * @return string First part of the name
      */
-    public function getFirst() : string {
+    public function getFirst(): string {
         return $this->parts[0];
     }
 
@@ -44,7 +43,7 @@ class Name extends NodeAbstract
      *
      * @return string Last part of the name
      */
-    public function getLast() : string {
+    public function getLast(): string {
         return $this->parts[count($this->parts) - 1];
     }
 
@@ -53,7 +52,7 @@ class Name extends NodeAbstract
      *
      * @return bool Whether the name is unqualified
      */
-    public function isUnqualified() : bool {
+    public function isUnqualified(): bool {
         return 1 === count($this->parts);
     }
 
@@ -62,7 +61,7 @@ class Name extends NodeAbstract
      *
      * @return bool Whether the name is qualified
      */
-    public function isQualified() : bool {
+    public function isQualified(): bool {
         return 1 < count($this->parts);
     }
 
@@ -71,7 +70,7 @@ class Name extends NodeAbstract
      *
      * @return bool Whether the name is fully qualified
      */
-    public function isFullyQualified() : bool {
+    public function isFullyQualified(): bool {
         return false;
     }
 
@@ -80,7 +79,7 @@ class Name extends NodeAbstract
      *
      * @return bool Whether the name is relative
      */
-    public function isRelative() : bool {
+    public function isRelative(): bool {
         return false;
     }
 
@@ -90,7 +89,7 @@ class Name extends NodeAbstract
      *
      * @return string String representation
      */
-    public function toString() : string {
+    public function toString(): string {
         return implode('\\', $this->parts);
     }
 
@@ -100,7 +99,7 @@ class Name extends NodeAbstract
      *
      * @return string String representation
      */
-    public function toCodeString() : string {
+    public function toCodeString(): string {
         return $this->toString();
     }
 
@@ -110,7 +109,7 @@ class Name extends NodeAbstract
      *
      * @return string Lowercased string representation
      */
-    public function toLowerString() : string {
+    public function toLowerString(): string {
         return strtolower(implode('\\', $this->parts));
     }
 
@@ -119,7 +118,7 @@ class Name extends NodeAbstract
      *
      * @return bool Whether identifier is a special class name
      */
-    public function isSpecialClassName() : bool {
+    public function isSpecialClassName(): bool {
         return count($this->parts) === 1
             && isset(self::$specialClassNames[strtolower($this->parts[0])]);
     }
@@ -130,7 +129,7 @@ class Name extends NodeAbstract
      *
      * @return string String representation
      */
-    public function __toString() : string {
+    public function __toString(): string {
         return implode('\\', $this->parts);
     }
 
@@ -150,7 +149,7 @@ class Name extends NodeAbstract
      *
      * @return static|null Sliced name
      */
-    public function slice(int $offset, int $length = null) {
+    public function slice(int $offset, ?int $length = null) {
         $numParts = count($this->parts);
 
         $realOffset = $offset < 0 ? $offset + $numParts : $offset;
@@ -162,7 +161,7 @@ class Name extends NodeAbstract
             $realLength = $numParts - $realOffset;
         } else {
             $realLength = $length < 0 ? $length + $numParts - $realOffset : $length;
-            if ($realLength < 0 || $realLength > $numParts) {
+            if ($realLength < 0 || $realLength > $numParts - $realOffset) {
                 throw new \OutOfBoundsException(sprintf('Length %d is out of bounds', $length));
             }
         }
@@ -195,9 +194,11 @@ class Name extends NodeAbstract
     public static function concat($name1, $name2, array $attributes = []) {
         if (null === $name1 && null === $name2) {
             return null;
-        } elseif (null === $name1) {
+        }
+        if (null === $name1) {
             return new static(self::prepareName($name2), $attributes);
-        } elseif (null === $name2) {
+        }
+        if (null === $name2) {
             return new static(self::prepareName($name1), $attributes);
         } else {
             return new static(
@@ -214,20 +215,22 @@ class Name extends NodeAbstract
      *
      * @return string[] Prepared name
      */
-    private static function prepareName($name) : array {
+    private static function prepareName($name): array {
         if (\is_string($name)) {
             if ('' === $name) {
                 throw new \InvalidArgumentException('Name cannot be empty');
             }
 
             return explode('\\', $name);
-        } elseif (\is_array($name)) {
+        }
+        if (\is_array($name)) {
             if (empty($name)) {
                 throw new \InvalidArgumentException('Name cannot be empty');
             }
 
             return $name;
-        } elseif ($name instanceof self) {
+        }
+        if ($name instanceof self) {
             return $name->parts;
         }
 
@@ -236,7 +239,7 @@ class Name extends NodeAbstract
         );
     }
 
-    public function getType() : string {
+    public function getType(): string {
         return 'Name';
     }
 }

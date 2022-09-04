@@ -10,7 +10,6 @@ A::$$b;
 A::$$c[1];
 A::$A::$b;
 -----
-!!php7
 array(
     0: Stmt_Expression(
         expr: Expr_StaticPropertyFetch(
@@ -65,7 +64,7 @@ array(
                 var: Scalar_String(
                     value: A
                 )
-                dim: Scalar_LNumber(
+                dim: Scalar_Int(
                     value: 0
                 )
             )
@@ -98,7 +97,7 @@ array(
                     name: c
                 )
             )
-            dim: Scalar_LNumber(
+            dim: Scalar_Int(
                 value: 1
             )
         )

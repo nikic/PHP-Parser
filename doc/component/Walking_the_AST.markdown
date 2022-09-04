@@ -11,7 +11,7 @@ use PhpParser\{Node, NodeTraverser, NodeVisitorAbstract};
 $traverser = new NodeTraverser;
 $traverser->addVisitor(new class extends NodeVisitorAbstract {
     public function leaveNode(Node $node) {
-        if ($node instanceof Node\Scalar\LNumber) {
+        if ($node instanceof Node\Scalar\Int_) {
             return new Node\Scalar\String_((string) $node->value);
         }
     }

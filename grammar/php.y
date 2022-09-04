@@ -1,7 +1,127 @@
 %pure_parser
 %expect 8
 
-%tokens
+%right T_THROW
+%left T_INCLUDE T_INCLUDE_ONCE T_EVAL T_REQUIRE T_REQUIRE_ONCE
+%left ','
+%left T_LOGICAL_OR
+%left T_LOGICAL_XOR
+%left T_LOGICAL_AND
+%right T_PRINT
+%right T_YIELD
+%right T_DOUBLE_ARROW
+%right T_YIELD_FROM
+%left '=' T_PLUS_EQUAL T_MINUS_EQUAL T_MUL_EQUAL T_DIV_EQUAL T_CONCAT_EQUAL T_MOD_EQUAL T_AND_EQUAL T_OR_EQUAL T_XOR_EQUAL T_SL_EQUAL T_SR_EQUAL T_POW_EQUAL T_COALESCE_EQUAL
+%left '?' ':'
+%right T_COALESCE
+%left T_BOOLEAN_OR
+%left T_BOOLEAN_AND
+%left '|'
+%left '^'
+%left T_AMPERSAND_NOT_FOLLOWED_BY_VAR_OR_VARARG T_AMPERSAND_FOLLOWED_BY_VAR_OR_VARARG
+%nonassoc T_IS_EQUAL T_IS_NOT_EQUAL T_IS_IDENTICAL T_IS_NOT_IDENTICAL T_SPACESHIP
+%nonassoc '<' T_IS_SMALLER_OR_EQUAL '>' T_IS_GREATER_OR_EQUAL
+#if PHP7
+%left T_SL T_SR
+%left '+' '-' '.'
+#endif
+#if PHP8
+%left '.'
+%left T_SL T_SR
+%left '+' '-'
+#endif
+%left '*' '/' '%'
+%right '!'
+%nonassoc T_INSTANCEOF
+%right '~' T_INC T_DEC T_INT_CAST T_DOUBLE_CAST T_STRING_CAST T_ARRAY_CAST T_OBJECT_CAST T_BOOL_CAST T_UNSET_CAST '@'
+%right T_POW
+%right '['
+%nonassoc T_NEW T_CLONE
+%token T_EXIT
+%token T_IF
+%left T_ELSEIF
+%left T_ELSE
+%left T_ENDIF
+%token T_LNUMBER
+%token T_DNUMBER
+%token T_STRING
+%token T_STRING_VARNAME
+%token T_VARIABLE
+%token T_NUM_STRING
+%token T_INLINE_HTML
+%token T_ENCAPSED_AND_WHITESPACE
+%token T_CONSTANT_ENCAPSED_STRING
+%token T_ECHO
+%token T_DO
+%token T_WHILE
+%token T_ENDWHILE
+%token T_FOR
+%token T_ENDFOR
+%token T_FOREACH
+%token T_ENDFOREACH
+%token T_DECLARE
+%token T_ENDDECLARE
+%token T_AS
+%token T_SWITCH
+%token T_MATCH
+%token T_ENDSWITCH
+%token T_CASE
+%token T_DEFAULT
+%token T_BREAK
+%token T_CONTINUE
+%token T_GOTO
+%token T_FUNCTION
+%token T_FN
+%token T_CONST
+%token T_RETURN
+%token T_TRY
+%token T_CATCH
+%token T_FINALLY
+%token T_THROW
+%token T_USE
+%token T_INSTEADOF
+%token T_GLOBAL
+%right T_STATIC T_ABSTRACT T_FINAL T_PRIVATE T_PROTECTED T_PUBLIC T_READONLY
+%token T_VAR
+%token T_UNSET
+%token T_ISSET
+%token T_EMPTY
+%token T_HALT_COMPILER
+%token T_CLASS
+%token T_TRAIT
+%token T_INTERFACE
+%token T_ENUM
+%token T_EXTENDS
+%token T_IMPLEMENTS
+%token T_OBJECT_OPERATOR
+%token T_NULLSAFE_OBJECT_OPERATOR
+%token T_DOUBLE_ARROW
+%token T_LIST
+%token T_ARRAY
+%token T_CALLABLE
+%token T_CLASS_C
+%token T_TRAIT_C
+%token T_METHOD_C
+%token T_FUNC_C
+%token T_LINE
+%token T_FILE
+%token T_START_HEREDOC
+%token T_END_HEREDOC
+%token T_DOLLAR_OPEN_CURLY_BRACES
+%token T_CURLY_OPEN
+%token T_PAAMAYIM_NEKUDOTAYIM
+%token T_NAMESPACE
+%token T_NS_C
+%token T_DIR
+%token T_NS_SEPARATOR
+%token T_ELLIPSIS
+%token T_NAME_FULLY_QUALIFIED
+%token T_NAME_QUALIFIED
+%token T_NAME_RELATIVE
+%token T_ATTRIBUTE
+%token T_ENUM
+%token T_GENERIC_PARAMETER_COVARIANT
+%token T_GENERIC_PARAMETER_CONTRAVARIANT
 
 %%
 
@@ -117,7 +237,7 @@ top_statement:
       statement                                             { $$ = $1; }
     | function_declaration_statement                        { $$ = $1; }
     | class_declaration_statement                           { $$ = $1; }
-    | T_HALT_COMPILER
+    | T_HALT_COMPILER '(' ')' ';'
           { $$ = Stmt\HaltCompiler[$this->lexer->handleHaltCompiler()]; }
     | T_NAMESPACE namespace_declaration_name semi
           { $$ = Stmt\Namespace_[$2, null];
@@ -180,16 +300,16 @@ non_empty_inline_use_declarations:
 
 unprefixed_use_declaration:
       namespace_name
-          { $$ = Stmt\UseUse[$1, null, Stmt\Use_::TYPE_UNKNOWN]; $this->checkUseUse($$, #1); }
+          { $$ = Node\UseItem[$1, null, Stmt\Use_::TYPE_UNKNOWN]; $this->checkUseUse($$, #1); }
     | namespace_name T_AS identifier_not_reserved
-          { $$ = Stmt\UseUse[$1, $3, Stmt\Use_::TYPE_UNKNOWN]; $this->checkUseUse($$, #3); }
+          { $$ = Node\UseItem[$1, $3, Stmt\Use_::TYPE_UNKNOWN]; $this->checkUseUse($$, #3); }
 ;
 
 use_declaration:
       legacy_namespace_name
-          { $$ = Stmt\UseUse[$1, null, Stmt\Use_::TYPE_UNKNOWN]; $this->checkUseUse($$, #1); }
+          { $$ = Node\UseItem[$1, null, Stmt\Use_::TYPE_UNKNOWN]; $this->checkUseUse($$, #1); }
     | legacy_namespace_name T_AS identifier_not_reserved
-          { $$ = Stmt\UseUse[$1, $3, Stmt\Use_::TYPE_UNKNOWN]; $this->checkUseUse($$, #3); }
+          { $$ = Node\UseItem[$1, $3, Stmt\Use_::TYPE_UNKNOWN]; $this->checkUseUse($$, #3); }
 ;
 
 inline_use_declaration:
@@ -414,9 +534,9 @@ class_modifiers:
 ;
 
 class_modifier:
-      T_ABSTRACT                                            { $$ = Stmt\Class_::MODIFIER_ABSTRACT; }
-    | T_FINAL                                               { $$ = Stmt\Class_::MODIFIER_FINAL; }
-    | T_READONLY                                            { $$ = Stmt\Class_::MODIFIER_READONLY; }
+      T_ABSTRACT                                            { $$ = Modifiers::ABSTRACT; }
+    | T_FINAL                                               { $$ = Modifiers::FINAL; }
+    | T_READONLY                                            { $$ = Modifiers::READONLY; }
 ;
 
 extends_from:
@@ -469,7 +589,7 @@ non_empty_declare_list:
 ;
 
 declare_list_element:
-      identifier_not_reserved '=' expr                      { $$ = Stmt\DeclareDeclare[$1, $3]; }
+      identifier_not_reserved '=' expr                      { $$ = Node\DeclareItem[$1, $3]; }
 ;
 
 switch_case_list:
@@ -550,7 +670,8 @@ foreach_variable:
       variable                                              { $$ = array($1, false); }
     | ampersand variable                                    { $$ = array($2, true); }
     | list_expr                                             { $$ = array($1, false); }
-    | array_short_syntax                                    { $$ = array($1, false); }
+    | array_short_syntax
+          { $$ = array($this->fixupArrayDestructuring($1), false); }
 ;
 
 parameter_list:
@@ -570,10 +691,10 @@ optional_property_modifiers:
 ;
 
 property_modifier:
-      T_PUBLIC                  { $$ = Stmt\Class_::MODIFIER_PUBLIC; }
-    | T_PROTECTED               { $$ = Stmt\Class_::MODIFIER_PROTECTED; }
-    | T_PRIVATE                 { $$ = Stmt\Class_::MODIFIER_PRIVATE; }
-    | T_READONLY                { $$ = Stmt\Class_::MODIFIER_READONLY; }
+      T_PUBLIC                  { $$ = Modifiers::PUBLIC; }
+    | T_PROTECTED               { $$ = Modifiers::PROTECTED; }
+    | T_PRIVATE                 { $$ = Modifiers::PRIVATE; }
+    | T_READONLY                { $$ = Modifiers::READONLY; }
 ;
 
 parameter:
@@ -594,7 +715,7 @@ type_expr:
       type                                                  { $$ = $1; }
     | '?' type                                              { $$ = Node\NullableType[$2]; }
     | union_type                                            { $$ = Node\UnionType[$1]; }
-    | intersection_type                                     { $$ = Node\IntersectionType[$1]; }
+    | intersection_type                                     { $$ = $1; }
 ;
 
 type:
@@ -608,34 +729,52 @@ type_without_static:
     | T_CALLABLE                                            { $$ = Node\Identifier['callable']; }
 ;
 
+union_type_element:
+                type { $$ = $1; }
+        |        '(' intersection_type ')' { $$ = $2; }
+;
+
 union_type:
-      type '|' type                                         { init($1, $3); }
-    | union_type '|' type                                   { push($1, $3); }
+      union_type_element '|' union_type_element             { init($1, $3); }
+    | union_type '|' union_type_element                     { push($1, $3); }
+;
+
+union_type_without_static_element:
+                type_without_static { $$ = $1; }
+        |        '(' intersection_type_without_static ')' { $$ = $2; }
 ;
 
 union_type_without_static:
-      type_without_static '|' type_without_static           { init($1, $3); }
-    | union_type_without_static '|' type_without_static     { push($1, $3); }
+      union_type_without_static_element '|' union_type_without_static_element   { init($1, $3); }
+    | union_type_without_static '|' union_type_without_static_element           { push($1, $3); }
+;
+
+intersection_type_list:
+      type T_AMPERSAND_NOT_FOLLOWED_BY_VAR_OR_VARARG type   { init($1, $3); }
+    | intersection_type_list T_AMPERSAND_NOT_FOLLOWED_BY_VAR_OR_VARARG type
+          { push($1, $3); }
 ;
 
 intersection_type:
-      type T_AMPERSAND_NOT_FOLLOWED_BY_VAR_OR_VARARG type   { init($1, $3); }
-    | intersection_type T_AMPERSAND_NOT_FOLLOWED_BY_VAR_OR_VARARG type
+      intersection_type_list { $$ = Node\IntersectionType[$1]; }
+;
+
+intersection_type_without_static_list:
+      type_without_static T_AMPERSAND_NOT_FOLLOWED_BY_VAR_OR_VARARG type_without_static
+          { init($1, $3); }
+    | intersection_type_without_static_list T_AMPERSAND_NOT_FOLLOWED_BY_VAR_OR_VARARG type_without_static
           { push($1, $3); }
 ;
 
 intersection_type_without_static:
-      type_without_static T_AMPERSAND_NOT_FOLLOWED_BY_VAR_OR_VARARG type_without_static
-          { init($1, $3); }
-    | intersection_type_without_static T_AMPERSAND_NOT_FOLLOWED_BY_VAR_OR_VARARG type_without_static
-          { push($1, $3); }
+      intersection_type_without_static_list { $$ = Node\IntersectionType[$1]; }
 ;
 
 type_expr_without_static:
       type_without_static                                   { $$ = $1; }
     | '?' type_without_static                               { $$ = Node\NullableType[$2]; }
     | union_type_without_static                             { $$ = Node\UnionType[$1]; }
-    | intersection_type_without_static                      { $$ = Node\IntersectionType[$1]; }
+    | intersection_type_without_static                      { $$ = $1; }
 ;
 
 optional_type_without_static:
@@ -695,8 +834,8 @@ non_empty_static_var_list:
 ;
 
 static_var:
-      plain_variable                                        { $$ = Stmt\StaticVar[$1, null]; }
-    | plain_variable '=' expr                               { $$ = Stmt\StaticVar[$1, $3]; }
+      plain_variable                                        { $$ = Node\StaticVar[$1, null]; }
+    | plain_variable '=' expr                               { $$ = Node\StaticVar[$1, $3]; }
 ;
 
 class_statement_list_ex:
@@ -779,13 +918,13 @@ non_empty_member_modifiers:
 ;
 
 member_modifier:
-      T_PUBLIC                                              { $$ = Stmt\Class_::MODIFIER_PUBLIC; }
-    | T_PROTECTED                                           { $$ = Stmt\Class_::MODIFIER_PROTECTED; }
-    | T_PRIVATE                                             { $$ = Stmt\Class_::MODIFIER_PRIVATE; }
-    | T_STATIC                                              { $$ = Stmt\Class_::MODIFIER_STATIC; }
-    | T_ABSTRACT                                            { $$ = Stmt\Class_::MODIFIER_ABSTRACT; }
-    | T_FINAL                                               { $$ = Stmt\Class_::MODIFIER_FINAL; }
-    | T_READONLY                                            { $$ = Stmt\Class_::MODIFIER_READONLY; }
+      T_PUBLIC                                              { $$ = Modifiers::PUBLIC; }
+    | T_PROTECTED                                           { $$ = Modifiers::PROTECTED; }
+    | T_PRIVATE                                             { $$ = Modifiers::PRIVATE; }
+    | T_STATIC                                              { $$ = Modifiers::STATIC; }
+    | T_ABSTRACT                                            { $$ = Modifiers::ABSTRACT; }
+    | T_FINAL                                               { $$ = Modifiers::FINAL; }
+    | T_READONLY                                            { $$ = Modifiers::READONLY; }
 ;
 
 property_declaration_list:
@@ -803,8 +942,8 @@ property_decl_name:
 ;
 
 property_declaration:
-      property_decl_name                                    { $$ = Stmt\PropertyProperty[$1, null]; }
-    | property_decl_name '=' expr                           { $$ = Stmt\PropertyProperty[$1, $3]; }
+      property_decl_name                                    { $$ = Node\PropertyItem[$1, null]; }
+    | property_decl_name '=' expr                           { $$ = Node\PropertyItem[$1, $3]; }
 ;
 
 expr_list_forbid_comma:
@@ -828,9 +967,16 @@ for_expr:
 expr:
       variable                                              { $$ = $1; }
     | list_expr '=' expr                                    { $$ = Expr\Assign[$1, $3]; }
-    | array_short_syntax '=' expr                           { $$ = Expr\Assign[$1, $3]; }
+    | array_short_syntax '=' expr
+          { $$ = Expr\Assign[$this->fixupArrayDestructuring($1), $3]; }
     | variable '=' expr                                     { $$ = Expr\Assign[$1, $3]; }
     | variable '=' ampersand variable                       { $$ = Expr\AssignRef[$1, $4]; }
+    | variable '=' ampersand new_expr
+          { $$ = Expr\AssignRef[$1, $4];
+            if (!$this->phpVersion->allowsAssignNewByReference()) {
+                $this->emitError(new Error('Cannot assign new by reference', attributes()));
+            }
+          }
     | new_expr                                              { $$ = $1; }
     | match                                                 { $$ = $1; }
     | T_CLONE expr                                          { $$ = Expr\Clone_[$2]; }
@@ -1006,7 +1152,7 @@ exit_expr:
 backticks_expr:
       /* empty */                                           { $$ = array(); }
     | T_ENCAPSED_AND_WHITESPACE
-          { $$ = array(Scalar\EncapsedStringPart[Scalar\String_::parseEscapeSequences($1, '`')]); }
+          { $$ = array(Node\InterpolatedStringPart[Scalar\String_::parseEscapeSequences($1, '`')]); }
     | encaps_list                                           { parseEncapsed($1, '`', true); $$ = $1; }
 ;
 
@@ -1045,17 +1191,19 @@ array_short_syntax:
 dereferencable_scalar:
       T_ARRAY '(' array_pair_list ')'
           { $attrs = attributes(); $attrs['kind'] = Expr\Array_::KIND_LONG;
-            $$ = new Expr\Array_($3, $attrs); }
-    | array_short_syntax                                    { $$ = $1; }
+            $$ = new Expr\Array_($3, $attrs);
+            $this->createdArrays->attach($$); }
+    | array_short_syntax                                    { $$ = $1; $this->createdArrays->attach($$); }
     | T_CONSTANT_ENCAPSED_STRING                            { $$ = Scalar\String_::fromString($1, attributes()); }
     | '"' encaps_list '"'
           { $attrs = attributes(); $attrs['kind'] = Scalar\String_::KIND_DOUBLE_QUOTED;
-            parseEncapsed($2, '"', true); $$ = new Scalar\Encapsed($2, $attrs); }
+            parseEncapsed($2, '"', true); $$ = new Scalar\InterpolatedString($2, $attrs); }
 ;
 
 scalar:
-      T_LNUMBER                                             { $$ = $this->parseLNumber($1, attributes()); }
-    | T_DNUMBER                                             { $$ = Scalar\DNumber::fromString($1, attributes()); }
+      T_LNUMBER
+          { $$ = $this->parseLNumber($1, attributes(), $this->phpVersion->allowsInvalidOctals()); }
+    | T_DNUMBER                                             { $$ = Scalar\Float_::fromString($1, attributes()); }
     | dereferencable_scalar                                 { $$ = $1; }
     | constant                                              { $$ = $1; }
     | class_constant                                        { $$ = $1; }
@@ -1158,12 +1306,14 @@ property_name:
 ;
 
 list_expr:
-      T_LIST '(' inner_array_pair_list ')'                  { $$ = Expr\List_[$3]; }
+      T_LIST '(' inner_array_pair_list ')'
+          { $$ = Expr\List_[$3]; $$->setAttribute('kind', Expr\List_::KIND_LIST);
+            $this->postprocessList($$); }
 ;
 
 array_pair_list:
       inner_array_pair_list
-          { $$ = $1; $end = count($$)-1; if ($$[$end] === null) array_pop($$); }
+          { $$ = $1; $end = count($$)-1; if ($$[$end]->value instanceof Expr\Error) array_pop($$); }
 ;
 
 comma_or_error:
@@ -1178,14 +1328,18 @@ inner_array_pair_list:
 ;
 
 array_pair:
-      expr                                                  { $$ = Expr\ArrayItem[$1, null, false]; }
-    | ampersand variable                                    { $$ = Expr\ArrayItem[$2, null, true]; }
-    | list_expr                                             { $$ = Expr\ArrayItem[$1, null, false]; }
-    | expr T_DOUBLE_ARROW expr                              { $$ = Expr\ArrayItem[$3, $1,   false]; }
-    | expr T_DOUBLE_ARROW ampersand variable                { $$ = Expr\ArrayItem[$4, $1,   true]; }
-    | expr T_DOUBLE_ARROW list_expr                         { $$ = Expr\ArrayItem[$3, $1,   false]; }
-    | T_ELLIPSIS expr                                       { $$ = Expr\ArrayItem[$2, null, false, attributes(), true]; }
-    | /* empty */                                           { $$ = null; }
+      expr                                                  { $$ = Node\ArrayItem[$1, null, false]; }
+    | ampersand variable                                    { $$ = Node\ArrayItem[$2, null, true]; }
+    | list_expr                                             { $$ = Node\ArrayItem[$1, null, false]; }
+    | expr T_DOUBLE_ARROW expr                              { $$ = Node\ArrayItem[$3, $1,   false]; }
+    | expr T_DOUBLE_ARROW ampersand variable                { $$ = Node\ArrayItem[$4, $1,   true]; }
+    | expr T_DOUBLE_ARROW list_expr                         { $$ = Node\ArrayItem[$3, $1,   false]; }
+    | T_ELLIPSIS expr                                       { $$ = Node\ArrayItem[$2, null, false, attributes(), true]; }
+    | /* empty */
+        { /* Create an Error node now to remember the position. We'll later either report an error,
+             or convert this into a null element, depending on whether this is a creation or destructuring context. */
+          $attrs = $this->createEmptyElemAttributes($this->lookaheadStartAttributes);
+          $$ = new Node\ArrayItem(new Expr\Error($attrs), null, false, $attrs); }
 ;
 
 encaps_list:
@@ -1196,7 +1350,7 @@ encaps_list:
 ;
 
 encaps_string_part:
-      T_ENCAPSED_AND_WHITESPACE                             { $$ = Scalar\EncapsedStringPart[$1]; }
+      T_ENCAPSED_AND_WHITESPACE                             { $$ = Node\InterpolatedStringPart[$1]; }
 ;
 
 encaps_str_varname:

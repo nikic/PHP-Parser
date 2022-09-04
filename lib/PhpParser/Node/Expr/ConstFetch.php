@@ -5,8 +5,7 @@ namespace PhpParser\Node\Expr;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Name;
 
-class ConstFetch extends Expr
-{
+class ConstFetch extends Expr {
     /** @var Name Constant name */
     public $name;
 
@@ -21,11 +20,11 @@ class ConstFetch extends Expr
         $this->name = $name;
     }
 
-    public function getSubNodeNames() : array {
+    public function getSubNodeNames(): array {
         return ['name'];
     }
-    
-    public function getType() : string {
+
+    public function getType(): string {
         return 'Expr_ConstFetch';
     }
 }

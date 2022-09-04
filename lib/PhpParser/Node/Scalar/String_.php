@@ -5,13 +5,12 @@ namespace PhpParser\Node\Scalar;
 use PhpParser\Error;
 use PhpParser\Node\Scalar;
 
-class String_ extends Scalar
-{
+class String_ extends Scalar {
     /* For use in "kind" attribute */
-    const KIND_SINGLE_QUOTED = 1;
-    const KIND_DOUBLE_QUOTED = 2;
-    const KIND_HEREDOC = 3;
-    const KIND_NOWDOC = 4;
+    public const KIND_SINGLE_QUOTED = 1;
+    public const KIND_DOUBLE_QUOTED = 2;
+    public const KIND_HEREDOC = 3;
+    public const KIND_NOWDOC = 4;
 
     /** @var string String value */
     public $value;
@@ -38,15 +37,14 @@ class String_ extends Scalar
         $this->value = $value;
     }
 
-    public function getSubNodeNames() : array {
+    public function getSubNodeNames(): array {
         return ['value'];
     }
 
     /**
      * @param bool $parseUnicodeEscape Whether to parse PHP 7 \u escapes
      */
-    public static function fromString(string $str, array $attributes = [], bool $parseUnicodeEscape = true): self
-    {
+    public static function fromString(string $str, array $attributes = [], bool $parseUnicodeEscape = true): self {
         $attributes['kind'] = ($str[0] === "'" || ($str[1] === "'" && ($str[0] === 'b' || $str[0] === 'B')))
             ? Scalar\String_::KIND_SINGLE_QUOTED
             : Scalar\String_::KIND_DOUBLE_QUOTED;
@@ -68,7 +66,7 @@ class String_ extends Scalar
      *
      * @return string The parsed string
      */
-    public static function parse(string $str, bool $parseUnicodeEscape = true) : string {
+    public static function parse(string $str, bool $parseUnicodeEscape = true): string {
         $bLength = 0;
         if ('b' === $str[0] || 'B' === $str[0]) {
             $bLength = 1;
@@ -98,7 +96,7 @@ class String_ extends Scalar
      *
      * @return string String with escape sequences parsed
      */
-    public static function parseEscapeSequences(string $str, $quote, bool $parseUnicodeEscape = true) : string {
+    public static function parseEscapeSequences(string $str, ?string $quote, bool $parseUnicodeEscape = true): string {
         if (null !== $quote) {
             $str = str_replace('\\' . $quote, $quote, $str);
         }
@@ -110,14 +108,16 @@ class String_ extends Scalar
 
         return preg_replace_callback(
             '~\\\\([\\\\$nrtfve]|[xX][0-9a-fA-F]{1,2}|[0-7]{1,3}' . $extra . ')~',
-            function($matches) {
+            function ($matches) {
                 $str = $matches[1];
 
                 if (isset(self::$replacements[$str])) {
                     return self::$replacements[$str];
-                } elseif ('x' === $str[0] || 'X' === $str[0]) {
+                }
+                if ('x' === $str[0] || 'X' === $str[0]) {
                     return chr(hexdec(substr($str, 1)));
-                } elseif ('u' === $str[0]) {
+                }
+                if ('u' === $str[0]) {
                     return self::codePointToUtf8(hexdec($matches[2]));
                 } else {
                     return chr(octdec($str));
@@ -134,7 +134,7 @@ class String_ extends Scalar
      *
      * @return string UTF-8 representation of code point
      */
-    private static function codePointToUtf8(int $num) : string {
+    private static function codePointToUtf8(int $num): string {
         if ($num <= 0x7F) {
             return chr($num);
         }
@@ -151,7 +151,7 @@ class String_ extends Scalar
         throw new Error('Invalid UTF-8 codepoint escape sequence: Codepoint too large');
     }
 
-    public function getType() : string {
+    public function getType(): string {
         return 'Scalar_String';
     }
 }

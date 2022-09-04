@@ -32,7 +32,7 @@ array(
             0: Stmt_ClassMethod(
                 attrGroups: array(
                 )
-                flags: MODIFIER_PUBLIC (1)
+                flags: PUBLIC (1)
                 byRef: false
                 name: Identifier(
                     name: a
@@ -81,7 +81,7 @@ array(
                         method: Identifier(
                             name: a
                         )
-                        newModifier: MODIFIER_PROTECTED (2)
+                        newModifier: PROTECTED (2)
                         newName: Identifier(
                             name: b
                         )
@@ -101,7 +101,7 @@ array(
                         method: Identifier(
                             name: e
                         )
-                        newModifier: MODIFIER_PRIVATE (4)
+                        newModifier: PRIVATE (4)
                         newName: null
                     )
                 )
@@ -156,7 +156,7 @@ array(
                         method: Identifier(
                             name: b
                         )
-                        newModifier: MODIFIER_PROTECTED (2)
+                        newModifier: PROTECTED (2)
                         newName: Identifier(
                             name: c
                         )
@@ -184,7 +184,7 @@ array(
                         method: Identifier(
                             name: f
                         )
-                        newModifier: MODIFIER_PRIVATE (4)
+                        newModifier: PRIVATE (4)
                         newName: null
                     )
                 )

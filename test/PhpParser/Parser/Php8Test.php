@@ -5,9 +5,9 @@ namespace PhpParser\Parser;
 use PhpParser\Lexer;
 use PhpParser\ParserTest;
 
-class Php5Test extends ParserTest
+class Php8Test extends ParserTest
 {
     protected function getParser(Lexer $lexer) {
-        return new Php5($lexer);
+        return new Php8($lexer);
     }
 }

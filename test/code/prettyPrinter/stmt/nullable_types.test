@@ -5,7 +5,6 @@ function test(?Foo $bar, ?string $foo, ?\Xyz $zyx) : ?Baz
 {
 }
 -----
-!!php7
-function test(?Foo $bar, ?string $foo, ?\Xyz $zyx) : ?Baz
+function test(?Foo $bar, ?string $foo, ?\Xyz $zyx): ?Baz
 {
 }

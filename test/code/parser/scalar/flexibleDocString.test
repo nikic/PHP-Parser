@@ -117,7 +117,7 @@ array(
             )
             expr: Expr_Array(
                 items: array(
-                    0: Expr_ArrayItem(
+                    0: ArrayItem(
                         key: null
                         value: Scalar_String(
                             value: Test
@@ -125,7 +125,7 @@ array(
                         byRef: false
                         unpack: false
                     )
-                    1: Expr_ArrayItem(
+                    1: ArrayItem(
                         key: null
                         value: Scalar_String(
                             value: Test
@@ -164,9 +164,9 @@ array(
         )
     )
     5: Stmt_Expression(
-        expr: Scalar_Encapsed(
+        expr: Scalar_InterpolatedString(
             parts: array(
-                0: Scalar_EncapsedStringPart(
+                0: InterpolatedStringPart(
                     value:     a
                    b
 
@@ -174,7 +174,7 @@ array(
                 1: Expr_Variable(
                     name: test
                 )
-                2: Scalar_EncapsedStringPart(
+                2: InterpolatedStringPart(
                     value:
                  d
                 e
@@ -198,9 +198,9 @@ array(
         )
     )
     7: Stmt_Expression(
-        expr: Scalar_Encapsed(
+        expr: Scalar_InterpolatedString(
             parts: array(
-                0: Scalar_EncapsedStringPart(
+                0: InterpolatedStringPart(
                     value: 	a
 
                 @@{ "\t" }@@a
@@ -212,7 +212,7 @@ array(
                 1: Expr_Variable(
                     name: test
                 )
-                2: Scalar_EncapsedStringPart(
+                2: InterpolatedStringPart(
                     value:
 
                  d
@@ -224,48 +224,48 @@ array(
         )
     )
     8: Stmt_Expression(
-        expr: Scalar_Encapsed(
+        expr: Scalar_InterpolatedString(
             parts: array(
                 0: Expr_Variable(
                     name: one
                 )
-                1: Scalar_EncapsedStringPart(
+                1: InterpolatedStringPart(
                     value: -
                 )
             )
         )
     )
     9: Stmt_Expression(
-        expr: Scalar_Encapsed(
+        expr: Scalar_InterpolatedString(
             parts: array(
                 0: Expr_Variable(
                     name: two
                 )
-                1: Scalar_EncapsedStringPart(
+                1: InterpolatedStringPart(
                     value:  -
                 )
             )
         )
     )
     10: Stmt_Expression(
-        expr: Scalar_Encapsed(
+        expr: Scalar_InterpolatedString(
             parts: array(
                 0: Expr_Variable(
                     name: three
                 )
-                1: Scalar_EncapsedStringPart(
+                1: InterpolatedStringPart(
                     value: 	-
                 )
             )
         )
     )
     11: Stmt_Expression(
-        expr: Scalar_Encapsed(
+        expr: Scalar_InterpolatedString(
             parts: array(
                 0: Expr_Variable(
                     name: four
                 )
-                1: Scalar_EncapsedStringPart(
+                1: InterpolatedStringPart(
                     value: -
                 )
                 2: Expr_Variable(
@@ -275,36 +275,36 @@ array(
         )
     )
     12: Stmt_Expression(
-        expr: Scalar_Encapsed(
+        expr: Scalar_InterpolatedString(
             parts: array(
                 0: Expr_Variable(
                     name: five
                 )
-                1: Scalar_EncapsedStringPart(
+                1: InterpolatedStringPart(
                     value: -
                 )
                 2: Expr_Variable(
                     name: five
                 )
-                3: Scalar_EncapsedStringPart(
+                3: InterpolatedStringPart(
                     value: -
                 )
             )
         )
     )
     13: Stmt_Expression(
-        expr: Scalar_Encapsed(
+        expr: Scalar_InterpolatedString(
             parts: array(
                 0: Expr_Variable(
                     name: six
                 )
-                1: Scalar_EncapsedStringPart(
+                1: InterpolatedStringPart(
                     value: -
                 )
                 2: Expr_Variable(
                     name: six
                 )
-                3: Scalar_EncapsedStringPart(
+                3: InterpolatedStringPart(
                     value: -
                 )
                 4: Expr_Variable(
@@ -314,12 +314,12 @@ array(
         )
     )
     14: Stmt_Expression(
-        expr: Scalar_Encapsed(
+        expr: Scalar_InterpolatedString(
             parts: array(
                 0: Expr_Variable(
                     name: seven
                 )
-                1: Scalar_EncapsedStringPart(
+                1: InterpolatedStringPart(
                     value:
                 -
                 )
@@ -327,12 +327,12 @@ array(
         )
     )
     15: Stmt_Expression(
-        expr: Scalar_Encapsed(
+        expr: Scalar_InterpolatedString(
             parts: array(
                 0: Expr_Variable(
                     name: eight
                 )
-                1: Scalar_EncapsedStringPart(
+                1: InterpolatedStringPart(
                     value:
                  -
                 )
@@ -340,7 +340,7 @@ array(
         )
     )
     16: Stmt_Expression(
-        expr: Scalar_Encapsed(
+        expr: Scalar_InterpolatedString(
             parts: array(
                 0: Expr_Variable(
                     name: nine

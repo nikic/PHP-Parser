@@ -3,7 +3,6 @@ Trailing comma in use list
 <?php
 function() use($a,) {};
 -----
-!!php7
 array(
     0: Stmt_Expression(
         expr: Expr_Closure(
@@ -14,7 +13,7 @@ array(
             params: array(
             )
             uses: array(
-                0: Expr_ClosureUse(
+                0: ClosureUse(
                     var: Expr_Variable(
                         name: a
                     )

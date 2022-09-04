@@ -12,7 +12,6 @@ $this?->foo(...);
 #[Foo(...)]
 function foo() {}
 -----
-!!php7
 array(
     0: Stmt_Expression(
         expr: Expr_FuncCall(

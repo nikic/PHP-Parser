@@ -57,7 +57,7 @@ class Test {
 }
 
 function
-($a, $b) use($c, $d) {};
+($a, $b) use ($c, $d) {};
 
 fn($a, $b)
 => 42;

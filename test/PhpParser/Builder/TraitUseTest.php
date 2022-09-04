@@ -5,8 +5,7 @@ namespace PhpParser\Builder;
 use PhpParser\Node\Name;
 use PhpParser\Node\Stmt;
 
-class TraitUseTest extends \PHPUnit\Framework\TestCase
-{
+class TraitUseTest extends \PHPUnit\Framework\TestCase {
     protected function createTraitUseBuilder(...$traits) {
         return new TraitUse(...$traits);
     }

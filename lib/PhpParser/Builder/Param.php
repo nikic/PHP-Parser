@@ -6,8 +6,7 @@ use PhpParser;
 use PhpParser\BuilderHelpers;
 use PhpParser\Node;
 
-class Param implements PhpParser\Builder
-{
+class Param implements PhpParser\Builder {
     protected $name;
 
     protected $default = null;
@@ -61,19 +60,6 @@ class Param implements PhpParser\Builder
     }
 
     /**
-     * Sets type for the parameter.
-     *
-     * @param string|Node\Name|Node\Identifier|Node\ComplexType $type Parameter type
-     *
-     * @return $this The builder instance (for fluid interface)
-     *
-     * @deprecated Use setType() instead
-     */
-    public function setTypeHint($type) {
-        return $this->setType($type);
-    }
-
-    /**
      * Make the parameter accept the value by reference.
      *
      * @return $this The builder instance (for fluid interface)
@@ -113,7 +99,7 @@ class Param implements PhpParser\Builder
      *
      * @return Node\Param The built parameter node
      */
-    public function getNode() : Node {
+    public function getNode(): Node {
         return new Node\Param(
             new Node\Expr\Variable($this->name),
             $this->default, $this->type, $this->byRef, $this->variadic, [], 0, $this->attributeGroups

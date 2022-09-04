@@ -16,7 +16,7 @@ array(
     0: Stmt_Class(
         attrGroups: array(
         )
-        flags: MODIFIER_ABSTRACT (16)
+        flags: ABSTRACT (16)
         name: Identifier(
             name: A
         )
@@ -30,7 +30,7 @@ array(
                 flags: 0
                 type: null
                 props: array(
-                    0: Stmt_PropertyProperty(
+                    0: PropertyItem(
                         name: VarLikeIdentifier(
                             name: a
                         )
@@ -41,10 +41,10 @@ array(
             1: Stmt_Property(
                 attrGroups: array(
                 )
-                flags: MODIFIER_STATIC (8)
+                flags: STATIC (8)
                 type: null
                 props: array(
-                    0: Stmt_PropertyProperty(
+                    0: PropertyItem(
                         name: VarLikeIdentifier(
                             name: b
                         )
@@ -55,7 +55,7 @@ array(
             2: Stmt_ClassMethod(
                 attrGroups: array(
                 )
-                flags: MODIFIER_ABSTRACT (16)
+                flags: ABSTRACT (16)
                 byRef: false
                 name: Identifier(
                     name: c
@@ -68,7 +68,7 @@ array(
             3: Stmt_ClassMethod(
                 attrGroups: array(
                 )
-                flags: MODIFIER_FINAL (32)
+                flags: FINAL (32)
                 byRef: false
                 name: Identifier(
                     name: d
@@ -82,7 +82,7 @@ array(
             4: Stmt_ClassMethod(
                 attrGroups: array(
                 )
-                flags: MODIFIER_STATIC (8)
+                flags: STATIC (8)
                 byRef: false
                 name: Identifier(
                     name: e
@@ -96,7 +96,7 @@ array(
             5: Stmt_ClassMethod(
                 attrGroups: array(
                 )
-                flags: MODIFIER_STATIC | MODIFIER_FINAL (40)
+                flags: STATIC | FINAL (40)
                 byRef: false
                 name: Identifier(
                     name: f

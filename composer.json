@@ -16,8 +16,10 @@
         }
     ],
     "require": {
-        "php": ">=7.0",
-        "ext-tokenizer": "*"
+        "php": ">=7.1",
+        "ext-tokenizer": "*",
+        "ext-json": "*",
+        "ext-ctype": "*"
     },
     "require-dev": {
         "phpunit/phpunit": "^6.5 || ^7.0 || ^8.0 || ^9.0",
@@ -25,7 +27,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "4.9-dev"
+            "dev-master": "5.0-dev"
         }
     },
     "autoload": {

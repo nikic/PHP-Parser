@@ -1,7 +1,8 @@
 Matches
 -----
 <?php
-$value = match (1) {
+$value = match (1)
+{
     1
     =>
     'one'
@@ -10,11 +11,12 @@ $value = match (1) {
 $stmts[0]->expr->expr->arms[] = new Node\MatchArm(null, new Scalar\String_('two'));
 -----
 <?php
-$value = match (1) {
+$value = match (1)
+{
     1
     =>
     'one',
-    default => 'two',
+    default => 'two'
 };
 -----
 <?php

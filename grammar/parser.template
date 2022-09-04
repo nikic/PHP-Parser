@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 $meta #
 #semval($) $this->semValue
 #semval($,%t) $this->semValue
@@ -8,6 +8,7 @@ $meta #
 namespace PhpParser\Parser;
 
 use PhpParser\Error;
+use PhpParser\Modifiers;
 use PhpParser\Node;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Name;
@@ -17,12 +18,16 @@ use PhpParser\Node\Stmt;
 
 /* This is an automatically GENERATED file, which should not be manually edited.
  * Instead edit one of the following:
- *  * the grammar files grammar/php5.y or grammar/php7.y
+ *  * the grammar file grammar/php.y
  *  * the skeleton file grammar/parser.template
  *  * the preprocessing script grammar/rebuildParsers.php
  */
 class #(-p) extends \PhpParser\ParserAbstract
 {
+#tokenval
+    public const %s = %n;
+#endtokenval
+
     protected $tokenToSymbolMapSize = #(YYMAXLEX);
     protected $actionTableSize = #(YYLAST);
     protected $gotoTableSize = #(YYGLAST);

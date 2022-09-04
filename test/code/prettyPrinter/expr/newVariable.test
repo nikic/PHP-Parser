@@ -5,7 +5,6 @@ new ('a' . 'b');
 $x instanceof ('a' . 'b');
 $x instanceof ($y++);
 -----
-!!php7
 new ('a' . 'b')();
 $x instanceof ('a' . 'b');
 $x instanceof ($y++);

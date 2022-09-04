@@ -6,10 +6,9 @@ use PhpParser\Node\Expr\Include_;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\GroupUse;
 use PhpParser\Node\Stmt\Use_;
-use PhpParser\Node\Stmt\UseUse;
+use PhpParser\Node\UseItem;
 
-class NodeDumper
-{
+class NodeDumper {
     private $dumpComments;
     private $dumpPositions;
     private $code;
@@ -39,7 +38,7 @@ class NodeDumper
      *
      * @return string Dumped value
      */
-    public function dump($node, string $code = null) : string {
+    public function dump($node, ?string $code = null): string {
         $this->code = $code;
         return $this->dumpRecursive($node);
     }
@@ -68,7 +67,7 @@ class NodeDumper
                     } elseif ('type' === $key && $node instanceof Include_) {
                         $r .= $this->dumpIncludeType($value);
                     } elseif ('type' === $key
-                            && ($node instanceof Use_ || $node instanceof UseUse || $node instanceof GroupUse)) {
+                            && ($node instanceof Use_ || $node instanceof UseItem || $node instanceof GroupUse)) {
                         $r .= $this->dumpUseType($value);
                     } else {
                         $r .= $value;
@@ -110,26 +109,26 @@ class NodeDumper
 
     protected function dumpFlags($flags) {
         $strs = [];
-        if ($flags & Class_::MODIFIER_PUBLIC) {
-            $strs[] = 'MODIFIER_PUBLIC';
+        if ($flags & Modifiers::PUBLIC) {
+            $strs[] = 'PUBLIC';
         }
-        if ($flags & Class_::MODIFIER_PROTECTED) {
-            $strs[] = 'MODIFIER_PROTECTED';
+        if ($flags & Modifiers::PROTECTED) {
+            $strs[] = 'PROTECTED';
         }
-        if ($flags & Class_::MODIFIER_PRIVATE) {
-            $strs[] = 'MODIFIER_PRIVATE';
+        if ($flags & Modifiers::PRIVATE) {
+            $strs[] = 'PRIVATE';
         }
-        if ($flags & Class_::MODIFIER_ABSTRACT) {
-            $strs[] = 'MODIFIER_ABSTRACT';
+        if ($flags & Modifiers::ABSTRACT) {
+            $strs[] = 'ABSTRACT';
         }
-        if ($flags & Class_::MODIFIER_STATIC) {
-            $strs[] = 'MODIFIER_STATIC';
+        if ($flags & Modifiers::STATIC) {
+            $strs[] = 'STATIC';
         }
-        if ($flags & Class_::MODIFIER_FINAL) {
-            $strs[] = 'MODIFIER_FINAL';
+        if ($flags & Modifiers::FINAL) {
+            $strs[] = 'FINAL';
         }
-        if ($flags & Class_::MODIFIER_READONLY) {
-            $strs[] = 'MODIFIER_READONLY';
+        if ($flags & Modifiers::READONLY) {
+            $strs[] = 'READONLY';
         }
 
         if ($strs) {
@@ -174,7 +173,7 @@ class NodeDumper
      *
      * @return string|null Dump of position, or null if position information not available
      */
-    protected function dumpPosition(Node $node) {
+    protected function dumpPosition(Node $node): ?string {
         if (!$node->hasAttribute('startLine') || !$node->hasAttribute('endLine')) {
             return null;
         }

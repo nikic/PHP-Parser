@@ -5,12 +5,11 @@ namespace PhpParser\Internal;
 /**
  * @internal
  */
-class DiffElem
-{
-    const TYPE_KEEP = 0;
-    const TYPE_REMOVE = 1;
-    const TYPE_ADD = 2;
-    const TYPE_REPLACE = 3;
+class DiffElem {
+    public const TYPE_KEEP = 0;
+    public const TYPE_REMOVE = 1;
+    public const TYPE_ADD = 2;
+    public const TYPE_REPLACE = 3;
 
     /** @var int One of the TYPE_* constants */
     public $type;

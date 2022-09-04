@@ -2,8 +2,7 @@
 
 namespace PhpParser\Node;
 
-class NameTest extends \PHPUnit\Framework\TestCase
-{
+class NameTest extends \PHPUnit\Framework\TestCase {
     public function testConstruct() {
         $name = new Name(['foo', 'bar']);
         $this->assertSame(['foo', 'bar'], $name->parts);
@@ -73,6 +72,12 @@ class NameTest extends \PHPUnit\Framework\TestCase
         (new Name('foo\bar\baz'))->slice(0, -4);
     }
 
+    public function testSliceLengthTooLargeWithOffset() {
+        $this->expectException(\OutOfBoundsException::class);
+        $this->expectExceptionMessage('Length 3 is out of bounds');
+        (new Name('foo\bar\baz'))->slice(1, 3);
+    }
+
     public function testConcat() {
         $this->assertEquals(new Name('foo\bar\baz'), Name::concat('foo', 'bar\baz'));
         $this->assertEquals(
@@ -124,7 +129,7 @@ class NameTest extends \PHPUnit\Framework\TestCase
     public function testInvalidArg() {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Expected string, array of parts or Name instance');
-        Name::concat('foo', new \stdClass);
+        Name::concat('foo', new \stdClass());
     }
 
     public function testInvalidEmptyString() {

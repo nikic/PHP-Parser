@@ -16,7 +16,7 @@ $foo
 ];
 
 [
-    $value
+    & $value
 ];
 
 function
@@ -99,7 +99,7 @@ function
 foo(
 int $x,
 array &$y = null
-) : Foo
+): Foo
 {}
 
 $foo
@@ -107,11 +107,11 @@ $foo
 ];
 
 [
-    'X' => $value
+    'X' => & $value
 ];
 
 function
-() : Bar
+(): Bar
 {};
 
 $x
@@ -134,7 +134,7 @@ class
 X extends \Bar
 {
     public
-    function y() : Y
+    function y(): Y
     {}
 
     private

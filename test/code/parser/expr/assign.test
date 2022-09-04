@@ -247,7 +247,7 @@ array(
         expr: Expr_Assign(
             var: Expr_List(
                 items: array(
-                    0: Expr_ArrayItem(
+                    0: ArrayItem(
                         key: null
                         value: Expr_Variable(
                             name: a
@@ -275,7 +275,7 @@ array(
         expr: Expr_Assign(
             var: Expr_List(
                 items: array(
-                    0: Expr_ArrayItem(
+                    0: ArrayItem(
                         key: null
                         value: Expr_Variable(
                             name: a
@@ -284,7 +284,7 @@ array(
                         unpack: false
                     )
                     1: null
-                    2: Expr_ArrayItem(
+                    2: ArrayItem(
                         key: null
                         value: Expr_Variable(
                             name: b
@@ -303,7 +303,7 @@ array(
         expr: Expr_Assign(
             var: Expr_List(
                 items: array(
-                    0: Expr_ArrayItem(
+                    0: ArrayItem(
                         key: null
                         value: Expr_Variable(
                             name: a
@@ -311,12 +311,12 @@ array(
                         byRef: false
                         unpack: false
                     )
-                    1: Expr_ArrayItem(
+                    1: ArrayItem(
                         key: null
                         value: Expr_List(
                             items: array(
                                 0: null
-                                1: Expr_ArrayItem(
+                                1: ArrayItem(
                                     key: null
                                     value: Expr_Variable(
                                         name: c
@@ -329,7 +329,7 @@ array(
                         byRef: false
                         unpack: false
                     )
-                    2: Expr_ArrayItem(
+                    2: ArrayItem(
                         key: null
                         value: Expr_Variable(
                             name: d

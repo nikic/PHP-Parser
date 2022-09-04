@@ -14,7 +14,6 @@ function gen() {
     var_dump([yield "k1" => (yield "k2") => "a" . "b"]);
 }
 -----
-!!php7
 array(
     0: Stmt_Function(
         attrGroups: array(
@@ -95,7 +94,7 @@ array(
                             name: null
                             value: Expr_Array(
                                 items: array(
-                                    0: Expr_ArrayItem(
+                                    0: ArrayItem(
                                         key: null
                                         value: Expr_Yield(
                                             key: Scalar_String(
@@ -179,7 +178,7 @@ array(
                             name: null
                             value: Expr_Array(
                                 items: array(
-                                    0: Expr_ArrayItem(
+                                    0: ArrayItem(
                                         key: null
                                         value: Expr_Yield(
                                             key: Scalar_String(
@@ -222,7 +221,7 @@ array(
                             name: null
                             value: Expr_Array(
                                 items: array(
-                                    0: Expr_ArrayItem(
+                                    0: ArrayItem(
                                         key: Expr_Yield(
                                             key: Scalar_String(
                                                 value: k1

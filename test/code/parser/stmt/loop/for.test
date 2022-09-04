@@ -22,7 +22,7 @@ array(
                 var: Expr_Variable(
                     name: i
                 )
-                expr: Scalar_LNumber(
+                expr: Scalar_Int(
                     value: 0
                 )
             )

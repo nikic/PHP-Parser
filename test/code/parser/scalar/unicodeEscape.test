@@ -6,7 +6,6 @@ Unicode escape sequence
 "\u{114}";
 "\u{1F602}";
 -----
-!!php7
 array(
     0: Stmt_Expression(
         expr: Scalar_String(

@@ -15,9 +15,8 @@ $a->$b['c']();
 
 // array dereferencing
 $a->b()['c'];
-$a->b(){'c'}; // invalid PHP: drop Support?
+$a->b(){'c'};
 -----
-!!php5
 array(
     0: Stmt_Expression(
         expr: Expr_PropertyFetch(
@@ -114,13 +113,15 @@ array(
         )
     )
     6: Stmt_Expression(
-        expr: Expr_MethodCall(
-            var: Expr_Variable(
-                name: a
-            )
+        expr: Expr_FuncCall(
             name: Expr_ArrayDimFetch(
-                var: Expr_Variable(
-                    name: b
+                var: Expr_PropertyFetch(
+                    var: Expr_Variable(
+                        name: a
+                    )
+                    name: Expr_Variable(
+                        name: b
+                    )
                 )
                 dim: Scalar_String(
                     value: c
@@ -174,11 +175,6 @@ array(
             dim: Scalar_String(
                 value: c
             )
-        )
-    )
-    9: Stmt_Nop(
-        comments: array(
-            0: // invalid PHP: drop Support?
         )
     )
 )

@@ -2,15 +2,14 @@
 
 namespace PhpParser;
 
-class CodeTestParser
-{
+class CodeTestParser {
     public function parseTest($code, $chunksPerTest) {
         $code = canonicalize($code);
 
         // evaluate @@{expr}@@ expressions
         $code = preg_replace_callback(
             '/@@\{(.*?)\}@@/',
-            function($matches) {
+            function ($matches) {
                 return eval('return ' . $matches[1] . ';');
             },
             $code
@@ -51,7 +50,7 @@ class CodeTestParser
         return $result;
     }
 
-    private function extractMode($expected) {
+    private function extractMode(string $expected): array {
         $firstNewLine = strpos($expected, "\n");
         if (false === $firstNewLine) {
             $firstNewLine = strlen($expected);

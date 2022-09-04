@@ -8,11 +8,10 @@ class Test {
 
 function test(A&B $a): A&B {}
 -----
-!!php7
 class Test
 {
     public A&B $prop;
 }
-function test(A&B $a) : A&B
+function test(A&B $a): A&B
 {
 }

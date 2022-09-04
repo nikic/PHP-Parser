@@ -10,7 +10,6 @@ enum Suit: string
     case Spades = 'S';
 }
 -----
-!!php7
 array(
     0: Stmt_Enum(
         attrGroups: array(

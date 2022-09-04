@@ -7,8 +7,7 @@ use PhpParser\BuilderHelpers;
 use PhpParser\Node;
 use PhpParser\Node\Stmt;
 
-class Function_ extends FunctionLike
-{
+class Function_ extends FunctionLike {
     protected $name;
     protected $stmts = [];
 
@@ -55,7 +54,7 @@ class Function_ extends FunctionLike
      *
      * @return Stmt\Function_ The built function node
      */
-    public function getNode() : Node {
+    public function getNode(): Node {
         return new Stmt\Function_($this->name, [
             'byRef'      => $this->returnByRef,
             'params'     => $this->params,

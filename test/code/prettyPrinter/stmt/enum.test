@@ -19,7 +19,6 @@ enum C: string implements D {
     case Z = 'A';
 }
 -----
-!!php7
 enum A implements B
 {
     case X;

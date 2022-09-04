@@ -35,7 +35,6 @@ function gen()
 }
 // TODO Get rid of parens for last case
 -----
-!!php7
 function gen()
 {
     $a = (yield $b);

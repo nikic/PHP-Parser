@@ -18,7 +18,6 @@ $a::b();
 ${'a'}::b();
 $a['b']::c();
 -----
-!!php5
 array(
     0: Stmt_Expression(
         expr: Expr_StaticCall(
@@ -72,15 +71,17 @@ array(
         )
     )
     3: Stmt_Expression(
-        expr: Expr_StaticCall(
-            class: Name(
-                parts: array(
-                    0: A
-                )
-            )
+        expr: Expr_FuncCall(
             name: Expr_ArrayDimFetch(
-                var: Expr_Variable(
-                    name: b
+                var: Expr_StaticPropertyFetch(
+                    class: Name(
+                        parts: array(
+                            0: A
+                        )
+                    )
+                    name: VarLikeIdentifier(
+                        name: b
+                    )
                 )
                 dim: Scalar_String(
                     value: c
@@ -91,16 +92,18 @@ array(
         )
     )
     4: Stmt_Expression(
-        expr: Expr_StaticCall(
-            class: Name(
-                parts: array(
-                    0: A
-                )
-            )
+        expr: Expr_FuncCall(
             name: Expr_ArrayDimFetch(
                 var: Expr_ArrayDimFetch(
-                    var: Expr_Variable(
-                        name: b
+                    var: Expr_StaticPropertyFetch(
+                        class: Name(
+                            parts: array(
+                                0: A
+                            )
+                        )
+                        name: VarLikeIdentifier(
+                            name: b
+                        )
                     )
                     dim: Scalar_String(
                         value: c

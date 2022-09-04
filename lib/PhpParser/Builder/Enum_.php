@@ -9,8 +9,7 @@ use PhpParser\Node\Identifier;
 use PhpParser\Node\Name;
 use PhpParser\Node\Stmt;
 
-class Enum_ extends Declaration
-{
+class Enum_ extends Declaration {
     protected $name;
     protected $scalarType = null;
 
@@ -106,7 +105,7 @@ class Enum_ extends Declaration
      *
      * @return Stmt\Enum_ The built enum node
      */
-    public function getNode() : PhpParser\Node {
+    public function getNode(): PhpParser\Node {
         return new Stmt\Enum_($this->name, [
             'scalarType' => $this->scalarType,
             'implements' => $this->implements,

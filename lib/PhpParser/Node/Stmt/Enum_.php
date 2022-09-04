@@ -4,8 +4,7 @@ namespace PhpParser\Node\Stmt;
 
 use PhpParser\Node;
 
-class Enum_ extends ClassLike
-{
+class Enum_ extends ClassLike {
     /** @var null|Node\Identifier Scalar Type */
     public $scalarType;
     /** @var Node\Name[] Names of implemented interfaces */
@@ -30,11 +29,11 @@ class Enum_ extends ClassLike
         parent::__construct($attributes);
     }
 
-    public function getSubNodeNames() : array {
+    public function getSubNodeNames(): array {
         return ['attrGroups', 'name', 'scalarType', 'implements', 'stmts'];
     }
 
-    public function getType() : string {
+    public function getType(): string {
         return 'Stmt_Enum';
     }
 }

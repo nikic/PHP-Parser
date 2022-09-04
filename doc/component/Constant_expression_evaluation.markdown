@@ -45,7 +45,7 @@ use PhpParser\Node\{Expr, Scalar};
 $evaluator = new ConstExprEvaluator();
 
 // 10 / 0
-$expr = new Expr\BinaryOp\Div(new Scalar\LNumber(10), new Scalar\LNumber(0));
+$expr = new Expr\BinaryOp\Div(new Scalar\Int_(10), new Scalar\Int_(0));
 
 var_dump($evaluator->evaluateDirectly($expr)); // float(INF)
 // Warning: Division by zero

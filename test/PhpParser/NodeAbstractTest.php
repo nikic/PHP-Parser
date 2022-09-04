@@ -2,8 +2,7 @@
 
 namespace PhpParser;
 
-class DummyNode extends NodeAbstract
-{
+class DummyNode extends NodeAbstract {
     public $subNode1;
     public $subNode2;
     public $notSubNode;
@@ -15,18 +14,17 @@ class DummyNode extends NodeAbstract
         $this->notSubNode = $notSubNode;
     }
 
-    public function getSubNodeNames() : array {
+    public function getSubNodeNames(): array {
         return ['subNode1', 'subNode2'];
     }
 
     // This method is only overwritten because the node is located in an unusual namespace
-    public function getType() : string {
+    public function getType(): string {
         return 'Dummy';
     }
 }
 
-class NodeAbstractTest extends \PHPUnit\Framework\TestCase
-{
+class NodeAbstractTest extends \PHPUnit\Framework\TestCase {
     public function provideNodes() {
         $attributes = [
             'startLine' => 10,
@@ -154,7 +152,7 @@ class NodeAbstractTest extends \PHPUnit\Framework\TestCase
                 $this->assertSame('notSubNode', $key);
                 $this->assertSame('value3', $value);
             } else {
-                throw new \Exception;
+                throw new \Exception();
             }
             $i++;
         }
@@ -240,7 +238,7 @@ PHP;
                     }
                 },
                 "default": {
-                    "nodeType": "Scalar_LNumber",
+                    "nodeType": "Scalar_Int",
                     "value": 0,
                     "attributes": {
                         "startLine": 4,
@@ -270,7 +268,7 @@ PHP;
                     }
                 },
                 "default": {
-                    "nodeType": "Scalar_DNumber",
+                    "nodeType": "Scalar_Float",
                     "value": 1,
                     "attributes": {
                         "startLine": 4,
@@ -397,7 +395,7 @@ JSON;
                     "name": "a"
                 },
                 "default": {
-                    "nodeType": "Scalar_LNumber",
+                    "nodeType": "Scalar_Int",
                     "attributes": {
                         "startLine": 4,
                         "endLine": 4,
@@ -427,7 +425,7 @@ JSON;
                     "name": "b"
                 },
                 "default": {
-                    "nodeType": "Scalar_DNumber",
+                    "nodeType": "Scalar_Float",
                     "attributes": {
                         "startLine": 4,
                         "endLine": 4,

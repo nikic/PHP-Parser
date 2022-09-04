@@ -21,10 +21,10 @@ array(
             0: Stmt_Property(
                 attrGroups: array(
                 )
-                flags: MODIFIER_PROTECTED (2)
+                flags: PROTECTED (2)
                 type: null
                 props: array(
-                    0: Stmt_PropertyProperty(
+                    0: PropertyItem(
                         name: VarLikeIdentifier(
                             name: a
                         )

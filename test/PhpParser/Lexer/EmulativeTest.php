@@ -5,10 +5,10 @@ namespace PhpParser\Lexer;
 use PhpParser\ErrorHandler;
 use PhpParser\Lexer;
 use PhpParser\LexerTest;
-use PhpParser\Parser\Tokens;
 
-class EmulativeTest extends LexerTest
-{
+require __DIR__ . '/../../../lib/PhpParser/compatibility_tokens.php';
+
+class EmulativeTest extends LexerTest {
     protected function getLexer(array $options = []) {
         return new Emulative($options);
     }
@@ -42,8 +42,8 @@ class EmulativeTest extends LexerTest
         $lexer = $this->getLexer();
         $lexer->startLexing('<?php ->' . $keyword);
 
-        $this->assertSame(Tokens::T_OBJECT_OPERATOR, $lexer->getNextToken());
-        $this->assertSame(Tokens::T_STRING, $lexer->getNextToken());
+        $this->assertSame(\T_OBJECT_OPERATOR, $lexer->getNextToken());
+        $this->assertSame(\T_STRING, $lexer->getNextToken());
         $this->assertSame(0, $lexer->getNextToken());
     }
 
@@ -54,8 +54,8 @@ class EmulativeTest extends LexerTest
         $lexer = $this->getLexer();
         $lexer->startLexing('<?php ->    ' . $keyword);
 
-        $this->assertSame(Tokens::T_OBJECT_OPERATOR, $lexer->getNextToken());
-        $this->assertSame(Tokens::T_STRING, $lexer->getNextToken());
+        $this->assertSame(\T_OBJECT_OPERATOR, $lexer->getNextToken());
+        $this->assertSame(\T_STRING, $lexer->getNextToken());
         $this->assertSame(0, $lexer->getNextToken());
     }
 
@@ -66,34 +66,34 @@ class EmulativeTest extends LexerTest
         $lexer = $this->getLexer();
         $lexer->startLexing('<?php ?->' . $keyword);
 
-        $this->assertSame(Tokens::T_NULLSAFE_OBJECT_OPERATOR, $lexer->getNextToken());
-        $this->assertSame(Tokens::T_STRING, $lexer->getNextToken());
+        $this->assertSame(\T_NULLSAFE_OBJECT_OPERATOR, $lexer->getNextToken());
+        $this->assertSame(\T_STRING, $lexer->getNextToken());
         $this->assertSame(0, $lexer->getNextToken());
     }
 
     public function provideTestReplaceKeywords() {
         return [
             // PHP 8.0
-            ['match',         Tokens::T_MATCH],
+            ['match',         \T_MATCH],
 
             // PHP 7.4
-            ['fn',            Tokens::T_FN],
+            ['fn',            \T_FN],
 
             // PHP 5.5
-            ['finally',       Tokens::T_FINALLY],
-            ['yield',         Tokens::T_YIELD],
+            ['finally',       \T_FINALLY],
+            ['yield',         \T_YIELD],
 
             // PHP 5.4
-            ['callable',      Tokens::T_CALLABLE],
-            ['insteadof',     Tokens::T_INSTEADOF],
-            ['trait',         Tokens::T_TRAIT],
-            ['__TRAIT__',     Tokens::T_TRAIT_C],
+            ['callable',      \T_CALLABLE],
+            ['insteadof',     \T_INSTEADOF],
+            ['trait',         \T_TRAIT],
+            ['__TRAIT__',     \T_TRAIT_C],
 
             // PHP 5.3
-            ['__DIR__',       Tokens::T_DIR],
-            ['goto',          Tokens::T_GOTO],
-            ['namespace',     Tokens::T_NAMESPACE],
-            ['__NAMESPACE__', Tokens::T_NS_C],
+            ['__DIR__',       \T_DIR],
+            ['goto',          \T_GOTO],
+            ['namespace',     \T_NAMESPACE],
+            ['__NAMESPACE__', \T_NS_C],
         ];
     }
 
@@ -123,7 +123,7 @@ class EmulativeTest extends LexerTest
         $lexer = $this->getLexer();
         $lexer->startLexing('<?php ' . $stringifiedToken);
 
-        $this->assertSame(Tokens::T_CONSTANT_ENCAPSED_STRING, $lexer->getNextToken($text));
+        $this->assertSame(\T_CONSTANT_ENCAPSED_STRING, $lexer->getNextToken($text));
         $this->assertSame($stringifiedToken, $text);
         $this->assertSame(0, $lexer->getNextToken());
     }
@@ -132,7 +132,7 @@ class EmulativeTest extends LexerTest
      * @dataProvider provideTestLexNewFeatures
      */
     public function testErrorAfterEmulation($code) {
-        $errorHandler = new ErrorHandler\Collecting;
+        $errorHandler = new ErrorHandler\Collecting();
         $lexer = $this->getLexer();
         $lexer->startLexing('<?php ' . $code . "\0", $errorHandler);
 
@@ -154,218 +154,218 @@ class EmulativeTest extends LexerTest
     public function provideTestLexNewFeatures() {
         return [
             ['yield from', [
-                [Tokens::T_YIELD_FROM, 'yield from'],
+                [\T_YIELD_FROM, 'yield from'],
             ]],
             ["yield\r\nfrom", [
-                [Tokens::T_YIELD_FROM, "yield\r\nfrom"],
+                [\T_YIELD_FROM, "yield\r\nfrom"],
             ]],
             ['...', [
-                [Tokens::T_ELLIPSIS, '...'],
+                [\T_ELLIPSIS, '...'],
             ]],
             ['**', [
-                [Tokens::T_POW, '**'],
+                [\T_POW, '**'],
             ]],
             ['**=', [
-                [Tokens::T_POW_EQUAL, '**='],
+                [\T_POW_EQUAL, '**='],
             ]],
             ['??', [
-                [Tokens::T_COALESCE, '??'],
+                [\T_COALESCE, '??'],
             ]],
             ['<=>', [
-                [Tokens::T_SPACESHIP, '<=>'],
+                [\T_SPACESHIP, '<=>'],
             ]],
             ['0b1010110', [
-                [Tokens::T_LNUMBER, '0b1010110'],
+                [\T_LNUMBER, '0b1010110'],
             ]],
             ['0b1011010101001010110101010010101011010101010101101011001110111100', [
-                [Tokens::T_DNUMBER, '0b1011010101001010110101010010101011010101010101101011001110111100'],
+                [\T_DNUMBER, '0b1011010101001010110101010010101011010101010101101011001110111100'],
             ]],
             ['\\', [
-                [Tokens::T_NS_SEPARATOR, '\\'],
+                [\T_NS_SEPARATOR, '\\'],
             ]],
             ["<<<'NOWDOC'\nNOWDOC;\n", [
-                [Tokens::T_START_HEREDOC, "<<<'NOWDOC'\n"],
-                [Tokens::T_END_HEREDOC, 'NOWDOC'],
+                [\T_START_HEREDOC, "<<<'NOWDOC'\n"],
+                [\T_END_HEREDOC, 'NOWDOC'],
                 [ord(';'), ';'],
             ]],
             ["<<<'NOWDOC'\nFoobar\nNOWDOC;\n", [
-                [Tokens::T_START_HEREDOC, "<<<'NOWDOC'\n"],
-                [Tokens::T_ENCAPSED_AND_WHITESPACE, "Foobar\n"],
-                [Tokens::T_END_HEREDOC, 'NOWDOC'],
+                [\T_START_HEREDOC, "<<<'NOWDOC'\n"],
+                [\T_ENCAPSED_AND_WHITESPACE, "Foobar\n"],
+                [\T_END_HEREDOC, 'NOWDOC'],
                 [ord(';'), ';'],
             ]],
 
             // PHP 7.3: Flexible heredoc/nowdoc
             ["<<<LABEL\nLABEL,", [
-                [Tokens::T_START_HEREDOC, "<<<LABEL\n"],
-                [Tokens::T_END_HEREDOC, "LABEL"],
+                [\T_START_HEREDOC, "<<<LABEL\n"],
+                [\T_END_HEREDOC, "LABEL"],
                 [ord(','), ','],
             ]],
             ["<<<LABEL\n    LABEL,", [
-                [Tokens::T_START_HEREDOC, "<<<LABEL\n"],
-                [Tokens::T_END_HEREDOC, "    LABEL"],
+                [\T_START_HEREDOC, "<<<LABEL\n"],
+                [\T_END_HEREDOC, "    LABEL"],
                 [ord(','), ','],
             ]],
             ["<<<LABEL\n    Foo\n  LABEL;", [
-                [Tokens::T_START_HEREDOC, "<<<LABEL\n"],
-                [Tokens::T_ENCAPSED_AND_WHITESPACE, "    Foo\n"],
-                [Tokens::T_END_HEREDOC, "  LABEL"],
+                [\T_START_HEREDOC, "<<<LABEL\n"],
+                [\T_ENCAPSED_AND_WHITESPACE, "    Foo\n"],
+                [\T_END_HEREDOC, "  LABEL"],
                 [ord(';'), ';'],
             ]],
             ["<<<A\n A,<<<A\n A,", [
-                [Tokens::T_START_HEREDOC, "<<<A\n"],
-                [Tokens::T_END_HEREDOC, " A"],
+                [\T_START_HEREDOC, "<<<A\n"],
+                [\T_END_HEREDOC, " A"],
                 [ord(','), ','],
-                [Tokens::T_START_HEREDOC, "<<<A\n"],
-                [Tokens::T_END_HEREDOC, " A"],
+                [\T_START_HEREDOC, "<<<A\n"],
+                [\T_END_HEREDOC, " A"],
                 [ord(','), ','],
             ]],
             ["<<<LABEL\nLABELNOPE\nLABEL\n", [
-                [Tokens::T_START_HEREDOC, "<<<LABEL\n"],
-                [Tokens::T_ENCAPSED_AND_WHITESPACE, "LABELNOPE\n"],
-                [Tokens::T_END_HEREDOC, "LABEL"],
+                [\T_START_HEREDOC, "<<<LABEL\n"],
+                [\T_ENCAPSED_AND_WHITESPACE, "LABELNOPE\n"],
+                [\T_END_HEREDOC, "LABEL"],
             ]],
             // Interpretation changed
             ["<<<LABEL\n    LABEL\nLABEL\n", [
-                [Tokens::T_START_HEREDOC, "<<<LABEL\n"],
-                [Tokens::T_END_HEREDOC, "    LABEL"],
-                [Tokens::T_STRING, "LABEL"],
+                [\T_START_HEREDOC, "<<<LABEL\n"],
+                [\T_END_HEREDOC, "    LABEL"],
+                [\T_STRING, "LABEL"],
             ]],
 
             // PHP 7.4: Null coalesce equal
             ['??=', [
-                [Tokens::T_COALESCE_EQUAL, '??='],
+                [\T_COALESCE_EQUAL, '??='],
             ]],
 
             // PHP 7.4: Number literal separator
             ['1_000', [
-                [Tokens::T_LNUMBER, '1_000'],
+                [\T_LNUMBER, '1_000'],
             ]],
             ['0xCAFE_F00D', [
-                [Tokens::T_LNUMBER, '0xCAFE_F00D'],
+                [\T_LNUMBER, '0xCAFE_F00D'],
             ]],
             ['0b0101_1111', [
-                [Tokens::T_LNUMBER, '0b0101_1111'],
+                [\T_LNUMBER, '0b0101_1111'],
             ]],
             ['0137_041', [
-                [Tokens::T_LNUMBER, '0137_041'],
+                [\T_LNUMBER, '0137_041'],
             ]],
             ['1_000.0', [
-                [Tokens::T_DNUMBER, '1_000.0'],
+                [\T_DNUMBER, '1_000.0'],
             ]],
             ['1_0.0', [
-                [Tokens::T_DNUMBER, '1_0.0']
+                [\T_DNUMBER, '1_0.0']
             ]],
             ['1_000_000_000.0', [
-                [Tokens::T_DNUMBER, '1_000_000_000.0']
+                [\T_DNUMBER, '1_000_000_000.0']
             ]],
             ['0e1_0', [
-                [Tokens::T_DNUMBER, '0e1_0']
+                [\T_DNUMBER, '0e1_0']
             ]],
             ['1_0e+10', [
-                [Tokens::T_DNUMBER, '1_0e+10']
+                [\T_DNUMBER, '1_0e+10']
             ]],
             ['1_0e-10', [
-                [Tokens::T_DNUMBER, '1_0e-10']
+                [\T_DNUMBER, '1_0e-10']
             ]],
             ['0b1011010101001010_110101010010_10101101010101_0101101011001_110111100', [
-                [Tokens::T_DNUMBER, '0b1011010101001010_110101010010_10101101010101_0101101011001_110111100'],
+                [\T_DNUMBER, '0b1011010101001010_110101010010_10101101010101_0101101011001_110111100'],
             ]],
             ['0xFFFF_FFFF_FFFF_FFFF', [
-                [Tokens::T_DNUMBER, '0xFFFF_FFFF_FFFF_FFFF'],
+                [\T_DNUMBER, '0xFFFF_FFFF_FFFF_FFFF'],
             ]],
             ['1_000+1', [
-                [Tokens::T_LNUMBER, '1_000'],
+                [\T_LNUMBER, '1_000'],
                 [ord('+'), '+'],
-                [Tokens::T_LNUMBER, '1'],
+                [\T_LNUMBER, '1'],
             ]],
             ['1_0abc', [
-                [Tokens::T_LNUMBER, '1_0'],
-                [Tokens::T_STRING, 'abc'],
+                [\T_LNUMBER, '1_0'],
+                [\T_STRING, 'abc'],
             ]],
             ['?->', [
-                [Tokens::T_NULLSAFE_OBJECT_OPERATOR, '?->'],
+                [\T_NULLSAFE_OBJECT_OPERATOR, '?->'],
             ]],
             ['#[Attr]', [
-                [Tokens::T_ATTRIBUTE, '#['],
-                [Tokens::T_STRING, 'Attr'],
+                [\T_ATTRIBUTE, '#['],
+                [\T_STRING, 'Attr'],
                 [ord(']'), ']'],
             ]],
             ["#[\nAttr\n]", [
-                [Tokens::T_ATTRIBUTE, '#['],
-                [Tokens::T_STRING, 'Attr'],
+                [\T_ATTRIBUTE, '#['],
+                [\T_STRING, 'Attr'],
                 [ord(']'), ']'],
             ]],
             // Test interaction of two patch-based emulators
             ["<<<LABEL\n    LABEL, #[Attr]", [
-                [Tokens::T_START_HEREDOC, "<<<LABEL\n"],
-                [Tokens::T_END_HEREDOC, "    LABEL"],
+                [\T_START_HEREDOC, "<<<LABEL\n"],
+                [\T_END_HEREDOC, "    LABEL"],
                 [ord(','), ','],
-                [Tokens::T_ATTRIBUTE, '#['],
-                [Tokens::T_STRING, 'Attr'],
+                [\T_ATTRIBUTE, '#['],
+                [\T_STRING, 'Attr'],
                 [ord(']'), ']'],
             ]],
             ["#[Attr] <<<LABEL\n    LABEL,", [
-                [Tokens::T_ATTRIBUTE, '#['],
-                [Tokens::T_STRING, 'Attr'],
+                [\T_ATTRIBUTE, '#['],
+                [\T_STRING, 'Attr'],
                 [ord(']'), ']'],
-                [Tokens::T_START_HEREDOC, "<<<LABEL\n"],
-                [Tokens::T_END_HEREDOC, "    LABEL"],
+                [\T_START_HEREDOC, "<<<LABEL\n"],
+                [\T_END_HEREDOC, "    LABEL"],
                 [ord(','), ','],
             ]],
             // Enums use a contextual keyword
             ['enum Foo {}', [
-                [Tokens::T_ENUM, 'enum'],
-                [Tokens::T_STRING, 'Foo'],
+                [\T_ENUM, 'enum'],
+                [\T_STRING, 'Foo'],
                 [ord('{'), '{'],
                 [ord('}'), '}'],
             ]],
             ['class Enum {}', [
-                [Tokens::T_CLASS, 'class'],
-                [Tokens::T_STRING, 'Enum'],
+                [\T_CLASS, 'class'],
+                [\T_STRING, 'Enum'],
                 [ord('{'), '{'],
                 [ord('}'), '}'],
             ]],
             ['class Enum extends X {}', [
-                [Tokens::T_CLASS, 'class'],
-                [Tokens::T_STRING, 'Enum'],
-                [Tokens::T_EXTENDS, 'extends'],
-                [Tokens::T_STRING, 'X'],
+                [\T_CLASS, 'class'],
+                [\T_STRING, 'Enum'],
+                [\T_EXTENDS, 'extends'],
+                [\T_STRING, 'X'],
                 [ord('{'), '{'],
                 [ord('}'), '}'],
             ]],
             ['class Enum implements X {}', [
-                [Tokens::T_CLASS, 'class'],
-                [Tokens::T_STRING, 'Enum'],
-                [Tokens::T_IMPLEMENTS, 'implements'],
-                [Tokens::T_STRING, 'X'],
+                [\T_CLASS, 'class'],
+                [\T_STRING, 'Enum'],
+                [\T_IMPLEMENTS, 'implements'],
+                [\T_STRING, 'X'],
                 [ord('{'), '{'],
                 [ord('}'), '}'],
             ]],
             ['0o123', [
-                [Tokens::T_LNUMBER, '0o123'],
+                [\T_LNUMBER, '0o123'],
             ]],
             ['0O123', [
-                [Tokens::T_LNUMBER, '0O123'],
+                [\T_LNUMBER, '0O123'],
             ]],
             ['0o1_2_3', [
-                [Tokens::T_LNUMBER, '0o1_2_3'],
+                [\T_LNUMBER, '0o1_2_3'],
             ]],
             ['0o1000000000000000000000', [
-                [Tokens::T_DNUMBER, '0o1000000000000000000000'],
+                [\T_DNUMBER, '0o1000000000000000000000'],
             ]],
             ['readonly class', [
-                [Tokens::T_READONLY, 'readonly'],
-                [Tokens::T_CLASS, 'class'],
+                [\T_READONLY, 'readonly'],
+                [\T_CLASS, 'class'],
             ]],
             ['function readonly(', [
-                [Tokens::T_FUNCTION, 'function'],
-                [Tokens::T_STRING, 'readonly'],
+                [\T_FUNCTION, 'function'],
+                [\T_STRING, 'readonly'],
                 [ord('('), '('],
             ]],
             ['function readonly (', [
-                [Tokens::T_FUNCTION, 'function'],
-                [Tokens::T_STRING, 'readonly'],
+                [\T_FUNCTION, 'function'],
+                [\T_STRING, 'readonly'],
                 [ord('('), '('],
             ]],
         ];
@@ -382,27 +382,27 @@ class EmulativeTest extends LexerTest
 
     public function provideTestTargetVersion() {
         return [
-            ['8.0', 'match', [[Tokens::T_MATCH, 'match']]],
-            ['7.4', 'match', [[Tokens::T_STRING, 'match']]],
+            ['8.0', 'match', [[\T_MATCH, 'match']]],
+            ['7.4', 'match', [[\T_STRING, 'match']]],
             // Keywords are not case-sensitive.
-            ['7.4', 'fn', [[Tokens::T_FN, 'fn']]],
-            ['7.4', 'FN', [[Tokens::T_FN, 'FN']]],
-            ['7.3', 'fn', [[Tokens::T_STRING, 'fn']]],
-            ['7.3', 'FN', [[Tokens::T_STRING, 'FN']]],
+            ['7.4', 'fn', [[\T_FN, 'fn']]],
+            ['7.4', 'FN', [[\T_FN, 'FN']]],
+            ['7.3', 'fn', [[\T_STRING, 'fn']]],
+            ['7.3', 'FN', [[\T_STRING, 'FN']]],
             // Tested here to skip testLeaveStuffAloneInStrings.
             ['8.0', '"$foo?->bar"', [
                 [ord('"'), '"'],
-                [Tokens::T_VARIABLE, '$foo'],
-                [Tokens::T_NULLSAFE_OBJECT_OPERATOR, '?->'],
-                [Tokens::T_STRING, 'bar'],
+                [\T_VARIABLE, '$foo'],
+                [\T_NULLSAFE_OBJECT_OPERATOR, '?->'],
+                [\T_STRING, 'bar'],
                 [ord('"'), '"'],
             ]],
             ['8.0', '"$foo?->bar baz"', [
                 [ord('"'), '"'],
-                [Tokens::T_VARIABLE, '$foo'],
-                [Tokens::T_NULLSAFE_OBJECT_OPERATOR, '?->'],
-                [Tokens::T_STRING, 'bar'],
-                [Tokens::T_ENCAPSED_AND_WHITESPACE, ' baz'],
+                [\T_VARIABLE, '$foo'],
+                [\T_NULLSAFE_OBJECT_OPERATOR, '?->'],
+                [\T_STRING, 'bar'],
+                [\T_ENCAPSED_AND_WHITESPACE, ' baz'],
                 [ord('"'), '"'],
             ]],
         ];

@@ -4,8 +4,7 @@ namespace PhpParser\Node\Stmt;
 
 use PhpParser\Node\Stmt;
 
-class HaltCompiler extends Stmt
-{
+class HaltCompiler extends Stmt {
     /** @var string Remaining text after halt compiler statement. */
     public $remaining;
 
@@ -20,11 +19,11 @@ class HaltCompiler extends Stmt
         $this->remaining = $remaining;
     }
 
-    public function getSubNodeNames() : array {
+    public function getSubNodeNames(): array {
         return ['remaining'];
     }
-    
-    public function getType() : string {
+
+    public function getType(): string {
         return 'Stmt_HaltCompiler';
     }
 }

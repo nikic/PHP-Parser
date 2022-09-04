@@ -47,6 +47,8 @@ b';
 'a\'b';
 'a\b';
 'a\\';
+'a\\\\b';
+'a\\\'b';
 
 // strings (double quoted)
 "a";
@@ -122,8 +124,10 @@ FALSE;
 'a
 b';
 'a\'b';
-'a\\b';
+'a\b';
 'a\\';
+'a\\\\b';
+'a\\\'b';
 // strings (double quoted)
 "a";
 "a\nb";

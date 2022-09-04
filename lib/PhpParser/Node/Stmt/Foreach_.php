@@ -4,8 +4,7 @@ namespace PhpParser\Node\Stmt;
 
 use PhpParser\Node;
 
-class Foreach_ extends Node\Stmt
-{
+class Foreach_ extends Node\Stmt {
     /** @var Node\Expr Expression to iterate */
     public $expr;
     /** @var null|Node\Expr Variable to assign key to */
@@ -37,11 +36,11 @@ class Foreach_ extends Node\Stmt
         $this->stmts = $subNodes['stmts'] ?? [];
     }
 
-    public function getSubNodeNames() : array {
+    public function getSubNodeNames(): array {
         return ['expr', 'keyVar', 'byRef', 'valueVar', 'stmts'];
     }
-    
-    public function getType() : string {
+
+    public function getType(): string {
         return 'Stmt_Foreach';
     }
 }

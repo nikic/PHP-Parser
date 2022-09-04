@@ -2,8 +2,7 @@
 
 namespace PhpParser;
 
-class CommentTest extends \PHPUnit\Framework\TestCase
-{
+class CommentTest extends \PHPUnit\Framework\TestCase {
     public function testGetters() {
         $comment = new Comment('/* Some comment */',
             1, 10, 2, 1, 27, 2);
@@ -31,7 +30,7 @@ class CommentTest extends \PHPUnit\Framework\TestCase
 
     public function provideTestReformatting() {
         return [
-            ['// Some text' . "\n", '// Some text'],
+            ['// Some text', '// Some text'],
             ['/* Some text */', '/* Some text */'],
             [
                 '/**
