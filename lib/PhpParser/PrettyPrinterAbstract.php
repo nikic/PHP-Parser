@@ -925,9 +925,17 @@ abstract class PrettyPrinterAbstract
                     $result .= $insertStr;
                 }
                 $result .= $this->p($delayedAddNode, true);
+
+                if ($extraRight === "\n") {
+                    $result .= $this->nl ;
+                }
+
                 $first = false;
             }
-            $result .= $extraRight === "\n" ? $this->nl : $extraRight;
+
+            if ($extraRight !== "\n") {
+                $result .= $extraRight;
+            }
         }
 
         return $result;
