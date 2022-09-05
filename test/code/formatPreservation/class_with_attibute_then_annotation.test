@@ -1,0 +1,23 @@
+Class with attribute then annotation
+-----
+<?php
+
+#[SomeAttribute]
+/**
+ * @SomeAnnotation
+ */
+final class SomeClass
+{
+}
+-----
+$stmts[0]->setAttribute('comments', [new Comment("/**\n * @AnotherAnnotation\n */")]);
+-----
+<?php
+
+/**
+ * @AnotherAnnotation
+ */
+#[SomeAttribute]
+final class SomeClass
+{
+}
