@@ -80,7 +80,7 @@ $traverser->addVisitor(new NodeVisitor\CloningVisitor());
 $printer = new PrettyPrinter\Standard();
 
 $oldStmts = $parser->parse($code);
-$oldTokens = $lexer->getTokens();
+$oldTokens = $parser->getLexer()->getTokens();
 
 $newStmts = $traverser->traverse($oldStmts);
 
