@@ -1,0 +1,33 @@
+Remove class method stmt with inline html
+-----
+<?php
+
+class SomeClass
+{
+    public function run()
+    {
+        echo 'hello PHP';
+
+        ?>
+        hello HTML
+        <?php
+        return;
+    }
+}
+
+-----
+unset($stmts[0]->stmts[0]->stmts[2]);
+-----
+<?php
+
+class SomeClass
+{
+    public function run()
+    {
+        echo 'hello PHP';
+
+        ?>
+        hello HTML
+        <?php
+    }
+}
