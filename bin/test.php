@@ -54,7 +54,12 @@ try {
     return;
 }
 
-$dumper = new NodeDumper;
-echo $dumper->dump($ast) . "\n";
-
-echo 'SUCCESS!' . "\n";
+$dumper = new NodeDumper(['dumpGenerics' => true]);
+$dump   = $dumper->dump($ast);
+if ($dump === file_get_contents(__DIR__ . '/test.output')) {
+    echo "SUCCESS!\n";
+    exit(0);
+} else {
+    echo "FAILED\n";
+    exit(1);
+}
