@@ -1085,7 +1085,7 @@ non_empty_lexical_var_list:
 ;
 
 lexical_var:
-      optional_ref plain_variable                           { $$ = Expr\ClosureUse[$2, $1]; }
+      optional_ref plain_variable                           { $$ = Node\ClosureUse[$2, $1]; }
 ;
 
 function_call:
