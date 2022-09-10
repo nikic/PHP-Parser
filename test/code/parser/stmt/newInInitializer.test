@@ -66,7 +66,7 @@ array(
         stmts: array(
             0: Stmt_Static(
                 vars: array(
-                    0: Stmt_StaticVar(
+                    0: StaticVar(
                         var: Expr_Variable(
                             name: y
                         )
@@ -146,10 +146,10 @@ array(
             1: Stmt_Property(
                 attrGroups: array(
                 )
-                flags: MODIFIER_PUBLIC (1)
+                flags: PUBLIC (1)
                 type: null
                 props: array(
-                    0: Stmt_PropertyProperty(
+                    0: PropertyItem(
                         name: VarLikeIdentifier(
                             name: prop
                         )

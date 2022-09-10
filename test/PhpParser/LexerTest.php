@@ -4,8 +4,7 @@ namespace PhpParser;
 
 require __DIR__ . '/../../lib/PhpParser/compatibility_tokens.php';
 
-class LexerTest extends \PHPUnit\Framework\TestCase
-{
+class LexerTest extends \PHPUnit\Framework\TestCase {
     /* To allow overwriting in parent class */
     protected function getLexer(array $options = []) {
         return new Lexer($options);

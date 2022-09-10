@@ -75,9 +75,34 @@ used.
 
 A number of AST nodes have been renamed or moved in the AST hierarchy:
 
- * `Node\Expr\ClosureUse` is now `Node\ClosureUse` and no longer extends `Node\Expr`. The `ClosureUse` node can only occur inside closure use lists, not as a general expression.
+ * `Node\Scalar\LNumber` is now `Node\Scalar\Int_`.
+ * `Node\Scalar\DNumber` is now `Node\Scalar\Float_`.
+ * `Node\Scalar\Encapsed` is now `Node\Scalar\InterpolatedString`.
+ * `Node\Scalar\EncapsedStringPart` is now `Node\InterpolatedStringPart` and no longer extends
+   `Node\Scalar` or `Node\Expr`.
+ * `Node\Expr\ArrayItem` is now `Node\ArrayItem` and no longer extends `Node\Expr`.
+ * `Node\Expr\ClosureUse` is now `Node\ClosureUse` and no longer extends `Node\Expr`.
+ * `Node\Stmt\DeclareDeclare` is now `Node\DeclareItem` and no longer extends `Node\Stmt`.
+ * `Node\Stmt\PropertyProperty` is now `Node\PropertyItem` and no longer extends `Node\Stmt`.
+ * `Node\Stmt\StaticVar` is now `Node\StaticVar` and no longer extends `Node\Stmt`.
+ * `Node\Stmt\UseUse` is now `Node\UseItem` and no longer extends `Node\Stmt`.
 
 The old class names have been retained as aliases for backwards compatibility. However, the `Node::getType()` method will now always return the new name (e.g. `ClosureUse` instead of `Expr_ClosureUse`).
+
+### Modifiers
+
+Modifier flags (as used by the `$flags` subnode of `Class_`, `ClassMethod`, `Property`, etc.) are now available as class constants on a separate `PhpParser\Modifiers` class, instead of being part of `PhpParser\Node\Stmt\Class_`, to make it clearer that these are used by many different nodes. The old constants are deprecated, but are still available.
+
+```
+PhpParser\Node\Stmt\Class_::MODIFIER_PUBLIC    -> PhpParser\Modifiers::PUBLIC
+PhpParser\Node\Stmt\Class_::MODIFIER_PROTECTED -> PhpParser\Modifiers::PROTECTED
+PhpParser\Node\Stmt\Class_::MODIFIER_PRIVATE   -> PhpParser\Modifiers::PRIVATE
+PhpParser\Node\Stmt\Class_::MODIFIER_STATIC    -> PhpParser\Modifiers::STATIC
+PhpParser\Node\Stmt\Class_::MODIFIER_ABSTRACT  -> PhpParser\Modifiers::ABSTRACT
+PhpParser\Node\Stmt\Class_::MODIFIER_FINAL     -> PhpParser\Modifiers::FINAL
+PhpParser\Node\Stmt\Class_::MODIFIER_READONLY  -> PhpParser\Modifiers::READONLY
+PhpParser\Node\Stmt\Class_::VISIBILITY_MODIFIER_MASK -> PhpParser\Modifiers::VISIBILITY_MASK
+```
 
 ### Changes to the default pretty printer
 

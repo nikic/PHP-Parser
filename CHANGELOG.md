@@ -1,14 +1,59 @@
 Version 5.0.0-dev
 -----------------
 
+Nothing yet.
+
+Version 5.0.0-alpha1 (2022-09-04)
+---------------------------------
+
+See UPGRADE-5.0 for detailed migration instructions.
+
 ### Changed
 
-* PHP 7.1 is now required to run PHP-Parser (however, older versions can still be parsed).
+* PHP 7.1 is now required to run PHP-Parser.
+* Formatting of the standard pretty printer has been adjusted to match PSR-12 more closely.
+* The internal token representation now uses a `PhpParser\Token` class, which is compatible with
+  PHP 8 token representation (`PhpToken`).
+* Destructuring is now always represented using `Expr\List_` nodes, even if it uses `[]` syntax.
+* Renamed a number of node classes, and moved things that were not real expressions/statements
+  outside the `Expr`/`Stmt` hierarchy. Compatibility shims for the old names have been retained.
 
-Version 4.14.1-dev
-------------------
+### Added
 
-Nothing yet.
+* Added `PhpVersion` class, which is accepted in a number of places (e.g. ParserFactory, Parser,
+  Lexer, PrettyPrinter) and gives more precise control over the PHP version being targeted.
+* Added PHP 8 parser though it only differs from the PHP 7 parser in concatenation precedence.
+* Added `Parser::getLexer()` method.
+* Added a `Modifiers` class, as a replacement for `Stmt\Class_::MODIFIER_*`.
+* Added support for returning an array or `REMOVE_NODE` from `NodeVisitor::enterNode()`.
+
+### Removed
+
+* The PHP 5 parser has been removed. The PHP 7 parser has been adjusted to deal with PHP 5 code
+  more gracefully.
+
+Version 4.15.1 (2022-09-04)
+---------------------------
+
+### Fixed
+
+* Fixed formatting preservation when adding *multiple* attributes to a class/method/etc that
+  previously had none. This fixes a regression in the 4.15.0 release.
+
+Version 4.15.0 (2022-09-03)
+---------------------------
+
+### Added
+
+* PHP 8.2: Added support for `true` type.
+* PHP 8.2: Added support for DNF types.
+
+### Fixed
+
+* Support `readonly` as a function name.
+* Added `__serialize` and `__unserialize` to magic method list.
+* Fixed bounds check in `Name::slice()`.
+* Fixed formatting preservation when adding attributes to a class/method/etc that previously had none.
 
 Version 4.14.0 (2022-05-31)
 ---------------------------

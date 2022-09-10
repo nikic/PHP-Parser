@@ -4,8 +4,7 @@ namespace PhpParser\Node\Stmt;
 
 use PhpParser\Node;
 
-class Do_ extends Node\Stmt
-{
+class Do_ extends Node\Stmt {
     /** @var Node\Stmt[] Statements */
     public $stmts;
     /** @var Node\Expr Condition */
@@ -24,11 +23,11 @@ class Do_ extends Node\Stmt
         $this->stmts = $stmts;
     }
 
-    public function getSubNodeNames() : array {
+    public function getSubNodeNames(): array {
         return ['stmts', 'cond'];
     }
-    
-    public function getType() : string {
+
+    public function getType(): string {
         return 'Stmt_Do';
     }
 }

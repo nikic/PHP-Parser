@@ -17,7 +17,7 @@ array(
             )
         )
         uses: array(
-            0: Stmt_UseUse(
+            0: UseItem(
                 type: TYPE_NORMAL (1)
                 name: Name(
                     parts: array(
@@ -36,7 +36,7 @@ array(
             )
         )
         uses: array(
-            0: Stmt_UseUse(
+            0: UseItem(
                 type: TYPE_NORMAL (1)
                 name: Name(
                     parts: array(
@@ -46,7 +46,7 @@ array(
                 )
                 alias: null
             )
-            1: Stmt_UseUse(
+            1: UseItem(
                 type: TYPE_NORMAL (1)
                 name: Name(
                     parts: array(
@@ -66,7 +66,7 @@ array(
             )
         )
         uses: array(
-            0: Stmt_UseUse(
+            0: UseItem(
                 type: TYPE_NORMAL (1)
                 name: Name(
                     parts: array(
@@ -76,7 +76,7 @@ array(
                 )
                 alias: null
             )
-            1: Stmt_UseUse(
+            1: UseItem(
                 type: TYPE_NORMAL (1)
                 name: Name(
                     parts: array(
@@ -95,7 +95,7 @@ array(
             )
         )
         uses: array(
-            0: Stmt_UseUse(
+            0: UseItem(
                 type: TYPE_UNKNOWN (0)
                 name: Name(
                     parts: array(
@@ -105,7 +105,7 @@ array(
                 )
                 alias: null
             )
-            1: Stmt_UseUse(
+            1: UseItem(
                 type: TYPE_UNKNOWN (0)
                 name: Name(
                     parts: array(
@@ -124,7 +124,7 @@ array(
             )
         )
         uses: array(
-            0: Stmt_UseUse(
+            0: UseItem(
                 type: TYPE_UNKNOWN (0)
                 name: Name(
                     parts: array(
@@ -134,7 +134,7 @@ array(
                 )
                 alias: null
             )
-            1: Stmt_UseUse(
+            1: UseItem(
                 type: TYPE_UNKNOWN (0)
                 name: Name(
                     parts: array(
@@ -154,7 +154,7 @@ array(
             )
         )
         uses: array(
-            0: Stmt_UseUse(
+            0: UseItem(
                 type: TYPE_NORMAL (1)
                 name: Name(
                     parts: array(
@@ -164,7 +164,7 @@ array(
                 )
                 alias: null
             )
-            1: Stmt_UseUse(
+            1: UseItem(
                 type: TYPE_FUNCTION (2)
                 name: Name(
                     parts: array(
@@ -174,7 +174,7 @@ array(
                 )
                 alias: null
             )
-            2: Stmt_UseUse(
+            2: UseItem(
                 type: TYPE_CONSTANT (3)
                 name: Name(
                     parts: array(

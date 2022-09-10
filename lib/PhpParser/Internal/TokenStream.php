@@ -9,8 +9,7 @@ use PhpParser\Token;
  *
  * @internal
  */
-class TokenStream
-{
+class TokenStream {
     /** @var Token[] Tokens (in PhpToken::tokenize() format) */
     private $tokens;
     /** @var int[] Map from position to indentation */
@@ -34,7 +33,7 @@ class TokenStream
      *
      * @return bool
      */
-    public function haveParens(int $startPos, int $endPos) : bool {
+    public function haveParens(int $startPos, int $endPos): bool {
         return $this->haveTokenImmediatelyBefore($startPos, '(')
             && $this->haveTokenImmediatelyAfter($endPos, ')');
     }
@@ -47,7 +46,7 @@ class TokenStream
      *
      * @return bool
      */
-    public function haveBraces(int $startPos, int $endPos) : bool {
+    public function haveBraces(int $startPos, int $endPos): bool {
         return ($this->haveTokenImmediatelyBefore($startPos, '{')
                 || $this->haveTokenImmediatelyBefore($startPos, T_CURLY_OPEN))
             && $this->haveTokenImmediatelyAfter($endPos, '}');
@@ -63,7 +62,7 @@ class TokenStream
      *
      * @return bool Whether the expected token was found
      */
-    public function haveTokenImmediatelyBefore(int $pos, $expectedTokenType) : bool {
+    public function haveTokenImmediatelyBefore(int $pos, $expectedTokenType): bool {
         $tokens = $this->tokens;
         $pos--;
         for (; $pos >= 0; $pos--) {
@@ -88,7 +87,7 @@ class TokenStream
      *
      * @return bool Whether the expected token was found
      */
-    public function haveTokenImmediatelyAfter(int $pos, $expectedTokenType) : bool {
+    public function haveTokenImmediatelyAfter(int $pos, $expectedTokenType): bool {
         $tokens = $this->tokens;
         $pos++;
         for ($c = \count($tokens); $pos < $c; $pos++) {
@@ -210,7 +209,7 @@ class TokenStream
      *
      * @return int Indentation depth (in spaces)
      */
-    public function getIndentationBefore(int $pos) : int {
+    public function getIndentationBefore(int $pos): int {
         return $this->indentMap[$pos];
     }
 
@@ -223,7 +222,7 @@ class TokenStream
      *
      * @return string Code corresponding to token range, adjusted for indentation
      */
-    public function getTokenCode(int $from, int $to, int $indent) : string {
+    public function getTokenCode(int $from, int $to, int $indent): string {
         $tokens = $this->tokens;
         $result = '';
         for ($pos = $from; $pos < $to; $pos++) {

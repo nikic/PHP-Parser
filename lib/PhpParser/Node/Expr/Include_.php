@@ -4,8 +4,7 @@ namespace PhpParser\Node\Expr;
 
 use PhpParser\Node\Expr;
 
-class Include_ extends Expr
-{
+class Include_ extends Expr {
     public const TYPE_INCLUDE      = 1;
     public const TYPE_INCLUDE_ONCE = 2;
     public const TYPE_REQUIRE      = 3;
@@ -29,11 +28,11 @@ class Include_ extends Expr
         $this->type = $type;
     }
 
-    public function getSubNodeNames() : array {
+    public function getSubNodeNames(): array {
         return ['expr', 'type'];
     }
-    
-    public function getType() : string {
+
+    public function getType(): string {
         return 'Expr_Include';
     }
 }

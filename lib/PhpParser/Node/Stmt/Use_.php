@@ -3,9 +3,9 @@
 namespace PhpParser\Node\Stmt;
 
 use PhpParser\Node\Stmt;
+use PhpParser\Node\UseItem;
 
-class Use_ extends Stmt
-{
+class Use_ extends Stmt {
     /**
      * Unknown type. Both Stmt\Use_ / Stmt\GroupUse and Stmt\UseUse have a $type property, one of them will always be
      * TYPE_UNKNOWN while the other has one of the three other possible types. For normal use statements the type on the
@@ -21,13 +21,13 @@ class Use_ extends Stmt
 
     /** @var int Type of alias */
     public $type;
-    /** @var UseUse[] Aliases */
+    /** @var UseItem[] Aliases */
     public $uses;
 
     /**
      * Constructs an alias (use) list node.
      *
-     * @param UseUse[] $uses       Aliases
+     * @param UseItem[] $uses       Aliases
      * @param int      $type       Type of alias
      * @param array    $attributes Additional attributes
      */
@@ -37,11 +37,11 @@ class Use_ extends Stmt
         $this->uses = $uses;
     }
 
-    public function getSubNodeNames() : array {
+    public function getSubNodeNames(): array {
         return ['type', 'uses'];
     }
-    
-    public function getType() : string {
+
+    public function getType(): string {
         return 'Stmt_Use';
     }
 }

@@ -2,18 +2,18 @@
 
 namespace PhpParser\Node\Stmt;
 
+use PhpParser\Modifiers;
 use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Name;
 use PhpParser\Node\Param;
 
-class ClassMethodTest extends \PHPUnit\Framework\TestCase
-{
+class ClassMethodTest extends \PHPUnit\Framework\TestCase {
     /**
      * @dataProvider provideModifiers
      */
     public function testModifiers($modifier) {
         $node = new ClassMethod('foo', [
-            'type' => constant('PhpParser\Node\Stmt\Class_::MODIFIER_' . strtoupper($modifier))
+            'type' => constant(Modifiers::class . '::' . strtoupper($modifier))
         ]);
 
         $this->assertTrue($node->{'is' . $modifier}());
@@ -49,10 +49,9 @@ class ClassMethodTest extends \PHPUnit\Framework\TestCase
      *
      * @param string $modifier Node type modifier
      */
-    public function testImplicitPublic(string $modifier)
-    {
+    public function testImplicitPublic(string $modifier) {
         $node = new ClassMethod('foo', [
-            'type' => constant('PhpParser\Node\Stmt\Class_::MODIFIER_' . strtoupper($modifier))
+            'type' => constant(Modifiers::class . '::' . strtoupper($modifier))
         ]);
 
         $this->assertTrue($node->isPublic(), 'Node should be implicitly public');

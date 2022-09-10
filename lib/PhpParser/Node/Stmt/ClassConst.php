@@ -2,10 +2,10 @@
 
 namespace PhpParser\Node\Stmt;
 
+use PhpParser\Modifiers;
 use PhpParser\Node;
 
-class ClassConst extends Node\Stmt
-{
+class ClassConst extends Node\Stmt {
     /** @var int Modifiers */
     public $flags;
     /** @var Node\Const_[] Constant declarations */
@@ -33,7 +33,7 @@ class ClassConst extends Node\Stmt
         $this->attrGroups = $attrGroups;
     }
 
-    public function getSubNodeNames() : array {
+    public function getSubNodeNames(): array {
         return ['attrGroups', 'flags', 'consts'];
     }
 
@@ -42,9 +42,9 @@ class ClassConst extends Node\Stmt
      *
      * @return bool
      */
-    public function isPublic() : bool {
-        return ($this->flags & Class_::MODIFIER_PUBLIC) !== 0
-            || ($this->flags & Class_::VISIBILITY_MODIFIER_MASK) === 0;
+    public function isPublic(): bool {
+        return ($this->flags & Modifiers::PUBLIC) !== 0
+            || ($this->flags & Modifiers::VISIBILITY_MASK) === 0;
     }
 
     /**
@@ -52,8 +52,8 @@ class ClassConst extends Node\Stmt
      *
      * @return bool
      */
-    public function isProtected() : bool {
-        return (bool) ($this->flags & Class_::MODIFIER_PROTECTED);
+    public function isProtected(): bool {
+        return (bool) ($this->flags & Modifiers::PROTECTED);
     }
 
     /**
@@ -61,8 +61,8 @@ class ClassConst extends Node\Stmt
      *
      * @return bool
      */
-    public function isPrivate() : bool {
-        return (bool) ($this->flags & Class_::MODIFIER_PRIVATE);
+    public function isPrivate(): bool {
+        return (bool) ($this->flags & Modifiers::PRIVATE);
     }
 
     /**
@@ -70,11 +70,11 @@ class ClassConst extends Node\Stmt
      *
      * @return bool
      */
-    public function isFinal() : bool {
-        return (bool) ($this->flags & Class_::MODIFIER_FINAL);
+    public function isFinal(): bool {
+        return (bool) ($this->flags & Modifiers::FINAL);
     }
 
-    public function getType() : string {
+    public function getType(): string {
         return 'Stmt_ClassConst';
     }
 }

@@ -6,13 +6,13 @@ namespace PhpParser\Builder;
 
 use PhpParser;
 use PhpParser\BuilderHelpers;
+use PhpParser\Modifiers;
 use PhpParser\Node;
 use PhpParser\Node\Const_;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Stmt;
 
-class ClassConst implements PhpParser\Builder
-{
+class ClassConst implements PhpParser\Builder {
     protected $flags = 0;
     protected $attributes = [];
     protected $constants = [];
@@ -50,7 +50,7 @@ class ClassConst implements PhpParser\Builder
      * @return $this The builder instance (for fluid interface)
      */
     public function makePublic() {
-        $this->flags = BuilderHelpers::addModifier($this->flags, Stmt\Class_::MODIFIER_PUBLIC);
+        $this->flags = BuilderHelpers::addModifier($this->flags, Modifiers::PUBLIC);
 
         return $this;
     }
@@ -61,7 +61,7 @@ class ClassConst implements PhpParser\Builder
      * @return $this The builder instance (for fluid interface)
      */
     public function makeProtected() {
-        $this->flags = BuilderHelpers::addModifier($this->flags, Stmt\Class_::MODIFIER_PROTECTED);
+        $this->flags = BuilderHelpers::addModifier($this->flags, Modifiers::PROTECTED);
 
         return $this;
     }
@@ -72,7 +72,7 @@ class ClassConst implements PhpParser\Builder
      * @return $this The builder instance (for fluid interface)
      */
     public function makePrivate() {
-        $this->flags = BuilderHelpers::addModifier($this->flags, Stmt\Class_::MODIFIER_PRIVATE);
+        $this->flags = BuilderHelpers::addModifier($this->flags, Modifiers::PRIVATE);
 
         return $this;
     }
@@ -83,7 +83,7 @@ class ClassConst implements PhpParser\Builder
      * @return $this The builder instance (for fluid interface)
      */
     public function makeFinal() {
-        $this->flags = BuilderHelpers::addModifier($this->flags, Stmt\Class_::MODIFIER_FINAL);
+        $this->flags = BuilderHelpers::addModifier($this->flags, Modifiers::FINAL);
 
         return $this;
     }

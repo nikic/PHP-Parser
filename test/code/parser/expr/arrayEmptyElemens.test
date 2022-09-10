@@ -1,0 +1,70 @@
+Array with empty elements
+-----
+<?php
+
+[1, , 2];
+array(1, , 2);
+-----
+!!positions
+Cannot use empty array elements in arrays from 3:5 to 3:5
+Cannot use empty array elements in arrays from 4:10 to 4:10
+array(
+    0: Stmt_Expression[3:1 - 3:9](
+        expr: Expr_Array[3:1 - 3:8](
+            items: array(
+                0: ArrayItem[3:2 - 3:2](
+                    key: null
+                    value: Scalar_Int[3:2 - 3:2](
+                        value: 1
+                    )
+                    byRef: false
+                    unpack: false
+                )
+                1: ArrayItem[3:5 - 3:5](
+                    key: null
+                    value: Expr_Error[3:5 - 3:5](
+                    )
+                    byRef: false
+                    unpack: false
+                )
+                2: ArrayItem[3:7 - 3:7](
+                    key: null
+                    value: Scalar_Int[3:7 - 3:7](
+                        value: 2
+                    )
+                    byRef: false
+                    unpack: false
+                )
+            )
+        )
+    )
+    1: Stmt_Expression[4:1 - 4:14](
+        expr: Expr_Array[4:1 - 4:13](
+            items: array(
+                0: ArrayItem[4:7 - 4:7](
+                    key: null
+                    value: Scalar_Int[4:7 - 4:7](
+                        value: 1
+                    )
+                    byRef: false
+                    unpack: false
+                )
+                1: ArrayItem[4:10 - 4:10](
+                    key: null
+                    value: Expr_Error[4:10 - 4:10](
+                    )
+                    byRef: false
+                    unpack: false
+                )
+                2: ArrayItem[4:12 - 4:12](
+                    key: null
+                    value: Scalar_Int[4:12 - 4:12](
+                        value: 2
+                    )
+                    byRef: false
+                    unpack: false
+                )
+            )
+        )
+    )
+)

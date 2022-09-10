@@ -7,8 +7,7 @@ use PhpParser\Node\Arg;
 use PhpParser\Node\Expr;
 use PhpParser\Node\VariadicPlaceholder;
 
-class New_ extends CallLike
-{
+class New_ extends CallLike {
     /** @var Node\Name|Expr|Node\Stmt\Class_ Class name */
     public $class;
     /** @var array<Arg|VariadicPlaceholder> Arguments */
@@ -27,11 +26,11 @@ class New_ extends CallLike
         $this->args = $args;
     }
 
-    public function getSubNodeNames() : array {
+    public function getSubNodeNames(): array {
         return ['class', 'args'];
     }
-    
-    public function getType() : string {
+
+    public function getType(): string {
         return 'Expr_New';
     }
 

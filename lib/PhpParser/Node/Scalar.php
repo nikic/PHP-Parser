@@ -2,6 +2,5 @@
 
 namespace PhpParser\Node;
 
-abstract class Scalar extends Expr
-{
+abstract class Scalar extends Expr {
 }

@@ -3,10 +3,10 @@
 namespace PhpParser\Node\Stmt;
 
 use PhpParser\Node;
+use PhpParser\Node\DeclareItem;
 
-class Declare_ extends Node\Stmt
-{
-    /** @var DeclareDeclare[] List of declares */
+class Declare_ extends Node\Stmt {
+    /** @var DeclareItem[] List of declares */
     public $declares;
     /** @var Node\Stmt[]|null Statements */
     public $stmts;
@@ -14,7 +14,7 @@ class Declare_ extends Node\Stmt
     /**
      * Constructs a declare node.
      *
-     * @param DeclareDeclare[] $declares   List of declares
+     * @param DeclareItem[] $declares   List of declares
      * @param Node\Stmt[]|null $stmts      Statements
      * @param array            $attributes Additional attributes
      */
@@ -24,11 +24,11 @@ class Declare_ extends Node\Stmt
         $this->stmts = $stmts;
     }
 
-    public function getSubNodeNames() : array {
+    public function getSubNodeNames(): array {
         return ['declares', 'stmts'];
     }
-    
-    public function getType() : string {
+
+    public function getType(): string {
         return 'Stmt_Declare';
     }
 }

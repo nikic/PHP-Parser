@@ -6,8 +6,7 @@ use PhpParser\Parser\Tokens;
 
 require __DIR__ . '/compatibility_tokens.php';
 
-class Lexer
-{
+class Lexer {
     /** @var string Code being tokenized */
     protected $code;
     /** @var Token[] Array of tokens */
@@ -16,7 +15,6 @@ class Lexer
     protected $pos;
     protected $prevCloseTagHasNewline;
 
-    protected $tokenMap;
     protected $dropTokens;
 
     private $attributeStartLineUsed;

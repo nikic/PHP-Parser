@@ -5,8 +5,7 @@ namespace PhpParser\Builder;
 use PhpParser\BuilderHelpers;
 use PhpParser\Node;
 
-abstract class FunctionLike extends Declaration
-{
+abstract class FunctionLike extends Declaration {
     protected $returnByRef = false;
     protected $params = [];
 

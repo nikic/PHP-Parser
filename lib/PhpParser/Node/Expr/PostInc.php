@@ -4,8 +4,7 @@ namespace PhpParser\Node\Expr;
 
 use PhpParser\Node\Expr;
 
-class PostInc extends Expr
-{
+class PostInc extends Expr {
     /** @var Expr Variable */
     public $var;
 
@@ -20,11 +19,11 @@ class PostInc extends Expr
         $this->var = $var;
     }
 
-    public function getSubNodeNames() : array {
+    public function getSubNodeNames(): array {
         return ['var'];
     }
-    
-    public function getType() : string {
+
+    public function getType(): string {
         return 'Expr_PostInc';
     }
 }

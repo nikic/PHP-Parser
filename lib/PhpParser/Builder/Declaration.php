@@ -5,8 +5,7 @@ namespace PhpParser\Builder;
 use PhpParser;
 use PhpParser\BuilderHelpers;
 
-abstract class Declaration implements PhpParser\Builder
-{
+abstract class Declaration implements PhpParser\Builder {
     protected $attributes = [];
 
     abstract public function addStmt($stmt);

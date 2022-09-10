@@ -5,8 +5,7 @@ namespace PhpParser;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Stmt;
 
-class CodeParsingTest extends CodeTestAbstract
-{
+class CodeParsingTest extends CodeTestAbstract {
     /**
      * @dataProvider provideTestParse
      */
@@ -37,7 +36,7 @@ class CodeParsingTest extends CodeTestAbstract
     public function getParseOutput(Parser $parser, $code, array $modes) {
         $dumpPositions = isset($modes['positions']);
 
-        $errors = new ErrorHandler\Collecting;
+        $errors = new ErrorHandler\Collecting();
         $stmts = $parser->parse($code, $errors);
 
         $output = '';
@@ -71,7 +70,7 @@ class CodeParsingTest extends CodeTestAbstract
         }
 
         $traverser = new NodeTraverser();
-        $traverser->addVisitor(new class extends NodeVisitorAbstract {
+        $traverser->addVisitor(new class () extends NodeVisitorAbstract {
             public function enterNode(Node $node) {
                 $startLine = $node->getStartLine();
                 $endLine = $node->getEndLine();

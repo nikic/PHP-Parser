@@ -4,7 +4,7 @@ namespace PhpParser\Node\Expr;
 
 use PhpParser\Node\Arg;
 use PhpParser\Node\Name;
-use PhpParser\Node\Scalar\LNumber;
+use PhpParser\Node\Scalar\Int_;
 use PhpParser\Node\VariadicPlaceholder;
 
 class CallableLikeTest extends \PHPUnit\Framework\TestCase {
@@ -19,7 +19,7 @@ class CallableLikeTest extends \PHPUnit\Framework\TestCase {
     }
 
     public function provideTestIsFirstClassCallable() {
-        $normalArgs = [new Arg(new LNumber(1))];
+        $normalArgs = [new Arg(new Int_(1))];
         $callableArgs = [new VariadicPlaceholder()];
         return [
             [new FuncCall(new Name('test'), $normalArgs), false],

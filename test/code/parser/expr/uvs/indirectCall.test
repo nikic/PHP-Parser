@@ -38,7 +38,7 @@ array(
             args: array(
                 0: Arg(
                     name: null
-                    value: Scalar_LNumber(
+                    value: Scalar_Int(
                         value: 1
                     )
                     byRef: false
@@ -81,7 +81,7 @@ array(
             args: array(
                 0: Arg(
                     name: null
-                    value: Scalar_LNumber(
+                    value: Scalar_Int(
                         value: 2
                     )
                     byRef: false
@@ -120,7 +120,7 @@ array(
             args: array(
                 0: Arg(
                     name: null
-                    value: Scalar_LNumber(
+                    value: Scalar_Int(
                         value: 4
                     )
                     byRef: false
@@ -145,7 +145,7 @@ array(
                                     name: null
                                     value: Expr_Array(
                                         items: array(
-                                            0: Expr_ArrayItem(
+                                            0: ArrayItem(
                                                 key: null
                                                 value: Scalar_String(
                                                     value: udef
@@ -153,7 +153,7 @@ array(
                                                 byRef: false
                                                 unpack: false
                                             )
-                                            1: Expr_ArrayItem(
+                                            1: ArrayItem(
                                                 key: null
                                                 value: Scalar_String(
                                                     value: id
@@ -168,7 +168,7 @@ array(
                                 )
                             )
                         )
-                        dim: Scalar_LNumber(
+                        dim: Scalar_Int(
                             value: 1
                         )
                     )
@@ -189,7 +189,7 @@ array(
             args: array(
                 0: Arg(
                     name: null
-                    value: Scalar_LNumber(
+                    value: Scalar_Int(
                         value: 5
                     )
                     byRef: false
@@ -257,7 +257,7 @@ array(
             args: array(
                 0: Arg(
                     name: null
-                    value: Scalar_LNumber(
+                    value: Scalar_Int(
                         value: 8
                     )
                     byRef: false
@@ -348,7 +348,7 @@ array(
             args: array(
                 0: Arg(
                     name: null
-                    value: Scalar_LNumber(
+                    value: Scalar_Int(
                         value: 9
                     )
                     byRef: false
@@ -365,7 +365,7 @@ array(
                         name: Expr_FuncCall(
                             name: Expr_Array(
                                 items: array(
-                                    0: Expr_ArrayItem(
+                                    0: ArrayItem(
                                         key: null
                                         value: Expr_Variable(
                                             name: obj
@@ -373,7 +373,7 @@ array(
                                         byRef: false
                                         unpack: false
                                     )
-                                    1: Expr_ArrayItem(
+                                    1: ArrayItem(
                                         key: null
                                         value: Scalar_String(
                                             value: id
@@ -422,7 +422,7 @@ array(
             args: array(
                 0: Arg(
                     name: null
-                    value: Scalar_LNumber(
+                    value: Scalar_Int(
                         value: 10
                     )
                     byRef: false
@@ -467,7 +467,7 @@ array(
             args: array(
                 0: Arg(
                     name: null
-                    value: Scalar_LNumber(
+                    value: Scalar_Int(
                         value: 12
                     )
                     byRef: false
@@ -505,7 +505,7 @@ array(
             args: array(
                 0: Arg(
                     name: null
-                    value: Scalar_LNumber(
+                    value: Scalar_Int(
                         value: 13
                     )
                     byRef: false
@@ -534,7 +534,7 @@ array(
             args: array(
                 0: Arg(
                     name: null
-                    value: Scalar_LNumber(
+                    value: Scalar_Int(
                         value: 14
                     )
                     byRef: false

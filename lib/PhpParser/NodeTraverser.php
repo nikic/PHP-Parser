@@ -2,8 +2,7 @@
 
 namespace PhpParser;
 
-class NodeTraverser implements NodeTraverserInterface
-{
+class NodeTraverser implements NodeTraverserInterface {
     /**
      * If NodeVisitor::enterNode() returns DONT_TRAVERSE_CHILDREN, child nodes
      * of the current node will not be traversed for any visitors.
@@ -79,7 +78,7 @@ class NodeTraverser implements NodeTraverserInterface
      *
      * @return Node[] Traversed array of nodes
      */
-    public function traverse(array $nodes) : array {
+    public function traverse(array $nodes): array {
         $this->stopTraversal = false;
 
         foreach ($this->visitors as $visitor) {
@@ -106,7 +105,7 @@ class NodeTraverser implements NodeTraverserInterface
      *
      * @return Node Result of traversal (may be original node or new one)
      */
-    protected function traverseNode(Node $node) : Node {
+    protected function traverseNode(Node $node): Node {
         foreach ($node->getSubNodeNames() as $name) {
             $subNode =& $node->$name;
 
@@ -188,7 +187,7 @@ class NodeTraverser implements NodeTraverserInterface
      *
      * @return array Result of traversal (may be original array or changed one)
      */
-    protected function traverseArray(array $nodes) : array {
+    protected function traverseArray(array $nodes): array {
         $doNodes = [];
 
         foreach ($nodes as $i => &$node) {
@@ -202,6 +201,12 @@ class NodeTraverser implements NodeTraverserInterface
                         if ($return instanceof Node) {
                             $this->ensureReplacementReasonable($node, $return);
                             $node = $return;
+                        } else if (\is_array($return)) {
+                            $doNodes[] = [$i, $return];
+                            continue 2;
+                        } else if (self::REMOVE_NODE === $return) {
+                            $doNodes[] = [$i, []];
+                            continue 2;
                         } elseif (self::DONT_TRAVERSE_CHILDREN === $return) {
                             $traverseChildren = false;
                         } elseif (self::DONT_TRAVERSE_CURRENT_AND_CHILDREN === $return) {

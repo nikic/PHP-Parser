@@ -63,7 +63,7 @@ array(
                         args: array(
                             0: Arg(
                                 name: null
-                                value: Scalar_LNumber(
+                                value: Scalar_Int(
                                     value: 0
                                 )
                                 byRef: false
@@ -82,7 +82,7 @@ array(
                                 name: Identifier(
                                     name: x
                                 )
-                                value: Scalar_LNumber(
+                                value: Scalar_Int(
                                     value: 1
                                 )
                                 byRef: false
@@ -143,7 +143,7 @@ array(
                         )
                     )
                 )
-                flags: MODIFIER_PUBLIC (1)
+                flags: PUBLIC (1)
                 byRef: false
                 name: Identifier(
                     name: m
@@ -195,10 +195,10 @@ array(
                         )
                     )
                 )
-                flags: MODIFIER_PUBLIC (1)
+                flags: PUBLIC (1)
                 type: null
                 props: array(
-                    0: Stmt_PropertyProperty(
+                    0: PropertyItem(
                         name: VarLikeIdentifier(
                             name: prop
                         )
@@ -313,7 +313,7 @@ array(
                 params: array(
                 )
                 returnType: null
-                expr: Scalar_LNumber(
+                expr: Scalar_Int(
                     value: 0
                 )
             )
@@ -378,7 +378,7 @@ array(
                 params: array(
                 )
                 returnType: null
-                expr: Scalar_LNumber(
+                expr: Scalar_Int(
                     value: 0
                 )
             )

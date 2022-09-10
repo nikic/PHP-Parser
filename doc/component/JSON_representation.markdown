@@ -18,7 +18,7 @@ function printLine($msg) {
 }
 CODE;
 
-$parser = (new ParserFactory)->create(ParserFactory::PREFER_PHP7);
+$parser = (new ParserFactory())->createForHostVersion();
 
 try {
     $stmts = $parser->parse($code);

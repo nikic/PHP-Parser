@@ -8,8 +8,7 @@ use PhpParser\Node;
 use PhpParser\Node\Name;
 use PhpParser\Node\Stmt;
 
-class Interface_ extends Declaration
-{
+class Interface_ extends Declaration {
     protected $name;
     protected $extends = [];
     protected $constants = [];
@@ -83,7 +82,7 @@ class Interface_ extends Declaration
      *
      * @return Stmt\Interface_ The built interface node
      */
-    public function getNode() : PhpParser\Node {
+    public function getNode(): PhpParser\Node {
         return new Stmt\Interface_($this->name, [
             'extends' => $this->extends,
             'stmts' => array_merge($this->constants, $this->methods),

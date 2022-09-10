@@ -101,7 +101,7 @@ abstract class SomeOtherClass extends SomeClass implements A\Few, \Interfaces
      *
      * @param SomeClass And takes a parameter
      */
-    public abstract function someMethod(SomeClass $someParam) : bool;
+    public abstract function someMethod(SomeClass $someParam): bool;
     protected function anotherMethod($someParam = 'test')
     {
         print $someParam;

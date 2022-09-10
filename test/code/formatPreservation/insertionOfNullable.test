@@ -16,7 +16,7 @@ $foo
 ];
 
 [
-    $value
+    & $value
 ];
 
 function
@@ -107,7 +107,7 @@ $foo
 ];
 
 [
-    'X' => $value
+    'X' => & $value
 ];
 
 function

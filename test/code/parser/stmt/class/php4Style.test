@@ -26,7 +26,7 @@ array(
                 flags: 0
                 type: null
                 props: array(
-                    0: Stmt_PropertyProperty(
+                    0: PropertyItem(
                         name: VarLikeIdentifier(
                             name: foo
                         )
@@ -51,7 +51,7 @@ array(
             2: Stmt_ClassMethod(
                 attrGroups: array(
                 )
-                flags: MODIFIER_ABSTRACT | MODIFIER_STATIC (24)
+                flags: ABSTRACT | STATIC (24)
                 byRef: false
                 name: Identifier(
                     name: baz

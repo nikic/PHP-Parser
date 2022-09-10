@@ -147,7 +147,7 @@ array(
         )
     )
     1: Stmt_Expression(
-        expr: Scalar_LNumber(
+        expr: Scalar_Int(
             value: 1
         )
     )
@@ -172,7 +172,7 @@ array(
         returnType: null
         stmts: array(
             0: Stmt_Expression(
-                expr: Scalar_LNumber(
+                expr: Scalar_Int(
                     value: 1
                 )
             )
@@ -195,7 +195,7 @@ array(
             var: Expr_Variable(
                 name: i
             )
-            expr: Scalar_LNumber(
+            expr: Scalar_Int(
                 value: 0
             )
         )
@@ -205,7 +205,7 @@ array(
             var: Expr_Variable(
                 name: j
             )
-            expr: Scalar_LNumber(
+            expr: Scalar_Int(
                 value: 1
             )
         )
@@ -215,7 +215,7 @@ array(
             var: Expr_Variable(
                 name: k
             )
-            expr: Scalar_LNumber(
+            expr: Scalar_Int(
                 value: 2
             )
         )
@@ -238,7 +238,7 @@ array(
             var: Expr_Variable(
                 name: i
             )
-            expr: Scalar_LNumber(
+            expr: Scalar_Int(
                 value: 0
             )
         )
@@ -248,7 +248,7 @@ array(
             var: Expr_Variable(
                 name: j
             )
-            expr: Scalar_LNumber(
+            expr: Scalar_Int(
                 value: 1
             )
         )
@@ -258,7 +258,7 @@ array(
             var: Expr_Variable(
                 name: k
             )
-            expr: Scalar_LNumber(
+            expr: Scalar_Int(
                 value: 2
             )
         )
@@ -463,7 +463,7 @@ array(
             0: Stmt_Use(
                 type: TYPE_NORMAL (1)
                 uses: array(
-                    0: Stmt_UseUse(
+                    0: UseItem(
                         type: TYPE_UNKNOWN (0)
                         name: Name(
                             parts: array(
@@ -477,7 +477,7 @@ array(
             1: Stmt_Use(
                 type: TYPE_FUNCTION (2)
                 uses: array(
-                    0: Stmt_UseUse(
+                    0: UseItem(
                         type: TYPE_UNKNOWN (0)
                         name: Name(
                             parts: array(
@@ -496,7 +496,7 @@ array(
                     )
                 )
                 uses: array(
-                    0: Stmt_UseUse(
+                    0: UseItem(
                         type: TYPE_NORMAL (1)
                         name: Name(
                             parts: array(
@@ -513,7 +513,7 @@ array(
                         name: Identifier(
                             name: A
                         )
-                        value: Scalar_LNumber(
+                        value: Scalar_Int(
                             value: 1
                         )
                     )
@@ -523,7 +523,7 @@ array(
                 num: null
             )
             5: Stmt_Break(
-                num: Scalar_LNumber(
+                num: Scalar_Int(
                     value: 2
                 )
             )
@@ -531,7 +531,7 @@ array(
                 num: null
             )
             7: Stmt_Continue(
-                num: Scalar_LNumber(
+                num: Scalar_Int(
                     value: 2
                 )
             )
@@ -539,7 +539,7 @@ array(
                 expr: null
             )
             9: Stmt_Return(
-                expr: Scalar_LNumber(
+                expr: Scalar_Int(
                     value: 2
                 )
             )
@@ -624,7 +624,7 @@ array(
             )
         )
         uses: array(
-            0: Stmt_UseUse(
+            0: UseItem(
                 type: TYPE_NORMAL (1)
                 name: Name(
                     parts: array(
@@ -643,7 +643,7 @@ array(
             )
         )
         uses: array(
-            0: Stmt_UseUse(
+            0: UseItem(
                 type: TYPE_UNKNOWN (0)
                 name: Name(
                     parts: array(
@@ -657,7 +657,7 @@ array(
     2: Stmt_Use(
         type: TYPE_NORMAL (1)
         uses: array(
-            0: Stmt_UseUse(
+            0: UseItem(
                 type: TYPE_UNKNOWN (0)
                 name: Name(
                     parts: array(
@@ -674,7 +674,7 @@ array(
                 name: Identifier(
                     name: A
                 )
-                value: Scalar_LNumber(
+                value: Scalar_Int(
                     value: 42
                 )
             )
@@ -744,7 +744,7 @@ array(
                         name: Identifier(
                             name: A
                         )
-                        value: Scalar_LNumber(
+                        value: Scalar_Int(
                             value: 42
                         )
                     )
@@ -753,10 +753,10 @@ array(
             3: Stmt_Property(
                 attrGroups: array(
                 )
-                flags: MODIFIER_PUBLIC (1)
+                flags: PUBLIC (1)
                 type: null
                 props: array(
-                    0: Stmt_PropertyProperty(
+                    0: PropertyItem(
                         name: VarLikeIdentifier(
                             name: x
                         )
@@ -800,11 +800,11 @@ array(
     )
     8: Stmt_Declare(
         declares: array(
-            0: Stmt_DeclareDeclare(
+            0: DeclareItem(
                 key: Identifier(
                     name: a
                 )
-                value: Scalar_LNumber(
+                value: Scalar_Int(
                     value: 42
                 )
             )
@@ -820,7 +820,7 @@ array(
     )
     10: Stmt_Static(
         vars: array(
-            0: Stmt_StaticVar(
+            0: StaticVar(
                 var: Expr_Variable(
                     name: a
                 )
@@ -913,10 +913,10 @@ array(
             0: Stmt_Property(
                 attrGroups: array(
                 )
-                flags: MODIFIER_PUBLIC (1)
+                flags: PUBLIC (1)
                 type: null
                 props: array(
-                    0: Stmt_PropertyProperty(
+                    0: PropertyItem(
                         name: VarLikeIdentifier(
                             name: bar
                         )
@@ -1268,7 +1268,7 @@ array(
             )
             expr: Expr_Array(
                 items: array(
-                    0: Expr_ArrayItem(
+                    0: ArrayItem(
                         key: null
                         value: Expr_PropertyFetch(
                             var: Expr_Variable(
@@ -1281,7 +1281,7 @@ array(
                         byRef: false
                         unpack: false
                     )
-                    1: Expr_ArrayItem(
+                    1: ArrayItem(
                         key: null
                         value: Expr_MethodCall(
                             var: Expr_Variable(
@@ -1307,7 +1307,7 @@ array(
             )
             expr: Expr_Array(
                 items: array(
-                    0: Expr_ArrayItem(
+                    0: ArrayItem(
                         key: null
                         value: Expr_Variable(
                             name: value
@@ -1315,7 +1315,7 @@ array(
                         byRef: false
                         unpack: false
                     )
-                    1: Expr_ArrayItem(
+                    1: ArrayItem(
                         key: null
                         value: Expr_Variable(
                             name: oopsAnotherValue
@@ -1334,7 +1334,7 @@ array(
             )
             expr: Expr_Array(
                 items: array(
-                    0: Expr_ArrayItem(
+                    0: ArrayItem(
                         key: Scalar_String(
                             value: key
                         )
@@ -1344,7 +1344,7 @@ array(
                         byRef: false
                         unpack: false
                     )
-                    1: Expr_ArrayItem(
+                    1: ArrayItem(
                         key: null
                         value: Expr_Variable(
                             name: oopsAnotherValue
@@ -1421,10 +1421,10 @@ array(
             0: Stmt_Property(
                 attrGroups: array(
                 )
-                flags: MODIFIER_PRIVATE (4)
+                flags: PRIVATE (4)
                 type: null
                 props: array(
-                    0: Stmt_PropertyProperty(
+                    0: PropertyItem(
                         name: VarLikeIdentifier(
                             name: foo
                         )
@@ -1438,7 +1438,7 @@ array(
             1: Stmt_ClassMethod(
                 attrGroups: array(
                 )
-                flags: MODIFIER_PUBLIC (1)
+                flags: PUBLIC (1)
                 byRef: false
                 name: Identifier(
                     name: __construct
@@ -1500,7 +1500,7 @@ array(
                         name: Identifier(
                             name: X
                         )
-                        value: Scalar_LNumber(
+                        value: Scalar_Int(
                             value: 1
                         )
                     )

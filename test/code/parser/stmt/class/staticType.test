@@ -20,7 +20,7 @@ array(
             0: Stmt_ClassMethod(
                 attrGroups: array(
                 )
-                flags: MODIFIER_PUBLIC | MODIFIER_STATIC (9)
+                flags: PUBLIC | STATIC (9)
                 byRef: false
                 name: Identifier(
                     name: create

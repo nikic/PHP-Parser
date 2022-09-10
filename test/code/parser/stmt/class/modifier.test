@@ -18,10 +18,10 @@ array(
             0: Stmt_Property(
                 attrGroups: array(
                 )
-                flags: MODIFIER_PUBLIC (1)
+                flags: PUBLIC (1)
                 type: null
                 props: array(
-                    0: Stmt_PropertyProperty(
+                    0: PropertyItem(
                         name: VarLikeIdentifier(
                             name: a
                         )
@@ -51,10 +51,10 @@ array(
             0: Stmt_Property(
                 attrGroups: array(
                 )
-                flags: MODIFIER_PUBLIC | MODIFIER_PROTECTED (3)
+                flags: PUBLIC | PROTECTED (3)
                 type: null
                 props: array(
-                    0: Stmt_PropertyProperty(
+                    0: PropertyItem(
                         name: VarLikeIdentifier(
                             name: a
                         )
@@ -84,10 +84,10 @@ array(
             0: Stmt_Property(
                 attrGroups: array(
                 )
-                flags: MODIFIER_READONLY (64)
+                flags: READONLY (64)
                 type: null
                 props: array(
-                    0: Stmt_PropertyProperty(
+                    0: PropertyItem(
                         name: VarLikeIdentifier(
                             name: a
                         )
@@ -117,7 +117,7 @@ array(
             0: Stmt_ClassMethod(
                 attrGroups: array(
                 )
-                flags: MODIFIER_ABSTRACT (16)
+                flags: ABSTRACT (16)
                 byRef: false
                 name: Identifier(
                     name: a
@@ -149,10 +149,10 @@ array(
             0: Stmt_Property(
                 attrGroups: array(
                 )
-                flags: MODIFIER_STATIC (8)
+                flags: STATIC (8)
                 type: null
                 props: array(
-                    0: Stmt_PropertyProperty(
+                    0: PropertyItem(
                         name: VarLikeIdentifier(
                             name: a
                         )
@@ -182,7 +182,7 @@ array(
             0: Stmt_ClassMethod(
                 attrGroups: array(
                 )
-                flags: MODIFIER_FINAL (32)
+                flags: FINAL (32)
                 byRef: false
                 name: Identifier(
                     name: a
@@ -215,7 +215,7 @@ array(
             0: Stmt_ClassMethod(
                 attrGroups: array(
                 )
-                flags: MODIFIER_ABSTRACT | MODIFIER_FINAL (48)
+                flags: ABSTRACT | FINAL (48)
                 byRef: false
                 name: Identifier(
                     name: a
@@ -236,7 +236,7 @@ array(
     0: Stmt_Class(
         attrGroups: array(
         )
-        flags: MODIFIER_ABSTRACT | MODIFIER_FINAL (48)
+        flags: ABSTRACT | FINAL (48)
         name: Identifier(
             name: A
         )
@@ -266,10 +266,10 @@ array(
             0: Stmt_Property(
                 attrGroups: array(
                 )
-                flags: MODIFIER_ABSTRACT (16)
+                flags: ABSTRACT (16)
                 type: null
                 props: array(
-                    0: Stmt_PropertyProperty(
+                    0: PropertyItem(
                         name: VarLikeIdentifier(
                             name: b
                         )
@@ -299,10 +299,10 @@ array(
             0: Stmt_Property(
                 attrGroups: array(
                 )
-                flags: MODIFIER_FINAL (32)
+                flags: FINAL (32)
                 type: null
                 props: array(
-                    0: Stmt_PropertyProperty(
+                    0: PropertyItem(
                         name: VarLikeIdentifier(
                             name: a
                         )

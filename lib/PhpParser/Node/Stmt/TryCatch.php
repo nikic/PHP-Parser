@@ -4,8 +4,7 @@ namespace PhpParser\Node\Stmt;
 
 use PhpParser\Node;
 
-class TryCatch extends Node\Stmt
-{
+class TryCatch extends Node\Stmt {
     /** @var Node\Stmt[] Statements */
     public $stmts;
     /** @var Catch_[] Catches */
@@ -28,11 +27,11 @@ class TryCatch extends Node\Stmt
         $this->finally = $finally;
     }
 
-    public function getSubNodeNames() : array {
+    public function getSubNodeNames(): array {
         return ['stmts', 'catches', 'finally'];
     }
 
-    public function getType() : string {
+    public function getType(): string {
         return 'Stmt_TryCatch';
     }
 }

@@ -6,8 +6,7 @@ use PhpParser\Node\Name;
 use PhpParser\Node\Name\FullyQualified;
 use PhpParser\Node\Stmt;
 
-class NameContext
-{
+class NameContext {
     /** @var null|Name Current namespace */
     protected $namespace;
 
@@ -142,7 +141,7 @@ class NameContext
      *
      * @return Name Resolved name
      */
-    public function getResolvedClassName(Name $name) : Name {
+    public function getResolvedClassName(Name $name): Name {
         return $this->getResolvedName($name, Stmt\Use_::TYPE_NORMAL);
     }
 
@@ -154,7 +153,7 @@ class NameContext
      *
      * @return Name[] Possible representations of the name
      */
-    public function getPossibleNames(string $name, int $type) : array {
+    public function getPossibleNames(string $name, int $type): array {
         $lcName = strtolower($name);
 
         if ($type === Stmt\Use_::TYPE_NORMAL) {
@@ -210,7 +209,7 @@ class NameContext
      *
      * @return Name Shortest representation
      */
-    public function getShortName(string $name, int $type) : Name {
+    public function getShortName(string $name, int $type): Name {
         $possibleNames = $this->getPossibleNames($name, $type);
 
         // Find shortest name
@@ -224,7 +223,7 @@ class NameContext
             }
         }
 
-       return $shortestName;
+        return $shortestName;
     }
 
     private function resolveAlias(Name $name, $type) {

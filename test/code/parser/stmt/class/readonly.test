@@ -9,7 +9,7 @@ array(
     0: Stmt_Class(
         attrGroups: array(
         )
-        flags: MODIFIER_READONLY (64)
+        flags: READONLY (64)
         name: Identifier(
             name: A
         )
@@ -30,7 +30,7 @@ array(
     0: Stmt_Class(
         attrGroups: array(
         )
-        flags: MODIFIER_FINAL | MODIFIER_READONLY (96)
+        flags: FINAL | READONLY (96)
         name: Identifier(
             name: A
         )

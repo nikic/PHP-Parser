@@ -7,8 +7,7 @@ use PhpParser\Node\Scalar;
 use PhpParser\Node\Stmt;
 use PhpParser\Node\Expr;
 
-class BuilderHelpersTest extends \PHPUnit\Framework\TestCase
-{
+class BuilderHelpersTest extends \PHPUnit\Framework\TestCase {
     public function testNormalizeNode() {
         $builder = new Class_('SomeClass');
         $this->assertEquals($builder->getNode(), BuilderHelpers::normalizeNode($builder));
@@ -175,19 +174,19 @@ class BuilderHelpersTest extends \PHPUnit\Framework\TestCase
     }
 
     public function testNormalizeValue() {
-        $expression = new Scalar\LNumber(1);
+        $expression = new Scalar\Int_(1);
         $this->assertSame($expression, BuilderHelpers::normalizeValue($expression));
 
         $this->assertEquals(new Expr\ConstFetch(new Node\Name('null')), BuilderHelpers::normalizeValue(null));
         $this->assertEquals(new Expr\ConstFetch(new Node\Name('true')), BuilderHelpers::normalizeValue(true));
         $this->assertEquals(new Expr\ConstFetch(new Node\Name('false')), BuilderHelpers::normalizeValue(false));
-        $this->assertEquals(new Scalar\LNumber(2), BuilderHelpers::normalizeValue(2));
-        $this->assertEquals(new Scalar\DNumber(2.5), BuilderHelpers::normalizeValue(2.5));
+        $this->assertEquals(new Scalar\Int_(2), BuilderHelpers::normalizeValue(2));
+        $this->assertEquals(new Scalar\Float_(2.5), BuilderHelpers::normalizeValue(2.5));
         $this->assertEquals(new Scalar\String_('text'), BuilderHelpers::normalizeValue('text'));
         $this->assertEquals(
             new Expr\Array_([
-                new Expr\ArrayItem(new Scalar\LNumber(0)),
-                new Expr\ArrayItem(new Scalar\LNumber(1), new Scalar\String_('test')),
+                new Node\ArrayItem(new Scalar\Int_(0)),
+                new Node\ArrayItem(new Scalar\Int_(1), new Scalar\String_('test')),
             ]),
             BuilderHelpers::normalizeValue([
                 0,

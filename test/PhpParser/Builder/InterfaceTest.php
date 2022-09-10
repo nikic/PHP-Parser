@@ -9,18 +9,17 @@ use PhpParser\Node\Attribute;
 use PhpParser\Node\AttributeGroup;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Name;
-use PhpParser\Node\Scalar\DNumber;
-use PhpParser\Node\Scalar\LNumber;
+use PhpParser\Node\Scalar\Float_;
+use PhpParser\Node\Scalar\Int_;
 use PhpParser\Node\Stmt;
 
-class InterfaceTest extends \PHPUnit\Framework\TestCase
-{
+class InterfaceTest extends \PHPUnit\Framework\TestCase {
     protected function createInterfaceBuilder() {
         return new Interface_('Contract');
     }
 
     private function dump($node) {
-        $pp = new \PhpParser\PrettyPrinter\Standard;
+        $pp = new \PhpParser\PrettyPrinter\Standard();
         return $pp->prettyPrint([$node]);
     }
 
@@ -51,7 +50,7 @@ class InterfaceTest extends \PHPUnit\Framework\TestCase
 
     public function testAddConst() {
         $const = new Stmt\ClassConst([
-            new Node\Const_('SPEED_OF_LIGHT', new DNumber(299792458.0))
+            new Node\Const_('SPEED_OF_LIGHT', new Float_(299792458.0))
         ]);
         $contract = $this->createInterfaceBuilder()->addStmt($const)->getNode();
         $this->assertSame(299792458.0, $contract->stmts[0]->consts[0]->value->value);
@@ -59,7 +58,7 @@ class InterfaceTest extends \PHPUnit\Framework\TestCase
 
     public function testOrder() {
         $const = new Stmt\ClassConst([
-            new Node\Const_('SPEED_OF_LIGHT', new DNumber(299792458))
+            new Node\Const_('SPEED_OF_LIGHT', new Float_(299792458))
         ]);
         $method = new Stmt\ClassMethod('doSomething');
         $contract = $this->createInterfaceBuilder()
@@ -85,7 +84,7 @@ class InterfaceTest extends \PHPUnit\Framework\TestCase
     public function testAddAttribute() {
         $attribute = new Attribute(
             new Name('Attr'),
-            [new Arg(new LNumber(1), false, false, [], new Identifier('name'))]
+            [new Arg(new Int_(1), false, false, [], new Identifier('name'))]
         );
         $attributeGroup = new AttributeGroup([$attribute]);
 
@@ -100,13 +99,13 @@ class InterfaceTest extends \PHPUnit\Framework\TestCase
 
     public function testInvalidStmtError() {
         $this->expectException(\LogicException::class);
-        $this->expectExceptionMessage('Unexpected node of type "Stmt_PropertyProperty"');
-        $this->createInterfaceBuilder()->addStmt(new Stmt\PropertyProperty('invalid'));
+        $this->expectExceptionMessage('Unexpected node of type "PropertyItem"');
+        $this->createInterfaceBuilder()->addStmt(new Node\PropertyItem('invalid'));
     }
 
     public function testFullFunctional() {
         $const = new Stmt\ClassConst([
-            new Node\Const_('SPEED_OF_LIGHT', new DNumber(299792458))
+            new Node\Const_('SPEED_OF_LIGHT', new Float_(299792458))
         ]);
         $method = new Stmt\ClassMethod('doSomething');
         $contract = $this->createInterfaceBuilder()

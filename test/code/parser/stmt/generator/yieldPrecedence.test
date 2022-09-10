@@ -94,7 +94,7 @@ array(
                             name: null
                             value: Expr_Array(
                                 items: array(
-                                    0: Expr_ArrayItem(
+                                    0: ArrayItem(
                                         key: null
                                         value: Expr_Yield(
                                             key: Scalar_String(
@@ -178,7 +178,7 @@ array(
                             name: null
                             value: Expr_Array(
                                 items: array(
-                                    0: Expr_ArrayItem(
+                                    0: ArrayItem(
                                         key: null
                                         value: Expr_Yield(
                                             key: Scalar_String(
@@ -221,7 +221,7 @@ array(
                             name: null
                             value: Expr_Array(
                                 items: array(
-                                    0: Expr_ArrayItem(
+                                    0: ArrayItem(
                                         key: Expr_Yield(
                                             key: Scalar_String(
                                                 value: k1

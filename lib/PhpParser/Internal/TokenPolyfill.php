@@ -3,7 +3,8 @@
 namespace PhpParser\Internal;
 
 if (\PHP_VERSION_ID >= 80000) {
-    class TokenPolyfill extends \PhpToken {}
+    class TokenPolyfill extends \PhpToken {
+    }
     return;
 }
 
@@ -78,7 +79,7 @@ class TokenPolyfill {
                     if ($this->id === $entry) {
                         return true;
                     }
-                } else if (\is_string($entry)) {
+                } elseif (\is_string($entry)) {
                     if ($this->text === $entry) {
                         return true;
                     }
@@ -196,7 +197,7 @@ class TokenPolyfill {
                     if ($j > $i + 1) {
                         if ($id === \T_NS_SEPARATOR) {
                             $id = \T_NAME_FULLY_QUALIFIED;
-                        } else if ($id === \T_NAMESPACE) {
+                        } elseif ($id === \T_NAMESPACE) {
                             $id = \T_NAME_RELATIVE;
                         } else {
                             $id = \T_NAME_QUALIFIED;

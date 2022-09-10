@@ -10,10 +10,9 @@ use PhpParser\Node\Expr;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Name;
 use PhpParser\Node\Scalar;
-use PhpParser\Node\Scalar\LNumber;
+use PhpParser\Node\Scalar\Int_;
 
-class ParamTest extends \PHPUnit\Framework\TestCase
-{
+class ParamTest extends \PHPUnit\Framework\TestCase {
     public function createParamBuilder($name) {
         return new Param($name);
     }
@@ -46,11 +45,11 @@ class ParamTest extends \PHPUnit\Framework\TestCase
             ],
             [
                 31415,
-                new Scalar\LNumber(31415)
+                new Scalar\Int_(31415)
             ],
             [
                 3.1415,
-                new Scalar\DNumber(3.1415)
+                new Scalar\Float_(3.1415)
             ],
             [
                 'Hallo World',
@@ -59,27 +58,27 @@ class ParamTest extends \PHPUnit\Framework\TestCase
             [
                 [1, 2, 3],
                 new Expr\Array_([
-                    new Expr\ArrayItem(new Scalar\LNumber(1)),
-                    new Expr\ArrayItem(new Scalar\LNumber(2)),
-                    new Expr\ArrayItem(new Scalar\LNumber(3)),
+                    new Node\ArrayItem(new Scalar\Int_(1)),
+                    new Node\ArrayItem(new Scalar\Int_(2)),
+                    new Node\ArrayItem(new Scalar\Int_(3)),
                 ])
             ],
             [
                 ['foo' => 'bar', 'bar' => 'foo'],
                 new Expr\Array_([
-                    new Expr\ArrayItem(
+                    new Node\ArrayItem(
                         new Scalar\String_('bar'),
                         new Scalar\String_('foo')
                     ),
-                    new Expr\ArrayItem(
+                    new Node\ArrayItem(
                         new Scalar\String_('foo'),
                         new Scalar\String_('bar')
                     ),
                 ])
             ],
             [
-                new Scalar\MagicConst\Dir,
-                new Scalar\MagicConst\Dir
+                new Scalar\MagicConst\Dir(),
+                new Scalar\MagicConst\Dir()
             ]
         ];
     }
@@ -178,7 +177,7 @@ class ParamTest extends \PHPUnit\Framework\TestCase
     public function testInvalidTypeError() {
         $this->expectException(\LogicException::class);
         $this->expectExceptionMessage('Type must be a string, or an instance of Name, Identifier or ComplexType');
-        $this->createParamBuilder('test')->setType(new \stdClass);
+        $this->createParamBuilder('test')->setType(new \stdClass());
     }
 
     public function testByRef() {
@@ -208,7 +207,7 @@ class ParamTest extends \PHPUnit\Framework\TestCase
     public function testAddAttribute() {
         $attribute = new Attribute(
             new Name('Attr'),
-            [new Arg(new LNumber(1), false, false, [], new Identifier('name'))]
+            [new Arg(new Int_(1), false, false, [], new Identifier('name'))]
         );
         $attributeGroup = new AttributeGroup([$attribute]);
 

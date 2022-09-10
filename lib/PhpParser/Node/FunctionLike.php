@@ -4,21 +4,20 @@ namespace PhpParser\Node;
 
 use PhpParser\Node;
 
-interface FunctionLike extends Node
-{
+interface FunctionLike extends Node {
     /**
      * Whether to return by reference
      *
      * @return bool
      */
-    public function returnsByRef() : bool;
+    public function returnsByRef(): bool;
 
     /**
      * List of parameters
      *
      * @return Param[]
      */
-    public function getParams() : array;
+    public function getParams(): array;
 
     /**
      * Get the declared return type or null
@@ -39,5 +38,5 @@ interface FunctionLike extends Node
      *
      * @return AttributeGroup[]
      */
-    public function getAttrGroups() : array;
+    public function getAttrGroups(): array;
 }

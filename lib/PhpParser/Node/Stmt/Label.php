@@ -5,8 +5,7 @@ namespace PhpParser\Node\Stmt;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Stmt;
 
-class Label extends Stmt
-{
+class Label extends Stmt {
     /** @var Identifier Name */
     public $name;
 
@@ -21,11 +20,11 @@ class Label extends Stmt
         $this->name = \is_string($name) ? new Identifier($name) : $name;
     }
 
-    public function getSubNodeNames() : array {
+    public function getSubNodeNames(): array {
         return ['name'];
     }
-    
-    public function getType() : string {
+
+    public function getType(): string {
         return 'Stmt_Label';
     }
 }

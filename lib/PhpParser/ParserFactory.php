@@ -5,8 +5,7 @@ namespace PhpParser;
 use PhpParser\Parser\Php7;
 use PhpParser\Parser\Php8;
 
-class ParserFactory
-{
+class ParserFactory {
     public const PREFER_PHP7 = 1;
     public const ONLY_PHP7 = 3;
 

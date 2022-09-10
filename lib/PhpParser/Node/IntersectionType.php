@@ -2,9 +2,7 @@
 
 namespace PhpParser\Node;
 
-
-class IntersectionType extends ComplexType
-{
+class IntersectionType extends ComplexType {
     /** @var (Identifier|Name)[] Types */
     public $types;
 
@@ -19,11 +17,11 @@ class IntersectionType extends ComplexType
         $this->types = $types;
     }
 
-    public function getSubNodeNames() : array {
+    public function getSubNodeNames(): array {
         return ['types'];
     }
 
-    public function getType() : string {
+    public function getType(): string {
         return 'IntersectionType';
     }
 }

@@ -7,8 +7,7 @@ use PhpParser\BuilderHelpers;
 use PhpParser\Node;
 use PhpParser\Node\Stmt;
 
-class Trait_ extends Declaration
-{
+class Trait_ extends Declaration {
     protected $name;
     protected $uses = [];
     protected $properties = [];
@@ -67,7 +66,7 @@ class Trait_ extends Declaration
      *
      * @return Stmt\Trait_ The built interface node
      */
-    public function getNode() : PhpParser\Node {
+    public function getNode(): PhpParser\Node {
         return new Stmt\Trait_(
             $this->name, [
                 'stmts' => array_merge($this->uses, $this->properties, $this->methods),

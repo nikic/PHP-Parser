@@ -10,7 +10,7 @@ visitor (NameResolver) based on it.
 The NameResolver visitor
 ------------------------
 
-The `NameResolver` visitor can (and for nearly all uses of the AST, is) be applied to resolve names
+The `NameResolver` visitor can (and for nearly all uses of the AST, should) be applied to resolve names
 to their fully-qualified form, to the degree that this is possible.
 
 ```php
@@ -53,7 +53,7 @@ name. Once again, if an unqualified function or constant name cannot be resolved
 `resolvedName` attribute will not be present, and instead a `namespacedName` attribute is added.
 
 The `replaceNodes` attribute is useful if you wish to perform modifications on the AST, as you
-probably do not wish the resoluting code to have fully resolved names as a side-effect.
+probably do not wish the resulting code to have fully resolved names as a side-effect.
 
 The NameContext
 ---------------

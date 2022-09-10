@@ -36,7 +36,7 @@ array(
                     0: Stmt_ClassMethod(
                         attrGroups: array(
                         )
-                        flags: MODIFIER_PUBLIC (1)
+                        flags: PUBLIC (1)
                         byRef: false
                         name: Identifier(
                             name: test
@@ -98,10 +98,10 @@ array(
                     0: Stmt_Property(
                         attrGroups: array(
                         )
-                        flags: MODIFIER_PUBLIC (1)
+                        flags: PUBLIC (1)
                         type: null
                         props: array(
-                            0: Stmt_PropertyProperty(
+                            0: PropertyItem(
                                 name: VarLikeIdentifier(
                                     name: foo
                                 )
@@ -177,7 +177,7 @@ array(
             0: Stmt_ClassMethod(
                 attrGroups: array(
                 )
-                flags: MODIFIER_PUBLIC (1)
+                flags: PUBLIC (1)
                 byRef: false
                 name: Identifier(
                     name: test

@@ -42,16 +42,17 @@ The attributes used in this example match the default behavior of the lexer. The
 > **Note:** The example in this section is outdated in that this information is directly available in the AST: While
 > `$property->isPublic()` does not distinguish between `public` and `var`, directly checking `$property->flags` for
 > the `$property->flags & Class_::VISIBILITY_MODIFIER_MASK) === 0` allows making this distinction without resorting to
-> tokens. However the general idea behind the example still applies in other cases.
+> tokens. However, the general idea behind the example still applies in other cases.
 
 The token offset information is useful if you wish to examine the exact formatting used for a node. For example the AST
 does not distinguish whether a property was declared using `public` or using `var`, but you can retrieve this
 information based on the token position:
 
 ```php
+/** @param PhpParser\Token[] $tokens */
 function isDeclaredUsingVar(array $tokens, PhpParser\Node\Stmt\Property $prop) {
-    $i = $prop->getAttribute('startTokenPos');
-    return $tokens[$i][0] === T_VAR;
+    $i = $prop->getStartTokenPos();
+    return $tokens[$i]->id === T_VAR;
 }
 ```
 
@@ -72,12 +73,12 @@ class MyNodeVisitor extends PhpParser\NodeVisitorAbstract {
     }
 }
 
-$lexer = new PhpParser\Lexer(array(
+$lexerOptions = array(
     'usedAttributes' => array(
         'comments', 'startLine', 'endLine', 'startTokenPos', 'endTokenPos'
     )
-));
-$parser = (new PhpParser\ParserFactory)->create(PhpParser\ParserFactory::ONLY_PHP7, $lexer);
+);
+$parser = (new PhpParser\ParserFactory())->createForHostVersion($lexerOptions);
 
 $visitor = new MyNodeVisitor();
 $traverser = new PhpParser\NodeTraverser();
@@ -111,14 +112,15 @@ The `startLexing()` method is invoked whenever the `parse()` method of the parse
 code that is to be lexed (including the opening tag). It can be used to reset state or preprocess the source code or tokens. The
 passed `ErrorHandler` should be used to report lexing errors.
 
-The `getTokens()` method returns the current token array, in the usual `token_get_all()` format. This method is not
-used by the parser (which uses `getNextToken()`), but is useful in combination with the token position attributes.
+The `getTokens()` method returns the current array of `PhpParser\Token`s, which are compatible with the PHP 8 `PhpToken`
+class. This method is not used by the parser (which uses `getNextToken()`), but is useful in combination with the token
+position attributes.
 
 The `handleHaltCompiler()` method is called whenever a `T_HALT_COMPILER` token is encountered. It has to return the
 remaining string after the construct (not including `();`).
 
-The `getNextToken()` method returns the ID of the next token (as defined by the `Parser::T_*` constants). If no more
-tokens are available it must return `0`, which is the ID of the `EOF` token. Furthermore the string content of the
+The `getNextToken()` method returns the ID of the next token (in the sense of `Token::$id`). If no more
+tokens are available it must return `0`, which is the ID of the `EOF` token. Furthermore, the string content of the
 token should be written into the by-reference `$value` parameter (which will then be available as `$n` in the parser).
 
 ### Attribute handling
@@ -144,10 +146,10 @@ class KeepOriginalValueLexer extends Lexer // or Lexer\Emulative
     public function getNextToken(&$value = null, &$startAttributes = null, &$endAttributes = null) {
         $tokenId = parent::getNextToken($value, $startAttributes, $endAttributes);
 
-        if ($tokenId == Tokens::T_CONSTANT_ENCAPSED_STRING   // non-interpolated string
-            || $tokenId == Tokens::T_ENCAPSED_AND_WHITESPACE // interpolated string
-            || $tokenId == Tokens::T_LNUMBER                 // integer
-            || $tokenId == Tokens::T_DNUMBER                 // floating point number
+        if ($tokenId == \T_CONSTANT_ENCAPSED_STRING   // non-interpolated string
+            || $tokenId == \T_ENCAPSED_AND_WHITESPACE // interpolated string
+            || $tokenId == \T_LNUMBER                 // integer
+            || $tokenId == \T_DNUMBER                 // floating point number
         ) {
             // could also use $startAttributes, doesn't really matter here
             $endAttributes['originalValue'] = $value;
