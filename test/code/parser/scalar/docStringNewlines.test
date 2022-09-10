@@ -32,12 +32,12 @@ array(
         )
     )
     3: Stmt_Expression(
-        expr: Scalar_Encapsed(
+        expr: Scalar_InterpolatedString(
             parts: array(
                 0: Expr_Variable(
                     name: var
                 )
-                1: Scalar_EncapsedStringPart(
+                1: InterpolatedStringPart(
                     value:
 
                 )
@@ -62,12 +62,12 @@ array(
         )
     )
     7: Stmt_Expression(
-        expr: Scalar_Encapsed(
+        expr: Scalar_InterpolatedString(
             parts: array(
                 0: Expr_Variable(
                     name: var
                 )
-                1: Scalar_EncapsedStringPart(
+                1: InterpolatedStringPart(
                     value:
 
                 )

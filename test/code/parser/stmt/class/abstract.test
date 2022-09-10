@@ -11,7 +11,7 @@ array(
     0: Stmt_Class(
         attrGroups: array(
         )
-        flags: MODIFIER_ABSTRACT (16)
+        flags: ABSTRACT (16)
         name: Identifier(
             name: A
         )
@@ -22,7 +22,7 @@ array(
             0: Stmt_ClassMethod(
                 attrGroups: array(
                 )
-                flags: MODIFIER_PUBLIC (1)
+                flags: PUBLIC (1)
                 byRef: false
                 name: Identifier(
                     name: a
@@ -36,7 +36,7 @@ array(
             1: Stmt_ClassMethod(
                 attrGroups: array(
                 )
-                flags: MODIFIER_PUBLIC | MODIFIER_ABSTRACT (17)
+                flags: PUBLIC | ABSTRACT (17)
                 byRef: false
                 name: Identifier(
                     name: b

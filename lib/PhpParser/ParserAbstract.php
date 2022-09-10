@@ -13,8 +13,8 @@ use PhpParser\Node\Expr\Array_;
 use PhpParser\Node\Expr\Cast\Double;
 use PhpParser\Node\Name;
 use PhpParser\Node\Param;
-use PhpParser\Node\Scalar\Encapsed;
-use PhpParser\Node\Scalar\LNumber;
+use PhpParser\Node\Scalar\InterpolatedString;
+use PhpParser\Node\Scalar\Int_;
 use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassConst;
@@ -24,7 +24,7 @@ use PhpParser\Node\Stmt\Interface_;
 use PhpParser\Node\Stmt\Namespace_;
 use PhpParser\Node\Stmt\Property;
 use PhpParser\Node\Stmt\TryCatch;
-use PhpParser\Node\Stmt\UseUse;
+use PhpParser\Node\UseItem;
 
 abstract class ParserAbstract implements Parser {
     private const SYMBOL_NONE = -1;
@@ -121,6 +121,9 @@ abstract class ParserAbstract implements Parser {
     /** @var int Error state, used to avoid error floods */
     protected $errorState;
 
+    /** @var \SplObjectStorage Array nodes created during parsing, for postprocessing of empty elements. */
+    protected $createdArrays;
+
     /**
      * Initialize $reduceCallbacks map.
      */
@@ -162,9 +165,22 @@ abstract class ParserAbstract implements Parser {
      */
     public function parse(string $code, ?ErrorHandler $errorHandler = null): ?array {
         $this->errorHandler = $errorHandler ?: new ErrorHandler\Throwing();
+        $this->createdArrays = new \SplObjectStorage();
 
         $this->lexer->startLexing($code, $this->errorHandler);
         $result = $this->doParse();
+
+        // Report errors for any empty elements used inside arrays. This is delayed until after the main parse,
+        // because we don't know a priori whether a given array expression will be used in a destructuring context
+        // or not.
+        foreach ($this->createdArrays as $node) {
+            foreach ($node->items as $item) {
+                if ($item->value instanceof Expr\Error) {
+                    $this->errorHandler->handleError(
+                        new Error('Cannot use empty array elements in arrays', $item->getAttributes()));
+                }
+            }
+        }
 
         // Clear out some of the interior state, so we don't hold onto unnecessary
         // memory between uses of the parser
@@ -172,6 +188,7 @@ abstract class ParserAbstract implements Parser {
         $this->endAttributeStack = [];
         $this->semStack = [];
         $this->semValue = null;
+        $this->createdArrays = null;
 
         return $result;
     }
@@ -647,11 +664,11 @@ abstract class ParserAbstract implements Parser {
 
     protected function parseLNumber($str, $attributes, $allowInvalidOctal = false) {
         try {
-            return LNumber::fromString($str, $attributes, $allowInvalidOctal);
+            return Int_::fromString($str, $attributes, $allowInvalidOctal);
         } catch (Error $error) {
             $this->emitError($error);
             // Use dummy value
-            return new LNumber(0, $attributes);
+            return new Int_(0, $attributes);
         }
     }
 
@@ -661,7 +678,7 @@ abstract class ParserAbstract implements Parser {
      * @param string $str        Number string
      * @param array  $attributes Attributes
      *
-     * @return LNumber|String_ Integer or string node.
+     * @return Int_|String_ Integer or string node.
      */
     protected function parseNumString(string $str, array $attributes) {
         if (!preg_match('/^(?:0|-?[1-9][0-9]*)$/', $str)) {
@@ -673,7 +690,7 @@ abstract class ParserAbstract implements Parser {
             return new String_($str, $attributes);
         }
 
-        return new LNumber($num, $attributes);
+        return new Int_($num, $attributes);
     }
 
     protected function stripIndentation(
@@ -760,7 +777,7 @@ abstract class ParserAbstract implements Parser {
             return new String_($contents, $attributes);
         } else {
             assert(count($contents) > 0);
-            if (!$contents[0] instanceof Node\Scalar\EncapsedStringPart) {
+            if (!$contents[0] instanceof Node\InterpolatedStringPart) {
                 // If there is no leading encapsed string part, pretend there is an empty one
                 $this->stripIndentation(
                     '', $indentLen, $indentChar, true, false, $contents[0]->getAttributes()
@@ -769,7 +786,7 @@ abstract class ParserAbstract implements Parser {
 
             $newContents = [];
             foreach ($contents as $i => $part) {
-                if ($part instanceof Node\Scalar\EncapsedStringPart) {
+                if ($part instanceof Node\InterpolatedStringPart) {
                     $isLast = $i === \count($contents) - 1;
                     $part->value = $this->stripIndentation(
                         $part->value, $indentLen, $indentChar,
@@ -785,7 +802,7 @@ abstract class ParserAbstract implements Parser {
                 }
                 $newContents[] = $part;
             }
-            return new Encapsed($newContents, $attributes);
+            return new InterpolatedString($newContents, $attributes);
         }
     }
 
@@ -817,15 +834,42 @@ abstract class ParserAbstract implements Parser {
         return $attributes;
     }
 
-    protected function fixupArrayDestructuring(Array_ $node) {
-        return new Expr\List_(array_map(function (?Expr\ArrayItem $item) {
-            if ($item !== null && $item->value instanceof Array_) {
-                return new Expr\ArrayItem(
+    protected function createEmptyElemAttributes(array $attrs): array {
+        if (isset($attrs['startLine'])) {
+            $attrs['endLine'] = $attrs['startLine'];
+        }
+        if (isset($attrs['startFilePos'])) {
+            $attrs['endFilePos'] = $attrs['startFilePos'];
+        }
+        if (isset($attrs['startTokenPos'])) {
+            $attrs['endTokenPos'] = $attrs['startTokenPos'];
+        }
+        return $attrs;
+    }
+
+    protected function fixupArrayDestructuring(Array_ $node): Expr\List_ {
+        $this->createdArrays->detach($node);
+        return new Expr\List_(array_map(function (Node\ArrayItem $item) {
+            if ($item->value instanceof Expr\Error) {
+                // We used Error as a placeholder for empty elements, which are legal for destructuring.
+                return null;
+            }
+            if ($item->value instanceof Array_) {
+                return new Node\ArrayItem(
                     $this->fixupArrayDestructuring($item->value),
                     $item->key, $item->byRef, $item->getAttributes());
             }
             return $item;
         }, $node->items), ['kind' => Expr\List_::KIND_ARRAY] + $node->getAttributes());
+    }
+
+    protected function postprocessList(Expr\List_ $node): void {
+        foreach ($node->items as $i => $item) {
+            if ($item->value instanceof Expr\Error) {
+                // We used Error as a placeholder for empty elements, which are legal for destructuring.
+                $node->items[$i] = null;
+            }
+        }
     }
 
     protected function checkClassModifier($a, $b, $modifierPos) {
@@ -977,7 +1021,7 @@ abstract class ParserAbstract implements Parser {
         }
     }
 
-    protected function checkUseUse(UseUse $node, $namePos) {
+    protected function checkUseUse(UseItem $node, $namePos) {
         if ($node->alias && $node->alias->isSpecialClassName()) {
             $this->emitError(new Error(
                 sprintf(

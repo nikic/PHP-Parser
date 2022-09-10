@@ -14,10 +14,10 @@ In order to receive information about not only the line, but also the column spa
 position attributes in the lexer need to be enabled:
 
 ```php
-$lexer = new PhpParser\Lexer(array(
+$lexerOptions = array(
     'usedAttributes' => array('comments', 'startLine', 'endLine', 'startFilePos', 'endFilePos'),
-));
-$parser = (new PhpParser\ParserFactory)->create(PhpParser\ParserFactory::PREFER_PHP7, $lexer);
+);
+$parser = (new PhpParser\ParserFactory())->createForHostVersion($lexerOptions);
 
 try {
     $stmts = $parser->parse($code);
@@ -56,7 +56,7 @@ To instead collect all encountered errors into an array, while trying to continu
 an instance of `ErrorHandler\Collecting` can be passed to the `Parser::parse()` method. A usage example:
 
 ```php
-$parser = (new PhpParser\ParserFactory)->create(PhpParser\ParserFactory::ONLY_PHP7);
+$parser = (new PhpParser\ParserFactory())->createForHostVersion();
 $errorHandler = new PhpParser\ErrorHandler\Collecting;
 
 $stmts = $parser->parse($code, $errorHandler);
@@ -71,5 +71,7 @@ if (null !== $stmts) {
     // $stmts is a best-effort partial AST
 }
 ```
+
+The partial AST may contain `Expr\Error` nodes that indicate that an error occurred while parsing an expression.
 
 The `NameResolver` visitor also accepts an `ErrorHandler` as a constructor argument.

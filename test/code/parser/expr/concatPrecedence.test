@@ -9,18 +9,18 @@ array(
     0: Stmt_Expression(
         expr: Expr_BinaryOp_Concat(
             left: Expr_BinaryOp_Plus(
-                left: Scalar_LNumber(
+                left: Scalar_Int(
                     value: 1
                 )
-                right: Scalar_LNumber(
+                right: Scalar_Int(
                     value: 2
                 )
             )
             right: Expr_BinaryOp_Plus(
-                left: Scalar_LNumber(
+                left: Scalar_Int(
                     value: 3
                 )
-                right: Scalar_LNumber(
+                right: Scalar_Int(
                     value: 4
                 )
             )
@@ -29,18 +29,18 @@ array(
     1: Stmt_Expression(
         expr: Expr_BinaryOp_Concat(
             left: Expr_BinaryOp_ShiftLeft(
-                left: Scalar_LNumber(
+                left: Scalar_Int(
                     value: 1
                 )
-                right: Scalar_LNumber(
+                right: Scalar_Int(
                     value: 2
                 )
             )
             right: Expr_BinaryOp_ShiftLeft(
-                left: Scalar_LNumber(
+                left: Scalar_Int(
                     value: 3
                 )
-                right: Scalar_LNumber(
+                right: Scalar_Int(
                     value: 4
                 )
             )
@@ -58,18 +58,18 @@ array(
         expr: Expr_BinaryOp_Plus(
             left: Expr_BinaryOp_Concat(
                 left: Expr_BinaryOp_Plus(
-                    left: Scalar_LNumber(
+                    left: Scalar_Int(
                         value: 1
                     )
-                    right: Scalar_LNumber(
+                    right: Scalar_Int(
                         value: 2
                     )
                 )
-                right: Scalar_LNumber(
+                right: Scalar_Int(
                     value: 3
                 )
             )
-            right: Scalar_LNumber(
+            right: Scalar_Int(
                 value: 4
             )
         )
@@ -77,19 +77,19 @@ array(
     1: Stmt_Expression(
         expr: Expr_BinaryOp_ShiftLeft(
             left: Expr_BinaryOp_ShiftLeft(
-                left: Scalar_LNumber(
+                left: Scalar_Int(
                     value: 1
                 )
                 right: Expr_BinaryOp_Concat(
-                    left: Scalar_LNumber(
+                    left: Scalar_Int(
                         value: 2
                     )
-                    right: Scalar_LNumber(
+                    right: Scalar_Int(
                         value: 3
                     )
                 )
             )
-            right: Scalar_LNumber(
+            right: Scalar_Int(
                 value: 4
             )
         )

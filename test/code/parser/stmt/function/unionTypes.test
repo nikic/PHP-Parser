@@ -23,7 +23,7 @@ array(
             0: Stmt_Property(
                 attrGroups: array(
                 )
-                flags: MODIFIER_PUBLIC (1)
+                flags: PUBLIC (1)
                 type: UnionType(
                     types: array(
                         0: Name(
@@ -40,7 +40,7 @@ array(
                     )
                 )
                 props: array(
-                    0: Stmt_PropertyProperty(
+                    0: PropertyItem(
                         name: VarLikeIdentifier(
                             name: prop
                         )

@@ -7,11 +7,12 @@ use PhpParser\Node;
 use PhpParser\Node\ComplexType;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Name;
+use PhpParser\Node\PropertyItem;
 
 class Property extends Node\Stmt {
     /** @var int Modifiers */
     public $flags;
-    /** @var PropertyProperty[] Properties */
+    /** @var PropertyItem[] Properties */
     public $props;
     /** @var null|Identifier|Name|ComplexType Type declaration */
     public $type;
@@ -22,7 +23,7 @@ class Property extends Node\Stmt {
      * Constructs a class property list node.
      *
      * @param int                                     $flags      Modifiers
-     * @param PropertyProperty[]                      $props      Properties
+     * @param PropertyItem[]                      $props      Properties
      * @param array                                   $attributes Additional attributes
      * @param null|string|Identifier|Name|ComplexType $type       Type declaration
      * @param Node\AttributeGroup[]                   $attrGroups PHP attribute groups

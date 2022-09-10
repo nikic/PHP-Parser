@@ -42,7 +42,7 @@ class Use_ implements Builder {
      */
     public function getNode(): Node {
         return new Stmt\Use_([
-            new Stmt\UseUse($this->name, $this->alias)
+            new Node\UseItem($this->name, $this->alias)
         ], $this->type);
     }
 }

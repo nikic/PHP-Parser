@@ -6,7 +6,7 @@ use PhpParser\Node\Expr\Include_;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\GroupUse;
 use PhpParser\Node\Stmt\Use_;
-use PhpParser\Node\Stmt\UseUse;
+use PhpParser\Node\UseItem;
 
 class NodeDumper {
     private $dumpComments;
@@ -67,7 +67,7 @@ class NodeDumper {
                     } elseif ('type' === $key && $node instanceof Include_) {
                         $r .= $this->dumpIncludeType($value);
                     } elseif ('type' === $key
-                            && ($node instanceof Use_ || $node instanceof UseUse || $node instanceof GroupUse)) {
+                            && ($node instanceof Use_ || $node instanceof UseItem || $node instanceof GroupUse)) {
                         $r .= $this->dumpUseType($value);
                     } else {
                         $r .= $value;
@@ -110,25 +110,25 @@ class NodeDumper {
     protected function dumpFlags($flags) {
         $strs = [];
         if ($flags & Modifiers::PUBLIC) {
-            $strs[] = 'MODIFIER_PUBLIC';
+            $strs[] = 'PUBLIC';
         }
         if ($flags & Modifiers::PROTECTED) {
-            $strs[] = 'MODIFIER_PROTECTED';
+            $strs[] = 'PROTECTED';
         }
         if ($flags & Modifiers::PRIVATE) {
-            $strs[] = 'MODIFIER_PRIVATE';
+            $strs[] = 'PRIVATE';
         }
         if ($flags & Modifiers::ABSTRACT) {
-            $strs[] = 'MODIFIER_ABSTRACT';
+            $strs[] = 'ABSTRACT';
         }
         if ($flags & Modifiers::STATIC) {
-            $strs[] = 'MODIFIER_STATIC';
+            $strs[] = 'STATIC';
         }
         if ($flags & Modifiers::FINAL) {
-            $strs[] = 'MODIFIER_FINAL';
+            $strs[] = 'FINAL';
         }
         if ($flags & Modifiers::READONLY) {
-            $strs[] = 'MODIFIER_READONLY';
+            $strs[] = 'READONLY';
         }
 
         if ($strs) {

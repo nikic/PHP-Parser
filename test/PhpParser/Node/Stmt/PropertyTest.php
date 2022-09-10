@@ -4,8 +4,7 @@ namespace PhpParser\Node\Stmt;
 
 use PhpParser\Modifiers;
 
-class PropertyTest extends \PHPUnit\Framework\TestCase
-{
+class PropertyTest extends \PHPUnit\Framework\TestCase {
     /**
      * @dataProvider provideModifiers
      */

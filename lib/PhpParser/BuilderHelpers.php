@@ -236,11 +236,11 @@ final class BuilderHelpers {
         }
 
         if (is_int($value)) {
-            return new Scalar\LNumber($value);
+            return new Scalar\Int_($value);
         }
 
         if (is_float($value)) {
-            return new Scalar\DNumber($value);
+            return new Scalar\Float_($value);
         }
 
         if (is_string($value)) {
@@ -253,12 +253,12 @@ final class BuilderHelpers {
             foreach ($value as $itemKey => $itemValue) {
                 // for consecutive, numeric keys don't generate keys
                 if (null !== $lastKey && ++$lastKey === $itemKey) {
-                    $items[] = new Expr\ArrayItem(
+                    $items[] = new Node\ArrayItem(
                         self::normalizeValue($itemValue)
                     );
                 } else {
                     $lastKey = null;
-                    $items[] = new Expr\ArrayItem(
+                    $items[] = new Node\ArrayItem(
                         self::normalizeValue($itemValue),
                         self::normalizeValue($itemKey)
                     );

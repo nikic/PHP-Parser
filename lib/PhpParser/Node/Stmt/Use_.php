@@ -3,6 +3,7 @@
 namespace PhpParser\Node\Stmt;
 
 use PhpParser\Node\Stmt;
+use PhpParser\Node\UseItem;
 
 class Use_ extends Stmt {
     /**
@@ -20,13 +21,13 @@ class Use_ extends Stmt {
 
     /** @var int Type of alias */
     public $type;
-    /** @var UseUse[] Aliases */
+    /** @var UseItem[] Aliases */
     public $uses;
 
     /**
      * Constructs an alias (use) list node.
      *
-     * @param UseUse[] $uses       Aliases
+     * @param UseItem[] $uses       Aliases
      * @param int      $type       Type of alias
      * @param array    $attributes Additional attributes
      */

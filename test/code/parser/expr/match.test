@@ -11,13 +11,13 @@ array(
     0: Stmt_Echo(
         exprs: array(
             0: Expr_Match(
-                cond: Scalar_LNumber(
+                cond: Scalar_Int(
                     value: 1
                 )
                 arms: array(
                     0: MatchArm(
                         conds: array(
-                            0: Scalar_LNumber(
+                            0: Scalar_Int(
                                 value: 0
                             )
                         )
@@ -27,7 +27,7 @@ array(
                     )
                     1: MatchArm(
                         conds: array(
-                            0: Scalar_LNumber(
+                            0: Scalar_Int(
                                 value: 1
                             )
                         )
@@ -55,19 +55,19 @@ array(
                 name: value
             )
             expr: Expr_Match(
-                cond: Scalar_LNumber(
+                cond: Scalar_Int(
                     value: 1
                 )
                 arms: array(
                     0: MatchArm(
                         conds: array(
-                            0: Scalar_LNumber(
+                            0: Scalar_Int(
                                 value: 0
                                 comments: array(
                                     0: // list of conditions
                                 )
                             )
-                            1: Scalar_LNumber(
+                            1: Scalar_Int(
                                 value: 1
                             )
                         )
@@ -149,7 +149,7 @@ array(
                 arms: array(
                     0: MatchArm(
                         conds: array(
-                            0: Scalar_LNumber(
+                            0: Scalar_Int(
                                 value: 1
                             )
                         )
@@ -183,16 +183,16 @@ array(
                 name: value
             )
             expr: Expr_Match(
-                cond: Scalar_LNumber(
+                cond: Scalar_Int(
                     value: 1
                 )
                 arms: array(
                     0: MatchArm(
                         conds: array(
-                            0: Scalar_LNumber(
+                            0: Scalar_Int(
                                 value: 0
                             )
-                            1: Scalar_LNumber(
+                            1: Scalar_Int(
                                 value: 1
                             )
                         )

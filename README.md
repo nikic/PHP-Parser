@@ -3,12 +3,12 @@ PHP Parser
 
 [![Coverage Status](https://coveralls.io/repos/github/nikic/PHP-Parser/badge.svg?branch=master)](https://coveralls.io/github/nikic/PHP-Parser?branch=master)
 
-This is a PHP 5.2 to PHP 8.1 parser written in PHP. Its purpose is to simplify static code analysis and
+This is a PHP parser written in PHP. Its purpose is to simplify static code analysis and
 manipulation.
 
 [Documentation for version 5.x][doc_master] (in development; for running on PHP >= 7.1; for parsing PHP 7.0 to PHP 8.2, with limited support for parsing PHP 5.x).
 
-[**Documentation for version 4.x**][doc_4_x] (stable; for running on PHP >= 7.0; for parsing PHP 5.2 to PHP 8.1).
+[**Documentation for version 4.x**][doc_4_x] (stable; for running on PHP >= 7.0; for parsing PHP 5.2 to PHP 8.2).
 
 [Documentation for version 3.x][doc_3_x] (unsupported; for running on PHP >= 5.5; for parsing PHP 5.2 to PHP 7.2).
 
@@ -17,12 +17,12 @@ Features
 
 The main features provided by this library are:
 
- * Parsing PHP 5, PHP 7, and PHP 8 code into an abstract syntax tree (AST).
+ * Parsing PHP 7, and PHP 8 code into an abstract syntax tree (AST).
    * Invalid code can be parsed into a partial AST.
    * The AST contains accurate location information.
  * Dumping the AST in human-readable form.
  * Converting an AST back to PHP code.
-   * Experimental: Formatting can be preserved for partially changed ASTs.
+   * Formatting can be preserved for partially changed ASTs.
  * Infrastructure to traverse and modify ASTs.
  * Resolution of namespaced names.
  * Evaluation of constant expressions.
@@ -53,7 +53,7 @@ function test($foo)
 }
 CODE;
 
-$parser = (new ParserFactory)->create(ParserFactory::PREFER_PHP7);
+$parser = (new ParserFactory())->createForNewestSupportedVersion();
 try {
     $ast = $parser->parse($code);
 } catch (Error $error) {

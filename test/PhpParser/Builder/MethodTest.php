@@ -12,12 +12,11 @@ use PhpParser\Node\Expr\Print_;
 use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Name;
-use PhpParser\Node\Scalar\LNumber;
+use PhpParser\Node\Scalar\Int_;
 use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt;
 
-class MethodTest extends \PHPUnit\Framework\TestCase
-{
+class MethodTest extends \PHPUnit\Framework\TestCase {
     public function createMethodBuilder($name) {
         return new Method($name);
     }
@@ -132,7 +131,7 @@ class MethodTest extends \PHPUnit\Framework\TestCase
     public function testAddAttribute() {
         $attribute = new Attribute(
             new Name('Attr'),
-            [new Arg(new LNumber(1), false, false, [], new Identifier('name'))]
+            [new Arg(new Int_(1), false, false, [], new Identifier('name'))]
         );
         $attributeGroup = new AttributeGroup([$attribute]);
 

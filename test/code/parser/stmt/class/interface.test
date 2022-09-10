@@ -29,7 +29,7 @@ array(
             0: Stmt_ClassMethod(
                 attrGroups: array(
                 )
-                flags: MODIFIER_PUBLIC (1)
+                flags: PUBLIC (1)
                 byRef: false
                 name: Identifier(
                     name: a

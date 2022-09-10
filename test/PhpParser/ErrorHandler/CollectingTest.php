@@ -4,8 +4,7 @@ namespace PhpParser\ErrorHandler;
 
 use PhpParser\Error;
 
-class CollectingTest extends \PHPUnit\Framework\TestCase
-{
+class CollectingTest extends \PHPUnit\Framework\TestCase {
     public function testHandleError() {
         $errorHandler = new Collecting();
         $this->assertFalse($errorHandler->hasErrors());

@@ -163,12 +163,12 @@ class Standard extends PrettyPrinterAbstract {
         throw new \Exception('Invalid string kind');
     }
 
-    protected function pScalar_Encapsed(Scalar\Encapsed $node) {
+    protected function pScalar_InterpolatedString(Scalar\InterpolatedString $node) {
         if ($node->getAttribute('kind') === Scalar\String_::KIND_HEREDOC) {
             $label = $node->getAttribute('docLabel');
             if ($label && !$this->encapsedContainsEndLabel($node->parts, $label)) {
                 if (count($node->parts) === 1
-                    && $node->parts[0] instanceof Scalar\EncapsedStringPart
+                    && $node->parts[0] instanceof Node\InterpolatedStringPart
                     && $node->parts[0]->value === ''
                 ) {
                     return "<<<$label\n$label" . $this->docStringEndToken;
@@ -181,15 +181,15 @@ class Standard extends PrettyPrinterAbstract {
         return '"' . $this->pEncapsList($node->parts, '"') . '"';
     }
 
-    protected function pScalar_LNumber(Scalar\LNumber $node) {
+    protected function pScalar_Int(Scalar\Int_ $node) {
         if ($node->value === -\PHP_INT_MAX-1) {
             // PHP_INT_MIN cannot be represented as a literal,
             // because the sign is not part of the literal
             return '(-' . \PHP_INT_MAX . '-1)';
         }
 
-        $kind = $node->getAttribute('kind', Scalar\LNumber::KIND_DEC);
-        if (Scalar\LNumber::KIND_DEC === $kind) {
+        $kind = $node->getAttribute('kind', Scalar\Int_::KIND_DEC);
+        if (Scalar\Int_::KIND_DEC === $kind) {
             return (string) $node->value;
         }
 
@@ -201,17 +201,17 @@ class Standard extends PrettyPrinterAbstract {
             $str = (string) $node->value;
         }
         switch ($kind) {
-            case Scalar\LNumber::KIND_BIN:
+            case Scalar\Int_::KIND_BIN:
                 return $sign . '0b' . base_convert($str, 10, 2);
-            case Scalar\LNumber::KIND_OCT:
+            case Scalar\Int_::KIND_OCT:
                 return $sign . '0' . base_convert($str, 10, 8);
-            case Scalar\LNumber::KIND_HEX:
+            case Scalar\Int_::KIND_HEX:
                 return $sign . '0x' . base_convert($str, 10, 16);
         }
         throw new \Exception('Invalid number kind');
     }
 
-    protected function pScalar_DNumber(Scalar\DNumber $node) {
+    protected function pScalar_Float(Scalar\Float_ $node) {
         if (!is_finite($node->value)) {
             if ($node->value === \INF) {
                 return '\INF';
@@ -236,10 +236,6 @@ class Standard extends PrettyPrinterAbstract {
 
         // ensure that number is really printed as float
         return preg_match('/^-?[0-9]+$/', $stringValue) ? $stringValue . '.0' : $stringValue;
-    }
-
-    protected function pScalar_EncapsedStringPart(Scalar\EncapsedStringPart $node) {
-        throw new \LogicException('Cannot directly print EncapsedStringPart');
     }
 
     // Assignments
@@ -597,7 +593,7 @@ class Standard extends PrettyPrinterAbstract {
         }
     }
 
-    protected function pExpr_ArrayItem(Expr\ArrayItem $node) {
+    protected function pArrayItem(Node\ArrayItem $node) {
         return (null !== $node->key ? $this->p($node->key) . ' => ' : '')
              . ($node->byRef ? '&' : '')
              . ($node->unpack ? '...' : '')
@@ -734,7 +730,7 @@ class Standard extends PrettyPrinterAbstract {
              . '\{' . $this->pCommaSeparated($node->uses) . '};';
     }
 
-    protected function pStmt_UseUse(Stmt\UseUse $node) {
+    protected function pUseItem(Node\UseItem $node) {
         return $this->pUseType($node->type) . $this->p($node->name)
              . (null !== $node->alias ? ' as ' . $node->alias : '');
     }
@@ -803,7 +799,7 @@ class Standard extends PrettyPrinterAbstract {
             . $this->pCommaSeparated($node->props) . ';';
     }
 
-    protected function pStmt_PropertyProperty(Stmt\PropertyProperty $node) {
+    protected function pPropertyItem(Node\PropertyItem $node) {
         return '$' . $node->name
              . (null !== $node->default ? ' = ' . $this->p($node->default) : '');
     }
@@ -842,7 +838,7 @@ class Standard extends PrettyPrinterAbstract {
              . (null !== $node->stmts ? ' {' . $this->pStmts($node->stmts) . $this->nl . '}' : ';');
     }
 
-    protected function pStmt_DeclareDeclare(Stmt\DeclareDeclare $node) {
+    protected function pDeclareItem(Node\DeclareItem $node) {
         return $node->key . '=' . $this->p($node->value);
     }
 
@@ -957,7 +953,7 @@ class Standard extends PrettyPrinterAbstract {
         return 'global ' . $this->pCommaSeparated($node->vars) . ';';
     }
 
-    protected function pStmt_StaticVar(Stmt\StaticVar $node) {
+    protected function pStaticVar(Node\StaticVar $node) {
         return $this->p($node->var)
              . (null !== $node->default ? ' = ' . $this->p($node->default) : '');
     }
@@ -1001,7 +997,7 @@ class Standard extends PrettyPrinterAbstract {
     protected function pEncapsList(array $encapsList, $quote) {
         $return = '';
         foreach ($encapsList as $element) {
-            if ($element instanceof Scalar\EncapsedStringPart) {
+            if ($element instanceof Node\InterpolatedStringPart) {
                 $return .= $this->escapeString($element->value, $quote);
             } else {
                 $return .= '{' . $this->p($element) . '}';
@@ -1064,7 +1060,7 @@ class Standard extends PrettyPrinterAbstract {
         foreach ($parts as $i => $part) {
             $atStart = $i === 0;
             $atEnd = $i === count($parts) - 1;
-            if ($part instanceof Scalar\EncapsedStringPart
+            if ($part instanceof Node\InterpolatedStringPart
                 && $this->containsEndLabel($part->value, $label, $atStart, $atEnd)
             ) {
                 return true;

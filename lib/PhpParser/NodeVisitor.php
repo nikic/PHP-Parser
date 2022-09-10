@@ -22,8 +22,15 @@ interface NodeVisitor {
      * Return value semantics:
      *  * null
      *        => $node stays as-is
+     *  * array (of Nodes)
+     *        => The return value is merged into the parent array (at the position of the $node)
+     *  * NodeTraverser::REMOVE_NODE
+     *        => $node is removed from the parent array
      *  * NodeTraverser::DONT_TRAVERSE_CHILDREN
      *        => Children of $node are not traversed. $node stays as-is
+     *  * NodeTraverser::DONT_TRAVERSE_CURRENT_AND_CHILDREN
+     *        => Further visitors for the current node are skipped, and its children are not
+     *           traversed. $node stays as-is.
      *  * NodeTraverser::STOP_TRAVERSAL
      *        => Traversal is aborted. $node stays as-is
      *  * otherwise

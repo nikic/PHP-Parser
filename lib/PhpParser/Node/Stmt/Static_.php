@@ -2,6 +2,7 @@
 
 namespace PhpParser\Node\Stmt;
 
+use PhpParser\Node\StaticVar;
 use PhpParser\Node\Stmt;
 
 class Static_ extends Stmt {

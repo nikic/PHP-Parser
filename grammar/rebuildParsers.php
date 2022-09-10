@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 require __DIR__ . '/phpyLang.php';
 
@@ -64,7 +64,7 @@ function ensureDirExists($dir) {
 }
 
 function execCmd($cmd) {
-    $output = trim(shell_exec("$cmd 2>&1"));
+    $output = trim(shell_exec("$cmd 2>&1") ?? '');
     if ($output !== "") {
         echo "> " . $cmd . "\n";
         echo $output;

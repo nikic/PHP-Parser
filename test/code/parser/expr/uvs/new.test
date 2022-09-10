@@ -99,7 +99,7 @@ array(
                         var: Expr_Variable(
                             name: weird
                         )
-                        dim: Scalar_LNumber(
+                        dim: Scalar_Int(
                             value: 0
                         )
                     )

@@ -25,7 +25,7 @@ array(
         )
         cases: array(
             0: Stmt_Case(
-                cond: Scalar_LNumber(
+                cond: Scalar_Int(
                     value: 0
                 )
                 stmts: array(
@@ -35,7 +35,7 @@ array(
                 )
             )
             1: Stmt_Case(
-                cond: Scalar_LNumber(
+                cond: Scalar_Int(
                     value: 1
                 )
                 stmts: array(

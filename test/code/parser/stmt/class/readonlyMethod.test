@@ -18,7 +18,7 @@ array(
             0: Stmt_ClassMethod(
                 attrGroups: array(
                 )
-                flags: MODIFIER_READONLY (64)
+                flags: READONLY (64)
                 byRef: false
                 name: Identifier(
                     name: foo

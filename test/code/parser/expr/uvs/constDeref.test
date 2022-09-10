@@ -61,7 +61,7 @@ array(
                     )
                 )
             )
-            dim: Scalar_LNumber(
+            dim: Scalar_Int(
                 value: 0
             )
         )
@@ -77,15 +77,15 @@ array(
                             )
                         )
                     )
-                    dim: Scalar_LNumber(
+                    dim: Scalar_Int(
                         value: 0
                     )
                 )
-                dim: Scalar_LNumber(
+                dim: Scalar_Int(
                     value: 1
                 )
             )
-            dim: Scalar_LNumber(
+            dim: Scalar_Int(
                 value: 2
             )
         )
@@ -99,7 +99,7 @@ array(
                     )
                 )
             )
-            dim: Scalar_LNumber(
+            dim: Scalar_Int(
                 value: 0
             )
         )
@@ -116,7 +116,7 @@ array(
                     name: B
                 )
             )
-            dim: Scalar_LNumber(
+            dim: Scalar_Int(
                 value: 0
             )
         )
@@ -135,15 +135,15 @@ array(
                             name: B
                         )
                     )
-                    dim: Scalar_LNumber(
+                    dim: Scalar_Int(
                         value: 0
                     )
                 )
-                dim: Scalar_LNumber(
+                dim: Scalar_Int(
                     value: 1
                 )
             )
-            dim: Scalar_LNumber(
+            dim: Scalar_Int(
                 value: 2
             )
         )
@@ -160,7 +160,7 @@ array(
                     name: B
                 )
             )
-            dim: Scalar_LNumber(
+            dim: Scalar_Int(
                 value: 0
             )
         )
@@ -258,7 +258,7 @@ array(
         expr: Expr_ArrayDimFetch(
             var: Scalar_MagicConst_Function(
             )
-            dim: Scalar_LNumber(
+            dim: Scalar_Int(
                 value: 0
             )
         )

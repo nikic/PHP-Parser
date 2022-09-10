@@ -11,7 +11,7 @@ use PhpParser\{Node, NodeTraverser, NodeVisitorAbstract};
 $traverser = new NodeTraverser;
 $traverser->addVisitor(new class extends NodeVisitorAbstract {
     public function leaveNode(Node $node) {
-        if ($node instanceof Node\Scalar\LNumber) {
+        if ($node instanceof Node\Scalar\Int_) {
             return new Node\Scalar\String_((string) $node->value);
         }
     }
@@ -129,8 +129,7 @@ Now `$a && $b` will be replaced by `!($a && $b)`. Then the traverser will go int
 only) child of `!($a && $b)`, which is `$a && $b`. The transformation applies again and we end up
 with `!!($a && $b)`. This will continue until PHP hits the memory limit.
 
-Finally, two special replacement types are supported only by leaveNode. The first is removal of a
-node:
+Finally, there are two special replacement types. The first is removal of a node:
 
 ```php
 public function leaveNode(Node $node) {
@@ -165,8 +164,8 @@ This example will remove all calls to `var_dump()` which occur as expression sta
 that `var_dump($a);` will be removed, but `if (var_dump($a))` will not be removed (and there is no
 obvious way in which it can be removed).
 
-Next to removing nodes, it is also possible to replace one node with multiple nodes. Again, this
-only works inside leaveNode and only if the parent structure is an array.
+Next to removing nodes, it is also possible to replace one node with multiple nodes. This
+only works if the parent structure is an array.
 
 ```php
 public function leaveNode(Node $node) {

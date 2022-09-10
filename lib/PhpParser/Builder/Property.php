@@ -151,7 +151,7 @@ class Property implements PhpParser\Builder {
         return new Stmt\Property(
             $this->flags !== 0 ? $this->flags : Modifiers::PUBLIC,
             [
-                new Stmt\PropertyProperty($this->name, $this->default)
+                new Node\PropertyItem($this->name, $this->default)
             ],
             $this->attributes,
             $this->type,

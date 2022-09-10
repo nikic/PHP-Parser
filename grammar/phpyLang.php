@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 ///////////////////////////////
 /// Utility regex constants ///
@@ -30,7 +30,7 @@ function preprocessGrammar($code) {
 function resolveNodes($code) {
     return preg_replace_callback(
         '~\b(?<name>[A-Z][a-zA-Z_\\\\]++)\s*' . PARAMS . '~',
-        function($matches) {
+        function ($matches) {
             // recurse
             $matches['params'] = resolveNodes($matches['params']);
 
@@ -53,7 +53,7 @@ function resolveNodes($code) {
 function resolveMacros($code) {
     return preg_replace_callback(
         '~\b(?<!::|->)(?!array\()(?<name>[a-z][A-Za-z]++)' . ARGS . '~',
-        function($matches) {
+        function ($matches) {
             // recurse
             $matches['args'] = resolveMacros($matches['args']);
 
@@ -106,7 +106,7 @@ function resolveMacros($code) {
             if ('parseEncapsed' === $name) {
                 assertArgs(3, $args, $name);
 
-                return 'foreach (' . $args[0] . ' as $s) { if ($s instanceof Node\Scalar\EncapsedStringPart) {'
+                return 'foreach (' . $args[0] . ' as $s) { if ($s instanceof Node\InterpolatedStringPart) {'
                        . ' $s->value = Node\Scalar\String_::parseEscapeSequences($s->value, ' . $args[1] . ', ' . $args[2] . '); } }';
             }
 

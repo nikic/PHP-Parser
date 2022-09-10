@@ -64,7 +64,7 @@ array(
                 var: Scalar_String(
                     value: A
                 )
-                dim: Scalar_LNumber(
+                dim: Scalar_Int(
                     value: 0
                 )
             )
@@ -97,7 +97,7 @@ array(
                     name: c
                 )
             )
-            dim: Scalar_LNumber(
+            dim: Scalar_Int(
                 value: 1
             )
         )
