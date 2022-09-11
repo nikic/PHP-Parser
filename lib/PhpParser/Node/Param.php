@@ -2,7 +2,7 @@
 
 namespace PhpParser\Node;
 
-use PhpParser\Node\Stmt\Class_;
+use PhpParser\Modifiers;
 use PhpParser\NodeAbstract;
 
 class Param extends NodeAbstract {
@@ -58,7 +58,26 @@ class Param extends NodeAbstract {
         return 'Param';
     }
 
-    public function isReadonly() : bool {
-        return (bool) ($this->flags & Class_::MODIFIER_READONLY);
+    /**
+     * Whether this parameter uses constructor property promotion.
+     */
+    public function isPromoted(): bool {
+        return $this->flags !== 0;
+    }
+
+    public function isPublic(): bool {
+        return (bool) ($this->flags & Modifiers::PUBLIC);
+    }
+
+    public function isProtected(): bool {
+        return (bool) ($this->flags & Modifiers::PROTECTED);
+    }
+
+    public function isPrivate(): bool {
+        return (bool) ($this->flags & Modifiers::PRIVATE);
+    }
+
+    public function isReadonly(): bool {
+        return (bool) ($this->flags & Modifiers::READONLY);
     }
 }
