@@ -89,56 +89,6 @@ class Class_ extends ClassLike {
         return null === $this->name;
     }
 
-    /**
-     * @internal
-     */
-    public static function verifyClassModifier(int $a, int $b) {
-        if ($a & Modifiers::ABSTRACT && $b & Modifiers::ABSTRACT) {
-            throw new Error('Multiple abstract modifiers are not allowed');
-        }
-
-        if ($a & Modifiers::FINAL && $b & Modifiers::FINAL) {
-            throw new Error('Multiple final modifiers are not allowed');
-        }
-
-        if ($a & Modifiers::READONLY && $b & Modifiers::READONLY) {
-            throw new Error('Multiple readonly modifiers are not allowed');
-        }
-
-        if ($a & 48 && $b & 48) {
-            throw new Error('Cannot use the final modifier on an abstract class');
-        }
-    }
-
-    /**
-     * @internal
-     */
-    public static function verifyModifier(int $a, int $b) {
-        if ($a & Modifiers::VISIBILITY_MASK && $b & Modifiers::VISIBILITY_MASK) {
-            throw new Error('Multiple access type modifiers are not allowed');
-        }
-
-        if ($a & Modifiers::ABSTRACT && $b & Modifiers::ABSTRACT) {
-            throw new Error('Multiple abstract modifiers are not allowed');
-        }
-
-        if ($a & Modifiers::STATIC && $b & Modifiers::STATIC) {
-            throw new Error('Multiple static modifiers are not allowed');
-        }
-
-        if ($a & Modifiers::FINAL && $b & Modifiers::FINAL) {
-            throw new Error('Multiple final modifiers are not allowed');
-        }
-
-        if ($a & Modifiers::READONLY && $b & Modifiers::READONLY) {
-            throw new Error('Multiple readonly modifiers are not allowed');
-        }
-
-        if ($a & 48 && $b & 48) {
-            throw new Error('Cannot use the final modifier on an abstract class member');
-        }
-    }
-
     public function getType(): string {
         return 'Stmt_Class';
     }
