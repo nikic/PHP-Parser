@@ -5,7 +5,7 @@ echo 1;
 echo 2;
 namespace A;
 -----
-Namespace declaration statement has to be the very first statement in the script on line 4
+Namespace declaration statement has to be the very first statement in the script from 4:1 to 4:9
 array(
     0: Stmt_Echo(
         exprs: array(

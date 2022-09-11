@@ -579,6 +579,21 @@ abstract class ParserAbstract implements Parser {
         }
     }
 
+    private function getNamespaceErrorAttributes(Namespace_ $node): array {
+        $attrs = $node->getAttributes();
+        // Adjust end attributes to only cover the "namespace" keyword, not the whole namespace.
+        if (isset($attrs['startLine'])) {
+            $attrs['endLine'] = $attrs['startLine'];
+        }
+        if (isset($attrs['startTokenPos'])) {
+            $attrs['endTokenPos'] = $attrs['startTokenPos'];
+        }
+        if (isset($attrs['startFilePos'])) {
+            $attrs['endFilePos'] = $attrs['startFilePos'] + \strlen('namespace') - 1;
+        }
+        return $attrs;
+    }
+
     /**
      * Determine namespacing style (semicolon or brace)
      *
@@ -597,13 +612,13 @@ abstract class ParserAbstract implements Parser {
                     if ($hasNotAllowedStmts) {
                         $this->emitError(new Error(
                             'Namespace declaration statement has to be the very first statement in the script',
-                            $stmt->getLine() // Avoid marking the entire namespace as an error
+                            $this->getNamespaceErrorAttributes($stmt)
                         ));
                     }
                 } elseif ($style !== $currentStyle) {
                     $this->emitError(new Error(
                         'Cannot mix bracketed namespace declarations with unbracketed namespace declarations',
-                        $stmt->getLine() // Avoid marking the entire namespace as an error
+                        $this->getNamespaceErrorAttributes($stmt)
                     ));
                     // Treat like semicolon style for namespace normalization
                     return 'semicolon';

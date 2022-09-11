@@ -11,17 +11,12 @@ class Error extends \RuntimeException {
     /**
      * Creates an Exception signifying a parse error.
      *
-     * @param string    $message    Error message
-     * @param array|int $attributes Attributes of node/token where error occurred
-     *                              (or start line of error -- deprecated)
+     * @param string $message Error message
+     * @param array<string, mixed> $attributes Attributes of node/token where error occurred
      */
-    public function __construct(string $message, $attributes = []) {
+    public function __construct(string $message, array $attributes = []) {
         $this->rawMessage = $message;
-        if (is_array($attributes)) {
-            $this->attributes = $attributes;
-        } else {
-            $this->attributes = ['startLine' => $attributes];
-        }
+        $this->attributes = $attributes;
         $this->updateMessage();
     }
 
