@@ -35,7 +35,7 @@ class Enum_ extends Declaration {
     /**
      * Sets the scalar type.
      *
-     * @param string|Identifier $type
+     * @param string|Identifier $scalarType
      *
      * @return $this
      */

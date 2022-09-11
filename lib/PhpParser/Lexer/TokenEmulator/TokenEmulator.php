@@ -12,7 +12,7 @@ abstract class TokenEmulator {
     abstract public function isEmulationNeeded(string $code): bool;
 
     /**
-     * @param Token[] Original tokens
+     * @param Token[] $tokens Original tokens
      * @return Token[] Modified Tokens
      */
     abstract public function emulate(string $code, array $tokens): array;

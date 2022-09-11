@@ -2979,7 +2979,7 @@ class Php8 extends \PhpParser\ParserAbstract
                  $this->semValue = new Node\ArrayItem($this->semStack[$stackPos-(3-3)], $this->semStack[$stackPos-(3-1)], false, $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
             },
             588 => function ($stackPos) {
-                 $this->semValue = new Node\ArrayItem($this->semStack[$stackPos-(2-2)], null, false, $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes, true, $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes);
+                 $this->semValue = new Node\ArrayItem($this->semStack[$stackPos-(2-2)], null, false, $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes, true);
             },
             589 => function ($stackPos) {
                  /* Create an Error node now to remember the position. We'll later either report an error,

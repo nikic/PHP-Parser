@@ -20,7 +20,7 @@ class Name extends NodeAbstract {
      * @param string|string[]|self $name       Name as string, part array or Name instance (copy ctor)
      * @param array                $attributes Additional attributes
      */
-    public function __construct($name, array $attributes = []) {
+    final public function __construct($name, array $attributes = []) {
         $this->attributes = $attributes;
         $this->parts = self::prepareName($name);
     }

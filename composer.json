@@ -20,7 +20,8 @@
     },
     "require-dev": {
         "phpunit/phpunit": "^7.0 || ^8.0 || ^9.0",
-        "ircmaxell/php-yacc": "^0.0.7"
+        "ircmaxell/php-yacc": "^0.0.7",
+        "phpstan/phpstan": "^1.8"
     },
     "extra": {
         "branch-alias": {

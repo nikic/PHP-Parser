@@ -1309,7 +1309,7 @@ array_pair:
     | expr T_DOUBLE_ARROW expr                              { $$ = Node\ArrayItem[$3, $1,   false]; }
     | expr T_DOUBLE_ARROW ampersand variable                { $$ = Node\ArrayItem[$4, $1,   true]; }
     | expr T_DOUBLE_ARROW list_expr                         { $$ = Node\ArrayItem[$3, $1,   false]; }
-    | T_ELLIPSIS expr                                       { $$ = Node\ArrayItem[$2, null, false, attributes(), true]; }
+    | T_ELLIPSIS expr                                       { $$ = new Node\ArrayItem($2, null, false, attributes(), true); }
     | /* empty */
         { /* Create an Error node now to remember the position. We'll later either report an error,
              or convert this into a null element, depending on whether this is a creation or destructuring context. */

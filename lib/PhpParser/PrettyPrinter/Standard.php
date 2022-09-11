@@ -483,7 +483,8 @@ class Standard extends PrettyPrinterAbstract {
             $cast = '(double)';
         } elseif ($kind === Cast\Double::KIND_FLOAT) {
             $cast = '(float)';
-        } elseif ($kind === Cast\Double::KIND_REAL) {
+        } else {
+            assert($kind === Cast\Double::KIND_REAL);
             $cast = '(real)';
         }
         return $this->pPrefixOp(Cast\Double::class, $cast . ' ', $node->expr);
