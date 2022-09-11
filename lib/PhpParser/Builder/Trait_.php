@@ -12,6 +12,8 @@ class Trait_ extends Declaration {
     protected $name;
     /** @var Stmt\TraitUse[] */
     protected $uses = [];
+    /** @var Stmt\ClassConst[] */
+    protected $constants = [];
     /** @var Stmt\Property[] */
     protected $properties = [];
     /** @var Stmt\ClassMethod[] */
@@ -44,6 +46,8 @@ class Trait_ extends Declaration {
             $this->methods[] = $stmt;
         } elseif ($stmt instanceof Stmt\TraitUse) {
             $this->uses[] = $stmt;
+        } elseif ($stmt instanceof Stmt\ClassConst) {
+            $this->constants[] = $stmt;
         } else {
             throw new \LogicException(sprintf('Unexpected node of type "%s"', $stmt->getType()));
         }
@@ -72,7 +76,7 @@ class Trait_ extends Declaration {
     public function getNode(): PhpParser\Node {
         return new Stmt\Trait_(
             $this->name, [
-                'stmts' => array_merge($this->uses, $this->properties, $this->methods),
+                'stmts' => array_merge($this->uses, $this->constants, $this->properties, $this->methods),
                 'attrGroups' => $this->attributeGroups,
             ], $this->attributes
         );
