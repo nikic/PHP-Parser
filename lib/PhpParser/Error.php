@@ -64,7 +64,7 @@ class Error extends \RuntimeException {
      *
      * @param array $attributes
      */
-    public function setAttributes(array $attributes) {
+    public function setAttributes(array $attributes): void {
         $this->attributes = $attributes;
         $this->updateMessage();
     }
@@ -74,7 +74,7 @@ class Error extends \RuntimeException {
      *
      * @param string $message Error message
      */
-    public function setRawMessage(string $message) {
+    public function setRawMessage(string $message): void {
         $this->rawMessage = $message;
         $this->updateMessage();
     }
@@ -84,7 +84,7 @@ class Error extends \RuntimeException {
      *
      * @param int $line Error start line
      */
-    public function setStartLine(int $line) {
+    public function setStartLine(int $line): void {
         $this->attributes['startLine'] = $line;
         $this->updateMessage();
     }
@@ -167,7 +167,7 @@ class Error extends \RuntimeException {
     /**
      * Updates the exception message after a change to rawMessage or rawLine.
      */
-    protected function updateMessage() {
+    protected function updateMessage(): void {
         $this->message = $this->rawMessage;
 
         if (-1 === $this->getStartLine()) {

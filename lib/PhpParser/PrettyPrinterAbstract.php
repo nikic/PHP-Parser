@@ -165,7 +165,7 @@ abstract class PrettyPrinterAbstract {
     /**
      * Reset pretty printing state.
      */
-    protected function resetState() {
+    protected function resetState(): void {
         $this->indentLevel = 0;
         $this->nl = "\n";
         $this->origTokens = null;
@@ -176,7 +176,7 @@ abstract class PrettyPrinterAbstract {
      *
      * @param int $level Level in number of spaces
      */
-    protected function setIndentLevel(int $level) {
+    protected function setIndentLevel(int $level): void {
         $this->indentLevel = $level;
         $this->nl = "\n" . \str_repeat(' ', $level);
     }
@@ -184,7 +184,7 @@ abstract class PrettyPrinterAbstract {
     /**
      * Increase indentation level.
      */
-    protected function indent() {
+    protected function indent(): void {
         $this->indentLevel += 4;
         $this->nl .= '    ';
     }
@@ -192,7 +192,7 @@ abstract class PrettyPrinterAbstract {
     /**
      * Decrease indentation level.
      */
-    protected function outdent() {
+    protected function outdent(): void {
         assert($this->indentLevel >= 4);
         $this->indentLevel -= 4;
         $this->nl = "\n" . str_repeat(' ', $this->indentLevel);
@@ -253,7 +253,7 @@ abstract class PrettyPrinterAbstract {
      *
      * @param Node[] $nodes Array of nodes
      */
-    protected function preprocessNodes(array $nodes) {
+    protected function preprocessNodes(array $nodes): void {
         /* We can use semicolon-namespaces unless there is a global namespace declaration */
         $this->canUseSemicolonNamespaces = true;
         foreach ($nodes as $node) {
@@ -500,7 +500,7 @@ abstract class PrettyPrinterAbstract {
         return ltrim($this->handleMagicTokens($result));
     }
 
-    protected function pFallback(Node $node) {
+    protected function pFallback(Node $node): string {
         return $this->{'p' . $node->getType()}($node);
     }
 
@@ -1011,7 +1011,7 @@ abstract class PrettyPrinterAbstract {
      * @param string $str
      * @param string $append
      */
-    protected function safeAppend(string &$str, string $append) {
+    protected function safeAppend(string &$str, string $append): void {
         if ($str === "") {
             $str = $append;
             return;
@@ -1127,7 +1127,7 @@ abstract class PrettyPrinterAbstract {
      *
      * The label char map determines whether a certain character may occur in a label.
      */
-    protected function initializeLabelCharMap() {
+    protected function initializeLabelCharMap(): void {
         if ($this->labelCharMap) {
             return;
         }
@@ -1146,7 +1146,7 @@ abstract class PrettyPrinterAbstract {
      *
      * The node list differ is used to determine differences between two array subnodes.
      */
-    protected function initializeNodeListDiffer() {
+    protected function initializeNodeListDiffer(): void {
         if ($this->nodeListDiffer) {
             return;
         }
@@ -1166,7 +1166,7 @@ abstract class PrettyPrinterAbstract {
      * The fixup map is used to determine whether a certain subnode of a certain node may require
      * some kind of "fixup" operation, e.g. the addition of parenthesis or braces.
      */
-    protected function initializeFixupMap() {
+    protected function initializeFixupMap(): void {
         if ($this->fixupMap) {
             return;
         }
@@ -1250,7 +1250,7 @@ abstract class PrettyPrinterAbstract {
      * The removal map is used to determine which additional tokens should be removed when a
      * certain node is replaced by null.
      */
-    protected function initializeRemovalMap() {
+    protected function initializeRemovalMap(): void {
         if ($this->removalMap) {
             return;
         }
@@ -1297,7 +1297,7 @@ abstract class PrettyPrinterAbstract {
         ];
     }
 
-    protected function initializeInsertionMap() {
+    protected function initializeInsertionMap(): void {
         if ($this->insertionMap) {
             return;
         }
@@ -1341,7 +1341,7 @@ abstract class PrettyPrinterAbstract {
         ];
     }
 
-    protected function initializeListInsertionMap() {
+    protected function initializeListInsertionMap(): void {
         if ($this->listInsertionMap) {
             return;
         }
@@ -1439,7 +1439,7 @@ abstract class PrettyPrinterAbstract {
         ];
     }
 
-    protected function initializeEmptyListInsertionMap() {
+    protected function initializeEmptyListInsertionMap(): void {
         if ($this->emptyListInsertionMap) {
             return;
         }
@@ -1504,7 +1504,7 @@ abstract class PrettyPrinterAbstract {
         ];
     }
 
-    protected function initializeModifierChangeMap() {
+    protected function initializeModifierChangeMap(): void {
         if ($this->modifierChangeMap) {
             return;
         }

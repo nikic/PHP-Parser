@@ -44,7 +44,7 @@ class NodeDumper {
     }
 
     /** @param Node|Comment|array $node */
-    protected function dumpRecursive($node) {
+    protected function dumpRecursive($node): string {
         if ($node instanceof Node) {
             $r = $node->getType();
             if ($this->dumpPositions && null !== $p = $this->dumpPosition($node)) {
@@ -108,7 +108,7 @@ class NodeDumper {
         return $r . "\n)";
     }
 
-    protected function dumpFlags(int $flags) {
+    protected function dumpFlags(int $flags): string {
         $strs = [];
         if ($flags & Modifiers::PUBLIC) {
             $strs[] = 'PUBLIC';
@@ -135,11 +135,11 @@ class NodeDumper {
         if ($strs) {
             return implode(' | ', $strs) . ' (' . $flags . ')';
         } else {
-            return $flags;
+            return (string) $flags;
         }
     }
 
-    protected function dumpIncludeType(int $type) {
+    protected function dumpIncludeType(int $type): string {
         $map = [
             Include_::TYPE_INCLUDE      => 'TYPE_INCLUDE',
             Include_::TYPE_INCLUDE_ONCE => 'TYPE_INCLUDE_ONCE',
@@ -148,12 +148,12 @@ class NodeDumper {
         ];
 
         if (!isset($map[$type])) {
-            return $type;
+            return (string) $type;
         }
         return $map[$type] . ' (' . $type . ')';
     }
 
-    protected function dumpUseType(int $type) {
+    protected function dumpUseType(int $type): string {
         $map = [
             Use_::TYPE_UNKNOWN  => 'TYPE_UNKNOWN',
             Use_::TYPE_NORMAL   => 'TYPE_NORMAL',
@@ -162,7 +162,7 @@ class NodeDumper {
         ];
 
         if (!isset($map[$type])) {
-            return $type;
+            return (string) $type;
         }
         return $map[$type] . ' (' . $type . ')';
     }
@@ -191,7 +191,7 @@ class NodeDumper {
     }
 
     // Copied from Error class
-    private function toColumn(string $code, int $pos) {
+    private function toColumn(string $code, int $pos): int {
         if ($pos > strlen($code)) {
             throw new \RuntimeException('Invalid position information');
         }

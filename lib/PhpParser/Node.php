@@ -105,7 +105,7 @@ interface Node {
      *
      * @param Comment\Doc $docComment Doc comment to set
      */
-    public function setDocComment(Comment\Doc $docComment);
+    public function setDocComment(Comment\Doc $docComment): void;
 
     /**
      * Sets an attribute on a node.
@@ -113,7 +113,7 @@ interface Node {
      * @param string $key
      * @param mixed  $value
      */
-    public function setAttribute(string $key, $value);
+    public function setAttribute(string $key, $value): void;
 
     /**
      * Returns whether an attribute exists.
@@ -146,5 +146,5 @@ interface Node {
      *
      * @param array $attributes
      */
-    public function setAttributes(array $attributes);
+    public function setAttributes(array $attributes): void;
 }

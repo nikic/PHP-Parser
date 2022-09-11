@@ -1146,7 +1146,7 @@ class Php7 extends \PhpParser\ParserAbstract
             3,    3,    6,    3,    1,    1,    2,    1
     );
 
-    protected function initReduceCallbacks() {
+    protected function initReduceCallbacks(): void {
         $this->reduceCallbacks = [
             0 => function ($stackPos) {
                 $this->semValue = $this->semStack[$stackPos];

@@ -39,7 +39,7 @@ class PrintableNewAnonClassNode extends Expr {
         $this->stmts = $stmts;
     }
 
-    public static function fromNewNode(Expr\New_ $newNode) {
+    public static function fromNewNode(Expr\New_ $newNode): self {
         $class = $newNode->class;
         assert($class instanceof Node\Stmt\Class_);
         // We don't assert that $class->name is null here, to allow consumers to assign unique names

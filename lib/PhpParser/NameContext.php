@@ -35,7 +35,7 @@ class NameContext {
      *
      * @param Name|null $namespace Null is the global namespace
      */
-    public function startNamespace(?Name $namespace = null) {
+    public function startNamespace(?Name $namespace = null): void {
         $this->namespace = $namespace;
         $this->origAliases = $this->aliases = [
             Stmt\Use_::TYPE_NORMAL   => [],
@@ -52,7 +52,7 @@ class NameContext {
      * @param int    $type        One of Stmt\Use_::TYPE_*
      * @param array  $errorAttrs Attributes to use to report an error
      */
-    public function addAlias(Name $name, string $aliasName, int $type, array $errorAttrs = []) {
+    public function addAlias(Name $name, string $aliasName, int $type, array $errorAttrs = []): void {
         // Constant names are case sensitive, everything else case insensitive
         if ($type === Stmt\Use_::TYPE_CONSTANT) {
             $aliasLookupName = $aliasName;
@@ -226,7 +226,7 @@ class NameContext {
         return $shortestName;
     }
 
-    private function resolveAlias(Name $name, int $type) {
+    private function resolveAlias(Name $name, int $type): ?FullyQualified {
         $firstPart = $name->getFirst();
 
         if ($name->isQualified()) {
@@ -249,7 +249,7 @@ class NameContext {
         return null;
     }
 
-    private function getNamespaceRelativeName(string $name, string $lcName, int $type) {
+    private function getNamespaceRelativeName(string $name, string $lcName, int $type): ?Name {
         if (null === $this->namespace) {
             return new Name($name);
         }
@@ -270,7 +270,7 @@ class NameContext {
         return null;
     }
 
-    private function normalizeConstName(string $name) {
+    private function normalizeConstName(string $name): string {
         $nsSep = strrpos($name, '\\');
         if (false === $nsSep) {
             return $name;

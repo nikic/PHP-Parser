@@ -8,14 +8,14 @@ interface NodeTraverserInterface {
      *
      * @param NodeVisitor $visitor Visitor to add
      */
-    public function addVisitor(NodeVisitor $visitor);
+    public function addVisitor(NodeVisitor $visitor): void;
 
     /**
      * Removes an added visitor.
      *
      * @param NodeVisitor $visitor
      */
-    public function removeVisitor(NodeVisitor $visitor);
+    public function removeVisitor(NodeVisitor $visitor): void;
 
     /**
      * Traverses an array of nodes using the registered visitors.

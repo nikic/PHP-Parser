@@ -83,6 +83,11 @@ class Class_ extends Declaration {
         return $this;
     }
 
+    /**
+     * Makes the class readonly.
+     *
+     * @return $this The builder instance (for fluid interface)
+     */
     public function makeReadonly() {
         $this->flags = BuilderHelpers::addClassModifier($this->flags, Modifiers::READONLY);
 

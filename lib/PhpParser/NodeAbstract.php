@@ -128,7 +128,7 @@ abstract class NodeAbstract implements Node, \JsonSerializable {
      *
      * @param Comment\Doc $docComment Doc comment to set
      */
-    public function setDocComment(Comment\Doc $docComment) {
+    public function setDocComment(Comment\Doc $docComment): void {
         $comments = $this->getComments();
         for ($i = count($comments) - 1; $i >= 0; $i--) {
             if ($comments[$i] instanceof Comment\Doc) {
@@ -144,7 +144,7 @@ abstract class NodeAbstract implements Node, \JsonSerializable {
         $this->setAttribute('comments', $comments);
     }
 
-    public function setAttribute(string $key, $value) {
+    public function setAttribute(string $key, $value): void {
         $this->attributes[$key] = $value;
     }
 
@@ -164,7 +164,7 @@ abstract class NodeAbstract implements Node, \JsonSerializable {
         return $this->attributes;
     }
 
-    public function setAttributes(array $attributes) {
+    public function setAttributes(array $attributes): void {
         $this->attributes = $attributes;
     }
 

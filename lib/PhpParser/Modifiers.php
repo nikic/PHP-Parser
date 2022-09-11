@@ -20,7 +20,7 @@ final class Modifiers {
     /**
      * @internal
      */
-    public static function verifyClassModifier(int $a, int $b) {
+    public static function verifyClassModifier(int $a, int $b): void {
         if ($a & Modifiers::ABSTRACT && $b & Modifiers::ABSTRACT) {
             throw new Error('Multiple abstract modifiers are not allowed');
         }
@@ -41,7 +41,7 @@ final class Modifiers {
     /**
      * @internal
      */
-    public static function verifyModifier(int $a, int $b) {
+    public static function verifyModifier(int $a, int $b): void {
         if ($a & Modifiers::VISIBILITY_MASK && $b & Modifiers::VISIBILITY_MASK) {
             throw new Error('Multiple access type modifiers are not allowed');
         }
