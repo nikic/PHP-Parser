@@ -3,7 +3,7 @@
 namespace PhpParser;
 
 class JsonDecoder {
-    /** @var \ReflectionClass[] Node type to reflection class map */
+    /** @var \ReflectionClass<Node>[] Node type to reflection class map */
     private $reflectionClassCache;
 
     /** @return mixed */
@@ -48,7 +48,6 @@ class JsonDecoder {
         }
 
         $reflectionClass = $this->reflectionClassFromNodeType($nodeType);
-        /** @var Node $node */
         $node = $reflectionClass->newInstanceWithoutConstructor();
 
         if (isset($value['attributes'])) {
@@ -83,6 +82,7 @@ class JsonDecoder {
         );
     }
 
+    /** @return \ReflectionClass<Node> */
     private function reflectionClassFromNodeType(string $nodeType): \ReflectionClass {
         if (!isset($this->reflectionClassCache[$nodeType])) {
             $className = $this->classNameFromNodeType($nodeType);

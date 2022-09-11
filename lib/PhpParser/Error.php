@@ -50,7 +50,7 @@ class Error extends \RuntimeException {
     /**
      * Gets the attributes of the node/token the error occurred at.
      *
-     * @return array
+     * @return array<string, mixed>
      */
     public function getAttributes(): array {
         return $this->attributes;

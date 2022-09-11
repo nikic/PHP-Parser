@@ -13,16 +13,24 @@ class Lexer {
     protected $tokens;
     /** @var int Current position in the token array */
     protected $pos;
+    /** @var bool Whether the preceding closing PHP tag has a trailing newline */
     protected $prevCloseTagHasNewline;
-
+    /** @var array<int, int> Map of tokens that should be dropped (like T_WHITESPACE) */
     protected $dropTokens;
 
+    /** @var bool Whether to use the startLine attribute */
     private $attributeStartLineUsed;
+    /** @var bool Whether to use the endLine attribute */
     private $attributeEndLineUsed;
+    /** @var bool Whether to use the startTokenPos attribute */
     private $attributeStartTokenPosUsed;
+    /** @var bool Whether to use the endTokenPos attribute */
     private $attributeEndTokenPosUsed;
+    /** @var bool Whether to use the startFilePos attribute */
     private $attributeStartFilePosUsed;
+    /** @var bool Whether to use the endFilePos attribute */
     private $attributeEndFilePosUsed;
+    /** @var bool Whether to use the comments attribute */
     private $attributeCommentsUsed;
 
     /**
