@@ -3,7 +3,9 @@
 namespace PhpParser;
 
 class Error extends \RuntimeException {
+    /** @var string */
     protected $rawMessage;
+    /** @var array<string, mixed> */
     protected $attributes;
 
     /**

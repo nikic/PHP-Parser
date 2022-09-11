@@ -27,6 +27,7 @@ use function array_merge;
  * affected by the LC_NUMERIC locale.
  */
 class ConstExprEvaluator {
+    /** @var callable|null */
     private $fallbackEvaluator;
 
     /**
