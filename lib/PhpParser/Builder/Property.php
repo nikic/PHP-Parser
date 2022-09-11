@@ -12,15 +12,16 @@ use PhpParser\Node\Stmt;
 use PhpParser\Node\ComplexType;
 
 class Property implements PhpParser\Builder {
+    /** @var string */
     protected $name;
-
+    /** @var int */
     protected $flags = 0;
+    /** @var Node\Expr|null */
     protected $default = null;
+    /** @var array<string, mixed> */
     protected $attributes = [];
-
     /** @var null|Identifier|Name|ComplexType */
     protected $type;
-
     /** @var Node\AttributeGroup[] */
     protected $attributeGroups = [];
 

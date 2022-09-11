@@ -9,10 +9,12 @@ use PhpParser\Node;
 use PhpParser\Node\Stmt;
 
 class Method extends FunctionLike {
+    /** @var string */
     protected $name;
+    /** @var int */
     protected $flags = 0;
 
-    /** @var array|null */
+    /** @var Stmt[]|null */
     protected $stmts = [];
 
     /** @var Node\AttributeGroup[] */

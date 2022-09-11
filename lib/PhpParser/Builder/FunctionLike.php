@@ -6,7 +6,9 @@ use PhpParser\BuilderHelpers;
 use PhpParser\Node;
 
 abstract class FunctionLike extends Declaration {
+    /** @var bool */
     protected $returnByRef = false;
+    /** @var Node\Param[] */
     protected $params = [];
 
     /** @var string|Node\Name|Node\NullableType|null */
@@ -45,7 +47,7 @@ abstract class FunctionLike extends Declaration {
     /**
      * Adds multiple parameters.
      *
-     * @param array $params The parameters to add
+     * @param (Node\Param|Param)[] $params The parameters to add
      *
      * @return $this The builder instance (for fluid interface)
      */

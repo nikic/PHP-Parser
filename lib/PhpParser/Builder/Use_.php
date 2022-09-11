@@ -8,8 +8,11 @@ use PhpParser\Node;
 use PhpParser\Node\Stmt;
 
 class Use_ implements Builder {
+    /** @var Node\Name */
     protected $name;
+    /** @var int */
     protected $type;
+    /** @var string|null */
     protected $alias = null;
 
     /**

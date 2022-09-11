@@ -7,17 +7,16 @@ use PhpParser\BuilderHelpers;
 use PhpParser\Node;
 
 class Param implements PhpParser\Builder {
+    /** @var string */
     protected $name;
-
+    /** @var Node\Expr|null */
     protected $default = null;
-
-    /** @var Node\Identifier|Node\Name|Node\NullableType|null */
+    /** @var Node\Identifier|Node\Name|Node\ComplexType|null */
     protected $type = null;
-
+    /** @var bool */
     protected $byRef = false;
-
+    /** @var bool */
     protected $variadic = false;
-
     /** @var Node\AttributeGroup[] */
     protected $attributeGroups = [];
 

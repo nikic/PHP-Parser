@@ -8,11 +8,14 @@ use PhpParser\Node;
 use PhpParser\Node\Stmt;
 
 class Trait_ extends Declaration {
+    /** @var string */
     protected $name;
+    /** @var Stmt\TraitUse[] */
     protected $uses = [];
+    /** @var Stmt\Property[] */
     protected $properties = [];
+    /** @var Stmt\ClassMethod[] */
     protected $methods = [];
-
     /** @var Node\AttributeGroup[] */
     protected $attributeGroups = [];
 

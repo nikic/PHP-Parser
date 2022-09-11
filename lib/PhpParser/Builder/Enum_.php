@@ -10,16 +10,20 @@ use PhpParser\Node\Name;
 use PhpParser\Node\Stmt;
 
 class Enum_ extends Declaration {
+    /** @var string */
     protected $name;
+    /** @var Identifier|null */
     protected $scalarType = null;
-
+    /** @var Name[] */
     protected $implements = [];
-
+    /** @var Stmt\TraitUse[] */
     protected $uses = [];
+    /** @var Stmt\EnumCase[] */
     protected $enumCases = [];
+    /** @var Stmt\ClassConst[] */
     protected $constants = [];
+    /** @var Stmt\ClassMethod[] */
     protected $methods = [];
-
     /** @var Node\AttributeGroup[] */
     protected $attributeGroups = [];
 

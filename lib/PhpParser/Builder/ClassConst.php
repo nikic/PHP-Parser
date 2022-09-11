@@ -13,8 +13,11 @@ use PhpParser\Node\Identifier;
 use PhpParser\Node\Stmt;
 
 class ClassConst implements PhpParser\Builder {
+    /** @var int */
     protected $flags = 0;
+    /** @var array<string, mixed> */
     protected $attributes = [];
+    /** @var Const_[] */
     protected $constants = [];
 
     /** @var Node\AttributeGroup[] */
