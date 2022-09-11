@@ -15,7 +15,7 @@ class Switch_ extends Node\Stmt {
      *
      * @param Node\Expr $cond       Condition
      * @param Case_[]   $cases      Case list
-     * @param array     $attributes Additional attributes
+     * @param array<string, mixed> $attributes Additional attributes
      */
     public function __construct(Node\Expr $cond, array $cases, array $attributes = []) {
         $this->attributes = $attributes;

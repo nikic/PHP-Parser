@@ -18,7 +18,7 @@ class New_ extends CallLike {
      *
      * @param Node\Name|Expr|Node\Stmt\Class_ $class      Class name (or class node for anonymous classes)
      * @param array<Arg|VariadicPlaceholder>  $args       Arguments
-     * @param array                           $attributes Additional attributes
+     * @param array<string, mixed> $attributes Additional attributes
      */
     public function __construct($class, array $args = [], array $attributes = []) {
         $this->attributes = $attributes;

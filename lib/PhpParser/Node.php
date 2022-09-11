@@ -144,7 +144,7 @@ interface Node {
     /**
      * Replaces all the attributes of this node.
      *
-     * @param array $attributes
+     * @param array<string, mixed> $attributes
      */
     public function setAttributes(array $attributes): void;
 }

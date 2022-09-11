@@ -24,7 +24,7 @@ class Property extends Node\Stmt {
      *
      * @param int                                     $flags      Modifiers
      * @param PropertyItem[]                      $props      Properties
-     * @param array                                   $attributes Additional attributes
+     * @param array<string, mixed> $attributes Additional attributes
      * @param null|string|Identifier|Name|ComplexType $type       Type declaration
      * @param Node\AttributeGroup[]                   $attrGroups PHP attribute groups
      */

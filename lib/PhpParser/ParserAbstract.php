@@ -681,7 +681,7 @@ abstract class ParserAbstract implements Parser {
      * Parse a T_NUM_STRING token into either an integer or string node.
      *
      * @param string $str        Number string
-     * @param array  $attributes Attributes
+     * @param array<string, mixed> $attributes Attributes
      *
      * @return Int_|String_ Integer or string node.
      */

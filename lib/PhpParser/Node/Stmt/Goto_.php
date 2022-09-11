@@ -13,7 +13,7 @@ class Goto_ extends Stmt {
      * Constructs a goto node.
      *
      * @param string|Identifier $name       Name of label to jump to
-     * @param array             $attributes Additional attributes
+     * @param array<string, mixed> $attributes Additional attributes
      */
     public function __construct($name, array $attributes = []) {
         $this->attributes = $attributes;

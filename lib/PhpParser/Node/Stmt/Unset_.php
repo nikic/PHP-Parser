@@ -12,7 +12,7 @@ class Unset_ extends Node\Stmt {
      * Constructs an unset node.
      *
      * @param Node\Expr[] $vars       Variables to unset
-     * @param array       $attributes Additional attributes
+     * @param array<string, mixed> $attributes Additional attributes
      */
     public function __construct(array $vars, array $attributes = []) {
         $this->attributes = $attributes;

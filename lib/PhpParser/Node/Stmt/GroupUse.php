@@ -20,7 +20,7 @@ class GroupUse extends Stmt {
      * @param Name     $prefix     Prefix for uses
      * @param UseItem[] $uses       Uses
      * @param int      $type       Type of group use
-     * @param array    $attributes Additional attributes
+     * @param array<string, mixed> $attributes Additional attributes
      */
     public function __construct(Name $prefix, array $uses, int $type = Use_::TYPE_NORMAL, array $attributes = []) {
         $this->attributes = $attributes;

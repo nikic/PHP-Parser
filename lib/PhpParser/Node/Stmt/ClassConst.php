@@ -18,7 +18,7 @@ class ClassConst extends Node\Stmt {
      *
      * @param Node\Const_[]         $consts     Constant declarations
      * @param int                   $flags      Modifiers
-     * @param array                 $attributes Additional attributes
+     * @param array<string, mixed> $attributes Additional attributes
      * @param Node\AttributeGroup[] $attrGroups PHP attribute groups
      */
     public function __construct(

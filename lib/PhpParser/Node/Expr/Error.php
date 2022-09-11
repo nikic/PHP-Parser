@@ -14,7 +14,7 @@ class Error extends Expr {
     /**
      * Constructs an error node.
      *
-     * @param array $attributes Additional attributes
+     * @param array<string, mixed> $attributes Additional attributes
      */
     public function __construct(array $attributes = []) {
         $this->attributes = $attributes;

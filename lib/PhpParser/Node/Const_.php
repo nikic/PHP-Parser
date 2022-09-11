@@ -18,7 +18,7 @@ class Const_ extends NodeAbstract {
      *
      * @param string|Identifier $name       Name
      * @param Expr              $value      Value
-     * @param array             $attributes Additional attributes
+     * @param array<string, mixed> $attributes Additional attributes
      */
     public function __construct($name, Expr $value, array $attributes = []) {
         $this->attributes = $attributes;

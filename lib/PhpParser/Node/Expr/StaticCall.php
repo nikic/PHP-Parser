@@ -22,7 +22,7 @@ class StaticCall extends CallLike {
      * @param Node\Name|Expr                 $class      Class name
      * @param string|Identifier|Expr         $name       Method name
      * @param array<Arg|VariadicPlaceholder> $args       Arguments
-     * @param array                          $attributes Additional attributes
+     * @param array<string, mixed> $attributes Additional attributes
      */
     public function __construct($class, $name, array $args = [], array $attributes = []) {
         $this->attributes = $attributes;

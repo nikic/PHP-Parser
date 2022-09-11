@@ -8,7 +8,7 @@ abstract class NodeAbstract implements Node, \JsonSerializable {
     /**
      * Creates a Node.
      *
-     * @param array $attributes Array of attributes
+     * @param array<string, mixed> $attributes Array of attributes
      */
     public function __construct(array $attributes = []) {
         $this->attributes = $attributes;

@@ -15,7 +15,7 @@ class PropertyItem extends Node\Stmt {
      *
      * @param string|Node\VarLikeIdentifier $name       Name
      * @param null|Node\Expr                $default    Default value
-     * @param array                         $attributes Additional attributes
+     * @param array<string, mixed> $attributes Additional attributes
      */
     public function __construct($name, ?Node\Expr $default = null, array $attributes = []) {
         $this->attributes = $attributes;

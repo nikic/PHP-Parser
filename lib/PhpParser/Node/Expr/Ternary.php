@@ -18,7 +18,7 @@ class Ternary extends Expr {
      * @param Expr      $cond       Condition
      * @param null|Expr $if         Expression for true
      * @param Expr      $else       Expression for false
-     * @param array                    $attributes Additional attributes
+     * @param array<string, mixed> $attributes Additional attributes
      */
     public function __construct(Expr $cond, ?Expr $if, Expr $else, array $attributes = []) {
         $this->attributes = $attributes;

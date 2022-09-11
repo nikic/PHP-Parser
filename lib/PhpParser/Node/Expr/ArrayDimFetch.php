@@ -15,7 +15,7 @@ class ArrayDimFetch extends Expr {
      *
      * @param Expr      $var        Variable
      * @param null|Expr $dim        Array index / dim
-     * @param array     $attributes Additional attributes
+     * @param array<string, mixed> $attributes Additional attributes
      */
     public function __construct(Expr $var, ?Expr $dim = null, array $attributes = []) {
         $this->attributes = $attributes;

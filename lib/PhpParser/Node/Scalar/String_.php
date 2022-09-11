@@ -30,7 +30,7 @@ class String_ extends Scalar {
      * Constructs a string scalar node.
      *
      * @param string $value      Value of the string
-     * @param array  $attributes Additional attributes
+     * @param array<string, mixed> $attributes Additional attributes
      */
     public function __construct(string $value, array $attributes = []) {
         $this->attributes = $attributes;

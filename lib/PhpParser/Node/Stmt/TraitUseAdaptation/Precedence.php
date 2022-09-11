@@ -14,7 +14,7 @@ class Precedence extends Node\Stmt\TraitUseAdaptation {
      * @param Node\Name              $trait       Trait name
      * @param string|Node\Identifier $method      Method name
      * @param Node\Name[]            $insteadof   Overwritten traits
-     * @param array                  $attributes  Additional attributes
+     * @param array<string, mixed> $attributes  Additional attributes
      */
     public function __construct(Node\Name $trait, $method, array $insteadof, array $attributes = []) {
         $this->attributes = $attributes;

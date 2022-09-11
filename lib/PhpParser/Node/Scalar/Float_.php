@@ -12,7 +12,7 @@ class Float_ extends Scalar {
      * Constructs a float number scalar node.
      *
      * @param float $value      Value of the number
-     * @param array $attributes Additional attributes
+     * @param array<string, mixed> $attributes Additional attributes
      */
     public function __construct(float $value, array $attributes = []) {
         $this->attributes = $attributes;

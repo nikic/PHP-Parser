@@ -16,7 +16,7 @@ class StaticVar extends NodeAbstract {
      *
      * @param Expr\Variable  $var         Name
      * @param null|Node\Expr $default    Default value
-     * @param array          $attributes Additional attributes
+     * @param array<string, mixed> $attributes Additional attributes
      */
     public function __construct(
         Expr\Variable $var, ?Node\Expr $default = null, array $attributes = []

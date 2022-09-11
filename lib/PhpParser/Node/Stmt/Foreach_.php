@@ -25,7 +25,7 @@ class Foreach_ extends Node\Stmt {
      *                              'keyVar' => null   : Variable to assign key to
      *                              'byRef'  => false  : Whether to assign value by reference
      *                              'stmts'  => array(): Statements
-     * @param array     $attributes Additional attributes
+     * @param array<string, mixed> $attributes Additional attributes
      */
     public function __construct(Node\Expr $expr, Node\Expr $valueVar, array $subNodes = [], array $attributes = []) {
         $this->attributes = $attributes;

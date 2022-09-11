@@ -12,7 +12,7 @@ class YieldFrom extends Expr {
      * Constructs an "yield from" node.
      *
      * @param Expr  $expr       Expression
-     * @param array $attributes Additional attributes
+     * @param array<string, mixed> $attributes Additional attributes
      */
     public function __construct(Expr $expr, array $attributes = []) {
         $this->attributes = $attributes;

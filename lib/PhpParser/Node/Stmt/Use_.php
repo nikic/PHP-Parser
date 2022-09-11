@@ -29,7 +29,7 @@ class Use_ extends Stmt {
      *
      * @param UseItem[] $uses       Aliases
      * @param int      $type       Type of alias
-     * @param array    $attributes Additional attributes
+     * @param array<string, mixed> $attributes Additional attributes
      */
     public function __construct(array $uses, int $type = self::TYPE_NORMAL, array $attributes = []) {
         $this->attributes = $attributes;

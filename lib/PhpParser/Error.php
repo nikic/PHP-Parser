@@ -62,7 +62,7 @@ class Error extends \RuntimeException {
     /**
      * Sets the attributes of the node/token the error occurred at.
      *
-     * @param array $attributes
+     * @param array<string, mixed> $attributes
      */
     public function setAttributes(array $attributes): void {
         $this->attributes = $attributes;

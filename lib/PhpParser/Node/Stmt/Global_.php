@@ -12,7 +12,7 @@ class Global_ extends Node\Stmt {
      * Constructs a global variables list node.
      *
      * @param Node\Expr[] $vars       Variables to unset
-     * @param array       $attributes Additional attributes
+     * @param array<string, mixed> $attributes Additional attributes
      */
     public function __construct(array $vars, array $attributes = []) {
         $this->attributes = $attributes;

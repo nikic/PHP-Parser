@@ -19,7 +19,7 @@ class Namespace_ extends Node\Stmt {
      *
      * @param null|Node\Name   $name       Name
      * @param null|Node\Stmt[] $stmts      Statements
-     * @param array            $attributes Additional attributes
+     * @param array<string, mixed> $attributes Additional attributes
      */
     public function __construct(?Node\Name $name = null, ?array $stmts = [], array $attributes = []) {
         $this->attributes = $attributes;

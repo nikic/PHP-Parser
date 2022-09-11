@@ -29,7 +29,7 @@ class Param extends NodeAbstract {
      * @param null|string|Identifier|Name|ComplexType $type       Type declaration
      * @param bool                                    $byRef      Whether is passed by reference
      * @param bool                                    $variadic   Whether this is a variadic argument
-     * @param array                                   $attributes Additional attributes
+     * @param array<string, mixed> $attributes Additional attributes
      * @param int                                     $flags      Optional visibility flags
      * @param AttributeGroup[]                        $attrGroups PHP attribute groups
      */

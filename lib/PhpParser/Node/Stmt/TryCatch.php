@@ -18,7 +18,7 @@ class TryCatch extends Node\Stmt {
      * @param Node\Stmt[]   $stmts      Statements
      * @param Catch_[]      $catches    Catches
      * @param null|Finally_ $finally    Optional finally node
-     * @param array         $attributes Additional attributes
+     * @param array<string, mixed> $attributes Additional attributes
      */
     public function __construct(array $stmts, array $catches, ?Finally_ $finally = null, array $attributes = []) {
         $this->attributes = $attributes;

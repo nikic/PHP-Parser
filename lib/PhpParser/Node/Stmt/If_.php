@@ -22,7 +22,7 @@ class If_ extends Node\Stmt {
      *                              'stmts'   => array(): Statements
      *                              'elseifs' => array(): Elseif clauses
      *                              'else'    => null   : Else clause
-     * @param array     $attributes Additional attributes
+     * @param array<string, mixed> $attributes Additional attributes
      */
     public function __construct(Node\Expr $cond, array $subNodes = [], array $attributes = []) {
         $this->attributes = $attributes;
