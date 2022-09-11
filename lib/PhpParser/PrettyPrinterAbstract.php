@@ -104,7 +104,7 @@ abstract class PrettyPrinterAbstract {
     /** @var PhpVersion PHP version to target */
     protected $phpVersion;
 
-    /** @var TokenStream Original tokens for use in format-preserving pretty print */
+    /** @var TokenStream|null Original tokens for use in format-preserving pretty print */
     protected $origTokens;
     /** @var Internal\Differ Differ for node lists */
     protected $nodeListDiffer;
@@ -116,9 +116,9 @@ abstract class PrettyPrinterAbstract {
      */
     protected $fixupMap;
     /**
-     * @var int[][] Map from "{$node->getType()}->{$subNode}" to ['left' => $l, 'right' => $r],
-     *              where $l and $r specify the token type that needs to be stripped when removing
-     *              this node.
+     * @var (int|string)[][] Map from "{$node->getType()}->{$subNode}" to ['left' => $l, 'right' => $r],
+     *                       where $l and $r specify the token type that needs to be stripped when
+     *                       removing this node.
      */
     protected $removalMap;
     /**
