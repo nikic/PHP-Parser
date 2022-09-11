@@ -226,7 +226,7 @@ class NameContext {
         return $shortestName;
     }
 
-    private function resolveAlias(Name $name, $type) {
+    private function resolveAlias(Name $name, int $type) {
         $firstPart = $name->getFirst();
 
         if ($name->isQualified()) {

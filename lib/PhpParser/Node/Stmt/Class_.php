@@ -92,7 +92,7 @@ class Class_ extends ClassLike {
     /**
      * @internal
      */
-    public static function verifyClassModifier($a, $b) {
+    public static function verifyClassModifier(int $a, int $b) {
         if ($a & Modifiers::ABSTRACT && $b & Modifiers::ABSTRACT) {
             throw new Error('Multiple abstract modifiers are not allowed');
         }
@@ -113,7 +113,7 @@ class Class_ extends ClassLike {
     /**
      * @internal
      */
-    public static function verifyModifier($a, $b) {
+    public static function verifyModifier(int $a, int $b) {
         if ($a & Modifiers::VISIBILITY_MASK && $b & Modifiers::VISIBILITY_MASK) {
             throw new Error('Multiple access type modifiers are not allowed');
         }

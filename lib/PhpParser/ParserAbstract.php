@@ -11,6 +11,7 @@ use PhpParser\Modifiers;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\Array_;
 use PhpParser\Node\Expr\Cast\Double;
+use PhpParser\Node\Identifier;
 use PhpParser\Node\Name;
 use PhpParser\Node\Param;
 use PhpParser\Node\Scalar\InterpolatedString;
@@ -662,7 +663,7 @@ abstract class ParserAbstract implements Parser {
         return Double::KIND_DOUBLE;
     }
 
-    protected function parseLNumber($str, $attributes, $allowInvalidOctal = false) {
+    protected function parseLNumber(string $str, array $attributes, bool $allowInvalidOctal = false) {
         try {
             return Int_::fromString($str, $attributes, $allowInvalidOctal);
         } catch (Error $error) {
@@ -725,6 +726,7 @@ abstract class ParserAbstract implements Parser {
         );
     }
 
+    /** @param string|array $contents */
     protected function parseDocString(
         string $startToken, $contents, string $endToken,
         array $attributes, array $endTokenAttributes, bool $parseUnicodeEscape
@@ -872,7 +874,7 @@ abstract class ParserAbstract implements Parser {
         }
     }
 
-    protected function checkClassModifier($a, $b, $modifierPos) {
+    protected function checkClassModifier(int $a, int $b, int $modifierPos) {
         try {
             Class_::verifyClassModifier($a, $b);
         } catch (Error $error) {
@@ -881,7 +883,7 @@ abstract class ParserAbstract implements Parser {
         }
     }
 
-    protected function checkModifier($a, $b, $modifierPos) {
+    protected function checkModifier(int $a, int $b, int $modifierPos) {
         // Jumping through some hoops here because verifyModifier() is also used elsewhere
         try {
             Class_::verifyModifier($a, $b);
@@ -920,7 +922,7 @@ abstract class ParserAbstract implements Parser {
         }
     }
 
-    private function checkClassName($name, $namePos) {
+    private function checkClassName(?Identifier $name, int $namePos) {
         if (null !== $name && $name->isSpecialClassName()) {
             $this->emitError(new Error(
                 sprintf('Cannot use \'%s\' as class name as it is reserved', $name),
@@ -940,7 +942,7 @@ abstract class ParserAbstract implements Parser {
         }
     }
 
-    protected function checkClass(Class_ $node, $namePos) {
+    protected function checkClass(Class_ $node, int $namePos) {
         $this->checkClassName($node->name, $namePos);
 
         if ($node->extends && $node->extends->isSpecialClassName()) {
@@ -953,17 +955,17 @@ abstract class ParserAbstract implements Parser {
         $this->checkImplementedInterfaces($node->implements);
     }
 
-    protected function checkInterface(Interface_ $node, $namePos) {
+    protected function checkInterface(Interface_ $node, int $namePos) {
         $this->checkClassName($node->name, $namePos);
         $this->checkImplementedInterfaces($node->extends);
     }
 
-    protected function checkEnum(Enum_ $node, $namePos) {
+    protected function checkEnum(Enum_ $node, int $namePos) {
         $this->checkClassName($node->name, $namePos);
         $this->checkImplementedInterfaces($node->implements);
     }
 
-    protected function checkClassMethod(ClassMethod $node, $modifierPos) {
+    protected function checkClassMethod(ClassMethod $node, int $modifierPos) {
         if ($node->flags & Modifiers::STATIC) {
             switch ($node->name->toLowerString()) {
                 case '__construct':
@@ -991,7 +993,7 @@ abstract class ParserAbstract implements Parser {
         }
     }
 
-    protected function checkClassConst(ClassConst $node, $modifierPos) {
+    protected function checkClassConst(ClassConst $node, int $modifierPos) {
         if ($node->flags & Modifiers::STATIC) {
             $this->emitError(new Error(
                 "Cannot use 'static' as constant modifier",
@@ -1009,7 +1011,7 @@ abstract class ParserAbstract implements Parser {
         }
     }
 
-    protected function checkProperty(Property $node, $modifierPos) {
+    protected function checkProperty(Property $node, int $modifierPos) {
         if ($node->flags & Modifiers::ABSTRACT) {
             $this->emitError(new Error('Properties cannot be declared abstract',
                 $this->getAttributesAt($modifierPos)));
@@ -1021,7 +1023,7 @@ abstract class ParserAbstract implements Parser {
         }
     }
 
-    protected function checkUseUse(UseItem $node, $namePos) {
+    protected function checkUseUse(UseItem $node, int $namePos) {
         if ($node->alias && $node->alias->isSpecialClassName()) {
             $this->emitError(new Error(
                 sprintf(

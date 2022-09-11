@@ -736,7 +736,7 @@ class Standard extends PrettyPrinterAbstract {
              . (null !== $node->alias ? ' as ' . $node->alias : '');
     }
 
-    protected function pUseType($type) {
+    protected function pUseType(int $type) {
         return $type === Stmt\Use_::TYPE_FUNCTION ? 'function '
             : ($type === Stmt\Use_::TYPE_CONSTANT ? 'const ' : '');
     }
@@ -978,7 +978,7 @@ class Standard extends PrettyPrinterAbstract {
 
     // Helpers
 
-    protected function pClassCommon(Stmt\Class_ $node, $afterClassToken) {
+    protected function pClassCommon(Stmt\Class_ $node, string $afterClassToken) {
         return $this->pAttrGroups($node->attrGroups, $node->name === null)
             . $this->pModifiers($node->flags)
             . 'class' . $afterClassToken
@@ -987,7 +987,7 @@ class Standard extends PrettyPrinterAbstract {
             . $this->nl . '{' . $this->pStmts($node->stmts) . $this->nl . '}';
     }
 
-    protected function pObjectProperty($node) {
+    protected function pObjectProperty(Node $node) {
         if ($node instanceof Expr) {
             return '{' . $this->p($node) . '}';
         } else {
@@ -995,7 +995,7 @@ class Standard extends PrettyPrinterAbstract {
         }
     }
 
-    protected function pEncapsList(array $encapsList, $quote) {
+    protected function pEncapsList(array $encapsList, ?string $quote) {
         $return = '';
         foreach ($encapsList as $element) {
             if ($element instanceof Node\InterpolatedStringPart) {
@@ -1017,7 +1017,7 @@ class Standard extends PrettyPrinterAbstract {
         return '\'' . preg_replace($regex, '\\\\$0', $string) . '\'';
     }
 
-    protected function escapeString($string, $quote) {
+    protected function escapeString(string $string, ?string $quote) {
         if (null === $quote) {
             // For doc strings, don't escape newlines
             $escaped = addcslashes($string, "\t\f\v$\\");
@@ -1050,14 +1050,14 @@ class Standard extends PrettyPrinterAbstract {
         }, $escaped);
     }
 
-    protected function containsEndLabel($string, $label, $atStart = true, $atEnd = true) {
+    protected function containsEndLabel(string $string, string $label, bool $atStart = true, bool $atEnd = true) {
         $start = $atStart ? '(?:^|[\r\n])' : '[\r\n]';
         $end = $atEnd ? '(?:$|[;\r\n])' : '[;\r\n]';
         return false !== strpos($string, $label)
             && preg_match('/' . $start . $label . $end . '/', $string);
     }
 
-    protected function encapsedContainsEndLabel(array $parts, $label) {
+    protected function encapsedContainsEndLabel(array $parts, string $label) {
         foreach ($parts as $i => $part) {
             $atStart = $i === 0;
             $atEnd = $i === count($parts) - 1;

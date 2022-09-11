@@ -160,7 +160,7 @@ class NameResolver extends NodeVisitorAbstract {
         return null;
     }
 
-    private function addAlias(Node\UseItem $use, $type, ?Name $prefix = null) {
+    private function addAlias(Node\UseItem $use, int $type, ?Name $prefix = null) {
         // Add prefix for group uses
         $name = $prefix ? Name::concat($prefix, $use->name) : $use->name;
         // Type is determined either by individual element or whole use declaration
@@ -180,7 +180,7 @@ class NameResolver extends NodeVisitorAbstract {
         $node->returnType = $this->resolveType($node->returnType);
     }
 
-    private function resolveType($node) {
+    private function resolveType(?Node $node) {
         if ($node instanceof Name) {
             return $this->resolveClassName($node);
         }

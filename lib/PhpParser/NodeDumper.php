@@ -43,6 +43,7 @@ class NodeDumper {
         return $this->dumpRecursive($node);
     }
 
+    /** @param Node|Comment|array $node */
     protected function dumpRecursive($node) {
         if ($node instanceof Node) {
             $r = $node->getType();
@@ -107,7 +108,7 @@ class NodeDumper {
         return $r . "\n)";
     }
 
-    protected function dumpFlags($flags) {
+    protected function dumpFlags(int $flags) {
         $strs = [];
         if ($flags & Modifiers::PUBLIC) {
             $strs[] = 'PUBLIC';
@@ -138,7 +139,7 @@ class NodeDumper {
         }
     }
 
-    protected function dumpIncludeType($type) {
+    protected function dumpIncludeType(int $type) {
         $map = [
             Include_::TYPE_INCLUDE      => 'TYPE_INCLUDE',
             Include_::TYPE_INCLUDE_ONCE => 'TYPE_INCLUDE_ONCE',
@@ -152,7 +153,7 @@ class NodeDumper {
         return $map[$type] . ' (' . $type . ')';
     }
 
-    protected function dumpUseType($type) {
+    protected function dumpUseType(int $type) {
         $map = [
             Use_::TYPE_UNKNOWN  => 'TYPE_UNKNOWN',
             Use_::TYPE_NORMAL   => 'TYPE_NORMAL',
@@ -190,7 +191,7 @@ class NodeDumper {
     }
 
     // Copied from Error class
-    private function toColumn($code, $pos) {
+    private function toColumn(string $code, int $pos) {
         if ($pos > strlen($code)) {
             throw new \RuntimeException('Invalid position information');
         }

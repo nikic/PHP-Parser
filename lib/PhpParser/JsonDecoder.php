@@ -15,6 +15,7 @@ class JsonDecoder {
         return $this->decodeRecursive($value);
     }
 
+    /** @param mixed $value */
     private function decodeRecursive($value) {
         if (\is_array($value)) {
             if (isset($value['nodeType'])) {

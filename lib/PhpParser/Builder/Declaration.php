@@ -8,6 +8,13 @@ use PhpParser\BuilderHelpers;
 abstract class Declaration implements PhpParser\Builder {
     protected $attributes = [];
 
+    /**
+     * Adds a statement.
+     *
+     * @param PhpParser\Node\Stmt|PhpParser\Builder $stmt The statement to add
+     *
+     * @return $this The builder instance (for fluid interface)
+     */
     abstract public function addStmt($stmt);
 
     /**

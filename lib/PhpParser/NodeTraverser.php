@@ -272,7 +272,7 @@ class NodeTraverser implements NodeTraverserInterface {
         return $nodes;
     }
 
-    private function ensureReplacementReasonable($old, $new) {
+    private function ensureReplacementReasonable(Node $old, Node $new) {
         if ($old instanceof Node\Stmt && $new instanceof Node\Expr) {
             throw new \LogicException(
                 "Trying to replace statement ({$old->getType()}) " .

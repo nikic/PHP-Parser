@@ -102,6 +102,7 @@ class TokenStream {
         return false;
     }
 
+    /** @param int|string|array $skipTokenType */
     public function skipLeft(int $pos, $skipTokenType) {
         $tokens = $this->tokens;
 
@@ -119,6 +120,7 @@ class TokenStream {
         return $this->skipLeftWhitespace($pos);
     }
 
+    /** @param int|string|array $skipTokenType */
     public function skipRight(int $pos, $skipTokenType) {
         $tokens = $this->tokens;
 
@@ -168,6 +170,7 @@ class TokenStream {
         return $pos;
     }
 
+    /** @param int|string|array $findTokenType */
     public function findRight(int $pos, $findTokenType) {
         $tokens = $this->tokens;
         for ($count = \count($tokens); $pos < $count; $pos++) {
