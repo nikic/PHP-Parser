@@ -247,11 +247,6 @@ class NodeTraverser implements NodeTraverserInterface {
                         } elseif (self::STOP_TRAVERSAL === $return) {
                             $this->stopTraversal = true;
                             break 2;
-                        } elseif (false === $return) {
-                            throw new \LogicException(
-                                'bool(false) return from leaveNode() no longer supported. ' .
-                                'Return NodeTraverser::REMOVE_NODE instead'
-                            );
                         } else {
                             throw new \LogicException(
                                 'leaveNode() returned invalid value of type ' . gettype($return)

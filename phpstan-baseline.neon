@@ -6,6 +6,11 @@ parameters:
 			path: lib/PhpParser/ConstExprEvaluator.php
 
 		-
+			message: "#^Call to function assert\\(\\) with false will always evaluate to false\\.$#"
+			count: 1
+			path: lib/PhpParser/Lexer/Emulative.php
+
+		-
 			message: "#^Unary operation \"\\+\" on string results in an error\\.$#"
 			count: 1
 			path: lib/PhpParser/Lexer/TokenEmulator/NumericLiteralSeparatorEmulator.php

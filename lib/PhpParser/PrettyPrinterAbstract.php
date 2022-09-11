@@ -106,7 +106,7 @@ abstract class PrettyPrinterAbstract {
 
     /** @var TokenStream|null Original tokens for use in format-preserving pretty print */
     protected $origTokens;
-    /** @var Internal\Differ Differ for node lists */
+    /** @var Internal\Differ|null Differ for node lists */
     protected $nodeListDiffer;
     /** @var bool[] Map determining whether a certain character is a label character */
     protected $labelCharMap;
@@ -520,7 +520,7 @@ abstract class PrettyPrinterAbstract {
             return $this->{'p' . $node->getType()}($node);
         }
 
-        /** @var Node $origNode */
+        /** @var Node|null $origNode */
         $origNode = $node->getAttribute('origNode');
         if (null === $origNode) {
             return $this->pFallback($node);
@@ -536,6 +536,7 @@ abstract class PrettyPrinterAbstract {
         $fallbackNode = $node;
         if ($node instanceof Expr\New_ && $node->class instanceof Stmt\Class_) {
             // Normalize node structure of anonymous classes
+            assert($origNode instanceof Expr\New_);
             $node = PrintableNewAnonClassNode::fromNewNode($node);
             $origNode = PrintableNewAnonClassNode::fromNewNode($origNode);
             $class = PrintableNewAnonClassNode::class;
@@ -733,9 +734,9 @@ abstract class PrettyPrinterAbstract {
         $result = '';
         foreach ($diff as $i => $diffElem) {
             $diffType = $diffElem->type;
-            /** @var Node|null $arrItem */
+            /** @var Node|string|null $arrItem */
             $arrItem = $diffElem->new;
-            /** @var Node|null $origArrItem */
+            /** @var Node|string|null $origArrItem */
             $origArrItem = $diffElem->old;
 
             if ($diffType === DiffElem::TYPE_KEEP || $diffType === DiffElem::TYPE_REPLACE) {

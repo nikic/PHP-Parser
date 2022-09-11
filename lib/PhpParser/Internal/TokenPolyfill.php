@@ -33,7 +33,7 @@ class TokenPolyfill {
         \T_OPEN_TAG => true,
     ];
 
-    /** @var bool[] Tokens that may be part of a T_NAME_* identifier. */
+    /** @var bool[]|null Tokens that may be part of a T_NAME_* identifier. */
     private static $identifierTokens;
 
     /**
