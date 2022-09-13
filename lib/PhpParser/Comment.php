@@ -156,7 +156,10 @@ class Comment implements \JsonSerializable {
      * @return string
      */
     public function getReformattedText() {
-        if ($this->startLine !== $this->endLine) {
+        if (
+            $this->startLine !== $this->endLine
+            || ($this->endLine === -1 && strpos($this->text, "\n") !== false)
+        ) {
             if (preg_match('((*BSR_ANYCRLF)(*ANYCRLF)^.*(?:\R\s+\*.*)+$)', $this->text)) {
                 // Multi line comment of the type
                 //
