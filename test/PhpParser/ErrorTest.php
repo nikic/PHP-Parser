@@ -73,7 +73,7 @@ class ErrorTest extends \PHPUnit\Framework\TestCase {
     }
 
     public function testNoColumnInfo() {
-        $error = new Error('Some error', 3);
+        $error = new Error('Some error', ['startLine' => 3]);
 
         $this->assertFalse($error->hasColumnInfo());
         try {

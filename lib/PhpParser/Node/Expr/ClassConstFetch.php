@@ -17,7 +17,7 @@ class ClassConstFetch extends Expr {
      *
      * @param Name|Expr               $class      Class name
      * @param string|Identifier|Error $name       Constant name
-     * @param array                   $attributes Additional attributes
+     * @param array<string, mixed> $attributes Additional attributes
      */
     public function __construct($class, $name, array $attributes = []) {
         $this->attributes = $attributes;

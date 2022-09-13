@@ -8,7 +8,9 @@ use PhpParser\Node;
 use PhpParser\Node\Stmt;
 
 class Namespace_ extends Declaration {
+    /** @var Node\Name|null */
     private $name;
+    /** @var Stmt[] */
     private $stmts = [];
 
     /**

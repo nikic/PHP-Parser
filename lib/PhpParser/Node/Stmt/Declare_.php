@@ -16,7 +16,7 @@ class Declare_ extends Node\Stmt {
      *
      * @param DeclareItem[] $declares   List of declares
      * @param Node\Stmt[]|null $stmts      Statements
-     * @param array            $attributes Additional attributes
+     * @param array<string, mixed> $attributes Additional attributes
      */
     public function __construct(array $declares, ?array $stmts = null, array $attributes = []) {
         $this->attributes = $attributes;

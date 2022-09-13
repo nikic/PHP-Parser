@@ -36,17 +36,13 @@ class PropertyTest extends \PHPUnit\Framework\TestCase {
         $this->assertFalse($node->isReadonly());
     }
 
-    public function testReadonly() {
-        $node = new Property(Modifiers::READONLY, []);
-        $this->assertTrue($node->isReadonly());
-    }
-
     public function provideModifiers() {
         return [
             ['public'],
             ['protected'],
             ['private'],
             ['static'],
+            ['readonly'],
         ];
     }
 }

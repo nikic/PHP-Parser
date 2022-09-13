@@ -12,7 +12,7 @@ class Return_ extends Node\Stmt {
      * Constructs a return node.
      *
      * @param null|Node\Expr $expr       Expression
-     * @param array          $attributes Additional attributes
+     * @param array<string, mixed> $attributes Additional attributes
      */
     public function __construct(?Node\Expr $expr = null, array $attributes = []) {
         $this->attributes = $attributes;

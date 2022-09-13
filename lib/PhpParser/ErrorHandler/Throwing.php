@@ -11,7 +11,7 @@ use PhpParser\ErrorHandler;
  * This is the default strategy used by all components.
  */
 class Throwing implements ErrorHandler {
-    public function handleError(Error $error) {
+    public function handleError(Error $error): void {
         throw $error;
     }
 }

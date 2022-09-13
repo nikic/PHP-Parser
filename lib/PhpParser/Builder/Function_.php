@@ -8,7 +8,9 @@ use PhpParser\Node;
 use PhpParser\Node\Stmt;
 
 class Function_ extends FunctionLike {
+    /** @var string */
     protected $name;
+    /** @var Stmt[] */
     protected $stmts = [];
 
     /** @var Node\AttributeGroup[] */

@@ -2,6 +2,7 @@
 
 namespace PhpParser\Node;
 
+use PhpParser\Modifiers;
 use PhpParser\NodeAbstract;
 
 class Param extends NodeAbstract {
@@ -28,7 +29,7 @@ class Param extends NodeAbstract {
      * @param null|string|Identifier|Name|ComplexType $type       Type declaration
      * @param bool                                    $byRef      Whether is passed by reference
      * @param bool                                    $variadic   Whether this is a variadic argument
-     * @param array                                   $attributes Additional attributes
+     * @param array<string, mixed> $attributes Additional attributes
      * @param int                                     $flags      Optional visibility flags
      * @param AttributeGroup[]                        $attrGroups PHP attribute groups
      */
@@ -55,5 +56,28 @@ class Param extends NodeAbstract {
 
     public function getType(): string {
         return 'Param';
+    }
+
+    /**
+     * Whether this parameter uses constructor property promotion.
+     */
+    public function isPromoted(): bool {
+        return $this->flags !== 0;
+    }
+
+    public function isPublic(): bool {
+        return (bool) ($this->flags & Modifiers::PUBLIC);
+    }
+
+    public function isProtected(): bool {
+        return (bool) ($this->flags & Modifiers::PROTECTED);
+    }
+
+    public function isPrivate(): bool {
+        return (bool) ($this->flags & Modifiers::PRIVATE);
+    }
+
+    public function isReadonly(): bool {
+        return (bool) ($this->flags & Modifiers::READONLY);
     }
 }

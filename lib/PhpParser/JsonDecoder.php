@@ -6,6 +6,7 @@ class JsonDecoder {
     /** @var \ReflectionClass[] Node type to reflection class map */
     private $reflectionClassCache;
 
+    /** @return mixed */
     public function decode(string $json) {
         $value = json_decode($json, true);
         if (json_last_error()) {
@@ -15,6 +16,10 @@ class JsonDecoder {
         return $this->decodeRecursive($value);
     }
 
+    /**
+     * @param mixed $value
+     * @return mixed
+     */
     private function decodeRecursive($value) {
         if (\is_array($value)) {
             if (isset($value['nodeType'])) {

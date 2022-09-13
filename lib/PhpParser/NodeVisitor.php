@@ -38,7 +38,7 @@ interface NodeVisitor {
      *
      * @param Node $node Node
      *
-     * @return null|int|Node Replacement node (or special return value)
+     * @return null|int|Node|Node[] Replacement node (or special return value)
      */
     public function enterNode(Node $node);
 

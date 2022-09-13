@@ -9,11 +9,14 @@ use PhpParser\Node\Name;
 use PhpParser\Node\Stmt;
 
 class Interface_ extends Declaration {
+    /** @var string */
     protected $name;
+    /** @var Name[] */
     protected $extends = [];
+    /** @var Stmt\ClassConst[] */
     protected $constants = [];
+    /** @var Stmt\ClassMethod[] */
     protected $methods = [];
-
     /** @var Node\AttributeGroup[] */
     protected $attributeGroups = [];
 

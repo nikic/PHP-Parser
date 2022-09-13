@@ -21,7 +21,7 @@ class MethodCall extends CallLike {
      * @param Expr                           $var        Variable holding object
      * @param string|Identifier|Expr         $name       Method name
      * @param array<Arg|VariadicPlaceholder> $args       Arguments
-     * @param array                          $attributes Additional attributes
+     * @param array<string, mixed> $attributes Additional attributes
      */
     public function __construct(Expr $var, $name, array $args = [], array $attributes = []) {
         $this->attributes = $attributes;

@@ -64,7 +64,7 @@ class Lexer {
      * @param ErrorHandler|null $errorHandler Error handler to use for lexing errors. Defaults to
      *                                        ErrorHandler\Throwing
      */
-    public function startLexing(string $code, ?ErrorHandler $errorHandler = null) {
+    public function startLexing(string $code, ?ErrorHandler $errorHandler = null): void {
         if (null === $errorHandler) {
             $errorHandler = new ErrorHandler\Throwing();
         }
@@ -111,7 +111,7 @@ class Lexer {
             && substr($token->text, -2) !== '*/';
     }
 
-    protected function postprocessTokens(ErrorHandler $errorHandler) {
+    protected function postprocessTokens(ErrorHandler $errorHandler): void {
         // This function reports errors (bad characters and unterminated comments) in the token
         // array, and performs certain canonicalizations:
         //  * Use PHP 8.1 T_AMPERSAND_NOT_FOLLOWED_BY_VAR_OR_VARARG and

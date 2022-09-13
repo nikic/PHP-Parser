@@ -53,7 +53,7 @@ class NodeTraverser implements NodeTraverserInterface {
      *
      * @param NodeVisitor $visitor Visitor to add
      */
-    public function addVisitor(NodeVisitor $visitor) {
+    public function addVisitor(NodeVisitor $visitor): void {
         $this->visitors[] = $visitor;
     }
 
@@ -62,7 +62,7 @@ class NodeTraverser implements NodeTraverserInterface {
      *
      * @param NodeVisitor $visitor
      */
-    public function removeVisitor(NodeVisitor $visitor) {
+    public function removeVisitor(NodeVisitor $visitor): void {
         foreach ($this->visitors as $index => $storedVisitor) {
             if ($storedVisitor === $visitor) {
                 unset($this->visitors[$index]);
@@ -201,10 +201,10 @@ class NodeTraverser implements NodeTraverserInterface {
                         if ($return instanceof Node) {
                             $this->ensureReplacementReasonable($node, $return);
                             $node = $return;
-                        } else if (\is_array($return)) {
+                        } elseif (\is_array($return)) {
                             $doNodes[] = [$i, $return];
                             continue 2;
-                        } else if (self::REMOVE_NODE === $return) {
+                        } elseif (self::REMOVE_NODE === $return) {
                             $doNodes[] = [$i, []];
                             continue 2;
                         } elseif (self::DONT_TRAVERSE_CHILDREN === $return) {
@@ -247,11 +247,6 @@ class NodeTraverser implements NodeTraverserInterface {
                         } elseif (self::STOP_TRAVERSAL === $return) {
                             $this->stopTraversal = true;
                             break 2;
-                        } elseif (false === $return) {
-                            throw new \LogicException(
-                                'bool(false) return from leaveNode() no longer supported. ' .
-                                'Return NodeTraverser::REMOVE_NODE instead'
-                            );
                         } else {
                             throw new \LogicException(
                                 'leaveNode() returned invalid value of type ' . gettype($return)
@@ -277,7 +272,7 @@ class NodeTraverser implements NodeTraverserInterface {
         return $nodes;
     }
 
-    private function ensureReplacementReasonable($old, $new) {
+    private function ensureReplacementReasonable(Node $old, Node $new): void {
         if ($old instanceof Node\Stmt && $new instanceof Node\Expr) {
             throw new \LogicException(
                 "Trying to replace statement ({$old->getType()}) " .

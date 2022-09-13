@@ -10,17 +10,24 @@ use PhpParser\Node\Name;
 use PhpParser\Node\Stmt;
 
 class Class_ extends Declaration {
+    /** @var string */
     protected $name;
 
+    /** @var Name|null */
     protected $extends = null;
+    /** @var Name[] */
     protected $implements = [];
+    /** @var int */
     protected $flags = 0;
 
+    /** @var Stmt\TraitUse[] */
     protected $uses = [];
+    /** @var Stmt\ClassConst[] */
     protected $constants = [];
+    /** @var Stmt\Property[] */
     protected $properties = [];
+    /** @var Stmt\ClassMethod[] */
     protected $methods = [];
-
     /** @var Node\AttributeGroup[] */
     protected $attributeGroups = [];
 
@@ -83,6 +90,11 @@ class Class_ extends Declaration {
         return $this;
     }
 
+    /**
+     * Makes the class readonly.
+     *
+     * @return $this The builder instance (for fluid interface)
+     */
     public function makeReadonly() {
         $this->flags = BuilderHelpers::addClassModifier($this->flags, Modifiers::READONLY);
 

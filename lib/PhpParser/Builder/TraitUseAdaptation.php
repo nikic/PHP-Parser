@@ -9,26 +9,28 @@ use PhpParser\Node;
 use PhpParser\Node\Stmt;
 
 class TraitUseAdaptation implements Builder {
-    public const TYPE_UNDEFINED  = 0;
-    public const TYPE_ALIAS      = 1;
-    public const TYPE_PRECEDENCE = 2;
+    private const TYPE_UNDEFINED  = 0;
+    private const TYPE_ALIAS      = 1;
+    private const TYPE_PRECEDENCE = 2;
 
     /** @var int Type of building adaptation */
     protected $type;
-
+    /** @var Node\Name|null */
     protected $trait;
+    /** @var Node\Identifier */
     protected $method;
-
+    /** @var int|null */
     protected $modifier = null;
+    /** @var Node\Identifier|null */
     protected $alias = null;
-
+    /** @var Node\Name[] */
     protected $insteadof = [];
 
     /**
      * Creates a trait use adaptation builder.
      *
-     * @param Node\Name|string|null  $trait  Name of adaptated trait
-     * @param Node\Identifier|string $method Name of adaptated method
+     * @param Node\Name|string|null  $trait  Name of adapted trait
+     * @param Node\Identifier|string $method Name of adapted method
      */
     public function __construct($trait, $method) {
         $this->type = self::TYPE_UNDEFINED;
@@ -40,7 +42,7 @@ class TraitUseAdaptation implements Builder {
     /**
      * Sets alias of method.
      *
-     * @param Node\Identifier|string $alias Alias for adaptated method
+     * @param Node\Identifier|string $alias Alias for adapted method
      *
      * @return $this The builder instance (for fluid interface)
      */
@@ -58,7 +60,7 @@ class TraitUseAdaptation implements Builder {
     }
 
     /**
-     * Sets adaptated method public.
+     * Sets adapted method public.
      *
      * @return $this The builder instance (for fluid interface)
      */
@@ -68,7 +70,7 @@ class TraitUseAdaptation implements Builder {
     }
 
     /**
-     * Sets adaptated method protected.
+     * Sets adapted method protected.
      *
      * @return $this The builder instance (for fluid interface)
      */
@@ -78,7 +80,7 @@ class TraitUseAdaptation implements Builder {
     }
 
     /**
-     * Sets adaptated method private.
+     * Sets adapted method private.
      *
      * @return $this The builder instance (for fluid interface)
      */
@@ -114,7 +116,7 @@ class TraitUseAdaptation implements Builder {
         return $this;
     }
 
-    protected function setModifier(int $modifier) {
+    protected function setModifier(int $modifier): void {
         if ($this->type === self::TYPE_UNDEFINED) {
             $this->type = self::TYPE_ALIAS;
         }

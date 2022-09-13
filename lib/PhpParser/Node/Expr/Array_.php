@@ -17,7 +17,7 @@ class Array_ extends Expr {
      * Constructs an array node.
      *
      * @param ArrayItem[] $items      Items of the array
-     * @param array       $attributes Additional attributes
+     * @param array<string, mixed> $attributes Additional attributes
      */
     public function __construct(array $items = [], array $attributes = []) {
         $this->attributes = $attributes;

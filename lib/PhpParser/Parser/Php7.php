@@ -1146,7 +1146,7 @@ class Php7 extends \PhpParser\ParserAbstract
             3,    3,    6,    3,    1,    1,    2,    1
     );
 
-    protected function initReduceCallbacks() {
+    protected function initReduceCallbacks(): void {
         $this->reduceCallbacks = [
             0 => function ($stackPos) {
                 $this->semValue = $this->semStack[$stackPos];
@@ -1966,7 +1966,7 @@ class Php7 extends \PhpParser\ParserAbstract
                  $this->semStack[$stackPos-(2-1)][] = $this->semStack[$stackPos-(2-2)]; $this->semValue = $this->semStack[$stackPos-(2-1)];
             },
             263 => function ($stackPos) {
-                 $this->semValue = new Stmt\ElseIf_($this->semStack[$stackPos-(6-3)], $this->semStack[$stackPos-(6-6)], $this->startAttributeStack[$stackPos-(6-1)] + $this->endAttributes);
+                 $this->semValue = new Stmt\ElseIf_($this->semStack[$stackPos-(6-3)], $this->semStack[$stackPos-(6-6)], $this->startAttributeStack[$stackPos-(6-1)] + $this->endAttributes); $this->fixupAlternativeElse($this->semValue);
             },
             264 => function ($stackPos) {
                  $this->semValue = null;
@@ -1978,7 +1978,7 @@ class Php7 extends \PhpParser\ParserAbstract
                  $this->semValue = null;
             },
             267 => function ($stackPos) {
-                 $this->semValue = new Stmt\Else_($this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
+                 $this->semValue = new Stmt\Else_($this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes); $this->fixupAlternativeElse($this->semValue);
             },
             268 => function ($stackPos) {
                  $this->semValue = array($this->semStack[$stackPos-(1-1)], false);
@@ -2961,7 +2961,7 @@ class Php7 extends \PhpParser\ParserAbstract
                  $this->semValue = new Node\ArrayItem($this->semStack[$stackPos-(3-3)], $this->semStack[$stackPos-(3-1)], false, $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
             },
             588 => function ($stackPos) {
-                 $this->semValue = new Node\ArrayItem($this->semStack[$stackPos-(2-2)], null, false, $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes, true, $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes);
+                 $this->semValue = new Node\ArrayItem($this->semStack[$stackPos-(2-2)], null, false, $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes, true);
             },
             589 => function ($stackPos) {
                  /* Create an Error node now to remember the position. We'll later either report an error,

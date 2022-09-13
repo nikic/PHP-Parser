@@ -17,7 +17,7 @@ class Enum_ extends ClassLike {
      *                                                'implements'  => array() : Names of implemented interfaces
      *                                                'stmts'       => array() : Statements
      *                                                'attrGroups'  => array() : PHP attribute groups
-     * @param array                       $attributes Additional attributes
+     * @param array<string, mixed> $attributes Additional attributes
      */
     public function __construct($name, array $subNodes = [], array $attributes = []) {
         $this->name = \is_string($name) ? new Node\Identifier($name) : $name;

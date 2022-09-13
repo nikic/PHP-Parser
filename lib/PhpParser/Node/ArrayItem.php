@@ -20,7 +20,7 @@ class ArrayItem extends NodeAbstract {
      * @param Expr      $value      Value
      * @param null|Expr $key        Key
      * @param bool      $byRef      Whether to assign by reference
-     * @param array     $attributes Additional attributes
+     * @param array<string, mixed> $attributes Additional attributes
      */
     public function __construct(Expr $value, ?Expr $key = null, bool $byRef = false, array $attributes = [], bool $unpack = false) {
         $this->attributes = $attributes;

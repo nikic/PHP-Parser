@@ -15,7 +15,7 @@ class Yield_ extends Expr {
      *
      * @param null|Expr $value      Value expression
      * @param null|Expr $key        Key expression
-     * @param array     $attributes Additional attributes
+     * @param array<string, mixed> $attributes Additional attributes
      */
     public function __construct(?Expr $value = null, ?Expr $key = null, array $attributes = []) {
         $this->attributes = $attributes;

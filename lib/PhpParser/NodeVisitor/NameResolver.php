@@ -160,7 +160,7 @@ class NameResolver extends NodeVisitorAbstract {
         return null;
     }
 
-    private function addAlias(Node\UseItem $use, $type, ?Name $prefix = null) {
+    private function addAlias(Node\UseItem $use, int $type, ?Name $prefix = null): void {
         // Add prefix for group uses
         $name = $prefix ? Name::concat($prefix, $use->name) : $use->name;
         // Type is determined either by individual element or whole use declaration
@@ -172,7 +172,7 @@ class NameResolver extends NodeVisitorAbstract {
     }
 
     /** @param Stmt\Function_|Stmt\ClassMethod|Expr\Closure $node */
-    private function resolveSignature($node) {
+    private function resolveSignature($node): void {
         foreach ($node->params as $param) {
             $param->type = $this->resolveType($param->type);
             $this->resolveAttrGroups($param);
@@ -180,7 +180,11 @@ class NameResolver extends NodeVisitorAbstract {
         $node->returnType = $this->resolveType($node->returnType);
     }
 
-    private function resolveType($node) {
+    /**
+     * @param Node\Identifier|Name|Node\ComplexType|null $node
+     * @return Node\Identifier|Name|Node\ComplexType|null
+     */
+    private function resolveType(?Node $node) {
         if ($node instanceof Name) {
             return $this->resolveClassName($node);
         }
@@ -236,16 +240,16 @@ class NameResolver extends NodeVisitorAbstract {
         return $name;
     }
 
-    protected function resolveClassName(Name $name) {
+    protected function resolveClassName(Name $name): Name {
         return $this->resolveName($name, Stmt\Use_::TYPE_NORMAL);
     }
 
-    protected function addNamespacedName(Node $node) {
+    protected function addNamespacedName(Node $node): void {
         $node->namespacedName = Name::concat(
             $this->nameContext->getNamespace(), (string) $node->name);
     }
 
-    protected function resolveAttrGroups(Node $node) {
+    protected function resolveAttrGroups(Node $node): void {
         foreach ($node->attrGroups as $attrGroup) {
             foreach ($attrGroup->attrs as $attr) {
                 $attr->name = $this->resolveClassName($attr->name);

@@ -14,7 +14,7 @@ class InterpolatedString extends Scalar {
      * Constructs an interpolated string node.
      *
      * @param (Expr|InterpolatedStringPart)[] $parts      Interpolated string parts
-     * @param array                           $attributes Additional attributes
+     * @param array<string, mixed> $attributes Additional attributes
      */
     public function __construct(array $parts, array $attributes = []) {
         $this->attributes = $attributes;

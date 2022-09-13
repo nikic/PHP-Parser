@@ -102,7 +102,8 @@ class TokenStream {
         return false;
     }
 
-    public function skipLeft(int $pos, $skipTokenType) {
+    /** @param int|string|array $skipTokenType */
+    public function skipLeft(int $pos, $skipTokenType): int {
         $tokens = $this->tokens;
 
         $pos = $this->skipLeftWhitespace($pos);
@@ -119,7 +120,8 @@ class TokenStream {
         return $this->skipLeftWhitespace($pos);
     }
 
-    public function skipRight(int $pos, $skipTokenType) {
+    /** @param int|string|array $skipTokenType */
+    public function skipRight(int $pos, $skipTokenType): int {
         $tokens = $this->tokens;
 
         $pos = $this->skipRightWhitespace($pos);
@@ -168,7 +170,8 @@ class TokenStream {
         return $pos;
     }
 
-    public function findRight(int $pos, $findTokenType) {
+    /** @param int|string|array $findTokenType */
+    public function findRight(int $pos, $findTokenType): int {
         $tokens = $this->tokens;
         for ($count = \count($tokens); $pos < $count; $pos++) {
             if ($tokens[$pos]->is($findTokenType)) {
@@ -196,7 +199,7 @@ class TokenStream {
         return false;
     }
 
-    public function haveBracesInRange(int $startPos, int $endPos) {
+    public function haveBracesInRange(int $startPos, int $endPos): bool {
         return $this->haveTokenInRange($startPos, $endPos, '{')
             || $this->haveTokenInRange($startPos, $endPos, T_CURLY_OPEN)
             || $this->haveTokenInRange($startPos, $endPos, '}');

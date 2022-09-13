@@ -20,7 +20,7 @@ class Include_ extends Expr {
      *
      * @param Expr  $expr       Expression
      * @param int   $type       Type of include
-     * @param array $attributes Additional attributes
+     * @param array<string, mixed> $attributes Additional attributes
      */
     public function __construct(Expr $expr, int $type, array $attributes = []) {
         $this->attributes = $attributes;

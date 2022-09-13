@@ -27,6 +27,7 @@ use function array_merge;
  * affected by the LC_NUMERIC locale.
  */
 class ConstExprEvaluator {
+    /** @var callable|null */
     private $fallbackEvaluator;
 
     /**
@@ -101,6 +102,7 @@ class ConstExprEvaluator {
         return $this->evaluate($expr);
     }
 
+    /** @return mixed */
     private function evaluate(Expr $expr) {
         if ($expr instanceof Scalar\Int_
             || $expr instanceof Scalar\Float_
@@ -146,7 +148,7 @@ class ConstExprEvaluator {
         return ($this->fallbackEvaluator)($expr);
     }
 
-    private function evaluateArray(Expr\Array_ $expr) {
+    private function evaluateArray(Expr\Array_ $expr): array {
         $array = [];
         foreach ($expr->items as $item) {
             if (null !== $item->key) {
@@ -160,6 +162,7 @@ class ConstExprEvaluator {
         return $array;
     }
 
+    /** @return mixed */
     private function evaluateTernary(Expr\Ternary $expr) {
         if (null === $expr->if) {
             return $this->evaluate($expr->cond) ?: $this->evaluate($expr->else);
@@ -170,6 +173,7 @@ class ConstExprEvaluator {
             : $this->evaluate($expr->else);
     }
 
+    /** @return mixed */
     private function evaluateBinaryOp(Expr\BinaryOp $expr) {
         if ($expr instanceof Expr\BinaryOp\Coalesce
             && $expr->left instanceof Expr\ArrayDimFetch
@@ -216,6 +220,7 @@ class ConstExprEvaluator {
         throw new \Exception('Should not happen');
     }
 
+    /** @return mixed */
     private function evaluateConstFetch(Expr\ConstFetch $expr) {
         $name = $expr->name->toLowerString();
         switch ($name) {

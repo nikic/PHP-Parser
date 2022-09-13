@@ -16,7 +16,7 @@ class Interface_ extends ClassLike {
      *                           'extends'    => array(): Name of extended interfaces
      *                           'stmts'      => array(): Statements
      *                           'attrGroups' => array(): PHP attribute groups
-     * @param array  $attributes Additional attributes
+     * @param array<string, mixed> $attributes Additional attributes
      */
     public function __construct($name, array $subNodes = [], array $attributes = []) {
         $this->attributes = $attributes;

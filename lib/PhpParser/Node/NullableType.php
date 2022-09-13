@@ -10,7 +10,7 @@ class NullableType extends ComplexType {
      * Constructs a nullable type (wrapping another type).
      *
      * @param string|Identifier|Name $type       Type
-     * @param array                  $attributes Additional attributes
+     * @param array<string, mixed> $attributes Additional attributes
      */
     public function __construct($type, array $attributes = []) {
         $this->attributes = $attributes;

@@ -7,11 +7,11 @@ use PhpParser\Modifiers;
 use PhpParser\Node\Arg;
 use PhpParser\Node\Attribute;
 use PhpParser\Node\AttributeGroup;
+use PhpParser\Node\Const_;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Name;
 use PhpParser\Node\Scalar\Int_;
 use PhpParser\Node\Stmt;
-use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassConst;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\Stmt\Property;
@@ -28,8 +28,9 @@ class TraitTest extends \PHPUnit\Framework\TestCase {
         $method2 = new Stmt\ClassMethod('test2');
         $method3 = new Stmt\ClassMethod('test3');
         $prop = new Stmt\Property(Modifiers::PUBLIC, [
-            new \PhpParser\Node\PropertyItem('test')
+            new PropertyItem('test')
         ]);
+        $const = new ClassConst([new Const_('FOO', new Int_(0))]);
         $use = new Stmt\TraitUse([new Name('OtherTrait')]);
         $trait = $this->createTraitBuilder('TestTrait')
             ->setDocComment('/** Nice trait */')
@@ -37,9 +38,10 @@ class TraitTest extends \PHPUnit\Framework\TestCase {
             ->addStmts([$method2, $method3])
             ->addStmt($prop)
             ->addStmt($use)
+            ->addStmt($const)
             ->getNode();
         $this->assertEquals(new Stmt\Trait_('TestTrait', [
-            'stmts' => [$use, $prop, $method1, $method2, $method3]
+            'stmts' => [$use, $const, $prop, $method1, $method2, $method3]
         ], [
             'comments' => [
                 new Comment\Doc('/** Nice trait */')

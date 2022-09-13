@@ -18,6 +18,11 @@ class DiffElem {
     /** @var mixed Is null for remove operations */
     public $new;
 
+    /**
+     * @param int $type One of the TYPE_* constants
+     * @param mixed $old Is null for add operations
+     * @param mixed $new Is null for remove operations
+     */
     public function __construct(int $type, $old, $new) {
         $this->type = $type;
         $this->old = $old;

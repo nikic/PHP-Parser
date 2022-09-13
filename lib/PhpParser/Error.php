@@ -3,23 +3,20 @@
 namespace PhpParser;
 
 class Error extends \RuntimeException {
+    /** @var string */
     protected $rawMessage;
+    /** @var array<string, mixed> */
     protected $attributes;
 
     /**
      * Creates an Exception signifying a parse error.
      *
-     * @param string    $message    Error message
-     * @param array|int $attributes Attributes of node/token where error occurred
-     *                              (or start line of error -- deprecated)
+     * @param string $message Error message
+     * @param array<string, mixed> $attributes Attributes of node/token where error occurred
      */
-    public function __construct(string $message, $attributes = []) {
+    public function __construct(string $message, array $attributes = []) {
         $this->rawMessage = $message;
-        if (is_array($attributes)) {
-            $this->attributes = $attributes;
-        } else {
-            $this->attributes = ['startLine' => $attributes];
-        }
+        $this->attributes = $attributes;
         $this->updateMessage();
     }
 
@@ -62,9 +59,9 @@ class Error extends \RuntimeException {
     /**
      * Sets the attributes of the node/token the error occurred at.
      *
-     * @param array $attributes
+     * @param array<string, mixed> $attributes
      */
-    public function setAttributes(array $attributes) {
+    public function setAttributes(array $attributes): void {
         $this->attributes = $attributes;
         $this->updateMessage();
     }
@@ -74,7 +71,7 @@ class Error extends \RuntimeException {
      *
      * @param string $message Error message
      */
-    public function setRawMessage(string $message) {
+    public function setRawMessage(string $message): void {
         $this->rawMessage = $message;
         $this->updateMessage();
     }
@@ -84,7 +81,7 @@ class Error extends \RuntimeException {
      *
      * @param int $line Error start line
      */
-    public function setStartLine(int $line) {
+    public function setStartLine(int $line): void {
         $this->attributes['startLine'] = $line;
         $this->updateMessage();
     }
@@ -167,7 +164,7 @@ class Error extends \RuntimeException {
     /**
      * Updates the exception message after a change to rawMessage or rawLine.
      */
-    protected function updateMessage() {
+    protected function updateMessage(): void {
         $this->message = $this->rawMessage;
 
         if (-1 === $this->getStartLine()) {

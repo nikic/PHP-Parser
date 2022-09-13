@@ -22,7 +22,7 @@ class For_ extends Node\Stmt {
      *                          'cond'  => array(): Loop conditions
      *                          'loop'  => array(): Loop expressions
      *                          'stmts' => array(): Statements
-     * @param array $attributes Additional attributes
+     * @param array<string, mixed> $attributes Additional attributes
      */
     public function __construct(array $subNodes = [], array $attributes = []) {
         $this->attributes = $attributes;

@@ -32,7 +32,7 @@ class ArrowFunction extends Expr implements FunctionLike {
      *                          'returnType' => null    : Return type
      *                          'expr'       => Expr    : Expression body
      *                          'attrGroups' => array() : PHP attribute groups
-     * @param array $attributes Additional attributes
+     * @param array<string, mixed> $attributes Additional attributes
      */
     public function __construct(array $subNodes = [], array $attributes = []) {
         $this->attributes = $attributes;

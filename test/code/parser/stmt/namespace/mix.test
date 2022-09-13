@@ -8,7 +8,7 @@ namespace B {
 }
 echo 3;
 -----
-Cannot mix bracketed namespace declarations with unbracketed namespace declarations on line 4
+Cannot mix bracketed namespace declarations with unbracketed namespace declarations from 4:1 to 4:9
 array(
     0: Stmt_Namespace(
         name: Name(
@@ -59,7 +59,7 @@ echo 2;
 namespace B;
 echo 3;
 -----
-Cannot mix bracketed namespace declarations with unbracketed namespace declarations on line 6
+Cannot mix bracketed namespace declarations with unbracketed namespace declarations from 6:1 to 6:9
 array(
     0: Stmt_Namespace(
         name: Name(

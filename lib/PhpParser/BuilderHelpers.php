@@ -318,7 +318,7 @@ final class BuilderHelpers {
      * @return int New modifiers
      */
     public static function addModifier(int $modifiers, int $modifier): int {
-        Stmt\Class_::verifyModifier($modifiers, $modifier);
+        Modifiers::verifyModifier($modifiers, $modifier);
         return $modifiers | $modifier;
     }
 
@@ -327,7 +327,7 @@ final class BuilderHelpers {
      * @return int New modifiers
      */
     public static function addClassModifier(int $existingModifiers, int $modifierToSet): int {
-        Stmt\Class_::verifyClassModifier($existingModifiers, $modifierToSet);
+        Modifiers::verifyClassModifier($existingModifiers, $modifierToSet);
         return $existingModifiers | $modifierToSet;
     }
 }

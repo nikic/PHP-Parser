@@ -13,7 +13,7 @@ interface Node {
     /**
      * Gets the names of the sub nodes.
      *
-     * @return array Names of sub nodes
+     * @return string[] Names of sub nodes
      */
     public function getSubNodeNames(): array;
 
@@ -105,7 +105,7 @@ interface Node {
      *
      * @param Comment\Doc $docComment Doc comment to set
      */
-    public function setDocComment(Comment\Doc $docComment);
+    public function setDocComment(Comment\Doc $docComment): void;
 
     /**
      * Sets an attribute on a node.
@@ -113,7 +113,7 @@ interface Node {
      * @param string $key
      * @param mixed  $value
      */
-    public function setAttribute(string $key, $value);
+    public function setAttribute(string $key, $value): void;
 
     /**
      * Returns whether an attribute exists.
@@ -137,14 +137,14 @@ interface Node {
     /**
      * Returns all the attributes of this node.
      *
-     * @return array
+     * @return array<string, mixed>
      */
     public function getAttributes(): array;
 
     /**
      * Replaces all the attributes of this node.
      *
-     * @param array $attributes
+     * @param array<string, mixed> $attributes
      */
-    public function setAttributes(array $attributes);
+    public function setAttributes(array $attributes): void;
 }

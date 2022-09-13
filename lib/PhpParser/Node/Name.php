@@ -18,9 +18,9 @@ class Name extends NodeAbstract {
      * Constructs a name node.
      *
      * @param string|string[]|self $name       Name as string, part array or Name instance (copy ctor)
-     * @param array                $attributes Additional attributes
+     * @param array<string, mixed> $attributes Additional attributes
      */
-    public function __construct($name, array $attributes = []) {
+    final public function __construct($name, array $attributes = []) {
         $this->attributes = $attributes;
         $this->parts = self::prepareName($name);
     }
@@ -187,7 +187,7 @@ class Name extends NodeAbstract {
      *
      * @param string|string[]|self|null $name1      The first name
      * @param string|string[]|self|null $name2      The second name
-     * @param array                     $attributes Attributes to assign to concatenated name
+     * @param array<string, mixed> $attributes Attributes to assign to concatenated name
      *
      * @return static|null Concatenated name
      */

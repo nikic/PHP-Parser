@@ -408,7 +408,7 @@ class NodeTraverserTest extends \PHPUnit\Framework\TestCase {
             [$stmts, $visitor3, 'leaveNode() returned invalid value of type string'],
             [$stmts, $visitor4, 'leaveNode() returned invalid value of type string'],
             [$stmts, $visitor5, 'leaveNode() may only return an array if the parent structure is an array'],
-            [$stmts, $visitor6, 'bool(false) return from leaveNode() no longer supported. Return NodeTraverser::REMOVE_NODE instead'],
+            [$stmts, $visitor6, 'leaveNode() returned invalid value of type bool'],
             [$stmts, $visitor7, 'Trying to replace statement (Stmt_Expression) with expression (Scalar_Int). Are you missing a Stmt_Expression wrapper?'],
             [$stmts, $visitor8, 'Trying to replace expression (Scalar_Int) with statement (Stmt_Return)'],
         ];

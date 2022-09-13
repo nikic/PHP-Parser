@@ -12,7 +12,7 @@ class Else_ extends Node\Stmt {
      * Constructs an else node.
      *
      * @param Node\Stmt[] $stmts      Statements
-     * @param array       $attributes Additional attributes
+     * @param array<string, mixed> $attributes Additional attributes
      */
     public function __construct(array $stmts = [], array $attributes = []) {
         $this->attributes = $attributes;

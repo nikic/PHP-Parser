@@ -50,7 +50,7 @@ class Differ {
         return $this->coalesceReplacements($this->diff($old, $new));
     }
 
-    private function calculateTrace(array $a, array $b) {
+    private function calculateTrace(array $a, array $b): array {
         $n = \count($a);
         $m = \count($b);
         $max = $n + $m;
@@ -80,7 +80,7 @@ class Differ {
         throw new \Exception('Should not happen');
     }
 
-    private function extractDiff(array $trace, int $x, int $y, array $a, array $b) {
+    private function extractDiff(array $trace, int $x, int $y, array $a, array $b): array {
         $result = [];
         for ($d = \count($trace) - 1; $d >= 0; $d--) {
             $v = $trace[$d];

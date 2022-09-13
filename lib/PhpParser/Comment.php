@@ -3,12 +3,19 @@
 namespace PhpParser;
 
 class Comment implements \JsonSerializable {
+    /** @var string string */
     protected $text;
+    /** @var int */
     protected $startLine;
+    /** @var int */
     protected $startFilePos;
+    /** @var int */
     protected $startTokenPos;
+    /** @var int */
     protected $endLine;
+    /** @var int */
     protected $endFilePos;
+    /** @var int */
     protected $endTokenPos;
 
     /**

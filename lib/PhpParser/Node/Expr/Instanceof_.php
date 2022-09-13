@@ -16,7 +16,7 @@ class Instanceof_ extends Expr {
      *
      * @param Expr      $expr       Expression
      * @param Name|Expr $class      Class name
-     * @param array     $attributes Additional attributes
+     * @param array<string, mixed> $attributes Additional attributes
      */
     public function __construct(Expr $expr, $class, array $attributes = []) {
         $this->attributes = $attributes;

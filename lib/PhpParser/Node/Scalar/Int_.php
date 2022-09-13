@@ -19,7 +19,7 @@ class Int_ extends Scalar {
      * Constructs an integer number scalar node.
      *
      * @param int   $value      Value of the number
-     * @param array $attributes Additional attributes
+     * @param array<string, mixed> $attributes Additional attributes
      */
     public function __construct(int $value, array $attributes = []) {
         $this->attributes = $attributes;
@@ -34,7 +34,7 @@ class Int_ extends Scalar {
      * Constructs an Int node from a string number literal.
      *
      * @param string $str               String number literal (decimal, octal, hex or binary)
-     * @param array  $attributes        Additional attributes
+     * @param array<string, mixed> $attributes        Additional attributes
      * @param bool   $allowInvalidOctal Whether to allow invalid octal numbers (PHP 5)
      *
      * @return Int_ The constructed LNumber, including kind attribute

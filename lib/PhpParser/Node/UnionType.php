@@ -3,14 +3,14 @@
 namespace PhpParser\Node;
 
 class UnionType extends ComplexType {
-    /** @var (Identifier|Name)[] Types */
+    /** @var (Identifier|Name|IntersectionType)[] Types */
     public $types;
 
     /**
      * Constructs a union type.
      *
      * @param (Identifier|Name|IntersectionType)[] $types      Types
-     * @param array               $attributes Additional attributes
+     * @param array<string, mixed> $attributes Additional attributes
      */
     public function __construct(array $types, array $attributes = []) {
         $this->attributes = $attributes;

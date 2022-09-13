@@ -8,5 +8,5 @@ interface ErrorHandler {
      *
      * @param Error $error The error that needs to be handled
      */
-    public function handleError(Error $error);
+    public function handleError(Error $error): void;
 }

@@ -11,8 +11,11 @@ use PhpParser\Node\Identifier;
 use PhpParser\Node\Stmt;
 
 class EnumCase implements PhpParser\Builder {
+    /** @var Identifier|string */
     protected $name;
+    /** @var ?Node\Expr */
     protected $value = null;
+    /** @var array<string, mixed> */
     protected $attributes = [];
 
     /** @var Node\AttributeGroup[] */

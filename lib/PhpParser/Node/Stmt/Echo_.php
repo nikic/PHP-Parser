@@ -12,7 +12,7 @@ class Echo_ extends Node\Stmt {
      * Constructs an echo node.
      *
      * @param Node\Expr[] $exprs      Expressions
-     * @param array       $attributes Additional attributes
+     * @param array<string, mixed> $attributes Additional attributes
      */
     public function __construct(array $exprs, array $attributes = []) {
         $this->attributes = $attributes;

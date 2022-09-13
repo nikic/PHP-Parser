@@ -16,7 +16,7 @@ class DeclareItem extends NodeAbstract {
      *
      * @param string|Node\Identifier $key        Key
      * @param Node\Expr              $value      Value
-     * @param array                  $attributes Additional attributes
+     * @param array<string, mixed> $attributes Additional attributes
      */
     public function __construct($key, Node\Expr $value, array $attributes = []) {
         $this->attributes = $attributes;

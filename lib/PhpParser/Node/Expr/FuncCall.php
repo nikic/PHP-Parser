@@ -16,7 +16,7 @@ class FuncCall extends CallLike {
      *
      * @param Node\Name|Expr                           $name       Function name
      * @param array<Node\Arg|Node\VariadicPlaceholder> $args       Arguments
-     * @param array                                    $attributes Additional attributes
+     * @param array<string, mixed> $attributes Additional attributes
      */
     public function __construct($name, array $args = [], array $attributes = []) {
         $this->attributes = $attributes;

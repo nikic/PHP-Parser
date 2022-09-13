@@ -12,7 +12,7 @@ class HaltCompiler extends Stmt {
      * Constructs a __halt_compiler node.
      *
      * @param string $remaining  Remaining text after halt compiler statement.
-     * @param array  $attributes Additional attributes
+     * @param array<string, mixed> $attributes Additional attributes
      */
     public function __construct(string $remaining, array $attributes = []) {
         $this->attributes = $attributes;
