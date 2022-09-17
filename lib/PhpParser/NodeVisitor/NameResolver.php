@@ -181,10 +181,11 @@ class NameResolver extends NodeVisitorAbstract {
     }
 
     /**
-     * @param Node\Identifier|Name|Node\ComplexType|null $node
-     * @return Node\Identifier|Name|Node\ComplexType|null
+     * @template T of Node\Identifier|Name|Node\ComplexType|null
+     * @param T $node
+     * @return T
      */
-    private function resolveType(?Node $node) {
+    private function resolveType(?Node $node): ?Node {
         if ($node instanceof Name) {
             return $this->resolveClassName($node);
         }
