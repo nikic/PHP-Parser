@@ -20,7 +20,7 @@ use PhpParser\Lexer\TokenEmulator\TokenEmulator;
 use PhpParser\PhpVersion;
 
 class Emulative extends Lexer {
-    /** @var mixed[] Patches used to reverse changes introduced in the code */
+    /** @var array{int, string, string}[] Patches used to reverse changes introduced in the code */
     private $patches = [];
 
     /** @var TokenEmulator[] */
@@ -32,9 +32,9 @@ class Emulative extends Lexer {
     private $hostPhpVersion;
 
     /**
-     * @param mixed[] $options Lexer options. In addition to the usual options, accepts a
-     *                         'phpVersion' (PhpVersion object or string) that specifies the
-     *                         version to emulate. Defaults to newest supported.
+     * @param array{usedAttributes?: string[], phpVersion?: PhpVersion|string} $options Lexer options.
+     *        In addition to the usual options, accepts a 'phpVersion' (PhpVersion object or string)
+     *        that specifies the version to emulate. Defaults to newest supported.
      */
     public function __construct(array $options = []) {
         $version = $options['phpVersion'] ?? PhpVersion::getNewestSupported();

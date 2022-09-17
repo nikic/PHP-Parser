@@ -38,6 +38,8 @@ class ParserFactory {
      * Create a parser targeting the given version on a best-effort basis. The parser will generally
      * accept code for the newest supported version, but will try to accommodate code that becomes
      * invalid in newer versions or changes in interpretation.
+     *
+     * @param array<string, mixed> $lexerOptions Lexer options
      */
     public function createForVersion(PhpVersion $version, array $lexerOptions = []): Parser {
         if ($version->isHostVersion()) {
@@ -55,6 +57,8 @@ class ParserFactory {
      * Create a parser targeting the newest version supported by this library. Code for older
      * versions will be accepted if there have been no relevant backwards-compatibility breaks in
      * PHP.
+     *
+     * @param array<string, mixed> $lexerOptions Lexer options
      */
     public function createForNewestSupportedVersion(array $lexerOptions = []): Parser {
         return $this->createForVersion(PhpVersion::getNewestSupported(), $lexerOptions);
@@ -63,6 +67,8 @@ class ParserFactory {
     /**
      * Create a parser targeting the host PHP version, that is the PHP version we're currently
      * running on. This parser will not use any token emulation.
+     *
+     * @param array<string, mixed> $lexerOptions Lexer options
      */
     public function createForHostVersion(array $lexerOptions = []): Parser {
         return $this->createForVersion(PhpVersion::getHostVersion(), $lexerOptions);

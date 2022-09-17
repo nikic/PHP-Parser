@@ -996,6 +996,7 @@ class Standard extends PrettyPrinterAbstract {
         }
     }
 
+    /** @param (Expr|Node\InterpolatedStringPart)[] $encapsList */
     protected function pEncapsList(array $encapsList, ?string $quote): string {
         $return = '';
         foreach ($encapsList as $element) {
@@ -1058,6 +1059,7 @@ class Standard extends PrettyPrinterAbstract {
             && preg_match('/' . $start . $label . $end . '/', $string);
     }
 
+    /** @param (Expr|Node\InterpolatedStringPart)[] $parts */
     protected function encapsedContainsEndLabel(array $parts, string $label): bool {
         foreach ($parts as $i => $part) {
             $atStart = $i === 0;
@@ -1105,6 +1107,7 @@ class Standard extends PrettyPrinterAbstract {
         return false;
     }
 
+    /** @param Node[] $nodes */
     protected function pMaybeMultiline(array $nodes, bool $trailingComma = false): string {
         if (!$this->hasNodeWithComments($nodes)) {
             return $this->pCommaSeparated($nodes);
@@ -1113,6 +1116,7 @@ class Standard extends PrettyPrinterAbstract {
         }
     }
 
+    /** @param Node\AttributeGroup[] $nodes */
     protected function pAttrGroups(array $nodes, bool $inline = false): string {
         $result = '';
         $sep = $inline ? ' ' : $this->nl;

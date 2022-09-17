@@ -2,8 +2,6 @@
 
 namespace PhpParser;
 
-use PhpParser\Parser\Tokens;
-
 require __DIR__ . '/compatibility_tokens.php';
 
 class Lexer {
@@ -36,11 +34,11 @@ class Lexer {
     /**
      * Creates a Lexer.
      *
-     * @param array $options Options array. Currently only the 'usedAttributes' option is supported,
-     *                       which is an array of attributes to add to the AST nodes. Possible
-     *                       attributes are: 'comments', 'startLine', 'endLine', 'startTokenPos',
-     *                       'endTokenPos', 'startFilePos', 'endFilePos'. The option defaults to the
-     *                       first three. For more info see getNextToken() docs.
+     * @param array{usedAttributes?: string[]} $options Options array. Currently only the
+     *        'usedAttributes' option is supported, which is an array of attributes to add to the
+     *        AST nodes. Possible attributes are: 'comments', 'startLine', 'endLine', 'startTokenPos',
+     *        'endTokenPos', 'startFilePos', 'endFilePos'. The option defaults to the first three.
+     *        For more info see getNextToken() docs.
      */
     public function __construct(array $options = []) {
         // map of tokens to drop while lexing (the map is only used for isset lookup,

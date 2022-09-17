@@ -3,15 +3,16 @@
 namespace PhpParser\Node\Expr;
 
 use PhpParser\Node\Expr;
+use PhpParser\Node\InterpolatedStringPart;
 
 class ShellExec extends Expr {
-    /** @var array Encapsed string array */
+    /** @var (Expr|InterpolatedStringPart)[] Interpolated string array */
     public $parts;
 
     /**
      * Constructs a shell exec (backtick) node.
      *
-     * @param array $parts      Encapsed string array
+     * @param (Expr|InterpolatedStringPart)[] $parts Interpolated string array
      * @param array<string, mixed> $attributes Additional attributes
      */
     public function __construct(array $parts, array $attributes = []) {

@@ -3,6 +3,7 @@
 namespace PhpParser;
 
 abstract class NodeAbstract implements Node, \JsonSerializable {
+    /** @var array<string, mixed> Attributes */
     protected $attributes;
 
     /**
@@ -169,7 +170,7 @@ abstract class NodeAbstract implements Node, \JsonSerializable {
     }
 
     /**
-     * @return array
+     * @return array<string, mixed>
      */
     public function jsonSerialize(): array {
         return ['nodeType' => $this->getType()] + get_object_vars($this);

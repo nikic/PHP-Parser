@@ -36,12 +36,18 @@ class Class_ extends ClassLike {
      * Constructs a class node.
      *
      * @param string|Node\Identifier|null $name Name
-     * @param array       $subNodes   Array of the following optional subnodes:
-     *                                'flags'       => 0      : Flags
-     *                                'extends'     => null   : Name of extended class
-     *                                'implements'  => array(): Names of implemented interfaces
-     *                                'stmts'       => array(): Statements
-     *                                'attrGroups'  => array(): PHP attribute groups
+     * @param array{
+     *     flags?: int,
+     *     extends?: Node\Name|null,
+     *     implements?: Node\Name[],
+     *     stmts?: Node\Stmt[],
+     *     attrGroups?: Node\AttributeGroup[],
+     * } $subNodes Array of the following optional subnodes:
+     *             'flags'       => 0      : Flags
+     *             'extends'     => null   : Name of extended class
+     *             'implements'  => array(): Names of implemented interfaces
+     *             'stmts'       => array(): Statements
+     *             'attrGroups'  => array(): PHP attribute groups
      * @param array<string, mixed> $attributes Additional attributes
      */
     public function __construct($name, array $subNodes = [], array $attributes = []) {

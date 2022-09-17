@@ -7,16 +7,17 @@ namespace PhpParser;
  * turn is based on work by Masato Bito.
  */
 
-use PhpParser\Modifiers;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\Array_;
 use PhpParser\Node\Expr\Cast\Double;
 use PhpParser\Node\Identifier;
+use PhpParser\Node\InterpolatedStringPart;
 use PhpParser\Node\Name;
 use PhpParser\Node\Param;
 use PhpParser\Node\Scalar\InterpolatedString;
 use PhpParser\Node\Scalar\Int_;
 use PhpParser\Node\Scalar\String_;
+use PhpParser\Node\Stmt;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassConst;
 use PhpParser\Node\Stmt\ClassMethod;
@@ -58,6 +59,7 @@ abstract class ParserAbstract implements Parser {
     /** @var int Rule number signifying that an unexpected token was encountered */
     protected $unexpectedTokenRule;
 
+    /** @var int */
     protected $YY2TBLSTATE;
     /** @var int Number of non-leaf states */
     protected $numNonLeafStates;
@@ -68,7 +70,7 @@ abstract class ParserAbstract implements Parser {
     protected $tokenToSymbol;
     /** @var string[] Map of symbols to their names */
     protected $symbolToName;
-    /** @var array Names of the production rules (only necessary for debugging) */
+    /** @var array<int, string> Names of the production rules (only necessary for debugging) */
     protected $productions;
 
     /** @var int[] Map of states to a displacement into the $action table. The corresponding action for this
@@ -109,15 +111,15 @@ abstract class ParserAbstract implements Parser {
 
     /** @var mixed Temporary value containing the result of last semantic action (reduction) */
     protected $semValue;
-    /** @var array Semantic value stack (contains values of tokens and semantic action results) */
+    /** @var mixed[] Semantic value stack (contains values of tokens and semantic action results) */
     protected $semStack;
-    /** @var array[] Start attribute stack */
+    /** @var array<string, mixed>[] Start attribute stack */
     protected $startAttributeStack;
-    /** @var array[] End attribute stack */
+    /** @var array<string, mixed>[] End attribute stack */
     protected $endAttributeStack;
-    /** @var array End attributes of last *shifted* token */
+    /** @var array<string, mixed> End attributes of last *shifted* token */
     protected $endAttributes;
-    /** @var array Start attributes of last *read* token */
+    /** @var array<string, mixed> Start attributes of last *read* token */
     protected $lookaheadStartAttributes;
 
     /** @var ErrorHandler Error handler */
@@ -125,7 +127,7 @@ abstract class ParserAbstract implements Parser {
     /** @var int Error state, used to avoid error floods */
     protected $errorState;
 
-    /** @var \SplObjectStorage|null Array nodes created during parsing, for postprocessing of empty elements. */
+    /** @var \SplObjectStorage<Array_, null>|null Array nodes created during parsing, for postprocessing of empty elements. */
     protected $createdArrays;
 
     /**
@@ -201,6 +203,7 @@ abstract class ParserAbstract implements Parser {
         return $this->lexer;
     }
 
+    /** @return Stmt[]|null */
     protected function doParse(): ?array {
         // We start off with no lookahead-token
         $symbol = self::SYMBOL_NONE;
@@ -579,6 +582,7 @@ abstract class ParserAbstract implements Parser {
         }
     }
 
+    /** @return array<string, mixed> */
     private function getNamespaceErrorAttributes(Namespace_ $node): array {
         $attrs = $node->getAttributes();
         // Adjust end attributes to only cover the "namespace" keyword, not the whole namespace.
@@ -663,7 +667,7 @@ abstract class ParserAbstract implements Parser {
      *
      * @param int $pos Stack location
      *
-     * @return array Combined start and end attributes
+     * @return array<string, mixed> Combined start and end attributes
      */
     protected function getAttributesAt(int $pos): array {
         return $this->startAttributeStack[$pos] + $this->endAttributeStack[$pos];
@@ -682,6 +686,7 @@ abstract class ParserAbstract implements Parser {
         return Double::KIND_DOUBLE;
     }
 
+    /** @param array<string, mixed> $attributes */
     protected function parseLNumber(string $str, array $attributes, bool $allowInvalidOctal = false): Int_ {
         try {
             return Int_::fromString($str, $attributes, $allowInvalidOctal);
@@ -695,7 +700,7 @@ abstract class ParserAbstract implements Parser {
     /**
      * Parse a T_NUM_STRING token into either an integer or string node.
      *
-     * @param string $str        Number string
+     * @param string $str Number string
      * @param array<string, mixed> $attributes Attributes
      *
      * @return Int_|String_ Integer or string node.
@@ -713,6 +718,7 @@ abstract class ParserAbstract implements Parser {
         return new Int_($num, $attributes);
     }
 
+    /** @param array<string, mixed> $attributes */
     protected function stripIndentation(
         string $string, int $indentLen, string $indentChar,
         bool $newlineAtStart, bool $newlineAtEnd, array $attributes
@@ -745,7 +751,11 @@ abstract class ParserAbstract implements Parser {
         );
     }
 
-    /** @param string|array $contents */
+    /**
+     * @param string|(Expr|InterpolatedStringPart)[] $contents
+     * @param array<string, mixed> $attributes
+     * @param array<string, mixed> $endTokenAttributes
+     */
     protected function parseDocString(
         string $startToken, $contents, string $endToken,
         array $attributes, array $endTokenAttributes, bool $parseUnicodeEscape
@@ -831,7 +841,7 @@ abstract class ParserAbstract implements Parser {
      * Create attributes for a zero-length common-capturing nop.
      *
      * @param Comment[] $comments
-     * @return array
+     * @return array<string, mixed>
      */
     protected function createCommentNopAttributes(array $comments): array {
         $comment = $comments[count($comments) - 1];
@@ -855,6 +865,10 @@ abstract class ParserAbstract implements Parser {
         return $attributes;
     }
 
+    /**
+     * @param array<string, mixed> $attrs
+     * @return array<string, mixed>
+     */
     protected function createEmptyElemAttributes(array $attrs): array {
         if (isset($attrs['startLine'])) {
             $attrs['endLine'] = $attrs['startLine'];
@@ -968,6 +982,7 @@ abstract class ParserAbstract implements Parser {
         }
     }
 
+    /** @param Name[] $interfaces */
     private function checkImplementedInterfaces(array $interfaces): void {
         foreach ($interfaces as $interface) {
             if ($interface->isSpecialClassName()) {
@@ -1079,7 +1094,7 @@ abstract class ParserAbstract implements Parser {
      * to the identifiers used by the Parser. Additionally it
      * maps T_OPEN_TAG_WITH_ECHO to T_ECHO and T_CLOSE_TAG to ';'.
      *
-     * @return array The token map
+     * @return array<int, int> The token map
      */
     protected function createTokenMap(): array {
         $tokenMap = [];

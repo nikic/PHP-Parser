@@ -26,14 +26,22 @@ class Closure extends Expr implements FunctionLike {
     /**
      * Constructs a lambda function node.
      *
-     * @param array $subNodes   Array of the following optional subnodes:
-     *                          'static'     => false  : Whether the closure is static
-     *                          'byRef'      => false  : Whether to return by reference
-     *                          'params'     => array(): Parameters
-     *                          'uses'       => array(): use()s
-     *                          'returnType' => null   : Return type
-     *                          'stmts'      => array(): Statements
-     *                          'attrGroups' => array(): PHP attributes groups
+     * @param array{
+     *     static?: bool,
+     *     byRef?: bool,
+     *     params?: Node\Param[],
+     *     uses?: ClosureUse[],
+     *     returnType?: null|string|Node\Identifier|Node\Name|Node\ComplexType,
+     *     stmts?: Node\Stmt[],
+     *     attrGroups?: Node\AttributeGroup[],
+     * } $subNodes Array of the following optional subnodes:
+     *             'static'     => false  : Whether the closure is static
+     *             'byRef'      => false  : Whether to return by reference
+     *             'params'     => array(): Parameters
+     *             'uses'       => array(): use()s
+     *             'returnType' => null   : Return type
+     *             'stmts'      => array(): Statements
+     *             'attrGroups' => array(): PHP attributes groups
      * @param array<string, mixed> $attributes Additional attributes
      */
     public function __construct(array $subNodes = [], array $attributes = []) {

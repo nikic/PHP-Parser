@@ -11,12 +11,17 @@ class Enum_ extends ClassLike {
     public $implements;
 
     /**
-     * @param string|Node\Identifier|null $name       Name
-     * @param array                       $subNodes   Array of the following optional subnodes:
-     *                                                'scalarType'  => null    : Scalar type
-     *                                                'implements'  => array() : Names of implemented interfaces
-     *                                                'stmts'       => array() : Statements
-     *                                                'attrGroups'  => array() : PHP attribute groups
+     * @param string|Node\Identifier|null $name Name
+     * @param array{
+     *     scalarType?: Node\Identifier|null,
+     *     implements?: Node\Name[],
+     *     stmts?: Node\Stmt[],
+     *     attrGroups?: Node\AttributeGroup[],
+     * } $subNodes Array of the following optional subnodes:
+     *             'scalarType'  => null    : Scalar type
+     *             'implements'  => array() : Names of implemented interfaces
+     *             'stmts'       => array() : Statements
+     *             'attrGroups'  => array() : PHP attribute groups
      * @param array<string, mixed> $attributes Additional attributes
      */
     public function __construct($name, array $subNodes = [], array $attributes = []) {

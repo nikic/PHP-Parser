@@ -50,7 +50,7 @@ class NameContext {
      * @param Name   $name        Original name
      * @param string $aliasName   Aliased name
      * @param int    $type        One of Stmt\Use_::TYPE_*
-     * @param array  $errorAttrs Attributes to use to report an error
+     * @param array<string, mixed> $errorAttrs Attributes to use to report an error
      */
     public function addAlias(Name $name, string $aliasName, int $type, array $errorAttrs = []): void {
         // Constant names are case sensitive, everything else case insensitive

@@ -26,6 +26,7 @@ abstract class PrettyPrinterAbstract {
     protected const FIXUP_VAR_BRACED_NAME = 5; // Name operand that may require ${} bracing
     protected const FIXUP_ENCAPSED        = 6; // Encapsed string part
 
+    /** @var array<class-string, array{int, int}> */
     protected $precedenceMap = [
         // [precedence, associativity]
         // where for precedence -1 is %left, 0 is %nonassoc and 1 is %right
@@ -106,36 +107,40 @@ abstract class PrettyPrinterAbstract {
 
     /** @var TokenStream|null Original tokens for use in format-preserving pretty print */
     protected $origTokens;
-    /** @var Internal\Differ|null Differ for node lists */
+    /** @var Internal\Differ<Node>|null Differ for node lists */
     protected $nodeListDiffer;
-    /** @var bool[] Map determining whether a certain character is a label character */
+    /** @var array<string, bool> Map determining whether a certain character is a label character */
     protected $labelCharMap;
     /**
-     * @var int[][] Map from token classes and subnode names to FIXUP_* constants. This is used
-     *              during format-preserving prints to place additional parens/braces if necessary.
+     * @var array<string, array<string, int>> Map from token classes and subnode names to FIXUP_* constants.
+     *      This is used during format-preserving prints to place additional parens/braces if necessary.
      */
     protected $fixupMap;
     /**
-     * @var (int|string)[][] Map from "{$node->getType()}->{$subNode}" to ['left' => $l, 'right' => $r],
-     *                       where $l and $r specify the token type that needs to be stripped when
-     *                       removing this node.
+     * @var array<string, array{left?: int|string, right?: int|string}> Map from "{$node->getType()}->{$subNode}"
+     *      to ['left' => $l, 'right' => $r], where $l and $r specify the token type that needs to be stripped
+     *      when removing this node.
      */
     protected $removalMap;
     /**
-     * @var mixed[] Map from "{$node->getType()}->{$subNode}" to [$find, $beforeToken, $extraLeft, $extraRight].
-     *              $find is an optional token after which the insertion occurs. $extraLeft/Right
-     *              are optionally added before/after the main insertions.
+     * @var array<string, array{int|string|null, bool, string|null, string|null}> Map from
+     *      "{$node->getType()}->{$subNode}" to [$find, $beforeToken, $extraLeft, $extraRight].
+     *      $find is an optional token after which the insertion occurs. $extraLeft/Right
+     *      are optionally added before/after the main insertions.
      */
     protected $insertionMap;
     /**
-     * @var string[] Map From "{$class}->{$subNode}" to string that should be inserted
-     *               between elements of this list subnode.
+     * @var array<string, string> Map From "{$class}->{$subNode}" to string that should be inserted
+     *                            between elements of this list subnode.
      */
     protected $listInsertionMap;
 
+    /**
+     * @var array<string, array{int|string|null, string, string}>
+     */
     protected $emptyListInsertionMap;
-    /** @var int[] Map from "{$class}->{$subNode}" to token before which the modifiers
-     *             should be reprinted. */
+    /** @var array<string, int> Map from "{$class}->{$subNode}" to token before which the modifiers
+     *                          should be reprinted. */
     protected $modifierChangeMap;
 
     /**
@@ -152,7 +157,7 @@ abstract class PrettyPrinterAbstract {
      *                            syntax, if the node does not specify a format. Defaults to whether
      *                            the phpVersion support short array syntax.
      *
-     * @param array $options Dictionary of formatting options
+     * @param array{phpVersion?: PhpVersion, shortArraySyntax?: bool} $options Dictionary of formatting options
      */
     public function __construct(array $options = []) {
         $this->phpVersion = $options['phpVersion'] ?? PhpVersion::fromComponents(7, 0);
@@ -468,7 +473,7 @@ abstract class PrettyPrinterAbstract {
      *
      * @param Node[] $stmts      Modified AST with links to original AST
      * @param Node[] $origStmts  Original AST with token offset information
-     * @param array  $origTokens Tokens of the original code
+     * @param Token[] $origTokens Tokens of the original code
      *
      * @return string
      */
@@ -687,8 +692,8 @@ abstract class PrettyPrinterAbstract {
     /**
      * Perform a format-preserving pretty print of an array.
      *
-     * @param array       $nodes            New nodes
-     * @param array       $origNodes        Original nodes
+     * @param Node[]      $nodes            New nodes
+     * @param Node[]      $origNodes        Original nodes
      * @param int         $pos              Current token position (updated by reference)
      * @param int         $indentAdjustment Adjustment for indentation
      * @param string      $parentNodeClass  Class of the containing node.
@@ -1320,7 +1325,7 @@ abstract class PrettyPrinterAbstract {
             'Stmt_Class->extends' => [null, false, ' extends ', null],
             'Stmt_Enum->scalarType' => [null, false, ' : ', null],
             'Stmt_EnumCase->expr' => [null, false, ' = ', null],
-            'Expr_PrintableNewAnonClass->extends' => [null, ' extends ', null],
+            'Expr_PrintableNewAnonClass->extends' => [null, false, ' extends ', null],
             'Stmt_Continue->num' => [\T_CONTINUE, false, ' ', null],
             'Stmt_Foreach->keyVar' => [\T_AS, false, null, ' => '],
             'Stmt_Function->returnType' => [')', false, ': ', null],
