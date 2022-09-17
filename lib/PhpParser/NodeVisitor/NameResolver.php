@@ -171,7 +171,7 @@ class NameResolver extends NodeVisitorAbstract {
         );
     }
 
-    /** @param Stmt\Function_|Stmt\ClassMethod|Expr\Closure $node */
+    /** @param Stmt\Function_|Stmt\ClassMethod|Expr\Closure|Expr\ArrowFunction $node */
     private function resolveSignature($node): void {
         foreach ($node->params as $param) {
             $param->type = $this->resolveType($param->type);

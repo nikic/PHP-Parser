@@ -91,6 +91,7 @@ class JsonDecoder {
         return $this->reflectionClassCache[$nodeType];
     }
 
+    /** @return class-string<Node> */
     private function classNameFromNodeType(string $nodeType): string {
         $className = 'PhpParser\\Node\\' . strtr($nodeType, '_', '\\');
         if (class_exists($className)) {

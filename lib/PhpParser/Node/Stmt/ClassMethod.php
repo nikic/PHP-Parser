@@ -52,7 +52,7 @@ class ClassMethod extends Node\Stmt implements FunctionLike {
      *     byRef?: bool,
      *     params?: Node\Param[],
      *     returnType?: null|string|Node\Identifier|Node\Name|Node\ComplexType,
-     *     stmts?: Node\Stmt[],
+     *     stmts?: Node\Stmt[]|null,
      *     attrGroups?: Node\AttributeGroup[],
      * } $subNodes Array of the following optional subnodes:
      *             'flags       => 0              : Flags
