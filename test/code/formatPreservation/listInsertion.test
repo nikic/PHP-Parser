@@ -346,3 +346,11 @@ function test() {
     $b;
     $z;
 }
+-----
+<?php
+list($x, $y) = $z;
+-----
+array_splice($stmts[0]->expr->var->items, 1, 0, [null]);
+-----
+<?php
+list($x, , $y) = $z;

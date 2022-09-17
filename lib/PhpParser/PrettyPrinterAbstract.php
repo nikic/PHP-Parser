@@ -830,6 +830,11 @@ abstract class PrettyPrinterAbstract {
                     return null;
                 }
 
+                if (!$arrItem instanceof Node) {
+                    // We only support list insertion of nodes.
+                    return null;
+                }
+
                 // We go multiline if the original code was multiline,
                 // or if it's an array item with a comment above it.
                 // Match always uses multiline formatting.
