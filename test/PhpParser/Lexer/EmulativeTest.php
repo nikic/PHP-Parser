@@ -360,12 +360,12 @@ class EmulativeTest extends LexerTest {
             ]],
             ['function readonly(', [
                 [\T_FUNCTION, 'function'],
-                [\T_STRING, 'readonly'],
+                [\T_READONLY, 'readonly'],
                 [ord('('), '('],
             ]],
             ['function readonly (', [
                 [\T_FUNCTION, 'function'],
-                [\T_STRING, 'readonly'],
+                [\T_READONLY, 'readonly'],
                 [ord('('), '('],
             ]],
         ];
