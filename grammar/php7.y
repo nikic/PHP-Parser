@@ -350,15 +350,23 @@ block_or_error:
     | error                                                 { $$ = []; }
 ;
 
+identifier_maybe_readonly:
+      identifier_not_reserved                               { $$ = $1; }
+    | T_READONLY                                            { $$ = Node\Identifier[$1]; }
+;
+
 function_declaration_statement:
-      T_FUNCTION optional_ref identifier_not_reserved '(' parameter_list ')' optional_return_type block_or_error
+      T_FUNCTION optional_ref identifier_maybe_readonly '(' parameter_list ')' optional_return_type block_or_error
           { $$ = Stmt\Function_[$3, ['byRef' => $2, 'params' => $5, 'returnType' => $7, 'stmts' => $8, 'attrGroups' => []]]; }
-    | attributes T_FUNCTION optional_ref identifier_not_reserved '(' parameter_list ')' optional_return_type block_or_error
+    | attributes T_FUNCTION optional_ref identifier_maybe_readonly '(' parameter_list ')' optional_return_type block_or_error
           { $$ = Stmt\Function_[$4, ['byRef' => $3, 'params' => $6, 'returnType' => $8, 'stmts' => $9, 'attrGroups' => $1]]; }
 ;
 
 class_declaration_statement:
-      optional_attributes class_entry_type identifier_not_reserved extends_from implements_list '{' class_statement_list '}'
+      class_entry_type identifier_not_reserved extends_from implements_list '{' class_statement_list '}'
+          { $$ = Stmt\Class_[$2, ['type' => $1, 'extends' => $3, 'implements' => $4, 'stmts' => $6, 'attrGroups' => []]];
+            $this->checkClass($$, #2); }
+    | attributes class_entry_type identifier_not_reserved extends_from implements_list '{' class_statement_list '}'
           { $$ = Stmt\Class_[$3, ['type' => $2, 'extends' => $4, 'implements' => $5, 'stmts' => $7, 'attrGroups' => $1]];
             $this->checkClass($$, #3); }
     | optional_attributes T_INTERFACE identifier_not_reserved interface_extends_list '{' class_statement_list '}'
@@ -962,8 +970,13 @@ lexical_var:
       optional_ref plain_variable                           { $$ = Expr\ClosureUse[$2, $1]; }
 ;
 
+name_readonly:
+      T_READONLY                                            { $$ = Name[$1]; }
+;
+
 function_call:
       name argument_list                                    { $$ = Expr\FuncCall[$1, $2]; }
+    | name_readonly argument_list                           { $$ = Expr\FuncCall[$1, $2]; }
     | callable_expr argument_list                           { $$ = Expr\FuncCall[$1, $2]; }
     | class_name_or_var T_PAAMAYIM_NEKUDOTAYIM member_name argument_list
           { $$ = Expr\StaticCall[$1, $3, $4]; }

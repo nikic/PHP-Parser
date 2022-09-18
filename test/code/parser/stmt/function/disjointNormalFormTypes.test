@@ -4,6 +4,7 @@ DNF types
 
 class Test {
     public (A&B)|(X&Y) $prop;
+    public readonly (A&B)|C $prop2;
 }
 
 function test((A&B)|(X&Y) $a): (A&B)|(X&Y) {}
@@ -61,6 +62,42 @@ array(
                     0: Stmt_PropertyProperty(
                         name: VarLikeIdentifier(
                             name: prop
+                        )
+                        default: null
+                    )
+                )
+            )
+            1: Stmt_Property(
+                attrGroups: array(
+                )
+                flags: MODIFIER_PUBLIC | MODIFIER_READONLY (65)
+                type: UnionType(
+                    types: array(
+                        0: IntersectionType(
+                            types: array(
+                                0: Name(
+                                    parts: array(
+                                        0: A
+                                    )
+                                )
+                                1: Name(
+                                    parts: array(
+                                        0: B
+                                    )
+                                )
+                            )
+                        )
+                        1: Name(
+                            parts: array(
+                                0: C
+                            )
+                        )
+                    )
+                )
+                props: array(
+                    0: Stmt_PropertyProperty(
+                        name: VarLikeIdentifier(
+                            name: prop2
                         )
                         default: null
                     )
