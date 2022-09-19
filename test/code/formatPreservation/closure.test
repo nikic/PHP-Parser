@@ -1,0 +1,21 @@
+Closure add static
+-----
+<?php
+function () {
+    if (rand(0, 1)) {
+        return true;
+    }
+
+    return false;
+};
+-----
+$stmts[0]->expr->static = true;
+-----
+<?php
+static function () {
+    if (rand(0, 1)) {
+        return true;
+    }
+
+    return false;
+};
