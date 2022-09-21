@@ -42,13 +42,14 @@ function test() {
     baz();
 }
 -----
-// TODO Fix broken result
+// TODO Preserve formatting
 $stmts[0]->stmts[1] = $stmts[0]->stmts[2];
 -----
 <?php
 
-function test() {
-    foo();<?php
+function test()
+{
+    foo();
     baz();
     baz();
 }
@@ -61,14 +62,15 @@ function test() {
     baz();
 }
 -----
-// TODO Fix broken result
+// TODO Preserve formatting
 unset($stmts[0]->stmts[2]);
 -----
 <?php
 
-function test() {
+function test()
+{
     foo();
-    ?>Bar
+    ?>Bar<?php
 }
 -----
 <?php
@@ -79,13 +81,14 @@ function test() {
     baz();
 }
 -----
-// TODO Fix broken result
+// TODO Preserve formatting
 array_splice($stmts[0]->stmts, 0, 1, []);
 -----
 <?php
 
-function test() {
-    Bar<?php
+function test()
+{
+    ?>Bar<?php
     baz();
 }
 -----
@@ -97,12 +100,13 @@ function test() {
     baz();
 }
 -----
-// TODO Fix broken result
+// TODO Preserve formatting
 array_splice($stmts[0]->stmts, 1, 1, []);
 -----
 <?php
 
-function test() {
-    foo();<?php
+function test()
+{
+    foo();
     baz();
 }

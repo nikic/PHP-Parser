@@ -774,7 +774,8 @@ abstract class PrettyPrinterAbstract
                 }
 
                 if ($skipRemovedNode) {
-                    if ($isStmtList && $this->origTokens->haveBracesInRange($pos, $itemStartPos)) {
+                    if ($isStmtList && ($this->origTokens->haveBracesInRange($pos, $itemStartPos) ||
+                                        $this->origTokens->haveTagInRange($pos, $itemStartPos))) {
                         // We'd remove the brace of a code block.
                         // TODO: Preserve formatting.
                         $this->setIndentLevel($origIndentLevel);
@@ -877,7 +878,8 @@ abstract class PrettyPrinterAbstract
                         $pos, $itemStartPos, $indentAdjustment);
                     $skipRemovedNode = true;
                 } else {
-                    if ($isStmtList && $this->origTokens->haveBracesInRange($pos, $itemStartPos)) {
+                    if ($isStmtList && ($this->origTokens->haveBracesInRange($pos, $itemStartPos) ||
+                                        $this->origTokens->haveTagInRange($pos, $itemStartPos))) {
                         // We'd remove the brace of a code block.
                         // TODO: Preserve formatting.
                         return null;
