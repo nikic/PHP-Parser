@@ -52,3 +52,57 @@ function test() {
     baz();
     baz();
 }
+-----
+<?php
+
+function test() {
+    foo();
+    ?>Bar<?php
+    baz();
+}
+-----
+// TODO Fix broken result
+unset($stmts[0]->stmts[2]);
+-----
+<?php
+
+function test() {
+    foo();
+    ?>Bar
+}
+-----
+<?php
+
+function test() {
+    foo();
+    ?>Bar<?php
+    baz();
+}
+-----
+// TODO Fix broken result
+array_splice($stmts[0]->stmts, 0, 1, []);
+-----
+<?php
+
+function test() {
+    Bar<?php
+    baz();
+}
+-----
+<?php
+
+function test() {
+    foo();
+    ?>Bar<?php
+    baz();
+}
+-----
+// TODO Fix broken result
+array_splice($stmts[0]->stmts, 1, 1, []);
+-----
+<?php
+
+function test() {
+    foo();<?php
+    baz();
+}
