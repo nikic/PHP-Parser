@@ -139,8 +139,9 @@ abstract class PrettyPrinterAbstract {
      * @var array<string, array{int|string|null, string, string}>
      */
     protected $emptyListInsertionMap;
-    /** @var array<string, int> Map from "{$class}->{$subNode}" to token before which the modifiers
-     *                          should be reprinted. */
+    /** @var array<string, array{string, int}> Map from "{$class}->{$subNode}" to [$printFn, $token]
+     *       where $printFn is the function to print the modifiers and $token is the token before which
+     *       the modifiers should be reprinted. */
     protected $modifierChangeMap;
 
     /**
@@ -587,23 +588,16 @@ abstract class PrettyPrinterAbstract {
                     continue;
                 }
 
-                if (is_int($subNode) && is_int($origSubNode)) {
-                    // Check if this is a modifier change
-                    $key = $class . '->' . $subNodeName;
-                    if (!isset($this->modifierChangeMap[$key])) {
-                        return $this->pFallback($fallbackNode);
-                    }
-
-                    $findToken = $this->modifierChangeMap[$key];
-                    $result .= $this->pModifiers($subNode);
-                    $pos = $this->origTokens->findRight($pos, $findToken);
-                    continue;
+                // Check if this is a modifier change
+                $key = $class . '->' . $subNodeName;
+                if (!isset($this->modifierChangeMap[$key])) {
+                    return $this->pFallback($fallbackNode);
                 }
 
-                // If a non-node, non-array subnode changed, we don't be able to do a partial
-                // reconstructions, as we don't have enough offset information. Pretty print the
-                // whole node instead.
-                return $this->pFallback($fallbackNode);
+                [$printFn, $findToken] = $this->modifierChangeMap[$key];
+                $result .= $this->$printFn($subNode);
+                $pos = $this->origTokens->findRight($pos, $findToken);
+                continue;
             }
 
             $extraLeft = '';
@@ -1098,6 +1092,10 @@ abstract class PrettyPrinterAbstract {
              . ($modifiers & Modifiers::READONLY ? 'readonly ' : '');
     }
 
+    protected function pStatic(bool $static): string {
+        return $static ? 'static ' : '';
+    }
+
     /**
      * Determine whether a list of nodes uses multiline formatting.
      *
@@ -1520,11 +1518,13 @@ abstract class PrettyPrinterAbstract {
         }
 
         $this->modifierChangeMap = [
-            Stmt\ClassConst::class . '->flags' => \T_CONST,
-            Stmt\ClassMethod::class . '->flags' => \T_FUNCTION,
-            Stmt\Class_::class . '->flags' => \T_CLASS,
-            Stmt\Property::class . '->flags' => \T_VARIABLE,
-            Param::class . '->flags' => \T_VARIABLE,
+            Stmt\ClassConst::class . '->flags' => ['pModifiers', \T_CONST],
+            Stmt\ClassMethod::class . '->flags' => ['pModifiers', \T_FUNCTION],
+            Stmt\Class_::class . '->flags' => ['pModifiers', \T_CLASS],
+            Stmt\Property::class . '->flags' => ['pModifiers', \T_VARIABLE],
+            Param::class . '->flags' => ['pModifiers', \T_VARIABLE],
+            Expr\Closure::class . '->static' => ['pStatic', \T_FUNCTION],
+            Expr\ArrowFunction::class . '->static' => ['pStatic', \T_FN],
             //Stmt\TraitUseAdaptation\Alias::class . '->newModifier' => 0, // TODO
         ];
 

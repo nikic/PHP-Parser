@@ -632,7 +632,7 @@ class Standard extends PrettyPrinterAbstract {
 
     protected function pExpr_Closure(Expr\Closure $node): string {
         return $this->pAttrGroups($node->attrGroups, true)
-             . ($node->static ? 'static ' : '')
+             . $this->pStatic($node->static)
              . 'function ' . ($node->byRef ? '&' : '')
              . '(' . $this->pMaybeMultiline($node->params, $this->phpVersion->supportsTrailingCommaInParamList()) . ')'
              . (!empty($node->uses) ? ' use (' . $this->pCommaSeparated($node->uses) . ')' : '')
@@ -654,7 +654,7 @@ class Standard extends PrettyPrinterAbstract {
 
     protected function pExpr_ArrowFunction(Expr\ArrowFunction $node): string {
         return $this->pAttrGroups($node->attrGroups, true)
-            . ($node->static ? 'static ' : '')
+            . $this->pStatic($node->static)
             . 'fn' . ($node->byRef ? '&' : '')
             . '(' . $this->pMaybeMultiline($node->params, $this->phpVersion->supportsTrailingCommaInParamList()) . ')'
             . (null !== $node->returnType ? ': ' . $this->p($node->returnType) : '')
