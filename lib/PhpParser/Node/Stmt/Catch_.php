@@ -5,12 +5,7 @@ namespace PhpParser\Node\Stmt;
 use PhpParser\Node;
 use PhpParser\Node\Expr;
 
-<<<<<<< HEAD
-class Catch_ extends Node\Stmt {
-=======
-class Catch_ extends Node\Stmt implements Node\StmtsIterable
-{
->>>>>>> 920aae4f (add StmtsIterable interface to mark nodes that contain iterable stmts to improve hooking in node visitors)
+class Catch_ extends Node\Stmt implements Node\StmtsIterable {
     /** @var Node\Name[] Types of exceptions to catch */
     public $types;
     /** @var Expr\Variable|null Variable for exception */

@@ -5,12 +5,7 @@ namespace PhpParser\Node\Stmt;
 use PhpParser\Node;
 use PhpParser\Node\FunctionLike;
 
-<<<<<<< HEAD
-class Function_ extends Node\Stmt implements FunctionLike {
-=======
-class Function_ extends Node\Stmt implements FunctionLike, Node\StmtsIterable
-{
->>>>>>> 920aae4f (add StmtsIterable interface to mark nodes that contain iterable stmts to improve hooking in node visitors)
+class Function_ extends Node\Stmt implements FunctionLike, Node\StmtsIterable {
     /** @var bool Whether function returns by reference */
     public $byRef;
     /** @var Node\Identifier Name */

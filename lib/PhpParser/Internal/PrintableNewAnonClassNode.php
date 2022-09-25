@@ -15,12 +15,7 @@ use PhpParser\Node\Expr;
  *
  * @internal
  */
-<<<<<<< HEAD
 class PrintableNewAnonClassNode extends Expr {
-=======
-class PrintableNewAnonClassNode extends Expr implements Node\StmtsIterable
-{
->>>>>>> 920aae4f (add StmtsIterable interface to mark nodes that contain iterable stmts to improve hooking in node visitors)
     /** @var Node\AttributeGroup[] PHP attribute groups */
     public $attrGroups;
     /** @var Node\Arg[] Arguments */

@@ -7,12 +7,7 @@ use PhpParser\Node\ClosureUse;
 use PhpParser\Node\Expr;
 use PhpParser\Node\FunctionLike;
 
-<<<<<<< HEAD
-class Closure extends Expr implements FunctionLike {
-=======
-class Closure extends Expr implements FunctionLike, Node\StmtsIterable
-{
->>>>>>> 920aae4f (add StmtsIterable interface to mark nodes that contain iterable stmts to improve hooking in node visitors)
+class Closure extends Expr implements FunctionLike, Node\StmtsIterable {
     /** @var bool Whether the closure is static */
     public $static;
     /** @var bool Whether to return by reference */

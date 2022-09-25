@@ -6,12 +6,7 @@ use PhpParser\Modifiers;
 use PhpParser\Node;
 use PhpParser\Node\FunctionLike;
 
-<<<<<<< HEAD
 class ClassMethod extends Node\Stmt implements FunctionLike {
-=======
-class ClassMethod extends Node\Stmt implements FunctionLike, Node\StmtsIterable
-{
->>>>>>> 920aae4f (add StmtsIterable interface to mark nodes that contain iterable stmts to improve hooking in node visitors)
     /** @var int Flags */
     public $flags;
     /** @var bool Whether to return by reference */
@@ -22,7 +17,7 @@ class ClassMethod extends Node\Stmt implements FunctionLike, Node\StmtsIterable
     public $params;
     /** @var null|Node\Identifier|Node\Name|Node\ComplexType Return type */
     public $returnType;
-    /** @var Node\Stmt[] Statements */
+    /** @var Node\Stmt[]|null Statements */
     public $stmts;
     /** @var Node\AttributeGroup[] PHP attribute groups */
     public $attrGroups;

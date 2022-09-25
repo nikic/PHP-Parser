@@ -4,12 +4,7 @@ namespace PhpParser\Node\Stmt;
 
 use PhpParser\Node;
 
-<<<<<<< HEAD
-class Do_ extends Node\Stmt {
-=======
-class Do_ extends Node\Stmt implements Node\StmtsIterable
-{
->>>>>>> 920aae4f (add StmtsIterable interface to mark nodes that contain iterable stmts to improve hooking in node visitors)
+class Do_ extends Node\Stmt implements Node\StmtsIterable {
     /** @var Node\Stmt[] Statements */
     public $stmts;
     /** @var Node\Expr Condition */
@@ -32,11 +27,7 @@ class Do_ extends Node\Stmt implements Node\StmtsIterable
         return ['stmts', 'cond'];
     }
 
-<<<<<<< HEAD
     public function getType(): string {
-=======
-    public function getType() : string {
->>>>>>> 920aae4f (add StmtsIterable interface to mark nodes that contain iterable stmts to improve hooking in node visitors)
         return 'Stmt_Do';
     }
 }
