@@ -32,7 +32,7 @@ class NameResolver extends NodeVisitorAbstract {
      *    namespacedName attribute, as usual.)
      *
      * @param ErrorHandler|null $errorHandler Error handler
-     * @param array $options Options
+     * @param array{preserveOriginalNames?: bool, replaceNodes?: bool} $options Options
      */
     public function __construct(?ErrorHandler $errorHandler = null, array $options = []) {
         $this->nameContext = new NameContext($errorHandler ?? new ErrorHandler\Throwing());
@@ -171,7 +171,7 @@ class NameResolver extends NodeVisitorAbstract {
         );
     }
 
-    /** @param Stmt\Function_|Stmt\ClassMethod|Expr\Closure $node */
+    /** @param Stmt\Function_|Stmt\ClassMethod|Expr\Closure|Expr\ArrowFunction $node */
     private function resolveSignature($node): void {
         foreach ($node->params as $param) {
             $param->type = $this->resolveType($param->type);
@@ -181,10 +181,11 @@ class NameResolver extends NodeVisitorAbstract {
     }
 
     /**
-     * @param Node\Identifier|Name|Node\ComplexType|null $node
-     * @return Node\Identifier|Name|Node\ComplexType|null
+     * @template T of Node\Identifier|Name|Node\ComplexType|null
+     * @param T $node
+     * @return T
      */
-    private function resolveType(?Node $node) {
+    private function resolveType(?Node $node): ?Node {
         if ($node instanceof Name) {
             return $this->resolveClassName($node);
         }

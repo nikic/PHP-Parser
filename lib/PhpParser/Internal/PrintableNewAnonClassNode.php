@@ -18,7 +18,7 @@ use PhpParser\Node\Expr;
 class PrintableNewAnonClassNode extends Expr {
     /** @var Node\AttributeGroup[] PHP attribute groups */
     public $attrGroups;
-    /** @var Node\Arg[] Arguments */
+    /** @var (Node\Arg|Node\VariadicPlaceholder)[] Arguments */
     public $args;
     /** @var null|Node\Name Name of extended class */
     public $extends;
@@ -27,6 +27,14 @@ class PrintableNewAnonClassNode extends Expr {
     /** @var Node\Stmt[] Statements */
     public $stmts;
 
+    /**
+     * @param Node\AttributeGroup[] $attrGroups PHP attribute groups
+     * @param (Node\Arg|Node\VariadicPlaceholder)[] $args Arguments
+     * @param Node\Name|null $extends Name of extended class
+     * @param Node\Name[] $implements Names of implemented interfaces
+     * @param Node\Stmt[] $stmts Statements
+     * @param array<string, mixed> $attributes Attributes
+     */
     public function __construct(
         array $attrGroups, array $args, ?Node\Name $extends, array $implements,
         array $stmts, array $attributes

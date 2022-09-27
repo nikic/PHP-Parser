@@ -15,6 +15,7 @@ class String_ extends Scalar {
     /** @var string String value */
     public $value;
 
+    /** @var array<string, string> Escaped character to its decoded value */
     protected static $replacements = [
         '\\' => '\\',
         '$'  =>  '$',
@@ -42,6 +43,7 @@ class String_ extends Scalar {
     }
 
     /**
+     * @param array<string, mixed> $attributes
      * @param bool $parseUnicodeEscape Whether to parse PHP 7 \u escapes
      */
     public static function fromString(string $str, array $attributes = [], bool $parseUnicodeEscape = true): self {

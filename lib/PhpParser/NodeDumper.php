@@ -9,8 +9,11 @@ use PhpParser\Node\Stmt\Use_;
 use PhpParser\Node\UseItem;
 
 class NodeDumper {
+    /** @var bool */
     private $dumpComments;
+    /** @var bool */
     private $dumpPositions;
+    /** @var string|null */
     private $code;
 
     /**

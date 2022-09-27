@@ -11,7 +11,7 @@ abstract class FunctionLike extends Declaration {
     /** @var Node\Param[] */
     protected $params = [];
 
-    /** @var string|Node\Name|Node\NullableType|null */
+    /** @var Node\Identifier|Node\Name|Node\ComplexType|null */
     protected $returnType = null;
 
     /**

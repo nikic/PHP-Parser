@@ -26,6 +26,7 @@ abstract class PrettyPrinterAbstract {
     protected const FIXUP_VAR_BRACED_NAME = 5; // Name operand that may require ${} bracing
     protected const FIXUP_ENCAPSED        = 6; // Encapsed string part
 
+    /** @var array<class-string, array{int, int}> */
     protected $precedenceMap = [
         // [precedence, associativity]
         // where for precedence -1 is %left, 0 is %nonassoc and 1 is %right
@@ -106,36 +107,41 @@ abstract class PrettyPrinterAbstract {
 
     /** @var TokenStream|null Original tokens for use in format-preserving pretty print */
     protected $origTokens;
-    /** @var Internal\Differ|null Differ for node lists */
+    /** @var Internal\Differ<Node>|null Differ for node lists */
     protected $nodeListDiffer;
-    /** @var bool[] Map determining whether a certain character is a label character */
+    /** @var array<string, bool> Map determining whether a certain character is a label character */
     protected $labelCharMap;
     /**
-     * @var int[][] Map from token classes and subnode names to FIXUP_* constants. This is used
-     *              during format-preserving prints to place additional parens/braces if necessary.
+     * @var array<string, array<string, int>> Map from token classes and subnode names to FIXUP_* constants.
+     *      This is used during format-preserving prints to place additional parens/braces if necessary.
      */
     protected $fixupMap;
     /**
-     * @var (int|string)[][] Map from "{$node->getType()}->{$subNode}" to ['left' => $l, 'right' => $r],
-     *                       where $l and $r specify the token type that needs to be stripped when
-     *                       removing this node.
+     * @var array<string, array{left?: int|string, right?: int|string}> Map from "{$node->getType()}->{$subNode}"
+     *      to ['left' => $l, 'right' => $r], where $l and $r specify the token type that needs to be stripped
+     *      when removing this node.
      */
     protected $removalMap;
     /**
-     * @var mixed[] Map from "{$node->getType()}->{$subNode}" to [$find, $beforeToken, $extraLeft, $extraRight].
-     *              $find is an optional token after which the insertion occurs. $extraLeft/Right
-     *              are optionally added before/after the main insertions.
+     * @var array<string, array{int|string|null, bool, string|null, string|null}> Map from
+     *      "{$node->getType()}->{$subNode}" to [$find, $beforeToken, $extraLeft, $extraRight].
+     *      $find is an optional token after which the insertion occurs. $extraLeft/Right
+     *      are optionally added before/after the main insertions.
      */
     protected $insertionMap;
     /**
-     * @var string[] Map From "{$class}->{$subNode}" to string that should be inserted
-     *               between elements of this list subnode.
+     * @var array<string, string> Map From "{$class}->{$subNode}" to string that should be inserted
+     *                            between elements of this list subnode.
      */
     protected $listInsertionMap;
 
+    /**
+     * @var array<string, array{int|string|null, string, string}>
+     */
     protected $emptyListInsertionMap;
-    /** @var int[] Map from "{$class}->{$subNode}" to token before which the modifiers
-     *             should be reprinted. */
+    /** @var array<string, array{string, int}> Map from "{$class}->{$subNode}" to [$printFn, $token]
+     *       where $printFn is the function to print the modifiers and $token is the token before which
+     *       the modifiers should be reprinted. */
     protected $modifierChangeMap;
 
     /**
@@ -152,7 +158,7 @@ abstract class PrettyPrinterAbstract {
      *                            syntax, if the node does not specify a format. Defaults to whether
      *                            the phpVersion support short array syntax.
      *
-     * @param array $options Dictionary of formatting options
+     * @param array{phpVersion?: PhpVersion, shortArraySyntax?: bool} $options Dictionary of formatting options
      */
     public function __construct(array $options = []) {
         $this->phpVersion = $options['phpVersion'] ?? PhpVersion::fromComponents(7, 0);
@@ -468,7 +474,7 @@ abstract class PrettyPrinterAbstract {
      *
      * @param Node[] $stmts      Modified AST with links to original AST
      * @param Node[] $origStmts  Original AST with token offset information
-     * @param array  $origTokens Tokens of the original code
+     * @param Token[] $origTokens Tokens of the original code
      *
      * @return string
      */
@@ -582,23 +588,16 @@ abstract class PrettyPrinterAbstract {
                     continue;
                 }
 
-                if (is_int($subNode) && is_int($origSubNode)) {
-                    // Check if this is a modifier change
-                    $key = $class . '->' . $subNodeName;
-                    if (!isset($this->modifierChangeMap[$key])) {
-                        return $this->pFallback($fallbackNode);
-                    }
-
-                    $findToken = $this->modifierChangeMap[$key];
-                    $result .= $this->pModifiers($subNode);
-                    $pos = $this->origTokens->findRight($pos, $findToken);
-                    continue;
+                // Check if this is a modifier change
+                $key = $class . '->' . $subNodeName;
+                if (!isset($this->modifierChangeMap[$key])) {
+                    return $this->pFallback($fallbackNode);
                 }
 
-                // If a non-node, non-array subnode changed, we don't be able to do a partial
-                // reconstructions, as we don't have enough offset information. Pretty print the
-                // whole node instead.
-                return $this->pFallback($fallbackNode);
+                [$printFn, $findToken] = $this->modifierChangeMap[$key];
+                $result .= $this->$printFn($subNode);
+                $pos = $this->origTokens->findRight($pos, $findToken);
+                continue;
             }
 
             $extraLeft = '';
@@ -687,8 +686,8 @@ abstract class PrettyPrinterAbstract {
     /**
      * Perform a format-preserving pretty print of an array.
      *
-     * @param array       $nodes            New nodes
-     * @param array       $origNodes        Original nodes
+     * @param Node[]      $nodes            New nodes
+     * @param Node[]      $origNodes        Original nodes
      * @param int         $pos              Current token position (updated by reference)
      * @param int         $indentAdjustment Adjustment for indentation
      * @param string      $parentNodeClass  Class of the containing node.
@@ -775,7 +774,8 @@ abstract class PrettyPrinterAbstract {
                 }
 
                 if ($skipRemovedNode) {
-                    if ($isStmtList && $this->origTokens->haveBracesInRange($pos, $itemStartPos)) {
+                    if ($isStmtList && ($this->origTokens->haveBracesInRange($pos, $itemStartPos) ||
+                                        $this->origTokens->haveTagInRange($pos, $itemStartPos))) {
                         // We'd remove the brace of a code block.
                         // TODO: Preserve formatting.
                         $this->setIndentLevel($origIndentLevel);
@@ -822,6 +822,11 @@ abstract class PrettyPrinterAbstract {
             } elseif ($diffType === DiffElem::TYPE_ADD) {
                 if (null === $insertStr) {
                     // We don't have insertion information for this list type
+                    return null;
+                }
+
+                if (!$arrItem instanceof Node) {
+                    // We only support list insertion of nodes.
                     return null;
                 }
 
@@ -880,7 +885,8 @@ abstract class PrettyPrinterAbstract {
                         $pos, $itemStartPos, $indentAdjustment);
                     $skipRemovedNode = true;
                 } else {
-                    if ($isStmtList && $this->origTokens->haveBracesInRange($pos, $itemStartPos)) {
+                    if ($isStmtList && ($this->origTokens->haveBracesInRange($pos, $itemStartPos) ||
+                                        $this->origTokens->haveTagInRange($pos, $itemStartPos))) {
                         // We'd remove the brace of a code block.
                         // TODO: Preserve formatting.
                         return null;
@@ -1086,6 +1092,10 @@ abstract class PrettyPrinterAbstract {
              . ($modifiers & Modifiers::PRIVATE ? 'private ' : '')
              . ($modifiers & Modifiers::STATIC ? 'static ' : '')
              . ($modifiers & Modifiers::READONLY ? 'readonly ' : '');
+    }
+
+    protected function pStatic(bool $static): string {
+        return $static ? 'static ' : '';
     }
 
     /**
@@ -1320,7 +1330,7 @@ abstract class PrettyPrinterAbstract {
             'Stmt_Class->extends' => [null, false, ' extends ', null],
             'Stmt_Enum->scalarType' => [null, false, ' : ', null],
             'Stmt_EnumCase->expr' => [null, false, ' = ', null],
-            'Expr_PrintableNewAnonClass->extends' => [null, ' extends ', null],
+            'Expr_PrintableNewAnonClass->extends' => [null, false, ' extends ', null],
             'Stmt_Continue->num' => [\T_CONTINUE, false, ' ', null],
             'Stmt_Foreach->keyVar' => [\T_AS, false, null, ' => '],
             'Stmt_Function->returnType' => [')', false, ': ', null],
@@ -1510,11 +1520,13 @@ abstract class PrettyPrinterAbstract {
         }
 
         $this->modifierChangeMap = [
-            Stmt\ClassConst::class . '->flags' => \T_CONST,
-            Stmt\ClassMethod::class . '->flags' => \T_FUNCTION,
-            Stmt\Class_::class . '->flags' => \T_CLASS,
-            Stmt\Property::class . '->flags' => \T_VARIABLE,
-            Param::class . '->flags' => \T_VARIABLE,
+            Stmt\ClassConst::class . '->flags' => ['pModifiers', \T_CONST],
+            Stmt\ClassMethod::class . '->flags' => ['pModifiers', \T_FUNCTION],
+            Stmt\Class_::class . '->flags' => ['pModifiers', \T_CLASS],
+            Stmt\Property::class . '->flags' => ['pModifiers', \T_VARIABLE],
+            Param::class . '->flags' => ['pModifiers', \T_VARIABLE],
+            Expr\Closure::class . '->static' => ['pStatic', \T_FUNCTION],
+            Expr\ArrowFunction::class . '->static' => ['pStatic', \T_FN],
             //Stmt\TraitUseAdaptation\Alias::class . '->newModifier' => 0, // TODO
         ];
 

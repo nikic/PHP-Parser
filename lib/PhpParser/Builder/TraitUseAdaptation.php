@@ -55,7 +55,7 @@ class TraitUseAdaptation implements Builder {
             throw new \LogicException('Cannot set alias for not alias adaptation buider');
         }
 
-        $this->alias = $alias;
+        $this->alias = BuilderHelpers::normalizeIdentifier($alias);
         return $this;
     }
 

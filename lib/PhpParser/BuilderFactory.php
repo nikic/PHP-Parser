@@ -86,7 +86,7 @@ class BuilderFactory {
      *
      * @param Node\Name|string ...$traits Trait names
      *
-     * @return Builder\TraitUse The create trait use builder
+     * @return Builder\TraitUse The created trait use builder
      */
     public function useTrait(...$traits): Builder\TraitUse {
         return new Builder\TraitUse(...$traits);
@@ -98,7 +98,7 @@ class BuilderFactory {
      * @param Node\Name|string|null  $trait  Trait name
      * @param Node\Identifier|string $method Method name
      *
-     * @return Builder\TraitUseAdaptation The create trait use adaptation builder
+     * @return Builder\TraitUseAdaptation The created trait use adaptation builder
      */
     public function traitUseAdaptation($trait, $method = null): Builder\TraitUseAdaptation {
         if ($method === null) {

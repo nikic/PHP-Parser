@@ -8,6 +8,7 @@ class Name extends NodeAbstract {
     /** @var string[] Parts of the name */
     public $parts;
 
+    /** @var array<string, bool> */
     private static $specialClassNames = [
         'self'   => true,
         'parent' => true,

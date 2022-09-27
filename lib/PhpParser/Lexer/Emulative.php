@@ -14,13 +14,14 @@ use PhpParser\Lexer\TokenEmulator\FnTokenEmulator;
 use PhpParser\Lexer\TokenEmulator\MatchTokenEmulator;
 use PhpParser\Lexer\TokenEmulator\NullsafeTokenEmulator;
 use PhpParser\Lexer\TokenEmulator\NumericLiteralSeparatorEmulator;
+use PhpParser\Lexer\TokenEmulator\ReadonlyFunctionTokenEmulator;
 use PhpParser\Lexer\TokenEmulator\ReadonlyTokenEmulator;
 use PhpParser\Lexer\TokenEmulator\ReverseEmulator;
 use PhpParser\Lexer\TokenEmulator\TokenEmulator;
 use PhpParser\PhpVersion;
 
 class Emulative extends Lexer {
-    /** @var mixed[] Patches used to reverse changes introduced in the code */
+    /** @var array{int, string, string}[] Patches used to reverse changes introduced in the code */
     private $patches = [];
 
     /** @var TokenEmulator[] */
@@ -32,9 +33,9 @@ class Emulative extends Lexer {
     private $hostPhpVersion;
 
     /**
-     * @param mixed[] $options Lexer options. In addition to the usual options, accepts a
-     *                         'phpVersion' (PhpVersion object or string) that specifies the
-     *                         version to emulate. Defaults to newest supported.
+     * @param array{usedAttributes?: string[], phpVersion?: PhpVersion|string} $options Lexer options.
+     *        In addition to the usual options, accepts a 'phpVersion' (PhpVersion object or string)
+     *        that specifies the version to emulate. Defaults to newest supported.
      */
     public function __construct(array $options = []) {
         $version = $options['phpVersion'] ?? PhpVersion::getNewestSupported();
@@ -58,6 +59,7 @@ class Emulative extends Lexer {
             new EnumTokenEmulator(),
             new ReadonlyTokenEmulator(),
             new ExplicitOctalEmulator(),
+            new ReadonlyFunctionTokenEmulator(),
         ];
 
         // Collect emulators that are relevant for the PHP version we're running

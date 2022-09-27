@@ -102,7 +102,7 @@ class TokenStream {
         return false;
     }
 
-    /** @param int|string|array $skipTokenType */
+    /** @param int|string|(int|string)[] $skipTokenType */
     public function skipLeft(int $pos, $skipTokenType): int {
         $tokens = $this->tokens;
 
@@ -120,7 +120,7 @@ class TokenStream {
         return $this->skipLeftWhitespace($pos);
     }
 
-    /** @param int|string|array $skipTokenType */
+    /** @param int|string|(int|string)[] $skipTokenType */
     public function skipRight(int $pos, $skipTokenType): int {
         $tokens = $this->tokens;
 
@@ -170,7 +170,7 @@ class TokenStream {
         return $pos;
     }
 
-    /** @param int|string|array $findTokenType */
+    /** @param int|string|(int|string)[] $findTokenType */
     public function findRight(int $pos, $findTokenType): int {
         $tokens = $this->tokens;
         for ($count = \count($tokens); $pos < $count; $pos++) {
@@ -203,6 +203,11 @@ class TokenStream {
         return $this->haveTokenInRange($startPos, $endPos, '{')
             || $this->haveTokenInRange($startPos, $endPos, T_CURLY_OPEN)
             || $this->haveTokenInRange($startPos, $endPos, '}');
+    }
+
+    public function haveTagInRange(int $startPos, int $endPos): bool {
+        return $this->haveTokenInRange($startPos, $endPos, \T_OPEN_TAG)
+            || $this->haveTokenInRange($startPos, $endPos, \T_CLOSE_TAG);
     }
 
     /**

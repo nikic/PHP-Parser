@@ -22,6 +22,7 @@ class ClassMethod extends Node\Stmt implements FunctionLike {
     /** @var Node\AttributeGroup[] PHP attribute groups */
     public $attrGroups;
 
+    /** @var array<string, bool> */
     private static $magicNames = [
         '__construct'   => true,
         '__destruct'    => true,
@@ -46,13 +47,20 @@ class ClassMethod extends Node\Stmt implements FunctionLike {
      * Constructs a class method node.
      *
      * @param string|Node\Identifier $name Name
-     * @param array $subNodes   Array of the following optional subnodes:
-     *                          'flags       => 0              : Flags
-     *                          'byRef'      => false          : Whether to return by reference
-     *                          'params'     => array()        : Parameters
-     *                          'returnType' => null           : Return type
-     *                          'stmts'      => array()        : Statements
-     *                          'attrGroups' => array()        : PHP attribute groups
+     * @param array{
+     *     flags?: int,
+     *     byRef?: bool,
+     *     params?: Node\Param[],
+     *     returnType?: null|string|Node\Identifier|Node\Name|Node\ComplexType,
+     *     stmts?: Node\Stmt[]|null,
+     *     attrGroups?: Node\AttributeGroup[],
+     * } $subNodes Array of the following optional subnodes:
+     *             'flags       => 0              : Flags
+     *             'byRef'      => false          : Whether to return by reference
+     *             'params'     => array()        : Parameters
+     *             'returnType' => null           : Return type
+     *             'stmts'      => array()        : Statements
+     *             'attrGroups' => array()        : PHP attribute groups
      * @param array<string, mixed> $attributes Additional attributes
      */
     public function __construct($name, array $subNodes = [], array $attributes = []) {

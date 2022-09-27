@@ -26,12 +26,18 @@ class Function_ extends Node\Stmt implements FunctionLike {
      * Constructs a function node.
      *
      * @param string|Node\Identifier $name Name
-     * @param array  $subNodes   Array of the following optional subnodes:
-     *                           'byRef'      => false  : Whether to return by reference
-     *                           'params'     => array(): Parameters
-     *                           'returnType' => null   : Return type
-     *                           'stmts'      => array(): Statements
-     *                           'attrGroups' => array(): PHP attribute groups
+     * @param array{
+     *     byRef?: bool,
+     *     params?: Node\Param[],
+     *     returnType?: null|string|Node\Identifier|Node\Name|Node\ComplexType,
+     *     stmts?: Node\Stmt[],
+     *     attrGroups?: Node\AttributeGroup[],
+     * } $subNodes Array of the following optional subnodes:
+     *             'byRef'      => false  : Whether to return by reference
+     *             'params'     => array(): Parameters
+     *             'returnType' => null   : Return type
+     *             'stmts'      => array(): Statements
+     *             'attrGroups' => array(): PHP attribute groups
      * @param array<string, mixed> $attributes Additional attributes
      */
     public function __construct($name, array $subNodes = [], array $attributes = []) {

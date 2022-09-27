@@ -17,11 +17,15 @@ class If_ extends Node\Stmt {
     /**
      * Constructs an if node.
      *
-     * @param Node\Expr $cond       Condition
-     * @param array     $subNodes   Array of the following optional subnodes:
-     *                              'stmts'   => array(): Statements
-     *                              'elseifs' => array(): Elseif clauses
-     *                              'else'    => null   : Else clause
+     * @param Node\Expr $cond Condition
+     * @param array{
+     *     stmts?: Node\Stmt[],
+     *     elseifs?: ElseIf_[],
+     *     else?: Else_|null,
+     * } $subNodes Array of the following optional subnodes:
+     *             'stmts'   => array(): Statements
+     *             'elseifs' => array(): Elseif clauses
+     *             'else'    => null   : Else clause
      * @param array<string, mixed> $attributes Additional attributes
      */
     public function __construct(Node\Expr $cond, array $subNodes = [], array $attributes = []) {

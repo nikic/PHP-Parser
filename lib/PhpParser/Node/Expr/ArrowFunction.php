@@ -25,16 +25,23 @@ class ArrowFunction extends Expr implements FunctionLike {
     public $attrGroups;
 
     /**
-     * @param array $subNodes   Array of the following optional subnodes:
-     *                          'static'     => false   : Whether the closure is static
-     *                          'byRef'      => false   : Whether to return by reference
-     *                          'params'     => array() : Parameters
-     *                          'returnType' => null    : Return type
-     *                          'expr'       => Expr    : Expression body
-     *                          'attrGroups' => array() : PHP attribute groups
+     * @param array{
+     *     expr: Expr,
+     *     static?: bool,
+     *     byRef?: bool,
+     *     params?: Node\Param[],
+     *     returnType?: null|string|Node\Identifier|Node\Name|Node\ComplexType,
+     *     attrGroups?: Node\AttributeGroup[]
+     * } $subNodes Array of the following subnodes:
+     *             'expr'                  : Expression body
+     *             'static'     => false   : Whether the closure is static
+     *             'byRef'      => false   : Whether to return by reference
+     *             'params'     => array() : Parameters
+     *             'returnType' => null    : Return type
+     *             'attrGroups' => array() : PHP attribute groups
      * @param array<string, mixed> $attributes Additional attributes
      */
-    public function __construct(array $subNodes = [], array $attributes = []) {
+    public function __construct(array $subNodes, array $attributes = []) {
         $this->attributes = $attributes;
         $this->static = $subNodes['static'] ?? false;
         $this->byRef = $subNodes['byRef'] ?? false;
