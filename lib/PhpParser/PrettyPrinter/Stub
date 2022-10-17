@@ -10,10 +10,7 @@ use PhpParser\Node\FunctionLike;
  */
 class Stub extends Standard
 {
-    /**
-     * @return string
-     */
-    protected function pStmt_ClassConst(Stmt\ClassConst $node)
+    protected function pStmt_ClassConst(Stmt\ClassConst $node): string
     {
         // Omit private class constant
         if ($node->isPrivate()) {
@@ -23,10 +20,7 @@ class Stub extends Standard
         return parent::pStmt_ClassConst($node);
     }
 
-    /**
-     * @return string
-     */
-    protected function pStmt_Property(Stmt\Property $node)
+    protected function pStmt_Property(Stmt\Property $node): string
     {
         // Omit private property
         if ($node->isPrivate()) {
@@ -36,10 +30,7 @@ class Stub extends Standard
         return parent::pStmt_Property($node);
     }
 
-    /**
-     * @return string
-     */
-    protected function pStmt_ClassMethod(Stmt\ClassMethod $node)
+    protected function pStmt_ClassMethod(Stmt\ClassMethod $node): string
     {
         // Omit private method
         if ($node->isPrivate()) {
@@ -55,10 +46,7 @@ class Stub extends Standard
              . (null !== $node->stmts ? ' {}' : ';');
     }
 
-    /**
-     * @return string
-     */
-    protected function pStmt_Function(Stmt\Function_ $node)
+    protected function pStmt_Function(Stmt\Function_ $node): string
     {
         return $this->pAttrGroups($node->attrGroups)
              . 'function ' . ($node->byRef ? '&' : '') . $node->name
@@ -71,7 +59,7 @@ class Stub extends Standard
     /**
      * @inheritDoc
      */
-    protected function pComments(array $comments)
+    protected function pComments(array $comments): string
     {
         // Get last comment
         return \str_replace(["\r\n", "\n"], $this->nl, end($comments)->getReformattedText());
@@ -80,7 +68,7 @@ class Stub extends Standard
     /**
      * @inheritDoc
      */
-    protected function pStmts(array $nodes, bool $indent = true)
+    protected function pStmts(array $nodes, bool $indent = true): string
     {
         if ($indent) {
             $this->indent();
