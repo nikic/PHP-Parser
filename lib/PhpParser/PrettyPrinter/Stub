@@ -3,14 +3,32 @@
 namespace PhpParser\PrettyPrinter;
 
 use PhpParser\Node\Stmt;
+use PhpParser\Node\FunctionLike;
 
 /**
- * Prints PHP stubs.
+ * PHP stub printer.
  */
 class Stub extends Standard
 {
-    protected function pStmt_Property(Stmt\Property $node) : string {
-        // hide private property
+    /**
+     * @return string
+     */
+    protected function pStmt_ClassConst(Stmt\ClassConst $node)
+    {
+        // Omit private class constant
+        if ($node->isPrivate()) {
+            return '';
+        }
+
+        return parent::pStmt_ClassConst($node);
+    }
+
+    /**
+     * @return string
+     */
+    protected function pStmt_Property(Stmt\Property $node)
+    {
+        // Omit private property
         if ($node->isPrivate()) {
             return '';
         }
@@ -18,42 +36,52 @@ class Stub extends Standard
         return parent::pStmt_Property($node);
     }
 
-    protected function pStmt_ClassMethod(Stmt\ClassMethod $node) : string {
-        // hide private method
+    /**
+     * @return string
+     */
+    protected function pStmt_ClassMethod(Stmt\ClassMethod $node)
+    {
+        // Omit private method
         if ($node->isPrivate()) {
             return '';
         }
 
-        // empty method body
         return $this->pAttrGroups($node->attrGroups)
              . $this->pModifiers($node->flags)
              . 'function ' . ($node->byRef ? '&' : '') . $node->name
-             . '(' . $this->pMaybeMultiline($node->params) . ')'
+             . '(' . $this->pMaybeMultiline($node->params, $this->phpVersion->supportsTrailingCommaInParamList()) . ')'
              . (null !== $node->returnType ? ': ' . $this->p($node->returnType) : '')
+             // Omit method body
              . (null !== $node->stmts ? ' {}' : ';');
     }
 
-    protected function pStmt_Function(Stmt\Function_ $node) : string {
-        // empty function body
+    /**
+     * @return string
+     */
+    protected function pStmt_Function(Stmt\Function_ $node)
+    {
         return $this->pAttrGroups($node->attrGroups)
              . 'function ' . ($node->byRef ? '&' : '') . $node->name
-             . '(' . $this->pMaybeMultiline($node->params) . ')'
+             . '(' . $this->pMaybeMultiline($node->params, $this->phpVersion->supportsTrailingCommaInParamList()) . ')'
              . (null !== $node->returnType ? ': ' . $this->p($node->returnType) : '')
+             // Omit function body
              . ' {}';
     }
 
     /**
      * @inheritDoc
      */
-    protected function pComments(array $comments) : string {
-        // print only last DocComment
+    protected function pComments(array $comments)
+    {
+        // Get last comment
         return \str_replace(["\r\n", "\n"], $this->nl, end($comments)->getReformattedText());
     }
 
     /**
      * @inheritDoc
      */
-    protected function pStmts(array $nodes, bool $indent = true) : string {
+    protected function pStmts(array $nodes, bool $indent = true)
+    {
         if ($indent) {
             $this->indent();
         }
@@ -66,9 +94,8 @@ class Stub extends Standard
             }
             if (
                 $node instanceof Stmt\Property
-                || $node instanceof Stmt\Class_
-                || $node instanceof Stmt\ClassMethod
-                || $node instanceof Stmt\Function_
+                || $node instanceof Stmt\ClassLike
+                || $node instanceof FunctionLike
             ) {
                 $docComment = $node->getDocComment();
                 if ($docComment !== null) {
@@ -78,7 +105,6 @@ class Stub extends Standard
             if ($node instanceof Stmt\Nop) {
                 continue;
             }
-
             $result .= $this->nl . $pNode;
         }
 
