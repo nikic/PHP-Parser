@@ -109,6 +109,10 @@ class EmulativeTest extends LexerTest
      * @dataProvider provideTestLexNewFeatures
      */
     public function testLexNewFeatures($code, array $expectedTokens) {
+        if (strpos(php_uname('m'), 'arm') !== false and $code == '0xCAFE_F00D') {
+            $this->markTestSkipped('Not armhf compatible. See GH#662 for further reference');
+        }
+
         $lexer = $this->getLexer();
         $lexer->startLexing('<?php ' . $code);
         $this->assertSameTokens($expectedTokens, $lexer);
