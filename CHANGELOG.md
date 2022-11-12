@@ -1,3 +1,13 @@
+Version 4.15.2 (2022-11-12)
+---------------------------
+
+### Fixed
+
+* Fixed parsing of large hex float literals that contain an "e" character.
+* Fixed tests to pass on 32-bit.
+* Fixed generation of invalid code when using formatting-preserving pretty printer with code that
+  uses inline HTML.
+
 Version 4.15.1 (2022-09-04)
 ---------------------------
 
