@@ -4,7 +4,7 @@ Different integer syntaxes
 
 6.674_083e-11;
 299_792_458;
-0xCAFE_F00D;
+0x7AFE_F00D;
 0b0101_1111;
 0137_041;
 
@@ -42,7 +42,7 @@ array(
     )
     2: Stmt_Expression(
         expr: Scalar_LNumber(
-            value: 3405705229
+            value: 2063527949
         )
     )
     3: Stmt_Expression(
