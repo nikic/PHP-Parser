@@ -17,6 +17,7 @@ Different float syntaxes
 // (all are actually the same number, just in different representations)
 18446744073709551615;
 0xFFFFFFFFFFFFFFFF;
+0xEEEEEEEEEEEEEEEE;
 01777777777777777777777;
 0177777777777777777777787;
 0b1111111111111111111111111111111111111111111111111111111111111111;
@@ -92,7 +93,7 @@ array(
     )
     12: Stmt_Expression(
         expr: Scalar_DNumber(
-            value: 1.844674407371E+19
+            value: 1.7216961135462E+19
         )
     )
     13: Stmt_Expression(
@@ -101,6 +102,11 @@ array(
         )
     )
     14: Stmt_Expression(
+        expr: Scalar_DNumber(
+            value: 1.844674407371E+19
+        )
+    )
+    15: Stmt_Expression(
         expr: Scalar_DNumber(
             value: 1.844674407371E+19
         )
