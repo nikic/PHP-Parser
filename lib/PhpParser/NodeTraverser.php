@@ -117,7 +117,7 @@ class NodeTraverser implements NodeTraverserInterface
                 }
             } elseif ($subNode instanceof Node) {
                 $traverseChildren = true;
-                $breakVisitorIndex = null;
+                $breakVisitorIndex = PHP_INT_MAX;
 
                 foreach ($this->visitors as $visitorIndex => $visitor) {
                     $return = $visitor->enterNode($subNode);
@@ -149,7 +149,11 @@ class NodeTraverser implements NodeTraverserInterface
                     }
                 }
 
-                foreach ($this->visitors as $visitorIndex => $visitor) {
+                for ($visitor = end($this->visitors); ($visitorIndex = key($this->visitors)) !== null; $visitor = prev($this->visitors)) {
+                    if ($visitorIndex > $breakVisitorIndex) {
+                        continue;
+                    }
+
                     $return = $visitor->leaveNode($subNode);
 
                     if (null !== $return) {
@@ -169,10 +173,6 @@ class NodeTraverser implements NodeTraverserInterface
                                 'leaveNode() returned invalid value of type ' . gettype($return)
                             );
                         }
-                    }
-
-                    if ($breakVisitorIndex === $visitorIndex) {
-                        break;
                     }
                 }
             }
@@ -194,7 +194,7 @@ class NodeTraverser implements NodeTraverserInterface
         foreach ($nodes as $i => &$node) {
             if ($node instanceof Node) {
                 $traverseChildren = true;
-                $breakVisitorIndex = null;
+                $breakVisitorIndex = PHP_INT_MAX;
 
                 foreach ($this->visitors as $visitorIndex => $visitor) {
                     $return = $visitor->enterNode($node);
@@ -226,7 +226,11 @@ class NodeTraverser implements NodeTraverserInterface
                     }
                 }
 
-                foreach ($this->visitors as $visitorIndex => $visitor) {
+                for ($visitor = end($this->visitors); ($visitorIndex = key($this->visitors)) !== null; $visitor = prev($this->visitors)) {
+                    if ($visitorIndex > $breakVisitorIndex) {
+                        continue;
+                    }
+
                     $return = $visitor->leaveNode($node);
 
                     if (null !== $return) {
@@ -252,10 +256,6 @@ class NodeTraverser implements NodeTraverserInterface
                                 'leaveNode() returned invalid value of type ' . gettype($return)
                             );
                         }
-                    }
-
-                    if ($breakVisitorIndex === $visitorIndex) {
-                        break;
                     }
                 }
             } elseif (\is_array($node)) {
