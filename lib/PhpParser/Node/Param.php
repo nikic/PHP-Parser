@@ -31,7 +31,7 @@ class Param extends NodeAbstract {
      * @param bool                                    $variadic   Whether this is a variadic argument
      * @param array<string, mixed> $attributes Additional attributes
      * @param int                                     $flags      Optional visibility flags
-     * @param AttributeGroup[]                        $attrGroups PHP attribute groups
+     * @param list<AttributeGroup> $attrGroups PHP attribute groups
      */
     public function __construct(
         $var, ?Expr $default = null, $type = null,

@@ -18,7 +18,7 @@ class EnumCase implements PhpParser\Builder {
     /** @var array<string, mixed> */
     protected $attributes = [];
 
-    /** @var Node\AttributeGroup[] */
+    /** @var list<Node\AttributeGroup> */
     protected $attributeGroups = [];
 
     /**

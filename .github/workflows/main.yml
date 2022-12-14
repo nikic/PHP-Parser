@@ -85,3 +85,24 @@ jobs:
         run: "composer update --no-progress --prefer-dist"
       - name: "Tests"
         run: "test_old/run-php-src.sh 8.1.6"
+  phpstan:
+    runs-on: "ubuntu-latest"
+    name: "PHP ${{ matrix.php-version }} PHPStan"
+    strategy:
+      matrix:
+        php-version:
+          - "8.2"
+    steps:
+      - name: "Checkout"
+        uses: "actions/checkout@v2"
+      - name: "Install PHP"
+        uses: "shivammathur/setup-php@v2"
+        with:
+          coverage: "none"
+          php-version: "${{ matrix.php-version }}"
+          tools: composer:v2
+      - name: "Install dependencies"
+        run: | 
+          cd tools && composer install
+      - name: "PHPStan"
+        run: "php tools/vendor/bin/phpstan"

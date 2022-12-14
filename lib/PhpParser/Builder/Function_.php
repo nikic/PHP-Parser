@@ -10,10 +10,10 @@ use PhpParser\Node\Stmt;
 class Function_ extends FunctionLike {
     /** @var string */
     protected $name;
-    /** @var Stmt[] */
+    /** @var list<Stmt> */
     protected $stmts = [];
 
-    /** @var Node\AttributeGroup[] */
+    /** @var list<Node\AttributeGroup> */
     protected $attributeGroups = [];
 
     /**

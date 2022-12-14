@@ -11,13 +11,13 @@ use PhpParser\Node\Stmt;
 class Interface_ extends Declaration {
     /** @var string */
     protected $name;
-    /** @var Name[] */
+    /** @var list<Name> */
     protected $extends = [];
-    /** @var Stmt\ClassConst[] */
+    /** @var list<Stmt\ClassConst> */
     protected $constants = [];
-    /** @var Stmt\ClassMethod[] */
+    /** @var list<Stmt\ClassMethod> */
     protected $methods = [];
-    /** @var Node\AttributeGroup[] */
+    /** @var list<Node\AttributeGroup> */
     protected $attributeGroups = [];
 
     /**

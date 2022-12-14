@@ -24,7 +24,7 @@ class Emulative extends Lexer {
     /** @var array{int, string, string}[] Patches used to reverse changes introduced in the code */
     private $patches = [];
 
-    /** @var TokenEmulator[] */
+    /** @var list<TokenEmulator> */
     private $emulators = [];
 
     /** @var PhpVersion */

@@ -246,11 +246,6 @@ parameters:
 			path: lib/PhpParser/ParserAbstract.php
 
 		-
-			message: "#^Property PhpParser\\\\ParserAbstract\\:\\:\\$createdArrays \\(SplObjectStorage\\<PhpParser\\\\Node\\\\Expr\\\\Array_, null\\>\\|null\\) does not accept SplObjectStorage\\<object, mixed\\>\\.$#"
-			count: 1
-			path: lib/PhpParser/ParserAbstract.php
-
-		-
 			message: "#^Unary operation \"\\+\" on string results in an error\\.$#"
 			count: 1
 			path: lib/PhpParser/ParserAbstract.php

@@ -6,13 +6,13 @@ use PhpParser\Node;
 use PhpParser\NodeAbstract;
 
 class MatchArm extends NodeAbstract {
-    /** @var null|Node\Expr[] */
+    /** @var null|list<Node\Expr> */
     public $conds;
     /** @var Node\Expr */
     public $body;
 
     /**
-     * @param null|Node\Expr[] $conds
+     * @param null|list<Node\Expr> $conds
      */
     public function __construct(?array $conds, Node\Expr $body, array $attributes = []) {
         $this->conds = $conds;

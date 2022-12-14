@@ -22,7 +22,7 @@ class Property implements PhpParser\Builder {
     protected $attributes = [];
     /** @var null|Identifier|Name|ComplexType */
     protected $type;
-    /** @var Node\AttributeGroup[] */
+    /** @var list<Node\AttributeGroup> */
     protected $attributeGroups = [];
 
     /**
