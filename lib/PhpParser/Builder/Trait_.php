@@ -10,15 +10,15 @@ use PhpParser\Node\Stmt;
 class Trait_ extends Declaration {
     /** @var string */
     protected $name;
-    /** @var Stmt\TraitUse[] */
+    /** @var list<Stmt\TraitUse> */
     protected $uses = [];
-    /** @var Stmt\ClassConst[] */
+    /** @var list<Stmt\ClassConst> */
     protected $constants = [];
-    /** @var Stmt\Property[] */
+    /** @var list<Stmt\Property> */
     protected $properties = [];
-    /** @var Stmt\ClassMethod[] */
+    /** @var list<Stmt\ClassMethod> */
     protected $methods = [];
-    /** @var Node\AttributeGroup[] */
+    /** @var list<Node\AttributeGroup> */
     protected $attributeGroups = [];
 
     /**

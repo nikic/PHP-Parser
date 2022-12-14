@@ -17,10 +17,10 @@ class ClassConst implements PhpParser\Builder {
     protected $flags = 0;
     /** @var array<string, mixed> */
     protected $attributes = [];
-    /** @var Const_[] */
+    /** @var list<Const_> */
     protected $constants = [];
 
-    /** @var Node\AttributeGroup[] */
+    /** @var list<Node\AttributeGroup> */
     protected $attributeGroups = [];
 
     /**

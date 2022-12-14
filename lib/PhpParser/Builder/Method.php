@@ -14,10 +14,10 @@ class Method extends FunctionLike {
     /** @var int */
     protected $flags = 0;
 
-    /** @var Stmt[]|null */
+    /** @var list<Stmt>|null */
     protected $stmts = [];
 
-    /** @var Node\AttributeGroup[] */
+    /** @var list<Node\AttributeGroup> */
     protected $attributeGroups = [];
 
     /**

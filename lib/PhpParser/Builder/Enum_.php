@@ -14,17 +14,17 @@ class Enum_ extends Declaration {
     protected $name;
     /** @var Identifier|null */
     protected $scalarType = null;
-    /** @var Name[] */
+    /** @var list<Name> */
     protected $implements = [];
-    /** @var Stmt\TraitUse[] */
+    /** @var list<Stmt\TraitUse> */
     protected $uses = [];
-    /** @var Stmt\EnumCase[] */
+    /** @var list<Stmt\EnumCase> */
     protected $enumCases = [];
-    /** @var Stmt\ClassConst[] */
+    /** @var list<Stmt\ClassConst> */
     protected $constants = [];
-    /** @var Stmt\ClassMethod[] */
+    /** @var list<Stmt\ClassMethod> */
     protected $methods = [];
-    /** @var Node\AttributeGroup[] */
+    /** @var list<Node\AttributeGroup> */
     protected $attributeGroups = [];
 
     /**

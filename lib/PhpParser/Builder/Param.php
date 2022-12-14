@@ -17,7 +17,7 @@ class Param implements PhpParser\Builder {
     protected $byRef = false;
     /** @var bool */
     protected $variadic = false;
-    /** @var Node\AttributeGroup[] */
+    /** @var list<Node\AttributeGroup> */
     protected $attributeGroups = [];
 
     /**

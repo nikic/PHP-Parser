@@ -242,7 +242,7 @@ class BuilderFactory {
      *
      * @param array $args List of arguments to normalize
      *
-     * @return Arg[]
+     * @return list<Arg>
      */
     public function args(array $args): array {
         $normalizedArgs = [];

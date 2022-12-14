@@ -38,7 +38,7 @@ class NodeTraverser implements NodeTraverserInterface {
      */
     public const DONT_TRAVERSE_CURRENT_AND_CHILDREN = 4;
 
-    /** @var NodeVisitor[] Visitors */
+    /** @var list<NodeVisitor> Visitors */
     protected $visitors = [];
 
     /** @var bool Whether traversal should be stopped */
