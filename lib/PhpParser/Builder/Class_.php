@@ -123,8 +123,6 @@ class Class_ extends Declaration {
             throw new \LogicException(sprintf('Unexpected node of type "%s"', $stmt->getType()));
         }
 
-        $targets[$class][] = $stmt;
-
         return $this;
     }
 
