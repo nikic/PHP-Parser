@@ -27,6 +27,7 @@ class EnumCaseTest extends \PHPUnit\Framework\TestCase
             new Stmt\EnumCase(
                 "TEST",
                 null,
+                [],
                 [
                     'comments' => [new Comment\Doc('/** Test */')]
                 ]
@@ -50,7 +51,6 @@ class EnumCaseTest extends \PHPUnit\Framework\TestCase
             new Stmt\EnumCase(
                 "ATTR_GROUP",
                 null,
-                [],
                 [$attributeGroup]
             ),
             $node
