@@ -14,7 +14,7 @@ class Attribute extends NodeAbstract {
 
     /**
      * @param Node\Name $name       Attribute name
-     * @param list<Arg>     $args       Attribute arguments
+     * @param list<Arg> $args Attribute arguments
      * @param array<string, mixed> $attributes Additional node attributes
      */
     public function __construct(Name $name, array $args = [], array $attributes = []) {
