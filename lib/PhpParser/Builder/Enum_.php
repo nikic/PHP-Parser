@@ -74,19 +74,17 @@ class Enum_ extends Declaration {
     public function addStmt($stmt) {
         $stmt = BuilderHelpers::normalizeNode($stmt);
 
-        $targets = [
-            Stmt\TraitUse::class    => &$this->uses,
-            Stmt\EnumCase::class    => &$this->enumCases,
-            Stmt\ClassConst::class  => &$this->constants,
-            Stmt\ClassMethod::class => &$this->methods,
-        ];
-
-        $class = \get_class($stmt);
-        if (!isset($targets[$class])) {
+        if ($stmt instanceof Stmt\EnumCase) {
+            $this->enumCases[] = $stmt;
+        } elseif ($stmt instanceof Stmt\ClassMethod) {
+            $this->methods[] = $stmt;
+        } elseif ($stmt instanceof Stmt\TraitUse) {
+            $this->uses[] = $stmt;
+        } elseif ($stmt instanceof Stmt\ClassConst) {
+            $this->constants[] = $stmt;
+        } else {
             throw new \LogicException(sprintf('Unexpected node of type "%s"', $stmt->getType()));
         }
-
-        $targets[$class][] = $stmt;
 
         return $this;
     }
