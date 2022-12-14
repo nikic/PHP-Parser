@@ -16,7 +16,7 @@ class EnumCase extends Node\Stmt {
     /**
      * @param string|Node\Identifier    $name       Enum case name
      * @param Node\Expr|null            $expr       Enum case expression
-     * @param AttributeGroup[]          $attrGroups PHP attribute groups
+     * @param list<AttributeGroup>          $attrGroups PHP attribute groups
      * @param array<string, mixed> $attributes Additional attributes
      */
     public function __construct($name, ?Node\Expr $expr = null, array $attrGroups = [], array $attributes = []) {
