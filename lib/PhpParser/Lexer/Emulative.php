@@ -69,6 +69,14 @@ class Emulative extends Lexer
                 $this->emulators[] = new ReverseEmulator($emulator);
             }
         }
+
+        $readonlyTokenEmulator = new ReadonlyTokenEmulator();
+        if (
+            strpos(\PHP_VERSION, '8.1') === 0 &&
+            version_compare($this->targetPhpVersion, $readonlyTokenEmulator->getPhpVersion(), '>=')
+        ) {
+            $this->emulators[] = $readonlyTokenEmulator;
+        }
     }
 
     public function startLexing(string $code, ErrorHandler $errorHandler = null) {
