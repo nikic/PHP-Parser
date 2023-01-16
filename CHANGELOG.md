@@ -1,3 +1,11 @@
+Version 4.15.3 (2023-01-16)
+---------------------------
+
+### Fixed
+
+* Support readonly property with PHP 8.2 DNF type.
+* Fixed PHP attribute group and PHP-Parser attribute mixup in EnumCase builder.
+
 Version 4.15.2 (2022-11-12)
 ---------------------------
 
