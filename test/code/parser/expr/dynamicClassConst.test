@@ -1,0 +1,43 @@
+Dynamic class constant fetch
+-----
+<?php
+Foo::{bar()};
+$foo::{bar()};
+-----
+!!php7
+array(
+    0: Stmt_Expression(
+        expr: Expr_ClassConstFetch(
+            class: Name(
+                parts: array(
+                    0: Foo
+                )
+            )
+            name: Expr_FuncCall(
+                name: Name(
+                    parts: array(
+                        0: bar
+                    )
+                )
+                args: array(
+                )
+            )
+        )
+    )
+    1: Stmt_Expression(
+        expr: Expr_ClassConstFetch(
+            class: Expr_Variable(
+                name: foo
+            )
+            name: Expr_FuncCall(
+                name: Name(
+                    parts: array(
+                        0: bar
+                    )
+                )
+                args: array(
+                )
+            )
+        )
+    )
+)
