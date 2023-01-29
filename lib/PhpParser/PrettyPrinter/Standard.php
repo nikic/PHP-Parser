@@ -611,7 +611,7 @@ class Standard extends PrettyPrinterAbstract {
     }
 
     protected function pExpr_ClassConstFetch(Expr\ClassConstFetch $node): string {
-        return $this->pDereferenceLhs($node->class) . '::' . $this->p($node->name);
+        return $this->pDereferenceLhs($node->class) . '::' . $this->pObjectProperty($node->name);
     }
 
     protected function pExpr_PropertyFetch(Expr\PropertyFetch $node): string {

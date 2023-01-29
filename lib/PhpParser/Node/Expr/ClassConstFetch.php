@@ -9,14 +9,14 @@ use PhpParser\Node\Name;
 class ClassConstFetch extends Expr {
     /** @var Name|Expr Class name */
     public $class;
-    /** @var Identifier|Error Constant name */
+    /** @var Identifier|Expr|Error Constant name */
     public $name;
 
     /**
      * Constructs a class const fetch node.
      *
-     * @param Name|Expr               $class      Class name
-     * @param string|Identifier|Error $name       Constant name
+     * @param Name|Expr $class Class name
+     * @param string|Identifier|Expr|Error $name Constant name
      * @param array<string, mixed> $attributes Additional attributes
      */
     public function __construct($class, $name, array $attributes = []) {
