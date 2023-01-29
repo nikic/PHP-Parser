@@ -1046,6 +1046,8 @@ constant:
 class_constant:
       class_name_or_var T_PAAMAYIM_NEKUDOTAYIM identifier_maybe_reserved
           { $$ = Expr\ClassConstFetch[$1, $3]; }
+    | class_name_or_var T_PAAMAYIM_NEKUDOTAYIM '{' expr '}'
+          { $$ = Expr\ClassConstFetch[$1, $4]; }
     /* We interpret an isolated FOO:: as an unfinished class constant fetch. It could also be
        an unfinished static property fetch or unfinished scoped call. */
     | class_name_or_var T_PAAMAYIM_NEKUDOTAYIM error
