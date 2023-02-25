@@ -20,78 +20,84 @@ use PhpParser\Node\UnionType;
 abstract class PrettyPrinterAbstract {
     protected const FIXUP_PREC_LEFT = 0; // LHS operand affected by precedence
     protected const FIXUP_PREC_RIGHT = 1; // RHS operand affected by precedence
-    protected const FIXUP_CALL_LHS = 2; // LHS of call
-    protected const FIXUP_DEREF_LHS = 3; // LHS of dereferencing operation
-    protected const FIXUP_STATIC_DEREF_LHS = 4; // LHS of static dereferencing operation
-    protected const FIXUP_BRACED_NAME  = 5; // Name operand that may require bracing
-    protected const FIXUP_VAR_BRACED_NAME = 6; // Name operand that may require ${} bracing
-    protected const FIXUP_ENCAPSED = 7; // Encapsed string part
-    protected const FIXUP_NEW = 8; // New/instanceof operand
+    protected const FIXUP_PREC_UNARY = 2; // Only operand affected by precedence
+    protected const FIXUP_CALL_LHS = 3; // LHS of call
+    protected const FIXUP_DEREF_LHS = 4; // LHS of dereferencing operation
+    protected const FIXUP_STATIC_DEREF_LHS = 5; // LHS of static dereferencing operation
+    protected const FIXUP_BRACED_NAME  = 6; // Name operand that may require bracing
+    protected const FIXUP_VAR_BRACED_NAME = 7; // Name operand that may require ${} bracing
+    protected const FIXUP_ENCAPSED = 8; // Encapsed string part
+    protected const FIXUP_NEW = 9; // New/instanceof operand
 
-    /** @var array<class-string, array{int, int}> */
+    private const MAX_PRECEDENCE = 1000;
+
+    /** @var array<class-string, array{int, int, int}> */
     protected $precedenceMap = [
-        // [precedence, associativity]
-        // where for precedence -1 is %left, 0 is %nonassoc and 1 is %right
-        Expr\Clone_::class             => [-10,  1],
-        BinaryOp\Pow::class            => [  0,  1],
-        Expr\BitwiseNot::class         => [ 10,  1],
-        Expr\UnaryPlus::class          => [ 10,  1],
-        Expr\UnaryMinus::class         => [ 10,  1],
-        Cast\Int_::class               => [ 10,  1],
-        Cast\Double::class             => [ 10,  1],
-        Cast\String_::class            => [ 10,  1],
-        Cast\Array_::class             => [ 10,  1],
-        Cast\Object_::class            => [ 10,  1],
-        Cast\Bool_::class              => [ 10,  1],
-        Cast\Unset_::class             => [ 10,  1],
-        Expr\ErrorSuppress::class      => [ 10,  1],
-        Expr\Instanceof_::class        => [ 20,  0],
-        Expr\BooleanNot::class         => [ 30,  1],
-        BinaryOp\Mul::class            => [ 40, -1],
-        BinaryOp\Div::class            => [ 40, -1],
-        BinaryOp\Mod::class            => [ 40, -1],
-        BinaryOp\Plus::class           => [ 50, -1],
-        BinaryOp\Minus::class          => [ 50, -1],
-        BinaryOp\Concat::class         => [ 50, -1],
-        BinaryOp\ShiftLeft::class      => [ 60, -1],
-        BinaryOp\ShiftRight::class     => [ 60, -1],
-        BinaryOp\Smaller::class        => [ 70,  0],
-        BinaryOp\SmallerOrEqual::class => [ 70,  0],
-        BinaryOp\Greater::class        => [ 70,  0],
-        BinaryOp\GreaterOrEqual::class => [ 70,  0],
-        BinaryOp\Equal::class          => [ 80,  0],
-        BinaryOp\NotEqual::class       => [ 80,  0],
-        BinaryOp\Identical::class      => [ 80,  0],
-        BinaryOp\NotIdentical::class   => [ 80,  0],
-        BinaryOp\Spaceship::class      => [ 80,  0],
-        BinaryOp\BitwiseAnd::class     => [ 90, -1],
-        BinaryOp\BitwiseXor::class     => [100, -1],
-        BinaryOp\BitwiseOr::class      => [110, -1],
-        BinaryOp\BooleanAnd::class     => [120, -1],
-        BinaryOp\BooleanOr::class      => [130, -1],
-        BinaryOp\Coalesce::class       => [140,  1],
-        Expr\Ternary::class            => [150,  0],
-        Expr\Assign::class             => [160,  1],
-        Expr\AssignRef::class          => [160,  1],
-        AssignOp\Plus::class           => [160,  1],
-        AssignOp\Minus::class          => [160,  1],
-        AssignOp\Mul::class            => [160,  1],
-        AssignOp\Div::class            => [160,  1],
-        AssignOp\Concat::class         => [160,  1],
-        AssignOp\Mod::class            => [160,  1],
-        AssignOp\BitwiseAnd::class     => [160,  1],
-        AssignOp\BitwiseOr::class      => [160,  1],
-        AssignOp\BitwiseXor::class     => [160,  1],
-        AssignOp\ShiftLeft::class      => [160,  1],
-        AssignOp\ShiftRight::class     => [160,  1],
-        AssignOp\Pow::class            => [160,  1],
-        AssignOp\Coalesce::class       => [160,  1],
-        Expr\YieldFrom::class          => [165,  1],
-        Expr\Print_::class             => [168,  1],
-        BinaryOp\LogicalAnd::class     => [170, -1],
-        BinaryOp\LogicalXor::class     => [180, -1],
-        BinaryOp\LogicalOr::class      => [190, -1],
-        Expr\Include_::class           => [200, -1],
+        // [precedence, precedenceLHS, precedenceRHS]
+        // Where the latter two are the precedences to use for the LHS and RHS of a binary operator,
+        // where 1 is added to one of the sides depending on associativity. This information is not
+        // used for unary operators and set to -1.
+        Expr\Clone_::class             => [-10,   0,   1],
+        BinaryOp\Pow::class            => [  0,   0,   1],
+        Expr\BitwiseNot::class         => [ 10,  -1,  -1],
+        Expr\UnaryPlus::class          => [ 10,  -1,  -1],
+        Expr\UnaryMinus::class         => [ 10,  -1,  -1],
+        Cast\Int_::class               => [ 10,  -1,  -1],
+        Cast\Double::class             => [ 10,  -1,  -1],
+        Cast\String_::class            => [ 10,  -1,  -1],
+        Cast\Array_::class             => [ 10,  -1,  -1],
+        Cast\Object_::class            => [ 10,  -1,  -1],
+        Cast\Bool_::class              => [ 10,  -1,  -1],
+        Cast\Unset_::class             => [ 10,  -1,  -1],
+        Expr\ErrorSuppress::class      => [ 10,  -1,  -1],
+        Expr\Instanceof_::class        => [ 20,  -1,  -1],
+        Expr\BooleanNot::class         => [ 30,  -1,  -1],
+        BinaryOp\Mul::class            => [ 40,  41,  40],
+        BinaryOp\Div::class            => [ 40,  41,  40],
+        BinaryOp\Mod::class            => [ 40,  41,  40],
+        BinaryOp\Plus::class           => [ 50,  51,  50],
+        BinaryOp\Minus::class          => [ 50,  51,  50],
+        BinaryOp\Concat::class         => [ 50,  51,  50],
+        BinaryOp\ShiftLeft::class      => [ 60,  61,  60],
+        BinaryOp\ShiftRight::class     => [ 60,  61,  60],
+        BinaryOp\Smaller::class        => [ 70,  70,  70],
+        BinaryOp\SmallerOrEqual::class => [ 70,  70,  70],
+        BinaryOp\Greater::class        => [ 70,  70,  70],
+        BinaryOp\GreaterOrEqual::class => [ 70,  70,  70],
+        BinaryOp\Equal::class          => [ 80,  80,  80],
+        BinaryOp\NotEqual::class       => [ 80,  80,  80],
+        BinaryOp\Identical::class      => [ 80,  80,  80],
+        BinaryOp\NotIdentical::class   => [ 80,  80,  80],
+        BinaryOp\Spaceship::class      => [ 80,  80,  80],
+        BinaryOp\BitwiseAnd::class     => [ 90,  91,  90],
+        BinaryOp\BitwiseXor::class     => [100, 101, 100],
+        BinaryOp\BitwiseOr::class      => [110, 111, 110],
+        BinaryOp\BooleanAnd::class     => [120, 121, 120],
+        BinaryOp\BooleanOr::class      => [130, 131, 130],
+        BinaryOp\Coalesce::class       => [140, 140, 141],
+        Expr\Ternary::class            => [150,  -1,  -1],
+        Expr\Assign::class             => [160,  -1,  -1],
+        Expr\AssignRef::class          => [160,  -1,  -1],
+        AssignOp\Plus::class           => [160,  -1,  -1],
+        AssignOp\Minus::class          => [160,  -1,  -1],
+        AssignOp\Mul::class            => [160,  -1,  -1],
+        AssignOp\Div::class            => [160,  -1,  -1],
+        AssignOp\Concat::class         => [160,  -1,  -1],
+        AssignOp\Mod::class            => [160,  -1,  -1],
+        AssignOp\BitwiseAnd::class     => [160,  -1,  -1],
+        AssignOp\BitwiseOr::class      => [160,  -1,  -1],
+        AssignOp\BitwiseXor::class     => [160,  -1,  -1],
+        AssignOp\ShiftLeft::class      => [160,  -1,  -1],
+        AssignOp\ShiftRight::class     => [160,  -1,  -1],
+        AssignOp\Pow::class            => [160,  -1,  -1],
+        AssignOp\Coalesce::class       => [160,  -1,  -1],
+        Expr\YieldFrom::class          => [170,  -1,  -1],
+        Expr\Print_::class             => [180,  -1,  -1],
+        BinaryOp\LogicalAnd::class     => [190, 191, 190],
+        BinaryOp\LogicalXor::class     => [200, 201, 200],
+        BinaryOp\LogicalOr::class      => [210, 211, 210],
+        Expr\Include_::class           => [220,  -1,  -1],
+        Expr\ArrowFunction::class      => [230,  -1,  -1],
     ];
 
     /** @var int Current indentation level. */
@@ -329,15 +335,25 @@ abstract class PrettyPrinterAbstract {
      * @param Node   $leftNode       Left-hand side node
      * @param string $operatorString String representation of the operator
      * @param Node   $rightNode      Right-hand side node
+     * @param int    $precedence     Precedence of parent operator
+     * @param int    $lhsPrecedence  Precedence for unary operator on LHS of binary operator
      *
      * @return string Pretty printed infix operation
      */
-    protected function pInfixOp(string $class, Node $leftNode, string $operatorString, Node $rightNode): string {
-        list($precedence, $associativity) = $this->precedenceMap[$class];
-
-        return $this->pPrec($leftNode, $precedence, $associativity, -1)
-             . $operatorString
-             . $this->pPrec($rightNode, $precedence, $associativity, 1);
+    protected function pInfixOp(
+        string $class, Node $leftNode, string $operatorString, Node $rightNode,
+        int $precedence, int $lhsPrecedence
+    ): string {
+        list($opPrecedence, $newPrecedenceLHS, $newPrecedenceRHS) = $this->precedenceMap[$class];
+        $prefix = '';
+        $suffix = '';
+        if ($opPrecedence >= $precedence) {
+            $prefix = '(';
+            $suffix = ')';
+            $lhsPrecedence = self::MAX_PRECEDENCE;
+        }
+        return $prefix . $this->p($leftNode, $newPrecedenceLHS, $newPrecedenceLHS)
+            . $operatorString . $this->p($rightNode, $newPrecedenceRHS, $lhsPrecedence) . $suffix;
     }
 
     /**
@@ -346,38 +362,47 @@ abstract class PrettyPrinterAbstract {
      * @param string $class          Node class of operator
      * @param string $operatorString String representation of the operator
      * @param Node   $node           Node
+     * @param int    $precedence     Precedence of parent operator
+     * @param int    $lhsPrecedence  Precedence for unary operator on LHS of binary operator
      *
      * @return string Pretty printed prefix operation
      */
-    protected function pPrefixOp(string $class, string $operatorString, Node $node): string {
-        list($precedence, $associativity) = $this->precedenceMap[$class];
-        return $operatorString . $this->pPrec($node, $precedence, $associativity, 1);
+    protected function pPrefixOp(string $class, string $operatorString, Node $node, int $precedence, int $lhsPrecedence): string {
+        $opPrecedence = $this->precedenceMap[$class][0];
+        $prefix = '';
+        $suffix = '';
+        if ($opPrecedence > $lhsPrecedence) {
+            $prefix = '(';
+            $suffix = ')';
+            $lhsPrecedence = self::MAX_PRECEDENCE;
+        }
+        return $prefix . $operatorString . $this->p($node, $opPrecedence, $lhsPrecedence) . $suffix;
     }
 
     /**
-     * Prints an expression node with the least amount of parentheses necessary to preserve the meaning.
+     * Pretty-print a postfix operation while taking precedence into account.
      *
-     * @param Node $node                Node to pretty print
-     * @param int  $parentPrecedence    Precedence of the parent operator
-     * @param int  $parentAssociativity Associativity of parent operator
-     *                                  (-1 is left, 0 is nonassoc, 1 is right)
-     * @param int  $childPosition       Position of the node relative to the operator
-     *                                  (-1 is left, 1 is right)
+     * @param string $class          Node class of operator
+     * @param string $operatorString String representation of the operator
+     * @param Node   $node           Node
+     * @param int    $precedence     Precedence of parent operator
+     * @param int    $lhsPrecedence  Precedence for unary operator on LHS of binary operator
      *
-     * @return string The pretty printed node
+     * @return string Pretty printed postfix operation
      */
-    protected function pPrec(Node $node, int $parentPrecedence, int $parentAssociativity, int $childPosition): string {
-        $class = \get_class($node);
-        if (isset($this->precedenceMap[$class])) {
-            $childPrecedence = $this->precedenceMap[$class][0];
-            if ($childPrecedence > $parentPrecedence
-                || ($parentPrecedence === $childPrecedence && $parentAssociativity !== $childPosition)
-            ) {
-                return '(' . $this->p($node) . ')';
-            }
+    protected function pPostfixOp(string $class, Node $node, string $operatorString, int $precedence, int $lhsPrecedence): string {
+        $opPrecedence = $this->precedenceMap[$class][0];
+        $prefix = '';
+        $suffix = '';
+        if ($opPrecedence > $precedence) {
+            $prefix = '(';
+            $suffix = ')';
+            $lhsPrecedence = self::MAX_PRECEDENCE;
         }
-
-        return $this->p($node);
+        if ($opPrecedence < $lhsPrecedence) {
+            $lhsPrecedence = $opPrecedence;
+        }
+        return $prefix . $this->p($node, $opPrecedence, $lhsPrecedence) . $operatorString . $suffix;
     }
 
     /**
@@ -386,7 +411,7 @@ abstract class PrettyPrinterAbstract {
      * @param Node[] $nodes Array of Nodes to be printed
      * @param string $glue  Character to implode with
      *
-     * @return string Imploded pretty printed nodes
+     * @return string Imploded pretty printed nodes> $pre
      */
     protected function pImplode(array $nodes, string $glue = ''): string {
         $pNodes = [];
@@ -509,8 +534,8 @@ abstract class PrettyPrinterAbstract {
         return ltrim($this->handleMagicTokens($result));
     }
 
-    protected function pFallback(Node $node): string {
-        return $this->{'p' . $node->getType()}($node);
+    protected function pFallback(Node $node, int $precedence, int $lhsPrecedence): string {
+        return $this->{'p' . $node->getType()}($node, $precedence, $lhsPrecedence);
     }
 
     /**
@@ -519,20 +544,25 @@ abstract class PrettyPrinterAbstract {
      * This method also handles formatting preservation for nodes.
      *
      * @param Node $node Node to be pretty printed
+     * @param int $precedence Precedence of parent operator
+     * @param int $lhsPrecedence Precedence for unary operator on LHS of binary operator
      * @param bool $parentFormatPreserved Whether parent node has preserved formatting
      *
      * @return string Pretty printed node
      */
-    protected function p(Node $node, bool $parentFormatPreserved = false): string {
+    protected function p(
+        Node $node, int $precedence = self::MAX_PRECEDENCE, int $lhsPrecedence = self::MAX_PRECEDENCE,
+        bool $parentFormatPreserved = false
+    ): string {
         // No orig tokens means this is a normal pretty print without preservation of formatting
         if (!$this->origTokens) {
-            return $this->{'p' . $node->getType()}($node);
+            return $this->{'p' . $node->getType()}($node, $precedence, $lhsPrecedence);
         }
 
         /** @var Node|null $origNode */
         $origNode = $node->getAttribute('origNode');
         if (null === $origNode) {
-            return $this->pFallback($node);
+            return $this->pFallback($node, $precedence, $lhsPrecedence);
         }
 
         $class = \get_class($node);
@@ -555,7 +585,7 @@ abstract class PrettyPrinterAbstract {
         // is not preserved, then we need to use the fallback code to make sure the tags are
         // printed.
         if ($node instanceof Stmt\InlineHTML && !$parentFormatPreserved) {
-            return $this->pFallback($fallbackNode);
+            return $this->pFallback($fallbackNode, $precedence, $lhsPrecedence);
         }
 
         $indentAdjustment = $this->indentLevel - $this->origTokens->getIndentationBefore($startPos);
@@ -584,7 +614,7 @@ abstract class PrettyPrinterAbstract {
                         $fixupInfo[$subNodeName] ?? null
                     );
                     if (null === $listResult) {
-                        return $this->pFallback($fallbackNode);
+                        return $this->pFallback($fallbackNode, $precedence, $lhsPrecedence);
                     }
 
                     $result .= $listResult;
@@ -594,7 +624,7 @@ abstract class PrettyPrinterAbstract {
                 // Check if this is a modifier change
                 $key = $class . '->' . $subNodeName;
                 if (!isset($this->modifierChangeMap[$key])) {
-                    return $this->pFallback($fallbackNode);
+                    return $this->pFallback($fallbackNode, $precedence, $lhsPrecedence);
                 }
 
                 [$printFn, $findToken] = $this->modifierChangeMap[$key];
@@ -618,7 +648,7 @@ abstract class PrettyPrinterAbstract {
                 // A node has been inserted, check if we have insertion information for it
                 $key = $type . '->' . $subNodeName;
                 if (!isset($this->insertionMap[$key])) {
-                    return $this->pFallback($fallbackNode);
+                    return $this->pFallback($fallbackNode, $precedence, $lhsPrecedence);
                 }
 
                 list($findToken, $beforeToken, $extraLeft, $extraRight) = $this->insertionMap[$key];
@@ -640,7 +670,7 @@ abstract class PrettyPrinterAbstract {
                 // A node has been removed, check if we have removal information for it
                 $key = $type . '->' . $subNodeName;
                 if (!isset($this->removalMap[$key])) {
-                    return $this->pFallback($fallbackNode);
+                    return $this->pFallback($fallbackNode, $precedence, $lhsPrecedence);
                 }
 
                 // Adjust positions to account for additional tokens that must be skipped
@@ -670,7 +700,7 @@ abstract class PrettyPrinterAbstract {
                     $fixup = $fixupInfo[$subNodeName];
                     $res = $this->pFixup($fixup, $subNode, $class, $subStartPos, $subEndPos);
                 } else {
-                    $res = $this->p($subNode, true);
+                    $res = $this->p($subNode, self::MAX_PRECEDENCE, self::MAX_PRECEDENCE, true);
                 }
 
                 $this->safeAppend($result, $res);
@@ -799,7 +829,7 @@ abstract class PrettyPrinterAbstract {
                             }
                         }
 
-                        $this->safeAppend($result, $this->p($delayedAddNode, true));
+                        $this->safeAppend($result, $this->p($delayedAddNode, self::MAX_PRECEDENCE, self::MAX_PRECEDENCE, true));
 
                         if ($insertNewline) {
                             $result .= $insertStr . $this->nl;
@@ -905,7 +935,7 @@ abstract class PrettyPrinterAbstract {
             if (null !== $fixup && $arrItem->getAttribute('origNode') !== $origArrItem) {
                 $res = $this->pFixup($fixup, $arrItem, null, $itemStartPos, $itemEndPos);
             } else {
-                $res = $this->p($arrItem, true);
+                $res = $this->p($arrItem, self::MAX_PRECEDENCE, self::MAX_PRECEDENCE, true);
             }
             $this->safeAppend($result, $res);
 
@@ -939,7 +969,7 @@ abstract class PrettyPrinterAbstract {
                         $result .= $this->nl;
                     }
                 }
-                $result .= $this->p($delayedAddNode, true);
+                $result .= $this->p($delayedAddNode, self::MAX_PRECEDENCE, self::MAX_PRECEDENCE, true);
                 $first = false;
             }
             $result .= $extraRight === "\n" ? $this->nl : $extraRight;
@@ -966,11 +996,22 @@ abstract class PrettyPrinterAbstract {
     protected function pFixup(int $fixup, Node $subNode, ?string $parentClass, int $subStartPos, int $subEndPos): string {
         switch ($fixup) {
             case self::FIXUP_PREC_LEFT:
+                // We use a conservative approximation where lhsPrecedence == precedence.
+                if (!$this->origTokens->haveParens($subStartPos, $subEndPos)) {
+                    $precedence = $this->precedenceMap[$parentClass][1];
+                    return $this->p($subNode, $precedence, $precedence);
+                }
+                break;
             case self::FIXUP_PREC_RIGHT:
                 if (!$this->origTokens->haveParens($subStartPos, $subEndPos)) {
-                    list($precedence, $associativity) = $this->precedenceMap[$parentClass];
-                    return $this->pPrec($subNode, $precedence, $associativity,
-                        $fixup === self::FIXUP_PREC_LEFT ? -1 : 1);
+                    $precedence = $this->precedenceMap[$parentClass][2];
+                    return $this->p($subNode, $precedence, $precedence);
+                }
+                break;
+            case self::FIXUP_PREC_UNARY:
+                if (!$this->origTokens->haveParens($subStartPos, $subEndPos)) {
+                    $precedence = $this->precedenceMap[$parentClass][0];
+                    return $this->p($subNode, $precedence, $precedence);
                 }
                 break;
             case self::FIXUP_CALL_LHS:
@@ -1227,7 +1268,7 @@ abstract class PrettyPrinterAbstract {
 
         $this->fixupMap = [
             Expr\Instanceof_::class => [
-                'expr' => self::FIXUP_PREC_LEFT,
+                'expr' => self::FIXUP_PREC_UNARY,
                 'class' => self::FIXUP_NEW,
             ],
             Expr\Ternary::class => [
@@ -1287,17 +1328,18 @@ abstract class PrettyPrinterAbstract {
         }
 
         $prefixOps = [
-            Expr\BitwiseNot::class, Expr\BooleanNot::class, Expr\UnaryPlus::class, Expr\UnaryMinus::class,
+            Expr\Clone_::class, Expr\BitwiseNot::class, Expr\BooleanNot::class, Expr\UnaryPlus::class, Expr\UnaryMinus::class,
             Cast\Int_::class, Cast\Double::class, Cast\String_::class, Cast\Array_::class,
             Cast\Object_::class, Cast\Bool_::class, Cast\Unset_::class, Expr\ErrorSuppress::class,
             Expr\YieldFrom::class, Expr\Print_::class, Expr\Include_::class,
             Expr\Assign::class, Expr\AssignRef::class, AssignOp\Plus::class, AssignOp\Minus::class,
             AssignOp\Mul::class, AssignOp\Div::class, AssignOp\Concat::class, AssignOp\Mod::class,
             AssignOp\BitwiseAnd::class, AssignOp\BitwiseOr::class, AssignOp\BitwiseXor::class,
-            AssignOp\ShiftLeft::class, AssignOp\ShiftRight::class, AssignOp\Pow::class, AssignOp\Coalesce::class
+            AssignOp\ShiftLeft::class, AssignOp\ShiftRight::class, AssignOp\Pow::class, AssignOp\Coalesce::class,
+            Expr\ArrowFunction::class,
         ];
         foreach ($prefixOps as $prefixOp) {
-            $this->fixupMap[$prefixOp] = ['expr' => self::FIXUP_PREC_RIGHT];
+            $this->fixupMap[$prefixOp] = ['expr' => self::FIXUP_PREC_UNARY];
         }
     }
 

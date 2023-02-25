@@ -4,4 +4,4 @@ Include
 
 (include $foo) && (include $bar);
 -----
-(include $foo) && (include $bar);
+(include $foo) && include $bar;

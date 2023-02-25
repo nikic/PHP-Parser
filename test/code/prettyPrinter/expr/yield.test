@@ -40,6 +40,6 @@ function gen()
     $a = (yield $b);
     $a = (yield $b => $c);
     yield from $a;
-    $a = (yield from $b);
+    $a = yield from $b;
 }
 // TODO Get rid of parens for last case

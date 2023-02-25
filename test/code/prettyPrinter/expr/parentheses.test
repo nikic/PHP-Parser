@@ -44,12 +44,15 @@ clone ($a + $b);
 -(--$a);
 +(++$a);
 
-// The following will currently add unnecessary parentheses, because the pretty printer is not aware that assignment
-// only works on variables.
 !$a = $b;
 ++$a ** $b;
 $a ** $b++;
 $a . ($b = $c) . $d;
+!($a = $b) || $c;
+(fn() => $a) || $b;
+($a = $b and $c) + $d;
+$a ** ($b instanceof $c);
+($a = $b) instanceof $c;
 -----
 echo 'abc' . 'cde' . 'fgh';
 echo 'abc' . ('cde' . 'fgh');
@@ -82,9 +85,12 @@ clone ($a + $b);
 +(+$a);
 -(--$a);
 +(++$a);
-// The following will currently add unnecessary parentheses, because the pretty printer is not aware that assignment
-// only works on variables.
-!($a = $b);
+!$a = $b;
 ++$a ** $b;
 $a ** $b++;
 $a . ($b = $c) . $d;
+!($a = $b) || $c;
+(fn() => $a) || $b;
+($a = $b and $c) + $d;
+$a ** ($b instanceof $c);
+($a = $b) instanceof $c;
