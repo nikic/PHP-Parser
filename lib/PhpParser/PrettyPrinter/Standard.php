@@ -146,12 +146,12 @@ class Standard extends PrettyPrinterAbstract {
                 return $this->pSingleQuotedString($node->value);
             case Scalar\String_::KIND_HEREDOC:
                 $label = $node->getAttribute('docLabel');
-                if ($label && !$this->containsEndLabel($node->value, $label)) {
-                    if ($node->value === '') {
+                $escaped = $this->escapeString($node->value, null);
+                if ($label && !$this->containsEndLabel($escaped, $label)) {
+                    if ($escaped === '') {
                         return "<<<$label\n$label" . $this->docStringEndToken;
                     }
 
-                    $escaped = $this->escapeString($node->value, null);
                     return "<<<$label\n" . $escaped . "\n$label"
                          . $this->docStringEndToken;
                 }
@@ -1062,7 +1062,7 @@ class Standard extends PrettyPrinterAbstract {
     protected function encapsedContainsEndLabel(array $parts, string $label): bool {
         foreach ($parts as $i => $part) {
             if ($part instanceof Node\InterpolatedStringPart
-                && $this->containsEndLabel($part->value, $label, $i === 0)
+                && $this->containsEndLabel($this->escapeString($part->value, null), $label, $i === 0)
             ) {
                 return true;
             }

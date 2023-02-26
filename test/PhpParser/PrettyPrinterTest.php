@@ -106,14 +106,16 @@ class PrettyPrinterTest extends CodeTestAbstract {
             [new String_("A\nB\nC", ['kind' => String_::KIND_NOWDOC, 'docLabel' => 'A']), "'A\nB\nC'"],
             [new String_("A\nB\nC", ['kind' => String_::KIND_NOWDOC, 'docLabel' => 'B']), "'A\nB\nC'"],
             [new String_("A\nB\nC", ['kind' => String_::KIND_NOWDOC, 'docLabel' => 'C']), "'A\nB\nC'"],
-            [new String_("STR;", ['kind' => String_::KIND_NOWDOC, 'docLabel' => 'STR']), "'STR;'"],
-            [new String_("STR,", ['kind' => String_::KIND_NOWDOC, 'docLabel' => 'STR']), "'STR,'"],
+            [new String_("STR;", $nowdoc), "'STR;'"],
+            [new String_("STR,", $nowdoc), "'STR,'"],
+            [new String_("STR\x80", $heredoc), '"STR\x80"'],
             // Doc string if label not contained (or not in ending position)
             [new String_("foo", $nowdoc), "<<<'STR'\nfoo\nSTR\n"],
             [new String_("foo", $heredoc), "<<<STR\nfoo\nSTR\n"],
             [new String_("STRx", $nowdoc), "<<<'STR'\nSTRx\nSTR\n"],
             [new String_("xSTR", $nowdoc), "<<<'STR'\nxSTR\nSTR\n"],
             [new String_("STRä", $nowdoc), "<<<'STR'\nSTRä\nSTR\n"],
+            [new String_("STR\x80", $nowdoc), "<<<'STR'\nSTR\x80\nSTR\n"],
             // Empty doc string variations (encapsed variant does not occur naturally)
             [new String_("", $nowdoc), "<<<'STR'\nSTR\n"],
             [new String_("", $heredoc), "<<<STR\nSTR\n"],
@@ -121,12 +123,13 @@ class PrettyPrinterTest extends CodeTestAbstract {
             // Encapsed doc string variations
             [new InterpolatedString([new InterpolatedStringPart('foo')], $heredoc), "<<<STR\nfoo\nSTR\n"],
             [new InterpolatedString([new InterpolatedStringPart('foo'), new Expr\Variable('y')], $heredoc), "<<<STR\nfoo{\$y}\nSTR\n"],
-            [new InterpolatedString([new InterpolatedStringPart("\nSTR"), new Expr\Variable('y')], $heredoc), '"\nSTR{$y}"'],
             [new InterpolatedString([new Expr\Variable('y'), new InterpolatedStringPart("STR\n")], $heredoc), "<<<STR\n{\$y}STR\n\nSTR\n"],
             // Encapsed doc string fallback
             [new InterpolatedString([new Expr\Variable('y'), new InterpolatedStringPart("\nSTR")], $heredoc), '"{$y}\\nSTR"'],
             [new InterpolatedString([new InterpolatedStringPart("STR\n"), new Expr\Variable('y')], $heredoc), '"STR\\n{$y}"'],
             [new InterpolatedString([new InterpolatedStringPart("STR")], $heredoc), '"STR"'],
+            [new InterpolatedString([new InterpolatedStringPart("\nSTR"), new Expr\Variable('y')], $heredoc), '"\nSTR{$y}"'],
+            [new InterpolatedString([new InterpolatedStringPart("STR\x80"), new Expr\Variable('y')], $heredoc), '"STR\x80{$y}"'],
         ];
     }
 
