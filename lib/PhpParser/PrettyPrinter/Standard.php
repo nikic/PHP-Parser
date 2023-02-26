@@ -676,7 +676,7 @@ class Standard extends PrettyPrinterAbstract {
     }
 
     protected function pExpr_Clone(Expr\Clone_ $node): string {
-        return 'clone ' . $this->p($node->expr);
+        return $this->pPrefixOp(Expr\Clone_::class, 'clone ', $node->expr);
     }
 
     protected function pExpr_Ternary(Expr\Ternary $node): string {

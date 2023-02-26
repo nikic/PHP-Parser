@@ -30,6 +30,7 @@ abstract class PrettyPrinterAbstract {
     protected $precedenceMap = [
         // [precedence, associativity]
         // where for precedence -1 is %left, 0 is %nonassoc and 1 is %right
+        Expr\Clone_::class             => [-10,  1],
         BinaryOp\Pow::class            => [  0,  1],
         Expr\BitwiseNot::class         => [ 10,  1],
         Expr\UnaryPlus::class          => [ 10,  1],
