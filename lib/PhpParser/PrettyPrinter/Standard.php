@@ -214,10 +214,10 @@ class Standard extends PrettyPrinterAbstract {
     protected function pScalar_Float(Scalar\Float_ $node): string {
         if (!is_finite($node->value)) {
             if ($node->value === \INF) {
-                return '\INF';
+                return '1.0E+1000';
             }
             if ($node->value === -\INF) {
-                return '-\INF';
+                return '-1.0E+1000';
             } else {
                 return '\NAN';
             }

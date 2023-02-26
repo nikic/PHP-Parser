@@ -143,8 +143,8 @@ class PrettyPrinterTest extends CodeTestAbstract {
             [new Int_(-1, ['kind' => Int_::KIND_BIN]), '-0b1'],
             [new Int_(-1, ['kind' => Int_::KIND_OCT]), '-01'],
             [new Int_(-1, ['kind' => Int_::KIND_HEX]), '-0x1'],
-            [new Float_(\INF), '\INF'],
-            [new Float_(-\INF), '-\INF'],
+            [new Float_(\INF), '1.0E+1000'],
+            [new Float_(-\INF), '-1.0E+1000'],
             [new Float_(-\NAN), '\NAN'],
         ];
     }
