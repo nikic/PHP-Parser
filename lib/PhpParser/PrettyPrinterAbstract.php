@@ -1238,7 +1238,10 @@ abstract class PrettyPrinterAbstract {
             Expr\FuncCall::class => ['name' => self::FIXUP_CALL_LHS],
             Expr\StaticCall::class => ['class' => self::FIXUP_STATIC_DEREF_LHS],
             Expr\ArrayDimFetch::class => ['var' => self::FIXUP_DEREF_LHS],
-            Expr\ClassConstFetch::class => ['class' => self::FIXUP_STATIC_DEREF_LHS],
+            Expr\ClassConstFetch::class => [
+                'class' => self::FIXUP_STATIC_DEREF_LHS,
+                'name' => self::FIXUP_BRACED_NAME,
+            ],
             Expr\New_::class => ['class' => self::FIXUP_NEW],
             Expr\MethodCall::class => [
                 'var' => self::FIXUP_DEREF_LHS,
