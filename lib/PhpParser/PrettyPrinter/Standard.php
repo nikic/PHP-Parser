@@ -414,7 +414,7 @@ class Standard extends PrettyPrinterAbstract {
         list($precedence, $associativity) = $this->precedenceMap[Expr\Instanceof_::class];
         return $this->pPrec($node->expr, $precedence, $associativity, -1)
              . ' instanceof '
-             . $this->pNewVariable($node->class);
+             . $this->pNewOperand($node->class);
     }
 
     // Unary expressions
@@ -671,7 +671,7 @@ class Standard extends PrettyPrinterAbstract {
             $args = $node->args ? '(' . $this->pMaybeMultiline($node->args) . ')' : '';
             return 'new ' . $this->pClassCommon($node->class, $args);
         }
-        return 'new ' . $this->pNewVariable($node->class)
+        return 'new ' . $this->pNewOperand($node->class)
             . '(' . $this->pMaybeMultiline($node->args) . ')';
     }
 
@@ -1086,9 +1086,12 @@ class Standard extends PrettyPrinterAbstract {
         }
     }
 
-    protected function pNewVariable(Node $node): string {
-        // TODO: This is not fully accurate.
-        return $this->pDereferenceLhs($node);
+    protected function pNewOperand(Node $node): string {
+        if (!$this->newOperandRequiresParens($node)) {
+            return $this->p($node);
+        } else {
+            return '(' . $this->p($node) . ')';
+        }
     }
 
     /**
