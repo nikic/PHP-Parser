@@ -1071,6 +1071,22 @@ abstract class PrettyPrinterAbstract
     }
 
     /**
+     * Determines whether an expression used in "new" or "instanceof" requires parentheses.
+     *
+     * @param Node $node New or instanceof operand
+     *
+     * @return bool Whether parentheses are required
+     */
+    protected function newOperandRequiresParens(Node $node): bool {
+        return !($node instanceof Node\Name
+            || $node instanceof Expr\Variable
+            || $node instanceof Expr\ArrayDimFetch
+            || $node instanceof Expr\PropertyFetch
+            || $node instanceof Expr\NullsafePropertyFetch
+            || $node instanceof Expr\StaticPropertyFetch);
+    }
+
+    /**
      * Print modifiers, including trailing whitespace.
      *
      * @param int $modifiers Modifier mask to print

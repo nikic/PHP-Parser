@@ -1077,9 +1077,12 @@ class Standard extends PrettyPrinterAbstract
         }
     }
 
-    protected function pNewVariable(Node $node) {
-        // TODO: This is not fully accurate.
-        return $this->pDereferenceLhs($node);
+    protected function pNewVariable(Node $node): string {
+        if (!$this->newOperandRequiresParens($node)) {
+            return $this->p($node);
+        } else {
+            return '(' . $this->p($node) . ')';
+        }
     }
 
     /**
