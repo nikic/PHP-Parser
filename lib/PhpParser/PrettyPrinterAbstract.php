@@ -18,14 +18,15 @@ use PhpParser\Node\Stmt;
 use PhpParser\Node\UnionType;
 
 abstract class PrettyPrinterAbstract {
-    protected const FIXUP_PREC_LEFT       = 0; // LHS operand affected by precedence
-    protected const FIXUP_PREC_RIGHT      = 1; // RHS operand affected by precedence
-    protected const FIXUP_CALL_LHS        = 2; // LHS of call
-    protected const FIXUP_DEREF_LHS       = 3; // LHS of dereferencing operation
-    protected const FIXUP_BRACED_NAME     = 4; // Name operand that may require bracing
-    protected const FIXUP_VAR_BRACED_NAME = 5; // Name operand that may require ${} bracing
-    protected const FIXUP_ENCAPSED        = 6; // Encapsed string part
-    protected const FIXUP_NEW             = 7; // New/instanceof operand
+    protected const FIXUP_PREC_LEFT = 0; // LHS operand affected by precedence
+    protected const FIXUP_PREC_RIGHT = 1; // RHS operand affected by precedence
+    protected const FIXUP_CALL_LHS = 2; // LHS of call
+    protected const FIXUP_DEREF_LHS = 3; // LHS of dereferencing operation
+    protected const FIXUP_STATIC_DEREF_LHS = 4; // LHS of static dereferencing operation
+    protected const FIXUP_BRACED_NAME  = 5; // Name operand that may require bracing
+    protected const FIXUP_VAR_BRACED_NAME = 6; // Name operand that may require ${} bracing
+    protected const FIXUP_ENCAPSED = 7; // Encapsed string part
+    protected const FIXUP_NEW = 8; // New/instanceof operand
 
     /** @var array<class-string, array{int, int}> */
     protected $precedenceMap = [
@@ -986,6 +987,13 @@ abstract class PrettyPrinterAbstract {
                     return '(' . $this->p($subNode) . ')';
                 }
                 break;
+            case self::FIXUP_STATIC_DEREF_LHS:
+                if ($this->staticDereferenceLhsRequiresParens($subNode)
+                    && !$this->origTokens->haveParens($subStartPos, $subEndPos)
+                ) {
+                    return '(' . $this->p($subNode) . ')';
+                }
+                break;
             case self::FIXUP_NEW:
                 if ($this->newOperandRequiresParens($subNode)
                     && !$this->origTokens->haveParens($subStartPos, $subEndPos)) {
@@ -1062,13 +1070,26 @@ abstract class PrettyPrinterAbstract {
     }
 
     /**
-     * Determines whether the LHS of a dereferencing operation must be wrapped in parenthesis.
+     * Determines whether the LHS of an array/object operation must be wrapped in parentheses.
      *
      * @param Node $node LHS of dereferencing operation
      *
      * @return bool Whether parentheses are required
      */
     protected function dereferenceLhsRequiresParens(Node $node): bool {
+        // A constant can occur on the LHS of an array/object deref, but not a static deref.
+        return $this->staticDereferenceLhsRequiresParens($node)
+            && !$node instanceof Expr\ConstFetch;
+    }
+
+    /**
+     * Determines whether the LHS of a static operation must be wrapped in parentheses.
+     *
+     * @param Node $node LHS of dereferencing operation
+     *
+     * @return bool Whether parentheses are required
+     */
+    protected function staticDereferenceLhsRequiresParens(Node $node): bool {
         return !($node instanceof Expr\Variable
             || $node instanceof Node\Name
             || $node instanceof Expr\ArrayDimFetch
@@ -1081,7 +1102,6 @@ abstract class PrettyPrinterAbstract {
             || $node instanceof Expr\StaticCall
             || $node instanceof Expr\Array_
             || $node instanceof Scalar\String_
-            || $node instanceof Expr\ConstFetch
             || $node instanceof Expr\ClassConstFetch);
     }
 
@@ -1216,9 +1236,9 @@ abstract class PrettyPrinterAbstract {
             ],
 
             Expr\FuncCall::class => ['name' => self::FIXUP_CALL_LHS],
-            Expr\StaticCall::class => ['class' => self::FIXUP_DEREF_LHS],
+            Expr\StaticCall::class => ['class' => self::FIXUP_STATIC_DEREF_LHS],
             Expr\ArrayDimFetch::class => ['var' => self::FIXUP_DEREF_LHS],
-            Expr\ClassConstFetch::class => ['var' => self::FIXUP_DEREF_LHS],
+            Expr\ClassConstFetch::class => ['class' => self::FIXUP_STATIC_DEREF_LHS],
             Expr\New_::class => ['class' => self::FIXUP_NEW],
             Expr\MethodCall::class => [
                 'var' => self::FIXUP_DEREF_LHS,
@@ -1229,7 +1249,7 @@ abstract class PrettyPrinterAbstract {
                 'name' => self::FIXUP_BRACED_NAME,
             ],
             Expr\StaticPropertyFetch::class => [
-                'class' => self::FIXUP_DEREF_LHS,
+                'class' => self::FIXUP_STATIC_DEREF_LHS,
                 'name' => self::FIXUP_VAR_BRACED_NAME,
             ],
             Expr\PropertyFetch::class => [
