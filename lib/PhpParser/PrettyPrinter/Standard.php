@@ -1052,20 +1052,17 @@ class Standard extends PrettyPrinterAbstract {
         }, $escaped);
     }
 
-    protected function containsEndLabel(string $string, string $label, bool $atStart = true, bool $atEnd = true): bool {
+    protected function containsEndLabel(string $string, string $label, bool $atStart = true): bool {
         $start = $atStart ? '(?:^|[\r\n])' : '[\r\n]';
-        $end = $atEnd ? '(?:$|[^_A-Za-z0-9\x80-\xff])' : '[^_A-Za-z0-9\x80-\xff]';
         return false !== strpos($string, $label)
-            && preg_match('/' . $start . $label . $end . '/', $string);
+            && preg_match('/' . $start . $label . '(?:$|[^_A-Za-z0-9\x80-\xff])/', $string);
     }
 
     /** @param (Expr|Node\InterpolatedStringPart)[] $parts */
     protected function encapsedContainsEndLabel(array $parts, string $label): bool {
         foreach ($parts as $i => $part) {
-            $atStart = $i === 0;
-            $atEnd = $i === count($parts) - 1;
             if ($part instanceof Node\InterpolatedStringPart
-                && $this->containsEndLabel($part->value, $label, $atStart, $atEnd)
+                && $this->containsEndLabel($part->value, $label, $i === 0)
             ) {
                 return true;
             }

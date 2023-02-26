@@ -121,8 +121,7 @@ class PrettyPrinterTest extends CodeTestAbstract {
             // Encapsed doc string variations
             [new InterpolatedString([new InterpolatedStringPart('foo')], $heredoc), "<<<STR\nfoo\nSTR\n"],
             [new InterpolatedString([new InterpolatedStringPart('foo'), new Expr\Variable('y')], $heredoc), "<<<STR\nfoo{\$y}\nSTR\n"],
-            [new InterpolatedString([new InterpolatedStringPart("\nSTR"), new Expr\Variable('y')], $heredoc), "<<<STR\n\nSTR{\$y}\nSTR\n"],
-            [new InterpolatedString([new InterpolatedStringPart("\nSTR"), new Expr\Variable('y')], $heredoc), "<<<STR\n\nSTR{\$y}\nSTR\n"],
+            [new InterpolatedString([new InterpolatedStringPart("\nSTR"), new Expr\Variable('y')], $heredoc), '"\nSTR{$y}"'],
             [new InterpolatedString([new Expr\Variable('y'), new InterpolatedStringPart("STR\n")], $heredoc), "<<<STR\n{\$y}STR\n\nSTR\n"],
             // Encapsed doc string fallback
             [new InterpolatedString([new Expr\Variable('y'), new InterpolatedStringPart("\nSTR")], $heredoc), '"{$y}\\nSTR"'],
