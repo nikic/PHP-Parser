@@ -21,6 +21,7 @@ abstract class PrettyPrinterAbstract
     const FIXUP_BRACED_NAME     = 4; // Name operand that may require bracing
     const FIXUP_VAR_BRACED_NAME = 5; // Name operand that may require ${} bracing
     const FIXUP_ENCAPSED        = 6; // Encapsed string part
+    const FIXUP_NEW             = 7; // New/instanceof operand
 
     protected $precedenceMap = [
         // [precedence, associativity]
@@ -977,6 +978,12 @@ abstract class PrettyPrinterAbstract
                     return '(' . $this->p($subNode) . ')';
                 }
                 break;
+            case self::FIXUP_NEW:
+                if ($this->newOperandRequiresParens($subNode)
+                    && !$this->origTokens->haveParens($subStartPos, $subEndPos)) {
+                    return '(' . $this->p($subNode) . ')';
+                }
+                break;
             case self::FIXUP_BRACED_NAME:
             case self::FIXUP_VAR_BRACED_NAME:
                 if ($subNode instanceof Expr
@@ -1193,7 +1200,7 @@ abstract class PrettyPrinterAbstract
             Expr\PostDec::class => ['var' => self::FIXUP_PREC_LEFT],
             Expr\Instanceof_::class => [
                 'expr' => self::FIXUP_PREC_LEFT,
-                'class' => self::FIXUP_PREC_RIGHT, // TODO: FIXUP_NEW_VARIABLE
+                'class' => self::FIXUP_NEW,
             ],
             Expr\Ternary::class => [
                 'cond' => self::FIXUP_PREC_LEFT,
@@ -1204,7 +1211,7 @@ abstract class PrettyPrinterAbstract
             Expr\StaticCall::class => ['class' => self::FIXUP_DEREF_LHS],
             Expr\ArrayDimFetch::class => ['var' => self::FIXUP_DEREF_LHS],
             Expr\ClassConstFetch::class => ['var' => self::FIXUP_DEREF_LHS],
-            Expr\New_::class => ['class' => self::FIXUP_DEREF_LHS], // TODO: FIXUP_NEW_VARIABLE
+            Expr\New_::class => ['class' => self::FIXUP_NEW],
             Expr\MethodCall::class => [
                 'var' => self::FIXUP_DEREF_LHS,
                 'name' => self::FIXUP_BRACED_NAME,
