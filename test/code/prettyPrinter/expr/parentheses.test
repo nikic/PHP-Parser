@@ -38,6 +38,7 @@ yield from ($a and yield from $b);
 
 print ($a and print $b);
 clone ($a + $b);
+(throw $a) + $b;
 
 -(-$a);
 +(+$a);
@@ -81,6 +82,7 @@ yield from $a and yield from $b;
 yield from ($a and yield from $b);
 print ($a and print $b);
 clone ($a + $b);
+(throw $a) + $b;
 -(-$a);
 +(+$a);
 -(--$a);

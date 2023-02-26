@@ -696,8 +696,8 @@ class Standard extends PrettyPrinterAbstract {
              . (null !== $node->expr ? '(' . $this->p($node->expr) . ')' : '');
     }
 
-    protected function pExpr_Throw(Expr\Throw_ $node): string {
-        return 'throw ' . $this->p($node->expr);
+    protected function pExpr_Throw(Expr\Throw_ $node, int $precedence, int $lhsPrecedence): string {
+        return $this->pPrefixOp(Expr\Throw_::class, 'throw ', $node->expr, $precedence, $lhsPrecedence);
     }
 
     protected function pExpr_Yield(Expr\Yield_ $node): string {

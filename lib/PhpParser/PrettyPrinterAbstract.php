@@ -98,6 +98,7 @@ abstract class PrettyPrinterAbstract {
         BinaryOp\LogicalOr::class      => [210, 211, 210],
         Expr\Include_::class           => [220,  -1,  -1],
         Expr\ArrowFunction::class      => [230,  -1,  -1],
+        Expr\Throw_::class             => [240,  -1,  -1],
     ];
 
     /** @var int Current indentation level. */
@@ -1336,7 +1337,7 @@ abstract class PrettyPrinterAbstract {
             AssignOp\Mul::class, AssignOp\Div::class, AssignOp\Concat::class, AssignOp\Mod::class,
             AssignOp\BitwiseAnd::class, AssignOp\BitwiseOr::class, AssignOp\BitwiseXor::class,
             AssignOp\ShiftLeft::class, AssignOp\ShiftRight::class, AssignOp\Pow::class, AssignOp\Coalesce::class,
-            Expr\ArrowFunction::class,
+            Expr\ArrowFunction::class, Expr\Throw_::class,
         ];
         foreach ($prefixOps as $prefixOp) {
             $this->fixupMap[$prefixOp] = ['expr' => self::FIXUP_PREC_UNARY];
