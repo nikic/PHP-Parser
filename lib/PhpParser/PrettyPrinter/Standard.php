@@ -1054,7 +1054,7 @@ class Standard extends PrettyPrinterAbstract {
 
     protected function containsEndLabel(string $string, string $label, bool $atStart = true, bool $atEnd = true): bool {
         $start = $atStart ? '(?:^|[\r\n])' : '[\r\n]';
-        $end = $atEnd ? '(?:$|[;\r\n])' : '[;\r\n]';
+        $end = $atEnd ? '(?:$|[^_A-Za-z0-9\x80-\xff])' : '[^_A-Za-z0-9\x80-\xff]';
         return false !== strpos($string, $label)
             && preg_match('/' . $start . $label . $end . '/', $string);
     }

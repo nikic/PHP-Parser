@@ -107,11 +107,13 @@ class PrettyPrinterTest extends CodeTestAbstract {
             [new String_("A\nB\nC", ['kind' => String_::KIND_NOWDOC, 'docLabel' => 'B']), "'A\nB\nC'"],
             [new String_("A\nB\nC", ['kind' => String_::KIND_NOWDOC, 'docLabel' => 'C']), "'A\nB\nC'"],
             [new String_("STR;", ['kind' => String_::KIND_NOWDOC, 'docLabel' => 'STR']), "'STR;'"],
+            [new String_("STR,", ['kind' => String_::KIND_NOWDOC, 'docLabel' => 'STR']), "'STR,'"],
             // Doc string if label not contained (or not in ending position)
             [new String_("foo", $nowdoc), "<<<'STR'\nfoo\nSTR\n"],
             [new String_("foo", $heredoc), "<<<STR\nfoo\nSTR\n"],
             [new String_("STRx", $nowdoc), "<<<'STR'\nSTRx\nSTR\n"],
             [new String_("xSTR", $nowdoc), "<<<'STR'\nxSTR\nSTR\n"],
+            [new String_("STRä", $nowdoc), "<<<'STR'\nSTRä\nSTR\n"],
             // Empty doc string variations (encapsed variant does not occur naturally)
             [new String_("", $nowdoc), "<<<'STR'\nSTR\n"],
             [new String_("", $heredoc), "<<<STR\nSTR\n"],
