@@ -594,8 +594,23 @@ class Standard extends PrettyPrinterAbstract {
         }
     }
 
+    protected function pKey(?Node $node): string {
+        if ($node === null) {
+            return '';
+        }
+
+        // => is not really an operator and does not typically participate in precedence resolution.
+        // However, there is an exception if yield expressions with keys are involved:
+        // [yield $a => $b] is interpreted as [(yield $a => $b)], so we need to ensure that
+        // [(yield $a) => $b] is printed with parentheses. We approximate this by lowering the LHS
+        // precedence to that of yield (which will also print unnecessary parentheses for rare low
+        // precedence unary operators like include).
+        $yieldPrecedence = $this->precedenceMap[Expr\Yield_::class][0];
+        return $this->p($node, self::MAX_PRECEDENCE, $yieldPrecedence) . ' => ';
+    }
+
     protected function pArrayItem(Node\ArrayItem $node): string {
-        return (null !== $node->key ? $this->p($node->key) . ' => ' : '')
+        return $this->pKey($node->key)
              . ($node->byRef ? '&' : '')
              . ($node->unpack ? '...' : '')
              . $this->p($node->value);
@@ -700,15 +715,16 @@ class Standard extends PrettyPrinterAbstract {
         return $this->pPrefixOp(Expr\Throw_::class, 'throw ', $node->expr, $precedence, $lhsPrecedence);
     }
 
-    protected function pExpr_Yield(Expr\Yield_ $node): string {
+    protected function pExpr_Yield(Expr\Yield_ $node, int $precedence, int $lhsPrecedence): string {
         if ($node->value === null) {
             return 'yield';
         } else {
-            // this is a bit ugly, but currently there is no way to detect whether the parentheses are necessary
-            return '(yield '
-                 . ($node->key !== null ? $this->p($node->key) . ' => ' : '')
-                 . $this->p($node->value)
-                 . ')';
+            if (!$this->phpVersion->supportsYieldWithoutParentheses()) {
+                return '(yield ' . $this->pKey($node->key) . $this->p($node->value) . ')';
+            }
+            return $this->pPrefixOp(
+                Expr\Yield_::class, 'yield ' . $this->pKey($node->key),
+                 $node->value, $precedence, $lhsPrecedence);
         }
     }
 

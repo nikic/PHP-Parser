@@ -140,4 +140,11 @@ class PhpVersion {
     public function allowsInvalidOctals(): bool {
         return $this->id < 70000;
     }
+
+    /**
+     * Whether this version support yield in expression context without parentheses.
+     */
+    public function supportsYieldWithoutParentheses(): bool {
+        return $this->id >= 70000;
+    }
 }

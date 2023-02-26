@@ -29,7 +29,7 @@ abstract class PrettyPrinterAbstract {
     protected const FIXUP_ENCAPSED = 8; // Encapsed string part
     protected const FIXUP_NEW = 9; // New/instanceof operand
 
-    private const MAX_PRECEDENCE = 1000;
+    protected const MAX_PRECEDENCE = 1000;
 
     /** @var array<class-string, array{int, int, int}> */
     protected $precedenceMap = [
@@ -92,6 +92,7 @@ abstract class PrettyPrinterAbstract {
         AssignOp\Pow::class            => [160,  -1,  -1],
         AssignOp\Coalesce::class       => [160,  -1,  -1],
         Expr\YieldFrom::class          => [170,  -1,  -1],
+        Expr\Yield_::class             => [175,  -1,  -1],
         Expr\Print_::class             => [180,  -1,  -1],
         BinaryOp\LogicalAnd::class     => [190, 191, 190],
         BinaryOp\LogicalXor::class     => [200, 201, 200],
@@ -372,7 +373,7 @@ abstract class PrettyPrinterAbstract {
         $opPrecedence = $this->precedenceMap[$class][0];
         $prefix = '';
         $suffix = '';
-        if ($opPrecedence > $lhsPrecedence) {
+        if ($opPrecedence >= $lhsPrecedence) {
             $prefix = '(';
             $suffix = ')';
             $lhsPrecedence = self::MAX_PRECEDENCE;
@@ -395,7 +396,7 @@ abstract class PrettyPrinterAbstract {
         $opPrecedence = $this->precedenceMap[$class][0];
         $prefix = '';
         $suffix = '';
-        if ($opPrecedence > $precedence) {
+        if ($opPrecedence >= $precedence) {
             $prefix = '(';
             $suffix = ')';
             $lhsPrecedence = self::MAX_PRECEDENCE;
@@ -1276,6 +1277,7 @@ abstract class PrettyPrinterAbstract {
                 'cond' => self::FIXUP_PREC_LEFT,
                 'else' => self::FIXUP_PREC_RIGHT,
             ],
+            Expr\Yield_::class => ['value' => self::FIXUP_PREC_UNARY],
 
             Expr\FuncCall::class => ['name' => self::FIXUP_CALL_LHS],
             Expr\StaticCall::class => ['class' => self::FIXUP_STATIC_DEREF_LHS],
