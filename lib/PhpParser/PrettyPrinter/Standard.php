@@ -137,8 +137,11 @@ class Standard extends PrettyPrinterAbstract {
                         return "<<<'$label'\n$label" . $this->docStringEndToken;
                     }
 
-                    return "<<<'$label'\n$node->value\n$label"
-                         . $this->docStringEndToken;
+                    // Make sure trailing \r is not combined with following \n into CRLF.
+                    if ($node->value[strlen($node->value) - 1] !== "\r") {
+                        return "<<<'$label'\n$node->value\n$label"
+                            . $this->docStringEndToken;
+                    }
                 }
                 /* break missing intentionally */
                 // no break
@@ -1042,6 +1045,9 @@ class Standard extends PrettyPrinterAbstract {
         if (null === $quote) {
             // For doc strings, don't escape newlines
             $escaped = addcslashes($string, "\t\f\v$\\");
+            // But do escape isolated \r. Combined with the terminating newline, it might get
+            // interpreted as \r\n and dropped from the string contents.
+            $escaped = preg_replace('/\r(?!\n)/', '\\r', $escaped);
         } else {
             $escaped = addcslashes($string, "\n\r\t\f\v$" . $quote . "\\");
         }

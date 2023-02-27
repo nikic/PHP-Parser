@@ -122,6 +122,10 @@ class PrettyPrinterTest extends CodeTestAbstract {
             [new String_("", $nowdoc), "<<<'STR'\nSTR\n"],
             [new String_("", $heredoc), "<<<STR\nSTR\n"],
             [new InterpolatedString([new InterpolatedStringPart('')], $heredoc), "<<<STR\nSTR\n"],
+            // Isolated \r in doc string
+            [new String_("\r", $heredoc), "<<<STR\n\\r\nSTR\n"],
+            [new String_("\r", $nowdoc), "'\r'"],
+            [new String_("\rx", $nowdoc), "<<<'STR'\n\rx\nSTR\n"],
             // Encapsed doc string variations
             [new InterpolatedString([new InterpolatedStringPart('foo')], $heredoc), "<<<STR\nfoo\nSTR\n"],
             [new InterpolatedString([new InterpolatedStringPart('foo'), new Expr\Variable('y')], $heredoc), "<<<STR\nfoo{\$y}\nSTR\n"],
