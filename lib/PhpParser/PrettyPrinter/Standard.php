@@ -428,18 +428,10 @@ class Standard extends PrettyPrinterAbstract {
     }
 
     protected function pExpr_UnaryMinus(Expr\UnaryMinus $node, int $precedence, int $lhsPrecedence): string {
-        if ($node->expr instanceof Expr\UnaryMinus || $node->expr instanceof Expr\PreDec) {
-            // Enforce -(-$expr) instead of --$expr
-            return '-(' . $this->p($node->expr) . ')';
-        }
         return $this->pPrefixOp(Expr\UnaryMinus::class, '-', $node->expr, $precedence, $lhsPrecedence);
     }
 
     protected function pExpr_UnaryPlus(Expr\UnaryPlus $node, int $precedence, int $lhsPrecedence): string {
-        if ($node->expr instanceof Expr\UnaryPlus || $node->expr instanceof Expr\PreInc) {
-            // Enforce +(+$expr) instead of ++$expr
-            return '+(' . $this->p($node->expr) . ')';
-        }
         return $this->pPrefixOp(Expr\UnaryPlus::class, '+', $node->expr, $precedence, $lhsPrecedence);
     }
 

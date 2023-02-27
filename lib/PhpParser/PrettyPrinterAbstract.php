@@ -378,7 +378,14 @@ abstract class PrettyPrinterAbstract {
             $suffix = ')';
             $lhsPrecedence = self::MAX_PRECEDENCE;
         }
-        return $prefix . $operatorString . $this->p($node, $opPrecedence, $lhsPrecedence) . $suffix;
+        $printedArg = $this->p($node, $opPrecedence, $lhsPrecedence);
+        if (($operatorString === '+' && $printedArg[0] === '+') ||
+            ($operatorString === '-' && $printedArg[0] === '-')
+        ) {
+            // Avoid printing +(+$a) as ++$a and similar.
+            $printedArg = '(' . $printedArg . ')';
+        }
+        return $prefix . $operatorString . $printedArg . $suffix;
     }
 
     /**
