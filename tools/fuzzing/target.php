@@ -20,7 +20,10 @@ if (!file_exists($autoload)) {
 
 require $autoload;
 
-$parser = new PhpParser\Parser\Php7(new PhpParser\Lexer);
+$lexer = new PhpParser\Lexer([
+    'usedAttributes' => ['comments', 'startLine', 'endLine', 'startTokenPos'],
+]);
+$parser = new PhpParser\Parser\Php7($lexer);
 $prettyPrinter = new PhpParser\PrettyPrinter\Standard();
 $nodeDumper = new PhpParser\NodeDumper();
 $visitor = new class extends PhpParser\NodeVisitorAbstract {
@@ -33,7 +36,13 @@ $visitor = new class extends PhpParser\NodeVisitorAbstract {
         'unset',
     ];
 
+
+    private $tokens;
     public $hasProblematicConstruct;
+
+    public function setTokens(array $tokens) {
+        $this->tokens = $tokens;
+    }
 
     public function beforeTraverse(array $nodes) {
         $this->hasProblematicConstruct = false;
@@ -73,15 +82,25 @@ $visitor = new class extends PhpParser\NodeVisitorAbstract {
         ) {
             $this->hasProblematicConstruct = true;
         }
+
+        // The parser does not distinguish between use X and use \X, as they are semantically
+        // equivalent. However, use \keyword is legal PHP, while use keyword is not, so we inspect
+        // tokens to detect this situation here.
+        if ($node instanceof Stmt\Use_ && $node->uses[0]->name->isUnqualified() &&
+            $this->tokens[$node->uses[0]->name->getStartTokenPos()]->is(\T_NAME_FULLY_QUALIFIED)
+        ) {
+            $this->hasProblematicConstruct = true;
+        }
     }
 };
 $traverser = new PhpParser\NodeTraverser();
 $traverser->addVisitor($visitor);
 
-$fuzzer->setTarget(function(string $input) use($parser, $prettyPrinter, $nodeDumper, $visitor, $traverser) {
+$fuzzer->setTarget(function(string $input) use($lexer, $parser, $prettyPrinter, $nodeDumper, $visitor, $traverser) {
     $stmts = $parser->parse($input);
     $printed = $prettyPrinter->prettyPrintFile($stmts);
 
+    $visitor->setTokens($lexer->getTokens());
     $stmts = $traverser->traverse($stmts);
     if ($visitor->hasProblematicConstruct) {
         return;
@@ -93,6 +112,7 @@ $fuzzer->setTarget(function(string $input) use($parser, $prettyPrinter, $nodeDum
         throw new Error("Failed to parse pretty printer output");
     }
 
+    $visitor->setTokens($lexer->getTokens());
     $printedStmts = $traverser->traverse($printedStmts);
     $same = $nodeDumper->dump($stmts) == $nodeDumper->dump($printedStmts);
     if (!$same && !preg_match('/<\?php<\?php/i', $input)) {
