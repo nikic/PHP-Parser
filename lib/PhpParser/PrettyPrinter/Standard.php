@@ -655,8 +655,16 @@ class Standard extends PrettyPrinterAbstract {
     }
 
     protected function pMatchArm(Node\MatchArm $node): string {
-        return ($node->conds ? $this->pCommaSeparated($node->conds) : 'default')
-            . ' => ' . $this->p($node->body);
+        $result = '';
+        if ($node->conds) {
+            for ($i = 0, $c = \count($node->conds); $i + 1 < $c; $i++) {
+                $result .= $this->p($node->conds[$i]) . ', ';
+            }
+            $result .= $this->pKey($node->conds[$i]);
+        } else {
+            $result = 'default => ';
+        }
+        return $result . $this->p($node->body);
     }
 
     protected function pExpr_ArrowFunction(Expr\ArrowFunction $node, int $precedence, int $lhsPrecedence): string {
