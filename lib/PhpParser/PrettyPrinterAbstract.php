@@ -1078,12 +1078,18 @@ abstract class PrettyPrinterAbstract
      * @return bool Whether parentheses are required
      */
     protected function newOperandRequiresParens(Node $node): bool {
-        return !($node instanceof Node\Name
-            || $node instanceof Expr\Variable
-            || $node instanceof Expr\ArrayDimFetch
-            || $node instanceof Expr\PropertyFetch
-            || $node instanceof Expr\NullsafePropertyFetch
-            || $node instanceof Expr\StaticPropertyFetch);
+        if ($node instanceof Node\Name || $node instanceof Expr\Variable) {
+            return false;
+        }
+        if ($node instanceof Expr\ArrayDimFetch || $node instanceof Expr\PropertyFetch ||
+            $node instanceof Expr\NullsafePropertyFetch
+        ) {
+            return $this->newOperandRequiresParens($node->var);
+        }
+        if ($node instanceof Expr\StaticPropertyFetch) {
+            return $this->newOperandRequiresParens($node->class);
+        }
+        return true;
     }
 
     /**
