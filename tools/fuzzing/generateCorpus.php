@@ -21,11 +21,6 @@ $testParser = new PhpParser\CodeTestParser();
 $codeParsingTest = new PhpParser\CodeParsingTest();
 foreach ($inputDirs as $inputDir) {
     foreach (PhpParser\filesInDir($inputDir, 'test') as $fileName => $code) {
-        if (false !== strpos($code, '@@{')) {
-            // Skip tests with evaluate segments
-            continue;
-        }
-
         list($_name, $tests) = $testParser->parseTest($code, 2);
         foreach ($tests as list($_modeLine, list($input, $_expected))) {
             $path = $corpusDir . '/' . md5($input) . '.txt';
