@@ -40,7 +40,10 @@ $traverser = new PhpParser\NodeTraverser();
 $traverser->addVisitor(new PhpParser\NodeVisitor\NameResolver);
 
 foreach ($files as $file) {
-    if (strpos($file, '<?php') === 0) {
+    if ($file === '-') {
+        $code = file_get_contents('php://stdin');
+        fwrite(STDERR, "====> Stdin:\n");
+    } else if (strpos($file, '<?php') === 0) {
         $code = $file;
         fwrite(STDERR, "====> Code $code\n");
     } else {
@@ -194,7 +197,7 @@ function parseArgs($args) {
             default:
                 if (preg_match('/^--version=(.*)$/', $arg, $matches)) {
                     $attributes['version'] = PhpParser\PhpVersion::fromString($matches[1]);
-                } elseif ($arg[0] === '-') {
+                } elseif ($arg[0] === '-' && \strlen($arg[0]) > 1) {
                     showHelp("Invalid operation $arg.");
                 } else {
                     $files[] = $arg;
