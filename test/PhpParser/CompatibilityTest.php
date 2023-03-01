@@ -35,6 +35,8 @@ class CompatibilityTest extends \PHPUnit\Framework\TestCase {
         $this->assertTrue($node instanceof Stmt\PropertyProperty);
         $node = new Node\UseItem(new Name('X'));
         $this->assertTrue($node instanceof Stmt\UseUse);
+        $prettyPrinter = new PrettyPrinter\Standard();
+        $this->assertTrue($prettyPrinter instanceof PrettyPrinterAbstract);
     }
 
     /**
