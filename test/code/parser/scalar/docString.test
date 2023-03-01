@@ -28,6 +28,10 @@ b<<<EOS
 Binary
 EOS;
 
+<<<EOS
+$x\r
+EOS;
+
 -----
 array(
     0: Stmt_Expression(
@@ -110,6 +114,18 @@ array(
     6: Stmt_Expression(
         expr: Scalar_String(
             value: Binary
+        )
+    )
+    7: Stmt_Expression(
+        expr: Scalar_InterpolatedString(
+            parts: array(
+                0: Expr_Variable(
+                    name: x
+                )
+                1: InterpolatedStringPart(
+                    value:
+                )
+            )
         )
     )
 )

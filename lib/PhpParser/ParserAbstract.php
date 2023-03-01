@@ -823,10 +823,10 @@ abstract class ParserAbstract implements Parser {
                         $part->value, $indentLen, $indentChar,
                         $i === 0, $isLast, $part->getAttributes()
                     );
-                    $part->value = String_::parseEscapeSequences($part->value, null, $parseUnicodeEscape);
                     if ($isLast) {
                         $part->value = preg_replace('~(\r\n|\n|\r)\z~', '', $part->value);
                     }
+                    $part->value = String_::parseEscapeSequences($part->value, null, $parseUnicodeEscape);
                     if ('' === $part->value) {
                         continue;
                     }
