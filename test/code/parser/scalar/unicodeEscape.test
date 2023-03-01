@@ -23,3 +23,8 @@ array(
         )
     )
 )
+-----
+<?php
+"\u{FFFFFFFFFFFFFFFF}";
+-----
+Invalid UTF-8 codepoint escape sequence: Codepoint too large on line 2
