@@ -18,6 +18,8 @@ enum B: int {
 enum C: string implements D {
     case Z = 'A';
 }
+
+enum D: \Foo\Bar {}
 -----
 enum A implements B
 {
@@ -35,4 +37,7 @@ enum B : int
 enum C : string implements D
 {
     case Z = 'A';
+}
+enum D : \Foo\Bar
+{
 }
