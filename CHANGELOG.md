@@ -1,7 +1,43 @@
 Version 5.0.0-dev
 -----------------
 
-Nothing yet.
+See UPGRADE-5.0 for detailed migration instructions.
+
+### Added
+
+* [PHP 8.3] Added support for dynamic class constant fetch.
+* Added many additional type annotations. PhpStan is now used.
+* Added a fuzzing target for PHP-Fuzzer, which was how a lot of pretty printer bugs were found.
+* Added `isPromoted()`, `isPublic()`, `isProtected()`, `isPrivate()` and `isReadonly()` methods
+  on `Param`.
+* Added support for class constants in trait builder.
+* Added `PrettyPrinter` interface.
+* Added support for formatting preservation when toggling static modifiers.
+* The `php-parse` binary now accepts `-` as the file name, in which case it will read from stdin.
+
+### Fixed
+
+* The pretty printer now uses a more accurate treatment of unary operator precedence, and will only
+  wrap them in parentheses if required. This allowed fixing a number of other precedence related
+  bugs.
+* The pretty printer now respects the precedence of `clone`, `throw` and arrow functions.
+* The pretty printer no longer unconditionally wraps `yield` in parentheses, unless the target
+  version is set to older than PHP 7.0.
+* Fixed formatting preservation for alternative elseif/else syntax.
+* Fixed checks for when it is safe to print strings as heredoc/nowdoc to accommodate flexible
+  doc string semantics.
+* The pretty printer now prints parentheses around new/instanceof operands in all required
+  situations.
+* Similar, differences in allowed expressions on the LHS of `->` and `::` are now taken into account.
+* Fixed various cases where `\r` at the end of a doc string could be incorrectly merged into a CRLF
+  sequence with a following `\n`.
+* `__halt_compiler` is no longer recognized as a semi-reserved keyword, in line with PHP behavior.
+* `<?=` is no longer recognized as a semi-reserved keyword.
+* Fix handling of very large overflowing `\u` escape sequences.
+
+### Removed
+
+* Removed deprecated `Error` constructor taking a line number instead of an attributes array.
 
 Version 5.0.0-alpha1 (2022-09-04)
 ---------------------------------
