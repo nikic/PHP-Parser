@@ -11,9 +11,9 @@ use PhpParser\Node\Name;
 use PhpParser\Node\Scalar;
 use PhpParser\Node\Scalar\MagicConst;
 use PhpParser\Node\Stmt;
-use PhpParser\PrettyPrinter;
+use PhpParser\PrettyPrinterAbstract;
 
-class Standard extends PrettyPrinter {
+class Standard extends PrettyPrinterAbstract {
     // Special nodes
 
     protected function pParam(Node\Param $node): string {
