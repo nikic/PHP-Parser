@@ -91,6 +91,11 @@ $visitor = new class extends PhpParser\NodeVisitorAbstract {
         ) {
             $this->hasProblematicConstruct = true;
         }
+        if ($node instanceof Stmt\GroupUse && $node->prefix->isUnqualified() &&
+            $this->tokens[$node->prefix->getStartTokenPos()]->is(\T_NAME_FULLY_QUALIFIED)
+        ) {
+            $this->hasProblematicConstruct = true;
+        }
     }
 };
 $traverser = new PhpParser\NodeTraverser();
