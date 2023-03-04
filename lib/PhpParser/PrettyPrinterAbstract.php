@@ -17,7 +17,7 @@ use PhpParser\Node\Scalar;
 use PhpParser\Node\Stmt;
 use PhpParser\Node\UnionType;
 
-abstract class PrettyPrinterAbstract {
+abstract class PrettyPrinterAbstract implements PrettyPrinter {
     protected const FIXUP_PREC_LEFT = 0; // LHS operand affected by precedence
     protected const FIXUP_PREC_RIGHT = 1; // RHS operand affected by precedence
     protected const FIXUP_PREC_UNARY = 2; // Only operand affected by precedence
