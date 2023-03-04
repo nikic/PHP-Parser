@@ -127,3 +127,4 @@ $fuzzer->setTarget(function(string $input) use($lexer, $parser, $prettyPrinter, 
 
 $fuzzer->setMaxLen(1024);
 $fuzzer->addDictionary(__DIR__ . '/php.dict');
+$fuzzer->setAllowedExceptions([PhpParser\Error::class]);
