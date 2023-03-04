@@ -720,7 +720,8 @@ class Standard extends PrettyPrinter {
 
     protected function pExpr_Yield(Expr\Yield_ $node, int $precedence, int $lhsPrecedence): string {
         if ($node->value === null) {
-            return 'yield';
+            $opPrecedence = $this->precedenceMap[Expr\Yield_::class][0];
+            return $opPrecedence >= $lhsPrecedence ? '(yield)' : 'yield';
         } else {
             if (!$this->phpVersion->supportsYieldWithoutParentheses()) {
                 return '(yield ' . $this->pKey($node->key) . $this->p($node->value) . ')';

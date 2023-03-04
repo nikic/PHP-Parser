@@ -22,6 +22,9 @@ function gen()
     match ($x) {
         yield $a, (yield $b) => $c,
     };
+    yield -$a;
+    (yield) - $a;
+    yield * $a;
 }
 -----
 function gen()
@@ -44,6 +47,9 @@ function gen()
     match ($x) {
         yield $a, (yield $b) => $c,
     };
+    yield -$a;
+    (yield) - $a;
+    (yield) * $a;
 }
 -----
 <?php
@@ -68,6 +74,9 @@ function gen()
     match ($x) {
         yield $a, (yield $b) => $c,
     };
+    yield -$a;
+    (yield) - $a;
+    yield * $a;
 }
 -----
 !!version=5.6
@@ -91,4 +100,7 @@ function gen()
     match ($x) {
         (yield $a), (yield $b) => $c,
     };
+    (yield -$a);
+    (yield) - $a;
+    (yield) * $a;
 }
