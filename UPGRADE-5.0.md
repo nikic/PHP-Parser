@@ -156,12 +156,11 @@ Backslashes in single-quoted strings are now only printed if they are necessary:
 '\\\\';
 ```
 
-The pretty printer now accepts a `phpVersion` option, which accepts a `PhpVersion` object and defaults to PHP 7.0. The pretty printer will make formatting choices to make the code valid for that version. It currently controls the following behavior:
+The pretty printer now accepts a `phpVersion` option, which accepts a `PhpVersion` object and defaults to PHP 7.1. The pretty printer will make formatting choices to make the code valid for that version. It currently controls the following behavior:
 
 * For PHP >= 7.0 (default), short array syntax `[]` will be used by default. This does not affect nodes that specify an explicit array syntax using the `kind` attribute.
 * For PHP >= 7.0 (default), parentheses around `yield` expressions will only be printed when necessary. Previously, parentheses were always printed, even if `yield` was used as a statement.
-* For PHP >= 7.1, the short array syntax `[]` will be used for destructuring by default (instead of
-  `list()`). This does not affect nodes that specify and explicit syntax using the `kind` attribute.
+* For PHP >= 7.1 (default), the short array syntax `[]` will be used for destructuring by default (instead of `list()`). This does not affect nodes that specify and explicit syntax using the `kind` attribute.
 * For PHP >= 7.3, a newline is no longer forced after heredoc/nowdoc strings, as the requirement for this has been removed with the introduction of flexible heredoc/nowdoc strings.
 
 ### Changes to precedence handling in the pretty printer
