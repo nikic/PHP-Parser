@@ -540,7 +540,7 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
             $result = "<?php\n" . $this->pStmts($stmts, false);
         }
 
-        return ltrim($this->handleMagicTokens($result));
+        return $this->handleMagicTokens($result);
     }
 
     protected function pFallback(Node $node, int $precedence, int $lhsPrecedence): string {
