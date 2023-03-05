@@ -881,6 +881,10 @@ class Standard extends PrettyPrinterAbstract {
     }
 
     protected function pStmt_Else(Stmt\Else_ $node): string {
+        if (\count($node->stmts) === 1 && $node->stmts[0] instanceof Stmt\If_) {
+            // Print as "else if" rather than "else { if }"
+            return 'else ' . $this->p($node->stmts[0]);
+        }
         return 'else {' . $this->pStmts($node->stmts) . $this->nl . '}';
     }
 
