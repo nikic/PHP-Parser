@@ -104,7 +104,7 @@ PhpParser\Node\Stmt\Class_::MODIFIER_READONLY  -> PhpParser\Modifiers::READONLY
 PhpParser\Node\Stmt\Class_::VISIBILITY_MODIFIER_MASK -> PhpParser\Modifiers::VISIBILITY_MASK
 ```
 
-### Changes to the default pretty printer
+### Changes to the pretty printer
 
 A number of changes to the standard pretty printer have been made, to make it match contemporary coding style conventions (and in particular PSR-12). Options to restore the previous behavior are not provided, but it is possible to override the formatting methods (such as `pStmt_ClassMethod`) with your preferred formatting.
 
@@ -159,9 +159,43 @@ Backslashes in single-quoted strings are now only printed if they are necessary:
 The pretty printer now accepts a `phpVersion` option, which accepts a `PhpVersion` object and defaults to PHP 7.0. The pretty printer will make formatting choices to make the code valid for that version. It currently controls the following behavior:
 
 * For PHP >= 7.0 (default), short array syntax `[]` will be used by default. This does not affect nodes that specify an explicit array syntax using the `kind` attribute.
+* For PHP >= 7.0 (default), parentheses around `yield` expressions will only be printed when necessary. Previously, parentheses were always printed, even if `yield` was used as a statement.
 * For PHP >= 7.1, the short array syntax `[]` will be used for destructuring by default (instead of
   `list()`). This does not affect nodes that specify and explicit syntax using the `kind` attribute.
 * For PHP >= 7.3, a newline is no longer forced after heredoc/nowdoc strings, as the requirement for this has been removed with the introduction of flexible heredoc/nowdoc strings.
+
+### Changes to precedence handling in the pretty printer
+
+The pretty printer now more accurately models operator precedence. Especially for unary operators, less unnecessary parentheses will be printed. Conversely, many bugs where semantically meaningful parentheses were omitted have been fixed.
+
+To support these changes, precedence is now handled differently in the pretty printer. The internal `p()` method, which is used to recursively print nodes, now has the following signature:
+```php
+protected function p(
+    Node $node, int $precedence = self::MAX_PRECEDENCE, int $lhsPrecedence = self::MAX_PRECEDENCE,
+    bool $parentFormatPreserved = false
+): string;
+```
+
+The `$precedence` is the precedence of the direct parent operator (if any), while `$lhsPrecedence` is that precedence of the nearest binary operator on whose left-hand-side the node occurs. For unary operators, only the `$lhsPrecedence` is relevant.
+
+Recursive calls in pretty-printer methods should generally continue calling `p()` without additional parameters. However, pretty-printer methods for operators that participate in precedence resolution need to be adjusted. For example, typical implementations for operators looks as follows now:
+
+```php
+protected function pExpr_BinaryOp_Plus(
+    BinaryOp\Plus $node, int $precedence, int $lhsPrecedence
+): string {
+    return $this->pInfixOp(
+        BinaryOp\Plus::class, $node->left, ' + ', $node->right, $precedence, $lhsPrecedence);
+}
+
+protected function pExpr_UnaryPlus(
+    Expr\UnaryPlus $node, int $precedence, int $lhsPrecedence
+): string {
+    return $this->pPrefixOp(Expr\UnaryPlus::class, '+', $node->expr, $precedence, $lhsPrecedence);
+}
+```
+
+The new `$precedence` and `$lhsPrecedence` arguments need to be passed down to the `pInfixOp()`, `pPrefixOp()` and `pPostfixOp()` methods.
 
 ### Changes to token representation
 
@@ -186,3 +220,4 @@ Additionally, the token array is now terminated by a sentinel token with ID 0.
 ### Other removed functionality
 
  * The deprecated `Builder\Param::setTypeHint()` method has been removed in favor of `Builder\Param::setType()`.
+ * The deprecated `Error` constructor taking a start line has been removed. Pass `['startLine' => $startLine]` attributes instead.
