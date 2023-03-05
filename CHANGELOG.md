@@ -1,3 +1,10 @@
+Version 4.15.4 (2023-03-05)
+---------------------------
+
+### Fixed
+
+* Fixed formatting-preservation for alternative if syntax with trailing comments.
+
 Version 4.15.3 (2023-01-16)
 ---------------------------
 
