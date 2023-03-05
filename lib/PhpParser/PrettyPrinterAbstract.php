@@ -1244,10 +1244,12 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
 
         $this->labelCharMap = [];
         for ($i = 0; $i < 256; $i++) {
-            // Since PHP 7.1 The lower range is 0x80. However, we also want to support code for
-            // older versions.
             $chr = chr($i);
-            $this->labelCharMap[$chr] = $i >= 0x7f || ctype_alnum($chr);
+            $this->labelCharMap[$chr] = $i >= 0x80 || ctype_alnum($chr);
+        }
+
+        if ($this->phpVersion->allowsDelInIdentifiers()) {
+            $this->labelCharMap[0x7f] = true;
         }
     }
 

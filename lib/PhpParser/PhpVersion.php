@@ -142,6 +142,13 @@ class PhpVersion {
     }
 
     /**
+     * Whether this version allows DEL (\x7f) to occur in identifiers.
+     */
+    public function allowsDelInIdentifiers(): bool {
+        return $this->id < 70100;
+    }
+
+    /**
      * Whether this version support yield in expression context without parentheses.
      */
     public function supportsYieldWithoutParentheses(): bool {
