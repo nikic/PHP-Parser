@@ -2,6 +2,7 @@
 
 namespace PhpParser\Builder;
 
+use PhpParser\Modifiers;
 use PhpParser\Node;
 use PhpParser\Node\Arg;
 use PhpParser\Node\Attribute;
@@ -200,6 +201,42 @@ class ParamTest extends \PHPUnit\Framework\TestCase {
 
         $this->assertEquals(
             new Node\Param(new Expr\Variable('test'), null, null, false, true),
+            $node
+        );
+    }
+
+    public function testMakePublic() {
+        $node = $this->createParamBuilder('test')
+            ->makePublic()
+            ->getNode()
+        ;
+
+        $this->assertEquals(
+            new Node\Param(new Expr\Variable('test'), null, null, false, false, [], Modifiers::PUBLIC),
+            $node
+        );
+    }
+
+    public function testMakeProtected() {
+        $node = $this->createParamBuilder('test')
+            ->makeProtected()
+            ->getNode()
+        ;
+
+        $this->assertEquals(
+            new Node\Param(new Expr\Variable('test'), null, null, false, false, [], Modifiers::PROTECTED),
+            $node
+        );
+    }
+
+    public function testMakePrivate() {
+        $node = $this->createParamBuilder('test')
+            ->makePrivate()
+            ->getNode()
+        ;
+
+        $this->assertEquals(
+            new Node\Param(new Expr\Variable('test'), null, null, false, false, [], Modifiers::PRIVATE),
             $node
         );
     }
