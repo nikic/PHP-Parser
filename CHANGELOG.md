@@ -1,7 +1,50 @@
-Version 4.14.1-dev
-------------------
+Version 4.15.4 (2023-03-05)
+---------------------------
 
-Nothing yet.
+### Fixed
+
+* Fixed formatting-preservation for alternative if syntax with trailing comments.
+
+Version 4.15.3 (2023-01-16)
+---------------------------
+
+### Fixed
+
+* Support readonly property with PHP 8.2 DNF type.
+* Fixed PHP attribute group and PHP-Parser attribute mixup in EnumCase builder.
+
+Version 4.15.2 (2022-11-12)
+---------------------------
+
+### Fixed
+
+* Fixed parsing of large hex float literals that contain an "e" character.
+* Fixed tests to pass on 32-bit.
+* Fixed generation of invalid code when using formatting-preserving pretty printer with code that
+  uses inline HTML.
+
+Version 4.15.1 (2022-09-04)
+---------------------------
+
+### Fixed
+
+* Fixed formatting preservation when adding *multiple* attributes to a class/method/etc that
+  previously had none. This fixes a regression in the 4.15.0 release.
+
+Version 4.15.0 (2022-09-03)
+---------------------------
+
+### Added
+
+* PHP 8.2: Added support for `true` type.
+* PHP 8.2: Added support for DNF types.
+
+### Fixed
+
+* Support `readonly` as a function name.
+* Added `__serialize` and `__unserialize` to magic method list.
+* Fixed bounds check in `Name::slice()`.
+* Fixed formatting preservation when adding attributes to a class/method/etc that previously had none.
 
 Version 4.14.0 (2022-05-31)
 ---------------------------

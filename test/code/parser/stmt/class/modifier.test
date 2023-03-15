@@ -280,7 +280,7 @@ array(
 // Type in the partial parse could conceivably be any of 0, 16 or 32
 -----
 !!php5
-Syntax error, unexpected T_READONLY from 1:7 to 1:14
+Syntax error, unexpected T_CLASS, expecting '(' from 1:16 to 1:20
 array(
     0: Stmt_Class(
         attrGroups: array(

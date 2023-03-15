@@ -12,6 +12,7 @@ class NodeDumper
 {
     private $dumpComments;
     private $dumpPositions;
+    private $dumpGenerics;
     private $code;
 
     /**
@@ -27,6 +28,7 @@ class NodeDumper
     public function __construct(array $options = []) {
         $this->dumpComments = !empty($options['dumpComments']);
         $this->dumpPositions = !empty($options['dumpPositions']);
+        $this->dumpGenerics = !empty($options['dumpGenerics']);
     }
 
     /**
@@ -80,6 +82,14 @@ class NodeDumper
 
             if ($this->dumpComments && $comments = $node->getComments()) {
                 $r .= "\n    comments: " . str_replace("\n", "\n    ", $this->dumpRecursive($comments));
+            }
+            if ($this->dumpGenerics && is_array($node->getAttribute('generics'))) {
+
+                $genericNames = [];
+                foreach ($node->getAttribute('generics') as $generic) {
+                    $genericNames[] = $generic->name;
+                }
+                $r .= "\n    generics: [" . implode(', ', $genericNames) . "]";
             }
         } elseif (is_array($node)) {
             $r = 'array(';

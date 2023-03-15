@@ -21,6 +21,12 @@ class Test<T,V> extends GenericClass<T> implements GenericInterface<V> {
  
   private T|GenericClass<V> $var;
   private $var2;
+  
+  private readonly (T&V)|null|false|true $content = null;
+
+  public function setContent((T&V)|null|false|true $content): (T&V)|null|false|true {
+
+  }
  
   public function test(T|GenericInterface<V> $var): T|GenericClass<V> {
       
@@ -49,12 +55,14 @@ $parser = (new ParserFactory)->create(ParserFactory::PREFER_PHP7, $lexer);
 try {
     $ast = $parser->parse($code);
 } catch (Error $error) {
-    echo "Parse error: {$error->getMessage()}\n";
-
-    return;
+    echo "Error: {$error->getMessage()}\n";
+    exit(1);
 }
 
-$dumper = new NodeDumper;
-echo $dumper->dump($ast) . "\n";
+$dumper = new NodeDumper(['dumpGenerics' => true]);
+if (trim(file_get_contents(__DIR__ . '/test.output')) !== $dumper->dump($ast)) {
+    print("Failed!\n");
+    exit(1);
+}
 
-echo 'SUCCESS!' . "\n";
+print("Success!\n");

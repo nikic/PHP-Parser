@@ -28,7 +28,7 @@ readonly class A {
 }
 -----
 !!php5
-Syntax error, unexpected T_READONLY from 3:1 to 3:8
+Syntax error, unexpected T_CLASS, expecting '(' from 3:10 to 3:14
 array(
     0: Stmt_Class(
         attrGroups: array(

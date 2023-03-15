@@ -1,0 +1,56 @@
+standalone null, false and true types
+-----
+<?php
+
+function test(): null {}
+function test(): false {}
+function test(): true {}
+-----
+!!php7
+array(
+    0: Stmt_Function(
+        attrGroups: array(
+        )
+        byRef: false
+        name: Identifier(
+            name: test
+        )
+        params: array(
+        )
+        returnType: Identifier(
+            name: null
+        )
+        stmts: array(
+        )
+    )
+    1: Stmt_Function(
+        attrGroups: array(
+        )
+        byRef: false
+        name: Identifier(
+            name: test
+        )
+        params: array(
+        )
+        returnType: Identifier(
+            name: false
+        )
+        stmts: array(
+        )
+    )
+    2: Stmt_Function(
+        attrGroups: array(
+        )
+        byRef: false
+        name: Identifier(
+            name: test
+        )
+        params: array(
+        )
+        returnType: Identifier(
+            name: true
+        )
+        stmts: array(
+        )
+    )
+)

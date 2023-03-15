@@ -241,8 +241,8 @@ class EmulativeTest extends LexerTest
             ['1_000', [
                 [Tokens::T_LNUMBER, '1_000'],
             ]],
-            ['0xCAFE_F00D', [
-                [Tokens::T_LNUMBER, '0xCAFE_F00D'],
+            ['0x7AFE_F00D', [
+                [Tokens::T_LNUMBER, '0x7AFE_F00D'],
             ]],
             ['0b0101_1111', [
                 [Tokens::T_LNUMBER, '0b0101_1111'],
@@ -360,12 +360,12 @@ class EmulativeTest extends LexerTest
             ]],
             ['function readonly(', [
                 [Tokens::T_FUNCTION, 'function'],
-                [Tokens::T_STRING, 'readonly'],
+                [Tokens::T_READONLY, 'readonly'],
                 [ord('('), '('],
             ]],
             ['function readonly (', [
                 [Tokens::T_FUNCTION, 'function'],
-                [Tokens::T_STRING, 'readonly'],
+                [Tokens::T_READONLY, 'readonly'],
                 [ord('('), '('],
             ]],
         ];

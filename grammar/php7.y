@@ -373,15 +373,23 @@ generic_type:
       | T_ARRAY     { $$ = $1; }
       | T_CALLABLE  { $$ = $1; }
 
+identifier_maybe_readonly:
+      identifier_not_reserved                               { $$ = $1; }
+    | T_READONLY                                            { $$ = Node\Identifier[$1]; }
+;
+
 function_declaration_statement:
-      T_FUNCTION optional_ref identifier_not_reserved '(' parameter_list ')' optional_return_type block_or_error
+      T_FUNCTION optional_ref identifier_maybe_readonly '(' parameter_list ')' optional_return_type block_or_error
           { $$ = Stmt\Function_[$3, ['byRef' => $2, 'params' => $5, 'returnType' => $7, 'stmts' => $8, 'attrGroups' => []]]; }
-    | attributes T_FUNCTION optional_ref identifier_not_reserved '(' parameter_list ')' optional_return_type block_or_error
+    | attributes T_FUNCTION optional_ref identifier_maybe_readonly '(' parameter_list ')' optional_return_type block_or_error
           { $$ = Stmt\Function_[$4, ['byRef' => $3, 'params' => $6, 'returnType' => $8, 'stmts' => $9, 'attrGroups' => $1]]; }
 ;
 
 class_declaration_statement:
-      optional_attributes class_entry_type identifier_not_reserved optional_generic_params extends_from implements_list '{' class_statement_list '}'
+      class_entry_type identifier_not_reserved optional_generic_params extends_from implements_list '{' class_statement_list '}'
+          { $$ = Stmt\Class_[$2, ['type' => $1, 'extends' => $4, 'implements' => $5, 'stmts' => $7, 'attrGroups' => []], ['generics' => $3 ]];
+            $this->checkClass($$, #2); }
+    | attributes class_entry_type identifier_not_reserved optional_generic_params extends_from implements_list '{' class_statement_list '}'
           { $$ = Stmt\Class_[$3, ['type' => $2, 'extends' => $5, 'implements' => $6, 'stmts' => $8, 'attrGroups' => $1], ['generics' => $4 ]];
             $this->checkClass($$, #3); }
     | optional_attributes T_INTERFACE identifier_not_reserved optional_generic_params interface_extends_list '{' class_statement_list '}'
@@ -533,7 +541,8 @@ new_elseif_list:
 ;
 
 new_elseif:
-     T_ELSEIF '(' expr ')' ':' inner_statement_list         { $$ = Stmt\ElseIf_[$3, $6]; }
+     T_ELSEIF '(' expr ')' ':' inner_statement_list
+         { $$ = Stmt\ElseIf_[$3, $6]; $this->fixupAlternativeElse($$); }
 ;
 
 else_single:
@@ -543,7 +552,8 @@ else_single:
 
 new_else_single:
       /* empty */                                           { $$ = null; }
-    | T_ELSE ':' inner_statement_list                       { $$ = Stmt\Else_[$3]; }
+    | T_ELSE ':' inner_statement_list
+          { $$ = Stmt\Else_[$3]; $this->fixupAlternativeElse($$); }
 ;
 
 foreach_variable:
@@ -594,7 +604,7 @@ type_expr:
       type                                                  { $$ = $1; }
     | '?' type                                              { $$ = Node\NullableType[$2]; }
     | union_type                                            { $$ = Node\UnionType[$1]; }
-    | intersection_type                                     { $$ = Node\IntersectionType[$1]; }
+    | intersection_type                                     { $$ = $1; }
 ;
 
 type:
@@ -608,34 +618,52 @@ type_without_static:
     | T_CALLABLE                                            { $$ = Node\Identifier['callable']; }
 ;
 
+union_type_element:
+                type { $$ = $1; }
+        |        '(' intersection_type ')' { $$ = $2; }
+;
+
 union_type:
-      type '|' type                                         { init($1, $3); }
-    | union_type '|' type                                   { push($1, $3); }
+      union_type_element '|' union_type_element             { init($1, $3); }
+    | union_type '|' union_type_element                     { push($1, $3); }
+;
+
+union_type_without_static_element:
+                type_without_static { $$ = $1; }
+        |        '(' intersection_type_without_static ')' { $$ = $2; }
 ;
 
 union_type_without_static:
-      type_without_static '|' type_without_static           { init($1, $3); }
-    | union_type_without_static '|' type_without_static     { push($1, $3); }
+      union_type_without_static_element '|' union_type_without_static_element   { init($1, $3); }
+    | union_type_without_static '|' union_type_without_static_element           { push($1, $3); }
+;
+
+intersection_type_list:
+      type T_AMPERSAND_NOT_FOLLOWED_BY_VAR_OR_VARARG type   { init($1, $3); }
+    | intersection_type_list T_AMPERSAND_NOT_FOLLOWED_BY_VAR_OR_VARARG type
+          { push($1, $3); }
 ;
 
 intersection_type:
-      type T_AMPERSAND_NOT_FOLLOWED_BY_VAR_OR_VARARG type   { init($1, $3); }
-    | intersection_type T_AMPERSAND_NOT_FOLLOWED_BY_VAR_OR_VARARG type
+      intersection_type_list { $$ = Node\IntersectionType[$1]; }
+;
+
+intersection_type_without_static_list:
+      type_without_static T_AMPERSAND_NOT_FOLLOWED_BY_VAR_OR_VARARG type_without_static
+          { init($1, $3); }
+    | intersection_type_without_static_list T_AMPERSAND_NOT_FOLLOWED_BY_VAR_OR_VARARG type_without_static
           { push($1, $3); }
 ;
 
 intersection_type_without_static:
-      type_without_static T_AMPERSAND_NOT_FOLLOWED_BY_VAR_OR_VARARG type_without_static
-          { init($1, $3); }
-    | intersection_type_without_static T_AMPERSAND_NOT_FOLLOWED_BY_VAR_OR_VARARG type_without_static
-          { push($1, $3); }
+      intersection_type_without_static_list { $$ = Node\IntersectionType[$1]; }
 ;
 
 type_expr_without_static:
       type_without_static                                   { $$ = $1; }
     | '?' type_without_static                               { $$ = Node\NullableType[$2]; }
     | union_type_without_static                             { $$ = Node\UnionType[$1]; }
-    | intersection_type_without_static                      { $$ = Node\IntersectionType[$1]; }
+    | intersection_type_without_static                      { $$ = $1; }
 ;
 
 optional_type_without_static:
@@ -967,8 +995,13 @@ lexical_var:
       optional_ref plain_variable                           { $$ = Expr\ClosureUse[$2, $1]; }
 ;
 
+name_readonly:
+      T_READONLY                                            { $$ = Name[$1]; }
+;
+
 function_call:
       name argument_list                                    { $$ = Expr\FuncCall[$1, $2]; }
+    | name_readonly argument_list                           { $$ = Expr\FuncCall[$1, $2]; }
     | callable_expr argument_list                           { $$ = Expr\FuncCall[$1, $2]; }
     | class_name_or_var T_PAAMAYIM_NEKUDOTAYIM member_name argument_list
           { $$ = Expr\StaticCall[$1, $3, $4]; }

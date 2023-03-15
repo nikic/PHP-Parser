@@ -40,9 +40,7 @@ jobs:
           - "7.4"
           - "8.0"
           - "8.1"
-        include:
-          - php-version: "8.1"
-            flags: "--ignore-platform-req=php"
+          - "8.2"
     steps:
       - name: "Checkout"
         uses: "actions/checkout@v2"

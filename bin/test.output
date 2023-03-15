@@ -1,0 +1,491 @@
+array(
+    0: Stmt_Namespace(
+        name: Name(
+            parts: array(
+                0: App
+            )
+        )
+        stmts: array(
+            0: Stmt_Use(
+                type: TYPE_NORMAL (1)
+                uses: array(
+                    0: Stmt_UseUse(
+                        type: TYPE_UNKNOWN (0)
+                        name: Name(
+                            parts: array(
+                                0: PhpParser
+                                1: ParserFactory
+                            )
+                        )
+                        alias: null
+                    )
+                )
+            )
+            1: Stmt_Class(
+                attrGroups: array(
+                )
+                flags: 0
+                name: Identifier(
+                    name: Test
+                )
+                extends: Name(
+                    parts: array(
+                        0: GenericClass
+                    )
+                    generics: [T]
+                )
+                implements: array(
+                    0: Name(
+                        parts: array(
+                            0: GenericInterface
+                        )
+                        generics: [V]
+                    )
+                )
+                stmts: array(
+                    0: Stmt_TraitUse(
+                        traits: array(
+                            0: Name(
+                                parts: array(
+                                    0: GenericTrait
+                                )
+                                generics: [T]
+                            )
+                        )
+                        adaptations: array(
+                        )
+                    )
+                    1: Stmt_TraitUse(
+                        traits: array(
+                            0: Name(
+                                parts: array(
+                                    0: T
+                                )
+                            )
+                        )
+                        adaptations: array(
+                        )
+                    )
+                    2: Stmt_Property(
+                        attrGroups: array(
+                        )
+                        flags: MODIFIER_PRIVATE (4)
+                        type: UnionType(
+                            types: array(
+                                0: Name(
+                                    parts: array(
+                                        0: T
+                                    )
+                                )
+                                1: Name(
+                                    parts: array(
+                                        0: GenericClass
+                                    )
+                                    generics: [V]
+                                )
+                            )
+                        )
+                        props: array(
+                            0: Stmt_PropertyProperty(
+                                name: VarLikeIdentifier(
+                                    name: var
+                                )
+                                default: null
+                            )
+                        )
+                    )
+                    3: Stmt_Property(
+                        attrGroups: array(
+                        )
+                        flags: MODIFIER_PRIVATE (4)
+                        type: null
+                        props: array(
+                            0: Stmt_PropertyProperty(
+                                name: VarLikeIdentifier(
+                                    name: var2
+                                )
+                                default: null
+                            )
+                        )
+                    )
+                    4: Stmt_Property(
+                        attrGroups: array(
+                        )
+                        flags: MODIFIER_PRIVATE | MODIFIER_READONLY (68)
+                        type: UnionType(
+                            types: array(
+                                0: IntersectionType(
+                                    types: array(
+                                        0: Name(
+                                            parts: array(
+                                                0: T
+                                            )
+                                        )
+                                        1: Name(
+                                            parts: array(
+                                                0: V
+                                            )
+                                        )
+                                    )
+                                )
+                                1: Identifier(
+                                    name: null
+                                )
+                                2: Identifier(
+                                    name: false
+                                )
+                                3: Identifier(
+                                    name: true
+                                )
+                            )
+                        )
+                        props: array(
+                            0: Stmt_PropertyProperty(
+                                name: VarLikeIdentifier(
+                                    name: content
+                                )
+                                default: Expr_ConstFetch(
+                                    name: Name(
+                                        parts: array(
+                                            0: null
+                                        )
+                                    )
+                                )
+                            )
+                        )
+                    )
+                    5: Stmt_ClassMethod(
+                        attrGroups: array(
+                        )
+                        flags: MODIFIER_PUBLIC (1)
+                        byRef: false
+                        name: Identifier(
+                            name: setContent
+                        )
+                        params: array(
+                            0: Param(
+                                attrGroups: array(
+                                )
+                                flags: 0
+                                type: UnionType(
+                                    types: array(
+                                        0: IntersectionType(
+                                            types: array(
+                                                0: Name(
+                                                    parts: array(
+                                                        0: T
+                                                    )
+                                                )
+                                                1: Name(
+                                                    parts: array(
+                                                        0: V
+                                                    )
+                                                )
+                                            )
+                                        )
+                                        1: Identifier(
+                                            name: null
+                                        )
+                                        2: Identifier(
+                                            name: false
+                                        )
+                                        3: Identifier(
+                                            name: true
+                                        )
+                                    )
+                                )
+                                byRef: false
+                                variadic: false
+                                var: Expr_Variable(
+                                    name: content
+                                )
+                                default: null
+                            )
+                        )
+                        returnType: UnionType(
+                            types: array(
+                                0: IntersectionType(
+                                    types: array(
+                                        0: Name(
+                                            parts: array(
+                                                0: T
+                                            )
+                                        )
+                                        1: Name(
+                                            parts: array(
+                                                0: V
+                                            )
+                                        )
+                                    )
+                                )
+                                1: Identifier(
+                                    name: null
+                                )
+                                2: Identifier(
+                                    name: false
+                                )
+                                3: Identifier(
+                                    name: true
+                                )
+                            )
+                        )
+                        stmts: array(
+                        )
+                    )
+                    6: Stmt_ClassMethod(
+                        attrGroups: array(
+                        )
+                        flags: MODIFIER_PUBLIC (1)
+                        byRef: false
+                        name: Identifier(
+                            name: test
+                        )
+                        params: array(
+                            0: Param(
+                                attrGroups: array(
+                                )
+                                flags: 0
+                                type: UnionType(
+                                    types: array(
+                                        0: Name(
+                                            parts: array(
+                                                0: T
+                                            )
+                                        )
+                                        1: Name(
+                                            parts: array(
+                                                0: GenericInterface
+                                            )
+                                            generics: [V]
+                                        )
+                                    )
+                                )
+                                byRef: false
+                                variadic: false
+                                var: Expr_Variable(
+                                    name: var
+                                )
+                                default: null
+                            )
+                        )
+                        returnType: UnionType(
+                            types: array(
+                                0: Name(
+                                    parts: array(
+                                        0: T
+                                    )
+                                )
+                                1: Name(
+                                    parts: array(
+                                        0: GenericClass
+                                    )
+                                    generics: [V]
+                                )
+                            )
+                        )
+                        stmts: array(
+                            0: Stmt_Expression(
+                                expr: Expr_FuncCall(
+                                    name: Name(
+                                        parts: array(
+                                            0: var_dump
+                                        )
+                                    )
+                                    args: array(
+                                        0: Arg(
+                                            name: null
+                                            value: Expr_Instanceof(
+                                                expr: Expr_Variable(
+                                                    name: var
+                                                )
+                                                class: Name(
+                                                    parts: array(
+                                                        0: GenericInterface
+                                                    )
+                                                    generics: [V]
+                                                )
+                                            )
+                                            byRef: false
+                                            unpack: false
+                                        )
+                                    )
+                                )
+                            )
+                            1: Stmt_Expression(
+                                expr: Expr_FuncCall(
+                                    name: Name(
+                                        parts: array(
+                                            0: var_dump
+                                        )
+                                    )
+                                    args: array(
+                                        0: Arg(
+                                            name: null
+                                            value: Expr_Instanceof(
+                                                expr: Expr_Variable(
+                                                    name: var
+                                                )
+                                                class: Name(
+                                                    parts: array(
+                                                        0: T
+                                                    )
+                                                )
+                                            )
+                                            byRef: false
+                                            unpack: false
+                                        )
+                                    )
+                                )
+                            )
+                            2: Stmt_Expression(
+                                expr: Expr_FuncCall(
+                                    name: Name(
+                                        parts: array(
+                                            0: var_dump
+                                        )
+                                    )
+                                    args: array(
+                                        0: Arg(
+                                            name: null
+                                            value: Expr_ClassConstFetch(
+                                                class: Name(
+                                                    parts: array(
+                                                        0: GenericClass
+                                                    )
+                                                    generics: [T]
+                                                )
+                                                name: Identifier(
+                                                    name: class
+                                                )
+                                            )
+                                            byRef: false
+                                            unpack: false
+                                        )
+                                    )
+                                )
+                            )
+                            3: Stmt_Expression(
+                                expr: Expr_FuncCall(
+                                    name: Name(
+                                        parts: array(
+                                            0: var_dump
+                                        )
+                                    )
+                                    args: array(
+                                        0: Arg(
+                                            name: null
+                                            value: Expr_ClassConstFetch(
+                                                class: Name(
+                                                    parts: array(
+                                                        0: T
+                                                    )
+                                                )
+                                                name: Identifier(
+                                                    name: class
+                                                )
+                                            )
+                                            byRef: false
+                                            unpack: false
+                                        )
+                                    )
+                                )
+                            )
+                            4: Stmt_Expression(
+                                expr: Expr_FuncCall(
+                                    name: Name(
+                                        parts: array(
+                                            0: var_dump
+                                        )
+                                    )
+                                    args: array(
+                                        0: Arg(
+                                            name: null
+                                            value: Expr_ClassConstFetch(
+                                                class: Name(
+                                                    parts: array(
+                                                        0: GenericClass
+                                                    )
+                                                    generics: [T]
+                                                )
+                                                name: Identifier(
+                                                    name: CONSTANT
+                                                )
+                                            )
+                                            byRef: false
+                                            unpack: false
+                                        )
+                                    )
+                                )
+                            )
+                            5: Stmt_Expression(
+                                expr: Expr_FuncCall(
+                                    name: Name(
+                                        parts: array(
+                                            0: var_dump
+                                        )
+                                    )
+                                    args: array(
+                                        0: Arg(
+                                            name: null
+                                            value: Expr_ClassConstFetch(
+                                                class: Name(
+                                                    parts: array(
+                                                        0: T
+                                                    )
+                                                )
+                                                name: Identifier(
+                                                    name: CONSTANT
+                                                )
+                                            )
+                                            byRef: false
+                                            unpack: false
+                                        )
+                                    )
+                                )
+                            )
+                            6: Stmt_Expression(
+                                expr: Expr_Assign(
+                                    var: Expr_Variable(
+                                        name: obj1
+                                    )
+                                    expr: Expr_New(
+                                        class: Name(
+                                            parts: array(
+                                                0: T
+                                            )
+                                        )
+                                        args: array(
+                                        )
+                                    )
+                                )
+                            )
+                            7: Stmt_Expression(
+                                expr: Expr_Assign(
+                                    var: Expr_Variable(
+                                        name: obj2
+                                    )
+                                    expr: Expr_New(
+                                        class: Name(
+                                            parts: array(
+                                                0: GenericClass
+                                            )
+                                            generics: [V]
+                                        )
+                                        args: array(
+                                        )
+                                    )
+                                )
+                            )
+                            8: Stmt_Return(
+                                expr: Expr_Variable(
+                                    name: obj2
+                                )
+                            )
+                        )
+                    )
+                )
+                generics: [T, V]
+            )
+        )
+    )
+)
