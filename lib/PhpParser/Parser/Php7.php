@@ -2818,7 +2818,7 @@ class Php7 extends \PhpParser\ParserAbstract
                  $this->semValue = new Expr\ArrayItem($this->semStack[$stackPos-(3-3)], $this->semStack[$stackPos-(3-1)], false, $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
             },
             592 => function ($stackPos) {
-                 $this->semValue = new Expr\ArrayItem($this->semStack[$stackPos-(2-2)], null, false, $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes, true, $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\ArrayItem($this->semStack[$stackPos-(2-2)], null, false, $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes, true);
             },
             593 => function ($stackPos) {
                  $this->semValue = null;
