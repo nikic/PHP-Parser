@@ -98,7 +98,7 @@ class Param implements PhpParser\Builder
     }
 
     /**
-     * Makes the parameter public.
+     * Makes the (promoted) parameter public.
      *
      * @return $this The builder instance (for fluid interface)
      */
@@ -109,7 +109,7 @@ class Param implements PhpParser\Builder
     }
 
     /**
-     * Makes the parameter protected.
+     * Makes the (promoted) parameter protected.
      *
      * @return $this The builder instance (for fluid interface)
      */
@@ -120,12 +120,23 @@ class Param implements PhpParser\Builder
     }
 
     /**
-     * Makes the parameter private.
+     * Makes the (promoted) parameter private.
      *
      * @return $this The builder instance (for fluid interface)
      */
     public function makePrivate() {
         $this->flags = BuilderHelpers::addModifier($this->flags, Node\Stmt\Class_::MODIFIER_PRIVATE);
+
+        return $this;
+    }
+
+    /**
+     * Makes the (promoted) parameter readonly.
+     *
+     * @return $this The builder instance (for fluid interface)
+     */
+    public function makeReadonly() {
+        $this->flags = BuilderHelpers::addModifier($this->flags, Node\Stmt\Class_::MODIFIER_READONLY);
 
         return $this;
     }

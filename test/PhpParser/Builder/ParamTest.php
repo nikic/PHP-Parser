@@ -241,6 +241,18 @@ class ParamTest extends \PHPUnit\Framework\TestCase
         );
     }
 
+    public function testMakeReadonly() {
+        $node = $this->createParamBuilder('test')
+            ->makeReadonly()
+            ->getNode()
+        ;
+
+        $this->assertEquals(
+            new Node\Param(new Expr\Variable('test'), null, null, false, false, [], Node\Stmt\Class_::MODIFIER_READONLY),
+            $node
+        );
+    }
+
     public function testAddAttribute() {
         $attribute = new Attribute(
             new Name('Attr'),
