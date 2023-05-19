@@ -1194,7 +1194,7 @@ array_pair:
     | expr T_DOUBLE_ARROW expr                              { $$ = Expr\ArrayItem[$3, $1,   false]; }
     | expr T_DOUBLE_ARROW ampersand variable                { $$ = Expr\ArrayItem[$4, $1,   true]; }
     | expr T_DOUBLE_ARROW list_expr                         { $$ = Expr\ArrayItem[$3, $1,   false]; }
-    | T_ELLIPSIS expr                                       { $$ = Expr\ArrayItem[$2, null, false, attributes(), true]; }
+    | T_ELLIPSIS expr                                       { $$ = new Expr\ArrayItem($2, null, false, attributes(), true); }
     | /* empty */                                           { $$ = null; }
 ;
 

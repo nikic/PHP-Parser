@@ -1008,7 +1008,7 @@ array_pair:
     | expr                                                  { $$ = Expr\ArrayItem[$1, null, false]; }
     | expr T_DOUBLE_ARROW ampersand variable                { $$ = Expr\ArrayItem[$4, $1,   true]; }
     | ampersand variable                                    { $$ = Expr\ArrayItem[$2, null, true]; }
-    | T_ELLIPSIS expr                                       { $$ = Expr\ArrayItem[$2, null, false, attributes(), true]; }
+    | T_ELLIPSIS expr                                       { $$ = new Expr\ArrayItem($2, null, false, attributes(), true); }
 ;
 
 encaps_list:
