@@ -107,6 +107,8 @@ switch ($testType) {
 # whitespace in namespaced name
 | Zend.tests.bug55086
 | Zend.tests.grammar.regression_010
+# not worth emulating on old PHP versions
+| Zend.tests.type_declarations.intersection_types.parsing_comment
 )\.phpt$~x', $file)) {
                 return null;
             }
