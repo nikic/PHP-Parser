@@ -47,7 +47,7 @@ class CodeTestParser {
             }
             $result .= $lastPart;
         }
-        return $result;
+        return $result . "\n";
     }
 
     private function extractMode(string $expected): array {
