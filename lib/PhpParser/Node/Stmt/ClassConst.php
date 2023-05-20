@@ -12,7 +12,7 @@ class ClassConst extends Node\Stmt {
     public $consts;
     /** @var Node\AttributeGroup[] PHP attribute groups */
     public $attrGroups;
-    /** @var Node\Identifier|Node\Name|Node\ComplexType Type declaration */
+    /** @var Node\Identifier|Node\Name|Node\ComplexType|null Type declaration */
     public $type;
 
     /**
@@ -35,7 +35,7 @@ class ClassConst extends Node\Stmt {
         $this->flags = $flags;
         $this->consts = $consts;
         $this->attrGroups = $attrGroups;
-        $this->type = $type;
+        $this->type = \is_string($type) ? new Node\Identifier($type) : $type;
     }
 
     public function getSubNodeNames(): array {
