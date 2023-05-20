@@ -47,6 +47,14 @@ class LexerTest extends \PHPUnit\Framework\TestCase {
         ];
     }
 
+    public function testDefaultErrorHandler() {
+        $this->expectException(Error::class);
+        $this->expectExceptionMessage('Unterminated comment on line 1');
+        $lexer = $this->getLexer();
+        $lexer->startLexing("<?php readonly /*");
+        $lexer->getNextToken();
+    }
+
     /**
      * @dataProvider provideTestLex
      */

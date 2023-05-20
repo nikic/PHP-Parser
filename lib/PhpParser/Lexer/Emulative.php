@@ -85,6 +85,10 @@ class Emulative extends Lexer {
             return;
         }
 
+        if ($errorHandler === null) {
+            $errorHandler = new ErrorHandler\Throwing();
+        }
+
         $this->patches = [];
         foreach ($emulators as $emulator) {
             $code = $emulator->preprocessCode($code, $this->patches);
