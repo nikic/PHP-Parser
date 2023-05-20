@@ -210,6 +210,7 @@ use PhpParser\Node;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Scalar;
 use PhpParser\Node\Stmt;
+use PhpParser\Modifiers;
 \$fn = function(&\$stmts) { $modification };
 CODE
         );

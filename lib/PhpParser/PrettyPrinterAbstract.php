@@ -1633,6 +1633,7 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
             Stmt\ClassMethod::class . '->flags' => ['pModifiers', \T_FUNCTION],
             Stmt\Class_::class . '->flags' => ['pModifiers', \T_CLASS],
             Stmt\Property::class . '->flags' => ['pModifiers', \T_VARIABLE],
+            PrintableNewAnonClassNode::class . '->flags' => ['pModifiers', \T_CLASS],
             Param::class . '->flags' => ['pModifiers', \T_VARIABLE],
             Expr\Closure::class . '->static' => ['pStatic', \T_FUNCTION],
             Expr\ArrowFunction::class . '->static' => ['pStatic', \T_FN],

@@ -1,0 +1,25 @@
+Readonly anonymous class
+-----
+<?php
+
+new readonly class {};
+-----
+array(
+    0: Stmt_Expression(
+        expr: Expr_New(
+            class: Stmt_Class(
+                attrGroups: array(
+                )
+                flags: READONLY (64)
+                name: null
+                extends: null
+                implements: array(
+                )
+                stmts: array(
+                )
+            )
+            args: array(
+            )
+        )
+    )
+)

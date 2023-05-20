@@ -10,6 +10,7 @@ new class($a) extends A {
         $this->a = $a;
     }
 };
+new readonly class {};
 -----
 new class
 {
@@ -24,4 +25,7 @@ new class($a) extends A
     {
         $this->a = $a;
     }
+};
+new readonly class
+{
 };

@@ -1076,8 +1076,8 @@ expr:
 ;
 
 anonymous_class:
-      optional_attributes T_CLASS ctor_arguments extends_from implements_list '{' class_statement_list '}'
-          { $$ = array(Stmt\Class_[null, ['type' => 0, 'extends' => $4, 'implements' => $5, 'stmts' => $7, 'attrGroups' => $1]], $3);
+      optional_attributes class_entry_type ctor_arguments extends_from implements_list '{' class_statement_list '}'
+          { $$ = array(Stmt\Class_[null, ['type' => $2, 'extends' => $4, 'implements' => $5, 'stmts' => $7, 'attrGroups' => $1]], $3);
             $this->checkClass($$[0], -1); }
 ;
 
