@@ -25,14 +25,14 @@ class Property extends Node\Stmt {
      * @param int                                     $flags      Modifiers
      * @param PropertyItem[]                      $props      Properties
      * @param array<string, mixed> $attributes Additional attributes
-     * @param null|string|Identifier|Name|ComplexType $type       Type declaration
+     * @param null|Identifier|Name|ComplexType $type Type declaration
      * @param Node\AttributeGroup[]                   $attrGroups PHP attribute groups
      */
-    public function __construct(int $flags, array $props, array $attributes = [], $type = null, array $attrGroups = []) {
+    public function __construct(int $flags, array $props, array $attributes = [], ?Node $type = null, array $attrGroups = []) {
         $this->attributes = $attributes;
         $this->flags = $flags;
         $this->props = $props;
-        $this->type = \is_string($type) ? new Identifier($type) : $type;
+        $this->type = $type;
         $this->attrGroups = $attrGroups;
     }
 

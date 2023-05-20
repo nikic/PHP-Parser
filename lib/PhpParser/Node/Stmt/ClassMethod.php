@@ -51,7 +51,7 @@ class ClassMethod extends Node\Stmt implements FunctionLike {
      *     flags?: int,
      *     byRef?: bool,
      *     params?: Node\Param[],
-     *     returnType?: null|string|Node\Identifier|Node\Name|Node\ComplexType,
+     *     returnType?: null|Node\Identifier|Node\Name|Node\ComplexType,
      *     stmts?: Node\Stmt[]|null,
      *     attrGroups?: Node\AttributeGroup[],
      * } $subNodes Array of the following optional subnodes:
@@ -69,8 +69,7 @@ class ClassMethod extends Node\Stmt implements FunctionLike {
         $this->byRef = $subNodes['byRef'] ?? false;
         $this->name = \is_string($name) ? new Node\Identifier($name) : $name;
         $this->params = $subNodes['params'] ?? [];
-        $returnType = $subNodes['returnType'] ?? null;
-        $this->returnType = \is_string($returnType) ? new Node\Identifier($returnType) : $returnType;
+        $this->returnType = $subNodes['returnType'] ?? null;
         $this->stmts = array_key_exists('stmts', $subNodes) ? $subNodes['stmts'] : [];
         $this->attrGroups = $subNodes['attrGroups'] ?? [];
     }

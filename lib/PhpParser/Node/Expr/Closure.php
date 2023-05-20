@@ -31,7 +31,7 @@ class Closure extends Expr implements FunctionLike {
      *     byRef?: bool,
      *     params?: Node\Param[],
      *     uses?: ClosureUse[],
-     *     returnType?: null|string|Node\Identifier|Node\Name|Node\ComplexType,
+     *     returnType?: null|Node\Identifier|Node\Name|Node\ComplexType,
      *     stmts?: Node\Stmt[],
      *     attrGroups?: Node\AttributeGroup[],
      * } $subNodes Array of the following optional subnodes:
@@ -50,8 +50,7 @@ class Closure extends Expr implements FunctionLike {
         $this->byRef = $subNodes['byRef'] ?? false;
         $this->params = $subNodes['params'] ?? [];
         $this->uses = $subNodes['uses'] ?? [];
-        $returnType = $subNodes['returnType'] ?? null;
-        $this->returnType = \is_string($returnType) ? new Node\Identifier($returnType) : $returnType;
+        $this->returnType = $subNodes['returnType'] ?? null;
         $this->stmts = $subNodes['stmts'] ?? [];
         $this->attrGroups = $subNodes['attrGroups'] ?? [];
     }

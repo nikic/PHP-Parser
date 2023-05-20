@@ -30,7 +30,7 @@ class ArrowFunction extends Expr implements FunctionLike {
      *     static?: bool,
      *     byRef?: bool,
      *     params?: Node\Param[],
-     *     returnType?: null|string|Node\Identifier|Node\Name|Node\ComplexType,
+     *     returnType?: null|Node\Identifier|Node\Name|Node\ComplexType,
      *     attrGroups?: Node\AttributeGroup[]
      * } $subNodes Array of the following subnodes:
      *             'expr'                  : Expression body
@@ -46,8 +46,7 @@ class ArrowFunction extends Expr implements FunctionLike {
         $this->static = $subNodes['static'] ?? false;
         $this->byRef = $subNodes['byRef'] ?? false;
         $this->params = $subNodes['params'] ?? [];
-        $returnType = $subNodes['returnType'] ?? null;
-        $this->returnType = \is_string($returnType) ? new Node\Identifier($returnType) : $returnType;
+        $this->returnType = $subNodes['returnType'] ?? null;
         $this->expr = $subNodes['expr'];
         $this->attrGroups = $subNodes['attrGroups'] ?? [];
     }

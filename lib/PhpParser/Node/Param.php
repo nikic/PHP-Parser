@@ -3,6 +3,7 @@
 namespace PhpParser\Node;
 
 use PhpParser\Modifiers;
+use PhpParser\Node;
 use PhpParser\NodeAbstract;
 
 class Param extends NodeAbstract {
@@ -26,7 +27,7 @@ class Param extends NodeAbstract {
      *
      * @param Expr\Variable|Expr\Error                $var        Parameter variable
      * @param null|Expr                               $default    Default value
-     * @param null|string|Identifier|Name|ComplexType $type       Type declaration
+     * @param null|Identifier|Name|ComplexType $type Type declaration
      * @param bool                                    $byRef      Whether is passed by reference
      * @param bool                                    $variadic   Whether this is a variadic argument
      * @param array<string, mixed> $attributes Additional attributes
@@ -34,14 +35,14 @@ class Param extends NodeAbstract {
      * @param list<AttributeGroup> $attrGroups PHP attribute groups
      */
     public function __construct(
-        $var, ?Expr $default = null, $type = null,
+        $var, ?Expr $default = null, ?Node $type = null,
         bool $byRef = false, bool $variadic = false,
         array $attributes = [],
         int $flags = 0,
         array $attrGroups = []
     ) {
         $this->attributes = $attributes;
-        $this->type = \is_string($type) ? new Identifier($type) : $type;
+        $this->type = $type;
         $this->byRef = $byRef;
         $this->variadic = $variadic;
         $this->var = $var;

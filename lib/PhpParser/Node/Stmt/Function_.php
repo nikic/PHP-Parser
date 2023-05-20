@@ -29,7 +29,7 @@ class Function_ extends Node\Stmt implements FunctionLike {
      * @param array{
      *     byRef?: bool,
      *     params?: Node\Param[],
-     *     returnType?: null|string|Node\Identifier|Node\Name|Node\ComplexType,
+     *     returnType?: null|Node\Identifier|Node\Name|Node\ComplexType,
      *     stmts?: Node\Stmt[],
      *     attrGroups?: Node\AttributeGroup[],
      * } $subNodes Array of the following optional subnodes:
@@ -45,8 +45,7 @@ class Function_ extends Node\Stmt implements FunctionLike {
         $this->byRef = $subNodes['byRef'] ?? false;
         $this->name = \is_string($name) ? new Node\Identifier($name) : $name;
         $this->params = $subNodes['params'] ?? [];
-        $returnType = $subNodes['returnType'] ?? null;
-        $this->returnType = \is_string($returnType) ? new Node\Identifier($returnType) : $returnType;
+        $this->returnType = $subNodes['returnType'] ?? null;
         $this->stmts = $subNodes['stmts'] ?? [];
         $this->attrGroups = $subNodes['attrGroups'] ?? [];
     }

@@ -3,6 +3,7 @@
 namespace PhpParser;
 
 use PhpParser\Builder\Class_;
+use PhpParser\Node\Identifier;
 use PhpParser\Node\Scalar;
 use PhpParser\Node\Stmt;
 use PhpParser\Node\Expr;
@@ -136,7 +137,7 @@ class BuilderHelpersTest extends \PHPUnit\Framework\TestCase {
         $intName = new Node\Name('int');
         $this->assertSame($intName, BuilderHelpers::normalizeType($intName));
 
-        $intNullable = new Node\NullableType('int');
+        $intNullable = new Node\NullableType(new Identifier('int'));
         $this->assertSame($intNullable, BuilderHelpers::normalizeType($intNullable));
 
         $unionType = new Node\UnionType([new Node\Identifier('int'), new Node\Identifier('string')]);

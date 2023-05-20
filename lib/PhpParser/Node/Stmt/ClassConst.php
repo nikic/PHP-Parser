@@ -22,20 +22,20 @@ class ClassConst extends Node\Stmt {
      * @param int $flags Modifiers
      * @param array<string, mixed> $attributes Additional attributes
      * @param list<Node\AttributeGroup> $attrGroups PHP attribute groups
-     * @param null|string|Node\Identifier|Node\Name|Node\ComplexType $type Type declaration
+     * @param null|Node\Identifier|Node\Name|Node\ComplexType $type Type declaration
      */
     public function __construct(
         array $consts,
         int $flags = 0,
         array $attributes = [],
         array $attrGroups = [],
-        $type = null
+        ?Node $type = null
     ) {
         $this->attributes = $attributes;
         $this->flags = $flags;
         $this->consts = $consts;
         $this->attrGroups = $attrGroups;
-        $this->type = \is_string($type) ? new Node\Identifier($type) : $type;
+        $this->type = $type;
     }
 
     public function getSubNodeNames(): array {
