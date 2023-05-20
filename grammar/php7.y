@@ -221,7 +221,10 @@ non_empty_class_const_list:
 ;
 
 class_const:
-    identifier_maybe_reserved '=' expr                      { $$ = Node\Const_[$1, $3]; }
+      T_STRING '=' expr
+          { $$ = Node\Const_[new Node\Identifier($1, stackAttributes(#1)), $3]; }
+    | semi_reserved '=' expr
+          { $$ = Node\Const_[new Node\Identifier($1, stackAttributes(#1)), $3]; }
 ;
 
 inner_statement_list_ex:
@@ -721,6 +724,9 @@ class_statement:
             $this->checkProperty($$, #2); }
     | optional_attributes method_modifiers T_CONST class_const_list semi
           { $$ = new Stmt\ClassConst($4, $2, attributes(), $1);
+            $this->checkClassConst($$, #2); }
+    | optional_attributes method_modifiers T_CONST type_expr class_const_list semi
+          { $$ = new Stmt\ClassConst($5, $2, attributes(), $1, $4);
             $this->checkClassConst($$, #2); }
     | optional_attributes method_modifiers T_FUNCTION optional_ref identifier_maybe_reserved '(' parameter_list ')'
       optional_return_type method_body

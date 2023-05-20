@@ -142,6 +142,18 @@ class ClassConstTest extends \PHPUnit\Framework\TestCase
         );
     }
 
+    public function testType() {
+        $node = $this->createClassConstBuilder('TYPE', 1)
+            ->setType('int')
+            ->getNode();
+        $this->assertEquals(
+            new Stmt\ClassConst(
+                [new Const_('TYPE', new LNumber(1))],
+                0, [], [], new Identifier('int')),
+            $node
+        );
+    }
+
     /**
      * @dataProvider provideTestDefaultValues
      */
