@@ -22,6 +22,7 @@ array(
                 attrGroups: array(
                 )
                 flags: STATIC (8)
+                type: null
                 consts: array(
                     0: Const(
                         name: Identifier(
@@ -59,6 +60,7 @@ array(
                 attrGroups: array(
                 )
                 flags: ABSTRACT (16)
+                type: null
                 consts: array(
                     0: Const(
                         name: Identifier(
@@ -96,6 +98,7 @@ array(
                 attrGroups: array(
                 )
                 flags: READONLY (64)
+                type: null
                 consts: array(
                     0: Const(
                         name: Identifier(
@@ -133,6 +136,7 @@ array(
                 attrGroups: array(
                 )
                 flags: PUBLIC (1)
+                type: null
                 consts: array(
                     0: Const(
                         name: Identifier(
