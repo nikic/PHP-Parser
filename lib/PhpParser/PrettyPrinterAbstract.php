@@ -1249,7 +1249,7 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
         }
 
         if ($this->phpVersion->allowsDelInIdentifiers()) {
-            $this->labelCharMap[0x7f] = true;
+            $this->labelCharMap["\x7f"] = true;
         }
     }
 
