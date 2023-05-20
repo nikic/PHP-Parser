@@ -728,7 +728,7 @@ class Standard extends PrettyPrinterAbstract {
             }
             return $this->pPrefixOp(
                 Expr\Yield_::class, 'yield ' . $this->pKey($node->key),
-                 $node->value, $precedence, $lhsPrecedence);
+                $node->value, $precedence, $lhsPrecedence);
         }
     }
 
