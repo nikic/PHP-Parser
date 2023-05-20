@@ -1,3 +1,11 @@
+Version 4.15.5 (2023-05-19)
+---------------------------
+
+### Added
+
+* Added `makePrivate()`, `makeProtected()`, `makePublic()` and `makeReadonly()` methods to
+  `Builder\Param` to allow the creation of promoted parameters.
+
 Version 4.15.4 (2023-03-05)
 ---------------------------
 

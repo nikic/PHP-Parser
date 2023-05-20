@@ -205,6 +205,54 @@ class ParamTest extends \PHPUnit\Framework\TestCase
         );
     }
 
+    public function testMakePublic() {
+        $node = $this->createParamBuilder('test')
+            ->makePublic()
+            ->getNode()
+        ;
+
+        $this->assertEquals(
+            new Node\Param(new Expr\Variable('test'), null, null, false, false, [], Node\Stmt\Class_::MODIFIER_PUBLIC),
+            $node
+        );
+    }
+
+    public function testMakeProtected() {
+        $node = $this->createParamBuilder('test')
+            ->makeProtected()
+            ->getNode()
+        ;
+
+        $this->assertEquals(
+            new Node\Param(new Expr\Variable('test'), null, null, false, false, [], Node\Stmt\Class_::MODIFIER_PROTECTED),
+            $node
+        );
+    }
+
+    public function testMakePrivate() {
+        $node = $this->createParamBuilder('test')
+            ->makePrivate()
+            ->getNode()
+        ;
+
+        $this->assertEquals(
+            new Node\Param(new Expr\Variable('test'), null, null, false, false, [], Node\Stmt\Class_::MODIFIER_PRIVATE),
+            $node
+        );
+    }
+
+    public function testMakeReadonly() {
+        $node = $this->createParamBuilder('test')
+            ->makeReadonly()
+            ->getNode()
+        ;
+
+        $this->assertEquals(
+            new Node\Param(new Expr\Variable('test'), null, null, false, false, [], Node\Stmt\Class_::MODIFIER_READONLY),
+            $node
+        );
+    }
+
     public function testAddAttribute() {
         $attribute = new Attribute(
             new Name('Attr'),

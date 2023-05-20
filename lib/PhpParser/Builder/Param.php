@@ -19,6 +19,8 @@ class Param implements PhpParser\Builder
 
     protected $variadic = false;
 
+    protected $flags = 0;
+
     /** @var Node\AttributeGroup[] */
     protected $attributeGroups = [];
 
@@ -96,6 +98,50 @@ class Param implements PhpParser\Builder
     }
 
     /**
+     * Makes the (promoted) parameter public.
+     *
+     * @return $this The builder instance (for fluid interface)
+     */
+    public function makePublic() {
+        $this->flags = BuilderHelpers::addModifier($this->flags, Node\Stmt\Class_::MODIFIER_PUBLIC);
+
+        return $this;
+    }
+
+    /**
+     * Makes the (promoted) parameter protected.
+     *
+     * @return $this The builder instance (for fluid interface)
+     */
+    public function makeProtected() {
+        $this->flags = BuilderHelpers::addModifier($this->flags, Node\Stmt\Class_::MODIFIER_PROTECTED);
+
+        return $this;
+    }
+
+    /**
+     * Makes the (promoted) parameter private.
+     *
+     * @return $this The builder instance (for fluid interface)
+     */
+    public function makePrivate() {
+        $this->flags = BuilderHelpers::addModifier($this->flags, Node\Stmt\Class_::MODIFIER_PRIVATE);
+
+        return $this;
+    }
+
+    /**
+     * Makes the (promoted) parameter readonly.
+     *
+     * @return $this The builder instance (for fluid interface)
+     */
+    public function makeReadonly() {
+        $this->flags = BuilderHelpers::addModifier($this->flags, Node\Stmt\Class_::MODIFIER_READONLY);
+
+        return $this;
+    }
+
+    /**
      * Adds an attribute group.
      *
      * @param Node\Attribute|Node\AttributeGroup $attribute
@@ -116,7 +162,7 @@ class Param implements PhpParser\Builder
     public function getNode() : Node {
         return new Node\Param(
             new Node\Expr\Variable($this->name),
-            $this->default, $this->type, $this->byRef, $this->variadic, [], 0, $this->attributeGroups
+            $this->default, $this->type, $this->byRef, $this->variadic, [], $this->flags, $this->attributeGroups
         );
     }
 }
