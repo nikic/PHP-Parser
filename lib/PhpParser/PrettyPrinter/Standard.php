@@ -814,7 +814,9 @@ class Standard extends PrettyPrinterAbstract
     protected function pStmt_ClassConst(Stmt\ClassConst $node) {
         return $this->pAttrGroups($node->attrGroups)
              . $this->pModifiers($node->flags)
-             . 'const ' . $this->pCommaSeparated($node->consts) . ';';
+             . 'const '
+             . (null !== $node->type ? $this->p($node->type) . ' ' : '')
+             . $this->pCommaSeparated($node->consts) . ';';
     }
 
     protected function pStmt_Function(Stmt\Function_ $node) {

@@ -27,6 +27,7 @@ array(
                 attrGroups: array(
                 )
                 flags: 0
+                type: null
                 consts: array(
                     0: Const(
                         name: Identifier(
@@ -42,6 +43,7 @@ array(
                 attrGroups: array(
                 )
                 flags: MODIFIER_PUBLIC (1)
+                type: null
                 consts: array(
                     0: Const(
                         name: Identifier(
@@ -57,6 +59,7 @@ array(
                 attrGroups: array(
                 )
                 flags: MODIFIER_PROTECTED (2)
+                type: null
                 consts: array(
                     0: Const(
                         name: Identifier(
@@ -72,6 +75,7 @@ array(
                 attrGroups: array(
                 )
                 flags: MODIFIER_PRIVATE (4)
+                type: null
                 consts: array(
                     0: Const(
                         name: Identifier(
@@ -87,6 +91,7 @@ array(
                 attrGroups: array(
                 )
                 flags: MODIFIER_FINAL (32)
+                type: null
                 consts: array(
                     0: Const(
                         name: Identifier(

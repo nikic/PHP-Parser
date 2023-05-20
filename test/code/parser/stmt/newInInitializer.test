@@ -127,6 +127,7 @@ array(
                 attrGroups: array(
                 )
                 flags: 0
+                type: null
                 consts: array(
                     0: Const(
                         name: Identifier(
