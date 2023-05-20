@@ -23,15 +23,22 @@ class CommentTest extends \PHPUnit\Framework\TestCase {
     /**
      * @dataProvider provideTestReformatting
      */
-    public function testReformatting($commentText, $reformattedText) {
-        $comment = new Comment($commentText);
+    public function testReformatting(
+        $commentText,
+        $reformattedText,
+        $startLine,
+        $startFilePos,
+        $startTokenPos,
+        $endLine
+    ) {
+        $comment = new Comment($commentText, $startLine, $startFilePos, $startTokenPos, $endLine);
         $this->assertSame($reformattedText, $comment->getReformattedText());
     }
 
     public function provideTestReformatting() {
         return [
-            ['// Some text', '// Some text'],
-            ['/* Some text */', '/* Some text */'],
+            ['// Some text' . "\n", '// Some text', 1, 10, 2, 1],
+            ['/* Some text */', '/* Some text */', 1, 10, 2, 1],
             [
                 '/**
      * Some text.
@@ -40,7 +47,8 @@ class CommentTest extends \PHPUnit\Framework\TestCase {
                 '/**
  * Some text.
  * Some more text.
- */'
+ */',
+                1, 10, 2, 4
             ],
             [
                 '/*
@@ -50,7 +58,8 @@ class CommentTest extends \PHPUnit\Framework\TestCase {
                 '/*
     Some text.
     Some more text.
-*/'
+*/',
+                1, 10, 2, 4
             ],
             [
                 '/* Some text.
@@ -58,7 +67,8 @@ class CommentTest extends \PHPUnit\Framework\TestCase {
        Even more text. */',
                 '/* Some text.
    More text.
-   Even more text. */'
+   Even more text. */',
+                1, 10, 2, 3
             ],
             [
                 '/* Some text.
@@ -67,6 +77,7 @@ class CommentTest extends \PHPUnit\Framework\TestCase {
                 '/* Some text.
    More text.
      Indented text. */',
+                1, 10, 2, 4
             ],
             // invalid comment -> no reformatting
             [
@@ -74,6 +85,7 @@ class CommentTest extends \PHPUnit\Framework\TestCase {
     world',
                 'hallo
     world',
+                1, 10, 2, 2
             ],
         ];
     }
