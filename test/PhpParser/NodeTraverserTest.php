@@ -66,7 +66,7 @@ class NodeTraverserTest extends \PHPUnit\Framework\TestCase {
         $str2Node = new String_('Bar');
 
         $visitor = new NodeVisitorForTesting([
-            ['leaveNode', $str1Node, NodeTraverser::REMOVE_NODE],
+            ['leaveNode', $str1Node, NodeVisitor::REMOVE_NODE],
         ]);
         $visitor2 = new NodeVisitorForTesting();
 
@@ -90,7 +90,7 @@ class NodeTraverserTest extends \PHPUnit\Framework\TestCase {
         $str2Node = new String_('Bar');
 
         $visitor = new NodeVisitorForTesting([
-            ['enterNode', $str1Node, NodeTraverser::REMOVE_NODE],
+            ['enterNode', $str1Node, NodeVisitor::REMOVE_NODE],
         ]);
         $visitor2 = new NodeVisitorForTesting();
 
@@ -172,10 +172,10 @@ class NodeTraverserTest extends \PHPUnit\Framework\TestCase {
         $stmts = [$printNode, $negNode];
 
         $visitor1 = new NodeVisitorForTesting([
-            ['enterNode', $printNode, NodeTraverser::DONT_TRAVERSE_CHILDREN],
+            ['enterNode', $printNode, NodeVisitor::DONT_TRAVERSE_CHILDREN],
         ]);
         $visitor2 = new NodeVisitorForTesting([
-            ['enterNode', $mulNode, NodeTraverser::DONT_TRAVERSE_CHILDREN],
+            ['enterNode', $mulNode, NodeVisitor::DONT_TRAVERSE_CHILDREN],
         ]);
 
         $expectedTrace = [
@@ -209,8 +209,8 @@ class NodeTraverserTest extends \PHPUnit\Framework\TestCase {
         $stmts = [$printNode, $negNode];
 
         $visitor1 = new NodeVisitorForTesting([
-            ['enterNode', $printNode, NodeTraverser::DONT_TRAVERSE_CURRENT_AND_CHILDREN],
-            ['enterNode', $mulNode, NodeTraverser::DONT_TRAVERSE_CURRENT_AND_CHILDREN],
+            ['enterNode', $printNode, NodeVisitor::DONT_TRAVERSE_CURRENT_AND_CHILDREN],
+            ['enterNode', $mulNode, NodeVisitor::DONT_TRAVERSE_CURRENT_AND_CHILDREN],
             ['leaveNode', $mulNode, $divNode],
         ]);
         $visitor2 = new NodeVisitorForTesting();
@@ -250,7 +250,7 @@ class NodeTraverserTest extends \PHPUnit\Framework\TestCase {
 
         // From enterNode() with array parent
         $visitor = new NodeVisitorForTesting([
-            ['enterNode', $mulNode, NodeTraverser::STOP_TRAVERSAL],
+            ['enterNode', $mulNode, NodeVisitor::STOP_TRAVERSAL],
         ]);
         $traverser = new NodeTraverser();
         $traverser->addVisitor($visitor);
@@ -263,7 +263,7 @@ class NodeTraverserTest extends \PHPUnit\Framework\TestCase {
 
         // From enterNode with Node parent
         $visitor = new NodeVisitorForTesting([
-            ['enterNode', $varNode1, NodeTraverser::STOP_TRAVERSAL],
+            ['enterNode', $varNode1, NodeVisitor::STOP_TRAVERSAL],
         ]);
         $traverser = new NodeTraverser();
         $traverser->addVisitor($visitor);
@@ -277,7 +277,7 @@ class NodeTraverserTest extends \PHPUnit\Framework\TestCase {
 
         // From leaveNode with Node parent
         $visitor = new NodeVisitorForTesting([
-            ['leaveNode', $varNode1, NodeTraverser::STOP_TRAVERSAL],
+            ['leaveNode', $varNode1, NodeVisitor::STOP_TRAVERSAL],
         ]);
         $traverser = new NodeTraverser();
         $traverser->addVisitor($visitor);
@@ -292,7 +292,7 @@ class NodeTraverserTest extends \PHPUnit\Framework\TestCase {
 
         // From leaveNode with array parent
         $visitor = new NodeVisitorForTesting([
-            ['leaveNode', $mulNode, NodeTraverser::STOP_TRAVERSAL],
+            ['leaveNode', $mulNode, NodeVisitor::STOP_TRAVERSAL],
         ]);
         $traverser = new NodeTraverser();
         $traverser->addVisitor($visitor);
@@ -310,8 +310,8 @@ class NodeTraverserTest extends \PHPUnit\Framework\TestCase {
 
         // Check that pending array modifications are still carried out
         $visitor = new NodeVisitorForTesting([
-            ['leaveNode', $mulNode, NodeTraverser::REMOVE_NODE],
-            ['enterNode', $printNode, NodeTraverser::STOP_TRAVERSAL],
+            ['leaveNode', $mulNode, NodeVisitor::REMOVE_NODE],
+            ['enterNode', $printNode, NodeVisitor::STOP_TRAVERSAL],
         ]);
         $traverser = new NodeTraverser();
         $traverser->addVisitor($visitor);

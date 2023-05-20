@@ -5,6 +5,7 @@
 use PhpParser\Node\Expr;
 use PhpParser\Node\Scalar;
 use PhpParser\Node\Stmt;
+use PhpParser\NodeVisitor;
 
 if (class_exists(PhpParser\Parser\Php7::class)) {
     echo "The PHP-Parser target can only be used with php-fuzzer.phar,\n";
@@ -51,7 +52,7 @@ $visitor = new class extends PhpParser\NodeVisitorAbstract {
     public function leaveNode(PhpParser\Node $node) {
         // We don't precisely preserve nop statements.
         if ($node instanceof Stmt\Nop) {
-            return PhpParser\NodeTraverser::REMOVE_NODE;
+            return NodeVisitor::REMOVE_NODE;
         }
 
         // We don't precisely preserve redundant trailing commas in array destructuring.

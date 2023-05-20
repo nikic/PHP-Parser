@@ -4,39 +4,24 @@ namespace PhpParser;
 
 class NodeTraverser implements NodeTraverserInterface {
     /**
-     * If NodeVisitor::enterNode() returns DONT_TRAVERSE_CHILDREN, child nodes
-     * of the current node will not be traversed for any visitors.
-     *
-     * For subsequent visitors enterNode() will still be called on the current
-     * node and leaveNode() will also be invoked for the current node.
+     * @deprecated Use NodeVisitor::DONT_TRAVERSE_CHILDREN instead.
      */
-    public const DONT_TRAVERSE_CHILDREN = 1;
+    public const DONT_TRAVERSE_CHILDREN = NodeVisitor::DONT_TRAVERSE_CHILDREN;
 
     /**
-     * If NodeVisitor::enterNode() or NodeVisitor::leaveNode() returns
-     * STOP_TRAVERSAL, traversal is aborted.
-     *
-     * The afterTraverse() method will still be invoked.
+     * @deprecated Use NodeVisitor::STOP_TRAVERSAL instead.
      */
-    public const STOP_TRAVERSAL = 2;
+    public const STOP_TRAVERSAL = NodeVisitor::STOP_TRAVERSAL;
 
     /**
-     * If NodeVisitor::leaveNode() returns REMOVE_NODE for a node that occurs
-     * in an array, it will be removed from the array.
-     *
-     * For subsequent visitors leaveNode() will still be invoked for the
-     * removed node.
+     * @deprecated Use NodeVisitor::REMOVE_NODE instead.
      */
-    public const REMOVE_NODE = 3;
+    public const REMOVE_NODE = NodeVisitor::REMOVE_NODE;
 
     /**
-     * If NodeVisitor::enterNode() returns DONT_TRAVERSE_CURRENT_AND_CHILDREN, child nodes
-     * of the current node will not be traversed for any visitors.
-     *
-     * For subsequent visitors enterNode() will not be called as well.
-     * leaveNode() will be invoked for visitors that has enterNode() method invoked.
+     * @deprecated Use NodeVisitor::DONT_TRAVERSE_CURRENT_AND_CHILDREN instead.
      */
-    public const DONT_TRAVERSE_CURRENT_AND_CHILDREN = 4;
+    public const DONT_TRAVERSE_CURRENT_AND_CHILDREN = NodeVisitor::DONT_TRAVERSE_CURRENT_AND_CHILDREN;
 
     /** @var list<NodeVisitor> Visitors */
     protected $visitors = [];
@@ -124,13 +109,13 @@ class NodeTraverser implements NodeTraverserInterface {
                         if ($return instanceof Node) {
                             $this->ensureReplacementReasonable($subNode, $return);
                             $subNode = $return;
-                        } elseif (self::DONT_TRAVERSE_CHILDREN === $return) {
+                        } elseif (NodeVisitor::DONT_TRAVERSE_CHILDREN === $return) {
                             $traverseChildren = false;
-                        } elseif (self::DONT_TRAVERSE_CURRENT_AND_CHILDREN === $return) {
+                        } elseif (NodeVisitor::DONT_TRAVERSE_CURRENT_AND_CHILDREN === $return) {
                             $traverseChildren = false;
                             $breakVisitorIndex = $visitorIndex;
                             break;
-                        } elseif (self::STOP_TRAVERSAL === $return) {
+                        } elseif (NodeVisitor::STOP_TRAVERSAL === $return) {
                             $this->stopTraversal = true;
                             break 2;
                         } else {
@@ -155,7 +140,7 @@ class NodeTraverser implements NodeTraverserInterface {
                         if ($return instanceof Node) {
                             $this->ensureReplacementReasonable($subNode, $return);
                             $subNode = $return;
-                        } elseif (self::STOP_TRAVERSAL === $return) {
+                        } elseif (NodeVisitor::STOP_TRAVERSAL === $return) {
                             $this->stopTraversal = true;
                             break 2;
                         } elseif (\is_array($return)) {
@@ -204,16 +189,16 @@ class NodeTraverser implements NodeTraverserInterface {
                         } elseif (\is_array($return)) {
                             $doNodes[] = [$i, $return];
                             continue 2;
-                        } elseif (self::REMOVE_NODE === $return) {
+                        } elseif (NodeVisitor::REMOVE_NODE === $return) {
                             $doNodes[] = [$i, []];
                             continue 2;
-                        } elseif (self::DONT_TRAVERSE_CHILDREN === $return) {
+                        } elseif (NodeVisitor::DONT_TRAVERSE_CHILDREN === $return) {
                             $traverseChildren = false;
-                        } elseif (self::DONT_TRAVERSE_CURRENT_AND_CHILDREN === $return) {
+                        } elseif (NodeVisitor::DONT_TRAVERSE_CURRENT_AND_CHILDREN === $return) {
                             $traverseChildren = false;
                             $breakVisitorIndex = $visitorIndex;
                             break;
-                        } elseif (self::STOP_TRAVERSAL === $return) {
+                        } elseif (NodeVisitor::STOP_TRAVERSAL === $return) {
                             $this->stopTraversal = true;
                             break 2;
                         } else {
@@ -241,10 +226,10 @@ class NodeTraverser implements NodeTraverserInterface {
                         } elseif (\is_array($return)) {
                             $doNodes[] = [$i, $return];
                             break;
-                        } elseif (self::REMOVE_NODE === $return) {
+                        } elseif (NodeVisitor::REMOVE_NODE === $return) {
                             $doNodes[] = [$i, []];
                             break;
-                        } elseif (self::STOP_TRAVERSAL === $return) {
+                        } elseif (NodeVisitor::STOP_TRAVERSAL === $return) {
                             $this->stopTraversal = true;
                             break 2;
                         } else {
