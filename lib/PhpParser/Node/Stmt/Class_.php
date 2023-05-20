@@ -2,7 +2,6 @@
 
 namespace PhpParser\Node\Stmt;
 
-use PhpParser\Error;
 use PhpParser\Modifiers;
 use PhpParser\Node;
 

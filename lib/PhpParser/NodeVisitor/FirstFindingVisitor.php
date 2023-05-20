@@ -3,7 +3,6 @@
 namespace PhpParser\NodeVisitor;
 
 use PhpParser\Node;
-use PhpParser\NodeTraverser;
 use PhpParser\NodeVisitor;
 use PhpParser\NodeVisitorAbstract;
 

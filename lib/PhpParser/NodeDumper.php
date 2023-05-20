@@ -3,7 +3,6 @@
 namespace PhpParser;
 
 use PhpParser\Node\Expr\Include_;
-use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\GroupUse;
 use PhpParser\Node\Stmt\Use_;
 use PhpParser\Node\UseItem;

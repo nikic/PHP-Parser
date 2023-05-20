@@ -3,7 +3,6 @@
 namespace PhpParser\Node;
 
 use PhpParser\Node;
-use PhpParser\Node\Identifier;
 use PhpParser\Node\Stmt\Use_;
 
 class UseItem extends Node\Stmt {
