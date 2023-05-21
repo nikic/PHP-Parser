@@ -150,19 +150,21 @@ class Comment implements \JsonSerializable {
      *
      * "Reformatted" here means that we try to clean up the whitespace at the
      * starts of the lines. This is necessary because we receive the comments
-     * without trailing whitespace on the first line, but with trailing whitespace
+     * without leading whitespace on the first line, but with leading whitespace
      * on all subsequent lines.
+     *
+     * Additionally, this normalizes CRLF newlines to LF newlines.
      *
      * @return string
      */
     public function getReformattedText(): string {
-        $text = $this->text;
+        $text = str_replace("\r\n", "\n", $this->text);
         $newlinePos = strpos($text, "\n");
         if (false === $newlinePos) {
             // Single line comments don't need further processing
             return $text;
         }
-        if (preg_match('((*BSR_ANYCRLF)(*ANYCRLF)^.*(?:\R\s+\*.*)+$)', $text)) {
+        if (preg_match('(^.*(?:\n\s+\*.*)+$)', $text)) {
             // Multi line comment of the type
             //
             //     /*
@@ -171,9 +173,9 @@ class Comment implements \JsonSerializable {
             //      */
             //
             // is handled by replacing the whitespace sequences before the * by a single space
-            return preg_replace('(^\s+\*)m', ' *', $this->text);
+            return preg_replace('(^\s+\*)m', ' *', $text);
         }
-        if (preg_match('(^/\*\*?\s*[\r\n])', $text) && preg_match('(\n(\s*)\*/$)', $text, $matches)) {
+        if (preg_match('(^/\*\*?\s*\n)', $text) && preg_match('(\n(\s*)\*/$)', $text, $matches)) {
             // Multi line comment of the type
             //
             //    /*
