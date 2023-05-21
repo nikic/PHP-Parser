@@ -134,12 +134,12 @@ class Standard extends PrettyPrinterAbstract {
                 $label = $node->getAttribute('docLabel');
                 if ($label && !$this->containsEndLabel($node->value, $label)) {
                     if ($node->value === '') {
-                        return "<<<'$label'\n$label" . $this->docStringEndToken;
+                        return "<<<'$label'{$this->newline}$label{$this->docStringEndToken}";
                     }
 
                     // Make sure trailing \r is not combined with following \n into CRLF.
                     if ($node->value[strlen($node->value) - 1] !== "\r") {
-                        return "<<<'$label'\n$node->value\n$label"
+                        return "<<<'$label'{$this->newline}{$node->value}{$this->newline}$label"
                             . $this->docStringEndToken;
                     }
                 }
@@ -152,10 +152,10 @@ class Standard extends PrettyPrinterAbstract {
                 $escaped = $this->escapeString($node->value, null);
                 if ($label && !$this->containsEndLabel($escaped, $label)) {
                     if ($escaped === '') {
-                        return "<<<$label\n$label" . $this->docStringEndToken;
+                        return "<<<$label{$this->newline}$label{$this->docStringEndToken}";
                     }
 
-                    return "<<<$label\n" . $escaped . "\n$label"
+                    return "<<<$label{$this->newline}$escaped{$this->newline}$label"
                          . $this->docStringEndToken;
                 }
                 /* break missing intentionally */
@@ -174,11 +174,11 @@ class Standard extends PrettyPrinterAbstract {
                     && $node->parts[0] instanceof Node\InterpolatedStringPart
                     && $node->parts[0]->value === ''
                 ) {
-                    return "<<<$label\n$label" . $this->docStringEndToken;
+                    return "<<<$label{$this->newline}$label{$this->docStringEndToken}";
                 }
 
-                return "<<<$label\n" . $this->pEncapsList($node->parts, null) . "\n$label"
-                     . $this->docStringEndToken;
+                return "<<<$label{$this->newline}" . $this->pEncapsList($node->parts, null)
+                     . "{$this->newline}$label{$this->docStringEndToken}";
             }
         }
         return '"' . $this->pEncapsList($node->parts, '"') . '"';
@@ -993,7 +993,7 @@ class Standard extends PrettyPrinterAbstract {
     }
 
     protected function pStmt_InlineHTML(Stmt\InlineHTML $node): string {
-        $newline = $node->getAttribute('hasLeadingNewline', true) ? "\n" : '';
+        $newline = $node->getAttribute('hasLeadingNewline', true) ? $this->newline : '';
         return '?>' . $newline . $node->value . '<?php ';
     }
 

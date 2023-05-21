@@ -104,6 +104,8 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
 
     /** @var int Current indentation level. */
     protected $indentLevel;
+    /** @var string Newline style. Does not include current indentation. */
+    protected $newline;
     /** @var string Newline including current indentation. */
     protected $nl;
     /** @var string|null Token placed at end of doc string to ensure it is followed by a newline.
@@ -165,14 +167,23 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
      *                            array() vs []). It is safe to pretty-print an AST for a newer
      *                            PHP version while specifying an older target (but the result will
      *                            of course not be compatible with the older version in that case).
+     *  * string $newline:        The newline style to use. Should be "\n" (default) or "\r\n".
      *  * bool $shortArraySyntax: Whether to use [] instead of array() as the default array
      *                            syntax, if the node does not specify a format. Defaults to whether
      *                            the phpVersion support short array syntax.
      *
-     * @param array{phpVersion?: PhpVersion, shortArraySyntax?: bool} $options Dictionary of formatting options
+     * @param array{
+     *     phpVersion?: PhpVersion, newline?: string, shortArraySyntax?: bool
+     * } $options Dictionary of formatting options
      */
     public function __construct(array $options = []) {
         $this->phpVersion = $options['phpVersion'] ?? PhpVersion::fromComponents(7, 1);
+
+        $this->newline = $options['newline'] ?? "\n";
+        if ($this->newline !== "\n" && $this->newline != "\r\n") {
+            throw new \LogicException('Option "newline" must be one of "\n" or "\r\n"');
+        }
+
         $this->shortArraySyntax =
             $options['shortArraySyntax'] ?? $this->phpVersion->supportsShortArraySyntax();
         $this->docStringEndToken =
@@ -184,7 +195,7 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
      */
     protected function resetState(): void {
         $this->indentLevel = 0;
-        $this->nl = "\n";
+        $this->nl = $this->newline;
         $this->origTokens = null;
     }
 
@@ -195,7 +206,7 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
      */
     protected function setIndentLevel(int $level): void {
         $this->indentLevel = $level;
-        $this->nl = "\n" . \str_repeat(' ', $level);
+        $this->nl = $this->newline . \str_repeat(' ', $level);
     }
 
     /**
@@ -212,7 +223,7 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
     protected function outdent(): void {
         assert($this->indentLevel >= 4);
         $this->indentLevel -= 4;
-        $this->nl = "\n" . str_repeat(' ', $this->indentLevel);
+        $this->nl = $this->newline . str_repeat(' ', $this->indentLevel);
     }
 
     /**
@@ -250,13 +261,13 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
      */
     public function prettyPrintFile(array $stmts): string {
         if (!$stmts) {
-            return "<?php\n\n";
+            return "<?php" . $this->newline . $this->newline;
         }
 
-        $p = "<?php\n\n" . $this->prettyPrint($stmts);
+        $p = "<?php" . $this->newline . $this->newline . $this->prettyPrint($stmts);
 
         if ($stmts[0] instanceof Stmt\InlineHTML) {
-            $p = preg_replace('/^<\?php\s+\?>\n?/', '', $p);
+            $p = preg_replace('/^<\?php\s+\?>\r?\n?/', '', $p);
         }
         if ($stmts[count($stmts) - 1] instanceof Stmt\InlineHTML) {
             $p = preg_replace('/<\?php$/', '', rtrim($p));
@@ -290,8 +301,11 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
     protected function handleMagicTokens(string $str): string {
         if ($this->docStringEndToken !== null) {
             // Replace doc-string-end tokens with nothing or a newline
-            $str = str_replace($this->docStringEndToken . ";\n", ";\n", $str);
-            $str = str_replace($this->docStringEndToken, "\n", $str);
+            $str = str_replace(
+                $this->docStringEndToken . ';' . $this->newline,
+                ';' . $this->newline,
+                $str);
+            $str = str_replace($this->docStringEndToken, $this->newline, $str);
         }
 
         return $str;
@@ -537,7 +551,7 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
         } else {
             // Fallback
             // TODO Add <?php properly
-            $result = "<?php\n" . $this->pStmts($stmts, false);
+            $result = "<?php" . $this->newline . $this->pStmts($stmts, false);
         }
 
         return $this->handleMagicTokens($result);

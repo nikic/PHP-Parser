@@ -270,4 +270,49 @@ CODE
             $this->getTests(__DIR__ . '/../code/parser', 'test')
         );
     }
+
+    public function testWindowsNewline() {
+        $prettyPrinter = new Standard(['newline' => "\r\n"]);
+        $stmts = [
+            new Stmt\If_(new Int_(1), [
+                'stmts' => [
+                    new Stmt\Echo_([new String_('Hello')]),
+                    new Stmt\Echo_([new String_('World')]),
+                ],
+            ]),
+        ];
+        $code = $prettyPrinter->prettyPrint($stmts);
+        $this->assertSame("if (1) {\r\n    echo 'Hello';\r\n    echo 'World';\r\n}", $code);
+        $code = $prettyPrinter->prettyPrintFile($stmts);
+        $this->assertSame("<?php\r\n\r\nif (1) {\r\n    echo 'Hello';\r\n    echo 'World';\r\n}", $code);
+
+        $stmts = [new Stmt\InlineHTML('Hello world')];
+        $code = $prettyPrinter->prettyPrintFile($stmts);
+        $this->assertSame("Hello world", $code);
+
+        $stmts = [
+            new Stmt\Expression(new String_('Test', [
+                'kind' => String_::KIND_NOWDOC,
+                'docLabel' => 'STR'
+            ])),
+            new Stmt\Expression(new String_('Test 2', [
+                'kind' => String_::KIND_HEREDOC,
+                'docLabel' => 'STR'
+            ])),
+            new Stmt\Expression(new InterpolatedString([new InterpolatedStringPart('Test 3')], [
+                'kind' => String_::KIND_HEREDOC,
+                'docLabel' => 'STR'
+            ])),
+        ];
+        $code = $prettyPrinter->prettyPrint($stmts);
+        $this->assertSame(
+            "<<<'STR'\r\nTest\r\nSTR;\r\n<<<STR\r\nTest 2\r\nSTR;\r\n<<<STR\r\nTest 3\r\nSTR\r\n;",
+            $code);
+    }
+
+    public function testInvalidNewline() {
+        $this->expectException(\LogicException::class);
+        $this->expectExceptionMessage('Option "newline" must be one of "\n" or "\r\n"');
+        new PrettyPrinter\Standard(['newline' => 'foo']);
+    }
 }
