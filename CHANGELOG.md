@@ -1,3 +1,37 @@
+Version 5.0.0-dev
+-----------------
+
+See UPGRADE-5.0 for detailed migration instructions.
+
+### Added
+
+* [PHP 8.3] Added support for typed constants.
+* [PHP 8.3] Added support for readonly anonymous classes.
+* Added support for `NodeVisitor::REPLACE_WITH_NULL`.
+* Added support for CRLF newlines in the pretty printer, using the new `newline` option.
+
+### Changed
+
+* Use PHP 7.1 as the default target version for the pretty printer.
+* Print `else if { }` instead of `else { if { } }`.
+* The `leaveNode()` method on visitors is now invoked in reverse order of `enterNode()`.
+* Moved `NodeTraverser::REMOVE_NODE` etc. to `NodeVisitor::REMOVE_NODE`. The old constants are still
+  available for compatibility.
+* The `Name` subnode `parts` has been replaced by `name`, which stores the name as a string rather
+  than an array of parts separated by namespace separators. The `getParts()` method returns the old
+  representation.
+* No longer accept strings for types in Node constructors. Instead, either an `Identifier`, `Name`
+  or `ComplexType` must be passed.
+* `Comment::getReformattedText()` now normalizes CRLF newlines to LF newlines.
+
+### Fixed
+
+* Don't trim leading whitespace in formatting preserving printer.
+* Treat DEL as a label character in the formatting preserving printer depending on the targeted
+  PHP version.
+* Fix error reporting in emulative lexer without explicitly specified error handler.
+* Gracefully handle non-contiguous array indices in the `Differ`.
+
 Version 5.0.0-alpha2 (2023-03-05)
 ---------------------------------
 

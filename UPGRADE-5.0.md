@@ -71,6 +71,17 @@ Now, destructuring is always represented using `Node\Expr\List_`. The `kind` att
 `Node\Expr\List_::KIND_LIST` or `Node\Expr\List_::KIND_ARRAY` specifies which syntax was actually
 used.
 
+### Changes to the name representation
+
+Previously, `Name` nodes had a `parts` subnode, which stores an array of name parts, split by
+namespace separators. Now, `Name` nodes instead have a `name` subnode, which stores a plain string.
+
+For example, the name `Foo\Bar` was previously represented by `Name(parts: ['Foo', 'Bar'])` and is
+now represented by `Name(name: 'Foo\Bar')` instead.
+
+It is possible to convert the name to the previous representation using `$name->getParts()`. The
+`Name` constructor continues to accept both the string and the array representation.
+
 ### Renamed nodes
 
 A number of AST nodes have been renamed or moved in the AST hierarchy:
@@ -103,6 +114,21 @@ PhpParser\Node\Stmt\Class_::MODIFIER_FINAL     -> PhpParser\Modifiers::FINAL
 PhpParser\Node\Stmt\Class_::MODIFIER_READONLY  -> PhpParser\Modifiers::READONLY
 PhpParser\Node\Stmt\Class_::VISIBILITY_MODIFIER_MASK -> PhpParser\Modifiers::VISIBILITY_MASK
 ```
+
+### Changes to node constructors
+
+Node constructor arguments accepting types now longer accept plain strings. Either an `Identifier` or `Name` (or `ComplexType`) should be passed instead. This affects the following constructor arguments:
+
+* The `'returnType'` key of `$subNodes` argument of `Node\Expr\ArrowFunction`.
+* The `'returnType'` key of `$subNodes` argument of `Node\Expr\Closure`.
+* The `'returnType'` key of `$subNodes` argument of `Node\Stmt\ClassMethod`.
+* The `'returnType'` key of `$subNodes` argument of `Node\Stmt\Function_`.
+* The `$type` argument of `Node\NullableType`.
+* The `$type` argument of `Node\Param`.
+* The `$type` argument of `Node\Stmt\Property`.
+* The `$type` argument of `Node\ClassConst` (new in PHP-Parser 5.0, listed for completeness only).
+
+To follow the previous behavior, an `Identifier` should be passed, which indicates a built-in type.
 
 ### Changes to the pretty printer
 
@@ -156,6 +182,22 @@ Backslashes in single-quoted strings are now only printed if they are necessary:
 '\\\\';
 ```
 
+`else if` structures will now omit redundant parentheses:
+
+```php
+# Before
+else {
+    if ($x) {
+        // ...
+    }
+}
+
+# After
+else if ($x) {
+     // ...
+}
+```
+
 The pretty printer now accepts a `phpVersion` option, which accepts a `PhpVersion` object and defaults to PHP 7.1. The pretty printer will make formatting choices to make the code valid for that version. It currently controls the following behavior:
 
 * For PHP >= 7.0 (default), short array syntax `[]` will be used by default. This does not affect nodes that specify an explicit array syntax using the `kind` attribute.
@@ -196,6 +238,33 @@ protected function pExpr_UnaryPlus(
 
 The new `$precedence` and `$lhsPrecedence` arguments need to be passed down to the `pInfixOp()`, `pPrefixOp()` and `pPostfixOp()` methods.
 
+### Changes to the node traverser
+
+If there are multiple visitors, the node traverser will now call `leaveNode()` and `afterTraverse()` methods in the reverse order of the corresponding `enterNode()` and `beforeTraverse()` calls:
+
+```php
+# Before
+$visitor1->enterNode($node);
+$visitor2->enterNode($node);
+$visitor1->leaveNode($node);
+$visitor2->leaveNode($node);
+
+# After
+$visitor1->enterNode($node);
+$visitor2->enterNode($node);
+$visitor2->leaveNode($node);
+$visitor1->leaveNode($node);
+```
+
+Additionally, the special `NodeVisitor` return values have been moved from `NodeTraverser` to `NodeVisitor`. The old names are deprecated, but still available.
+
+```php
+PhpParser\NodeTraverser::REMOVE_NODE -> PhpParser\NodeVisitor::REMOVE_NODE
+PhpParser\NodeTraverser::DONT_TRAVERSE_CHILDREN -> PhpParser\NodeVisitor::DONT_TRAVERSE_CHILDREN
+PhpParser\NodeTraverser::DONT_TRAVERSE_CURRENT_AND_CHILDREN -> PhpParser\NodeVisitor::DONT_TRAVERSE_CURRENT_AND_CHILDREN
+PhpParser\NodeTraverser::STOP_TRAVERSAL -> PhpParser\NodeVisitor::STOP_TRAVERSAL
+```
+
 ### Changes to token representation
 
 Tokens are now internally represented using the `PhpParser\Token` class, which exposes the same base interface as
@@ -216,7 +285,8 @@ class Token {
 The `Lexer::getTokens()` method will now return an array of `Token`s, rather than an array of arrays and strings.
 Additionally, the token array is now terminated by a sentinel token with ID 0.
 
-### Other removed functionality
+### Miscellaneous changes
 
  * The deprecated `Builder\Param::setTypeHint()` method has been removed in favor of `Builder\Param::setType()`.
  * The deprecated `Error` constructor taking a start line has been removed. Pass `['startLine' => $startLine]` attributes instead.
+* `Comment::getReformattedText()` now normalizes CRLF newlines to LF newlines.
