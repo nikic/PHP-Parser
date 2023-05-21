@@ -48,11 +48,9 @@ class NodeTraverser implements NodeTraverserInterface {
      * @param NodeVisitor $visitor
      */
     public function removeVisitor(NodeVisitor $visitor): void {
-        foreach ($this->visitors as $index => $storedVisitor) {
-            if ($storedVisitor === $visitor) {
-                unset($this->visitors[$index]);
-                break;
-            }
+        $index = array_search($visitor, $this->visitors);
+        if ($index !== false) {
+            array_splice($this->visitors, $index, 1, []);
         }
     }
 

@@ -348,7 +348,7 @@ class NodeTraverserTest extends \PHPUnit\Framework\TestCase {
 
         $traverser->removeVisitor($visitor2);
 
-        $postExpected = [0 => $visitor1, 2 => $visitor3];
+        $postExpected = [$visitor1, $visitor3];
         $this->assertSame($postExpected, $getVisitors());
     }
 
