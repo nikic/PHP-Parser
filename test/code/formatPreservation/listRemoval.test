@@ -208,3 +208,15 @@ class Foo
     {
     }
 }
+-----
+<?php
+class Test {
+    use A, B;
+}
+-----
+unset($stmts[0]->stmts[0]->traits[0]);
+-----
+<?php
+class Test {
+    use B;
+}

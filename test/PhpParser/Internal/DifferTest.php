@@ -65,4 +65,15 @@ class DifferTest extends \PHPUnit\Framework\TestCase {
             ['abcde', 'axyzue', 'a-b-c-d+x+y+z+ue'],
         ];
     }
+
+    public function testNonContiguousIndices() {
+        $differ = new Differ(function ($a, $b) {
+            return $a === $b;
+        });
+        $diff = $differ->diff([0 => 'a', 2 => 'b'], [0 => 'a', 3 => 'b']);
+        $this->assertEquals([
+            new DiffElem(DiffElem::TYPE_KEEP, 'a', 'a'),
+            new DiffElem(DiffElem::TYPE_KEEP, 'b', 'b'),
+        ], $diff);
+    }
 }
