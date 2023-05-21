@@ -116,6 +116,9 @@ class NodeTraverser implements NodeTraverserInterface {
                         } elseif (NodeVisitor::STOP_TRAVERSAL === $return) {
                             $this->stopTraversal = true;
                             break 2;
+                        } elseif (NodeVisitor::REPLACE_WITH_NULL === $return) {
+                            $subNode = null;
+                            continue 2;
                         } else {
                             throw new \LogicException(
                                 'enterNode() returned invalid value of type ' . gettype($return)
@@ -142,6 +145,9 @@ class NodeTraverser implements NodeTraverserInterface {
                         } elseif (NodeVisitor::STOP_TRAVERSAL === $return) {
                             $this->stopTraversal = true;
                             break 2;
+                        } elseif (NodeVisitor::REPLACE_WITH_NULL === $return) {
+                            $subNode = null;
+                            break;
                         } elseif (\is_array($return)) {
                             throw new \LogicException(
                                 'leaveNode() may only return an array ' .
@@ -195,6 +201,9 @@ class NodeTraverser implements NodeTraverserInterface {
                         } elseif (NodeVisitor::STOP_TRAVERSAL === $return) {
                             $this->stopTraversal = true;
                             break 2;
+                        } elseif (NodeVisitor::REPLACE_WITH_NULL === $return) {
+                            throw new \LogicException(
+                                'REPLACE_WITH_NULL can not be used if the parent structure is an array');
                         } else {
                             throw new \LogicException(
                                 'enterNode() returned invalid value of type ' . gettype($return)
@@ -227,6 +236,9 @@ class NodeTraverser implements NodeTraverserInterface {
                         } elseif (NodeVisitor::STOP_TRAVERSAL === $return) {
                             $this->stopTraversal = true;
                             break 2;
+                        } elseif (NodeVisitor::REPLACE_WITH_NULL === $return) {
+                            throw new \LogicException(
+                                'REPLACE_WITH_NULL can not be used if the parent structure is an array');
                         } else {
                             throw new \LogicException(
                                 'leaveNode() returned invalid value of type ' . gettype($return)

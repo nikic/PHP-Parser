@@ -3,7 +3,10 @@
 namespace PhpParser;
 
 use PhpParser\Node\Expr;
+use PhpParser\Node\Scalar\Int_;
 use PhpParser\Node\Scalar\String_;
+use PhpParser\Node\Stmt\Else_;
+use PhpParser\Node\Stmt\If_;
 
 class NodeTraverserTest extends \PHPUnit\Framework\TestCase {
     public function testNonModifying() {
@@ -343,6 +346,44 @@ class NodeTraverserTest extends \PHPUnit\Framework\TestCase {
         ], $visitor->trace);
     }
 
+    public function testReplaceWithNull() {
+        $one = new Int_(1);
+        $else1 = new Else_();
+        $else2 = new Else_();
+        $if1 = new If_($one, ['else' => $else1]);
+        $if2 = new If_($one, ['else' => $else2]);
+        $stmts = [$if1, $if2];
+        $visitor1 = new NodeVisitorForTesting([
+            ['enterNode', $else1, NodeVisitor::REPLACE_WITH_NULL],
+            ['leaveNode', $else2, NodeVisitor::REPLACE_WITH_NULL],
+        ]);
+        $visitor2 = new NodeVisitorForTesting();
+        $traverser = new NodeTraverser();
+        $traverser->addVisitor($visitor1);
+        $traverser->addVisitor($visitor2);
+        $newStmts = $traverser->traverse($stmts);
+        $this->assertEquals([
+            new If_($one),
+            new If_($one),
+        ], $newStmts);
+        $this->assertEquals([
+            ['beforeTraverse', $stmts],
+            ['enterNode', $if1],
+            ['enterNode', $one],
+            // We never see the if1 Else node.
+            ['leaveNode', $one],
+            ['leaveNode', $if1],
+            ['enterNode', $if2],
+            ['enterNode', $one],
+            ['leaveNode', $one],
+            // We do see the if2 Else node, as it will only be replaced afterwards.
+            ['enterNode', $else2],
+            ['leaveNode', $else2],
+            ['leaveNode', $if2],
+            ['afterTraverse', $stmts],
+        ], $visitor2->trace);
+    }
+
     public function testRemovingVisitor() {
         $visitor1 = new class () extends NodeVisitorAbstract {};
         $visitor2 = new class () extends NodeVisitorAbstract {};
@@ -415,6 +456,12 @@ class NodeTraverserTest extends \PHPUnit\Framework\TestCase {
         $visitor8 = new NodeVisitorForTesting([
             ['enterNode', $num, new Node\Stmt\Return_()],
         ]);
+        $visitor9 = new NodeVisitorForTesting([
+            ['enterNode', $expr, NodeVisitor::REPLACE_WITH_NULL],
+        ]);
+        $visitor10 = new NodeVisitorForTesting([
+            ['leaveNode', $expr, NodeVisitor::REPLACE_WITH_NULL],
+        ]);
 
         return [
             [$stmts, $visitor1, 'enterNode() returned invalid value of type string'],
@@ -425,6 +472,8 @@ class NodeTraverserTest extends \PHPUnit\Framework\TestCase {
             [$stmts, $visitor6, 'leaveNode() returned invalid value of type bool'],
             [$stmts, $visitor7, 'Trying to replace statement (Stmt_Expression) with expression (Scalar_Int). Are you missing a Stmt_Expression wrapper?'],
             [$stmts, $visitor8, 'Trying to replace expression (Scalar_Int) with statement (Stmt_Return)'],
+            [$stmts, $visitor9, 'REPLACE_WITH_NULL can not be used if the parent structure is an array'],
+            [$stmts, $visitor10, 'REPLACE_WITH_NULL can not be used if the parent structure is an array'],
         ];
     }
 }

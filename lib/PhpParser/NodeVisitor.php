@@ -39,6 +39,13 @@ interface NodeVisitor {
     public const DONT_TRAVERSE_CURRENT_AND_CHILDREN = 4;
 
     /**
+     * If NodeVisitor::enterNode() or NodeVisitor::leaveNode() returns REPLACE_WITH_NULL,
+     * the node will be replaced with null. This is not a legal return value if the node is part
+     * of an array, rather than another node.
+     */
+    public const REPLACE_WITH_NULL = 5;
+
+    /**
      * Called once before traversal.
      *
      * Return value semantics:
@@ -59,14 +66,16 @@ interface NodeVisitor {
      *        => $node stays as-is
      *  * array (of Nodes)
      *        => The return value is merged into the parent array (at the position of the $node)
-     *  * NodeTraverser::REMOVE_NODE
+     *  * NodeVisitor::REMOVE_NODE
      *        => $node is removed from the parent array
-     *  * NodeTraverser::DONT_TRAVERSE_CHILDREN
+     *  * NodeVisitor::REPLACE_WITH_NULL
+     *        => $node is replaced with null
+     *  * NodeVisitor::DONT_TRAVERSE_CHILDREN
      *        => Children of $node are not traversed. $node stays as-is
-     *  * NodeTraverser::DONT_TRAVERSE_CURRENT_AND_CHILDREN
+     *  * NodeVisitor::DONT_TRAVERSE_CURRENT_AND_CHILDREN
      *        => Further visitors for the current node are skipped, and its children are not
      *           traversed. $node stays as-is.
-     *  * NodeTraverser::STOP_TRAVERSAL
+     *  * NodeVisitor::STOP_TRAVERSAL
      *        => Traversal is aborted. $node stays as-is
      *  * otherwise
      *        => $node is set to the return value
@@ -83,9 +92,11 @@ interface NodeVisitor {
      * Return value semantics:
      *  * null
      *        => $node stays as-is
-     *  * NodeTraverser::REMOVE_NODE
+     *  * NodeVisitor::REMOVE_NODE
      *        => $node is removed from the parent array
-     *  * NodeTraverser::STOP_TRAVERSAL
+     *  * NodeVisitor::REPLACE_WITH_NULL
+     *        => $node is replaced with null
+     *  * NodeVisitor::STOP_TRAVERSAL
      *        => Traversal is aborted. $node stays as-is
      *  * array (of Nodes)
      *        => The return value is merged into the parent array (at the position of the $node)
