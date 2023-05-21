@@ -34,8 +34,9 @@ class NodeTraverserTest extends \PHPUnit\Framework\TestCase {
         $str2Node  = new String_('Bar');
         $printNode = new Expr\Print_($str1Node);
 
-        // first visitor changes the node, second verifies the change
-        $visitor1 = new NodeVisitorForTesting([
+        // Visitor 2 performs changes, visitors 1 and 3 observe the changes.
+        $visitor1 = new NodeVisitorForTesting();
+        $visitor2 = new NodeVisitorForTesting([
             ['beforeTraverse', [], [$str1Node]],
             ['enterNode', $str1Node, $printNode],
             ['enterNode', $str1Node, $str2Node],
@@ -43,22 +44,35 @@ class NodeTraverserTest extends \PHPUnit\Framework\TestCase {
             ['leaveNode', $printNode, $str1Node],
             ['afterTraverse', [$str1Node], []],
         ]);
-        $visitor2 = new NodeVisitorForTesting();
+        $visitor3 = new NodeVisitorForTesting();
 
         $traverser = new NodeTraverser();
         $traverser->addVisitor($visitor1);
         $traverser->addVisitor($visitor2);
+        $traverser->addVisitor($visitor3);
 
         // as all operations are reversed we end where we start
         $this->assertEquals([], $traverser->traverse([]));
         $this->assertEquals([
-            ['beforeTraverse', [$str1Node]],
-            ['enterNode', $printNode],
-            ['enterNode', $str2Node],
+            // Sees nodes before changes on entry.
+            ['beforeTraverse', []],
+            ['enterNode', $str1Node],
+            ['enterNode', $str1Node],
+            // Sees nodes after changes on leave.
             ['leaveNode', $str1Node],
             ['leaveNode', $str1Node],
             ['afterTraverse', []],
-        ], $visitor2->trace);
+        ], $visitor1->trace);
+        $this->assertEquals([
+            // Sees nodes after changes on entry.
+            ['beforeTraverse', [$str1Node]],
+            ['enterNode', $printNode],
+            ['enterNode', $str2Node],
+            // Sees nodes before changes on leave.
+            ['leaveNode', $str2Node],
+            ['leaveNode', $printNode],
+            ['afterTraverse', [$str1Node]],
+        ], $visitor3->trace);
     }
 
     public function testRemoveFromLeave() {
@@ -71,8 +85,8 @@ class NodeTraverserTest extends \PHPUnit\Framework\TestCase {
         $visitor2 = new NodeVisitorForTesting();
 
         $traverser = new NodeTraverser();
-        $traverser->addVisitor($visitor);
         $traverser->addVisitor($visitor2);
+        $traverser->addVisitor($visitor);
 
         $stmts = [$str1Node, $str2Node];
         $this->assertEquals([$str2Node], $traverser->traverse($stmts));

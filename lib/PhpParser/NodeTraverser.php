@@ -72,7 +72,8 @@ class NodeTraverser implements NodeTraverserInterface {
 
         $nodes = $this->traverseArray($nodes);
 
-        foreach ($this->visitors as $visitor) {
+        for ($i = \count($this->visitors) - 1; $i >= 0; --$i) {
+            $visitor = $this->visitors[$i];
             if (null !== $return = $visitor->afterTraverse($nodes)) {
                 $nodes = $return;
             }
@@ -99,7 +100,7 @@ class NodeTraverser implements NodeTraverserInterface {
                 }
             } elseif ($subNode instanceof Node) {
                 $traverseChildren = true;
-                $breakVisitorIndex = null;
+                $visitorIndex = -1;
 
                 foreach ($this->visitors as $visitorIndex => $visitor) {
                     $return = $visitor->enterNode($subNode);
@@ -111,7 +112,6 @@ class NodeTraverser implements NodeTraverserInterface {
                             $traverseChildren = false;
                         } elseif (NodeVisitor::DONT_TRAVERSE_CURRENT_AND_CHILDREN === $return) {
                             $traverseChildren = false;
-                            $breakVisitorIndex = $visitorIndex;
                             break;
                         } elseif (NodeVisitor::STOP_TRAVERSAL === $return) {
                             $this->stopTraversal = true;
@@ -131,7 +131,8 @@ class NodeTraverser implements NodeTraverserInterface {
                     }
                 }
 
-                foreach ($this->visitors as $visitorIndex => $visitor) {
+                for (; $visitorIndex >= 0; --$visitorIndex) {
+                    $visitor = $this->visitors[$visitorIndex];
                     $return = $visitor->leaveNode($subNode);
 
                     if (null !== $return) {
@@ -151,10 +152,6 @@ class NodeTraverser implements NodeTraverserInterface {
                                 'leaveNode() returned invalid value of type ' . gettype($return)
                             );
                         }
-                    }
-
-                    if ($breakVisitorIndex === $visitorIndex) {
-                        break;
                     }
                 }
             }
@@ -176,7 +173,7 @@ class NodeTraverser implements NodeTraverserInterface {
         foreach ($nodes as $i => &$node) {
             if ($node instanceof Node) {
                 $traverseChildren = true;
-                $breakVisitorIndex = null;
+                $visitorIndex = -1;
 
                 foreach ($this->visitors as $visitorIndex => $visitor) {
                     $return = $visitor->enterNode($node);
@@ -194,7 +191,6 @@ class NodeTraverser implements NodeTraverserInterface {
                             $traverseChildren = false;
                         } elseif (NodeVisitor::DONT_TRAVERSE_CURRENT_AND_CHILDREN === $return) {
                             $traverseChildren = false;
-                            $breakVisitorIndex = $visitorIndex;
                             break;
                         } elseif (NodeVisitor::STOP_TRAVERSAL === $return) {
                             $this->stopTraversal = true;
@@ -214,7 +210,8 @@ class NodeTraverser implements NodeTraverserInterface {
                     }
                 }
 
-                foreach ($this->visitors as $visitorIndex => $visitor) {
+                for (; $visitorIndex >= 0; --$visitorIndex) {
+                    $visitor = $this->visitors[$visitorIndex];
                     $return = $visitor->leaveNode($node);
 
                     if (null !== $return) {
@@ -235,10 +232,6 @@ class NodeTraverser implements NodeTraverserInterface {
                                 'leaveNode() returned invalid value of type ' . gettype($return)
                             );
                         }
-                    }
-
-                    if ($breakVisitorIndex === $visitorIndex) {
-                        break;
                     }
                 }
             } elseif (\is_array($node)) {
