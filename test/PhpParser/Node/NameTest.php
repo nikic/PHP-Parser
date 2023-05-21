@@ -19,10 +19,12 @@ class NameTest extends \PHPUnit\Framework\TestCase
         $name = new Name('foo');
         $this->assertSame('foo', $name->getFirst());
         $this->assertSame('foo', $name->getLast());
+        $this->assertSame(['foo'], $name->getParts());
 
         $name = new Name('foo\bar');
         $this->assertSame('foo', $name->getFirst());
         $this->assertSame('bar', $name->getLast());
+        $this->assertSame(['foo', 'bar'], $name->getParts());
     }
 
     public function testToString() {
