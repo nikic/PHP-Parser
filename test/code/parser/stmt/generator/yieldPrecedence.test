@@ -85,9 +85,7 @@ array(
             4: Stmt_Expression(
                 expr: Expr_FuncCall(
                     name: Name(
-                        parts: array(
-                            0: var_dump
-                        )
+                        name: var_dump
                     )
                     args: array(
                         0: Arg(
@@ -169,9 +167,7 @@ array(
             7: Stmt_Expression(
                 expr: Expr_FuncCall(
                     name: Name(
-                        parts: array(
-                            0: var_dump
-                        )
+                        name: var_dump
                     )
                     args: array(
                         0: Arg(
@@ -212,9 +208,7 @@ array(
             8: Stmt_Expression(
                 expr: Expr_FuncCall(
                     name: Name(
-                        parts: array(
-                            0: var_dump
-                        )
+                        name: var_dump
                     )
                     args: array(
                         0: Arg(

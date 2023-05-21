@@ -141,7 +141,7 @@ function test() {
 namespace
 Foo;
 -----
-$stmts[0]->name->parts[0] = 'Xyz';
+$stmts[0]->name->name = 'Xyz';
 -----
 <?php
 namespace

@@ -56,9 +56,7 @@ array(
             name: A
         )
         extends: Name(
-            parts: array(
-                0: self
-            )
+            name: self
         )
         implements: array(
         )
@@ -79,9 +77,7 @@ array(
             name: A
         )
         extends: Name(
-            parts: array(
-                0: PARENT
-            )
+            name: PARENT
         )
         implements: array(
         )
@@ -102,9 +98,7 @@ array(
             name: A
         )
         extends: Name(
-            parts: array(
-                0: static
-            )
+            name: static
         )
         implements: array(
         )
@@ -127,9 +121,7 @@ array(
         extends: null
         implements: array(
             0: Name(
-                parts: array(
-                    0: self
-                )
+                name: self
             )
         )
         stmts: array(
@@ -151,9 +143,7 @@ array(
         extends: null
         implements: array(
             0: Name(
-                parts: array(
-                    0: PARENT
-                )
+                name: PARENT
             )
         )
         stmts: array(
@@ -175,9 +165,7 @@ array(
         extends: null
         implements: array(
             0: Name(
-                parts: array(
-                    0: static
-                )
+                name: static
             )
         )
         stmts: array(
@@ -237,9 +225,7 @@ array(
         )
         extends: array(
             0: Name(
-                parts: array(
-                    0: self
-                )
+                name: self
             )
         )
         stmts: array(
@@ -259,9 +245,7 @@ array(
         )
         extends: array(
             0: Name(
-                parts: array(
-                    0: PARENT
-                )
+                name: PARENT
             )
         )
         stmts: array(
@@ -281,9 +265,7 @@ array(
         )
         extends: array(
             0: Name(
-                parts: array(
-                    0: static
-                )
+                name: static
             )
         )
         stmts: array(

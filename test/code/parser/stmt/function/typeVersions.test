@@ -26,9 +26,7 @@ array(
                 )
                 flags: 0
                 type: Name(
-                    parts: array(
-                        0: bool
-                    )
+                    name: bool
                 )
                 byRef: false
                 variadic: false
@@ -42,9 +40,7 @@ array(
                 )
                 flags: 0
                 type: Name(
-                    parts: array(
-                        0: int
-                    )
+                    name: int
                 )
                 byRef: false
                 variadic: false
@@ -58,9 +54,7 @@ array(
                 )
                 flags: 0
                 type: Name(
-                    parts: array(
-                        0: float
-                    )
+                    name: float
                 )
                 byRef: false
                 variadic: false
@@ -74,9 +68,7 @@ array(
                 )
                 flags: 0
                 type: Name(
-                    parts: array(
-                        0: string
-                    )
+                    name: string
                 )
                 byRef: false
                 variadic: false
@@ -90,9 +82,7 @@ array(
                 )
                 flags: 0
                 type: Name(
-                    parts: array(
-                        0: iterable
-                    )
+                    name: iterable
                     comments: array(
                         0: // PHP 7.0
                     )
@@ -112,9 +102,7 @@ array(
                 )
                 flags: 0
                 type: Name(
-                    parts: array(
-                        0: object
-                    )
+                    name: object
                     comments: array(
                         0: // PHP 7.1
                     )
@@ -134,9 +122,7 @@ array(
                 )
                 flags: 0
                 type: Name(
-                    parts: array(
-                        0: mixed
-                    )
+                    name: mixed
                     comments: array(
                         0: // PHP 7.2
                     )
@@ -156,9 +142,7 @@ array(
                 )
                 flags: 0
                 type: Name(
-                    parts: array(
-                        0: null
-                    )
+                    name: null
                     comments: array(
                         0: // PHP 8.0
                     )
@@ -178,9 +162,7 @@ array(
                 )
                 flags: 0
                 type: Name(
-                    parts: array(
-                        0: false
-                    )
+                    name: false
                     comments: array(
                         0: // PHP 8.0
                     )
@@ -197,9 +179,7 @@ array(
             )
         )
         returnType: Name(
-            parts: array(
-                0: void
-            )
+            name: void
         )
         stmts: array(
         )
@@ -214,9 +194,7 @@ array(
         params: array(
         )
         returnType: Name(
-            parts: array(
-                0: never
-            )
+            name: never
         )
         stmts: array(
         )
@@ -313,9 +291,7 @@ array(
                 )
                 flags: 0
                 type: Name(
-                    parts: array(
-                        0: iterable
-                    )
+                    name: iterable
                     comments: array(
                         0: // PHP 7.0
                     )
@@ -335,9 +311,7 @@ array(
                 )
                 flags: 0
                 type: Name(
-                    parts: array(
-                        0: object
-                    )
+                    name: object
                     comments: array(
                         0: // PHP 7.1
                     )
@@ -357,9 +331,7 @@ array(
                 )
                 flags: 0
                 type: Name(
-                    parts: array(
-                        0: mixed
-                    )
+                    name: mixed
                     comments: array(
                         0: // PHP 7.2
                     )
@@ -379,9 +351,7 @@ array(
                 )
                 flags: 0
                 type: Name(
-                    parts: array(
-                        0: null
-                    )
+                    name: null
                     comments: array(
                         0: // PHP 8.0
                     )
@@ -401,9 +371,7 @@ array(
                 )
                 flags: 0
                 type: Name(
-                    parts: array(
-                        0: false
-                    )
+                    name: false
                     comments: array(
                         0: // PHP 8.0
                     )
@@ -420,9 +388,7 @@ array(
             )
         )
         returnType: Name(
-            parts: array(
-                0: void
-            )
+            name: void
         )
         stmts: array(
         )
@@ -437,9 +403,7 @@ array(
         params: array(
         )
         returnType: Name(
-            parts: array(
-                0: never
-            )
+            name: never
         )
         stmts: array(
         )
@@ -556,9 +520,7 @@ array(
                 )
                 flags: 0
                 type: Name(
-                    parts: array(
-                        0: object
-                    )
+                    name: object
                     comments: array(
                         0: // PHP 7.1
                     )
@@ -578,9 +540,7 @@ array(
                 )
                 flags: 0
                 type: Name(
-                    parts: array(
-                        0: mixed
-                    )
+                    name: mixed
                     comments: array(
                         0: // PHP 7.2
                     )
@@ -600,9 +560,7 @@ array(
                 )
                 flags: 0
                 type: Name(
-                    parts: array(
-                        0: null
-                    )
+                    name: null
                     comments: array(
                         0: // PHP 8.0
                     )
@@ -622,9 +580,7 @@ array(
                 )
                 flags: 0
                 type: Name(
-                    parts: array(
-                        0: false
-                    )
+                    name: false
                     comments: array(
                         0: // PHP 8.0
                     )
@@ -656,9 +612,7 @@ array(
         params: array(
         )
         returnType: Name(
-            parts: array(
-                0: never
-            )
+            name: never
         )
         stmts: array(
         )
@@ -795,9 +749,7 @@ array(
                 )
                 flags: 0
                 type: Name(
-                    parts: array(
-                        0: mixed
-                    )
+                    name: mixed
                     comments: array(
                         0: // PHP 7.2
                     )
@@ -817,9 +769,7 @@ array(
                 )
                 flags: 0
                 type: Name(
-                    parts: array(
-                        0: null
-                    )
+                    name: null
                     comments: array(
                         0: // PHP 8.0
                     )
@@ -839,9 +789,7 @@ array(
                 )
                 flags: 0
                 type: Name(
-                    parts: array(
-                        0: false
-                    )
+                    name: false
                     comments: array(
                         0: // PHP 8.0
                     )
@@ -873,9 +821,7 @@ array(
         params: array(
         )
         returnType: Name(
-            parts: array(
-                0: never
-            )
+            name: never
         )
         stmts: array(
         )
@@ -1084,9 +1030,7 @@ array(
         params: array(
         )
         returnType: Name(
-            parts: array(
-                0: never
-            )
+            name: never
         )
         stmts: array(
         )

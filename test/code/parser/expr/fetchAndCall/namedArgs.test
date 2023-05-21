@@ -8,9 +8,7 @@ array(
     0: Stmt_Expression(
         expr: Expr_FuncCall(
             name: Name(
-                parts: array(
-                    0: foo
-                )
+                name: foo
             )
             args: array(
                 0: Arg(
@@ -39,9 +37,7 @@ array(
     1: Stmt_Expression(
         expr: Expr_FuncCall(
             name: Name(
-                parts: array(
-                    0: bar
-                )
+                name: bar
             )
             args: array(
                 0: Arg(

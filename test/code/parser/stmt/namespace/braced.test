@@ -12,18 +12,13 @@ namespace {
 array(
     0: Stmt_Namespace(
         name: Name(
-            parts: array(
-                0: Foo
-                1: Bar
-            )
+            name: Foo\Bar
         )
         stmts: array(
             0: Stmt_Expression(
                 expr: Expr_ConstFetch(
                     name: Name(
-                        parts: array(
-                            0: foo
-                        )
+                        name: foo
                     )
                 )
             )
@@ -35,9 +30,7 @@ array(
             0: Stmt_Expression(
                 expr: Expr_ConstFetch(
                     name: Name(
-                        parts: array(
-                            0: bar
-                        )
+                        name: bar
                     )
                 )
             )

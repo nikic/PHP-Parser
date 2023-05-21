@@ -8,15 +8,11 @@ array(
     0: Stmt_Expression(
         expr: Expr_ClassConstFetch(
             class: Name(
-                parts: array(
-                    0: Foo
-                )
+                name: Foo
             )
             name: Expr_FuncCall(
                 name: Name(
-                    parts: array(
-                        0: bar
-                    )
+                    name: bar
                 )
                 args: array(
                 )
@@ -30,9 +26,7 @@ array(
             )
             name: Expr_FuncCall(
                 name: Name(
-                    parts: array(
-                        0: bar
-                    )
+                    name: bar
                 )
                 args: array(
                 )

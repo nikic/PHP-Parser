@@ -20,9 +20,7 @@ array(
         expr: Expr_FuncCall(
             name: Expr_FuncCall(
                 name: Name(
-                    parts: array(
-                        0: id
-                    )
+                    name: id
                 )
                 args: array(
                     0: Arg(
@@ -52,9 +50,7 @@ array(
             name: Expr_FuncCall(
                 name: Expr_FuncCall(
                     name: Name(
-                        parts: array(
-                            0: id
-                        )
+                        name: id
                     )
                     args: array(
                         0: Arg(
@@ -96,9 +92,7 @@ array(
                 name: Expr_FuncCall(
                     name: Expr_FuncCall(
                         name: Name(
-                            parts: array(
-                                0: id
-                            )
+                            name: id
                         )
                         args: array(
                         )
@@ -136,9 +130,7 @@ array(
                     name: Expr_ArrayDimFetch(
                         var: Expr_FuncCall(
                             name: Name(
-                                parts: array(
-                                    0: id
-                                )
+                                name: id
                             )
                             args: array(
                                 0: Arg(
@@ -294,9 +286,7 @@ array(
                                             )
                                             default: Expr_ConstFetch(
                                                 name: Name(
-                                                    parts: array(
-                                                        0: null
-                                                    )
+                                                    name: null
                                                 )
                                             )
                                         )

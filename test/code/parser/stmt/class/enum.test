@@ -41,14 +41,10 @@ array(
         scalarType: null
         implements: array(
             0: Name(
-                parts: array(
-                    0: Bar
-                )
+                name: Bar
             )
             1: Name(
-                parts: array(
-                    0: Baz
-                )
+                name: Baz
             )
         )
         stmts: array(
@@ -65,9 +61,7 @@ array(
         )
         implements: array(
             0: Name(
-                parts: array(
-                    0: Bar
-                )
+                name: Bar
             )
         )
         stmts: array(

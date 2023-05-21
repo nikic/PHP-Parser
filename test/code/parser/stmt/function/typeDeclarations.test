@@ -58,9 +58,7 @@ array(
                 )
                 flags: 0
                 type: Name(
-                    parts: array(
-                        0: E
-                    )
+                    name: E
                 )
                 byRef: false
                 variadic: false

@@ -190,10 +190,7 @@ array(
                 )
             )
             returnType: Name_FullyQualified(
-                parts: array(
-                    0: Foo
-                    1: Bar
-                )
+                name: Foo\Bar
             )
             stmts: array(
             )

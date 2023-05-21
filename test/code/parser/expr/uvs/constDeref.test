@@ -26,9 +26,7 @@ array(
         expr: Expr_PropertyFetch(
             var: Expr_ConstFetch(
                 name: Name(
-                    parts: array(
-                        0: A
-                    )
+                    name: A
                 )
             )
             name: Identifier(
@@ -40,9 +38,7 @@ array(
         expr: Expr_MethodCall(
             var: Expr_ConstFetch(
                 name: Name(
-                    parts: array(
-                        0: A
-                    )
+                    name: A
                 )
             )
             name: Identifier(
@@ -56,9 +52,7 @@ array(
         expr: Expr_ArrayDimFetch(
             var: Expr_ConstFetch(
                 name: Name(
-                    parts: array(
-                        0: A
-                    )
+                    name: A
                 )
             )
             dim: Scalar_Int(
@@ -72,9 +66,7 @@ array(
                 var: Expr_ArrayDimFetch(
                     var: Expr_ConstFetch(
                         name: Name(
-                            parts: array(
-                                0: A
-                            )
+                            name: A
                         )
                     )
                     dim: Scalar_Int(
@@ -94,9 +86,7 @@ array(
         expr: Expr_ArrayDimFetch(
             var: Expr_ConstFetch(
                 name: Name(
-                    parts: array(
-                        0: A
-                    )
+                    name: A
                 )
             )
             dim: Scalar_Int(
@@ -108,9 +98,7 @@ array(
         expr: Expr_ArrayDimFetch(
             var: Expr_ClassConstFetch(
                 class: Name(
-                    parts: array(
-                        0: A
-                    )
+                    name: A
                 )
                 name: Identifier(
                     name: B
@@ -127,9 +115,7 @@ array(
                 var: Expr_ArrayDimFetch(
                     var: Expr_ClassConstFetch(
                         class: Name(
-                            parts: array(
-                                0: A
-                            )
+                            name: A
                         )
                         name: Identifier(
                             name: B
@@ -152,9 +138,7 @@ array(
         expr: Expr_ArrayDimFetch(
             var: Expr_ClassConstFetch(
                 class: Name(
-                    parts: array(
-                        0: A
-                    )
+                    name: A
                 )
                 name: Identifier(
                     name: B
@@ -169,9 +153,7 @@ array(
         expr: Expr_PropertyFetch(
             var: Expr_ClassConstFetch(
                 class: Name(
-                    parts: array(
-                        0: A
-                    )
+                    name: A
                 )
                 name: Identifier(
                     name: B
@@ -186,9 +168,7 @@ array(
         expr: Expr_MethodCall(
             var: Expr_ClassConstFetch(
                 class: Name(
-                    parts: array(
-                        0: A
-                    )
+                    name: A
                 )
                 name: Identifier(
                     name: B
@@ -205,9 +185,7 @@ array(
         expr: Expr_ClassConstFetch(
             class: Expr_ClassConstFetch(
                 class: Name(
-                    parts: array(
-                        0: A
-                    )
+                    name: A
                 )
                 name: Identifier(
                     name: B
@@ -222,9 +200,7 @@ array(
         expr: Expr_StaticPropertyFetch(
             class: Expr_ClassConstFetch(
                 class: Name(
-                    parts: array(
-                        0: A
-                    )
+                    name: A
                 )
                 name: Identifier(
                     name: B
@@ -239,9 +215,7 @@ array(
         expr: Expr_StaticCall(
             class: Expr_ClassConstFetch(
                 class: Name(
-                    parts: array(
-                        0: A
-                    )
+                    name: A
                 )
                 name: Identifier(
                     name: B
@@ -276,9 +250,7 @@ array(
         expr: Expr_MethodCall(
             var: Expr_ConstFetch(
                 name: Name(
-                    parts: array(
-                        0: __FUNCIONT__
-                    )
+                    name: __FUNCIONT__
                 )
             )
             name: Identifier(

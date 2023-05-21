@@ -90,14 +90,10 @@ array(
                 type: UnionType(
                     types: array(
                         0: Name(
-                            parts: array(
-                                0: Foo
-                            )
+                            name: Foo
                         )
                         1: Name(
-                            parts: array(
-                                0: Bar
-                            )
+                            name: Bar
                         )
                         2: Identifier(
                             name: null
@@ -111,9 +107,7 @@ array(
                         )
                         value: Expr_ConstFetch(
                             name: Name(
-                                parts: array(
-                                    0: null
-                                )
+                                name: null
                             )
                         )
                     )

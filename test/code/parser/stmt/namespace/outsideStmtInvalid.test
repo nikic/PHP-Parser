@@ -23,9 +23,7 @@ array(
     )
     2: Stmt_Namespace(
         name: Name(
-            parts: array(
-                0: A
-            )
+            name: A
         )
         stmts: array(
         )
@@ -40,9 +38,7 @@ No code may exist outside of namespace {} from 3:1 to 3:7
 array(
     0: Stmt_Namespace(
         name: Name(
-            parts: array(
-                0: A
-            )
+            name: A
         )
         stmts: array(
         )
@@ -66,9 +62,7 @@ No code may exist outside of namespace {} from 3:1 to 3:17
 array(
     0: Stmt_Namespace(
         name: Name(
-            parts: array(
-                0: A
-            )
+            name: A
         )
         stmts: array(
         )
@@ -89,9 +83,7 @@ array(
     2: Stmt_Expression(
         expr: Expr_FuncCall(
             name: Name(
-                parts: array(
-                    0: foo
-                )
+                name: foo
             )
             args: array(
             )
@@ -99,9 +91,7 @@ array(
     )
     3: Stmt_Namespace(
         name: Name(
-            parts: array(
-                0: B
-            )
+            name: B
         )
         stmts: array(
         )

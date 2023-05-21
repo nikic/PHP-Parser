@@ -42,9 +42,7 @@ array(
                 )
                 flags: PROTECTED | STATIC (10)
                 type: Name(
-                    parts: array(
-                        0: D
-                    )
+                    name: D
                 )
                 props: array(
                     0: PropertyItem(

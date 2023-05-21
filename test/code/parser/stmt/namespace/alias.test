@@ -23,10 +23,7 @@ array(
             0: UseItem(
                 type: TYPE_UNKNOWN (0)
                 name: Name(
-                    parts: array(
-                        0: A
-                        1: B
-                    )
+                    name: A\B
                 )
                 alias: null
             )
@@ -38,10 +35,7 @@ array(
             0: UseItem(
                 type: TYPE_UNKNOWN (0)
                 name: Name(
-                    parts: array(
-                        0: C
-                        1: D
-                    )
+                    name: C\D
                 )
                 alias: Identifier(
                     name: E
@@ -55,10 +49,7 @@ array(
             0: UseItem(
                 type: TYPE_UNKNOWN (0)
                 name: Name(
-                    parts: array(
-                        0: F
-                        1: G
-                    )
+                    name: F\G
                 )
                 alias: Identifier(
                     name: H
@@ -67,9 +58,7 @@ array(
             1: UseItem(
                 type: TYPE_UNKNOWN (0)
                 name: Name(
-                    parts: array(
-                        0: J
-                    )
+                    name: J
                 )
                 alias: null
             )
@@ -81,9 +70,7 @@ array(
             0: UseItem(
                 type: TYPE_UNKNOWN (0)
                 name: Name(
-                    parts: array(
-                        0: A
-                    )
+                    name: A
                 )
                 alias: null
             )
@@ -98,9 +85,7 @@ array(
             0: UseItem(
                 type: TYPE_UNKNOWN (0)
                 name: Name(
-                    parts: array(
-                        0: A
-                    )
+                    name: A
                 )
                 alias: Identifier(
                     name: B
@@ -114,10 +99,7 @@ array(
             0: UseItem(
                 type: TYPE_UNKNOWN (0)
                 name: Name(
-                    parts: array(
-                        0: foo
-                        1: bar
-                    )
+                    name: foo\bar
                 )
                 alias: null
             )
@@ -132,10 +114,7 @@ array(
             0: UseItem(
                 type: TYPE_UNKNOWN (0)
                 name: Name(
-                    parts: array(
-                        0: foo
-                        1: bar
-                    )
+                    name: foo\bar
                 )
                 alias: Identifier(
                     name: baz
@@ -149,10 +128,7 @@ array(
             0: UseItem(
                 type: TYPE_UNKNOWN (0)
                 name: Name(
-                    parts: array(
-                        0: foo
-                        1: BAR
-                    )
+                    name: foo\BAR
                 )
                 alias: null
             )
@@ -164,10 +140,7 @@ array(
             0: UseItem(
                 type: TYPE_UNKNOWN (0)
                 name: Name(
-                    parts: array(
-                        0: foo
-                        1: BAR
-                    )
+                    name: foo\BAR
                 )
                 alias: Identifier(
                     name: BAZ

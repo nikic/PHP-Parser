@@ -11,39 +11,28 @@ array(
     0: Stmt_Expression(
         expr: Expr_ConstFetch(
             name: Name(
-                parts: array(
-                    0: A
-                )
+                name: A
             )
         )
     )
     1: Stmt_Expression(
         expr: Expr_ConstFetch(
             name: Name(
-                parts: array(
-                    0: A
-                    1: B
-                )
+                name: A\B
             )
         )
     )
     2: Stmt_Expression(
         expr: Expr_ConstFetch(
             name: Name_FullyQualified(
-                parts: array(
-                    0: A
-                    1: B
-                )
+                name: A\B
             )
         )
     )
     3: Stmt_Expression(
         expr: Expr_ConstFetch(
             name: Name_Relative(
-                parts: array(
-                    0: A
-                    1: B
-                )
+                name: A\B
             )
         )
     )

@@ -8,17 +8,13 @@ array(
     0: Stmt_GroupUse(
         type: TYPE_UNKNOWN (0)
         prefix: Name(
-            parts: array(
-                0: A
-            )
+            name: A
         )
         uses: array(
             0: UseItem(
                 type: TYPE_NORMAL (1)
                 name: Name(
-                    parts: array(
-                        0: B
-                    )
+                    name: B
                 )
                 alias: null
             )
@@ -27,17 +23,13 @@ array(
     1: Stmt_GroupUse(
         type: TYPE_FUNCTION (2)
         prefix: Name(
-            parts: array(
-                0: A
-            )
+            name: A
         )
         uses: array(
             0: UseItem(
                 type: TYPE_UNKNOWN (0)
                 name: Name(
-                    parts: array(
-                        0: b
-                    )
+                    name: b
                 )
                 alias: null
             )

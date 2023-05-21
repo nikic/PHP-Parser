@@ -110,9 +110,7 @@ array(
                 name: a
             )
             class: Name(
-                parts: array(
-                    0: B
-                )
+                name: B
             )
         )
     )

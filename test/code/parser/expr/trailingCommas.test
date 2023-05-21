@@ -13,9 +13,7 @@ array(
     0: Stmt_Expression(
         expr: Expr_FuncCall(
             name: Name(
-                parts: array(
-                    0: foo
-                )
+                name: foo
             )
             args: array(
                 0: Arg(
@@ -68,9 +66,7 @@ array(
     2: Stmt_Expression(
         expr: Expr_StaticCall(
             class: Name(
-                parts: array(
-                    0: Foo
-                )
+                name: Foo
             )
             name: Identifier(
                 name: bar
@@ -98,9 +94,7 @@ array(
     3: Stmt_Expression(
         expr: Expr_New(
             class: Name(
-                parts: array(
-                    0: Foo
-                )
+                name: Foo
             )
             args: array(
                 0: Arg(

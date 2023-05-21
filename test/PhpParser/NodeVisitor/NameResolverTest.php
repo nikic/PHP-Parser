@@ -460,7 +460,7 @@ EOC;
         $stmt = $stmts[0];
 
         $assign = $stmt->stmts[1]->expr;
-        $this->assertSame(['Bar', 'Baz'], $assign->expr->class->parts);
+        $this->assertSame('Bar\\Baz', $assign->expr->class->name);
     }
 
     public function testSpecialClassNamesAreCaseInsensitive() {

@@ -12,9 +12,7 @@ array(
             )
             expr: Expr_New(
                 class: Name(
-                    parts: array(
-                        0: B
-                    )
+                    name: B
                 )
                 args: array(
                 )
@@ -36,9 +34,7 @@ array(
             )
             expr: Expr_New(
                 class: Name(
-                    parts: array(
-                        0: B
-                    )
+                    name: B
                 )
                 args: array(
                 )

@@ -58,9 +58,7 @@ array(
     5: Stmt_Expression(
         expr: Expr_ConstFetch(
             name: Name(
-                parts: array(
-                    0: _100
-                )
+                name: _100
                 comments: array(
                     0: // already a valid constant name
                 )
@@ -87,9 +85,7 @@ array(
     7: Stmt_Expression(
         expr: Expr_ConstFetch(
             name: Name(
-                parts: array(
-                    0: _
-                )
+                name: _
             )
         )
     )
@@ -101,9 +97,7 @@ array(
     9: Stmt_Expression(
         expr: Expr_ConstFetch(
             name: Name(
-                parts: array(
-                    0: __1
-                )
+                name: __1
             )
         )
     )
@@ -115,9 +109,7 @@ array(
     11: Stmt_Expression(
         expr: Expr_ConstFetch(
             name: Name(
-                parts: array(
-                    0: _
-                )
+                name: _
             )
         )
     )
@@ -134,9 +126,7 @@ array(
     14: Stmt_Expression(
         expr: Expr_ConstFetch(
             name: Name(
-                parts: array(
-                    0: _0
-                )
+                name: _0
             )
         )
     )
@@ -148,9 +138,7 @@ array(
     16: Stmt_Expression(
         expr: Expr_ConstFetch(
             name: Name(
-                parts: array(
-                    0: x_123
-                )
+                name: x_123
             )
         )
     )
@@ -162,9 +150,7 @@ array(
     18: Stmt_Expression(
         expr: Expr_ConstFetch(
             name: Name(
-                parts: array(
-                    0: b_101
-                )
+                name: b_101
             )
         )
     )
@@ -176,9 +162,7 @@ array(
     20: Stmt_Expression(
         expr: Expr_ConstFetch(
             name: Name(
-                parts: array(
-                    0: _e2
-                )
+                name: _e2
             )
         )
     )
@@ -190,9 +174,7 @@ array(
     22: Stmt_Expression(
         expr: Expr_ConstFetch(
             name: Name(
-                parts: array(
-                    0: e_2
-                )
+                name: e_2
             )
         )
     )

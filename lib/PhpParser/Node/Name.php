@@ -5,11 +5,8 @@ namespace PhpParser\Node;
 use PhpParser\NodeAbstract;
 
 class Name extends NodeAbstract {
-    /**
-     * @var string[] Parts of the name
-     * @deprecated Use getParts() instead
-     */
-    public $parts;
+    /** @var string Name as string */
+    public $name;
 
     /** @var array<string, bool> */
     private static $specialClassNames = [
@@ -26,11 +23,11 @@ class Name extends NodeAbstract {
      */
     final public function __construct($name, array $attributes = []) {
         $this->attributes = $attributes;
-        $this->parts = self::prepareName($name);
+        $this->name = self::prepareName($name);
     }
 
     public function getSubNodeNames(): array {
-        return ['parts'];
+        return ['name'];
     }
 
     /**
@@ -39,7 +36,7 @@ class Name extends NodeAbstract {
      * @return string[] Parts of name
      */
     public function getParts(): array {
-        return $this->parts;
+        return \explode('\\', $this->name);
     }
 
     /**
@@ -48,7 +45,10 @@ class Name extends NodeAbstract {
      * @return string First part of the name
      */
     public function getFirst(): string {
-        return $this->parts[0];
+        if (false !== $pos = \strpos($this->name, '\\')) {
+            return \substr($this->name, 0, $pos);
+        }
+        return $this->name;
     }
 
     /**
@@ -57,7 +57,10 @@ class Name extends NodeAbstract {
      * @return string Last part of the name
      */
     public function getLast(): string {
-        return $this->parts[count($this->parts) - 1];
+        if (false !== $pos = \strrpos($this->name, '\\')) {
+            return \substr($this->name, $pos + 1);
+        }
+        return $this->name;
     }
 
     /**
@@ -66,7 +69,7 @@ class Name extends NodeAbstract {
      * @return bool Whether the name is unqualified
      */
     public function isUnqualified(): bool {
-        return 1 === count($this->parts);
+        return false === \strpos($this->name, '\\');
     }
 
     /**
@@ -75,7 +78,7 @@ class Name extends NodeAbstract {
      * @return bool Whether the name is qualified
      */
     public function isQualified(): bool {
-        return 1 < count($this->parts);
+        return false !== \strpos($this->name, '\\');
     }
 
     /**
@@ -103,7 +106,7 @@ class Name extends NodeAbstract {
      * @return string String representation
      */
     public function toString(): string {
-        return implode('\\', $this->parts);
+        return $this->name;
     }
 
     /**
@@ -123,7 +126,7 @@ class Name extends NodeAbstract {
      * @return string Lowercased string representation
      */
     public function toLowerString(): string {
-        return strtolower(implode('\\', $this->parts));
+        return strtolower($this->name);
     }
 
     /**
@@ -132,8 +135,7 @@ class Name extends NodeAbstract {
      * @return bool Whether identifier is a special class name
      */
     public function isSpecialClassName(): bool {
-        return count($this->parts) === 1
-            && isset(self::$specialClassNames[strtolower($this->parts[0])]);
+        return isset(self::$specialClassNames[strtolower($this->name)]);
     }
 
     /**
@@ -143,7 +145,7 @@ class Name extends NodeAbstract {
      * @return string String representation
      */
     public function __toString(): string {
-        return implode('\\', $this->parts);
+        return $this->name;
     }
 
     /**
@@ -163,7 +165,16 @@ class Name extends NodeAbstract {
      * @return static|null Sliced name
      */
     public function slice(int $offset, ?int $length = null) {
-        $numParts = count($this->parts);
+        if ($offset === 1 && $length === null) {
+            // Short-circuit the common case.
+            if (false !== $pos = \strpos($this->name, '\\')) {
+                return new static(\substr($this->name, $pos + 1));
+            }
+            return null;
+        }
+
+        $parts = \explode('\\', $this->name);
+        $numParts = \count($parts);
 
         $realOffset = $offset < 0 ? $offset + $numParts : $offset;
         if ($realOffset < 0 || $realOffset > $numParts) {
@@ -184,7 +195,7 @@ class Name extends NodeAbstract {
             return null;
         }
 
-        return new static(array_slice($this->parts, $realOffset, $realLength), $this->attributes);
+        return new static(array_slice($parts, $realOffset, $realLength), $this->attributes);
     }
 
     /**
@@ -209,42 +220,42 @@ class Name extends NodeAbstract {
             return null;
         }
         if (null === $name1) {
-            return new static(self::prepareName($name2), $attributes);
+            return new static($name2, $attributes);
         }
         if (null === $name2) {
-            return new static(self::prepareName($name1), $attributes);
+            return new static($name1, $attributes);
         } else {
             return new static(
-                array_merge(self::prepareName($name1), self::prepareName($name2)), $attributes
+                self::prepareName($name1) . '\\' . self::prepareName($name2), $attributes
             );
         }
     }
 
     /**
      * Prepares a (string, array or Name node) name for use in name changing methods by converting
-     * it to an array.
+     * it to a string.
      *
      * @param string|string[]|self $name Name to prepare
      *
-     * @return string[] Prepared name
+     * @return string Prepared name
      */
-    private static function prepareName($name): array {
+    private static function prepareName($name): string {
         if (\is_string($name)) {
             if ('' === $name) {
                 throw new \InvalidArgumentException('Name cannot be empty');
             }
 
-            return explode('\\', $name);
+            return $name;
         }
         if (\is_array($name)) {
             if (empty($name)) {
                 throw new \InvalidArgumentException('Name cannot be empty');
             }
 
-            return $name;
+            return implode('\\', $name);
         }
         if ($name instanceof self) {
-            return $name->parts;
+            return $name->name;
         }
 
         throw new \InvalidArgumentException(

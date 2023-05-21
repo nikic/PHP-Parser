@@ -61,20 +61,14 @@ array(
                 flags: 0
                 name: null
                 extends: Name(
-                    parts: array(
-                        0: A
-                    )
+                    name: A
                 )
                 implements: array(
                     0: Name(
-                        parts: array(
-                            0: B
-                        )
+                        name: B
                     )
                     1: Name(
-                        parts: array(
-                            0: C
-                        )
+                        name: C
                     )
                 )
                 stmts: array(
@@ -123,9 +117,7 @@ array(
                 flags: 0
                 name: null
                 extends: Name(
-                    parts: array(
-                        0: A
-                    )
+                    name: A
                 )
                 implements: array(
                 )
@@ -133,9 +125,7 @@ array(
                     0: Stmt_TraitUse(
                         traits: array(
                             0: Name(
-                                parts: array(
-                                    0: T
-                                )
+                                name: T
                             )
                         )
                         adaptations: array(
@@ -194,9 +184,7 @@ array(
                                 flags: 0
                                 name: null
                                 extends: Name(
-                                    parts: array(
-                                        0: A
-                                    )
+                                    name: A
                                 )
                                 implements: array(
                                 )

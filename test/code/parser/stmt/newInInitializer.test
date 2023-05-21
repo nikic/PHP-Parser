@@ -23,9 +23,7 @@ array(
                 )
                 value: Expr_New(
                     class: Name(
-                        parts: array(
-                            0: Foo
-                        )
+                        name: Foo
                     )
                     args: array(
                     )
@@ -53,9 +51,7 @@ array(
                 )
                 default: Expr_New(
                     class: Name(
-                        parts: array(
-                            0: Foo
-                        )
+                        name: Foo
                     )
                     args: array(
                     )
@@ -72,9 +68,7 @@ array(
                         )
                         default: Expr_New(
                             class: Name(
-                                parts: array(
-                                    0: Foo
-                                )
+                                name: Foo
                             )
                             args: array(
                             )
@@ -90,18 +84,14 @@ array(
                 attrs: array(
                     0: Attribute(
                         name: Name(
-                            parts: array(
-                                0: Attr
-                            )
+                            name: Attr
                         )
                         args: array(
                             0: Arg(
                                 name: null
                                 value: Expr_New(
                                     class: Name(
-                                        parts: array(
-                                            0: Foo
-                                        )
+                                        name: Foo
                                     )
                                     args: array(
                                     )
@@ -134,9 +124,7 @@ array(
                         )
                         value: Expr_New(
                             class: Name(
-                                parts: array(
-                                    0: Foo
-                                )
+                                name: Foo
                             )
                             args: array(
                             )
@@ -156,9 +144,7 @@ array(
                         )
                         default: Expr_New(
                             class: Name(
-                                parts: array(
-                                    0: Foo
-                                )
+                                name: Foo
                             )
                             args: array(
                             )

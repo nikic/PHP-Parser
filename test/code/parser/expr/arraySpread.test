@@ -220,9 +220,7 @@ array(
                     key: null
                     value: Expr_FuncCall(
                         name: Name(
-                            parts: array(
-                                0: getArr
-                            )
+                            name: getArr
                         )
                         args: array(
                         )
@@ -240,9 +238,7 @@ array(
                     key: null
                     value: Expr_FuncCall(
                         name: Name(
-                            parts: array(
-                                0: arrGen
-                            )
+                            name: arrGen
                         )
                         args: array(
                         )
@@ -260,9 +256,7 @@ array(
                     key: null
                     value: Expr_New(
                         class: Name(
-                            parts: array(
-                                0: ArrayIterator
-                            )
+                            name: ArrayIterator
                         )
                         args: array(
                             0: Arg(
@@ -329,9 +323,7 @@ array(
                     key: null
                     value: Expr_FuncCall(
                         name: Name(
-                            parts: array(
-                                0: getArr
-                            )
+                            name: getArr
                         )
                         args: array(
                         )
@@ -383,9 +375,7 @@ array(
                     key: null
                     value: Expr_FuncCall(
                         name: Name(
-                            parts: array(
-                                0: arrGen
-                            )
+                            name: arrGen
                         )
                         args: array(
                         )

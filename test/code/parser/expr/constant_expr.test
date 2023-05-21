@@ -682,9 +682,7 @@ array(
                 value: Expr_BooleanNot(
                     expr: Expr_ConstFetch(
                         name: Name(
-                            parts: array(
-                                0: false
-                            )
+                            name: false
                         )
                     )
                 )

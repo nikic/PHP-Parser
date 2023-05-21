@@ -5,13 +5,13 @@ namespace PhpParser\Node;
 class NameTest extends \PHPUnit\Framework\TestCase {
     public function testConstruct() {
         $name = new Name(['foo', 'bar']);
-        $this->assertSame(['foo', 'bar'], $name->parts);
+        $this->assertSame('foo\bar', $name->name);
 
         $name = new Name('foo\bar');
-        $this->assertSame(['foo', 'bar'], $name->parts);
+        $this->assertSame('foo\bar', $name->name);
 
         $name = new Name($name);
-        $this->assertSame(['foo', 'bar'], $name->parts);
+        $this->assertSame('foo\bar', $name->name);
     }
 
     public function testGet() {

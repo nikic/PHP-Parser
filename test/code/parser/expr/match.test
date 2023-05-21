@@ -105,9 +105,7 @@ array(
                         conds: array(
                             0: Expr_ClassConstFetch(
                                 class: Name(
-                                    parts: array(
-                                        0: BinaryOperator
-                                    )
+                                    name: BinaryOperator
                                 )
                                 name: Identifier(
                                     name: ADD

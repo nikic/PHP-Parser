@@ -48,9 +48,7 @@ array(
         params: array(
         )
         returnType: Name(
-            parts: array(
-                0: true
-            )
+            name: true
         )
         stmts: array(
         )

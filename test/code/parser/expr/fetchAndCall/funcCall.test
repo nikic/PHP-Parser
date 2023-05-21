@@ -19,9 +19,7 @@ array(
     0: Stmt_Expression(
         expr: Expr_FuncCall(
             name: Name(
-                parts: array(
-                    0: a
-                )
+                name: a
                 comments: array(
                     0: // function name variations
                 )
@@ -131,9 +129,7 @@ array(
         expr: Expr_ArrayDimFetch(
             var: Expr_FuncCall(
                 name: Name(
-                    parts: array(
-                        0: a
-                    )
+                    name: a
                     comments: array(
                         0: // array dereferencing
                     )

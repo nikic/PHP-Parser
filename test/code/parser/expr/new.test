@@ -22,9 +22,7 @@ array(
     0: Stmt_Expression(
         expr: Expr_New(
             class: Name(
-                parts: array(
-                    0: A
-                )
+                name: A
             )
             args: array(
             )
@@ -33,9 +31,7 @@ array(
     1: Stmt_Expression(
         expr: Expr_New(
             class: Name(
-                parts: array(
-                    0: A
-                )
+                name: A
             )
             args: array(
                 0: Arg(
@@ -82,9 +78,7 @@ array(
         expr: Expr_New(
             class: Expr_StaticPropertyFetch(
                 class: Name(
-                    parts: array(
-                        0: A
-                    )
+                    name: A
                 )
                 name: VarLikeIdentifier(
                     name: b
@@ -174,9 +168,7 @@ array(
     9: Stmt_Expression(
         expr: Expr_New(
             class: Name(
-                parts: array(
-                    0: A
-                )
+                name: A
             )
             args: array(
             )

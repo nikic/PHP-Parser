@@ -12,9 +12,7 @@ array(
     )
     1: Stmt_Namespace(
         name: Name(
-            parts: array(
-                0: A
-            )
+            name: A
         )
         stmts: array(
         )

@@ -10,9 +10,7 @@ array(
             0: UseItem(
                 type: TYPE_UNKNOWN (0)
                 name: Name(
-                    parts: array(
-                        0: A
-                    )
+                    name: A
                 )
                 alias: Identifier(
                     name: self
@@ -32,9 +30,7 @@ array(
             0: UseItem(
                 type: TYPE_UNKNOWN (0)
                 name: Name(
-                    parts: array(
-                        0: B
-                    )
+                    name: B
                 )
                 alias: Identifier(
                     name: PARENT

@@ -37,9 +37,7 @@ array(
                 )
                 value: Expr_ConstFetch(
                     name: Name(
-                        parts: array(
-                            0: E
-                        )
+                        name: E
                     )
                 )
             )

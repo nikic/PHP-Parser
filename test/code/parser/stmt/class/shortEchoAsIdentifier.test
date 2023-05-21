@@ -23,9 +23,7 @@ array(
             0: Stmt_TraitUse(
                 traits: array(
                     0: Name(
-                        parts: array(
-                            0: T
-                        )
+                        name: T
                     )
                 )
                 adaptations: array(

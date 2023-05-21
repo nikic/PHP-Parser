@@ -213,9 +213,7 @@ array(
             12: Stmt_Expression(
                 expr: Expr_FuncCall(
                     name: Name(
-                        parts: array(
-                            0: func
-                        )
+                        name: func
                         comments: array(
                             0: // yield in function calls
                         )
@@ -267,9 +265,7 @@ array(
             14: Stmt_Expression(
                 expr: Expr_New(
                     class: Name(
-                        parts: array(
-                            0: Foo
-                        )
+                        name: Foo
                     )
                     args: array(
                         0: Arg(

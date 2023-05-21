@@ -35,9 +35,7 @@ array(
                 )
                 default: Expr_ConstFetch(
                     name: Name(
-                        parts: array(
-                            0: null
-                        )
+                        name: null
                     )
                 )
             )
@@ -67,9 +65,7 @@ array(
                 )
                 default: Expr_ClassConstFetch(
                     class: Name(
-                        parts: array(
-                            0: A
-                        )
+                        name: A
                     )
                     name: Identifier(
                         name: B

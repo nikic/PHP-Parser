@@ -10,17 +10,13 @@ array(
     0: Stmt_GroupUse(
         type: TYPE_UNKNOWN (0)
         prefix: Name(
-            parts: array(
-                0: Foo
-            )
+            name: Foo
         )
         uses: array(
             0: UseItem(
                 type: TYPE_NORMAL (1)
                 name: Name(
-                    parts: array(
-                        0: Bar
-                    )
+                    name: Bar
                 )
                 alias: null
             )
@@ -32,17 +28,13 @@ array(
     1: Stmt_GroupUse(
         type: TYPE_UNKNOWN (0)
         prefix: Name(
-            parts: array(
-                0: Bar
-            )
+            name: Bar
         )
         uses: array(
             0: UseItem(
                 type: TYPE_NORMAL (1)
                 name: Name(
-                    parts: array(
-                        0: Foo
-                    )
+                    name: Foo
                 )
                 alias: null
             )
@@ -62,9 +54,7 @@ array(
             0: UseItem(
                 type: TYPE_UNKNOWN (0)
                 name: Name(
-                    parts: array(
-                        0: Foo
-                    )
+                    name: Foo
                 )
                 alias: null
             )
@@ -76,18 +66,14 @@ array(
     1: Stmt_Expression(
         expr: Expr_ConstFetch(
             name: Name(
-                parts: array(
-                    0: Bar
-                )
+                name: Bar
             )
         )
     )
     2: Stmt_Expression(
         expr: Expr_ConstFetch(
             name: Name(
-                parts: array(
-                    0: Baz
-                )
+                name: Baz
             )
         )
     )
@@ -102,9 +88,7 @@ array(
     0: Stmt_Expression(
         expr: Expr_ConstFetch(
             name: Name_FullyQualified(
-                parts: array(
-                    0: Bar
-                )
+                name: Bar
             )
         )
     )

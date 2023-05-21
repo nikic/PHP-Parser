@@ -13,9 +13,7 @@ array(
             0: Stmt_Expression(
                 expr: Expr_FuncCall(
                     name: Name(
-                        parts: array(
-                            0: foo
-                        )
+                        name: foo
                     )
                     args: array(
                     )
