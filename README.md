@@ -70,12 +70,17 @@ This dumps an AST looking something like this:
 ```
 array(
     0: Stmt_Function(
+        attrGroups: array(
+        )
         byRef: false
         name: Identifier(
             name: test
         )
         params: array(
             0: Param(
+                attrGroups: array(
+                )
+                flags: 0
                 type: null
                 byRef: false
                 variadic: false
@@ -90,12 +95,11 @@ array(
             0: Stmt_Expression(
                 expr: Expr_FuncCall(
                     name: Name(
-                        parts: array(
-                            0: var_dump
-                        )
+                        name: var_dump
                     )
                     args: array(
                         0: Arg(
+                            name: null
                             value: Expr_Variable(
                                 name: foo
                             )
@@ -137,12 +141,16 @@ This gives us an AST where the `Function_::$stmts` are empty:
 ```
 array(
     0: Stmt_Function(
+        attrGroups: array(
+        )
         byRef: false
         name: Identifier(
             name: test
         )
         params: array(
             0: Param(
+                attrGroups: array(
+                )
                 type: null
                 byRef: false
                 variadic: false

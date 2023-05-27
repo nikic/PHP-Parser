@@ -129,13 +129,13 @@ Now `$a && $b` will be replaced by `!($a && $b)`. Then the traverser will go int
 only) child of `!($a && $b)`, which is `$a && $b`. The transformation applies again and we end up
 with `!!($a && $b)`. This will continue until PHP hits the memory limit.
 
-Finally, there are two special replacement types. The first is removal of a node:
+Finally, there are three special replacement types. The first is removal of a node:
 
 ```php
 public function leaveNode(Node $node) {
     if ($node instanceof Node\Stmt\Return_) {
         // Remove all return statements
-        return NodeTraverser::REMOVE_NODE;
+        return NodeVisitor::REMOVE_NODE;
     }
 }
 ```
@@ -155,7 +155,7 @@ public function leaveNode(Node $node) {
         && $node->expr->name instanceof Node\Name
         && $node->expr->name->toString() === 'var_dump'
     ) {
-        return NodeTraverser::REMOVE_NODE;
+        return NodeVisitor::REMOVE_NODE;
     }
 }
 ```
@@ -163,6 +163,20 @@ public function leaveNode(Node $node) {
 This example will remove all calls to `var_dump()` which occur as expression statements. This means
 that `var_dump($a);` will be removed, but `if (var_dump($a))` will not be removed (and there is no
 obvious way in which it can be removed).
+
+Another way to remove nodes is to replace them with `null`. For example, all `else` statements could
+be removed as follows:
+
+```php
+public function leaveNode(Node $node) {
+    if ($node instanceof Node\Stmt\Else_) {
+        return NodeVisitor::REPLACE_WITH_NULL;
+    }
+}
+```
+
+This is only safe to do if the subnode the node is stored in is nullable. `Node\Stmt\Else_` only
+occurs inside `Node\Stmt\If_::$else`, which is nullable, so this particular replacement is safe.
 
 Next to removing nodes, it is also possible to replace one node with multiple nodes. This
 only works if the parent structure is an array.
@@ -197,7 +211,7 @@ private $classes = [];
 public function enterNode(Node $node) {
     if ($node instanceof Node\Stmt\Class_) {
         $this->classes[] = $node;
-        return NodeTraverser::DONT_TRAVERSE_CHILDREN;
+        return NodeVisitor::DONT_TRAVERSE_CHILDREN;
     }
 }
 ```
@@ -217,7 +231,7 @@ public function enterNode(Node $node) {
         $node->namespacedName->toString() === 'Foo\Bar\Baz'
     ) {
         $this->class = $node;
-        return NodeTraverser::STOP_TRAVERSAL;
+        return NodeVisitor::STOP_TRAVERSAL;
     }
 }
 ```
@@ -255,13 +269,14 @@ $visitorA->enterNode(Stmt_Return)
 $visitorB->enterNode(Stmt_Return)
 $visitorA->enterNode(Expr_Variable)
 $visitorB->enterNode(Expr_Variable)
-$visitorA->leaveNode(Expr_Variable)
 $visitorB->leaveNode(Expr_Variable)
-$visitorA->leaveNode(Stmt_Return)
+$visitorA->leaveNode(Expr_Variable)
 $visitorB->leaveNode(Stmt_Return)
+$visitorA->leaveNode(Stmt_Return)
 ```
 
-That is, when visiting a node, enterNode and leaveNode will always be called for all visitors.
+That is, when visiting a node, `enterNode()` and `leaveNode()` will always be called for all
+visitors, with the `leaveNode()` calls happening in the reverse order of the `enterNode()` calls.
 Running multiple visitors in parallel improves performance, as the AST only has to be traversed
 once. However, it is not always possible to write visitors in a way that allows interleaved
 execution. In this case, you can always fall back to performing multiple traversals:
@@ -286,6 +301,7 @@ special enterNode/leaveNode return values:
  * If a visitor returns a replacement node, subsequent visitors will be passed the replacement node,
    not the original one.
  * If a visitor returns `REMOVE_NODE`, subsequent visitors will not see this node.
+ * If a visitor returns `REPLACE_WITH_NULL`, subsequent visitors will not see this node.
  * If a visitor returns an array of replacement nodes, subsequent visitors will see neither the node
    that was replaced, nor the replacement nodes.
 

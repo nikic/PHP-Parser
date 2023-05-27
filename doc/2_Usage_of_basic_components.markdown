@@ -96,12 +96,17 @@ For the sample code from the previous section, this will produce the following o
 ```
 array(
     0: Stmt_Function(
+        attrGroups: array(
+        )
         byRef: false
         name: Identifier(
             name: printLine
         )
         params: array(
             0: Param(
+                attrGroups: array(
+                )
+                flags: 0
                 type: null
                 byRef: false
                 variadic: false
@@ -129,12 +134,11 @@ array(
     1: Stmt_Expression(
         expr: Expr_FuncCall(
             name: Name(
-                parts: array(
-                    0: printLine
-                )
+                name: printLine
             )
             args: array(
                 0: Arg(
+                    name: null
                     value: Scalar_String(
                         value: Hello World!!!
                     )
@@ -343,15 +347,18 @@ i.e. before its subnodes are traversed, the latter when it is left.
 All four methods can either return the changed node or not return at all (i.e. `null`) in which
 case the current node is not changed.
 
-The `enterNode()` method can additionally return the value `NodeTraverser::DONT_TRAVERSE_CHILDREN`,
+The `enterNode()` method can additionally return the value `NodeVisitor::DONT_TRAVERSE_CHILDREN`,
 which instructs the traverser to skip all children of the current node. To furthermore prevent subsequent
-visitors from visiting the current node, `NodeTraverser::DONT_TRAVERSE_CURRENT_AND_CHILDREN` can be used instead.
+visitors from visiting the current node, `NodeVisitor::DONT_TRAVERSE_CURRENT_AND_CHILDREN` can be used instead.
 
-Both methods can additionally return the value `NodeTraverser::REMOVE_NODE`, in which
-case the current node will be removed from the parent array. Furthermore, it is possible to return
-an array of nodes, which will be merged into the parent array at the offset of the current node.
-I.e. if in `array(A, B, C)` the node `B` should be replaced with `array(X, Y, Z)` the result will
-be `array(A, X, Y, Z, C)`.
+Both methods can additionally return the following values:
+
+ * `NodeVisitor::STOP_TRAVERSAL`, in which case no further nodes will be visited.
+ * `NodeVisitor::REMOVE_NODE`, in which case the current node will be removed from the parent array.
+ * `NodeVisitor::REPLACE_WITH_NULL`, in which case the current node will be replaced with `null`.
+ * An array of nodes, which will be merged into the parent array at the offset of the current node.
+   I.e. if in `array(A, B, C)` the node `B` should be replaced with `array(X, Y, Z)` the result will
+   be `array(A, X, Y, Z, C)`.
 
 Instead of manually implementing the `NodeVisitor` interface you can also extend the `NodeVisitorAbstract`
 class, which will define empty default implementations for all the above methods.
