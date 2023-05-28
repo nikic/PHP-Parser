@@ -86,10 +86,8 @@ class NodeTraverser implements NodeTraverserInterface {
      * Recursively traverse a node.
      *
      * @param Node $node Node to traverse.
-     *
-     * @return Node Result of traversal (may be original node or new one)
      */
-    protected function traverseNode(Node $node): Node {
+    protected function traverseNode(Node $node): void {
         foreach ($node->getSubNodeNames() as $name) {
             $subNode =& $node->$name;
 
@@ -128,7 +126,7 @@ class NodeTraverser implements NodeTraverserInterface {
                 }
 
                 if ($traverseChildren) {
-                    $subNode = $this->traverseNode($subNode);
+                    $this->traverseNode($subNode);
                     if ($this->stopTraversal) {
                         break;
                     }
@@ -162,8 +160,6 @@ class NodeTraverser implements NodeTraverserInterface {
                 }
             }
         }
-
-        return $node;
     }
 
     /**
@@ -213,7 +209,7 @@ class NodeTraverser implements NodeTraverserInterface {
                 }
 
                 if ($traverseChildren) {
-                    $node = $this->traverseNode($node);
+                    $this->traverseNode($node);
                     if ($this->stopTraversal) {
                         break;
                     }
