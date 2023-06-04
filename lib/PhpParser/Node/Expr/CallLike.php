@@ -23,7 +23,10 @@ abstract class CallLike extends Expr {
             if ($arg instanceof VariadicPlaceholder) {
                 return true;
             }
+
+            return false;
         }
+
         return false;
     }
 
