@@ -10,7 +10,7 @@ jobs:
     name: "PHP 7.1 Unit Tests (with coverage)"
     steps:
       - name: "Checkout"
-        uses: "actions/checkout@v2"
+        uses: "actions/checkout@v3"
       - name: "Install PHP"
         uses: "shivammathur/setup-php@v2"
         with:
@@ -42,7 +42,7 @@ jobs:
           - "8.2"
     steps:
       - name: "Checkout"
-        uses: "actions/checkout@v2"
+        uses: "actions/checkout@v3"
       - name: "Install PHP"
         uses: "shivammathur/setup-php@v2"
         with:
@@ -58,7 +58,7 @@ jobs:
     name: "PHP 7.3 Code on PHP 8.0 Integration Tests"
     steps:
       - name: "Checkout"
-        uses: "actions/checkout@v2"
+        uses: "actions/checkout@v3"
       - name: "Install PHP"
         uses: "shivammathur/setup-php@v2"
         with:
@@ -74,7 +74,7 @@ jobs:
     name: "PHP 8.2 Code on PHP 7.1 Integration Tests"
     steps:
       - name: "Checkout"
-        uses: "actions/checkout@v2"
+        uses: "actions/checkout@v3"
       - name: "Install PHP"
         uses: "shivammathur/setup-php@v2"
         with:
@@ -94,7 +94,7 @@ jobs:
           - "8.2"
     steps:
       - name: "Checkout"
-        uses: "actions/checkout@v2"
+        uses: "actions/checkout@v3"
       - name: "Install PHP"
         uses: "shivammathur/setup-php@v2"
         with:
