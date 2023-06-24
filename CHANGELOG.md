@@ -1,5 +1,5 @@
-Version 5.0.0-dev
------------------
+Version 5.0.0-alpha3 (2023-06-24)
+---------------------------------
 
 See UPGRADE-5.0 for detailed migration instructions.
 
