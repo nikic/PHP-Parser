@@ -1,3 +1,14 @@
+Version 4.16.0 (2023-06-25)
+---------------------------
+
+### Added
+
+* Added `Name::getParts()` method for forward-compatibility with PHP-Parser 5.
+
+### Deprecated
+
+* Deprecated direct access to `Name::$parts`, which will be removed in PHP-Parser 5.
+
 Version 4.15.5 (2023-05-19)
 ---------------------------
 
