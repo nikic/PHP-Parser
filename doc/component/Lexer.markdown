@@ -99,12 +99,11 @@ other places (which is the case when using the pretty printer).
 Lexer extension
 ---------------
 
-A lexer has to define the following public interface:
+The primary public interface of the lexer consists of the following methods:
 
 ```php
 function startLexing(string $code, ErrorHandler $errorHandler = null): void;
 function getTokens(): array;
-function handleHaltCompiler(): string;
 function getNextToken(string &$value = null, array &$startAttributes = null, array &$endAttributes = null): int;
 ```
 
@@ -115,9 +114,6 @@ passed `ErrorHandler` should be used to report lexing errors.
 The `getTokens()` method returns the current array of `PhpParser\Token`s, which are compatible with the PHP 8 `PhpToken`
 class. This method is not used by the parser (which uses `getNextToken()`), but is useful in combination with the token
 position attributes.
-
-The `handleHaltCompiler()` method is called whenever a `T_HALT_COMPILER` token is encountered. It has to return the
-remaining string after the construct (not including `();`).
 
 The `getNextToken()` method returns the ID of the next token (in the sense of `Token::$id`). If no more
 tokens are available it must return `0`, which is the ID of the `EOF` token. Furthermore, the string content of the
@@ -139,7 +135,6 @@ can be remedied by storing the original value in an attribute:
 
 ```php
 use PhpParser\Lexer;
-use PhpParser\Parser\Tokens;
 
 class KeepOriginalValueLexer extends Lexer // or Lexer\Emulative
 {

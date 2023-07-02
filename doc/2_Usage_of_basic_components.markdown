@@ -50,7 +50,7 @@ The `createXYZ()` methods optionally accept an array of lexer options. Some use 
 customized lexer options are discussed in the [lexer documentation](component/Lexer.markdown).
 
 Subsequently, you can pass PHP code (including the opening `<?php` tag) to the `parse()` method in
-order to create a syntax tree. If a syntax error is encountered, an `PhpParser\Error` exception will
+order to create a syntax tree. If a syntax error is encountered, a `PhpParser\Error` exception will
 be thrown by default:
 
 ```php
@@ -72,7 +72,7 @@ try {
     $stmts = $parser->parse($code);
     // $stmts is an array of statement nodes
 } catch (Error $e) {
-    echo 'Parse Error: ', $e->getMessage();
+    echo 'Parse Error: ', $e->getMessage(), "\n";
 }
 ```
 
@@ -206,7 +206,7 @@ without the `PhpParser\Node\` prefix and `\` replaced with `_`. It also does not
 It is possible to associate custom metadata with a node using the `setAttribute()` method. This data
 can then be retrieved using `hasAttribute()`, `getAttribute()` and `getAttributes()`.
 
-By default the lexer adds the `startLine`, `endLine` and `comments` attributes. `comments` is an array
+By default, the lexer adds the `startLine`, `endLine` and `comments` attributes. `comments` is an array
 of `PhpParser\Comment[\Doc]` instances.
 
 The start line can also be accessed using `getStartLine()` (instead of `getAttribute('startLine')`).
@@ -244,7 +244,7 @@ try {
 
     echo $code;
 } catch (Error $e) {
-    echo 'Parse Error: ', $e->getMessage();
+    echo 'Parse Error: ', $e->getMessage(), "\n";
 }
 ```
 
@@ -252,7 +252,7 @@ The above code will output:
 
     echo 'Hello ', hi\getTarget();
 
-As you can see the source code was first parsed using `PhpParser\Parser->parse()`, then changed and then
+As you can see, the source code was first parsed using `PhpParser\Parser->parse()`, then changed and then
 again converted to code using `PhpParser\PrettyPrinter\Standard->prettyPrint()`.
 
 The `prettyPrint()` method pretty prints a statements array. It is also possible to pretty print only a
@@ -393,7 +393,7 @@ declarations that contains the namespaced name instead of only the shortname tha
 Example: Converting namespaced code to pseudo namespaces
 --------------------------------------------------------
 
-A small example to understand the concept: We want to convert namespaced code to pseudo namespaces
+A small example to understand the concept: We want to convert namespaced code to pseudo namespaces,
 so it works on 5.2, i.e. names like `A\\B` should be converted to `A_B`. Note that such conversions
 are fairly complicated if you take PHP's dynamic features into account, so our conversion will
 assume that no dynamic features are used.
@@ -445,7 +445,7 @@ foreach ($files as $file) {
 }
 ```
 
-Now lets start with the main code, the `NodeVisitor\NamespaceConverter`. One thing it needs to do
+Now lets start with the main code, the `NamespaceConverter`. One thing it needs to do
 is convert `A\\B` style names to `A_B` style ones.
 
 ```php

@@ -47,20 +47,19 @@ For example, if we have the following excerpt of an AST
 
 ```
 Expr_FuncCall(
-    name: Name(
-        parts: array(
-            0: printLine
-        )
-    )
-    args: array(
-        0: Arg(
-            value: Scalar_String(
-                value: Hello World!!!
-            )
-            byRef: false
-            unpack: false
-        )
-    )
+   name: Name(
+       name: printLine
+   )
+   args: array(
+       0: Arg(
+           name: null
+           value: Scalar_String(
+               value: Hello World!!!
+           )
+           byRef: false
+           unpack: false
+       )
+   )
 )
 ```
 
@@ -348,5 +347,6 @@ be accessed: From parents to children. However, it can often be convenient to op
 reverse direction: When working on a node, you might want to check if the parent node satisfies a
 certain property.
 
-PHP-Parser does not add parent (or sibling) references to nodes by itself, but you can easily
-emulate this with a visitor. See the [FAQ](FAQ.markdown) for more information.
+PHP-Parser does not add parent (or sibling) references to nodes by default, but you can enable them
+using the `ParentConnectingVisitor` or `NodeConnectingVisitor`. See the [FAQ](FAQ.markdown) for
+more information.

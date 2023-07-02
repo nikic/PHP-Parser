@@ -40,5 +40,5 @@ parse multiple files.
 
 When possible, objects should be reused rather than being newly instantiated for every use. Some
 objects have expensive initialization procedures, which will be unnecessarily repeated if the object
-is not reused. (Currently two objects with particularly expensive setup are lexers and pretty
+is not reused. (Currently two objects with particularly expensive setup are parsers and pretty
 printers, though the details might change between versions of this library.)

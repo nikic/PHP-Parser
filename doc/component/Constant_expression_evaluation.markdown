@@ -70,6 +70,7 @@ expressions, apart from the following:
  * `Expr\ConstFetch` (only null/false/true are handled)
  * `Expr\ClassConstFetch`
  * `Expr\New_` (since PHP 8.1)
+ * `Expr\PropertyFetch` (since PHP 8.2)
 
 Handling these expression types requires non-local information, such as which global constants are
 defined. By default, the evaluator will throw a `ConstExprEvaluationException` when it encounters
@@ -84,7 +85,7 @@ specifying an evaluation fallback function:
 use PhpParser\{ConstExprEvaluator, ConstExprEvaluationException};
 use PhpParser\Node\Expr;
 
-$evalutator = new ConstExprEvaluator(function(Expr $expr) {
+$evaluator = new ConstExprEvaluator(function(Expr $expr) {
     if ($expr instanceof Expr\ConstFetch) {
         return fetchConstantSomehow($expr);
     }
@@ -97,7 +98,7 @@ $evalutator = new ConstExprEvaluator(function(Expr $expr) {
 });
 
 try {
-    $evalutator->evaluateSilently($someExpr);
+    $evaluator->evaluateSilently($someExpr);
 } catch (ConstExprEvaluationException $e) {
     // Handle exception
 }
