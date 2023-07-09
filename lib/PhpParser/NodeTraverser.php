@@ -29,8 +29,13 @@ class NodeTraverser implements NodeTraverserInterface {
     /** @var bool Whether traversal should be stopped */
     protected $stopTraversal;
 
-    public function __construct() {
-        // for BC
+    /**
+     * Create a traverser with the given visitors.
+     *
+     * @param NodeVisitor ...$visitors Node visitors
+     */
+    public function __construct(NodeVisitor... $visitors) {
+        $this->visitors = $visitors;
     }
 
     /**

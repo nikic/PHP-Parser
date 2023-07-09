@@ -81,8 +81,7 @@ $lexerOptions = array(
 $parser = (new PhpParser\ParserFactory())->createForHostVersion($lexerOptions);
 
 $visitor = new MyNodeVisitor();
-$traverser = new PhpParser\NodeTraverser();
-$traverser->addVisitor($visitor);
+$traverser = new PhpParser\NodeTraverser($visitor);
 
 try {
     $stmts = $parser->parse($code);

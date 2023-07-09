@@ -69,8 +69,7 @@ class CodeParsingTest extends CodeTestAbstract {
             return;
         }
 
-        $traverser = new NodeTraverser();
-        $traverser->addVisitor(new class () extends NodeVisitorAbstract {
+        $traverser = new NodeTraverser(new class () extends NodeVisitorAbstract {
             public function enterNode(Node $node) {
                 $startLine = $node->getStartLine();
                 $endLine = $node->getEndLine();

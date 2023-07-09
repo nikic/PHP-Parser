@@ -193,8 +193,7 @@ class PrettyPrinterTest extends CodeTestAbstract {
         ]);
 
         $parser = new Parser\Php7($lexer);
-        $traverser = new NodeTraverser();
-        $traverser->addVisitor(new NodeVisitor\CloningVisitor());
+        $traverser = new NodeTraverser(new NodeVisitor\CloningVisitor());
 
         $printer = new PrettyPrinter\Standard();
 
@@ -244,8 +243,7 @@ CODE
 
         $parser = new Php7($lexer);
 
-        $traverser = new NodeTraverser();
-        $traverser->addVisitor(new NodeVisitor\CloningVisitor());
+        $traverser = new NodeTraverser(new NodeVisitor\CloningVisitor());
 
         $printer = new PrettyPrinter\Standard();
 

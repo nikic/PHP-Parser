@@ -21,6 +21,18 @@ $stmts = ...;
 $modifiedStmts = $traverser->traverse($stmts);
 ```
 
+Visitors can be either passed to the `NodeTraverser` constructor, or added using `addVisitor()`:
+
+```php
+$traverser = new NodeTraverser($visitor1, $visitor2, $visitor3);
+
+// Equivalent to:
+$traverser = new NodeTraverser();
+$traverser->addVisitor($visitor1);
+$traverser->addVisitor($visitor2);
+$traverser->addVisitor($visitor3);
+```
+
 Node visitors
 -------------
 

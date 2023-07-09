@@ -75,8 +75,7 @@ $lexerOptions = new [
 ];
 $parser = (new ParserFactory())->createForHostVersion($lexerOptions);
 
-$traverser = new NodeTraverser();
-$traverser->addVisitor(new NodeVisitor\CloningVisitor());
+$traverser = new NodeTraverser(new NodeVisitor\CloningVisitor());
 
 $printer = new PrettyPrinter\Standard();
 

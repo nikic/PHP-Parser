@@ -21,8 +21,7 @@ class NodeFinder {
 
         $visitor = new FindingVisitor($filter);
 
-        $traverser = new NodeTraverser();
-        $traverser->addVisitor($visitor);
+        $traverser = new NodeTraverser($visitor);
         $traverser->traverse($nodes);
 
         return $visitor->getFoundNodes();
@@ -59,8 +58,7 @@ class NodeFinder {
 
         $visitor = new FirstFindingVisitor($filter);
 
-        $traverser = new NodeTraverser();
-        $traverser->addVisitor($visitor);
+        $traverser = new NodeTraverser($visitor);
         $traverser->traverse($nodes);
 
         return $visitor->getFoundNode();

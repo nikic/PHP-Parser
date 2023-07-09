@@ -49,10 +49,7 @@ class NodeTraverserTest extends \PHPUnit\Framework\TestCase {
         ]);
         $visitor3 = new NodeVisitorForTesting();
 
-        $traverser = new NodeTraverser();
-        $traverser->addVisitor($visitor1);
-        $traverser->addVisitor($visitor2);
-        $traverser->addVisitor($visitor3);
+        $traverser = new NodeTraverser($visitor1, $visitor2, $visitor3);
 
         // as all operations are reversed we end where we start
         $this->assertEquals([], $traverser->traverse([]));
