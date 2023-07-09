@@ -194,16 +194,6 @@ class Lexer {
         while (1) {
             $token = $this->tokens[++$this->pos];
 
-            if ($this->attributeStartLineUsed) {
-                $startAttributes['startLine'] = $token->line;
-            }
-            if ($this->attributeStartTokenPosUsed) {
-                $startAttributes['startTokenPos'] = $this->pos;
-            }
-            if ($this->attributeStartFilePosUsed) {
-                $startAttributes['startFilePos'] = $token->pos;
-            }
-
             $id = $token->id;
             if (isset($this->dropTokens[$id])) {
                 if (\T_COMMENT === $id || \T_DOC_COMMENT === $id) {
@@ -217,6 +207,16 @@ class Lexer {
                     }
                 }
                 continue;
+            }
+
+            if ($this->attributeStartLineUsed) {
+                $startAttributes['startLine'] = $token->line;
+            }
+            if ($this->attributeStartTokenPosUsed) {
+                $startAttributes['startTokenPos'] = $this->pos;
+            }
+            if ($this->attributeStartFilePosUsed) {
+                $startAttributes['startFilePos'] = $token->pos;
             }
 
             $value = $token->text;

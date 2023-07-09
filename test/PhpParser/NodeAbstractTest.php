@@ -309,7 +309,6 @@ PHP;
         "attrGroups": [],
         "namespacedName": null,
         "attributes": {
-            "startLine": 4,
             "comments": [
                 {
                     "nodeType": "Comment",
@@ -332,6 +331,7 @@ PHP;
                     "endTokenPos": 3
                 }
             ],
+            "startLine": 4,
             "endLine": 6
         }
     }
@@ -342,7 +342,6 @@ JSON;
     {
         "nodeType": "Stmt_Function",
         "attributes": {
-            "startLine": 4,
             "comments": [
                 {
                     "nodeType": "Comment",
@@ -365,6 +364,7 @@ JSON;
                     "endTokenPos": 3
                 }
             ],
+            "startLine": 4,
             "endLine": 6
         },
         "byRef": false,
