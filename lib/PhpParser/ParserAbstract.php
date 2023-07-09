@@ -312,8 +312,14 @@ abstract class ParserAbstract implements Parser {
                     /* reduce */
                     //$this->traceReduce($rule);
 
+                    $ruleLength = $this->ruleToLength[$rule];
                     try {
-                        $this->reduceCallbacks[$rule]($stackPos);
+                        $callback = $this->reduceCallbacks[$rule];
+                        if ($callback !== null) {
+                            $callback($stackPos);
+                        } elseif ($ruleLength > 0) {
+                            $this->semValue = $this->semStack[$stackPos - $ruleLength + 1];
+                        }
                     } catch (Error $e) {
                         if (-1 === $e->getStartLine() && isset($startAttributes['startLine'])) {
                             $e->setStartLine($startAttributes['startLine']);
@@ -326,7 +332,6 @@ abstract class ParserAbstract implements Parser {
 
                     /* Goto - shift nonterminal */
                     $lastEndAttributes = $this->endAttributeStack[$stackPos];
-                    $ruleLength = $this->ruleToLength[$rule];
                     $stackPos -= $ruleLength;
                     $nonTerminal = $this->ruleToNonTerminal[$rule];
                     $idx = $this->gotoBase[$nonTerminal] + $stateStack[$stackPos];

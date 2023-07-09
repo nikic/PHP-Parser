@@ -101,9 +101,7 @@ class #(-p) extends \PhpParser\ParserAbstract
                 %b
             },
 #noact
-            %n => function ($stackPos) {
-                $this->semValue = $this->semStack[$stackPos];
-            },
+            %n => null,
 #endreduce
         ];
     }

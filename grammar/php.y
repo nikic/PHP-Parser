@@ -185,7 +185,7 @@ namespace_name:
 ;
 
 legacy_namespace_name:
-      namespace_name                                        { $$ = $1; }
+      namespace_name
     | T_NAME_FULLY_QUALIFIED                                { $$ = Name[substr($1, 1)]; }
 ;
 
@@ -229,13 +229,13 @@ attributes:
 
 optional_attributes:
       /* empty */                                           { $$ = []; }
-    | attributes                                            { $$ = $1; }
+    | attributes
 ;
 
 top_statement:
-      statement                                             { $$ = $1; }
-    | function_declaration_statement                        { $$ = $1; }
-    | class_declaration_statement                           { $$ = $1; }
+      statement
+    | function_declaration_statement
+    | class_declaration_statement
     | T_HALT_COMPILER '(' ')' ';'
           { $$ = Stmt\HaltCompiler[$this->lexer->handleHaltCompiler()]; }
     | T_NAMESPACE namespace_declaration_name semi
@@ -252,7 +252,7 @@ top_statement:
             $this->checkNamespace($$); }
     | T_USE use_declarations semi                           { $$ = Stmt\Use_[$2, Stmt\Use_::TYPE_NORMAL]; }
     | T_USE use_type use_declarations semi                  { $$ = Stmt\Use_[$3, $2]; }
-    | group_use_declaration semi                            { $$ = $1; }
+    | group_use_declaration semi
     | T_CONST constant_declaration_list semi                { $$ = Stmt\Const_[$2]; }
 ;
 
@@ -269,7 +269,7 @@ group_use_declaration:
 ;
 
 unprefixed_use_declarations:
-      non_empty_unprefixed_use_declarations optional_comma  { $$ = $1; }
+      non_empty_unprefixed_use_declarations optional_comma
 ;
 
 non_empty_unprefixed_use_declarations:
@@ -279,7 +279,7 @@ non_empty_unprefixed_use_declarations:
 ;
 
 use_declarations:
-      non_empty_use_declarations no_comma                   { $$ = $1; }
+      non_empty_use_declarations no_comma
 ;
 
 non_empty_use_declarations:
@@ -288,7 +288,7 @@ non_empty_use_declarations:
 ;
 
 inline_use_declarations:
-      non_empty_inline_use_declarations optional_comma      { $$ = $1; }
+      non_empty_inline_use_declarations optional_comma
 ;
 
 non_empty_inline_use_declarations:
@@ -317,7 +317,7 @@ inline_use_declaration:
 ;
 
 constant_declaration_list:
-      non_empty_constant_declaration_list no_comma          { $$ = $1; }
+      non_empty_constant_declaration_list no_comma
 ;
 
 non_empty_constant_declaration_list:
@@ -331,7 +331,7 @@ constant_declaration:
 ;
 
 class_const_list:
-      non_empty_class_const_list no_comma                   { $$ = $1; }
+      non_empty_class_const_list no_comma
 ;
 
 non_empty_class_const_list:
@@ -358,9 +358,9 @@ inner_statement_list:
 ;
 
 inner_statement:
-      statement                                             { $$ = $1; }
-    | function_declaration_statement                        { $$ = $1; }
-    | class_declaration_statement                           { $$ = $1; }
+      statement
+    | function_declaration_statement
+    | class_declaration_statement
     | T_HALT_COMPILER
           { throw new Error('__HALT_COMPILER() can only be used from the outermost scope', attributes()); }
 ;
@@ -417,7 +417,7 @@ non_empty_statement:
 ;
 
 statement:
-      non_empty_statement                                   { $$ = $1; }
+      non_empty_statement
     | ';'
           { makeNop($$, $this->startAttributeStack[#1], $this->endAttributes);
             if ($$ === null) $$ = array(); /* means: no statement */ }
@@ -444,7 +444,7 @@ optional_finally:
 ;
 
 variables_list:
-      non_empty_variables_list optional_comma               { $$ = $1; }
+      non_empty_variables_list optional_comma
 ;
 
 non_empty_variables_list:
@@ -473,7 +473,7 @@ block_or_error:
 ;
 
 identifier_maybe_readonly:
-      identifier_not_reserved                               { $$ = $1; }
+      identifier_not_reserved
     | T_READONLY                                            { $$ = Node\Identifier[$1]; }
 ;
 
@@ -512,11 +512,11 @@ enum_case_expr:
 
 class_entry_type:
       T_CLASS                                               { $$ = 0; }
-    | class_modifiers T_CLASS                               { $$ = $1; }
+    | class_modifiers T_CLASS
 ;
 
 class_modifiers:
-      class_modifier                                        { $$ = $1; }
+      class_modifier
     | class_modifiers class_modifier                        { $this->checkClassModifier($1, $2, #2); $$ = $1 | $2; }
 ;
 
@@ -542,7 +542,7 @@ implements_list:
 ;
 
 class_name_list:
-      non_empty_class_name_list no_comma                    { $$ = $1; }
+      non_empty_class_name_list no_comma
 ;
 
 non_empty_class_name_list:
@@ -567,7 +567,7 @@ declare_statement:
 ;
 
 declare_list:
-      non_empty_declare_list no_comma                       { $$ = $1; }
+      non_empty_declare_list no_comma
 ;
 
 non_empty_declare_list:
@@ -607,7 +607,7 @@ match:
 
 match_arm_list:
       /* empty */                                           { $$ = []; }
-    | non_empty_match_arm_list optional_comma               { $$ = $1; }
+    | non_empty_match_arm_list optional_comma
 ;
 
 non_empty_match_arm_list:
@@ -664,7 +664,7 @@ foreach_variable:
 ;
 
 parameter_list:
-      non_empty_parameter_list optional_comma               { $$ = $1; }
+      non_empty_parameter_list optional_comma
     | /* empty */                                           { $$ = array(); }
 ;
 
@@ -701,14 +701,14 @@ parameter:
 ;
 
 type_expr:
-      type                                                  { $$ = $1; }
+      type
     | '?' type                                              { $$ = Node\NullableType[$2]; }
     | union_type                                            { $$ = Node\UnionType[$1]; }
-    | intersection_type                                     { $$ = $1; }
+    | intersection_type
 ;
 
 type:
-      type_without_static                                   { $$ = $1; }
+      type_without_static
     | T_STATIC                                              { $$ = Node\Name['static']; }
 ;
 
@@ -719,8 +719,8 @@ type_without_static:
 ;
 
 union_type_element:
-                type { $$ = $1; }
-        |        '(' intersection_type ')' { $$ = $2; }
+      type
+    | '(' intersection_type ')' { $$ = $2; }
 ;
 
 union_type:
@@ -729,7 +729,7 @@ union_type:
 ;
 
 union_type_without_static_element:
-                type_without_static { $$ = $1; }
+                type_without_static
         |        '(' intersection_type_without_static ')' { $$ = $2; }
 ;
 
@@ -760,15 +760,15 @@ intersection_type_without_static:
 ;
 
 type_expr_without_static:
-      type_without_static                                   { $$ = $1; }
+      type_without_static
     | '?' type_without_static                               { $$ = Node\NullableType[$2]; }
     | union_type_without_static                             { $$ = Node\UnionType[$1]; }
-    | intersection_type_without_static                      { $$ = $1; }
+    | intersection_type_without_static
 ;
 
 optional_type_without_static:
       /* empty */                                           { $$ = null; }
-    | type_expr_without_static                              { $$ = $1; }
+    | type_expr_without_static
 ;
 
 optional_return_type:
@@ -801,7 +801,7 @@ argument:
 ;
 
 global_var_list:
-      non_empty_global_var_list no_comma                    { $$ = $1; }
+      non_empty_global_var_list no_comma
 ;
 
 non_empty_global_var_list:
@@ -810,11 +810,11 @@ non_empty_global_var_list:
 ;
 
 global_var:
-      simple_variable                                       { $$ = $1; }
+      simple_variable
 ;
 
 static_var_list:
-      non_empty_static_var_list no_comma                    { $$ = $1; }
+      non_empty_static_var_list no_comma
 ;
 
 non_empty_static_var_list:
@@ -885,27 +885,27 @@ trait_method_reference_fully_qualified:
       name T_PAAMAYIM_NEKUDOTAYIM identifier_maybe_reserved { $$ = array($1, $3); }
 ;
 trait_method_reference:
-      trait_method_reference_fully_qualified                { $$ = $1; }
+      trait_method_reference_fully_qualified
     | identifier_maybe_reserved                             { $$ = array(null, $1); }
 ;
 
 method_body:
       ';' /* abstract method */                             { $$ = null; }
-    | block_or_error                                        { $$ = $1; }
+    | block_or_error
 ;
 
 variable_modifiers:
-      non_empty_member_modifiers                            { $$ = $1; }
+      non_empty_member_modifiers
     | T_VAR                                                 { $$ = 0; }
 ;
 
 method_modifiers:
       /* empty */                                           { $$ = 0; }
-    | non_empty_member_modifiers                            { $$ = $1; }
+    | non_empty_member_modifiers
 ;
 
 non_empty_member_modifiers:
-      member_modifier                                       { $$ = $1; }
+      member_modifier
     | non_empty_member_modifiers member_modifier            { $this->checkModifier($1, $2, #2); $$ = $1 | $2; }
 ;
 
@@ -920,7 +920,7 @@ member_modifier:
 ;
 
 property_declaration_list:
-      non_empty_property_declaration_list no_comma          { $$ = $1; }
+      non_empty_property_declaration_list no_comma
 ;
 
 non_empty_property_declaration_list:
@@ -939,11 +939,11 @@ property_declaration:
 ;
 
 expr_list_forbid_comma:
-      non_empty_expr_list no_comma                          { $$ = $1; }
+      non_empty_expr_list no_comma
 ;
 
 expr_list_allow_comma:
-      non_empty_expr_list optional_comma                    { $$ = $1; }
+      non_empty_expr_list optional_comma
 ;
 
 non_empty_expr_list:
@@ -953,11 +953,11 @@ non_empty_expr_list:
 
 for_expr:
       /* empty */                                           { $$ = array(); }
-    | expr_list_forbid_comma                                { $$ = $1; }
+    | expr_list_forbid_comma
 ;
 
 expr:
-      variable                                              { $$ = $1; }
+      variable
     | list_expr '=' expr                                    { $$ = Expr\Assign[$1, $3]; }
     | array_short_syntax '=' expr
           { $$ = Expr\Assign[$this->fixupArrayDestructuring($1), $3]; }
@@ -969,8 +969,8 @@ expr:
                 $this->emitError(new Error('Cannot assign new by reference', attributes()));
             }
           }
-    | new_expr                                              { $$ = $1; }
-    | match                                                 { $$ = $1; }
+    | new_expr
+    | match
     | T_CLONE expr                                          { $$ = Expr\Clone_[$2]; }
     | variable T_PLUS_EQUAL expr                            { $$ = Expr\AssignOp\Plus      [$1, $3]; }
     | variable T_MINUS_EQUAL expr                           { $$ = Expr\AssignOp\Minus     [$1, $3]; }
@@ -1047,7 +1047,7 @@ expr:
             $attrs['kind'] = strtolower($1) === 'exit' ? Expr\Exit_::KIND_EXIT : Expr\Exit_::KIND_DIE;
             $$ = new Expr\Exit_($2, $attrs); }
     | '@' expr                                              { $$ = Expr\ErrorSuppress[$2]; }
-    | scalar                                                { $$ = $1; }
+    | scalar
     | '`' backticks_expr '`'                                { $$ = Expr\ShellExec[$2]; }
     | T_PRINT expr                                          { $$ = Expr\Print_[$2]; }
     | T_YIELD                                               { $$ = Expr\Yield_[null, null]; }
@@ -1093,7 +1093,7 @@ lexical_vars:
 ;
 
 lexical_var_list:
-      non_empty_lexical_var_list optional_comma             { $$ = $1; }
+      non_empty_lexical_var_list optional_comma
 ;
 
 non_empty_lexical_var_list:
@@ -1119,7 +1119,7 @@ function_call:
 
 class_name:
       T_STATIC                                              { $$ = Name[$1]; }
-    | name                                                  { $$ = $1; }
+    | name
 ;
 
 name:
@@ -1130,15 +1130,15 @@ name:
 ;
 
 class_name_reference:
-      class_name                                            { $$ = $1; }
-    | new_variable                                          { $$ = $1; }
+      class_name
+    | new_variable
     | '(' expr ')'                                          { $$ = $2; }
     | error                                                 { $$ = Expr\Error[]; $this->errorState = 2; }
 ;
 
 class_name_or_var:
-      class_name                                            { $$ = $1; }
-    | fully_dereferencable                                  { $$ = $1; }
+      class_name
+    | fully_dereferencable
 ;
 
 exit_expr:
@@ -1155,7 +1155,7 @@ backticks_expr:
 
 ctor_arguments:
       /* empty */                                           { $$ = array(); }
-    | argument_list                                         { $$ = $1; }
+    | argument_list
 ;
 
 constant:
@@ -1203,9 +1203,9 @@ scalar:
       T_LNUMBER
           { $$ = $this->parseLNumber($1, attributes(), $this->phpVersion->allowsInvalidOctals()); }
     | T_DNUMBER                                             { $$ = Scalar\Float_::fromString($1, attributes()); }
-    | dereferencable_scalar                                 { $$ = $1; }
-    | constant                                              { $$ = $1; }
-    | class_constant                                        { $$ = $1; }
+    | dereferencable_scalar
+    | constant
+    | class_constant
     | T_START_HEREDOC T_ENCAPSED_AND_WHITESPACE T_END_HEREDOC
           { $$ = $this->parseDocString($1, $2, $3, attributes(), stackAttributes(#3), true); }
     | T_START_HEREDOC T_END_HEREDOC
@@ -1216,32 +1216,32 @@ scalar:
 
 optional_expr:
       /* empty */                                           { $$ = null; }
-    | expr                                                  { $$ = $1; }
+    | expr
 ;
 
 fully_dereferencable:
-      variable                                              { $$ = $1; }
+      variable
     | '(' expr ')'                                          { $$ = $2; }
-    | dereferencable_scalar                                 { $$ = $1; }
-    | class_constant                                        { $$ = $1; }
+    | dereferencable_scalar
+    | class_constant
 ;
 
 array_object_dereferencable:
-      fully_dereferencable                                  { $$ = $1; }
-    | constant                                              { $$ = $1; }
+      fully_dereferencable
+    | constant
 ;
 
 callable_expr:
-      callable_variable                                     { $$ = $1; }
+      callable_variable
     | '(' expr ')'                                          { $$ = $2; }
-    | dereferencable_scalar                                 { $$ = $1; }
+    | dereferencable_scalar
 ;
 
 callable_variable:
-      simple_variable                                       { $$ = $1; }
+      simple_variable
     | array_object_dereferencable '[' optional_expr ']'     { $$ = Expr\ArrayDimFetch[$1, $3]; }
     | array_object_dereferencable '{' expr '}'              { $$ = Expr\ArrayDimFetch[$1, $3]; }
-    | function_call                                         { $$ = $1; }
+    | function_call
     | array_object_dereferencable T_OBJECT_OPERATOR property_name argument_list
           { $$ = Expr\MethodCall[$1, $3, $4]; }
     | array_object_dereferencable T_NULLSAFE_OBJECT_OPERATOR property_name argument_list
@@ -1250,12 +1250,12 @@ callable_variable:
 
 optional_plain_variable:
       /* empty */                                           { $$ = null; }
-    | plain_variable                                        { $$ = $1; }
+    | plain_variable
 ;
 
 variable:
-      callable_variable                                     { $$ = $1; }
-    | static_member                                         { $$ = $1; }
+      callable_variable
+    | static_member
     | array_object_dereferencable T_OBJECT_OPERATOR property_name
           { $$ = Expr\PropertyFetch[$1, $3]; }
     | array_object_dereferencable T_NULLSAFE_OBJECT_OPERATOR property_name
@@ -1263,7 +1263,7 @@ variable:
 ;
 
 simple_variable:
-      plain_variable                                        { $$ = $1; }
+      plain_variable
     | '$' '{' expr '}'                                      { $$ = Expr\Variable[$3]; }
     | '$' simple_variable                                   { $$ = Expr\Variable[$2]; }
     | '$' error                                             { $$ = Expr\Variable[Expr\Error[]]; $this->errorState = 2; }
@@ -1280,7 +1280,7 @@ static_member:
 ;
 
 new_variable:
-      simple_variable                                       { $$ = $1; }
+      simple_variable
     | new_variable '[' optional_expr ']'                    { $$ = Expr\ArrayDimFetch[$1, $3]; }
     | new_variable '{' expr '}'                             { $$ = Expr\ArrayDimFetch[$1, $3]; }
     | new_variable T_OBJECT_OPERATOR property_name          { $$ = Expr\PropertyFetch[$1, $3]; }
@@ -1292,15 +1292,15 @@ new_variable:
 ;
 
 member_name:
-      identifier_maybe_reserved                             { $$ = $1; }
+      identifier_maybe_reserved
     | '{' expr '}'                                          { $$ = $2; }
-    | simple_variable                                       { $$ = $1; }
+    | simple_variable
 ;
 
 property_name:
-      identifier_not_reserved                               { $$ = $1; }
+      identifier_not_reserved
     | '{' expr '}'                                          { $$ = $2; }
-    | simple_variable                                       { $$ = $1; }
+    | simple_variable
     | error                                                 { $$ = Expr\Error[]; $this->errorState = 2; }
 ;
 
@@ -1357,7 +1357,7 @@ encaps_str_varname:
 ;
 
 encaps_var:
-      plain_variable                                        { $$ = $1; }
+      plain_variable
     | plain_variable '[' encaps_var_offset ']'              { $$ = Expr\ArrayDimFetch[$1, $3]; }
     | plain_variable T_OBJECT_OPERATOR identifier_not_reserved
           { $$ = Expr\PropertyFetch[$1, $3]; }
@@ -1374,7 +1374,7 @@ encaps_var_offset:
       T_STRING                                              { $$ = Scalar\String_[$1]; }
     | T_NUM_STRING                                          { $$ = $this->parseNumString($1, attributes()); }
     | '-' T_NUM_STRING                                      { $$ = $this->parseNumString('-' . $2, attributes()); }
-    | plain_variable                                        { $$ = $1; }
+    | plain_variable
 ;
 
 %%
