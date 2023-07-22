@@ -19,14 +19,14 @@ class ParserFactory {
      *
      * @deprecated Use createForVersion(), createForNewestSupportedVersion() or createForHostVersion() instead.
      */
-    public function create(int $kind, ?Lexer $lexer = null): Parser {
+    public function create(int $kind, ?Lexer $lexer = null, $parserOptions = []): Parser {
         if (null === $lexer) {
             $lexer = new Lexer\Emulative();
         }
         switch ($kind) {
             case self::PREFER_PHP7:
             case self::ONLY_PHP7:
-                return new Parser\Php7($lexer);
+                return new Parser\Php7($lexer, null, $parserOptions);
             default:
                 throw new \LogicException(
                     'Kind must be one of ::PREFER_PHP7 or ::ONLY_PHP7'
@@ -41,16 +41,16 @@ class ParserFactory {
      *
      * @param array<string, mixed> $lexerOptions Lexer options
      */
-    public function createForVersion(PhpVersion $version, array $lexerOptions = []): Parser {
+    public function createForVersion(PhpVersion $version, array $lexerOptions = [], array $parserOptions = []): Parser {
         if ($version->isHostVersion()) {
             $lexer = new Lexer($lexerOptions);
         } else {
             $lexer = new Lexer\Emulative($lexerOptions + ['phpVersion' => $version]);
         }
         if ($version->id >= 80000) {
-            return new Php8($lexer, $version);
+            return new Php8($lexer, $version, $parserOptions);
         }
-        return new Php7($lexer, $version);
+        return new Php7($lexer, $version, $parserOptions);
     }
 
     /**
@@ -60,8 +60,8 @@ class ParserFactory {
      *
      * @param array<string, mixed> $lexerOptions Lexer options
      */
-    public function createForNewestSupportedVersion(array $lexerOptions = []): Parser {
-        return $this->createForVersion(PhpVersion::getNewestSupported(), $lexerOptions);
+    public function createForNewestSupportedVersion(array $lexerOptions = [], array $parserOptions = []): Parser {
+        return $this->createForVersion(PhpVersion::getNewestSupported(), $lexerOptions, $parserOptions);
     }
 
     /**
@@ -70,7 +70,7 @@ class ParserFactory {
      *
      * @param array<string, mixed> $lexerOptions Lexer options
      */
-    public function createForHostVersion(array $lexerOptions = []): Parser {
-        return $this->createForVersion(PhpVersion::getHostVersion(), $lexerOptions);
+    public function createForHostVersion(array $lexerOptions = [], array $parserOptions = []): Parser {
+        return $this->createForVersion(PhpVersion::getHostVersion(), $lexerOptions, $parserOptions);
     }
 }

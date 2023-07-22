@@ -11,14 +11,18 @@ class CodeParsingTest extends CodeTestAbstract {
      */
     public function testParse($name, $code, $expected, $modeLine) {
         $modes = $this->parseModeLine($modeLine);
-        $parser = $this->createParser($modes['version'] ?? null);
+        $parserOptions = [];
+        if (!empty($modes['keepRedundantParentheses'])) {
+            $parserOptions['keepRedundantParentheses'] = true;
+        }
+        $parser = $this->createParser($modes['version'] ?? null, $parserOptions);
         list($stmts, $output) = $this->getParseOutput($parser, $code, $modes);
 
         $this->assertSame($expected, $output, $name);
         $this->checkAttributes($stmts);
     }
 
-    public function createParser(?string $version): Parser {
+    public function createParser(?string $version, $parserOptions = []): Parser {
         $factory = new ParserFactory();
         $version = $version === null
             ? PhpVersion::getNewestSupported() : PhpVersion::fromString($version);
@@ -29,7 +33,7 @@ class CodeParsingTest extends CodeTestAbstract {
                 'startFilePos', 'endFilePos',
                 'startTokenPos', 'endTokenPos',
                 'comments'
-            ]]);
+            ]], $parserOptions);
     }
 
     // Must be public for updateTests.php

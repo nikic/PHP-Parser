@@ -732,6 +732,10 @@ class Standard extends PrettyPrinterAbstract {
         }
     }
 
+    protected function pExpr_Parenthesized(Expr\Parenthesized $node): string {
+        return '(' . $this->p($node->expr) . ')';
+    }
+
     // Declarations
 
     protected function pStmt_Namespace(Stmt\Namespace_ $node): string {

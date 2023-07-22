@@ -1,0 +1,128 @@
+Redundant parentheses
+-----
+<?php
+
+1 * (2 + 3);
+-----
+!!keepRedundantParentheses
+array(
+    0: Stmt_Expression(
+        expr: Expr_BinaryOp_Mul(
+            left: Scalar_Int(
+                value: 1
+            )
+            right: Expr_Parenthesized(
+                expr: Expr_BinaryOp_Plus(
+                    left: Scalar_Int(
+                        value: 2
+                    )
+                    right: Scalar_Int(
+                        value: 3
+                    )
+                )
+            )
+        )
+    )
+)
+-----
+<?php
+
+1 * (2 + 3);
+-----
+array(
+    0: Stmt_Expression(
+        expr: Expr_BinaryOp_Mul(
+            left: Scalar_Int(
+                value: 1
+            )
+            right: Expr_BinaryOp_Plus(
+                left: Scalar_Int(
+                    value: 2
+                )
+                right: Scalar_Int(
+                    value: 3
+                )
+            )
+        )
+    )
+)
+-----
+<?php
+
+(1 * 2) + 3;
+-----
+!!keepRedundantParentheses
+array(
+    0: Stmt_Expression(
+        expr: Expr_BinaryOp_Plus(
+            left: Expr_Parenthesized(
+                expr: Expr_BinaryOp_Mul(
+                    left: Scalar_Int(
+                        value: 1
+                    )
+                    right: Scalar_Int(
+                        value: 2
+                    )
+                )
+            )
+            right: Scalar_Int(
+                value: 3
+            )
+        )
+    )
+)
+-----
+<?php
+
+(1 * 2) + 3;
+-----
+array(
+    0: Stmt_Expression(
+        expr: Expr_BinaryOp_Plus(
+            left: Expr_BinaryOp_Mul(
+                left: Scalar_Int(
+                    value: 1
+                )
+                right: Scalar_Int(
+                    value: 2
+                )
+            )
+            right: Scalar_Int(
+                value: 3
+            )
+        )
+    )
+)
+-----
+<?php
+
+include("test.php");
+-----
+!!keepRedundantParentheses
+array(
+    0: Stmt_Expression(
+        expr: Expr_Include(
+            expr: Expr_Parenthesized(
+                expr: Scalar_String(
+                    value: test.php
+                )
+            )
+            type: TYPE_INCLUDE (1)
+        )
+    )
+)
+-----
+<?php
+
+include("test.php");
+-----
+array(
+    0: Stmt_Expression(
+        expr: Expr_Include(
+            expr: Scalar_String(
+                value: test.php
+            )
+            type: TYPE_INCLUDE (1)
+        )
+    )
+)
