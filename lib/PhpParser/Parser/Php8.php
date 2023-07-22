@@ -2274,7 +2274,7 @@ class Php8 extends \PhpParser\ParserAbstract
                  $this->semValue = new Expr\Instanceof_($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
             },
             446 => function ($stackPos) {
-                 $this->semValue = $this->semStack[$stackPos-(3-2)];
+                 $this->semValue = $this->keepRedundantParentheses ? new Expr\Parenthesized($this->semStack[$stackPos-(3-2)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes) : $this->semStack[$stackPos-(3-2)];
             },
             447 => function ($stackPos) {
                  $this->semValue = new Expr\Ternary($this->semStack[$stackPos-(5-1)], $this->semStack[$stackPos-(5-3)], $this->semStack[$stackPos-(5-5)], $this->startAttributeStack[$stackPos-(5-1)] + $this->endAttributes);

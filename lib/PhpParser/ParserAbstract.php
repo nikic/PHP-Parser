@@ -38,6 +38,8 @@ abstract class ParserAbstract implements Parser {
     protected $lexer;
     /** @var PhpVersion PHP version to target on a best-effort basis */
     protected $phpVersion;
+    /** @var bool whether or not redundant parentheses are kept */
+    protected $keepRedundantParentheses = false;
 
     /*
      * The following members will be filled with generated parsing data:
@@ -148,9 +150,10 @@ abstract class ParserAbstract implements Parser {
      *        errors in older versions and interpreting type hints as a name or identifier depending
      *        on version.
      */
-    public function __construct(Lexer $lexer, ?PhpVersion $phpVersion = null) {
+    public function __construct(Lexer $lexer, ?PhpVersion $phpVersion = null, array $parserOptions = []) {
         $this->lexer = $lexer;
         $this->phpVersion = $phpVersion ?? PhpVersion::getNewestSupported();
+        $this->keepRedundantParentheses = !empty($parserOptions['keepRedundantParentheses']);
 
         $this->initReduceCallbacks();
         $this->phpTokenToSymbol = $this->createTokenMap();
