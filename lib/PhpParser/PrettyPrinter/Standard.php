@@ -666,6 +666,10 @@ class Standard extends PrettyPrinterAbstract
             $args = $node->args ? '(' . $this->pMaybeMultiline($node->args) . ')' : '';
             return 'new ' . $this->pClassCommon($node->class, $args);
         }
+        if ($node->class instanceof Expr\FuncCall || $node->class instanceof Expr\MethodCall) {
+            return 'new (' . $this->pNewVariable($node->class)
+                . ')(' . $this->pMaybeMultiline($node->args) . ')';
+        }
         return 'new ' . $this->pNewVariable($node->class)
             . '(' . $this->pMaybeMultiline($node->args) . ')';
     }
