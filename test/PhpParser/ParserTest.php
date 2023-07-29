@@ -33,12 +33,7 @@ abstract class ParserTest extends \PHPUnit\Framework\TestCase {
     }
 
     public function testAttributeAssignment() {
-        $lexer = new Lexer([
-            'usedAttributes' => [
-                'comments', 'startLine', 'endLine',
-                'startTokenPos', 'endTokenPos',
-            ]
-        ]);
+        $lexer = new Lexer();
 
         $code = <<<'EOC'
 <?php
@@ -66,6 +61,8 @@ EOC;
             'endLine' => 7,
             'startTokenPos' => 3,
             'endTokenPos' => 21,
+            'startFilePos' => 25,
+            'endFilePos' => 86,
         ], $fn->getAttributes());
 
         $param = $fn->params[0];
@@ -75,6 +72,8 @@ EOC;
             'endLine' => 3,
             'startTokenPos' => 7,
             'endTokenPos' => 7,
+            'startFilePos' => 39,
+            'endFilePos' => 40,
         ], $param->getAttributes());
 
         /** @var Stmt\Echo_ $echo */
@@ -91,6 +90,8 @@ EOC;
             'endLine' => 6,
             'startTokenPos' => 16,
             'endTokenPos' => 19,
+            'startFilePos' => 77,
+            'endFilePos' => 84,
         ], $echo->getAttributes());
 
         /** @var \PhpParser\Node\Expr\Variable $var */
@@ -101,6 +102,8 @@ EOC;
             'endLine' => 6,
             'startTokenPos' => 18,
             'endTokenPos' => 18,
+            'startFilePos' => 82,
+            'endFilePos' => 83,
         ], $var->getAttributes());
     }
 
@@ -194,8 +197,9 @@ EOC;
 }
 
 class InvalidTokenLexer extends Lexer {
-    public function getNextToken(&$value = null, &$startAttributes = null, &$endAttributes = null): int {
-        $value = 'foobar';
-        return 999;
+    public function startLexing(string $code, ?ErrorHandler $errorHandler = null): void {
+        $this->tokens = [
+            new Token(999, 'foobar', 42),
+        ];
     }
 }

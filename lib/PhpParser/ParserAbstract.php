@@ -66,6 +66,8 @@ abstract class ParserAbstract implements Parser {
 
     /** @var int[] Map of PHP token IDs to internal symbols */
     protected $phpTokenToSymbol;
+    /** @var array<int, bool> Map of PHP token IDs to drop */
+    protected $dropTokens;
     /** @var int[] Map of external symbols (static::T_*) to internal symbols */
     protected $tokenToSymbol;
     /** @var string[] Map of symbols to their names */
@@ -113,14 +115,10 @@ abstract class ParserAbstract implements Parser {
     protected $semValue;
     /** @var mixed[] Semantic value stack (contains values of tokens and semantic action results) */
     protected $semStack;
-    /** @var array<string, mixed>[] Start attribute stack */
-    protected $startAttributeStack;
-    /** @var array<string, mixed>[] End attribute stack */
-    protected $endAttributeStack;
-    /** @var array<string, mixed> End attributes of last *shifted* token */
-    protected $endAttributes;
-    /** @var array<string, mixed> Start attributes of last *read* token */
-    protected $lookaheadStartAttributes;
+    /** @var int[] Token start position stack */
+    protected $tokenStartStack;
+    /** @var int[] Token end position stack */
+    protected $tokenEndStack;
 
     /** @var ErrorHandler Error handler */
     protected $errorHandler;
@@ -129,6 +127,11 @@ abstract class ParserAbstract implements Parser {
 
     /** @var \SplObjectStorage<Array_, null>|null Array nodes created during parsing, for postprocessing of empty elements. */
     protected $createdArrays;
+
+    /** @var Token[] Tokens for the current parse */
+    protected $tokens;
+    /** @var int Current position in token array */
+    protected $tokenPos;
 
     /**
      * Initialize $reduceCallbacks map.
@@ -154,6 +157,9 @@ abstract class ParserAbstract implements Parser {
 
         $this->initReduceCallbacks();
         $this->phpTokenToSymbol = $this->createTokenMap();
+        $this->dropTokens = array_fill_keys(
+            [\T_WHITESPACE, \T_OPEN_TAG, \T_COMMENT, \T_DOC_COMMENT, \T_BAD_CHARACTER], 1
+        );
     }
 
     /**
@@ -174,6 +180,7 @@ abstract class ParserAbstract implements Parser {
         $this->createdArrays = new \SplObjectStorage();
 
         $this->lexer->startLexing($code, $this->errorHandler);
+        $this->tokens = $this->lexer->getTokens();
         $result = $this->doParse();
 
         // Report errors for any empty elements used inside arrays. This is delayed until after the main parse,
@@ -190,8 +197,9 @@ abstract class ParserAbstract implements Parser {
 
         // Clear out some of the interior state, so we don't hold onto unnecessary
         // memory between uses of the parser
-        $this->startAttributeStack = [];
-        $this->endAttributeStack = [];
+        $this->tokens = [];
+        $this->tokenStartStack = [];
+        $this->tokenEndStack = [];
         $this->semStack = [];
         $this->semValue = null;
         $this->createdArrays = null;
@@ -207,17 +215,12 @@ abstract class ParserAbstract implements Parser {
     protected function doParse(): ?array {
         // We start off with no lookahead-token
         $symbol = self::SYMBOL_NONE;
-
-        // The attributes for a node are taken from the first and last token of the node.
-        // From the first token only the startAttributes are taken and from the last only
-        // the endAttributes. Both are merged using the array union operator (+).
-        $startAttributes = [];
-        $endAttributes = [];
-        $this->endAttributes = $endAttributes;
+        $tokenValue = null;
+        $this->tokenPos = -1;
 
         // Keep stack of start and end attributes
-        $this->startAttributeStack = [];
-        $this->endAttributeStack = [$endAttributes];
+        $this->tokenStartStack = [];
+        $this->tokenEndStack = [0];
 
         // Start off in the initial state and keep a stack of previous states
         $state = 0;
@@ -238,13 +241,13 @@ abstract class ParserAbstract implements Parser {
                 $rule = $this->actionDefault[$state];
             } else {
                 if ($symbol === self::SYMBOL_NONE) {
-                    // Fetch the next token id from the lexer and fetch additional info by-ref.
-                    // The end attributes are fetched into a temporary variable and only set once the token is really
-                    // shifted (not during read). Otherwise you would sometimes get off-by-one errors, when a rule is
-                    // reduced after a token was read but not yet shifted.
-                    $tokenId = $this->lexer->getNextToken($tokenValue, $startAttributes, $endAttributes);
+                    do {
+                        $token = $this->tokens[++$this->tokenPos];
+                        $tokenId = $token->id;
+                    } while (isset($this->dropTokens[$tokenId]));
 
                     // Map the lexer token id to the internally used symbols.
+                    $tokenValue = $token->text;
                     if (!isset($this->phpTokenToSymbol[$tokenId])) {
                         throw new \RangeException(sprintf(
                             'The lexer returned an invalid token (id=%d, value=%s)',
@@ -252,9 +255,6 @@ abstract class ParserAbstract implements Parser {
                         ));
                     }
                     $symbol = $this->phpTokenToSymbol[$tokenId];
-
-                    // Allow productions to access the start attributes of the lookahead token.
-                    $this->lookaheadStartAttributes = $startAttributes;
 
                     //$this->traceRead($symbol);
                 }
@@ -279,9 +279,8 @@ abstract class ParserAbstract implements Parser {
                         ++$stackPos;
                         $stateStack[$stackPos] = $state = $action;
                         $this->semStack[$stackPos] = $tokenValue;
-                        $this->startAttributeStack[$stackPos] = $startAttributes;
-                        $this->endAttributeStack[$stackPos] = $endAttributes;
-                        $this->endAttributes = $endAttributes;
+                        $this->tokenStartStack[$stackPos] = $this->tokenPos;
+                        $this->tokenEndStack[$stackPos] = $this->tokenPos;
                         $symbol = self::SYMBOL_NONE;
 
                         if ($this->errorState) {
@@ -321,8 +320,8 @@ abstract class ParserAbstract implements Parser {
                             $this->semValue = $this->semStack[$stackPos - $ruleLength + 1];
                         }
                     } catch (Error $e) {
-                        if (-1 === $e->getStartLine() && isset($startAttributes['startLine'])) {
-                            $e->setStartLine($startAttributes['startLine']);
+                        if (-1 === $e->getStartLine()) {
+                            $e->setStartLine($this->tokens[$this->tokenPos]->line);
                         }
 
                         $this->emitError($e);
@@ -331,7 +330,7 @@ abstract class ParserAbstract implements Parser {
                     }
 
                     /* Goto - shift nonterminal */
-                    $lastEndAttributes = $this->endAttributeStack[$stackPos];
+                    $lastTokenEnd = $this->tokenEndStack[$stackPos];
                     $stackPos -= $ruleLength;
                     $nonTerminal = $this->ruleToNonTerminal[$rule];
                     $idx = $this->gotoBase[$nonTerminal] + $stateStack[$stackPos];
@@ -344,17 +343,17 @@ abstract class ParserAbstract implements Parser {
                     ++$stackPos;
                     $stateStack[$stackPos]     = $state;
                     $this->semStack[$stackPos] = $this->semValue;
-                    $this->endAttributeStack[$stackPos] = $lastEndAttributes;
+                    $this->tokenEndStack[$stackPos] = $lastTokenEnd;
                     if ($ruleLength === 0) {
                         // Empty productions use the start attributes of the lookahead token.
-                        $this->startAttributeStack[$stackPos] = $this->lookaheadStartAttributes;
+                        $this->tokenStartStack[$stackPos] = $this->tokenPos;
                     }
                 } else {
                     /* error */
                     switch ($this->errorState) {
                         case 0:
                             $msg = $this->getErrorMessage($symbol, $state);
-                            $this->emitError(new Error($msg, $startAttributes + $endAttributes));
+                            $this->emitError(new Error($msg, $this->getAttributesForToken($this->tokenPos)));
                             // Break missing intentionally
                             // no break
                         case 1:
@@ -383,9 +382,8 @@ abstract class ParserAbstract implements Parser {
 
                             // We treat the error symbol as being empty, so we reset the end attributes
                             // to the end attributes of the last non-error symbol
-                            $this->startAttributeStack[$stackPos] = $this->lookaheadStartAttributes;
-                            $this->endAttributeStack[$stackPos] = $this->endAttributeStack[$stackPos - 1];
-                            $this->endAttributes = $this->endAttributeStack[$stackPos - 1];
+                            $this->tokenStartStack[$stackPos] = $this->tokenPos;
+                            $this->tokenEndStack[$stackPos] = $this->tokenEndStack[$stackPos - 1];
                             break;
 
                         case 3:
@@ -466,6 +464,53 @@ abstract class ParserAbstract implements Parser {
         }
 
         return $expected;
+    }
+
+    /**
+     * Get attributes for a node with the given start and end token positions.
+     *
+     * @param int $tokenStartPos Token position the node starts at
+     * @param int $tokenEndPos Token position the node ends at
+     * @return array Attributes
+     */
+    protected function getAttributes(int $tokenStartPos, int $tokenEndPos): array {
+        $startToken = $this->tokens[$tokenStartPos];
+        $afterEndToken = $this->tokens[$tokenEndPos + 1];
+        $attributes = [
+            'startLine' => $startToken->line,
+            'startTokenPos' => $tokenStartPos,
+            'startFilePos' => $startToken->pos,
+            'endLine' => $afterEndToken->line,
+            'endTokenPos' => $tokenEndPos,
+            'endFilePos' => $afterEndToken->pos - 1,
+        ];
+        $comments = $this->getCommentsBeforeToken($tokenStartPos);
+        if (!empty($comments)) {
+            $attributes['comments'] = $comments;
+        }
+        return $attributes;
+    }
+
+    protected function getAttributesForToken(int $tokenPos) {
+        if ($tokenPos < \count($this->tokens) - 1) {
+            return $this->getAttributes($tokenPos, $tokenPos);
+        }
+
+        // Get attributes for the sentinel token.
+        $token = $this->tokens[$tokenPos];
+        $attributes = [
+            'startLine' => $token->line,
+            'startTokenPos' => $tokenPos,
+            'startFilePos' => $token->pos,
+            'endLine' => $token->line,
+            'endTokenPos' => $tokenPos,
+            'endFilePos' => $token->pos,
+        ];
+        $comments = $this->getCommentsBeforeToken($tokenPos);
+        if (!empty($comments)) {
+            $attributes['comments'] = $comments;
+        }
+        return $attributes;
     }
 
     /*
@@ -670,12 +715,12 @@ abstract class ParserAbstract implements Parser {
     /**
      * Get combined start and end attributes at a stack location
      *
-     * @param int $pos Stack location
+     * @param int $stackPos Stack location
      *
      * @return array<string, mixed> Combined start and end attributes
      */
-    protected function getAttributesAt(int $pos): array {
-        return $this->startAttributeStack[$pos] + $this->endAttributeStack[$pos];
+    protected function getAttributesAt(int $stackPos): array {
+        return $this->getAttributes($this->tokenStartStack[$stackPos], $this->tokenEndStack[$stackPos]);
     }
 
     protected function getFloatCastKind(string $cast): int {
@@ -842,49 +887,93 @@ abstract class ParserAbstract implements Parser {
         }
     }
 
+    protected function createCommentFromToken(Token $token, int $tokenPos): Comment {
+        assert($token->id === \T_COMMENT || $token->id == \T_DOC_COMMENT);
+        return \T_DOC_COMMENT === $token->id
+            ? new Comment\Doc($token->text, $token->line, $token->pos, $tokenPos,
+                $token->getEndLine(), $token->getEndPos() - 1, $tokenPos)
+            : new Comment($token->text, $token->line, $token->pos, $tokenPos,
+                $token->getEndLine(), $token->getEndPos() - 1, $tokenPos);
+    }
+
+    protected function getCommentsBeforeToken(int $tokenPos): array {
+        $comments = [];
+        while (--$tokenPos >= 0) {
+            $token = $this->tokens[$tokenPos];
+            if (!isset($this->dropTokens[$token->id])) {
+                break;
+            }
+
+            if ($token->id === \T_COMMENT || $token->id === \T_DOC_COMMENT) {
+                $comments[] = $this->createCommentFromToken($token, $tokenPos);
+            }
+        }
+        return \array_reverse($comments);
+    }
+
     /**
-     * Create attributes for a zero-length common-capturing nop.
+     * Create a zero-length nop to capture preceding comments, if any.
      *
      * @param Comment[] $comments
      * @return array<string, mixed>
      */
-    protected function createCommentNopAttributes(array $comments): array {
-        $comment = $comments[count($comments) - 1];
+    protected function maybeCreateZeroLengthNop(int $tokenPos): ?Nop {
+        $comments = $this->getCommentsBeforeToken($tokenPos);
+        if (empty($comments)) {
+            return null;
+        }
+
+        $comment = $comments[\count($comments) - 1];
         $commentEndLine = $comment->getEndLine();
         $commentEndFilePos = $comment->getEndFilePos();
         $commentEndTokenPos = $comment->getEndTokenPos();
+        $attributes = [
+            'startLine' => $commentEndLine,
+            'endLine' => $commentEndLine,
+            'startFilePos' => $commentEndFilePos + 1,
+            'endFilePos' => $commentEndFilePos,
+            'startTokenPos' => $commentEndTokenPos + 1,
+            'endTokenPos' => $commentEndTokenPos,
+            'comments' => $comments,
+        ];
+        return new Nop($attributes);
+    }
 
-        $attributes = ['comments' => $comments];
-        if (-1 !== $commentEndLine) {
-            $attributes['startLine'] = $commentEndLine;
-            $attributes['endLine'] = $commentEndLine;
+    protected function maybeCreateNop(int $tokenStartPos, int $tokenEndPos): ?Nop {
+        $comments = $this->getCommentsBeforeToken($tokenStartPos);
+        if (empty($comments)) {
+            return null;
         }
-        if (-1 !== $commentEndFilePos) {
-            $attributes['startFilePos'] = $commentEndFilePos + 1;
-            $attributes['endFilePos'] = $commentEndFilePos;
+        return new Nop($this->getAttributes($tokenStartPos, $tokenEndPos));
+    }
+
+    protected function handleHaltCompiler(): string {
+        // Prevent the lexer from returning any further tokens.
+        $nextToken = $this->tokens[$this->tokenPos + 1];
+        $this->tokenPos = \count($this->tokens) - 2;
+
+        // Return text after __halt_compiler.
+        return $nextToken->id === \T_INLINE_HTML ? $nextToken->text : '';
+    }
+
+    protected function inlineHtmlHasLeadingNewline(int $stackPos): bool {
+        $tokenPos = $this->tokenStartStack[$stackPos];
+        $token = $this->tokens[$tokenPos];
+        assert($token->id == \T_INLINE_HTML);
+        if ($tokenPos > 0) {
+            $prevToken = $this->tokens[$tokenPos - 1];
+            assert($prevToken->id == \T_CLOSE_TAG);
+            return false !== strpos($prevToken->text, "\n")
+                || false !== strpos($prevToken->text, "\r");
         }
-        if (-1 !== $commentEndTokenPos) {
-            $attributes['startTokenPos'] = $commentEndTokenPos + 1;
-            $attributes['endTokenPos'] = $commentEndTokenPos;
-        }
-        return $attributes;
+        return true;
     }
 
     /**
-     * @param array<string, mixed> $attrs
      * @return array<string, mixed>
      */
-    protected function createEmptyElemAttributes(array $attrs): array {
-        if (isset($attrs['startLine'])) {
-            $attrs['endLine'] = $attrs['startLine'];
-        }
-        if (isset($attrs['startFilePos'])) {
-            $attrs['endFilePos'] = $attrs['startFilePos'];
-        }
-        if (isset($attrs['startTokenPos'])) {
-            $attrs['endTokenPos'] = $attrs['startTokenPos'];
-        }
-        return $attrs;
+    protected function createEmptyElemAttributes(int $tokenPos): array {
+        return $this->getAttributesForToken($tokenPos);
     }
 
     protected function fixupArrayDestructuring(Array_ $node): Expr\List_ {

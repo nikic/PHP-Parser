@@ -58,10 +58,7 @@ class NodeDumperTest extends \PHPUnit\Framework\TestCase {
     }
 
     public function testDumpWithPositions() {
-        $parser = (new ParserFactory())->create(
-            ParserFactory::ONLY_PHP7,
-            new Lexer(['usedAttributes' => ['startLine', 'endLine', 'startFilePos', 'endFilePos']])
-        );
+        $parser = (new ParserFactory())->createForHostVersion();
         $dumper = new NodeDumper(['dumpPositions' => true]);
 
         $code = "<?php\n\$a = 1;\necho \$a;";

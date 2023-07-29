@@ -184,14 +184,7 @@ class PrettyPrinterTest extends CodeTestAbstract {
      * @covers \PhpParser\PrettyPrinter\Standard<extended>
      */
     public function testFormatPreservingPrint($name, $code, $modification, $expected, $modeLine) {
-        $lexer = new Lexer\Emulative([
-            'usedAttributes' => [
-                'comments',
-                'startLine', 'endLine',
-                'startTokenPos', 'endTokenPos',
-            ],
-        ]);
-
+        $lexer = new Lexer\Emulative();
         $parser = new Parser\Php7($lexer);
         $traverser = new NodeTraverser(new NodeVisitor\CloningVisitor());
 
@@ -233,13 +226,7 @@ CODE
          * the pretty printer tests (i.e. returns the input if no changes occurred).
          */
 
-        $lexer = new Lexer\Emulative([
-            'usedAttributes' => [
-                'comments',
-                'startLine', 'endLine',
-                'startTokenPos', 'endTokenPos',
-            ],
-        ]);
+        $lexer = new Lexer\Emulative();
 
         $parser = new Php7($lexer);
 

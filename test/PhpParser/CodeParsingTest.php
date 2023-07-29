@@ -22,14 +22,7 @@ class CodeParsingTest extends CodeTestAbstract {
         $factory = new ParserFactory();
         $version = $version === null
             ? PhpVersion::getNewestSupported() : PhpVersion::fromString($version);
-        return $factory->createForVersion(
-            $version,
-            ['usedAttributes' => [
-                'startLine', 'endLine',
-                'startFilePos', 'endFilePos',
-                'startTokenPos', 'endTokenPos',
-                'comments'
-            ]]);
+        return $factory->createForVersion($version);
     }
 
     // Must be public for updateTests.php

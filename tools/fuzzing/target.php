@@ -21,9 +21,7 @@ if (!file_exists($autoload)) {
 
 require $autoload;
 
-$lexer = new PhpParser\Lexer([
-    'usedAttributes' => ['comments', 'startLine', 'endLine', 'startTokenPos'],
-]);
+$lexer = new PhpParser\Lexer();
 $parser = new PhpParser\Parser\Php7($lexer);
 $prettyPrinter = new PhpParser\PrettyPrinter\Standard();
 $nodeDumper = new PhpParser\NodeDumper();

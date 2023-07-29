@@ -26,10 +26,7 @@ if (empty($files)) {
     showHelp("Must specify at least one file.");
 }
 
-$lexerOptions = ['usedAttributes' => [
-    'startLine', 'endLine', 'startFilePos', 'endFilePos', 'comments'
-]];
-$parser = (new PhpParser\ParserFactory())->createForVersion($attributes['version'], $lexerOptions);
+$parser = (new PhpParser\ParserFactory())->createForVersion($attributes['version']);
 $dumper = new PhpParser\NodeDumper([
     'dumpComments' => true,
     'dumpPositions' => $attributes['with-positions'],

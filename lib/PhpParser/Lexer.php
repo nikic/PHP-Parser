@@ -5,60 +5,8 @@ namespace PhpParser;
 require __DIR__ . '/compatibility_tokens.php';
 
 class Lexer {
-    /** @var string Code being tokenized */
-    protected $code;
     /** @var list<Token> List of tokens */
     protected $tokens;
-    /** @var int Current position in the token array */
-    protected $pos;
-    /** @var bool Whether the preceding closing PHP tag has a trailing newline */
-    protected $prevCloseTagHasNewline;
-    /** @var array<int, int> Map of tokens that should be dropped (like T_WHITESPACE) */
-    protected $dropTokens;
-
-    /** @var bool Whether to use the startLine attribute */
-    private $attributeStartLineUsed;
-    /** @var bool Whether to use the endLine attribute */
-    private $attributeEndLineUsed;
-    /** @var bool Whether to use the startTokenPos attribute */
-    private $attributeStartTokenPosUsed;
-    /** @var bool Whether to use the endTokenPos attribute */
-    private $attributeEndTokenPosUsed;
-    /** @var bool Whether to use the startFilePos attribute */
-    private $attributeStartFilePosUsed;
-    /** @var bool Whether to use the endFilePos attribute */
-    private $attributeEndFilePosUsed;
-    /** @var bool Whether to use the comments attribute */
-    private $attributeCommentsUsed;
-
-    /**
-     * Creates a Lexer.
-     *
-     * @param array{usedAttributes?: string[]} $options Options array. Currently only the
-     *        'usedAttributes' option is supported, which is an array of attributes to add to the
-     *        AST nodes. Possible attributes are: 'comments', 'startLine', 'endLine', 'startTokenPos',
-     *        'endTokenPos', 'startFilePos', 'endFilePos'. The option defaults to the first three.
-     *        For more info see getNextToken() docs.
-     */
-    public function __construct(array $options = []) {
-        // map of tokens to drop while lexing (the map is only used for isset lookup,
-        // that's why the value is simply set to 1; the value is never actually used.)
-        $this->dropTokens = array_fill_keys(
-            [\T_WHITESPACE, \T_OPEN_TAG, \T_COMMENT, \T_DOC_COMMENT, \T_BAD_CHARACTER], 1
-        );
-
-        $defaultAttributes = ['comments', 'startLine', 'endLine'];
-        $usedAttributes = array_fill_keys($options['usedAttributes'] ?? $defaultAttributes, true);
-
-        // Create individual boolean properties to make these checks faster.
-        $this->attributeStartLineUsed = isset($usedAttributes['startLine']);
-        $this->attributeEndLineUsed = isset($usedAttributes['endLine']);
-        $this->attributeStartTokenPosUsed = isset($usedAttributes['startTokenPos']);
-        $this->attributeEndTokenPosUsed = isset($usedAttributes['endTokenPos']);
-        $this->attributeStartFilePosUsed = isset($usedAttributes['startFilePos']);
-        $this->attributeEndFilePosUsed = isset($usedAttributes['endFilePos']);
-        $this->attributeCommentsUsed = isset($usedAttributes['comments']);
-    }
 
     /**
      * Initializes the lexer for lexing the provided source code.
@@ -74,13 +22,6 @@ class Lexer {
         if (null === $errorHandler) {
             $errorHandler = new ErrorHandler\Throwing();
         }
-
-        $this->code = $code; // keep the code around for __halt_compiler() handling
-        $this->pos = -1;
-
-        // If inline HTML occurs without preceding code, treat it as if it had a leading newline.
-        // This ensures proper composability, because having a newline is the "safe" assumption.
-        $this->prevCloseTagHasNewline = true;
 
         $scream = ini_set('xdebug.scream', '0');
 
@@ -166,84 +107,6 @@ class Lexer {
     }
 
     /**
-     * Fetches the next token.
-     *
-     * The available attributes are determined by the 'usedAttributes' option, which can
-     * be specified in the constructor. The following attributes are supported:
-     *
-     *  * 'comments'      => Array of PhpParser\Comment or PhpParser\Comment\Doc instances,
-     *                       representing all comments that occurred between the previous
-     *                       non-discarded token and the current one.
-     *  * 'startLine'     => Line in which the node starts.
-     *  * 'endLine'       => Line in which the node ends.
-     *  * 'startTokenPos' => Offset into the token array of the first token in the node.
-     *  * 'endTokenPos'   => Offset into the token array of the last token in the node.
-     *  * 'startFilePos'  => Offset into the code string of the first character that is part of the node.
-     *  * 'endFilePos'    => Offset into the code string of the last character that is part of the node.
-     *
-     * @param mixed $value           Variable to store token content in
-     * @param mixed $startAttributes Variable to store start attributes in
-     * @param mixed $endAttributes   Variable to store end attributes in
-     *
-     * @return int Token id
-     */
-    public function getNextToken(&$value = null, &$startAttributes = null, &$endAttributes = null): int {
-        $startAttributes = [];
-        $endAttributes   = [];
-
-        while (1) {
-            $token = $this->tokens[++$this->pos];
-
-            $id = $token->id;
-            if (isset($this->dropTokens[$id])) {
-                if (\T_COMMENT === $id || \T_DOC_COMMENT === $id) {
-                    if ($this->attributeCommentsUsed) {
-                        $comment = \T_DOC_COMMENT === $id
-                            ? new Comment\Doc($token->text, $token->line, $token->pos, $this->pos,
-                                $token->getEndLine(), $token->getEndPos() - 1, $this->pos)
-                            : new Comment($token->text, $token->line, $token->pos, $this->pos,
-                                $token->getEndLine(), $token->getEndPos() - 1, $this->pos);
-                        $startAttributes['comments'][] = $comment;
-                    }
-                }
-                continue;
-            }
-
-            if ($this->attributeStartLineUsed) {
-                $startAttributes['startLine'] = $token->line;
-            }
-            if ($this->attributeStartTokenPosUsed) {
-                $startAttributes['startTokenPos'] = $this->pos;
-            }
-            if ($this->attributeStartFilePosUsed) {
-                $startAttributes['startFilePos'] = $token->pos;
-            }
-
-            $value = $token->text;
-            if (\T_CLOSE_TAG === $token->id) {
-                $this->prevCloseTagHasNewline = false !== strpos($value, "\n")
-                    || false !== strpos($value, "\r");
-            } elseif (\T_INLINE_HTML === $token->id) {
-                $startAttributes['hasLeadingNewline'] = $this->prevCloseTagHasNewline;
-            }
-
-            // Fetch the end line/pos from the next token (if available) instead of recomputing it.
-            $nextToken = $this->tokens[$this->pos + 1] ?? null;
-            if ($this->attributeEndLineUsed) {
-                $endAttributes['endLine'] = $nextToken ? $nextToken->line : $token->getEndLine();
-            }
-            if ($this->attributeEndTokenPosUsed) {
-                $endAttributes['endTokenPos'] = $this->pos;
-            }
-            if ($this->attributeEndFilePosUsed) {
-                $endAttributes['endFilePos'] = ($nextToken ? $nextToken->pos : $token->getEndPos()) - 1;
-            }
-
-            return $id;
-        }
-    }
-
-    /**
      * Returns the token array for current code.
      *
      * The token array is in the same format as provided by the PhpToken::tokenize() method in
@@ -258,19 +121,5 @@ class Lexer {
      */
     public function getTokens(): array {
         return $this->tokens;
-    }
-
-    /**
-     * Handles __halt_compiler() by returning the text after it.
-     *
-     * @return string Remaining text
-     */
-    public function handleHaltCompiler(): string {
-        // Prevent the lexer from returning any further tokens.
-        $nextToken = $this->tokens[$this->pos + 1];
-        $this->pos = \count($this->tokens) - 2;
-
-        // Return text after __halt_compiler.
-        return $nextToken->id === \T_INLINE_HTML ? $nextToken->text : '';
     }
 }

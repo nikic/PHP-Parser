@@ -33,20 +33,11 @@ class Emulative extends Lexer {
     private $hostPhpVersion;
 
     /**
-     * @param array{usedAttributes?: string[], phpVersion?: PhpVersion|string} $options Lexer options.
-     *        In addition to the usual options, accepts a 'phpVersion' (PhpVersion object or string)
-     *        that specifies the version to emulate. Defaults to newest supported.
+     * @param PhpVersion|null $phpVersion PHP version to emulate. Defaults to newest supported.
      */
-    public function __construct(array $options = []) {
-        $version = $options['phpVersion'] ?? PhpVersion::getNewestSupported();
-        if (!$version instanceof PhpVersion) {
-            $version = PhpVersion::fromString($version);
-        }
-        $this->targetPhpVersion = $version;
+    public function __construct(?PhpVersion $phpVersion = null) {
+        $this->targetPhpVersion = $phpVersion ?? PhpVersion::getNewestSupported();
         $this->hostPhpVersion = PhpVersion::getHostVersion();
-        unset($options['phpVersion']);
-
-        parent::__construct($options);
 
         $emulators = [
             new FlexibleDocStringEmulator(),

@@ -1158,7 +1158,7 @@ class Php7 extends \PhpParser\ParserAbstract
                  $this->semValue = array();
             },
             4 => function ($stackPos) {
-                 $startAttributes = $this->lookaheadStartAttributes; if (isset($startAttributes['comments'])) { $nop = new Stmt\Nop($this->createCommentNopAttributes($startAttributes['comments'])); } else { $nop = null; };
+                 $nop = $this->maybeCreateZeroLengthNop($this->tokenPos);;
             if ($nop !== null) { $this->semStack[$stackPos-(1-1)][] = $nop; } $this->semValue = $this->semStack[$stackPos-(1-1)];
             },
             5 => null,
@@ -1233,7 +1233,7 @@ class Php7 extends \PhpParser\ParserAbstract
             74 => null,
             75 => null,
             76 => function ($stackPos) {
-                 $this->semValue = $this->semStack[$stackPos-(1-1)]; if ($this->semValue === "<?=") $this->emitError(new Error('Cannot use "<?=" as an identifier', $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes));
+                 $this->semValue = $this->semStack[$stackPos-(1-1)]; if ($this->semValue === "<?=") $this->emitError(new Error('Cannot use "<?=" as an identifier', $this->getAttributes($this->tokenStartStack[$stackPos-(1-1)], $this->tokenEndStack[$stackPos])));
             },
             77 => null,
             78 => null,
@@ -1244,38 +1244,38 @@ class Php7 extends \PhpParser\ParserAbstract
             83 => null,
             84 => null,
             85 => function ($stackPos) {
-                 $this->semValue = new Node\Identifier($this->semStack[$stackPos-(1-1)], $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
+                 $this->semValue = new Node\Identifier($this->semStack[$stackPos-(1-1)], $this->getAttributes($this->tokenStartStack[$stackPos-(1-1)], $this->tokenEndStack[$stackPos]));
             },
             86 => function ($stackPos) {
-                 $this->semValue = new Node\Identifier($this->semStack[$stackPos-(1-1)], $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
+                 $this->semValue = new Node\Identifier($this->semStack[$stackPos-(1-1)], $this->getAttributes($this->tokenStartStack[$stackPos-(1-1)], $this->tokenEndStack[$stackPos]));
             },
             87 => function ($stackPos) {
-                 $this->semValue = new Node\Identifier($this->semStack[$stackPos-(1-1)], $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
+                 $this->semValue = new Node\Identifier($this->semStack[$stackPos-(1-1)], $this->getAttributes($this->tokenStartStack[$stackPos-(1-1)], $this->tokenEndStack[$stackPos]));
             },
             88 => function ($stackPos) {
-                 $this->semValue = new Node\Identifier($this->semStack[$stackPos-(1-1)], $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
+                 $this->semValue = new Node\Identifier($this->semStack[$stackPos-(1-1)], $this->getAttributes($this->tokenStartStack[$stackPos-(1-1)], $this->tokenEndStack[$stackPos]));
             },
             89 => function ($stackPos) {
-                 $this->semValue = new Name($this->semStack[$stackPos-(1-1)], $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
+                 $this->semValue = new Name($this->semStack[$stackPos-(1-1)], $this->getAttributes($this->tokenStartStack[$stackPos-(1-1)], $this->tokenEndStack[$stackPos]));
             },
             90 => function ($stackPos) {
-                 $this->semValue = new Name($this->semStack[$stackPos-(1-1)], $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
+                 $this->semValue = new Name($this->semStack[$stackPos-(1-1)], $this->getAttributes($this->tokenStartStack[$stackPos-(1-1)], $this->tokenEndStack[$stackPos]));
             },
             91 => function ($stackPos) {
-                 $this->semValue = new Name($this->semStack[$stackPos-(1-1)], $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
+                 $this->semValue = new Name($this->semStack[$stackPos-(1-1)], $this->getAttributes($this->tokenStartStack[$stackPos-(1-1)], $this->tokenEndStack[$stackPos]));
             },
             92 => function ($stackPos) {
-                 $this->semValue = new Name($this->semStack[$stackPos-(1-1)], $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
+                 $this->semValue = new Name($this->semStack[$stackPos-(1-1)], $this->getAttributes($this->tokenStartStack[$stackPos-(1-1)], $this->tokenEndStack[$stackPos]));
             },
             93 => function ($stackPos) {
-                 $this->semValue = new Name($this->semStack[$stackPos-(1-1)], $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
+                 $this->semValue = new Name($this->semStack[$stackPos-(1-1)], $this->getAttributes($this->tokenStartStack[$stackPos-(1-1)], $this->tokenEndStack[$stackPos]));
             },
             94 => null,
             95 => function ($stackPos) {
-                 $this->semValue = new Name(substr($this->semStack[$stackPos-(1-1)], 1), $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
+                 $this->semValue = new Name(substr($this->semStack[$stackPos-(1-1)], 1), $this->getAttributes($this->tokenStartStack[$stackPos-(1-1)], $this->tokenEndStack[$stackPos]));
             },
             96 => function ($stackPos) {
-                 $this->semValue = new Expr\Variable(substr($this->semStack[$stackPos-(1-1)], 1), $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\Variable(substr($this->semStack[$stackPos-(1-1)], 1), $this->getAttributes($this->tokenStartStack[$stackPos-(1-1)], $this->tokenEndStack[$stackPos]));
             },
             97 => function ($stackPos) {
                  /* nothing */
@@ -1287,15 +1287,15 @@ class Php7 extends \PhpParser\ParserAbstract
                  /* nothing */
             },
             100 => function ($stackPos) {
-                 $this->emitError(new Error('A trailing comma is not allowed here', $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes));
+                 $this->emitError(new Error('A trailing comma is not allowed here', $this->getAttributes($this->tokenStartStack[$stackPos-(1-1)], $this->tokenEndStack[$stackPos])));
             },
             101 => null,
             102 => null,
             103 => function ($stackPos) {
-                 $this->semValue = new Node\Attribute($this->semStack[$stackPos-(1-1)], [], $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
+                 $this->semValue = new Node\Attribute($this->semStack[$stackPos-(1-1)], [], $this->getAttributes($this->tokenStartStack[$stackPos-(1-1)], $this->tokenEndStack[$stackPos]));
             },
             104 => function ($stackPos) {
-                 $this->semValue = new Node\Attribute($this->semStack[$stackPos-(2-1)], $this->semStack[$stackPos-(2-2)], $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes);
+                 $this->semValue = new Node\Attribute($this->semStack[$stackPos-(2-1)], $this->semStack[$stackPos-(2-2)], $this->getAttributes($this->tokenStartStack[$stackPos-(2-1)], $this->tokenEndStack[$stackPos]));
             },
             105 => function ($stackPos) {
                  $this->semValue = array($this->semStack[$stackPos-(1-1)]);
@@ -1304,7 +1304,7 @@ class Php7 extends \PhpParser\ParserAbstract
                  $this->semStack[$stackPos-(3-1)][] = $this->semStack[$stackPos-(3-3)]; $this->semValue = $this->semStack[$stackPos-(3-1)];
             },
             107 => function ($stackPos) {
-                 $this->semValue = new Node\AttributeGroup($this->semStack[$stackPos-(4-2)], $this->startAttributeStack[$stackPos-(4-1)] + $this->endAttributes);
+                 $this->semValue = new Node\AttributeGroup($this->semStack[$stackPos-(4-2)], $this->getAttributes($this->tokenStartStack[$stackPos-(4-1)], $this->tokenEndStack[$stackPos]));
             },
             108 => function ($stackPos) {
                  $this->semValue = array($this->semStack[$stackPos-(1-1)]);
@@ -1320,32 +1320,32 @@ class Php7 extends \PhpParser\ParserAbstract
             113 => null,
             114 => null,
             115 => function ($stackPos) {
-                 $this->semValue = new Stmt\HaltCompiler($this->lexer->handleHaltCompiler(), $this->startAttributeStack[$stackPos-(4-1)] + $this->endAttributes);
+                 $this->semValue = new Stmt\HaltCompiler($this->handleHaltCompiler(), $this->getAttributes($this->tokenStartStack[$stackPos-(4-1)], $this->tokenEndStack[$stackPos]));
             },
             116 => function ($stackPos) {
-                 $this->semValue = new Stmt\Namespace_($this->semStack[$stackPos-(3-2)], null, $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
+                 $this->semValue = new Stmt\Namespace_($this->semStack[$stackPos-(3-2)], null, $this->getAttributes($this->tokenStartStack[$stackPos-(3-1)], $this->tokenEndStack[$stackPos]));
             $this->semValue->setAttribute('kind', Stmt\Namespace_::KIND_SEMICOLON);
             $this->checkNamespace($this->semValue);
             },
             117 => function ($stackPos) {
-                 $this->semValue = new Stmt\Namespace_($this->semStack[$stackPos-(5-2)], $this->semStack[$stackPos-(5-4)], $this->startAttributeStack[$stackPos-(5-1)] + $this->endAttributes);
+                 $this->semValue = new Stmt\Namespace_($this->semStack[$stackPos-(5-2)], $this->semStack[$stackPos-(5-4)], $this->getAttributes($this->tokenStartStack[$stackPos-(5-1)], $this->tokenEndStack[$stackPos]));
             $this->semValue->setAttribute('kind', Stmt\Namespace_::KIND_BRACED);
             $this->checkNamespace($this->semValue);
             },
             118 => function ($stackPos) {
-                 $this->semValue = new Stmt\Namespace_(null, $this->semStack[$stackPos-(4-3)], $this->startAttributeStack[$stackPos-(4-1)] + $this->endAttributes);
+                 $this->semValue = new Stmt\Namespace_(null, $this->semStack[$stackPos-(4-3)], $this->getAttributes($this->tokenStartStack[$stackPos-(4-1)], $this->tokenEndStack[$stackPos]));
             $this->semValue->setAttribute('kind', Stmt\Namespace_::KIND_BRACED);
             $this->checkNamespace($this->semValue);
             },
             119 => function ($stackPos) {
-                 $this->semValue = new Stmt\Use_($this->semStack[$stackPos-(3-2)], Stmt\Use_::TYPE_NORMAL, $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
+                 $this->semValue = new Stmt\Use_($this->semStack[$stackPos-(3-2)], Stmt\Use_::TYPE_NORMAL, $this->getAttributes($this->tokenStartStack[$stackPos-(3-1)], $this->tokenEndStack[$stackPos]));
             },
             120 => function ($stackPos) {
-                 $this->semValue = new Stmt\Use_($this->semStack[$stackPos-(4-3)], $this->semStack[$stackPos-(4-2)], $this->startAttributeStack[$stackPos-(4-1)] + $this->endAttributes);
+                 $this->semValue = new Stmt\Use_($this->semStack[$stackPos-(4-3)], $this->semStack[$stackPos-(4-2)], $this->getAttributes($this->tokenStartStack[$stackPos-(4-1)], $this->tokenEndStack[$stackPos]));
             },
             121 => null,
             122 => function ($stackPos) {
-                 $this->semValue = new Stmt\Const_($this->semStack[$stackPos-(3-2)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
+                 $this->semValue = new Stmt\Const_($this->semStack[$stackPos-(3-2)], $this->getAttributes($this->tokenStartStack[$stackPos-(3-1)], $this->tokenEndStack[$stackPos]));
             },
             123 => function ($stackPos) {
                  $this->semValue = Stmt\Use_::TYPE_FUNCTION;
@@ -1354,10 +1354,10 @@ class Php7 extends \PhpParser\ParserAbstract
                  $this->semValue = Stmt\Use_::TYPE_CONSTANT;
             },
             125 => function ($stackPos) {
-                 $this->semValue = new Stmt\GroupUse($this->semStack[$stackPos-(7-3)], $this->semStack[$stackPos-(7-6)], $this->semStack[$stackPos-(7-2)], $this->startAttributeStack[$stackPos-(7-1)] + $this->endAttributes);
+                 $this->semValue = new Stmt\GroupUse($this->semStack[$stackPos-(7-3)], $this->semStack[$stackPos-(7-6)], $this->semStack[$stackPos-(7-2)], $this->getAttributes($this->tokenStartStack[$stackPos-(7-1)], $this->tokenEndStack[$stackPos]));
             },
             126 => function ($stackPos) {
-                 $this->semValue = new Stmt\GroupUse($this->semStack[$stackPos-(6-2)], $this->semStack[$stackPos-(6-5)], Stmt\Use_::TYPE_UNKNOWN, $this->startAttributeStack[$stackPos-(6-1)] + $this->endAttributes);
+                 $this->semValue = new Stmt\GroupUse($this->semStack[$stackPos-(6-2)], $this->semStack[$stackPos-(6-5)], Stmt\Use_::TYPE_UNKNOWN, $this->getAttributes($this->tokenStartStack[$stackPos-(6-1)], $this->tokenEndStack[$stackPos]));
             },
             127 => null,
             128 => function ($stackPos) {
@@ -1381,16 +1381,16 @@ class Php7 extends \PhpParser\ParserAbstract
                  $this->semValue = array($this->semStack[$stackPos-(1-1)]);
             },
             136 => function ($stackPos) {
-                 $this->semValue = new Node\UseItem($this->semStack[$stackPos-(1-1)], null, Stmt\Use_::TYPE_UNKNOWN, $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes); $this->checkUseUse($this->semValue, $stackPos-(1-1));
+                 $this->semValue = new Node\UseItem($this->semStack[$stackPos-(1-1)], null, Stmt\Use_::TYPE_UNKNOWN, $this->getAttributes($this->tokenStartStack[$stackPos-(1-1)], $this->tokenEndStack[$stackPos])); $this->checkUseUse($this->semValue, $stackPos-(1-1));
             },
             137 => function ($stackPos) {
-                 $this->semValue = new Node\UseItem($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], Stmt\Use_::TYPE_UNKNOWN, $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes); $this->checkUseUse($this->semValue, $stackPos-(3-3));
+                 $this->semValue = new Node\UseItem($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], Stmt\Use_::TYPE_UNKNOWN, $this->getAttributes($this->tokenStartStack[$stackPos-(3-1)], $this->tokenEndStack[$stackPos])); $this->checkUseUse($this->semValue, $stackPos-(3-3));
             },
             138 => function ($stackPos) {
-                 $this->semValue = new Node\UseItem($this->semStack[$stackPos-(1-1)], null, Stmt\Use_::TYPE_UNKNOWN, $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes); $this->checkUseUse($this->semValue, $stackPos-(1-1));
+                 $this->semValue = new Node\UseItem($this->semStack[$stackPos-(1-1)], null, Stmt\Use_::TYPE_UNKNOWN, $this->getAttributes($this->tokenStartStack[$stackPos-(1-1)], $this->tokenEndStack[$stackPos])); $this->checkUseUse($this->semValue, $stackPos-(1-1));
             },
             139 => function ($stackPos) {
-                 $this->semValue = new Node\UseItem($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], Stmt\Use_::TYPE_UNKNOWN, $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes); $this->checkUseUse($this->semValue, $stackPos-(3-3));
+                 $this->semValue = new Node\UseItem($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], Stmt\Use_::TYPE_UNKNOWN, $this->getAttributes($this->tokenStartStack[$stackPos-(3-1)], $this->tokenEndStack[$stackPos])); $this->checkUseUse($this->semValue, $stackPos-(3-3));
             },
             140 => function ($stackPos) {
                  $this->semValue = $this->semStack[$stackPos-(1-1)]; $this->semValue->type = Stmt\Use_::TYPE_NORMAL;
@@ -1406,7 +1406,7 @@ class Php7 extends \PhpParser\ParserAbstract
                  $this->semValue = array($this->semStack[$stackPos-(1-1)]);
             },
             145 => function ($stackPos) {
-                 $this->semValue = new Node\Const_($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
+                 $this->semValue = new Node\Const_($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->getAttributes($this->tokenStartStack[$stackPos-(3-1)], $this->tokenEndStack[$stackPos]));
             },
             146 => null,
             147 => function ($stackPos) {
@@ -1416,10 +1416,10 @@ class Php7 extends \PhpParser\ParserAbstract
                  $this->semValue = array($this->semStack[$stackPos-(1-1)]);
             },
             149 => function ($stackPos) {
-                 $this->semValue = new Node\Const_(new Node\Identifier($this->semStack[$stackPos-(3-1)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributeStack[$stackPos-(3-1)]), $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
+                 $this->semValue = new Node\Const_(new Node\Identifier($this->semStack[$stackPos-(3-1)], $this->getAttributes($this->tokenStartStack[$stackPos-(3-1)],  $this->tokenEndStack[$stackPos-(3-1)])), $this->semStack[$stackPos-(3-3)], $this->getAttributes($this->tokenStartStack[$stackPos-(3-1)], $this->tokenEndStack[$stackPos]));
             },
             150 => function ($stackPos) {
-                 $this->semValue = new Node\Const_(new Node\Identifier($this->semStack[$stackPos-(3-1)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributeStack[$stackPos-(3-1)]), $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
+                 $this->semValue = new Node\Const_(new Node\Identifier($this->semStack[$stackPos-(3-1)], $this->getAttributes($this->tokenStartStack[$stackPos-(3-1)],  $this->tokenEndStack[$stackPos-(3-1)])), $this->semStack[$stackPos-(3-3)], $this->getAttributes($this->tokenStartStack[$stackPos-(3-1)], $this->tokenEndStack[$stackPos]));
             },
             151 => function ($stackPos) {
                  if (is_array($this->semStack[$stackPos-(2-2)])) { $this->semValue = array_merge($this->semStack[$stackPos-(2-1)], $this->semStack[$stackPos-(2-2)]); } else { $this->semStack[$stackPos-(2-1)][] = $this->semStack[$stackPos-(2-2)]; $this->semValue = $this->semStack[$stackPos-(2-1)]; };
@@ -1428,63 +1428,66 @@ class Php7 extends \PhpParser\ParserAbstract
                  $this->semValue = array();
             },
             153 => function ($stackPos) {
-                 $startAttributes = $this->lookaheadStartAttributes; if (isset($startAttributes['comments'])) { $nop = new Stmt\Nop($this->createCommentNopAttributes($startAttributes['comments'])); } else { $nop = null; };
+                 $nop = $this->maybeCreateZeroLengthNop($this->tokenPos);;
             if ($nop !== null) { $this->semStack[$stackPos-(1-1)][] = $nop; } $this->semValue = $this->semStack[$stackPos-(1-1)];
             },
             154 => null,
             155 => null,
             156 => null,
             157 => function ($stackPos) {
-                 throw new Error('__HALT_COMPILER() can only be used from the outermost scope', $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
+                 throw new Error('__HALT_COMPILER() can only be used from the outermost scope', $this->getAttributes($this->tokenStartStack[$stackPos-(1-1)], $this->tokenEndStack[$stackPos]));
             },
             158 => function ($stackPos) {
 
         if ($this->semStack[$stackPos-(3-2)]) {
-            $this->semValue = $this->semStack[$stackPos-(3-2)]; $attrs = $this->startAttributeStack[$stackPos-(3-1)]; $stmts = $this->semValue; if (!empty($attrs['comments'])) {$stmts[0]->setAttribute('comments', array_merge($attrs['comments'], $stmts[0]->getAttribute('comments', []))); };
+            $this->semValue = $this->semStack[$stackPos-(3-2)]; $comments = $this->getCommentsBeforeToken($this->tokenStartStack[$stackPos-(3-1)]); $stmts = $this->semValue; if (!empty($comments)) {$stmts[0]->setAttribute('comments', array_merge($comments, $stmts[0]->getAttribute('comments', []))); };
         } else {
-            $startAttributes = $this->startAttributeStack[$stackPos-(3-1)]; if (isset($startAttributes['comments'])) { $this->semValue = new Stmt\Nop($startAttributes + $this->endAttributes); } else { $this->semValue = null; };
+            $this->semValue = $this->maybeCreateNop($this->tokenStartStack[$stackPos-(3-1)], $this->tokenEndStack[$stackPos]);
             if (null === $this->semValue) { $this->semValue = array(); }
         }
 
             },
             159 => function ($stackPos) {
-                 $this->semValue = new Stmt\If_($this->semStack[$stackPos-(7-3)], ['stmts' => is_array($this->semStack[$stackPos-(7-5)]) ? $this->semStack[$stackPos-(7-5)] : array($this->semStack[$stackPos-(7-5)]), 'elseifs' => $this->semStack[$stackPos-(7-6)], 'else' => $this->semStack[$stackPos-(7-7)]], $this->startAttributeStack[$stackPos-(7-1)] + $this->endAttributes);
+                 $this->semValue = new Stmt\If_($this->semStack[$stackPos-(7-3)], ['stmts' => is_array($this->semStack[$stackPos-(7-5)]) ? $this->semStack[$stackPos-(7-5)] : array($this->semStack[$stackPos-(7-5)]), 'elseifs' => $this->semStack[$stackPos-(7-6)], 'else' => $this->semStack[$stackPos-(7-7)]], $this->getAttributes($this->tokenStartStack[$stackPos-(7-1)], $this->tokenEndStack[$stackPos]));
             },
             160 => function ($stackPos) {
-                 $this->semValue = new Stmt\If_($this->semStack[$stackPos-(10-3)], ['stmts' => $this->semStack[$stackPos-(10-6)], 'elseifs' => $this->semStack[$stackPos-(10-7)], 'else' => $this->semStack[$stackPos-(10-8)]], $this->startAttributeStack[$stackPos-(10-1)] + $this->endAttributes);
+                 $this->semValue = new Stmt\If_($this->semStack[$stackPos-(10-3)], ['stmts' => $this->semStack[$stackPos-(10-6)], 'elseifs' => $this->semStack[$stackPos-(10-7)], 'else' => $this->semStack[$stackPos-(10-8)]], $this->getAttributes($this->tokenStartStack[$stackPos-(10-1)], $this->tokenEndStack[$stackPos]));
             },
             161 => function ($stackPos) {
-                 $this->semValue = new Stmt\While_($this->semStack[$stackPos-(5-3)], $this->semStack[$stackPos-(5-5)], $this->startAttributeStack[$stackPos-(5-1)] + $this->endAttributes);
+                 $this->semValue = new Stmt\While_($this->semStack[$stackPos-(5-3)], $this->semStack[$stackPos-(5-5)], $this->getAttributes($this->tokenStartStack[$stackPos-(5-1)], $this->tokenEndStack[$stackPos]));
             },
             162 => function ($stackPos) {
-                 $this->semValue = new Stmt\Do_($this->semStack[$stackPos-(7-5)], is_array($this->semStack[$stackPos-(7-2)]) ? $this->semStack[$stackPos-(7-2)] : array($this->semStack[$stackPos-(7-2)]), $this->startAttributeStack[$stackPos-(7-1)] + $this->endAttributes);
+                 $this->semValue = new Stmt\Do_($this->semStack[$stackPos-(7-5)], is_array($this->semStack[$stackPos-(7-2)]) ? $this->semStack[$stackPos-(7-2)] : array($this->semStack[$stackPos-(7-2)]), $this->getAttributes($this->tokenStartStack[$stackPos-(7-1)], $this->tokenEndStack[$stackPos]));
             },
             163 => function ($stackPos) {
-                 $this->semValue = new Stmt\For_(['init' => $this->semStack[$stackPos-(9-3)], 'cond' => $this->semStack[$stackPos-(9-5)], 'loop' => $this->semStack[$stackPos-(9-7)], 'stmts' => $this->semStack[$stackPos-(9-9)]], $this->startAttributeStack[$stackPos-(9-1)] + $this->endAttributes);
+                 $this->semValue = new Stmt\For_(['init' => $this->semStack[$stackPos-(9-3)], 'cond' => $this->semStack[$stackPos-(9-5)], 'loop' => $this->semStack[$stackPos-(9-7)], 'stmts' => $this->semStack[$stackPos-(9-9)]], $this->getAttributes($this->tokenStartStack[$stackPos-(9-1)], $this->tokenEndStack[$stackPos]));
             },
             164 => function ($stackPos) {
-                 $this->semValue = new Stmt\Switch_($this->semStack[$stackPos-(5-3)], $this->semStack[$stackPos-(5-5)], $this->startAttributeStack[$stackPos-(5-1)] + $this->endAttributes);
+                 $this->semValue = new Stmt\Switch_($this->semStack[$stackPos-(5-3)], $this->semStack[$stackPos-(5-5)], $this->getAttributes($this->tokenStartStack[$stackPos-(5-1)], $this->tokenEndStack[$stackPos]));
             },
             165 => function ($stackPos) {
-                 $this->semValue = new Stmt\Break_($this->semStack[$stackPos-(3-2)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
+                 $this->semValue = new Stmt\Break_($this->semStack[$stackPos-(3-2)], $this->getAttributes($this->tokenStartStack[$stackPos-(3-1)], $this->tokenEndStack[$stackPos]));
             },
             166 => function ($stackPos) {
-                 $this->semValue = new Stmt\Continue_($this->semStack[$stackPos-(3-2)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
+                 $this->semValue = new Stmt\Continue_($this->semStack[$stackPos-(3-2)], $this->getAttributes($this->tokenStartStack[$stackPos-(3-1)], $this->tokenEndStack[$stackPos]));
             },
             167 => function ($stackPos) {
-                 $this->semValue = new Stmt\Return_($this->semStack[$stackPos-(3-2)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
+                 $this->semValue = new Stmt\Return_($this->semStack[$stackPos-(3-2)], $this->getAttributes($this->tokenStartStack[$stackPos-(3-1)], $this->tokenEndStack[$stackPos]));
             },
             168 => function ($stackPos) {
-                 $this->semValue = new Stmt\Global_($this->semStack[$stackPos-(3-2)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
+                 $this->semValue = new Stmt\Global_($this->semStack[$stackPos-(3-2)], $this->getAttributes($this->tokenStartStack[$stackPos-(3-1)], $this->tokenEndStack[$stackPos]));
             },
             169 => function ($stackPos) {
-                 $this->semValue = new Stmt\Static_($this->semStack[$stackPos-(3-2)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
+                 $this->semValue = new Stmt\Static_($this->semStack[$stackPos-(3-2)], $this->getAttributes($this->tokenStartStack[$stackPos-(3-1)], $this->tokenEndStack[$stackPos]));
             },
             170 => function ($stackPos) {
-                 $this->semValue = new Stmt\Echo_($this->semStack[$stackPos-(3-2)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
+                 $this->semValue = new Stmt\Echo_($this->semStack[$stackPos-(3-2)], $this->getAttributes($this->tokenStartStack[$stackPos-(3-1)], $this->tokenEndStack[$stackPos]));
             },
             171 => function ($stackPos) {
-                 $this->semValue = new Stmt\InlineHTML($this->semStack[$stackPos-(1-1)], $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
+
+        $this->semValue = new Stmt\InlineHTML($this->semStack[$stackPos-(1-1)], $this->getAttributes($this->tokenStartStack[$stackPos-(1-1)], $this->tokenEndStack[$stackPos]));
+        $this->semValue->setAttribute('hasLeadingNewline', $this->inlineHtmlHasLeadingNewline($stackPos-(1-1)));
+
             },
             172 => function ($stackPos) {
 
@@ -1492,42 +1495,42 @@ class Php7 extends \PhpParser\ParserAbstract
         if ($e instanceof Expr\Throw_) {
             // For backwards-compatibility reasons, convert throw in statement position into
             // Stmt\Throw_ rather than Stmt\Expression(Expr\Throw_).
-            $this->semValue = new Stmt\Throw_($e->expr, $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes);
+            $this->semValue = new Stmt\Throw_($e->expr, $this->getAttributes($this->tokenStartStack[$stackPos-(2-1)], $this->tokenEndStack[$stackPos]));
         } else {
-            $this->semValue = new Stmt\Expression($e, $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes);
+            $this->semValue = new Stmt\Expression($e, $this->getAttributes($this->tokenStartStack[$stackPos-(2-1)], $this->tokenEndStack[$stackPos]));
         }
 
             },
             173 => function ($stackPos) {
-                 $this->semValue = new Stmt\Unset_($this->semStack[$stackPos-(5-3)], $this->startAttributeStack[$stackPos-(5-1)] + $this->endAttributes);
+                 $this->semValue = new Stmt\Unset_($this->semStack[$stackPos-(5-3)], $this->getAttributes($this->tokenStartStack[$stackPos-(5-1)], $this->tokenEndStack[$stackPos]));
             },
             174 => function ($stackPos) {
-                 $this->semValue = new Stmt\Foreach_($this->semStack[$stackPos-(7-3)], $this->semStack[$stackPos-(7-5)][0], ['keyVar' => null, 'byRef' => $this->semStack[$stackPos-(7-5)][1], 'stmts' => $this->semStack[$stackPos-(7-7)]], $this->startAttributeStack[$stackPos-(7-1)] + $this->endAttributes);
+                 $this->semValue = new Stmt\Foreach_($this->semStack[$stackPos-(7-3)], $this->semStack[$stackPos-(7-5)][0], ['keyVar' => null, 'byRef' => $this->semStack[$stackPos-(7-5)][1], 'stmts' => $this->semStack[$stackPos-(7-7)]], $this->getAttributes($this->tokenStartStack[$stackPos-(7-1)], $this->tokenEndStack[$stackPos]));
             },
             175 => function ($stackPos) {
-                 $this->semValue = new Stmt\Foreach_($this->semStack[$stackPos-(9-3)], $this->semStack[$stackPos-(9-7)][0], ['keyVar' => $this->semStack[$stackPos-(9-5)], 'byRef' => $this->semStack[$stackPos-(9-7)][1], 'stmts' => $this->semStack[$stackPos-(9-9)]], $this->startAttributeStack[$stackPos-(9-1)] + $this->endAttributes);
+                 $this->semValue = new Stmt\Foreach_($this->semStack[$stackPos-(9-3)], $this->semStack[$stackPos-(9-7)][0], ['keyVar' => $this->semStack[$stackPos-(9-5)], 'byRef' => $this->semStack[$stackPos-(9-7)][1], 'stmts' => $this->semStack[$stackPos-(9-9)]], $this->getAttributes($this->tokenStartStack[$stackPos-(9-1)], $this->tokenEndStack[$stackPos]));
             },
             176 => function ($stackPos) {
-                 $this->semValue = new Stmt\Foreach_($this->semStack[$stackPos-(6-3)], new Expr\Error($this->startAttributeStack[$stackPos-(6-4)] + $this->endAttributeStack[$stackPos-(6-4)]), ['stmts' => $this->semStack[$stackPos-(6-6)]], $this->startAttributeStack[$stackPos-(6-1)] + $this->endAttributes);
+                 $this->semValue = new Stmt\Foreach_($this->semStack[$stackPos-(6-3)], new Expr\Error($this->getAttributes($this->tokenStartStack[$stackPos-(6-4)],  $this->tokenEndStack[$stackPos-(6-4)])), ['stmts' => $this->semStack[$stackPos-(6-6)]], $this->getAttributes($this->tokenStartStack[$stackPos-(6-1)], $this->tokenEndStack[$stackPos]));
             },
             177 => function ($stackPos) {
-                 $this->semValue = new Stmt\Declare_($this->semStack[$stackPos-(5-3)], $this->semStack[$stackPos-(5-5)], $this->startAttributeStack[$stackPos-(5-1)] + $this->endAttributes);
+                 $this->semValue = new Stmt\Declare_($this->semStack[$stackPos-(5-3)], $this->semStack[$stackPos-(5-5)], $this->getAttributes($this->tokenStartStack[$stackPos-(5-1)], $this->tokenEndStack[$stackPos]));
             },
             178 => function ($stackPos) {
-                 $this->semValue = new Stmt\TryCatch($this->semStack[$stackPos-(6-3)], $this->semStack[$stackPos-(6-5)], $this->semStack[$stackPos-(6-6)], $this->startAttributeStack[$stackPos-(6-1)] + $this->endAttributes); $this->checkTryCatch($this->semValue);
+                 $this->semValue = new Stmt\TryCatch($this->semStack[$stackPos-(6-3)], $this->semStack[$stackPos-(6-5)], $this->semStack[$stackPos-(6-6)], $this->getAttributes($this->tokenStartStack[$stackPos-(6-1)], $this->tokenEndStack[$stackPos])); $this->checkTryCatch($this->semValue);
             },
             179 => function ($stackPos) {
-                 $this->semValue = new Stmt\Goto_($this->semStack[$stackPos-(3-2)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
+                 $this->semValue = new Stmt\Goto_($this->semStack[$stackPos-(3-2)], $this->getAttributes($this->tokenStartStack[$stackPos-(3-1)], $this->tokenEndStack[$stackPos]));
             },
             180 => function ($stackPos) {
-                 $this->semValue = new Stmt\Label($this->semStack[$stackPos-(2-1)], $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes);
+                 $this->semValue = new Stmt\Label($this->semStack[$stackPos-(2-1)], $this->getAttributes($this->tokenStartStack[$stackPos-(2-1)], $this->tokenEndStack[$stackPos]));
             },
             181 => function ($stackPos) {
                  $this->semValue = array(); /* means: no statement */
             },
             182 => null,
             183 => function ($stackPos) {
-                 $startAttributes = $this->startAttributeStack[$stackPos-(1-1)]; if (isset($startAttributes['comments'])) { $this->semValue = new Stmt\Nop($startAttributes + $this->endAttributes); } else { $this->semValue = null; };
+                 $this->semValue = $this->maybeCreateNop($this->tokenStartStack[$stackPos-(1-1)], $this->tokenEndStack[$stackPos]);
             if ($this->semValue === null) $this->semValue = array(); /* means: no statement */
             },
             184 => function ($stackPos) {
@@ -1543,13 +1546,13 @@ class Php7 extends \PhpParser\ParserAbstract
                  $this->semStack[$stackPos-(3-1)][] = $this->semStack[$stackPos-(3-3)]; $this->semValue = $this->semStack[$stackPos-(3-1)];
             },
             188 => function ($stackPos) {
-                 $this->semValue = new Stmt\Catch_($this->semStack[$stackPos-(8-3)], $this->semStack[$stackPos-(8-4)], $this->semStack[$stackPos-(8-7)], $this->startAttributeStack[$stackPos-(8-1)] + $this->endAttributes);
+                 $this->semValue = new Stmt\Catch_($this->semStack[$stackPos-(8-3)], $this->semStack[$stackPos-(8-4)], $this->semStack[$stackPos-(8-7)], $this->getAttributes($this->tokenStartStack[$stackPos-(8-1)], $this->tokenEndStack[$stackPos]));
             },
             189 => function ($stackPos) {
                  $this->semValue = null;
             },
             190 => function ($stackPos) {
-                 $this->semValue = new Stmt\Finally_($this->semStack[$stackPos-(4-3)], $this->startAttributeStack[$stackPos-(4-1)] + $this->endAttributes);
+                 $this->semValue = new Stmt\Finally_($this->semStack[$stackPos-(4-3)], $this->getAttributes($this->tokenStartStack[$stackPos-(4-1)], $this->tokenEndStack[$stackPos]));
             },
             191 => null,
             192 => function ($stackPos) {
@@ -1584,31 +1587,31 @@ class Php7 extends \PhpParser\ParserAbstract
             },
             202 => null,
             203 => function ($stackPos) {
-                 $this->semValue = new Node\Identifier($this->semStack[$stackPos-(1-1)], $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
+                 $this->semValue = new Node\Identifier($this->semStack[$stackPos-(1-1)], $this->getAttributes($this->tokenStartStack[$stackPos-(1-1)], $this->tokenEndStack[$stackPos]));
             },
             204 => function ($stackPos) {
-                 $this->semValue = new Stmt\Function_($this->semStack[$stackPos-(8-3)], ['byRef' => $this->semStack[$stackPos-(8-2)], 'params' => $this->semStack[$stackPos-(8-5)], 'returnType' => $this->semStack[$stackPos-(8-7)], 'stmts' => $this->semStack[$stackPos-(8-8)], 'attrGroups' => []], $this->startAttributeStack[$stackPos-(8-1)] + $this->endAttributes);
+                 $this->semValue = new Stmt\Function_($this->semStack[$stackPos-(8-3)], ['byRef' => $this->semStack[$stackPos-(8-2)], 'params' => $this->semStack[$stackPos-(8-5)], 'returnType' => $this->semStack[$stackPos-(8-7)], 'stmts' => $this->semStack[$stackPos-(8-8)], 'attrGroups' => []], $this->getAttributes($this->tokenStartStack[$stackPos-(8-1)], $this->tokenEndStack[$stackPos]));
             },
             205 => function ($stackPos) {
-                 $this->semValue = new Stmt\Function_($this->semStack[$stackPos-(9-4)], ['byRef' => $this->semStack[$stackPos-(9-3)], 'params' => $this->semStack[$stackPos-(9-6)], 'returnType' => $this->semStack[$stackPos-(9-8)], 'stmts' => $this->semStack[$stackPos-(9-9)], 'attrGroups' => $this->semStack[$stackPos-(9-1)]], $this->startAttributeStack[$stackPos-(9-1)] + $this->endAttributes);
+                 $this->semValue = new Stmt\Function_($this->semStack[$stackPos-(9-4)], ['byRef' => $this->semStack[$stackPos-(9-3)], 'params' => $this->semStack[$stackPos-(9-6)], 'returnType' => $this->semStack[$stackPos-(9-8)], 'stmts' => $this->semStack[$stackPos-(9-9)], 'attrGroups' => $this->semStack[$stackPos-(9-1)]], $this->getAttributes($this->tokenStartStack[$stackPos-(9-1)], $this->tokenEndStack[$stackPos]));
             },
             206 => function ($stackPos) {
-                 $this->semValue = new Stmt\Class_($this->semStack[$stackPos-(7-2)], ['type' => $this->semStack[$stackPos-(7-1)], 'extends' => $this->semStack[$stackPos-(7-3)], 'implements' => $this->semStack[$stackPos-(7-4)], 'stmts' => $this->semStack[$stackPos-(7-6)], 'attrGroups' => []], $this->startAttributeStack[$stackPos-(7-1)] + $this->endAttributes);
+                 $this->semValue = new Stmt\Class_($this->semStack[$stackPos-(7-2)], ['type' => $this->semStack[$stackPos-(7-1)], 'extends' => $this->semStack[$stackPos-(7-3)], 'implements' => $this->semStack[$stackPos-(7-4)], 'stmts' => $this->semStack[$stackPos-(7-6)], 'attrGroups' => []], $this->getAttributes($this->tokenStartStack[$stackPos-(7-1)], $this->tokenEndStack[$stackPos]));
             $this->checkClass($this->semValue, $stackPos-(7-2));
             },
             207 => function ($stackPos) {
-                 $this->semValue = new Stmt\Class_($this->semStack[$stackPos-(8-3)], ['type' => $this->semStack[$stackPos-(8-2)], 'extends' => $this->semStack[$stackPos-(8-4)], 'implements' => $this->semStack[$stackPos-(8-5)], 'stmts' => $this->semStack[$stackPos-(8-7)], 'attrGroups' => $this->semStack[$stackPos-(8-1)]], $this->startAttributeStack[$stackPos-(8-1)] + $this->endAttributes);
+                 $this->semValue = new Stmt\Class_($this->semStack[$stackPos-(8-3)], ['type' => $this->semStack[$stackPos-(8-2)], 'extends' => $this->semStack[$stackPos-(8-4)], 'implements' => $this->semStack[$stackPos-(8-5)], 'stmts' => $this->semStack[$stackPos-(8-7)], 'attrGroups' => $this->semStack[$stackPos-(8-1)]], $this->getAttributes($this->tokenStartStack[$stackPos-(8-1)], $this->tokenEndStack[$stackPos]));
             $this->checkClass($this->semValue, $stackPos-(8-3));
             },
             208 => function ($stackPos) {
-                 $this->semValue = new Stmt\Interface_($this->semStack[$stackPos-(7-3)], ['extends' => $this->semStack[$stackPos-(7-4)], 'stmts' => $this->semStack[$stackPos-(7-6)], 'attrGroups' => $this->semStack[$stackPos-(7-1)]], $this->startAttributeStack[$stackPos-(7-1)] + $this->endAttributes);
+                 $this->semValue = new Stmt\Interface_($this->semStack[$stackPos-(7-3)], ['extends' => $this->semStack[$stackPos-(7-4)], 'stmts' => $this->semStack[$stackPos-(7-6)], 'attrGroups' => $this->semStack[$stackPos-(7-1)]], $this->getAttributes($this->tokenStartStack[$stackPos-(7-1)], $this->tokenEndStack[$stackPos]));
             $this->checkInterface($this->semValue, $stackPos-(7-3));
             },
             209 => function ($stackPos) {
-                 $this->semValue = new Stmt\Trait_($this->semStack[$stackPos-(6-3)], ['stmts' => $this->semStack[$stackPos-(6-5)], 'attrGroups' => $this->semStack[$stackPos-(6-1)]], $this->startAttributeStack[$stackPos-(6-1)] + $this->endAttributes);
+                 $this->semValue = new Stmt\Trait_($this->semStack[$stackPos-(6-3)], ['stmts' => $this->semStack[$stackPos-(6-5)], 'attrGroups' => $this->semStack[$stackPos-(6-1)]], $this->getAttributes($this->tokenStartStack[$stackPos-(6-1)], $this->tokenEndStack[$stackPos]));
             },
             210 => function ($stackPos) {
-                 $this->semValue = new Stmt\Enum_($this->semStack[$stackPos-(8-3)], ['scalarType' => $this->semStack[$stackPos-(8-4)], 'implements' => $this->semStack[$stackPos-(8-5)], 'stmts' => $this->semStack[$stackPos-(8-7)], 'attrGroups' => $this->semStack[$stackPos-(8-1)]], $this->startAttributeStack[$stackPos-(8-1)] + $this->endAttributes);
+                 $this->semValue = new Stmt\Enum_($this->semStack[$stackPos-(8-3)], ['scalarType' => $this->semStack[$stackPos-(8-4)], 'implements' => $this->semStack[$stackPos-(8-5)], 'stmts' => $this->semStack[$stackPos-(8-7)], 'attrGroups' => $this->semStack[$stackPos-(8-1)]], $this->getAttributes($this->tokenStartStack[$stackPos-(8-1)], $this->tokenEndStack[$stackPos]));
             $this->checkEnum($this->semValue, $stackPos-(8-3));
             },
             211 => function ($stackPos) {
@@ -1694,7 +1697,7 @@ class Php7 extends \PhpParser\ParserAbstract
                  $this->semStack[$stackPos-(3-1)][] = $this->semStack[$stackPos-(3-3)]; $this->semValue = $this->semStack[$stackPos-(3-1)];
             },
             241 => function ($stackPos) {
-                 $this->semValue = new Node\DeclareItem($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
+                 $this->semValue = new Node\DeclareItem($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->getAttributes($this->tokenStartStack[$stackPos-(3-1)], $this->tokenEndStack[$stackPos]));
             },
             242 => function ($stackPos) {
                  $this->semValue = $this->semStack[$stackPos-(3-2)];
@@ -1715,15 +1718,15 @@ class Php7 extends \PhpParser\ParserAbstract
                  $this->semStack[$stackPos-(2-1)][] = $this->semStack[$stackPos-(2-2)]; $this->semValue = $this->semStack[$stackPos-(2-1)];
             },
             248 => function ($stackPos) {
-                 $this->semValue = new Stmt\Case_($this->semStack[$stackPos-(4-2)], $this->semStack[$stackPos-(4-4)], $this->startAttributeStack[$stackPos-(4-1)] + $this->endAttributes);
+                 $this->semValue = new Stmt\Case_($this->semStack[$stackPos-(4-2)], $this->semStack[$stackPos-(4-4)], $this->getAttributes($this->tokenStartStack[$stackPos-(4-1)], $this->tokenEndStack[$stackPos]));
             },
             249 => function ($stackPos) {
-                 $this->semValue = new Stmt\Case_(null, $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
+                 $this->semValue = new Stmt\Case_(null, $this->semStack[$stackPos-(3-3)], $this->getAttributes($this->tokenStartStack[$stackPos-(3-1)], $this->tokenEndStack[$stackPos]));
             },
             250 => null,
             251 => null,
             252 => function ($stackPos) {
-                 $this->semValue = new Expr\Match_($this->semStack[$stackPos-(7-3)], $this->semStack[$stackPos-(7-6)], $this->startAttributeStack[$stackPos-(7-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\Match_($this->semStack[$stackPos-(7-3)], $this->semStack[$stackPos-(7-6)], $this->getAttributes($this->tokenStartStack[$stackPos-(7-1)], $this->tokenEndStack[$stackPos]));
             },
             253 => function ($stackPos) {
                  $this->semValue = [];
@@ -1736,10 +1739,10 @@ class Php7 extends \PhpParser\ParserAbstract
                  $this->semStack[$stackPos-(3-1)][] = $this->semStack[$stackPos-(3-3)]; $this->semValue = $this->semStack[$stackPos-(3-1)];
             },
             257 => function ($stackPos) {
-                 $this->semValue = new Node\MatchArm($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
+                 $this->semValue = new Node\MatchArm($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->getAttributes($this->tokenStartStack[$stackPos-(3-1)], $this->tokenEndStack[$stackPos]));
             },
             258 => function ($stackPos) {
-                 $this->semValue = new Node\MatchArm(null, $this->semStack[$stackPos-(4-4)], $this->startAttributeStack[$stackPos-(4-1)] + $this->endAttributes);
+                 $this->semValue = new Node\MatchArm(null, $this->semStack[$stackPos-(4-4)], $this->getAttributes($this->tokenStartStack[$stackPos-(4-1)], $this->tokenEndStack[$stackPos]));
             },
             259 => function ($stackPos) {
                  $this->semValue = is_array($this->semStack[$stackPos-(1-1)]) ? $this->semStack[$stackPos-(1-1)] : array($this->semStack[$stackPos-(1-1)]);
@@ -1754,7 +1757,7 @@ class Php7 extends \PhpParser\ParserAbstract
                  $this->semStack[$stackPos-(2-1)][] = $this->semStack[$stackPos-(2-2)]; $this->semValue = $this->semStack[$stackPos-(2-1)];
             },
             263 => function ($stackPos) {
-                 $this->semValue = new Stmt\ElseIf_($this->semStack[$stackPos-(5-3)], is_array($this->semStack[$stackPos-(5-5)]) ? $this->semStack[$stackPos-(5-5)] : array($this->semStack[$stackPos-(5-5)]), $this->startAttributeStack[$stackPos-(5-1)] + $this->endAttributes);
+                 $this->semValue = new Stmt\ElseIf_($this->semStack[$stackPos-(5-3)], is_array($this->semStack[$stackPos-(5-5)]) ? $this->semStack[$stackPos-(5-5)] : array($this->semStack[$stackPos-(5-5)]), $this->getAttributes($this->tokenStartStack[$stackPos-(5-1)], $this->tokenEndStack[$stackPos]));
             },
             264 => function ($stackPos) {
                  $this->semValue = array();
@@ -1763,19 +1766,19 @@ class Php7 extends \PhpParser\ParserAbstract
                  $this->semStack[$stackPos-(2-1)][] = $this->semStack[$stackPos-(2-2)]; $this->semValue = $this->semStack[$stackPos-(2-1)];
             },
             266 => function ($stackPos) {
-                 $this->semValue = new Stmt\ElseIf_($this->semStack[$stackPos-(6-3)], $this->semStack[$stackPos-(6-6)], $this->startAttributeStack[$stackPos-(6-1)] + $this->endAttributes); $this->fixupAlternativeElse($this->semValue);
+                 $this->semValue = new Stmt\ElseIf_($this->semStack[$stackPos-(6-3)], $this->semStack[$stackPos-(6-6)], $this->getAttributes($this->tokenStartStack[$stackPos-(6-1)], $this->tokenEndStack[$stackPos])); $this->fixupAlternativeElse($this->semValue);
             },
             267 => function ($stackPos) {
                  $this->semValue = null;
             },
             268 => function ($stackPos) {
-                 $this->semValue = new Stmt\Else_(is_array($this->semStack[$stackPos-(2-2)]) ? $this->semStack[$stackPos-(2-2)] : array($this->semStack[$stackPos-(2-2)]), $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes);
+                 $this->semValue = new Stmt\Else_(is_array($this->semStack[$stackPos-(2-2)]) ? $this->semStack[$stackPos-(2-2)] : array($this->semStack[$stackPos-(2-2)]), $this->getAttributes($this->tokenStartStack[$stackPos-(2-1)], $this->tokenEndStack[$stackPos]));
             },
             269 => function ($stackPos) {
                  $this->semValue = null;
             },
             270 => function ($stackPos) {
-                 $this->semValue = new Stmt\Else_($this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes); $this->fixupAlternativeElse($this->semValue);
+                 $this->semValue = new Stmt\Else_($this->semStack[$stackPos-(3-3)], $this->getAttributes($this->tokenStartStack[$stackPos-(3-1)], $this->tokenEndStack[$stackPos])); $this->fixupAlternativeElse($this->semValue);
             },
             271 => function ($stackPos) {
                  $this->semValue = array($this->semStack[$stackPos-(1-1)], false);
@@ -1818,36 +1821,36 @@ class Php7 extends \PhpParser\ParserAbstract
                  $this->semValue = Modifiers::READONLY;
             },
             285 => function ($stackPos) {
-                 $this->semValue = new Node\Param($this->semStack[$stackPos-(6-6)], null, $this->semStack[$stackPos-(6-3)], $this->semStack[$stackPos-(6-4)], $this->semStack[$stackPos-(6-5)], $this->startAttributeStack[$stackPos-(6-1)] + $this->endAttributes, $this->semStack[$stackPos-(6-2)], $this->semStack[$stackPos-(6-1)]);
+                 $this->semValue = new Node\Param($this->semStack[$stackPos-(6-6)], null, $this->semStack[$stackPos-(6-3)], $this->semStack[$stackPos-(6-4)], $this->semStack[$stackPos-(6-5)], $this->getAttributes($this->tokenStartStack[$stackPos-(6-1)], $this->tokenEndStack[$stackPos]), $this->semStack[$stackPos-(6-2)], $this->semStack[$stackPos-(6-1)]);
             $this->checkParam($this->semValue);
             },
             286 => function ($stackPos) {
-                 $this->semValue = new Node\Param($this->semStack[$stackPos-(8-6)], $this->semStack[$stackPos-(8-8)], $this->semStack[$stackPos-(8-3)], $this->semStack[$stackPos-(8-4)], $this->semStack[$stackPos-(8-5)], $this->startAttributeStack[$stackPos-(8-1)] + $this->endAttributes, $this->semStack[$stackPos-(8-2)], $this->semStack[$stackPos-(8-1)]);
+                 $this->semValue = new Node\Param($this->semStack[$stackPos-(8-6)], $this->semStack[$stackPos-(8-8)], $this->semStack[$stackPos-(8-3)], $this->semStack[$stackPos-(8-4)], $this->semStack[$stackPos-(8-5)], $this->getAttributes($this->tokenStartStack[$stackPos-(8-1)], $this->tokenEndStack[$stackPos]), $this->semStack[$stackPos-(8-2)], $this->semStack[$stackPos-(8-1)]);
             $this->checkParam($this->semValue);
             },
             287 => function ($stackPos) {
-                 $this->semValue = new Node\Param(new Expr\Error($this->startAttributeStack[$stackPos-(6-1)] + $this->endAttributes), null, $this->semStack[$stackPos-(6-3)], $this->semStack[$stackPos-(6-4)], $this->semStack[$stackPos-(6-5)], $this->startAttributeStack[$stackPos-(6-1)] + $this->endAttributes, $this->semStack[$stackPos-(6-2)], $this->semStack[$stackPos-(6-1)]);
+                 $this->semValue = new Node\Param(new Expr\Error($this->getAttributes($this->tokenStartStack[$stackPos-(6-1)], $this->tokenEndStack[$stackPos])), null, $this->semStack[$stackPos-(6-3)], $this->semStack[$stackPos-(6-4)], $this->semStack[$stackPos-(6-5)], $this->getAttributes($this->tokenStartStack[$stackPos-(6-1)], $this->tokenEndStack[$stackPos]), $this->semStack[$stackPos-(6-2)], $this->semStack[$stackPos-(6-1)]);
             },
             288 => null,
             289 => function ($stackPos) {
-                 $this->semValue = new Node\NullableType($this->semStack[$stackPos-(2-2)], $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes);
+                 $this->semValue = new Node\NullableType($this->semStack[$stackPos-(2-2)], $this->getAttributes($this->tokenStartStack[$stackPos-(2-1)], $this->tokenEndStack[$stackPos]));
             },
             290 => function ($stackPos) {
-                 $this->semValue = new Node\UnionType($this->semStack[$stackPos-(1-1)], $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
+                 $this->semValue = new Node\UnionType($this->semStack[$stackPos-(1-1)], $this->getAttributes($this->tokenStartStack[$stackPos-(1-1)], $this->tokenEndStack[$stackPos]));
             },
             291 => null,
             292 => null,
             293 => function ($stackPos) {
-                 $this->semValue = new Node\Name('static', $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
+                 $this->semValue = new Node\Name('static', $this->getAttributes($this->tokenStartStack[$stackPos-(1-1)], $this->tokenEndStack[$stackPos]));
             },
             294 => function ($stackPos) {
                  $this->semValue = $this->handleBuiltinTypes($this->semStack[$stackPos-(1-1)]);
             },
             295 => function ($stackPos) {
-                 $this->semValue = new Node\Identifier('array', $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
+                 $this->semValue = new Node\Identifier('array', $this->getAttributes($this->tokenStartStack[$stackPos-(1-1)], $this->tokenEndStack[$stackPos]));
             },
             296 => function ($stackPos) {
-                 $this->semValue = new Node\Identifier('callable', $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
+                 $this->semValue = new Node\Identifier('callable', $this->getAttributes($this->tokenStartStack[$stackPos-(1-1)], $this->tokenEndStack[$stackPos]));
             },
             297 => null,
             298 => function ($stackPos) {
@@ -1876,7 +1879,7 @@ class Php7 extends \PhpParser\ParserAbstract
                  $this->semStack[$stackPos-(3-1)][] = $this->semStack[$stackPos-(3-3)]; $this->semValue = $this->semStack[$stackPos-(3-1)];
             },
             307 => function ($stackPos) {
-                 $this->semValue = new Node\IntersectionType($this->semStack[$stackPos-(1-1)], $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
+                 $this->semValue = new Node\IntersectionType($this->semStack[$stackPos-(1-1)], $this->getAttributes($this->tokenStartStack[$stackPos-(1-1)], $this->tokenEndStack[$stackPos]));
             },
             308 => function ($stackPos) {
                  $this->semValue = array($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)]);
@@ -1885,14 +1888,14 @@ class Php7 extends \PhpParser\ParserAbstract
                  $this->semStack[$stackPos-(3-1)][] = $this->semStack[$stackPos-(3-3)]; $this->semValue = $this->semStack[$stackPos-(3-1)];
             },
             310 => function ($stackPos) {
-                 $this->semValue = new Node\IntersectionType($this->semStack[$stackPos-(1-1)], $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
+                 $this->semValue = new Node\IntersectionType($this->semStack[$stackPos-(1-1)], $this->getAttributes($this->tokenStartStack[$stackPos-(1-1)], $this->tokenEndStack[$stackPos]));
             },
             311 => null,
             312 => function ($stackPos) {
-                 $this->semValue = new Node\NullableType($this->semStack[$stackPos-(2-2)], $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes);
+                 $this->semValue = new Node\NullableType($this->semStack[$stackPos-(2-2)], $this->getAttributes($this->tokenStartStack[$stackPos-(2-1)], $this->tokenEndStack[$stackPos]));
             },
             313 => function ($stackPos) {
-                 $this->semValue = new Node\UnionType($this->semStack[$stackPos-(1-1)], $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
+                 $this->semValue = new Node\UnionType($this->semStack[$stackPos-(1-1)], $this->getAttributes($this->tokenStartStack[$stackPos-(1-1)], $this->tokenEndStack[$stackPos]));
             },
             314 => null,
             315 => function ($stackPos) {
@@ -1918,7 +1921,7 @@ class Php7 extends \PhpParser\ParserAbstract
                  $this->semValue = array($this->semStack[$stackPos-(3-2)]);
             },
             323 => function ($stackPos) {
-                 $this->semValue = new Node\VariadicPlaceholder($this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
+                 $this->semValue = new Node\VariadicPlaceholder($this->getAttributes($this->tokenStartStack[$stackPos-(1-1)], $this->tokenEndStack[$stackPos]));
             },
             324 => function ($stackPos) {
                  $this->semValue = array($this->semStack[$stackPos-(1-1)]);
@@ -1927,16 +1930,16 @@ class Php7 extends \PhpParser\ParserAbstract
                  $this->semStack[$stackPos-(3-1)][] = $this->semStack[$stackPos-(3-3)]; $this->semValue = $this->semStack[$stackPos-(3-1)];
             },
             326 => function ($stackPos) {
-                 $this->semValue = new Node\Arg($this->semStack[$stackPos-(1-1)], false, false, $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
+                 $this->semValue = new Node\Arg($this->semStack[$stackPos-(1-1)], false, false, $this->getAttributes($this->tokenStartStack[$stackPos-(1-1)], $this->tokenEndStack[$stackPos]));
             },
             327 => function ($stackPos) {
-                 $this->semValue = new Node\Arg($this->semStack[$stackPos-(2-2)], true, false, $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes);
+                 $this->semValue = new Node\Arg($this->semStack[$stackPos-(2-2)], true, false, $this->getAttributes($this->tokenStartStack[$stackPos-(2-1)], $this->tokenEndStack[$stackPos]));
             },
             328 => function ($stackPos) {
-                 $this->semValue = new Node\Arg($this->semStack[$stackPos-(2-2)], false, true, $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes);
+                 $this->semValue = new Node\Arg($this->semStack[$stackPos-(2-2)], false, true, $this->getAttributes($this->tokenStartStack[$stackPos-(2-1)], $this->tokenEndStack[$stackPos]));
             },
             329 => function ($stackPos) {
-                 $this->semValue = new Node\Arg($this->semStack[$stackPos-(3-3)], false, false, $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes, $this->semStack[$stackPos-(3-1)]);
+                 $this->semValue = new Node\Arg($this->semStack[$stackPos-(3-3)], false, false, $this->getAttributes($this->tokenStartStack[$stackPos-(3-1)], $this->tokenEndStack[$stackPos]), $this->semStack[$stackPos-(3-1)]);
             },
             330 => null,
             331 => function ($stackPos) {
@@ -1954,10 +1957,10 @@ class Php7 extends \PhpParser\ParserAbstract
                  $this->semValue = array($this->semStack[$stackPos-(1-1)]);
             },
             337 => function ($stackPos) {
-                 $this->semValue = new Node\StaticVar($this->semStack[$stackPos-(1-1)], null, $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
+                 $this->semValue = new Node\StaticVar($this->semStack[$stackPos-(1-1)], null, $this->getAttributes($this->tokenStartStack[$stackPos-(1-1)], $this->tokenEndStack[$stackPos]));
             },
             338 => function ($stackPos) {
-                 $this->semValue = new Node\StaticVar($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
+                 $this->semValue = new Node\StaticVar($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->getAttributes($this->tokenStartStack[$stackPos-(3-1)], $this->tokenEndStack[$stackPos]));
             },
             339 => function ($stackPos) {
                  if ($this->semStack[$stackPos-(2-2)] !== null) { $this->semStack[$stackPos-(2-1)][] = $this->semStack[$stackPos-(2-2)]; $this->semValue = $this->semStack[$stackPos-(2-1)]; }
@@ -1966,30 +1969,30 @@ class Php7 extends \PhpParser\ParserAbstract
                  $this->semValue = array();
             },
             341 => function ($stackPos) {
-                 $startAttributes = $this->lookaheadStartAttributes; if (isset($startAttributes['comments'])) { $nop = new Stmt\Nop($this->createCommentNopAttributes($startAttributes['comments'])); } else { $nop = null; };
+                 $nop = $this->maybeCreateZeroLengthNop($this->tokenPos);;
             if ($nop !== null) { $this->semStack[$stackPos-(1-1)][] = $nop; } $this->semValue = $this->semStack[$stackPos-(1-1)];
             },
             342 => function ($stackPos) {
-                 $this->semValue = new Stmt\Property($this->semStack[$stackPos-(5-2)], $this->semStack[$stackPos-(5-4)], $this->startAttributeStack[$stackPos-(5-1)] + $this->endAttributes, $this->semStack[$stackPos-(5-3)], $this->semStack[$stackPos-(5-1)]);
+                 $this->semValue = new Stmt\Property($this->semStack[$stackPos-(5-2)], $this->semStack[$stackPos-(5-4)], $this->getAttributes($this->tokenStartStack[$stackPos-(5-1)], $this->tokenEndStack[$stackPos]), $this->semStack[$stackPos-(5-3)], $this->semStack[$stackPos-(5-1)]);
             $this->checkProperty($this->semValue, $stackPos-(5-2));
             },
             343 => function ($stackPos) {
-                 $this->semValue = new Stmt\ClassConst($this->semStack[$stackPos-(5-4)], $this->semStack[$stackPos-(5-2)], $this->startAttributeStack[$stackPos-(5-1)] + $this->endAttributes, $this->semStack[$stackPos-(5-1)]);
+                 $this->semValue = new Stmt\ClassConst($this->semStack[$stackPos-(5-4)], $this->semStack[$stackPos-(5-2)], $this->getAttributes($this->tokenStartStack[$stackPos-(5-1)], $this->tokenEndStack[$stackPos]), $this->semStack[$stackPos-(5-1)]);
             $this->checkClassConst($this->semValue, $stackPos-(5-2));
             },
             344 => function ($stackPos) {
-                 $this->semValue = new Stmt\ClassConst($this->semStack[$stackPos-(6-5)], $this->semStack[$stackPos-(6-2)], $this->startAttributeStack[$stackPos-(6-1)] + $this->endAttributes, $this->semStack[$stackPos-(6-1)], $this->semStack[$stackPos-(6-4)]);
+                 $this->semValue = new Stmt\ClassConst($this->semStack[$stackPos-(6-5)], $this->semStack[$stackPos-(6-2)], $this->getAttributes($this->tokenStartStack[$stackPos-(6-1)], $this->tokenEndStack[$stackPos]), $this->semStack[$stackPos-(6-1)], $this->semStack[$stackPos-(6-4)]);
             $this->checkClassConst($this->semValue, $stackPos-(6-2));
             },
             345 => function ($stackPos) {
-                 $this->semValue = new Stmt\ClassMethod($this->semStack[$stackPos-(10-5)], ['type' => $this->semStack[$stackPos-(10-2)], 'byRef' => $this->semStack[$stackPos-(10-4)], 'params' => $this->semStack[$stackPos-(10-7)], 'returnType' => $this->semStack[$stackPos-(10-9)], 'stmts' => $this->semStack[$stackPos-(10-10)], 'attrGroups' => $this->semStack[$stackPos-(10-1)]], $this->startAttributeStack[$stackPos-(10-1)] + $this->endAttributes);
+                 $this->semValue = new Stmt\ClassMethod($this->semStack[$stackPos-(10-5)], ['type' => $this->semStack[$stackPos-(10-2)], 'byRef' => $this->semStack[$stackPos-(10-4)], 'params' => $this->semStack[$stackPos-(10-7)], 'returnType' => $this->semStack[$stackPos-(10-9)], 'stmts' => $this->semStack[$stackPos-(10-10)], 'attrGroups' => $this->semStack[$stackPos-(10-1)]], $this->getAttributes($this->tokenStartStack[$stackPos-(10-1)], $this->tokenEndStack[$stackPos]));
             $this->checkClassMethod($this->semValue, $stackPos-(10-2));
             },
             346 => function ($stackPos) {
-                 $this->semValue = new Stmt\TraitUse($this->semStack[$stackPos-(3-2)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
+                 $this->semValue = new Stmt\TraitUse($this->semStack[$stackPos-(3-2)], $this->semStack[$stackPos-(3-3)], $this->getAttributes($this->tokenStartStack[$stackPos-(3-1)], $this->tokenEndStack[$stackPos]));
             },
             347 => function ($stackPos) {
-                 $this->semValue = new Stmt\EnumCase($this->semStack[$stackPos-(5-3)], $this->semStack[$stackPos-(5-4)], $this->semStack[$stackPos-(5-1)], $this->startAttributeStack[$stackPos-(5-1)] + $this->endAttributes);
+                 $this->semValue = new Stmt\EnumCase($this->semStack[$stackPos-(5-3)], $this->semStack[$stackPos-(5-4)], $this->semStack[$stackPos-(5-1)], $this->getAttributes($this->tokenStartStack[$stackPos-(5-1)], $this->tokenEndStack[$stackPos]));
             },
             348 => function ($stackPos) {
                  $this->semValue = null; /* will be skipped */
@@ -2007,19 +2010,19 @@ class Php7 extends \PhpParser\ParserAbstract
                  $this->semStack[$stackPos-(2-1)][] = $this->semStack[$stackPos-(2-2)]; $this->semValue = $this->semStack[$stackPos-(2-1)];
             },
             353 => function ($stackPos) {
-                 $this->semValue = new Stmt\TraitUseAdaptation\Precedence($this->semStack[$stackPos-(4-1)][0], $this->semStack[$stackPos-(4-1)][1], $this->semStack[$stackPos-(4-3)], $this->startAttributeStack[$stackPos-(4-1)] + $this->endAttributes);
+                 $this->semValue = new Stmt\TraitUseAdaptation\Precedence($this->semStack[$stackPos-(4-1)][0], $this->semStack[$stackPos-(4-1)][1], $this->semStack[$stackPos-(4-3)], $this->getAttributes($this->tokenStartStack[$stackPos-(4-1)], $this->tokenEndStack[$stackPos]));
             },
             354 => function ($stackPos) {
-                 $this->semValue = new Stmt\TraitUseAdaptation\Alias($this->semStack[$stackPos-(5-1)][0], $this->semStack[$stackPos-(5-1)][1], $this->semStack[$stackPos-(5-3)], $this->semStack[$stackPos-(5-4)], $this->startAttributeStack[$stackPos-(5-1)] + $this->endAttributes);
+                 $this->semValue = new Stmt\TraitUseAdaptation\Alias($this->semStack[$stackPos-(5-1)][0], $this->semStack[$stackPos-(5-1)][1], $this->semStack[$stackPos-(5-3)], $this->semStack[$stackPos-(5-4)], $this->getAttributes($this->tokenStartStack[$stackPos-(5-1)], $this->tokenEndStack[$stackPos]));
             },
             355 => function ($stackPos) {
-                 $this->semValue = new Stmt\TraitUseAdaptation\Alias($this->semStack[$stackPos-(4-1)][0], $this->semStack[$stackPos-(4-1)][1], $this->semStack[$stackPos-(4-3)], null, $this->startAttributeStack[$stackPos-(4-1)] + $this->endAttributes);
+                 $this->semValue = new Stmt\TraitUseAdaptation\Alias($this->semStack[$stackPos-(4-1)][0], $this->semStack[$stackPos-(4-1)][1], $this->semStack[$stackPos-(4-3)], null, $this->getAttributes($this->tokenStartStack[$stackPos-(4-1)], $this->tokenEndStack[$stackPos]));
             },
             356 => function ($stackPos) {
-                 $this->semValue = new Stmt\TraitUseAdaptation\Alias($this->semStack[$stackPos-(4-1)][0], $this->semStack[$stackPos-(4-1)][1], null, $this->semStack[$stackPos-(4-3)], $this->startAttributeStack[$stackPos-(4-1)] + $this->endAttributes);
+                 $this->semValue = new Stmt\TraitUseAdaptation\Alias($this->semStack[$stackPos-(4-1)][0], $this->semStack[$stackPos-(4-1)][1], null, $this->semStack[$stackPos-(4-3)], $this->getAttributes($this->tokenStartStack[$stackPos-(4-1)], $this->tokenEndStack[$stackPos]));
             },
             357 => function ($stackPos) {
-                 $this->semValue = new Stmt\TraitUseAdaptation\Alias($this->semStack[$stackPos-(4-1)][0], $this->semStack[$stackPos-(4-1)][1], null, $this->semStack[$stackPos-(4-3)], $this->startAttributeStack[$stackPos-(4-1)] + $this->endAttributes);
+                 $this->semValue = new Stmt\TraitUseAdaptation\Alias($this->semStack[$stackPos-(4-1)][0], $this->semStack[$stackPos-(4-1)][1], null, $this->semStack[$stackPos-(4-3)], $this->getAttributes($this->tokenStartStack[$stackPos-(4-1)], $this->tokenEndStack[$stackPos]));
             },
             358 => function ($stackPos) {
                  $this->semValue = array($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)]);
@@ -2073,13 +2076,13 @@ class Php7 extends \PhpParser\ParserAbstract
                  $this->semStack[$stackPos-(3-1)][] = $this->semStack[$stackPos-(3-3)]; $this->semValue = $this->semStack[$stackPos-(3-1)];
             },
             379 => function ($stackPos) {
-                 $this->semValue = new Node\VarLikeIdentifier(substr($this->semStack[$stackPos-(1-1)], 1), $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
+                 $this->semValue = new Node\VarLikeIdentifier(substr($this->semStack[$stackPos-(1-1)], 1), $this->getAttributes($this->tokenStartStack[$stackPos-(1-1)], $this->tokenEndStack[$stackPos]));
             },
             380 => function ($stackPos) {
-                 $this->semValue = new Node\PropertyItem($this->semStack[$stackPos-(1-1)], null, $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
+                 $this->semValue = new Node\PropertyItem($this->semStack[$stackPos-(1-1)], null, $this->getAttributes($this->tokenStartStack[$stackPos-(1-1)], $this->tokenEndStack[$stackPos]));
             },
             381 => function ($stackPos) {
-                 $this->semValue = new Node\PropertyItem($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
+                 $this->semValue = new Node\PropertyItem($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->getAttributes($this->tokenStartStack[$stackPos-(3-1)], $this->tokenEndStack[$stackPos]));
             },
             382 => null,
             383 => null,
@@ -2095,295 +2098,295 @@ class Php7 extends \PhpParser\ParserAbstract
             387 => null,
             388 => null,
             389 => function ($stackPos) {
-                 $this->semValue = new Expr\Assign($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\Assign($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->getAttributes($this->tokenStartStack[$stackPos-(3-1)], $this->tokenEndStack[$stackPos]));
             },
             390 => function ($stackPos) {
-                 $this->semValue = new Expr\Assign($this->fixupArrayDestructuring($this->semStack[$stackPos-(3-1)]), $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\Assign($this->fixupArrayDestructuring($this->semStack[$stackPos-(3-1)]), $this->semStack[$stackPos-(3-3)], $this->getAttributes($this->tokenStartStack[$stackPos-(3-1)], $this->tokenEndStack[$stackPos]));
             },
             391 => function ($stackPos) {
-                 $this->semValue = new Expr\Assign($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\Assign($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->getAttributes($this->tokenStartStack[$stackPos-(3-1)], $this->tokenEndStack[$stackPos]));
             },
             392 => function ($stackPos) {
-                 $this->semValue = new Expr\AssignRef($this->semStack[$stackPos-(4-1)], $this->semStack[$stackPos-(4-4)], $this->startAttributeStack[$stackPos-(4-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\AssignRef($this->semStack[$stackPos-(4-1)], $this->semStack[$stackPos-(4-4)], $this->getAttributes($this->tokenStartStack[$stackPos-(4-1)], $this->tokenEndStack[$stackPos]));
             },
             393 => function ($stackPos) {
-                 $this->semValue = new Expr\AssignRef($this->semStack[$stackPos-(4-1)], $this->semStack[$stackPos-(4-4)], $this->startAttributeStack[$stackPos-(4-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\AssignRef($this->semStack[$stackPos-(4-1)], $this->semStack[$stackPos-(4-4)], $this->getAttributes($this->tokenStartStack[$stackPos-(4-1)], $this->tokenEndStack[$stackPos]));
             if (!$this->phpVersion->allowsAssignNewByReference()) {
-                $this->emitError(new Error('Cannot assign new by reference', $this->startAttributeStack[$stackPos-(4-1)] + $this->endAttributes));
+                $this->emitError(new Error('Cannot assign new by reference', $this->getAttributes($this->tokenStartStack[$stackPos-(4-1)], $this->tokenEndStack[$stackPos])));
             }
 
             },
             394 => null,
             395 => null,
             396 => function ($stackPos) {
-                 $this->semValue = new Expr\Clone_($this->semStack[$stackPos-(2-2)], $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\Clone_($this->semStack[$stackPos-(2-2)], $this->getAttributes($this->tokenStartStack[$stackPos-(2-1)], $this->tokenEndStack[$stackPos]));
             },
             397 => function ($stackPos) {
-                 $this->semValue = new Expr\AssignOp\Plus($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\AssignOp\Plus($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->getAttributes($this->tokenStartStack[$stackPos-(3-1)], $this->tokenEndStack[$stackPos]));
             },
             398 => function ($stackPos) {
-                 $this->semValue = new Expr\AssignOp\Minus($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\AssignOp\Minus($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->getAttributes($this->tokenStartStack[$stackPos-(3-1)], $this->tokenEndStack[$stackPos]));
             },
             399 => function ($stackPos) {
-                 $this->semValue = new Expr\AssignOp\Mul($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\AssignOp\Mul($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->getAttributes($this->tokenStartStack[$stackPos-(3-1)], $this->tokenEndStack[$stackPos]));
             },
             400 => function ($stackPos) {
-                 $this->semValue = new Expr\AssignOp\Div($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\AssignOp\Div($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->getAttributes($this->tokenStartStack[$stackPos-(3-1)], $this->tokenEndStack[$stackPos]));
             },
             401 => function ($stackPos) {
-                 $this->semValue = new Expr\AssignOp\Concat($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\AssignOp\Concat($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->getAttributes($this->tokenStartStack[$stackPos-(3-1)], $this->tokenEndStack[$stackPos]));
             },
             402 => function ($stackPos) {
-                 $this->semValue = new Expr\AssignOp\Mod($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\AssignOp\Mod($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->getAttributes($this->tokenStartStack[$stackPos-(3-1)], $this->tokenEndStack[$stackPos]));
             },
             403 => function ($stackPos) {
-                 $this->semValue = new Expr\AssignOp\BitwiseAnd($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\AssignOp\BitwiseAnd($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->getAttributes($this->tokenStartStack[$stackPos-(3-1)], $this->tokenEndStack[$stackPos]));
             },
             404 => function ($stackPos) {
-                 $this->semValue = new Expr\AssignOp\BitwiseOr($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\AssignOp\BitwiseOr($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->getAttributes($this->tokenStartStack[$stackPos-(3-1)], $this->tokenEndStack[$stackPos]));
             },
             405 => function ($stackPos) {
-                 $this->semValue = new Expr\AssignOp\BitwiseXor($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\AssignOp\BitwiseXor($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->getAttributes($this->tokenStartStack[$stackPos-(3-1)], $this->tokenEndStack[$stackPos]));
             },
             406 => function ($stackPos) {
-                 $this->semValue = new Expr\AssignOp\ShiftLeft($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\AssignOp\ShiftLeft($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->getAttributes($this->tokenStartStack[$stackPos-(3-1)], $this->tokenEndStack[$stackPos]));
             },
             407 => function ($stackPos) {
-                 $this->semValue = new Expr\AssignOp\ShiftRight($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\AssignOp\ShiftRight($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->getAttributes($this->tokenStartStack[$stackPos-(3-1)], $this->tokenEndStack[$stackPos]));
             },
             408 => function ($stackPos) {
-                 $this->semValue = new Expr\AssignOp\Pow($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\AssignOp\Pow($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->getAttributes($this->tokenStartStack[$stackPos-(3-1)], $this->tokenEndStack[$stackPos]));
             },
             409 => function ($stackPos) {
-                 $this->semValue = new Expr\AssignOp\Coalesce($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\AssignOp\Coalesce($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->getAttributes($this->tokenStartStack[$stackPos-(3-1)], $this->tokenEndStack[$stackPos]));
             },
             410 => function ($stackPos) {
-                 $this->semValue = new Expr\PostInc($this->semStack[$stackPos-(2-1)], $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\PostInc($this->semStack[$stackPos-(2-1)], $this->getAttributes($this->tokenStartStack[$stackPos-(2-1)], $this->tokenEndStack[$stackPos]));
             },
             411 => function ($stackPos) {
-                 $this->semValue = new Expr\PreInc($this->semStack[$stackPos-(2-2)], $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\PreInc($this->semStack[$stackPos-(2-2)], $this->getAttributes($this->tokenStartStack[$stackPos-(2-1)], $this->tokenEndStack[$stackPos]));
             },
             412 => function ($stackPos) {
-                 $this->semValue = new Expr\PostDec($this->semStack[$stackPos-(2-1)], $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\PostDec($this->semStack[$stackPos-(2-1)], $this->getAttributes($this->tokenStartStack[$stackPos-(2-1)], $this->tokenEndStack[$stackPos]));
             },
             413 => function ($stackPos) {
-                 $this->semValue = new Expr\PreDec($this->semStack[$stackPos-(2-2)], $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\PreDec($this->semStack[$stackPos-(2-2)], $this->getAttributes($this->tokenStartStack[$stackPos-(2-1)], $this->tokenEndStack[$stackPos]));
             },
             414 => function ($stackPos) {
-                 $this->semValue = new Expr\BinaryOp\BooleanOr($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\BinaryOp\BooleanOr($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->getAttributes($this->tokenStartStack[$stackPos-(3-1)], $this->tokenEndStack[$stackPos]));
             },
             415 => function ($stackPos) {
-                 $this->semValue = new Expr\BinaryOp\BooleanAnd($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\BinaryOp\BooleanAnd($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->getAttributes($this->tokenStartStack[$stackPos-(3-1)], $this->tokenEndStack[$stackPos]));
             },
             416 => function ($stackPos) {
-                 $this->semValue = new Expr\BinaryOp\LogicalOr($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\BinaryOp\LogicalOr($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->getAttributes($this->tokenStartStack[$stackPos-(3-1)], $this->tokenEndStack[$stackPos]));
             },
             417 => function ($stackPos) {
-                 $this->semValue = new Expr\BinaryOp\LogicalAnd($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\BinaryOp\LogicalAnd($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->getAttributes($this->tokenStartStack[$stackPos-(3-1)], $this->tokenEndStack[$stackPos]));
             },
             418 => function ($stackPos) {
-                 $this->semValue = new Expr\BinaryOp\LogicalXor($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\BinaryOp\LogicalXor($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->getAttributes($this->tokenStartStack[$stackPos-(3-1)], $this->tokenEndStack[$stackPos]));
             },
             419 => function ($stackPos) {
-                 $this->semValue = new Expr\BinaryOp\BitwiseOr($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\BinaryOp\BitwiseOr($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->getAttributes($this->tokenStartStack[$stackPos-(3-1)], $this->tokenEndStack[$stackPos]));
             },
             420 => function ($stackPos) {
-                 $this->semValue = new Expr\BinaryOp\BitwiseAnd($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\BinaryOp\BitwiseAnd($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->getAttributes($this->tokenStartStack[$stackPos-(3-1)], $this->tokenEndStack[$stackPos]));
             },
             421 => function ($stackPos) {
-                 $this->semValue = new Expr\BinaryOp\BitwiseAnd($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\BinaryOp\BitwiseAnd($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->getAttributes($this->tokenStartStack[$stackPos-(3-1)], $this->tokenEndStack[$stackPos]));
             },
             422 => function ($stackPos) {
-                 $this->semValue = new Expr\BinaryOp\BitwiseXor($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\BinaryOp\BitwiseXor($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->getAttributes($this->tokenStartStack[$stackPos-(3-1)], $this->tokenEndStack[$stackPos]));
             },
             423 => function ($stackPos) {
-                 $this->semValue = new Expr\BinaryOp\Concat($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\BinaryOp\Concat($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->getAttributes($this->tokenStartStack[$stackPos-(3-1)], $this->tokenEndStack[$stackPos]));
             },
             424 => function ($stackPos) {
-                 $this->semValue = new Expr\BinaryOp\Plus($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\BinaryOp\Plus($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->getAttributes($this->tokenStartStack[$stackPos-(3-1)], $this->tokenEndStack[$stackPos]));
             },
             425 => function ($stackPos) {
-                 $this->semValue = new Expr\BinaryOp\Minus($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\BinaryOp\Minus($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->getAttributes($this->tokenStartStack[$stackPos-(3-1)], $this->tokenEndStack[$stackPos]));
             },
             426 => function ($stackPos) {
-                 $this->semValue = new Expr\BinaryOp\Mul($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\BinaryOp\Mul($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->getAttributes($this->tokenStartStack[$stackPos-(3-1)], $this->tokenEndStack[$stackPos]));
             },
             427 => function ($stackPos) {
-                 $this->semValue = new Expr\BinaryOp\Div($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\BinaryOp\Div($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->getAttributes($this->tokenStartStack[$stackPos-(3-1)], $this->tokenEndStack[$stackPos]));
             },
             428 => function ($stackPos) {
-                 $this->semValue = new Expr\BinaryOp\Mod($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\BinaryOp\Mod($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->getAttributes($this->tokenStartStack[$stackPos-(3-1)], $this->tokenEndStack[$stackPos]));
             },
             429 => function ($stackPos) {
-                 $this->semValue = new Expr\BinaryOp\ShiftLeft($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\BinaryOp\ShiftLeft($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->getAttributes($this->tokenStartStack[$stackPos-(3-1)], $this->tokenEndStack[$stackPos]));
             },
             430 => function ($stackPos) {
-                 $this->semValue = new Expr\BinaryOp\ShiftRight($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\BinaryOp\ShiftRight($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->getAttributes($this->tokenStartStack[$stackPos-(3-1)], $this->tokenEndStack[$stackPos]));
             },
             431 => function ($stackPos) {
-                 $this->semValue = new Expr\BinaryOp\Pow($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\BinaryOp\Pow($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->getAttributes($this->tokenStartStack[$stackPos-(3-1)], $this->tokenEndStack[$stackPos]));
             },
             432 => function ($stackPos) {
-                 $this->semValue = new Expr\UnaryPlus($this->semStack[$stackPos-(2-2)], $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\UnaryPlus($this->semStack[$stackPos-(2-2)], $this->getAttributes($this->tokenStartStack[$stackPos-(2-1)], $this->tokenEndStack[$stackPos]));
             },
             433 => function ($stackPos) {
-                 $this->semValue = new Expr\UnaryMinus($this->semStack[$stackPos-(2-2)], $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\UnaryMinus($this->semStack[$stackPos-(2-2)], $this->getAttributes($this->tokenStartStack[$stackPos-(2-1)], $this->tokenEndStack[$stackPos]));
             },
             434 => function ($stackPos) {
-                 $this->semValue = new Expr\BooleanNot($this->semStack[$stackPos-(2-2)], $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\BooleanNot($this->semStack[$stackPos-(2-2)], $this->getAttributes($this->tokenStartStack[$stackPos-(2-1)], $this->tokenEndStack[$stackPos]));
             },
             435 => function ($stackPos) {
-                 $this->semValue = new Expr\BitwiseNot($this->semStack[$stackPos-(2-2)], $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\BitwiseNot($this->semStack[$stackPos-(2-2)], $this->getAttributes($this->tokenStartStack[$stackPos-(2-1)], $this->tokenEndStack[$stackPos]));
             },
             436 => function ($stackPos) {
-                 $this->semValue = new Expr\BinaryOp\Identical($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\BinaryOp\Identical($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->getAttributes($this->tokenStartStack[$stackPos-(3-1)], $this->tokenEndStack[$stackPos]));
             },
             437 => function ($stackPos) {
-                 $this->semValue = new Expr\BinaryOp\NotIdentical($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\BinaryOp\NotIdentical($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->getAttributes($this->tokenStartStack[$stackPos-(3-1)], $this->tokenEndStack[$stackPos]));
             },
             438 => function ($stackPos) {
-                 $this->semValue = new Expr\BinaryOp\Equal($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\BinaryOp\Equal($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->getAttributes($this->tokenStartStack[$stackPos-(3-1)], $this->tokenEndStack[$stackPos]));
             },
             439 => function ($stackPos) {
-                 $this->semValue = new Expr\BinaryOp\NotEqual($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\BinaryOp\NotEqual($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->getAttributes($this->tokenStartStack[$stackPos-(3-1)], $this->tokenEndStack[$stackPos]));
             },
             440 => function ($stackPos) {
-                 $this->semValue = new Expr\BinaryOp\Spaceship($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\BinaryOp\Spaceship($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->getAttributes($this->tokenStartStack[$stackPos-(3-1)], $this->tokenEndStack[$stackPos]));
             },
             441 => function ($stackPos) {
-                 $this->semValue = new Expr\BinaryOp\Smaller($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\BinaryOp\Smaller($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->getAttributes($this->tokenStartStack[$stackPos-(3-1)], $this->tokenEndStack[$stackPos]));
             },
             442 => function ($stackPos) {
-                 $this->semValue = new Expr\BinaryOp\SmallerOrEqual($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\BinaryOp\SmallerOrEqual($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->getAttributes($this->tokenStartStack[$stackPos-(3-1)], $this->tokenEndStack[$stackPos]));
             },
             443 => function ($stackPos) {
-                 $this->semValue = new Expr\BinaryOp\Greater($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\BinaryOp\Greater($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->getAttributes($this->tokenStartStack[$stackPos-(3-1)], $this->tokenEndStack[$stackPos]));
             },
             444 => function ($stackPos) {
-                 $this->semValue = new Expr\BinaryOp\GreaterOrEqual($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\BinaryOp\GreaterOrEqual($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->getAttributes($this->tokenStartStack[$stackPos-(3-1)], $this->tokenEndStack[$stackPos]));
             },
             445 => function ($stackPos) {
-                 $this->semValue = new Expr\Instanceof_($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\Instanceof_($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->getAttributes($this->tokenStartStack[$stackPos-(3-1)], $this->tokenEndStack[$stackPos]));
             },
             446 => function ($stackPos) {
                  $this->semValue = $this->semStack[$stackPos-(3-2)];
             },
             447 => function ($stackPos) {
-                 $this->semValue = new Expr\Ternary($this->semStack[$stackPos-(5-1)], $this->semStack[$stackPos-(5-3)], $this->semStack[$stackPos-(5-5)], $this->startAttributeStack[$stackPos-(5-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\Ternary($this->semStack[$stackPos-(5-1)], $this->semStack[$stackPos-(5-3)], $this->semStack[$stackPos-(5-5)], $this->getAttributes($this->tokenStartStack[$stackPos-(5-1)], $this->tokenEndStack[$stackPos]));
             },
             448 => function ($stackPos) {
-                 $this->semValue = new Expr\Ternary($this->semStack[$stackPos-(4-1)], null, $this->semStack[$stackPos-(4-4)], $this->startAttributeStack[$stackPos-(4-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\Ternary($this->semStack[$stackPos-(4-1)], null, $this->semStack[$stackPos-(4-4)], $this->getAttributes($this->tokenStartStack[$stackPos-(4-1)], $this->tokenEndStack[$stackPos]));
             },
             449 => function ($stackPos) {
-                 $this->semValue = new Expr\BinaryOp\Coalesce($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\BinaryOp\Coalesce($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->getAttributes($this->tokenStartStack[$stackPos-(3-1)], $this->tokenEndStack[$stackPos]));
             },
             450 => function ($stackPos) {
-                 $this->semValue = new Expr\Isset_($this->semStack[$stackPos-(4-3)], $this->startAttributeStack[$stackPos-(4-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\Isset_($this->semStack[$stackPos-(4-3)], $this->getAttributes($this->tokenStartStack[$stackPos-(4-1)], $this->tokenEndStack[$stackPos]));
             },
             451 => function ($stackPos) {
-                 $this->semValue = new Expr\Empty_($this->semStack[$stackPos-(4-3)], $this->startAttributeStack[$stackPos-(4-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\Empty_($this->semStack[$stackPos-(4-3)], $this->getAttributes($this->tokenStartStack[$stackPos-(4-1)], $this->tokenEndStack[$stackPos]));
             },
             452 => function ($stackPos) {
-                 $this->semValue = new Expr\Include_($this->semStack[$stackPos-(2-2)], Expr\Include_::TYPE_INCLUDE, $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\Include_($this->semStack[$stackPos-(2-2)], Expr\Include_::TYPE_INCLUDE, $this->getAttributes($this->tokenStartStack[$stackPos-(2-1)], $this->tokenEndStack[$stackPos]));
             },
             453 => function ($stackPos) {
-                 $this->semValue = new Expr\Include_($this->semStack[$stackPos-(2-2)], Expr\Include_::TYPE_INCLUDE_ONCE, $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\Include_($this->semStack[$stackPos-(2-2)], Expr\Include_::TYPE_INCLUDE_ONCE, $this->getAttributes($this->tokenStartStack[$stackPos-(2-1)], $this->tokenEndStack[$stackPos]));
             },
             454 => function ($stackPos) {
-                 $this->semValue = new Expr\Eval_($this->semStack[$stackPos-(4-3)], $this->startAttributeStack[$stackPos-(4-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\Eval_($this->semStack[$stackPos-(4-3)], $this->getAttributes($this->tokenStartStack[$stackPos-(4-1)], $this->tokenEndStack[$stackPos]));
             },
             455 => function ($stackPos) {
-                 $this->semValue = new Expr\Include_($this->semStack[$stackPos-(2-2)], Expr\Include_::TYPE_REQUIRE, $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\Include_($this->semStack[$stackPos-(2-2)], Expr\Include_::TYPE_REQUIRE, $this->getAttributes($this->tokenStartStack[$stackPos-(2-1)], $this->tokenEndStack[$stackPos]));
             },
             456 => function ($stackPos) {
-                 $this->semValue = new Expr\Include_($this->semStack[$stackPos-(2-2)], Expr\Include_::TYPE_REQUIRE_ONCE, $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\Include_($this->semStack[$stackPos-(2-2)], Expr\Include_::TYPE_REQUIRE_ONCE, $this->getAttributes($this->tokenStartStack[$stackPos-(2-1)], $this->tokenEndStack[$stackPos]));
             },
             457 => function ($stackPos) {
-                 $this->semValue = new Expr\Cast\Int_($this->semStack[$stackPos-(2-2)], $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\Cast\Int_($this->semStack[$stackPos-(2-2)], $this->getAttributes($this->tokenStartStack[$stackPos-(2-1)], $this->tokenEndStack[$stackPos]));
             },
             458 => function ($stackPos) {
-                 $attrs = $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes;
+                 $attrs = $this->getAttributes($this->tokenStartStack[$stackPos-(2-1)], $this->tokenEndStack[$stackPos]);
             $attrs['kind'] = $this->getFloatCastKind($this->semStack[$stackPos-(2-1)]);
             $this->semValue = new Expr\Cast\Double($this->semStack[$stackPos-(2-2)], $attrs);
             },
             459 => function ($stackPos) {
-                 $this->semValue = new Expr\Cast\String_($this->semStack[$stackPos-(2-2)], $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\Cast\String_($this->semStack[$stackPos-(2-2)], $this->getAttributes($this->tokenStartStack[$stackPos-(2-1)], $this->tokenEndStack[$stackPos]));
             },
             460 => function ($stackPos) {
-                 $this->semValue = new Expr\Cast\Array_($this->semStack[$stackPos-(2-2)], $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\Cast\Array_($this->semStack[$stackPos-(2-2)], $this->getAttributes($this->tokenStartStack[$stackPos-(2-1)], $this->tokenEndStack[$stackPos]));
             },
             461 => function ($stackPos) {
-                 $this->semValue = new Expr\Cast\Object_($this->semStack[$stackPos-(2-2)], $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\Cast\Object_($this->semStack[$stackPos-(2-2)], $this->getAttributes($this->tokenStartStack[$stackPos-(2-1)], $this->tokenEndStack[$stackPos]));
             },
             462 => function ($stackPos) {
-                 $this->semValue = new Expr\Cast\Bool_($this->semStack[$stackPos-(2-2)], $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\Cast\Bool_($this->semStack[$stackPos-(2-2)], $this->getAttributes($this->tokenStartStack[$stackPos-(2-1)], $this->tokenEndStack[$stackPos]));
             },
             463 => function ($stackPos) {
-                 $this->semValue = new Expr\Cast\Unset_($this->semStack[$stackPos-(2-2)], $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\Cast\Unset_($this->semStack[$stackPos-(2-2)], $this->getAttributes($this->tokenStartStack[$stackPos-(2-1)], $this->tokenEndStack[$stackPos]));
             },
             464 => function ($stackPos) {
-                 $attrs = $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes;
+                 $attrs = $this->getAttributes($this->tokenStartStack[$stackPos-(2-1)], $this->tokenEndStack[$stackPos]);
             $attrs['kind'] = strtolower($this->semStack[$stackPos-(2-1)]) === 'exit' ? Expr\Exit_::KIND_EXIT : Expr\Exit_::KIND_DIE;
             $this->semValue = new Expr\Exit_($this->semStack[$stackPos-(2-2)], $attrs);
             },
             465 => function ($stackPos) {
-                 $this->semValue = new Expr\ErrorSuppress($this->semStack[$stackPos-(2-2)], $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\ErrorSuppress($this->semStack[$stackPos-(2-2)], $this->getAttributes($this->tokenStartStack[$stackPos-(2-1)], $this->tokenEndStack[$stackPos]));
             },
             466 => null,
             467 => function ($stackPos) {
-                 $this->semValue = new Expr\ShellExec($this->semStack[$stackPos-(3-2)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\ShellExec($this->semStack[$stackPos-(3-2)], $this->getAttributes($this->tokenStartStack[$stackPos-(3-1)], $this->tokenEndStack[$stackPos]));
             },
             468 => function ($stackPos) {
-                 $this->semValue = new Expr\Print_($this->semStack[$stackPos-(2-2)], $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\Print_($this->semStack[$stackPos-(2-2)], $this->getAttributes($this->tokenStartStack[$stackPos-(2-1)], $this->tokenEndStack[$stackPos]));
             },
             469 => function ($stackPos) {
-                 $this->semValue = new Expr\Yield_(null, null, $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\Yield_(null, null, $this->getAttributes($this->tokenStartStack[$stackPos-(1-1)], $this->tokenEndStack[$stackPos]));
             },
             470 => function ($stackPos) {
-                 $this->semValue = new Expr\Yield_($this->semStack[$stackPos-(2-2)], null, $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\Yield_($this->semStack[$stackPos-(2-2)], null, $this->getAttributes($this->tokenStartStack[$stackPos-(2-1)], $this->tokenEndStack[$stackPos]));
             },
             471 => function ($stackPos) {
-                 $this->semValue = new Expr\Yield_($this->semStack[$stackPos-(4-4)], $this->semStack[$stackPos-(4-2)], $this->startAttributeStack[$stackPos-(4-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\Yield_($this->semStack[$stackPos-(4-4)], $this->semStack[$stackPos-(4-2)], $this->getAttributes($this->tokenStartStack[$stackPos-(4-1)], $this->tokenEndStack[$stackPos]));
             },
             472 => function ($stackPos) {
-                 $this->semValue = new Expr\YieldFrom($this->semStack[$stackPos-(2-2)], $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\YieldFrom($this->semStack[$stackPos-(2-2)], $this->getAttributes($this->tokenStartStack[$stackPos-(2-1)], $this->tokenEndStack[$stackPos]));
             },
             473 => function ($stackPos) {
-                 $this->semValue = new Expr\Throw_($this->semStack[$stackPos-(2-2)], $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\Throw_($this->semStack[$stackPos-(2-2)], $this->getAttributes($this->tokenStartStack[$stackPos-(2-1)], $this->tokenEndStack[$stackPos]));
             },
             474 => function ($stackPos) {
-                 $this->semValue = new Expr\ArrowFunction(['static' => false, 'byRef' => $this->semStack[$stackPos-(8-2)], 'params' => $this->semStack[$stackPos-(8-4)], 'returnType' => $this->semStack[$stackPos-(8-6)], 'expr' => $this->semStack[$stackPos-(8-8)], 'attrGroups' => []], $this->startAttributeStack[$stackPos-(8-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\ArrowFunction(['static' => false, 'byRef' => $this->semStack[$stackPos-(8-2)], 'params' => $this->semStack[$stackPos-(8-4)], 'returnType' => $this->semStack[$stackPos-(8-6)], 'expr' => $this->semStack[$stackPos-(8-8)], 'attrGroups' => []], $this->getAttributes($this->tokenStartStack[$stackPos-(8-1)], $this->tokenEndStack[$stackPos]));
             },
             475 => function ($stackPos) {
-                 $this->semValue = new Expr\ArrowFunction(['static' => true, 'byRef' => $this->semStack[$stackPos-(9-3)], 'params' => $this->semStack[$stackPos-(9-5)], 'returnType' => $this->semStack[$stackPos-(9-7)], 'expr' => $this->semStack[$stackPos-(9-9)], 'attrGroups' => []], $this->startAttributeStack[$stackPos-(9-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\ArrowFunction(['static' => true, 'byRef' => $this->semStack[$stackPos-(9-3)], 'params' => $this->semStack[$stackPos-(9-5)], 'returnType' => $this->semStack[$stackPos-(9-7)], 'expr' => $this->semStack[$stackPos-(9-9)], 'attrGroups' => []], $this->getAttributes($this->tokenStartStack[$stackPos-(9-1)], $this->tokenEndStack[$stackPos]));
             },
             476 => function ($stackPos) {
-                 $this->semValue = new Expr\Closure(['static' => false, 'byRef' => $this->semStack[$stackPos-(8-2)], 'params' => $this->semStack[$stackPos-(8-4)], 'uses' => $this->semStack[$stackPos-(8-6)], 'returnType' => $this->semStack[$stackPos-(8-7)], 'stmts' => $this->semStack[$stackPos-(8-8)], 'attrGroups' => []], $this->startAttributeStack[$stackPos-(8-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\Closure(['static' => false, 'byRef' => $this->semStack[$stackPos-(8-2)], 'params' => $this->semStack[$stackPos-(8-4)], 'uses' => $this->semStack[$stackPos-(8-6)], 'returnType' => $this->semStack[$stackPos-(8-7)], 'stmts' => $this->semStack[$stackPos-(8-8)], 'attrGroups' => []], $this->getAttributes($this->tokenStartStack[$stackPos-(8-1)], $this->tokenEndStack[$stackPos]));
             },
             477 => function ($stackPos) {
-                 $this->semValue = new Expr\Closure(['static' => true, 'byRef' => $this->semStack[$stackPos-(9-3)], 'params' => $this->semStack[$stackPos-(9-5)], 'uses' => $this->semStack[$stackPos-(9-7)], 'returnType' => $this->semStack[$stackPos-(9-8)], 'stmts' => $this->semStack[$stackPos-(9-9)], 'attrGroups' => []], $this->startAttributeStack[$stackPos-(9-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\Closure(['static' => true, 'byRef' => $this->semStack[$stackPos-(9-3)], 'params' => $this->semStack[$stackPos-(9-5)], 'uses' => $this->semStack[$stackPos-(9-7)], 'returnType' => $this->semStack[$stackPos-(9-8)], 'stmts' => $this->semStack[$stackPos-(9-9)], 'attrGroups' => []], $this->getAttributes($this->tokenStartStack[$stackPos-(9-1)], $this->tokenEndStack[$stackPos]));
             },
             478 => function ($stackPos) {
-                 $this->semValue = new Expr\ArrowFunction(['static' => false, 'byRef' => $this->semStack[$stackPos-(9-3)], 'params' => $this->semStack[$stackPos-(9-5)], 'returnType' => $this->semStack[$stackPos-(9-7)], 'expr' => $this->semStack[$stackPos-(9-9)], 'attrGroups' => $this->semStack[$stackPos-(9-1)]], $this->startAttributeStack[$stackPos-(9-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\ArrowFunction(['static' => false, 'byRef' => $this->semStack[$stackPos-(9-3)], 'params' => $this->semStack[$stackPos-(9-5)], 'returnType' => $this->semStack[$stackPos-(9-7)], 'expr' => $this->semStack[$stackPos-(9-9)], 'attrGroups' => $this->semStack[$stackPos-(9-1)]], $this->getAttributes($this->tokenStartStack[$stackPos-(9-1)], $this->tokenEndStack[$stackPos]));
             },
             479 => function ($stackPos) {
-                 $this->semValue = new Expr\ArrowFunction(['static' => true, 'byRef' => $this->semStack[$stackPos-(10-4)], 'params' => $this->semStack[$stackPos-(10-6)], 'returnType' => $this->semStack[$stackPos-(10-8)], 'expr' => $this->semStack[$stackPos-(10-10)], 'attrGroups' => $this->semStack[$stackPos-(10-1)]], $this->startAttributeStack[$stackPos-(10-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\ArrowFunction(['static' => true, 'byRef' => $this->semStack[$stackPos-(10-4)], 'params' => $this->semStack[$stackPos-(10-6)], 'returnType' => $this->semStack[$stackPos-(10-8)], 'expr' => $this->semStack[$stackPos-(10-10)], 'attrGroups' => $this->semStack[$stackPos-(10-1)]], $this->getAttributes($this->tokenStartStack[$stackPos-(10-1)], $this->tokenEndStack[$stackPos]));
             },
             480 => function ($stackPos) {
-                 $this->semValue = new Expr\Closure(['static' => false, 'byRef' => $this->semStack[$stackPos-(9-3)], 'params' => $this->semStack[$stackPos-(9-5)], 'uses' => $this->semStack[$stackPos-(9-7)], 'returnType' => $this->semStack[$stackPos-(9-8)], 'stmts' => $this->semStack[$stackPos-(9-9)], 'attrGroups' => $this->semStack[$stackPos-(9-1)]], $this->startAttributeStack[$stackPos-(9-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\Closure(['static' => false, 'byRef' => $this->semStack[$stackPos-(9-3)], 'params' => $this->semStack[$stackPos-(9-5)], 'uses' => $this->semStack[$stackPos-(9-7)], 'returnType' => $this->semStack[$stackPos-(9-8)], 'stmts' => $this->semStack[$stackPos-(9-9)], 'attrGroups' => $this->semStack[$stackPos-(9-1)]], $this->getAttributes($this->tokenStartStack[$stackPos-(9-1)], $this->tokenEndStack[$stackPos]));
             },
             481 => function ($stackPos) {
-                 $this->semValue = new Expr\Closure(['static' => true, 'byRef' => $this->semStack[$stackPos-(10-4)], 'params' => $this->semStack[$stackPos-(10-6)], 'uses' => $this->semStack[$stackPos-(10-8)], 'returnType' => $this->semStack[$stackPos-(10-9)], 'stmts' => $this->semStack[$stackPos-(10-10)], 'attrGroups' => $this->semStack[$stackPos-(10-1)]], $this->startAttributeStack[$stackPos-(10-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\Closure(['static' => true, 'byRef' => $this->semStack[$stackPos-(10-4)], 'params' => $this->semStack[$stackPos-(10-6)], 'uses' => $this->semStack[$stackPos-(10-8)], 'returnType' => $this->semStack[$stackPos-(10-9)], 'stmts' => $this->semStack[$stackPos-(10-10)], 'attrGroups' => $this->semStack[$stackPos-(10-1)]], $this->getAttributes($this->tokenStartStack[$stackPos-(10-1)], $this->tokenEndStack[$stackPos]));
             },
             482 => function ($stackPos) {
-                 $this->semValue = array(new Stmt\Class_(null, ['type' => $this->semStack[$stackPos-(8-2)], 'extends' => $this->semStack[$stackPos-(8-4)], 'implements' => $this->semStack[$stackPos-(8-5)], 'stmts' => $this->semStack[$stackPos-(8-7)], 'attrGroups' => $this->semStack[$stackPos-(8-1)]], $this->startAttributeStack[$stackPos-(8-1)] + $this->endAttributes), $this->semStack[$stackPos-(8-3)]);
+                 $this->semValue = array(new Stmt\Class_(null, ['type' => $this->semStack[$stackPos-(8-2)], 'extends' => $this->semStack[$stackPos-(8-4)], 'implements' => $this->semStack[$stackPos-(8-5)], 'stmts' => $this->semStack[$stackPos-(8-7)], 'attrGroups' => $this->semStack[$stackPos-(8-1)]], $this->getAttributes($this->tokenStartStack[$stackPos-(8-1)], $this->tokenEndStack[$stackPos])), $this->semStack[$stackPos-(8-3)]);
             $this->checkClass($this->semValue[0], -1);
             },
             483 => function ($stackPos) {
-                 $this->semValue = new Expr\New_($this->semStack[$stackPos-(3-2)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\New_($this->semStack[$stackPos-(3-2)], $this->semStack[$stackPos-(3-3)], $this->getAttributes($this->tokenStartStack[$stackPos-(3-1)], $this->tokenEndStack[$stackPos]));
             },
             484 => function ($stackPos) {
-                 list($class, $ctorArgs) = $this->semStack[$stackPos-(2-2)]; $this->semValue = new Expr\New_($class, $ctorArgs, $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes);
+                 list($class, $ctorArgs) = $this->semStack[$stackPos-(2-2)]; $this->semValue = new Expr\New_($class, $ctorArgs, $this->getAttributes($this->tokenStartStack[$stackPos-(2-1)], $this->tokenEndStack[$stackPos]));
             },
             485 => function ($stackPos) {
                  $this->semValue = array();
@@ -2399,38 +2402,38 @@ class Php7 extends \PhpParser\ParserAbstract
                  $this->semStack[$stackPos-(3-1)][] = $this->semStack[$stackPos-(3-3)]; $this->semValue = $this->semStack[$stackPos-(3-1)];
             },
             490 => function ($stackPos) {
-                 $this->semValue = new Node\ClosureUse($this->semStack[$stackPos-(2-2)], $this->semStack[$stackPos-(2-1)], $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes);
+                 $this->semValue = new Node\ClosureUse($this->semStack[$stackPos-(2-2)], $this->semStack[$stackPos-(2-1)], $this->getAttributes($this->tokenStartStack[$stackPos-(2-1)], $this->tokenEndStack[$stackPos]));
             },
             491 => function ($stackPos) {
-                 $this->semValue = new Name($this->semStack[$stackPos-(1-1)], $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
+                 $this->semValue = new Name($this->semStack[$stackPos-(1-1)], $this->getAttributes($this->tokenStartStack[$stackPos-(1-1)], $this->tokenEndStack[$stackPos]));
             },
             492 => function ($stackPos) {
-                 $this->semValue = new Expr\FuncCall($this->semStack[$stackPos-(2-1)], $this->semStack[$stackPos-(2-2)], $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\FuncCall($this->semStack[$stackPos-(2-1)], $this->semStack[$stackPos-(2-2)], $this->getAttributes($this->tokenStartStack[$stackPos-(2-1)], $this->tokenEndStack[$stackPos]));
             },
             493 => function ($stackPos) {
-                 $this->semValue = new Expr\FuncCall($this->semStack[$stackPos-(2-1)], $this->semStack[$stackPos-(2-2)], $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\FuncCall($this->semStack[$stackPos-(2-1)], $this->semStack[$stackPos-(2-2)], $this->getAttributes($this->tokenStartStack[$stackPos-(2-1)], $this->tokenEndStack[$stackPos]));
             },
             494 => function ($stackPos) {
-                 $this->semValue = new Expr\FuncCall($this->semStack[$stackPos-(2-1)], $this->semStack[$stackPos-(2-2)], $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\FuncCall($this->semStack[$stackPos-(2-1)], $this->semStack[$stackPos-(2-2)], $this->getAttributes($this->tokenStartStack[$stackPos-(2-1)], $this->tokenEndStack[$stackPos]));
             },
             495 => function ($stackPos) {
-                 $this->semValue = new Expr\StaticCall($this->semStack[$stackPos-(4-1)], $this->semStack[$stackPos-(4-3)], $this->semStack[$stackPos-(4-4)], $this->startAttributeStack[$stackPos-(4-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\StaticCall($this->semStack[$stackPos-(4-1)], $this->semStack[$stackPos-(4-3)], $this->semStack[$stackPos-(4-4)], $this->getAttributes($this->tokenStartStack[$stackPos-(4-1)], $this->tokenEndStack[$stackPos]));
             },
             496 => function ($stackPos) {
-                 $this->semValue = new Name($this->semStack[$stackPos-(1-1)], $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
+                 $this->semValue = new Name($this->semStack[$stackPos-(1-1)], $this->getAttributes($this->tokenStartStack[$stackPos-(1-1)], $this->tokenEndStack[$stackPos]));
             },
             497 => null,
             498 => function ($stackPos) {
-                 $this->semValue = new Name($this->semStack[$stackPos-(1-1)], $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
+                 $this->semValue = new Name($this->semStack[$stackPos-(1-1)], $this->getAttributes($this->tokenStartStack[$stackPos-(1-1)], $this->tokenEndStack[$stackPos]));
             },
             499 => function ($stackPos) {
-                 $this->semValue = new Name($this->semStack[$stackPos-(1-1)], $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
+                 $this->semValue = new Name($this->semStack[$stackPos-(1-1)], $this->getAttributes($this->tokenStartStack[$stackPos-(1-1)], $this->tokenEndStack[$stackPos]));
             },
             500 => function ($stackPos) {
-                 $this->semValue = new Name\FullyQualified(substr($this->semStack[$stackPos-(1-1)], 1), $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
+                 $this->semValue = new Name\FullyQualified(substr($this->semStack[$stackPos-(1-1)], 1), $this->getAttributes($this->tokenStartStack[$stackPos-(1-1)], $this->tokenEndStack[$stackPos]));
             },
             501 => function ($stackPos) {
-                 $this->semValue = new Name\Relative(substr($this->semStack[$stackPos-(1-1)], 10), $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
+                 $this->semValue = new Name\Relative(substr($this->semStack[$stackPos-(1-1)], 10), $this->getAttributes($this->tokenStartStack[$stackPos-(1-1)], $this->tokenEndStack[$stackPos]));
             },
             502 => null,
             503 => null,
@@ -2438,7 +2441,7 @@ class Php7 extends \PhpParser\ParserAbstract
                  $this->semValue = $this->semStack[$stackPos-(3-2)];
             },
             505 => function ($stackPos) {
-                 $this->semValue = new Expr\Error($this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes); $this->errorState = 2;
+                 $this->semValue = new Expr\Error($this->getAttributes($this->tokenStartStack[$stackPos-(1-1)], $this->tokenEndStack[$stackPos])); $this->errorState = 2;
             },
             506 => null,
             507 => null,
@@ -2452,7 +2455,7 @@ class Php7 extends \PhpParser\ParserAbstract
                  $this->semValue = array();
             },
             511 => function ($stackPos) {
-                 $this->semValue = array(new Node\InterpolatedStringPart(Scalar\String_::parseEscapeSequences($this->semStack[$stackPos-(1-1)], '`'), $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes));
+                 $this->semValue = array(new Node\InterpolatedStringPart(Scalar\String_::parseEscapeSequences($this->semStack[$stackPos-(1-1)], '`'), $this->getAttributes($this->tokenStartStack[$stackPos-(1-1)], $this->tokenEndStack[$stackPos])));
             },
             512 => function ($stackPos) {
                  foreach ($this->semStack[$stackPos-(1-1)] as $s) { if ($s instanceof Node\InterpolatedStringPart) { $s->value = Node\Scalar\String_::parseEscapeSequences($s->value, '`', true); } }; $this->semValue = $this->semStack[$stackPos-(1-1)];
@@ -2462,47 +2465,47 @@ class Php7 extends \PhpParser\ParserAbstract
             },
             514 => null,
             515 => function ($stackPos) {
-                 $this->semValue = new Expr\ConstFetch($this->semStack[$stackPos-(1-1)], $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\ConstFetch($this->semStack[$stackPos-(1-1)], $this->getAttributes($this->tokenStartStack[$stackPos-(1-1)], $this->tokenEndStack[$stackPos]));
             },
             516 => function ($stackPos) {
-                 $this->semValue = new Scalar\MagicConst\Line($this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
+                 $this->semValue = new Scalar\MagicConst\Line($this->getAttributes($this->tokenStartStack[$stackPos-(1-1)], $this->tokenEndStack[$stackPos]));
             },
             517 => function ($stackPos) {
-                 $this->semValue = new Scalar\MagicConst\File($this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
+                 $this->semValue = new Scalar\MagicConst\File($this->getAttributes($this->tokenStartStack[$stackPos-(1-1)], $this->tokenEndStack[$stackPos]));
             },
             518 => function ($stackPos) {
-                 $this->semValue = new Scalar\MagicConst\Dir($this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
+                 $this->semValue = new Scalar\MagicConst\Dir($this->getAttributes($this->tokenStartStack[$stackPos-(1-1)], $this->tokenEndStack[$stackPos]));
             },
             519 => function ($stackPos) {
-                 $this->semValue = new Scalar\MagicConst\Class_($this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
+                 $this->semValue = new Scalar\MagicConst\Class_($this->getAttributes($this->tokenStartStack[$stackPos-(1-1)], $this->tokenEndStack[$stackPos]));
             },
             520 => function ($stackPos) {
-                 $this->semValue = new Scalar\MagicConst\Trait_($this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
+                 $this->semValue = new Scalar\MagicConst\Trait_($this->getAttributes($this->tokenStartStack[$stackPos-(1-1)], $this->tokenEndStack[$stackPos]));
             },
             521 => function ($stackPos) {
-                 $this->semValue = new Scalar\MagicConst\Method($this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
+                 $this->semValue = new Scalar\MagicConst\Method($this->getAttributes($this->tokenStartStack[$stackPos-(1-1)], $this->tokenEndStack[$stackPos]));
             },
             522 => function ($stackPos) {
-                 $this->semValue = new Scalar\MagicConst\Function_($this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
+                 $this->semValue = new Scalar\MagicConst\Function_($this->getAttributes($this->tokenStartStack[$stackPos-(1-1)], $this->tokenEndStack[$stackPos]));
             },
             523 => function ($stackPos) {
-                 $this->semValue = new Scalar\MagicConst\Namespace_($this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
+                 $this->semValue = new Scalar\MagicConst\Namespace_($this->getAttributes($this->tokenStartStack[$stackPos-(1-1)], $this->tokenEndStack[$stackPos]));
             },
             524 => function ($stackPos) {
-                 $this->semValue = new Expr\ClassConstFetch($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\ClassConstFetch($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->getAttributes($this->tokenStartStack[$stackPos-(3-1)], $this->tokenEndStack[$stackPos]));
             },
             525 => function ($stackPos) {
-                 $this->semValue = new Expr\ClassConstFetch($this->semStack[$stackPos-(5-1)], $this->semStack[$stackPos-(5-4)], $this->startAttributeStack[$stackPos-(5-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\ClassConstFetch($this->semStack[$stackPos-(5-1)], $this->semStack[$stackPos-(5-4)], $this->getAttributes($this->tokenStartStack[$stackPos-(5-1)], $this->tokenEndStack[$stackPos]));
             },
             526 => function ($stackPos) {
-                 $this->semValue = new Expr\ClassConstFetch($this->semStack[$stackPos-(3-1)], new Expr\Error($this->startAttributeStack[$stackPos-(3-3)] + $this->endAttributeStack[$stackPos-(3-3)]), $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes); $this->errorState = 2;
+                 $this->semValue = new Expr\ClassConstFetch($this->semStack[$stackPos-(3-1)], new Expr\Error($this->getAttributes($this->tokenStartStack[$stackPos-(3-3)],  $this->tokenEndStack[$stackPos-(3-3)])), $this->getAttributes($this->tokenStartStack[$stackPos-(3-1)], $this->tokenEndStack[$stackPos])); $this->errorState = 2;
             },
             527 => function ($stackPos) {
-                 $attrs = $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes; $attrs['kind'] = Expr\Array_::KIND_SHORT;
+                 $attrs = $this->getAttributes($this->tokenStartStack[$stackPos-(3-1)], $this->tokenEndStack[$stackPos]); $attrs['kind'] = Expr\Array_::KIND_SHORT;
             $this->semValue = new Expr\Array_($this->semStack[$stackPos-(3-2)], $attrs);
             },
             528 => function ($stackPos) {
-                 $attrs = $this->startAttributeStack[$stackPos-(4-1)] + $this->endAttributes; $attrs['kind'] = Expr\Array_::KIND_LONG;
+                 $attrs = $this->getAttributes($this->tokenStartStack[$stackPos-(4-1)], $this->tokenEndStack[$stackPos]); $attrs['kind'] = Expr\Array_::KIND_LONG;
             $this->semValue = new Expr\Array_($this->semStack[$stackPos-(4-3)], $attrs);
             $this->createdArrays->attach($this->semValue);
             },
@@ -2510,29 +2513,29 @@ class Php7 extends \PhpParser\ParserAbstract
                  $this->semValue = $this->semStack[$stackPos-(1-1)]; $this->createdArrays->attach($this->semValue);
             },
             530 => function ($stackPos) {
-                 $this->semValue = Scalar\String_::fromString($this->semStack[$stackPos-(1-1)], $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
+                 $this->semValue = Scalar\String_::fromString($this->semStack[$stackPos-(1-1)], $this->getAttributes($this->tokenStartStack[$stackPos-(1-1)], $this->tokenEndStack[$stackPos]));
             },
             531 => function ($stackPos) {
-                 $attrs = $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes; $attrs['kind'] = Scalar\String_::KIND_DOUBLE_QUOTED;
+                 $attrs = $this->getAttributes($this->tokenStartStack[$stackPos-(3-1)], $this->tokenEndStack[$stackPos]); $attrs['kind'] = Scalar\String_::KIND_DOUBLE_QUOTED;
             foreach ($this->semStack[$stackPos-(3-2)] as $s) { if ($s instanceof Node\InterpolatedStringPart) { $s->value = Node\Scalar\String_::parseEscapeSequences($s->value, '"', true); } }; $this->semValue = new Scalar\InterpolatedString($this->semStack[$stackPos-(3-2)], $attrs);
             },
             532 => function ($stackPos) {
-                 $this->semValue = $this->parseLNumber($this->semStack[$stackPos-(1-1)], $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes, $this->phpVersion->allowsInvalidOctals());
+                 $this->semValue = $this->parseLNumber($this->semStack[$stackPos-(1-1)], $this->getAttributes($this->tokenStartStack[$stackPos-(1-1)], $this->tokenEndStack[$stackPos]), $this->phpVersion->allowsInvalidOctals());
             },
             533 => function ($stackPos) {
-                 $this->semValue = Scalar\Float_::fromString($this->semStack[$stackPos-(1-1)], $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
+                 $this->semValue = Scalar\Float_::fromString($this->semStack[$stackPos-(1-1)], $this->getAttributes($this->tokenStartStack[$stackPos-(1-1)], $this->tokenEndStack[$stackPos]));
             },
             534 => null,
             535 => null,
             536 => null,
             537 => function ($stackPos) {
-                 $this->semValue = $this->parseDocString($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-2)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes, $this->startAttributeStack[$stackPos-(3-3)] + $this->endAttributeStack[$stackPos-(3-3)], true);
+                 $this->semValue = $this->parseDocString($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-2)], $this->semStack[$stackPos-(3-3)], $this->getAttributes($this->tokenStartStack[$stackPos-(3-1)], $this->tokenEndStack[$stackPos]), $this->getAttributes($this->tokenStartStack[$stackPos-(3-3)],  $this->tokenEndStack[$stackPos-(3-3)]), true);
             },
             538 => function ($stackPos) {
-                 $this->semValue = $this->parseDocString($this->semStack[$stackPos-(2-1)], '', $this->semStack[$stackPos-(2-2)], $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes, $this->startAttributeStack[$stackPos-(2-2)] + $this->endAttributeStack[$stackPos-(2-2)], true);
+                 $this->semValue = $this->parseDocString($this->semStack[$stackPos-(2-1)], '', $this->semStack[$stackPos-(2-2)], $this->getAttributes($this->tokenStartStack[$stackPos-(2-1)], $this->tokenEndStack[$stackPos]), $this->getAttributes($this->tokenStartStack[$stackPos-(2-2)],  $this->tokenEndStack[$stackPos-(2-2)]), true);
             },
             539 => function ($stackPos) {
-                 $this->semValue = $this->parseDocString($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-2)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes, $this->startAttributeStack[$stackPos-(3-3)] + $this->endAttributeStack[$stackPos-(3-3)], true);
+                 $this->semValue = $this->parseDocString($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-2)], $this->semStack[$stackPos-(3-3)], $this->getAttributes($this->tokenStartStack[$stackPos-(3-1)], $this->tokenEndStack[$stackPos]), $this->getAttributes($this->tokenStartStack[$stackPos-(3-3)],  $this->tokenEndStack[$stackPos-(3-3)]), true);
             },
             540 => function ($stackPos) {
                  $this->semValue = null;
@@ -2553,17 +2556,17 @@ class Php7 extends \PhpParser\ParserAbstract
             550 => null,
             551 => null,
             552 => function ($stackPos) {
-                 $this->semValue = new Expr\ArrayDimFetch($this->semStack[$stackPos-(4-1)], $this->semStack[$stackPos-(4-3)], $this->startAttributeStack[$stackPos-(4-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\ArrayDimFetch($this->semStack[$stackPos-(4-1)], $this->semStack[$stackPos-(4-3)], $this->getAttributes($this->tokenStartStack[$stackPos-(4-1)], $this->tokenEndStack[$stackPos]));
             },
             553 => function ($stackPos) {
-                 $this->semValue = new Expr\ArrayDimFetch($this->semStack[$stackPos-(4-1)], $this->semStack[$stackPos-(4-3)], $this->startAttributeStack[$stackPos-(4-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\ArrayDimFetch($this->semStack[$stackPos-(4-1)], $this->semStack[$stackPos-(4-3)], $this->getAttributes($this->tokenStartStack[$stackPos-(4-1)], $this->tokenEndStack[$stackPos]));
             },
             554 => null,
             555 => function ($stackPos) {
-                 $this->semValue = new Expr\MethodCall($this->semStack[$stackPos-(4-1)], $this->semStack[$stackPos-(4-3)], $this->semStack[$stackPos-(4-4)], $this->startAttributeStack[$stackPos-(4-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\MethodCall($this->semStack[$stackPos-(4-1)], $this->semStack[$stackPos-(4-3)], $this->semStack[$stackPos-(4-4)], $this->getAttributes($this->tokenStartStack[$stackPos-(4-1)], $this->tokenEndStack[$stackPos]));
             },
             556 => function ($stackPos) {
-                 $this->semValue = new Expr\NullsafeMethodCall($this->semStack[$stackPos-(4-1)], $this->semStack[$stackPos-(4-3)], $this->semStack[$stackPos-(4-4)], $this->startAttributeStack[$stackPos-(4-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\NullsafeMethodCall($this->semStack[$stackPos-(4-1)], $this->semStack[$stackPos-(4-3)], $this->semStack[$stackPos-(4-4)], $this->getAttributes($this->tokenStartStack[$stackPos-(4-1)], $this->tokenEndStack[$stackPos]));
             },
             557 => function ($stackPos) {
                  $this->semValue = null;
@@ -2572,45 +2575,45 @@ class Php7 extends \PhpParser\ParserAbstract
             559 => null,
             560 => null,
             561 => function ($stackPos) {
-                 $this->semValue = new Expr\PropertyFetch($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\PropertyFetch($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->getAttributes($this->tokenStartStack[$stackPos-(3-1)], $this->tokenEndStack[$stackPos]));
             },
             562 => function ($stackPos) {
-                 $this->semValue = new Expr\NullsafePropertyFetch($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\NullsafePropertyFetch($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->getAttributes($this->tokenStartStack[$stackPos-(3-1)], $this->tokenEndStack[$stackPos]));
             },
             563 => null,
             564 => function ($stackPos) {
-                 $this->semValue = new Expr\Variable($this->semStack[$stackPos-(4-3)], $this->startAttributeStack[$stackPos-(4-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\Variable($this->semStack[$stackPos-(4-3)], $this->getAttributes($this->tokenStartStack[$stackPos-(4-1)], $this->tokenEndStack[$stackPos]));
             },
             565 => function ($stackPos) {
-                 $this->semValue = new Expr\Variable($this->semStack[$stackPos-(2-2)], $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\Variable($this->semStack[$stackPos-(2-2)], $this->getAttributes($this->tokenStartStack[$stackPos-(2-1)], $this->tokenEndStack[$stackPos]));
             },
             566 => function ($stackPos) {
-                 $this->semValue = new Expr\Variable(new Expr\Error($this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes), $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes); $this->errorState = 2;
+                 $this->semValue = new Expr\Variable(new Expr\Error($this->getAttributes($this->tokenStartStack[$stackPos-(2-1)], $this->tokenEndStack[$stackPos])), $this->getAttributes($this->tokenStartStack[$stackPos-(2-1)], $this->tokenEndStack[$stackPos])); $this->errorState = 2;
             },
             567 => function ($stackPos) {
-                 $var = $this->semStack[$stackPos-(1-1)]->name; $this->semValue = \is_string($var) ? new Node\VarLikeIdentifier($var, $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes) : $var;
+                 $var = $this->semStack[$stackPos-(1-1)]->name; $this->semValue = \is_string($var) ? new Node\VarLikeIdentifier($var, $this->getAttributes($this->tokenStartStack[$stackPos-(1-1)], $this->tokenEndStack[$stackPos])) : $var;
             },
             568 => function ($stackPos) {
-                 $this->semValue = new Expr\StaticPropertyFetch($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\StaticPropertyFetch($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->getAttributes($this->tokenStartStack[$stackPos-(3-1)], $this->tokenEndStack[$stackPos]));
             },
             569 => null,
             570 => function ($stackPos) {
-                 $this->semValue = new Expr\ArrayDimFetch($this->semStack[$stackPos-(4-1)], $this->semStack[$stackPos-(4-3)], $this->startAttributeStack[$stackPos-(4-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\ArrayDimFetch($this->semStack[$stackPos-(4-1)], $this->semStack[$stackPos-(4-3)], $this->getAttributes($this->tokenStartStack[$stackPos-(4-1)], $this->tokenEndStack[$stackPos]));
             },
             571 => function ($stackPos) {
-                 $this->semValue = new Expr\ArrayDimFetch($this->semStack[$stackPos-(4-1)], $this->semStack[$stackPos-(4-3)], $this->startAttributeStack[$stackPos-(4-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\ArrayDimFetch($this->semStack[$stackPos-(4-1)], $this->semStack[$stackPos-(4-3)], $this->getAttributes($this->tokenStartStack[$stackPos-(4-1)], $this->tokenEndStack[$stackPos]));
             },
             572 => function ($stackPos) {
-                 $this->semValue = new Expr\PropertyFetch($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\PropertyFetch($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->getAttributes($this->tokenStartStack[$stackPos-(3-1)], $this->tokenEndStack[$stackPos]));
             },
             573 => function ($stackPos) {
-                 $this->semValue = new Expr\NullsafePropertyFetch($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\NullsafePropertyFetch($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->getAttributes($this->tokenStartStack[$stackPos-(3-1)], $this->tokenEndStack[$stackPos]));
             },
             574 => function ($stackPos) {
-                 $this->semValue = new Expr\StaticPropertyFetch($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\StaticPropertyFetch($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->getAttributes($this->tokenStartStack[$stackPos-(3-1)], $this->tokenEndStack[$stackPos]));
             },
             575 => function ($stackPos) {
-                 $this->semValue = new Expr\StaticPropertyFetch($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\StaticPropertyFetch($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->getAttributes($this->tokenStartStack[$stackPos-(3-1)], $this->tokenEndStack[$stackPos]));
             },
             576 => null,
             577 => function ($stackPos) {
@@ -2623,10 +2626,10 @@ class Php7 extends \PhpParser\ParserAbstract
             },
             581 => null,
             582 => function ($stackPos) {
-                 $this->semValue = new Expr\Error($this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes); $this->errorState = 2;
+                 $this->semValue = new Expr\Error($this->getAttributes($this->tokenStartStack[$stackPos-(1-1)], $this->tokenEndStack[$stackPos])); $this->errorState = 2;
             },
             583 => function ($stackPos) {
-                 $this->semValue = new Expr\List_($this->semStack[$stackPos-(4-3)], $this->startAttributeStack[$stackPos-(4-1)] + $this->endAttributes); $this->semValue->setAttribute('kind', Expr\List_::KIND_LIST);
+                 $this->semValue = new Expr\List_($this->semStack[$stackPos-(4-3)], $this->getAttributes($this->tokenStartStack[$stackPos-(4-1)], $this->tokenEndStack[$stackPos])); $this->semValue->setAttribute('kind', Expr\List_::KIND_LIST);
             $this->postprocessList($this->semValue);
             },
             584 => function ($stackPos) {
@@ -2643,30 +2646,30 @@ class Php7 extends \PhpParser\ParserAbstract
                  $this->semValue = array($this->semStack[$stackPos-(1-1)]);
             },
             589 => function ($stackPos) {
-                 $this->semValue = new Node\ArrayItem($this->semStack[$stackPos-(1-1)], null, false, $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
+                 $this->semValue = new Node\ArrayItem($this->semStack[$stackPos-(1-1)], null, false, $this->getAttributes($this->tokenStartStack[$stackPos-(1-1)], $this->tokenEndStack[$stackPos]));
             },
             590 => function ($stackPos) {
-                 $this->semValue = new Node\ArrayItem($this->semStack[$stackPos-(2-2)], null, true, $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes);
+                 $this->semValue = new Node\ArrayItem($this->semStack[$stackPos-(2-2)], null, true, $this->getAttributes($this->tokenStartStack[$stackPos-(2-1)], $this->tokenEndStack[$stackPos]));
             },
             591 => function ($stackPos) {
-                 $this->semValue = new Node\ArrayItem($this->semStack[$stackPos-(1-1)], null, false, $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
+                 $this->semValue = new Node\ArrayItem($this->semStack[$stackPos-(1-1)], null, false, $this->getAttributes($this->tokenStartStack[$stackPos-(1-1)], $this->tokenEndStack[$stackPos]));
             },
             592 => function ($stackPos) {
-                 $this->semValue = new Node\ArrayItem($this->semStack[$stackPos-(3-3)], $this->semStack[$stackPos-(3-1)], false, $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
+                 $this->semValue = new Node\ArrayItem($this->semStack[$stackPos-(3-3)], $this->semStack[$stackPos-(3-1)], false, $this->getAttributes($this->tokenStartStack[$stackPos-(3-1)], $this->tokenEndStack[$stackPos]));
             },
             593 => function ($stackPos) {
-                 $this->semValue = new Node\ArrayItem($this->semStack[$stackPos-(4-4)], $this->semStack[$stackPos-(4-1)], true, $this->startAttributeStack[$stackPos-(4-1)] + $this->endAttributes);
+                 $this->semValue = new Node\ArrayItem($this->semStack[$stackPos-(4-4)], $this->semStack[$stackPos-(4-1)], true, $this->getAttributes($this->tokenStartStack[$stackPos-(4-1)], $this->tokenEndStack[$stackPos]));
             },
             594 => function ($stackPos) {
-                 $this->semValue = new Node\ArrayItem($this->semStack[$stackPos-(3-3)], $this->semStack[$stackPos-(3-1)], false, $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
+                 $this->semValue = new Node\ArrayItem($this->semStack[$stackPos-(3-3)], $this->semStack[$stackPos-(3-1)], false, $this->getAttributes($this->tokenStartStack[$stackPos-(3-1)], $this->tokenEndStack[$stackPos]));
             },
             595 => function ($stackPos) {
-                 $this->semValue = new Node\ArrayItem($this->semStack[$stackPos-(2-2)], null, false, $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes, true);
+                 $this->semValue = new Node\ArrayItem($this->semStack[$stackPos-(2-2)], null, false, $this->getAttributes($this->tokenStartStack[$stackPos-(2-1)], $this->tokenEndStack[$stackPos]), true);
             },
             596 => function ($stackPos) {
                  /* Create an Error node now to remember the position. We'll later either report an error,
              or convert this into a null element, depending on whether this is a creation or destructuring context. */
-          $attrs = $this->createEmptyElemAttributes($this->lookaheadStartAttributes);
+          $attrs = $this->createEmptyElemAttributes($this->tokenPos);
           $this->semValue = new Node\ArrayItem(new Expr\Error($attrs), null, false, $attrs);
             },
             597 => function ($stackPos) {
@@ -2682,41 +2685,41 @@ class Php7 extends \PhpParser\ParserAbstract
                  $this->semValue = array($this->semStack[$stackPos-(2-1)], $this->semStack[$stackPos-(2-2)]);
             },
             601 => function ($stackPos) {
-                 $this->semValue = new Node\InterpolatedStringPart($this->semStack[$stackPos-(1-1)], $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
+                 $this->semValue = new Node\InterpolatedStringPart($this->semStack[$stackPos-(1-1)], $this->getAttributes($this->tokenStartStack[$stackPos-(1-1)], $this->tokenEndStack[$stackPos]));
             },
             602 => function ($stackPos) {
-                 $this->semValue = new Expr\Variable($this->semStack[$stackPos-(1-1)], $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\Variable($this->semStack[$stackPos-(1-1)], $this->getAttributes($this->tokenStartStack[$stackPos-(1-1)], $this->tokenEndStack[$stackPos]));
             },
             603 => null,
             604 => function ($stackPos) {
-                 $this->semValue = new Expr\ArrayDimFetch($this->semStack[$stackPos-(4-1)], $this->semStack[$stackPos-(4-3)], $this->startAttributeStack[$stackPos-(4-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\ArrayDimFetch($this->semStack[$stackPos-(4-1)], $this->semStack[$stackPos-(4-3)], $this->getAttributes($this->tokenStartStack[$stackPos-(4-1)], $this->tokenEndStack[$stackPos]));
             },
             605 => function ($stackPos) {
-                 $this->semValue = new Expr\PropertyFetch($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\PropertyFetch($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->getAttributes($this->tokenStartStack[$stackPos-(3-1)], $this->tokenEndStack[$stackPos]));
             },
             606 => function ($stackPos) {
-                 $this->semValue = new Expr\NullsafePropertyFetch($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\NullsafePropertyFetch($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->getAttributes($this->tokenStartStack[$stackPos-(3-1)], $this->tokenEndStack[$stackPos]));
             },
             607 => function ($stackPos) {
-                 $this->semValue = new Expr\Variable($this->semStack[$stackPos-(3-2)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\Variable($this->semStack[$stackPos-(3-2)], $this->getAttributes($this->tokenStartStack[$stackPos-(3-1)], $this->tokenEndStack[$stackPos]));
             },
             608 => function ($stackPos) {
-                 $this->semValue = new Expr\Variable($this->semStack[$stackPos-(3-2)], $this->startAttributeStack[$stackPos-(3-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\Variable($this->semStack[$stackPos-(3-2)], $this->getAttributes($this->tokenStartStack[$stackPos-(3-1)], $this->tokenEndStack[$stackPos]));
             },
             609 => function ($stackPos) {
-                 $this->semValue = new Expr\ArrayDimFetch($this->semStack[$stackPos-(6-2)], $this->semStack[$stackPos-(6-4)], $this->startAttributeStack[$stackPos-(6-1)] + $this->endAttributes);
+                 $this->semValue = new Expr\ArrayDimFetch($this->semStack[$stackPos-(6-2)], $this->semStack[$stackPos-(6-4)], $this->getAttributes($this->tokenStartStack[$stackPos-(6-1)], $this->tokenEndStack[$stackPos]));
             },
             610 => function ($stackPos) {
                  $this->semValue = $this->semStack[$stackPos-(3-2)];
             },
             611 => function ($stackPos) {
-                 $this->semValue = new Scalar\String_($this->semStack[$stackPos-(1-1)], $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
+                 $this->semValue = new Scalar\String_($this->semStack[$stackPos-(1-1)], $this->getAttributes($this->tokenStartStack[$stackPos-(1-1)], $this->tokenEndStack[$stackPos]));
             },
             612 => function ($stackPos) {
-                 $this->semValue = $this->parseNumString($this->semStack[$stackPos-(1-1)], $this->startAttributeStack[$stackPos-(1-1)] + $this->endAttributes);
+                 $this->semValue = $this->parseNumString($this->semStack[$stackPos-(1-1)], $this->getAttributes($this->tokenStartStack[$stackPos-(1-1)], $this->tokenEndStack[$stackPos]));
             },
             613 => function ($stackPos) {
-                 $this->semValue = $this->parseNumString('-' . $this->semStack[$stackPos-(2-2)], $this->startAttributeStack[$stackPos-(2-1)] + $this->endAttributes);
+                 $this->semValue = $this->parseNumString('-' . $this->semStack[$stackPos-(2-2)], $this->getAttributes($this->tokenStartStack[$stackPos-(2-1)], $this->tokenEndStack[$stackPos]));
             },
             614 => null,
         ];

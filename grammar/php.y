@@ -134,7 +134,7 @@ top_statement_list_ex:
 
 top_statement_list:
       top_statement_list_ex
-          { makeZeroLengthNop($nop, $this->lookaheadStartAttributes);
+          { makeZeroLengthNop($nop);
             if ($nop !== null) { $1[] = $nop; } $$ = $1; }
 ;
 
@@ -237,7 +237,7 @@ top_statement:
     | function_declaration_statement
     | class_declaration_statement
     | T_HALT_COMPILER '(' ')' ';'
-          { $$ = Stmt\HaltCompiler[$this->lexer->handleHaltCompiler()]; }
+          { $$ = Stmt\HaltCompiler[$this->handleHaltCompiler()]; }
     | T_NAMESPACE namespace_declaration_name semi
           { $$ = Stmt\Namespace_[$2, null];
             $$->setAttribute('kind', Stmt\Namespace_::KIND_SEMICOLON);
@@ -353,7 +353,7 @@ inner_statement_list_ex:
 
 inner_statement_list:
       inner_statement_list_ex
-          { makeZeroLengthNop($nop, $this->lookaheadStartAttributes);
+          { makeZeroLengthNop($nop);
             if ($nop !== null) { $1[] = $nop; } $$ = $1; }
 ;
 
@@ -371,7 +371,7 @@ non_empty_statement:
         if ($2) {
             $$ = $2; prependLeadingComments($$);
         } else {
-            makeNop($$, $this->startAttributeStack[#1], $this->endAttributes);
+            makeNop($$);
             if (null === $$) { $$ = array(); }
         }
     }
@@ -390,7 +390,10 @@ non_empty_statement:
     | T_GLOBAL global_var_list semi                         { $$ = Stmt\Global_[$2]; }
     | T_STATIC static_var_list semi                         { $$ = Stmt\Static_[$2]; }
     | T_ECHO expr_list_forbid_comma semi                    { $$ = Stmt\Echo_[$2]; }
-    | T_INLINE_HTML                                         { $$ = Stmt\InlineHTML[$1]; }
+    | T_INLINE_HTML {
+        $$ = Stmt\InlineHTML[$1];
+        $$->setAttribute('hasLeadingNewline', $this->inlineHtmlHasLeadingNewline(#1));
+    }
     | expr semi {
         $e = $1;
         if ($e instanceof Expr\Throw_) {
@@ -419,7 +422,7 @@ non_empty_statement:
 statement:
       non_empty_statement
     | ';'
-          { makeNop($$, $this->startAttributeStack[#1], $this->endAttributes);
+          { makeNop($$);
             if ($$ === null) $$ = array(); /* means: no statement */ }
 ;
 
@@ -834,7 +837,7 @@ class_statement_list_ex:
 
 class_statement_list:
       class_statement_list_ex
-          { makeZeroLengthNop($nop, $this->lookaheadStartAttributes);
+          { makeZeroLengthNop($nop);
             if ($nop !== null) { $1[] = $nop; } $$ = $1; }
 ;
 
@@ -1337,7 +1340,7 @@ array_pair:
     | /* empty */
         { /* Create an Error node now to remember the position. We'll later either report an error,
              or convert this into a null element, depending on whether this is a creation or destructuring context. */
-          $attrs = $this->createEmptyElemAttributes($this->lookaheadStartAttributes);
+          $attrs = $this->createEmptyElemAttributes($this->tokenPos);
           $$ = new Node\ArrayItem(new Expr\Error($attrs), null, false, $attrs); }
 ;
 

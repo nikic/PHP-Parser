@@ -65,13 +65,13 @@ function resolveMacros($code) {
 
             if ('attributes' === $name) {
                 assertArgs(0, $args, $name);
-                return '$this->startAttributeStack[#1] + $this->endAttributes';
+                return '$this->getAttributes($this->tokenStartStack[#1], $this->tokenEndStack[$stackPos])';
             }
 
             if ('stackAttributes' === $name) {
                 assertArgs(1, $args, $name);
-                return '$this->startAttributeStack[' . $args[0] . ']'
-                       . ' + $this->endAttributeStack[' . $args[0] . ']';
+                return '$this->getAttributes($this->tokenStartStack[' . $args[0] . '], '
+                       . ' $this->tokenEndStack[' . $args[0] . '])';
             }
 
             if ('init' === $name) {
@@ -111,30 +111,24 @@ function resolveMacros($code) {
             }
 
             if ('makeNop' === $name) {
-                assertArgs(3, $args, $name);
+                assertArgs(1, $args, $name);
 
-                return '$startAttributes = ' . $args[1] . ';'
-                       . ' if (isset($startAttributes[\'comments\']))'
-                       . ' { ' . $args[0] . ' = new Stmt\Nop($startAttributes + ' . $args[2] . '); }'
-                       . ' else { ' . $args[0] . ' = null; }';
+                return $args[0] . ' = $this->maybeCreateNop($this->tokenStartStack[#1], $this->tokenEndStack[$stackPos])';
             }
 
             if ('makeZeroLengthNop' == $name) {
-                assertArgs(2, $args, $name);
+                assertArgs(1, $args, $name);
 
-                return '$startAttributes = ' . $args[1] . ';'
-                       . ' if (isset($startAttributes[\'comments\']))'
-                       . ' { ' . $args[0] . ' = new Stmt\Nop($this->createCommentNopAttributes($startAttributes[\'comments\'])); }'
-                       . ' else { ' . $args[0] . ' = null; }';
+                return $args[0] . ' = $this->maybeCreateZeroLengthNop($this->tokenPos);';
             }
 
             if ('prependLeadingComments' === $name) {
                 assertArgs(1, $args, $name);
 
-                return '$attrs = $this->startAttributeStack[#1]; $stmts = ' . $args[0] . '; '
-                       . 'if (!empty($attrs[\'comments\'])) {'
+                return '$comments = $this->getCommentsBeforeToken($this->tokenStartStack[#1]); $stmts = ' . $args[0] . '; '
+                       . 'if (!empty($comments)) {'
                        . '$stmts[0]->setAttribute(\'comments\', '
-                       . 'array_merge($attrs[\'comments\'], $stmts[0]->getAttribute(\'comments\', []))); }';
+                       . 'array_merge($comments, $stmts[0]->getAttribute(\'comments\', []))); }';
             }
 
             return $matches[0];
