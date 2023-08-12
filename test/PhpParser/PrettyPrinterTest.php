@@ -304,4 +304,51 @@ CODE
             $this->getTests(__DIR__ . '/../code/parser', 'test')
         );
     }
+
+    public function testNowdocIndentation() {
+        $source = <<<'SOURCE'
+        <?php
+        function foo()
+        {
+            if (bar()) {
+                $nowdoc = <<<'NOWDOC'
+                    indented text
+                            more indented text
+                        less indented text
+                NOWDOC;
+            }
+        }
+        SOURCE;
+
+        $parserFactory = new ParserFactory();
+        $parser = $parserFactory->create(ParserFactory::PREFER_PHP7);
+        $nodes = $parser->parse($source);
+        $printer = new PrettyPrinter\Standard();
+        $actual = $printer->prettyPrintFile($nodes);
+        $this->assertSame($source, $actual);
+    }
+
+
+    public function testHeredocIndentation() {
+        $source = <<<'SOURCE'
+        <?php
+        function foo()
+        {
+            if (bar()) {
+                $heredoc = <<<HEREDOC
+                    indented text
+                            more indented text
+                        less indented text
+                HEREDOC;
+            }
+        }
+        SOURCE;
+
+        $parserFactory = new ParserFactory();
+        $parser = $parserFactory->create(ParserFactory::PREFER_PHP7);
+        $nodes = $parser->parse($source);
+        $printer = new PrettyPrinter\Standard();
+        $actual = $printer->prettyPrintFile($nodes);
+        $this->assertSame($source, $actual);
+    }
 }
