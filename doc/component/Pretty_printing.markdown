@@ -66,21 +66,14 @@ Use of the formatting-preservation functionality requires some additional prepar
 ```php
 use PhpParser\{Lexer, NodeTraverser, NodeVisitor, ParserFactory, PrettyPrinter};
 
-$lexerOptions = new [
-    'usedAttributes' => [
-        'comments',
-        'startLine', 'endLine',
-        'startTokenPos', 'endTokenPos',
-    ],
-];
-$parser = (new ParserFactory())->createForHostVersion($lexerOptions);
+$parser = (new ParserFactory())->createForHostVersion();
 
 $traverser = new NodeTraverser(new NodeVisitor\CloningVisitor());
 
 $printer = new PrettyPrinter\Standard();
 
 $oldStmts = $parser->parse($code);
-$oldTokens = $parser->getLexer()->getTokens();
+$oldTokens = $parser->getTokens();
 
 $newStmts = $traverser->traverse($oldStmts);
 

@@ -189,16 +189,24 @@ EOC;
         $this->assertSame($stmts[1]->expr->var->items[0]->value->getAttribute('kind'), Expr\List_::KIND_ARRAY);
     }
 
-    public function testGetLexer() {
+    public function testGetTokens() {
         $lexer = new Lexer();
         $parser = $this->getParser($lexer);
-        $this->assertSame($lexer, $parser->getLexer());
+        $parser->parse('<?php echo "Foo";');
+        $this->assertEquals([
+            new Token(\T_OPEN_TAG, '<?php ', 1, 0),
+            new Token(\T_ECHO, 'echo', 1, 6),
+            new Token(\T_WHITESPACE, ' ', 1, 10),
+            new Token(\T_CONSTANT_ENCAPSED_STRING, '"Foo"', 1, 11),
+            new Token(ord(';'), ';', 1, 16),
+            new Token(0, "\0", 1, 17),
+        ], $parser->getTokens());
     }
 }
 
 class InvalidTokenLexer extends Lexer {
-    public function startLexing(string $code, ?ErrorHandler $errorHandler = null): void {
-        $this->tokens = [
+    public function tokenize(string $code, ?ErrorHandler $errorHandler = null): array {
+        return [
             new Token(999, 'foobar', 42),
         ];
     }

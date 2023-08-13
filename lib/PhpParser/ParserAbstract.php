@@ -179,8 +179,7 @@ abstract class ParserAbstract implements Parser {
         $this->errorHandler = $errorHandler ?: new ErrorHandler\Throwing();
         $this->createdArrays = new \SplObjectStorage();
 
-        $this->lexer->startLexing($code, $this->errorHandler);
-        $this->tokens = $this->lexer->getTokens();
+        $this->tokens = $this->lexer->tokenize($code, $this->errorHandler);
         $result = $this->doParse();
 
         // Report errors for any empty elements used inside arrays. This is delayed until after the main parse,
@@ -197,7 +196,6 @@ abstract class ParserAbstract implements Parser {
 
         // Clear out some of the interior state, so we don't hold onto unnecessary
         // memory between uses of the parser
-        $this->tokens = [];
         $this->tokenStartStack = [];
         $this->tokenEndStack = [];
         $this->semStack = [];
@@ -207,8 +205,8 @@ abstract class ParserAbstract implements Parser {
         return $result;
     }
 
-    public function getLexer(): Lexer {
-        return $this->lexer;
+    public function getTokens(): array {
+        return $this->tokens;
     }
 
     /** @return Stmt[]|null */

@@ -16,9 +16,9 @@ interface Parser {
     public function parse(string $code, ?ErrorHandler $errorHandler = null): ?array;
 
     /**
-     * Return the lexer used by this parser instance.
+     * Return tokens for the last parse.
      *
-     * @return Lexer
+     * @return Token[]
      */
-    public function getLexer(): Lexer;
+    public function getTokens(): array;
 }

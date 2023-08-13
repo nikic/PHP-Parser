@@ -65,15 +65,14 @@ class Emulative extends Lexer {
         }
     }
 
-    public function startLexing(string $code, ?ErrorHandler $errorHandler = null): void {
+    public function tokenize(string $code, ?ErrorHandler $errorHandler = null): array {
         $emulators = array_filter($this->emulators, function ($emulator) use ($code) {
             return $emulator->isEmulationNeeded($code);
         });
 
         if (empty($emulators)) {
             // Nothing to emulate, yay
-            parent::startLexing($code, $errorHandler);
-            return;
+            return parent::tokenize($code, $errorHandler);
         }
 
         if ($errorHandler === null) {
@@ -86,7 +85,7 @@ class Emulative extends Lexer {
         }
 
         $collector = new ErrorHandler\Collecting();
-        parent::startLexing($code, $collector);
+        parent::tokenize($code, $collector);
         $this->sortPatches();
         $this->fixupTokens();
 
@@ -101,6 +100,8 @@ class Emulative extends Lexer {
         foreach ($emulators as $emulator) {
             $this->tokens = $emulator->emulate($code, $this->tokens);
         }
+
+        return $this->tokens;
     }
 
     private function isForwardEmulationNeeded(PhpVersion $emulatorPhpVersion): bool {

@@ -22,12 +22,11 @@ class EmulativeTest extends LexerTest {
     public function testReplaceKeywords(string $keyword, int $expectedToken) {
         $lexer = $this->getLexer();
         $code = '<?php ' . $keyword;
-        $lexer->startLexing($code);
         $this->assertEquals([
             new Token(\T_OPEN_TAG, '<?php ', 1, 0),
             new Token($expectedToken, $keyword, 1, 6),
             new Token(0, "\0", 1, \strlen($code)),
-        ], $lexer->getTokens());
+        ], $lexer->tokenize($code));
     }
 
     /**
@@ -36,13 +35,12 @@ class EmulativeTest extends LexerTest {
     public function testReplaceKeywordsUppercase(string $keyword, int $expectedToken) {
         $lexer = $this->getLexer();
         $code = '<?php ' . strtoupper($keyword);
-        $lexer->startLexing($code);
 
         $this->assertEquals([
             new Token(\T_OPEN_TAG, '<?php ', 1, 0),
             new Token($expectedToken, \strtoupper($keyword), 1, 6),
             new Token(0, "\0", 1, \strlen($code)),
-        ], $lexer->getTokens());
+        ], $lexer->tokenize($code));
     }
 
     /**
@@ -51,14 +49,13 @@ class EmulativeTest extends LexerTest {
     public function testNoReplaceKeywordsAfterObjectOperator(string $keyword) {
         $lexer = $this->getLexer();
         $code = '<?php ->' . $keyword;
-        $lexer->startLexing($code);
 
         $this->assertEquals([
             new Token(\T_OPEN_TAG, '<?php ', 1, 0),
             new Token(\T_OBJECT_OPERATOR, '->', 1, 6),
             new Token(\T_STRING, $keyword, 1, 8),
             new Token(0, "\0", 1, \strlen($code)),
-        ], $lexer->getTokens());
+        ], $lexer->tokenize($code));
     }
 
     /**
@@ -67,7 +64,6 @@ class EmulativeTest extends LexerTest {
     public function testNoReplaceKeywordsAfterObjectOperatorWithSpaces(string $keyword) {
         $lexer = $this->getLexer();
         $code = '<?php ->    ' . $keyword;
-        $lexer->startLexing($code);
 
         $this->assertEquals([
             new Token(\T_OPEN_TAG, '<?php ', 1, 0),
@@ -75,7 +71,7 @@ class EmulativeTest extends LexerTest {
             new Token(\T_WHITESPACE, '    ', 1, 8),
             new Token(\T_STRING, $keyword, 1, 12),
             new Token(0, "\0", 1, \strlen($code)),
-        ], $lexer->getTokens());
+        ], $lexer->tokenize($code));
     }
 
     /**
@@ -84,14 +80,13 @@ class EmulativeTest extends LexerTest {
     public function testNoReplaceKeywordsAfterNullsafeObjectOperator(string $keyword) {
         $lexer = $this->getLexer();
         $code = '<?php ?->' . $keyword;
-        $lexer->startLexing($code);
 
         $this->assertEquals([
             new Token(\T_OPEN_TAG, '<?php ', 1, 0),
             new Token(\T_NULLSAFE_OBJECT_OPERATOR, '?->', 1, 6),
             new Token(\T_STRING, $keyword, 1, 9),
             new Token(0, "\0", 1, \strlen($code)),
-        ], $lexer->getTokens());
+        ], $lexer->tokenize($code));
     }
 
     public function provideTestReplaceKeywords() {
@@ -120,15 +115,15 @@ class EmulativeTest extends LexerTest {
         ];
     }
 
-    private function assertSameTokens(array $expectedTokens, Lexer $lexer) {
-        $tokens = [];
-        foreach ($lexer->getTokens() as $token) {
+    private function assertSameTokens(array $expectedTokens, array $tokens) {
+        $reducedTokens = [];
+        foreach ($tokens as $token) {
             if ($token->id === 0 || $token->isIgnorable()) {
                 continue;
             }
-            $tokens[] = [$token->id, $token->text];
+            $reducedTokens[] = [$token->id, $token->text];
         }
-        $this->assertSame($expectedTokens, $tokens);
+        $this->assertSame($expectedTokens, $reducedTokens);
     }
 
     /**
@@ -136,8 +131,7 @@ class EmulativeTest extends LexerTest {
      */
     public function testLexNewFeatures(string $code, array $expectedTokens) {
         $lexer = $this->getLexer();
-        $lexer->startLexing('<?php ' . $code);
-        $this->assertSameTokens($expectedTokens, $lexer);
+        $this->assertSameTokens($expectedTokens, $lexer->tokenize('<?php ' . $code));
     }
 
     /**
@@ -148,13 +142,12 @@ class EmulativeTest extends LexerTest {
 
         $lexer = $this->getLexer();
         $fullCode = '<?php ' . $stringifiedToken;
-        $lexer->startLexing($fullCode);
 
         $this->assertEquals([
             new Token(\T_OPEN_TAG, '<?php ', 1, 0),
             new Token(\T_CONSTANT_ENCAPSED_STRING, $stringifiedToken, 1, 6),
             new Token(0, "\0", \substr_count($fullCode, "\n") + 1, \strlen($fullCode)),
-        ], $lexer->getTokens());
+        ], $lexer->tokenize($fullCode));
     }
 
     /**
@@ -163,7 +156,7 @@ class EmulativeTest extends LexerTest {
     public function testErrorAfterEmulation($code) {
         $errorHandler = new ErrorHandler\Collecting();
         $lexer = $this->getLexer();
-        $lexer->startLexing('<?php ' . $code . "\0", $errorHandler);
+        $lexer->tokenize('<?php ' . $code . "\0", $errorHandler);
 
         $errors = $errorHandler->getErrors();
         $this->assertCount(1, $errors);
@@ -405,8 +398,7 @@ class EmulativeTest extends LexerTest {
      */
     public function testTargetVersion(string $phpVersion, string $code, array $expectedTokens) {
         $lexer = new Emulative(PhpVersion::fromString($phpVersion));
-        $lexer->startLexing('<?php ' . $code);
-        $this->assertSameTokens($expectedTokens, $lexer);
+        $this->assertSameTokens($expectedTokens, $lexer->tokenize('<?php ' . $code));
     }
 
     public function provideTestTargetVersion() {

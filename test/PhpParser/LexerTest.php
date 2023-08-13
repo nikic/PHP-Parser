@@ -20,7 +20,7 @@ class LexerTest extends \PHPUnit\Framework\TestCase {
 
         $errorHandler = new ErrorHandler\Collecting();
         $lexer = $this->getLexer();
-        $lexer->startLexing($code, $errorHandler);
+        $lexer->tokenize($code, $errorHandler);
         $errors = $errorHandler->getErrors();
 
         $this->assertCount(count($messages), $errors);
@@ -49,7 +49,7 @@ class LexerTest extends \PHPUnit\Framework\TestCase {
         $this->expectException(Error::class);
         $this->expectExceptionMessage('Unterminated comment on line 1');
         $lexer = $this->getLexer();
-        $lexer->startLexing("<?php readonly /*");
+        $lexer->tokenize("<?php readonly /*");
     }
 
     /**
@@ -57,8 +57,7 @@ class LexerTest extends \PHPUnit\Framework\TestCase {
      */
     public function testLex($code, $expectedTokens) {
         $lexer = $this->getLexer();
-        $lexer->startLexing($code);
-        $tokens = $lexer->getTokens();
+        $tokens = $lexer->tokenize($code);
         foreach ($tokens as $token) {
             if ($token->id === 0 || $token->isIgnorable()) {
                 continue;
@@ -115,7 +114,6 @@ class LexerTest extends \PHPUnit\Framework\TestCase {
         ];
 
         $lexer = $this->getLexer();
-        $lexer->startLexing($code);
-        $this->assertEquals($expectedTokens, $lexer->getTokens());
+        $this->assertEquals($expectedTokens, $lexer->tokenize($code));
     }
 }

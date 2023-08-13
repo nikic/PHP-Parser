@@ -9,16 +9,22 @@ class Lexer {
     protected $tokens;
 
     /**
-     * Initializes the lexer for lexing the provided source code.
+     * Tokenize the provided source code.
      *
-     * This function does not throw if lexing errors occur. Instead, errors may be retrieved using
-     * the getErrors() method.
+     * The token array is in the same format as provided by the PhpToken::tokenize() method in
+     * PHP 8.0. The tokens are instances of PhpParser\Token, to abstract over a polyfill
+     * implementation in earlier PHP version.
      *
-     * @param string $code The source code to lex
+     * The token array is terminated by a sentinel token with token ID 0.
+     * The token array does not discard any tokens (i.e. whitespace and comments are included).
+     * The token position attributes are against this token array.
+     *
+     * @param string $code The source code to tokenize.
      * @param ErrorHandler|null $errorHandler Error handler to use for lexing errors. Defaults to
-     *                                        ErrorHandler\Throwing
+     *                                        ErrorHandler\Throwing.
+     * @return Token[] Tokens
      */
-    public function startLexing(string $code, ?ErrorHandler $errorHandler = null): void {
+    public function tokenize(string $code, ?ErrorHandler $errorHandler = null): array {
         if (null === $errorHandler) {
             $errorHandler = new ErrorHandler\Throwing();
         }
@@ -31,6 +37,8 @@ class Lexer {
         if (false !== $scream) {
             ini_set('xdebug.scream', $scream);
         }
+
+        return $this->tokens;
     }
 
     private function handleInvalidCharacter(Token $token, ErrorHandler $errorHandler): void {
@@ -107,15 +115,7 @@ class Lexer {
     }
 
     /**
-     * Returns the token array for current code.
-     *
-     * The token array is in the same format as provided by the PhpToken::tokenize() method in
-     * PHP 8.0. The tokens are instances of PhpParser\Token, to abstract over a polyfill
-     * implementation in earlier PHP version.
-     *
-     * The token array is terminated by a sentinel token with token ID 0.
-     * The token array does not discard any tokens (i.e. whitespace and comments are included).
-     * The token position attributes are against this token array.
+     * Returns the token array for the last tokenized source code.
      *
      * @return Token[] Array of tokens
      */
