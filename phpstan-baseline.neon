@@ -254,8 +254,3 @@ parameters:
 			message: "#^Variable \\$action might not be defined\\.$#"
 			count: 1
 			path: lib/PhpParser/ParserAbstract.php
-
-		-
-			message: "#^Variable \\$tokenValue might not be defined\\.$#"
-			count: 1
-			path: lib/PhpParser/ParserAbstract.php

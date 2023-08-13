@@ -158,7 +158,7 @@ abstract class ParserAbstract implements Parser {
         $this->initReduceCallbacks();
         $this->phpTokenToSymbol = $this->createTokenMap();
         $this->dropTokens = array_fill_keys(
-            [\T_WHITESPACE, \T_OPEN_TAG, \T_COMMENT, \T_DOC_COMMENT, \T_BAD_CHARACTER], 1
+            [\T_WHITESPACE, \T_OPEN_TAG, \T_COMMENT, \T_DOC_COMMENT, \T_BAD_CHARACTER], true
         );
     }
 
@@ -471,7 +471,7 @@ abstract class ParserAbstract implements Parser {
      *
      * @param int $tokenStartPos Token position the node starts at
      * @param int $tokenEndPos Token position the node ends at
-     * @return array Attributes
+     * @return array<string, mixed> Attributes
      */
     protected function getAttributes(int $tokenStartPos, int $tokenEndPos): array {
         $startToken = $this->tokens[$tokenStartPos];
@@ -491,7 +491,12 @@ abstract class ParserAbstract implements Parser {
         return $attributes;
     }
 
-    protected function getAttributesForToken(int $tokenPos) {
+    /**
+     * Get attributes for a single token at the given token position.
+     *
+     * @return array<string, mixed> Attributes
+     */
+    protected function getAttributesForToken(int $tokenPos): array {
         if ($tokenPos < \count($this->tokens) - 1) {
             return $this->getAttributes($tokenPos, $tokenPos);
         }
@@ -896,6 +901,11 @@ abstract class ParserAbstract implements Parser {
                 $token->getEndLine(), $token->getEndPos() - 1, $tokenPos);
     }
 
+    /**
+     * Get comments before the given token position.
+     *
+     * @return Comment[] Comments
+     */
     protected function getCommentsBeforeToken(int $tokenPos): array {
         $comments = [];
         while (--$tokenPos >= 0) {
@@ -913,9 +923,6 @@ abstract class ParserAbstract implements Parser {
 
     /**
      * Create a zero-length nop to capture preceding comments, if any.
-     *
-     * @param Comment[] $comments
-     * @return array<string, mixed>
      */
     protected function maybeCreateZeroLengthNop(int $tokenPos): ?Nop {
         $comments = $this->getCommentsBeforeToken($tokenPos);
