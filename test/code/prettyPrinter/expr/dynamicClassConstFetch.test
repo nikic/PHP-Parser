@@ -1,0 +1,9 @@
+Dynamic class constant fetch
+-----
+<?php
+Foo::{bar()};
+$foo::{bar()};
+-----
+!!php7
+Foo::{bar()};
+$foo::{bar()};

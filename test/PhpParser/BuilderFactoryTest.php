@@ -210,6 +210,10 @@ class BuilderFactoryTest extends \PHPUnit\Framework\TestCase
             new Expr\ClassConstFetch(new Expr\Variable('foo'), new Identifier('BAR')),
             $factory->classConstFetch(new Expr\Variable('foo'), 'BAR')
         );
+        $this->assertEquals(
+            new Expr\ClassConstFetch(new Name('Foo'), new Expr\Variable('foo')),
+            $factory->classConstFetch('Foo', $factory->var('foo'))
+        );
     }
 
     public function testVar() {
@@ -243,7 +247,7 @@ class BuilderFactoryTest extends \PHPUnit\Framework\TestCase
     public function testInvalidIdentifier() {
         $this->expectException(\LogicException::class);
         $this->expectExceptionMessage('Expected string or instance of Node\Identifier');
-        (new BuilderFactory())->classConstFetch('Foo', new Expr\Variable('foo'));
+        (new BuilderFactory())->classConstFetch('Foo', new Name('foo'));
     }
 
     public function testInvalidIdentifierOrExpr() {

@@ -49,6 +49,10 @@ X
     private
         $x
     ;
+
+    const
+    X
+    = 1;
 }
 
 foreach (
@@ -86,6 +90,7 @@ $stmts[9]->expr = new Expr\Variable('x');
 $stmts[10]->extends = new Node\Name\FullyQualified('Bar');
 $stmts[10]->stmts[0]->returnType = new Node\Name('Y');
 $stmts[10]->stmts[1]->props[0]->default = new Scalar\DNumber(42.0);
+$stmts[10]->stmts[2]->type = new Node\Identifier('int');
 $stmts[11]->keyVar = new Expr\Variable('z');
 $stmts[12]->vars[0]->default = new Scalar\String_('abc');
 $stmts[13]->finally = new Stmt\Finally_([]);
@@ -140,6 +145,10 @@ X extends \Bar
     private
         $x = 42.0
     ;
+
+    const int
+    X
+    = 1;
 }
 
 foreach (

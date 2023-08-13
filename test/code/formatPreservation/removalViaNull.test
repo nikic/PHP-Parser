@@ -35,6 +35,11 @@ Bar
         y
         ;
     }
+
+    const
+    int
+    X
+    = 1;
 }
 
 $foo [ $bar ];
@@ -97,6 +102,7 @@ $stmts[2]->extends = null;
 $stmts[2]->stmts[0]->returnType = null;
 $stmts[2]->stmts[1]->props[0]->default = null;
 $stmts[2]->stmts[2]->adaptations[0]->newName = null;
+$stmts[2]->stmts[3]->type = null;
 $stmts[3]->expr->dim = null;
 $stmts[4]->expr->expr = null;
 $stmts[5]->expr->if = null;
@@ -141,6 +147,10 @@ Foo
         public
         ;
     }
+
+    const
+    X
+    = 1;
 }
 
 $foo [];

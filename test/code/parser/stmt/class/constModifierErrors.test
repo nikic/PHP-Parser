@@ -23,6 +23,7 @@ array(
                 attrGroups: array(
                 )
                 flags: MODIFIER_STATIC (8)
+                type: null
                 consts: array(
                     0: Const(
                         name: Identifier(
@@ -61,6 +62,7 @@ array(
                 attrGroups: array(
                 )
                 flags: MODIFIER_ABSTRACT (16)
+                type: null
                 consts: array(
                     0: Const(
                         name: Identifier(
@@ -99,6 +101,7 @@ array(
                 attrGroups: array(
                 )
                 flags: MODIFIER_READONLY (64)
+                type: null
                 consts: array(
                     0: Const(
                         name: Identifier(
@@ -137,6 +140,7 @@ array(
                 attrGroups: array(
                 )
                 flags: MODIFIER_PUBLIC (1)
+                type: null
                 consts: array(
                     0: Const(
                         name: Identifier(

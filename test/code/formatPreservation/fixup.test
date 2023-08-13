@@ -42,6 +42,12 @@ $foo -> bar;
 $foo -> bar;
 self :: $foo;
 self :: $foo;
+new Foo();
+$x instanceof Foo;
+Foo :: bar;
+Foo :: $bar;
+Foo :: bar();
+Foo :: bar;
 -----
 $stmts[0]->expr->name = new Expr\Variable('a');
 $stmts[1]->expr->name = new Expr\BinaryOp\Concat(new Expr\Variable('a'), new Expr\Variable('b'));
@@ -54,6 +60,12 @@ $stmts[5]->expr->name = new Expr\Variable('bar');
 $stmts[6]->expr->name = new Expr\BinaryOp\Concat(new Expr\Variable('a'), new Expr\Variable('b'));
 $stmts[7]->expr->name = new Node\VarLikeIdentifier('bar');
 $stmts[8]->expr->name = new Expr\BinaryOp\Concat(new Expr\Variable('a'), new Expr\Variable('b'));
+$stmts[9]->expr->class = new Scalar\String_('Foo');
+$stmts[10]->expr->class = new Scalar\String_('Foo');
+$stmts[11]->expr->class = new Expr\ConstFetch(new Node\Name('FOO'));
+$stmts[12]->expr->class = new Expr\ConstFetch(new Node\Name('FOO'));
+$stmts[13]->expr->class = new Expr\ConstFetch(new Node\Name('FOO'));
+$stmts[14]->expr->name = new Expr\Variable('bar');
 -----
 <?php
 $a ();
@@ -65,3 +77,9 @@ $foo -> {$bar};
 $foo -> {$a . $b};
 self :: $bar;
 self :: ${$a . $b};
+new ('Foo')();
+$x instanceof ('Foo');
+(FOO) :: bar;
+(FOO) :: $bar;
+(FOO) :: bar();
+Foo :: {$bar};

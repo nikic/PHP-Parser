@@ -1,0 +1,125 @@
+Typed constants
+-----
+<?php
+class Test {
+    const int X = 1;
+    private const string Y = "a", Z = "b";
+    const array ARRAY = [];
+    const Foo|Bar|null FOO = null;
+}
+-----
+!!php7
+array(
+    0: Stmt_Class(
+        attrGroups: array(
+        )
+        flags: 0
+        name: Identifier(
+            name: Test
+        )
+        extends: null
+        implements: array(
+        )
+        stmts: array(
+            0: Stmt_ClassConst(
+                attrGroups: array(
+                )
+                flags: 0
+                type: Identifier(
+                    name: int
+                )
+                consts: array(
+                    0: Const(
+                        name: Identifier(
+                            name: X
+                        )
+                        value: Scalar_LNumber(
+                            value: 1
+                        )
+                    )
+                )
+            )
+            1: Stmt_ClassConst(
+                attrGroups: array(
+                )
+                flags: MODIFIER_PRIVATE (4)
+                type: Identifier(
+                    name: string
+                )
+                consts: array(
+                    0: Const(
+                        name: Identifier(
+                            name: Y
+                        )
+                        value: Scalar_String(
+                            value: a
+                        )
+                    )
+                    1: Const(
+                        name: Identifier(
+                            name: Z
+                        )
+                        value: Scalar_String(
+                            value: b
+                        )
+                    )
+                )
+            )
+            2: Stmt_ClassConst(
+                attrGroups: array(
+                )
+                flags: 0
+                type: Identifier(
+                    name: array
+                )
+                consts: array(
+                    0: Const(
+                        name: Identifier(
+                            name: ARRAY
+                        )
+                        value: Expr_Array(
+                            items: array(
+                            )
+                        )
+                    )
+                )
+            )
+            3: Stmt_ClassConst(
+                attrGroups: array(
+                )
+                flags: 0
+                type: UnionType(
+                    types: array(
+                        0: Name(
+                            parts: array(
+                                0: Foo
+                            )
+                        )
+                        1: Name(
+                            parts: array(
+                                0: Bar
+                            )
+                        )
+                        2: Identifier(
+                            name: null
+                        )
+                    )
+                )
+                consts: array(
+                    0: Const(
+                        name: Identifier(
+                            name: FOO
+                        )
+                        value: Expr_ConstFetch(
+                            name: Name(
+                                parts: array(
+                                    0: null
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        )
+    )
+)
