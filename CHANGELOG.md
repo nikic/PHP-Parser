@@ -1,3 +1,17 @@
+Version 4.17.0 (2023-08-13)
+---------------------------
+
+### Added
+
+* [PHP 8.3] Added support for typed class constants.
+* [PHP 8.3] Added supprot for dynamic class constant fetch.
+* [PHP 8.3] Added support for readonly anonymous classes.
+
+### Fixed
+
+* Fixed missing required parentheses when pretty printing new with an expression class name.
+* Fixed missing required parentheses when pretty printing `(CONST)::$x` and similar.
+
 Version 4.16.0 (2023-06-25)
 ---------------------------
 
