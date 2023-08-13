@@ -132,10 +132,12 @@ class Emulative extends Lexer {
 
         // We use a manual loop over the tokens, because we modify the array on the fly
         $posDelta = 0;
+        $lineDelta = 0;
         for ($i = 0, $c = \count($this->tokens); $i < $c; $i++) {
             $token = $this->tokens[$i];
             $pos = $token->pos;
             $token->pos += $posDelta;
+            $token->line += $lineDelta;
             $localPosDelta = 0;
             $len = \strlen($token->text);
             while ($patchPos >= $pos && $patchPos < $pos + $len) {
@@ -153,12 +155,14 @@ class Emulative extends Lexer {
                         );
                         $localPosDelta -= $patchTextLen;
                     }
+                    $lineDelta -= \substr_count($patchText, "\n");
                 } elseif ($patchType === 'add') {
                     // Insert into the token string
                     $token->text = substr_replace(
                         $token->text, $patchText, $patchPos - $pos + $localPosDelta, 0
                     );
                     $localPosDelta += $patchTextLen;
+                    $lineDelta += \substr_count($patchText, "\n");
                 } elseif ($patchType === 'replace') {
                     // Replace inside the token string
                     $token->text = substr_replace(
