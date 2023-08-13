@@ -1,3 +1,10 @@
+Version 4.17.1 (2023-08-13)
+---------------------------
+
+### Fixed
+
+* Fixed phpdoc mismatches for `ClassConst::$type` introduced in previous release.
+
 Version 4.17.0 (2023-08-13)
 ---------------------------
 
