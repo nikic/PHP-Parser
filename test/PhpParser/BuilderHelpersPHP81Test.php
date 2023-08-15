@@ -3,6 +3,7 @@
 namespace PhpParser;
 
 use PhpParser\Node\Expr;
+use PhpParser\Node\Identifier;
 use PhpParser\Node\Name\FullyQualified;
 
 class BuilderHelpersPHP81Test extends \PHPUnit\Framework\TestCase
@@ -14,6 +15,6 @@ class BuilderHelpersPHP81Test extends \PHPUnit\Framework\TestCase
 
         include __DIR__ . '/../code/Suit.php';
 
-        $this->assertEquals(new Expr\ClassConstFetch(new FullyQualified(\Suit::class), 'Hearts'), BuilderHelpers::normalizeValue(\Suit::Hearts));
+        $this->assertEquals(new Expr\ClassConstFetch(new FullyQualified(\Suit::class), new Identifier('Hearts')), BuilderHelpers::normalizeValue(\Suit::Hearts));
     }
 }

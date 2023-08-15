@@ -271,7 +271,7 @@ final class BuilderHelpers
         }
 
         if ($value instanceof \UnitEnum) {
-            return new Expr\ClassConstFetch(new FullyQualified(\get_class($value)), $value->name);
+            return new Expr\ClassConstFetch(new FullyQualified(\get_class($value)), new Identifier($value->name));
         }
 
         throw new \LogicException('Invalid value');
