@@ -406,10 +406,8 @@ class EmulativeTest extends LexerTest {
             ['8.0', 'match', [[\T_MATCH, 'match']]],
             ['7.4', 'match', [[\T_STRING, 'match']]],
             // Keywords are not case-sensitive.
-            ['7.4', 'fn', [[\T_FN, 'fn']]],
-            ['7.4', 'FN', [[\T_FN, 'FN']]],
-            ['7.3', 'fn', [[\T_STRING, 'fn']]],
-            ['7.3', 'FN', [[\T_STRING, 'FN']]],
+            ['8.0', 'MATCH', [[\T_MATCH, 'MATCH']]],
+            ['7.4', 'MATCH', [[\T_STRING, 'MATCH']]],
             // Tested here to skip testLeaveStuffAloneInStrings.
             ['8.0', '"$foo?->bar"', [
                 [ord('"'), '"'],

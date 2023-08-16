@@ -40,11 +40,7 @@ class Emulative extends Lexer {
         $this->hostPhpVersion = PhpVersion::getHostVersion();
 
         $emulators = [
-            new FlexibleDocStringEmulator(),
-            new FnTokenEmulator(),
             new MatchTokenEmulator(),
-            new CoaleseEqualTokenEmulator(),
-            new NumericLiteralSeparatorEmulator(),
             new NullsafeTokenEmulator(),
             new AttributeEmulator(),
             new EnumTokenEmulator(),

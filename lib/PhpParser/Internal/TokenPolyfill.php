@@ -128,9 +128,6 @@ class TokenPolyfill {
         $line = 1;
         $pos = 0;
         $origTokens = \token_get_all($code, $flags);
-        if (\PHP_VERSION_ID < 70400) {
-            $origTokens = self::fixupBadCharacters($code, $origTokens);
-        }
 
         $numTokens = \count($origTokens);
         for ($i = 0; $i < $numTokens; $i++) {
@@ -215,38 +212,6 @@ class TokenPolyfill {
             }
         }
         return $tokens;
-    }
-
-    /**
-     * Prior to PHP 7.4, token_get_all() simply dropped invalid characters from the token stream.
-     * Detect such cases and replace them with T_BAD_CHARACTER.
-     */
-    private static function fixupBadCharacters(string $code, array $origTokens): array {
-        $newTokens = [];
-        $pos = 0;
-        foreach ($origTokens as $token) {
-            $text = \is_string($token) ? $token : $token[1];
-            $len = \strlen($text);
-            if (substr($code, $pos, $len) !== $text) {
-                $nextPos = strpos($code, $text, $pos);
-                for ($i = $pos; $i < $nextPos; $i++) {
-                    // Don't bother including the line, we're not going to use it anyway.
-                    $newTokens[] = [\T_BAD_CHARACTER, $code[$i]];
-                }
-                $pos = $nextPos;
-            }
-            $pos += $len;
-            $newTokens[] = $token;
-        }
-
-        // Handle trailing invalid characters.
-        $codeLen = \strlen($code);
-        if ($pos !== $codeLen) {
-            for ($i = $pos; $i < $codeLen; $i++) {
-                $newTokens[] = [\T_BAD_CHARACTER, $code[$i]];
-            }
-        }
-        return $newTokens;
     }
 
     /** Initialize private static state needed by tokenize(). */

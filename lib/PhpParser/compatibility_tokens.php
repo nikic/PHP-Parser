@@ -5,10 +5,6 @@ namespace PhpParser;
 if (!\function_exists('PhpParser\defineCompatibilityTokens')) {
     function defineCompatibilityTokens(): void {
         $compatTokens = [
-            // PHP 7.4
-            'T_BAD_CHARACTER',
-            'T_FN',
-            'T_COALESCE_EQUAL',
             // PHP 8.0
             'T_NAME_QUALIFIED',
             'T_NAME_FULLY_QUALIFIED',
