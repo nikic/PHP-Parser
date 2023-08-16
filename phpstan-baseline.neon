@@ -66,16 +66,6 @@ parameters:
 			path: lib/PhpParser/ConstExprEvaluator.php
 
 		-
-			message: "#^Method PhpParser\\\\Internal\\\\TokenPolyfill\\:\\:fixupBadCharacters\\(\\) has parameter \\$origTokens with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: lib/PhpParser/Internal/TokenPolyfill.php
-
-		-
-			message: "#^Method PhpParser\\\\Internal\\\\TokenPolyfill\\:\\:fixupBadCharacters\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: lib/PhpParser/Internal/TokenPolyfill.php
-
-		-
 			message: "#^Method PhpParser\\\\JsonDecoder\\:\\:decodeArray\\(\\) has parameter \\$array with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: lib/PhpParser/JsonDecoder.php
@@ -99,11 +89,6 @@ parameters:
 			message: "#^Call to function assert\\(\\) with false will always evaluate to false\\.$#"
 			count: 1
 			path: lib/PhpParser/Lexer/Emulative.php
-
-		-
-			message: "#^Unary operation \"\\+\" on string results in an error\\.$#"
-			count: 1
-			path: lib/PhpParser/Lexer/TokenEmulator/NumericLiteralSeparatorEmulator.php
 
 		-
 			message: "#^Method PhpParser\\\\NodeDumper\\:\\:__construct\\(\\) has parameter \\$options with no value type specified in iterable type array\\.$#"
