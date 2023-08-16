@@ -7,7 +7,7 @@ on:
 jobs:
   tests_coverage:
     runs-on: "ubuntu-latest"
-    name: "PHP 7.1 Unit Tests (with coverage)"
+    name: "PHP 7.4 Unit Tests (with coverage)"
     steps:
       - name: "Checkout"
         uses: "actions/checkout@v3"
@@ -15,7 +15,7 @@ jobs:
         uses: "shivammathur/setup-php@v2"
         with:
           coverage: "xdebug"
-          php-version: "7.1"
+          php-version: "7.4"
           tools: composer:v2
       - name: "Install dependencies"
         run: |
@@ -34,9 +34,6 @@ jobs:
     strategy:
       matrix:
         php-version:
-          - "7.2"
-          - "7.3"
-          - "7.4"
           - "8.0"
           - "8.1"
           - "8.2"
@@ -71,7 +68,7 @@ jobs:
         run: "test_old/run-php-src.sh 7.3.21"
   test_old_80_70:
     runs-on: "ubuntu-latest"
-    name: "PHP 8.2 Code on PHP 7.1 Integration Tests"
+    name: "PHP 8.2 Code on PHP 7.3 Integration Tests"
     steps:
       - name: "Checkout"
         uses: "actions/checkout@v3"
@@ -79,7 +76,7 @@ jobs:
         uses: "shivammathur/setup-php@v2"
         with:
           coverage: "none"
-          php-version: "7.1"
+          php-version: "7.3"
           tools: composer:v2
       - name: "Install PHP 8 dependencies"
         run: "composer update --no-progress --prefer-dist"

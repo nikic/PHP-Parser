@@ -6,7 +6,7 @@ PHP Parser
 This is a PHP parser written in PHP. Its purpose is to simplify static code analysis and
 manipulation.
 
-[Documentation for version 5.x][doc_master] (in development; for running on PHP >= 7.1; for parsing PHP 7.0 to PHP 8.3, with limited support for parsing PHP 5.x).
+[Documentation for version 5.x][doc_master] (in development; for running on PHP >= 7.4; for parsing PHP 7.0 to PHP 8.3, with limited support for parsing PHP 5.x).
 
 [**Documentation for version 4.x**][doc_4_x] (stable; for running on PHP >= 7.0; for parsing PHP 5.2 to PHP 8.2).
 
