@@ -6,7 +6,7 @@ use PhpParser\Node\Expr;
 
 class Print_ extends Expr {
     /** @var Expr Expression */
-    public $expr;
+    public Expr $expr;
 
     /**
      * Constructs an print() node.

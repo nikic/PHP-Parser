@@ -12,7 +12,7 @@ use PhpParser\ErrorHandler;
  */
 class Collecting implements ErrorHandler {
     /** @var Error[] Collected errors */
-    private $errors = [];
+    private array $errors = [];
 
     public function handleError(Error $error): void {
         $this->errors[] = $error;

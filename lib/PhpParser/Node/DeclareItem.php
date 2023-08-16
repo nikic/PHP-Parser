@@ -7,9 +7,9 @@ use PhpParser\NodeAbstract;
 
 class DeclareItem extends NodeAbstract {
     /** @var Node\Identifier Key */
-    public $key;
+    public Identifier $key;
     /** @var Node\Expr Value */
-    public $value;
+    public Expr $value;
 
     /**
      * Constructs a declare key=>value pair node.

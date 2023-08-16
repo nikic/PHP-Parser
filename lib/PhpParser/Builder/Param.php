@@ -9,19 +9,19 @@ use PhpParser\Node;
 
 class Param implements PhpParser\Builder {
     /** @var string */
-    protected $name;
+    protected string $name;
     /** @var Node\Expr|null */
-    protected $default = null;
+    protected ?Node\Expr $default = null;
     /** @var Node\Identifier|Node\Name|Node\ComplexType|null */
     protected $type = null;
     /** @var bool */
-    protected $byRef = false;
+    protected bool $byRef = false;
     /** @var int */
-    protected $flags = 0;
+    protected int $flags = 0;
     /** @var bool */
-    protected $variadic = false;
+    protected bool $variadic = false;
     /** @var list<Node\AttributeGroup> */
-    protected $attributeGroups = [];
+    protected array $attributeGroups = [];
 
     /**
      * Creates a parameter builder.

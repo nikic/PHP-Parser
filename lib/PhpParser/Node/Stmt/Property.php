@@ -11,13 +11,13 @@ use PhpParser\Node\PropertyItem;
 
 class Property extends Node\Stmt {
     /** @var int Modifiers */
-    public $flags;
+    public int $flags;
     /** @var PropertyItem[] Properties */
-    public $props;
+    public array $props;
     /** @var null|Identifier|Name|ComplexType Type declaration */
     public $type;
     /** @var Node\AttributeGroup[] PHP attribute groups */
-    public $attrGroups;
+    public array $attrGroups;
 
     /**
      * Constructs a class property list node.

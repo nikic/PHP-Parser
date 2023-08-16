@@ -6,7 +6,7 @@ use PhpParser\Node;
 
 class Break_ extends Node\Stmt {
     /** @var null|Node\Expr Number of loops to break */
-    public $num;
+    public ?Node\Expr $num;
 
     /**
      * Constructs a break node.

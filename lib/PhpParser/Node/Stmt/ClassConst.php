@@ -7,11 +7,11 @@ use PhpParser\Node;
 
 class ClassConst extends Node\Stmt {
     /** @var int Modifiers */
-    public $flags;
+    public int $flags;
     /** @var Node\Const_[] Constant declarations */
-    public $consts;
+    public array $consts;
     /** @var Node\AttributeGroup[] PHP attribute groups */
-    public $attrGroups;
+    public array $attrGroups;
     /** @var Node\Identifier|Node\Name|Node\ComplexType|null Type declaration */
     public $type;
 

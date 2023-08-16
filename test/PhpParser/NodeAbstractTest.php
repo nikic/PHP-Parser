@@ -343,7 +343,6 @@ PHP;
             }
         ],
         "attrGroups": [],
-        "namespacedName": null,
         "attributes": {
             "startLine": 4,
             "startTokenPos": 5,
@@ -539,8 +538,7 @@ JSON;
                 ]
             }
         ],
-        "attrGroups": [],
-        "namespacedName": null
+        "attrGroups": []
     }
 ]
 JSON;

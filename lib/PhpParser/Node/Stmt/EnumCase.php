@@ -7,11 +7,11 @@ use PhpParser\Node\AttributeGroup;
 
 class EnumCase extends Node\Stmt {
     /** @var Node\Identifier Enum case name */
-    public $name;
+    public Node\Identifier $name;
     /** @var Node\Expr|null Enum case expression */
-    public $expr;
+    public ?Node\Expr $expr;
     /** @var Node\AttributeGroup[] PHP attribute groups */
-    public $attrGroups;
+    public array $attrGroups;
 
     /**
      * @param string|Node\Identifier    $name       Enum case name

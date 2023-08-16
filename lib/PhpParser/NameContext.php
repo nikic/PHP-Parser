@@ -8,16 +8,16 @@ use PhpParser\Node\Stmt;
 
 class NameContext {
     /** @var null|Name Current namespace */
-    protected $namespace;
+    protected ?Name $namespace;
 
     /** @var Name[][] Map of format [aliasType => [aliasName => originalName]] */
-    protected $aliases = [];
+    protected array $aliases = [];
 
     /** @var Name[][] Same as $aliases but preserving original case */
-    protected $origAliases = [];
+    protected array $origAliases = [];
 
     /** @var ErrorHandler Error handler */
-    protected $errorHandler;
+    protected ErrorHandler $errorHandler;
 
     /**
      * Create a name context.

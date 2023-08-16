@@ -6,7 +6,7 @@ use PhpParser\Node;
 
 class Global_ extends Node\Stmt {
     /** @var Node\Expr[] Variables */
-    public $vars;
+    public array $vars;
 
     /**
      * Constructs a global variables list node.

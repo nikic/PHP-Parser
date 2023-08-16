@@ -7,7 +7,7 @@ use PhpParser\Node\Stmt;
 
 class Label extends Stmt {
     /** @var Identifier Name */
-    public $name;
+    public Identifier $name;
 
     /**
      * Constructs a label node.

@@ -6,7 +6,7 @@ use PhpParser\Node\Expr;
 
 class Isset_ extends Expr {
     /** @var Expr[] Variables */
-    public $vars;
+    public array $vars;
 
     /**
      * Constructs an array node.

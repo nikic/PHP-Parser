@@ -13,13 +13,13 @@ use PhpParser\NodeVisitorAbstract;
 
 class NameResolver extends NodeVisitorAbstract {
     /** @var NameContext Naming context */
-    protected $nameContext;
+    protected NameContext $nameContext;
 
     /** @var bool Whether to preserve original names */
-    protected $preserveOriginalNames;
+    protected bool $preserveOriginalNames;
 
     /** @var bool Whether to replace resolved nodes in place, or to add resolvedNode attributes */
-    protected $replaceNodes;
+    protected bool $replaceNodes;
 
     /**
      * Constructs a name resolution visitor.
@@ -77,6 +77,8 @@ class NameResolver extends NodeVisitorAbstract {
             $this->resolveAttrGroups($node);
             if (null !== $node->name) {
                 $this->addNamespacedName($node);
+            } else {
+                $node->namespacedName = null;
             }
         } elseif ($node instanceof Stmt\Interface_) {
             foreach ($node->extends as &$interface) {
@@ -91,9 +93,7 @@ class NameResolver extends NodeVisitorAbstract {
             }
 
             $this->resolveAttrGroups($node);
-            if (null !== $node->name) {
-                $this->addNamespacedName($node);
-            }
+            $this->addNamespacedName($node);
         } elseif ($node instanceof Stmt\Trait_) {
             $this->resolveAttrGroups($node);
             $this->addNamespacedName($node);

@@ -32,7 +32,7 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
     protected const MAX_PRECEDENCE = 1000;
 
     /** @var array<class-string, array{int, int, int}> */
-    protected $precedenceMap = [
+    protected array $precedenceMap = [
         // [precedence, precedenceLHS, precedenceRHS]
         // Where the latter two are the precedences to use for the LHS and RHS of a binary operator,
         // where 1 is added to one of the sides depending on associativity. This information is not
@@ -103,59 +103,59 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
     ];
 
     /** @var int Current indentation level. */
-    protected $indentLevel;
+    protected int $indentLevel;
     /** @var string Newline style. Does not include current indentation. */
-    protected $newline;
+    protected string $newline;
     /** @var string Newline including current indentation. */
-    protected $nl;
+    protected string $nl;
     /** @var string|null Token placed at end of doc string to ensure it is followed by a newline.
      *                   Null if flexible doc strings are used. */
-    protected $docStringEndToken;
+    protected ?string $docStringEndToken;
     /** @var bool Whether semicolon namespaces can be used (i.e. no global namespace is used) */
-    protected $canUseSemicolonNamespaces;
+    protected bool $canUseSemicolonNamespaces;
     /** @var bool Whether to use short array syntax if the node specifies no preference */
-    protected $shortArraySyntax;
+    protected bool $shortArraySyntax;
     /** @var PhpVersion PHP version to target */
-    protected $phpVersion;
+    protected PhpVersion $phpVersion;
 
     /** @var TokenStream|null Original tokens for use in format-preserving pretty print */
-    protected $origTokens;
+    protected ?TokenStream $origTokens;
     /** @var Internal\Differ<Node>|null Differ for node lists */
     protected $nodeListDiffer;
     /** @var array<string, bool> Map determining whether a certain character is a label character */
-    protected $labelCharMap;
+    protected array $labelCharMap;
     /**
      * @var array<string, array<string, int>> Map from token classes and subnode names to FIXUP_* constants.
      *      This is used during format-preserving prints to place additional parens/braces if necessary.
      */
-    protected $fixupMap;
+    protected array $fixupMap;
     /**
      * @var array<string, array{left?: int|string, right?: int|string}> Map from "{$node->getType()}->{$subNode}"
      *      to ['left' => $l, 'right' => $r], where $l and $r specify the token type that needs to be stripped
      *      when removing this node.
      */
-    protected $removalMap;
+    protected array $removalMap;
     /**
      * @var array<string, array{int|string|null, bool, string|null, string|null}> Map from
      *      "{$node->getType()}->{$subNode}" to [$find, $beforeToken, $extraLeft, $extraRight].
      *      $find is an optional token after which the insertion occurs. $extraLeft/Right
      *      are optionally added before/after the main insertions.
      */
-    protected $insertionMap;
+    protected array $insertionMap;
     /**
      * @var array<string, string> Map From "{$class}->{$subNode}" to string that should be inserted
      *                            between elements of this list subnode.
      */
-    protected $listInsertionMap;
+    protected array $listInsertionMap;
 
     /**
      * @var array<string, array{int|string|null, string, string}>
      */
-    protected $emptyListInsertionMap;
+    protected array $emptyListInsertionMap;
     /** @var array<string, array{string, int}> Map from "{$class}->{$subNode}" to [$printFn, $token]
      *       where $printFn is the function to print the modifiers and $token is the token before which
      *       the modifiers should be reprinted. */
-    protected $modifierChangeMap;
+    protected array $modifierChangeMap;
 
     /**
      * Creates a pretty printer instance using the given options.
@@ -1252,7 +1252,7 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
      * The label char map determines whether a certain character may occur in a label.
      */
     protected function initializeLabelCharMap(): void {
-        if ($this->labelCharMap) {
+        if (isset($this->labelCharMap)) {
             return;
         }
 
@@ -1293,7 +1293,7 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
      * some kind of "fixup" operation, e.g. the addition of parenthesis or braces.
      */
     protected function initializeFixupMap(): void {
-        if ($this->fixupMap) {
+        if (isset($this->fixupMap)) {
             return;
         }
 
@@ -1382,7 +1382,7 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
      * certain node is replaced by null.
      */
     protected function initializeRemovalMap(): void {
-        if ($this->removalMap) {
+        if (isset($this->removalMap)) {
             return;
         }
 
@@ -1430,7 +1430,7 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
     }
 
     protected function initializeInsertionMap(): void {
-        if ($this->insertionMap) {
+        if (isset($this->insertionMap)) {
             return;
         }
 
@@ -1475,7 +1475,7 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
     }
 
     protected function initializeListInsertionMap(): void {
-        if ($this->listInsertionMap) {
+        if (isset($this->listInsertionMap)) {
             return;
         }
 
@@ -1573,7 +1573,7 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
     }
 
     protected function initializeEmptyListInsertionMap(): void {
-        if ($this->emptyListInsertionMap) {
+        if (isset($this->emptyListInsertionMap)) {
             return;
         }
 
@@ -1638,7 +1638,7 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
     }
 
     protected function initializeModifierChangeMap(): void {
-        if ($this->modifierChangeMap) {
+        if (isset($this->modifierChangeMap)) {
             return;
         }
 

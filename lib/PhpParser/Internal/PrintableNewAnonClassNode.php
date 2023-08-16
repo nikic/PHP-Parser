@@ -17,17 +17,17 @@ use PhpParser\Node\Expr;
  */
 class PrintableNewAnonClassNode extends Expr {
     /** @var Node\AttributeGroup[] PHP attribute groups */
-    public $attrGroups;
+    public array $attrGroups;
     /** @var int Modifiers */
-    public $flags;
+    public int $flags;
     /** @var (Node\Arg|Node\VariadicPlaceholder)[] Arguments */
     public $args;
     /** @var null|Node\Name Name of extended class */
-    public $extends;
+    public ?Node\Name $extends;
     /** @var Node\Name[] Names of implemented interfaces */
-    public $implements;
+    public array $implements;
     /** @var Node\Stmt[] Statements */
-    public $stmts;
+    public array $stmts;
 
     /**
      * @param Node\AttributeGroup[] $attrGroups PHP attribute groups

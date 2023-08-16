@@ -6,13 +6,13 @@ use PhpParser\NodeAbstract;
 
 class ArrayItem extends NodeAbstract {
     /** @var null|Expr Key */
-    public $key;
+    public ?Expr $key;
     /** @var Expr Value */
-    public $value;
+    public Expr $value;
     /** @var bool Whether to assign by reference */
-    public $byRef;
+    public bool $byRef;
     /** @var bool Whether to unpack the argument */
-    public $unpack;
+    public bool $unpack;
 
     /**
      * Constructs an array item node.

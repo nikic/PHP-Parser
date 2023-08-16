@@ -9,10 +9,10 @@ use PhpParser\NodeAbstract;
  */
 class Identifier extends NodeAbstract {
     /** @var string Identifier as string */
-    public $name;
+    public string $name;
 
     /** @var array<string, bool> */
-    private static $specialClassNames = [
+    private static array $specialClassNames = [
         'self'   => true,
         'parent' => true,
         'static' => true,

@@ -7,11 +7,11 @@ use PhpParser\Node\Expr;
 
 class Catch_ extends Node\Stmt {
     /** @var Node\Name[] Types of exceptions to catch */
-    public $types;
+    public array $types;
     /** @var Expr\Variable|null Variable for exception */
-    public $var;
+    public ?Expr\Variable $var;
     /** @var Node\Stmt[] Statements */
-    public $stmts;
+    public array $stmts;
 
     /**
      * Constructs a catch node.

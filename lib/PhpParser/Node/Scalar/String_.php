@@ -13,10 +13,10 @@ class String_ extends Scalar {
     public const KIND_NOWDOC = 4;
 
     /** @var string String value */
-    public $value;
+    public string $value;
 
     /** @var array<string, string> Escaped character to its decoded value */
-    protected static $replacements = [
+    protected static array $replacements = [
         '\\' => '\\',
         '$'  =>  '$',
         'n'  => "\n",

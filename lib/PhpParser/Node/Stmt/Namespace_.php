@@ -10,7 +10,7 @@ class Namespace_ extends Node\Stmt {
     public const KIND_BRACED = 2;
 
     /** @var null|Node\Name Name */
-    public $name;
+    public ?Node\Name $name;
     /** @var Node\Stmt[] Statements */
     public $stmts;
 

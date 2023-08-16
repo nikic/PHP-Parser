@@ -7,9 +7,9 @@ use PhpParser\NodeAbstract;
 
 class StaticVar extends NodeAbstract {
     /** @var Expr\Variable Variable */
-    public $var;
+    public Expr\Variable $var;
     /** @var null|Node\Expr Default value */
-    public $default;
+    public ?Expr $default;
 
     /**
      * Constructs a static variable node.

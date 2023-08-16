@@ -20,9 +20,9 @@ class Use_ extends Stmt {
     public const TYPE_CONSTANT = 3;
 
     /** @var int Type of alias */
-    public $type;
+    public int $type;
     /** @var UseItem[] Aliases */
-    public $uses;
+    public array $uses;
 
     /**
      * Constructs an alias (use) list node.

@@ -8,7 +8,7 @@ class Enum_ extends ClassLike {
     /** @var null|Node\Identifier Scalar Type */
     public $scalarType;
     /** @var Node\Name[] Names of implemented interfaces */
-    public $implements;
+    public array $implements;
 
     /**
      * @param string|Node\Identifier|null $name Name

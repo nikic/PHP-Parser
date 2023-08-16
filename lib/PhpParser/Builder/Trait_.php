@@ -9,17 +9,17 @@ use PhpParser\Node\Stmt;
 
 class Trait_ extends Declaration {
     /** @var string */
-    protected $name;
+    protected string $name;
     /** @var list<Stmt\TraitUse> */
-    protected $uses = [];
+    protected array $uses = [];
     /** @var list<Stmt\ClassConst> */
-    protected $constants = [];
+    protected array $constants = [];
     /** @var list<Stmt\Property> */
-    protected $properties = [];
+    protected array $properties = [];
     /** @var list<Stmt\ClassMethod> */
-    protected $methods = [];
+    protected array $methods = [];
     /** @var list<Node\AttributeGroup> */
-    protected $attributeGroups = [];
+    protected array $attributeGroups = [];
 
     /**
      * Creates an interface builder.

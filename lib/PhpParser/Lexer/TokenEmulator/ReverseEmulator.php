@@ -9,7 +9,7 @@ use PhpParser\PhpVersion;
  */
 final class ReverseEmulator extends TokenEmulator {
     /** @var TokenEmulator Inner emulator */
-    private $emulator;
+    private TokenEmulator $emulator;
 
     public function __construct(TokenEmulator $emulator) {
         $this->emulator = $emulator;

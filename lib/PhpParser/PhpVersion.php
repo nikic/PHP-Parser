@@ -7,7 +7,7 @@ namespace PhpParser;
  */
 class PhpVersion {
     /** @var int Version ID in PHP_VERSION_ID format */
-    public $id;
+    public int $id;
 
     /** @var int[] Minimum versions for builtin types */
     private const BUILTIN_TYPE_VERSIONS = [

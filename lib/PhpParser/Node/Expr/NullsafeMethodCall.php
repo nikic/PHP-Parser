@@ -9,7 +9,7 @@ use PhpParser\Node\VariadicPlaceholder;
 
 class NullsafeMethodCall extends CallLike {
     /** @var Expr Variable holding object */
-    public $var;
+    public Expr $var;
     /** @var Identifier|Expr Method name */
     public $name;
     /** @var array<Arg|VariadicPlaceholder> Arguments */

@@ -6,12 +6,12 @@ use PhpParser\NodeAbstract;
 
 class Const_ extends NodeAbstract {
     /** @var Identifier Name */
-    public $name;
+    public Identifier $name;
     /** @var Expr Value */
-    public $value;
+    public Expr $value;
 
     /** @var Name|null Namespaced name (if using NameResolver) */
-    public $namespacedName;
+    public ?Name $namespacedName;
 
     /**
      * Constructs a const node for use in class const and const statements.

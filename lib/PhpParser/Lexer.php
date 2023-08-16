@@ -6,7 +6,7 @@ require __DIR__ . '/compatibility_tokens.php';
 
 class Lexer {
     /** @var list<Token> List of tokens */
-    protected $tokens;
+    protected array $tokens;
 
     /**
      * Tokenize the provided source code.

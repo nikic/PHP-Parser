@@ -6,13 +6,13 @@ use PhpParser\Node;
 
 class For_ extends Node\Stmt {
     /** @var Node\Expr[] Init expressions */
-    public $init;
+    public array $init;
     /** @var Node\Expr[] Loop conditions */
-    public $cond;
+    public array $cond;
     /** @var Node\Expr[] Loop expressions */
-    public $loop;
+    public array $loop;
     /** @var Node\Stmt[] Statements */
-    public $stmts;
+    public array $stmts;
 
     /**
      * Constructs a for loop node.

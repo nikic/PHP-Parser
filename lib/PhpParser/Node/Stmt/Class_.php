@@ -25,11 +25,11 @@ class Class_ extends ClassLike {
     public const VISIBILITY_MODIFIER_MASK = 7; // 1 | 2 | 4
 
     /** @var int Modifiers */
-    public $flags;
+    public int $flags;
     /** @var null|Node\Name Name of extended class */
-    public $extends;
+    public ?Node\Name $extends;
     /** @var Node\Name[] Names of implemented interfaces */
-    public $implements;
+    public array $implements;
 
     /**
      * Constructs a class node.

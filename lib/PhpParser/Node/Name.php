@@ -6,10 +6,10 @@ use PhpParser\NodeAbstract;
 
 class Name extends NodeAbstract {
     /** @var string Name as string */
-    public $name;
+    public string $name;
 
     /** @var array<string, bool> */
-    private static $specialClassNames = [
+    private static array $specialClassNames = [
         'self'   => true,
         'parent' => true,
         'static' => true,

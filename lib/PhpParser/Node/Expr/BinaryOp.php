@@ -6,9 +6,9 @@ use PhpParser\Node\Expr;
 
 abstract class BinaryOp extends Expr {
     /** @var Expr The left hand side expression */
-    public $left;
+    public Expr $left;
     /** @var Expr The right hand side expression */
-    public $right;
+    public Expr $right;
 
     /**
      * Constructs a binary operator node.

@@ -6,7 +6,7 @@ use PhpParser\Node\Stmt;
 
 class InlineHTML extends Stmt {
     /** @var string String */
-    public $value;
+    public string $value;
 
     /**
      * Constructs an inline HTML node.

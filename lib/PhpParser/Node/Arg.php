@@ -6,13 +6,13 @@ use PhpParser\NodeAbstract;
 
 class Arg extends NodeAbstract {
     /** @var Identifier|null Parameter name (for named parameters) */
-    public $name;
+    public ?Identifier $name;
     /** @var Expr Value to pass */
-    public $value;
+    public Expr $value;
     /** @var bool Whether to pass by ref */
-    public $byRef;
+    public bool $byRef;
     /** @var bool Whether to unpack the argument */
-    public $unpack;
+    public bool $unpack;
 
     /**
      * Constructs a function call argument node.

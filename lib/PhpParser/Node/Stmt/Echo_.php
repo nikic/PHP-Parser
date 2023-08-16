@@ -6,7 +6,7 @@ use PhpParser\Node;
 
 class Echo_ extends Node\Stmt {
     /** @var Node\Expr[] Expressions */
-    public $exprs;
+    public array $exprs;
 
     /**
      * Constructs an echo node.

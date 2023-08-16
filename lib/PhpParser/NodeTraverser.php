@@ -24,10 +24,10 @@ class NodeTraverser implements NodeTraverserInterface {
     public const DONT_TRAVERSE_CURRENT_AND_CHILDREN = NodeVisitor::DONT_TRAVERSE_CURRENT_AND_CHILDREN;
 
     /** @var list<NodeVisitor> Visitors */
-    protected $visitors = [];
+    protected array $visitors = [];
 
     /** @var bool Whether traversal should be stopped */
-    protected $stopTraversal;
+    protected bool $stopTraversal;
 
     /**
      * Create a traverser with the given visitors.

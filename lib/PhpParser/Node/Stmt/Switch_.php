@@ -6,9 +6,9 @@ use PhpParser\Node;
 
 class Switch_ extends Node\Stmt {
     /** @var Node\Expr Condition */
-    public $cond;
+    public Node\Expr $cond;
     /** @var Case_[] Case list */
-    public $cases;
+    public array $cases;
 
     /**
      * Constructs a case node.

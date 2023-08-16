@@ -6,7 +6,7 @@ use PhpParser\Node\Expr;
 
 class BooleanNot extends Expr {
     /** @var Expr Expression */
-    public $expr;
+    public Expr $expr;
 
     /**
      * Constructs a boolean not node.

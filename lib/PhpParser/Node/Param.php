@@ -10,17 +10,17 @@ class Param extends NodeAbstract {
     /** @var null|Identifier|Name|ComplexType Type declaration */
     public $type;
     /** @var bool Whether parameter is passed by reference */
-    public $byRef;
+    public bool $byRef;
     /** @var bool Whether this is a variadic argument */
-    public $variadic;
+    public bool $variadic;
     /** @var Expr\Variable|Expr\Error Parameter variable */
     public $var;
     /** @var null|Expr Default value */
-    public $default;
+    public ?Expr $default;
     /** @var int */
-    public $flags;
+    public int $flags;
     /** @var AttributeGroup[] PHP attribute groups */
-    public $attrGroups;
+    public array $attrGroups;
 
     /**
      * Constructs a parameter node.

@@ -8,22 +8,22 @@ use PhpParser\Node\FunctionLike;
 
 class ClassMethod extends Node\Stmt implements FunctionLike {
     /** @var int Flags */
-    public $flags;
+    public int $flags;
     /** @var bool Whether to return by reference */
-    public $byRef;
+    public bool $byRef;
     /** @var Node\Identifier Name */
-    public $name;
+    public Node\Identifier $name;
     /** @var Node\Param[] Parameters */
-    public $params;
+    public array $params;
     /** @var null|Node\Identifier|Node\Name|Node\ComplexType Return type */
     public $returnType;
     /** @var Node\Stmt[]|null Statements */
-    public $stmts;
+    public ?array $stmts;
     /** @var Node\AttributeGroup[] PHP attribute groups */
-    public $attrGroups;
+    public array $attrGroups;
 
     /** @var array<string, bool> */
-    private static $magicNames = [
+    private static array $magicNames = [
         '__construct'   => true,
         '__destruct'    => true,
         '__call'        => true,

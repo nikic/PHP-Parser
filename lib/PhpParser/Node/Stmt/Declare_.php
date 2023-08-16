@@ -7,9 +7,9 @@ use PhpParser\Node\DeclareItem;
 
 class Declare_ extends Node\Stmt {
     /** @var DeclareItem[] List of declares */
-    public $declares;
+    public array $declares;
     /** @var Node\Stmt[]|null Statements */
-    public $stmts;
+    public ?array $stmts;
 
     /**
      * Constructs a declare node.

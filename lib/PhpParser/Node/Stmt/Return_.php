@@ -6,7 +6,7 @@ use PhpParser\Node;
 
 class Return_ extends Node\Stmt {
     /** @var null|Node\Expr Expression */
-    public $expr;
+    public ?Node\Expr $expr;
 
     /**
      * Constructs a return node.

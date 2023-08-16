@@ -7,14 +7,14 @@ use PhpParser\Node\PropertyItem;
 
 abstract class ClassLike extends Node\Stmt {
     /** @var Node\Identifier|null Name */
-    public $name;
+    public ?Node\Identifier $name;
     /** @var Node\Stmt[] Statements */
-    public $stmts;
+    public array $stmts;
     /** @var Node\AttributeGroup[] PHP attribute groups */
-    public $attrGroups;
+    public array $attrGroups;
 
     /** @var Node\Name|null Namespaced name (if using NameResolver) */
-    public $namespacedName;
+    public ?Node\Name $namespacedName;
 
     /**
      * @return TraitUse[]

@@ -14,14 +14,14 @@ use PhpParser\Node\Stmt;
 
 class ClassConst implements PhpParser\Builder {
     /** @var int */
-    protected $flags = 0;
+    protected int $flags = 0;
     /** @var array<string, mixed> */
-    protected $attributes = [];
+    protected array $attributes = [];
     /** @var list<Const_> */
-    protected $constants = [];
+    protected array $constants = [];
 
     /** @var list<Node\AttributeGroup> */
-    protected $attributeGroups = [];
+    protected array $attributeGroups = [];
     /** @var Identifier|Node\Name|Node\ComplexType */
     protected $type;
 

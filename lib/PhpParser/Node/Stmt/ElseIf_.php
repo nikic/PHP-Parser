@@ -6,9 +6,9 @@ use PhpParser\Node;
 
 class ElseIf_ extends Node\Stmt {
     /** @var Node\Expr Condition */
-    public $cond;
+    public Node\Expr $cond;
     /** @var Node\Stmt[] Statements */
-    public $stmts;
+    public array $stmts;
 
     /**
      * Constructs an elseif node.

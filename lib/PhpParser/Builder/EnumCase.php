@@ -16,10 +16,10 @@ class EnumCase implements PhpParser\Builder {
     /** @var ?Node\Expr */
     protected $value = null;
     /** @var array<string, mixed> */
-    protected $attributes = [];
+    protected array $attributes = [];
 
     /** @var list<Node\AttributeGroup> */
-    protected $attributeGroups = [];
+    protected array $attributeGroups = [];
 
     /**
      * Creates an enum case builder.

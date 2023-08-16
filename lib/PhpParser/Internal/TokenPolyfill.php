@@ -17,13 +17,13 @@ if (\PHP_VERSION_ID >= 80000) {
  */
 class TokenPolyfill {
     /** @var int The ID of the token. Either a T_* constant of a character code < 256. */
-    public $id;
+    public int $id;
     /** @var string The textual content of the token. */
-    public $text;
+    public string $text;
     /** @var int The 1-based starting line of the token (or -1 if unknown). */
-    public $line;
+    public int $line;
     /** @var int The 0-based starting position of the token (or -1 if unknown). */
-    public $pos;
+    public int $pos;
 
     /** @var array<int, bool> Tokens ignored by the PHP parser. */
     private const IGNORABLE_TOKENS = [
@@ -33,8 +33,8 @@ class TokenPolyfill {
         \T_OPEN_TAG => true,
     ];
 
-    /** @var array<int, bool>|null Tokens that may be part of a T_NAME_* identifier. */
-    private static $identifierTokens;
+    /** @var array<int, bool> Tokens that may be part of a T_NAME_* identifier. */
+    private static array $identifierTokens;
 
     /**
      * Create a Token with the given ID and text, as well optional line and position information.

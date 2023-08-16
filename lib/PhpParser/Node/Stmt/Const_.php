@@ -6,7 +6,7 @@ use PhpParser\Node;
 
 class Const_ extends Node\Stmt {
     /** @var Node\Const_[] Constant declarations */
-    public $consts;
+    public array $consts;
 
     /**
      * Constructs a const list node.

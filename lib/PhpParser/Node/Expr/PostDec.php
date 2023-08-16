@@ -6,7 +6,7 @@ use PhpParser\Node\Expr;
 
 class PostDec extends Expr {
     /** @var Expr Variable */
-    public $var;
+    public Expr $var;
 
     /**
      * Constructs a post decrement node.

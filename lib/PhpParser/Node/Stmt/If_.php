@@ -6,13 +6,13 @@ use PhpParser\Node;
 
 class If_ extends Node\Stmt {
     /** @var Node\Expr Condition expression */
-    public $cond;
+    public Node\Expr $cond;
     /** @var Node\Stmt[] Statements */
-    public $stmts;
+    public array $stmts;
     /** @var ElseIf_[] Elseif clauses */
-    public $elseifs;
+    public array $elseifs;
     /** @var null|Else_ Else clause */
-    public $else;
+    public ?Else_ $else;
 
     /**
      * Constructs an if node.

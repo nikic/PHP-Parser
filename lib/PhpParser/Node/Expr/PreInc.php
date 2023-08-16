@@ -6,7 +6,7 @@ use PhpParser\Node\Expr;
 
 class PreInc extends Expr {
     /** @var Expr Variable */
-    public $var;
+    public Expr $var;
 
     /**
      * Constructs a pre increment node.

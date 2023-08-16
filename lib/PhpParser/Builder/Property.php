@@ -13,17 +13,17 @@ use PhpParser\Node\ComplexType;
 
 class Property implements PhpParser\Builder {
     /** @var string */
-    protected $name;
+    protected string $name;
     /** @var int */
-    protected $flags = 0;
+    protected int $flags = 0;
     /** @var Node\Expr|null */
-    protected $default = null;
+    protected ?Node\Expr $default = null;
     /** @var array<string, mixed> */
-    protected $attributes = [];
+    protected array $attributes = [];
     /** @var null|Identifier|Name|ComplexType */
     protected $type;
     /** @var list<Node\AttributeGroup> */
-    protected $attributeGroups = [];
+    protected array $attributeGroups = [];
 
     /**
      * Creates a property builder.

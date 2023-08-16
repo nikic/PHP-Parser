@@ -10,7 +10,7 @@ class Exit_ extends Expr {
     public const KIND_DIE = 2;
 
     /** @var null|Expr Expression */
-    public $expr;
+    public ?Expr $expr;
 
     /**
      * Constructs an exit() node.

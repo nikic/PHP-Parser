@@ -7,7 +7,7 @@ use PhpParser\BuilderHelpers;
 
 abstract class Declaration implements PhpParser\Builder {
     /** @var array<string, mixed> */
-    protected $attributes = [];
+    protected array $attributes = [];
 
     /**
      * Adds a statement.

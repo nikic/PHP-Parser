@@ -6,7 +6,7 @@ use PhpParser\Node;
 
 class Continue_ extends Node\Stmt {
     /** @var null|Node\Expr Number of loops to continue */
-    public $num;
+    public ?Node\Expr $num;
 
     /**
      * Constructs a continue node.

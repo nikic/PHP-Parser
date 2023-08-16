@@ -9,11 +9,11 @@ use PhpParser\Node\UseItem;
 
 class NodeDumper {
     /** @var bool */
-    private $dumpComments;
+    private bool $dumpComments;
     /** @var bool */
-    private $dumpPositions;
+    private bool $dumpPositions;
     /** @var string|null */
-    private $code;
+    private ?string $code;
 
     /**
      * Constructs a NodeDumper.

@@ -8,11 +8,11 @@ use PhpParser\Node\UseItem;
 
 class GroupUse extends Stmt {
     /** @var int Type of group use */
-    public $type;
+    public int $type;
     /** @var Name Prefix for uses */
-    public $prefix;
+    public Name $prefix;
     /** @var UseItem[] Uses */
-    public $uses;
+    public array $uses;
 
     /**
      * Constructs a group use node.

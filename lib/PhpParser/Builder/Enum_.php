@@ -11,21 +11,21 @@ use PhpParser\Node\Stmt;
 
 class Enum_ extends Declaration {
     /** @var string */
-    protected $name;
+    protected string $name;
     /** @var Identifier|null */
-    protected $scalarType = null;
+    protected ?Identifier $scalarType = null;
     /** @var list<Name> */
-    protected $implements = [];
+    protected array $implements = [];
     /** @var list<Stmt\TraitUse> */
-    protected $uses = [];
+    protected array $uses = [];
     /** @var list<Stmt\EnumCase> */
-    protected $enumCases = [];
+    protected array $enumCases = [];
     /** @var list<Stmt\ClassConst> */
-    protected $constants = [];
+    protected array $constants = [];
     /** @var list<Stmt\ClassMethod> */
-    protected $methods = [];
+    protected array $methods = [];
     /** @var list<Node\AttributeGroup> */
-    protected $attributeGroups = [];
+    protected array $attributeGroups = [];
 
     /**
      * Creates an enum builder.

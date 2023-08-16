@@ -7,7 +7,7 @@ use PhpParser\Node\Stmt;
 
 class Static_ extends Stmt {
     /** @var StaticVar[] Variable definitions */
-    public $vars;
+    public array $vars;
 
     /**
      * Constructs a static variables list node.

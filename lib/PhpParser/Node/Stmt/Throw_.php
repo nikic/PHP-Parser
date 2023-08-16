@@ -6,7 +6,7 @@ use PhpParser\Node;
 
 class Throw_ extends Node\Stmt {
     /** @var Node\Expr Expression */
-    public $expr;
+    public Node\Expr $expr;
 
     /**
      * Constructs a legacy throw statement node.

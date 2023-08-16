@@ -7,7 +7,7 @@ use PhpParser\Node\Stmt;
 
 class Goto_ extends Stmt {
     /** @var Identifier Name of label to jump to */
-    public $name;
+    public Identifier $name;
 
     /**
      * Constructs a goto node.

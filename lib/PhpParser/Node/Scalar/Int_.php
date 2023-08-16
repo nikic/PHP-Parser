@@ -13,7 +13,7 @@ class Int_ extends Scalar {
     public const KIND_HEX = 16;
 
     /** @var int Number value */
-    public $value;
+    public int $value;
 
     /**
      * Constructs an integer number scalar node.

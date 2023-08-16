@@ -11,9 +11,9 @@ class Include_ extends Expr {
     public const TYPE_REQUIRE_ONCE = 4;
 
     /** @var Expr Expression */
-    public $expr;
+    public Expr $expr;
     /** @var int Type of include */
-    public $type;
+    public int $type;
 
     /**
      * Constructs an include node.

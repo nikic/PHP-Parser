@@ -6,9 +6,9 @@ use PhpParser\Node;
 
 class Alias extends Node\Stmt\TraitUseAdaptation {
     /** @var null|int New modifier */
-    public $newModifier;
+    public ?int $newModifier;
     /** @var null|Node\Identifier New name */
-    public $newName;
+    public ?Node\Identifier $newName;
 
     /**
      * Constructs a trait use precedence adaptation node.

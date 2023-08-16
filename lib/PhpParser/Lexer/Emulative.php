@@ -22,15 +22,15 @@ use PhpParser\PhpVersion;
 
 class Emulative extends Lexer {
     /** @var array{int, string, string}[] Patches used to reverse changes introduced in the code */
-    private $patches = [];
+    private array $patches = [];
 
     /** @var list<TokenEmulator> */
-    private $emulators = [];
+    private array $emulators = [];
 
     /** @var PhpVersion */
-    private $targetPhpVersion;
+    private PhpVersion $targetPhpVersion;
     /** @var PhpVersion */
-    private $hostPhpVersion;
+    private PhpVersion $hostPhpVersion;
 
     /**
      * @param PhpVersion|null $phpVersion PHP version to emulate. Defaults to newest supported.

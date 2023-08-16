@@ -6,7 +6,7 @@ use PhpParser\Node\Scalar;
 
 class Float_ extends Scalar {
     /** @var float Number value */
-    public $value;
+    public float $value;
 
     /**
      * Constructs a float number scalar node.

@@ -18,7 +18,7 @@ final class ParentConnectingVisitor extends NodeVisitorAbstract {
     /**
      * @var Node[]
      */
-    private $stack = [];
+    private array $stack = [];
 
     public function beforeTraverse(array $nodes) {
         $this->stack = [];
