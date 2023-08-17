@@ -3,6 +3,7 @@
 namespace PhpParser;
 
 use PhpParser\Internal\DiffElem;
+use PhpParser\Internal\Differ;
 use PhpParser\Internal\PrintableNewAnonClassNode;
 use PhpParser\Internal\TokenStream;
 use PhpParser\Node\AttributeGroup;
@@ -120,8 +121,8 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
 
     /** @var TokenStream|null Original tokens for use in format-preserving pretty print */
     protected ?TokenStream $origTokens;
-    /** @var Internal\Differ<Node>|null Differ for node lists */
-    protected $nodeListDiffer;
+    /** @var Internal\Differ<Node> Differ for node lists */
+    protected Differ $nodeListDiffer;
     /** @var array<string, bool> Map determining whether a certain character is a label character */
     protected array $labelCharMap;
     /**
@@ -1273,7 +1274,7 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
      * The node list differ is used to determine differences between two array subnodes.
      */
     protected function initializeNodeListDiffer(): void {
-        if ($this->nodeListDiffer) {
+        if (isset($this->nodeListDiffer)) {
             return;
         }
 

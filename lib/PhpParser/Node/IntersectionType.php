@@ -4,7 +4,7 @@ namespace PhpParser\Node;
 
 class IntersectionType extends ComplexType {
     /** @var (Identifier|Name)[] Types */
-    public $types;
+    public array $types;
 
     /**
      * Constructs an intersection type.

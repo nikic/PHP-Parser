@@ -108,7 +108,7 @@ class FunctionTest extends \PHPUnit\Framework\TestCase {
             ->getNode();
 
         $this->assertEquals(new Stmt\Function_('test', [
-            'returnType' => 'void'
+            'returnType' => new Identifier('void'),
         ], []), $node);
     }
 

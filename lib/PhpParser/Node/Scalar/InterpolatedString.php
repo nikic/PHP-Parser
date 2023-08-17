@@ -8,7 +8,7 @@ use PhpParser\Node\Scalar;
 
 class InterpolatedString extends Scalar {
     /** @var (Expr|InterpolatedStringPart)[] list of string parts */
-    public $parts;
+    public array $parts;
 
     /**
      * Constructs an interpolated string node.

@@ -126,7 +126,7 @@ abstract class ParserAbstract implements Parser {
     protected int $errorState;
 
     /** @var \SplObjectStorage<Array_, null>|null Array nodes created during parsing, for postprocessing of empty elements. */
-    protected $createdArrays;
+    protected ?\SplObjectStorage $createdArrays;
 
     /** @var Token[] Tokens for the current parse */
     protected array $tokens;

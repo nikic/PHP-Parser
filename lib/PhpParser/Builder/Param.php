@@ -13,7 +13,7 @@ class Param implements PhpParser\Builder {
     /** @var Node\Expr|null */
     protected ?Node\Expr $default = null;
     /** @var Node\Identifier|Node\Name|Node\ComplexType|null */
-    protected $type = null;
+    protected ?Node $type = null;
     /** @var bool */
     protected bool $byRef = false;
     /** @var int */

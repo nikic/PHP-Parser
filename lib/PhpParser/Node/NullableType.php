@@ -6,7 +6,7 @@ use PhpParser\Node;
 
 class NullableType extends ComplexType {
     /** @var Identifier|Name Type */
-    public $type;
+    public Node $type;
 
     /**
      * Constructs a nullable type (wrapping another type).

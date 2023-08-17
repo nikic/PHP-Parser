@@ -15,18 +15,18 @@ class Property extends Node\Stmt {
     /** @var PropertyItem[] Properties */
     public array $props;
     /** @var null|Identifier|Name|ComplexType Type declaration */
-    public $type;
+    public ?Node $type;
     /** @var Node\AttributeGroup[] PHP attribute groups */
     public array $attrGroups;
 
     /**
      * Constructs a class property list node.
      *
-     * @param int                                     $flags      Modifiers
-     * @param PropertyItem[]                      $props      Properties
+     * @param int $flags Modifiers
+     * @param PropertyItem[] $props Properties
      * @param array<string, mixed> $attributes Additional attributes
      * @param null|Identifier|Name|ComplexType $type Type declaration
-     * @param Node\AttributeGroup[]                   $attrGroups PHP attribute groups
+     * @param Node\AttributeGroup[] $attrGroups PHP attribute groups
      */
     public function __construct(int $flags, array $props, array $attributes = [], ?Node $type = null, array $attrGroups = []) {
         $this->attributes = $attributes;

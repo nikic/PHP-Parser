@@ -13,7 +13,7 @@ class ClassConst extends Node\Stmt {
     /** @var Node\AttributeGroup[] PHP attribute groups */
     public array $attrGroups;
     /** @var Node\Identifier|Node\Name|Node\ComplexType|null Type declaration */
-    public $type;
+    public ?Node $type;
 
     /**
      * Constructs a class const list node.

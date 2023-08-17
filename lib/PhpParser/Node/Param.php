@@ -8,13 +8,13 @@ use PhpParser\NodeAbstract;
 
 class Param extends NodeAbstract {
     /** @var null|Identifier|Name|ComplexType Type declaration */
-    public $type;
+    public ?Node $type;
     /** @var bool Whether parameter is passed by reference */
     public bool $byRef;
     /** @var bool Whether this is a variadic argument */
     public bool $variadic;
     /** @var Expr\Variable|Expr\Error Parameter variable */
-    public $var;
+    public Expr $var;
     /** @var null|Expr Default value */
     public ?Expr $default;
     /** @var int */
@@ -25,17 +25,17 @@ class Param extends NodeAbstract {
     /**
      * Constructs a parameter node.
      *
-     * @param Expr\Variable|Expr\Error                $var        Parameter variable
-     * @param null|Expr                               $default    Default value
+     * @param Expr\Variable|Expr\Error $var Parameter variable
+     * @param null|Expr $default Default value
      * @param null|Identifier|Name|ComplexType $type Type declaration
-     * @param bool                                    $byRef      Whether is passed by reference
-     * @param bool                                    $variadic   Whether this is a variadic argument
+     * @param bool $byRef Whether is passed by reference
+     * @param bool $variadic Whether this is a variadic argument
      * @param array<string, mixed> $attributes Additional attributes
-     * @param int                                     $flags      Optional visibility flags
+     * @param int $flags Optional visibility flags
      * @param list<AttributeGroup> $attrGroups PHP attribute groups
      */
     public function __construct(
-        $var, ?Expr $default = null, ?Node $type = null,
+        Expr $var, ?Expr $default = null, ?Node $type = null,
         bool $byRef = false, bool $variadic = false,
         array $attributes = [],
         int $flags = 0,

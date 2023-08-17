@@ -21,7 +21,7 @@ class Property implements PhpParser\Builder {
     /** @var array<string, mixed> */
     protected array $attributes = [];
     /** @var null|Identifier|Name|ComplexType */
-    protected $type;
+    protected ?Node $type = null;
     /** @var list<Node\AttributeGroup> */
     protected array $attributeGroups = [];
 

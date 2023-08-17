@@ -149,7 +149,7 @@ class MethodTest extends \PHPUnit\Framework\TestCase {
             ->setReturnType('bool')
             ->getNode();
         $this->assertEquals(new Stmt\ClassMethod('test', [
-            'returnType' => 'bool'
+            'returnType' => new Identifier('bool'),
         ], []), $node);
     }
 

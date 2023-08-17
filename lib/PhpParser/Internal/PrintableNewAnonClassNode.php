@@ -21,7 +21,7 @@ class PrintableNewAnonClassNode extends Expr {
     /** @var int Modifiers */
     public int $flags;
     /** @var (Node\Arg|Node\VariadicPlaceholder)[] Arguments */
-    public $args;
+    public array $args;
     /** @var null|Node\Name Name of extended class */
     public ?Node\Name $extends;
     /** @var Node\Name[] Names of implemented interfaces */

@@ -11,7 +11,7 @@ class List_ extends Expr {
     public const KIND_ARRAY = 2; // [] syntax
 
     /** @var (ArrayItem|null)[] List of items to assign to */
-    public $items;
+    public array $items;
 
     /**
      * Constructs a list() destructuring node.

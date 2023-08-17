@@ -17,7 +17,7 @@ class Closure extends Expr implements FunctionLike {
     /** @var ClosureUse[] use()s */
     public array $uses;
     /** @var null|Node\Identifier|Node\Name|Node\ComplexType Return type */
-    public $returnType;
+    public ?Node $returnType;
     /** @var Node\Stmt[] Statements */
     public array $stmts;
     /** @var Node\AttributeGroup[] PHP attribute groups */

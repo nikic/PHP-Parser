@@ -10,21 +10,21 @@ use PhpParser\Node\VariadicPlaceholder;
 
 class StaticCall extends CallLike {
     /** @var Node\Name|Expr Class name */
-    public $class;
+    public Node $class;
     /** @var Identifier|Expr Method name */
-    public $name;
+    public Node $name;
     /** @var array<Arg|VariadicPlaceholder> Arguments */
-    public $args;
+    public array $args;
 
     /**
      * Constructs a static method call node.
      *
-     * @param Node\Name|Expr                 $class      Class name
-     * @param string|Identifier|Expr         $name       Method name
-     * @param array<Arg|VariadicPlaceholder> $args       Arguments
+     * @param Node\Name|Expr $class Class name
+     * @param string|Identifier|Expr $name Method name
+     * @param array<Arg|VariadicPlaceholder> $args Arguments
      * @param array<string, mixed> $attributes Additional attributes
      */
-    public function __construct($class, $name, array $args = [], array $attributes = []) {
+    public function __construct(Node $class, $name, array $args = [], array $attributes = []) {
         $this->attributes = $attributes;
         $this->class = $class;
         $this->name = \is_string($name) ? new Identifier($name) : $name;

@@ -6,7 +6,7 @@ use PhpParser\Node;
 
 class Enum_ extends ClassLike {
     /** @var null|Node\Identifier Scalar Type */
-    public $scalarType;
+    public ?Node $scalarType;
     /** @var Node\Name[] Names of implemented interfaces */
     public array $implements;
 

@@ -12,7 +12,7 @@ abstract class FunctionLike extends Declaration {
     protected array $params = [];
 
     /** @var Node\Identifier|Node\Name|Node\ComplexType|null */
-    protected $returnType = null;
+    protected ?Node $returnType = null;
 
     /**
      * Make the function return by reference.

@@ -22,8 +22,8 @@ class ClassConst implements PhpParser\Builder {
 
     /** @var list<Node\AttributeGroup> */
     protected array $attributeGroups = [];
-    /** @var Identifier|Node\Name|Node\ComplexType */
-    protected $type;
+    /** @var Identifier|Node\Name|Node\ComplexType|null */
+    protected ?Node $type = null;
 
     /**
      * Creates a class constant builder

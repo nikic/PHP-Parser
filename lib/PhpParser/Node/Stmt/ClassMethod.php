@@ -16,7 +16,7 @@ class ClassMethod extends Node\Stmt implements FunctionLike {
     /** @var Node\Param[] Parameters */
     public array $params;
     /** @var null|Node\Identifier|Node\Name|Node\ComplexType Return type */
-    public $returnType;
+    public ?Node $returnType;
     /** @var Node\Stmt[]|null Statements */
     public ?array $stmts;
     /** @var Node\AttributeGroup[] PHP attribute groups */

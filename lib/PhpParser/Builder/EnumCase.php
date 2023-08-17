@@ -14,7 +14,7 @@ class EnumCase implements PhpParser\Builder {
     /** @var Identifier|string */
     protected $name;
     /** @var ?Node\Expr */
-    protected $value = null;
+    protected ?Node\Expr $value = null;
     /** @var array<string, mixed> */
     protected array $attributes = [];
 
