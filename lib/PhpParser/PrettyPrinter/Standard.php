@@ -529,7 +529,7 @@ class Standard extends PrettyPrinterAbstract
     }
 
     protected function pExpr_StaticCall(Expr\StaticCall $node) {
-        return $this->pDereferenceLhs($node->class) . '::'
+        return $this->pStaticDereferenceLhs($node->class) . '::'
              . ($node->name instanceof Expr
                 ? ($node->name instanceof Expr\Variable
                    ? $this->p($node->name)
@@ -606,7 +606,7 @@ class Standard extends PrettyPrinterAbstract
     }
 
     protected function pExpr_ClassConstFetch(Expr\ClassConstFetch $node) {
-        return $this->pDereferenceLhs($node->class) . '::' . $this->pObjectProperty($node->name);
+        return $this->pStaticDereferenceLhs($node->class) . '::' . $this->pObjectProperty($node->name);
     }
 
     protected function pExpr_PropertyFetch(Expr\PropertyFetch $node) {
@@ -618,7 +618,7 @@ class Standard extends PrettyPrinterAbstract
     }
 
     protected function pExpr_StaticPropertyFetch(Expr\StaticPropertyFetch $node) {
-        return $this->pDereferenceLhs($node->class) . '::$' . $this->pObjectProperty($node->name);
+        return $this->pStaticDereferenceLhs($node->class) . '::$' . $this->pObjectProperty($node->name);
     }
 
     protected function pExpr_ShellExec(Expr\ShellExec $node) {
@@ -1069,6 +1069,14 @@ class Standard extends PrettyPrinterAbstract
         }
     }
 
+    protected function pStaticDereferenceLhs(Node $node) {
+        if (!$this->staticDereferenceLhsRequiresParens($node)) {
+            return $this->p($node);
+        } else {
+            return '(' . $this->p($node) . ')';
+        }
+    }
+
     protected function pCallLhs(Node $node) {
         if (!$this->callLhsRequiresParens($node)) {
             return $this->p($node);
@@ -1077,9 +1085,12 @@ class Standard extends PrettyPrinterAbstract
         }
     }
 
-    protected function pNewVariable(Node $node) {
-        // TODO: This is not fully accurate.
-        return $this->pDereferenceLhs($node);
+    protected function pNewVariable(Node $node): string {
+        if (!$this->newOperandRequiresParens($node)) {
+            return $this->p($node);
+        } else {
+            return '(' . $this->p($node) . ')';
+        }
     }
 
     /**
