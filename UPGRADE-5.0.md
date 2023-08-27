@@ -204,6 +204,7 @@ The pretty printer now accepts a `phpVersion` option, which accepts a `PhpVersio
 * For PHP >= 7.0 (default), parentheses around `yield` expressions will only be printed when necessary. Previously, parentheses were always printed, even if `yield` was used as a statement.
 * For PHP >= 7.1 (default), the short array syntax `[]` will be used for destructuring by default (instead of `list()`). This does not affect nodes that specify and explicit syntax using the `kind` attribute.
 * For PHP >= 7.3 (default), a newline is no longer forced after heredoc/nowdoc strings, as the requirement for this has been removed with the introduction of flexible heredoc/nowdoc strings.
+* For PHP >= 7.3 (default), heredoc/nowdoc strings are now indented just like regular code. This was allowed with the introduction of flexible heredoc/nowdoc strings.
 
 ### Changes to precedence handling in the pretty printer
 

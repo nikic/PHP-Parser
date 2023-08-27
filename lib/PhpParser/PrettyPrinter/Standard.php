@@ -127,20 +127,26 @@ class Standard extends PrettyPrinterAbstract {
 
     // Scalars
 
+    private function indentString(string $str): string {
+        return str_replace("\n", $this->nl, $str);
+    }
+
     protected function pScalar_String(Scalar\String_ $node): string {
         $kind = $node->getAttribute('kind', Scalar\String_::KIND_SINGLE_QUOTED);
         switch ($kind) {
             case Scalar\String_::KIND_NOWDOC:
                 $label = $node->getAttribute('docLabel');
                 if ($label && !$this->containsEndLabel($node->value, $label)) {
+                    $shouldIdent = $this->phpVersion->supportsFlexibleHeredoc();
+                    $nl = $shouldIdent ? $this->nl : $this->newline;
                     if ($node->value === '') {
-                        return "<<<'$label'{$this->newline}$label{$this->docStringEndToken}";
+                        return "<<<'$label'$nl$label{$this->docStringEndToken}";
                     }
 
                     // Make sure trailing \r is not combined with following \n into CRLF.
                     if ($node->value[strlen($node->value) - 1] !== "\r") {
-                        return "<<<'$label'{$this->newline}{$node->value}{$this->newline}$label"
-                            . $this->docStringEndToken;
+                        $value = $shouldIdent ? $this->indentString($node->value) : $node->value;
+                        return "<<<'$label'$nl$value$nl$label{$this->docStringEndToken}";
                     }
                 }
                 /* break missing intentionally */
@@ -151,12 +157,12 @@ class Standard extends PrettyPrinterAbstract {
                 $label = $node->getAttribute('docLabel');
                 $escaped = $this->escapeString($node->value, null);
                 if ($label && !$this->containsEndLabel($escaped, $label)) {
+                    $nl = $this->phpVersion->supportsFlexibleHeredoc() ? $this->nl : $this->newline;
                     if ($escaped === '') {
-                        return "<<<$label{$this->newline}$label{$this->docStringEndToken}";
+                        return "<<<$label$nl$label{$this->docStringEndToken}";
                     }
 
-                    return "<<<$label{$this->newline}$escaped{$this->newline}$label"
-                         . $this->docStringEndToken;
+                    return "<<<$label$nl$escaped$nl$label{$this->docStringEndToken}";
                 }
                 /* break missing intentionally */
                 // no break
@@ -170,15 +176,16 @@ class Standard extends PrettyPrinterAbstract {
         if ($node->getAttribute('kind') === Scalar\String_::KIND_HEREDOC) {
             $label = $node->getAttribute('docLabel');
             if ($label && !$this->encapsedContainsEndLabel($node->parts, $label)) {
+                $nl = $this->phpVersion->supportsFlexibleHeredoc() ? $this->nl : $this->newline;
                 if (count($node->parts) === 1
                     && $node->parts[0] instanceof Node\InterpolatedStringPart
                     && $node->parts[0]->value === ''
                 ) {
-                    return "<<<$label{$this->newline}$label{$this->docStringEndToken}";
+                    return "<<<$label$nl$label{$this->docStringEndToken}";
                 }
 
-                return "<<<$label{$this->newline}" . $this->pEncapsList($node->parts, null)
-                     . "{$this->newline}$label{$this->docStringEndToken}";
+                return "<<<$label$nl" . $this->pEncapsList($node->parts, null)
+                     . "$nl$label{$this->docStringEndToken}";
             }
         }
         return '"' . $this->pEncapsList($node->parts, '"') . '"';
@@ -1055,6 +1062,9 @@ class Standard extends PrettyPrinterAbstract {
             // But do escape isolated \r. Combined with the terminating newline, it might get
             // interpreted as \r\n and dropped from the string contents.
             $escaped = preg_replace('/\r(?!\n)/', '\\r', $escaped);
+            if ($this->phpVersion->supportsFlexibleHeredoc()) {
+                $escaped = $this->indentString($escaped);
+            }
         } else {
             $escaped = addcslashes($string, "\n\r\t\f\v$" . $quote . "\\");
         }
@@ -1079,7 +1089,6 @@ class Standard extends PrettyPrinterAbstract {
         return preg_replace_callback($regex, function ($matches): string {
             assert(strlen($matches[0]) === 1);
             $hex = dechex(ord($matches[0]));
-            ;
             return '\\x' . str_pad($hex, 2, '0', \STR_PAD_LEFT);
         }, $escaped);
     }
