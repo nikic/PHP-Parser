@@ -70,11 +70,9 @@ a{$b}
 STR;
 call(<<<STR
 A
-STR
-, <<<STR
+STR, <<<STR
 B
-STR
-);
+STR);
 function test()
 {
     <<<STR
@@ -88,9 +86,17 @@ STR;
 <?php
 foo(<<<STR
 abc
-STR);
+STR
+, <<<STR
+abc
+STR
+);
 -----
-!!version=7.3
+!!version=7.2
 foo(<<<STR
 abc
-STR);
+STR
+, <<<STR
+abc
+STR
+);

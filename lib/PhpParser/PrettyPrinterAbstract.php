@@ -162,7 +162,7 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
      * Creates a pretty printer instance using the given options.
      *
      * Supported options:
-     *  * PhpVersion $phpVersion: The PHP version to target (default to PHP 7.1). This option
+     *  * PhpVersion $phpVersion: The PHP version to target (default to PHP 7.4). This option
      *                            controls compatibility of the generated code with older PHP
      *                            versions in cases where a simple stylistic choice exists (e.g.
      *                            array() vs []). It is safe to pretty-print an AST for a newer
@@ -178,7 +178,7 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
      * } $options Dictionary of formatting options
      */
     public function __construct(array $options = []) {
-        $this->phpVersion = $options['phpVersion'] ?? PhpVersion::fromComponents(7, 1);
+        $this->phpVersion = $options['phpVersion'] ?? PhpVersion::fromComponents(7, 4);
 
         $this->newline = $options['newline'] ?? "\n";
         if ($this->newline !== "\n" && $this->newline != "\r\n") {
