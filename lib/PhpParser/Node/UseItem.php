@@ -6,7 +6,9 @@ use PhpParser\Node;
 use PhpParser\Node\Stmt\Use_;
 
 class UseItem extends Node\Stmt {
-    /** @var int One of the Stmt\Use_::TYPE_* constants. Will only differ from TYPE_UNKNOWN for mixed group uses */
+    /**
+     * @var Use_::TYPE_* One of the Stmt\Use_::TYPE_* constants. Will only differ from TYPE_UNKNOWN for mixed group uses
+     */
     public int $type;
     /** @var Node\Name Namespace, class, function or constant to alias */
     public Name $name;
@@ -18,8 +20,8 @@ class UseItem extends Node\Stmt {
      *
      * @param Node\Name              $name       Namespace/Class to alias
      * @param null|string|Identifier $alias      Alias
-     * @param int                    $type       Type of the use element (for mixed group use only)
-     * @param array<string, mixed> $attributes Additional attributes
+     * @param Use_::TYPE_*           $type       Type of the use element (for mixed group use only)
+     * @param array<string, mixed>   $attributes Additional attributes
      */
     public function __construct(Node\Name $name, $alias = null, int $type = Use_::TYPE_UNKNOWN, array $attributes = []) {
         $this->attributes = $attributes;

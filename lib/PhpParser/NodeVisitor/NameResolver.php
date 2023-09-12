@@ -160,6 +160,9 @@ class NameResolver extends NodeVisitorAbstract {
         return null;
     }
 
+    /**
+     * @param Stmt\Use_::TYPE_* $type
+     */
     private function addAlias(Node\UseItem $use, int $type, ?Name $prefix = null): void {
         // Add prefix for group uses
         $name = $prefix ? Name::concat($prefix, $use->name) : $use->name;
@@ -205,8 +208,8 @@ class NameResolver extends NodeVisitorAbstract {
     /**
      * Resolve name, according to name resolver options.
      *
-     * @param Name $name Function or constant name to resolve
-     * @param int  $type One of Stmt\Use_::TYPE_*
+     * @param Name              $name Function or constant name to resolve
+     * @param Stmt\Use_::TYPE_* $type One of Stmt\Use_::TYPE_*
      *
      * @return Name Resolved name, or original name with attribute
      */
