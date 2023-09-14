@@ -19,9 +19,7 @@ class Use_ extends Stmt {
     /** Constant import */
     public const TYPE_CONSTANT = 3;
 
-    /**
-     * @var self::TYPE_* Type of alias
-     */
+    /** @var self::TYPE_* Type of alias */
     public int $type;
     /** @var UseItem[] Aliases */
     public array $uses;
