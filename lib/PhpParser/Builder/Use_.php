@@ -10,7 +10,7 @@ use PhpParser\Node\Stmt;
 class Use_ implements Builder {
     /** @var Node\Name */
     protected Node\Name $name;
-    /** @var int */
+    /** @var Stmt\Use_::TYPE_* */
     protected int $type;
     /** @var string|null */
     protected ?string $alias = null;
@@ -18,8 +18,8 @@ class Use_ implements Builder {
     /**
      * Creates a name use (alias) builder.
      *
-     * @param Node\Name|string $name Name of the entity (namespace, class, function, constant) to alias
-     * @param int              $type One of the Stmt\Use_::TYPE_* constants
+     * @param Node\Name|string  $name Name of the entity (namespace, class, function, constant) to alias
+     * @param Stmt\Use_::TYPE_* $type One of the Stmt\Use_::TYPE_* constants
      */
     public function __construct($name, int $type) {
         $this->name = BuilderHelpers::normalizeName($name);
