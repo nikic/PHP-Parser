@@ -19,6 +19,7 @@ use PhpParser\Lexer\TokenEmulator\ReadonlyTokenEmulator;
 use PhpParser\Lexer\TokenEmulator\ReverseEmulator;
 use PhpParser\Lexer\TokenEmulator\TokenEmulator;
 use PhpParser\PhpVersion;
+use PhpParser\Token;
 
 class Emulative extends Lexer {
     /** @var array{int, string, string}[] Patches used to reverse changes introduced in the code */
@@ -81,9 +82,9 @@ class Emulative extends Lexer {
         }
 
         $collector = new ErrorHandler\Collecting();
-        parent::tokenize($code, $collector);
+        $tokens = parent::tokenize($code, $collector);
         $this->sortPatches();
-        $this->fixupTokens();
+        $tokens = $this->fixupTokens($tokens);
 
         $errors = $collector->getErrors();
         if (!empty($errors)) {
@@ -94,10 +95,10 @@ class Emulative extends Lexer {
         }
 
         foreach ($emulators as $emulator) {
-            $this->tokens = $emulator->emulate($code, $this->tokens);
+            $tokens = $emulator->emulate($code, $tokens);
         }
 
-        return $this->tokens;
+        return $tokens;
     }
 
     private function isForwardEmulationNeeded(PhpVersion $emulatorPhpVersion): bool {
@@ -118,9 +119,13 @@ class Emulative extends Lexer {
         });
     }
 
-    private function fixupTokens(): void {
+    /**
+     * @param list<Token> $tokens
+     * @return list<Token>
+     */
+    private function fixupTokens(array $tokens): array {
         if (\count($this->patches) === 0) {
-            return;
+            return $tokens;
         }
 
         // Load first patch
@@ -130,8 +135,8 @@ class Emulative extends Lexer {
         // We use a manual loop over the tokens, because we modify the array on the fly
         $posDelta = 0;
         $lineDelta = 0;
-        for ($i = 0, $c = \count($this->tokens); $i < $c; $i++) {
-            $token = $this->tokens[$i];
+        for ($i = 0, $c = \count($tokens); $i < $c; $i++) {
+            $token = $tokens[$i];
             $pos = $token->pos;
             $token->pos += $posDelta;
             $token->line += $lineDelta;
@@ -142,7 +147,7 @@ class Emulative extends Lexer {
                 if ($patchType === 'remove') {
                     if ($patchPos === $pos && $patchTextLen === $len) {
                         // Remove token entirely
-                        array_splice($this->tokens, $i, 1, []);
+                        array_splice($tokens, $i, 1, []);
                         $i--;
                         $c--;
                     } else {
@@ -182,6 +187,7 @@ class Emulative extends Lexer {
 
             $posDelta += $localPosDelta;
         }
+        return $tokens;
     }
 
     /**

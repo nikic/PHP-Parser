@@ -5,9 +5,6 @@ namespace PhpParser;
 require __DIR__ . '/compatibility_tokens.php';
 
 class Lexer {
-    /** @var list<Token> List of tokens */
-    protected array $tokens;
-
     /**
      * Tokenize the provided source code.
      *
@@ -31,14 +28,14 @@ class Lexer {
 
         $scream = ini_set('xdebug.scream', '0');
 
-        $this->tokens = @Token::tokenize($code);
-        $this->postprocessTokens($errorHandler);
+        $tokens = @Token::tokenize($code);
+        $this->postprocessTokens($tokens, $errorHandler);
 
         if (false !== $scream) {
             ini_set('xdebug.scream', $scream);
         }
 
-        return $this->tokens;
+        return $tokens;
     }
 
     private function handleInvalidCharacter(Token $token, ErrorHandler $errorHandler): void {
@@ -66,33 +63,36 @@ class Lexer {
             && substr($token->text, -2) !== '*/';
     }
 
-    protected function postprocessTokens(ErrorHandler $errorHandler): void {
+    /**
+     * @param list<Token> $tokens
+     */
+    protected function postprocessTokens(array &$tokens, ErrorHandler $errorHandler): void {
         // This function reports errors (bad characters and unterminated comments) in the token
         // array, and performs certain canonicalizations:
         //  * Use PHP 8.1 T_AMPERSAND_NOT_FOLLOWED_BY_VAR_OR_VARARG and
         //    T_AMPERSAND_FOLLOWED_BY_VAR_OR_VARARG tokens used to disambiguate intersection types.
         //  * Add a sentinel token with ID 0.
 
-        $numTokens = \count($this->tokens);
+        $numTokens = \count($tokens);
         if ($numTokens === 0) {
             // Empty input edge case: Just add the sentinel token.
-            $this->tokens[] = new Token(0, "\0", 1, 0);
+            $tokens[] = [new Token(0, "\0", 1, 0)];
             return;
         }
 
         for ($i = 0; $i < $numTokens; $i++) {
-            $token = $this->tokens[$i];
+            $token = $tokens[$i];
             if ($token->id === \T_BAD_CHARACTER) {
                 $this->handleInvalidCharacter($token, $errorHandler);
             }
 
             if ($token->id === \ord('&')) {
                 $next = $i + 1;
-                while (isset($this->tokens[$next]) && $this->tokens[$next]->id === \T_WHITESPACE) {
+                while (isset($tokens[$next]) && $tokens[$next]->id === \T_WHITESPACE) {
                     $next++;
                 }
-                $followedByVarOrVarArg = isset($this->tokens[$next]) &&
-                    $this->tokens[$next]->is([\T_VARIABLE, \T_ELLIPSIS]);
+                $followedByVarOrVarArg = isset($tokens[$next]) &&
+                    $tokens[$next]->is([\T_VARIABLE, \T_ELLIPSIS]);
                 $token->id = $followedByVarOrVarArg
                     ? \T_AMPERSAND_FOLLOWED_BY_VAR_OR_VARARG
                     : \T_AMPERSAND_NOT_FOLLOWED_BY_VAR_OR_VARARG;
@@ -100,7 +100,7 @@ class Lexer {
         }
 
         // Check for unterminated comment
-        $lastToken = $this->tokens[$numTokens - 1];
+        $lastToken = $tokens[$numTokens - 1];
         if ($this->isUnterminatedComment($lastToken)) {
             $errorHandler->handleError(new Error('Unterminated comment', [
                 'startLine' => $lastToken->line,
@@ -111,15 +111,6 @@ class Lexer {
         }
 
         // Add sentinel token.
-        $this->tokens[] = new Token(0, "\0", $lastToken->getEndLine(), $lastToken->getEndPos());
-    }
-
-    /**
-     * Returns the token array for the last tokenized source code.
-     *
-     * @return Token[] Array of tokens
-     */
-    public function getTokens(): array {
-        return $this->tokens;
+        $tokens[] = new Token(0, "\0", $lastToken->getEndLine(), $lastToken->getEndPos());
     }
 }

@@ -191,7 +191,7 @@ class PrettyPrinterTest extends CodeTestAbstract {
         $printer = new PrettyPrinter\Standard();
 
         $oldStmts = $parser->parse($code);
-        $oldTokens = $lexer->getTokens();
+        $oldTokens = $parser->getTokens();
 
         $newStmts = $traverser->traverse($oldStmts);
 
@@ -241,7 +241,7 @@ CODE
             return;
         }
 
-        $oldTokens = $lexer->getTokens();
+        $oldTokens = $parser->getTokens();
 
         $newStmts = $traverser->traverse($oldStmts);
 
