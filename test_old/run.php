@@ -174,7 +174,7 @@ foreach (new RecursiveIteratorIterator(
         $origStmts = $parser->parse($origCode);
         $parseTime += microtime(true) - $startTime;
 
-        $origTokens = $lexer->getTokens();
+        $origTokens = $parser->getTokens();
 
         $startTime = microtime(true);
         $stmts = $cloningTraverser->traverse($origStmts);
