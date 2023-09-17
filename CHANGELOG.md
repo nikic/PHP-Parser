@@ -29,6 +29,10 @@ See UPGRADE-5.0 for detailed migration instructions.
   have been removed. Use `Comment::getStartLine()`, `Comment::getStartTokenPos()` and
   `Comment::getStartFilePos()` instead.
 
+### Deprecated
+
+* The `Node::getLine()` method has been deprecated. Use `Node::getStartLine()` instead.
+
 Version 5.0.0-alpha3 (2023-06-24)
 ---------------------------------
 

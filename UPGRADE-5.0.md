@@ -292,3 +292,4 @@ Additionally, the token array is now terminated by a sentinel token with ID 0.
  * The deprecated `Error` constructor taking a start line has been removed. Pass `['startLine' => $startLine]` attributes instead.
  * The deprecated `Comment::getLine()`, `Comment::getTokenPos()` and `Comment::getFilePos()` methods have been removed. Use `Comment::getStartLine()`, `Comment::getStartTokenPos()` and `Comment::getStartFilePos()` instead.
  * `Comment::getReformattedText()` now normalizes CRLF newlines to LF newlines.
+ * The `Node::getLine()` method has been deprecated. Use `Node::getStartLine()` instead.

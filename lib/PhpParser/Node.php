@@ -21,6 +21,8 @@ interface Node {
      * Gets line the node started in (alias of getStartLine).
      *
      * @return int Start line (or -1 if not available)
+     *
+     * @deprecated Use getStartLine() instead
      */
     public function getLine(): int;
 
