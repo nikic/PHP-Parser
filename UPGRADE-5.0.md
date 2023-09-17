@@ -45,7 +45,7 @@ For example, if you specify version `"8.0"`, then `class ReadOnly {}` is treated
 use PhpParser\ParserFactory;
 use PhpParser\PhpVersion;
 
-$factory = new ParserFactory;
+$factory = new ParserFactory();
 
 # Before
 $parser = $factory->create(ParserFactory::PREFER_PHP7);
@@ -126,7 +126,7 @@ Node constructor arguments accepting types now longer accept plain strings. Eith
 * The `$type` argument of `Node\NullableType`.
 * The `$type` argument of `Node\Param`.
 * The `$type` argument of `Node\Stmt\Property`.
-* The `$type` argument of `Node\ClassConst` (new in PHP-Parser 5.0, listed for completeness only).
+* The `$type` argument of `Node\ClassConst`.
 
 To follow the previous behavior, an `Identifier` should be passed, which indicates a built-in type.
 
@@ -266,6 +266,17 @@ PhpParser\NodeTraverser::DONT_TRAVERSE_CURRENT_AND_CHILDREN -> PhpParser\NodeVis
 PhpParser\NodeTraverser::STOP_TRAVERSAL -> PhpParser\NodeVisitor::STOP_TRAVERSAL
 ```
 
+Visitors can now also be passed directly to the `NodeTraverser` constructor:
+
+```php
+# Before (and still supported)
+$traverser = new NodeTraverser();
+$traverser->addVisitor(new NameResolver());
+
+# After
+$traverser = new NodeTraverser(new NameResolver());
+```
+
 ### Changes to token representation
 
 Tokens are now internally represented using the `PhpParser\Token` class, which exposes the same base interface as
@@ -283,8 +294,45 @@ class Token {
 }
 ```
 
-The `Lexer::getTokens()` method will now return an array of `Token`s, rather than an array of arrays and strings.
+The token array is now an array of `Token`s, rather than an array of arrays and strings.
 Additionally, the token array is now terminated by a sentinel token with ID 0.
+
+### Changes to the lexer
+
+The lexer API is reduced to a single `Lexer::tokenize()` method, which returns an array of tokens. The `startLexing()` and `getNextToken()` methods have been removed.
+
+Responsibility for determining start and end attributes for nodes has been moved from the lexer to the parser. The lexer no longer accepts an options array. The `usedAttributes` option has been removed without replacement, and the parser will now unconditionally add the `comments`, `startLine`, `endLine`, `startFilePos`, `startEndPos`, `startTokenPos` and `startEndPos` attributes.
+
+There should no longer be a need to directly interact with the `Lexer` for end users, as the `ParserFactory` will create an appropriate instance, and no additional configuration of the lexer is necessary. To use formatting-preserving pretty printing, the setup boilerplate changes as follows:
+
+```php
+# Before
+
+$lexer = new Lexer\Emulative([
+    'usedAttributes' => [
+        'comments',
+        'startLine', 'endLine',
+        'startTokenPos', 'endTokenPos',
+    ],
+]);
+
+$parser = new Parser\Php7($lexer);
+$oldStmts = $parser->parse($code);
+$oldTokens = $lexer->getTokens();
+
+$traverser = new NodeTraverser();
+$traverser->addVisitor(new NodeVisitor\CloningVisitor());
+$newStmts = $traverser->traverse($oldStmts);
+
+# After
+
+$parser = (new ParserFactory())->createForNewestSupportedVersion();
+$oldStmts = $parser->parse($code);
+$oldTokens = $lexer->getTokens();
+
+$traverser = new NodeTraverser(new NodeVisitor\CloningVisitor());
+$newStmts = $traverser->traverse($oldStmts);
+```
 
 ### Miscellaneous changes
 
