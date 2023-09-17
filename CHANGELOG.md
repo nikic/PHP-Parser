@@ -1,3 +1,28 @@
+Version 5.0.0-beta1 (TBD)
+-------------------------
+
+See UPGRADE-5.0 for detailed migration instructions.
+
+### Added
+
+* Visitors can now be passed directly to the `NodeTraverser` constructor. A separate call to
+  `addVisitor()` is no longer required.
+
+### Changed
+
+* The minimum host PHP version is now PHP 7.4. It is still possible to parse code from older
+  versions. Property types have been added where possible.
+* The `Lexer` no longer accepts options. `Lexer\Emulative` only accepts a `PhpVersion`. The
+  `startLexing()`, `getTokens()` and `handleHaltCompiler()` methods have been removed. Instead,
+  there is a single method `tokenize()` returning the tokens.
+* The `Parser::getLexer()` method has been replaced by `Parser::getTokens()`.
+* Attribute handling has been moved from the lexer to the parser, and is no longer configurable.
+  The comments, startLine, endLine, startTokenPos, endTokenPos, startFilePos, and endFilePos
+  attributes will always be added.
+* The pretty printer now defaults to PHP 7.4 as the target version.
+* The pretty printer now indents heredoc/nowdoc strings if the target version is >= 7.3
+  (flexible heredoc/nowdoc).
+
 Version 5.0.0-alpha3 (2023-06-24)
 ---------------------------------
 
