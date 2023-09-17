@@ -10,9 +10,7 @@ use PhpParser\Node\Name;
 use PhpParser\Node\Stmt;
 
 class Enum_ extends Declaration {
-    /** @var string */
     protected string $name;
-    /** @var Identifier|null */
     protected ?Identifier $scalarType = null;
     /** @var list<Name> */
     protected array $implements = [];

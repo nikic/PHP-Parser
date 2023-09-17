@@ -8,7 +8,6 @@ use PhpParser\Node;
 use PhpParser\Node\Stmt;
 
 class Trait_ extends Declaration {
-    /** @var string */
     protected string $name;
     /** @var list<Stmt\TraitUse> */
     protected array $uses = [];

@@ -8,7 +8,6 @@ use PhpParser\Node;
 use PhpParser\Node\Stmt;
 
 class Function_ extends FunctionLike {
-    /** @var string */
     protected string $name;
     /** @var list<Stmt> */
     protected array $stmts = [];

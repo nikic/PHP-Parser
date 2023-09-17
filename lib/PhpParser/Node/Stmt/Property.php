@@ -42,8 +42,6 @@ class Property extends Node\Stmt {
 
     /**
      * Whether the property is explicitly or implicitly public.
-     *
-     * @return bool
      */
     public function isPublic(): bool {
         return ($this->flags & Modifiers::PUBLIC) !== 0
@@ -52,8 +50,6 @@ class Property extends Node\Stmt {
 
     /**
      * Whether the property is protected.
-     *
-     * @return bool
      */
     public function isProtected(): bool {
         return (bool) ($this->flags & Modifiers::PROTECTED);
@@ -61,8 +57,6 @@ class Property extends Node\Stmt {
 
     /**
      * Whether the property is private.
-     *
-     * @return bool
      */
     public function isPrivate(): bool {
         return (bool) ($this->flags & Modifiers::PRIVATE);
@@ -70,8 +64,6 @@ class Property extends Node\Stmt {
 
     /**
      * Whether the property is static.
-     *
-     * @return bool
      */
     public function isStatic(): bool {
         return (bool) ($this->flags & Modifiers::STATIC);
@@ -79,8 +71,6 @@ class Property extends Node\Stmt {
 
     /**
      * Whether the property is readonly.
-     *
-     * @return bool
      */
     public function isReadonly(): bool {
         return (bool) ($this->flags & Modifiers::READONLY);

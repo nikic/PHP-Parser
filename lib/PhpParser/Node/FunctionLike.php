@@ -7,8 +7,6 @@ use PhpParser\Node;
 interface FunctionLike extends Node {
     /**
      * Whether to return by reference
-     *
-     * @return bool
      */
     public function returnsByRef(): bool;
 

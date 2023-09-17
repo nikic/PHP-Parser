@@ -294,10 +294,7 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
     }
 
     /**
-     * Handles (and removes) no-indent and doc-string-end tokens.
-     *
-     * @param string $str
-     * @return string
+     * Handles (and removes) doc-string-end tokens.
      */
     protected function handleMagicTokens(string $str): string {
         if ($this->docStringEndToken !== null) {
@@ -527,8 +524,6 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
      * @param Node[] $stmts Modified AST with links to original AST
      * @param Node[] $origStmts Original AST with token offset information
      * @param Token[] $origTokens Tokens of the original code
-     *
-     * @return string
      */
     public function printFormatPreserving(array $stmts, array $origStmts, array $origTokens): string {
         $this->initializeNodeListDiffer();
@@ -1094,9 +1089,6 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
      *
      * Example: "echo" and "$x" result in "echo$x", but "echo" and "x" result in "echo x".
      * Without safeAppend the result would be "echox", which does not preserve semantics.
-     *
-     * @param string $str
-     * @param string $append
      */
     protected function safeAppend(string &$str, string $append): void {
         if ($str === "") {

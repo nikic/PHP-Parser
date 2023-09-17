@@ -9,7 +9,6 @@ use PhpParser\Node\Name;
 use PhpParser\Node\Stmt;
 
 class Interface_ extends Declaration {
-    /** @var string */
     protected string $name;
     /** @var list<Name> */
     protected array $extends = [];

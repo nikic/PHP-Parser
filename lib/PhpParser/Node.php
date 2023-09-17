@@ -112,24 +112,18 @@ interface Node {
     /**
      * Sets an attribute on a node.
      *
-     * @param string $key
      * @param mixed $value
      */
     public function setAttribute(string $key, $value): void;
 
     /**
      * Returns whether an attribute exists.
-     *
-     * @param string $key
-     *
-     * @return bool
      */
     public function hasAttribute(string $key): bool;
 
     /**
      * Returns the value of an attribute.
      *
-     * @param string $key
      * @param mixed $default
      *
      * @return mixed

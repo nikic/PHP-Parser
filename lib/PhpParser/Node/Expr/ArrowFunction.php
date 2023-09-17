@@ -7,10 +7,8 @@ use PhpParser\Node\Expr;
 use PhpParser\Node\FunctionLike;
 
 class ArrowFunction extends Expr implements FunctionLike {
-    /** @var bool */
     public bool $static;
 
-    /** @var bool */
     public bool $byRef;
 
     /** @var Node\Param[] */
@@ -19,7 +17,6 @@ class ArrowFunction extends Expr implements FunctionLike {
     /** @var null|Node\Identifier|Node\Name|Node\ComplexType */
     public ?Node $returnType;
 
-    /** @var Expr */
     public Expr $expr;
     /** @var Node\AttributeGroup[] */
     public array $attrGroups;

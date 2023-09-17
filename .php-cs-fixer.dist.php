@@ -27,6 +27,10 @@ return $config->setRiskyAllowed(true)
             'operators' => ['=' => null],
         ],
         'phpdoc_align' => ['align' => 'left'],
+        'phpdoc_trim' => true,
+        'no_empty_phpdoc' => true,
+        'no_superfluous_phpdoc_tags' => ['allow_mixed' => true],
+        'no_extra_blank_lines' => true,
     ])
     ->setFinder($finder)
 ;

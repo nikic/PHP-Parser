@@ -10,16 +10,11 @@ use PhpParser\Node\Name;
 use PhpParser\Node\Stmt;
 
 class Class_ extends Declaration {
-    /** @var string */
     protected string $name;
-
-    /** @var Name|null */
     protected ?Name $extends = null;
     /** @var list<Name> */
     protected array $implements = [];
-    /** @var int */
     protected int $flags = 0;
-
     /** @var list<Stmt\TraitUse> */
     protected array $uses = [];
     /** @var list<Stmt\ClassConst> */

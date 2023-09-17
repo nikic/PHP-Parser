@@ -9,9 +9,8 @@ use PhpParser\Node;
 use PhpParser\Node\Stmt;
 
 class Method extends FunctionLike {
-    /** @var string */
     protected string $name;
-    /** @var int */
+
     protected int $flags = 0;
 
     /** @var list<Stmt>|null */

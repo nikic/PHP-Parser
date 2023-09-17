@@ -44,8 +44,6 @@ class ClassConst extends Node\Stmt {
 
     /**
      * Whether constant is explicitly or implicitly public.
-     *
-     * @return bool
      */
     public function isPublic(): bool {
         return ($this->flags & Modifiers::PUBLIC) !== 0
@@ -54,8 +52,6 @@ class ClassConst extends Node\Stmt {
 
     /**
      * Whether constant is protected.
-     *
-     * @return bool
      */
     public function isProtected(): bool {
         return (bool) ($this->flags & Modifiers::PROTECTED);
@@ -63,8 +59,6 @@ class ClassConst extends Node\Stmt {
 
     /**
      * Whether constant is private.
-     *
-     * @return bool
      */
     public function isPrivate(): bool {
         return (bool) ($this->flags & Modifiers::PRIVATE);
@@ -72,8 +66,6 @@ class ClassConst extends Node\Stmt {
 
     /**
      * Whether constant is final.
-     *
-     * @return bool
      */
     public function isFinal(): bool {
         return (bool) ($this->flags & Modifiers::FINAL);

@@ -91,8 +91,6 @@ class Differ {
 
     /**
      * @param array<int, array<int, int>> $trace
-     * @param int $x
-     * @param int $y
      * @param T[] $old
      * @param T[] $new
      * @return DiffElem[]

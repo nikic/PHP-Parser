@@ -28,9 +28,8 @@ class Emulative extends Lexer {
     /** @var list<TokenEmulator> */
     private array $emulators = [];
 
-    /** @var PhpVersion */
     private PhpVersion $targetPhpVersion;
-    /** @var PhpVersion */
+
     private PhpVersion $hostPhpVersion;
 
     /**

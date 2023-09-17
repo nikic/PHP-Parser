@@ -3,19 +3,12 @@
 namespace PhpParser;
 
 class Comment implements \JsonSerializable {
-    /** @var string string */
     protected string $text;
-    /** @var int */
     protected int $startLine;
-    /** @var int */
     protected int $startFilePos;
-    /** @var int */
     protected int $startTokenPos;
-    /** @var int */
     protected int $endLine;
-    /** @var int */
     protected int $endFilePos;
-    /** @var int */
     protected int $endTokenPos;
 
     /**
@@ -121,8 +114,6 @@ class Comment implements \JsonSerializable {
      * on all subsequent lines.
      *
      * Additionally, this normalizes CRLF newlines to LF newlines.
-     *
-     * @return string
      */
     public function getReformattedText(): string {
         $text = str_replace("\r\n", "\n", $this->text);
@@ -196,8 +187,7 @@ class Comment implements \JsonSerializable {
     }
 
     /**
-     * @return array
-     * @psalm-return array{nodeType:string, text:mixed, line:mixed, filePos:mixed}
+     * @return array{nodeType:string, text:mixed, line:mixed, filePos:mixed}
      */
     public function jsonSerialize(): array {
         // Technically not a node, but we make it look like one anyway

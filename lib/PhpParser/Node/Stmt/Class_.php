@@ -65,8 +65,6 @@ class Class_ extends ClassLike {
 
     /**
      * Whether the class is explicitly abstract.
-     *
-     * @return bool
      */
     public function isAbstract(): bool {
         return (bool) ($this->flags & Modifiers::ABSTRACT);
@@ -74,8 +72,6 @@ class Class_ extends ClassLike {
 
     /**
      * Whether the class is final.
-     *
-     * @return bool
      */
     public function isFinal(): bool {
         return (bool) ($this->flags & Modifiers::FINAL);
@@ -87,8 +83,6 @@ class Class_ extends ClassLike {
 
     /**
      * Whether the class is anonymous.
-     *
-     * @return bool
      */
     public function isAnonymous(): bool {
         return null === $this->name;

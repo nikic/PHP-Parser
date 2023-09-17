@@ -8,11 +8,8 @@ use PhpParser\Node\Stmt\Use_;
 use PhpParser\Node\UseItem;
 
 class NodeDumper {
-    /** @var bool */
     private bool $dumpComments;
-    /** @var bool */
     private bool $dumpPositions;
-    /** @var string|null */
     private ?string $code;
 
     /**

@@ -59,7 +59,6 @@ abstract class ParserAbstract implements Parser {
     /** @var int Rule number signifying that an unexpected token was encountered */
     protected int $unexpectedTokenRule;
 
-    /** @var int */
     protected int $YY2TBLSTATE;
     /** @var int Number of non-leaf states */
     protected int $numNonLeafStates;

@@ -13,15 +13,10 @@ class TraitUseAdaptation implements Builder {
     private const TYPE_ALIAS      = 1;
     private const TYPE_PRECEDENCE = 2;
 
-    /** @var int Type of building adaptation */
     protected int $type;
-    /** @var Node\Name|null */
     protected ?Node\Name $trait;
-    /** @var Node\Identifier */
     protected Node\Identifier $method;
-    /** @var int|null */
     protected ?int $modifier = null;
-    /** @var Node\Identifier|null */
     protected ?Node\Identifier $alias = null;
     /** @var Node\Name[] */
     protected array $insteadof = [];

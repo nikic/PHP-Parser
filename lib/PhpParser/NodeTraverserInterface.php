@@ -12,8 +12,6 @@ interface NodeTraverserInterface {
 
     /**
      * Removes an added visitor.
-     *
-     * @param NodeVisitor $visitor
      */
     public function removeVisitor(NodeVisitor $visitor): void;
 

@@ -36,8 +36,6 @@ class UseItem extends Node\Stmt {
 
     /**
      * Get alias. If not explicitly given this is the last component of the used name.
-     *
-     * @return Identifier
      */
     public function getAlias(): Identifier {
         if (null !== $this->alias) {

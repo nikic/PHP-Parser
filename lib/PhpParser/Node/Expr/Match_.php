@@ -6,7 +6,6 @@ use PhpParser\Node;
 use PhpParser\Node\MatchArm;
 
 class Match_ extends Node\Expr {
-    /** @var Node\Expr */
     public Node\Expr $cond;
     /** @var MatchArm[] */
     public array $arms;

@@ -6,7 +6,6 @@ use PhpParser\BuilderHelpers;
 use PhpParser\Node;
 
 abstract class FunctionLike extends Declaration {
-    /** @var bool */
     protected bool $returnByRef = false;
     /** @var Node\Param[] */
     protected array $params = [];

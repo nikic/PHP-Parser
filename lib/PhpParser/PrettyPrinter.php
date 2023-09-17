@@ -46,8 +46,6 @@ interface PrettyPrinter {
      * @param Node[] $stmts Modified AST with links to original AST
      * @param Node[] $origStmts Original AST with token offset information
      * @param Token[] $origTokens Tokens of the original code
-     *
-     * @return string
      */
     public function printFormatPreserving(array $stmts, array $origStmts, array $origTokens): string;
 }

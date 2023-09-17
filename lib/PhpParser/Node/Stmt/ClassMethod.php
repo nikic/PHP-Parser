@@ -100,8 +100,6 @@ class ClassMethod extends Node\Stmt implements FunctionLike {
 
     /**
      * Whether the method is explicitly or implicitly public.
-     *
-     * @return bool
      */
     public function isPublic(): bool {
         return ($this->flags & Modifiers::PUBLIC) !== 0
@@ -110,8 +108,6 @@ class ClassMethod extends Node\Stmt implements FunctionLike {
 
     /**
      * Whether the method is protected.
-     *
-     * @return bool
      */
     public function isProtected(): bool {
         return (bool) ($this->flags & Modifiers::PROTECTED);
@@ -119,8 +115,6 @@ class ClassMethod extends Node\Stmt implements FunctionLike {
 
     /**
      * Whether the method is private.
-     *
-     * @return bool
      */
     public function isPrivate(): bool {
         return (bool) ($this->flags & Modifiers::PRIVATE);
@@ -128,8 +122,6 @@ class ClassMethod extends Node\Stmt implements FunctionLike {
 
     /**
      * Whether the method is abstract.
-     *
-     * @return bool
      */
     public function isAbstract(): bool {
         return (bool) ($this->flags & Modifiers::ABSTRACT);
@@ -137,8 +129,6 @@ class ClassMethod extends Node\Stmt implements FunctionLike {
 
     /**
      * Whether the method is final.
-     *
-     * @return bool
      */
     public function isFinal(): bool {
         return (bool) ($this->flags & Modifiers::FINAL);
@@ -146,8 +136,6 @@ class ClassMethod extends Node\Stmt implements FunctionLike {
 
     /**
      * Whether the method is static.
-     *
-     * @return bool
      */
     public function isStatic(): bool {
         return (bool) ($this->flags & Modifiers::STATIC);
@@ -155,8 +143,6 @@ class ClassMethod extends Node\Stmt implements FunctionLike {
 
     /**
      * Whether the method is magic.
-     *
-     * @return bool
      */
     public function isMagic(): bool {
         return isset(self::$magicNames[$this->name->toLowerString()]);

@@ -3,7 +3,6 @@
 namespace PhpParser;
 
 class Error extends \RuntimeException {
-    /** @var string */
     protected string $rawMessage;
     /** @var array<string, mixed> */
     protected array $attributes;
@@ -90,8 +89,6 @@ class Error extends \RuntimeException {
      * Returns whether the error has start and end column information.
      *
      * For column information enable the startFilePos and endFilePos in the lexer options.
-     *
-     * @return bool
      */
     public function hasColumnInfo(): bool {
         return isset($this->attributes['startFilePos'], $this->attributes['endFilePos']);
@@ -101,7 +98,6 @@ class Error extends \RuntimeException {
      * Gets the start column (1-based) into the line where the error started.
      *
      * @param string $code Source code of the file
-     * @return int
      */
     public function getStartColumn(string $code): int {
         if (!$this->hasColumnInfo()) {
@@ -115,7 +111,6 @@ class Error extends \RuntimeException {
      * Gets the end column (1-based) into the line where the error ended.
      *
      * @param string $code Source code of the file
-     * @return int
      */
     public function getEndColumn(string $code): int {
         if (!$this->hasColumnInfo()) {

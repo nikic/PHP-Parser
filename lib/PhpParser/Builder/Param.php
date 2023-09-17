@@ -8,17 +8,12 @@ use PhpParser\Modifiers;
 use PhpParser\Node;
 
 class Param implements PhpParser\Builder {
-    /** @var string */
     protected string $name;
-    /** @var Node\Expr|null */
     protected ?Node\Expr $default = null;
     /** @var Node\Identifier|Node\Name|Node\ComplexType|null */
     protected ?Node $type = null;
-    /** @var bool */
     protected bool $byRef = false;
-    /** @var int */
     protected int $flags = 0;
-    /** @var bool */
     protected bool $variadic = false;
     /** @var list<Node\AttributeGroup> */
     protected array $attributeGroups = [];
