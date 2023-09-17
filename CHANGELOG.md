@@ -1,5 +1,5 @@
-Version 5.0.0-beta1 (TBD)
--------------------------
+Version 5.0.0-beta1 (2023-09-17)
+--------------------------------
 
 See UPGRADE-5.0 for detailed migration instructions.
 
