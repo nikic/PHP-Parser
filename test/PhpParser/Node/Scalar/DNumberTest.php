@@ -8,7 +8,7 @@ use PhpParser\ParserFactory;
 
 class DNumberTest extends \PHPUnit\Framework\TestCase {
     public function testRawValue() {
-        $parser = (new ParserFactory())->create(ParserFactory::PREFER_PHP7);
+        $parser = (new ParserFactory())->createForNewestSupportedVersion();
         $nodes = $parser->parse('<?php echo 1_234.56;');
 
         $echo = $nodes[0];

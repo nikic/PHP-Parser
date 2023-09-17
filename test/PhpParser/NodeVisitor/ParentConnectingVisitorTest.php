@@ -9,7 +9,7 @@ use PhpParser\ParserFactory;
 
 final class ParentConnectingVisitorTest extends \PHPUnit\Framework\TestCase {
     public function testConnectsChildNodeToParentNode() {
-        $ast = (new ParserFactory())->create(ParserFactory::PREFER_PHP7)->parse(
+        $ast = (new ParserFactory())->createForNewestSupportedVersion()->parse(
             '<?php class C { public function m() {} }'
         );
 
