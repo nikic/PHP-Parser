@@ -64,21 +64,19 @@ code which has been modified or newly inserted.
 Use of the formatting-preservation functionality requires some additional preparatory steps:
 
 ```php
-use PhpParser\{Lexer, NodeTraverser, NodeVisitor, ParserFactory, PrettyPrinter};
+use PhpParser\{NodeTraverser, NodeVisitor, ParserFactory, PrettyPrinter};
 
 $parser = (new ParserFactory())->createForHostVersion();
-
-$traverser = new NodeTraverser(new NodeVisitor\CloningVisitor());
-
-$printer = new PrettyPrinter\Standard();
-
 $oldStmts = $parser->parse($code);
 $oldTokens = $parser->getTokens();
 
+// Run CloningVisitor before making changes to the AST.
+$traverser = new NodeTraverser(new NodeVisitor\CloningVisitor());
 $newStmts = $traverser->traverse($oldStmts);
 
 // MODIFY $newStmts HERE
 
+$printer = new PrettyPrinter\Standard();
 $newCode = $printer->printFormatPreserving($newStmts, $oldStmts, $oldTokens);
 ```
 

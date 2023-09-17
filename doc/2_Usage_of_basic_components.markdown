@@ -206,11 +206,13 @@ without the `PhpParser\Node\` prefix and `\` replaced with `_`. It also does not
 It is possible to associate custom metadata with a node using the `setAttribute()` method. This data
 can then be retrieved using `hasAttribute()`, `getAttribute()` and `getAttributes()`.
 
-By default, the lexer adds the `startLine`, `endLine` and `comments` attributes. `comments` is an array
-of `PhpParser\Comment[\Doc]` instances.
+By default, the parser adds the `startLine`, `endLine`, `startTokenPos`, `endTokenPos`,
+`startFilePos`, `endFilePos` and `comments` attributes. `comments` is an array of
+`PhpParser\Comment[\Doc]` instances.
 
-The start line can also be accessed using `getStartLine()` (instead of `getAttribute('startLine')`).
-The last doc comment from the `comments` attribute can be obtained using `getDocComment()`.
+The pre-defined attributes can also be accessed using `getStartLine()` instead of
+`getAttribute('startLine')`, and so on. The last doc comment from the `comments` attribute can be
+obtained using `getDocComment()`.
 
 Pretty printer
 --------------
