@@ -104,39 +104,6 @@ class Comment implements \JsonSerializable {
     }
 
     /**
-     * Gets the line number the comment started on.
-     *
-     * @deprecated Use getStartLine() instead
-     *
-     * @return int Line number
-     */
-    public function getLine(): int {
-        return $this->startLine;
-    }
-
-    /**
-     * Gets the file offset the comment started on.
-     *
-     * @deprecated Use getStartFilePos() instead
-     *
-     * @return int File offset
-     */
-    public function getFilePos(): int {
-        return $this->startFilePos;
-    }
-
-    /**
-     * Gets the token offset the comment started on.
-     *
-     * @deprecated Use getStartTokenPos() instead
-     *
-     * @return int Token offset
-     */
-    public function getTokenPos(): int {
-        return $this->startTokenPos;
-    }
-
-    /**
      * Gets the comment text.
      *
      * @return string The comment text (including comment delimiters like /*)

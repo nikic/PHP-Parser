@@ -23,6 +23,12 @@ See UPGRADE-5.0 for detailed migration instructions.
 * The pretty printer now indents heredoc/nowdoc strings if the target version is >= 7.3
   (flexible heredoc/nowdoc).
 
+### Removed
+
+* The deprecated `Comment::getLine()`, `Comment::getTokenPos()` and `Comment::getFilePos()` methods
+  have been removed. Use `Comment::getStartLine()`, `Comment::getStartTokenPos()` and
+  `Comment::getStartFilePos()` instead.
+
 Version 5.0.0-alpha3 (2023-06-24)
 ---------------------------------
 

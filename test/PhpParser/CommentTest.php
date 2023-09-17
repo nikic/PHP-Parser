@@ -9,9 +9,6 @@ class CommentTest extends \PHPUnit\Framework\TestCase {
 
         $this->assertSame('/* Some comment */', $comment->getText());
         $this->assertSame('/* Some comment */', (string) $comment);
-        $this->assertSame(1, $comment->getLine());
-        $this->assertSame(10, $comment->getFilePos());
-        $this->assertSame(2, $comment->getTokenPos());
         $this->assertSame(1, $comment->getStartLine());
         $this->assertSame(10, $comment->getStartFilePos());
         $this->assertSame(2, $comment->getStartTokenPos());

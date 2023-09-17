@@ -290,4 +290,5 @@ Additionally, the token array is now terminated by a sentinel token with ID 0.
 
  * The deprecated `Builder\Param::setTypeHint()` method has been removed in favor of `Builder\Param::setType()`.
  * The deprecated `Error` constructor taking a start line has been removed. Pass `['startLine' => $startLine]` attributes instead.
-* `Comment::getReformattedText()` now normalizes CRLF newlines to LF newlines.
+ * The deprecated `Comment::getLine()`, `Comment::getTokenPos()` and `Comment::getFilePos()` methods have been removed. Use `Comment::getStartLine()`, `Comment::getStartTokenPos()` and `Comment::getStartFilePos()` instead.
+ * `Comment::getReformattedText()` now normalizes CRLF newlines to LF newlines.
