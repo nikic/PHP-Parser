@@ -213,9 +213,8 @@ Component documentation:
  * [AST builders](doc/component/AST_builders.markdown)
    * Fluent builders for AST nodes
  * [Lexer](doc/component/Lexer.markdown)
-   * Lexer options
-   * Token and file positions for nodes
-   * Custom attributes
+   * Emulation
+   * Tokens, positions and attributes
  * [Error handling](doc/component/Error_handling.markdown)
    * Column information for errors
    * Error recovery (parsing of syntactically incorrect code)
