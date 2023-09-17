@@ -84,11 +84,7 @@ jobs:
         run: "test_old/run-php-src.sh 8.3.0RC2"
   phpstan:
     runs-on: "ubuntu-latest"
-    name: "PHP ${{ matrix.php-version }} PHPStan"
-    strategy:
-      matrix:
-        php-version:
-          - "8.2"
+    name: "PHPStan"
     steps:
       - name: "Checkout"
         uses: "actions/checkout@v3"
@@ -96,10 +92,27 @@ jobs:
         uses: "shivammathur/setup-php@v2"
         with:
           coverage: "none"
-          php-version: "${{ matrix.php-version }}"
+          php-version: "8.2"
           tools: composer:v2
       - name: "Install dependencies"
-        run: | 
+        run: |
           cd tools && composer install
       - name: "PHPStan"
         run: "php tools/vendor/bin/phpstan"
+  php-cs-fixer:
+    runs-on: "ubuntu-latest"
+    name: "PHP-CS-Fixer"
+    steps:
+      - name: "Checkout"
+        uses: "actions/checkout@v3"
+      - name: "Install PHP"
+        uses: "shivammathur/setup-php@v2"
+        with:
+          coverage: "none"
+          php-version: "8.2"
+          tools: composer:v2
+      - name: "Install dependencies"
+        run: |
+          cd tools && composer install
+      - name: "php-cs-fixer"
+        run: "php tools/vendor/bin/php-cs-fixer fix"

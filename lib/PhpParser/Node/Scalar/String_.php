@@ -143,14 +143,14 @@ class String_ extends Scalar {
             return chr($num);
         }
         if ($num <= 0x7FF) {
-            return chr(($num>>6) + 0xC0) . chr(($num&0x3F) + 0x80);
+            return chr(($num >> 6) + 0xC0) . chr(($num & 0x3F) + 0x80);
         }
         if ($num <= 0xFFFF) {
-            return chr(($num>>12) + 0xE0) . chr((($num>>6)&0x3F) + 0x80) . chr(($num&0x3F) + 0x80);
+            return chr(($num >> 12) + 0xE0) . chr((($num >> 6) & 0x3F) + 0x80) . chr(($num & 0x3F) + 0x80);
         }
         if ($num <= 0x1FFFFF) {
-            return chr(($num>>18) + 0xF0) . chr((($num>>12)&0x3F) + 0x80)
-                 . chr((($num>>6)&0x3F) + 0x80) . chr(($num&0x3F) + 0x80);
+            return chr(($num >> 18) + 0xF0) . chr((($num >> 12) & 0x3F) + 0x80)
+                 . chr((($num >> 6) & 0x3F) + 0x80) . chr(($num & 0x3F) + 0x80);
         }
         throw new Error('Invalid UTF-8 codepoint escape sequence: Codepoint too large');
     }

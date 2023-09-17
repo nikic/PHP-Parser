@@ -68,10 +68,10 @@ class Differ {
         for ($d = 0; $d <= $max; $d++) {
             $trace[] = $v;
             for ($k = -$d; $k <= $d; $k += 2) {
-                if ($k === -$d || ($k !== $d && $v[$k-1] < $v[$k+1])) {
-                    $x = $v[$k+1];
+                if ($k === -$d || ($k !== $d && $v[$k - 1] < $v[$k + 1])) {
+                    $x = $v[$k + 1];
                 } else {
-                    $x = $v[$k-1] + 1;
+                    $x = $v[$k - 1] + 1;
                 }
 
                 $y = $x - $k;
@@ -103,7 +103,7 @@ class Differ {
             $v = $trace[$d];
             $k = $x - $y;
 
-            if ($k === -$d || ($k !== $d && $v[$k-1] < $v[$k+1])) {
+            if ($k === -$d || ($k !== $d && $v[$k - 1] < $v[$k + 1])) {
                 $prevK = $k + 1;
             } else {
                 $prevK = $k - 1;
@@ -113,7 +113,7 @@ class Differ {
             $prevY = $prevX - $prevK;
 
             while ($x > $prevX && $y > $prevY) {
-                $result[] = new DiffElem(DiffElem::TYPE_KEEP, $old[$x-1], $new[$y-1]);
+                $result[] = new DiffElem(DiffElem::TYPE_KEEP, $old[$x - 1], $new[$y - 1]);
                 $x--;
                 $y--;
             }
@@ -123,12 +123,12 @@ class Differ {
             }
 
             while ($x > $prevX) {
-                $result[] = new DiffElem(DiffElem::TYPE_REMOVE, $old[$x-1], null);
+                $result[] = new DiffElem(DiffElem::TYPE_REMOVE, $old[$x - 1], null);
                 $x--;
             }
 
             while ($y > $prevY) {
-                $result[] = new DiffElem(DiffElem::TYPE_ADD, null, $new[$y-1]);
+                $result[] = new DiffElem(DiffElem::TYPE_ADD, null, $new[$y - 1]);
                 $y--;
             }
         }
