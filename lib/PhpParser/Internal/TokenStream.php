@@ -29,7 +29,7 @@ class TokenStream {
      * Whether the given position is immediately surrounded by parenthesis.
      *
      * @param int $startPos Start position
-     * @param int $endPos   End position
+     * @param int $endPos End position
      *
      * @return bool
      */
@@ -42,7 +42,7 @@ class TokenStream {
      * Whether the given position is immediately surrounded by braces.
      *
      * @param int $startPos Start position
-     * @param int $endPos   End position
+     * @param int $endPos End position
      *
      * @return bool
      */
@@ -57,7 +57,7 @@ class TokenStream {
      *
      * During this check whitespace and comments are skipped.
      *
-     * @param int        $pos               Position before which the token should occur
+     * @param int $pos Position before which the token should occur
      * @param int|string $expectedTokenType Token to check for
      *
      * @return bool Whether the expected token was found
@@ -82,7 +82,7 @@ class TokenStream {
      *
      * During this check whitespace and comments are skipped.
      *
-     * @param int        $pos               Position after which the token should occur
+     * @param int $pos Position after which the token should occur
      * @param int|string $expectedTokenType Token to check for
      *
      * @return bool Whether the expected token was found
@@ -224,8 +224,8 @@ class TokenStream {
     /**
      * Get the code corresponding to a token offset range, optionally adjusted for indentation.
      *
-     * @param int $from   Token start position (inclusive)
-     * @param int $to     Token end position (exclusive)
+     * @param int $from Token start position (inclusive)
+     * @param int $to Token end position (exclusive)
      * @param int $indent By how much the code should be indented (can be negative as well)
      *
      * @return string Code corresponding to token range, adjusted for indentation

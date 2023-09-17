@@ -26,6 +26,7 @@ return $config->setRiskyAllowed(true)
             // Work around https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues/7303.
             'operators' => ['=' => null],
         ],
+        'phpdoc_align' => ['align' => 'left'],
     ])
     ->setFinder($finder)
 ;

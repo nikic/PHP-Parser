@@ -16,8 +16,8 @@ class Const_ extends NodeAbstract {
     /**
      * Constructs a const node for use in class const and const statements.
      *
-     * @param string|Identifier $name       Name
-     * @param Expr              $value      Value
+     * @param string|Identifier $name Name
+     * @param Expr $value Value
      * @param array<string, mixed> $attributes Additional attributes
      */
     public function __construct($name, Expr $value, array $attributes = []) {

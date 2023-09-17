@@ -11,7 +11,7 @@ class Isset_ extends Expr {
     /**
      * Constructs an array node.
      *
-     * @param Expr[] $vars       Variables
+     * @param Expr[] $vars Variables
      * @param array<string, mixed> $attributes Additional attributes
      */
     public function __construct(array $vars, array $attributes = []) {

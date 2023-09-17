@@ -17,9 +17,9 @@ class ArrayItem extends NodeAbstract {
     /**
      * Constructs an array item node.
      *
-     * @param Expr      $value      Value
-     * @param null|Expr $key        Key
-     * @param bool      $byRef      Whether to assign by reference
+     * @param Expr $value Value
+     * @param null|Expr $key Key
+     * @param bool $byRef Whether to assign by reference
      * @param array<string, mixed> $attributes Additional attributes
      */
     public function __construct(Expr $value, ?Expr $key = null, bool $byRef = false, array $attributes = [], bool $unpack = false) {

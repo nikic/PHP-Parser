@@ -313,7 +313,7 @@ final class BuilderHelpers {
      * Adds a modifier and returns new modifier bitmask.
      *
      * @param int $modifiers Existing modifiers
-     * @param int $modifier  Modifier to set
+     * @param int $modifier Modifier to set
      *
      * @return int New modifiers
      */

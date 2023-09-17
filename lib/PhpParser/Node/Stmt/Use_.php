@@ -27,8 +27,8 @@ class Use_ extends Stmt {
     /**
      * Constructs an alias (use) list node.
      *
-     * @param UseItem[]            $uses       Aliases
-     * @param Stmt\Use_::TYPE_*    $type       Type of alias
+     * @param UseItem[] $uses Aliases
+     * @param Stmt\Use_::TYPE_* $type Type of alias
      * @param array<string, mixed> $attributes Additional attributes
      */
     public function __construct(array $uses, int $type = self::TYPE_NORMAL, array $attributes = []) {

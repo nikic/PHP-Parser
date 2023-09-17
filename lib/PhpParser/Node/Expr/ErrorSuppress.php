@@ -11,7 +11,7 @@ class ErrorSuppress extends Expr {
     /**
      * Constructs an error suppress node.
      *
-     * @param Expr  $expr       Expression
+     * @param Expr $expr Expression
      * @param array<string, mixed> $attributes Additional attributes
      */
     public function __construct(Expr $expr, array $attributes = []) {

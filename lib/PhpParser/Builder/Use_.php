@@ -18,7 +18,7 @@ class Use_ implements Builder {
     /**
      * Creates a name use (alias) builder.
      *
-     * @param Node\Name|string  $name Name of the entity (namespace, class, function, constant) to alias
+     * @param Node\Name|string $name Name of the entity (namespace, class, function, constant) to alias
      * @param Stmt\Use_::TYPE_* $type One of the Stmt\Use_::TYPE_* constants
      */
     public function __construct($name, int $type) {

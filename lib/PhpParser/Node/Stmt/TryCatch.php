@@ -15,9 +15,9 @@ class TryCatch extends Node\Stmt {
     /**
      * Constructs a try catch node.
      *
-     * @param Node\Stmt[]   $stmts      Statements
-     * @param Catch_[]      $catches    Catches
-     * @param null|Finally_ $finally    Optional finally node
+     * @param Node\Stmt[] $stmts Statements
+     * @param Catch_[] $catches Catches
+     * @param null|Finally_ $finally Optional finally node
      * @param array<string, mixed> $attributes Additional attributes
      */
     public function __construct(array $stmts, array $catches, ?Finally_ $finally = null, array $attributes = []) {

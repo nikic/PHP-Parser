@@ -11,7 +11,7 @@ class Const_ extends Node\Stmt {
     /**
      * Constructs a const list node.
      *
-     * @param Node\Const_[] $consts     Constant declarations
+     * @param Node\Const_[] $consts Constant declarations
      * @param array<string, mixed> $attributes Additional attributes
      */
     public function __construct(array $consts, array $attributes = []) {

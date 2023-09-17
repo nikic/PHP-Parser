@@ -19,9 +19,9 @@ class GroupUse extends Stmt {
     /**
      * Constructs a group use node.
      *
-     * @param Name                 $prefix     Prefix for uses
-     * @param UseItem[]            $uses       Uses
-     * @param Use_::TYPE_*         $type       Type of group use
+     * @param Name $prefix Prefix for uses
+     * @param UseItem[] $uses Uses
+     * @param Use_::TYPE_* $type Type of group use
      * @param array<string, mixed> $attributes Additional attributes
      */
     public function __construct(Name $prefix, array $uses, int $type = Use_::TYPE_NORMAL, array $attributes = []) {

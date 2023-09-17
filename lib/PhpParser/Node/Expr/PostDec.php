@@ -11,7 +11,7 @@ class PostDec extends Expr {
     /**
      * Constructs a post decrement node.
      *
-     * @param Expr  $var        Variable
+     * @param Expr $var Variable
      * @param array<string, mixed> $attributes Additional attributes
      */
     public function __construct(Expr $var, array $attributes = []) {

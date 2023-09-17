@@ -21,7 +21,7 @@ class Identifier extends NodeAbstract {
     /**
      * Constructs an identifier node.
      *
-     * @param string $name       Identifier as string
+     * @param string $name Identifier as string
      * @param array<string, mixed> $attributes Additional attributes
      */
     public function __construct(string $name, array $attributes = []) {

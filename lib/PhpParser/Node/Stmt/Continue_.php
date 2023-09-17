@@ -11,7 +11,7 @@ class Continue_ extends Node\Stmt {
     /**
      * Constructs a continue node.
      *
-     * @param null|Node\Expr $num        Number of loops to continue
+     * @param null|Node\Expr $num Number of loops to continue
      * @param array<string, mixed> $attributes Additional attributes
      */
     public function __construct(?Node\Expr $num = null, array $attributes = []) {

@@ -21,10 +21,10 @@ class Comment implements \JsonSerializable {
     /**
      * Constructs a comment node.
      *
-     * @param string $text          Comment text (including comment delimiters like /*)
-     * @param int    $startLine     Line number the comment started on
-     * @param int    $startFilePos  File offset the comment started on
-     * @param int    $startTokenPos Token offset the comment started on
+     * @param string $text Comment text (including comment delimiters like /*)
+     * @param int $startLine Line number the comment started on
+     * @param int $startFilePos File offset the comment started on
+     * @param int $startTokenPos Token offset the comment started on
      */
     public function __construct(
         string $text,
@@ -229,7 +229,7 @@ class Comment implements \JsonSerializable {
     }
 
     /**
-     * @return       array
+     * @return array
      * @psalm-return array{nodeType:string, text:mixed, line:mixed, filePos:mixed}
      */
     public function jsonSerialize(): array {

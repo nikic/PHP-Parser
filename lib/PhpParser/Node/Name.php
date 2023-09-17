@@ -18,7 +18,7 @@ class Name extends NodeAbstract {
     /**
      * Constructs a name node.
      *
-     * @param string|string[]|self $name       Name as string, part array or Name instance (copy ctor)
+     * @param string|string[]|self $name Name as string, part array or Name instance (copy ctor)
      * @param array<string, mixed> $attributes Additional attributes
      */
     final public function __construct($name, array $attributes = []) {
@@ -159,7 +159,7 @@ class Name extends NodeAbstract {
      *
      * Offset and length have the same meaning as in array_slice().
      *
-     * @param int      $offset Offset to start the slice at (may be negative)
+     * @param int $offset Offset to start the slice at (may be negative)
      * @param int|null $length Length of the slice (may be negative)
      *
      * @return static|null Sliced name
@@ -209,8 +209,8 @@ class Name extends NodeAbstract {
      *     Name::concat($namespace, $shortName)
      * where $namespace is a Name node or null will work as expected.
      *
-     * @param string|string[]|self|null $name1      The first name
-     * @param string|string[]|self|null $name2      The second name
+     * @param string|string[]|self|null $name1 The first name
+     * @param string|string[]|self|null $name2 The second name
      * @param array<string, mixed> $attributes Attributes to assign to concatenated name
      *
      * @return static|null Concatenated name

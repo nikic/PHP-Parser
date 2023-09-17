@@ -13,8 +13,8 @@ class AssignRef extends Expr {
     /**
      * Constructs an assignment node.
      *
-     * @param Expr  $var        Variable
-     * @param Expr  $expr       Expression
+     * @param Expr $var Variable
+     * @param Expr $expr Expression
      * @param array<string, mixed> $attributes Additional attributes
      */
     public function __construct(Expr $var, Expr $expr, array $attributes = []) {

@@ -206,7 +206,7 @@ class NameResolver extends NodeVisitorAbstract {
     /**
      * Resolve name, according to name resolver options.
      *
-     * @param Name              $name Function or constant name to resolve
+     * @param Name $name Function or constant name to resolve
      * @param Stmt\Use_::TYPE_* $type One of Stmt\Use_::TYPE_*
      *
      * @return Name Resolved name, or original name with attribute

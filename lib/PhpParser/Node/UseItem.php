@@ -18,10 +18,10 @@ class UseItem extends Node\Stmt {
     /**
      * Constructs an alias (use) item node.
      *
-     * @param Node\Name              $name       Namespace/Class to alias
-     * @param null|string|Identifier $alias      Alias
-     * @param Use_::TYPE_*           $type       Type of the use element (for mixed group use only)
-     * @param array<string, mixed>   $attributes Additional attributes
+     * @param Node\Name $name Namespace/Class to alias
+     * @param null|string|Identifier $alias Alias
+     * @param Use_::TYPE_* $type Type of the use element (for mixed group use only)
+     * @param array<string, mixed> $attributes Additional attributes
      */
     public function __construct(Node\Name $name, $alias = null, int $type = Use_::TYPE_UNKNOWN, array $attributes = []) {
         $this->attributes = $attributes;

@@ -29,7 +29,7 @@ class TraitUseAdaptation implements Builder {
     /**
      * Creates a trait use adaptation builder.
      *
-     * @param Node\Name|string|null  $trait  Name of adapted trait
+     * @param Node\Name|string|null $trait Name of adapted trait
      * @param Node\Identifier|string $method Name of adapted method
      */
     public function __construct($trait, $method) {

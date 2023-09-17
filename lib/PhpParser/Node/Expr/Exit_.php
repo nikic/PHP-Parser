@@ -15,7 +15,7 @@ class Exit_ extends Expr {
     /**
      * Constructs an exit() node.
      *
-     * @param null|Expr $expr       Expression
+     * @param null|Expr $expr Expression
      * @param array<string, mixed> $attributes Additional attributes
      */
     public function __construct(?Expr $expr = null, array $attributes = []) {

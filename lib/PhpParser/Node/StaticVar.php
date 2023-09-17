@@ -14,8 +14,8 @@ class StaticVar extends NodeAbstract {
     /**
      * Constructs a static variable node.
      *
-     * @param Expr\Variable  $var         Name
-     * @param null|Node\Expr $default    Default value
+     * @param Expr\Variable $var Name
+     * @param null|Node\Expr $default Default value
      * @param array<string, mixed> $attributes Additional attributes
      */
     public function __construct(

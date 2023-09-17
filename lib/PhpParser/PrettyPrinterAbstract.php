@@ -127,20 +127,20 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
     protected array $labelCharMap;
     /**
      * @var array<string, array<string, int>> Map from token classes and subnode names to FIXUP_* constants.
-     *      This is used during format-preserving prints to place additional parens/braces if necessary.
+     *                                        This is used during format-preserving prints to place additional parens/braces if necessary.
      */
     protected array $fixupMap;
     /**
      * @var array<string, array{left?: int|string, right?: int|string}> Map from "{$node->getType()}->{$subNode}"
-     *      to ['left' => $l, 'right' => $r], where $l and $r specify the token type that needs to be stripped
-     *      when removing this node.
+     *                                                                  to ['left' => $l, 'right' => $r], where $l and $r specify the token type that needs to be stripped
+     *                                                                  when removing this node.
      */
     protected array $removalMap;
     /**
      * @var array<string, array{int|string|null, bool, string|null, string|null}> Map from
-     *      "{$node->getType()}->{$subNode}" to [$find, $beforeToken, $extraLeft, $extraRight].
-     *      $find is an optional token after which the insertion occurs. $extraLeft/Right
-     *      are optionally added before/after the main insertions.
+     *                                                                            "{$node->getType()}->{$subNode}" to [$find, $beforeToken, $extraLeft, $extraRight].
+     *                                                                            $find is an optional token after which the insertion occurs. $extraLeft/Right
+     *                                                                            are optionally added before/after the main insertions.
      */
     protected array $insertionMap;
     /**
@@ -315,8 +315,8 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
     /**
      * Pretty prints an array of nodes (statements) and indents them optionally.
      *
-     * @param Node[] $nodes  Array of nodes
-     * @param bool   $indent Whether to indent the printed nodes
+     * @param Node[] $nodes Array of nodes
+     * @param bool $indent Whether to indent the printed nodes
      *
      * @return string Pretty printed statements
      */
@@ -348,12 +348,12 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
     /**
      * Pretty-print an infix operation while taking precedence into account.
      *
-     * @param string $class          Node class of operator
-     * @param Node   $leftNode       Left-hand side node
+     * @param string $class Node class of operator
+     * @param Node $leftNode Left-hand side node
      * @param string $operatorString String representation of the operator
-     * @param Node   $rightNode      Right-hand side node
-     * @param int    $precedence     Precedence of parent operator
-     * @param int    $lhsPrecedence  Precedence for unary operator on LHS of binary operator
+     * @param Node $rightNode Right-hand side node
+     * @param int $precedence Precedence of parent operator
+     * @param int $lhsPrecedence Precedence for unary operator on LHS of binary operator
      *
      * @return string Pretty printed infix operation
      */
@@ -376,11 +376,11 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
     /**
      * Pretty-print a prefix operation while taking precedence into account.
      *
-     * @param string $class          Node class of operator
+     * @param string $class Node class of operator
      * @param string $operatorString String representation of the operator
-     * @param Node   $node           Node
-     * @param int    $precedence     Precedence of parent operator
-     * @param int    $lhsPrecedence  Precedence for unary operator on LHS of binary operator
+     * @param Node $node Node
+     * @param int $precedence Precedence of parent operator
+     * @param int $lhsPrecedence Precedence for unary operator on LHS of binary operator
      *
      * @return string Pretty printed prefix operation
      */
@@ -406,11 +406,11 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
     /**
      * Pretty-print a postfix operation while taking precedence into account.
      *
-     * @param string $class          Node class of operator
+     * @param string $class Node class of operator
      * @param string $operatorString String representation of the operator
-     * @param Node   $node           Node
-     * @param int    $precedence     Precedence of parent operator
-     * @param int    $lhsPrecedence  Precedence for unary operator on LHS of binary operator
+     * @param Node $node Node
+     * @param int $precedence Precedence of parent operator
+     * @param int $lhsPrecedence Precedence for unary operator on LHS of binary operator
      *
      * @return string Pretty printed postfix operation
      */
@@ -433,7 +433,7 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
      * Pretty prints an array of nodes and implodes the printed values.
      *
      * @param Node[] $nodes Array of Nodes to be printed
-     * @param string $glue  Character to implode with
+     * @param string $glue Character to implode with
      *
      * @return string Imploded pretty printed nodes> $pre
      */
@@ -466,8 +466,8 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
      *
      * The result includes a leading newline and one level of indentation (same as pStmts).
      *
-     * @param Node[] $nodes         Array of Nodes to be printed
-     * @param bool   $trailingComma Whether to use a trailing comma
+     * @param Node[] $nodes Array of Nodes to be printed
+     * @param bool $trailingComma Whether to use a trailing comma
      *
      * @return string Comma separated pretty printed nodes in multiline style
      */
@@ -524,8 +524,8 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
      *  * The CloningVisitor must be run on the AST prior to modification.
      *  * The original tokens must be provided, using the getTokens() method on the lexer.
      *
-     * @param Node[] $stmts      Modified AST with links to original AST
-     * @param Node[] $origStmts  Original AST with token offset information
+     * @param Node[] $stmts Modified AST with links to original AST
+     * @param Node[] $origStmts Original AST with token offset information
      * @param Token[] $origTokens Tokens of the original code
      *
      * @return string
@@ -743,13 +743,13 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
     /**
      * Perform a format-preserving pretty print of an array.
      *
-     * @param Node[]      $nodes            New nodes
-     * @param Node[]      $origNodes        Original nodes
-     * @param int         $pos              Current token position (updated by reference)
-     * @param int         $indentAdjustment Adjustment for indentation
-     * @param string      $parentNodeClass  Class of the containing node.
-     * @param string      $subNodeName      Name of array subnode.
-     * @param null|int    $fixup            Fixup information for array item nodes
+     * @param Node[] $nodes New nodes
+     * @param Node[] $origNodes Original nodes
+     * @param int $pos Current token position (updated by reference)
+     * @param int $indentAdjustment Adjustment for indentation
+     * @param string $parentNodeClass Class of the containing node.
+     * @param string $subNodeName Name of array subnode.
+     * @param null|int $fixup Fixup information for array item nodes
      *
      * @return null|string Result of pretty print or null if cannot preserve formatting
      */
@@ -1009,11 +1009,11 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
      * are required to preserve program semantics in a certain context (e.g. to maintain precedence
      * or because only certain expressions are allowed in certain places).
      *
-     * @param int         $fixup       Fixup type
-     * @param Node        $subNode     Subnode to print
+     * @param int $fixup Fixup type
+     * @param Node $subNode Subnode to print
      * @param string|null $parentClass Class of parent node
-     * @param int         $subStartPos Original start pos of subnode
-     * @param int         $subEndPos   Original end pos of subnode
+     * @param int $subStartPos Original start pos of subnode
+     * @param int $subEndPos Original end pos of subnode
      *
      * @return string Result of fixed-up print of subnode
      */

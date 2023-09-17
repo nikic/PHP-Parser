@@ -11,7 +11,7 @@ class InlineHTML extends Stmt {
     /**
      * Constructs an inline HTML node.
      *
-     * @param string $value      String
+     * @param string $value String
      * @param array<string, mixed> $attributes Additional attributes
      */
     public function __construct(string $value, array $attributes = []) {

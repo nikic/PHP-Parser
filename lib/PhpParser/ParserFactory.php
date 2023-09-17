@@ -12,7 +12,7 @@ class ParserFactory {
     /**
      * Creates a Parser instance, according to the provided kind.
      *
-     * @param int        $kind  One of ::PREFER_PHP7 or ::ONLY_PHP7
+     * @param int $kind One of ::PREFER_PHP7 or ::ONLY_PHP7
      * @param Lexer|null $lexer Lexer to use. Defaults to emulative lexer when not specified
      *
      * @return Parser The parser instance

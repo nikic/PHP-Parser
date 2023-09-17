@@ -16,7 +16,7 @@ class List_ extends Expr {
     /**
      * Constructs a list() destructuring node.
      *
-     * @param (ArrayItem|null)[] $items      List of items to assign to
+     * @param (ArrayItem|null)[] $items List of items to assign to
      * @param array<string, mixed> $attributes Additional attributes
      */
     public function __construct(array $items, array $attributes = []) {

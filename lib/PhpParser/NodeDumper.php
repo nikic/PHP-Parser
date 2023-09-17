@@ -33,7 +33,7 @@ class NodeDumper {
     /**
      * Dumps a node or array.
      *
-     * @param array|Node  $node Node or array to dump
+     * @param array|Node $node Node or array to dump
      * @param string|null $code Code corresponding to dumped AST. This only needs to be passed if
      *                          the dumpPositions option is enabled and the dumping of node offsets
      *                          is desired.

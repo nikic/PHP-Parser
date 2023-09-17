@@ -14,8 +14,8 @@ class DeclareItem extends NodeAbstract {
     /**
      * Constructs a declare key=>value pair node.
      *
-     * @param string|Node\Identifier $key        Key
-     * @param Node\Expr              $value      Value
+     * @param string|Node\Identifier $key Key
+     * @param Node\Expr $value Value
      * @param array<string, mixed> $attributes Additional attributes
      */
     public function __construct($key, Node\Expr $value, array $attributes = []) {

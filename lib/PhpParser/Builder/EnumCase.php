@@ -24,7 +24,7 @@ class EnumCase implements PhpParser\Builder {
     /**
      * Creates an enum case builder.
      *
-     * @param string|Identifier $name  Name
+     * @param string|Identifier $name Name
      */
     public function __construct($name) {
         $this->name = $name;

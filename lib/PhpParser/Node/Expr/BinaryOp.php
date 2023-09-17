@@ -13,8 +13,8 @@ abstract class BinaryOp extends Expr {
     /**
      * Constructs a binary operator node.
      *
-     * @param Expr  $left       The left hand side expression
-     * @param Expr  $right      The right hand side expression
+     * @param Expr $left The left hand side expression
+     * @param Expr $right The right hand side expression
      * @param array<string, mixed> $attributes Additional attributes
      */
     public function __construct(Expr $left, Expr $right, array $attributes = []) {

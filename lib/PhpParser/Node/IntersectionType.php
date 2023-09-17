@@ -9,7 +9,7 @@ class IntersectionType extends ComplexType {
     /**
      * Constructs an intersection type.
      *
-     * @param (Identifier|Name)[] $types      Types
+     * @param (Identifier|Name)[] $types Types
      * @param array<string, mixed> $attributes Additional attributes
      */
     public function __construct(array $types, array $attributes = []) {

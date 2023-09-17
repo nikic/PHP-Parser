@@ -13,8 +13,8 @@ class Yield_ extends Expr {
     /**
      * Constructs a yield expression node.
      *
-     * @param null|Expr $value      Value expression
-     * @param null|Expr $key        Key expression
+     * @param null|Expr $value Value expression
+     * @param null|Expr $key Key expression
      * @param array<string, mixed> $attributes Additional attributes
      */
     public function __construct(?Expr $value = null, ?Expr $key = null, array $attributes = []) {

@@ -12,7 +12,7 @@ class Label extends Stmt {
     /**
      * Constructs a label node.
      *
-     * @param string|Identifier $name       Name
+     * @param string|Identifier $name Name
      * @param array<string, mixed> $attributes Additional attributes
      */
     public function __construct($name, array $attributes = []) {

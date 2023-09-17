@@ -146,10 +146,10 @@ abstract class ParserAbstract implements Parser {
      *
      * @param Lexer $lexer A lexer
      * @param PhpVersion $phpVersion PHP version to target, defaults to latest supported. This
-     *        option is best-effort: Even if specified, parsing will generally assume the latest
-     *        supported version and only adjust behavior in minor ways, for example by omitting
-     *        errors in older versions and interpreting type hints as a name or identifier depending
-     *        on version.
+     *                               option is best-effort: Even if specified, parsing will generally assume the latest
+     *                               supported version and only adjust behavior in minor ways, for example by omitting
+     *                               errors in older versions and interpreting type hints as a name or identifier depending
+     *                               on version.
      */
     public function __construct(Lexer $lexer, ?PhpVersion $phpVersion = null) {
         $this->lexer = $lexer;
@@ -416,7 +416,7 @@ abstract class ParserAbstract implements Parser {
      * Format error message including expected tokens.
      *
      * @param int $symbol Unexpected symbol
-     * @param int $state  State at time of error
+     * @param int $state State at time of error
      *
      * @return string Formatted error message
      */

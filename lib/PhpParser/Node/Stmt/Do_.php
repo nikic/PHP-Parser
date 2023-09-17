@@ -13,8 +13,8 @@ class Do_ extends Node\Stmt {
     /**
      * Constructs a do while node.
      *
-     * @param Node\Expr   $cond       Condition
-     * @param Node\Stmt[] $stmts      Statements
+     * @param Node\Expr $cond Condition
+     * @param Node\Stmt[] $stmts Statements
      * @param array<string, mixed> $attributes Additional attributes
      */
     public function __construct(Node\Expr $cond, array $stmts = [], array $attributes = []) {

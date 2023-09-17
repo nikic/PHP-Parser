@@ -13,8 +13,8 @@ class PropertyItem extends Node\Stmt {
     /**
      * Constructs a class property item node.
      *
-     * @param string|Node\VarLikeIdentifier $name       Name
-     * @param null|Node\Expr                $default    Default value
+     * @param string|Node\VarLikeIdentifier $name Name
+     * @param null|Node\Expr $default Default value
      * @param array<string, mixed> $attributes Additional attributes
      */
     public function __construct($name, ?Node\Expr $default = null, array $attributes = []) {

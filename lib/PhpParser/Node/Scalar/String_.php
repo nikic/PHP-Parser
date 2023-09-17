@@ -30,7 +30,7 @@ class String_ extends Scalar {
     /**
      * Constructs a string scalar node.
      *
-     * @param string $value      Value of the string
+     * @param string $value Value of the string
      * @param array<string, mixed> $attributes Additional attributes
      */
     public function __construct(string $value, array $attributes = []) {
@@ -92,7 +92,7 @@ class String_ extends Scalar {
      *
      * Parses escape sequences in strings (all string types apart from single quoted).
      *
-     * @param string      $str   String without quotes
+     * @param string $str String without quotes
      * @param null|string $quote Quote type
      * @param bool $parseUnicodeEscape Whether to parse PHP 7 \u escapes
      *

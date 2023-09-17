@@ -13,8 +13,8 @@ class ClosureUse extends NodeAbstract {
     /**
      * Constructs a closure use node.
      *
-     * @param Expr\Variable $var        Variable to use
-     * @param bool          $byRef      Whether to use by reference
+     * @param Expr\Variable $var Variable to use
+     * @param bool $byRef Whether to use by reference
      * @param array<string, mixed> $attributes Additional attributes
      */
     public function __construct(Expr\Variable $var, bool $byRef = false, array $attributes = []) {

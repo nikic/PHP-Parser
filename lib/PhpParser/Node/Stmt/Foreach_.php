@@ -19,8 +19,8 @@ class Foreach_ extends Node\Stmt {
     /**
      * Constructs a foreach node.
      *
-     * @param Node\Expr $expr       Expression to iterate
-     * @param Node\Expr $valueVar   Variable to assign value to
+     * @param Node\Expr $expr Expression to iterate
+     * @param Node\Expr $valueVar Variable to assign value to
      * @param array{
      *     keyVar?: Node\Expr|null,
      *     byRef?: bool,

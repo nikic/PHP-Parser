@@ -15,7 +15,7 @@ class BuilderFactory {
      * Creates an attribute node.
      *
      * @param string|Name $name Name of the attribute
-     * @param array       $args Attribute named arguments
+     * @param array $args Attribute named arguments
      *
      * @return Node\Attribute
      */
@@ -95,7 +95,7 @@ class BuilderFactory {
     /**
      * Creates a trait use adaptation builder.
      *
-     * @param Node\Name|string|null  $trait  Trait name
+     * @param Node\Name|string|null $trait Trait name
      * @param Node\Identifier|string $method Method name
      *
      * @return Builder\TraitUseAdaptation The created trait use adaptation builder
@@ -189,7 +189,7 @@ class BuilderFactory {
     /**
      * Creates a class constant builder.
      *
-     * @param string|Identifier                          $name  Name
+     * @param string|Identifier $name Name
      * @param Node\Expr|bool|null|int|float|string|array $value Value
      *
      * @return Builder\ClassConst The created use const builder
@@ -201,7 +201,7 @@ class BuilderFactory {
     /**
      * Creates an enum case builder.
      *
-     * @param string|Identifier $name  Name
+     * @param string|Identifier $name Name
      *
      * @return Builder\EnumCase The created use const builder
      */
@@ -262,7 +262,7 @@ class BuilderFactory {
      * Creates a function call node.
      *
      * @param string|Name|Expr $name Function name
-     * @param array            $args Function arguments
+     * @param array $args Function arguments
      *
      * @return Expr\FuncCall
      */
@@ -276,9 +276,9 @@ class BuilderFactory {
     /**
      * Creates a method call node.
      *
-     * @param Expr                   $var  Variable the method is called on
+     * @param Expr $var Variable the method is called on
      * @param string|Identifier|Expr $name Method name
-     * @param array                  $args Method arguments
+     * @param array $args Method arguments
      *
      * @return Expr\MethodCall
      */
@@ -293,9 +293,9 @@ class BuilderFactory {
     /**
      * Creates a static method call node.
      *
-     * @param string|Name|Expr       $class Class name
-     * @param string|Identifier|Expr $name  Method name
-     * @param array                  $args  Method arguments
+     * @param string|Name|Expr $class Class name
+     * @param string|Identifier|Expr $name Method name
+     * @param array $args Method arguments
      *
      * @return Expr\StaticCall
      */
@@ -311,7 +311,7 @@ class BuilderFactory {
      * Creates an object creation node.
      *
      * @param string|Name|Expr $class Class name
-     * @param array            $args  Constructor arguments
+     * @param array $args Constructor arguments
      *
      * @return Expr\New_
      */
@@ -336,7 +336,7 @@ class BuilderFactory {
     /**
      * Creates a property fetch node.
      *
-     * @param Expr                   $var  Variable holding object
+     * @param Expr $var Variable holding object
      * @param string|Identifier|Expr $name Property name
      *
      * @return Expr\PropertyFetch
@@ -349,7 +349,7 @@ class BuilderFactory {
      * Creates a class constant fetch node.
      *
      * @param string|Name|Expr $class Class name
-     * @param string|Identifier|Expr $name  Constant name
+     * @param string|Identifier|Expr $name Constant name
      *
      * @return Expr\ClassConstFetch
      */

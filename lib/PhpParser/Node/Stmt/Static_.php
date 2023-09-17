@@ -12,7 +12,7 @@ class Static_ extends Stmt {
     /**
      * Constructs a static variables list node.
      *
-     * @param StaticVar[] $vars       Variable definitions
+     * @param StaticVar[] $vars Variable definitions
      * @param array<string, mixed> $attributes Additional attributes
      */
     public function __construct(array $vars, array $attributes = []) {

@@ -13,7 +13,7 @@ class Attribute extends NodeAbstract {
     public array $args;
 
     /**
-     * @param Node\Name $name       Attribute name
+     * @param Node\Name $name Attribute name
      * @param list<Arg> $args Attribute arguments
      * @param array<string, mixed> $attributes Additional node attributes
      */

@@ -47,9 +47,9 @@ class NameContext {
     /**
      * Add an alias / import.
      *
-     * @param Name                 $name       Original name
-     * @param string               $aliasName  Aliased name
-     * @param Stmt\Use_::TYPE_*    $type       One of Stmt\Use_::TYPE_*
+     * @param Name $name Original name
+     * @param string $aliasName Aliased name
+     * @param Stmt\Use_::TYPE_* $type One of Stmt\Use_::TYPE_*
      * @param array<string, mixed> $errorAttrs Attributes to use to report an error
      */
     public function addAlias(Name $name, string $aliasName, int $type, array $errorAttrs = []): void {
@@ -93,8 +93,8 @@ class NameContext {
     /**
      * Get resolved name.
      *
-     * @param Name               $name Name to resolve
-     * @param Stmt\Use_::TYPE_*  $type One of Stmt\Use_::TYPE_{FUNCTION|CONSTANT}
+     * @param Name $name Name to resolve
+     * @param Stmt\Use_::TYPE_* $type One of Stmt\Use_::TYPE_{FUNCTION|CONSTANT}
      *
      * @return null|Name Resolved name, or null if static resolution is not possible
      */
@@ -148,8 +148,8 @@ class NameContext {
     /**
      * Get possible ways of writing a fully qualified name (e.g., by making use of aliases).
      *
-     * @param string               $name Fully-qualified name (without leading namespace separator)
-     * @param Stmt\Use_::TYPE_*    $type One of Stmt\Use_::TYPE_*
+     * @param string $name Fully-qualified name (without leading namespace separator)
+     * @param Stmt\Use_::TYPE_* $type One of Stmt\Use_::TYPE_*
      *
      * @return Name[] Possible representations of the name
      */
@@ -204,7 +204,7 @@ class NameContext {
     /**
      * Get shortest representation of this fully-qualified name.
      *
-     * @param string            $name Fully-qualified name (without leading namespace separator)
+     * @param string $name Fully-qualified name (without leading namespace separator)
      * @param Stmt\Use_::TYPE_* $type One of Stmt\Use_::TYPE_*
      *
      * @return Name Shortest representation

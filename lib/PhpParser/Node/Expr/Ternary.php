@@ -15,9 +15,9 @@ class Ternary extends Expr {
     /**
      * Constructs a ternary operator node.
      *
-     * @param Expr      $cond       Condition
-     * @param null|Expr $if         Expression for true
-     * @param Expr      $else       Expression for false
+     * @param Expr $cond Condition
+     * @param null|Expr $if Expression for true
+     * @param Expr $else Expression for false
      * @param array<string, mixed> $attributes Additional attributes
      */
     public function __construct(Expr $cond, ?Expr $if, Expr $else, array $attributes = []) {
