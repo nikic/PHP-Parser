@@ -17,6 +17,7 @@ class Param extends NodeAbstract {
     public Expr $var;
     /** @var null|Expr Default value */
     public ?Expr $default;
+    /** @var int Optional visibility flags */
     public int $flags;
     /** @var AttributeGroup[] PHP attribute groups */
     public array $attrGroups;
