@@ -75,7 +75,7 @@ array(
     11: Stmt_Expression(
         expr: Scalar_String(
             value: !"!\!$!
-        !@@{ "\r" }@@!@@{ "\t" }@@!@@{ "\f" }@@!@@{ "\v" }@@!@@{ chr(27) /* "\e" */ }@@!\a
+            !@@{ "\r" }@@!@@{ "\t" }@@!@@{ "\f" }@@!@@{ "\v" }@@!@@{ chr(27) /* "\e" */ }@@!\a
         )
     )
     12: Stmt_Expression(

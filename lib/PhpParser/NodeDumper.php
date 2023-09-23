@@ -11,6 +11,8 @@ class NodeDumper {
     private bool $dumpComments;
     private bool $dumpPositions;
     private ?string $code;
+    private string $res;
+    private string $nl;
 
     /**
      * Constructs a NodeDumper.
@@ -39,72 +41,76 @@ class NodeDumper {
      */
     public function dump($node, ?string $code = null): string {
         $this->code = $code;
-        return $this->dumpRecursive($node);
+        $this->res = '';
+        $this->nl = "\n";
+        $this->dumpRecursive($node, false);
+        return $this->res;
     }
 
-    /** @param Node|Comment|array $node */
-    protected function dumpRecursive($node): string {
+    /** @param mixed $node */
+    protected function dumpRecursive($node, bool $indent = true): void {
+        if ($indent) {
+            $this->nl .= "    ";
+        }
         if ($node instanceof Node) {
-            $r = $node->getType();
+            $this->res .= $node->getType();
             if ($this->dumpPositions && null !== $p = $this->dumpPosition($node)) {
-                $r .= $p;
+                $this->res .= $p;
             }
-            $r .= '(';
+            $this->res .= '(';
 
             foreach ($node->getSubNodeNames() as $key) {
-                $r .= "\n    " . $key . ': ';
+                $this->res .= "$this->nl    " . $key . ': ';
 
                 $value = $node->$key;
-                if (null === $value) {
-                    $r .= 'null';
-                } elseif (false === $value) {
-                    $r .= 'false';
-                } elseif (true === $value) {
-                    $r .= 'true';
-                } elseif (is_scalar($value)) {
+                if (\is_int($value)) {
                     if ('flags' === $key || 'newModifier' === $key) {
-                        $r .= $this->dumpFlags($value);
-                    } elseif ('type' === $key && $node instanceof Include_) {
-                        $r .= $this->dumpIncludeType($value);
-                    } elseif ('type' === $key
-                            && ($node instanceof Use_ || $node instanceof UseItem || $node instanceof GroupUse)) {
-                        $r .= $this->dumpUseType($value);
-                    } else {
-                        $r .= $value;
+                        $this->res .= $this->dumpFlags($value);
+                        continue;
                     }
-                } else {
-                    $r .= str_replace("\n", "\n    ", $this->dumpRecursive($value));
+                    if ('type' === $key && $node instanceof Include_) {
+                        $this->res .= $this->dumpIncludeType($value);
+                        continue;
+                    }
+                    if ('type' === $key
+                            && ($node instanceof Use_ || $node instanceof UseItem || $node instanceof GroupUse)) {
+                        $this->res .= $this->dumpUseType($value);
+                        continue;
+                    }
                 }
+                $this->dumpRecursive($value);
             }
 
             if ($this->dumpComments && $comments = $node->getComments()) {
-                $r .= "\n    comments: " . str_replace("\n", "\n    ", $this->dumpRecursive($comments));
+                $this->res .= "$this->nl    comments: ";
+                $this->dumpRecursive($comments);
             }
-        } elseif (is_array($node)) {
-            $r = 'array(';
-
+            $this->res .= "$this->nl)";
+        } elseif (\is_array($node)) {
+            $this->res .= 'array(';
             foreach ($node as $key => $value) {
-                $r .= "\n    " . $key . ': ';
-
-                if (null === $value) {
-                    $r .= 'null';
-                } elseif (false === $value) {
-                    $r .= 'false';
-                } elseif (true === $value) {
-                    $r .= 'true';
-                } elseif (is_scalar($value)) {
-                    $r .= $value;
-                } else {
-                    $r .= str_replace("\n", "\n    ", $this->dumpRecursive($value));
-                }
+                $this->res .= "$this->nl    " . $key . ': ';
+                $this->dumpRecursive($value);
             }
+            $this->res .= "$this->nl)";
         } elseif ($node instanceof Comment) {
-            return $node->getReformattedText();
+            $this->res .= \str_replace("\n", $this->nl, $node->getReformattedText());
+        } elseif (\is_string($node)) {
+            $this->res .= \str_replace("\n", $this->nl, (string)$node);
+        } elseif (\is_int($node) || \is_float($node)) {
+            $this->res .= $node;
+        } elseif (null === $node) {
+            $this->res .= 'null';
+        } elseif (false === $node) {
+            $this->res .= 'false';
+        } elseif (true === $node) {
+            $this->res .= 'true';
         } else {
             throw new \InvalidArgumentException('Can only dump nodes and arrays.');
         }
-
-        return $r . "\n)";
+        if ($indent) {
+            $this->nl = \substr($this->nl, 0, -4);
+        }
     }
 
     protected function dumpFlags(int $flags): string {

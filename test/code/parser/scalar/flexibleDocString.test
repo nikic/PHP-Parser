@@ -155,12 +155,12 @@ array(
     4: Stmt_Expression(
         expr: Scalar_String(
             value:     a
-           b
+               b
 
-          c
+              c
 
-         d
-        e
+             d
+            e
         )
     )
     5: Stmt_Expression(
@@ -168,7 +168,7 @@ array(
             parts: array(
                 0: InterpolatedStringPart(
                     value:     a
-                   b
+                       b
 
                 )
                 1: Expr_Variable(
@@ -176,8 +176,8 @@ array(
                 )
                 2: InterpolatedStringPart(
                     value:
-                 d
-                e
+                     d
+                    e
                 )
             )
         )
@@ -185,15 +185,15 @@ array(
     6: Stmt_Expression(
         expr: Scalar_String(
             value:
-            a
+                a
 
-           b
+               b
 
-          c
+              c
 
-         d
+             d
 
-        e
+            e
 
         )
     )
@@ -203,9 +203,9 @@ array(
                 0: InterpolatedStringPart(
                     value: 	a
 
-                @@{ "\t" }@@a
+                    @@{ "\t" }@@a
 
-                   b
+                       b
 
 
                 )
@@ -215,9 +215,9 @@ array(
                 2: InterpolatedStringPart(
                     value:
 
-                 d
+                     d
 
-                e
+                    e
 
                 )
             )
@@ -321,7 +321,7 @@ array(
                 )
                 1: InterpolatedStringPart(
                     value:
-                -
+                    -
                 )
             )
         )
@@ -334,7 +334,7 @@ array(
                 )
                 1: InterpolatedStringPart(
                     value:
-                 -
+                     -
                 )
             )
         )

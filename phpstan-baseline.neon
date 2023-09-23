@@ -101,11 +101,6 @@ parameters:
 			path: lib/PhpParser/NodeDumper.php
 
 		-
-			message: "#^Method PhpParser\\\\NodeDumper\\:\\:dumpRecursive\\(\\) has parameter \\$node with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: lib/PhpParser/NodeDumper.php
-
-		-
 			message: "#^Method PhpParser\\\\NodeTraverser\\:\\:traverseArray\\(\\) has parameter \\$nodes with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: lib/PhpParser/NodeTraverser.php

@@ -67,8 +67,8 @@ array(
         exprs: array(
             0: Scalar_String(
                 value:  a
-            b
-            c
+                b
+                c
             )
         )
     )
