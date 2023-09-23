@@ -116,4 +116,4 @@ jobs:
         run: |
           cd tools && composer install
       - name: "php-cs-fixer"
-        run: "php tools/vendor/bin/php-cs-fixer fix"
+        run: "php tools/vendor/bin/php-cs-fixer fix --dry-run"
