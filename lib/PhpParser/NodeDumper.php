@@ -2,7 +2,12 @@
 
 namespace PhpParser;
 
+use PhpParser\Node\Expr\Array_;
 use PhpParser\Node\Expr\Include_;
+use PhpParser\Node\Expr\List_;
+use PhpParser\Node\Scalar\Int_;
+use PhpParser\Node\Scalar\InterpolatedString;
+use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt\GroupUse;
 use PhpParser\Node\Stmt\Use_;
 use PhpParser\Node\UseItem;
@@ -10,9 +15,20 @@ use PhpParser\Node\UseItem;
 class NodeDumper {
     private bool $dumpComments;
     private bool $dumpPositions;
+    private bool $dumpOtherAttributes;
     private ?string $code;
     private string $res;
     private string $nl;
+
+    private const IGNORE_ATTRIBUTES = [
+        'comments' => true,
+        'startLine' => true,
+        'endLine' => true,
+        'startFilePos' => true,
+        'endFilePos' => true,
+        'startTokenPos' => true,
+        'endTokenPos' => true,
+    ];
 
     /**
      * Constructs a NodeDumper.
@@ -21,12 +37,14 @@ class NodeDumper {
      *  * bool dumpComments: Whether comments should be dumped.
      *  * bool dumpPositions: Whether line/offset information should be dumped. To dump offset
      *                        information, the code needs to be passed to dump().
+     *  * bool dumpOtherAttributes: Whether non-comment, non-position attributes should be dumped.
      *
      * @param array $options Options (see description)
      */
     public function __construct(array $options = []) {
         $this->dumpComments = !empty($options['dumpComments']);
         $this->dumpPositions = !empty($options['dumpPositions']);
+        $this->dumpOtherAttributes = !empty($options['dumpOtherAttributes']);
     }
 
     /**
@@ -84,6 +102,37 @@ class NodeDumper {
             if ($this->dumpComments && $comments = $node->getComments()) {
                 $this->res .= "$this->nl    comments: ";
                 $this->dumpRecursive($comments);
+            }
+
+            if ($this->dumpOtherAttributes) {
+                foreach ($node->getAttributes() as $key => $value) {
+                    if (isset(self::IGNORE_ATTRIBUTES[$key])) {
+                        continue;
+                    }
+
+                    $this->res .= "$this->nl    $key: ";
+                    if (\is_int($value)) {
+                        if ('kind' === $key) {
+                            if ($node instanceof Int_) {
+                                $this->res .= $this->dumpIntKind($value);
+                                continue;
+                            }
+                            if ($node instanceof String_ || $node instanceof InterpolatedString) {
+                                $this->res .= $this->dumpStringKind($value);
+                                continue;
+                            }
+                            if ($node instanceof Array_) {
+                                $this->res .= $this->dumpArrayKind($value);
+                                continue;
+                            }
+                            if ($node instanceof List_) {
+                                $this->res .= $this->dumpListKind($value);
+                                continue;
+                            }
+                        }
+                    }
+                    $this->dumpRecursive($value);
+                }
             }
             $this->res .= "$this->nl)";
         } elseif (\is_array($node)) {
@@ -144,32 +193,62 @@ class NodeDumper {
         }
     }
 
-    protected function dumpIncludeType(int $type): string {
-        $map = [
+    /** @param array<int, string> $map */
+    private function dumpEnum(int $value, array $map): string {
+        if (!isset($map[$value])) {
+            return (string) $value;
+        }
+        return $map[$value] . ' (' . $value . ')';
+    }
+
+    private function dumpIncludeType(int $type): string {
+        return $this->dumpEnum($type, [
             Include_::TYPE_INCLUDE      => 'TYPE_INCLUDE',
             Include_::TYPE_INCLUDE_ONCE => 'TYPE_INCLUDE_ONCE',
             Include_::TYPE_REQUIRE      => 'TYPE_REQUIRE',
             Include_::TYPE_REQUIRE_ONCE => 'TYPE_REQUIRE_ONCE',
-        ];
-
-        if (!isset($map[$type])) {
-            return (string) $type;
-        }
-        return $map[$type] . ' (' . $type . ')';
+        ]);
     }
 
-    protected function dumpUseType(int $type): string {
-        $map = [
+    private function dumpUseType(int $type): string {
+        return $this->dumpEnum($type, [
             Use_::TYPE_UNKNOWN  => 'TYPE_UNKNOWN',
             Use_::TYPE_NORMAL   => 'TYPE_NORMAL',
             Use_::TYPE_FUNCTION => 'TYPE_FUNCTION',
             Use_::TYPE_CONSTANT => 'TYPE_CONSTANT',
-        ];
+        ]);
+    }
 
-        if (!isset($map[$type])) {
-            return (string) $type;
-        }
-        return $map[$type] . ' (' . $type . ')';
+    private function dumpIntKind(int $kind): string {
+        return $this->dumpEnum($kind, [
+            Int_::KIND_BIN => 'KIND_BIN',
+            Int_::KIND_OCT => 'KIND_OCT',
+            Int_::KIND_DEC => 'KIND_DEC',
+            Int_::KIND_HEX => 'KIND_HEX',
+        ]);
+    }
+
+    private function dumpStringKind(int $kind): string {
+        return $this->dumpEnum($kind, [
+            String_::KIND_SINGLE_QUOTED => 'KIND_SINGLE_QUOTED',
+            String_::KIND_DOUBLE_QUOTED => 'KIND_DOUBLE_QUOTED',
+            String_::KIND_HEREDOC => 'KIND_HEREDOC',
+            String_::KIND_NOWDOC => 'KIND_NOWDOC',
+        ]);
+    }
+
+    private function dumpArrayKind(int $kind): string {
+        return $this->dumpEnum($kind, [
+            Array_::KIND_LONG => 'KIND_LONG',
+            Array_::KIND_SHORT => 'KIND_SHORT',
+        ]);
+    }
+
+    private function dumpListKind(int $kind): string {
+        return $this->dumpEnum($kind, [
+            List_::KIND_LIST => 'KIND_LIST',
+            List_::KIND_ARRAY => 'KIND_ARRAY',
+        ]);
     }
 
     /**

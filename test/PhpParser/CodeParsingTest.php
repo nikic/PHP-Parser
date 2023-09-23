@@ -28,6 +28,7 @@ class CodeParsingTest extends CodeTestAbstract {
     // Must be public for updateTests.php
     public function getParseOutput(Parser $parser, $code, array $modes) {
         $dumpPositions = isset($modes['positions']);
+        $dumpOtherAttributes = isset($modes['attributes']);
 
         $errors = new ErrorHandler\Collecting();
         $stmts = $parser->parse($code, $errors);
@@ -38,7 +39,11 @@ class CodeParsingTest extends CodeTestAbstract {
         }
 
         if (null !== $stmts) {
-            $dumper = new NodeDumper(['dumpComments' => true, 'dumpPositions' => $dumpPositions]);
+            $dumper = new NodeDumper([
+                'dumpComments' => true,
+                'dumpPositions' => $dumpPositions,
+                'dumpOtherAttributes' => $dumpOtherAttributes,
+            ]);
             $output .= $dumper->dump($stmts, $code);
         }
 
