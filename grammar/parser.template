@@ -28,68 +28,68 @@ class #(-p) extends \PhpParser\ParserAbstract
     public const %s = %n;
 #endtokenval
 
-    protected $tokenToSymbolMapSize = #(YYMAXLEX);
-    protected $actionTableSize = #(YYLAST);
-    protected $gotoTableSize = #(YYGLAST);
+    protected int $tokenToSymbolMapSize = #(YYMAXLEX);
+    protected int $actionTableSize = #(YYLAST);
+    protected int $gotoTableSize = #(YYGLAST);
 
-    protected $invalidSymbol = #(YYBADCH);
-    protected $errorSymbol = #(YYINTERRTOK);
-    protected $defaultAction = #(YYDEFAULT);
-    protected $unexpectedTokenRule = #(YYUNEXPECTED);
+    protected int $invalidSymbol = #(YYBADCH);
+    protected int $errorSymbol = #(YYINTERRTOK);
+    protected int $defaultAction = #(YYDEFAULT);
+    protected int $unexpectedTokenRule = #(YYUNEXPECTED);
 
-    protected $YY2TBLSTATE = #(YY2TBLSTATE);
-    protected $numNonLeafStates = #(YYNLSTATES);
+    protected int $YY2TBLSTATE = #(YY2TBLSTATE);
+    protected int $numNonLeafStates = #(YYNLSTATES);
 
-    protected $symbolToName = array(
+    protected array $symbolToName = array(
         #listvar terminals
     );
 
-    protected $tokenToSymbol = array(
+    protected array $tokenToSymbol = array(
         #listvar yytranslate
     );
 
-    protected $action = array(
+    protected array $action = array(
         #listvar yyaction
     );
 
-    protected $actionCheck = array(
+    protected array $actionCheck = array(
         #listvar yycheck
     );
 
-    protected $actionBase = array(
+    protected array $actionBase = array(
         #listvar yybase
     );
 
-    protected $actionDefault = array(
+    protected array $actionDefault = array(
         #listvar yydefault
     );
 
-    protected $goto = array(
+    protected array $goto = array(
         #listvar yygoto
     );
 
-    protected $gotoCheck = array(
+    protected array $gotoCheck = array(
         #listvar yygcheck
     );
 
-    protected $gotoBase = array(
+    protected array $gotoBase = array(
         #listvar yygbase
     );
 
-    protected $gotoDefault = array(
+    protected array $gotoDefault = array(
         #listvar yygdefault
     );
 
-    protected $ruleToNonTerminal = array(
+    protected array $ruleToNonTerminal = array(
         #listvar yylhs
     );
 
-    protected $ruleToLength = array(
+    protected array $ruleToLength = array(
         #listvar yylen
     );
 #if -t
 
-    protected $productions = array(
+    protected array $productions = array(
         #production-strings;
     );
 #endif

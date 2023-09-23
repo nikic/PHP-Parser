@@ -1152,8 +1152,8 @@ exit_expr:
 backticks_expr:
       /* empty */                                           { $$ = array(); }
     | T_ENCAPSED_AND_WHITESPACE
-          { $$ = array(Node\InterpolatedStringPart[Scalar\String_::parseEscapeSequences($1, '`')]); }
-    | encaps_list                                           { parseEncapsed($1, '`', true); $$ = $1; }
+          { $$ = array(Node\InterpolatedStringPart[Scalar\String_::parseEscapeSequences($1, '`', $this->phpVersion->supportsUnicodeEscapes())]); }
+    | encaps_list                                           { parseEncapsed($1, '`', $this->phpVersion->supportsUnicodeEscapes()); $$ = $1; }
 ;
 
 ctor_arguments:
@@ -1196,10 +1196,11 @@ dereferencable_scalar:
             $$ = new Expr\Array_($3, $attrs);
             $this->createdArrays->attach($$); }
     | array_short_syntax                                    { $$ = $1; $this->createdArrays->attach($$); }
-    | T_CONSTANT_ENCAPSED_STRING                            { $$ = Scalar\String_::fromString($1, attributes()); }
+    | T_CONSTANT_ENCAPSED_STRING
+          { $$ = Scalar\String_::fromString($1, attributes(), $this->phpVersion->supportsUnicodeEscapes()); }
     | '"' encaps_list '"'
           { $attrs = attributes(); $attrs['kind'] = Scalar\String_::KIND_DOUBLE_QUOTED;
-            parseEncapsed($2, '"', true); $$ = new Scalar\InterpolatedString($2, $attrs); }
+            parseEncapsed($2, '"', $this->phpVersion->supportsUnicodeEscapes()); $$ = new Scalar\InterpolatedString($2, $attrs); }
 ;
 
 scalar:

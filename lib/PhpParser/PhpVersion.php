@@ -149,9 +149,16 @@ class PhpVersion {
     }
 
     /**
-     * Whether this version support yield in expression context without parentheses.
+     * Whether this version supports yield in expression context without parentheses.
      */
     public function supportsYieldWithoutParentheses(): bool {
+        return $this->id >= 70000;
+    }
+
+    /**
+     * Whether this version supports unicode escape sequences in strings.
+     */
+    public function supportsUnicodeEscapes(): bool {
         return $this->id >= 70000;
     }
 }

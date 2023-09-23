@@ -2463,10 +2463,10 @@ class Php8 extends \PhpParser\ParserAbstract
                  $this->semValue = array();
             },
             511 => function ($stackPos) {
-                 $this->semValue = array(new Node\InterpolatedStringPart(Scalar\String_::parseEscapeSequences($this->semStack[$stackPos-(1-1)], '`'), $this->getAttributes($this->tokenStartStack[$stackPos-(1-1)], $this->tokenEndStack[$stackPos])));
+                 $this->semValue = array(new Node\InterpolatedStringPart(Scalar\String_::parseEscapeSequences($this->semStack[$stackPos-(1-1)], '`', $this->phpVersion->supportsUnicodeEscapes()), $this->getAttributes($this->tokenStartStack[$stackPos-(1-1)], $this->tokenEndStack[$stackPos])));
             },
             512 => function ($stackPos) {
-                 foreach ($this->semStack[$stackPos-(1-1)] as $s) { if ($s instanceof Node\InterpolatedStringPart) { $s->value = Node\Scalar\String_::parseEscapeSequences($s->value, '`', true); } }; $this->semValue = $this->semStack[$stackPos-(1-1)];
+                 foreach ($this->semStack[$stackPos-(1-1)] as $s) { if ($s instanceof Node\InterpolatedStringPart) { $s->value = Node\Scalar\String_::parseEscapeSequences($s->value, '`', $this->phpVersion->supportsUnicodeEscapes()); } }; $this->semValue = $this->semStack[$stackPos-(1-1)];
             },
             513 => function ($stackPos) {
                  $this->semValue = array();
@@ -2521,11 +2521,11 @@ class Php8 extends \PhpParser\ParserAbstract
                  $this->semValue = $this->semStack[$stackPos-(1-1)]; $this->createdArrays->attach($this->semValue);
             },
             530 => function ($stackPos) {
-                 $this->semValue = Scalar\String_::fromString($this->semStack[$stackPos-(1-1)], $this->getAttributes($this->tokenStartStack[$stackPos-(1-1)], $this->tokenEndStack[$stackPos]));
+                 $this->semValue = Scalar\String_::fromString($this->semStack[$stackPos-(1-1)], $this->getAttributes($this->tokenStartStack[$stackPos-(1-1)], $this->tokenEndStack[$stackPos]), $this->phpVersion->supportsUnicodeEscapes());
             },
             531 => function ($stackPos) {
                  $attrs = $this->getAttributes($this->tokenStartStack[$stackPos-(3-1)], $this->tokenEndStack[$stackPos]); $attrs['kind'] = Scalar\String_::KIND_DOUBLE_QUOTED;
-            foreach ($this->semStack[$stackPos-(3-2)] as $s) { if ($s instanceof Node\InterpolatedStringPart) { $s->value = Node\Scalar\String_::parseEscapeSequences($s->value, '"', true); } }; $this->semValue = new Scalar\InterpolatedString($this->semStack[$stackPos-(3-2)], $attrs);
+            foreach ($this->semStack[$stackPos-(3-2)] as $s) { if ($s instanceof Node\InterpolatedStringPart) { $s->value = Node\Scalar\String_::parseEscapeSequences($s->value, '"', $this->phpVersion->supportsUnicodeEscapes()); } }; $this->semValue = new Scalar\InterpolatedString($this->semStack[$stackPos-(3-2)], $attrs);
             },
             532 => function ($stackPos) {
                  $this->semValue = $this->parseLNumber($this->semStack[$stackPos-(1-1)], $this->getAttributes($this->tokenStartStack[$stackPos-(1-1)], $this->tokenEndStack[$stackPos]), $this->phpVersion->allowsInvalidOctals());

@@ -13,6 +13,7 @@ In particular, if an older `PhpVersion` is specified, then:
 
  * For versions before PHP 7.0, `$foo =& new Bar()` assignments are allowed without error.
  * For versions before PHP 7.0, invalid octal literals `089` are allowed without error.
+ * For versions before PHP 7.0, unicode escape sequences `\u{123}` in strings are not parsed.
  * Type hints are interpreted as a class `Name` or as a built-in `Identifier` depending on PHP
    version, for example `int` is treated as a class name on PHP 5.6 and as a built-in on PHP 7.0.
 
