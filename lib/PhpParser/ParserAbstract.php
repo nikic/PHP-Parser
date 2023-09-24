@@ -845,6 +845,7 @@ abstract class ParserAbstract implements Parser {
 
         if (\is_string($contents)) {
             if ($contents === '') {
+                $attributes['rawValue'] = $contents;
                 return new String_('', $attributes);
             }
 
@@ -852,6 +853,7 @@ abstract class ParserAbstract implements Parser {
                 $contents, $indentLen, $indentChar, true, true, $attributes
             );
             $contents = preg_replace('~(\r\n|\n|\r)\z~', '', $contents);
+            $attributes['rawValue'] = $contents;
 
             if ($kind === String_::KIND_HEREDOC) {
                 $contents = String_::parseEscapeSequences($contents, null, $parseUnicodeEscape);
@@ -878,6 +880,7 @@ abstract class ParserAbstract implements Parser {
                     if ($isLast) {
                         $part->value = preg_replace('~(\r\n|\n|\r)\z~', '', $part->value);
                     }
+                    $part->setAttribute('rawValue', $part->value);
                     $part->value = String_::parseEscapeSequences($part->value, null, $parseUnicodeEscape);
                     if ('' === $part->value) {
                         continue;

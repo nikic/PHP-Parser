@@ -1151,8 +1151,8 @@ exit_expr:
 
 backticks_expr:
       /* empty */                                           { $$ = array(); }
-    | T_ENCAPSED_AND_WHITESPACE
-          { $$ = array(Node\InterpolatedStringPart[Scalar\String_::parseEscapeSequences($1, '`', $this->phpVersion->supportsUnicodeEscapes())]); }
+    | encaps_string_part
+          { $$ = array($1); parseEncapsed($$, '`', $this->phpVersion->supportsUnicodeEscapes()); }
     | encaps_list                                           { parseEncapsed($1, '`', $this->phpVersion->supportsUnicodeEscapes()); $$ = $1; }
 ;
 
@@ -1353,7 +1353,8 @@ encaps_list:
 ;
 
 encaps_string_part:
-      T_ENCAPSED_AND_WHITESPACE                             { $$ = Node\InterpolatedStringPart[$1]; }
+      T_ENCAPSED_AND_WHITESPACE
+          { $attrs = attributes(); $attrs['rawValue'] = $1; $$ = new Node\InterpolatedStringPart($1, $attrs); }
 ;
 
 encaps_str_varname:

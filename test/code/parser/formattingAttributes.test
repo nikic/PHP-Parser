@@ -15,7 +15,11 @@ Test formatting attributes
 bar";
 "foo\nbar";
 "foo\nbar{$x}";
+`foo\nbar`;
 `foo\nbar{$x}`;
+
+<<<'ABC'
+ABC;
 <<<'ABC'
 foo bar
 ABC;
@@ -23,16 +27,16 @@ ABC;
     foo bar
     ABC;
 <<<ABC
-foo bar
+foo\nbar
 ABC;
 <<<ABC
-    foo bar
+    foo\nbar
     ABC;
 <<<ABC
-foo\nbar{$x}
+foo\nbar{$x}baz
 ABC;
 <<<ABC
-    foo\nbar{$x}
+    foo\nbar{$x}baz
     ABC;
 
 array();
@@ -120,6 +124,7 @@ array(
                 0: InterpolatedStringPart(
                     value: foo
                     bar
+                    rawValue: foo\nbar
                 )
                 1: Expr_Variable(
                     name: x
@@ -134,70 +139,86 @@ array(
                 0: InterpolatedStringPart(
                     value: foo
                     bar
-                )
-                1: Expr_Variable(
-                    name: x
+                    rawValue: foo\nbar
                 )
             )
         )
     )
     12: Stmt_Expression(
-        expr: Scalar_String(
-            value: foo bar
-            kind: KIND_NOWDOC (4)
-            docLabel: ABC
-            docIndentation:
+        expr: Expr_ShellExec(
+            parts: array(
+                0: InterpolatedStringPart(
+                    value: foo
+                    bar
+                    rawValue: foo\nbar
+                )
+                1: Expr_Variable(
+                    name: x
+                )
+            )
         )
     )
     13: Stmt_Expression(
         expr: Scalar_String(
-            value: foo bar
+            value:
             kind: KIND_NOWDOC (4)
             docLabel: ABC
             docIndentation:
+            rawValue:
         )
     )
     14: Stmt_Expression(
         expr: Scalar_String(
             value: foo bar
-            kind: KIND_HEREDOC (3)
+            kind: KIND_NOWDOC (4)
             docLabel: ABC
             docIndentation:
+            rawValue: foo bar
         )
     )
     15: Stmt_Expression(
         expr: Scalar_String(
             value: foo bar
-            kind: KIND_HEREDOC (3)
+            kind: KIND_NOWDOC (4)
             docLabel: ABC
             docIndentation:
+            rawValue: foo bar
         )
     )
     16: Stmt_Expression(
-        expr: Scalar_InterpolatedString(
-            parts: array(
-                0: InterpolatedStringPart(
-                    value: foo
-                    bar
-                )
-                1: Expr_Variable(
-                    name: x
-                )
-            )
+        expr: Scalar_String(
+            value: foo
+            bar
             kind: KIND_HEREDOC (3)
             docLabel: ABC
             docIndentation:
+            rawValue: foo\nbar
         )
     )
     17: Stmt_Expression(
+        expr: Scalar_String(
+            value: foo
+            bar
+            kind: KIND_HEREDOC (3)
+            docLabel: ABC
+            docIndentation:
+            rawValue: foo\nbar
+        )
+    )
+    18: Stmt_Expression(
         expr: Scalar_InterpolatedString(
             parts: array(
                 0: InterpolatedStringPart(
                     value: foo
                     bar
+                    rawValue: foo\nbar
                 )
                 1: Expr_Variable(
                     name: x
+                )
+                2: InterpolatedStringPart(
+                    value: baz
+                    rawValue: baz
                 )
             )
             kind: KIND_HEREDOC (3)
@@ -205,21 +226,42 @@ array(
             docIndentation:
         )
     )
-    18: Stmt_Expression(
+    19: Stmt_Expression(
+        expr: Scalar_InterpolatedString(
+            parts: array(
+                0: InterpolatedStringPart(
+                    value: foo
+                    bar
+                    rawValue: foo\nbar
+                )
+                1: Expr_Variable(
+                    name: x
+                )
+                2: InterpolatedStringPart(
+                    value: baz
+                    rawValue: baz
+                )
+            )
+            kind: KIND_HEREDOC (3)
+            docLabel: ABC
+            docIndentation:
+        )
+    )
+    20: Stmt_Expression(
         expr: Expr_Array(
             items: array(
             )
             kind: KIND_LONG (1)
         )
     )
-    19: Stmt_Expression(
+    21: Stmt_Expression(
         expr: Expr_Array(
             items: array(
             )
             kind: KIND_SHORT (2)
         )
     )
-    20: Stmt_Expression(
+    22: Stmt_Expression(
         expr: Expr_Assign(
             var: Expr_List(
                 items: array(
@@ -239,7 +281,7 @@ array(
             )
         )
     )
-    21: Stmt_Expression(
+    23: Stmt_Expression(
         expr: Expr_Assign(
             var: Expr_List(
                 items: array(
