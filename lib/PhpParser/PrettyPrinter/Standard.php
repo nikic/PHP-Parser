@@ -1012,6 +1012,10 @@ class Standard extends PrettyPrinterAbstract {
         return '';
     }
 
+    protected function pStmt_Block(Stmt\Block $node): string {
+        return '{' . $this->pStmts($node->stmts) . $this->nl . '}';
+    }
+
     // Helpers
 
     protected function pClassCommon(Stmt\Class_ $node, string $afterClassToken): string {

@@ -42,6 +42,10 @@ array(
 -----
 Syntax error, unexpected T_STATIC, expecting T_STRING from 1:13 to 1:18
 array(
+    0: Stmt_Block(
+        stmts: array(
+        )
+    )
 )
 -----
 <?php class A extends self {}
@@ -211,6 +215,10 @@ array(
 -----
 Syntax error, unexpected T_STATIC, expecting T_STRING from 1:17 to 1:22
 array(
+    0: Stmt_Block(
+        stmts: array(
+        )
+    )
 )
 -----
 <?php interface A extends self {}

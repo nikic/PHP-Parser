@@ -366,21 +366,13 @@ inner_statement:
 ;
 
 non_empty_statement:
-      '{' inner_statement_list '}'
-    {
-        if ($2) {
-            $$ = $2; prependLeadingComments($$);
-        } else {
-            makeNop($$);
-            if (null === $$) { $$ = array(); }
-        }
-    }
-    | T_IF '(' expr ')' statement elseif_list else_single
-          { $$ = Stmt\If_[$3, ['stmts' => toArray($5), 'elseifs' => $6, 'else' => $7]]; }
+      '{' inner_statement_list '}'                          { $$ = Stmt\Block[$2]; }
+    | T_IF '(' expr ')' blocklike_statement elseif_list else_single
+          { $$ = Stmt\If_[$3, ['stmts' => $5, 'elseifs' => $6, 'else' => $7]]; }
     | T_IF '(' expr ')' ':' inner_statement_list new_elseif_list new_else_single T_ENDIF ';'
           { $$ = Stmt\If_[$3, ['stmts' => $6, 'elseifs' => $7, 'else' => $8]]; }
     | T_WHILE '(' expr ')' while_statement                  { $$ = Stmt\While_[$3, $5]; }
-    | T_DO statement T_WHILE '(' expr ')' ';'               { $$ = Stmt\Do_   [$5, toArray($2)]; }
+    | T_DO blocklike_statement T_WHILE '(' expr ')' ';'     { $$ = Stmt\Do_   [$5, $2]; }
     | T_FOR '(' for_expr ';'  for_expr ';' for_expr ')' for_statement
           { $$ = Stmt\For_[['init' => $3, 'cond' => $5, 'loop' => $7, 'stmts' => $9]]; }
     | T_SWITCH '(' expr ')' switch_case_list                { $$ = Stmt\Switch_[$3, $5]; }
@@ -416,14 +408,16 @@ non_empty_statement:
           { $$ = Stmt\TryCatch[$3, $5, $6]; $this->checkTryCatch($$); }
     | T_GOTO identifier_not_reserved semi                   { $$ = Stmt\Goto_[$2]; }
     | identifier_not_reserved ':'                           { $$ = Stmt\Label[$1]; }
-    | error                                                 { $$ = array(); /* means: no statement */ }
+    | error                                                 { $$ = null; /* means: no statement */ }
 ;
 
 statement:
       non_empty_statement
-    | ';'
-          { makeNop($$);
-            if ($$ === null) $$ = array(); /* means: no statement */ }
+    | ';'                                                   { makeNop($$); }
+;
+
+blocklike_statement:
+     statement                                              { toBlock($1); }
 ;
 
 catches:
@@ -554,17 +548,17 @@ non_empty_class_name_list:
 ;
 
 for_statement:
-      statement                                             { $$ = toArray($1); }
+      blocklike_statement
     | ':' inner_statement_list T_ENDFOR ';'                 { $$ = $2; }
 ;
 
 foreach_statement:
-      statement                                             { $$ = toArray($1); }
+      blocklike_statement
     | ':' inner_statement_list T_ENDFOREACH ';'             { $$ = $2; }
 ;
 
 declare_statement:
-      non_empty_statement                                   { $$ = toArray($1); }
+      non_empty_statement                                   { toBlock($1); }
     | ';'                                                   { $$ = null; }
     | ':' inner_statement_list T_ENDDECLARE ';'             { $$ = $2; }
 ;
@@ -624,7 +618,7 @@ match_arm:
 ;
 
 while_statement:
-      statement                                             { $$ = toArray($1); }
+      blocklike_statement                                   { $$ = $1; }
     | ':' inner_statement_list T_ENDWHILE ';'               { $$ = $2; }
 ;
 
@@ -634,7 +628,7 @@ elseif_list:
 ;
 
 elseif:
-      T_ELSEIF '(' expr ')' statement                       { $$ = Stmt\ElseIf_[$3, toArray($5)]; }
+      T_ELSEIF '(' expr ')' blocklike_statement             { $$ = Stmt\ElseIf_[$3, $5]; }
 ;
 
 new_elseif_list:
@@ -649,7 +643,7 @@ new_elseif:
 
 else_single:
       /* empty */                                           { $$ = null; }
-    | T_ELSE statement                                      { $$ = Stmt\Else_[toArray($2)]; }
+    | T_ELSE blocklike_statement                            { $$ = Stmt\Else_[$2]; }
 ;
 
 new_else_single:

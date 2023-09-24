@@ -826,9 +826,8 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
                 }
 
                 if ($skipRemovedNode) {
-                    if ($isStmtList && ($this->origTokens->haveBracesInRange($pos, $itemStartPos) ||
-                                        $this->origTokens->haveTagInRange($pos, $itemStartPos))) {
-                        // We'd remove the brace of a code block.
+                    if ($isStmtList && $this->origTokens->haveTagInRange($pos, $itemStartPos)) {
+                        // We'd remove an opening/closing PHP tag.
                         // TODO: Preserve formatting.
                         $this->setIndentLevel($origIndentLevel);
                         return null;
@@ -937,9 +936,8 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
                         $pos, $itemStartPos, $indentAdjustment);
                     $skipRemovedNode = true;
                 } else {
-                    if ($isStmtList && ($this->origTokens->haveBracesInRange($pos, $itemStartPos) ||
-                                        $this->origTokens->haveTagInRange($pos, $itemStartPos))) {
-                        // We'd remove the brace of a code block.
+                    if ($isStmtList && $this->origTokens->haveTagInRange($pos, $itemStartPos)) {
+                        // We'd remove an opening/closing PHP tag.
                         // TODO: Preserve formatting.
                         return null;
                     }
@@ -1540,6 +1538,7 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
             Stmt\Function_::class . '->stmts' => "\n",
             Stmt\If_::class . '->stmts' => "\n",
             Stmt\Namespace_::class . '->stmts' => "\n",
+            Stmt\Block::class . '->stmts' => "\n",
 
             // Attribute groups
             Stmt\Class_::class . '->attrGroups' => "\n",

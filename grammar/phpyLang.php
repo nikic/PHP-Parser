@@ -87,14 +87,15 @@ function resolveMacros($code) {
             if ('pushNormalizing' === $name) {
                 assertArgs(2, $args, $name);
 
-                return 'if (is_array(' . $args[1] . ')) { $$ = array_merge(' . $args[0] . ', ' . $args[1] . '); }'
-                       . ' else { ' . $args[0] . '[] = ' . $args[1] . '; $$ = ' . $args[0] . '; }';
+                return 'if (' . $args[1] . ' !== null) { ' . $args[0] . '[] = ' . $args[1] . '; } $$ = ' . $args[0] . ';';
             }
 
-            if ('toArray' == $name) {
+            if ('toBlock' == $name) {
                 assertArgs(1, $args, $name);
 
-                return 'is_array(' . $args[0] . ') ? ' . $args[0] . ' : array(' . $args[0] . ')';
+                return 'if (' . $args[0] . ' instanceof Stmt\Block) { $$ = ' . $args[0] . '->stmts; } '
+                     . 'else if (' . $args[0] . ' === null) { $$ = []; } '
+                     . 'else { $$ = [' . $args[0] . ']; }';
             }
 
             if ('parseVar' === $name) {
@@ -120,15 +121,6 @@ function resolveMacros($code) {
                 assertArgs(1, $args, $name);
 
                 return $args[0] . ' = $this->maybeCreateZeroLengthNop($this->tokenPos);';
-            }
-
-            if ('prependLeadingComments' === $name) {
-                assertArgs(1, $args, $name);
-
-                return '$comments = $this->getCommentsBeforeToken($this->tokenStartStack[#1]); $stmts = ' . $args[0] . '; '
-                       . 'if (!empty($comments)) {'
-                       . '$stmts[0]->setAttribute(\'comments\', '
-                       . 'array_merge($comments, $stmts[0]->getAttribute(\'comments\', []))); }';
             }
 
             return $matches[0];

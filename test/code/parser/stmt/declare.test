@@ -4,7 +4,9 @@ Declare
 
 declare (X='Y');
 
-declare (A='B', C='D') {}
+declare (A='B', C='D') {
+    echo "foo";
+}
 
 declare (A='B', C='D'):
 enddeclare;
@@ -43,6 +45,13 @@ array(
             )
         )
         stmts: array(
+            0: Stmt_Echo(
+                exprs: array(
+                    0: Scalar_String(
+                        value: foo
+                    )
+                )
+            )
         )
     )
     2: Stmt_Declare(

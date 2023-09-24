@@ -223,13 +223,17 @@ array(
             )
         )
     )
-    1: Stmt_Expression(
-        expr: Expr_Assign(
-            var: Expr_Variable(
-                name: j
-            )
-            expr: Scalar_Int(
-                value: 1
+    1: Stmt_Block(
+        stmts: array(
+            0: Stmt_Expression(
+                expr: Expr_Assign(
+                    var: Expr_Variable(
+                        name: j
+                    )
+                    expr: Scalar_Int(
+                        value: 1
+                    )
+                )
             )
         )
     )

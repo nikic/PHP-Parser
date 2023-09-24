@@ -63,17 +63,21 @@ array(
             0: // Missing NS separator
         )
     )
-    1: Stmt_Expression(
-        expr: Expr_ConstFetch(
-            name: Name(
-                name: Bar
+    1: Stmt_Block(
+        stmts: array(
+            0: Stmt_Expression(
+                expr: Expr_ConstFetch(
+                    name: Name(
+                        name: Bar
+                    )
+                )
             )
-        )
-    )
-    2: Stmt_Expression(
-        expr: Expr_ConstFetch(
-            name: Name(
-                name: Baz
+            1: Stmt_Expression(
+                expr: Expr_ConstFetch(
+                    name: Name(
+                        name: Baz
+                    )
+                )
             )
         )
     )
