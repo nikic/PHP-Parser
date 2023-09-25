@@ -960,10 +960,6 @@ class Standard extends PrettyPrinterAbstract {
         return 'return' . (null !== $node->expr ? ' ' . $this->p($node->expr) : '') . ';';
     }
 
-    protected function pStmt_Throw(Stmt\Throw_ $node): string {
-        return 'throw ' . $this->p($node->expr) . ';';
-    }
-
     protected function pStmt_Label(Stmt\Label $node): string {
         return $node->name . ':';
     }

@@ -386,16 +386,7 @@ non_empty_statement:
         $$ = Stmt\InlineHTML[$1];
         $$->setAttribute('hasLeadingNewline', $this->inlineHtmlHasLeadingNewline(#1));
     }
-    | expr semi {
-        $e = $1;
-        if ($e instanceof Expr\Throw_) {
-            // For backwards-compatibility reasons, convert throw in statement position into
-            // Stmt\Throw_ rather than Stmt\Expression(Expr\Throw_).
-            $$ = Stmt\Throw_[$e->expr];
-        } else {
-            $$ = Stmt\Expression[$e];
-        }
-    }
+    | expr semi                                             { $$ = Stmt\Expression[$1]; }
     | T_UNSET '(' variables_list ')' semi                   { $$ = Stmt\Unset_[$3]; }
     | T_FOREACH '(' expr T_AS foreach_variable ')' foreach_statement
           { $$ = Stmt\Foreach_[$3, $5[0], ['keyVar' => null, 'byRef' => $5[1], 'stmts' => $7]]; }

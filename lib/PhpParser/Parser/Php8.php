@@ -1491,16 +1491,7 @@ class Php8 extends \PhpParser\ParserAbstract
 
             },
             172 => function ($stackPos) {
-
-        $e = $this->semStack[$stackPos-(2-1)];
-        if ($e instanceof Expr\Throw_) {
-            // For backwards-compatibility reasons, convert throw in statement position into
-            // Stmt\Throw_ rather than Stmt\Expression(Expr\Throw_).
-            $this->semValue = new Stmt\Throw_($e->expr, $this->getAttributes($this->tokenStartStack[$stackPos-(2-1)], $this->tokenEndStack[$stackPos]));
-        } else {
-            $this->semValue = new Stmt\Expression($e, $this->getAttributes($this->tokenStartStack[$stackPos-(2-1)], $this->tokenEndStack[$stackPos]));
-        }
-
+                 $this->semValue = new Stmt\Expression($this->semStack[$stackPos-(2-1)], $this->getAttributes($this->tokenStartStack[$stackPos-(2-1)], $this->tokenEndStack[$stackPos]));
             },
             173 => function ($stackPos) {
                  $this->semValue = new Stmt\Unset_($this->semStack[$stackPos-(5-3)], $this->getAttributes($this->tokenStartStack[$stackPos-(5-1)], $this->tokenEndStack[$stackPos]));

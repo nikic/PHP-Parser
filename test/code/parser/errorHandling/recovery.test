@@ -525,9 +525,11 @@ array(
                     )
                 )
             )
-            12: Stmt_Throw(
-                expr: Expr_Variable(
-                    name: x
+            12: Stmt_Expression(
+                expr: Expr_Throw(
+                    expr: Expr_Variable(
+                        name: x
+                    )
                 )
             )
             13: Stmt_Goto(

@@ -41,9 +41,11 @@ array(
             name: a
         )
     )
-    6: Stmt_Throw(
-        expr: Expr_Variable(
-            name: e
+    6: Stmt_Expression(
+        expr: Expr_Throw(
+            expr: Expr_Variable(
+                name: e
+            )
         )
     )
     7: Stmt_Label(
