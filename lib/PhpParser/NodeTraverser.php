@@ -175,7 +175,7 @@ class NodeTraverser implements NodeTraverserInterface {
     protected function traverseArray(array $nodes): array {
         $doNodes = [];
 
-        foreach ($nodes as $i => &$node) {
+        foreach ($nodes as $i => $node) {
             if ($node instanceof Node) {
                 $traverseChildren = true;
                 $visitorIndex = -1;
@@ -185,7 +185,7 @@ class NodeTraverser implements NodeTraverserInterface {
                     if (null !== $return) {
                         if ($return instanceof Node) {
                             $this->ensureReplacementReasonable($node, $return);
-                            $node = $return;
+                            $nodes[$i] = $node = $return;
                         } elseif (\is_array($return)) {
                             $doNodes[] = [$i, $return];
                             continue 2;
@@ -225,7 +225,7 @@ class NodeTraverser implements NodeTraverserInterface {
                     if (null !== $return) {
                         if ($return instanceof Node) {
                             $this->ensureReplacementReasonable($node, $return);
-                            $node = $return;
+                            $nodes[$i] = $node = $return;
                         } elseif (\is_array($return)) {
                             $doNodes[] = [$i, $return];
                             break;
