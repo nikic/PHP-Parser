@@ -900,12 +900,13 @@ array(
 <?php
 
 class Foo {
+    public $bar1;
     publi $foo;
     public $bar;
 }
 -----
 !!php7
-Syntax error, unexpected T_STRING from 4:5 to 4:9
+Syntax error, unexpected T_STRING from 5:5 to 5:9
 array(
     0: Stmt_Class(
         attrGroups: array(
@@ -919,6 +920,20 @@ array(
         )
         stmts: array(
             0: Stmt_Property(
+                attrGroups: array(
+                )
+                flags: MODIFIER_PUBLIC (1)
+                type: null
+                props: array(
+                    0: Stmt_PropertyProperty(
+                        name: VarLikeIdentifier(
+                            name: bar1
+                        )
+                        default: null
+                    )
+                )
+            )
+            1: Stmt_Property(
                 attrGroups: array(
                 )
                 flags: MODIFIER_PUBLIC (1)
