@@ -469,7 +469,7 @@ static_var:
 ;
 
 class_statement_list_ex:
-      class_statement_list_ex class_statement               { if ($2 !== null) { push($1, $2); } }
+      class_statement_list_ex class_statement               { if ($2 !== null) { push($1, $2); } else { $$ = $1; } }
     | /* empty */                                           { init(); }
 ;
 
