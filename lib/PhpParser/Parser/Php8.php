@@ -1953,7 +1953,7 @@ class Php8 extends \PhpParser\ParserAbstract
                  $this->semValue = new Node\StaticVar($this->semStack[$stackPos-(3-1)], $this->semStack[$stackPos-(3-3)], $this->getAttributes($this->tokenStartStack[$stackPos-(3-1)], $this->tokenEndStack[$stackPos]));
             },
             340 => function ($stackPos) {
-                 if ($this->semStack[$stackPos-(2-2)] !== null) { $this->semStack[$stackPos-(2-1)][] = $this->semStack[$stackPos-(2-2)]; $this->semValue = $this->semStack[$stackPos-(2-1)]; }
+                 if ($this->semStack[$stackPos-(2-2)] !== null) { $this->semStack[$stackPos-(2-1)][] = $this->semStack[$stackPos-(2-2)]; $this->semValue = $this->semStack[$stackPos-(2-1)]; } else { $this->semValue = $this->semStack[$stackPos-(2-1)]; }
             },
             341 => function ($stackPos) {
                  $this->semValue = array();
