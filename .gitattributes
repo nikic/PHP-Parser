@@ -1,5 +1,6 @@
 /.github         export-ignore
 /doc             export-ignore
+/grammar         export-ignore
 /test            export-ignore
 /test_old        export-ignore
 .editorconfig    export-ignore
