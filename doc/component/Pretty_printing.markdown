@@ -97,5 +97,5 @@ If you make use of the name resolution functionality, you will likely want to di
 the AST and causing spurious changes to the pretty printed code. For more information, see the
 [name resolution documentation](Name_resolution.markdown).
 
-The formatting-preservation works on a best-effort basis and may sometimes reformat more code tha
+The formatting-preservation works on a best-effort basis and may sometimes reformat more code than
 necessary. If you encounter problems while using this functionality, please open an issue.
