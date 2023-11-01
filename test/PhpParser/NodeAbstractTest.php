@@ -125,7 +125,7 @@ class NodeAbstractTest extends \PHPUnit\Framework\TestCase {
         $this->assertSame('newValue', $node->subNode1);
 
         // indirect modification
-        $subNode =& $node->subNode1;
+        $subNode = &$node->subNode1;
         $subNode = 'newNewValue';
         $this->assertSame('newNewValue', $node->subNode1);
 

@@ -581,7 +581,7 @@ abstract class ParserAbstract implements Parser {
         } else {
             // For semicolon namespaces we have to move the statements after a namespace declaration into ->stmts
             $resultStmts = [];
-            $targetStmts =& $resultStmts;
+            $targetStmts = &$resultStmts;
             $lastNs = null;
             foreach ($stmts as $stmt) {
                 if ($stmt instanceof Node\Stmt\Namespace_) {
@@ -590,12 +590,12 @@ abstract class ParserAbstract implements Parser {
                     }
                     if ($stmt->stmts === null) {
                         $stmt->stmts = [];
-                        $targetStmts =& $stmt->stmts;
+                        $targetStmts = &$stmt->stmts;
                         $resultStmts[] = $stmt;
                     } else {
                         // This handles the invalid case of mixed style namespaces
                         $resultStmts[] = $stmt;
-                        $targetStmts =& $resultStmts;
+                        $targetStmts = &$resultStmts;
                     }
                     $lastNs = $stmt;
                 } elseif ($stmt instanceof Node\Stmt\HaltCompiler) {

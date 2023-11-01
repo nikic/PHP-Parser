@@ -34,7 +34,7 @@ class NodeTraverser implements NodeTraverserInterface {
      *
      * @param NodeVisitor ...$visitors Node visitors
      */
-    public function __construct(NodeVisitor... $visitors) {
+    public function __construct(NodeVisitor ...$visitors) {
         $this->visitors = $visitors;
     }
 

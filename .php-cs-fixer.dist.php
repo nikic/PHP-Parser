@@ -21,11 +21,6 @@ return $config->setRiskyAllowed(true)
         'declare_strict_types' => true,
         // Keep argument formatting for now.
         'method_argument_space' => ['on_multiline' => 'ignore'],
-        'binary_operator_spaces' => [
-            'default' => 'at_least_single_space',
-            // Work around https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues/7303.
-            'operators' => ['=' => null],
-        ],
         'phpdoc_align' => ['align' => 'left'],
         'phpdoc_trim' => true,
         'no_empty_phpdoc' => true,
