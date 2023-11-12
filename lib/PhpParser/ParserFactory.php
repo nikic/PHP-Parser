@@ -6,34 +6,6 @@ use PhpParser\Parser\Php7;
 use PhpParser\Parser\Php8;
 
 class ParserFactory {
-    public const PREFER_PHP7 = 1;
-    public const ONLY_PHP7 = 3;
-
-    /**
-     * Creates a Parser instance, according to the provided kind.
-     *
-     * @param int $kind One of ::PREFER_PHP7 or ::ONLY_PHP7
-     * @param Lexer|null $lexer Lexer to use. Defaults to emulative lexer when not specified
-     *
-     * @return Parser The parser instance
-     *
-     * @deprecated Use createForVersion(), createForNewestSupportedVersion() or createForHostVersion() instead.
-     */
-    public function create(int $kind, ?Lexer $lexer = null): Parser {
-        if (null === $lexer) {
-            $lexer = new Lexer\Emulative();
-        }
-        switch ($kind) {
-            case self::PREFER_PHP7:
-            case self::ONLY_PHP7:
-                return new Parser\Php7($lexer);
-            default:
-                throw new \LogicException(
-                    'Kind must be one of ::PREFER_PHP7 or ::ONLY_PHP7'
-                );
-        }
-    }
-
     /**
      * Create a parser targeting the given version on a best-effort basis. The parser will generally
      * accept code for the newest supported version, but will try to accommodate code that becomes
