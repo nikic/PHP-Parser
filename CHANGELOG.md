@@ -1,3 +1,30 @@
+Version 5.0.0-rc1
+-----------------
+
+See UPGRADE-5.0 for detailed migration instructions.
+
+### Added
+
+* Added support for printing additional attributes (like `kind`) in `NodeDumper`.
+* Added `rawValue` attribute to `InterpolatedStringPart` and heredoc/nowdoc `String_`s, which
+  provides the original, unparsed value. It was previously only available for non-interpolated
+  single/double quoted strings.
+* Added `Stmt\Block` to represent `{}` code blocks. Previously, such code blocks were flattened
+  into the parent statements array. `Stmt\Block` will not be created for structures that are
+  typically used with code blocks, for example `if ($x) { $y; }` will be represented as previously,
+  while `if ($x) { { $x; } }` will have an extra `Stmt\Block` wrapper.
+
+### Changed
+
+* Use visitor to assign comments. This fixes the long-standing issue where comments were assigned
+  to all nodes sharing a starting position. Now only the outer-most node will hold the comments.
+* Don't parse unicode escape sequences when targeting PHP < 7.0.
+* Improve NodeDumper performance for large dumps.
+
+### Removed
+
+* Removed `ParserFactory::create()`.
+
 Version 5.0.0-beta1 (2023-09-17)
 --------------------------------
 
