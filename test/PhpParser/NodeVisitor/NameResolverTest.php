@@ -189,7 +189,7 @@ class A extends B implements C, D {
         E::h as i;
         E::j insteadof F, G;
     }
-    
+
     #[X]
     public float $php = 7.4;
     public ?Foo $person;
@@ -198,6 +198,10 @@ class A extends B implements C, D {
 
     #[X]
     const C = 1;
+    
+    public const X A = X::Bar;
+    public const X\Foo B = X\Foo::Bar;
+    public const \X\Foo C = \X\Foo::Bar;
 }
 
 #[X]
@@ -263,6 +267,9 @@ class A extends \NS\B implements \NS\C, \NS\D
     public \NS\A|\NS\B|int $prop;
     #[\NS\X]
     const C = 1;
+    public const \NS\X A = \NS\X::Bar;
+    public const \NS\X\Foo B = \NS\X\Foo::Bar;
+    public const \X\Foo C = \X\Foo::Bar;
 }
 #[\NS\X]
 interface A extends \NS\C, \NS\D
