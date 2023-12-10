@@ -83,6 +83,149 @@ now represented by `Name(name: 'Foo\Bar')` instead.
 It is possible to convert the name to the previous representation using `$name->getParts()`. The
 `Name` constructor continues to accept both the string and the array representation.
 
+### Changes to the block representation
+
+Previously, code blocks `{ ... }` were always flattened into their parent statement list. For
+example `while ($x) { $a; { $b; } $c; }` would produce the same node structure as
+`if ($x) { $a; $b; $c; }`, namely a `Stmt\While_` node whose `stmts` subnode is an array of four
+statements.
+
+Now, the nested `{ $b; }` block is represented using an explicit `Stmt\Block` node. However, the
+outer `{ $a; { $b; } $c; }` block is still represented using a simple array in the `stmts` subnode.
+
+```php
+# Code
+while ($x) { $a; { $b; } $c; }
+
+# Before
+Stmt_While(
+    cond: Expr_Variable(
+        name: x
+    )
+    stmts: array(
+        0: Stmt_Expression(
+            expr: Expr_Variable(
+                name: a
+            )
+        )
+        1: Stmt_Expression(
+            expr: Expr_Variable(
+                name: b
+            )
+        )
+        2: Stmt_Expression(
+            expr: Expr_Variable(
+                name: c
+            )
+        )
+    )
+)
+
+# After
+Stmt_While(
+    cond: Expr_Variable(
+        name: x
+    )
+    stmts: array(
+        0: Stmt_Expression(
+            expr: Expr_Variable(
+                name: a
+            )
+        )
+        1: Stmt_Block(
+            stmts: array(
+                0: Stmt_Expression(
+                    expr: Expr_Variable(
+                        name: b
+                    )
+                )
+            )
+        )
+        2: Stmt_Expression(
+            expr: Expr_Variable(
+                name: c
+            )
+        )
+    )
+)
+```
+
+### Changes to the throw representation
+
+Previously, `throw` statements like `throw $e;` were represented using the `Stmt\Throw_` class,
+while uses inside other expressions (such as `$x ?? throw $e`) used the `Expr\Throw_` class.
+
+Now, `throw $e;` is represented as a `Stmt\Expression` that contains an `Expr\Throw_`. The
+`Stmt\Throw_` class has been removed.
+
+```php
+# Code
+throw $e;
+
+# Before
+Stmt_Throw(
+    expr: Expr_Variable(
+        name: e
+    )
+)
+
+# After
+Stmt_Expression(
+    expr: Expr_Throw(
+        expr: Expr_Variable(
+            name: e
+        )
+    )
+)
+```
+
+### Changes to comment assignment
+
+Previously, comments were assigned to all nodes starting at the same position. Now they will be
+assigned to the outer-most node only.
+
+```php
+# Code
+// Comment
+$a + $b;
+
+# Before
+Stmt_Expression(
+    expr: Expr_BinaryOp_Plus(
+        left: Expr_Variable(
+            name: a
+            comments: array(
+                0: // Comment
+            )
+        )
+        right: Expr_Variable(
+            name: b
+        )
+        comments: array(
+            0: // Comment
+        )
+    )
+    comments: array(
+        0: // Comment
+    )
+)
+
+# After
+Stmt_Expression(
+    expr: Expr_BinaryOp_Plus(
+        left: Expr_Variable(
+            name: a
+        )
+        right: Expr_Variable(
+            name: b
+        )
+    )
+    comments: array(
+        0: // Comment
+    )
+)
+```
+
 ### Renamed nodes
 
 A number of AST nodes have been renamed or moved in the AST hierarchy:

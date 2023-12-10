@@ -23,6 +23,7 @@ See UPGRADE-5.0 for detailed migration instructions.
 
 ### Removed
 
+* Removed `Stmt\Throw_` node, use `Expr\Throw_` inside `Stmt\Expression` instead.
 * Removed `ParserFactory::create()`.
 
 Version 5.0.0-beta1 (2023-09-17)
