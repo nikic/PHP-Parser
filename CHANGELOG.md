@@ -1,3 +1,28 @@
+Version 4.18.0 (2023-12-10)
+---------------------------
+
+### Added
+
+* Added methods `ParserFactory::createForNewestSupportedVersion()` and
+  `ParserFactory::createForHostVersion()` for forward-compatibility with PHP-Parser 5.0.
+
+### Fixed
+
+* Fixed missing name resolution of class constant types.
+* Fixed class members being dropped if an error is encountered while parsing a later class member
+  (when error recovery is enabeld).
+
+### Changed
+
+* The `grammar/` directory has been excluded from exported git archives.
+
+Version 4.17.1 (2023-08-13)
+---------------------------
+
+### Fixed
+
+* Fixed phpdoc mismatches for `ClassConst::$type` introduced in previous release.
+
 Version 4.17.0 (2023-08-13)
 ---------------------------
 
