@@ -302,7 +302,7 @@ Additionally, the token array is now terminated by a sentinel token with ID 0.
 
 The lexer API is reduced to a single `Lexer::tokenize()` method, which returns an array of tokens. The `startLexing()` and `getNextToken()` methods have been removed.
 
-Responsibility for determining start and end attributes for nodes has been moved from the lexer to the parser. The lexer no longer accepts an options array. The `usedAttributes` option has been removed without replacement, and the parser will now unconditionally add the `comments`, `startLine`, `endLine`, `startFilePos`, `startEndPos`, `startTokenPos` and `startEndPos` attributes.
+Responsibility for determining start and end attributes for nodes has been moved from the lexer to the parser. The lexer no longer accepts an options array. The `usedAttributes` option has been removed without replacement, and the parser will now unconditionally add the `comments`, `startLine`, `endLine`, `startFilePos`, `endFilePos`, `startTokenPos` and `endTokenPos` attributes.
 
 There should no longer be a need to directly interact with the `Lexer` for end users, as the `ParserFactory` will create an appropriate instance, and no additional configuration of the lexer is necessary. To use formatting-preserving pretty printing, the setup boilerplate changes as follows:
 
