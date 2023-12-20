@@ -1,7 +1,11 @@
-Version 5.0.0-rc1
------------------
+Version 5.0.0-rc1 (2023-12-20)
+------------------------------
 
 See UPGRADE-5.0 for detailed migration instructions.
+
+### Fixed
+
+* Fixed parsing of empty files.
 
 ### Added
 
