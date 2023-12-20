@@ -76,7 +76,7 @@ class Lexer {
         $numTokens = \count($tokens);
         if ($numTokens === 0) {
             // Empty input edge case: Just add the sentinel token.
-            $tokens[] = [new Token(0, "\0", 1, 0)];
+            $tokens[] = new Token(0, "\0", 1, 0);
             return;
         }
 
