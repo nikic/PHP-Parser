@@ -3,9 +3,10 @@
 namespace PhpParser\Node;
 
 use PhpParser\Node;
+use PhpParser\NodeAbstract;
 use PhpParser\Node\Stmt\Use_;
 
-class UseItem extends Node\Stmt {
+class UseItem extends NodeAbstract {
     /**
      * @var Use_::TYPE_* One of the Stmt\Use_::TYPE_* constants. Will only differ from TYPE_UNKNOWN for mixed group uses
      */
