@@ -3,8 +3,9 @@
 namespace PhpParser\Node;
 
 use PhpParser\Node;
+use PhpParser\NodeAbstract;
 
-class PropertyItem extends Node\Stmt {
+class PropertyItem extends NodeAbstract {
     /** @var Node\VarLikeIdentifier Name */
     public VarLikeIdentifier $name;
     /** @var null|Node\Expr Default */
