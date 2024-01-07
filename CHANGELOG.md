@@ -1,3 +1,12 @@
+Version 5.0.0 (2024-01-07)
+--------------------------
+
+See UPGRADE-5.0 for detailed migration instructions.
+
+### Fixed
+
+* Fixed parent class of `PropertyItem` and `UseItem`.
+
 Version 5.0.0-rc1 (2023-12-20)
 ------------------------------
 
