@@ -28,15 +28,16 @@ The following symbols are affected by this removal:
  * The `PhpParser\Parser\Php5` class has been removed.
  * The `PhpParser\Parser\Multiple` class has been removed. While not strictly related to PHP 5 support, this functionality is no longer useful without it.
  * The `PhpParser\ParserFactory::ONLY_PHP5` and `PREFER_PHP5` options have been removed.
- * The `PhpParser\ParserFactory::PREFER_PHP7` option is now equivalent to `ONLY_PHP7`.
 
 ### Changes to the parser factory
 
-The `ParserFactory::create()` method is deprecated in favor of three new methods that provide more fine-grained control over the PHP version being targeted:
+The `ParserFactory::create()` method has been removed in favor of three new methods that provide more fine-grained control over the PHP version being targeted:
 
  * `createForNewestSupportedVersion()`: Use this if you don't know the PHP version of the code you're parsing. It's better to assume a too new version than a too old one.
  * `createForHostVersion()`: Use this if you're parsing code for the PHP version you're running on.
  * `createForVersion()`: Use this if you know the PHP version of the code you want to parse.
+
+The `createForNewestSupportedVersion()` and `creatForHostVersion()` are available since PHP-Parser 4.18.0, to allow libraries to support PHP-Parser 4 and 5 at the same time more easily.
 
 In all cases, the PHP version is a fairly weak hint that is only used on a best-effort basis. The parser will usually accept code for newer versions if it does not have any backwards-compatibility implications.
 
@@ -62,6 +63,35 @@ $parser = $factory->create(ParserFactory::ONLY_PHP5);
 $parser = $factory->createForVersion(PhpVersion::fromString("5.6"));
 ```
 
+### Changes to the throw representation
+
+Previously, `throw` statements like `throw $e;` were represented using the `Stmt\Throw_` class,
+while uses inside other expressions (such as `$x ?? throw $e`) used the `Expr\Throw_` class.
+
+Now, `throw $e;` is represented as a `Stmt\Expression` that contains an `Expr\Throw_`. The
+`Stmt\Throw_` class has been removed.
+
+```php
+# Code
+throw $e;
+
+# Before
+Stmt_Throw(
+    expr: Expr_Variable(
+        name: e
+    )
+)
+
+# After
+Stmt_Expression(
+    expr: Expr_Throw(
+        expr: Expr_Variable(
+            name: e
+        )
+    )
+)
+```
+
 ### Changes to the array destructuring representation
 
 Previously, the `list($x) = $y` destructuring syntax was represented using a `Node\Expr\List_`
@@ -71,6 +101,49 @@ destructuring) of arrays.
 Now, destructuring is always represented using `Node\Expr\List_`. The `kind` attribute with value
 `Node\Expr\List_::KIND_LIST` or `Node\Expr\List_::KIND_ARRAY` specifies which syntax was actually
 used.
+
+```php
+# Code
+[$x] = $y;
+
+# Before
+Expr_Assign(
+   var: Expr_Array(
+       items: array(
+           0: Expr_ArrayItem(
+               key: null
+               value: Expr_Variable(
+                   name: x
+               )
+               byRef: false
+               unpack: false
+           )
+       )
+   )
+   expr: Expr_Variable(
+       name: y
+   )
+)
+
+# After
+Expr_Assign(
+   var: Expr_List(
+       items: array(
+           0: ArrayItem(
+               key: null
+               value: Expr_Variable(
+                   name: x
+               )
+               byRef: false
+               unpack: false
+           )
+       )
+   )
+   expr: Expr_Variable(
+       name: y
+   )
+)
+```
 
 ### Changes to the name representation
 
@@ -83,11 +156,14 @@ now represented by `Name(name: 'Foo\Bar')` instead.
 It is possible to convert the name to the previous representation using `$name->getParts()`. The
 `Name` constructor continues to accept both the string and the array representation.
 
+The `Name::getParts()` method is available since PHP-Parser 4.16.0, to allow libraries to support
+PHP-Parser 4 and 5 at the same time more easily.
+
 ### Changes to the block representation
 
 Previously, code blocks `{ ... }` were always flattened into their parent statement list. For
 example `while ($x) { $a; { $b; } $c; }` would produce the same node structure as
-`if ($x) { $a; $b; $c; }`, namely a `Stmt\While_` node whose `stmts` subnode is an array of four
+`if ($x) { $a; $b; $c; }`, namely a `Stmt\While_` node whose `stmts` subnode is an array of three
 statements.
 
 Now, the nested `{ $b; }` block is represented using an explicit `Stmt\Block` node. However, the
@@ -150,39 +226,10 @@ Stmt_While(
 )
 ```
 
-### Changes to the throw representation
-
-Previously, `throw` statements like `throw $e;` were represented using the `Stmt\Throw_` class,
-while uses inside other expressions (such as `$x ?? throw $e`) used the `Expr\Throw_` class.
-
-Now, `throw $e;` is represented as a `Stmt\Expression` that contains an `Expr\Throw_`. The
-`Stmt\Throw_` class has been removed.
-
-```php
-# Code
-throw $e;
-
-# Before
-Stmt_Throw(
-    expr: Expr_Variable(
-        name: e
-    )
-)
-
-# After
-Stmt_Expression(
-    expr: Expr_Throw(
-        expr: Expr_Variable(
-            name: e
-        )
-    )
-)
-```
-
 ### Changes to comment assignment
 
 Previously, comments were assigned to all nodes starting at the same position. Now they will be
-assigned to the outer-most node only.
+assigned to the outermost node only.
 
 ```php
 # Code
@@ -248,7 +295,7 @@ The old class names have been retained as aliases for backwards compatibility. H
 
 Modifier flags (as used by the `$flags` subnode of `Class_`, `ClassMethod`, `Property`, etc.) are now available as class constants on a separate `PhpParser\Modifiers` class, instead of being part of `PhpParser\Node\Stmt\Class_`, to make it clearer that these are used by many different nodes. The old constants are deprecated, but are still available.
 
-```
+```php
 PhpParser\Node\Stmt\Class_::MODIFIER_PUBLIC    -> PhpParser\Modifiers::PUBLIC
 PhpParser\Node\Stmt\Class_::MODIFIER_PROTECTED -> PhpParser\Modifiers::PROTECTED
 PhpParser\Node\Stmt\Class_::MODIFIER_PRIVATE   -> PhpParser\Modifiers::PRIVATE
@@ -346,7 +393,7 @@ The pretty printer now accepts a `phpVersion` option, which accepts a `PhpVersio
 
 * For PHP >= 7.0 (default), short array syntax `[]` will be used by default. This does not affect nodes that specify an explicit array syntax using the `kind` attribute.
 * For PHP >= 7.0 (default), parentheses around `yield` expressions will only be printed when necessary. Previously, parentheses were always printed, even if `yield` was used as a statement.
-* For PHP >= 7.1 (default), the short array syntax `[]` will be used for destructuring by default (instead of `list()`). This does not affect nodes that specify and explicit syntax using the `kind` attribute.
+* For PHP >= 7.1 (default), the short array syntax `[]` will be used for destructuring by default (instead of `list()`). This does not affect nodes that specify an explicit syntax using the `kind` attribute.
 * For PHP >= 7.3 (default), a newline is no longer forced after heredoc/nowdoc strings, as the requirement for this has been removed with the introduction of flexible heredoc/nowdoc strings.
 * For PHP >= 7.3 (default), heredoc/nowdoc strings are now indented just like regular code. This was allowed with the introduction of flexible heredoc/nowdoc strings.
 
@@ -364,7 +411,7 @@ protected function p(
 
 The `$precedence` is the precedence of the direct parent operator (if any), while `$lhsPrecedence` is that precedence of the nearest binary operator on whose left-hand-side the node occurs. For unary operators, only the `$lhsPrecedence` is relevant.
 
-Recursive calls in pretty-printer methods should generally continue calling `p()` without additional parameters. However, pretty-printer methods for operators that participate in precedence resolution need to be adjusted. For example, typical implementations for operators looks as follows now:
+Recursive calls in pretty-printer methods should generally continue calling `p()` without additional parameters. However, pretty-printer methods for operators that participate in precedence resolution need to be adjusted. For example, typical implementations for operators look as follows now:
 
 ```php
 protected function pExpr_BinaryOp_Plus(
