@@ -519,7 +519,7 @@ $newStmts = $traverser->traverse($oldStmts);
 
 $parser = (new ParserFactory())->createForNewestSupportedVersion();
 $oldStmts = $parser->parse($code);
-$oldTokens = $lexer->getTokens();
+$oldTokens = $parser->getTokens();
 
 $traverser = new NodeTraverser(new NodeVisitor\CloningVisitor());
 $newStmts = $traverser->traverse($oldStmts);
