@@ -23,6 +23,7 @@ function preprocessGrammar($code) {
     $code = resolveNodes($code);
     $code = resolveMacros($code);
     $code = resolveStackAccess($code);
+    $code = str_replace('$this', '$self', $code);
 
     return $code;
 }

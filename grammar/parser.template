@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 $meta #
-#semval($) $this->semValue
-#semval($,%t) $this->semValue
+#semval($) $self->semValue
+#semval($,%t) $self->semValue
 #semval(%n) $stackPos-(%l-%n)
 #semval(%n,%t) $stackPos-(%l-%n)
 
@@ -97,7 +97,7 @@ class #(-p) extends \PhpParser\ParserAbstract
     protected function initReduceCallbacks(): void {
         $this->reduceCallbacks = [
 #reduce
-            %n => function ($stackPos) {
+            %n => static function ($self, $stackPos) {
                 %b
             },
 #noact
