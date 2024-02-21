@@ -1,3 +1,12 @@
+Version 5.0.1 (2024-02-21)
+--------------------------
+
+### Changed
+
+* Added check to detect use of PHP-Parser with libraries that define `T_*` compatibility tokens
+  with incorrect type (such as string instead of int). This would lead to `TypeError`s down the
+  line. Now an `Error` will be thrown early to indicate the problem.
+
 Version 5.0.0 (2024-01-07)
 --------------------------
 
