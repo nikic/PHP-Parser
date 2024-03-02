@@ -1,3 +1,11 @@
+Version 4.18.1 (2024-MM-DD)
+---------------------------
+
+### Changed
+
+* Do not use implicitly nullable parameters
+* PHP 7.0 is no longer supported
+
 Version 4.18.0 (2023-12-10)
 ---------------------------
 
