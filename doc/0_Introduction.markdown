@@ -34,7 +34,7 @@ The parser supports parsing PHP 5.2-8.0, with the following exceptions:
 
 As the parser is based on the tokens returned by `token_get_all` (which is only able to lex the PHP
 version it runs on), additionally a wrapper for emulating tokens from newer versions is provided.
-This allows to parse PHP 7.4 source code running on PHP 7.0, for example. This emulation is somewhat
+This allows to parse PHP 7.4 source code running on PHP 7.1, for example. This emulation is somewhat
 hacky and not perfect, but it should work well on any sane code.
 
 What output does it produce?
