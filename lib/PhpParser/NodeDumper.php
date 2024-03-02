@@ -39,7 +39,7 @@ class NodeDumper
      *
      * @return string Dumped value
      */
-    public function dump($node, string $code = null) : string {
+    public function dump($node, ?string $code = null) : string {
         $this->code = $code;
         return $this->dumpRecursive($node);
     }
