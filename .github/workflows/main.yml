@@ -5,29 +5,6 @@ on:
   pull_request:
 
 jobs:
-  tests_70:
-    runs-on: "ubuntu-latest"
-    name: "PHP 7.0 Unit Tests"
-    steps:
-      - name: "Checkout"
-        uses: "actions/checkout@v3"
-      - name: "Install PHP"
-        uses: "shivammathur/setup-php@v2"
-        with:
-          coverage: "xdebug"
-          php-version: "7.0"
-          tools: composer:v2
-      - name: "Install dependencies"
-        run: |
-          composer require php-coveralls/php-coveralls:^2.2 --dev --no-update
-          composer update --no-progress --prefer-dist
-      - name: "Tests"
-        run: "php vendor/bin/phpunit --coverage-clover build/logs/clover.xml"
-      - name: Coveralls
-        env:
-          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: "php vendor/bin/php-coveralls"
-        if: ${{ success() }}
   tests:
     runs-on: "ubuntu-latest"
     name: "PHP ${{ matrix.php-version }} Unit Tests"
@@ -71,19 +48,3 @@ jobs:
         run: "composer update --no-progress --prefer-dist"
       - name: "Tests"
         run: "test_old/run-php-src.sh 7.3.21"
-  test_old_80_70:
-    runs-on: "ubuntu-latest"
-    name: "PHP 8.1 Code on PHP 7.0 Integration Tests"
-    steps:
-      - name: "Checkout"
-        uses: "actions/checkout@v3"
-      - name: "Install PHP"
-        uses: "shivammathur/setup-php@v2"
-        with:
-          coverage: "none"
-          php-version: "7.0"
-          tools: composer:v2
-      - name: "Install PHP 8 dependencies"
-        run: "composer update --no-progress --prefer-dist"
-      - name: "Tests"
-        run: "test_old/run-php-src.sh 8.1.6"
