@@ -1,3 +1,17 @@
+Version 5.0.2 (2024-03-05)
+--------------------------
+
+### Fixed
+
+* Fix handling of indentation on next line after opening PHP tag in formatting-preserving pretty
+printer.
+
+### Changed
+
+* Avoid cyclic references in `Parser` objects. This means that no longer used parser objects are
+  immediately destroyed now, instead of requiring cycle GC.
+* Update `PhpVersion::getNewestSupported()` to report PHP 8.3 instead of PHP 8.2.
+
 Version 5.0.1 (2024-02-21)
 --------------------------
 
