@@ -32,6 +32,7 @@ class Error extends \RuntimeException {
      * Gets the line the error starts in.
      *
      * @return int Error start line
+     * @phpstan-return -1|positive-int
      */
     public function getStartLine(): int {
         return $this->attributes['startLine'] ?? -1;
@@ -41,6 +42,7 @@ class Error extends \RuntimeException {
      * Gets the line the error ends in.
      *
      * @return int Error end line
+     * @phpstan-return -1|positive-int
      */
     public function getEndLine(): int {
         return $this->attributes['endLine'] ?? -1;
