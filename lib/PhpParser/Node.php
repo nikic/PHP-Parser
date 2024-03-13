@@ -21,6 +21,7 @@ interface Node {
      * Gets line the node started in (alias of getStartLine).
      *
      * @return int Start line (or -1 if not available)
+     * @phpstan-return -1|positive-int
      *
      * @deprecated Use getStartLine() instead
      */
@@ -32,6 +33,7 @@ interface Node {
      * Requires the 'startLine' attribute to be enabled in the lexer (enabled by default).
      *
      * @return int Start line (or -1 if not available)
+     * @phpstan-return -1|positive-int
      */
     public function getStartLine(): int;
 
@@ -41,6 +43,7 @@ interface Node {
      * Requires the 'endLine' attribute to be enabled in the lexer (enabled by default).
      *
      * @return int End line (or -1 if not available)
+     * @phpstan-return -1|positive-int
      */
     public function getEndLine(): int;
 

@@ -19,6 +19,7 @@ abstract class NodeAbstract implements Node, \JsonSerializable {
      * Gets line the node started in (alias of getStartLine).
      *
      * @return int Start line (or -1 if not available)
+     * @phpstan-return -1|positive-int
      */
     public function getLine(): int {
         return $this->attributes['startLine'] ?? -1;
@@ -30,6 +31,7 @@ abstract class NodeAbstract implements Node, \JsonSerializable {
      * Requires the 'startLine' attribute to be enabled in the lexer (enabled by default).
      *
      * @return int Start line (or -1 if not available)
+     * @phpstan-return -1|positive-int
      */
     public function getStartLine(): int {
         return $this->attributes['startLine'] ?? -1;
@@ -41,6 +43,7 @@ abstract class NodeAbstract implements Node, \JsonSerializable {
      * Requires the 'endLine' attribute to be enabled in the lexer (enabled by default).
      *
      * @return int End line (or -1 if not available)
+     * @phpstan-return -1|positive-int
      */
     public function getEndLine(): int {
         return $this->attributes['endLine'] ?? -1;
