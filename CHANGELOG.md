@@ -1,10 +1,10 @@
-Version 4.19.0 (2024-MM-DD)
+Version 4.19.0 (2024-03-16)
 ---------------------------
 
 ### Changed
 
-* Do not use implicitly nullable parameters
-* PHP 7.0 is no longer supported
+* Do not use implicitly nullable parameters, which are deprecated in PHP 8.4.
+* Remove support for running on PHP 7.0, which does not support explicitly nullable parameters.
 
 Version 4.18.0 (2023-12-10)
 ---------------------------
