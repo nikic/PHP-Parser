@@ -49,6 +49,7 @@ jobs:
         with:
           coverage: "none"
           php-version: "${{ matrix.php-version }}"
+          ini-file: "development"
           tools: composer:v2
       - name: "Install dependencies"
         run: "composer update --no-progress --prefer-dist ${{ matrix.flags }}"
@@ -65,6 +66,7 @@ jobs:
         with:
           coverage: "none"
           php-version: "8.0"
+          ini-file: "development"
           tools: composer:v2
       - name: "Install PHP 8 dependencies"
         run: "composer update --no-progress --prefer-dist"
