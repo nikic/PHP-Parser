@@ -46,6 +46,7 @@ jobs:
         with:
           coverage: "none"
           php-version: "${{ matrix.php-version }}"
+          ini-values: "error_reporting=2147483647" # E_ALL
           tools: composer:v2
       - name: "Install dependencies"
         run: "composer update --no-progress --prefer-dist ${{ matrix.flags }}"
