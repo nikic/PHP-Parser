@@ -1,3 +1,11 @@
+Version 4.19.1 (2024-03-17)
+---------------------------
+
+### Fixed
+
+* Fixed "Optional parameter before required parameter" deprecation warning introduced in
+  previous version.
+
 Version 4.19.0 (2024-03-16)
 ---------------------------
 
