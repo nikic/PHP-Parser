@@ -44,9 +44,7 @@ array(
         expr: Expr_Empty(
             expr: Expr_FuncCall(
                 name: Name(
-                    parts: array(
-                        0: foo
-                    )
+                    name: foo
                 )
                 args: array(
                 )
@@ -57,25 +55,25 @@ array(
         expr: Expr_Empty(
             expr: Expr_Array(
                 items: array(
-                    0: Expr_ArrayItem(
+                    0: ArrayItem(
                         key: null
-                        value: Scalar_LNumber(
+                        value: Scalar_Int(
                             value: 1
                         )
                         byRef: false
                         unpack: false
                     )
-                    1: Expr_ArrayItem(
+                    1: ArrayItem(
                         key: null
-                        value: Scalar_LNumber(
+                        value: Scalar_Int(
                             value: 2
                         )
                         byRef: false
                         unpack: false
                     )
-                    2: Expr_ArrayItem(
+                    2: ArrayItem(
                         key: null
-                        value: Scalar_LNumber(
+                        value: Scalar_Int(
                             value: 3
                         )
                         byRef: false

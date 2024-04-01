@@ -2,8 +2,7 @@
 
 namespace PhpParser\Internal;
 
-class DifferTest extends \PHPUnit\Framework\TestCase
-{
+class DifferTest extends \PHPUnit\Framework\TestCase {
     private function formatDiffString(array $diff) {
         $diffStr = '';
         foreach ($diff as $diffElem) {
@@ -30,7 +29,9 @@ class DifferTest extends \PHPUnit\Framework\TestCase
 
     /** @dataProvider provideTestDiff */
     public function testDiff($oldStr, $newStr, $expectedDiffStr) {
-        $differ = new Differ(function($a, $b) { return $a === $b; });
+        $differ = new Differ(function ($a, $b) {
+            return $a === $b;
+        });
         $diff = $differ->diff(str_split($oldStr), str_split($newStr));
         $this->assertSame($expectedDiffStr, $this->formatDiffString($diff));
     }
@@ -49,7 +50,9 @@ class DifferTest extends \PHPUnit\Framework\TestCase
 
     /** @dataProvider provideTestDiffWithReplacements */
     public function testDiffWithReplacements($oldStr, $newStr, $expectedDiffStr) {
-        $differ = new Differ(function($a, $b) { return $a === $b; });
+        $differ = new Differ(function ($a, $b) {
+            return $a === $b;
+        });
         $diff = $differ->diffWithReplacements(str_split($oldStr), str_split($newStr));
         $this->assertSame($expectedDiffStr, $this->formatDiffString($diff));
     }
@@ -61,5 +64,16 @@ class DifferTest extends \PHPUnit\Framework\TestCase
             ['abcde', 'axye', 'a-b-c-d+x+ye'],
             ['abcde', 'axyzue', 'a-b-c-d+x+y+z+ue'],
         ];
+    }
+
+    public function testNonContiguousIndices() {
+        $differ = new Differ(function ($a, $b) {
+            return $a === $b;
+        });
+        $diff = $differ->diff([0 => 'a', 2 => 'b'], [0 => 'a', 3 => 'b']);
+        $this->assertEquals([
+            new DiffElem(DiffElem::TYPE_KEEP, 'a', 'a'),
+            new DiffElem(DiffElem::TYPE_KEEP, 'b', 'b'),
+        ], $diff);
     }
 }

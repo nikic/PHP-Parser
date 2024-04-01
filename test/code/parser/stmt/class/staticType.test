@@ -5,7 +5,6 @@ class Test {
     public static function create(): static {}
 }
 -----
-!!php7
 array(
     0: Stmt_Class(
         attrGroups: array(
@@ -21,7 +20,7 @@ array(
             0: Stmt_ClassMethod(
                 attrGroups: array(
                 )
-                flags: MODIFIER_PUBLIC | MODIFIER_STATIC (9)
+                flags: PUBLIC | STATIC (9)
                 byRef: false
                 name: Identifier(
                     name: create
@@ -29,9 +28,7 @@ array(
                 params: array(
                 )
                 returnType: Name(
-                    parts: array(
-                        0: static
-                    )
+                    name: static
                 )
                 stmts: array(
                 )

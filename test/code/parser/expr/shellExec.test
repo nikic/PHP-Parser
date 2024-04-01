@@ -17,7 +17,7 @@ array(
     1: Stmt_Expression(
         expr: Expr_ShellExec(
             parts: array(
-                0: Scalar_EncapsedStringPart(
+                0: InterpolatedStringPart(
                     value: test
                 )
             )
@@ -26,7 +26,7 @@ array(
     2: Stmt_Expression(
         expr: Expr_ShellExec(
             parts: array(
-                0: Scalar_EncapsedStringPart(
+                0: InterpolatedStringPart(
                     value: test
                 )
                 1: Expr_Variable(
@@ -38,7 +38,7 @@ array(
     3: Stmt_Expression(
         expr: Expr_ShellExec(
             parts: array(
-                0: Scalar_EncapsedStringPart(
+                0: InterpolatedStringPart(
                     value: test `
                 )
             )
@@ -47,7 +47,7 @@ array(
     4: Stmt_Expression(
         expr: Expr_ShellExec(
             parts: array(
-                0: Scalar_EncapsedStringPart(
+                0: InterpolatedStringPart(
                     value: test \"
                 )
             )

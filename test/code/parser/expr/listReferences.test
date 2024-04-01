@@ -7,13 +7,12 @@ list('k' => &$v) = $x;
 [&$v] = $x;
 ['k' => &$v] = $x;
 -----
-!!php7
 array(
     0: Stmt_Expression(
         expr: Expr_Assign(
             var: Expr_List(
                 items: array(
-                    0: Expr_ArrayItem(
+                    0: ArrayItem(
                         key: null
                         value: Expr_Variable(
                             name: v
@@ -32,7 +31,7 @@ array(
         expr: Expr_Assign(
             var: Expr_List(
                 items: array(
-                    0: Expr_ArrayItem(
+                    0: ArrayItem(
                         key: Scalar_String(
                             value: k
                         )
@@ -51,9 +50,9 @@ array(
     )
     2: Stmt_Expression(
         expr: Expr_Assign(
-            var: Expr_Array(
+            var: Expr_List(
                 items: array(
-                    0: Expr_ArrayItem(
+                    0: ArrayItem(
                         key: null
                         value: Expr_Variable(
                             name: v
@@ -70,9 +69,9 @@ array(
     )
     3: Stmt_Expression(
         expr: Expr_Assign(
-            var: Expr_Array(
+            var: Expr_List(
                 items: array(
-                    0: Expr_ArrayItem(
+                    0: ArrayItem(
                         key: Scalar_String(
                             value: k
                         )

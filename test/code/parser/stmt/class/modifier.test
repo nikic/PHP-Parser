@@ -18,10 +18,10 @@ array(
             0: Stmt_Property(
                 attrGroups: array(
                 )
-                flags: MODIFIER_PUBLIC (1)
+                flags: PUBLIC (1)
                 type: null
                 props: array(
-                    0: Stmt_PropertyProperty(
+                    0: PropertyItem(
                         name: VarLikeIdentifier(
                             name: a
                         )
@@ -51,10 +51,10 @@ array(
             0: Stmt_Property(
                 attrGroups: array(
                 )
-                flags: MODIFIER_PUBLIC | MODIFIER_PROTECTED (3)
+                flags: PUBLIC | PROTECTED (3)
                 type: null
                 props: array(
-                    0: Stmt_PropertyProperty(
+                    0: PropertyItem(
                         name: VarLikeIdentifier(
                             name: a
                         )
@@ -68,7 +68,6 @@ array(
 -----
 <?php class C { readonly readonly $a; }
 -----
-!!php7
 Multiple readonly modifiers are not allowed from 1:26 to 1:33
 array(
     0: Stmt_Class(
@@ -85,10 +84,10 @@ array(
             0: Stmt_Property(
                 attrGroups: array(
                 )
-                flags: MODIFIER_READONLY (64)
+                flags: READONLY (64)
                 type: null
                 props: array(
-                    0: Stmt_PropertyProperty(
+                    0: PropertyItem(
                         name: VarLikeIdentifier(
                             name: a
                         )
@@ -118,7 +117,7 @@ array(
             0: Stmt_ClassMethod(
                 attrGroups: array(
                 )
-                flags: MODIFIER_ABSTRACT (16)
+                flags: ABSTRACT (16)
                 byRef: false
                 name: Identifier(
                     name: a
@@ -150,10 +149,10 @@ array(
             0: Stmt_Property(
                 attrGroups: array(
                 )
-                flags: MODIFIER_STATIC (8)
+                flags: STATIC (8)
                 type: null
                 props: array(
-                    0: Stmt_PropertyProperty(
+                    0: PropertyItem(
                         name: VarLikeIdentifier(
                             name: a
                         )
@@ -183,7 +182,7 @@ array(
             0: Stmt_ClassMethod(
                 attrGroups: array(
                 )
-                flags: MODIFIER_FINAL (32)
+                flags: FINAL (32)
                 byRef: false
                 name: Identifier(
                     name: a
@@ -216,7 +215,7 @@ array(
             0: Stmt_ClassMethod(
                 attrGroups: array(
                 )
-                flags: MODIFIER_ABSTRACT | MODIFIER_FINAL (48)
+                flags: ABSTRACT | FINAL (48)
                 byRef: false
                 name: Identifier(
                     name: a
@@ -232,13 +231,12 @@ array(
 -----
 <?php abstract final class A { }
 -----
-!!php7
 Cannot use the final modifier on an abstract class from 1:16 to 1:20
 array(
     0: Stmt_Class(
         attrGroups: array(
         )
-        flags: MODIFIER_ABSTRACT | MODIFIER_FINAL (48)
+        flags: ABSTRACT | FINAL (48)
         name: Identifier(
             name: A
         )
@@ -246,58 +244,6 @@ array(
         implements: array(
         )
         stmts: array(
-        )
-    )
-)
------
-<?php abstract final class A { }
-// Type in the partial parse could conceivably be any of 0, 16 or 32
------
-!!php5
-Syntax error, unexpected T_FINAL, expecting T_CLASS from 1:16 to 1:20
-array(
-    0: Stmt_Class(
-        attrGroups: array(
-        )
-        flags: MODIFIER_FINAL (32)
-        name: Identifier(
-            name: A
-        )
-        extends: null
-        implements: array(
-        )
-        stmts: array(
-        )
-    )
-    1: Stmt_Nop(
-        comments: array(
-            0: // Type in the partial parse could conceivably be any of 0, 16 or 32
-        )
-    )
-)
------
-<?php readonly class A { }
-// Type in the partial parse could conceivably be any of 0, 16 or 32
------
-!!php5
-Syntax error, unexpected T_CLASS, expecting '(' from 1:16 to 1:20
-array(
-    0: Stmt_Class(
-        attrGroups: array(
-        )
-        flags: 0
-        name: Identifier(
-            name: A
-        )
-        extends: null
-        implements: array(
-        )
-        stmts: array(
-        )
-    )
-    1: Stmt_Nop(
-        comments: array(
-            0: // Type in the partial parse could conceivably be any of 0, 16 or 32
         )
     )
 )
@@ -320,10 +266,10 @@ array(
             0: Stmt_Property(
                 attrGroups: array(
                 )
-                flags: MODIFIER_ABSTRACT (16)
+                flags: ABSTRACT (16)
                 type: null
                 props: array(
-                    0: Stmt_PropertyProperty(
+                    0: PropertyItem(
                         name: VarLikeIdentifier(
                             name: b
                         )
@@ -353,10 +299,10 @@ array(
             0: Stmt_Property(
                 attrGroups: array(
                 )
-                flags: MODIFIER_FINAL (32)
+                flags: FINAL (32)
                 type: null
                 props: array(
-                    0: Stmt_PropertyProperty(
+                    0: PropertyItem(
                         name: VarLikeIdentifier(
                             name: a
                         )

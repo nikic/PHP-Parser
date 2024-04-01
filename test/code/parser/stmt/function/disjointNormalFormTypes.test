@@ -9,7 +9,6 @@ class Test {
 
 function test((A&B)|(X&Y) $a): (A&B)|(X&Y) {}
 -----
-!!php7
 array(
     0: Stmt_Class(
         attrGroups: array(
@@ -25,41 +24,33 @@ array(
             0: Stmt_Property(
                 attrGroups: array(
                 )
-                flags: MODIFIER_PUBLIC (1)
+                flags: PUBLIC (1)
                 type: UnionType(
                     types: array(
                         0: IntersectionType(
                             types: array(
                                 0: Name(
-                                    parts: array(
-                                        0: A
-                                    )
+                                    name: A
                                 )
                                 1: Name(
-                                    parts: array(
-                                        0: B
-                                    )
+                                    name: B
                                 )
                             )
                         )
                         1: IntersectionType(
                             types: array(
                                 0: Name(
-                                    parts: array(
-                                        0: X
-                                    )
+                                    name: X
                                 )
                                 1: Name(
-                                    parts: array(
-                                        0: Y
-                                    )
+                                    name: Y
                                 )
                             )
                         )
                     )
                 )
                 props: array(
-                    0: Stmt_PropertyProperty(
+                    0: PropertyItem(
                         name: VarLikeIdentifier(
                             name: prop
                         )
@@ -70,32 +61,26 @@ array(
             1: Stmt_Property(
                 attrGroups: array(
                 )
-                flags: MODIFIER_PUBLIC | MODIFIER_READONLY (65)
+                flags: PUBLIC | READONLY (65)
                 type: UnionType(
                     types: array(
                         0: IntersectionType(
                             types: array(
                                 0: Name(
-                                    parts: array(
-                                        0: A
-                                    )
+                                    name: A
                                 )
                                 1: Name(
-                                    parts: array(
-                                        0: B
-                                    )
+                                    name: B
                                 )
                             )
                         )
                         1: Name(
-                            parts: array(
-                                0: C
-                            )
+                            name: C
                         )
                     )
                 )
                 props: array(
-                    0: Stmt_PropertyProperty(
+                    0: PropertyItem(
                         name: VarLikeIdentifier(
                             name: prop2
                         )
@@ -122,28 +107,20 @@ array(
                         0: IntersectionType(
                             types: array(
                                 0: Name(
-                                    parts: array(
-                                        0: A
-                                    )
+                                    name: A
                                 )
                                 1: Name(
-                                    parts: array(
-                                        0: B
-                                    )
+                                    name: B
                                 )
                             )
                         )
                         1: IntersectionType(
                             types: array(
                                 0: Name(
-                                    parts: array(
-                                        0: X
-                                    )
+                                    name: X
                                 )
                                 1: Name(
-                                    parts: array(
-                                        0: Y
-                                    )
+                                    name: Y
                                 )
                             )
                         )
@@ -162,28 +139,20 @@ array(
                 0: IntersectionType(
                     types: array(
                         0: Name(
-                            parts: array(
-                                0: A
-                            )
+                            name: A
                         )
                         1: Name(
-                            parts: array(
-                                0: B
-                            )
+                            name: B
                         )
                     )
                 )
                 1: IntersectionType(
                     types: array(
                         0: Name(
-                            parts: array(
-                                0: X
-                            )
+                            name: X
                         )
                         1: Name(
-                            parts: array(
-                                0: Y
-                            )
+                            name: Y
                         )
                     )
                 )

@@ -22,9 +22,7 @@ array(
     0: Stmt_Expression(
         expr: Expr_New(
             class: Name(
-                parts: array(
-                    0: A
-                )
+                name: A
             )
             args: array(
             )
@@ -33,9 +31,7 @@ array(
     1: Stmt_Expression(
         expr: Expr_New(
             class: Name(
-                parts: array(
-                    0: A
-                )
+                name: A
             )
             args: array(
                 0: Arg(
@@ -55,9 +51,6 @@ array(
                 name: a
             )
             args: array(
-            )
-            comments: array(
-                0: // class name variations
             )
         )
         comments: array(
@@ -82,9 +75,7 @@ array(
         expr: Expr_New(
             class: Expr_StaticPropertyFetch(
                 class: Name(
-                    parts: array(
-                        0: A
-                    )
+                    name: A
                 )
                 name: VarLikeIdentifier(
                     name: b
@@ -105,9 +96,6 @@ array(
                 )
             )
             args: array(
-            )
-            comments: array(
-                0: // DNCR object access
             )
         )
         comments: array(
@@ -174,9 +162,7 @@ array(
     9: Stmt_Expression(
         expr: Expr_New(
             class: Name(
-                parts: array(
-                    0: A
-                )
+                name: A
             )
             args: array(
             )

@@ -6,7 +6,6 @@ new ('Foo' . $bar);
 new ('Foo' . $bar)($arg);
 $obj instanceof ('Foo' . $bar);
 -----
-!!php7
 array(
     0: Stmt_Expression(
         expr: Expr_New(

@@ -11,16 +11,15 @@ use PhpParser\Node\Name\FullyQualified;
 use PhpParser\Node\Stmt;
 use PhpParser\NodeVisitorAbstract;
 
-class NameResolver extends NodeVisitorAbstract
-{
+class NameResolver extends NodeVisitorAbstract {
     /** @var NameContext Naming context */
-    protected $nameContext;
+    protected NameContext $nameContext;
 
     /** @var bool Whether to preserve original names */
-    protected $preserveOriginalNames;
+    protected bool $preserveOriginalNames;
 
     /** @var bool Whether to replace resolved nodes in place, or to add resolvedNode attributes */
-    protected $replaceNodes;
+    protected bool $replaceNodes;
 
     /**
      * Constructs a name resolution visitor.
@@ -33,24 +32,22 @@ class NameResolver extends NodeVisitorAbstract
      *    namespacedName attribute, as usual.)
      *
      * @param ErrorHandler|null $errorHandler Error handler
-     * @param array $options Options
+     * @param array{preserveOriginalNames?: bool, replaceNodes?: bool} $options Options
      */
-    public function __construct(ErrorHandler $errorHandler = null, array $options = []) {
-        $this->nameContext = new NameContext($errorHandler ?? new ErrorHandler\Throwing);
+    public function __construct(?ErrorHandler $errorHandler = null, array $options = []) {
+        $this->nameContext = new NameContext($errorHandler ?? new ErrorHandler\Throwing());
         $this->preserveOriginalNames = $options['preserveOriginalNames'] ?? false;
         $this->replaceNodes = $options['replaceNodes'] ?? true;
     }
 
     /**
      * Get name resolution context.
-     *
-     * @return NameContext
      */
-    public function getNameContext() : NameContext {
+    public function getNameContext(): NameContext {
         return $this->nameContext;
     }
 
-    public function beforeTraverse(array $nodes) {
+    public function beforeTraverse(array $nodes): ?array {
         $this->nameContext->startNamespace();
         return null;
     }
@@ -80,6 +77,8 @@ class NameResolver extends NodeVisitorAbstract
             $this->resolveAttrGroups($node);
             if (null !== $node->name) {
                 $this->addNamespacedName($node);
+            } else {
+                $node->namespacedName = null;
             }
             $this->resolveGenericParameters($node);
         } elseif ($node instanceof Stmt\Interface_) {
@@ -97,9 +96,7 @@ class NameResolver extends NodeVisitorAbstract
             }
 
             $this->resolveAttrGroups($node);
-            if (null !== $node->name) {
-                $this->addNamespacedName($node);
-            }
+            $this->addNamespacedName($node);
         } elseif ($node instanceof Stmt\Trait_) {
             $this->resolveAttrGroups($node);
             $this->addNamespacedName($node);
@@ -131,12 +128,12 @@ class NameResolver extends NodeVisitorAbstract
             foreach ($node->consts as $const) {
                 $this->addNamespacedName($const);
             }
-        } else if ($node instanceof Stmt\ClassConst) {
+        } elseif ($node instanceof Stmt\ClassConst) {
             if (null !== $node->type) {
                 $node->type = $this->resolveType($node->type);
             }
             $this->resolveAttrGroups($node);
-        } else if ($node instanceof Stmt\EnumCase) {
+        } elseif ($node instanceof Stmt\EnumCase) {
             $this->resolveAttrGroups($node);
         } elseif ($node instanceof Expr\StaticCall
                   || $node instanceof Expr\StaticPropertyFetch
@@ -146,7 +143,6 @@ class NameResolver extends NodeVisitorAbstract
         ) {
             if ($node->class instanceof Name) {
                 $node->class = $this->resolveClassName($node->class);
-
                 $this->resolveGenericParameters($node->class);
             }
         } elseif ($node instanceof Stmt\Catch_) {
@@ -181,7 +177,8 @@ class NameResolver extends NodeVisitorAbstract
         return null;
     }
 
-    private function addAlias(Stmt\UseUse $use, int $type, Name $prefix = null) {
+    /** @param Stmt\Use_::TYPE_* $type */
+    private function addAlias(Node\UseItem $use, int $type, ?Name $prefix = null): void {
         // Add prefix for group uses
         $name = $prefix ? Name::concat($prefix, $use->name) : $use->name;
         // Type is determined either by individual element or whole use declaration
@@ -192,69 +189,21 @@ class NameResolver extends NodeVisitorAbstract
         );
     }
 
-    /** @param Stmt\Function_|Stmt\ClassMethod|Expr\Closure $node */
-    private function resolveSignature($node) {
+    /** @param Stmt\Function_|Stmt\ClassMethod|Expr\Closure|Expr\ArrowFunction $node */
+    private function resolveSignature($node): void {
         foreach ($node->params as $param) {
             $param->type = $this->resolveType($param->type);
             $this->resolveAttrGroups($param);
         }
         $node->returnType = $this->resolveType($node->returnType);
-        $node->returnType = $this->resolveTypeGenericParameters($node->returnType);
     }
 
     /**
-     * @param Node $node
+     * @template T of Node\Identifier|Name|Node\ComplexType|null
+     * @param T $node
+     * @return T
      */
-    private function resolveTypeGenericParameters($node)
-    {
-        if ($node instanceof Name) {
-            return $this->resolveGenericParameters($node);
-        }
-
-        if ($node instanceof Node\NullableType) {
-            $node->type = $this->resolveGenericParameters($node->type);
-
-            return $node;
-        }
-
-        if ($node instanceof Node\UnionType) {
-            foreach ($node->types as &$type) {
-                $type = $this->resolveGenericParameters($type);
-            }
-
-            return $node;
-        }
-
-        return $node;
-    }
-
-    /**
-     * @param Node $node
-     */
-    private function resolveGenericParameters($node)
-    {
-        if ($node === null) {
-            return $node;
-        }
-
-        /** @var Node\GenericParameter[] $generics */
-        $generics = (array)$node->getAttribute('generics');
-        foreach ($generics as $genericParameter) {
-            if ($genericParameter->default instanceof Name) {
-                $genericParameter->default = $this->resolveClassName($genericParameter->default);
-            }
-
-            if ($genericParameter->constraint instanceof Name) {
-                $genericParameter->constraint = $this->resolveClassName($genericParameter->constraint);
-            }
-
-            $genericParameter->name = $this->resolveClassName($genericParameter->name);
-        }
-
-        return $node;
-    }
-
-    private function resolveType($node) {
+    private function resolveType(?Node $node): ?Node {
         if ($node instanceof Name) {
             return $this->resolveClassName($node);
         }
@@ -275,11 +224,11 @@ class NameResolver extends NodeVisitorAbstract
      * Resolve name, according to name resolver options.
      *
      * @param Name $name Function or constant name to resolve
-     * @param int  $type One of Stmt\Use_::TYPE_*
+     * @param Stmt\Use_::TYPE_* $type One of Stmt\Use_::TYPE_*
      *
      * @return Name Resolved name, or original name with attribute
      */
-    protected function resolveName(Name $name, int $type) : Name {
+    protected function resolveName(Name $name, int $type): Name {
         if (!$this->replaceNodes) {
             $resolvedName = $this->nameContext->getResolvedName($name, $type);
             if (null !== $resolvedName) {
@@ -310,21 +259,66 @@ class NameResolver extends NodeVisitorAbstract
         return $name;
     }
 
-    protected function resolveClassName(Name $name) {
+    protected function resolveClassName(Name $name): Name {
         return $this->resolveName($name, Stmt\Use_::TYPE_NORMAL);
     }
 
-    protected function addNamespacedName(Node $node) {
+    protected function addNamespacedName(Node $node): void {
         $node->namespacedName = Name::concat(
             $this->nameContext->getNamespace(), (string) $node->name);
     }
 
-    protected function resolveAttrGroups(Node $node)
-    {
+    protected function resolveAttrGroups(Node $node): void {
         foreach ($node->attrGroups as $attrGroup) {
             foreach ($attrGroup->attrs as $attr) {
                 $attr->name = $this->resolveClassName($attr->name);
             }
         }
+    }
+
+    private function resolveTypeGenericParameters(?Node $node): ?Node
+    {
+        if ($node instanceof Name) {
+            return $this->resolveGenericParameters($node);
+        }
+
+        if ($node instanceof Node\NullableType) {
+            $node->type = $this->resolveGenericParameters($node->type);
+
+            return $node;
+        }
+
+        if ($node instanceof Node\UnionType) {
+            foreach ($node->types as &$type) {
+                $type = $this->resolveGenericParameters($type);
+            }
+
+            return $node;
+        }
+
+        return $node;
+    }
+
+    private function resolveGenericParameters(?Node $node): ?Node
+    {
+        if ($node === null) {
+            return null;
+        }
+
+        /** @var Node\GenericParameter[] $generics */
+        $generics = (array)$node->getAttribute('generics');
+        foreach ($generics as $genericParameter) {
+            if ($genericParameter->default instanceof Name) {
+                $genericParameter->default = $this->resolveClassName($genericParameter->default);
+            }
+
+            if ($genericParameter->constraint instanceof Name) {
+                $genericParameter->constraint = $this->resolveClassName($genericParameter->constraint);
+            }
+
+            $genericParameter->name = $this->resolveClassName($genericParameter->name);
+        }
+
+        return $node;
     }
 }

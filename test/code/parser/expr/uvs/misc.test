@@ -8,7 +8,6 @@ Uniform variable syntax in PHP 7 (misc)
 (clone $obj)->b[0](1);
 [0, 1][0] = 1;
 -----
-!!php7
 array(
     0: Stmt_Expression(
         expr: Expr_MethodCall(
@@ -24,9 +23,9 @@ array(
     )
     1: Stmt_Expression(
         expr: Expr_ArrayDimFetch(
-            var: Scalar_Encapsed(
+            var: Scalar_InterpolatedString(
                 parts: array(
-                    0: Scalar_EncapsedStringPart(
+                    0: InterpolatedStringPart(
                         value: foo
                     )
                     1: Expr_Variable(
@@ -34,16 +33,16 @@ array(
                     )
                 )
             )
-            dim: Scalar_LNumber(
+            dim: Scalar_Int(
                 value: 0
             )
         )
     )
     2: Stmt_Expression(
         expr: Expr_MethodCall(
-            var: Scalar_Encapsed(
+            var: Scalar_InterpolatedString(
                 parts: array(
-                    0: Scalar_EncapsedStringPart(
+                    0: InterpolatedStringPart(
                         value: foo
                     )
                     1: Expr_Variable(
@@ -71,14 +70,14 @@ array(
                         name: b
                     )
                 )
-                dim: Scalar_LNumber(
+                dim: Scalar_Int(
                     value: 0
                 )
             )
             args: array(
                 0: Arg(
                     name: null
-                    value: Scalar_LNumber(
+                    value: Scalar_Int(
                         value: 1
                     )
                     byRef: false
@@ -92,17 +91,17 @@ array(
             var: Expr_ArrayDimFetch(
                 var: Expr_Array(
                     items: array(
-                        0: Expr_ArrayItem(
+                        0: ArrayItem(
                             key: null
-                            value: Scalar_LNumber(
+                            value: Scalar_Int(
                                 value: 0
                             )
                             byRef: false
                             unpack: false
                         )
-                        1: Expr_ArrayItem(
+                        1: ArrayItem(
                             key: null
-                            value: Scalar_LNumber(
+                            value: Scalar_Int(
                                 value: 1
                             )
                             byRef: false
@@ -110,11 +109,11 @@ array(
                         )
                     )
                 )
-                dim: Scalar_LNumber(
+                dim: Scalar_Int(
                     value: 0
                 )
             )
-            expr: Scalar_LNumber(
+            expr: Scalar_Int(
                 value: 1
             )
         )

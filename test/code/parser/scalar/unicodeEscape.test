@@ -3,10 +3,9 @@ Unicode escape sequence
 <?php
 
 "\u{0}";
-"\u{114}";
-"\u{1F602}";
+"\u{114}$foo";
+`\u{1F602}$bar`;
 -----
-!!php7
 array(
     0: Stmt_Expression(
         expr: Scalar_String(
@@ -14,13 +13,71 @@ array(
         )
     )
     1: Stmt_Expression(
-        expr: Scalar_String(
-            value: Ĕ
+        expr: Scalar_InterpolatedString(
+            parts: array(
+                0: InterpolatedStringPart(
+                    value: Ĕ
+                )
+                1: Expr_Variable(
+                    name: foo
+                )
+            )
         )
     )
     2: Stmt_Expression(
-        expr: Scalar_String(
-            value: @@{"\xF0\x9F\x98\x82"}@@
+        expr: Expr_ShellExec(
+            parts: array(
+                0: InterpolatedStringPart(
+                    value: @@{"\xF0\x9F\x98\x82"}@@
+                )
+                1: Expr_Variable(
+                    name: bar
+                )
+            )
         )
     )
 )
+-----
+<?php
+
+"\u{0}";
+"\u{114}$foo";
+`\u{1F602}$bar`;
+-----
+!!version=5.6
+array(
+    0: Stmt_Expression(
+        expr: Scalar_String(
+            value: \u{0}
+        )
+    )
+    1: Stmt_Expression(
+        expr: Scalar_InterpolatedString(
+            parts: array(
+                0: InterpolatedStringPart(
+                    value: \u{114}
+                )
+                1: Expr_Variable(
+                    name: foo
+                )
+            )
+        )
+    )
+    2: Stmt_Expression(
+        expr: Expr_ShellExec(
+            parts: array(
+                0: InterpolatedStringPart(
+                    value: \u{1F602}
+                )
+                1: Expr_Variable(
+                    name: bar
+                )
+            )
+        )
+    )
+)
+-----
+<?php
+"\u{FFFFFFFFFFFFFFFF}";
+-----
+Invalid UTF-8 codepoint escape sequence: Codepoint too large on line 2

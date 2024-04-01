@@ -10,14 +10,11 @@ A::$$b;
 A::$$c[1];
 A::$A::$b;
 -----
-!!php7
 array(
     0: Stmt_Expression(
         expr: Expr_StaticPropertyFetch(
             class: Name(
-                parts: array(
-                    0: A
-                )
+                name: A
             )
             name: VarLikeIdentifier(
                 name: b
@@ -65,7 +62,7 @@ array(
                 var: Scalar_String(
                     value: A
                 )
-                dim: Scalar_LNumber(
+                dim: Scalar_Int(
                     value: 0
                 )
             )
@@ -77,9 +74,7 @@ array(
     5: Stmt_Expression(
         expr: Expr_StaticPropertyFetch(
             class: Name(
-                parts: array(
-                    0: A
-                )
+                name: A
             )
             name: Expr_Variable(
                 name: b
@@ -90,15 +85,13 @@ array(
         expr: Expr_ArrayDimFetch(
             var: Expr_StaticPropertyFetch(
                 class: Name(
-                    parts: array(
-                        0: A
-                    )
+                    name: A
                 )
                 name: Expr_Variable(
                     name: c
                 )
             )
-            dim: Scalar_LNumber(
+            dim: Scalar_Int(
                 value: 1
             )
         )
@@ -107,9 +100,7 @@ array(
         expr: Expr_StaticPropertyFetch(
             class: Expr_StaticPropertyFetch(
                 class: Name(
-                    parts: array(
-                        0: A
-                    )
+                    name: A
                 )
                 name: VarLikeIdentifier(
                     name: A

@@ -5,8 +5,7 @@ namespace PhpParser\Node\Stmt;
 use PhpParser\Node;
 use PhpParser\Node\Scalar\String_;
 
-class InterfaceTest extends \PHPUnit\Framework\TestCase
-{
+class InterfaceTest extends \PHPUnit\Framework\TestCase {
     public function testGetMethods() {
         $methods = [
             new ClassMethod('foo'),

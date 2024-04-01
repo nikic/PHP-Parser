@@ -1,0 +1,236 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Method PhpParser\\\\Builder\\\\ClassConst\\:\\:__construct\\(\\) has parameter \\$value with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: lib/PhpParser/Builder/ClassConst.php
+
+		-
+			message: "#^Method PhpParser\\\\Builder\\\\ClassConst\\:\\:addConst\\(\\) has parameter \\$value with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: lib/PhpParser/Builder/ClassConst.php
+
+		-
+			message: "#^Method PhpParser\\\\BuilderFactory\\:\\:args\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: lib/PhpParser/BuilderFactory.php
+
+		-
+			message: "#^Method PhpParser\\\\BuilderFactory\\:\\:attribute\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: lib/PhpParser/BuilderFactory.php
+
+		-
+			message: "#^Method PhpParser\\\\BuilderFactory\\:\\:classConst\\(\\) has parameter \\$value with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: lib/PhpParser/BuilderFactory.php
+
+		-
+			message: "#^Method PhpParser\\\\BuilderFactory\\:\\:funcCall\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: lib/PhpParser/BuilderFactory.php
+
+		-
+			message: "#^Method PhpParser\\\\BuilderFactory\\:\\:methodCall\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: lib/PhpParser/BuilderFactory.php
+
+		-
+			message: "#^Method PhpParser\\\\BuilderFactory\\:\\:new\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: lib/PhpParser/BuilderFactory.php
+
+		-
+			message: "#^Method PhpParser\\\\BuilderFactory\\:\\:staticCall\\(\\) has parameter \\$args with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: lib/PhpParser/BuilderFactory.php
+
+		-
+			message: "#^Method PhpParser\\\\BuilderFactory\\:\\:val\\(\\) has parameter \\$value with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: lib/PhpParser/BuilderFactory.php
+
+		-
+			message: "#^Method PhpParser\\\\BuilderHelpers\\:\\:normalizeValue\\(\\) has parameter \\$value with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: lib/PhpParser/BuilderHelpers.php
+
+		-
+			message: "#^Method PhpParser\\\\ConstExprEvaluator\\:\\:evaluateArray\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: lib/PhpParser/ConstExprEvaluator.php
+
+		-
+			message: "#^Unary operation \"~\" on mixed results in an error\\.$#"
+			count: 1
+			path: lib/PhpParser/ConstExprEvaluator.php
+
+		-
+			message: "#^Method PhpParser\\\\JsonDecoder\\:\\:decodeArray\\(\\) has parameter \\$array with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: lib/PhpParser/JsonDecoder.php
+
+		-
+			message: "#^Method PhpParser\\\\JsonDecoder\\:\\:decodeArray\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: lib/PhpParser/JsonDecoder.php
+
+		-
+			message: "#^Method PhpParser\\\\JsonDecoder\\:\\:decodeComment\\(\\) has parameter \\$value with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: lib/PhpParser/JsonDecoder.php
+
+		-
+			message: "#^Method PhpParser\\\\JsonDecoder\\:\\:decodeNode\\(\\) has parameter \\$value with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: lib/PhpParser/JsonDecoder.php
+
+		-
+			message: "#^Call to function assert\\(\\) with false will always evaluate to false\\.$#"
+			count: 1
+			path: lib/PhpParser/Lexer/Emulative.php
+
+		-
+			message: "#^Method PhpParser\\\\NodeDumper\\:\\:__construct\\(\\) has parameter \\$options with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: lib/PhpParser/NodeDumper.php
+
+		-
+			message: "#^Method PhpParser\\\\NodeDumper\\:\\:dump\\(\\) has parameter \\$node with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: lib/PhpParser/NodeDumper.php
+
+		-
+			message: "#^Method PhpParser\\\\NodeTraverser\\:\\:traverseArray\\(\\) has parameter \\$nodes with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: lib/PhpParser/NodeTraverser.php
+
+		-
+			message: "#^Method PhpParser\\\\NodeTraverser\\:\\:traverseArray\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: lib/PhpParser/NodeTraverser.php
+
+		-
+			message: "#^Access to an undefined property PhpParser\\\\Node\\:\\:\\$attrGroups\\.$#"
+			count: 1
+			path: lib/PhpParser/NodeVisitor/NameResolver.php
+
+		-
+			message: "#^Access to an undefined property PhpParser\\\\Node\\:\\:\\$name\\.$#"
+			count: 1
+			path: lib/PhpParser/NodeVisitor/NameResolver.php
+
+		-
+			message: "#^Access to an undefined property PhpParser\\\\Node\\:\\:\\$namespacedName\\.$#"
+			count: 1
+			path: lib/PhpParser/NodeVisitor/NameResolver.php
+
+		-
+			message: "#^Method PhpParser\\\\NodeVisitor\\\\NodeConnectingVisitor\\:\\:beforeTraverse\\(\\) should return array\\<PhpParser\\\\Node\\>\\|null but return statement is missing\\.$#"
+			count: 1
+			path: lib/PhpParser/NodeVisitor/NodeConnectingVisitor.php
+
+		-
+			message: "#^Method PhpParser\\\\NodeVisitor\\\\NodeConnectingVisitor\\:\\:enterNode\\(\\) should return array\\<PhpParser\\\\Node\\>\\|int\\|PhpParser\\\\Node\\|null but return statement is missing\\.$#"
+			count: 1
+			path: lib/PhpParser/NodeVisitor/NodeConnectingVisitor.php
+
+		-
+			message: "#^Method PhpParser\\\\NodeVisitor\\\\NodeConnectingVisitor\\:\\:leaveNode\\(\\) should return array\\<PhpParser\\\\Node\\>\\|int\\|PhpParser\\\\Node\\|null but return statement is missing\\.$#"
+			count: 1
+			path: lib/PhpParser/NodeVisitor/NodeConnectingVisitor.php
+
+		-
+			message: "#^Method PhpParser\\\\NodeVisitor\\\\ParentConnectingVisitor\\:\\:beforeTraverse\\(\\) should return array\\<PhpParser\\\\Node\\>\\|null but return statement is missing\\.$#"
+			count: 1
+			path: lib/PhpParser/NodeVisitor/ParentConnectingVisitor.php
+
+		-
+			message: "#^Method PhpParser\\\\NodeVisitor\\\\ParentConnectingVisitor\\:\\:enterNode\\(\\) should return array\\<PhpParser\\\\Node\\>\\|int\\|PhpParser\\\\Node\\|null but return statement is missing\\.$#"
+			count: 1
+			path: lib/PhpParser/NodeVisitor/ParentConnectingVisitor.php
+
+		-
+			message: "#^Method PhpParser\\\\NodeVisitor\\\\ParentConnectingVisitor\\:\\:leaveNode\\(\\) should return array\\<PhpParser\\\\Node\\>\\|int\\|PhpParser\\\\Node\\|null but return statement is missing\\.$#"
+			count: 1
+			path: lib/PhpParser/NodeVisitor/ParentConnectingVisitor.php
+
+		-
+			message: "#^Access to undefined constant static\\(PhpParser\\\\ParserAbstract\\)\\:\\:T_AMPERSAND_FOLLOWED_BY_VAR_OR_VARARG\\.$#"
+			count: 1
+			path: lib/PhpParser/ParserAbstract.php
+
+		-
+			message: "#^Access to undefined constant static\\(PhpParser\\\\ParserAbstract\\)\\:\\:T_AMPERSAND_NOT_FOLLOWED_BY_VAR_OR_VARARG\\.$#"
+			count: 1
+			path: lib/PhpParser/ParserAbstract.php
+
+		-
+			message: "#^Access to undefined constant static\\(PhpParser\\\\ParserAbstract\\)\\:\\:T_ATTRIBUTE\\.$#"
+			count: 1
+			path: lib/PhpParser/ParserAbstract.php
+
+		-
+			message: "#^Access to undefined constant static\\(PhpParser\\\\ParserAbstract\\)\\:\\:T_COALESCE_EQUAL\\.$#"
+			count: 1
+			path: lib/PhpParser/ParserAbstract.php
+
+		-
+			message: "#^Access to undefined constant static\\(PhpParser\\\\ParserAbstract\\)\\:\\:T_ECHO\\.$#"
+			count: 1
+			path: lib/PhpParser/ParserAbstract.php
+
+		-
+			message: "#^Access to undefined constant static\\(PhpParser\\\\ParserAbstract\\)\\:\\:T_ENUM\\.$#"
+			count: 1
+			path: lib/PhpParser/ParserAbstract.php
+
+		-
+			message: "#^Access to undefined constant static\\(PhpParser\\\\ParserAbstract\\)\\:\\:T_FN\\.$#"
+			count: 1
+			path: lib/PhpParser/ParserAbstract.php
+
+		-
+			message: "#^Access to undefined constant static\\(PhpParser\\\\ParserAbstract\\)\\:\\:T_MATCH\\.$#"
+			count: 1
+			path: lib/PhpParser/ParserAbstract.php
+
+		-
+			message: "#^Access to undefined constant static\\(PhpParser\\\\ParserAbstract\\)\\:\\:T_NAME_FULLY_QUALIFIED\\.$#"
+			count: 1
+			path: lib/PhpParser/ParserAbstract.php
+
+		-
+			message: "#^Access to undefined constant static\\(PhpParser\\\\ParserAbstract\\)\\:\\:T_NAME_QUALIFIED\\.$#"
+			count: 1
+			path: lib/PhpParser/ParserAbstract.php
+
+		-
+			message: "#^Access to undefined constant static\\(PhpParser\\\\ParserAbstract\\)\\:\\:T_NAME_RELATIVE\\.$#"
+			count: 1
+			path: lib/PhpParser/ParserAbstract.php
+
+		-
+			message: "#^Access to undefined constant static\\(PhpParser\\\\ParserAbstract\\)\\:\\:T_NULLSAFE_OBJECT_OPERATOR\\.$#"
+			count: 1
+			path: lib/PhpParser/ParserAbstract.php
+
+		-
+			message: "#^Access to undefined constant static\\(PhpParser\\\\ParserAbstract\\)\\:\\:T_PAAMAYIM_NEKUDOTAYIM\\.$#"
+			count: 1
+			path: lib/PhpParser/ParserAbstract.php
+
+		-
+			message: "#^Access to undefined constant static\\(PhpParser\\\\ParserAbstract\\)\\:\\:T_READONLY\\.$#"
+			count: 1
+			path: lib/PhpParser/ParserAbstract.php
+
+		-
+			message: "#^Unary operation \"\\+\" on string results in an error\\.$#"
+			count: 1
+			path: lib/PhpParser/ParserAbstract.php
+
+		-
+			message: "#^Variable \\$action might not be defined\\.$#"
+			count: 1
+			path: lib/PhpParser/ParserAbstract.php

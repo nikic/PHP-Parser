@@ -3,9 +3,10 @@
 require_once __DIR__ . '/../vendor/autoload.php';
 
 use PhpParser\Error;
-use PhpParser\Lexer\Emulative;
 use PhpParser\NodeDumper;
 use PhpParser\ParserFactory;
+use PhpParser\NodeTraverser;
+use PhpParser\NodeVisitor\NameResolver;
 
 $code = <<<'CODE'
 <?php
@@ -50,14 +51,19 @@ class Test<T,V> extends GenericClass<T> implements GenericInterface<V> {
 }
 CODE;
 
-$lexer  = new Emulative();
-$parser = (new ParserFactory)->create(ParserFactory::PREFER_PHP7, $lexer);
 try {
-    $ast = $parser->parse($code);
+    $ast = (new ParserFactory)
+        ->createForNewestSupportedVersion()
+        ->parse($code);
 } catch (Error $error) {
     echo "Error: {$error->getMessage()}\n";
     exit(1);
 }
+
+$nodeTraverser = new NodeTraverser();
+$nodeTraverser->addVisitor(new NameResolver(null, [
+    'preserveOriginalNames' => true
+]));
 
 $dumper = new NodeDumper(['dumpGenerics' => true]);
 if (trim(file_get_contents(__DIR__ . '/test.output')) !== $dumper->dump($ast)) {

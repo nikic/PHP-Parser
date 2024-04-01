@@ -4,57 +4,30 @@ namespace PhpParser;
 
 use PhpParser\Node\Expr;
 use PhpParser\Node\Name;
-use PhpParser\Node\Scalar\DNumber;
-use PhpParser\Node\Scalar\Encapsed;
-use PhpParser\Node\Scalar\EncapsedStringPart;
-use PhpParser\Node\Scalar\LNumber;
+use PhpParser\Node\Scalar\Float_;
+use PhpParser\Node\Scalar\InterpolatedString;
+use PhpParser\Node\InterpolatedStringPart;
+use PhpParser\Node\Scalar\Int_;
 use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt;
+use PhpParser\Parser\Php7;
 use PhpParser\PrettyPrinter\Standard;
 
-class PrettyPrinterTest extends CodeTestAbstract
-{
+class PrettyPrinterTest extends CodeTestAbstract {
     protected function doTestPrettyPrintMethod($method, $name, $code, $expected, $modeLine) {
-        $lexer = new Lexer\Emulative;
-        $parser5 = new Parser\Php5($lexer);
-        $parser7 = new Parser\Php7($lexer);
+        $lexer = new Lexer\Emulative();
+        $parser = new Parser\Php7($lexer);
 
-        list($version, $options) = $this->parseModeLine($modeLine);
-        $prettyPrinter = new Standard($options);
+        $options = $this->parseModeLine($modeLine);
+        $version = isset($options['version']) ? PhpVersion::fromString($options['version']) : null;
+        $prettyPrinter = new Standard(['phpVersion' => $version]);
 
-        try {
-            $output5 = canonicalize($prettyPrinter->$method($parser5->parse($code)));
-        } catch (Error $e) {
-            $output5 = null;
-            if ('php7' !== $version) {
-                throw $e;
-            }
-        }
-
-        try {
-            $output7 = canonicalize($prettyPrinter->$method($parser7->parse($code)));
-        } catch (Error $e) {
-            $output7 = null;
-            if ('php5' !== $version) {
-                throw $e;
-            }
-        }
-
-        if ('php5' === $version) {
-            $this->assertSame($expected, $output5, $name);
-            $this->assertNotSame($expected, $output7, $name);
-        } elseif ('php7' === $version) {
-            $this->assertSame($expected, $output7, $name);
-            $this->assertNotSame($expected, $output5, $name);
-        } else {
-            $this->assertSame($expected, $output5, $name);
-            $this->assertSame($expected, $output7, $name);
-        }
+        $output = canonicalize($prettyPrinter->$method($parser->parse($code)));
+        $this->assertSame($expected, $output, $name);
     }
 
     /**
      * @dataProvider provideTestPrettyPrint
-     * @covers \PhpParser\PrettyPrinter\Standard<extended>
      */
     public function testPrettyPrint($name, $code, $expected, $mode) {
         $this->doTestPrettyPrintMethod('prettyPrint', $name, $code, $expected, $mode);
@@ -62,7 +35,6 @@ class PrettyPrinterTest extends CodeTestAbstract
 
     /**
      * @dataProvider provideTestPrettyPrintFile
-     * @covers \PhpParser\PrettyPrinter\Standard<extended>
      */
     public function testPrettyPrintFile($name, $code, $expected, $mode) {
         $this->doTestPrettyPrintMethod('prettyPrintFile', $name, $code, $expected, $mode);
@@ -77,7 +49,7 @@ class PrettyPrinterTest extends CodeTestAbstract
     }
 
     public function testPrettyPrintExpr() {
-        $prettyPrinter = new Standard;
+        $prettyPrinter = new Standard();
         $expr = new Expr\BinaryOp\Mul(
             new Expr\BinaryOp\Plus(new Expr\Variable('a'), new Expr\Variable('b')),
             new Expr\Variable('c')
@@ -91,24 +63,17 @@ class PrettyPrinterTest extends CodeTestAbstract
     }
 
     public function testCommentBeforeInlineHTML() {
-        $prettyPrinter = new PrettyPrinter\Standard;
+        $prettyPrinter = new PrettyPrinter\Standard();
         $comment = new Comment\Doc("/**\n * This is a comment\n */");
         $stmts = [new Stmt\InlineHTML('Hello World!', ['comments' => [$comment]])];
         $expected = "<?php\n\n/**\n * This is a comment\n */\n?>\nHello World!";
         $this->assertSame($expected, $prettyPrinter->prettyPrintFile($stmts));
     }
 
-    private function parseModeLine($modeLine) {
-        $parts = explode(' ', (string) $modeLine, 2);
-        $version = $parts[0] ?? 'both';
-        $options = isset($parts[1]) ? json_decode($parts[1], true) : [];
-        return [$version, $options];
-    }
-
     public function testArraySyntaxDefault() {
         $prettyPrinter = new Standard(['shortArraySyntax' => true]);
         $expr = new Expr\Array_([
-            new Expr\ArrayItem(new String_('val'), new String_('key'))
+            new Node\ArrayItem(new String_('val'), new String_('key'))
         ]);
         $expected = "['key' => 'val']";
         $this->assertSame($expected, $prettyPrinter->prettyPrintExpr($expr));
@@ -118,7 +83,7 @@ class PrettyPrinterTest extends CodeTestAbstract
      * @dataProvider provideTestKindAttributes
      */
     public function testKindAttributes($node, $expected) {
-        $prttyPrinter = new PrettyPrinter\Standard;
+        $prttyPrinter = new PrettyPrinter\Standard();
         $result = $prttyPrinter->prettyPrintExpr($node);
         $this->assertSame($expected, $result);
     }
@@ -139,46 +104,56 @@ class PrettyPrinterTest extends CodeTestAbstract
             [new String_("A\nB\nC", ['kind' => String_::KIND_NOWDOC, 'docLabel' => 'A']), "'A\nB\nC'"],
             [new String_("A\nB\nC", ['kind' => String_::KIND_NOWDOC, 'docLabel' => 'B']), "'A\nB\nC'"],
             [new String_("A\nB\nC", ['kind' => String_::KIND_NOWDOC, 'docLabel' => 'C']), "'A\nB\nC'"],
-            [new String_("STR;", ['kind' => String_::KIND_NOWDOC, 'docLabel' => 'STR']), "'STR;'"],
+            [new String_("STR;", $nowdoc), "'STR;'"],
+            [new String_("STR,", $nowdoc), "'STR,'"],
+            [new String_(" STR", $nowdoc), "' STR'"],
+            [new String_("\tSTR", $nowdoc), "'\tSTR'"],
+            [new String_("STR\x80", $heredoc), '"STR\x80"'],
             // Doc string if label not contained (or not in ending position)
-            [new String_("foo", $nowdoc), "<<<'STR'\nfoo\nSTR\n"],
-            [new String_("foo", $heredoc), "<<<STR\nfoo\nSTR\n"],
-            [new String_("STRx", $nowdoc), "<<<'STR'\nSTRx\nSTR\n"],
-            [new String_("xSTR", $nowdoc), "<<<'STR'\nxSTR\nSTR\n"],
+            [new String_("foo", $nowdoc), "<<<'STR'\nfoo\nSTR"],
+            [new String_("foo", $heredoc), "<<<STR\nfoo\nSTR"],
+            [new String_("STRx", $nowdoc), "<<<'STR'\nSTRx\nSTR"],
+            [new String_("xSTR", $nowdoc), "<<<'STR'\nxSTR\nSTR"],
+            [new String_("STRä", $nowdoc), "<<<'STR'\nSTRä\nSTR"],
+            [new String_("STR\x80", $nowdoc), "<<<'STR'\nSTR\x80\nSTR"],
             // Empty doc string variations (encapsed variant does not occur naturally)
-            [new String_("", $nowdoc), "<<<'STR'\nSTR\n"],
-            [new String_("", $heredoc), "<<<STR\nSTR\n"],
-            [new Encapsed([new EncapsedStringPart('')], $heredoc), "<<<STR\nSTR\n"],
+            [new String_("", $nowdoc), "<<<'STR'\nSTR"],
+            [new String_("", $heredoc), "<<<STR\nSTR"],
+            [new InterpolatedString([new InterpolatedStringPart('')], $heredoc), "<<<STR\nSTR"],
+            // Isolated \r in doc string
+            [new String_("\r", $heredoc), "<<<STR\n\\r\nSTR"],
+            [new String_("\r", $nowdoc), "'\r'"],
+            [new String_("\rx", $nowdoc), "<<<'STR'\n\rx\nSTR"],
             // Encapsed doc string variations
-            [new Encapsed([new EncapsedStringPart('foo')], $heredoc), "<<<STR\nfoo\nSTR\n"],
-            [new Encapsed([new EncapsedStringPart('foo'), new Expr\Variable('y')], $heredoc), "<<<STR\nfoo{\$y}\nSTR\n"],
-            [new Encapsed([new EncapsedStringPart("\nSTR"), new Expr\Variable('y')], $heredoc), "<<<STR\n\nSTR{\$y}\nSTR\n"],
-            [new Encapsed([new EncapsedStringPart("\nSTR"), new Expr\Variable('y')], $heredoc), "<<<STR\n\nSTR{\$y}\nSTR\n"],
-            [new Encapsed([new Expr\Variable('y'), new EncapsedStringPart("STR\n")], $heredoc), "<<<STR\n{\$y}STR\n\nSTR\n"],
+            [new InterpolatedString([new InterpolatedStringPart('foo')], $heredoc), "<<<STR\nfoo\nSTR"],
+            [new InterpolatedString([new InterpolatedStringPart('foo'), new Expr\Variable('y')], $heredoc), "<<<STR\nfoo{\$y}\nSTR"],
+            [new InterpolatedString([new Expr\Variable('y'), new InterpolatedStringPart("STR\n")], $heredoc), "<<<STR\n{\$y}STR\n\nSTR"],
             // Encapsed doc string fallback
-            [new Encapsed([new Expr\Variable('y'), new EncapsedStringPart("\nSTR")], $heredoc), '"{$y}\\nSTR"'],
-            [new Encapsed([new EncapsedStringPart("STR\n"), new Expr\Variable('y')], $heredoc), '"STR\\n{$y}"'],
-            [new Encapsed([new EncapsedStringPart("STR")], $heredoc), '"STR"'],
+            [new InterpolatedString([new Expr\Variable('y'), new InterpolatedStringPart("\nSTR")], $heredoc), '"{$y}\\nSTR"'],
+            [new InterpolatedString([new InterpolatedStringPart("STR\n"), new Expr\Variable('y')], $heredoc), '"STR\\n{$y}"'],
+            [new InterpolatedString([new InterpolatedStringPart("STR")], $heredoc), '"STR"'],
+            [new InterpolatedString([new InterpolatedStringPart("\nSTR"), new Expr\Variable('y')], $heredoc), '"\nSTR{$y}"'],
+            [new InterpolatedString([new InterpolatedStringPart("STR\x80"), new Expr\Variable('y')], $heredoc), '"STR\x80{$y}"'],
         ];
     }
 
     /** @dataProvider provideTestUnnaturalLiterals */
     public function testUnnaturalLiterals($node, $expected) {
-        $prttyPrinter = new PrettyPrinter\Standard;
+        $prttyPrinter = new PrettyPrinter\Standard();
         $result = $prttyPrinter->prettyPrintExpr($node);
         $this->assertSame($expected, $result);
     }
 
     public function provideTestUnnaturalLiterals() {
         return [
-            [new LNumber(-1), '-1'],
-            [new LNumber(-PHP_INT_MAX - 1), '(-' . PHP_INT_MAX . '-1)'],
-            [new LNumber(-1, ['kind' => LNumber::KIND_BIN]), '-0b1'],
-            [new LNumber(-1, ['kind' => LNumber::KIND_OCT]), '-01'],
-            [new LNumber(-1, ['kind' => LNumber::KIND_HEX]), '-0x1'],
-            [new DNumber(\INF), '\INF'],
-            [new DNumber(-\INF), '-\INF'],
-            [new DNumber(-\NAN), '\NAN'],
+            [new Int_(-1), '-1'],
+            [new Int_(-PHP_INT_MAX - 1), '(-' . PHP_INT_MAX . '-1)'],
+            [new Int_(-1, ['kind' => Int_::KIND_BIN]), '-0b1'],
+            [new Int_(-1, ['kind' => Int_::KIND_OCT]), '-01'],
+            [new Int_(-1, ['kind' => Int_::KIND_HEX]), '-0x1'],
+            [new Float_(\INF), '1.0E+1000'],
+            [new Float_(-\INF), '-1.0E+1000'],
+            [new Float_(-\NAN), '\NAN'],
         ];
     }
 
@@ -188,7 +163,7 @@ class PrettyPrinterTest extends CodeTestAbstract
         $stmts = [new Stmt\Expression(
             new Expr\PropertyFetch(new Expr\Variable('a'), new Expr\Error())
         )];
-        $prettyPrinter = new PrettyPrinter\Standard;
+        $prettyPrinter = new PrettyPrinter\Standard();
         $prettyPrinter->prettyPrint($stmts);
     }
 
@@ -198,39 +173,22 @@ class PrettyPrinterTest extends CodeTestAbstract
         $stmts = [new Stmt\Expression(
             new Expr\ClassConstFetch(new Name('Foo'), new Expr\Error())
         )];
-        $prettyPrinter = new PrettyPrinter\Standard;
+        $prettyPrinter = new PrettyPrinter\Standard();
         $prettyPrinter->prettyPrint($stmts);
-    }
-
-    public function testPrettyPrintEncapsedStringPart() {
-        $this->expectException(\LogicException::class);
-        $this->expectExceptionMessage('Cannot directly print EncapsedStringPart');
-        $expr = new Node\Scalar\EncapsedStringPart('foo');
-        $prettyPrinter = new PrettyPrinter\Standard;
-        $prettyPrinter->prettyPrintExpr($expr);
     }
 
     /**
      * @dataProvider provideTestFormatPreservingPrint
-     * @covers \PhpParser\PrettyPrinter\Standard<extended>
      */
     public function testFormatPreservingPrint($name, $code, $modification, $expected, $modeLine) {
-        $lexer = new Lexer\Emulative([
-            'usedAttributes' => [
-                'comments',
-                'startLine', 'endLine',
-                'startTokenPos', 'endTokenPos',
-            ],
-        ]);
-
+        $lexer = new Lexer\Emulative();
         $parser = new Parser\Php7($lexer);
-        $traverser = new NodeTraverser();
-        $traverser->addVisitor(new NodeVisitor\CloningVisitor());
+        $traverser = new NodeTraverser(new NodeVisitor\CloningVisitor());
 
         $printer = new PrettyPrinter\Standard();
 
         $oldStmts = $parser->parse($code);
-        $oldTokens = $lexer->getTokens();
+        $oldTokens = $parser->getTokens();
 
         $newStmts = $traverser->traverse($oldStmts);
 
@@ -241,6 +199,7 @@ use PhpParser\Node;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Scalar;
 use PhpParser\Node\Stmt;
+use PhpParser\Modifiers;
 \$fn = function(&\$stmts) { $modification };
 CODE
         );
@@ -256,7 +215,6 @@ CODE
 
     /**
      * @dataProvider provideTestRoundTripPrint
-     * @covers \PhpParser\PrettyPrinter\Standard<extended>
      */
     public function testRoundTripPrint($name, $code, $expected, $modeLine) {
         /**
@@ -264,22 +222,11 @@ CODE
          * the pretty printer tests (i.e. returns the input if no changes occurred).
          */
 
-        list($version) = $this->parseModeLine($modeLine);
+        $lexer = new Lexer\Emulative();
 
-        $lexer = new Lexer\Emulative([
-            'usedAttributes' => [
-                'comments',
-                'startLine', 'endLine',
-                'startTokenPos', 'endTokenPos',
-            ],
-        ]);
+        $parser = new Php7($lexer);
 
-        $parserClass = $version === 'php5' ? Parser\Php5::class : Parser\Php7::class;
-        /** @var Parser $parser */
-        $parser = new $parserClass($lexer);
-
-        $traverser = new NodeTraverser();
-        $traverser->addVisitor(new NodeVisitor\CloningVisitor());
+        $traverser = new NodeTraverser(new NodeVisitor\CloningVisitor());
 
         $printer = new PrettyPrinter\Standard();
 
@@ -290,7 +237,7 @@ CODE
             return;
         }
 
-        $oldTokens = $lexer->getTokens();
+        $oldTokens = $parser->getTokens();
 
         $newStmts = $traverser->traverse($oldStmts);
 
@@ -303,5 +250,53 @@ CODE
             $this->getTests(__DIR__ . '/../code/prettyPrinter', 'test'),
             $this->getTests(__DIR__ . '/../code/parser', 'test')
         );
+    }
+
+    public function testWindowsNewline() {
+        $prettyPrinter = new Standard([
+            'newline' => "\r\n",
+            'phpVersion' => PhpVersion::fromComponents(7, 2),
+        ]);
+        $stmts = [
+            new Stmt\If_(new Int_(1), [
+                'stmts' => [
+                    new Stmt\Echo_([new String_('Hello')]),
+                    new Stmt\Echo_([new String_('World')]),
+                ],
+            ]),
+        ];
+        $code = $prettyPrinter->prettyPrint($stmts);
+        $this->assertSame("if (1) {\r\n    echo 'Hello';\r\n    echo 'World';\r\n}", $code);
+        $code = $prettyPrinter->prettyPrintFile($stmts);
+        $this->assertSame("<?php\r\n\r\nif (1) {\r\n    echo 'Hello';\r\n    echo 'World';\r\n}", $code);
+
+        $stmts = [new Stmt\InlineHTML('Hello world')];
+        $code = $prettyPrinter->prettyPrintFile($stmts);
+        $this->assertSame("Hello world", $code);
+
+        $stmts = [
+            new Stmt\Expression(new String_('Test', [
+                'kind' => String_::KIND_NOWDOC,
+                'docLabel' => 'STR'
+            ])),
+            new Stmt\Expression(new String_('Test 2', [
+                'kind' => String_::KIND_HEREDOC,
+                'docLabel' => 'STR'
+            ])),
+            new Stmt\Expression(new InterpolatedString([new InterpolatedStringPart('Test 3')], [
+                'kind' => String_::KIND_HEREDOC,
+                'docLabel' => 'STR'
+            ])),
+        ];
+        $code = $prettyPrinter->prettyPrint($stmts);
+        $this->assertSame(
+            "<<<'STR'\r\nTest\r\nSTR;\r\n<<<STR\r\nTest 2\r\nSTR;\r\n<<<STR\r\nTest 3\r\nSTR\r\n;",
+            $code);
+    }
+
+    public function testInvalidNewline() {
+        $this->expectException(\LogicException::class);
+        $this->expectExceptionMessage('Option "newline" must be one of "\n" or "\r\n"');
+        new PrettyPrinter\Standard(['newline' => 'foo']);
     }
 }

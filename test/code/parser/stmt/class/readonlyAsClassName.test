@@ -1,0 +1,32 @@
+Readonly as class name
+-----
+<?php
+class ReadOnly {}
+-----
+Syntax error, unexpected T_READONLY, expecting T_STRING from 2:7 to 2:14
+array(
+    0: Stmt_Block(
+        stmts: array(
+        )
+    )
+)
+-----
+<?php
+class ReadOnly {}
+-----
+!!version=7.4
+array(
+    0: Stmt_Class(
+        attrGroups: array(
+        )
+        flags: 0
+        name: Identifier(
+            name: ReadOnly
+        )
+        extends: null
+        implements: array(
+        )
+        stmts: array(
+        )
+    )
+)

@@ -1,0 +1,304 @@
+Test formatting attributes
+-----
+<?php
+
+0b1100;
+0o14;
+12;
+0xc;
+1_2_3_4_5_6;
+3.141_592_653;
+
+'foo';
+"bar";
+"foo
+bar";
+"foo\nbar";
+"foo\nbar{$x}";
+`foo\nbar`;
+`foo\nbar{$x}`;
+
+<<<'ABC'
+ABC;
+<<<'ABC'
+foo bar
+ABC;
+<<<'ABC'
+    foo bar
+    ABC;
+<<<ABC
+foo\nbar
+ABC;
+<<<ABC
+    foo\nbar
+    ABC;
+<<<ABC
+foo\nbar{$x}baz
+ABC;
+<<<ABC
+    foo\nbar{$x}baz
+    ABC;
+
+array();
+[];
+list($x) = $y;
+[$x] = $y;
+-----
+!!attributes
+array(
+    0: Stmt_Expression(
+        expr: Scalar_Int(
+            value: 12
+            rawValue: 0b1100
+            kind: KIND_BIN (2)
+        )
+    )
+    1: Stmt_Expression(
+        expr: Scalar_Int(
+            value: 12
+            rawValue: 0o14
+            kind: KIND_OCT (8)
+        )
+    )
+    2: Stmt_Expression(
+        expr: Scalar_Int(
+            value: 12
+            rawValue: 12
+            kind: KIND_DEC (10)
+        )
+    )
+    3: Stmt_Expression(
+        expr: Scalar_Int(
+            value: 12
+            rawValue: 0xc
+            kind: KIND_HEX (16)
+        )
+    )
+    4: Stmt_Expression(
+        expr: Scalar_Int(
+            value: 123456
+            rawValue: 1_2_3_4_5_6
+            kind: KIND_DEC (10)
+        )
+    )
+    5: Stmt_Expression(
+        expr: Scalar_Float(
+            value: 3.141592653
+            rawValue: 3.141_592_653
+        )
+    )
+    6: Stmt_Expression(
+        expr: Scalar_String(
+            value: foo
+            kind: KIND_SINGLE_QUOTED (1)
+            rawValue: 'foo'
+        )
+    )
+    7: Stmt_Expression(
+        expr: Scalar_String(
+            value: bar
+            kind: KIND_DOUBLE_QUOTED (2)
+            rawValue: "bar"
+        )
+    )
+    8: Stmt_Expression(
+        expr: Scalar_String(
+            value: foo
+            bar
+            kind: KIND_DOUBLE_QUOTED (2)
+            rawValue: "foo
+            bar"
+        )
+    )
+    9: Stmt_Expression(
+        expr: Scalar_String(
+            value: foo
+            bar
+            kind: KIND_DOUBLE_QUOTED (2)
+            rawValue: "foo\nbar"
+        )
+    )
+    10: Stmt_Expression(
+        expr: Scalar_InterpolatedString(
+            parts: array(
+                0: InterpolatedStringPart(
+                    value: foo
+                    bar
+                    rawValue: foo\nbar
+                )
+                1: Expr_Variable(
+                    name: x
+                )
+            )
+            kind: KIND_DOUBLE_QUOTED (2)
+        )
+    )
+    11: Stmt_Expression(
+        expr: Expr_ShellExec(
+            parts: array(
+                0: InterpolatedStringPart(
+                    value: foo
+                    bar
+                    rawValue: foo\nbar
+                )
+            )
+        )
+    )
+    12: Stmt_Expression(
+        expr: Expr_ShellExec(
+            parts: array(
+                0: InterpolatedStringPart(
+                    value: foo
+                    bar
+                    rawValue: foo\nbar
+                )
+                1: Expr_Variable(
+                    name: x
+                )
+            )
+        )
+    )
+    13: Stmt_Expression(
+        expr: Scalar_String(
+            value:
+            kind: KIND_NOWDOC (4)
+            docLabel: ABC
+            docIndentation:
+            rawValue:
+        )
+    )
+    14: Stmt_Expression(
+        expr: Scalar_String(
+            value: foo bar
+            kind: KIND_NOWDOC (4)
+            docLabel: ABC
+            docIndentation:
+            rawValue: foo bar
+        )
+    )
+    15: Stmt_Expression(
+        expr: Scalar_String(
+            value: foo bar
+            kind: KIND_NOWDOC (4)
+            docLabel: ABC
+            docIndentation:
+            rawValue: foo bar
+        )
+    )
+    16: Stmt_Expression(
+        expr: Scalar_String(
+            value: foo
+            bar
+            kind: KIND_HEREDOC (3)
+            docLabel: ABC
+            docIndentation:
+            rawValue: foo\nbar
+        )
+    )
+    17: Stmt_Expression(
+        expr: Scalar_String(
+            value: foo
+            bar
+            kind: KIND_HEREDOC (3)
+            docLabel: ABC
+            docIndentation:
+            rawValue: foo\nbar
+        )
+    )
+    18: Stmt_Expression(
+        expr: Scalar_InterpolatedString(
+            parts: array(
+                0: InterpolatedStringPart(
+                    value: foo
+                    bar
+                    rawValue: foo\nbar
+                )
+                1: Expr_Variable(
+                    name: x
+                )
+                2: InterpolatedStringPart(
+                    value: baz
+                    rawValue: baz
+                )
+            )
+            kind: KIND_HEREDOC (3)
+            docLabel: ABC
+            docIndentation:
+        )
+    )
+    19: Stmt_Expression(
+        expr: Scalar_InterpolatedString(
+            parts: array(
+                0: InterpolatedStringPart(
+                    value: foo
+                    bar
+                    rawValue: foo\nbar
+                )
+                1: Expr_Variable(
+                    name: x
+                )
+                2: InterpolatedStringPart(
+                    value: baz
+                    rawValue: baz
+                )
+            )
+            kind: KIND_HEREDOC (3)
+            docLabel: ABC
+            docIndentation:
+        )
+    )
+    20: Stmt_Expression(
+        expr: Expr_Array(
+            items: array(
+            )
+            kind: KIND_LONG (1)
+        )
+    )
+    21: Stmt_Expression(
+        expr: Expr_Array(
+            items: array(
+            )
+            kind: KIND_SHORT (2)
+        )
+    )
+    22: Stmt_Expression(
+        expr: Expr_Assign(
+            var: Expr_List(
+                items: array(
+                    0: ArrayItem(
+                        key: null
+                        value: Expr_Variable(
+                            name: x
+                        )
+                        byRef: false
+                        unpack: false
+                    )
+                )
+                kind: KIND_LIST (1)
+            )
+            expr: Expr_Variable(
+                name: y
+            )
+        )
+    )
+    23: Stmt_Expression(
+        expr: Expr_Assign(
+            var: Expr_List(
+                items: array(
+                    0: ArrayItem(
+                        key: null
+                        value: Expr_Variable(
+                            name: x
+                        )
+                        byRef: false
+                        unpack: false
+                    )
+                )
+                kind: KIND_ARRAY (2)
+            )
+            expr: Expr_Variable(
+                name: y
+            )
+        )
+    )
+)

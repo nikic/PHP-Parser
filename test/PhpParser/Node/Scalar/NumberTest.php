@@ -5,11 +5,9 @@ namespace PhpParser\Node\Scalar;
 use PhpParser\Node\Stmt\Echo_;
 use PhpParser\ParserFactory;
 
-class NumberTest extends \PHPUnit\Framework\TestCase
-{
-    public function testRawValue()
-    {
-        $parser = (new ParserFactory())->create(ParserFactory::PREFER_PHP7);
+class NumberTest extends \PHPUnit\Framework\TestCase {
+    public function testRawValue() {
+        $parser = (new ParserFactory())->createForNewestSupportedVersion();
         $nodes = $parser->parse('<?php echo 1_234;');
 
         $echo = $nodes[0];
@@ -17,9 +15,9 @@ class NumberTest extends \PHPUnit\Framework\TestCase
 
         /** @var Echo_ $echo */
         $lLumber = $echo->exprs[0];
-        $this->assertInstanceOf(LNumber::class, $lLumber);
+        $this->assertInstanceOf(Int_::class, $lLumber);
 
-        /** @var LNumber $lnumber */
+        /** @var Int_ $lnumber */
         $this->assertSame(1234, $lLumber->value);
         $this->assertSame('1_234', $lLumber->getAttribute('rawValue'));
     }

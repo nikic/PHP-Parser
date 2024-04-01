@@ -1,13 +1,14 @@
-<?php
+<?php declare(strict_types=1);
 $meta #
-#semval($) $this->semValue
-#semval($,%t) $this->semValue
+#semval($) $self->semValue
+#semval($,%t) $self->semValue
 #semval(%n) $stackPos-(%l-%n)
 #semval(%n,%t) $stackPos-(%l-%n)
 
 namespace PhpParser\Parser;
 
 use PhpParser\Error;
+use PhpParser\Modifiers;
 use PhpParser\Node;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Name;
@@ -17,88 +18,90 @@ use PhpParser\Node\Stmt;
 
 /* This is an automatically GENERATED file, which should not be manually edited.
  * Instead edit one of the following:
- *  * the grammar files grammar/php5.y or grammar/php7.y
+ *  * the grammar file grammar/php.y
  *  * the skeleton file grammar/parser.template
  *  * the preprocessing script grammar/rebuildParsers.php
  */
 class #(-p) extends \PhpParser\ParserAbstract
 {
-    protected $tokenToSymbolMapSize = #(YYMAXLEX);
-    protected $actionTableSize = #(YYLAST);
-    protected $gotoTableSize = #(YYGLAST);
+#tokenval
+    public const %s = %n;
+#endtokenval
 
-    protected $invalidSymbol = #(YYBADCH);
-    protected $errorSymbol = #(YYINTERRTOK);
-    protected $defaultAction = #(YYDEFAULT);
-    protected $unexpectedTokenRule = #(YYUNEXPECTED);
+    protected int $tokenToSymbolMapSize = #(YYMAXLEX);
+    protected int $actionTableSize = #(YYLAST);
+    protected int $gotoTableSize = #(YYGLAST);
 
-    protected $YY2TBLSTATE = #(YY2TBLSTATE);
-    protected $numNonLeafStates = #(YYNLSTATES);
+    protected int $invalidSymbol = #(YYBADCH);
+    protected int $errorSymbol = #(YYINTERRTOK);
+    protected int $defaultAction = #(YYDEFAULT);
+    protected int $unexpectedTokenRule = #(YYUNEXPECTED);
 
-    protected $symbolToName = array(
+    protected int $YY2TBLSTATE = #(YY2TBLSTATE);
+    protected int $numNonLeafStates = #(YYNLSTATES);
+
+    protected array $symbolToName = array(
         #listvar terminals
     );
 
-    protected $tokenToSymbol = array(
+    protected array $tokenToSymbol = array(
         #listvar yytranslate
     );
 
-    protected $action = array(
+    protected array $action = array(
         #listvar yyaction
     );
 
-    protected $actionCheck = array(
+    protected array $actionCheck = array(
         #listvar yycheck
     );
 
-    protected $actionBase = array(
+    protected array $actionBase = array(
         #listvar yybase
     );
 
-    protected $actionDefault = array(
+    protected array $actionDefault = array(
         #listvar yydefault
     );
 
-    protected $goto = array(
+    protected array $goto = array(
         #listvar yygoto
     );
 
-    protected $gotoCheck = array(
+    protected array $gotoCheck = array(
         #listvar yygcheck
     );
 
-    protected $gotoBase = array(
+    protected array $gotoBase = array(
         #listvar yygbase
     );
 
-    protected $gotoDefault = array(
+    protected array $gotoDefault = array(
         #listvar yygdefault
     );
 
-    protected $ruleToNonTerminal = array(
+    protected array $ruleToNonTerminal = array(
         #listvar yylhs
     );
 
-    protected $ruleToLength = array(
+    protected array $ruleToLength = array(
         #listvar yylen
     );
 #if -t
 
-    protected $productions = array(
+    protected array $productions = array(
         #production-strings;
     );
 #endif
 
-    protected function initReduceCallbacks() {
+    protected function initReduceCallbacks(): void {
         $this->reduceCallbacks = [
 #reduce
-            %n => function ($stackPos) {
+            %n => static function ($self, $stackPos) {
                 %b
             },
 #noact
-            %n => function ($stackPos) {
-                $this->semValue = $this->semStack[$stackPos];
-            },
+            %n => null,
 #endreduce
         ];
     }

@@ -12,9 +12,7 @@ array(
     0: Stmt_Expression(
         expr: Expr_FuncCall(
             name: Name(
-                parts: array(
-                    0: f
-                )
+                name: f
             )
             args: array(
             )
@@ -23,9 +21,7 @@ array(
     1: Stmt_Expression(
         expr: Expr_FuncCall(
             name: Name(
-                parts: array(
-                    0: f
-                )
+                name: f
             )
             args: array(
                 0: Arg(
@@ -42,9 +38,7 @@ array(
     2: Stmt_Expression(
         expr: Expr_FuncCall(
             name: Name(
-                parts: array(
-                    0: f
-                )
+                name: f
             )
             args: array(
                 0: Arg(
@@ -69,9 +63,7 @@ array(
     3: Stmt_Expression(
         expr: Expr_FuncCall(
             name: Name(
-                parts: array(
-                    0: f
-                )
+                name: f
             )
             args: array(
                 0: Arg(
@@ -88,9 +80,7 @@ array(
     4: Stmt_Expression(
         expr: Expr_FuncCall(
             name: Name(
-                parts: array(
-                    0: f
-                )
+                name: f
             )
             args: array(
                 0: Arg(

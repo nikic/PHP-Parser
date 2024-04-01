@@ -15,23 +15,30 @@ use PhpParser\Node\Expr;
  *
  * @internal
  */
-class PrintableNewAnonClassNode extends Expr
-{
+class PrintableNewAnonClassNode extends Expr {
     /** @var Node\AttributeGroup[] PHP attribute groups */
-    public $attrGroups;
+    public array $attrGroups;
     /** @var int Modifiers */
-    public $flags;
-    /** @var Node\Arg[] Arguments */
-    public $args;
+    public int $flags;
+    /** @var (Node\Arg|Node\VariadicPlaceholder)[] Arguments */
+    public array $args;
     /** @var null|Node\Name Name of extended class */
-    public $extends;
+    public ?Node\Name $extends;
     /** @var Node\Name[] Names of implemented interfaces */
-    public $implements;
+    public array $implements;
     /** @var Node\Stmt[] Statements */
-    public $stmts;
+    public array $stmts;
 
+    /**
+     * @param Node\AttributeGroup[] $attrGroups PHP attribute groups
+     * @param (Node\Arg|Node\VariadicPlaceholder)[] $args Arguments
+     * @param Node\Name|null $extends Name of extended class
+     * @param Node\Name[] $implements Names of implemented interfaces
+     * @param Node\Stmt[] $stmts Statements
+     * @param array<string, mixed> $attributes Attributes
+     */
     public function __construct(
-        array $attrGroups, int $flags, array $args, Node\Name $extends = null, array $implements,
+        array $attrGroups, int $flags, array $args, ?Node\Name $extends, array $implements,
         array $stmts, array $attributes
     ) {
         parent::__construct($attributes);
@@ -43,7 +50,7 @@ class PrintableNewAnonClassNode extends Expr
         $this->stmts = $stmts;
     }
 
-    public static function fromNewNode(Expr\New_ $newNode) {
+    public static function fromNewNode(Expr\New_ $newNode): self {
         $class = $newNode->class;
         assert($class instanceof Node\Stmt\Class_);
         // We don't assert that $class->name is null here, to allow consumers to assign unique names
@@ -54,11 +61,11 @@ class PrintableNewAnonClassNode extends Expr
         );
     }
 
-    public function getType() : string {
+    public function getType(): string {
         return 'Expr_PrintableNewAnonClass';
     }
 
-    public function getSubNodeNames() : array {
+    public function getSubNodeNames(): array {
         return ['attrGroups', 'flags', 'args', 'extends', 'implements', 'stmts'];
     }
 }

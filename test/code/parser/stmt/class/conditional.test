@@ -10,9 +10,7 @@ array(
     0: Stmt_If(
         cond: Expr_ConstFetch(
             name: Name(
-                parts: array(
-                    0: true
-                )
+                name: true
             )
         )
         stmts: array(

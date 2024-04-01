@@ -28,7 +28,7 @@ class Bar {
     protected $foo
     = 24;
 
-    public final function
+    final public function
     foo() {}
 }
 -----
@@ -60,7 +60,7 @@ function test(
 new class {};
 new readonly class {};
 -----
-$stmts[0]->expr->class->flags = Stmt\Class_::MODIFIER_READONLY;
+$stmts[0]->expr->class->flags = Modifiers::READONLY;
 $stmts[1]->expr->class->flags = 0;
 -----
 <?php

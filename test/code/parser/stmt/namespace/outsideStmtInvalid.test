@@ -5,27 +5,25 @@ echo 1;
 echo 2;
 namespace A;
 -----
-Namespace declaration statement has to be the very first statement in the script on line 4
+Namespace declaration statement has to be the very first statement in the script from 4:1 to 4:9
 array(
     0: Stmt_Echo(
         exprs: array(
-            0: Scalar_LNumber(
+            0: Scalar_Int(
                 value: 1
             )
         )
     )
     1: Stmt_Echo(
         exprs: array(
-            0: Scalar_LNumber(
+            0: Scalar_Int(
                 value: 2
             )
         )
     )
     2: Stmt_Namespace(
         name: Name(
-            parts: array(
-                0: A
-            )
+            name: A
         )
         stmts: array(
         )
@@ -40,16 +38,14 @@ No code may exist outside of namespace {} from 3:1 to 3:7
 array(
     0: Stmt_Namespace(
         name: Name(
-            parts: array(
-                0: A
-            )
+            name: A
         )
         stmts: array(
         )
     )
     1: Stmt_Echo(
         exprs: array(
-            0: Scalar_LNumber(
+            0: Scalar_Int(
                 value: 1
             )
         )
@@ -66,20 +62,18 @@ No code may exist outside of namespace {} from 3:1 to 3:17
 array(
     0: Stmt_Namespace(
         name: Name(
-            parts: array(
-                0: A
-            )
+            name: A
         )
         stmts: array(
         )
     )
     1: Stmt_Declare(
         declares: array(
-            0: Stmt_DeclareDeclare(
+            0: DeclareItem(
                 key: Identifier(
                     name: ticks
                 )
-                value: Scalar_LNumber(
+                value: Scalar_Int(
                     value: 1
                 )
             )
@@ -89,9 +83,7 @@ array(
     2: Stmt_Expression(
         expr: Expr_FuncCall(
             name: Name(
-                parts: array(
-                    0: foo
-                )
+                name: foo
             )
             args: array(
             )
@@ -99,9 +91,7 @@ array(
     )
     3: Stmt_Namespace(
         name: Name(
-            parts: array(
-                0: B
-            )
+            name: B
         )
         stmts: array(
         )

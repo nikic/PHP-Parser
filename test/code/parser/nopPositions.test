@@ -19,9 +19,13 @@ array(
 -----
 !!positions
 array(
-    0: Stmt_Nop[3:0 - 3:17](
-        comments: array(
-            0: /* comment */
+    0: Stmt_Block[2:1 - 4:1](
+        stmts: array(
+            0: Stmt_Nop[3:0 - 3:17](
+                comments: array(
+                    0: /* comment */
+                )
+            )
         )
     )
 )

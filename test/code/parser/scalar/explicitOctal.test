@@ -8,22 +8,22 @@ Explicit octal syntax
 -----
 array(
     0: Stmt_Expression(
-        expr: Scalar_LNumber(
+        expr: Scalar_Int(
             value: 83
         )
     )
     1: Stmt_Expression(
-        expr: Scalar_LNumber(
+        expr: Scalar_Int(
             value: 83
         )
     )
     2: Stmt_Expression(
-        expr: Scalar_LNumber(
+        expr: Scalar_Int(
             value: 83
         )
     )
     3: Stmt_Expression(
-        expr: Scalar_DNumber(
+        expr: Scalar_Float(
             value: 9.2233720368548E+18
         )
     )

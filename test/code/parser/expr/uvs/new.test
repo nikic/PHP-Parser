@@ -9,7 +9,6 @@ new Test::$className;
 new $test::$className;
 new $weird[0]->foo::$className;
 -----
-!!php7
 array(
     0: Stmt_Expression(
         expr: Expr_New(
@@ -66,9 +65,7 @@ array(
         expr: Expr_New(
             class: Expr_StaticPropertyFetch(
                 class: Name(
-                    parts: array(
-                        0: Test
-                    )
+                    name: Test
                 )
                 name: VarLikeIdentifier(
                     name: className
@@ -100,7 +97,7 @@ array(
                         var: Expr_Variable(
                             name: weird
                         )
-                        dim: Scalar_LNumber(
+                        dim: Scalar_Int(
                             value: 0
                         )
                     )

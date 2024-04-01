@@ -10,7 +10,6 @@ try {
 
 }
 -----
-!!php7
 try {
 } catch (Exception) {
 } finally {

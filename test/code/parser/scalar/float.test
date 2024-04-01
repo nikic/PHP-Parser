@@ -24,62 +24,58 @@ Different float syntaxes
 -----
 array(
     0: Stmt_Expression(
-        expr: Scalar_DNumber(
+        expr: Scalar_Float(
             value: 0
         )
     )
     1: Stmt_Expression(
-        expr: Scalar_DNumber(
+        expr: Scalar_Float(
             value: 0
         )
     )
     2: Stmt_Expression(
-        expr: Scalar_DNumber(
+        expr: Scalar_Float(
             value: 0
         )
     )
     3: Stmt_Expression(
-        expr: Scalar_DNumber(
+        expr: Scalar_Float(
             value: 0
         )
     )
     4: Stmt_Expression(
-        expr: Scalar_DNumber(
+        expr: Scalar_Float(
             value: 0
         )
     )
     5: Stmt_Expression(
-        expr: Scalar_DNumber(
+        expr: Scalar_Float(
             value: 0
         )
     )
     6: Stmt_Expression(
-        expr: Scalar_DNumber(
+        expr: Scalar_Float(
             value: 0
         )
     )
     7: Stmt_Expression(
-        expr: Scalar_DNumber(
+        expr: Scalar_Float(
             value: 302000000000
         )
     )
     8: Stmt_Expression(
-        expr: Scalar_DNumber(
+        expr: Scalar_Float(
             value: 3.002E+102
         )
     )
     9: Stmt_Expression(
-        expr: Scalar_DNumber(
+        expr: Scalar_Float(
             value: INF
         )
     )
     10: Stmt_Expression(
-        expr: Scalar_DNumber(
+        expr: Scalar_Float(
             value: 1.844674407371E+19
-            comments: array(
-                0: // various integer -> float overflows
-                1: // (all are actually the same number, just in different representations)
-            )
         )
         comments: array(
             0: // various integer -> float overflows
@@ -87,27 +83,27 @@ array(
         )
     )
     11: Stmt_Expression(
-        expr: Scalar_DNumber(
+        expr: Scalar_Float(
             value: 1.844674407371E+19
         )
     )
     12: Stmt_Expression(
-        expr: Scalar_DNumber(
+        expr: Scalar_Float(
             value: 1.7216961135462E+19
         )
     )
     13: Stmt_Expression(
-        expr: Scalar_DNumber(
+        expr: Scalar_Float(
             value: 1.844674407371E+19
         )
     )
     14: Stmt_Expression(
-        expr: Scalar_DNumber(
+        expr: Scalar_Float(
             value: 1.844674407371E+19
         )
     )
     15: Stmt_Expression(
-        expr: Scalar_DNumber(
+        expr: Scalar_Float(
             value: 1.844674407371E+19
         )
     )

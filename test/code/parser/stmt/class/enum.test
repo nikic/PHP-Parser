@@ -11,7 +11,6 @@ enum C: int implements Bar {
     case Foo = 1;
 }
 -----
-!!php7
 array(
     0: Stmt_Enum(
         attrGroups: array(
@@ -42,14 +41,10 @@ array(
         scalarType: null
         implements: array(
             0: Name(
-                parts: array(
-                    0: Bar
-                )
+                name: Bar
             )
             1: Name(
-                parts: array(
-                    0: Baz
-                )
+                name: Baz
             )
         )
         stmts: array(
@@ -66,9 +61,7 @@ array(
         )
         implements: array(
             0: Name(
-                parts: array(
-                    0: Bar
-                )
+                name: Bar
             )
         )
         stmts: array(
@@ -78,7 +71,7 @@ array(
                 name: Identifier(
                     name: Foo
                 )
-                expr: Scalar_LNumber(
+                expr: Scalar_Int(
                     value: 1
                 )
             )

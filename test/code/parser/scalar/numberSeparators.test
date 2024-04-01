@@ -31,42 +31,34 @@ Syntax error, unexpected T_STRING from 19:2 to 19:4
 Syntax error, unexpected T_STRING from 20:2 to 20:4
 array(
     0: Stmt_Expression(
-        expr: Scalar_DNumber(
+        expr: Scalar_Float(
             value: 6.674083E-11
         )
     )
     1: Stmt_Expression(
-        expr: Scalar_LNumber(
+        expr: Scalar_Int(
             value: 299792458
         )
     )
     2: Stmt_Expression(
-        expr: Scalar_LNumber(
+        expr: Scalar_Int(
             value: 2063527949
         )
     )
     3: Stmt_Expression(
-        expr: Scalar_LNumber(
+        expr: Scalar_Int(
             value: 95
         )
     )
     4: Stmt_Expression(
-        expr: Scalar_LNumber(
+        expr: Scalar_Int(
             value: 48673
         )
     )
     5: Stmt_Expression(
         expr: Expr_ConstFetch(
             name: Name(
-                parts: array(
-                    0: _100
-                )
-                comments: array(
-                    0: // already a valid constant name
-                )
-            )
-            comments: array(
-                0: // already a valid constant name
+                name: _100
             )
         )
         comments: array(
@@ -74,11 +66,8 @@ array(
         )
     )
     6: Stmt_Expression(
-        expr: Scalar_LNumber(
+        expr: Scalar_Int(
             value: 100
-            comments: array(
-                0: // syntax errors
-            )
         )
         comments: array(
             0: // syntax errors
@@ -87,112 +76,96 @@ array(
     7: Stmt_Expression(
         expr: Expr_ConstFetch(
             name: Name(
-                parts: array(
-                    0: _
-                )
+                name: _
             )
         )
     )
     8: Stmt_Expression(
-        expr: Scalar_LNumber(
+        expr: Scalar_Int(
             value: 1
         )
     )
     9: Stmt_Expression(
         expr: Expr_ConstFetch(
             name: Name(
-                parts: array(
-                    0: __1
-                )
+                name: __1
             )
         )
     )
     10: Stmt_Expression(
-        expr: Scalar_LNumber(
+        expr: Scalar_Int(
             value: 1
         )
     )
     11: Stmt_Expression(
         expr: Expr_ConstFetch(
             name: Name(
-                parts: array(
-                    0: _
-                )
+                name: _
             )
         )
     )
     12: Stmt_Expression(
-        expr: Scalar_DNumber(
+        expr: Scalar_Float(
             value: 0
         )
     )
     13: Stmt_Expression(
-        expr: Scalar_DNumber(
+        expr: Scalar_Float(
             value: 1
         )
     )
     14: Stmt_Expression(
         expr: Expr_ConstFetch(
             name: Name(
-                parts: array(
-                    0: _0
-                )
+                name: _0
             )
         )
     )
     15: Stmt_Expression(
-        expr: Scalar_LNumber(
+        expr: Scalar_Int(
             value: 0
         )
     )
     16: Stmt_Expression(
         expr: Expr_ConstFetch(
             name: Name(
-                parts: array(
-                    0: x_123
-                )
+                name: x_123
             )
         )
     )
     17: Stmt_Expression(
-        expr: Scalar_LNumber(
+        expr: Scalar_Int(
             value: 0
         )
     )
     18: Stmt_Expression(
         expr: Expr_ConstFetch(
             name: Name(
-                parts: array(
-                    0: b_101
-                )
+                name: b_101
             )
         )
     )
     19: Stmt_Expression(
-        expr: Scalar_LNumber(
+        expr: Scalar_Int(
             value: 1
         )
     )
     20: Stmt_Expression(
         expr: Expr_ConstFetch(
             name: Name(
-                parts: array(
-                    0: _e2
-                )
+                name: _e2
             )
         )
     )
     21: Stmt_Expression(
-        expr: Scalar_LNumber(
+        expr: Scalar_Int(
             value: 1
         )
     )
     22: Stmt_Expression(
         expr: Expr_ConstFetch(
             name: Name(
-                parts: array(
-                    0: e_2
-                )
+                name: e_2
             )
         )
     )

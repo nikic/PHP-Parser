@@ -10,7 +10,7 @@ visitor (NameResolver) based on it.
 The NameResolver visitor
 ------------------------
 
-The `NameResolver` visitor can (and for nearly all uses of the AST, is) be applied to resolve names
+The `NameResolver` visitor can (and for nearly all uses of the AST, should) be applied to resolve names
 to their fully-qualified form, to the degree that this is possible.
 
 ```php
@@ -24,7 +24,7 @@ $stmts = $nodeTraverser->traverse($stmts);
 
 In the default configuration, the name resolver will perform three actions:
 
- * Declarations of functions, classes, interfaces, traits and global constants will have a
+ * Declarations of functions, classes, interfaces, traits, enums and global constants will have a
    `namespacedName` property added, which contains the function/class/etc name including the
    namespace prefix. For historic reasons this is a **property** rather than an attribute.
  * Names will be replaced by fully qualified resolved names, which are instances of
@@ -32,7 +32,7 @@ In the default configuration, the name resolver will perform three actions:
  * Unqualified function and constant names inside a namespace cannot be statically resolved. Inside
    a namespace `Foo`, a call to `strlen()` may either refer to the namespaced `\Foo\strlen()`, or
    the global `\strlen()`. Because PHP-Parser does not have the necessary context to decide this,
-   such names are left unresolved. Additionally a `namespacedName` **attribute** is added to the
+   such names are left unresolved. Additionally, a `namespacedName` **attribute** is added to the
    name node.
 
 The name resolver accepts an option array as the second argument, with the following default values:
@@ -47,13 +47,13 @@ $nameResolver = new PhpParser\NodeVisitor\NameResolver(null, [
 If the `preserveOriginalNames` option is enabled, then the resolved (fully qualified) name will have
 an `originalName` attribute, which contains the unresolved name.
 
-If the `replaceNodes` option is disabled, then names will no longer be resolved in-place. Instead a
+If the `replaceNodes` option is disabled, then names will no longer be resolved in-place. Instead, a
 `resolvedName` attribute will be added to each name, which contains the resolved (fully qualified)
 name. Once again, if an unqualified function or constant name cannot be resolved, then the
 `resolvedName` attribute will not be present, and instead a `namespacedName` attribute is added.
 
 The `replaceNodes` attribute is useful if you wish to perform modifications on the AST, as you
-probably do not wish the resoluting code to have fully resolved names as a side-effect.
+probably do not wish the resulting code to have fully resolved names as a side-effect.
 
 The NameContext
 ---------------
@@ -75,7 +75,7 @@ class NameContext {
 }
 ```
 
-The `$type` parameters accept on of the `Stmt\Use_::TYPE_*` constants, which represent the three
+The `$type` parameters accept one of the `Stmt\Use_::TYPE_*` constants, which represent the three
 basic symbol types in PHP (functions, constants and everything else).
 
 Next to name resolution, the `NameContext` also supports the reverse operation of finding a short

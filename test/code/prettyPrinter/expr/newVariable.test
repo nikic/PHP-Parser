@@ -11,7 +11,6 @@ new ((x)::$y);
 $x instanceof ('a' . 'b');
 $x instanceof ($y++);
 -----
-!!php7
 new ('a' . 'b')();
 new (x)();
 new (foo())();

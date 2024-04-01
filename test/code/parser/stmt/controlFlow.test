@@ -21,7 +21,7 @@ array(
         num: null
     )
     1: Stmt_Break(
-        num: Scalar_LNumber(
+        num: Scalar_Int(
             value: 2
         )
     )
@@ -29,7 +29,7 @@ array(
         num: null
     )
     3: Stmt_Continue(
-        num: Scalar_LNumber(
+        num: Scalar_Int(
             value: 2
         )
     )
@@ -41,9 +41,11 @@ array(
             name: a
         )
     )
-    6: Stmt_Throw(
-        expr: Expr_Variable(
-            name: e
+    6: Stmt_Expression(
+        expr: Expr_Throw(
+            expr: Expr_Variable(
+                name: e
+            )
         )
     )
     7: Stmt_Label(

@@ -18,7 +18,7 @@ array(
             0: Stmt_ClassMethod(
                 attrGroups: array(
                 )
-                flags: MODIFIER_STATIC (8)
+                flags: STATIC (8)
                 byRef: false
                 name: Identifier(
                     name: __construct
@@ -51,7 +51,7 @@ array(
             0: Stmt_ClassMethod(
                 attrGroups: array(
                 )
-                flags: MODIFIER_STATIC (8)
+                flags: STATIC (8)
                 byRef: false
                 name: Identifier(
                     name: __destruct
@@ -84,7 +84,7 @@ array(
             0: Stmt_ClassMethod(
                 attrGroups: array(
                 )
-                flags: MODIFIER_STATIC (8)
+                flags: STATIC (8)
                 byRef: false
                 name: Identifier(
                     name: __clone
@@ -117,7 +117,7 @@ array(
             0: Stmt_ClassMethod(
                 attrGroups: array(
                 )
-                flags: MODIFIER_STATIC (8)
+                flags: STATIC (8)
                 byRef: false
                 name: Identifier(
                     name: __CONSTRUCT
@@ -150,7 +150,7 @@ array(
             0: Stmt_ClassMethod(
                 attrGroups: array(
                 )
-                flags: MODIFIER_STATIC (8)
+                flags: STATIC (8)
                 byRef: false
                 name: Identifier(
                     name: __Destruct
@@ -183,7 +183,7 @@ array(
             0: Stmt_ClassMethod(
                 attrGroups: array(
                 )
-                flags: MODIFIER_STATIC (8)
+                flags: STATIC (8)
                 byRef: false
                 name: Identifier(
                     name: __cLoNe

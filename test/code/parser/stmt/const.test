@@ -11,7 +11,7 @@ array(
                 name: Identifier(
                     name: A
                 )
-                value: Scalar_LNumber(
+                value: Scalar_Int(
                     value: 0
                 )
             )
@@ -19,7 +19,7 @@ array(
                 name: Identifier(
                     name: B
                 )
-                value: Scalar_DNumber(
+                value: Scalar_Float(
                     value: 1
                 )
             )
@@ -37,9 +37,7 @@ array(
                 )
                 value: Expr_ConstFetch(
                     name: Name(
-                        parts: array(
-                            0: E
-                        )
+                        name: E
                     )
                 )
             )

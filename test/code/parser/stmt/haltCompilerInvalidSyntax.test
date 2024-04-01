@@ -3,4 +3,6 @@ Invalid __halt_compiler() syntax
 <?php
 __halt_compiler()
 -----
-__HALT_COMPILER must be followed by "();" on line 2
+Syntax error, unexpected EOF, expecting ';' from 2:18 to 2:18
+array(
+)

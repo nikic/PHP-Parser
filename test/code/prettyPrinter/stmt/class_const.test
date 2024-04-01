@@ -10,7 +10,6 @@ class Foo
     private const int G = 7, H = 8;
 }
 -----
-!!php7
 class Foo
 {
     const A = 1, B = 2;

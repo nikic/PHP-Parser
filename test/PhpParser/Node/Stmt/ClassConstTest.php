@@ -2,15 +2,16 @@
 
 namespace PhpParser\Node\Stmt;
 
-class ClassConstTest extends \PHPUnit\Framework\TestCase
-{
+use PhpParser\Modifiers;
+
+class ClassConstTest extends \PHPUnit\Framework\TestCase {
     /**
      * @dataProvider provideModifiers
      */
     public function testModifiers($modifier) {
         $node = new ClassConst(
             [], // invalid
-            constant('PhpParser\Node\Stmt\Class_::MODIFIER_' . strtoupper($modifier))
+            constant(Modifiers::class . '::' . strtoupper($modifier))
         );
 
         $this->assertTrue($node->{'is' . $modifier}());

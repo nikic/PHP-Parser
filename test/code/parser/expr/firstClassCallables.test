@@ -12,14 +12,11 @@ $this?->foo(...);
 #[Foo(...)]
 function foo() {}
 -----
-!!php7
 array(
     0: Stmt_Expression(
         expr: Expr_FuncCall(
             name: Name(
-                parts: array(
-                    0: foo
-                )
+                name: foo
             )
             args: array(
                 0: VariadicPlaceholder(
@@ -44,9 +41,7 @@ array(
     2: Stmt_Expression(
         expr: Expr_StaticCall(
             class: Name(
-                parts: array(
-                    0: A
-                )
+                name: A
             )
             name: Identifier(
                 name: foo
@@ -60,16 +55,11 @@ array(
     3: Stmt_Expression(
         expr: Expr_New(
             class: Name(
-                parts: array(
-                    0: Foo
-                )
+                name: Foo
             )
             args: array(
                 0: VariadicPlaceholder(
                 )
-            )
-            comments: array(
-                0: // These are invalid, but accepted on the parser level.
             )
         )
         comments: array(
@@ -96,9 +86,7 @@ array(
                 attrs: array(
                     0: Attribute(
                         name: Name(
-                            parts: array(
-                                0: Foo
-                            )
+                            name: Foo
                         )
                         args: array(
                             0: VariadicPlaceholder(

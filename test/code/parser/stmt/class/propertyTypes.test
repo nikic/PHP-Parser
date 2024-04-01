@@ -9,7 +9,6 @@ class A {
     readonly static public ?int $d;
 }
 -----
-!!php7
 array(
     0: Stmt_Class(
         attrGroups: array(
@@ -25,12 +24,12 @@ array(
             0: Stmt_Property(
                 attrGroups: array(
                 )
-                flags: MODIFIER_PUBLIC (1)
+                flags: PUBLIC (1)
                 type: Identifier(
                     name: string
                 )
                 props: array(
-                    0: Stmt_PropertyProperty(
+                    0: PropertyItem(
                         name: VarLikeIdentifier(
                             name: a
                         )
@@ -41,14 +40,12 @@ array(
             1: Stmt_Property(
                 attrGroups: array(
                 )
-                flags: MODIFIER_PROTECTED | MODIFIER_STATIC (10)
+                flags: PROTECTED | STATIC (10)
                 type: Name(
-                    parts: array(
-                        0: D
-                    )
+                    name: D
                 )
                 props: array(
-                    0: Stmt_PropertyProperty(
+                    0: PropertyItem(
                         name: VarLikeIdentifier(
                             name: b
                         )
@@ -59,14 +56,14 @@ array(
             2: Stmt_Property(
                 attrGroups: array(
                 )
-                flags: MODIFIER_PRIVATE (4)
+                flags: PRIVATE (4)
                 type: NullableType(
                     type: Identifier(
                         name: float
                     )
                 )
                 props: array(
-                    0: Stmt_PropertyProperty(
+                    0: PropertyItem(
                         name: VarLikeIdentifier(
                             name: c
                         )
@@ -77,14 +74,14 @@ array(
             3: Stmt_Property(
                 attrGroups: array(
                 )
-                flags: MODIFIER_PUBLIC | MODIFIER_STATIC | MODIFIER_READONLY (73)
+                flags: PUBLIC | STATIC | READONLY (73)
                 type: NullableType(
                     type: Identifier(
                         name: int
                     )
                 )
                 props: array(
-                    0: Stmt_PropertyProperty(
+                    0: PropertyItem(
                         name: VarLikeIdentifier(
                             name: d
                         )

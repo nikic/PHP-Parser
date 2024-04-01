@@ -1,21 +1,16 @@
 array(
     0: Stmt_Namespace(
         name: Name(
-            parts: array(
-                0: App
-            )
+            name: App
         )
         stmts: array(
             0: Stmt_Use(
                 type: TYPE_NORMAL (1)
                 uses: array(
-                    0: Stmt_UseUse(
+                    0: UseItem(
                         type: TYPE_UNKNOWN (0)
                         name: Name(
-                            parts: array(
-                                0: PhpParser
-                                1: ParserFactory
-                            )
+                            name: PhpParser\ParserFactory
                         )
                         alias: null
                     )
@@ -29,16 +24,12 @@ array(
                     name: Test
                 )
                 extends: Name(
-                    parts: array(
-                        0: GenericClass
-                    )
+                    name: GenericClass
                     generics: [T]
                 )
                 implements: array(
                     0: Name(
-                        parts: array(
-                            0: GenericInterface
-                        )
+                        name: GenericInterface
                         generics: [V]
                     )
                 )
@@ -46,9 +37,7 @@ array(
                     0: Stmt_TraitUse(
                         traits: array(
                             0: Name(
-                                parts: array(
-                                    0: GenericTrait
-                                )
+                                name: GenericTrait
                                 generics: [T]
                             )
                         )
@@ -58,9 +47,7 @@ array(
                     1: Stmt_TraitUse(
                         traits: array(
                             0: Name(
-                                parts: array(
-                                    0: T
-                                )
+                                name: T
                             )
                         )
                         adaptations: array(
@@ -69,24 +56,20 @@ array(
                     2: Stmt_Property(
                         attrGroups: array(
                         )
-                        flags: MODIFIER_PRIVATE (4)
+                        flags: PRIVATE (4)
                         type: UnionType(
                             types: array(
                                 0: Name(
-                                    parts: array(
-                                        0: T
-                                    )
+                                    name: T
                                 )
                                 1: Name(
-                                    parts: array(
-                                        0: GenericClass
-                                    )
+                                    name: GenericClass
                                     generics: [V]
                                 )
                             )
                         )
                         props: array(
-                            0: Stmt_PropertyProperty(
+                            0: PropertyItem(
                                 name: VarLikeIdentifier(
                                     name: var
                                 )
@@ -97,10 +80,10 @@ array(
                     3: Stmt_Property(
                         attrGroups: array(
                         )
-                        flags: MODIFIER_PRIVATE (4)
+                        flags: PRIVATE (4)
                         type: null
                         props: array(
-                            0: Stmt_PropertyProperty(
+                            0: PropertyItem(
                                 name: VarLikeIdentifier(
                                     name: var2
                                 )
@@ -111,20 +94,16 @@ array(
                     4: Stmt_Property(
                         attrGroups: array(
                         )
-                        flags: MODIFIER_PRIVATE | MODIFIER_READONLY (68)
+                        flags: PRIVATE | READONLY (68)
                         type: UnionType(
                             types: array(
                                 0: IntersectionType(
                                     types: array(
                                         0: Name(
-                                            parts: array(
-                                                0: T
-                                            )
+                                            name: T
                                         )
                                         1: Name(
-                                            parts: array(
-                                                0: V
-                                            )
+                                            name: V
                                         )
                                     )
                                 )
@@ -140,15 +119,13 @@ array(
                             )
                         )
                         props: array(
-                            0: Stmt_PropertyProperty(
+                            0: PropertyItem(
                                 name: VarLikeIdentifier(
                                     name: content
                                 )
                                 default: Expr_ConstFetch(
                                     name: Name(
-                                        parts: array(
-                                            0: null
-                                        )
+                                        name: null
                                     )
                                 )
                             )
@@ -157,7 +134,7 @@ array(
                     5: Stmt_ClassMethod(
                         attrGroups: array(
                         )
-                        flags: MODIFIER_PUBLIC (1)
+                        flags: PUBLIC (1)
                         byRef: false
                         name: Identifier(
                             name: setContent
@@ -172,14 +149,10 @@ array(
                                         0: IntersectionType(
                                             types: array(
                                                 0: Name(
-                                                    parts: array(
-                                                        0: T
-                                                    )
+                                                    name: T
                                                 )
                                                 1: Name(
-                                                    parts: array(
-                                                        0: V
-                                                    )
+                                                    name: V
                                                 )
                                             )
                                         )
@@ -207,14 +180,10 @@ array(
                                 0: IntersectionType(
                                     types: array(
                                         0: Name(
-                                            parts: array(
-                                                0: T
-                                            )
+                                            name: T
                                         )
                                         1: Name(
-                                            parts: array(
-                                                0: V
-                                            )
+                                            name: V
                                         )
                                     )
                                 )
@@ -235,7 +204,7 @@ array(
                     6: Stmt_ClassMethod(
                         attrGroups: array(
                         )
-                        flags: MODIFIER_PUBLIC (1)
+                        flags: PUBLIC (1)
                         byRef: false
                         name: Identifier(
                             name: test
@@ -248,14 +217,10 @@ array(
                                 type: UnionType(
                                     types: array(
                                         0: Name(
-                                            parts: array(
-                                                0: T
-                                            )
+                                            name: T
                                         )
                                         1: Name(
-                                            parts: array(
-                                                0: GenericInterface
-                                            )
+                                            name: GenericInterface
                                             generics: [V]
                                         )
                                     )
@@ -271,14 +236,10 @@ array(
                         returnType: UnionType(
                             types: array(
                                 0: Name(
-                                    parts: array(
-                                        0: T
-                                    )
+                                    name: T
                                 )
                                 1: Name(
-                                    parts: array(
-                                        0: GenericClass
-                                    )
+                                    name: GenericClass
                                     generics: [V]
                                 )
                             )
@@ -287,9 +248,7 @@ array(
                             0: Stmt_Expression(
                                 expr: Expr_FuncCall(
                                     name: Name(
-                                        parts: array(
-                                            0: var_dump
-                                        )
+                                        name: var_dump
                                     )
                                     args: array(
                                         0: Arg(
@@ -299,9 +258,7 @@ array(
                                                     name: var
                                                 )
                                                 class: Name(
-                                                    parts: array(
-                                                        0: GenericInterface
-                                                    )
+                                                    name: GenericInterface
                                                     generics: [V]
                                                 )
                                             )
@@ -314,9 +271,7 @@ array(
                             1: Stmt_Expression(
                                 expr: Expr_FuncCall(
                                     name: Name(
-                                        parts: array(
-                                            0: var_dump
-                                        )
+                                        name: var_dump
                                     )
                                     args: array(
                                         0: Arg(
@@ -326,9 +281,7 @@ array(
                                                     name: var
                                                 )
                                                 class: Name(
-                                                    parts: array(
-                                                        0: T
-                                                    )
+                                                    name: T
                                                 )
                                             )
                                             byRef: false
@@ -340,18 +293,14 @@ array(
                             2: Stmt_Expression(
                                 expr: Expr_FuncCall(
                                     name: Name(
-                                        parts: array(
-                                            0: var_dump
-                                        )
+                                        name: var_dump
                                     )
                                     args: array(
                                         0: Arg(
                                             name: null
                                             value: Expr_ClassConstFetch(
                                                 class: Name(
-                                                    parts: array(
-                                                        0: GenericClass
-                                                    )
+                                                    name: GenericClass
                                                     generics: [T]
                                                 )
                                                 name: Identifier(
@@ -367,18 +316,14 @@ array(
                             3: Stmt_Expression(
                                 expr: Expr_FuncCall(
                                     name: Name(
-                                        parts: array(
-                                            0: var_dump
-                                        )
+                                        name: var_dump
                                     )
                                     args: array(
                                         0: Arg(
                                             name: null
                                             value: Expr_ClassConstFetch(
                                                 class: Name(
-                                                    parts: array(
-                                                        0: T
-                                                    )
+                                                    name: T
                                                 )
                                                 name: Identifier(
                                                     name: class
@@ -393,18 +338,14 @@ array(
                             4: Stmt_Expression(
                                 expr: Expr_FuncCall(
                                     name: Name(
-                                        parts: array(
-                                            0: var_dump
-                                        )
+                                        name: var_dump
                                     )
                                     args: array(
                                         0: Arg(
                                             name: null
                                             value: Expr_ClassConstFetch(
                                                 class: Name(
-                                                    parts: array(
-                                                        0: GenericClass
-                                                    )
+                                                    name: GenericClass
                                                     generics: [T]
                                                 )
                                                 name: Identifier(
@@ -420,18 +361,14 @@ array(
                             5: Stmt_Expression(
                                 expr: Expr_FuncCall(
                                     name: Name(
-                                        parts: array(
-                                            0: var_dump
-                                        )
+                                        name: var_dump
                                     )
                                     args: array(
                                         0: Arg(
                                             name: null
                                             value: Expr_ClassConstFetch(
                                                 class: Name(
-                                                    parts: array(
-                                                        0: T
-                                                    )
+                                                    name: T
                                                 )
                                                 name: Identifier(
                                                     name: CONSTANT
@@ -450,9 +387,7 @@ array(
                                     )
                                     expr: Expr_New(
                                         class: Name(
-                                            parts: array(
-                                                0: T
-                                            )
+                                            name: T
                                         )
                                         args: array(
                                         )
@@ -466,9 +401,7 @@ array(
                                     )
                                     expr: Expr_New(
                                         class: Name(
-                                            parts: array(
-                                                0: GenericClass
-                                            )
+                                            name: GenericClass
                                             generics: [V]
                                         )
                                         args: array(

@@ -4,28 +4,11 @@ Error handling
 Errors during parsing or analysis are represented using the `PhpParser\Error` exception class. In addition to an error
 message, an error can also store additional information about the location the error occurred at.
 
-How much location information is available depends on the origin of the error and how many lexer attributes have been
-enabled. At a minimum the start line of the error is usually available.
+How much location information is available depends on the origin of the error. At a minimum the start line of the error
+is usually available.
 
 Column information
 ------------------
-
-In order to receive information about not only the line, but also the column span an error occurred at, the file
-position attributes in the lexer need to be enabled:
-
-```php
-$lexer = new PhpParser\Lexer(array(
-    'usedAttributes' => array('comments', 'startLine', 'endLine', 'startFilePos', 'endFilePos'),
-));
-$parser = (new PhpParser\ParserFactory)->create(PhpParser\ParserFactory::PREFER_PHP7, $lexer);
-
-try {
-    $stmts = $parser->parse($code);
-    // ...
-} catch (PhpParser\Error $e) {
-    // ...
-}
-```
 
 Before using column information, its availability needs to be checked with `$e->hasColumnInfo()`, as the precise
 location of an error cannot always be determined. The methods for retrieving column information also have to be passed
@@ -56,7 +39,7 @@ To instead collect all encountered errors into an array, while trying to continu
 an instance of `ErrorHandler\Collecting` can be passed to the `Parser::parse()` method. A usage example:
 
 ```php
-$parser = (new PhpParser\ParserFactory)->create(PhpParser\ParserFactory::ONLY_PHP7);
+$parser = (new PhpParser\ParserFactory())->createForHostVersion();
 $errorHandler = new PhpParser\ErrorHandler\Collecting;
 
 $stmts = $parser->parse($code, $errorHandler);
@@ -71,5 +54,7 @@ if (null !== $stmts) {
     // $stmts is a best-effort partial AST
 }
 ```
+
+The partial AST may contain `Expr\Error` nodes that indicate that an error occurred while parsing an expression.
 
 The `NameResolver` visitor also accepts an `ErrorHandler` as a constructor argument.

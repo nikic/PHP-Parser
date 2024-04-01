@@ -12,17 +12,13 @@ array(
     0: Stmt_GroupUse(
         type: TYPE_UNKNOWN (0)
         prefix: Name(
-            parts: array(
-                0: A
-            )
+            name: A
         )
         uses: array(
-            0: Stmt_UseUse(
+            0: UseItem(
                 type: TYPE_NORMAL (1)
                 name: Name(
-                    parts: array(
-                        0: B
-                    )
+                    name: B
                 )
                 alias: null
             )
@@ -31,27 +27,20 @@ array(
     1: Stmt_GroupUse(
         type: TYPE_UNKNOWN (0)
         prefix: Name(
-            parts: array(
-                0: A
-            )
+            name: A
         )
         uses: array(
-            0: Stmt_UseUse(
+            0: UseItem(
                 type: TYPE_NORMAL (1)
                 name: Name(
-                    parts: array(
-                        0: B
-                        1: C
-                    )
+                    name: B\C
                 )
                 alias: null
             )
-            1: Stmt_UseUse(
+            1: UseItem(
                 type: TYPE_NORMAL (1)
                 name: Name(
-                    parts: array(
-                        0: D
-                    )
+                    name: D
                 )
                 alias: null
             )
@@ -60,28 +49,20 @@ array(
     2: Stmt_GroupUse(
         type: TYPE_UNKNOWN (0)
         prefix: Name(
-            parts: array(
-                0: A
-                1: B
-            )
+            name: A\B
         )
         uses: array(
-            0: Stmt_UseUse(
+            0: UseItem(
                 type: TYPE_NORMAL (1)
                 name: Name(
-                    parts: array(
-                        0: C
-                        1: D
-                    )
+                    name: C\D
                 )
                 alias: null
             )
-            1: Stmt_UseUse(
+            1: UseItem(
                 type: TYPE_NORMAL (1)
                 name: Name(
-                    parts: array(
-                        0: E
-                    )
+                    name: E
                 )
                 alias: null
             )
@@ -90,27 +71,20 @@ array(
     3: Stmt_GroupUse(
         type: TYPE_FUNCTION (2)
         prefix: Name(
-            parts: array(
-                0: A
-            )
+            name: A
         )
         uses: array(
-            0: Stmt_UseUse(
+            0: UseItem(
                 type: TYPE_UNKNOWN (0)
                 name: Name(
-                    parts: array(
-                        0: b
-                        1: c
-                    )
+                    name: b\c
                 )
                 alias: null
             )
-            1: Stmt_UseUse(
+            1: UseItem(
                 type: TYPE_UNKNOWN (0)
                 name: Name(
-                    parts: array(
-                        0: d
-                    )
+                    name: d
                 )
                 alias: null
             )
@@ -119,27 +93,20 @@ array(
     4: Stmt_GroupUse(
         type: TYPE_CONSTANT (3)
         prefix: Name(
-            parts: array(
-                0: A
-            )
+            name: A
         )
         uses: array(
-            0: Stmt_UseUse(
+            0: UseItem(
                 type: TYPE_UNKNOWN (0)
                 name: Name(
-                    parts: array(
-                        0: B
-                        1: C
-                    )
+                    name: B\C
                 )
                 alias: null
             )
-            1: Stmt_UseUse(
+            1: UseItem(
                 type: TYPE_UNKNOWN (0)
                 name: Name(
-                    parts: array(
-                        0: D
-                    )
+                    name: D
                 )
                 alias: null
             )
@@ -148,38 +115,27 @@ array(
     5: Stmt_GroupUse(
         type: TYPE_UNKNOWN (0)
         prefix: Name(
-            parts: array(
-                0: A
-                1: B
-            )
+            name: A\B
         )
         uses: array(
-            0: Stmt_UseUse(
+            0: UseItem(
                 type: TYPE_NORMAL (1)
                 name: Name(
-                    parts: array(
-                        0: C
-                        1: D
-                    )
+                    name: C\D
                 )
                 alias: null
             )
-            1: Stmt_UseUse(
+            1: UseItem(
                 type: TYPE_FUNCTION (2)
                 name: Name(
-                    parts: array(
-                        0: b
-                        1: c
-                    )
+                    name: b\c
                 )
                 alias: null
             )
-            2: Stmt_UseUse(
+            2: UseItem(
                 type: TYPE_CONSTANT (3)
                 name: Name(
-                    parts: array(
-                        0: D
-                    )
+                    name: D
                 )
                 alias: null
             )

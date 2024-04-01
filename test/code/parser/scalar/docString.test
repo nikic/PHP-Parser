@@ -28,14 +28,15 @@ b<<<EOS
 Binary
 EOS;
 
+<<<EOS
+$x\r
+EOS;
+
 -----
 array(
     0: Stmt_Expression(
         expr: Scalar_String(
             value:
-            comments: array(
-                0: // empty strings
-            )
         )
         comments: array(
             0: // empty strings
@@ -49,9 +50,6 @@ array(
     2: Stmt_Expression(
         expr: Scalar_String(
             value: Test '" $a \n
-            comments: array(
-                0: // constant encapsed strings
-            )
         )
         comments: array(
             0: // constant encapsed strings
@@ -64,17 +62,14 @@ array(
         )
     )
     4: Stmt_Expression(
-        expr: Scalar_Encapsed(
+        expr: Scalar_InterpolatedString(
             parts: array(
-                0: Scalar_EncapsedStringPart(
+                0: InterpolatedStringPart(
                     value: Test
                 )
                 1: Expr_Variable(
                     name: a
                 )
-            )
-            comments: array(
-                0: // encapsed strings
             )
         )
         comments: array(
@@ -82,15 +77,15 @@ array(
         )
     )
     5: Stmt_Expression(
-        expr: Scalar_Encapsed(
+        expr: Scalar_InterpolatedString(
             parts: array(
-                0: Scalar_EncapsedStringPart(
+                0: InterpolatedStringPart(
                     value: Test
                 )
                 1: Expr_Variable(
                     name: a
                 )
-                2: Scalar_EncapsedStringPart(
+                2: InterpolatedStringPart(
                     value:  and
                 )
                 3: Expr_PropertyFetch(
@@ -101,7 +96,7 @@ array(
                         name: c
                     )
                 )
-                4: Scalar_EncapsedStringPart(
+                4: InterpolatedStringPart(
                     value:  test
                 )
             )
@@ -110,6 +105,18 @@ array(
     6: Stmt_Expression(
         expr: Scalar_String(
             value: Binary
+        )
+    )
+    7: Stmt_Expression(
+        expr: Scalar_InterpolatedString(
+            parts: array(
+                0: Expr_Variable(
+                    name: x
+                )
+                1: InterpolatedStringPart(
+                    value:
+                )
+            )
         )
     )
 )

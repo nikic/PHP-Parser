@@ -70,7 +70,6 @@ $y;
 array_splice($stmts, 0, 1, []);
 -----
 <?php
-
 $y;
 -----
 <?php
@@ -80,8 +79,7 @@ $x;
 array_splice($stmts, 0, 1, []);
 -----
 <?php
-
-$y;
+{ $y; }
 -----
 <?php
 $x;
@@ -90,7 +88,6 @@ $x;
 array_pop($stmts);
 -----
 <?php
-
 $x;
 -----
 <?php
@@ -100,8 +97,7 @@ $y;
 array_pop($stmts);
 -----
 <?php
-
-$x;
+{ $x; }
 -----
 <?php
 // Foo
@@ -207,4 +203,16 @@ class Foo
     function getBaz()
     {
     }
+}
+-----
+<?php
+class Test {
+    use A, B;
+}
+-----
+unset($stmts[0]->stmts[0]->traits[0]);
+-----
+<?php
+class Test {
+    use B;
 }

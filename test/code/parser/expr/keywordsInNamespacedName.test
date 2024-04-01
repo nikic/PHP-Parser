@@ -11,59 +11,44 @@ fn\use();
 namespace\fn\use();
 private\protected\public\static\abstract\final();
 -----
-!!php7
 array(
     0: Stmt_Namespace(
         name: Name(
-            parts: array(
-                0: fn
-            )
+            name: fn
         )
         stmts: array(
         )
     )
     1: Stmt_Namespace(
         name: Name(
-            parts: array(
-                0: fn
-                1: use
-            )
+            name: fn\use
         )
         stmts: array(
         )
     )
     2: Stmt_Namespace(
         name: Name(
-            parts: array(
-                0: self
-            )
+            name: self
         )
         stmts: array(
         )
     )
     3: Stmt_Namespace(
         name: Name(
-            parts: array(
-                0: parent
-            )
+            name: parent
         )
         stmts: array(
         )
     )
     4: Stmt_Namespace(
         name: Name(
-            parts: array(
-                0: static
-            )
+            name: static
         )
         stmts: array(
             0: Stmt_Expression(
                 expr: Expr_FuncCall(
                     name: Name(
-                        parts: array(
-                            0: fn
-                            1: use
-                        )
+                        name: fn\use
                     )
                     args: array(
                     )
@@ -72,10 +57,7 @@ array(
             1: Stmt_Expression(
                 expr: Expr_FuncCall(
                     name: Name_FullyQualified(
-                        parts: array(
-                            0: fn
-                            1: use
-                        )
+                        name: fn\use
                     )
                     args: array(
                     )
@@ -84,10 +66,7 @@ array(
             2: Stmt_Expression(
                 expr: Expr_FuncCall(
                     name: Name_Relative(
-                        parts: array(
-                            0: fn
-                            1: use
-                        )
+                        name: fn\use
                     )
                     args: array(
                     )
@@ -96,14 +75,7 @@ array(
             3: Stmt_Expression(
                 expr: Expr_FuncCall(
                     name: Name(
-                        parts: array(
-                            0: private
-                            1: protected
-                            2: public
-                            3: static
-                            4: abstract
-                            5: final
-                        )
+                        name: private\protected\public\static\abstract\final
                     )
                     args: array(
                     )

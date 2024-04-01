@@ -14,7 +14,6 @@ function gen() {
     var_dump([yield "k1" => (yield "k2") => "a" . "b"]);
 }
 -----
-!!php7
 array(
     0: Stmt_Function(
         attrGroups: array(
@@ -86,16 +85,14 @@ array(
             4: Stmt_Expression(
                 expr: Expr_FuncCall(
                     name: Name(
-                        parts: array(
-                            0: var_dump
-                        )
+                        name: var_dump
                     )
                     args: array(
                         0: Arg(
                             name: null
                             value: Expr_Array(
                                 items: array(
-                                    0: Expr_ArrayItem(
+                                    0: ArrayItem(
                                         key: null
                                         value: Expr_Yield(
                                             key: Scalar_String(
@@ -170,16 +167,14 @@ array(
             7: Stmt_Expression(
                 expr: Expr_FuncCall(
                     name: Name(
-                        parts: array(
-                            0: var_dump
-                        )
+                        name: var_dump
                     )
                     args: array(
                         0: Arg(
                             name: null
                             value: Expr_Array(
                                 items: array(
-                                    0: Expr_ArrayItem(
+                                    0: ArrayItem(
                                         key: null
                                         value: Expr_Yield(
                                             key: Scalar_String(
@@ -213,16 +208,14 @@ array(
             8: Stmt_Expression(
                 expr: Expr_FuncCall(
                     name: Name(
-                        parts: array(
-                            0: var_dump
-                        )
+                        name: var_dump
                     )
                     args: array(
                         0: Arg(
                             name: null
                             value: Expr_Array(
                                 items: array(
-                                    0: Expr_ArrayItem(
+                                    0: ArrayItem(
                                         key: Expr_Yield(
                                             key: Scalar_String(
                                                 value: k1

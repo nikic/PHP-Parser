@@ -153,8 +153,9 @@ $stmts[1] = $tmp;
  * fallback. */
 -----
 <?php
-
-$x;
+{
+    $x;
+}
 function foo() {
     foo();
     /*

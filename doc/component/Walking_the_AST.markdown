@@ -11,7 +11,7 @@ use PhpParser\{Node, NodeTraverser, NodeVisitorAbstract};
 $traverser = new NodeTraverser;
 $traverser->addVisitor(new class extends NodeVisitorAbstract {
     public function leaveNode(Node $node) {
-        if ($node instanceof Node\Scalar\LNumber) {
+        if ($node instanceof Node\Scalar\Int_) {
             return new Node\Scalar\String_((string) $node->value);
         }
     }
@@ -19,6 +19,18 @@ $traverser->addVisitor(new class extends NodeVisitorAbstract {
 
 $stmts = ...;
 $modifiedStmts = $traverser->traverse($stmts);
+```
+
+Visitors can be either passed to the `NodeTraverser` constructor, or added using `addVisitor()`:
+
+```php
+$traverser = new NodeTraverser($visitor1, $visitor2, $visitor3);
+
+// Equivalent to:
+$traverser = new NodeTraverser();
+$traverser->addVisitor($visitor1);
+$traverser->addVisitor($visitor2);
+$traverser->addVisitor($visitor3);
 ```
 
 Node visitors
@@ -47,20 +59,19 @@ For example, if we have the following excerpt of an AST
 
 ```
 Expr_FuncCall(
-    name: Name(
-        parts: array(
-            0: printLine
-        )
-    )
-    args: array(
-        0: Arg(
-            value: Scalar_String(
-                value: Hello World!!!
-            )
-            byRef: false
-            unpack: false
-        )
-    )
+   name: Name(
+       name: printLine
+   )
+   args: array(
+       0: Arg(
+           name: null
+           value: Scalar_String(
+               value: Hello World!!!
+           )
+           byRef: false
+           unpack: false
+       )
+   )
 )
 ```
 
@@ -129,14 +140,13 @@ Now `$a && $b` will be replaced by `!($a && $b)`. Then the traverser will go int
 only) child of `!($a && $b)`, which is `$a && $b`. The transformation applies again and we end up
 with `!!($a && $b)`. This will continue until PHP hits the memory limit.
 
-Finally, two special replacement types are supported only by leaveNode. The first is removal of a
-node:
+Finally, there are three special replacement types. The first is removal of a node:
 
 ```php
 public function leaveNode(Node $node) {
     if ($node instanceof Node\Stmt\Return_) {
         // Remove all return statements
-        return NodeTraverser::REMOVE_NODE;
+        return NodeVisitor::REMOVE_NODE;
     }
 }
 ```
@@ -156,7 +166,7 @@ public function leaveNode(Node $node) {
         && $node->expr->name instanceof Node\Name
         && $node->expr->name->toString() === 'var_dump'
     ) {
-        return NodeTraverser::REMOVE_NODE;
+        return NodeVisitor::REMOVE_NODE;
     }
 }
 ```
@@ -165,8 +175,22 @@ This example will remove all calls to `var_dump()` which occur as expression sta
 that `var_dump($a);` will be removed, but `if (var_dump($a))` will not be removed (and there is no
 obvious way in which it can be removed).
 
-Next to removing nodes, it is also possible to replace one node with multiple nodes. Again, this
-only works inside leaveNode and only if the parent structure is an array.
+Another way to remove nodes is to replace them with `null`. For example, all `else` statements could
+be removed as follows:
+
+```php
+public function leaveNode(Node $node) {
+    if ($node instanceof Node\Stmt\Else_) {
+        return NodeVisitor::REPLACE_WITH_NULL;
+    }
+}
+```
+
+This is only safe to do if the subnode the node is stored in is nullable. `Node\Stmt\Else_` only
+occurs inside `Node\Stmt\If_::$else`, which is nullable, so this particular replacement is safe.
+
+Next to removing nodes, it is also possible to replace one node with multiple nodes. This
+only works if the parent structure is an array.
 
 ```php
 public function leaveNode(Node $node) {
@@ -198,7 +222,7 @@ private $classes = [];
 public function enterNode(Node $node) {
     if ($node instanceof Node\Stmt\Class_) {
         $this->classes[] = $node;
-        return NodeTraverser::DONT_TRAVERSE_CHILDREN;
+        return NodeVisitor::DONT_TRAVERSE_CHILDREN;
     }
 }
 ```
@@ -218,7 +242,7 @@ public function enterNode(Node $node) {
         $node->namespacedName->toString() === 'Foo\Bar\Baz'
     ) {
         $this->class = $node;
-        return NodeTraverser::STOP_TRAVERSAL;
+        return NodeVisitor::STOP_TRAVERSAL;
     }
 }
 ```
@@ -256,13 +280,14 @@ $visitorA->enterNode(Stmt_Return)
 $visitorB->enterNode(Stmt_Return)
 $visitorA->enterNode(Expr_Variable)
 $visitorB->enterNode(Expr_Variable)
-$visitorA->leaveNode(Expr_Variable)
 $visitorB->leaveNode(Expr_Variable)
-$visitorA->leaveNode(Stmt_Return)
+$visitorA->leaveNode(Expr_Variable)
 $visitorB->leaveNode(Stmt_Return)
+$visitorA->leaveNode(Stmt_Return)
 ```
 
-That is, when visiting a node, enterNode and leaveNode will always be called for all visitors.
+That is, when visiting a node, `enterNode()` and `leaveNode()` will always be called for all
+visitors, with the `leaveNode()` calls happening in the reverse order of the `enterNode()` calls.
 Running multiple visitors in parallel improves performance, as the AST only has to be traversed
 once. However, it is not always possible to write visitors in a way that allows interleaved
 execution. In this case, you can always fall back to performing multiple traversals:
@@ -287,6 +312,7 @@ special enterNode/leaveNode return values:
  * If a visitor returns a replacement node, subsequent visitors will be passed the replacement node,
    not the original one.
  * If a visitor returns `REMOVE_NODE`, subsequent visitors will not see this node.
+ * If a visitor returns `REPLACE_WITH_NULL`, subsequent visitors will not see this node.
  * If a visitor returns an array of replacement nodes, subsequent visitors will see neither the node
    that was replaced, nor the replacement nodes.
 
@@ -333,5 +359,6 @@ be accessed: From parents to children. However, it can often be convenient to op
 reverse direction: When working on a node, you might want to check if the parent node satisfies a
 certain property.
 
-PHP-Parser does not add parent (or sibling) references to nodes by itself, but you can easily
-emulate this with a visitor. See the [FAQ](FAQ.markdown) for more information.
+PHP-Parser does not add parent (or sibling) references to nodes by default, but you can enable them
+using the `ParentConnectingVisitor` or `NodeConnectingVisitor`. See the [FAQ](FAQ.markdown) for
+more information.

@@ -6,7 +6,62 @@ function test(): null {}
 function test(): false {}
 function test(): true {}
 -----
-!!php7
+!!version=8.1
+array(
+    0: Stmt_Function(
+        attrGroups: array(
+        )
+        byRef: false
+        name: Identifier(
+            name: test
+        )
+        params: array(
+        )
+        returnType: Identifier(
+            name: null
+        )
+        stmts: array(
+        )
+    )
+    1: Stmt_Function(
+        attrGroups: array(
+        )
+        byRef: false
+        name: Identifier(
+            name: test
+        )
+        params: array(
+        )
+        returnType: Identifier(
+            name: false
+        )
+        stmts: array(
+        )
+    )
+    2: Stmt_Function(
+        attrGroups: array(
+        )
+        byRef: false
+        name: Identifier(
+            name: test
+        )
+        params: array(
+        )
+        returnType: Name(
+            name: true
+        )
+        stmts: array(
+        )
+    )
+)
+-----
+<?php
+
+function test(): null {}
+function test(): false {}
+function test(): true {}
+-----
+!!version=8.2
 array(
     0: Stmt_Function(
         attrGroups: array(

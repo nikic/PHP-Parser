@@ -8,16 +8,15 @@ use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\BinaryOp\Concat;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Name;
-use PhpParser\Node\Scalar\LNumber;
+use PhpParser\Node\Scalar\Int_;
 use PhpParser\Node\Scalar\String_;
 
-class BuilderFactoryTest extends \PHPUnit\Framework\TestCase
-{
+class BuilderFactoryTest extends \PHPUnit\Framework\TestCase {
     /**
      * @dataProvider provideTestFactory
      */
     public function testFactory($methodName, $className) {
-        $factory = new BuilderFactory;
+        $factory = new BuilderFactory();
         $this->assertInstanceOf($className, $factory->$methodName('test'));
     }
 
@@ -40,8 +39,8 @@ class BuilderFactoryTest extends \PHPUnit\Framework\TestCase
     }
 
     public function testFactoryClassConst() {
-        $factory = new BuilderFactory;
-        $this->assertInstanceOf(Builder\ClassConst::class, $factory->classConst('TEST',1));
+        $factory = new BuilderFactory();
+        $this->assertInstanceOf(Builder\ClassConst::class, $factory->classConst('TEST', 1));
     }
 
     public function testAttribute() {
@@ -142,7 +141,7 @@ class BuilderFactoryTest extends \PHPUnit\Framework\TestCase
             new Expr\MethodCall(
                 new Expr\Variable('obj'),
                 new Identifier('method'),
-                [new Arg(new LNumber(42))]
+                [new Arg(new Int_(42))]
             ),
             $factory->methodCall(new Expr\Variable('obj'), 'method', [42])
         );
@@ -269,7 +268,7 @@ class BuilderFactoryTest extends \PHPUnit\Framework\TestCase
     }
 
     public function testIntegration() {
-        $factory = new BuilderFactory;
+        $factory = new BuilderFactory();
         $node = $factory->namespace('Name\Space')
             ->addStmt($factory->use('Foo\Bar\SomeOtherClass'))
             ->addStmt($factory->use('Foo\Bar')->as('A'))
@@ -326,7 +325,7 @@ class BuilderFactoryTest extends \PHPUnit\Framework\TestCase
                 )
 
                 ->addStmt($factory->classConst("FIRST_CLASS_CONST", 1)
-                    ->addConst("SECOND_CLASS_CONST",2)
+                    ->addConst("SECOND_CLASS_CONST", 2)
                     ->makePrivate()))
             ->getNode()
         ;
@@ -353,8 +352,8 @@ abstract class SomeClass extends SomeOtherClass implements A\Few, \Interfaces
     public const CONST_WITH_ATTRIBUTE = 1;
     private const FIRST_CLASS_CONST = 1, SECOND_CLASS_CONST = 2;
     protected $someProperty;
-    private $anotherProperty = array(1, 2, 3);
-    #[Column(options: array('unsigned' => true))]
+    private $anotherProperty = [1, 2, 3];
+    #[Column(options: ['unsigned' => true])]
     public int $integerProperty = 1;
     #[Route('/index', name: 'homepage')]
     function firstMethod()
@@ -365,7 +364,7 @@ abstract class SomeClass extends SomeOtherClass implements A\Few, \Interfaces
      *
      * @param SomeClass And takes a parameter
      */
-    public abstract function someMethod(SomeClass $someParam);
+    abstract public function someMethod(SomeClass $someParam);
     protected function anotherMethod(#[TaggedIterator('app.handlers')] $someParam = 'test')
     {
         print $someParam;

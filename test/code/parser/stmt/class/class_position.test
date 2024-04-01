@@ -9,7 +9,7 @@ class C {}
 !!positions
 array(
     0: Stmt_If[3:1 - 3:7](
-        cond: Scalar_LNumber[3:5 - 3:5](
+        cond: Scalar_Int[3:5 - 3:5](
             value: 1
         )
         stmts: array(
@@ -42,7 +42,7 @@ trait X {}
 !!positions
 array(
     0: Stmt_If[3:1 - 3:7](
-        cond: Scalar_LNumber[3:5 - 3:5](
+        cond: Scalar_Int[3:5 - 3:5](
             value: 1
         )
         stmts: array(
@@ -71,7 +71,7 @@ interface X {}
 !!positions
 array(
     0: Stmt_If[3:1 - 3:7](
-        cond: Scalar_LNumber[3:5 - 3:5](
+        cond: Scalar_Int[3:5 - 3:5](
             value: 1
         )
         stmts: array(

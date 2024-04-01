@@ -11,7 +11,7 @@ class A extends B implements C, D {
 
     public function a() {}
     public static function b($a) {}
-    public final function c() : B {}
+    final public function c() : B {}
     protected function d() {}
     private function e() {}
 }
@@ -25,20 +25,14 @@ array(
             name: A
         )
         extends: Name(
-            parts: array(
-                0: B
-            )
+            name: B
         )
         implements: array(
             0: Name(
-                parts: array(
-                    0: C
-                )
+                name: C
             )
             1: Name(
-                parts: array(
-                    0: D
-                )
+                name: D
             )
         )
         stmts: array(
@@ -69,10 +63,10 @@ array(
             1: Stmt_Property(
                 attrGroups: array(
                 )
-                flags: MODIFIER_PUBLIC (1)
+                flags: PUBLIC (1)
                 type: null
                 props: array(
-                    0: Stmt_PropertyProperty(
+                    0: PropertyItem(
                         name: VarLikeIdentifier(
                             name: a
                         )
@@ -80,7 +74,7 @@ array(
                             value: b
                         )
                     )
-                    1: Stmt_PropertyProperty(
+                    1: PropertyItem(
                         name: VarLikeIdentifier(
                             name: c
                         )
@@ -93,10 +87,10 @@ array(
             2: Stmt_Property(
                 attrGroups: array(
                 )
-                flags: MODIFIER_PROTECTED (2)
+                flags: PROTECTED (2)
                 type: null
                 props: array(
-                    0: Stmt_PropertyProperty(
+                    0: PropertyItem(
                         name: VarLikeIdentifier(
                             name: e
                         )
@@ -107,10 +101,10 @@ array(
             3: Stmt_Property(
                 attrGroups: array(
                 )
-                flags: MODIFIER_PRIVATE (4)
+                flags: PRIVATE (4)
                 type: null
                 props: array(
-                    0: Stmt_PropertyProperty(
+                    0: PropertyItem(
                         name: VarLikeIdentifier(
                             name: f
                         )
@@ -121,7 +115,7 @@ array(
             4: Stmt_ClassMethod(
                 attrGroups: array(
                 )
-                flags: MODIFIER_PUBLIC (1)
+                flags: PUBLIC (1)
                 byRef: false
                 name: Identifier(
                     name: a
@@ -135,7 +129,7 @@ array(
             5: Stmt_ClassMethod(
                 attrGroups: array(
                 )
-                flags: MODIFIER_PUBLIC | MODIFIER_STATIC (9)
+                flags: PUBLIC | STATIC (9)
                 byRef: false
                 name: Identifier(
                     name: b
@@ -161,7 +155,7 @@ array(
             6: Stmt_ClassMethod(
                 attrGroups: array(
                 )
-                flags: MODIFIER_PUBLIC | MODIFIER_FINAL (33)
+                flags: PUBLIC | FINAL (33)
                 byRef: false
                 name: Identifier(
                     name: c
@@ -169,9 +163,7 @@ array(
                 params: array(
                 )
                 returnType: Name(
-                    parts: array(
-                        0: B
-                    )
+                    name: B
                 )
                 stmts: array(
                 )
@@ -179,7 +171,7 @@ array(
             7: Stmt_ClassMethod(
                 attrGroups: array(
                 )
-                flags: MODIFIER_PROTECTED (2)
+                flags: PROTECTED (2)
                 byRef: false
                 name: Identifier(
                     name: d
@@ -193,7 +185,7 @@ array(
             8: Stmt_ClassMethod(
                 attrGroups: array(
                 )
-                flags: MODIFIER_PRIVATE (4)
+                flags: PRIVATE (4)
                 byRef: false
                 name: Identifier(
                     name: e

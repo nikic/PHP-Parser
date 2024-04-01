@@ -4,7 +4,9 @@ Declare
 
 declare (X='Y');
 
-declare (A='B', C='D') {}
+declare (A='B', C='D') {
+    echo "foo";
+}
 
 declare (A='B', C='D'):
 enddeclare;
@@ -12,7 +14,7 @@ enddeclare;
 array(
     0: Stmt_Declare(
         declares: array(
-            0: Stmt_DeclareDeclare(
+            0: DeclareItem(
                 key: Identifier(
                     name: X
                 )
@@ -25,7 +27,7 @@ array(
     )
     1: Stmt_Declare(
         declares: array(
-            0: Stmt_DeclareDeclare(
+            0: DeclareItem(
                 key: Identifier(
                     name: A
                 )
@@ -33,7 +35,7 @@ array(
                     value: B
                 )
             )
-            1: Stmt_DeclareDeclare(
+            1: DeclareItem(
                 key: Identifier(
                     name: C
                 )
@@ -43,11 +45,18 @@ array(
             )
         )
         stmts: array(
+            0: Stmt_Echo(
+                exprs: array(
+                    0: Scalar_String(
+                        value: foo
+                    )
+                )
+            )
         )
     )
     2: Stmt_Declare(
         declares: array(
-            0: Stmt_DeclareDeclare(
+            0: DeclareItem(
                 key: Identifier(
                     name: A
                 )
@@ -55,7 +64,7 @@ array(
                     value: B
                 )
             )
-            1: Stmt_DeclareDeclare(
+            1: DeclareItem(
                 key: Identifier(
                     name: C
                 )

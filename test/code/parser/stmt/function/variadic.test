@@ -106,9 +106,7 @@ array(
                 )
                 flags: 0
                 type: Name(
-                    parts: array(
-                        0: Type
-                    )
+                    name: Type
                 )
                 byRef: false
                 variadic: true
@@ -147,9 +145,7 @@ array(
                 )
                 flags: 0
                 type: Name(
-                    parts: array(
-                        0: Type
-                    )
+                    name: Type
                 )
                 byRef: true
                 variadic: true

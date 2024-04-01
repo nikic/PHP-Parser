@@ -18,7 +18,7 @@ function printLine($msg) {
 }
 CODE;
 
-$parser = (new ParserFactory)->create(ParserFactory::PREFER_PHP7);
+$parser = (new ParserFactory())->createForHostVersion();
 
 try {
     $stmts = $parser->parse($code);
@@ -35,65 +35,6 @@ This will result in the following output (which includes attributes):
 [
     {
         "nodeType": "Stmt_Function",
-        "byRef": false,
-        "name": {
-            "nodeType": "Identifier",
-            "name": "printLine",
-            "attributes": {
-                "startLine": 4,
-                "endLine": 4
-            }
-        },
-        "params": [
-            {
-                "nodeType": "Param",
-                "type": null,
-                "byRef": false,
-                "variadic": false,
-                "var": {
-                    "nodeType": "Expr_Variable",
-                    "name": "msg",
-                    "attributes": {
-                        "startLine": 4,
-                        "endLine": 4
-                    }
-                },
-                "default": null,
-                "attributes": {
-                    "startLine": 4,
-                    "endLine": 4
-                }
-            }
-        ],
-        "returnType": null,
-        "stmts": [
-            {
-                "nodeType": "Stmt_Echo",
-                "exprs": [
-                    {
-                        "nodeType": "Expr_Variable",
-                        "name": "msg",
-                        "attributes": {
-                            "startLine": 5,
-                            "endLine": 5
-                        }
-                    },
-                    {
-                        "nodeType": "Scalar_String",
-                        "value": "\n",
-                        "attributes": {
-                            "startLine": 5,
-                            "endLine": 5,
-                            "kind": 2
-                        }
-                    }
-                ],
-                "attributes": {
-                    "startLine": 5,
-                    "endLine": 5
-                }
-            }
-        ],
         "attributes": {
             "startLine": 4,
             "comments": [
@@ -101,12 +42,79 @@ This will result in the following output (which includes attributes):
                     "nodeType": "Comment_Doc",
                     "text": "\/** @param string $msg *\/",
                     "line": 3,
-                    "filePos": 9,
-                    "tokenPos": 2
+                    "filePos": 7,
+                    "tokenPos": 2,
+                    "endLine": 3,
+                    "endFilePos": 31,
+                    "endTokenPos": 2
                 }
             ],
             "endLine": 6
-        }
+        },
+        "byRef": false,
+        "name": {
+            "nodeType": "Identifier",
+            "attributes": {
+                "startLine": 4,
+                "endLine": 4
+            },
+            "name": "printLine"
+        },
+        "params": [
+            {
+                "nodeType": "Param",
+                "attributes": {
+                    "startLine": 4,
+                    "endLine": 4
+                },
+                "type": null,
+                "byRef": false,
+                "variadic": false,
+                "var": {
+                    "nodeType": "Expr_Variable",
+                    "attributes": {
+                        "startLine": 4,
+                        "endLine": 4
+                    },
+                    "name": "msg"
+                },
+                "default": null,
+                "flags": 0,
+                "attrGroups": []
+            }
+        ],
+        "returnType": null,
+        "stmts": [
+            {
+                "nodeType": "Stmt_Echo",
+                "attributes": {
+                    "startLine": 5,
+                    "endLine": 5
+                },
+                "exprs": [
+                    {
+                        "nodeType": "Expr_Variable",
+                        "attributes": {
+                            "startLine": 5,
+                            "endLine": 5
+                        },
+                        "name": "msg"
+                    },
+                    {
+                        "nodeType": "Scalar_String",
+                        "attributes": {
+                            "startLine": 5,
+                            "endLine": 5
+                            "kind": 2,
+                            "rawValue": "\"\\n\""
+                        },
+                        "value": "\n"
+                    }
+                ]
+            }
+        ],
+        "attrGroups": [],
+        "namespacedName": null
     }
 ]
 ```

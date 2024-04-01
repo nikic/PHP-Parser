@@ -1,0 +1,1165 @@
+Types by version
+-----
+<?php
+function test(
+    bool $a1, int $a2, float $a3, string $a4, // PHP 7.0
+    iterable $a5, // PHP 7.1
+    object $a6, // PHP 7.2
+    mixed $a7, // PHP 8.0
+    null $a8, // PHP 8.0
+    false $a9, // PHP 8.0
+): void {} // PHP 7.1
+function test2(): never {} // PHP 8.1
+-----
+!!version=5.6
+array(
+    0: Stmt_Function(
+        attrGroups: array(
+        )
+        byRef: false
+        name: Identifier(
+            name: test
+        )
+        params: array(
+            0: Param(
+                attrGroups: array(
+                )
+                flags: 0
+                type: Name(
+                    name: bool
+                )
+                byRef: false
+                variadic: false
+                var: Expr_Variable(
+                    name: a1
+                )
+                default: null
+            )
+            1: Param(
+                attrGroups: array(
+                )
+                flags: 0
+                type: Name(
+                    name: int
+                )
+                byRef: false
+                variadic: false
+                var: Expr_Variable(
+                    name: a2
+                )
+                default: null
+            )
+            2: Param(
+                attrGroups: array(
+                )
+                flags: 0
+                type: Name(
+                    name: float
+                )
+                byRef: false
+                variadic: false
+                var: Expr_Variable(
+                    name: a3
+                )
+                default: null
+            )
+            3: Param(
+                attrGroups: array(
+                )
+                flags: 0
+                type: Name(
+                    name: string
+                )
+                byRef: false
+                variadic: false
+                var: Expr_Variable(
+                    name: a4
+                )
+                default: null
+            )
+            4: Param(
+                attrGroups: array(
+                )
+                flags: 0
+                type: Name(
+                    name: iterable
+                )
+                byRef: false
+                variadic: false
+                var: Expr_Variable(
+                    name: a5
+                )
+                default: null
+                comments: array(
+                    0: // PHP 7.0
+                )
+            )
+            5: Param(
+                attrGroups: array(
+                )
+                flags: 0
+                type: Name(
+                    name: object
+                )
+                byRef: false
+                variadic: false
+                var: Expr_Variable(
+                    name: a6
+                )
+                default: null
+                comments: array(
+                    0: // PHP 7.1
+                )
+            )
+            6: Param(
+                attrGroups: array(
+                )
+                flags: 0
+                type: Name(
+                    name: mixed
+                )
+                byRef: false
+                variadic: false
+                var: Expr_Variable(
+                    name: a7
+                )
+                default: null
+                comments: array(
+                    0: // PHP 7.2
+                )
+            )
+            7: Param(
+                attrGroups: array(
+                )
+                flags: 0
+                type: Name(
+                    name: null
+                )
+                byRef: false
+                variadic: false
+                var: Expr_Variable(
+                    name: a8
+                )
+                default: null
+                comments: array(
+                    0: // PHP 8.0
+                )
+            )
+            8: Param(
+                attrGroups: array(
+                )
+                flags: 0
+                type: Name(
+                    name: false
+                )
+                byRef: false
+                variadic: false
+                var: Expr_Variable(
+                    name: a9
+                )
+                default: null
+                comments: array(
+                    0: // PHP 8.0
+                )
+            )
+        )
+        returnType: Name(
+            name: void
+        )
+        stmts: array(
+        )
+    )
+    1: Stmt_Function(
+        attrGroups: array(
+        )
+        byRef: false
+        name: Identifier(
+            name: test2
+        )
+        params: array(
+        )
+        returnType: Name(
+            name: never
+        )
+        stmts: array(
+        )
+        comments: array(
+            0: // PHP 7.1
+        )
+    )
+    2: Stmt_Nop(
+        comments: array(
+            0: // PHP 8.1
+        )
+    )
+)
+-----
+<?php
+function test(
+    bool $a1, int $a2, float $a3, string $a4, // PHP 7.0
+    iterable $a5, // PHP 7.1
+    object $a6, // PHP 7.2
+    mixed $a7, // PHP 8.0
+    null $a8, // PHP 8.0
+    false $a9, // PHP 8.0
+): void {} // PHP 7.1
+function test2(): never {} // PHP 8.1
+-----
+!!version=7.0
+array(
+    0: Stmt_Function(
+        attrGroups: array(
+        )
+        byRef: false
+        name: Identifier(
+            name: test
+        )
+        params: array(
+            0: Param(
+                attrGroups: array(
+                )
+                flags: 0
+                type: Identifier(
+                    name: bool
+                )
+                byRef: false
+                variadic: false
+                var: Expr_Variable(
+                    name: a1
+                )
+                default: null
+            )
+            1: Param(
+                attrGroups: array(
+                )
+                flags: 0
+                type: Identifier(
+                    name: int
+                )
+                byRef: false
+                variadic: false
+                var: Expr_Variable(
+                    name: a2
+                )
+                default: null
+            )
+            2: Param(
+                attrGroups: array(
+                )
+                flags: 0
+                type: Identifier(
+                    name: float
+                )
+                byRef: false
+                variadic: false
+                var: Expr_Variable(
+                    name: a3
+                )
+                default: null
+            )
+            3: Param(
+                attrGroups: array(
+                )
+                flags: 0
+                type: Identifier(
+                    name: string
+                )
+                byRef: false
+                variadic: false
+                var: Expr_Variable(
+                    name: a4
+                )
+                default: null
+            )
+            4: Param(
+                attrGroups: array(
+                )
+                flags: 0
+                type: Name(
+                    name: iterable
+                )
+                byRef: false
+                variadic: false
+                var: Expr_Variable(
+                    name: a5
+                )
+                default: null
+                comments: array(
+                    0: // PHP 7.0
+                )
+            )
+            5: Param(
+                attrGroups: array(
+                )
+                flags: 0
+                type: Name(
+                    name: object
+                )
+                byRef: false
+                variadic: false
+                var: Expr_Variable(
+                    name: a6
+                )
+                default: null
+                comments: array(
+                    0: // PHP 7.1
+                )
+            )
+            6: Param(
+                attrGroups: array(
+                )
+                flags: 0
+                type: Name(
+                    name: mixed
+                )
+                byRef: false
+                variadic: false
+                var: Expr_Variable(
+                    name: a7
+                )
+                default: null
+                comments: array(
+                    0: // PHP 7.2
+                )
+            )
+            7: Param(
+                attrGroups: array(
+                )
+                flags: 0
+                type: Name(
+                    name: null
+                )
+                byRef: false
+                variadic: false
+                var: Expr_Variable(
+                    name: a8
+                )
+                default: null
+                comments: array(
+                    0: // PHP 8.0
+                )
+            )
+            8: Param(
+                attrGroups: array(
+                )
+                flags: 0
+                type: Name(
+                    name: false
+                )
+                byRef: false
+                variadic: false
+                var: Expr_Variable(
+                    name: a9
+                )
+                default: null
+                comments: array(
+                    0: // PHP 8.0
+                )
+            )
+        )
+        returnType: Name(
+            name: void
+        )
+        stmts: array(
+        )
+    )
+    1: Stmt_Function(
+        attrGroups: array(
+        )
+        byRef: false
+        name: Identifier(
+            name: test2
+        )
+        params: array(
+        )
+        returnType: Name(
+            name: never
+        )
+        stmts: array(
+        )
+        comments: array(
+            0: // PHP 7.1
+        )
+    )
+    2: Stmt_Nop(
+        comments: array(
+            0: // PHP 8.1
+        )
+    )
+)
+-----
+<?php
+function test(
+    bool $a1, int $a2, float $a3, string $a4, // PHP 7.0
+    iterable $a5, // PHP 7.1
+    object $a6, // PHP 7.2
+    mixed $a7, // PHP 8.0
+    null $a8, // PHP 8.0
+    false $a9, // PHP 8.0
+): void {} // PHP 7.1
+function test2(): never {} // PHP 8.1
+-----
+!!version=7.1
+array(
+    0: Stmt_Function(
+        attrGroups: array(
+        )
+        byRef: false
+        name: Identifier(
+            name: test
+        )
+        params: array(
+            0: Param(
+                attrGroups: array(
+                )
+                flags: 0
+                type: Identifier(
+                    name: bool
+                )
+                byRef: false
+                variadic: false
+                var: Expr_Variable(
+                    name: a1
+                )
+                default: null
+            )
+            1: Param(
+                attrGroups: array(
+                )
+                flags: 0
+                type: Identifier(
+                    name: int
+                )
+                byRef: false
+                variadic: false
+                var: Expr_Variable(
+                    name: a2
+                )
+                default: null
+            )
+            2: Param(
+                attrGroups: array(
+                )
+                flags: 0
+                type: Identifier(
+                    name: float
+                )
+                byRef: false
+                variadic: false
+                var: Expr_Variable(
+                    name: a3
+                )
+                default: null
+            )
+            3: Param(
+                attrGroups: array(
+                )
+                flags: 0
+                type: Identifier(
+                    name: string
+                )
+                byRef: false
+                variadic: false
+                var: Expr_Variable(
+                    name: a4
+                )
+                default: null
+            )
+            4: Param(
+                attrGroups: array(
+                )
+                flags: 0
+                type: Identifier(
+                    name: iterable
+                )
+                byRef: false
+                variadic: false
+                var: Expr_Variable(
+                    name: a5
+                )
+                default: null
+                comments: array(
+                    0: // PHP 7.0
+                )
+            )
+            5: Param(
+                attrGroups: array(
+                )
+                flags: 0
+                type: Name(
+                    name: object
+                )
+                byRef: false
+                variadic: false
+                var: Expr_Variable(
+                    name: a6
+                )
+                default: null
+                comments: array(
+                    0: // PHP 7.1
+                )
+            )
+            6: Param(
+                attrGroups: array(
+                )
+                flags: 0
+                type: Name(
+                    name: mixed
+                )
+                byRef: false
+                variadic: false
+                var: Expr_Variable(
+                    name: a7
+                )
+                default: null
+                comments: array(
+                    0: // PHP 7.2
+                )
+            )
+            7: Param(
+                attrGroups: array(
+                )
+                flags: 0
+                type: Name(
+                    name: null
+                )
+                byRef: false
+                variadic: false
+                var: Expr_Variable(
+                    name: a8
+                )
+                default: null
+                comments: array(
+                    0: // PHP 8.0
+                )
+            )
+            8: Param(
+                attrGroups: array(
+                )
+                flags: 0
+                type: Name(
+                    name: false
+                )
+                byRef: false
+                variadic: false
+                var: Expr_Variable(
+                    name: a9
+                )
+                default: null
+                comments: array(
+                    0: // PHP 8.0
+                )
+            )
+        )
+        returnType: Identifier(
+            name: void
+        )
+        stmts: array(
+        )
+    )
+    1: Stmt_Function(
+        attrGroups: array(
+        )
+        byRef: false
+        name: Identifier(
+            name: test2
+        )
+        params: array(
+        )
+        returnType: Name(
+            name: never
+        )
+        stmts: array(
+        )
+        comments: array(
+            0: // PHP 7.1
+        )
+    )
+    2: Stmt_Nop(
+        comments: array(
+            0: // PHP 8.1
+        )
+    )
+)
+-----
+<?php
+function test(
+    bool $a1, int $a2, float $a3, string $a4, // PHP 7.0
+    iterable $a5, // PHP 7.1
+    object $a6, // PHP 7.2
+    mixed $a7, // PHP 8.0
+    null $a8, // PHP 8.0
+    false $a9, // PHP 8.0
+): void {} // PHP 7.1
+function test2(): never {} // PHP 8.1
+-----
+!!version=7.2
+array(
+    0: Stmt_Function(
+        attrGroups: array(
+        )
+        byRef: false
+        name: Identifier(
+            name: test
+        )
+        params: array(
+            0: Param(
+                attrGroups: array(
+                )
+                flags: 0
+                type: Identifier(
+                    name: bool
+                )
+                byRef: false
+                variadic: false
+                var: Expr_Variable(
+                    name: a1
+                )
+                default: null
+            )
+            1: Param(
+                attrGroups: array(
+                )
+                flags: 0
+                type: Identifier(
+                    name: int
+                )
+                byRef: false
+                variadic: false
+                var: Expr_Variable(
+                    name: a2
+                )
+                default: null
+            )
+            2: Param(
+                attrGroups: array(
+                )
+                flags: 0
+                type: Identifier(
+                    name: float
+                )
+                byRef: false
+                variadic: false
+                var: Expr_Variable(
+                    name: a3
+                )
+                default: null
+            )
+            3: Param(
+                attrGroups: array(
+                )
+                flags: 0
+                type: Identifier(
+                    name: string
+                )
+                byRef: false
+                variadic: false
+                var: Expr_Variable(
+                    name: a4
+                )
+                default: null
+            )
+            4: Param(
+                attrGroups: array(
+                )
+                flags: 0
+                type: Identifier(
+                    name: iterable
+                )
+                byRef: false
+                variadic: false
+                var: Expr_Variable(
+                    name: a5
+                )
+                default: null
+                comments: array(
+                    0: // PHP 7.0
+                )
+            )
+            5: Param(
+                attrGroups: array(
+                )
+                flags: 0
+                type: Identifier(
+                    name: object
+                )
+                byRef: false
+                variadic: false
+                var: Expr_Variable(
+                    name: a6
+                )
+                default: null
+                comments: array(
+                    0: // PHP 7.1
+                )
+            )
+            6: Param(
+                attrGroups: array(
+                )
+                flags: 0
+                type: Name(
+                    name: mixed
+                )
+                byRef: false
+                variadic: false
+                var: Expr_Variable(
+                    name: a7
+                )
+                default: null
+                comments: array(
+                    0: // PHP 7.2
+                )
+            )
+            7: Param(
+                attrGroups: array(
+                )
+                flags: 0
+                type: Name(
+                    name: null
+                )
+                byRef: false
+                variadic: false
+                var: Expr_Variable(
+                    name: a8
+                )
+                default: null
+                comments: array(
+                    0: // PHP 8.0
+                )
+            )
+            8: Param(
+                attrGroups: array(
+                )
+                flags: 0
+                type: Name(
+                    name: false
+                )
+                byRef: false
+                variadic: false
+                var: Expr_Variable(
+                    name: a9
+                )
+                default: null
+                comments: array(
+                    0: // PHP 8.0
+                )
+            )
+        )
+        returnType: Identifier(
+            name: void
+        )
+        stmts: array(
+        )
+    )
+    1: Stmt_Function(
+        attrGroups: array(
+        )
+        byRef: false
+        name: Identifier(
+            name: test2
+        )
+        params: array(
+        )
+        returnType: Name(
+            name: never
+        )
+        stmts: array(
+        )
+        comments: array(
+            0: // PHP 7.1
+        )
+    )
+    2: Stmt_Nop(
+        comments: array(
+            0: // PHP 8.1
+        )
+    )
+)
+-----
+<?php
+function test(
+    bool $a1, int $a2, float $a3, string $a4, // PHP 7.0
+    iterable $a5, // PHP 7.1
+    object $a6, // PHP 7.2
+    mixed $a7, // PHP 8.0
+    null $a8, // PHP 8.0
+    false $a9, // PHP 8.0
+): void {} // PHP 7.1
+function test2(): never {} // PHP 8.1
+-----
+!!version=8.0
+array(
+    0: Stmt_Function(
+        attrGroups: array(
+        )
+        byRef: false
+        name: Identifier(
+            name: test
+        )
+        params: array(
+            0: Param(
+                attrGroups: array(
+                )
+                flags: 0
+                type: Identifier(
+                    name: bool
+                )
+                byRef: false
+                variadic: false
+                var: Expr_Variable(
+                    name: a1
+                )
+                default: null
+            )
+            1: Param(
+                attrGroups: array(
+                )
+                flags: 0
+                type: Identifier(
+                    name: int
+                )
+                byRef: false
+                variadic: false
+                var: Expr_Variable(
+                    name: a2
+                )
+                default: null
+            )
+            2: Param(
+                attrGroups: array(
+                )
+                flags: 0
+                type: Identifier(
+                    name: float
+                )
+                byRef: false
+                variadic: false
+                var: Expr_Variable(
+                    name: a3
+                )
+                default: null
+            )
+            3: Param(
+                attrGroups: array(
+                )
+                flags: 0
+                type: Identifier(
+                    name: string
+                )
+                byRef: false
+                variadic: false
+                var: Expr_Variable(
+                    name: a4
+                )
+                default: null
+            )
+            4: Param(
+                attrGroups: array(
+                )
+                flags: 0
+                type: Identifier(
+                    name: iterable
+                )
+                byRef: false
+                variadic: false
+                var: Expr_Variable(
+                    name: a5
+                )
+                default: null
+                comments: array(
+                    0: // PHP 7.0
+                )
+            )
+            5: Param(
+                attrGroups: array(
+                )
+                flags: 0
+                type: Identifier(
+                    name: object
+                )
+                byRef: false
+                variadic: false
+                var: Expr_Variable(
+                    name: a6
+                )
+                default: null
+                comments: array(
+                    0: // PHP 7.1
+                )
+            )
+            6: Param(
+                attrGroups: array(
+                )
+                flags: 0
+                type: Identifier(
+                    name: mixed
+                )
+                byRef: false
+                variadic: false
+                var: Expr_Variable(
+                    name: a7
+                )
+                default: null
+                comments: array(
+                    0: // PHP 7.2
+                )
+            )
+            7: Param(
+                attrGroups: array(
+                )
+                flags: 0
+                type: Identifier(
+                    name: null
+                )
+                byRef: false
+                variadic: false
+                var: Expr_Variable(
+                    name: a8
+                )
+                default: null
+                comments: array(
+                    0: // PHP 8.0
+                )
+            )
+            8: Param(
+                attrGroups: array(
+                )
+                flags: 0
+                type: Identifier(
+                    name: false
+                )
+                byRef: false
+                variadic: false
+                var: Expr_Variable(
+                    name: a9
+                )
+                default: null
+                comments: array(
+                    0: // PHP 8.0
+                )
+            )
+        )
+        returnType: Identifier(
+            name: void
+        )
+        stmts: array(
+        )
+    )
+    1: Stmt_Function(
+        attrGroups: array(
+        )
+        byRef: false
+        name: Identifier(
+            name: test2
+        )
+        params: array(
+        )
+        returnType: Name(
+            name: never
+        )
+        stmts: array(
+        )
+        comments: array(
+            0: // PHP 7.1
+        )
+    )
+    2: Stmt_Nop(
+        comments: array(
+            0: // PHP 8.1
+        )
+    )
+)
+-----
+<?php
+function test(
+    bool $a1, int $a2, float $a3, string $a4, // PHP 7.0
+    iterable $a5, // PHP 7.1
+    object $a6, // PHP 7.2
+    mixed $a7, // PHP 8.0
+    null $a8, // PHP 8.0
+    false $a9, // PHP 8.0
+): void {} // PHP 7.1
+function test2(): never {} // PHP 8.1
+-----
+!!version=8.1
+array(
+    0: Stmt_Function(
+        attrGroups: array(
+        )
+        byRef: false
+        name: Identifier(
+            name: test
+        )
+        params: array(
+            0: Param(
+                attrGroups: array(
+                )
+                flags: 0
+                type: Identifier(
+                    name: bool
+                )
+                byRef: false
+                variadic: false
+                var: Expr_Variable(
+                    name: a1
+                )
+                default: null
+            )
+            1: Param(
+                attrGroups: array(
+                )
+                flags: 0
+                type: Identifier(
+                    name: int
+                )
+                byRef: false
+                variadic: false
+                var: Expr_Variable(
+                    name: a2
+                )
+                default: null
+            )
+            2: Param(
+                attrGroups: array(
+                )
+                flags: 0
+                type: Identifier(
+                    name: float
+                )
+                byRef: false
+                variadic: false
+                var: Expr_Variable(
+                    name: a3
+                )
+                default: null
+            )
+            3: Param(
+                attrGroups: array(
+                )
+                flags: 0
+                type: Identifier(
+                    name: string
+                )
+                byRef: false
+                variadic: false
+                var: Expr_Variable(
+                    name: a4
+                )
+                default: null
+            )
+            4: Param(
+                attrGroups: array(
+                )
+                flags: 0
+                type: Identifier(
+                    name: iterable
+                )
+                byRef: false
+                variadic: false
+                var: Expr_Variable(
+                    name: a5
+                )
+                default: null
+                comments: array(
+                    0: // PHP 7.0
+                )
+            )
+            5: Param(
+                attrGroups: array(
+                )
+                flags: 0
+                type: Identifier(
+                    name: object
+                )
+                byRef: false
+                variadic: false
+                var: Expr_Variable(
+                    name: a6
+                )
+                default: null
+                comments: array(
+                    0: // PHP 7.1
+                )
+            )
+            6: Param(
+                attrGroups: array(
+                )
+                flags: 0
+                type: Identifier(
+                    name: mixed
+                )
+                byRef: false
+                variadic: false
+                var: Expr_Variable(
+                    name: a7
+                )
+                default: null
+                comments: array(
+                    0: // PHP 7.2
+                )
+            )
+            7: Param(
+                attrGroups: array(
+                )
+                flags: 0
+                type: Identifier(
+                    name: null
+                )
+                byRef: false
+                variadic: false
+                var: Expr_Variable(
+                    name: a8
+                )
+                default: null
+                comments: array(
+                    0: // PHP 8.0
+                )
+            )
+            8: Param(
+                attrGroups: array(
+                )
+                flags: 0
+                type: Identifier(
+                    name: false
+                )
+                byRef: false
+                variadic: false
+                var: Expr_Variable(
+                    name: a9
+                )
+                default: null
+                comments: array(
+                    0: // PHP 8.0
+                )
+            )
+        )
+        returnType: Identifier(
+            name: void
+        )
+        stmts: array(
+        )
+    )
+    1: Stmt_Function(
+        attrGroups: array(
+        )
+        byRef: false
+        name: Identifier(
+            name: test2
+        )
+        params: array(
+        )
+        returnType: Identifier(
+            name: never
+        )
+        stmts: array(
+        )
+        comments: array(
+            0: // PHP 7.1
+        )
+    )
+    2: Stmt_Nop(
+        comments: array(
+            0: // PHP 8.1
+        )
+    )
+)

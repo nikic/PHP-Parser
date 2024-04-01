@@ -8,7 +8,6 @@ try {
 
 }
 -----
-!!php7
 array(
     0: Stmt_TryCatch(
         stmts: array(
@@ -17,9 +16,7 @@ array(
             0: Stmt_Catch(
                 types: array(
                     0: Name(
-                        parts: array(
-                            0: Exception
-                        )
+                        name: Exception
                     )
                 )
                 var: null

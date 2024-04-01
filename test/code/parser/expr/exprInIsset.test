@@ -6,7 +6,6 @@ isset(($a), (($b)));
 // This is illegal, but not a syntax error.
 isset(1 + 1);
 -----
-!!php7
 array(
     0: Stmt_Expression(
         expr: Expr_Isset(
@@ -18,9 +17,6 @@ array(
                     name: b
                 )
             )
-            comments: array(
-                0: // This is legal.
-            )
         )
         comments: array(
             0: // This is legal.
@@ -30,16 +26,13 @@ array(
         expr: Expr_Isset(
             vars: array(
                 0: Expr_BinaryOp_Plus(
-                    left: Scalar_LNumber(
+                    left: Scalar_Int(
                         value: 1
                     )
-                    right: Scalar_LNumber(
+                    right: Scalar_Int(
                         value: 1
                     )
                 )
-            )
-            comments: array(
-                0: // This is illegal, but not a syntax error.
             )
         )
         comments: array(

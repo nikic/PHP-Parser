@@ -50,3 +50,14 @@ class Test {
         // some code
     }
 }
+-----
+<?php
+    class Example {
+    }
+-----
+$stmts[0]->setDocComment(new Comment\Doc("/** foo */"));
+-----
+<?php
+    /** foo */
+    class Example {
+    }

@@ -20,13 +20,10 @@ array(
     0: Stmt_Use(
         type: TYPE_NORMAL (1)
         uses: array(
-            0: Stmt_UseUse(
+            0: UseItem(
                 type: TYPE_UNKNOWN (0)
                 name: Name(
-                    parts: array(
-                        0: A
-                        1: B
-                    )
+                    name: A\B
                 )
                 alias: null
             )
@@ -35,13 +32,10 @@ array(
     1: Stmt_Use(
         type: TYPE_NORMAL (1)
         uses: array(
-            0: Stmt_UseUse(
+            0: UseItem(
                 type: TYPE_UNKNOWN (0)
                 name: Name(
-                    parts: array(
-                        0: C
-                        1: D
-                    )
+                    name: C\D
                 )
                 alias: Identifier(
                     name: E
@@ -52,24 +46,19 @@ array(
     2: Stmt_Use(
         type: TYPE_NORMAL (1)
         uses: array(
-            0: Stmt_UseUse(
+            0: UseItem(
                 type: TYPE_UNKNOWN (0)
                 name: Name(
-                    parts: array(
-                        0: F
-                        1: G
-                    )
+                    name: F\G
                 )
                 alias: Identifier(
                     name: H
                 )
             )
-            1: Stmt_UseUse(
+            1: UseItem(
                 type: TYPE_UNKNOWN (0)
                 name: Name(
-                    parts: array(
-                        0: J
-                    )
+                    name: J
                 )
                 alias: null
             )
@@ -78,12 +67,10 @@ array(
     3: Stmt_Use(
         type: TYPE_NORMAL (1)
         uses: array(
-            0: Stmt_UseUse(
+            0: UseItem(
                 type: TYPE_UNKNOWN (0)
                 name: Name(
-                    parts: array(
-                        0: A
-                    )
+                    name: A
                 )
                 alias: null
             )
@@ -95,12 +82,10 @@ array(
     4: Stmt_Use(
         type: TYPE_NORMAL (1)
         uses: array(
-            0: Stmt_UseUse(
+            0: UseItem(
                 type: TYPE_UNKNOWN (0)
                 name: Name(
-                    parts: array(
-                        0: A
-                    )
+                    name: A
                 )
                 alias: Identifier(
                     name: B
@@ -111,13 +96,10 @@ array(
     5: Stmt_Use(
         type: TYPE_FUNCTION (2)
         uses: array(
-            0: Stmt_UseUse(
+            0: UseItem(
                 type: TYPE_UNKNOWN (0)
                 name: Name(
-                    parts: array(
-                        0: foo
-                        1: bar
-                    )
+                    name: foo\bar
                 )
                 alias: null
             )
@@ -129,13 +111,10 @@ array(
     6: Stmt_Use(
         type: TYPE_FUNCTION (2)
         uses: array(
-            0: Stmt_UseUse(
+            0: UseItem(
                 type: TYPE_UNKNOWN (0)
                 name: Name(
-                    parts: array(
-                        0: foo
-                        1: bar
-                    )
+                    name: foo\bar
                 )
                 alias: Identifier(
                     name: baz
@@ -146,13 +125,10 @@ array(
     7: Stmt_Use(
         type: TYPE_CONSTANT (3)
         uses: array(
-            0: Stmt_UseUse(
+            0: UseItem(
                 type: TYPE_UNKNOWN (0)
                 name: Name(
-                    parts: array(
-                        0: foo
-                        1: BAR
-                    )
+                    name: foo\BAR
                 )
                 alias: null
             )
@@ -161,13 +137,10 @@ array(
     8: Stmt_Use(
         type: TYPE_CONSTANT (3)
         uses: array(
-            0: Stmt_UseUse(
+            0: UseItem(
                 type: TYPE_UNKNOWN (0)
                 name: Name(
-                    parts: array(
-                        0: foo
-                        1: BAR
-                    )
+                    name: foo\BAR
                 )
                 alias: Identifier(
                     name: BAZ

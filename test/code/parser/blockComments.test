@@ -15,20 +15,31 @@ Comments on blocks
 {}
 -----
 array(
-    0: Stmt_Expression(
-        expr: Expr_Variable(
-            name: a
-            comments: array(
-                0: // baz
+    0: Stmt_Block(
+        stmts: array(
+            0: Stmt_Block(
+                stmts: array(
+                    0: Stmt_Expression(
+                        expr: Expr_Variable(
+                            name: a
+                        )
+                        comments: array(
+                            0: // baz
+                        )
+                    )
+                )
+                comments: array(
+                    0: // bar
+                )
             )
         )
         comments: array(
             0: // foo
-            1: // bar
-            2: // baz
         )
     )
-    1: Stmt_Nop(
+    1: Stmt_Block(
+        stmts: array(
+        )
         comments: array(
             0: // empty
         )

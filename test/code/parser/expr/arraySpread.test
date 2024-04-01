@@ -30,25 +30,25 @@ array(
             )
             expr: Expr_Array(
                 items: array(
-                    0: Expr_ArrayItem(
+                    0: ArrayItem(
                         key: null
-                        value: Scalar_LNumber(
+                        value: Scalar_Int(
                             value: 1
                         )
                         byRef: false
                         unpack: false
                     )
-                    1: Expr_ArrayItem(
+                    1: ArrayItem(
                         key: null
-                        value: Scalar_LNumber(
+                        value: Scalar_Int(
                             value: 2
                         )
                         byRef: false
                         unpack: false
                     )
-                    2: Expr_ArrayItem(
+                    2: ArrayItem(
                         key: null
-                        value: Scalar_LNumber(
+                        value: Scalar_Int(
                             value: 3
                         )
                         byRef: false
@@ -72,17 +72,17 @@ array(
             0: Stmt_Return(
                 expr: Expr_Array(
                     items: array(
-                        0: Expr_ArrayItem(
+                        0: ArrayItem(
                             key: null
-                            value: Scalar_LNumber(
+                            value: Scalar_Int(
                                 value: 4
                             )
                             byRef: false
                             unpack: false
                         )
-                        1: Expr_ArrayItem(
+                        1: ArrayItem(
                             key: null
-                            value: Scalar_LNumber(
+                            value: Scalar_Int(
                                 value: 5
                             )
                             byRef: false
@@ -110,7 +110,7 @@ array(
                         var: Expr_Variable(
                             name: i
                         )
-                        expr: Scalar_LNumber(
+                        expr: Scalar_Int(
                             value: 11
                         )
                     )
@@ -120,7 +120,7 @@ array(
                         left: Expr_Variable(
                             name: i
                         )
-                        right: Scalar_LNumber(
+                        right: Scalar_Int(
                             value: 15
                         )
                     )
@@ -148,7 +148,7 @@ array(
     3: Stmt_Expression(
         expr: Expr_Array(
             items: array(
-                0: Expr_ArrayItem(
+                0: ArrayItem(
                     key: null
                     value: Expr_Array(
                         items: array(
@@ -163,29 +163,29 @@ array(
     4: Stmt_Expression(
         expr: Expr_Array(
             items: array(
-                0: Expr_ArrayItem(
+                0: ArrayItem(
                     key: null
                     value: Expr_Array(
                         items: array(
-                            0: Expr_ArrayItem(
+                            0: ArrayItem(
                                 key: null
-                                value: Scalar_LNumber(
+                                value: Scalar_Int(
                                     value: 1
                                 )
                                 byRef: false
                                 unpack: false
                             )
-                            1: Expr_ArrayItem(
+                            1: ArrayItem(
                                 key: null
-                                value: Scalar_LNumber(
+                                value: Scalar_Int(
                                     value: 2
                                 )
                                 byRef: false
                                 unpack: false
                             )
-                            2: Expr_ArrayItem(
+                            2: ArrayItem(
                                 key: null
-                                value: Scalar_LNumber(
+                                value: Scalar_Int(
                                     value: 3
                                 )
                                 byRef: false
@@ -202,7 +202,7 @@ array(
     5: Stmt_Expression(
         expr: Expr_Array(
             items: array(
-                0: Expr_ArrayItem(
+                0: ArrayItem(
                     key: null
                     value: Expr_Variable(
                         name: array
@@ -216,13 +216,11 @@ array(
     6: Stmt_Expression(
         expr: Expr_Array(
             items: array(
-                0: Expr_ArrayItem(
+                0: ArrayItem(
                     key: null
                     value: Expr_FuncCall(
                         name: Name(
-                            parts: array(
-                                0: getArr
-                            )
+                            name: getArr
                         )
                         args: array(
                         )
@@ -236,13 +234,11 @@ array(
     7: Stmt_Expression(
         expr: Expr_Array(
             items: array(
-                0: Expr_ArrayItem(
+                0: ArrayItem(
                     key: null
                     value: Expr_FuncCall(
                         name: Name(
-                            parts: array(
-                                0: arrGen
-                            )
+                            name: arrGen
                         )
                         args: array(
                         )
@@ -256,20 +252,18 @@ array(
     8: Stmt_Expression(
         expr: Expr_Array(
             items: array(
-                0: Expr_ArrayItem(
+                0: ArrayItem(
                     key: null
                     value: Expr_New(
                         class: Name(
-                            parts: array(
-                                0: ArrayIterator
-                            )
+                            name: ArrayIterator
                         )
                         args: array(
                             0: Arg(
                                 name: null
                                 value: Expr_Array(
                                     items: array(
-                                        0: Expr_ArrayItem(
+                                        0: ArrayItem(
                                             key: null
                                             value: Scalar_String(
                                                 value: a
@@ -277,7 +271,7 @@ array(
                                             byRef: false
                                             unpack: false
                                         )
-                                        1: Expr_ArrayItem(
+                                        1: ArrayItem(
                                             key: null
                                             value: Scalar_String(
                                                 value: b
@@ -285,7 +279,7 @@ array(
                                             byRef: false
                                             unpack: false
                                         )
-                                        2: Expr_ArrayItem(
+                                        2: ArrayItem(
                                             key: null
                                             value: Scalar_String(
                                                 value: c
@@ -309,15 +303,15 @@ array(
     9: Stmt_Expression(
         expr: Expr_Array(
             items: array(
-                0: Expr_ArrayItem(
+                0: ArrayItem(
                     key: null
-                    value: Scalar_LNumber(
+                    value: Scalar_Int(
                         value: 0
                     )
                     byRef: false
                     unpack: false
                 )
-                1: Expr_ArrayItem(
+                1: ArrayItem(
                     key: null
                     value: Expr_Variable(
                         name: array
@@ -325,13 +319,11 @@ array(
                     byRef: false
                     unpack: true
                 )
-                2: Expr_ArrayItem(
+                2: ArrayItem(
                     key: null
                     value: Expr_FuncCall(
                         name: Name(
-                            parts: array(
-                                0: getArr
-                            )
+                            name: getArr
                         )
                         args: array(
                         )
@@ -339,53 +331,51 @@ array(
                     byRef: false
                     unpack: true
                 )
-                3: Expr_ArrayItem(
+                3: ArrayItem(
                     key: null
-                    value: Scalar_LNumber(
+                    value: Scalar_Int(
                         value: 6
                     )
                     byRef: false
                     unpack: false
                 )
-                4: Expr_ArrayItem(
+                4: ArrayItem(
                     key: null
-                    value: Scalar_LNumber(
+                    value: Scalar_Int(
                         value: 7
                     )
                     byRef: false
                     unpack: false
                 )
-                5: Expr_ArrayItem(
+                5: ArrayItem(
                     key: null
-                    value: Scalar_LNumber(
+                    value: Scalar_Int(
                         value: 8
                     )
                     byRef: false
                     unpack: false
                 )
-                6: Expr_ArrayItem(
+                6: ArrayItem(
                     key: null
-                    value: Scalar_LNumber(
+                    value: Scalar_Int(
                         value: 9
                     )
                     byRef: false
                     unpack: false
                 )
-                7: Expr_ArrayItem(
+                7: ArrayItem(
                     key: null
-                    value: Scalar_LNumber(
+                    value: Scalar_Int(
                         value: 10
                     )
                     byRef: false
                     unpack: false
                 )
-                8: Expr_ArrayItem(
+                8: ArrayItem(
                     key: null
                     value: Expr_FuncCall(
                         name: Name(
-                            parts: array(
-                                0: arrGen
-                            )
+                            name: arrGen
                         )
                         args: array(
                         )
@@ -399,15 +389,15 @@ array(
     10: Stmt_Expression(
         expr: Expr_Array(
             items: array(
-                0: Expr_ArrayItem(
+                0: ArrayItem(
                     key: null
-                    value: Scalar_LNumber(
+                    value: Scalar_Int(
                         value: 0
                     )
                     byRef: false
                     unpack: false
                 )
-                1: Expr_ArrayItem(
+                1: ArrayItem(
                     key: null
                     value: Expr_Variable(
                         name: array
@@ -415,7 +405,7 @@ array(
                     byRef: false
                     unpack: true
                 )
-                2: Expr_ArrayItem(
+                2: ArrayItem(
                     key: null
                     value: Expr_Variable(
                         name: array
@@ -423,7 +413,7 @@ array(
                     byRef: false
                     unpack: true
                 )
-                3: Expr_ArrayItem(
+                3: ArrayItem(
                     key: null
                     value: Scalar_String(
                         value: end

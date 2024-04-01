@@ -110,3 +110,13 @@ function test()
     foo();
     baz();
 }
+-----
+
+
+<?php $x;
+-----
+/* Do nothing, but make sure leading newlines are preserved. */
+-----
+
+
+<?php $x;

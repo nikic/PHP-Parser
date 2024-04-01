@@ -1,0 +1,54 @@
+Short echo syntax cannot be used as an identifier
+-----
+<?php
+class C {
+    use T {
+        x as y?><?= as my_echo;
+    }
+}
+-----
+Cannot use "<?=" as an identifier from 4:17 to 4:19
+array(
+    0: Stmt_Class(
+        attrGroups: array(
+        )
+        flags: 0
+        name: Identifier(
+            name: C
+        )
+        extends: null
+        implements: array(
+        )
+        stmts: array(
+            0: Stmt_TraitUse(
+                traits: array(
+                    0: Name(
+                        name: T
+                    )
+                )
+                adaptations: array(
+                    0: Stmt_TraitUseAdaptation_Alias(
+                        trait: null
+                        method: Identifier(
+                            name: x
+                        )
+                        newModifier: null
+                        newName: Identifier(
+                            name: y
+                        )
+                    )
+                    1: Stmt_TraitUseAdaptation_Alias(
+                        trait: null
+                        method: Identifier(
+                            name: <?=
+                        )
+                        newModifier: null
+                        newName: Identifier(
+                            name: my_echo
+                        )
+                    )
+                )
+            )
+        )
+    )
+)

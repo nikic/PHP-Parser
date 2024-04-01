@@ -9,7 +9,6 @@ echo match (1) {
     default => 'Foo',
 };
 -----
-!!php7
 echo match (1) {
     0, 1 => 'Foo',
     // Comment

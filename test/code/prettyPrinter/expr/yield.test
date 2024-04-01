@@ -8,11 +8,78 @@ function gen()
     yield $a;
     yield $a => $b;
     $a = yield;
-    $a = (yield $b);
-    $a = (yield $b => $c);
+    $a = yield $b;
+    $a = yield $b => $c;
+    yield from $a;
+    $a = yield from $b;
+    (yield $a) + $b;
+    (yield from $a) + $b;
+    [yield $a => $b];
+    [(yield $a) => $b];
+    [$a + (yield $b) => $c];
+    yield yield $a => $b;
+    yield (yield $a) => $b;
+    match ($x) {
+        yield $a, (yield $b) => $c,
+    };
+    yield -$a;
+    (yield) - $a;
+    yield * $a;
 }
-// TODO Get rid of parens for cases 2 and 3
 -----
+function gen()
+{
+    yield;
+    yield $a;
+    yield $a => $b;
+    $a = yield;
+    $a = yield $b;
+    $a = yield $b => $c;
+    yield from $a;
+    $a = yield from $b;
+    (yield $a) + $b;
+    (yield from $a) + $b;
+    [yield $a => $b];
+    [(yield $a) => $b];
+    [$a + (yield $b) => $c];
+    yield yield $a => $b;
+    yield (yield $a) => $b;
+    match ($x) {
+        yield $a, (yield $b) => $c,
+    };
+    yield -$a;
+    (yield) - $a;
+    (yield) * $a;
+}
+-----
+<?php
+
+function gen()
+{
+    yield;
+    yield $a;
+    yield $a => $b;
+    $a = yield;
+    $a = yield $b;
+    $a = yield $b => $c;
+    yield from $a;
+    $a = yield from $b;
+    (yield $a) + $b;
+    (yield from $a) + $b;
+    [yield $a => $b];
+    [(yield $a) => $b];
+    [$a + (yield $b) => $c];
+    yield yield $a => $b;
+    yield (yield $a) => $b;
+    match ($x) {
+        yield $a, (yield $b) => $c,
+    };
+    yield -$a;
+    (yield) - $a;
+    yield * $a;
+}
+-----
+!!version=5.6
 function gen()
 {
     yield;
@@ -21,26 +88,19 @@ function gen()
     $a = yield;
     $a = (yield $b);
     $a = (yield $b => $c);
-}
-// TODO Get rid of parens for cases 2 and 3
------
-<?php
-
-function gen()
-{
-    $a = yield $b;
-    $a = yield $b => $c;
     yield from $a;
     $a = yield from $b;
+    (yield $a) + $b;
+    (yield from $a) + $b;
+    [(yield $a => $b)];
+    [(yield $a) => $b];
+    [$a + (yield $b) => $c];
+    (yield (yield $a => $b));
+    (yield (yield $a) => $b);
+    match ($x) {
+        (yield $a), (yield $b) => $c,
+    };
+    (yield -$a);
+    (yield) - $a;
+    (yield) * $a;
 }
-// TODO Get rid of parens for last case
------
-!!php7
-function gen()
-{
-    $a = (yield $b);
-    $a = (yield $b => $c);
-    yield from $a;
-    $a = (yield from $b);
-}
-// TODO Get rid of parens for last case

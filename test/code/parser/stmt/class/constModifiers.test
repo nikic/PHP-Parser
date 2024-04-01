@@ -10,7 +10,6 @@ class Foo {
     final const E = 5;
 }
 -----
-!!php7
 array(
     0: Stmt_Class(
         attrGroups: array(
@@ -33,7 +32,7 @@ array(
                         name: Identifier(
                             name: A
                         )
-                        value: Scalar_LNumber(
+                        value: Scalar_Int(
                             value: 1
                         )
                     )
@@ -42,14 +41,14 @@ array(
             1: Stmt_ClassConst(
                 attrGroups: array(
                 )
-                flags: MODIFIER_PUBLIC (1)
+                flags: PUBLIC (1)
                 type: null
                 consts: array(
                     0: Const(
                         name: Identifier(
                             name: B
                         )
-                        value: Scalar_LNumber(
+                        value: Scalar_Int(
                             value: 2
                         )
                     )
@@ -58,14 +57,14 @@ array(
             2: Stmt_ClassConst(
                 attrGroups: array(
                 )
-                flags: MODIFIER_PROTECTED (2)
+                flags: PROTECTED (2)
                 type: null
                 consts: array(
                     0: Const(
                         name: Identifier(
                             name: C
                         )
-                        value: Scalar_LNumber(
+                        value: Scalar_Int(
                             value: 3
                         )
                     )
@@ -74,14 +73,14 @@ array(
             3: Stmt_ClassConst(
                 attrGroups: array(
                 )
-                flags: MODIFIER_PRIVATE (4)
+                flags: PRIVATE (4)
                 type: null
                 consts: array(
                     0: Const(
                         name: Identifier(
                             name: D
                         )
-                        value: Scalar_LNumber(
+                        value: Scalar_Int(
                             value: 4
                         )
                     )
@@ -90,14 +89,14 @@ array(
             4: Stmt_ClassConst(
                 attrGroups: array(
                 )
-                flags: MODIFIER_FINAL (32)
+                flags: FINAL (32)
                 type: null
                 consts: array(
                     0: Const(
                         name: Identifier(
                             name: E
                         )
-                        value: Scalar_LNumber(
+                        value: Scalar_Int(
                             value: 5
                         )
                     )

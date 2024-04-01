@@ -6,13 +6,9 @@ use PhpParser\NodeAbstract;
 
 class GenericParameter extends NodeAbstract
 {
-    public $name;
-    public $constraint;
-    public $default;
-    public $variance;
-
-    const COVARIANT     = 'in';
-    const CONTRAVARIANT = 'out';
+    public Name $name;
+    public ?Name $constraint = null;
+    public ?Name $default = null;
 
     public function __construct(string $name)
     {
@@ -30,18 +26,9 @@ class GenericParameter extends NodeAbstract
         $this->default = new Name($default);
     }
 
-    public function setVariance($variance)
-    {
-        if (!in_array($variance, [self::COVARIANT, self::CONTRAVARIANT, null])) {
-            throw new \InvalidArgumentException(sprintf('Invalid generic type variance "%s"', $variance));
-        }
-
-        $this->variance = $variance;
-    }
-
     public function getSubNodeNames(): array
     {
-        return ['name', 'constraint', 'default', 'variance'];
+        return ['name', 'constraint', 'default'];
     }
 
     public function getType(): string

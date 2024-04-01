@@ -42,6 +42,10 @@ array(
 -----
 Syntax error, unexpected T_STATIC, expecting T_STRING from 1:13 to 1:18
 array(
+    0: Stmt_Block(
+        stmts: array(
+        )
+    )
 )
 -----
 <?php class A extends self {}
@@ -56,9 +60,7 @@ array(
             name: A
         )
         extends: Name(
-            parts: array(
-                0: self
-            )
+            name: self
         )
         implements: array(
         )
@@ -79,9 +81,7 @@ array(
             name: A
         )
         extends: Name(
-            parts: array(
-                0: PARENT
-            )
+            name: PARENT
         )
         implements: array(
         )
@@ -102,9 +102,7 @@ array(
             name: A
         )
         extends: Name(
-            parts: array(
-                0: static
-            )
+            name: static
         )
         implements: array(
         )
@@ -127,9 +125,7 @@ array(
         extends: null
         implements: array(
             0: Name(
-                parts: array(
-                    0: self
-                )
+                name: self
             )
         )
         stmts: array(
@@ -151,9 +147,7 @@ array(
         extends: null
         implements: array(
             0: Name(
-                parts: array(
-                    0: PARENT
-                )
+                name: PARENT
             )
         )
         stmts: array(
@@ -175,9 +169,7 @@ array(
         extends: null
         implements: array(
             0: Name(
-                parts: array(
-                    0: static
-                )
+                name: static
             )
         )
         stmts: array(
@@ -223,6 +215,10 @@ array(
 -----
 Syntax error, unexpected T_STATIC, expecting T_STRING from 1:17 to 1:22
 array(
+    0: Stmt_Block(
+        stmts: array(
+        )
+    )
 )
 -----
 <?php interface A extends self {}
@@ -237,9 +233,7 @@ array(
         )
         extends: array(
             0: Name(
-                parts: array(
-                    0: self
-                )
+                name: self
             )
         )
         stmts: array(
@@ -259,9 +253,7 @@ array(
         )
         extends: array(
             0: Name(
-                parts: array(
-                    0: PARENT
-                )
+                name: PARENT
             )
         )
         stmts: array(
@@ -281,9 +273,7 @@ array(
         )
         extends: array(
             0: Name(
-                parts: array(
-                    0: static
-                )
+                name: static
             )
         )
         stmts: array(

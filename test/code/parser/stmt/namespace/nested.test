@@ -11,16 +11,12 @@ Namespace declarations cannot be nested from 3:5 to 5:5
 array(
     0: Stmt_Namespace(
         name: Name(
-            parts: array(
-                0: A
-            )
+            name: A
         )
         stmts: array(
             0: Stmt_Namespace(
                 name: Name(
-                    parts: array(
-                        0: B
-                    )
+                    name: B
                 )
                 stmts: array(
                 )

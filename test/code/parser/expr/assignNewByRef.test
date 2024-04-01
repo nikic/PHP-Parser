@@ -3,7 +3,7 @@ Assigning new by reference (PHP 5 only)
 <?php
 $a =& new B;
 -----
-!!php5
+!!version=5.6
 array(
     0: Stmt_Expression(
         expr: Expr_AssignRef(
@@ -12,9 +12,7 @@ array(
             )
             expr: Expr_New(
                 class: Name(
-                    parts: array(
-                        0: B
-                    )
+                    name: B
                 )
                 args: array(
                 )
@@ -26,17 +24,20 @@ array(
 <?php
 $a =& new B;
 -----
-!!php7
-Syntax error, unexpected T_NEW from 2:7 to 2:9
+!!version=7.0
+Cannot assign new by reference from 2:1 to 2:11
 array(
     0: Stmt_Expression(
-        expr: Expr_New(
-            class: Name(
-                parts: array(
-                    0: B
-                )
+        expr: Expr_AssignRef(
+            var: Expr_Variable(
+                name: a
             )
-            args: array(
+            expr: Expr_New(
+                class: Name(
+                    name: B
+                )
+                args: array(
+                )
             )
         )
     )

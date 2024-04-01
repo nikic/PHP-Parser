@@ -5,9 +5,9 @@ on:
   pull_request:
 
 jobs:
-  tests_70:
+  tests_coverage:
     runs-on: "ubuntu-latest"
-    name: "PHP 7.0 Unit Tests"
+    name: "PHP 7.4 Unit Tests (with coverage)"
     steps:
       - name: "Checkout"
         uses: "actions/checkout@v3"
@@ -15,7 +15,7 @@ jobs:
         uses: "shivammathur/setup-php@v2"
         with:
           coverage: "xdebug"
-          php-version: "7.0"
+          php-version: "7.4"
           tools: composer:v2
       - name: "Install dependencies"
         run: |
@@ -34,10 +34,6 @@ jobs:
     strategy:
       matrix:
         php-version:
-          - "7.1"
-          - "7.2"
-          - "7.3"
-          - "7.4"
           - "8.0"
           - "8.1"
           - "8.2"
@@ -57,7 +53,7 @@ jobs:
         run: "php vendor/bin/phpunit"
   test_old_73_80:
     runs-on: "ubuntu-latest"
-    name: "PHP 7.3 Code on PHP 8.0 Integration Tests"
+    name: "PHP 7.4 Code on PHP 8.2 Integration Tests"
     steps:
       - name: "Checkout"
         uses: "actions/checkout@v3"
@@ -65,15 +61,15 @@ jobs:
         uses: "shivammathur/setup-php@v2"
         with:
           coverage: "none"
-          php-version: "8.0"
+          php-version: "8.2"
           tools: composer:v2
       - name: "Install PHP 8 dependencies"
         run: "composer update --no-progress --prefer-dist"
       - name: "Tests"
-        run: "test_old/run-php-src.sh 7.3.21"
+        run: "test_old/run-php-src.sh 7.4.33"
   test_old_80_70:
     runs-on: "ubuntu-latest"
-    name: "PHP 8.1 Code on PHP 7.0 Integration Tests"
+    name: "PHP 8.3 Code on PHP 7.4 Integration Tests"
     steps:
       - name: "Checkout"
         uses: "actions/checkout@v3"
@@ -81,9 +77,43 @@ jobs:
         uses: "shivammathur/setup-php@v2"
         with:
           coverage: "none"
-          php-version: "7.0"
+          php-version: "7.4"
           tools: composer:v2
       - name: "Install PHP 8 dependencies"
         run: "composer update --no-progress --prefer-dist"
       - name: "Tests"
-        run: "test_old/run-php-src.sh 8.1.6"
+        run: "test_old/run-php-src.sh 8.3.0RC2"
+  phpstan:
+    runs-on: "ubuntu-latest"
+    name: "PHPStan"
+    steps:
+      - name: "Checkout"
+        uses: "actions/checkout@v3"
+      - name: "Install PHP"
+        uses: "shivammathur/setup-php@v2"
+        with:
+          coverage: "none"
+          php-version: "8.2"
+          tools: composer:v2
+      - name: "Install dependencies"
+        run: |
+          cd tools && composer install
+      - name: "PHPStan"
+        run: "php tools/vendor/bin/phpstan"
+  php-cs-fixer:
+    runs-on: "ubuntu-latest"
+    name: "PHP-CS-Fixer"
+    steps:
+      - name: "Checkout"
+        uses: "actions/checkout@v3"
+      - name: "Install PHP"
+        uses: "shivammathur/setup-php@v2"
+        with:
+          coverage: "none"
+          php-version: "8.2"
+          tools: composer:v2
+      - name: "Install dependencies"
+        run: |
+          cd tools && composer install
+      - name: "php-cs-fixer"
+        run: "php tools/vendor/bin/php-cs-fixer fix --dry-run"
