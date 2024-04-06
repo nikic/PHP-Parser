@@ -16,29 +16,53 @@ array(
                     )
                 )
             )
-            1: Stmt_Class(
+            1: Stmt_Use(
+                type: TYPE_NORMAL (1)
+                uses: array(
+                    0: UseItem(
+                        type: TYPE_UNKNOWN (0)
+                        name: Name(
+                            name: App\Namespace\T
+                        )
+                        alias: null
+                    )
+                )
+            )
+            2: Stmt_Use(
+                type: TYPE_NORMAL (1)
+                uses: array(
+                    0: UseItem(
+                        type: TYPE_UNKNOWN (0)
+                        name: Name(
+                            name: App\Namespace\V
+                        )
+                        alias: null
+                    )
+                )
+            )
+            3: Stmt_Class(
                 attrGroups: array(
                 )
                 flags: 0
                 name: Identifier(
                     name: Test
                 )
-                extends: Name(
-                    name: GenericClass
-                    generics: [T]
+                extends: Name_FullyQualified(
+                    name: App\GenericClass
+                    generics: [App\Namespace\T, App\C]
                 )
                 implements: array(
-                    0: Name(
-                        name: GenericInterface
-                        generics: [V]
+                    0: Name_FullyQualified(
+                        name: App\GenericInterface
+                        generics: [App\Namespace\V, App\U]
                     )
                 )
                 stmts: array(
                     0: Stmt_TraitUse(
                         traits: array(
-                            0: Name(
-                                name: GenericTrait
-                                generics: [T]
+                            0: Name_FullyQualified(
+                                name: App\GenericTrait
+                                generics: [App\Namespace\T]
                             )
                         )
                         adaptations: array(
@@ -46,8 +70,8 @@ array(
                     )
                     1: Stmt_TraitUse(
                         traits: array(
-                            0: Name(
-                                name: T
+                            0: Name_FullyQualified(
+                                name: App\Namespace\T
                             )
                         )
                         adaptations: array(
@@ -59,12 +83,12 @@ array(
                         flags: PRIVATE (4)
                         type: UnionType(
                             types: array(
-                                0: Name(
-                                    name: T
+                                0: Name_FullyQualified(
+                                    name: App\Namespace\T
                                 )
-                                1: Name(
-                                    name: GenericClass
-                                    generics: [V]
+                                1: Name_FullyQualified(
+                                    name: App\GenericClass
+                                    generics: [App\Namespace\V]
                                 )
                             )
                         )
@@ -99,11 +123,11 @@ array(
                             types: array(
                                 0: IntersectionType(
                                     types: array(
-                                        0: Name(
-                                            name: T
+                                        0: Name_FullyQualified(
+                                            name: App\Namespace\T
                                         )
-                                        1: Name(
-                                            name: V
+                                        1: Name_FullyQualified(
+                                            name: App\Namespace\V
                                         )
                                     )
                                 )
@@ -148,11 +172,11 @@ array(
                                     types: array(
                                         0: IntersectionType(
                                             types: array(
-                                                0: Name(
-                                                    name: T
+                                                0: Name_FullyQualified(
+                                                    name: App\Namespace\T
                                                 )
-                                                1: Name(
-                                                    name: V
+                                                1: Name_FullyQualified(
+                                                    name: App\Namespace\V
                                                 )
                                             )
                                         )
@@ -179,11 +203,11 @@ array(
                             types: array(
                                 0: IntersectionType(
                                     types: array(
-                                        0: Name(
-                                            name: T
+                                        0: Name_FullyQualified(
+                                            name: App\Namespace\T
                                         )
-                                        1: Name(
-                                            name: V
+                                        1: Name_FullyQualified(
+                                            name: App\Namespace\V
                                         )
                                     )
                                 )
@@ -216,12 +240,12 @@ array(
                                 flags: 0
                                 type: UnionType(
                                     types: array(
-                                        0: Name(
-                                            name: T
+                                        0: Name_FullyQualified(
+                                            name: App\Namespace\T
                                         )
-                                        1: Name(
-                                            name: GenericInterface
-                                            generics: [V]
+                                        1: Name_FullyQualified(
+                                            name: App\GenericInterface
+                                            generics: [App\Namespace\V]
                                         )
                                     )
                                 )
@@ -235,12 +259,12 @@ array(
                         )
                         returnType: UnionType(
                             types: array(
-                                0: Name(
-                                    name: T
+                                0: Name_FullyQualified(
+                                    name: App\Namespace\T
                                 )
-                                1: Name(
-                                    name: GenericClass
-                                    generics: [V]
+                                1: Name_FullyQualified(
+                                    name: App\GenericClass
+                                    generics: [App\Namespace\V]
                                 )
                             )
                         )
@@ -257,9 +281,9 @@ array(
                                                 expr: Expr_Variable(
                                                     name: var
                                                 )
-                                                class: Name(
-                                                    name: GenericInterface
-                                                    generics: [V]
+                                                class: Name_FullyQualified(
+                                                    name: App\GenericInterface
+                                                    generics: [App\Namespace\V]
                                                 )
                                             )
                                             byRef: false
@@ -280,8 +304,8 @@ array(
                                                 expr: Expr_Variable(
                                                     name: var
                                                 )
-                                                class: Name(
-                                                    name: T
+                                                class: Name_FullyQualified(
+                                                    name: App\Namespace\T
                                                 )
                                             )
                                             byRef: false
@@ -299,9 +323,9 @@ array(
                                         0: Arg(
                                             name: null
                                             value: Expr_ClassConstFetch(
-                                                class: Name(
-                                                    name: GenericClass
-                                                    generics: [T]
+                                                class: Name_FullyQualified(
+                                                    name: App\GenericClass
+                                                    generics: [App\Namespace\T]
                                                 )
                                                 name: Identifier(
                                                     name: class
@@ -322,8 +346,8 @@ array(
                                         0: Arg(
                                             name: null
                                             value: Expr_ClassConstFetch(
-                                                class: Name(
-                                                    name: T
+                                                class: Name_FullyQualified(
+                                                    name: App\Namespace\T
                                                 )
                                                 name: Identifier(
                                                     name: class
@@ -344,9 +368,9 @@ array(
                                         0: Arg(
                                             name: null
                                             value: Expr_ClassConstFetch(
-                                                class: Name(
-                                                    name: GenericClass
-                                                    generics: [T]
+                                                class: Name_FullyQualified(
+                                                    name: App\GenericClass
+                                                    generics: [App\Namespace\T]
                                                 )
                                                 name: Identifier(
                                                     name: CONSTANT
@@ -367,8 +391,8 @@ array(
                                         0: Arg(
                                             name: null
                                             value: Expr_ClassConstFetch(
-                                                class: Name(
-                                                    name: T
+                                                class: Name_FullyQualified(
+                                                    name: App\Namespace\T
                                                 )
                                                 name: Identifier(
                                                     name: CONSTANT
@@ -386,8 +410,8 @@ array(
                                         name: obj1
                                     )
                                     expr: Expr_New(
-                                        class: Name(
-                                            name: T
+                                        class: Name_FullyQualified(
+                                            name: App\Namespace\T
                                         )
                                         args: array(
                                         )
@@ -400,9 +424,9 @@ array(
                                         name: obj2
                                     )
                                     expr: Expr_New(
-                                        class: Name(
-                                            name: GenericClass
-                                            generics: [V]
+                                        class: Name_FullyQualified(
+                                            name: App\GenericClass
+                                            generics: [App\Namespace\V]
                                         )
                                         args: array(
                                         )
@@ -417,7 +441,7 @@ array(
                         )
                     )
                 )
-                generics: [T, V]
+                generics: [App\Namespace\T, App\Namespace\V, App\C, App\U]
             )
         )
     )

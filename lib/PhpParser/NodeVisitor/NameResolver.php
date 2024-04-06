@@ -105,19 +105,12 @@ class NameResolver extends NodeVisitorAbstract {
             $this->resolveSignature($node);
             $this->resolveAttrGroups($node);
             $this->addNamespacedName($node);
-            foreach($node->params as $param) {
-                $param->type = $this->resolveTypeGenericParameters($param->type);
-            }
-
         } elseif ($node instanceof Stmt\ClassMethod
                   || $node instanceof Expr\Closure
                   || $node instanceof Expr\ArrowFunction
         ) {
             $this->resolveSignature($node);
             $this->resolveAttrGroups($node);
-            foreach($node->params as $param) {
-                $param->type = $this->resolveTypeGenericParameters($param->type);
-            }
         } elseif ($node instanceof Stmt\Property) {
             if (null !== $node->type) {
                 $node->type = $this->resolveType($node->type);
@@ -193,9 +186,11 @@ class NameResolver extends NodeVisitorAbstract {
     private function resolveSignature($node): void {
         foreach ($node->params as $param) {
             $param->type = $this->resolveType($param->type);
+            $param->type = $this->resolveTypeGenericParameters($param->type);
             $this->resolveAttrGroups($param);
         }
         $node->returnType = $this->resolveType($node->returnType);
+        $node->returnType = $this->resolveTypeGenericParameters($node->returnType);
     }
 
     /**
@@ -288,7 +283,7 @@ class NameResolver extends NodeVisitorAbstract {
             return $node;
         }
 
-        if ($node instanceof Node\UnionType) {
+        if ($node instanceof Node\UnionType || $node instanceof Node\IntersectionType) {
             foreach ($node->types as &$type) {
                 $type = $this->resolveGenericParameters($type);
             }
@@ -316,7 +311,9 @@ class NameResolver extends NodeVisitorAbstract {
                 $genericParameter->constraint = $this->resolveClassName($genericParameter->constraint);
             }
 
-            $genericParameter->name = $this->resolveClassName($genericParameter->name);
+            if($genericParameter->name instanceof Name) {
+                $genericParameter->name = $this->resolveClassName($genericParameter->name);
+            }
         }
 
         return $node;

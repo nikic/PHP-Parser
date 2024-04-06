@@ -1600,25 +1600,25 @@ class Php8 extends \PhpParser\ParserAbstract
                  $self->semStack[$stackPos-(3-1)][] = $self->semStack[$stackPos-(3-3)]; $self->semValue = $self->semStack[$stackPos-(3-1)];
             },
             208 => static function ($self, $stackPos) {
-                 $self->semValue = new Node\GenericParameter($self->semStack[$stackPos-(1-1)], $self->getAttributes($self->tokenStartStack[$stackPos-(1-1)], $self->tokenEndStack[$stackPos]));
+                 $self->semValue = new Node\GenericParameter($self->handleBuiltinTypes($self->semStack[$stackPos-(1-1)]), $self->getAttributes($self->tokenStartStack[$stackPos-(1-1)], $self->tokenEndStack[$stackPos]));
             },
             209 => static function ($self, $stackPos) {
-                 $self->semValue = new Node\GenericParameter($self->semStack[$stackPos-(3-1)], $self->getAttributes($self->tokenStartStack[$stackPos-(3-1)], $self->tokenEndStack[$stackPos])); $self->semValue->setConstraint($self->semStack[$stackPos-(3-3)]);
+                 $self->semValue = new Node\GenericParameter($self->handleBuiltinTypes($self->semStack[$stackPos-(3-1)]), $self->getAttributes($self->tokenStartStack[$stackPos-(3-1)], $self->tokenEndStack[$stackPos])); $self->semValue->setConstraint($self->handleBuiltinTypes($self->semStack[$stackPos-(3-3)]));
             },
             210 => static function ($self, $stackPos) {
-                 $self->semValue = new Node\GenericParameter($self->semStack[$stackPos-(3-1)], $self->getAttributes($self->tokenStartStack[$stackPos-(3-1)], $self->tokenEndStack[$stackPos])); $self->semValue->setDefault($self->semStack[$stackPos-(3-3)]);
+                 $self->semValue = new Node\GenericParameter($self->handleBuiltinTypes($self->semStack[$stackPos-(3-1)]), $self->getAttributes($self->tokenStartStack[$stackPos-(3-1)], $self->tokenEndStack[$stackPos])); $self->semValue->setDefault($self->handleBuiltinTypes($self->semStack[$stackPos-(3-3)]));
             },
             211 => static function ($self, $stackPos) {
-                 $self->semValue = new Node\GenericParameter($self->semStack[$stackPos-(5-1)], $self->getAttributes($self->tokenStartStack[$stackPos-(5-1)], $self->tokenEndStack[$stackPos])); $self->semValue->setConstraint($self->semStack[$stackPos-(5-3)]); $self->semValue->setDefault($self->semStack[$stackPos-(5-5)]);
+                 $self->semValue = new Node\GenericParameter($self->handleBuiltinTypes($self->semStack[$stackPos-(5-1)]), $self->getAttributes($self->tokenStartStack[$stackPos-(5-1)], $self->tokenEndStack[$stackPos])); $self->semValue->setConstraint($self->handleBuiltinTypes($self->semStack[$stackPos-(5-3)])); $self->semValue->setDefault($self->handleBuiltinTypes($self->semStack[$stackPos-(5-5)]));
             },
             212 => static function ($self, $stackPos) {
-                 $self->semValue = $self->semStack[$stackPos-(1-1)];
+                 $self->semValue = new Node\Name($self->semStack[$stackPos-(1-1)], $self->getAttributes($self->tokenStartStack[$stackPos-(1-1)], $self->tokenEndStack[$stackPos]));
             },
             213 => static function ($self, $stackPos) {
-                 $self->semValue = $self->semStack[$stackPos-(1-1)];
+                 $self->semValue = new Node\Name($self->semStack[$stackPos-(1-1)], $self->getAttributes($self->tokenStartStack[$stackPos-(1-1)], $self->tokenEndStack[$stackPos]));
             },
             214 => static function ($self, $stackPos) {
-                 $self->semValue = $self->semStack[$stackPos-(1-1)];
+                 $self->semValue = new Node\Name($self->semStack[$stackPos-(1-1)], $self->getAttributes($self->tokenStartStack[$stackPos-(1-1)], $self->tokenEndStack[$stackPos]));
             },
             215 => null,
             216 => static function ($self, $stackPos) {

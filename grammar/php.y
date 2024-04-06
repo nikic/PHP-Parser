@@ -472,16 +472,16 @@ generic_params:
 ;
 
 generic_param:
-        generic_type	                                { $$ = Node\GenericParameter[$1]; }
-      | generic_type ':' generic_type	                { $$ = Node\GenericParameter[$1]; $$->setConstraint($3); }
-      | generic_type '=' generic_type	                { $$ = Node\GenericParameter[$1]; $$->setDefault($3); }
-      | generic_type ':' generic_type '=' generic_type	{ $$ = Node\GenericParameter[$1]; $$->setConstraint($3); $$->setDefault($5); }
+        generic_type	                                { $$ = Node\GenericParameter[$this->handleBuiltinTypes($1)]; }
+      | generic_type ':' generic_type	                { $$ = Node\GenericParameter[$this->handleBuiltinTypes($1)]; $$->setConstraint($this->handleBuiltinTypes($3)); }
+      | generic_type '=' generic_type	                { $$ = Node\GenericParameter[$this->handleBuiltinTypes($1)]; $$->setDefault($this->handleBuiltinTypes($3)); }
+      | generic_type ':' generic_type '=' generic_type	{ $$ = Node\GenericParameter[$this->handleBuiltinTypes($1)]; $$->setConstraint($this->handleBuiltinTypes($3)); $$->setDefault($this->handleBuiltinTypes($5)); }
 ;
 
 generic_type:
-        T_STRING    { $$ = $1; }
-      | T_ARRAY     { $$ = $1; }
-      | T_CALLABLE  { $$ = $1; }
+        T_STRING    { $$ = Node\Name[$1]; }
+      | T_ARRAY     { $$ = Node\Name[$1]; }
+      | T_CALLABLE  { $$ = Node\Name[$1]; }
 
 identifier_maybe_readonly:
       identifier_not_reserved

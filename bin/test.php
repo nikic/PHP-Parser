@@ -14,8 +14,10 @@ $code = <<<'CODE'
 namespace App;
 
 use PhpParser\ParserFactory;
+use App\Namespace\T;
+use App\Namespace\V;
 
-class Test<T,V> extends GenericClass<T> implements GenericInterface<V> {
+class Test<T,V,C,U> extends GenericClass<T,C> implements GenericInterface<V,U> {
  
   use GenericTrait<T>;
   use T;
@@ -64,6 +66,7 @@ $nodeTraverser = new NodeTraverser();
 $nodeTraverser->addVisitor(new NameResolver(null, [
     'preserveOriginalNames' => true
 ]));
+$nodeTraverser->traverse($ast);
 
 $dumper = new NodeDumper(['dumpGenerics' => true]);
 if (trim(file_get_contents(__DIR__ . '/test.output')) !== $dumper->dump($ast)) {

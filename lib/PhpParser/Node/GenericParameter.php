@@ -6,24 +6,33 @@ use PhpParser\NodeAbstract;
 
 class GenericParameter extends NodeAbstract
 {
-    public Name $name;
-    public ?Name $constraint = null;
-    public ?Name $default = null;
+    /**
+     * @var Identifier|Name
+     */
+    public NodeAbstract $name;
+    /**
+     * @var Identifier|Name|null
+     */
+    public ?NodeAbstract $constraint = null;
+    /**
+     * @var Identifier|Name|null
+     */
+    public ?NodeAbstract $default = null;
 
-    public function __construct(string $name)
+    public function __construct(NodeAbstract $name)
     {
-        $this->name = new Name($name);
+        $this->name = $name;
         parent::__construct([]);
     }
 
-    public function setConstraint($constraint)
+    public function setConstraint(NodeAbstract $constraint)
     {
-        $this->constraint = new Name($constraint);
+        $this->constraint = $constraint;
     }
 
-    public function setDefault($default)
+    public function setDefault(NodeAbstract $default)
     {
-        $this->default = new Name($default);
+        $this->default = $default;
     }
 
     public function getSubNodeNames(): array
