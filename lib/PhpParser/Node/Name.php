@@ -7,7 +7,7 @@ use PhpParser\NodeAbstract;
 class Name extends NodeAbstract {
     /**
      * @psalm-var non-empty-string
-     * @var non-empty-string Name as string
+     * @var string Name as string
      */
     public string $name;
 
@@ -36,7 +36,7 @@ class Name extends NodeAbstract {
     /**
      * Get parts of name (split by the namespace separator).
      *
-     * @psalm-return non-empty-array<string>
+     * @psalm-return non-empty-list<string>
      * @return string[] Parts of name
      */
     public function getParts(): array {
@@ -245,7 +245,8 @@ class Name extends NodeAbstract {
      *
      * @param string|string[]|self $name Name to prepare
      *
-     * @return non-empty-string Prepared name
+     * @psalm-return non-empty-string
+     * @return string Prepared name
      */
     private static function prepareName($name): string {
         if (\is_string($name)) {
