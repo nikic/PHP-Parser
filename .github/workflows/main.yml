@@ -20,7 +20,7 @@ jobs:
       - name: "Install dependencies"
         run: |
           composer require php-coveralls/php-coveralls:^2.2 --dev --no-update
-          composer update --no-progress --prefer-dist
+          COMPOSER_ROOT_VERSION=dev-master composer update --no-progress --prefer-dist
       - name: "Tests"
         run: "php vendor/bin/phpunit --coverage-clover build/logs/clover.xml"
       - name: Coveralls
