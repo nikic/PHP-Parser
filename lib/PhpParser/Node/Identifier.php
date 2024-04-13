@@ -8,7 +8,10 @@ use PhpParser\NodeAbstract;
  * Represents a non-namespaced name. Namespaced names are represented using Name nodes.
  */
 class Identifier extends NodeAbstract {
-    /** @var string Identifier as string */
+    /**
+     * @psalm-var non-empty-string
+     * @var string Identifier as string
+     */
     public string $name;
 
     /** @var array<string, bool> */
@@ -21,6 +24,7 @@ class Identifier extends NodeAbstract {
     /**
      * Constructs an identifier node.
      *
+     * @psalm-param non-empty-string $name
      * @param string $name Identifier as string
      * @param array<string, mixed> $attributes Additional attributes
      */
@@ -36,6 +40,7 @@ class Identifier extends NodeAbstract {
     /**
      * Get identifier as string.
      *
+     * @psalm-return non-empty-string
      * @return string Identifier as string.
      */
     public function toString(): string {
@@ -45,6 +50,7 @@ class Identifier extends NodeAbstract {
     /**
      * Get lowercased identifier as string.
      *
+     * @psalm-return non-empty-string
      * @return string Lowercased identifier as string
      */
     public function toLowerString(): string {
@@ -63,6 +69,7 @@ class Identifier extends NodeAbstract {
     /**
      * Get identifier as string.
      *
+     * @psalm-return non-empty-string
      * @return string Identifier as string
      */
     public function __toString(): string {
