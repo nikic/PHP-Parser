@@ -24,11 +24,14 @@ class Identifier extends NodeAbstract {
     /**
      * Constructs an identifier node.
      *
-     * @psalm-param non-empty-string $name
      * @param string $name Identifier as string
      * @param array<string, mixed> $attributes Additional attributes
      */
     public function __construct(string $name, array $attributes = []) {
+        if ($name === '') {
+            throw new \InvalidArgumentException('Identifier name cannot be empty');
+        }
+
         $this->attributes = $attributes;
         $this->name = $name;
     }
