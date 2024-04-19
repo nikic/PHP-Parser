@@ -6,6 +6,7 @@ interface Node {
     /**
      * Gets the type of the node.
      *
+     * @psalm-return non-empty-string
      * @return string Type of the node
      */
     public function getType(): string;
