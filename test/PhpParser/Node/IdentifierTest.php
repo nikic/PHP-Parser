@@ -3,6 +3,11 @@
 namespace PhpParser\Node;
 
 class IdentifierTest extends \PHPUnit\Framework\TestCase {
+    public function testConstructorThrows() {
+        self::expectException(\InvalidArgumentException::class);
+        new Identifier('');
+    }
+
     public function testToString() {
         $identifier = new Identifier('Foo');
 
