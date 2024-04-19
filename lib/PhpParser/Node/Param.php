@@ -60,6 +60,13 @@ class Param extends NodeAbstract {
     }
 
     /**
+     * @return null|Identifier|Name|ComplexType
+     */
+    public function getTypeNode(): ?Node {
+        return $this->type;
+    }
+
+    /**
      * Whether this parameter uses constructor property promotion.
      */
     public function isPromoted(): bool {

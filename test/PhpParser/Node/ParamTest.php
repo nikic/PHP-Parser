@@ -34,4 +34,9 @@ class ParamTest extends \PHPUnit\Framework\TestCase {
             ['readonly'],
         ];
     }
+
+    public function testGetTypeNode() {
+        $node = new Param(new Variable('foo'), null, new Name('FooInterface'));
+        $this->assertEquals('FooInterface', $node->getTypeNode()->toString());
+    }
 }
