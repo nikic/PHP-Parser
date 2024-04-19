@@ -66,6 +66,10 @@ class Param extends NodeAbstract {
         return $this->type;
     }
 
+    public function toString(): string {
+        return $this->var->name;
+    }
+
     /**
      * Whether this parameter uses constructor property promotion.
      */

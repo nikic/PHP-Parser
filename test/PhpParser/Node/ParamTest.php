@@ -39,4 +39,9 @@ class ParamTest extends \PHPUnit\Framework\TestCase {
         $node = new Param(new Variable('foo'), null, new Name('FooInterface'));
         $this->assertEquals('FooInterface', $node->getTypeNode()->toString());
     }
+
+    public function testToString() {
+        $node = new Param(new Variable('foo'));
+        $this->assertEquals('foo', $node->toString());
+    }
 }
