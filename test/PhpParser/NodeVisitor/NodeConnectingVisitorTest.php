@@ -10,7 +10,7 @@ use PhpParser\NodeTraverser;
 use PhpParser\ParserFactory;
 
 final class NodeConnectingVisitorTest extends \PHPUnit\Framework\TestCase {
-    public function testConnectsNodeToItsParentNodeAndItsSiblingNodes() {
+    public function testConnectsNodeToItsParentNodeAndItsSiblingNodes(): void {
         $ast = (new ParserFactory())->createForNewestSupportedVersion()->parse(
             '<?php if (true) {} else {}'
         );

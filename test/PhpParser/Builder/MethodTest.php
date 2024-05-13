@@ -21,7 +21,7 @@ class MethodTest extends \PHPUnit\Framework\TestCase {
         return new Method($name);
     }
 
-    public function testModifiers() {
+    public function testModifiers(): void {
         $node = $this->createMethodBuilder('test')
             ->makePublic()
             ->makeAbstract()
@@ -63,7 +63,7 @@ class MethodTest extends \PHPUnit\Framework\TestCase {
         );
     }
 
-    public function testReturnByRef() {
+    public function testReturnByRef(): void {
         $node = $this->createMethodBuilder('test')
             ->makeReturnByRef()
             ->getNode()
@@ -77,7 +77,7 @@ class MethodTest extends \PHPUnit\Framework\TestCase {
         );
     }
 
-    public function testParams() {
+    public function testParams(): void {
         $param1 = new Node\Param(new Variable('test1'));
         $param2 = new Node\Param(new Variable('test2'));
         $param3 = new Node\Param(new Variable('test3'));
@@ -96,7 +96,7 @@ class MethodTest extends \PHPUnit\Framework\TestCase {
         );
     }
 
-    public function testStmts() {
+    public function testStmts(): void {
         $stmt1 = new Print_(new String_('test1'));
         $stmt2 = new Print_(new String_('test2'));
         $stmt3 = new Print_(new String_('test3'));
@@ -118,7 +118,7 @@ class MethodTest extends \PHPUnit\Framework\TestCase {
             $node
         );
     }
-    public function testDocComment() {
+    public function testDocComment(): void {
         $node = $this->createMethodBuilder('test')
             ->setDocComment('/** Test */')
             ->getNode();
@@ -128,7 +128,7 @@ class MethodTest extends \PHPUnit\Framework\TestCase {
         ]), $node);
     }
 
-    public function testAddAttribute() {
+    public function testAddAttribute(): void {
         $attribute = new Attribute(
             new Name('Attr'),
             [new Arg(new Int_(1), false, false, [], new Identifier('name'))]
@@ -144,7 +144,7 @@ class MethodTest extends \PHPUnit\Framework\TestCase {
         ], []), $node);
     }
 
-    public function testReturnType() {
+    public function testReturnType(): void {
         $node = $this->createMethodBuilder('test')
             ->setReturnType('bool')
             ->getNode();
@@ -153,7 +153,7 @@ class MethodTest extends \PHPUnit\Framework\TestCase {
         ], []), $node);
     }
 
-    public function testAddStmtToAbstractMethodError() {
+    public function testAddStmtToAbstractMethodError(): void {
         $this->expectException(\LogicException::class);
         $this->expectExceptionMessage('Cannot add statements to an abstract method');
         $this->createMethodBuilder('test')
@@ -162,7 +162,7 @@ class MethodTest extends \PHPUnit\Framework\TestCase {
         ;
     }
 
-    public function testMakeMethodWithStmtsAbstractError() {
+    public function testMakeMethodWithStmtsAbstractError(): void {
         $this->expectException(\LogicException::class);
         $this->expectExceptionMessage('Cannot make method with statements abstract');
         $this->createMethodBuilder('test')
@@ -171,7 +171,7 @@ class MethodTest extends \PHPUnit\Framework\TestCase {
         ;
     }
 
-    public function testInvalidParamError() {
+    public function testInvalidParamError(): void {
         $this->expectException(\LogicException::class);
         $this->expectExceptionMessage('Expected parameter node, got "Name"');
         $this->createMethodBuilder('test')

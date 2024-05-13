@@ -7,7 +7,7 @@ use PhpParser\Node\Stmt\Echo_;
 use PhpParser\ParserFactory;
 
 class DNumberTest extends \PHPUnit\Framework\TestCase {
-    public function testRawValue() {
+    public function testRawValue(): void {
         $parser = (new ParserFactory())->createForNewestSupportedVersion();
         $nodes = $parser->parse('<?php echo 1_234.56;');
 

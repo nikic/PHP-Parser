@@ -9,7 +9,7 @@ use PhpParser\Parser\Php7;
 use PhpParser\Parser\Php8;
 
 class ParserFactoryTest extends \PHPUnit\Framework\TestCase {
-    public function testCreate() {
+    public function testCreate(): void {
         $factory = new ParserFactory();
         $this->assertInstanceOf(Php8::class, $factory->createForNewestSupportedVersion());
         $this->assertInstanceOf(Parser::class, $factory->createForHostVersion());

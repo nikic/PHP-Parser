@@ -9,7 +9,7 @@ class CodeParsingTest extends CodeTestAbstract {
     /**
      * @dataProvider provideTestParse
      */
-    public function testParse($name, $code, $expected, $modeLine) {
+    public function testParse($name, $code, $expected, $modeLine): void {
         $modes = $this->parseModeLine($modeLine);
         $parser = $this->createParser($modes['version'] ?? null);
         list($stmts, $output) = $this->getParseOutput($parser, $code, $modes);
@@ -62,13 +62,13 @@ class CodeParsingTest extends CodeTestAbstract {
         return $e->getMessage();
     }
 
-    private function checkAttributes($stmts) {
+    private function checkAttributes($stmts): void {
         if ($stmts === null) {
             return;
         }
 
         $traverser = new NodeTraverser(new class () extends NodeVisitorAbstract {
-            public function enterNode(Node $node) {
+            public function enterNode(Node $node): void {
                 $startLine = $node->getStartLine();
                 $endLine = $node->getEndLine();
                 $startFilePos = $node->getStartFilePos();

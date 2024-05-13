@@ -8,7 +8,7 @@ use PhpParser\NodeTraverser;
 use PhpParser\ParserFactory;
 
 final class ParentConnectingVisitorTest extends \PHPUnit\Framework\TestCase {
-    public function testConnectsChildNodeToParentNode() {
+    public function testConnectsChildNodeToParentNode(): void {
         $ast = (new ParserFactory())->createForNewestSupportedVersion()->parse(
             '<?php class C { public function m() {} }'
         );

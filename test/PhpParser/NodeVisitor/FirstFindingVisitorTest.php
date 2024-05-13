@@ -7,7 +7,7 @@ use PhpParser\Node\Expr;
 use PhpParser\NodeTraverser;
 
 class FirstFindingVisitorTest extends \PHPUnit\Framework\TestCase {
-    public function testFindFirstVariable() {
+    public function testFindFirstVariable(): void {
         $traverser = new NodeTraverser();
         $visitor = new FirstFindingVisitor(function (Node $node) {
             return $node instanceof Node\Expr\Variable;
@@ -21,7 +21,7 @@ class FirstFindingVisitorTest extends \PHPUnit\Framework\TestCase {
         $this->assertSame($assign->var, $visitor->getFoundNode());
     }
 
-    public function testFindNone() {
+    public function testFindNone(): void {
         $traverser = new NodeTraverser();
         $visitor = new FirstFindingVisitor(function (Node $node) {
             return $node instanceof Node\Expr\BinaryOp;

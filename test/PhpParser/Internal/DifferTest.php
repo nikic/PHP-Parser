@@ -28,7 +28,7 @@ class DifferTest extends \PHPUnit\Framework\TestCase {
     }
 
     /** @dataProvider provideTestDiff */
-    public function testDiff($oldStr, $newStr, $expectedDiffStr) {
+    public function testDiff($oldStr, $newStr, $expectedDiffStr): void {
         $differ = new Differ(function ($a, $b) {
             return $a === $b;
         });
@@ -49,7 +49,7 @@ class DifferTest extends \PHPUnit\Framework\TestCase {
     }
 
     /** @dataProvider provideTestDiffWithReplacements */
-    public function testDiffWithReplacements($oldStr, $newStr, $expectedDiffStr) {
+    public function testDiffWithReplacements($oldStr, $newStr, $expectedDiffStr): void {
         $differ = new Differ(function ($a, $b) {
             return $a === $b;
         });
@@ -66,7 +66,7 @@ class DifferTest extends \PHPUnit\Framework\TestCase {
         ];
     }
 
-    public function testNonContiguousIndices() {
+    public function testNonContiguousIndices(): void {
         $differ = new Differ(function ($a, $b) {
             return $a === $b;
         });
