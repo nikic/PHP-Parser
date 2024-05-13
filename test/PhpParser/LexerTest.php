@@ -29,7 +29,7 @@ class LexerTest extends \PHPUnit\Framework\TestCase {
         }
     }
 
-    public function provideTestError() {
+    public static function provideTestError() {
         return [
             ["<?php /*", ["Unterminated comment from 1:7 to 1:9"]],
             ["<?php /*\n", ["Unterminated comment from 1:7 to 2:1"]],
@@ -70,7 +70,7 @@ class LexerTest extends \PHPUnit\Framework\TestCase {
         }
     }
 
-    public function provideTestLex() {
+    public static function provideTestLex() {
         return [
             // tests PHP 8 T_NAME_* emulation
             [

@@ -136,7 +136,7 @@ class PropertyTest extends \PHPUnit\Framework\TestCase {
         );
     }
 
-    public function provideTestDefaultValues() {
+    public static function provideTestDefaultValues() {
         return [
             [
                 null,

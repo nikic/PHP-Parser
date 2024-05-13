@@ -25,7 +25,7 @@ class DummyNode extends NodeAbstract {
 }
 
 class NodeAbstractTest extends \PHPUnit\Framework\TestCase {
-    public function provideNodes() {
+    public static function provideNodes() {
         $attributes = [
             'startLine' => 10,
             'endLine' => 11,

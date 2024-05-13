@@ -128,7 +128,7 @@ EOC;
         }
     }
 
-    public function provideTestExtraAttributes() {
+    public static function provideTestExtraAttributes() {
         return [
             ['0', ['kind' => Scalar\Int_::KIND_DEC]],
             ['9', ['kind' => Scalar\Int_::KIND_DEC]],

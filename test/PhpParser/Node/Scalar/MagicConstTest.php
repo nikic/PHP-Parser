@@ -10,7 +10,7 @@ class MagicConstTest extends \PHPUnit\Framework\TestCase {
         $this->assertSame($name, $magicConst->getName());
     }
 
-    public function provideTestGetName() {
+    public static function provideTestGetName() {
         return [
             [new MagicConst\Class_(), '__CLASS__'],
             [new MagicConst\Dir(), '__DIR__'],

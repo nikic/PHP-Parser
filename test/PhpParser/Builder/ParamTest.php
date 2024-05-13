@@ -30,7 +30,7 @@ class ParamTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals($expectedValueNode, $node->default);
     }
 
-    public function provideTestDefaultValues() {
+    public static function provideTestDefaultValues() {
         return [
             [
                 null,
@@ -107,7 +107,7 @@ class ParamTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals($expectedType, $type);
     }
 
-    public function provideTestTypes() {
+    public static function provideTestTypes() {
         return [
             ['array', new Node\Identifier('array')],
             ['callable', new Node\Identifier('callable')],
@@ -127,7 +127,7 @@ class ParamTest extends \PHPUnit\Framework\TestCase {
         ];
     }
 
-    public function provideTestNullableTypes() {
+    public static function provideTestNullableTypes() {
         return [
             ['?array', new Node\NullableType(new Node\Identifier('array'))],
             ['?Some\Class', new Node\NullableType(new Node\Name('Some\Class'))],
@@ -142,7 +142,7 @@ class ParamTest extends \PHPUnit\Framework\TestCase {
         ];
     }
 
-    public function provideTestUnionTypes() {
+    public static function provideTestUnionTypes() {
         return [
             [
                 new Node\UnionType([

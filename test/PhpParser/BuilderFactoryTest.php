@@ -20,7 +20,7 @@ class BuilderFactoryTest extends \PHPUnit\Framework\TestCase {
         $this->assertInstanceOf($className, $factory->$methodName('test'));
     }
 
-    public function provideTestFactory() {
+    public static function provideTestFactory() {
         return [
             ['namespace',   Builder\Namespace_::class],
             ['class',       Builder\Class_::class],

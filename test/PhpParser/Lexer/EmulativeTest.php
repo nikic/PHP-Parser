@@ -89,7 +89,7 @@ class EmulativeTest extends LexerTest {
         ], $lexer->tokenize($code));
     }
 
-    public function provideTestReplaceKeywords() {
+    public static function provideTestReplaceKeywords() {
         return [
             // PHP 8.0
             ['match',         \T_MATCH],
@@ -173,7 +173,7 @@ class EmulativeTest extends LexerTest {
         $this->assertSame($expLine, $attrs['endLine']);
     }
 
-    public function provideTestLexNewFeatures() {
+    public static function provideTestLexNewFeatures() {
         return [
             ['yield from', [
                 [\T_YIELD_FROM, 'yield from'],
@@ -401,7 +401,7 @@ class EmulativeTest extends LexerTest {
         $this->assertSameTokens($expectedTokens, $lexer->tokenize('<?php ' . $code));
     }
 
-    public function provideTestTargetVersion() {
+    public static function provideTestTargetVersion() {
         return [
             ['8.0', 'match', [[\T_MATCH, 'match']]],
             ['7.4', 'match', [[\T_STRING, 'match']]],

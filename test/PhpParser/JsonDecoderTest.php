@@ -30,7 +30,7 @@ PHP;
         $jsonDecoder->decode($json);
     }
 
-    public function provideTestDecodingError() {
+    public static function provideTestDecodingError() {
         return [
             ['???', 'JSON decoding error: Syntax error'],
             ['{"nodeType":123}', 'Node type must be a string'],

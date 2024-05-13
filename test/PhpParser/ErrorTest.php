@@ -51,7 +51,7 @@ class ErrorTest extends \PHPUnit\Framework\TestCase {
         $this->assertSame($endColumn, $error->getEndColumn($code));
     }
 
-    public function provideTestColumnInfo() {
+    public static function provideTestColumnInfo() {
         return [
             // Error at "bar"
             ["<?php foo bar baz", 10, 12, 11, 13],

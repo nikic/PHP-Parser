@@ -16,7 +16,7 @@ class NodeDumperTest extends \PHPUnit\Framework\TestCase {
         $this->assertSame($this->canonicalize($dump), $this->canonicalize($dumper->dump($node)));
     }
 
-    public function provideTestDump() {
+    public static function provideTestDump() {
         return [
             [
                 [],

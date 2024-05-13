@@ -68,7 +68,7 @@ class EnumCaseTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals($expectedValueNode, $node->expr);
     }
 
-    public function provideTestDefaultValues() {
+    public static function provideTestDefaultValues() {
         return [
             [
                 31415,

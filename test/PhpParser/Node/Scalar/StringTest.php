@@ -42,7 +42,7 @@ class StringTest extends \PHPUnit\Framework\TestCase {
         );
     }
 
-    public function provideTestParseEscapeSequences() {
+    public static function provideTestParseEscapeSequences() {
         return [
             ['"',              '\\"',              '"'],
             ['\\"',            '\\"',              '`'],

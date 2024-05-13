@@ -36,7 +36,7 @@ class DifferTest extends \PHPUnit\Framework\TestCase {
         $this->assertSame($expectedDiffStr, $this->formatDiffString($diff));
     }
 
-    public function provideTestDiff() {
+    public static function provideTestDiff() {
         return [
             ['abc', 'abc', 'abc'],
             ['abc', 'abcdef', 'abc+d+e+f'],
@@ -57,7 +57,7 @@ class DifferTest extends \PHPUnit\Framework\TestCase {
         $this->assertSame($expectedDiffStr, $this->formatDiffString($diff));
     }
 
-    public function provideTestDiffWithReplacements() {
+    public static function provideTestDiffWithReplacements() {
         return [
             ['abcde', 'axyze', 'a/bx/cy/dze'],
             ['abcde', 'xbcdy', '/axbcd/ey'],

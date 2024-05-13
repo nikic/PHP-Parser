@@ -26,7 +26,7 @@ class ClassConstTest extends \PHPUnit\Framework\TestCase {
         $this->assertFalse($node->isFinal());
     }
 
-    public function provideModifiers() {
+    public static function provideModifiers() {
         return [
             ['public'],
             ['protected'],

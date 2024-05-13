@@ -31,7 +31,7 @@ class ClassMethodTest extends \PHPUnit\Framework\TestCase {
         $this->assertFalse($node->isMagic());
     }
 
-    public function provideModifiers() {
+    public static function provideModifiers() {
         return [
             ['public'],
             ['protected'],
@@ -57,7 +57,7 @@ class ClassMethodTest extends \PHPUnit\Framework\TestCase {
         $this->assertTrue($node->isPublic(), 'Node should be implicitly public');
     }
 
-    public function implicitPublicModifiers() {
+    public static function implicitPublicModifiers() {
         return [
             ['abstract'],
             ['final'],
@@ -75,7 +75,7 @@ class ClassMethodTest extends \PHPUnit\Framework\TestCase {
         $this->assertTrue($node->isMagic(), 'Method should be magic');
     }
 
-    public function provideMagics() {
+    public static function provideMagics() {
         return [
              ['__construct'],
              ['__DESTRUCT'],

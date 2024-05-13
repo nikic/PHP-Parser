@@ -88,7 +88,7 @@ class PrettyPrinterTest extends CodeTestAbstract {
         $this->assertSame($expected, $result);
     }
 
-    public function provideTestKindAttributes() {
+    public static function provideTestKindAttributes() {
         $nowdoc = ['kind' => String_::KIND_NOWDOC, 'docLabel' => 'STR'];
         $heredoc = ['kind' => String_::KIND_HEREDOC, 'docLabel' => 'STR'];
         return [
@@ -144,7 +144,7 @@ class PrettyPrinterTest extends CodeTestAbstract {
         $this->assertSame($expected, $result);
     }
 
-    public function provideTestUnnaturalLiterals() {
+    public static function provideTestUnnaturalLiterals() {
         return [
             [new Int_(-1), '-1'],
             [new Int_(-PHP_INT_MAX - 1), '(-' . PHP_INT_MAX . '-1)'],

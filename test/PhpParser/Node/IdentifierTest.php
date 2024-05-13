@@ -22,7 +22,7 @@ class IdentifierTest extends \PHPUnit\Framework\TestCase {
         $this->assertSame($expected, $identifier->isSpecialClassName());
     }
 
-    public function provideTestIsSpecialClassName() {
+    public static function provideTestIsSpecialClassName() {
         return [
             ['self', true],
             ['PARENT', true],
