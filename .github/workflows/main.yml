@@ -22,19 +22,35 @@ jobs:
           composer require php-coveralls/php-coveralls:^2.2 --dev --no-update
           COMPOSER_ROOT_VERSION=dev-master composer update --no-progress --prefer-dist
       - name: "Tests"
-        run: "php vendor/bin/phpunit --coverage-clover build/logs/clover.xml"
+        run: "php vendor/bin/phpunit --coverage-clover build/logs/clover.xml --configuration=phpunit.xml.9.5.dist"
       - name: Coveralls
         env:
           COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: "php vendor/bin/php-coveralls"
         if: ${{ success() }}
+  tests-php80:
+    runs-on: "ubuntu-latest"
+    name: "PHP 8.0 Unit Tests"
+    steps:
+      - name: "Checkout"
+        uses: "actions/checkout@v3"
+      - name: "Install PHP"
+        uses: "shivammathur/setup-php@v2"
+        with:
+          coverage: "none"
+          php-version: "8.0"
+          ini-file: "development"
+          tools: composer:v2
+      - name: "Install dependencies"
+        run: "COMPOSER_ROOT_VERSION=dev-master composer update --no-progress --prefer-dist"
+      - name: "PHPUnit"
+        run: "php vendor/bin/phpunit --configuration=phpunit.xml.9.5.dist"
   tests:
     runs-on: "ubuntu-latest"
     name: "PHP ${{ matrix.php-version }} Unit Tests"
     strategy:
       matrix:
         php-version:
-          - "8.0"
           - "8.1"
           - "8.2"
           - "8.3"
