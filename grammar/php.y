@@ -1069,10 +1069,19 @@ anonymous_class:
             $this->checkClass($$[0], -1); }
 ;
 
-new_expr:
-      T_NEW class_name_reference ctor_arguments             { $$ = Expr\New_[$2, $3]; }
+new_dereferenceable:
+      T_NEW class_name_reference argument_list              { $$ = Expr\New_[$2, $3]; }
     | T_NEW anonymous_class
           { list($class, $ctorArgs) = $2; $$ = Expr\New_[$class, $ctorArgs]; }
+;
+
+new_non_dereferenceable:
+      T_NEW class_name_reference                            { $$ = Expr\New_[$2, []]; }
+;
+
+new_expr:
+      new_dereferenceable
+    | new_non_dereferenceable
 ;
 
 lexical_vars:
@@ -1213,6 +1222,7 @@ fully_dereferencable:
     | '(' expr ')'                                          { $$ = $2; }
     | dereferencable_scalar
     | class_constant
+    | new_dereferenceable
 ;
 
 array_object_dereferencable:
@@ -1224,6 +1234,7 @@ callable_expr:
       callable_variable
     | '(' expr ')'                                          { $$ = $2; }
     | dereferencable_scalar
+    | new_dereferenceable
 ;
 
 callable_variable:

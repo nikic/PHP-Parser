@@ -1,0 +1,318 @@
+New dereference without parentheses
+-----
+<?php
+
+new A()->foo;
+new A()->foo();
+new A()::FOO;
+new A()::foo();
+new A()::$foo;
+new A()[0];
+new A(){0};
+new A()();
+
+new class {}->foo;
+new class {}->foo();
+new class {}::FOO;
+new class {}::foo();
+new class {}::$foo;
+new class {}[0];
+new class {}{0};
+new class {}();
+-----
+array(
+    0: Stmt_Expression(
+        expr: Expr_PropertyFetch(
+            var: Expr_New(
+                class: Name(
+                    name: A
+                )
+                args: array(
+                )
+            )
+            name: Identifier(
+                name: foo
+            )
+        )
+    )
+    1: Stmt_Expression(
+        expr: Expr_MethodCall(
+            var: Expr_New(
+                class: Name(
+                    name: A
+                )
+                args: array(
+                )
+            )
+            name: Identifier(
+                name: foo
+            )
+            args: array(
+            )
+        )
+    )
+    2: Stmt_Expression(
+        expr: Expr_ClassConstFetch(
+            class: Expr_New(
+                class: Name(
+                    name: A
+                )
+                args: array(
+                )
+            )
+            name: Identifier(
+                name: FOO
+            )
+        )
+    )
+    3: Stmt_Expression(
+        expr: Expr_StaticCall(
+            class: Expr_New(
+                class: Name(
+                    name: A
+                )
+                args: array(
+                )
+            )
+            name: Identifier(
+                name: foo
+            )
+            args: array(
+            )
+        )
+    )
+    4: Stmt_Expression(
+        expr: Expr_StaticPropertyFetch(
+            class: Expr_New(
+                class: Name(
+                    name: A
+                )
+                args: array(
+                )
+            )
+            name: VarLikeIdentifier(
+                name: foo
+            )
+        )
+    )
+    5: Stmt_Expression(
+        expr: Expr_ArrayDimFetch(
+            var: Expr_New(
+                class: Name(
+                    name: A
+                )
+                args: array(
+                )
+            )
+            dim: Scalar_Int(
+                value: 0
+            )
+        )
+    )
+    6: Stmt_Expression(
+        expr: Expr_ArrayDimFetch(
+            var: Expr_New(
+                class: Name(
+                    name: A
+                )
+                args: array(
+                )
+            )
+            dim: Scalar_Int(
+                value: 0
+            )
+        )
+    )
+    7: Stmt_Expression(
+        expr: Expr_FuncCall(
+            name: Expr_New(
+                class: Name(
+                    name: A
+                )
+                args: array(
+                )
+            )
+            args: array(
+            )
+        )
+    )
+    8: Stmt_Expression(
+        expr: Expr_PropertyFetch(
+            var: Expr_New(
+                class: Stmt_Class(
+                    attrGroups: array(
+                    )
+                    flags: 0
+                    name: null
+                    extends: null
+                    implements: array(
+                    )
+                    stmts: array(
+                    )
+                )
+                args: array(
+                )
+            )
+            name: Identifier(
+                name: foo
+            )
+        )
+    )
+    9: Stmt_Expression(
+        expr: Expr_MethodCall(
+            var: Expr_New(
+                class: Stmt_Class(
+                    attrGroups: array(
+                    )
+                    flags: 0
+                    name: null
+                    extends: null
+                    implements: array(
+                    )
+                    stmts: array(
+                    )
+                )
+                args: array(
+                )
+            )
+            name: Identifier(
+                name: foo
+            )
+            args: array(
+            )
+        )
+    )
+    10: Stmt_Expression(
+        expr: Expr_ClassConstFetch(
+            class: Expr_New(
+                class: Stmt_Class(
+                    attrGroups: array(
+                    )
+                    flags: 0
+                    name: null
+                    extends: null
+                    implements: array(
+                    )
+                    stmts: array(
+                    )
+                )
+                args: array(
+                )
+            )
+            name: Identifier(
+                name: FOO
+            )
+        )
+    )
+    11: Stmt_Expression(
+        expr: Expr_StaticCall(
+            class: Expr_New(
+                class: Stmt_Class(
+                    attrGroups: array(
+                    )
+                    flags: 0
+                    name: null
+                    extends: null
+                    implements: array(
+                    )
+                    stmts: array(
+                    )
+                )
+                args: array(
+                )
+            )
+            name: Identifier(
+                name: foo
+            )
+            args: array(
+            )
+        )
+    )
+    12: Stmt_Expression(
+        expr: Expr_StaticPropertyFetch(
+            class: Expr_New(
+                class: Stmt_Class(
+                    attrGroups: array(
+                    )
+                    flags: 0
+                    name: null
+                    extends: null
+                    implements: array(
+                    )
+                    stmts: array(
+                    )
+                )
+                args: array(
+                )
+            )
+            name: VarLikeIdentifier(
+                name: foo
+            )
+        )
+    )
+    13: Stmt_Expression(
+        expr: Expr_ArrayDimFetch(
+            var: Expr_New(
+                class: Stmt_Class(
+                    attrGroups: array(
+                    )
+                    flags: 0
+                    name: null
+                    extends: null
+                    implements: array(
+                    )
+                    stmts: array(
+                    )
+                )
+                args: array(
+                )
+            )
+            dim: Scalar_Int(
+                value: 0
+            )
+        )
+    )
+    14: Stmt_Expression(
+        expr: Expr_ArrayDimFetch(
+            var: Expr_New(
+                class: Stmt_Class(
+                    attrGroups: array(
+                    )
+                    flags: 0
+                    name: null
+                    extends: null
+                    implements: array(
+                    )
+                    stmts: array(
+                    )
+                )
+                args: array(
+                )
+            )
+            dim: Scalar_Int(
+                value: 0
+            )
+        )
+    )
+    15: Stmt_Expression(
+        expr: Expr_FuncCall(
+            name: Expr_New(
+                class: Stmt_Class(
+                    attrGroups: array(
+                    )
+                    flags: 0
+                    name: null
+                    extends: null
+                    implements: array(
+                    )
+                    stmts: array(
+                    )
+                )
+                args: array(
+                )
+            )
+            args: array(
+            )
+        )
+    )
+)

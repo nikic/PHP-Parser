@@ -1,3 +1,10 @@
+Version 5.1.0-dev
+-----------------
+
+### Added
+
+* [8.4] Added support for dereferenceing `new` expressions without parentheses.
+
 Version 5.0.2 (2024-03-05)
 --------------------------
 
