@@ -25,12 +25,12 @@ final class NodeConnectingVisitor extends NodeVisitorAbstract {
      */
     private $previous;
 
-    public function beforeTraverse(array $nodes): void {
+    public function beforeTraverse(array $nodes) {
         $this->stack    = [];
         $this->previous = null;
     }
 
-    public function enterNode(Node $node): void {
+    public function enterNode(Node $node) {
         if (!empty($this->stack)) {
             $node->setAttribute('parent', $this->stack[count($this->stack) - 1]);
         }
@@ -43,7 +43,7 @@ final class NodeConnectingVisitor extends NodeVisitorAbstract {
         $this->stack[] = $node;
     }
 
-    public function leaveNode(Node $node): void {
+    public function leaveNode(Node $node) {
         $this->previous = $node;
 
         array_pop($this->stack);
