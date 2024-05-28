@@ -3,8 +3,5 @@ vendor/
 composer.lock
 grammar/kmyacc.exe
 grammar/y.output
-#cache file for PHPUnit 9
 .phpunit.result.cache
-#cache dir for PHPUnit > 10
-phpunitcache/
 .php-cs-fixer.cache
