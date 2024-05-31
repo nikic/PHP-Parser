@@ -23,7 +23,7 @@ class TraitTest extends \PHPUnit\Framework\TestCase {
         return new Trait_($class);
     }
 
-    public function testStmtAddition() {
+    public function testStmtAddition(): void {
         $method1 = new Stmt\ClassMethod('test1');
         $method2 = new Stmt\ClassMethod('test2');
         $method3 = new Stmt\ClassMethod('test3');
@@ -49,7 +49,7 @@ class TraitTest extends \PHPUnit\Framework\TestCase {
         ]), $trait);
     }
 
-    public function testInvalidStmtError() {
+    public function testInvalidStmtError(): void {
         $this->expectException(\LogicException::class);
         $this->expectExceptionMessage('Unexpected node of type "Stmt_Echo"');
         $this->createTraitBuilder('Test')
@@ -57,7 +57,7 @@ class TraitTest extends \PHPUnit\Framework\TestCase {
         ;
     }
 
-    public function testGetMethods() {
+    public function testGetMethods(): void {
         $methods = [
             new ClassMethod('foo'),
             new ClassMethod('bar'),
@@ -77,7 +77,7 @@ class TraitTest extends \PHPUnit\Framework\TestCase {
         $this->assertSame($methods, $trait->getMethods());
     }
 
-    public function testGetProperties() {
+    public function testGetProperties(): void {
         $properties = [
             new Property(Modifiers::PUBLIC, [new PropertyItem('foo')]),
             new Property(Modifiers::PUBLIC, [new PropertyItem('bar')]),
@@ -95,7 +95,7 @@ class TraitTest extends \PHPUnit\Framework\TestCase {
         $this->assertSame($properties, $trait->getProperties());
     }
 
-    public function testAddAttribute() {
+    public function testAddAttribute(): void {
         $attribute = new Attribute(
             new Name('Attr'),
             [new Arg(new Int_(1), false, false, [], new Identifier('name'))]

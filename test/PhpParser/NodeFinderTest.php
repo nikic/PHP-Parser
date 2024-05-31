@@ -14,7 +14,7 @@ class NodeFinderTest extends \PHPUnit\Framework\TestCase {
         return [$stmts, $vars];
     }
 
-    public function testFind() {
+    public function testFind(): void {
         $finder = new NodeFinder();
         list($stmts, $vars) = $this->getStmtsAndVars();
         $varFilter = function (Node $node) {
@@ -29,7 +29,7 @@ class NodeFinderTest extends \PHPUnit\Framework\TestCase {
         $this->assertSame([], $finder->find($stmts, $noneFilter));
     }
 
-    public function testFindInstanceOf() {
+    public function testFindInstanceOf(): void {
         $finder = new NodeFinder();
         list($stmts, $vars) = $this->getStmtsAndVars();
         $this->assertSame($vars, $finder->findInstanceOf($stmts, Expr\Variable::class));
@@ -37,7 +37,7 @@ class NodeFinderTest extends \PHPUnit\Framework\TestCase {
         $this->assertSame([], $finder->findInstanceOf($stmts, Expr\BinaryOp\Mul::class));
     }
 
-    public function testFindFirst() {
+    public function testFindFirst(): void {
         $finder = new NodeFinder();
         list($stmts, $vars) = $this->getStmtsAndVars();
         $varFilter = function (Node $node) {
@@ -52,7 +52,7 @@ class NodeFinderTest extends \PHPUnit\Framework\TestCase {
         $this->assertNull($finder->findFirst($stmts, $noneFilter));
     }
 
-    public function testFindFirstInstanceOf() {
+    public function testFindFirstInstanceOf(): void {
         $finder = new NodeFinder();
         list($stmts, $vars) = $this->getStmtsAndVars();
         $this->assertSame($vars[0], $finder->findFirstInstanceOf($stmts, Expr\Variable::class));

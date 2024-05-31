@@ -39,11 +39,11 @@ $visitor = new class extends PhpParser\NodeVisitorAbstract {
     private $tokens;
     public $hasProblematicConstruct;
 
-    public function setTokens(array $tokens) {
+    public function setTokens(array $tokens): void {
         $this->tokens = $tokens;
     }
 
-    public function beforeTraverse(array $nodes) {
+    public function beforeTraverse(array $nodes): void {
         $this->hasProblematicConstruct = false;
     }
 

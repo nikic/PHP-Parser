@@ -13,7 +13,7 @@ class CompatibilityTest extends \PHPUnit\Framework\TestCase {
      * @runInSeparateProcess
      * @preserveGlobalState disabled
      */
-    public function testAliases1() {
+    public function testAliases1(): void {
         $var = new Expr\Variable('x');
         $node = new Node\ClosureUse($var);
         $this->assertTrue($node instanceof Expr\ClosureUse);
@@ -41,7 +41,7 @@ class CompatibilityTest extends \PHPUnit\Framework\TestCase {
      * @runInSeparateProcess
      * @preserveGlobalState disabled
      */
-    public function testAliases2() {
+    public function testAliases2(): void {
         $var = new Expr\Variable('x');
         $node = new Node\Expr\ClosureUse($var);
         $this->assertTrue($node instanceof Node\ClosureUse);

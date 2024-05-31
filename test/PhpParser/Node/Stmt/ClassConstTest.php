@@ -8,7 +8,7 @@ class ClassConstTest extends \PHPUnit\Framework\TestCase {
     /**
      * @dataProvider provideModifiers
      */
-    public function testModifiers($modifier) {
+    public function testModifiers($modifier): void {
         $node = new ClassConst(
             [], // invalid
             constant(Modifiers::class . '::' . strtoupper($modifier))
@@ -17,7 +17,7 @@ class ClassConstTest extends \PHPUnit\Framework\TestCase {
         $this->assertTrue($node->{'is' . $modifier}());
     }
 
-    public function testNoModifiers() {
+    public function testNoModifiers(): void {
         $node = new ClassConst([], 0);
 
         $this->assertTrue($node->isPublic());

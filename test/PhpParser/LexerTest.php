@@ -13,7 +13,7 @@ class LexerTest extends \PHPUnit\Framework\TestCase {
     /**
      * @dataProvider provideTestError
      */
-    public function testError($code, $messages) {
+    public function testError($code, $messages): void {
         if (defined('HHVM_VERSION')) {
             $this->markTestSkipped('HHVM does not throw warnings from token_get_all()');
         }
@@ -45,7 +45,7 @@ class LexerTest extends \PHPUnit\Framework\TestCase {
         ];
     }
 
-    public function testDefaultErrorHandler() {
+    public function testDefaultErrorHandler(): void {
         $this->expectException(Error::class);
         $this->expectExceptionMessage('Unterminated comment on line 1');
         $lexer = $this->getLexer();
@@ -55,7 +55,7 @@ class LexerTest extends \PHPUnit\Framework\TestCase {
     /**
      * @dataProvider provideTestLex
      */
-    public function testLex($code, $expectedTokens) {
+    public function testLex($code, $expectedTokens): void {
         $lexer = $this->getLexer();
         $tokens = $lexer->tokenize($code);
         foreach ($tokens as $token) {
@@ -97,7 +97,7 @@ class LexerTest extends \PHPUnit\Framework\TestCase {
         ];
     }
 
-    public function testGetTokens() {
+    public function testGetTokens(): void {
         $code = '<?php "a";' . "\n" . '// foo' . "\n" . '// bar' . "\n\n" . '"b";';
         $expectedTokens = [
             new Token(T_OPEN_TAG, '<?php ', 1, 0),

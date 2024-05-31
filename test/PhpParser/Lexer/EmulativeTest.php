@@ -19,7 +19,7 @@ class EmulativeTest extends LexerTest {
     /**
      * @dataProvider provideTestReplaceKeywords
      */
-    public function testReplaceKeywords(string $keyword, int $expectedToken) {
+    public function testReplaceKeywords(string $keyword, int $expectedToken): void {
         $lexer = $this->getLexer();
         $code = '<?php ' . $keyword;
         $this->assertEquals([
@@ -32,7 +32,7 @@ class EmulativeTest extends LexerTest {
     /**
      * @dataProvider provideTestReplaceKeywords
      */
-    public function testReplaceKeywordsUppercase(string $keyword, int $expectedToken) {
+    public function testReplaceKeywordsUppercase(string $keyword, int $expectedToken): void {
         $lexer = $this->getLexer();
         $code = '<?php ' . strtoupper($keyword);
 
@@ -46,7 +46,7 @@ class EmulativeTest extends LexerTest {
     /**
      * @dataProvider provideTestReplaceKeywords
      */
-    public function testNoReplaceKeywordsAfterObjectOperator(string $keyword) {
+    public function testNoReplaceKeywordsAfterObjectOperator(string $keyword): void {
         $lexer = $this->getLexer();
         $code = '<?php ->' . $keyword;
 
@@ -61,7 +61,7 @@ class EmulativeTest extends LexerTest {
     /**
      * @dataProvider provideTestReplaceKeywords
      */
-    public function testNoReplaceKeywordsAfterObjectOperatorWithSpaces(string $keyword) {
+    public function testNoReplaceKeywordsAfterObjectOperatorWithSpaces(string $keyword): void {
         $lexer = $this->getLexer();
         $code = '<?php ->    ' . $keyword;
 
@@ -77,7 +77,7 @@ class EmulativeTest extends LexerTest {
     /**
      * @dataProvider provideTestReplaceKeywords
      */
-    public function testNoReplaceKeywordsAfterNullsafeObjectOperator(string $keyword) {
+    public function testNoReplaceKeywordsAfterNullsafeObjectOperator(string $keyword): void {
         $lexer = $this->getLexer();
         $code = '<?php ?->' . $keyword;
 
@@ -115,7 +115,7 @@ class EmulativeTest extends LexerTest {
         ];
     }
 
-    private function assertSameTokens(array $expectedTokens, array $tokens) {
+    private function assertSameTokens(array $expectedTokens, array $tokens): void {
         $reducedTokens = [];
         foreach ($tokens as $token) {
             if ($token->id === 0 || $token->isIgnorable()) {
@@ -129,7 +129,7 @@ class EmulativeTest extends LexerTest {
     /**
      * @dataProvider provideTestLexNewFeatures
      */
-    public function testLexNewFeatures(string $code, array $expectedTokens) {
+    public function testLexNewFeatures(string $code, array $expectedTokens): void {
         $lexer = $this->getLexer();
         $this->assertSameTokens($expectedTokens, $lexer->tokenize('<?php ' . $code));
     }
@@ -137,7 +137,7 @@ class EmulativeTest extends LexerTest {
     /**
      * @dataProvider provideTestLexNewFeatures
      */
-    public function testLeaveStuffAloneInStrings(string $code) {
+    public function testLeaveStuffAloneInStrings(string $code): void {
         $stringifiedToken = '"' . addcslashes($code, '"\\') . '"';
 
         $lexer = $this->getLexer();
@@ -153,7 +153,7 @@ class EmulativeTest extends LexerTest {
     /**
      * @dataProvider provideTestLexNewFeatures
      */
-    public function testErrorAfterEmulation($code) {
+    public function testErrorAfterEmulation($code): void {
         $errorHandler = new ErrorHandler\Collecting();
         $lexer = $this->getLexer();
         $lexer->tokenize('<?php ' . $code . "\0", $errorHandler);
@@ -396,7 +396,7 @@ class EmulativeTest extends LexerTest {
     /**
      * @dataProvider provideTestTargetVersion
      */
-    public function testTargetVersion(string $phpVersion, string $code, array $expectedTokens) {
+    public function testTargetVersion(string $phpVersion, string $code, array $expectedTokens): void {
         $lexer = new Emulative(PhpVersion::fromString($phpVersion));
         $this->assertSameTokens($expectedTokens, $lexer->tokenize('<?php ' . $code));
     }

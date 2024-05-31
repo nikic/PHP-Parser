@@ -6,7 +6,7 @@ use PhpParser\Node;
 use PhpParser\Node\Scalar\String_;
 
 class InterfaceTest extends \PHPUnit\Framework\TestCase {
-    public function testGetMethods() {
+    public function testGetMethods(): void {
         $methods = [
             new ClassMethod('foo'),
             new ClassMethod('bar'),
@@ -24,7 +24,7 @@ class InterfaceTest extends \PHPUnit\Framework\TestCase {
         $this->assertSame($methods, $interface->getMethods());
     }
 
-    public function testGetConstants() {
+    public function testGetConstants(): void {
         $constants = [
             new ClassConst([new \PhpParser\Node\Const_('foo', new String_('foo_value'))]),
             new ClassConst([new \PhpParser\Node\Const_('bar', new String_('bar_value'))]),

@@ -9,7 +9,7 @@ class NameContextTest extends \PHPUnit\Framework\TestCase {
     /**
      * @dataProvider provideTestGetPossibleNames
      */
-    public function testGetPossibleNames($type, $name, $expectedPossibleNames) {
+    public function testGetPossibleNames($type, $name, $expectedPossibleNames): void {
         $nameContext = new NameContext(new ErrorHandler\Throwing());
         $nameContext->startNamespace(new Name('NS'));
         $nameContext->addAlias(new Name('Foo'), 'Foo', Use_::TYPE_NORMAL);
