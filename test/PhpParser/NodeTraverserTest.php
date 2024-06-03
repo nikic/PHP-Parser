@@ -424,7 +424,7 @@ class NodeTraverserTest extends \PHPUnit\Framework\TestCase {
         $traverser->traverse($stmts);
     }
 
-    public function provideTestInvalidReturn() {
+    public static function provideTestInvalidReturn() {
         $num = new Node\Scalar\Int_(42);
         $expr = new Node\Stmt\Expression($num);
         $stmts = [$expr];

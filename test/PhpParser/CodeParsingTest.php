@@ -50,8 +50,8 @@ class CodeParsingTest extends CodeTestAbstract {
         return [$stmts, canonicalize($output)];
     }
 
-    public function provideTestParse() {
-        return $this->getTests(__DIR__ . '/../code/parser', 'test');
+    public static function provideTestParse() {
+        return self::getTests(__DIR__ . '/../code/parser', 'test');
     }
 
     private function formatErrorMessage(Error $e, $code) {

@@ -18,7 +18,7 @@ class CallableLikeTest extends \PHPUnit\Framework\TestCase {
         }
     }
 
-    public function provideTestIsFirstClassCallable() {
+    public static function provideTestIsFirstClassCallable() {
         $normalArgs = [new Arg(new Int_(1))];
         $callableArgs = [new VariadicPlaceholder()];
         return [

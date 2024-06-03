@@ -25,7 +25,7 @@ class CommentTest extends \PHPUnit\Framework\TestCase {
         $this->assertSame($reformattedText, $comment->getReformattedText());
     }
 
-    public function provideTestReformatting() {
+    public static function provideTestReformatting() {
         return [
             ['// Some text', '// Some text'],
             ['/* Some text */', '/* Some text */'],

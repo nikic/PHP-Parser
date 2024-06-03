@@ -14,7 +14,7 @@ class ConstExprEvaluatorTest extends \PHPUnit\Framework\TestCase {
         $this->assertSame($expected, $evaluator->evaluateDirectly($expr));
     }
 
-    public function provideTestEvaluate() {
+    public static function provideTestEvaluate() {
         return [
             ['1', 1],
             ['1.0', 1.0],
@@ -115,7 +115,7 @@ class ConstExprEvaluatorTest extends \PHPUnit\Framework\TestCase {
         }
     }
 
-    public function provideTestEvaluateSilently() {
+    public static function provideTestEvaluateSilently() {
         return [
             [
                 new Expr\BinaryOp\Mod(new Scalar\Int_(42), new Scalar\Int_(0)),

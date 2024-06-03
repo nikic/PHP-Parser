@@ -28,7 +28,7 @@ class TokenTest extends \PHPUnit\Framework\TestCase {
         $this->assertSame($isIgnorable, $token->isIgnorable());
     }
 
-    public function provideTestIsIgnorable() {
+    public static function provideTestIsIgnorable() {
         return [
             [\T_STRING, 'foo', false],
             [\T_WHITESPACE, ' ', true],

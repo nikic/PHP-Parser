@@ -42,7 +42,7 @@ class StringTest extends \PHPUnit\Framework\TestCase {
         );
     }
 
-    public function provideTestParseEscapeSequences() {
+    public static function provideTestParseEscapeSequences() {
         return [
             ['"',              '\\"',              '"'],
             ['\\"',            '\\"',              '`'],
@@ -57,7 +57,7 @@ class StringTest extends \PHPUnit\Framework\TestCase {
         ];
     }
 
-    public function provideTestParse() {
+    public static function provideTestParse() {
         $tests = [
             ['A', '\'A\''],
             ['A', 'b\'A\''],
@@ -67,7 +67,7 @@ class StringTest extends \PHPUnit\Framework\TestCase {
             ['\'', '\'\\\'\''],
         ];
 
-        foreach ($this->provideTestParseEscapeSequences() as $i => $test) {
+        foreach (self::provideTestParseEscapeSequences() as $i => $test) {
             // skip second and third tests, they aren't for double quotes
             if ($i !== 1 && $i !== 2) {
                 $tests[] = [$test[0], '"' . $test[1] . '"'];

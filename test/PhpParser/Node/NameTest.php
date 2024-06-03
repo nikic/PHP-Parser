@@ -152,7 +152,7 @@ class NameTest extends \PHPUnit\Framework\TestCase {
         $this->assertSame($expected, $name->isSpecialClassName());
     }
 
-    public function provideTestIsSpecialClassName() {
+    public static function provideTestIsSpecialClassName() {
         return [
             ['self', true],
             ['PARENT', true],

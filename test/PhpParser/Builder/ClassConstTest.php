@@ -165,7 +165,7 @@ class ClassConstTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals($expectedValueNode, $node->consts[0]->value);
     }
 
-    public function provideTestDefaultValues() {
+    public static function provideTestDefaultValues() {
         return [
             [
                 null,

@@ -40,12 +40,12 @@ class PrettyPrinterTest extends CodeTestAbstract {
         $this->doTestPrettyPrintMethod('prettyPrintFile', $name, $code, $expected, $mode);
     }
 
-    public function provideTestPrettyPrint() {
-        return $this->getTests(__DIR__ . '/../code/prettyPrinter', 'test');
+    public static function provideTestPrettyPrint() {
+        return self::getTests(__DIR__ . '/../code/prettyPrinter', 'test');
     }
 
-    public function provideTestPrettyPrintFile() {
-        return $this->getTests(__DIR__ . '/../code/prettyPrinter', 'file-test');
+    public static function provideTestPrettyPrintFile() {
+        return self::getTests(__DIR__ . '/../code/prettyPrinter', 'file-test');
     }
 
     public function testPrettyPrintExpr(): void {
@@ -88,7 +88,7 @@ class PrettyPrinterTest extends CodeTestAbstract {
         $this->assertSame($expected, $result);
     }
 
-    public function provideTestKindAttributes() {
+    public static function provideTestKindAttributes() {
         $nowdoc = ['kind' => String_::KIND_NOWDOC, 'docLabel' => 'STR'];
         $heredoc = ['kind' => String_::KIND_HEREDOC, 'docLabel' => 'STR'];
         return [
@@ -144,7 +144,7 @@ class PrettyPrinterTest extends CodeTestAbstract {
         $this->assertSame($expected, $result);
     }
 
-    public function provideTestUnnaturalLiterals() {
+    public static function provideTestUnnaturalLiterals() {
         return [
             [new Int_(-1), '-1'],
             [new Int_(-PHP_INT_MAX - 1), '(-' . PHP_INT_MAX . '-1)'],
@@ -209,8 +209,8 @@ CODE
         $this->assertSame(canonicalize($expected), canonicalize($newCode), $name);
     }
 
-    public function provideTestFormatPreservingPrint() {
-        return $this->getTests(__DIR__ . '/../code/formatPreservation', 'test', 3);
+    public static function provideTestFormatPreservingPrint() {
+        return self::getTests(__DIR__ . '/../code/formatPreservation', 'test', 3);
     }
 
     /**
@@ -245,10 +245,10 @@ CODE
         $this->assertSame(canonicalize($code), canonicalize($newCode), $name);
     }
 
-    public function provideTestRoundTripPrint() {
+    public static function provideTestRoundTripPrint() {
         return array_merge(
-            $this->getTests(__DIR__ . '/../code/prettyPrinter', 'test'),
-            $this->getTests(__DIR__ . '/../code/parser', 'test')
+            self::getTests(__DIR__ . '/../code/prettyPrinter', 'test'),
+            self::getTests(__DIR__ . '/../code/parser', 'test')
         );
     }
 

@@ -7,7 +7,7 @@ use PhpParser\Node\Scalar;
 use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt;
 
-abstract class ParserTest extends \PHPUnit\Framework\TestCase {
+abstract class ParserTestAbstract extends \PHPUnit\Framework\TestCase {
     /** @returns Parser */
     abstract protected function getParser(Lexer $lexer);
 
@@ -128,7 +128,7 @@ EOC;
         }
     }
 
-    public function provideTestExtraAttributes() {
+    public static function provideTestExtraAttributes() {
         return [
             ['0', ['kind' => Scalar\Int_::KIND_DEC]],
             ['9', ['kind' => Scalar\Int_::KIND_DEC]],

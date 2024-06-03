@@ -407,7 +407,7 @@ EOC;
         $traverser->traverse([$stmt]);
     }
 
-    public function provideTestError() {
+    public static function provideTestError() {
         return [
             [
                 new Stmt\Use_([
