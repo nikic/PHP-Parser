@@ -125,6 +125,10 @@ class Standard extends PrettyPrinterAbstract {
         return '__TRAIT__';
     }
 
+    protected function pScalar_MagicConst_Property(MagicConst\Property $node): string {
+        return '__PROPERTY__';
+    }
+
     // Scalars
 
     private function indentString(string $str): string {

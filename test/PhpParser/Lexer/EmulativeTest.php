@@ -91,6 +91,9 @@ class EmulativeTest extends LexerTest {
 
     public static function provideTestReplaceKeywords() {
         return [
+            // PHP 8.4
+            ['__PROPERTY__', \T_PROPERTY_C],
+
             // PHP 8.0
             ['match',         \T_MATCH],
 
@@ -424,6 +427,10 @@ class EmulativeTest extends LexerTest {
                 [\T_ENCAPSED_AND_WHITESPACE, ' baz'],
                 [ord('"'), '"'],
             ]],
+            ['8.4', '__PROPERTY__', [[\T_PROPERTY_C, '__PROPERTY__']]],
+            ['8.3', '__PROPERTY__', [[\T_STRING, '__PROPERTY__']]],
+            ['8.4', '__property__', [[\T_PROPERTY_C, '__property__']]],
+            ['8.3', '__property__', [[\T_STRING, '__property__']]],
         ];
     }
 }

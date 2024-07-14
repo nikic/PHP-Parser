@@ -1224,6 +1224,7 @@ abstract class ParserAbstract implements Parser {
         $tokenMap[\T_AMPERSAND_FOLLOWED_BY_VAR_OR_VARARG] = static::T_AMPERSAND_FOLLOWED_BY_VAR_OR_VARARG;
         $tokenMap[\T_ENUM] = static::T_ENUM;
         $tokenMap[\T_READONLY] = static::T_READONLY;
+        $tokenMap[\T_PROPERTY_C] = static::T_PROPERTY_C;
 
         // We have create a map from PHP token IDs to external symbol IDs.
         // Now map them to the internal symbol ID.

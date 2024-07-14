@@ -10,6 +10,7 @@ __LINE__;
 __METHOD__;
 __NAMESPACE__;
 __TRAIT__;
+__PROPERTY__;
 -----
 array(
     0: Stmt_Expression(
@@ -42,6 +43,10 @@ array(
     )
     7: Stmt_Expression(
         expr: Scalar_MagicConst_Trait(
+        )
+    )
+    8: Stmt_Expression(
+        expr: Scalar_MagicConst_Property(
         )
     )
 )

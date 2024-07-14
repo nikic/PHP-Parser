@@ -103,6 +103,7 @@
 %token T_TRAIT_C
 %token T_METHOD_C
 %token T_FUNC_C
+%token T_PROPERTY_C
 %token T_LINE
 %token T_FILE
 %token T_START_HEREDOC
@@ -1165,6 +1166,7 @@ constant:
     | T_METHOD_C                                            { $$ = Scalar\MagicConst\Method[]; }
     | T_FUNC_C                                              { $$ = Scalar\MagicConst\Function_[]; }
     | T_NS_C                                                { $$ = Scalar\MagicConst\Namespace_[]; }
+    | T_PROPERTY_C                                          { $$ = Scalar\MagicConst\Property[]; }
 ;
 
 class_constant:

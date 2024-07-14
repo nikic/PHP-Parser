@@ -11,6 +11,7 @@ __CLASS__;
 __TRAIT__;
 __METHOD__;
 __NAMESPACE__;
+__PROPERTY__;
 
 // not actually literals, but close
 null;
@@ -94,6 +95,7 @@ __CLASS__;
 __TRAIT__;
 __METHOD__;
 __NAMESPACE__;
+__PROPERTY__;
 // not actually literals, but close
 null;
 true;

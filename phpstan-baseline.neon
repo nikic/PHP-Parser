@@ -91,6 +91,11 @@ parameters:
 			path: lib/PhpParser/Lexer/Emulative.php
 
 		-
+			message: "#^Constant T_PROPERTY_C not found\\.$#"
+			count: 1
+			path: lib/PhpParser/Lexer/TokenEmulator/PropertyTokenEmulator.php
+
+		-
 			message: "#^Method PhpParser\\\\NodeDumper\\:\\:__construct\\(\\) has parameter \\$options with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: lib/PhpParser/NodeDumper.php
@@ -221,7 +226,17 @@ parameters:
 			path: lib/PhpParser/ParserAbstract.php
 
 		-
+			message: "#^Access to undefined constant static\\(PhpParser\\\\ParserAbstract\\)\\:\\:T_PROPERTY_C\\.$#"
+			count: 1
+			path: lib/PhpParser/ParserAbstract.php
+
+		-
 			message: "#^Access to undefined constant static\\(PhpParser\\\\ParserAbstract\\)\\:\\:T_READONLY\\.$#"
+			count: 1
+			path: lib/PhpParser/ParserAbstract.php
+
+		-
+			message: "#^Constant T_PROPERTY_C not found\\.$#"
 			count: 1
 			path: lib/PhpParser/ParserAbstract.php
 
