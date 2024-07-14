@@ -1190,43 +1190,23 @@ abstract class ParserAbstract implements Parser {
     protected function createTokenMap(): array {
         $tokenMap = [];
 
-        for ($i = 0; $i < 1000; ++$i) {
-            if ($i < 256) {
-                // Single-char tokens use an identity mapping.
-                $tokenMap[$i] = $i;
-            } elseif (\T_DOUBLE_COLON === $i) {
-                // T_DOUBLE_COLON is equivalent to T_PAAMAYIM_NEKUDOTAYIM
-                $tokenMap[$i] = static::T_PAAMAYIM_NEKUDOTAYIM;
-            } elseif (\T_OPEN_TAG_WITH_ECHO === $i) {
-                // T_OPEN_TAG_WITH_ECHO with dropped T_OPEN_TAG results in T_ECHO
-                $tokenMap[$i] = static::T_ECHO;
-            } elseif (\T_CLOSE_TAG === $i) {
-                // T_CLOSE_TAG is equivalent to ';'
-                $tokenMap[$i] = ord(';');
-            } elseif ('UNKNOWN' !== $name = token_name($i)) {
-                if (defined($name = static::class . '::' . $name)) {
-                    // Other tokens can be mapped directly
-                    $tokenMap[$i] = constant($name);
-                }
+        // Single-char tokens use an identity mapping.
+        for ($i = 0; $i < 256; ++$i) {
+            $tokenMap[$i] = $i;
+        }
+
+        foreach ($this->symbolToName as $name) {
+            if ($name[0] === 'T') {
+                $tokenMap[\constant($name)] = constant(static::class . '::' . $name);
             }
         }
 
-        // Assign tokens for which we define compatibility constants, as token_name() does not know them.
-        $tokenMap[\T_FN] = static::T_FN;
-        $tokenMap[\T_COALESCE_EQUAL] = static::T_COALESCE_EQUAL;
-        $tokenMap[\T_NAME_QUALIFIED] = static::T_NAME_QUALIFIED;
-        $tokenMap[\T_NAME_FULLY_QUALIFIED] = static::T_NAME_FULLY_QUALIFIED;
-        $tokenMap[\T_NAME_RELATIVE] = static::T_NAME_RELATIVE;
-        $tokenMap[\T_MATCH] = static::T_MATCH;
-        $tokenMap[\T_NULLSAFE_OBJECT_OPERATOR] = static::T_NULLSAFE_OBJECT_OPERATOR;
-        $tokenMap[\T_ATTRIBUTE] = static::T_ATTRIBUTE;
-        $tokenMap[\T_AMPERSAND_NOT_FOLLOWED_BY_VAR_OR_VARARG] = static::T_AMPERSAND_NOT_FOLLOWED_BY_VAR_OR_VARARG;
-        $tokenMap[\T_AMPERSAND_FOLLOWED_BY_VAR_OR_VARARG] = static::T_AMPERSAND_FOLLOWED_BY_VAR_OR_VARARG;
-        $tokenMap[\T_ENUM] = static::T_ENUM;
-        $tokenMap[\T_READONLY] = static::T_READONLY;
-        $tokenMap[\T_PROPERTY_C] = static::T_PROPERTY_C;
+        // T_OPEN_TAG_WITH_ECHO with dropped T_OPEN_TAG results in T_ECHO
+        $tokenMap[\T_OPEN_TAG_WITH_ECHO] = static::T_ECHO;
+        // T_CLOSE_TAG is equivalent to ';'
+        $tokenMap[\T_CLOSE_TAG] = ord(';');
 
-        // We have create a map from PHP token IDs to external symbol IDs.
+        // We have created a map from PHP token IDs to external symbol IDs.
         // Now map them to the internal symbol ID.
         $fullTokenMap = [];
         foreach ($tokenMap as $phpToken => $extSymbol) {
