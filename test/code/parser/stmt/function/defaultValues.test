@@ -38,6 +38,8 @@ array(
                         name: null
                     )
                 )
+                hooks: array(
+                )
             )
             1: Param(
                 attrGroups: array(
@@ -51,6 +53,8 @@ array(
                 )
                 default: Scalar_String(
                     value: foo
+                )
+                hooks: array(
                 )
             )
             2: Param(
@@ -71,6 +75,8 @@ array(
                         name: B
                     )
                 )
+                hooks: array(
+                )
             )
             3: Param(
                 attrGroups: array(
@@ -86,6 +92,8 @@ array(
                     expr: Scalar_Int(
                         value: 1
                     )
+                )
+                hooks: array(
                 )
             )
             4: Param(
@@ -103,6 +111,8 @@ array(
                         value: 1
                     )
                 )
+                hooks: array(
+                )
             )
             5: Param(
                 attrGroups: array(
@@ -118,6 +128,8 @@ array(
                     items: array(
                     )
                 )
+                hooks: array(
+                )
             )
             6: Param(
                 attrGroups: array(
@@ -132,6 +144,8 @@ array(
                 default: Expr_Array(
                     items: array(
                     )
+                )
+                hooks: array(
                 )
             )
             7: Param(
@@ -155,6 +169,8 @@ array(
                             unpack: false
                         )
                     )
+                )
+                hooks: array(
                 )
             )
             8: Param(
@@ -188,6 +204,8 @@ array(
                             unpack: false
                         )
                     )
+                )
+                hooks: array(
                 )
             )
         )

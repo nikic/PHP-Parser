@@ -25,6 +25,8 @@ array(
                     name: bar
                 )
                 default: null
+                hooks: array(
+                )
             )
         )
         returnType: null
@@ -74,6 +76,8 @@ array(
                             name: name
                         )
                         default: null
+                        hooks: array(
+                        )
                     )
                     1: Param(
                         attrGroups: array(
@@ -86,6 +90,8 @@ array(
                             name: value
                         )
                         default: null
+                        hooks: array(
+                        )
                     )
                 )
                 returnType: null
@@ -118,6 +124,8 @@ array(
                         name: foo
                     )
                     default: null
+                    hooks: array(
+                    )
                 )
             )
             returnType: null

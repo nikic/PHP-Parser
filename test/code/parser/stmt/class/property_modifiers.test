@@ -33,6 +33,8 @@ array(
                         default: null
                     )
                 )
+                hooks: array(
+                )
             )
             1: Stmt_Property(
                 attrGroups: array(
@@ -46,6 +48,8 @@ array(
                         )
                         default: null
                     )
+                )
+                hooks: array(
                 )
             )
             2: Stmt_Property(
@@ -61,6 +65,8 @@ array(
                         default: null
                     )
                 )
+                hooks: array(
+                )
             )
             3: Stmt_Property(
                 attrGroups: array(
@@ -74,6 +80,8 @@ array(
                         )
                         default: null
                     )
+                )
+                hooks: array(
                 )
             )
         )

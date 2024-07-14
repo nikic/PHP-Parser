@@ -8,6 +8,8 @@ class Point {
         protected array $y = [],
         private string $z = 'hello',
         public readonly int $a = 0,
+        public $h { set => $value; },
+        public $g = 1 { get => 2; },
     ) {}
 }
 -----
@@ -47,6 +49,8 @@ array(
                         default: Scalar_Float(
                             value: 0
                         )
+                        hooks: array(
+                        )
                     )
                     1: Param(
                         attrGroups: array(
@@ -64,6 +68,8 @@ array(
                             items: array(
                             )
                         )
+                        hooks: array(
+                        )
                     )
                     2: Param(
                         attrGroups: array(
@@ -80,6 +86,8 @@ array(
                         default: Scalar_String(
                             value: hello
                         )
+                        hooks: array(
+                        )
                     )
                     3: Param(
                         attrGroups: array(
@@ -95,6 +103,66 @@ array(
                         )
                         default: Scalar_Int(
                             value: 0
+                        )
+                        hooks: array(
+                        )
+                    )
+                    4: Param(
+                        attrGroups: array(
+                        )
+                        flags: PUBLIC (1)
+                        type: null
+                        byRef: false
+                        variadic: false
+                        var: Expr_Variable(
+                            name: h
+                        )
+                        default: null
+                        hooks: array(
+                            0: PropertyHook(
+                                attrGroups: array(
+                                )
+                                flags: 0
+                                byRef: false
+                                name: Identifier(
+                                    name: set
+                                )
+                                params: array(
+                                )
+                                body: Expr_Variable(
+                                    name: value
+                                )
+                            )
+                        )
+                    )
+                    5: Param(
+                        attrGroups: array(
+                        )
+                        flags: PUBLIC (1)
+                        type: null
+                        byRef: false
+                        variadic: false
+                        var: Expr_Variable(
+                            name: g
+                        )
+                        default: Scalar_Int(
+                            value: 1
+                        )
+                        hooks: array(
+                            0: PropertyHook(
+                                attrGroups: array(
+                                )
+                                flags: 0
+                                byRef: false
+                                name: Identifier(
+                                    name: get
+                                )
+                                params: array(
+                                )
+                                body: Scalar_Int(
+                                    value: 2
+                                )
+                            )
                         )
                     )
                 )

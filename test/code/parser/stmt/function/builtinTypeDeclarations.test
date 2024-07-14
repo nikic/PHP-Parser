@@ -25,6 +25,8 @@ array(
                     name: a
                 )
                 default: null
+                hooks: array(
+                )
             )
             1: Param(
                 attrGroups: array(
@@ -39,6 +41,8 @@ array(
                     name: b
                 )
                 default: null
+                hooks: array(
+                )
             )
             2: Param(
                 attrGroups: array(
@@ -53,6 +57,8 @@ array(
                     name: c
                 )
                 default: null
+                hooks: array(
+                )
             )
             3: Param(
                 attrGroups: array(
@@ -67,6 +73,8 @@ array(
                     name: d
                 )
                 default: null
+                hooks: array(
+                )
             )
             4: Param(
                 attrGroups: array(
@@ -81,6 +89,8 @@ array(
                     name: e
                 )
                 default: null
+                hooks: array(
+                )
             )
             5: Param(
                 attrGroups: array(
@@ -95,6 +105,8 @@ array(
                     name: f
                 )
                 default: null
+                hooks: array(
+                )
             )
             6: Param(
                 attrGroups: array(
@@ -109,6 +121,8 @@ array(
                     name: g
                 )
                 default: null
+                hooks: array(
+                )
             )
         )
         returnType: Identifier(

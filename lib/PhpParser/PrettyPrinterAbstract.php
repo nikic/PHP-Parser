@@ -14,6 +14,7 @@ use PhpParser\Node\Expr\Cast;
 use PhpParser\Node\IntersectionType;
 use PhpParser\Node\MatchArm;
 use PhpParser\Node\Param;
+use PhpParser\Node\PropertyHook;
 use PhpParser\Node\Scalar;
 use PhpParser\Node\Stmt;
 use PhpParser\Node\UnionType;
@@ -1517,6 +1518,7 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
             Stmt\UseUse::class . '->uses' => ', ',
             MatchArm::class . '->conds' => ', ',
             AttributeGroup::class . '->attrs' => ', ',
+            PropertyHook::class . '->params' => ', ',
 
             // statement lists
             Expr\Closure::class . '->stmts' => "\n",
@@ -1554,10 +1556,15 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
             Expr\Closure::class . '->attrGroups' => ' ',
             Expr\ArrowFunction::class . '->attrGroups' => ' ',
             Param::class . '->attrGroups' => ' ',
+            PropertyHook::class . '->attrGroups' => ' ',
+
             Stmt\Switch_::class . '->cases' => "\n",
             Stmt\TraitUse::class . '->adaptations' => "\n",
             Stmt\TryCatch::class . '->stmts' => "\n",
             Stmt\While_::class . '->stmts' => "\n",
+            PropertyHook::class . '->body' => "\n",
+            Stmt\Property::class . '->hooks' => "\n",
+            Param::class . '->hooks' => "\n",
 
             // dummy for top-level context
             'File->stmts' => "\n",
@@ -1641,6 +1648,7 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
             Stmt\Property::class . '->flags' => ['pModifiers', \T_VARIABLE],
             PrintableNewAnonClassNode::class . '->flags' => ['pModifiers', \T_CLASS],
             Param::class . '->flags' => ['pModifiers', \T_VARIABLE],
+            PropertyHook::class . '->flags' => ['pModifiers', \T_STRING],
             Expr\Closure::class . '->static' => ['pStatic', \T_FUNCTION],
             Expr\ArrowFunction::class . '->static' => ['pStatic', \T_FN],
             //Stmt\TraitUseAdaptation\Alias::class . '->newModifier' => 0, // TODO

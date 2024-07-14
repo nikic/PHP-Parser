@@ -211,6 +211,8 @@ array(
                                     name: x
                                 )
                                 default: null
+                                hooks: array(
+                                )
                             )
                         )
                         uses: array(
@@ -288,6 +290,8 @@ array(
                                                 name: Name(
                                                     name: null
                                                 )
+                                            )
+                                            hooks: array(
                                             )
                                         )
                                     )

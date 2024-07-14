@@ -28,6 +28,8 @@ array(
                         default: null
                     )
                 )
+                hooks: array(
+                )
             )
         )
     )
@@ -61,6 +63,8 @@ array(
                         default: null
                     )
                 )
+                hooks: array(
+                )
             )
         )
     )
@@ -93,6 +97,8 @@ array(
                         )
                         default: null
                     )
+                )
+                hooks: array(
                 )
             )
         )
@@ -158,6 +164,8 @@ array(
                         )
                         default: null
                     )
+                )
+                hooks: array(
                 )
             )
         )

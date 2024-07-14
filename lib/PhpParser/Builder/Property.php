@@ -23,6 +23,8 @@ class Property implements PhpParser\Builder {
     protected ?Node $type = null;
     /** @var list<Node\AttributeGroup> */
     protected array $attributeGroups = [];
+    /** @var list<Node\PropertyHook> */
+    protected array $hooks = [];
 
     /**
      * Creates a property builder.
@@ -89,6 +91,28 @@ class Property implements PhpParser\Builder {
     }
 
     /**
+     * Makes the property abstract. Requires at least one property hook to be specified as well.
+     *
+     * @return $this The builder instance (for fluid interface)
+     */
+    public function makeAbstract() {
+        $this->flags = BuilderHelpers::addModifier($this->flags, Modifiers::ABSTRACT);
+
+        return $this;
+    }
+
+    /**
+     * Makes the property final.
+     *
+     * @return $this The builder instance (for fluid interface)
+     */
+    public function makeFinal() {
+        $this->flags = BuilderHelpers::addModifier($this->flags, Modifiers::FINAL);
+
+        return $this;
+    }
+
+    /**
      * Sets default value for the property.
      *
      * @param mixed $value Default value to use
@@ -143,11 +167,26 @@ class Property implements PhpParser\Builder {
     }
 
     /**
+     * Adds a property hook.
+     *
+     * @return $this The builder instance (for fluid interface)
+     */
+    public function addHook(Node\PropertyHook $hook) {
+        $this->hooks[] = $hook;
+
+        return $this;
+    }
+
+    /**
      * Returns the built class node.
      *
      * @return Stmt\Property The built property node
      */
     public function getNode(): PhpParser\Node {
+        if ($this->flags & Modifiers::ABSTRACT && !$this->hooks) {
+            throw new PhpParser\Error('Only hooked properties may be declared abstract');
+        }
+
         return new Stmt\Property(
             $this->flags !== 0 ? $this->flags : Modifiers::PUBLIC,
             [
@@ -155,7 +194,8 @@ class Property implements PhpParser\Builder {
             ],
             $this->attributes,
             $this->type,
-            $this->attributeGroups
+            $this->attributeGroups,
+            $this->hooks
         );
     }
 }

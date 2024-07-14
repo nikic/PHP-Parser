@@ -677,12 +677,12 @@ property_modifier:
 
 parameter:
       optional_attributes optional_property_modifiers optional_type_without_static
-      optional_arg_ref optional_ellipsis plain_variable
-          { $$ = new Node\Param($6, null, $3, $4, $5, attributes(), $2, $1);
+      optional_arg_ref optional_ellipsis plain_variable optional_property_hook_list
+          { $$ = new Node\Param($6, null, $3, $4, $5, attributes(), $2, $1, $7);
             $this->checkParam($$); }
     | optional_attributes optional_property_modifiers optional_type_without_static
-      optional_arg_ref optional_ellipsis plain_variable '=' expr
-          { $$ = new Node\Param($6, $8, $3, $4, $5, attributes(), $2, $1);
+      optional_arg_ref optional_ellipsis plain_variable '=' expr optional_property_hook_list
+          { $$ = new Node\Param($6, $8, $3, $4, $5, attributes(), $2, $1, $9);
             $this->checkParam($$); }
     | optional_attributes optional_property_modifiers optional_type_without_static
       optional_arg_ref optional_ellipsis error
@@ -830,6 +830,11 @@ class_statement_list:
 class_statement:
       optional_attributes variable_modifiers optional_type_without_static property_declaration_list semi
           { $$ = new Stmt\Property($2, $4, attributes(), $3, $1); }
+#if PHP8
+    | optional_attributes variable_modifiers optional_type_without_static property_declaration_list '{' property_hook_list '}'
+          { $$ = new Stmt\Property($2, $4, attributes(), $3, $1, $6);
+            $this->checkPropertyHookList($6, #5); }
+#endif
     | optional_attributes method_modifiers T_CONST class_const_list semi
           { $$ = new Stmt\ClassConst($4, $2, attributes(), $1);
             $this->checkClassConst($$, #2); }
@@ -924,6 +929,39 @@ property_decl_name:
 property_declaration:
       property_decl_name                                    { $$ = Node\PropertyItem[$1, null]; }
     | property_decl_name '=' expr                           { $$ = Node\PropertyItem[$1, $3]; }
+;
+
+property_hook_list:
+      /* empty */                                           { $$ = []; }
+    | property_hook_list property_hook                      { push($1, $2); }
+;
+
+optional_property_hook_list:
+      /* empty */                                           { $$ = []; }
+#if PHP8
+    | '{' property_hook_list '}'                            { $$ = $2; $this->checkPropertyHookList($2, #1); }
+#endif
+;
+
+property_hook:
+      optional_attributes property_hook_modifiers optional_ref identifier_not_reserved property_hook_body
+          { $$ = Node\PropertyHook[$4, $5, ['flags' => $2, 'byRef' => $3, 'params' => [], 'attrGroups' => $1]];
+            $this->checkPropertyHook($$, null); }
+    | optional_attributes property_hook_modifiers optional_ref identifier_not_reserved '(' parameter_list ')' property_hook_body
+          { $$ = Node\PropertyHook[$4, $8, ['flags' => $2, 'byRef' => $3, 'params' => $6, 'attrGroups' => $1]];
+            $this->checkPropertyHook($$, #5); }
+;
+
+property_hook_body:
+      ';'                                                   { $$ = null; }
+    | '{' inner_statement_list '}'                          { $$ = $2; }
+    | T_DOUBLE_ARROW expr ';'                               { $$ = $2; }
+;
+
+property_hook_modifiers:
+      /* empty */                                           { $$ = 0; }
+    | property_hook_modifiers member_modifier
+          { $this->checkPropertyHookModifiers($1, $2, #2); $$ = $1 | $2; }
 ;
 
 expr_list_forbid_comma:

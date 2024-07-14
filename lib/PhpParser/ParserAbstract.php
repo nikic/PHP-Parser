@@ -14,6 +14,7 @@ use PhpParser\Node\Identifier;
 use PhpParser\Node\InterpolatedStringPart;
 use PhpParser\Node\Name;
 use PhpParser\Node\Param;
+use PhpParser\Node\PropertyHook;
 use PhpParser\Node\Scalar\InterpolatedString;
 use PhpParser\Node\Scalar\Int_;
 use PhpParser\Node\Scalar\String_;
@@ -1155,6 +1156,42 @@ abstract class ParserAbstract implements Parser {
                 ),
                 $this->getAttributesAt($namePos)
             ));
+        }
+    }
+
+    /** @param PropertyHook[] $hooks */
+    protected function checkPropertyHookList(array $hooks, int $hookPos): void {
+        if (empty($hooks)) {
+            $this->emitError(new Error(
+                'Property hook list cannot be empty', $this->getAttributesAt($hookPos)));
+        }
+    }
+
+    protected function checkPropertyHook(PropertyHook $hook, ?int $paramListPos): void {
+        $name = $hook->name->toLowerString();
+        if ($name !== 'get' && $name !== 'set') {
+            $this->emitError(new Error(
+                'Unknown hook "' . $hook->name . '", expected "get" or "set"',
+                $hook->name->getAttributes()));
+        }
+        if ($name === 'get' && $paramListPos !== null) {
+            $this->emitError(new Error(
+                'get hook must not have a parameter list', $this->getAttributesAt($paramListPos)));
+        }
+    }
+
+    protected function checkPropertyHookModifiers(int $a, int $b, int $modifierPos): void {
+        try {
+            Modifiers::verifyModifier($a, $b);
+        } catch (Error $error) {
+            $error->setAttributes($this->getAttributesAt($modifierPos));
+            $this->emitError($error);
+        }
+
+        if ($b != Modifiers::FINAL) {
+            $this->emitError(new Error(
+                'Cannot use the ' . Modifiers::toString($b) . ' modifier on a property hook',
+                $this->getAttributesAt($modifierPos)));
         }
     }
 

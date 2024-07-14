@@ -25,6 +25,8 @@ array(
                     name: b
                 )
                 default: null
+                hooks: array(
+                )
             )
         )
         returnType: null
@@ -50,6 +52,8 @@ array(
                     name: b
                 )
                 default: null
+                hooks: array(
+                )
             )
         )
         returnType: null

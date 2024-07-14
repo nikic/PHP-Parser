@@ -27,6 +27,8 @@ array(
                     items: array(
                     )
                 )
+                hooks: array(
+                )
             )
         )
         returnType: null

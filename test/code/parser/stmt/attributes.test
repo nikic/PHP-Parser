@@ -159,6 +159,8 @@ array(
                             name: param
                         )
                         default: null
+                        hooks: array(
+                        )
                     )
                 )
                 returnType: null
@@ -188,6 +190,8 @@ array(
                         )
                         default: null
                     )
+                )
+                hooks: array(
                 )
             )
         )
