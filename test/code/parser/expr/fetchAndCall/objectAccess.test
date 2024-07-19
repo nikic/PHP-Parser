@@ -5,7 +5,6 @@ Object access
 // property fetch variations
 $a->b;
 $a->b['c'];
-$a->b{'c'};
 
 // method call variations
 $a->b();
@@ -15,7 +14,6 @@ $a->$b['c']();
 
 // array dereferencing
 $a->b()['c'];
-$a->b(){'c'};
 -----
 array(
     0: Stmt_Expression(
@@ -47,21 +45,6 @@ array(
         )
     )
     2: Stmt_Expression(
-        expr: Expr_ArrayDimFetch(
-            var: Expr_PropertyFetch(
-                var: Expr_Variable(
-                    name: a
-                )
-                name: Identifier(
-                    name: b
-                )
-            )
-            dim: Scalar_String(
-                value: c
-            )
-        )
-    )
-    3: Stmt_Expression(
         expr: Expr_MethodCall(
             var: Expr_Variable(
                 name: a
@@ -76,7 +59,7 @@ array(
             0: // method call variations
         )
     )
-    4: Stmt_Expression(
+    3: Stmt_Expression(
         expr: Expr_MethodCall(
             var: Expr_Variable(
                 name: a
@@ -88,7 +71,7 @@ array(
             )
         )
     )
-    5: Stmt_Expression(
+    4: Stmt_Expression(
         expr: Expr_MethodCall(
             var: Expr_Variable(
                 name: a
@@ -100,7 +83,7 @@ array(
             )
         )
     )
-    6: Stmt_Expression(
+    5: Stmt_Expression(
         expr: Expr_FuncCall(
             name: Expr_ArrayDimFetch(
                 var: Expr_PropertyFetch(
@@ -119,7 +102,7 @@ array(
             )
         )
     )
-    7: Stmt_Expression(
+    6: Stmt_Expression(
         expr: Expr_ArrayDimFetch(
             var: Expr_MethodCall(
                 var: Expr_Variable(
@@ -137,23 +120,6 @@ array(
         )
         comments: array(
             0: // array dereferencing
-        )
-    )
-    8: Stmt_Expression(
-        expr: Expr_ArrayDimFetch(
-            var: Expr_MethodCall(
-                var: Expr_Variable(
-                    name: a
-                )
-                name: Identifier(
-                    name: b
-                )
-                args: array(
-                )
-            )
-            dim: Scalar_String(
-                value: c
-            )
         )
     )
 )
