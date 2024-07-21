@@ -829,8 +829,7 @@ class_statement_list:
 
 class_statement:
       optional_attributes variable_modifiers optional_type_without_static property_declaration_list semi
-          { $$ = new Stmt\Property($2, $4, attributes(), $3, $1);
-            $this->checkProperty($$, #2); }
+          { $$ = new Stmt\Property($2, $4, attributes(), $3, $1); }
     | optional_attributes method_modifiers T_CONST class_const_list semi
           { $$ = new Stmt\ClassConst($4, $2, attributes(), $1);
             $this->checkClassConst($$, #2); }

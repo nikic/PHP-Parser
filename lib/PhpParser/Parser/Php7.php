@@ -1989,7 +1989,6 @@ class Php7 extends \PhpParser\ParserAbstract
             },
             343 => static function ($self, $stackPos) {
                  $self->semValue = new Stmt\Property($self->semStack[$stackPos-(5-2)], $self->semStack[$stackPos-(5-4)], $self->getAttributes($self->tokenStartStack[$stackPos-(5-1)], $self->tokenEndStack[$stackPos]), $self->semStack[$stackPos-(5-3)], $self->semStack[$stackPos-(5-1)]);
-            $self->checkProperty($self->semValue, $stackPos-(5-2));
             },
             344 => static function ($self, $stackPos) {
                  $self->semValue = new Stmt\ClassConst($self->semStack[$stackPos-(5-4)], $self->semStack[$stackPos-(5-2)], $self->getAttributes($self->tokenStartStack[$stackPos-(5-1)], $self->tokenEndStack[$stackPos]), $self->semStack[$stackPos-(5-1)]);

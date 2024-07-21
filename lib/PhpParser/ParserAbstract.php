@@ -1154,18 +1154,6 @@ abstract class ParserAbstract implements Parser {
         }
     }
 
-    protected function checkProperty(Property $node, int $modifierPos): void {
-        if ($node->flags & Modifiers::ABSTRACT) {
-            $this->emitError(new Error('Properties cannot be declared abstract',
-                $this->getAttributesAt($modifierPos)));
-        }
-
-        if ($node->flags & Modifiers::FINAL) {
-            $this->emitError(new Error('Properties cannot be declared final',
-                $this->getAttributesAt($modifierPos)));
-        }
-    }
-
     protected function checkUseUse(UseItem $node, int $namePos): void {
         if ($node->alias && $node->alias->isSpecialClassName()) {
             $this->emitError(new Error(
