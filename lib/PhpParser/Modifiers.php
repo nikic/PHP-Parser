@@ -17,20 +17,32 @@ final class Modifiers {
 
     public const VISIBILITY_MASK = 1 | 2 | 4;
 
+    private const TO_STRING_MAP = [
+        self::PUBLIC  => 'public',
+        self::PROTECTED => 'protected',
+        self::PRIVATE => 'private',
+        self::STATIC  => 'static',
+        self::ABSTRACT => 'abstract',
+        self::FINAL  => 'final',
+        self::READONLY  => 'readonly',
+    ];
+
+    public static function toString(int $modifier): string {
+        if (!isset(self::TO_STRING_MAP[$modifier])) {
+            throw new \InvalidArgumentException("Unknown modifier $modifier");
+        }
+        return self::TO_STRING_MAP[$modifier];
+    }
+
     /**
      * @internal
      */
     public static function verifyClassModifier(int $a, int $b): void {
-        if ($a & Modifiers::ABSTRACT && $b & Modifiers::ABSTRACT) {
-            throw new Error('Multiple abstract modifiers are not allowed');
-        }
-
-        if ($a & Modifiers::FINAL && $b & Modifiers::FINAL) {
-            throw new Error('Multiple final modifiers are not allowed');
-        }
-
-        if ($a & Modifiers::READONLY && $b & Modifiers::READONLY) {
-            throw new Error('Multiple readonly modifiers are not allowed');
+        foreach ([Modifiers::ABSTRACT, Modifiers::FINAL, Modifiers::READONLY] as $modifier) {
+            if ($a & $modifier && $b & $modifier) {
+                throw new Error(
+                    'Multiple ' . self::toString($modifier) . ' modifiers are not allowed');
+            }
         }
 
         if ($a & 48 && $b & 48) {
@@ -46,20 +58,11 @@ final class Modifiers {
             throw new Error('Multiple access type modifiers are not allowed');
         }
 
-        if ($a & Modifiers::ABSTRACT && $b & Modifiers::ABSTRACT) {
-            throw new Error('Multiple abstract modifiers are not allowed');
-        }
-
-        if ($a & Modifiers::STATIC && $b & Modifiers::STATIC) {
-            throw new Error('Multiple static modifiers are not allowed');
-        }
-
-        if ($a & Modifiers::FINAL && $b & Modifiers::FINAL) {
-            throw new Error('Multiple final modifiers are not allowed');
-        }
-
-        if ($a & Modifiers::READONLY && $b & Modifiers::READONLY) {
-            throw new Error('Multiple readonly modifiers are not allowed');
+        foreach ([Modifiers::ABSTRACT, Modifiers::STATIC, Modifiers::FINAL, Modifiers::READONLY] as $modifier) {
+            if ($a & $modifier && $b & $modifier) {
+                throw new Error(
+                    'Multiple ' . self::toString($modifier) . ' modifiers are not allowed');
+            }
         }
 
         if ($a & 48 && $b & 48) {

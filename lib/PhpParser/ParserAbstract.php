@@ -1137,20 +1137,12 @@ abstract class ParserAbstract implements Parser {
     }
 
     protected function checkClassConst(ClassConst $node, int $modifierPos): void {
-        if ($node->flags & Modifiers::STATIC) {
-            $this->emitError(new Error(
-                "Cannot use 'static' as constant modifier",
-                $this->getAttributesAt($modifierPos)));
-        }
-        if ($node->flags & Modifiers::ABSTRACT) {
-            $this->emitError(new Error(
-                "Cannot use 'abstract' as constant modifier",
-                $this->getAttributesAt($modifierPos)));
-        }
-        if ($node->flags & Modifiers::READONLY) {
-            $this->emitError(new Error(
-                "Cannot use 'readonly' as constant modifier",
-                $this->getAttributesAt($modifierPos)));
+        foreach ([Modifiers::STATIC, Modifiers::ABSTRACT, Modifiers::READONLY] as $modifier) {
+            if ($node->flags & $modifier) {
+                $this->emitError(new Error(
+                    "Cannot use '" . Modifiers::toString($modifier) . "' as constant modifier",
+                    $this->getAttributesAt($modifierPos)));
+            }
         }
     }
 
