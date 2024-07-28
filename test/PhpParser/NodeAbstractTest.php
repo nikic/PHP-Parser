@@ -260,8 +260,8 @@ PHP;
                     }
                 },
                 "flags": 0,
-                "attrGroups": [],,
-                "hooks": []
+                "attrGroups": [],
+                "hooks": [],
                 "attributes": {
                     "startLine": 4,
                     "startTokenPos": 9,
@@ -302,8 +302,8 @@ PHP;
                     }
                 },
                 "flags": 0,
-                "attrGroups": [],,
-                "hooks": []
+                "attrGroups": [],
+                "hooks": [],
                 "attributes": {
                     "startLine": 4,
                     "startTokenPos": 17,
