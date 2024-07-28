@@ -127,12 +127,7 @@ switch ($testType) {
         showHelp('Test type must be one of: PHP or Symfony');
 }
 
-$lexer = new PhpParser\Lexer\Emulative(\PhpParser\PhpVersion::fromString($phpVersion));
-if (version_compare($phpVersion, '7.0', '>=')) {
-    $parser = new PhpParser\Parser\Php7($lexer);
-} else {
-    $parser = new PhpParser\Parser\Php5($lexer);
-}
+$parser = (new PhpParser\ParserFactory())->createForVersion(PhpParser\PhpVersion::fromString($phpVersion));
 $prettyPrinter = new PhpParser\PrettyPrinter\Standard;
 $nodeDumper = new PhpParser\NodeDumper;
 
