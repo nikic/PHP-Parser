@@ -163,16 +163,16 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
      * Creates a pretty printer instance using the given options.
      *
      * Supported options:
-     *  * PhpVersion $phpVersion: The PHP version to target (default to PHP 7.4). This option
-     *                            controls compatibility of the generated code with older PHP
-     *                            versions in cases where a simple stylistic choice exists (e.g.
-     *                            array() vs []). It is safe to pretty-print an AST for a newer
-     *                            PHP version while specifying an older target (but the result will
-     *                            of course not be compatible with the older version in that case).
-     *  * string $newline:        The newline style to use. Should be "\n" (default) or "\r\n".
-     *  * bool $shortArraySyntax: Whether to use [] instead of array() as the default array
-     *                            syntax, if the node does not specify a format. Defaults to whether
-     *                            the phpVersion support short array syntax.
+     *  * PhpVersion|null $phpVersion: The PHP version to target (default to PHP 7.4). This option
+     *                                 controls compatibility of the generated code with older PHP
+     *                                 versions in cases where a simple stylistic choice exists (e.g.
+     *                                 array() vs []). It is safe to pretty-print an AST for a newer
+     *                                 PHP version while specifying an older target (but the result will
+     *                                 of course not be compatible with the older version in that case).
+     *  * string|null $newline:        The newline style to use. Should be "\n" (default) or "\r\n".
+     *  * bool|null $shortArraySyntax: Whether to use [] instead of array() as the default array
+     *                                 syntax, if the node does not specify a format. Defaults to whether
+     *                                 the phpVersion support short array syntax.
      *
      * @param array{
      *     phpVersion?: PhpVersion, newline?: string, shortArraySyntax?: bool
