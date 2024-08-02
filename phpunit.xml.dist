@@ -4,6 +4,7 @@
          xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
          backupGlobals="false"
          colors="true"
+         convertDeprecationsToExceptions="true"
          beStrictAboutTestsThatDoNotTestAnything="false"
          bootstrap="./test/bootstrap.php">
     <testsuites>
@@ -12,9 +13,9 @@
         </testsuite>
     </testsuites>
 
-    <filter>
-        <whitelist>
+    <coverage>
+        <include>
             <directory suffix=".php">./lib/PhpParser/</directory>
-        </whitelist>
-    </filter>
+        </include>
+    </coverage>
 </phpunit>

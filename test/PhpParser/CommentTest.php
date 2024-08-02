@@ -3,7 +3,7 @@
 namespace PhpParser;
 
 class CommentTest extends \PHPUnit\Framework\TestCase {
-    public function testGetters() {
+    public function testGetters(): void {
         $comment = new Comment('/* Some comment */',
             1, 10, 2, 1, 27, 2);
 
@@ -20,12 +20,12 @@ class CommentTest extends \PHPUnit\Framework\TestCase {
     /**
      * @dataProvider provideTestReformatting
      */
-    public function testReformatting($commentText, $reformattedText) {
+    public function testReformatting($commentText, $reformattedText): void {
         $comment = new Comment($commentText);
         $this->assertSame($reformattedText, $comment->getReformattedText());
     }
 
-    public function provideTestReformatting() {
+    public static function provideTestReformatting() {
         return [
             ['// Some text', '// Some text'],
             ['/* Some text */', '/* Some text */'],

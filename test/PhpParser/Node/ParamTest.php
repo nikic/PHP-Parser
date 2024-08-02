@@ -6,7 +6,7 @@ use PhpParser\Modifiers;
 use PhpParser\Node\Expr\Variable;
 
 class ParamTest extends \PHPUnit\Framework\TestCase {
-    public function testNoModifiers() {
+    public function testNoModifiers(): void {
         $node = new Param(new Variable('foo'));
 
         $this->assertFalse($node->isPromoted());
@@ -19,14 +19,14 @@ class ParamTest extends \PHPUnit\Framework\TestCase {
     /**
      * @dataProvider provideModifiers
      */
-    public function testModifiers(string $modifier) {
+    public function testModifiers(string $modifier): void {
         $node = new Param(new Variable('foo'));
         $node->flags = constant(Modifiers::class . '::' . strtoupper($modifier));
         $this->assertTrue($node->isPromoted());
         $this->assertTrue($node->{'is' . $modifier}());
     }
 
-    public function provideModifiers() {
+    public static function provideModifiers() {
         return [
             ['public'],
             ['protected'],

@@ -19,7 +19,7 @@ class PropertyTest extends \PHPUnit\Framework\TestCase {
         return new Property($name);
     }
 
-    public function testModifiers() {
+    public function testModifiers(): void {
         $node = $this->createPropertyBuilder('test')
             ->makePrivate()
             ->makeStatic()
@@ -82,7 +82,7 @@ class PropertyTest extends \PHPUnit\Framework\TestCase {
         );
     }
 
-    public function testDocComment() {
+    public function testDocComment(): void {
         $node = $this->createPropertyBuilder('test')
             ->setDocComment('/** Test */')
             ->getNode();
@@ -101,7 +101,7 @@ class PropertyTest extends \PHPUnit\Framework\TestCase {
     /**
      * @dataProvider provideTestDefaultValues
      */
-    public function testDefaultValues($value, $expectedValueNode) {
+    public function testDefaultValues($value, $expectedValueNode): void {
         $node = $this->createPropertyBuilder('test')
             ->setDefault($value)
             ->getNode()
@@ -110,7 +110,7 @@ class PropertyTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals($expectedValueNode, $node->props[0]->default);
     }
 
-    public function testAddAttribute() {
+    public function testAddAttribute(): void {
         $attribute = new Attribute(
             new Name('Attr'),
             [new Arg(new Int_(1), false, false, [], new Identifier('name'))]
@@ -136,7 +136,7 @@ class PropertyTest extends \PHPUnit\Framework\TestCase {
         );
     }
 
-    public function provideTestDefaultValues() {
+    public static function provideTestDefaultValues() {
         return [
             [
                 null,

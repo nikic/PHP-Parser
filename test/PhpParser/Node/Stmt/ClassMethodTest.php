@@ -11,7 +11,7 @@ class ClassMethodTest extends \PHPUnit\Framework\TestCase {
     /**
      * @dataProvider provideModifiers
      */
-    public function testModifiers($modifier) {
+    public function testModifiers($modifier): void {
         $node = new ClassMethod('foo', [
             'type' => constant(Modifiers::class . '::' . strtoupper($modifier))
         ]);
@@ -19,7 +19,7 @@ class ClassMethodTest extends \PHPUnit\Framework\TestCase {
         $this->assertTrue($node->{'is' . $modifier}());
     }
 
-    public function testNoModifiers() {
+    public function testNoModifiers(): void {
         $node = new ClassMethod('foo', ['type' => 0]);
 
         $this->assertTrue($node->isPublic());
@@ -31,7 +31,7 @@ class ClassMethodTest extends \PHPUnit\Framework\TestCase {
         $this->assertFalse($node->isMagic());
     }
 
-    public function provideModifiers() {
+    public static function provideModifiers() {
         return [
             ['public'],
             ['protected'],
@@ -49,7 +49,7 @@ class ClassMethodTest extends \PHPUnit\Framework\TestCase {
      *
      * @param string $modifier Node type modifier
      */
-    public function testImplicitPublic(string $modifier) {
+    public function testImplicitPublic(string $modifier): void {
         $node = new ClassMethod('foo', [
             'type' => constant(Modifiers::class . '::' . strtoupper($modifier))
         ]);
@@ -57,7 +57,7 @@ class ClassMethodTest extends \PHPUnit\Framework\TestCase {
         $this->assertTrue($node->isPublic(), 'Node should be implicitly public');
     }
 
-    public function implicitPublicModifiers() {
+    public static function implicitPublicModifiers() {
         return [
             ['abstract'],
             ['final'],
@@ -70,12 +70,12 @@ class ClassMethodTest extends \PHPUnit\Framework\TestCase {
      *
      * @param string $name Node name
      */
-    public function testMagic(string $name) {
+    public function testMagic(string $name): void {
         $node = new ClassMethod($name);
         $this->assertTrue($node->isMagic(), 'Method should be magic');
     }
 
-    public function provideMagics() {
+    public static function provideMagics() {
         return [
              ['__construct'],
              ['__DESTRUCT'],
@@ -95,7 +95,7 @@ class ClassMethodTest extends \PHPUnit\Framework\TestCase {
         ];
     }
 
-    public function testFunctionLike() {
+    public function testFunctionLike(): void {
         $param = new Param(new Variable('a'));
         $type = new Name('Foo');
         $return = new Return_(new Variable('a'));

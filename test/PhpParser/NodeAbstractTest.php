@@ -25,7 +25,7 @@ class DummyNode extends NodeAbstract {
 }
 
 class NodeAbstractTest extends \PHPUnit\Framework\TestCase {
-    public function provideNodes() {
+    public static function provideNodes() {
         $attributes = [
             'startLine' => 10,
             'endLine' => 11,
@@ -75,7 +75,7 @@ class NodeAbstractTest extends \PHPUnit\Framework\TestCase {
     /**
      * @dataProvider provideNodes
      */
-    public function testGetDocComment(array $attributes, Node $node) {
+    public function testGetDocComment(array $attributes, Node $node): void {
         $this->assertSame('/** doc comment */', $node->getDocComment()->getText());
         $comments = $node->getComments();
 
@@ -88,7 +88,7 @@ class NodeAbstractTest extends \PHPUnit\Framework\TestCase {
         $this->assertNull($node->getDocComment());
     }
 
-    public function testSetDocComment() {
+    public function testSetDocComment(): void {
         $node = new DummyNode(null, null, null, []);
 
         // Add doc comment to node without comments
@@ -119,7 +119,7 @@ class NodeAbstractTest extends \PHPUnit\Framework\TestCase {
     /**
      * @dataProvider provideNodes
      */
-    public function testChange(array $attributes, DummyNode $node) {
+    public function testChange(array $attributes, DummyNode $node): void {
         // direct modification
         $node->subNode1 = 'newValue';
         $this->assertSame('newValue', $node->subNode1);
@@ -137,7 +137,7 @@ class NodeAbstractTest extends \PHPUnit\Framework\TestCase {
     /**
      * @dataProvider provideNodes
      */
-    public function testIteration(array $attributes, Node $node) {
+    public function testIteration(array $attributes, Node $node): void {
         // Iteration is simple object iteration over properties,
         // not over subnodes
         $i = 0;
@@ -159,7 +159,7 @@ class NodeAbstractTest extends \PHPUnit\Framework\TestCase {
         $this->assertSame(3, $i);
     }
 
-    public function testAttributes() {
+    public function testAttributes(): void {
         /** @var $node Node */
         $node = $this->getMockForAbstractClass(NodeAbstract::class);
 
@@ -201,7 +201,7 @@ class NodeAbstractTest extends \PHPUnit\Framework\TestCase {
         );
     }
 
-    public function testJsonSerialization() {
+    public function testJsonSerialization(): void {
         $code = <<<'PHP'
 <?php
 // comment

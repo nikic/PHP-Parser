@@ -15,12 +15,12 @@ class BuilderFactoryTest extends \PHPUnit\Framework\TestCase {
     /**
      * @dataProvider provideTestFactory
      */
-    public function testFactory($methodName, $className) {
+    public function testFactory($methodName, $className): void {
         $factory = new BuilderFactory();
         $this->assertInstanceOf($className, $factory->$methodName('test'));
     }
 
-    public function provideTestFactory() {
+    public static function provideTestFactory() {
         return [
             ['namespace',   Builder\Namespace_::class],
             ['class',       Builder\Class_::class],
@@ -38,12 +38,12 @@ class BuilderFactoryTest extends \PHPUnit\Framework\TestCase {
         ];
     }
 
-    public function testFactoryClassConst() {
+    public function testFactoryClassConst(): void {
         $factory = new BuilderFactory();
         $this->assertInstanceOf(Builder\ClassConst::class, $factory->classConst('TEST', 1));
     }
 
-    public function testAttribute() {
+    public function testAttribute(): void {
         $factory = new BuilderFactory();
         $this->assertEquals(
             new Attribute(new Name('AttributeName'), [new Arg(
@@ -53,7 +53,7 @@ class BuilderFactoryTest extends \PHPUnit\Framework\TestCase {
         );
     }
 
-    public function testVal() {
+    public function testVal(): void {
         // This method is a wrapper around BuilderHelpers::normalizeValue(),
         // which is already tested elsewhere
         $factory = new BuilderFactory();
@@ -63,7 +63,7 @@ class BuilderFactoryTest extends \PHPUnit\Framework\TestCase {
         );
     }
 
-    public function testConcat() {
+    public function testConcat(): void {
         $factory = new BuilderFactory();
         $varA = new Expr\Variable('a');
         $varB = new Expr\Variable('b');
@@ -83,19 +83,19 @@ class BuilderFactoryTest extends \PHPUnit\Framework\TestCase {
         );
     }
 
-    public function testConcatOneError() {
+    public function testConcatOneError(): void {
         $this->expectException(\LogicException::class);
         $this->expectExceptionMessage('Expected at least two expressions');
         (new BuilderFactory())->concat("a");
     }
 
-    public function testConcatInvalidExpr() {
+    public function testConcatInvalidExpr(): void {
         $this->expectException(\LogicException::class);
         $this->expectExceptionMessage('Expected string or Expr');
         (new BuilderFactory())->concat("a", 42);
     }
 
-    public function testArgs() {
+    public function testArgs(): void {
         $factory = new BuilderFactory();
         $unpack = new Arg(new Expr\Variable('c'), false, true);
         $this->assertEquals(
@@ -108,7 +108,7 @@ class BuilderFactoryTest extends \PHPUnit\Framework\TestCase {
         );
     }
 
-    public function testNamedArgs() {
+    public function testNamedArgs(): void {
         $factory = new BuilderFactory();
         $this->assertEquals(
             [
@@ -119,7 +119,7 @@ class BuilderFactoryTest extends \PHPUnit\Framework\TestCase {
         );
     }
 
-    public function testCalls() {
+    public function testCalls(): void {
         $factory = new BuilderFactory();
 
         // Simple function call
@@ -195,7 +195,7 @@ class BuilderFactoryTest extends \PHPUnit\Framework\TestCase {
         );
     }
 
-    public function testConstFetches() {
+    public function testConstFetches(): void {
         $factory = new BuilderFactory();
         $this->assertEquals(
             new Expr\ConstFetch(new Name('FOO')),
@@ -215,7 +215,7 @@ class BuilderFactoryTest extends \PHPUnit\Framework\TestCase {
         );
     }
 
-    public function testVar() {
+    public function testVar(): void {
         $factory = new BuilderFactory();
         $this->assertEquals(
             new Expr\Variable("foo"),
@@ -227,7 +227,7 @@ class BuilderFactoryTest extends \PHPUnit\Framework\TestCase {
         );
     }
 
-    public function testPropertyFetch() {
+    public function testPropertyFetch(): void {
         $f = new BuilderFactory();
         $this->assertEquals(
             new Expr\PropertyFetch(new Expr\Variable('foo'), 'bar'),
@@ -243,31 +243,31 @@ class BuilderFactoryTest extends \PHPUnit\Framework\TestCase {
         );
     }
 
-    public function testInvalidIdentifier() {
+    public function testInvalidIdentifier(): void {
         $this->expectException(\LogicException::class);
         $this->expectExceptionMessage('Expected string or instance of Node\Identifier');
         (new BuilderFactory())->classConstFetch('Foo', new Name('foo'));
     }
 
-    public function testInvalidIdentifierOrExpr() {
+    public function testInvalidIdentifierOrExpr(): void {
         $this->expectException(\LogicException::class);
         $this->expectExceptionMessage('Expected string or instance of Node\Identifier or Node\Expr');
         (new BuilderFactory())->staticCall('Foo', new Name('bar'));
     }
 
-    public function testInvalidNameOrExpr() {
+    public function testInvalidNameOrExpr(): void {
         $this->expectException(\LogicException::class);
         $this->expectExceptionMessage('Name must be a string or an instance of Node\Name or Node\Expr');
         (new BuilderFactory())->funcCall(new Node\Stmt\Return_());
     }
 
-    public function testInvalidVar() {
+    public function testInvalidVar(): void {
         $this->expectException(\LogicException::class);
         $this->expectExceptionMessage('Variable name must be string or Expr');
         (new BuilderFactory())->var(new Node\Stmt\Return_());
     }
 
-    public function testIntegration() {
+    public function testIntegration(): void {
         $factory = new BuilderFactory();
         $node = $factory->namespace('Name\Space')
             ->addStmt($factory->use('Foo\Bar\SomeOtherClass'))

@@ -1,5 +1,5 @@
 %pure_parser
-%expect 8
+%expect 6
 
 %right T_THROW
 %left T_INCLUDE T_INCLUDE_ONCE T_EVAL T_REQUIRE T_REQUIRE_ONCE
@@ -1092,10 +1092,19 @@ anonymous_class:
             $this->checkClass($$[0], -1); }
 ;
 
-new_expr:
-      T_NEW class_name_reference optional_generic_params ctor_arguments             { $$ = Expr\New_[$2, $4, ['generics' => $3]]; }
+new_dereferenceable:
+      T_NEW class_name_reference optional_generic_params argument_list              { $$ = Expr\New_[$2, $4, ['generics' => $3]]; }
     | T_NEW anonymous_class
           { list($class, $ctorArgs) = $2; $$ = Expr\New_[$class, $ctorArgs]; }
+;
+
+new_non_dereferenceable:
+      T_NEW class_name_reference                            { $$ = Expr\New_[$2, []]; }
+;
+
+new_expr:
+      new_dereferenceable
+    | new_non_dereferenceable
 ;
 
 lexical_vars:
@@ -1149,7 +1158,7 @@ class_name_reference:
 
 class_name_or_var:
       class_name
-    | fully_dereferencable
+    | fully_dereferenceable
 ;
 
 exit_expr:
@@ -1198,7 +1207,7 @@ array_short_syntax:
             $$ = new Expr\Array_($2, $attrs); }
 ;
 
-dereferencable_scalar:
+dereferenceable_scalar:
       T_ARRAY '(' array_pair_list ')'
           { $attrs = attributes(); $attrs['kind'] = Expr\Array_::KIND_LONG;
             $$ = new Expr\Array_($3, $attrs);
@@ -1215,7 +1224,7 @@ scalar:
       T_LNUMBER
           { $$ = $this->parseLNumber($1, attributes(), $this->phpVersion->allowsInvalidOctals()); }
     | T_DNUMBER                                             { $$ = Scalar\Float_::fromString($1, attributes()); }
-    | dereferencable_scalar
+    | dereferenceable_scalar
     | constant
     | class_constant
     | T_START_HEREDOC T_ENCAPSED_AND_WHITESPACE T_END_HEREDOC
@@ -1231,32 +1240,34 @@ optional_expr:
     | expr
 ;
 
-fully_dereferencable:
+fully_dereferenceable:
       variable
     | '(' expr ')'                                          { $$ = $2; }
-    | dereferencable_scalar
+    | dereferenceable_scalar
     | class_constant
+    | new_dereferenceable
 ;
 
-array_object_dereferencable:
-      fully_dereferencable
+array_object_dereferenceable:
+      fully_dereferenceable
     | constant
 ;
 
 callable_expr:
       callable_variable
     | '(' expr ')'                                          { $$ = $2; }
-    | dereferencable_scalar
+    | dereferenceable_scalar
+    | new_dereferenceable
 ;
 
 callable_variable:
       simple_variable
-    | array_object_dereferencable '[' optional_expr ']'     { $$ = Expr\ArrayDimFetch[$1, $3]; }
-    | array_object_dereferencable '{' expr '}'              { $$ = Expr\ArrayDimFetch[$1, $3]; }
+    | array_object_dereferenceable '[' optional_expr ']'     { $$ = Expr\ArrayDimFetch[$1, $3]; }
+    | array_object_dereferenceable '{' expr '}'              { $$ = Expr\ArrayDimFetch[$1, $3]; }
     | function_call
-    | array_object_dereferencable T_OBJECT_OPERATOR property_name argument_list
+    | array_object_dereferenceable T_OBJECT_OPERATOR property_name argument_list
           { $$ = Expr\MethodCall[$1, $3, $4]; }
-    | array_object_dereferencable T_NULLSAFE_OBJECT_OPERATOR property_name argument_list
+    | array_object_dereferenceable T_NULLSAFE_OBJECT_OPERATOR property_name argument_list
           { $$ = Expr\NullsafeMethodCall[$1, $3, $4]; }
 ;
 
@@ -1268,9 +1279,9 @@ optional_plain_variable:
 variable:
       callable_variable
     | static_member
-    | array_object_dereferencable T_OBJECT_OPERATOR property_name
+    | array_object_dereferenceable T_OBJECT_OPERATOR property_name
           { $$ = Expr\PropertyFetch[$1, $3]; }
-    | array_object_dereferencable T_NULLSAFE_OBJECT_OPERATOR property_name
+    | array_object_dereferenceable T_NULLSAFE_OBJECT_OPERATOR property_name
           { $$ = Expr\NullsafePropertyFetch[$1, $3]; }
 ;
 

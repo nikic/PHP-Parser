@@ -8,7 +8,7 @@ class PropertyTest extends \PHPUnit\Framework\TestCase {
     /**
      * @dataProvider provideModifiers
      */
-    public function testModifiers($modifier) {
+    public function testModifiers($modifier): void {
         $node = new Property(
             constant(Modifiers::class . '::' . strtoupper($modifier)),
             [] // invalid
@@ -17,7 +17,7 @@ class PropertyTest extends \PHPUnit\Framework\TestCase {
         $this->assertTrue($node->{'is' . $modifier}());
     }
 
-    public function testNoModifiers() {
+    public function testNoModifiers(): void {
         $node = new Property(0, []);
 
         $this->assertTrue($node->isPublic());
@@ -27,7 +27,7 @@ class PropertyTest extends \PHPUnit\Framework\TestCase {
         $this->assertFalse($node->isReadonly());
     }
 
-    public function testStaticImplicitlyPublic() {
+    public function testStaticImplicitlyPublic(): void {
         $node = new Property(Modifiers::STATIC, []);
         $this->assertTrue($node->isPublic());
         $this->assertFalse($node->isProtected());
@@ -36,7 +36,7 @@ class PropertyTest extends \PHPUnit\Framework\TestCase {
         $this->assertFalse($node->isReadonly());
     }
 
-    public function provideModifiers() {
+    public static function provideModifiers() {
         return [
             ['public'],
             ['protected'],

@@ -20,7 +20,7 @@ class FunctionTest extends \PHPUnit\Framework\TestCase {
         return new Function_($name);
     }
 
-    public function testReturnByRef() {
+    public function testReturnByRef(): void {
         $node = $this->createFunctionBuilder('test')
             ->makeReturnByRef()
             ->getNode()
@@ -34,7 +34,7 @@ class FunctionTest extends \PHPUnit\Framework\TestCase {
         );
     }
 
-    public function testParams() {
+    public function testParams(): void {
         $param1 = new Node\Param(new Variable('test1'));
         $param2 = new Node\Param(new Variable('test2'));
         $param3 = new Node\Param(new Variable('test3'));
@@ -53,7 +53,7 @@ class FunctionTest extends \PHPUnit\Framework\TestCase {
         );
     }
 
-    public function testStmts() {
+    public function testStmts(): void {
         $stmt1 = new Print_(new String_('test1'));
         $stmt2 = new Print_(new String_('test2'));
         $stmt3 = new Print_(new String_('test3'));
@@ -76,7 +76,7 @@ class FunctionTest extends \PHPUnit\Framework\TestCase {
         );
     }
 
-    public function testDocComment() {
+    public function testDocComment(): void {
         $node = $this->createFunctionBuilder('test')
             ->setDocComment('/** Test */')
             ->getNode();
@@ -86,7 +86,7 @@ class FunctionTest extends \PHPUnit\Framework\TestCase {
         ]), $node);
     }
 
-    public function testAddAttribute() {
+    public function testAddAttribute(): void {
         $attribute = new Attribute(
             new Name('Attr'),
             [new Arg(new Int_(1), false, false, [], new Identifier('name'))]
@@ -102,7 +102,7 @@ class FunctionTest extends \PHPUnit\Framework\TestCase {
         ], []), $node);
     }
 
-    public function testReturnType() {
+    public function testReturnType(): void {
         $node = $this->createFunctionBuilder('test')
             ->setReturnType('void')
             ->getNode();
@@ -112,13 +112,13 @@ class FunctionTest extends \PHPUnit\Framework\TestCase {
         ], []), $node);
     }
 
-    public function testInvalidNullableVoidType() {
+    public function testInvalidNullableVoidType(): void {
         $this->expectException(\LogicException::class);
         $this->expectExceptionMessage('void type cannot be nullable');
         $this->createFunctionBuilder('test')->setReturnType('?void');
     }
 
-    public function testInvalidParamError() {
+    public function testInvalidParamError(): void {
         $this->expectException(\LogicException::class);
         $this->expectExceptionMessage('Expected parameter node, got "Name"');
         $this->createFunctionBuilder('test')
@@ -126,7 +126,7 @@ class FunctionTest extends \PHPUnit\Framework\TestCase {
         ;
     }
 
-    public function testAddNonStmt() {
+    public function testAddNonStmt(): void {
         $this->expectException(\LogicException::class);
         $this->expectExceptionMessage('Expected statement or expression node');
         $this->createFunctionBuilder('test')

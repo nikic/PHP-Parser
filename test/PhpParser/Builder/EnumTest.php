@@ -17,7 +17,7 @@ class EnumTest extends \PHPUnit\Framework\TestCase {
         return new Enum_($class);
     }
 
-    public function testImplements() {
+    public function testImplements(): void {
         $node = $this->createEnumBuilder('SomeEnum')
             ->implement('Namespaced\SomeInterface', new Name('OtherInterface'))
             ->getNode()
@@ -34,7 +34,7 @@ class EnumTest extends \PHPUnit\Framework\TestCase {
         );
     }
 
-    public function testSetScalarType() {
+    public function testSetScalarType(): void {
         $node = $this->createEnumBuilder('Test')
             ->setScalarType('int')
             ->getNode()
@@ -48,7 +48,7 @@ class EnumTest extends \PHPUnit\Framework\TestCase {
         );
     }
 
-    public function testStatementOrder() {
+    public function testStatementOrder(): void {
         $method = new Stmt\ClassMethod('testMethod');
         $enumCase = new Stmt\EnumCase(
             'TEST_ENUM_CASE'
@@ -73,7 +73,7 @@ class EnumTest extends \PHPUnit\Framework\TestCase {
         );
     }
 
-    public function testDocComment() {
+    public function testDocComment(): void {
         $docComment = <<<'DOC'
 /**
  * Test
@@ -106,7 +106,7 @@ DOC;
         );
     }
 
-    public function testAddAttribute() {
+    public function testAddAttribute(): void {
         $attribute = new Attribute(
             new Name('Attr'),
             [new Arg(new Int_(1), false, false, [], new Identifier('name'))]
@@ -127,7 +127,7 @@ DOC;
         );
     }
 
-    public function testInvalidStmtError() {
+    public function testInvalidStmtError(): void {
         $this->expectException(\LogicException::class);
         $this->expectExceptionMessage('Unexpected node of type "PropertyItem"');
         $this->createEnumBuilder('Test')
@@ -135,21 +135,21 @@ DOC;
         ;
     }
 
-    public function testInvalidDocComment() {
+    public function testInvalidDocComment(): void {
         $this->expectException(\LogicException::class);
         $this->expectExceptionMessage('Doc comment must be a string or an instance of PhpParser\Comment\Doc');
         $this->createEnumBuilder('Test')
             ->setDocComment(new Comment('Test'));
     }
 
-    public function testEmptyName() {
+    public function testEmptyName(): void {
         $this->expectException(\LogicException::class);
         $this->expectExceptionMessage('Name cannot be empty');
         $this->createEnumBuilder('Test')
             ->implement('');
     }
 
-    public function testInvalidName() {
+    public function testInvalidName(): void {
         $this->expectException(\LogicException::class);
         $this->expectExceptionMessage('Name must be a string or an instance of Node\Name');
         $this->createEnumBuilder('Test')

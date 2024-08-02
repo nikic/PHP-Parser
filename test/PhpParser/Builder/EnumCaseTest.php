@@ -17,7 +17,7 @@ class EnumCaseTest extends \PHPUnit\Framework\TestCase {
         return new EnumCase($name);
     }
 
-    public function testDocComment() {
+    public function testDocComment(): void {
         $node = $this->createEnumCaseBuilder('TEST')
             ->setDocComment('/** Test */')
             ->getNode();
@@ -35,7 +35,7 @@ class EnumCaseTest extends \PHPUnit\Framework\TestCase {
         );
     }
 
-    public function testAddAttribute() {
+    public function testAddAttribute(): void {
         $attribute = new Attribute(
             new Name('Attr'),
             [new Arg(new Int_(1), false, false, [], new Identifier('name'))]
@@ -59,7 +59,7 @@ class EnumCaseTest extends \PHPUnit\Framework\TestCase {
     /**
      * @dataProvider provideTestDefaultValues
      */
-    public function testValues($value, $expectedValueNode) {
+    public function testValues($value, $expectedValueNode): void {
         $node = $this->createEnumCaseBuilder('TEST')
             ->setValue($value)
             ->getNode()
@@ -68,7 +68,7 @@ class EnumCaseTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals($expectedValueNode, $node->expr);
     }
 
-    public function provideTestDefaultValues() {
+    public static function provideTestDefaultValues() {
         return [
             [
                 31415,

@@ -13,7 +13,7 @@ class LexerTest extends \PHPUnit\Framework\TestCase {
     /**
      * @dataProvider provideTestError
      */
-    public function testError($code, $messages) {
+    public function testError($code, $messages): void {
         if (defined('HHVM_VERSION')) {
             $this->markTestSkipped('HHVM does not throw warnings from token_get_all()');
         }
@@ -29,7 +29,7 @@ class LexerTest extends \PHPUnit\Framework\TestCase {
         }
     }
 
-    public function provideTestError() {
+    public static function provideTestError() {
         return [
             ["<?php /*", ["Unterminated comment from 1:7 to 1:9"]],
             ["<?php /*\n", ["Unterminated comment from 1:7 to 2:1"]],
@@ -45,7 +45,7 @@ class LexerTest extends \PHPUnit\Framework\TestCase {
         ];
     }
 
-    public function testDefaultErrorHandler() {
+    public function testDefaultErrorHandler(): void {
         $this->expectException(Error::class);
         $this->expectExceptionMessage('Unterminated comment on line 1');
         $lexer = $this->getLexer();
@@ -55,7 +55,7 @@ class LexerTest extends \PHPUnit\Framework\TestCase {
     /**
      * @dataProvider provideTestLex
      */
-    public function testLex($code, $expectedTokens) {
+    public function testLex($code, $expectedTokens): void {
         $lexer = $this->getLexer();
         $tokens = $lexer->tokenize($code);
         foreach ($tokens as $token) {
@@ -70,7 +70,7 @@ class LexerTest extends \PHPUnit\Framework\TestCase {
         }
     }
 
-    public function provideTestLex() {
+    public static function provideTestLex() {
         return [
             // tests PHP 8 T_NAME_* emulation
             [
@@ -97,7 +97,7 @@ class LexerTest extends \PHPUnit\Framework\TestCase {
         ];
     }
 
-    public function testGetTokens() {
+    public function testGetTokens(): void {
         $code = '<?php "a";' . "\n" . '// foo' . "\n" . '// bar' . "\n\n" . '"b";';
         $expectedTokens = [
             new Token(T_OPEN_TAG, '<?php ', 1, 0),

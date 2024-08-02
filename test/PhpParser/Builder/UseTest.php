@@ -11,7 +11,7 @@ class UseTest extends \PHPUnit\Framework\TestCase {
         return new Builder\Use_($name, $type);
     }
 
-    public function testCreation() {
+    public function testCreation(): void {
         $node = $this->createUseBuilder('Foo\Bar')->getNode();
         $this->assertEquals(new Stmt\Use_([
             new \PhpParser\Node\UseItem(new Name('Foo\Bar'), null)

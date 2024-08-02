@@ -10,13 +10,13 @@ class NodeDumperTest extends \PHPUnit\Framework\TestCase {
     /**
      * @dataProvider provideTestDump
      */
-    public function testDump($node, $dump) {
+    public function testDump($node, $dump): void {
         $dumper = new NodeDumper();
 
         $this->assertSame($this->canonicalize($dump), $this->canonicalize($dumper->dump($node)));
     }
 
-    public function provideTestDump() {
+    public static function provideTestDump() {
         return [
             [
                 [],
@@ -57,7 +57,7 @@ class NodeDumperTest extends \PHPUnit\Framework\TestCase {
         ];
     }
 
-    public function testDumpWithPositions() {
+    public function testDumpWithPositions(): void {
         $parser = (new ParserFactory())->createForHostVersion();
         $dumper = new NodeDumper(['dumpPositions' => true]);
 
@@ -90,7 +90,7 @@ OUT;
         $this->assertSame($this->canonicalize($expected), $this->canonicalize($dump));
     }
 
-    public function testError() {
+    public function testError(): void {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Can only dump nodes and arrays.');
         $dumper = new NodeDumper();

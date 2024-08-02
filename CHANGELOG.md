@@ -1,3 +1,18 @@
+Version 5.1.0 (2024-07-01)
+--------------------------
+
+### Added
+
+* [8.4] Added support for dereferencing `new` expressions without parentheses.
+
+### Fixed
+
+* Fixed redundant parentheses being added when pretty printing ternary expressions.
+
+### Changed
+
+* Made some phpdoc types more precise.
+
 Version 5.0.2 (2024-03-05)
 --------------------------
 

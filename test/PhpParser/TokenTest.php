@@ -3,14 +3,14 @@
 namespace PhpParser;
 
 class TokenTest extends \PHPUnit\Framework\TestCase {
-    public function testGetTokenName() {
+    public function testGetTokenName(): void {
         $token = new Token(\ord(','), ',');
         $this->assertSame(',', $token->getTokenName());
         $token = new Token(\T_WHITESPACE, ' ');
         $this->assertSame('T_WHITESPACE', $token->getTokenName());
     }
 
-    public function testIs() {
+    public function testIs(): void {
         $token = new Token(\ord(','), ',');
         $this->assertTrue($token->is(\ord(',')));
         $this->assertFalse($token->is(\ord(';')));
@@ -23,12 +23,12 @@ class TokenTest extends \PHPUnit\Framework\TestCase {
     }
 
     /** @dataProvider provideTestIsIgnorable */
-    public function testIsIgnorable(int $id, string $text, bool $isIgnorable) {
+    public function testIsIgnorable(int $id, string $text, bool $isIgnorable): void {
         $token = new Token($id, $text);
         $this->assertSame($isIgnorable, $token->isIgnorable());
     }
 
-    public function provideTestIsIgnorable() {
+    public static function provideTestIsIgnorable() {
         return [
             [\T_STRING, 'foo', false],
             [\T_WHITESPACE, ' ', true],
@@ -38,7 +38,7 @@ class TokenTest extends \PHPUnit\Framework\TestCase {
         ];
     }
 
-    public function testToString() {
+    public function testToString(): void {
         $token = new Token(\ord(','), ',');
         $this->assertSame(',', (string) $token);
         $token = new Token(\T_STRING, 'foo');

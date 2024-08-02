@@ -7,7 +7,7 @@ use PhpParser\Node\PropertyItem;
 use PhpParser\Node\Scalar\String_;
 
 class ClassTest extends \PHPUnit\Framework\TestCase {
-    public function testIsAbstract() {
+    public function testIsAbstract(): void {
         $class = new Class_('Foo', ['type' => Modifiers::ABSTRACT]);
         $this->assertTrue($class->isAbstract());
 
@@ -15,7 +15,7 @@ class ClassTest extends \PHPUnit\Framework\TestCase {
         $this->assertFalse($class->isAbstract());
     }
 
-    public function testIsFinal() {
+    public function testIsFinal(): void {
         $class = new Class_('Foo', ['type' => Modifiers::FINAL]);
         $this->assertTrue($class->isFinal());
 
@@ -23,7 +23,7 @@ class ClassTest extends \PHPUnit\Framework\TestCase {
         $this->assertFalse($class->isFinal());
     }
 
-    public function testGetTraitUses() {
+    public function testGetTraitUses(): void {
         $traitUses = [
             new TraitUse([new Trait_('foo')]),
             new TraitUse([new Trait_('bar')]),
@@ -39,7 +39,7 @@ class ClassTest extends \PHPUnit\Framework\TestCase {
         $this->assertSame($traitUses, $class->getTraitUses());
     }
 
-    public function testGetMethods() {
+    public function testGetMethods(): void {
         $methods = [
             new ClassMethod('foo'),
             new ClassMethod('bar'),
@@ -59,7 +59,7 @@ class ClassTest extends \PHPUnit\Framework\TestCase {
         $this->assertSame($methods, $class->getMethods());
     }
 
-    public function testGetConstants() {
+    public function testGetConstants(): void {
         $constants = [
             new ClassConst([new \PhpParser\Node\Const_('foo', new String_('foo_value'))]),
             new ClassConst([new \PhpParser\Node\Const_('bar', new String_('bar_value'))]),
@@ -76,7 +76,7 @@ class ClassTest extends \PHPUnit\Framework\TestCase {
         $this->assertSame($constants, $class->getConstants());
     }
 
-    public function testGetProperties() {
+    public function testGetProperties(): void {
         $properties = [
             new Property(Modifiers::PUBLIC, [new PropertyItem('foo')]),
             new Property(Modifiers::PUBLIC, [new PropertyItem('bar')]),
@@ -94,7 +94,7 @@ class ClassTest extends \PHPUnit\Framework\TestCase {
         $this->assertSame($properties, $class->getProperties());
     }
 
-    public function testGetProperty() {
+    public function testGetProperty(): void {
         $properties = [
             $fooProp = new Property(Modifiers::PUBLIC, [new PropertyItem('foo1')]),
             $barProp = new Property(Modifiers::PUBLIC, [new PropertyItem('BAR1')]),
@@ -119,7 +119,7 @@ class ClassTest extends \PHPUnit\Framework\TestCase {
         $this->assertNull($class->getProperty('nonExisting'));
     }
 
-    public function testGetMethod() {
+    public function testGetMethod(): void {
         $methodConstruct = new ClassMethod('__CONSTRUCT');
         $methodTest = new ClassMethod('test');
         $class = new Class_('Foo', [

@@ -23,13 +23,13 @@ class InterfaceTest extends \PHPUnit\Framework\TestCase {
         return $pp->prettyPrint([$node]);
     }
 
-    public function testEmpty() {
+    public function testEmpty(): void {
         $contract = $this->createInterfaceBuilder()->getNode();
         $this->assertInstanceOf(Stmt\Interface_::class, $contract);
         $this->assertEquals(new Node\Identifier('Contract'), $contract->name);
     }
 
-    public function testExtending() {
+    public function testExtending(): void {
         $contract = $this->createInterfaceBuilder()
             ->extend('Space\Root1', 'Root2')->getNode();
         $this->assertEquals(
@@ -42,13 +42,13 @@ class InterfaceTest extends \PHPUnit\Framework\TestCase {
         );
     }
 
-    public function testAddMethod() {
+    public function testAddMethod(): void {
         $method = new Stmt\ClassMethod('doSomething');
         $contract = $this->createInterfaceBuilder()->addStmt($method)->getNode();
         $this->assertSame([$method], $contract->stmts);
     }
 
-    public function testAddConst() {
+    public function testAddConst(): void {
         $const = new Stmt\ClassConst([
             new Node\Const_('SPEED_OF_LIGHT', new Float_(299792458.0))
         ]);
@@ -56,7 +56,7 @@ class InterfaceTest extends \PHPUnit\Framework\TestCase {
         $this->assertSame(299792458.0, $contract->stmts[0]->consts[0]->value->value);
     }
 
-    public function testOrder() {
+    public function testOrder(): void {
         $const = new Stmt\ClassConst([
             new Node\Const_('SPEED_OF_LIGHT', new Float_(299792458))
         ]);
@@ -71,7 +71,7 @@ class InterfaceTest extends \PHPUnit\Framework\TestCase {
         $this->assertInstanceOf(Stmt\ClassMethod::class, $contract->stmts[1]);
     }
 
-    public function testDocComment() {
+    public function testDocComment(): void {
         $node = $this->createInterfaceBuilder()
             ->setDocComment('/** Test */')
             ->getNode();
@@ -81,7 +81,7 @@ class InterfaceTest extends \PHPUnit\Framework\TestCase {
         ]), $node);
     }
 
-    public function testAddAttribute() {
+    public function testAddAttribute(): void {
         $attribute = new Attribute(
             new Name('Attr'),
             [new Arg(new Int_(1), false, false, [], new Identifier('name'))]
@@ -97,13 +97,13 @@ class InterfaceTest extends \PHPUnit\Framework\TestCase {
         ], []), $node);
     }
 
-    public function testInvalidStmtError() {
+    public function testInvalidStmtError(): void {
         $this->expectException(\LogicException::class);
         $this->expectExceptionMessage('Unexpected node of type "PropertyItem"');
         $this->createInterfaceBuilder()->addStmt(new Node\PropertyItem('invalid'));
     }
 
-    public function testFullFunctional() {
+    public function testFullFunctional(): void {
         $const = new Stmt\ClassConst([
             new Node\Const_('SPEED_OF_LIGHT', new Float_(299792458))
         ]);

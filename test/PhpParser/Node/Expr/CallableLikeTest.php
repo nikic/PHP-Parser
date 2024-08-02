@@ -11,14 +11,14 @@ class CallableLikeTest extends \PHPUnit\Framework\TestCase {
     /**
      * @dataProvider provideTestIsFirstClassCallable
      */
-    public function testIsFirstClassCallable(CallLike $node, bool $isFirstClassCallable) {
+    public function testIsFirstClassCallable(CallLike $node, bool $isFirstClassCallable): void {
         $this->assertSame($isFirstClassCallable, $node->isFirstClassCallable());
         if (!$isFirstClassCallable) {
             $this->assertSame($node->getRawArgs(), $node->getArgs());
         }
     }
 
-    public function provideTestIsFirstClassCallable() {
+    public static function provideTestIsFirstClassCallable() {
         $normalArgs = [new Arg(new Int_(1))];
         $callableArgs = [new VariadicPlaceholder()];
         return [

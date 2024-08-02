@@ -3,7 +3,12 @@
 namespace PhpParser\Node;
 
 class IdentifierTest extends \PHPUnit\Framework\TestCase {
-    public function testToString() {
+    public function testConstructorThrows(): void {
+        self::expectException(\InvalidArgumentException::class);
+        new Identifier('');
+    }
+
+    public function testToString(): void {
         $identifier = new Identifier('Foo');
 
         $this->assertSame('Foo', (string) $identifier);
@@ -12,12 +17,12 @@ class IdentifierTest extends \PHPUnit\Framework\TestCase {
     }
 
     /** @dataProvider provideTestIsSpecialClassName */
-    public function testIsSpecialClassName($identifier, $expected) {
+    public function testIsSpecialClassName($identifier, $expected): void {
         $identifier = new Identifier($identifier);
         $this->assertSame($expected, $identifier->isSpecialClassName());
     }
 
-    public function provideTestIsSpecialClassName() {
+    public static function provideTestIsSpecialClassName() {
         return [
             ['self', true],
             ['PARENT', true],

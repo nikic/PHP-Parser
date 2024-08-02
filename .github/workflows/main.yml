@@ -10,7 +10,7 @@ jobs:
     name: "PHP 7.4 Unit Tests (with coverage)"
     steps:
       - name: "Checkout"
-        uses: "actions/checkout@v3"
+        uses: "actions/checkout@v4"
       - name: "Install PHP"
         uses: "shivammathur/setup-php@v2"
         with:
@@ -20,7 +20,7 @@ jobs:
       - name: "Install dependencies"
         run: |
           composer require php-coveralls/php-coveralls:^2.2 --dev --no-update
-          composer update --no-progress --prefer-dist
+          COMPOSER_ROOT_VERSION=dev-master composer update --no-progress --prefer-dist
       - name: "Tests"
         run: "php vendor/bin/phpunit --coverage-clover build/logs/clover.xml"
       - name: Coveralls
@@ -40,31 +40,33 @@ jobs:
           - "8.3"
     steps:
       - name: "Checkout"
-        uses: "actions/checkout@v3"
+        uses: "actions/checkout@v4"
       - name: "Install PHP"
         uses: "shivammathur/setup-php@v2"
         with:
           coverage: "none"
           php-version: "${{ matrix.php-version }}"
+          ini-file: "development"
           tools: composer:v2
       - name: "Install dependencies"
-        run: "composer update --no-progress --prefer-dist ${{ matrix.flags }}"
+        run: "COMPOSER_ROOT_VERSION=dev-master composer update --no-progress --prefer-dist ${{ matrix.flags }}"
       - name: "PHPUnit"
         run: "php vendor/bin/phpunit"
   test_old_73_80:
     runs-on: "ubuntu-latest"
-    name: "PHP 7.4 Code on PHP 8.2 Integration Tests"
+    name: "PHP 7.4 Code on PHP 8.3 Integration Tests"
     steps:
       - name: "Checkout"
-        uses: "actions/checkout@v3"
+        uses: "actions/checkout@v4"
       - name: "Install PHP"
         uses: "shivammathur/setup-php@v2"
         with:
           coverage: "none"
-          php-version: "8.2"
+          php-version: "8.3"
+          ini-file: "development"
           tools: composer:v2
       - name: "Install PHP 8 dependencies"
-        run: "composer update --no-progress --prefer-dist"
+        run: "COMPOSER_ROOT_VERSION=dev-master composer update --no-progress --prefer-dist"
       - name: "Tests"
         run: "test_old/run-php-src.sh 7.4.33"
   test_old_80_70:
@@ -72,15 +74,16 @@ jobs:
     name: "PHP 8.3 Code on PHP 7.4 Integration Tests"
     steps:
       - name: "Checkout"
-        uses: "actions/checkout@v3"
+        uses: "actions/checkout@v4"
       - name: "Install PHP"
         uses: "shivammathur/setup-php@v2"
         with:
           coverage: "none"
           php-version: "7.4"
+          ini-file: "development"
           tools: composer:v2
       - name: "Install PHP 8 dependencies"
-        run: "composer update --no-progress --prefer-dist"
+        run: "COMPOSER_ROOT_VERSION=dev-master composer update --no-progress --prefer-dist"
       - name: "Tests"
         run: "test_old/run-php-src.sh 8.3.0RC2"
   phpstan:
@@ -88,12 +91,12 @@ jobs:
     name: "PHPStan"
     steps:
       - name: "Checkout"
-        uses: "actions/checkout@v3"
+        uses: "actions/checkout@v4"
       - name: "Install PHP"
         uses: "shivammathur/setup-php@v2"
         with:
           coverage: "none"
-          php-version: "8.2"
+          php-version: "8.3"
           tools: composer:v2
       - name: "Install dependencies"
         run: |
@@ -105,12 +108,12 @@ jobs:
     name: "PHP-CS-Fixer"
     steps:
       - name: "Checkout"
-        uses: "actions/checkout@v3"
+        uses: "actions/checkout@v4"
       - name: "Install PHP"
         uses: "shivammathur/setup-php@v2"
         with:
           coverage: "none"
-          php-version: "8.2"
+          php-version: "8.3"
           tools: composer:v2
       - name: "Install dependencies"
         run: |

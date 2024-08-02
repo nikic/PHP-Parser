@@ -28,7 +28,7 @@ class DifferTest extends \PHPUnit\Framework\TestCase {
     }
 
     /** @dataProvider provideTestDiff */
-    public function testDiff($oldStr, $newStr, $expectedDiffStr) {
+    public function testDiff($oldStr, $newStr, $expectedDiffStr): void {
         $differ = new Differ(function ($a, $b) {
             return $a === $b;
         });
@@ -36,7 +36,7 @@ class DifferTest extends \PHPUnit\Framework\TestCase {
         $this->assertSame($expectedDiffStr, $this->formatDiffString($diff));
     }
 
-    public function provideTestDiff() {
+    public static function provideTestDiff() {
         return [
             ['abc', 'abc', 'abc'],
             ['abc', 'abcdef', 'abc+d+e+f'],
@@ -49,7 +49,7 @@ class DifferTest extends \PHPUnit\Framework\TestCase {
     }
 
     /** @dataProvider provideTestDiffWithReplacements */
-    public function testDiffWithReplacements($oldStr, $newStr, $expectedDiffStr) {
+    public function testDiffWithReplacements($oldStr, $newStr, $expectedDiffStr): void {
         $differ = new Differ(function ($a, $b) {
             return $a === $b;
         });
@@ -57,7 +57,7 @@ class DifferTest extends \PHPUnit\Framework\TestCase {
         $this->assertSame($expectedDiffStr, $this->formatDiffString($diff));
     }
 
-    public function provideTestDiffWithReplacements() {
+    public static function provideTestDiffWithReplacements() {
         return [
             ['abcde', 'axyze', 'a/bx/cy/dze'],
             ['abcde', 'xbcdy', '/axbcd/ey'],
@@ -66,7 +66,7 @@ class DifferTest extends \PHPUnit\Framework\TestCase {
         ];
     }
 
-    public function testNonContiguousIndices() {
+    public function testNonContiguousIndices(): void {
         $differ = new Differ(function ($a, $b) {
             return $a === $b;
         });

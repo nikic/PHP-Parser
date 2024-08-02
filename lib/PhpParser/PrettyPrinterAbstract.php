@@ -76,7 +76,7 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
         BinaryOp\BooleanAnd::class     => [120, 121, 120],
         BinaryOp\BooleanOr::class      => [130, 131, 130],
         BinaryOp\Coalesce::class       => [140, 140, 141],
-        Expr\Ternary::class            => [150,  -1,  -1],
+        Expr\Ternary::class            => [150, 150, 150],
         Expr\Assign::class             => [160,  -1,  -1],
         Expr\AssignRef::class          => [160,  -1,  -1],
         AssignOp\Plus::class           => [160,  -1,  -1],

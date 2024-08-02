@@ -29,26 +29,26 @@ class PrettyPrinterTest extends CodeTestAbstract {
     /**
      * @dataProvider provideTestPrettyPrint
      */
-    public function testPrettyPrint($name, $code, $expected, $mode) {
+    public function testPrettyPrint($name, $code, $expected, $mode): void {
         $this->doTestPrettyPrintMethod('prettyPrint', $name, $code, $expected, $mode);
     }
 
     /**
      * @dataProvider provideTestPrettyPrintFile
      */
-    public function testPrettyPrintFile($name, $code, $expected, $mode) {
+    public function testPrettyPrintFile($name, $code, $expected, $mode): void {
         $this->doTestPrettyPrintMethod('prettyPrintFile', $name, $code, $expected, $mode);
     }
 
-    public function provideTestPrettyPrint() {
-        return $this->getTests(__DIR__ . '/../code/prettyPrinter', 'test');
+    public static function provideTestPrettyPrint() {
+        return self::getTests(__DIR__ . '/../code/prettyPrinter', 'test');
     }
 
-    public function provideTestPrettyPrintFile() {
-        return $this->getTests(__DIR__ . '/../code/prettyPrinter', 'file-test');
+    public static function provideTestPrettyPrintFile() {
+        return self::getTests(__DIR__ . '/../code/prettyPrinter', 'file-test');
     }
 
-    public function testPrettyPrintExpr() {
+    public function testPrettyPrintExpr(): void {
         $prettyPrinter = new Standard();
         $expr = new Expr\BinaryOp\Mul(
             new Expr\BinaryOp\Plus(new Expr\Variable('a'), new Expr\Variable('b')),
@@ -62,7 +62,7 @@ class PrettyPrinterTest extends CodeTestAbstract {
         $this->assertEquals("function () {\n    return 'a\nb';\n}", $prettyPrinter->prettyPrintExpr($expr));
     }
 
-    public function testCommentBeforeInlineHTML() {
+    public function testCommentBeforeInlineHTML(): void {
         $prettyPrinter = new PrettyPrinter\Standard();
         $comment = new Comment\Doc("/**\n * This is a comment\n */");
         $stmts = [new Stmt\InlineHTML('Hello World!', ['comments' => [$comment]])];
@@ -70,7 +70,7 @@ class PrettyPrinterTest extends CodeTestAbstract {
         $this->assertSame($expected, $prettyPrinter->prettyPrintFile($stmts));
     }
 
-    public function testArraySyntaxDefault() {
+    public function testArraySyntaxDefault(): void {
         $prettyPrinter = new Standard(['shortArraySyntax' => true]);
         $expr = new Expr\Array_([
             new Node\ArrayItem(new String_('val'), new String_('key'))
@@ -82,13 +82,13 @@ class PrettyPrinterTest extends CodeTestAbstract {
     /**
      * @dataProvider provideTestKindAttributes
      */
-    public function testKindAttributes($node, $expected) {
+    public function testKindAttributes($node, $expected): void {
         $prttyPrinter = new PrettyPrinter\Standard();
         $result = $prttyPrinter->prettyPrintExpr($node);
         $this->assertSame($expected, $result);
     }
 
-    public function provideTestKindAttributes() {
+    public static function provideTestKindAttributes() {
         $nowdoc = ['kind' => String_::KIND_NOWDOC, 'docLabel' => 'STR'];
         $heredoc = ['kind' => String_::KIND_HEREDOC, 'docLabel' => 'STR'];
         return [
@@ -138,13 +138,13 @@ class PrettyPrinterTest extends CodeTestAbstract {
     }
 
     /** @dataProvider provideTestUnnaturalLiterals */
-    public function testUnnaturalLiterals($node, $expected) {
+    public function testUnnaturalLiterals($node, $expected): void {
         $prttyPrinter = new PrettyPrinter\Standard();
         $result = $prttyPrinter->prettyPrintExpr($node);
         $this->assertSame($expected, $result);
     }
 
-    public function provideTestUnnaturalLiterals() {
+    public static function provideTestUnnaturalLiterals() {
         return [
             [new Int_(-1), '-1'],
             [new Int_(-PHP_INT_MAX - 1), '(-' . PHP_INT_MAX . '-1)'],
@@ -157,7 +157,7 @@ class PrettyPrinterTest extends CodeTestAbstract {
         ];
     }
 
-    public function testPrettyPrintWithError() {
+    public function testPrettyPrintWithError(): void {
         $this->expectException(\LogicException::class);
         $this->expectExceptionMessage('Cannot pretty-print AST with Error nodes');
         $stmts = [new Stmt\Expression(
@@ -167,7 +167,7 @@ class PrettyPrinterTest extends CodeTestAbstract {
         $prettyPrinter->prettyPrint($stmts);
     }
 
-    public function testPrettyPrintWithErrorInClassConstFetch() {
+    public function testPrettyPrintWithErrorInClassConstFetch(): void {
         $this->expectException(\LogicException::class);
         $this->expectExceptionMessage('Cannot pretty-print AST with Error nodes');
         $stmts = [new Stmt\Expression(
@@ -180,7 +180,7 @@ class PrettyPrinterTest extends CodeTestAbstract {
     /**
      * @dataProvider provideTestFormatPreservingPrint
      */
-    public function testFormatPreservingPrint($name, $code, $modification, $expected, $modeLine) {
+    public function testFormatPreservingPrint($name, $code, $modification, $expected, $modeLine): void {
         $lexer = new Lexer\Emulative();
         $parser = new Parser\Php7($lexer);
         $traverser = new NodeTraverser(new NodeVisitor\CloningVisitor());
@@ -209,14 +209,14 @@ CODE
         $this->assertSame(canonicalize($expected), canonicalize($newCode), $name);
     }
 
-    public function provideTestFormatPreservingPrint() {
-        return $this->getTests(__DIR__ . '/../code/formatPreservation', 'test', 3);
+    public static function provideTestFormatPreservingPrint() {
+        return self::getTests(__DIR__ . '/../code/formatPreservation', 'test', 3);
     }
 
     /**
      * @dataProvider provideTestRoundTripPrint
      */
-    public function testRoundTripPrint($name, $code, $expected, $modeLine) {
+    public function testRoundTripPrint($name, $code, $expected, $modeLine): void {
         /**
          * This test makes sure that the format-preserving pretty printer round-trips for all
          * the pretty printer tests (i.e. returns the input if no changes occurred).
@@ -245,14 +245,14 @@ CODE
         $this->assertSame(canonicalize($code), canonicalize($newCode), $name);
     }
 
-    public function provideTestRoundTripPrint() {
+    public static function provideTestRoundTripPrint() {
         return array_merge(
-            $this->getTests(__DIR__ . '/../code/prettyPrinter', 'test'),
-            $this->getTests(__DIR__ . '/../code/parser', 'test')
+            self::getTests(__DIR__ . '/../code/prettyPrinter', 'test'),
+            self::getTests(__DIR__ . '/../code/parser', 'test')
         );
     }
 
-    public function testWindowsNewline() {
+    public function testWindowsNewline(): void {
         $prettyPrinter = new Standard([
             'newline' => "\r\n",
             'phpVersion' => PhpVersion::fromComponents(7, 2),
@@ -294,7 +294,7 @@ CODE
             $code);
     }
 
-    public function testInvalidNewline() {
+    public function testInvalidNewline(): void {
         $this->expectException(\LogicException::class);
         $this->expectExceptionMessage('Option "newline" must be one of "\n" or "\r\n"');
         new PrettyPrinter\Standard(['newline' => 'foo']);
