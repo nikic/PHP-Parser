@@ -210,7 +210,7 @@ class BuilderFactory {
     /**
      * Creates node a for a literal value.
      *
-     * @param Expr|bool|null|int|float|string|array $value $value
+     * @param Expr|bool|null|int|float|string|array|\UnitEnum $value $value
      */
     public function val($value): Expr {
         return BuilderHelpers::normalizeValue($value);

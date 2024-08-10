@@ -4,6 +4,7 @@ namespace PhpParser;
 
 use PhpParser\Builder\Class_;
 use PhpParser\Node\Identifier;
+use PhpParser\Node\Name\FullyQualified;
 use PhpParser\Node\Scalar;
 use PhpParser\Node\Stmt;
 use PhpParser\Node\Expr;
@@ -221,5 +222,15 @@ class BuilderHelpersTest extends \PHPUnit\Framework\TestCase {
         $this->expectException(\LogicException::class);
         $this->expectExceptionMessage('Attribute must be an instance of PhpParser\Node\Attribute or PhpParser\Node\AttributeGroup');
         BuilderHelpers::normalizeAttribute('test');
+    }
+
+    public function testNormalizeValueEnum() {
+        if (\PHP_VERSION_ID <= 80100) {
+            $this->markTestSkipped('Enums are supported since PHP 8.1');
+        }
+
+        include __DIR__ . '/../fixtures/Suit.php';
+
+        $this->assertEquals(new Expr\ClassConstFetch(new FullyQualified(\Suit::class), new Identifier('Hearts')), BuilderHelpers::normalizeValue(\Suit::Hearts));
     }
 }
