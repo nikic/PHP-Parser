@@ -26,6 +26,12 @@ OUTPUT
     );
 }
 
+$allowedOptions = [
+    '--no-progress' => true,
+    '--verbose' => true,
+    '--php-version' => true,
+];
+
 $options = array();
 $arguments = array();
 
@@ -35,7 +41,11 @@ array_shift($argv);
 foreach ($argv as $arg) {
     if ('-' === $arg[0]) {
         $parts = explode('=', $arg);
-        $options[$parts[0]] = $parts[1] ?? true;
+        $name = $parts[0];
+        if (!isset($allowedOptions[$name])) {
+            showHelp("Unknown option \"$name\"");
+        }
+        $options[$name] = $parts[1] ?? true;
     } else {
         $arguments[] = $arg;
     }
