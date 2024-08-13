@@ -185,7 +185,7 @@ class NameContext {
         // Check for relevant type-specific use statements
         foreach ($this->origAliases[$type] as $alias => $orig) {
             if ($type === Stmt\Use_::TYPE_CONSTANT) {
-                // Constants are are complicated-sensitive
+                // Constants are complicated-sensitive
                 $normalizedOrig = $this->normalizeConstName($orig->toString());
                 if ($normalizedOrig === $this->normalizeConstName($name)) {
                     $possibleNames[] = new Name($alias);
