@@ -1196,6 +1196,9 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
              . ($modifiers & Modifiers::PUBLIC ? 'public ' : '')
              . ($modifiers & Modifiers::PROTECTED ? 'protected ' : '')
              . ($modifiers & Modifiers::PRIVATE ? 'private ' : '')
+             . ($modifiers & Modifiers::PUBLIC_SET ? 'public(set) ' : '')
+             . ($modifiers & Modifiers::PROTECTED_SET ? 'protected(set) ' : '')
+             . ($modifiers & Modifiers::PRIVATE_SET ? 'private(set) ' : '')
              . ($modifiers & Modifiers::STATIC ? 'static ' : '')
              . ($modifiers & Modifiers::READONLY ? 'readonly ' : '');
     }

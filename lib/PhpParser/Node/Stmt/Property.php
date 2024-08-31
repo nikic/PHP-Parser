@@ -80,6 +80,27 @@ class Property extends Node\Stmt {
         return (bool) ($this->flags & Modifiers::READONLY);
     }
 
+    /**
+     * Whether the property has explicit public(set) visibility.
+     */
+    public function isPublicSet(): bool {
+        return (bool) ($this->flags & Modifiers::PUBLIC_SET);
+    }
+
+    /**
+     * Whether the property has explicit protected(set) visibility.
+     */
+    public function isProtectedSet(): bool {
+        return (bool) ($this->flags & Modifiers::PROTECTED_SET);
+    }
+
+    /**
+     * Whether the property has explicit private(set) visibility.
+     */
+    public function isPrivateSet(): bool {
+        return (bool) ($this->flags & Modifiers::PRIVATE_SET);
+    }
+
     public function getType(): string {
         return 'Stmt_Property';
     }

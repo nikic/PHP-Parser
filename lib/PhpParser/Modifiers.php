@@ -14,8 +14,13 @@ final class Modifiers {
     public const ABSTRACT  = 16;
     public const FINAL     = 32;
     public const READONLY  = 64;
+    public const PUBLIC_SET = 128;
+    public const PROTECTED_SET = 256;
+    public const PRIVATE_SET = 512;
 
-    public const VISIBILITY_MASK = 1 | 2 | 4;
+    public const VISIBILITY_MASK = self::PUBLIC | self::PROTECTED | self::PRIVATE;
+
+    public const VISIBILITY_SET_MASK = self::PUBLIC_SET | self::PROTECTED_SET | self::PRIVATE_SET;
 
     private const TO_STRING_MAP = [
         self::PUBLIC  => 'public',
@@ -25,6 +30,9 @@ final class Modifiers {
         self::ABSTRACT => 'abstract',
         self::FINAL  => 'final',
         self::READONLY  => 'readonly',
+        self::PUBLIC_SET => 'public(set)',
+        self::PROTECTED_SET => 'protected(set)',
+        self::PRIVATE_SET => 'private(set)',
     ];
 
     public static function toString(int $modifier): string {
@@ -34,15 +42,19 @@ final class Modifiers {
         return self::TO_STRING_MAP[$modifier];
     }
 
+    private static function isValidModifier(int $modifier): bool {
+        $isPow2 = ($modifier & ($modifier - 1)) == 0 && $modifier != 0;
+        return $isPow2 && $modifier <= self::PRIVATE_SET;
+    }
+
     /**
      * @internal
      */
     public static function verifyClassModifier(int $a, int $b): void {
-        foreach ([Modifiers::ABSTRACT, Modifiers::FINAL, Modifiers::READONLY] as $modifier) {
-            if ($a & $modifier && $b & $modifier) {
-                throw new Error(
-                    'Multiple ' . self::toString($modifier) . ' modifiers are not allowed');
-            }
+        assert(self::isValidModifier($b));
+        if (($a & $b) != 0) {
+            throw new Error(
+                'Multiple ' . self::toString($b) . ' modifiers are not allowed');
         }
 
         if ($a & 48 && $b & 48) {
@@ -54,15 +66,16 @@ final class Modifiers {
      * @internal
      */
     public static function verifyModifier(int $a, int $b): void {
-        if ($a & Modifiers::VISIBILITY_MASK && $b & Modifiers::VISIBILITY_MASK) {
+        assert(self::isValidModifier($b));
+        if (($a & Modifiers::VISIBILITY_MASK && $b & Modifiers::VISIBILITY_MASK) ||
+            ($a & Modifiers::VISIBILITY_SET_MASK && $b & Modifiers::VISIBILITY_SET_MASK)
+        ) {
             throw new Error('Multiple access type modifiers are not allowed');
         }
 
-        foreach ([Modifiers::ABSTRACT, Modifiers::STATIC, Modifiers::FINAL, Modifiers::READONLY] as $modifier) {
-            if ($a & $modifier && $b & $modifier) {
-                throw new Error(
-                    'Multiple ' . self::toString($modifier) . ' modifiers are not allowed');
-            }
+        if (($a & $b) != 0) {
+            throw new Error(
+                'Multiple ' . self::toString($b) . ' modifiers are not allowed');
         }
 
         if ($a & 48 && $b & 48) {

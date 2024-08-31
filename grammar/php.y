@@ -81,7 +81,10 @@
 %token T_USE
 %token T_INSTEADOF
 %token T_GLOBAL
-%right T_STATIC T_ABSTRACT T_FINAL T_PRIVATE T_PROTECTED T_PUBLIC T_READONLY
+%token T_STATIC T_ABSTRACT T_FINAL T_PRIVATE T_PROTECTED T_PUBLIC T_READONLY
+%token T_PUBLIC_SET
+%token T_PROTECTED_SET
+%token T_PRIVATE_SET
 %token T_VAR
 %token T_UNSET
 %token T_ISSET
@@ -672,6 +675,9 @@ property_modifier:
       T_PUBLIC                  { $$ = Modifiers::PUBLIC; }
     | T_PROTECTED               { $$ = Modifiers::PROTECTED; }
     | T_PRIVATE                 { $$ = Modifiers::PRIVATE; }
+    | T_PUBLIC_SET              { $$ = Modifiers::PUBLIC_SET; }
+    | T_PROTECTED_SET           { $$ = Modifiers::PROTECTED_SET; }
+    | T_PRIVATE_SET             { $$ = Modifiers::PRIVATE_SET; }
     | T_READONLY                { $$ = Modifiers::READONLY; }
 ;
 
@@ -906,6 +912,9 @@ member_modifier:
       T_PUBLIC                                              { $$ = Modifiers::PUBLIC; }
     | T_PROTECTED                                           { $$ = Modifiers::PROTECTED; }
     | T_PRIVATE                                             { $$ = Modifiers::PRIVATE; }
+    | T_PUBLIC_SET                                          { $$ = Modifiers::PUBLIC_SET; }
+    | T_PROTECTED_SET                                       { $$ = Modifiers::PROTECTED_SET; }
+    | T_PRIVATE_SET                                         { $$ = Modifiers::PRIVATE_SET; }
     | T_STATIC                                              { $$ = Modifiers::STATIC; }
     | T_ABSTRACT                                            { $$ = Modifiers::ABSTRACT; }
     | T_FINAL                                               { $$ = Modifiers::FINAL; }

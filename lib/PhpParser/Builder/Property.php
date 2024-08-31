@@ -113,6 +113,28 @@ class Property implements PhpParser\Builder {
     }
 
     /**
+     * Gives the property private(set) visibility.
+     *
+     * @return $this The builder instance (for fluid interface)
+     */
+    public function makePrivateSet() {
+        $this->flags = BuilderHelpers::addModifier($this->flags, Modifiers::PRIVATE_SET);
+
+        return $this;
+    }
+
+    /**
+     * Gives the property protected(set) visibility.
+     *
+     * @return $this The builder instance (for fluid interface)
+     */
+    public function makeProtectedSet() {
+        $this->flags = BuilderHelpers::addModifier($this->flags, Modifiers::PROTECTED_SET);
+
+        return $this;
+    }
+
+    /**
      * Sets default value for the property.
      *
      * @param mixed $value Default value to use

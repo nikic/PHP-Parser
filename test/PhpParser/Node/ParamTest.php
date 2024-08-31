@@ -14,6 +14,9 @@ class ParamTest extends \PHPUnit\Framework\TestCase {
         $this->assertFalse($node->isProtected());
         $this->assertFalse($node->isPrivate());
         $this->assertFalse($node->isReadonly());
+        $this->assertFalse($node->isPublicSet());
+        $this->assertFalse($node->isProtectedSet());
+        $this->assertFalse($node->isPrivateSet());
     }
 
     /**
@@ -33,5 +36,15 @@ class ParamTest extends \PHPUnit\Framework\TestCase {
             ['private'],
             ['readonly'],
         ];
+    }
+
+    public function testSetVisibility() {
+        $node = new Param(new Variable('foo'));
+        $node->flags = Modifiers::PRIVATE_SET;
+        $this->assertTrue($node->isPrivateSet());
+        $node->flags = Modifiers::PROTECTED_SET;
+        $this->assertTrue($node->isProtectedSet());
+        $node->flags = Modifiers::PUBLIC_SET;
+        $this->assertTrue($node->isPublicSet());
     }
 }

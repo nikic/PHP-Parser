@@ -1,0 +1,191 @@
+Asymmetric visibility modifiers
+-----
+<?php
+
+class Test {
+    protected private(set) $a;
+    private public(set) $b;
+    protected(set) $c;
+
+    public function __construct(
+        protected private(set) $d,
+        private public(set) $e,
+        protected(set) $f,
+    ) {}
+}
+-----
+array(
+    0: Stmt_Class(
+        attrGroups: array(
+        )
+        flags: 0
+        name: Identifier(
+            name: Test
+        )
+        extends: null
+        implements: array(
+        )
+        stmts: array(
+            0: Stmt_Property(
+                attrGroups: array(
+                )
+                flags: PROTECTED | PRIVATE_SET (514)
+                type: null
+                props: array(
+                    0: PropertyItem(
+                        name: VarLikeIdentifier(
+                            name: a
+                        )
+                        default: null
+                    )
+                )
+                hooks: array(
+                )
+            )
+            1: Stmt_Property(
+                attrGroups: array(
+                )
+                flags: PRIVATE | PUBLIC_SET (132)
+                type: null
+                props: array(
+                    0: PropertyItem(
+                        name: VarLikeIdentifier(
+                            name: b
+                        )
+                        default: null
+                    )
+                )
+                hooks: array(
+                )
+            )
+            2: Stmt_Property(
+                attrGroups: array(
+                )
+                flags: PROTECTED_SET (256)
+                type: null
+                props: array(
+                    0: PropertyItem(
+                        name: VarLikeIdentifier(
+                            name: c
+                        )
+                        default: null
+                    )
+                )
+                hooks: array(
+                )
+            )
+            3: Stmt_ClassMethod(
+                attrGroups: array(
+                )
+                flags: PUBLIC (1)
+                byRef: false
+                name: Identifier(
+                    name: __construct
+                )
+                params: array(
+                    0: Param(
+                        attrGroups: array(
+                        )
+                        flags: PROTECTED | PRIVATE_SET (514)
+                        type: null
+                        byRef: false
+                        variadic: false
+                        var: Expr_Variable(
+                            name: d
+                        )
+                        default: null
+                        hooks: array(
+                        )
+                    )
+                    1: Param(
+                        attrGroups: array(
+                        )
+                        flags: PRIVATE | PUBLIC_SET (132)
+                        type: null
+                        byRef: false
+                        variadic: false
+                        var: Expr_Variable(
+                            name: e
+                        )
+                        default: null
+                        hooks: array(
+                        )
+                    )
+                    2: Param(
+                        attrGroups: array(
+                        )
+                        flags: PROTECTED_SET (256)
+                        type: null
+                        byRef: false
+                        variadic: false
+                        var: Expr_Variable(
+                            name: f
+                        )
+                        default: null
+                        hooks: array(
+                        )
+                    )
+                )
+                returnType: null
+                stmts: array(
+                )
+            )
+        )
+    )
+)
+-----
+<?php
+class Test {
+    private(set) private(set) $x;
+    private(set) public(set) $x;
+}
+-----
+Multiple access type modifiers are not allowed from 3:18 to 3:29
+Multiple access type modifiers are not allowed from 4:18 to 4:28
+array(
+    0: Stmt_Class(
+        attrGroups: array(
+        )
+        flags: 0
+        name: Identifier(
+            name: Test
+        )
+        extends: null
+        implements: array(
+        )
+        stmts: array(
+            0: Stmt_Property(
+                attrGroups: array(
+                )
+                flags: PRIVATE_SET (512)
+                type: null
+                props: array(
+                    0: PropertyItem(
+                        name: VarLikeIdentifier(
+                            name: x
+                        )
+                        default: null
+                    )
+                )
+                hooks: array(
+                )
+            )
+            1: Stmt_Property(
+                attrGroups: array(
+                )
+                flags: PUBLIC_SET | PRIVATE_SET (640)
+                type: null
+                props: array(
+                    0: PropertyItem(
+                        name: VarLikeIdentifier(
+                            name: x
+                        )
+                        default: null
+                    )
+                )
+                hooks: array(
+                )
+            )
+        )
+    )
+)

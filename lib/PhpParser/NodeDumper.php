@@ -185,6 +185,15 @@ class NodeDumper {
         if ($flags & Modifiers::READONLY) {
             $strs[] = 'READONLY';
         }
+        if ($flags & Modifiers::PUBLIC_SET) {
+            $strs[] = 'PUBLIC_SET';
+        }
+        if ($flags & Modifiers::PROTECTED_SET) {
+            $strs[] = 'PROTECTED_SET';
+        }
+        if ($flags & Modifiers::PRIVATE_SET) {
+            $strs[] = 'PRIVATE_SET';
+        }
 
         if ($strs) {
             return implode(' | ', $strs) . ' (' . $flags . ')';

@@ -82,6 +82,20 @@ class PropertyTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals(
             new Stmt\Property(Modifiers::FINAL, [new PropertyItem('test')]),
             $node);
+
+        $node = $this->createPropertyBuilder('test')
+            ->makePrivateSet()
+            ->getNode();
+        $this->assertEquals(
+            new Stmt\Property(Modifiers::PRIVATE_SET, [new PropertyItem('test')]),
+            $node);
+
+        $node = $this->createPropertyBuilder('test')
+            ->makeProtectedSet()
+            ->getNode();
+        $this->assertEquals(
+            new Stmt\Property(Modifiers::PROTECTED_SET, [new PropertyItem('test')]),
+            $node);
     }
 
     public function testAbstractWithoutHook() {
