@@ -91,6 +91,21 @@ parameters:
 			path: lib/PhpParser/Lexer/Emulative.php
 
 		-
+			message: "#^Constant T_PRIVATE_SET not found\\.$#"
+			count: 2
+			path: lib/PhpParser/Lexer/TokenEmulator/AsymmetricVisibilityTokenEmulator.php
+
+		-
+			message: "#^Constant T_PROTECTED_SET not found\\.$#"
+			count: 2
+			path: lib/PhpParser/Lexer/TokenEmulator/AsymmetricVisibilityTokenEmulator.php
+
+		-
+			message: "#^Constant T_PUBLIC_SET not found\\.$#"
+			count: 2
+			path: lib/PhpParser/Lexer/TokenEmulator/AsymmetricVisibilityTokenEmulator.php
+
+		-
 			message: "#^Constant T_PROPERTY_C not found\\.$#"
 			count: 1
 			path: lib/PhpParser/Lexer/TokenEmulator/PropertyTokenEmulator.php
