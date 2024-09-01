@@ -1068,10 +1068,8 @@ expr:
     | T_OBJECT_CAST expr                                    { $$ = Expr\Cast\Object_ [$2]; }
     | T_BOOL_CAST expr                                      { $$ = Expr\Cast\Bool_   [$2]; }
     | T_UNSET_CAST expr                                     { $$ = Expr\Cast\Unset_  [$2]; }
-    | T_EXIT exit_expr
-          { $attrs = attributes();
-            $attrs['kind'] = strtolower($1) === 'exit' ? Expr\Exit_::KIND_EXIT : Expr\Exit_::KIND_DIE;
-            $$ = new Expr\Exit_($2, $attrs); }
+    | T_EXIT ctor_arguments
+          { $$ = $this->createExitExpr($1, #1, $2, attributes()); }
     | '@' expr                                              { $$ = Expr\ErrorSuppress[$2]; }
     | scalar
     | '`' backticks_expr '`'                                { $$ = Expr\ShellExec[$2]; }
@@ -1174,11 +1172,6 @@ class_name_reference:
 class_name_or_var:
       class_name
     | fully_dereferenceable
-;
-
-exit_expr:
-      /* empty */                                           { $$ = null; }
-    | '(' optional_expr ')'                                 { $$ = $2; }
 ;
 
 backticks_expr:

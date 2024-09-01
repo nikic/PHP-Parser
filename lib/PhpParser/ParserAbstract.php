@@ -7,6 +7,7 @@ namespace PhpParser;
  * turn is based on work by Masato Bito.
  */
 
+use PhpParser\Node\Arg;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\Array_;
 use PhpParser\Node\Expr\Cast\Double;
@@ -1193,6 +1194,32 @@ abstract class ParserAbstract implements Parser {
                 'Cannot use the ' . Modifiers::toString($b) . ' modifier on a property hook',
                 $this->getAttributesAt($modifierPos)));
         }
+    }
+
+    /** @param array<Node\Arg|Node\VariadicPlaceholder> $args */
+    private function isSimpleExit(array $args): bool {
+        if (\count($args) === 0) {
+            return true;
+        }
+        if (\count($args) === 1) {
+            $arg = $args[0];
+            return $arg instanceof Arg && $arg->name === null &&
+                   $arg->byRef === false && $arg->unpack === false;
+        }
+        return false;
+    }
+
+    /**
+     * @param array<Node\Arg|Node\VariadicPlaceholder> $args
+     * @param array<string, mixed> $attrs
+     */
+    protected function createExitExpr(string $name, int $namePos, array $args, array $attrs): Expr {
+        if ($this->isSimpleExit($args)) {
+            // Create Exit node for backwards compatibility.
+            $attrs['kind'] = strtolower($name) === 'exit' ? Expr\Exit_::KIND_EXIT : Expr\Exit_::KIND_DIE;
+            return new Expr\Exit_(\count($args) === 1 ? $args[0]->value : null, $attrs);
+        }
+        return new Expr\FuncCall(new Name($name, $this->getAttributesAt($namePos)), $args, $attrs);
     }
 
     /**

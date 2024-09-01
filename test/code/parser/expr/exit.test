@@ -7,6 +7,13 @@ exit('Die!');
 die;
 die();
 die('Exit!');
+
+exit(status: 42);
+exit(...$args);
+exit($a, $b);
+\exit($a);
+exit(...);
+DIE($a, $b);
 -----
 array(
     0: Stmt_Expression(
@@ -40,6 +47,120 @@ array(
         expr: Expr_Exit(
             expr: Scalar_String(
                 value: Exit!
+            )
+        )
+    )
+    6: Stmt_Expression(
+        expr: Expr_FuncCall(
+            name: Name(
+                name: exit
+            )
+            args: array(
+                0: Arg(
+                    name: Identifier(
+                        name: status
+                    )
+                    value: Scalar_Int(
+                        value: 42
+                    )
+                    byRef: false
+                    unpack: false
+                )
+            )
+        )
+    )
+    7: Stmt_Expression(
+        expr: Expr_FuncCall(
+            name: Name(
+                name: exit
+            )
+            args: array(
+                0: Arg(
+                    name: null
+                    value: Expr_Variable(
+                        name: args
+                    )
+                    byRef: false
+                    unpack: true
+                )
+            )
+        )
+    )
+    8: Stmt_Expression(
+        expr: Expr_FuncCall(
+            name: Name(
+                name: exit
+            )
+            args: array(
+                0: Arg(
+                    name: null
+                    value: Expr_Variable(
+                        name: a
+                    )
+                    byRef: false
+                    unpack: false
+                )
+                1: Arg(
+                    name: null
+                    value: Expr_Variable(
+                        name: b
+                    )
+                    byRef: false
+                    unpack: false
+                )
+            )
+        )
+    )
+    9: Stmt_Expression(
+        expr: Expr_FuncCall(
+            name: Name_FullyQualified(
+                name: exit
+            )
+            args: array(
+                0: Arg(
+                    name: null
+                    value: Expr_Variable(
+                        name: a
+                    )
+                    byRef: false
+                    unpack: false
+                )
+            )
+        )
+    )
+    10: Stmt_Expression(
+        expr: Expr_FuncCall(
+            name: Name(
+                name: exit
+            )
+            args: array(
+                0: VariadicPlaceholder(
+                )
+            )
+        )
+    )
+    11: Stmt_Expression(
+        expr: Expr_FuncCall(
+            name: Name(
+                name: DIE
+            )
+            args: array(
+                0: Arg(
+                    name: null
+                    value: Expr_Variable(
+                        name: a
+                    )
+                    byRef: false
+                    unpack: false
+                )
+                1: Arg(
+                    name: null
+                    value: Expr_Variable(
+                        name: b
+                    )
+                    byRef: false
+                    unpack: false
+                )
             )
         )
     )
