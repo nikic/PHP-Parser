@@ -14,9 +14,27 @@ class WeirdTokenIssueTest extends TestCase
 		$parser->parse(file_get_contents(__DIR__ . '/ignore-line-1.php'));
 
 		$tokens = $parser->getTokens();
-		$lastToken = $tokens[count($tokens) - 1];
-		var_dump(ord($lastToken->text));
-		var_dump(bin2hex($lastToken->text));
-		var_dump(strlen($lastToken->text));
+		$newContent = '';
+		foreach ($tokens as $token) {
+			$newContent .= $token->text;
+		}
+
+		$this->assertStringEqualsFile(__DIR__ . '/ignore-line-1.php', $newContent);
+	}
+
+	public function testUnsetLastToken(): void
+	{
+		$factory = new ParserFactory();
+		$parser = $factory->createForNewestSupportedVersion();
+		$parser->parse(file_get_contents(__DIR__ . '/ignore-line-1.php'));
+
+		$tokens = $parser->getTokens();
+		unset($tokens[count($tokens) - 1]);
+		$newContent = '';
+		foreach ($tokens as $token) {
+			$newContent .= $token->text;
+		}
+
+		$this->assertStringEqualsFile(__DIR__ . '/ignore-line-1.php', $newContent);
 	}
 }
