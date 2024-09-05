@@ -119,6 +119,8 @@ switch ($testType) {
 | Zend.tests.grammar.regression_010
 # not worth emulating on old PHP versions
 | Zend.tests.type_declarations.intersection_types.parsing_comment
+# comments in property fetch syntax, not emulated on old PHP versions
+| Zend.tests.gh14961
 )\.phpt$~x', $file)) {
                 return null;
             }
