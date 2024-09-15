@@ -43,7 +43,7 @@ following caveats:
 
 As the parser is based on the tokens returned by `token_get_all` (which is only able to lex the PHP
 version it runs on), additionally a wrapper for emulating tokens from newer versions is provided.
-This allows to parse PHP 8.3 source code running on PHP 7.4, for example. This emulation is not
+This allows to parse PHP 8.4 source code running on PHP 7.4, for example. This emulation is not
 perfect, but works well in practice.
 
 Finally, it should be noted that the parser aims to accept all valid code, not reject all invalid
