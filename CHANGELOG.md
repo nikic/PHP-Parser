@@ -1,3 +1,10 @@
+Version 4.19.2 (2024-09-17)
+---------------------------
+
+### Added
+
+* Added support for passing enum values to various builder methods, like `BuilderFactory::val()`.
+
 Version 4.19.1 (2024-03-17)
 ---------------------------
 
