@@ -16,7 +16,8 @@ use PhpParser\ParserFactory;
 
 $code = '...';
 
-$traverser = new NodeTraverser(new ParentConnectingVisitor);
+$traverser = new NodeTraverser;
+$traverser->addVisitor(new ParentConnectingVisitor);
 
 $parser = (new ParserFactory())->createForHostVersion();
 $ast    = $parser->parse($code);
@@ -38,7 +39,8 @@ use PhpParser\ParserFactory;
 
 $code = '...';
 
-$traverser = new NodeTraverser(new NodeConnectingVisitor);
+$traverser = new NodeTraverser;
+$traverser->addVisitor(new NodeConnectingVisitor);
 
 $parser = (new ParserFactory())->createForHostVersion();
 $ast    = $parser->parse($code);
