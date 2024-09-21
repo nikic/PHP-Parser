@@ -65,9 +65,9 @@ class NodeAbstractTest extends \PHPUnit\Framework\TestCase
         $this->assertSame('/** doc comment */', $node->getDocComment()->getText());
         $this->assertSame('value1', $node->subNode1);
         $this->assertSame('value2', $node->subNode2);
-        $this->assertObjectHasAttribute('subNode1', $node);
-        $this->assertObjectHasAttribute('subNode2', $node);
-        $this->assertObjectNotHasAttribute('subNode3', $node);
+        $this->assertTrue(isset($node->subNode1));
+        $this->assertTrue(isset($node->subNode2));
+        $this->assertTrue(!isset($node->subNode3));
         $this->assertSame($attributes, $node->getAttributes());
         $this->assertSame($attributes['comments'], $node->getComments());
 
