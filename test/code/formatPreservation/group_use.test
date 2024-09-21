@@ -1,0 +1,9 @@
+Group use should include trailing semicolon
+-----
+<?php
+use A\{B, C};
+-----
+$stmts[0] = new Stmt\Use_([new Node\UseItem(new Node\Name('A\B'))]);
+-----
+<?php
+use A\B;
