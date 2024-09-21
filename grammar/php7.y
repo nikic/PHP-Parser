@@ -133,7 +133,7 @@ top_statement:
             $this->checkNamespace($$); }
     | T_USE use_declarations semi                           { $$ = Stmt\Use_[$2, Stmt\Use_::TYPE_NORMAL]; }
     | T_USE use_type use_declarations semi                  { $$ = Stmt\Use_[$3, $2]; }
-    | group_use_declaration semi                            { $$ = $1; }
+    | group_use_declaration                                 { $$ = $1; }
     | T_CONST constant_declaration_list semi                { $$ = Stmt\Const_[$2]; }
 ;
 
@@ -143,9 +143,9 @@ use_type:
 ;
 
 group_use_declaration:
-      T_USE use_type legacy_namespace_name T_NS_SEPARATOR '{' unprefixed_use_declarations '}'
+      T_USE use_type legacy_namespace_name T_NS_SEPARATOR '{' unprefixed_use_declarations '}' semi
           { $$ = Stmt\GroupUse[$3, $6, $2]; }
-    | T_USE legacy_namespace_name T_NS_SEPARATOR '{' inline_use_declarations '}'
+    | T_USE legacy_namespace_name T_NS_SEPARATOR '{' inline_use_declarations '}' semi
           { $$ = Stmt\GroupUse[$2, $5, Stmt\Use_::TYPE_UNKNOWN]; }
 ;
 
