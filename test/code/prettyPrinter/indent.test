@@ -1,0 +1,82 @@
+Indentation
+-----
+<?php
+
+class Test {
+    /**
+     * Comment
+     */
+    public function foo() {
+        if (1) {
+            echo $bar;
+        }
+    }
+}
+-----
+!!indent="  "
+class Test
+{
+  /**
+   * Comment
+   */
+  public function foo()
+  {
+    if (1) {
+      echo $bar;
+    }
+  }
+}
+-----
+<?php
+
+class Test {
+    /**
+     * Comment
+     */
+    public function foo() {
+        if (1) {
+            echo $bar;
+        }
+    }
+}
+-----
+!!indent="   "
+class Test
+{
+   /**
+    * Comment
+    */
+   public function foo()
+   {
+      if (1) {
+         echo $bar;
+      }
+   }
+}
+-----
+<?php
+
+class Test {
+    /**
+     * Comment
+     */
+    public function foo() {
+        if (1) {
+            echo $bar;
+        }
+    }
+}
+-----
+!!indent="\t"
+class Test
+{
+@@{"\t"}@@/**
+@@{"\t"}@@ * Comment
+@@{"\t"}@@ */
+@@{"\t"}@@public function foo()
+@@{"\t"}@@{
+@@{"\t\t"}@@if (1) {
+@@{"\t\t\t"}@@echo $bar;
+@@{"\t\t"}@@}
+@@{"\t"}@@}
+}

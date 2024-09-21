@@ -1,0 +1,37 @@
+Indentation
+-----
+<?php
+$x;
+-----
+$stmts[0] = new Stmt\If_(new Expr\Variable('a'), ['stmts' => $stmts]);
+-----
+!!indent="  "
+<?php
+if ($a) {
+  $x;
+}
+-----
+<?php
+$x;
+-----
+$stmts[0] = new Stmt\If_(new Expr\Variable('a'), ['stmts' => $stmts]);
+-----
+!!indent="\t"
+<?php
+if ($a) {
+@@{"\t"}@@$x;
+}
+-----
+<?php
+if ($a) {
+@@{"\t"}@@$x;
+}
+-----
+$stmts[0]->stmts[] = new Stmt\Expression(new Expr\Variable('y'));
+-----
+!!indent="\t"
+<?php
+if ($a) {
+@@{"\t"}@@$x;
+@@{"\t"}@@$y;
+}

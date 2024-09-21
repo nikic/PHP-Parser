@@ -20,9 +20,9 @@ class TokenStream {
      *
      * @param Token[] $tokens Tokens in PhpToken::tokenize() format
      */
-    public function __construct(array $tokens) {
+    public function __construct(array $tokens, int $tabWidth) {
         $this->tokens = $tokens;
-        $this->indentMap = $this->calcIndentMap();
+        $this->indentMap = $this->calcIndentMap($tabWidth);
     }
 
     /**
@@ -248,7 +248,7 @@ class TokenStream {
      *
      * @return int[] Token position to indentation map
      */
-    private function calcIndentMap(): array {
+    private function calcIndentMap(int $tabWidth): array {
         $indentMap = [];
         $indent = 0;
         foreach ($this->tokens as $i => $token) {
@@ -258,11 +258,11 @@ class TokenStream {
                 $content = $token->text;
                 $newlinePos = \strrpos($content, "\n");
                 if (false !== $newlinePos) {
-                    $indent = \strlen($content) - $newlinePos - 1;
+                    $indent = $this->getIndent(\substr($content, $newlinePos + 1), $tabWidth);
                 } elseif ($i === 1 && $this->tokens[0]->id === \T_OPEN_TAG &&
                           $this->tokens[0]->text[\strlen($this->tokens[0]->text) - 1] === "\n") {
                     // Special case: Newline at the end of opening tag followed by whitespace.
-                    $indent = \strlen($content);
+                    $indent = $this->getIndent($content, $tabWidth);
                 }
             }
         }
@@ -271,5 +271,12 @@ class TokenStream {
         $indentMap[] = $indent;
 
         return $indentMap;
+    }
+
+    private function getIndent(string $ws, int $tabWidth): int {
+        $spaces = \substr_count($ws, " ");
+        $tabs = \substr_count($ws, "\t");
+        assert(\strlen($ws) === $spaces + $tabs);
+        return $spaces + $tabs * $tabWidth;
     }
 }

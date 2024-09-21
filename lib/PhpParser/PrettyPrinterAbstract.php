@@ -106,6 +106,15 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
 
     /** @var int Current indentation level. */
     protected int $indentLevel;
+    /** @var string String for single level of indentation */
+    private string $indent;
+    /** @var int Width in spaces to indent by. */
+    private int $indentWidth;
+    /** @var bool Whether to use tab indentation. */
+    private bool $useTabs;
+    /** @var int Width in spaces of one tab. */
+    private int $tabWidth = 4;
+
     /** @var string Newline style. Does not include current indentation. */
     protected string $newline;
     /** @var string Newline including current indentation. */
@@ -170,12 +179,14 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
      *                            PHP version while specifying an older target (but the result will
      *                            of course not be compatible with the older version in that case).
      *  * string $newline:        The newline style to use. Should be "\n" (default) or "\r\n".
+     *  * string $indent:         The indentation to use. Should either be all spaces or a single
+     *                            tab. Defaults to four spaces ("    ").
      *  * bool $shortArraySyntax: Whether to use [] instead of array() as the default array
      *                            syntax, if the node does not specify a format. Defaults to whether
      *                            the phpVersion support short array syntax.
      *
      * @param array{
-     *     phpVersion?: PhpVersion, newline?: string, shortArraySyntax?: bool
+     *     phpVersion?: PhpVersion, newline?: string, indent?: string, shortArraySyntax?: bool
      * } $options Dictionary of formatting options
      */
     public function __construct(array $options = []) {
@@ -190,6 +201,17 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
             $options['shortArraySyntax'] ?? $this->phpVersion->supportsShortArraySyntax();
         $this->docStringEndToken =
             $this->phpVersion->supportsFlexibleHeredoc() ? null : '_DOC_STRING_END_' . mt_rand();
+
+        $this->indent = $indent = $options['indent'] ?? '    ';
+        if ($indent === "\t") {
+            $this->useTabs = true;
+            $this->indentWidth = $this->tabWidth;
+        } elseif ($indent === \str_repeat(' ', \strlen($indent))) {
+            $this->useTabs = false;
+            $this->indentWidth = \strlen($indent);
+        } else {
+            throw new \LogicException('Option "indent" must either be all spaces or a single tab');
+        }
     }
 
     /**
@@ -208,24 +230,29 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
      */
     protected function setIndentLevel(int $level): void {
         $this->indentLevel = $level;
-        $this->nl = $this->newline . \str_repeat(' ', $level);
+        if ($this->useTabs) {
+            $tabs = \intdiv($level, $this->tabWidth);
+            $spaces = $level % $this->tabWidth;
+            $this->nl = $this->newline . \str_repeat("\t", $tabs) . \str_repeat(' ', $spaces);
+        } else {
+            $this->nl = $this->newline . \str_repeat(' ', $level);
+        }
     }
 
     /**
      * Increase indentation level.
      */
     protected function indent(): void {
-        $this->indentLevel += 4;
-        $this->nl .= '    ';
+        $this->indentLevel += $this->indentWidth;
+        $this->nl .= $this->indent;
     }
 
     /**
      * Decrease indentation level.
      */
     protected function outdent(): void {
-        assert($this->indentLevel >= 4);
-        $this->indentLevel -= 4;
-        $this->nl = $this->newline . str_repeat(' ', $this->indentLevel);
+        assert($this->indentLevel >= $this->indentWidth);
+        $this->setIndentLevel($this->indentLevel - $this->indentWidth);
     }
 
     /**
@@ -537,7 +564,7 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
         $this->initializeModifierChangeMap();
 
         $this->resetState();
-        $this->origTokens = new TokenStream($origTokens);
+        $this->origTokens = new TokenStream($origTokens, $this->tabWidth);
 
         $this->preprocessNodes($stmts);
 

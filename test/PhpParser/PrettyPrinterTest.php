@@ -17,11 +17,13 @@ class PrettyPrinterTest extends CodeTestAbstract {
     private function createParserAndPrinter(array $options): array {
         $parserVersion = $options['parserVersion'] ?? $options['version'] ?? null;
         $printerVersion = $options['version'] ?? null;
+        $indent = isset($options['indent']) ? json_decode($options['indent']) : null;
         $factory = new ParserFactory();
         $parser = $factory->createForVersion($parserVersion !== null
             ? PhpVersion::fromString($parserVersion) : PhpVersion::getNewestSupported());
         $prettyPrinter = new Standard([
-            'phpVersion' => $printerVersion !== null ? PhpVersion::fromString($printerVersion) : null
+            'phpVersion' => $printerVersion !== null ? PhpVersion::fromString($printerVersion) : null,
+            'indent' => $indent,
         ]);
         return [$parser, $prettyPrinter];
     }
@@ -296,5 +298,11 @@ CODE
         $this->expectException(\LogicException::class);
         $this->expectExceptionMessage('Option "newline" must be one of "\n" or "\r\n"');
         new PrettyPrinter\Standard(['newline' => 'foo']);
+    }
+
+    public function testInvalidIndent(): void {
+        $this->expectException(\LogicException::class);
+        $this->expectExceptionMessage('Option "indent" must either be all spaces or a single tab');
+        new PrettyPrinter\Standard(['indent' => "\t  "]);
     }
 }
