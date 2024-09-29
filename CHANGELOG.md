@@ -1,3 +1,13 @@
+Version 4.19.3 (2024-09-29)
+---------------------------
+
+### Fixed
+
+* Include the trailing semicolon inside `Stmt\GroupUse` nodes, making them consistent with
+  `Stmt\Use_` nodes.
+* Fixed indentation sometimes becoming negative in formatting-preserving pretty printer, resulting
+  in `ValueError`s.
+
 Version 4.19.2 (2024-09-17)
 ---------------------------
 
