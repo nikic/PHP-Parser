@@ -1,3 +1,19 @@
+Version 5.3.0 (2024-09-29)
+--------------------------
+
+### Added
+
+* Added `indent` option to pretty printer, which can be used to specify the indentation to use
+  (defaulting to four spaces). This also allows using tab indentation.
+
+### Fixed
+
+* Resolve names in `PropertyHook`s in the `NameResolver`.
+* Include the trailing semicolon inside `Stmt\GroupUse` nodes, making them consistent with
+  `Stmt\Use_` nodes.
+* Fixed indentation sometimes becoming negative in formatting-preserving pretty printer, resulting
+  in `ValueError`s.
+
 Version 5.2.0 (2024-09-15)
 --------------------------
 
