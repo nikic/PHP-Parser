@@ -1,3 +1,10 @@
+Version 4.19.4 (2024-09-29)
+---------------------------
+
+### Fixed
+
+* Remove the `Parser\Php8` class from PHP-Parser 5.x that was mistakenly added.
+
 Version 4.19.3 (2024-09-29)
 ---------------------------
 
