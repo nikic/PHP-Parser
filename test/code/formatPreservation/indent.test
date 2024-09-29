@@ -1,0 +1,34 @@
+Indentation
+-----
+<?php
+array_merge(
+    [
+$x,
+        $y,
+    ]
+);
+-----
+$call = $stmts[0]->expr;
+$stmts[0]->expr = new Expr\StaticCall(new Node\Name\FullyQualified('Compat'), $call->name, $call->args);
+-----
+<?php
+\Compat::array_merge([
+$x,
+    $y,
+]);
+-----
+<?php
+if ($a) {
+        if (
+$b
+        ) {}
+}
+-----
+$stmts[0] = new Stmt\While_($stmts[0]->cond, $stmts[0]->stmts);
+-----
+<?php
+while ($a) {
+    if (
+$b
+    ) {}
+}

@@ -658,7 +658,7 @@ abstract class PrettyPrinterAbstract
                 $result .= $extraLeft;
 
                 $origIndentLevel = $this->indentLevel;
-                $this->setIndentLevel($this->origTokens->getIndentationBefore($subStartPos) + $indentAdjustment);
+                $this->setIndentLevel(max($this->origTokens->getIndentationBefore($subStartPos) + $indentAdjustment, 0));
 
                 // If it's the same node that was previously in this position, it certainly doesn't
                 // need fixup. It's important to check this here, because our fixup checks are more
@@ -761,7 +761,7 @@ abstract class PrettyPrinterAbstract
                 \assert($itemStartPos >= 0 && $itemEndPos >= 0 && $itemStartPos >= $pos);
 
                 $origIndentLevel = $this->indentLevel;
-                $lastElemIndentLevel = $this->origTokens->getIndentationBefore($itemStartPos) + $indentAdjustment;
+                $lastElemIndentLevel = max($this->origTokens->getIndentationBefore($itemStartPos) + $indentAdjustment, 0);
                 $this->setIndentLevel($lastElemIndentLevel);
 
                 $comments = $arrItem->getComments();
