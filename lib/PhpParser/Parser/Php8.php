@@ -163,19 +163,19 @@ class Php8 extends \PhpParser\ParserAbstract
     public const T_NAME_RELATIVE = 398;
     public const T_ATTRIBUTE = 399;
 
-    protected int $tokenToSymbolMapSize = 400;
-    protected int $actionTableSize = 1289;
-    protected int $gotoTableSize = 641;
+    protected $tokenToSymbolMapSize = 400;
+    protected $actionTableSize = 1289;
+    protected $gotoTableSize = 641;
 
-    protected int $invalidSymbol = 172;
-    protected int $errorSymbol = 1;
-    protected int $defaultAction = -32766;
-    protected int $unexpectedTokenRule = 32767;
+    protected $invalidSymbol = 172;
+    protected $errorSymbol = 1;
+    protected $defaultAction = -32766;
+    protected $unexpectedTokenRule = 32767;
 
-    protected int $YY2TBLSTATE = 442;
-    protected int $numNonLeafStates = 753;
+    protected $YY2TBLSTATE = 442;
+    protected $numNonLeafStates = 753;
 
-    protected array $symbolToName = array(
+    protected $symbolToName = array(
         "EOF",
         "error",
         "T_THROW",
@@ -350,7 +350,7 @@ class Php8 extends \PhpParser\ParserAbstract
         "'$'"
     );
 
-    protected array $tokenToSymbol = array(
+    protected $tokenToSymbol = array(
             0,  172,  172,  172,  172,  172,  172,  172,  172,  172,
           172,  172,  172,  172,  172,  172,  172,  172,  172,  172,
           172,  172,  172,  172,  172,  172,  172,  172,  172,  172,
@@ -393,7 +393,7 @@ class Php8 extends \PhpParser\ParserAbstract
           153,  154,  155,  156,  157,  158,  159,  160,  161,  162
     );
 
-    protected array $action = array(
+    protected $action = array(
           126,  127,  128,  570,  129,  130,  955,  765,  766,  767,
           131,   38,  849,  -85,-32766, 1375,-32766,-32766,-32766,    0,
           840, 1133, 1134, 1135, 1129, 1128, 1127, 1136, 1130, 1131,
@@ -525,7 +525,7 @@ class Php8 extends \PhpParser\ParserAbstract
           643, 1381,   74, 1339, 1354,    0,    0, 1239,  321
     );
 
-    protected array $actionCheck = array(
+    protected $actionCheck = array(
             2,    3,    4,    5,    6,    7,    1,    9,   10,   11,
            12,   13,   82,   31,  116,   85,    9,   10,   11,    0,
            80,  116,  117,  118,  119,  120,  121,  122,  123,  124,
@@ -657,7 +657,7 @@ class Php8 extends \PhpParser\ParserAbstract
           168,  168,  165,  168,  168,   -1,   -1,  169,  171
     );
 
-    protected array $actionBase = array(
+    protected $actionBase = array(
             0,   -2,  156,  559,  757, 1004, 1027,  485,  292,  357,
           -60,  -12,  588,  759,  759,  774,  759,  557,  752,  888,
           598,  598,  598,  836,  313,  313,  836,  313,  711,  711,
@@ -780,7 +780,7 @@ class Php8 extends \PhpParser\ParserAbstract
             0,    0,    0,  858,  855
     );
 
-    protected array $actionDefault = array(
+    protected $actionDefault = array(
             3,32767,  102,32767,32767,32767,32767,32767,32767,32767,
         32767,32767,32767,32767,32767,32767,32767,32767,32767,32767,
         32767,32767,32767,32767,32767,32767,  100,32767,  617,  617,
@@ -859,7 +859,7 @@ class Php8 extends \PhpParser\ParserAbstract
           390,  390,  399
     );
 
-    protected array $goto = array(
+    protected $goto = array(
           194,  194, 1051,  487,  705,  278,  278,  278,  278, 1082,
           489,  548,  548,  907,  865,  907,  907,  548,  714,  548,
           548,  548,  548,  548,  548,  548,  548,  166,  166,  166,
@@ -927,7 +927,7 @@ class Php8 extends \PhpParser\ParserAbstract
          1027
     );
 
-    protected array $gotoCheck = array(
+    protected $gotoCheck = array(
            42,   42,   73,   84,   73,   23,   23,   23,   23,  128,
            84,  162,  162,   25,   25,   25,   25,  162,    9,  162,
           162,  162,  162,  162,  162,  162,  162,   42,   42,   42,
@@ -995,7 +995,7 @@ class Php8 extends \PhpParser\ParserAbstract
           107
     );
 
-    protected array $gotoBase = array(
+    protected $gotoBase = array(
             0,    0, -151,    0,    0,  203,  153,  326,  514,    8,
             0,    0, -125,   39,   18, -186,  -18,  112,  146, -101,
           121,    0,   22,    2,  183,   10,  164,  190,  123,  156,
@@ -1018,7 +1018,7 @@ class Php8 extends \PhpParser\ParserAbstract
             0
     );
 
-    protected array $gotoDefault = array(
+    protected $gotoDefault = array(
         -32768,  521,  754,    4,  755,  949,  830,  839,  585,  539,
           715,  347,  634,  429, 1338,  925, 1154,  604,  858, 1281,
          1287,  464,  861,  325,  741,  937,  908,  909,  406,  393,
@@ -1041,7 +1041,7 @@ class Php8 extends \PhpParser\ParserAbstract
           623
     );
 
-    protected array $ruleToNonTerminal = array(
+    protected $ruleToNonTerminal = array(
             0,    1,    3,    3,    2,    5,    5,    6,    6,    6,
             6,    6,    6,    6,    6,    6,    6,    6,    6,    6,
             6,    6,    6,    6,    6,    6,    6,    6,    6,    6,
@@ -1108,7 +1108,7 @@ class Php8 extends \PhpParser\ParserAbstract
           188,  188,  190,  190,  190,  190
     );
 
-    protected array $ruleToLength = array(
+    protected $ruleToLength = array(
             1,    1,    2,    0,    1,    1,    1,    1,    1,    1,
             1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
             1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
