@@ -8,6 +8,8 @@ class BooleanNot extends Expr {
     /** @var Expr Expression */
     public Expr $expr;
 
+    private const SUBNODE_NAMES = ['expr'];
+
     /**
      * Constructs a boolean not node.
      *
@@ -19,8 +21,11 @@ class BooleanNot extends Expr {
         $this->expr = $expr;
     }
 
+    /**
+     * @return self::SUBNODE_NAMES
+     */
     public function getSubNodeNames(): array {
-        return ['expr'];
+        return self::SUBNODE_NAMES;
     }
 
     public function getType(): string {

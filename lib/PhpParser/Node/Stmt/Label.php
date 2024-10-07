@@ -9,6 +9,8 @@ class Label extends Stmt {
     /** @var Identifier Name */
     public Identifier $name;
 
+    private const SUBNODE_NAMES = ['name'];
+
     /**
      * Constructs a label node.
      *
@@ -20,10 +22,12 @@ class Label extends Stmt {
         $this->name = \is_string($name) ? new Identifier($name) : $name;
     }
 
+    /**
+     * @return self::SUBNODE_NAMES
+     */
     public function getSubNodeNames(): array {
-        return ['name'];
+        return self::SUBNODE_NAMES;
     }
-
     public function getType(): string {
         return 'Stmt_Label';
     }

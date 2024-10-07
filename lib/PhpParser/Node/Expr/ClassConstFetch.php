@@ -13,6 +13,8 @@ class ClassConstFetch extends Expr {
     /** @var Identifier|Expr|Error Constant name */
     public Node $name;
 
+    private const SUBNODE_NAMES = ['class', 'name'];
+
     /**
      * Constructs a class const fetch node.
      *
@@ -26,8 +28,11 @@ class ClassConstFetch extends Expr {
         $this->name = \is_string($name) ? new Identifier($name) : $name;
     }
 
+    /**
+     * @return self::SUBNODE_NAMES
+     */
     public function getSubNodeNames(): array {
-        return ['class', 'name'];
+        return self::SUBNODE_NAMES;
     }
 
     public function getType(): string {

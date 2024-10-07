@@ -10,6 +10,8 @@ class Switch_ extends Node\Stmt {
     /** @var Case_[] Case list */
     public array $cases;
 
+    private const SUBNODE_NAMES = ['cond', 'cases'];
+
     /**
      * Constructs a case node.
      *
@@ -23,10 +25,12 @@ class Switch_ extends Node\Stmt {
         $this->cases = $cases;
     }
 
+    /**
+     * @return self::SUBNODE_NAMES
+     */
     public function getSubNodeNames(): array {
-        return ['cond', 'cases'];
+        return self::SUBNODE_NAMES;
     }
-
     public function getType(): string {
         return 'Stmt_Switch';
     }

@@ -31,6 +31,8 @@ class Class_ extends ClassLike {
     /** @var Node\Name[] Names of implemented interfaces */
     public array $implements;
 
+    private const SUBNODE_NAMES = ['attrGroups', 'flags', 'name', 'extends', 'implements', 'stmts'];
+
     /**
      * Constructs a class node.
      *
@@ -59,8 +61,11 @@ class Class_ extends ClassLike {
         $this->attrGroups = $subNodes['attrGroups'] ?? [];
     }
 
+    /**
+     * @return self::SUBNODE_NAMES
+     */
     public function getSubNodeNames(): array {
-        return ['attrGroups', 'flags', 'name', 'extends', 'implements', 'stmts'];
+        return self::SUBNODE_NAMES;
     }
 
     /**

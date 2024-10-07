@@ -8,6 +8,8 @@ class UnaryPlus extends Expr {
     /** @var Expr Expression */
     public Expr $expr;
 
+    private const SUBNODE_NAMES = ['expr'];
+
     /**
      * Constructs a unary plus node.
      *
@@ -19,8 +21,11 @@ class UnaryPlus extends Expr {
         $this->expr = $expr;
     }
 
+    /**
+     * @return self::SUBNODE_NAMES
+     */
     public function getSubNodeNames(): array {
-        return ['expr'];
+        return self::SUBNODE_NAMES;
     }
 
     public function getType(): string {

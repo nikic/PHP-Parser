@@ -8,6 +8,8 @@ class NullableType extends ComplexType {
     /** @var Identifier|Name Type */
     public Node $type;
 
+    private const SUBNODE_NAMES = ['type'];
+
     /**
      * Constructs a nullable type (wrapping another type).
      *
@@ -19,8 +21,11 @@ class NullableType extends ComplexType {
         $this->type = $type;
     }
 
+    /**
+     * @return self::SUBNODE_NAMES
+     */
     public function getSubNodeNames(): array {
-        return ['type'];
+        return self::SUBNODE_NAMES;
     }
 
     public function getType(): string {

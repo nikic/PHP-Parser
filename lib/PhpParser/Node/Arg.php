@@ -14,6 +14,8 @@ class Arg extends NodeAbstract {
     /** @var bool Whether to unpack the argument */
     public bool $unpack;
 
+    private const SUBNODE_NAMES = ['name', 'value', 'byRef', 'unpack'];
+
     /**
      * Constructs a function call argument node.
      *
@@ -34,8 +36,11 @@ class Arg extends NodeAbstract {
         $this->unpack = $unpack;
     }
 
+    /**
+     * @return self::SUBNODE_NAMES
+     */
     public function getSubNodeNames(): array {
-        return ['name', 'value', 'byRef', 'unpack'];
+        return self::SUBNODE_NAMES;
     }
 
     public function getType(): string {

@@ -8,6 +8,8 @@ class InlineHTML extends Stmt {
     /** @var string String */
     public string $value;
 
+    private const SUBNODE_NAMES = ['value'];
+
     /**
      * Constructs an inline HTML node.
      *
@@ -19,10 +21,12 @@ class InlineHTML extends Stmt {
         $this->value = $value;
     }
 
+    /**
+     * @return self::SUBNODE_NAMES
+     */
     public function getSubNodeNames(): array {
-        return ['value'];
+        return self::SUBNODE_NAMES;
     }
-
     public function getType(): string {
         return 'Stmt_InlineHTML';
     }

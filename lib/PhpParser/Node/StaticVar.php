@@ -11,6 +11,8 @@ class StaticVar extends NodeAbstract {
     /** @var null|Node\Expr Default value */
     public ?Expr $default;
 
+    private const SUBNODE_NAMES = ['var', 'default'];
+
     /**
      * Constructs a static variable node.
      *
@@ -26,8 +28,11 @@ class StaticVar extends NodeAbstract {
         $this->default = $default;
     }
 
+    /**
+     * @return self::SUBNODE_NAMES
+     */
     public function getSubNodeNames(): array {
-        return ['var', 'default'];
+        return self::SUBNODE_NAMES;
     }
 
     public function getType(): string {

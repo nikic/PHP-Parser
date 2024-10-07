@@ -43,6 +43,8 @@ class ClassMethod extends Node\Stmt implements FunctionLike {
         '__unserialize' => true,
     ];
 
+    private const SUBNODE_NAMES = ['attrGroups', 'flags', 'byRef', 'name', 'params', 'returnType', 'stmts'];
+
     /**
      * Constructs a class method node.
      *
@@ -74,8 +76,11 @@ class ClassMethod extends Node\Stmt implements FunctionLike {
         $this->attrGroups = $subNodes['attrGroups'] ?? [];
     }
 
+    /**
+     * @return self::SUBNODE_NAMES
+     */
     public function getSubNodeNames(): array {
-        return ['attrGroups', 'flags', 'byRef', 'name', 'params', 'returnType', 'stmts'];
+        return self::SUBNODE_NAMES;
     }
 
     public function returnsByRef(): bool {

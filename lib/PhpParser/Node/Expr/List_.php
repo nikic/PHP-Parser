@@ -13,6 +13,8 @@ class List_ extends Expr {
     /** @var (ArrayItem|null)[] List of items to assign to */
     public array $items;
 
+    private const SUBNODE_NAMES = ['items'];
+
     /**
      * Constructs a list() destructuring node.
      *
@@ -24,8 +26,11 @@ class List_ extends Expr {
         $this->items = $items;
     }
 
+    /**
+     * @return self::SUBNODE_NAMES
+     */
     public function getSubNodeNames(): array {
-        return ['items'];
+        return self::SUBNODE_NAMES;
     }
 
     public function getType(): string {

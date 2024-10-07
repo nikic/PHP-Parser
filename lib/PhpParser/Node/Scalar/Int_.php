@@ -15,6 +15,8 @@ class Int_ extends Scalar {
     /** @var int Number value */
     public int $value;
 
+    private const SUBNODE_NAMES = ['value'];
+
     /**
      * Constructs an integer number scalar node.
      *
@@ -26,8 +28,11 @@ class Int_ extends Scalar {
         $this->value = $value;
     }
 
+    /**
+     * @return self::SUBNODE_NAMES
+     */
     public function getSubNodeNames(): array {
-        return ['value'];
+        return self::SUBNODE_NAMES;
     }
 
     /**

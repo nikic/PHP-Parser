@@ -8,6 +8,8 @@ class Throw_ extends Node\Expr {
     /** @var Node\Expr Expression */
     public Node\Expr $expr;
 
+    private const SUBNODE_NAMES = ['expr'];
+
     /**
      * Constructs a throw expression node.
      *
@@ -19,8 +21,11 @@ class Throw_ extends Node\Expr {
         $this->expr = $expr;
     }
 
+    /**
+     * @return self::SUBNODE_NAMES
+     */
     public function getSubNodeNames(): array {
-        return ['expr'];
+        return self::SUBNODE_NAMES;
     }
 
     public function getType(): string {

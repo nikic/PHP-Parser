@@ -8,6 +8,8 @@ class Echo_ extends Node\Stmt {
     /** @var Node\Expr[] Expressions */
     public array $exprs;
 
+    private const SUBNODE_NAMES = ['exprs'];
+
     /**
      * Constructs an echo node.
      *
@@ -19,8 +21,11 @@ class Echo_ extends Node\Stmt {
         $this->exprs = $exprs;
     }
 
+    /**
+     * @return self::SUBNODE_NAMES
+     */
     public function getSubNodeNames(): array {
-        return ['exprs'];
+        return self::SUBNODE_NAMES;
     }
 
     public function getType(): string {

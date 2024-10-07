@@ -8,6 +8,8 @@ class Unset_ extends Node\Stmt {
     /** @var Node\Expr[] Variables to unset */
     public array $vars;
 
+    private const SUBNODE_NAMES = ['vars'];
+
     /**
      * Constructs an unset node.
      *
@@ -19,10 +21,12 @@ class Unset_ extends Node\Stmt {
         $this->vars = $vars;
     }
 
+    /**
+     * @return self::SUBNODE_NAMES
+     */
     public function getSubNodeNames(): array {
-        return ['vars'];
+        return self::SUBNODE_NAMES;
     }
-
     public function getType(): string {
         return 'Stmt_Unset';
     }

@@ -16,6 +16,8 @@ class Foreach_ extends Node\Stmt {
     /** @var Node\Stmt[] Statements */
     public array $stmts;
 
+    private const SUBNODE_NAMES = ['expr', 'keyVar', 'byRef', 'valueVar', 'stmts'];
+
     /**
      * Constructs a foreach node.
      *
@@ -40,8 +42,11 @@ class Foreach_ extends Node\Stmt {
         $this->stmts = $subNodes['stmts'] ?? [];
     }
 
+    /**
+     * @return self::SUBNODE_NAMES
+     */
     public function getSubNodeNames(): array {
-        return ['expr', 'keyVar', 'byRef', 'valueVar', 'stmts'];
+        return self::SUBNODE_NAMES;
     }
 
     public function getType(): string {

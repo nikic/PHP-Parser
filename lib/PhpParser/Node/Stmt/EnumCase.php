@@ -13,6 +13,8 @@ class EnumCase extends Node\Stmt {
     /** @var Node\AttributeGroup[] PHP attribute groups */
     public array $attrGroups;
 
+    private const SUBNODE_NAMES = ['attrGroups', 'name', 'expr'];
+
     /**
      * @param string|Node\Identifier $name Enum case name
      * @param Node\Expr|null $expr Enum case expression
@@ -26,8 +28,11 @@ class EnumCase extends Node\Stmt {
         $this->attrGroups = $attrGroups;
     }
 
+    /**
+     * @return self::SUBNODE_NAMES
+     */
     public function getSubNodeNames(): array {
-        return ['attrGroups', 'name', 'expr'];
+        return self::SUBNODE_NAMES;
     }
 
     public function getType(): string {

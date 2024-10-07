@@ -12,6 +12,8 @@ class Ternary extends Expr {
     /** @var Expr Expression for false */
     public Expr $else;
 
+    private const SUBNODE_NAMES = ['cond', 'if', 'else'];
+
     /**
      * Constructs a ternary operator node.
      *
@@ -27,8 +29,11 @@ class Ternary extends Expr {
         $this->else = $else;
     }
 
+    /**
+     * @return self::SUBNODE_NAMES
+     */
     public function getSubNodeNames(): array {
-        return ['cond', 'if', 'else'];
+        return self::SUBNODE_NAMES;
     }
 
     public function getType(): string {

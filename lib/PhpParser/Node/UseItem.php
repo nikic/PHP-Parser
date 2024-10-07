@@ -16,6 +16,8 @@ class UseItem extends NodeAbstract {
     /** @var Identifier|null Alias */
     public ?Identifier $alias;
 
+    private const SUBNODE_NAMES = ['type', 'name', 'alias'];
+
     /**
      * Constructs an alias (use) item node.
      *
@@ -31,8 +33,11 @@ class UseItem extends NodeAbstract {
         $this->alias = \is_string($alias) ? new Identifier($alias) : $alias;
     }
 
+    /**
+     * @return self::SUBNODE_NAMES
+     */
     public function getSubNodeNames(): array {
-        return ['type', 'name', 'alias'];
+        return self::SUBNODE_NAMES;
     }
 
     /**

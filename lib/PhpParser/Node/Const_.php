@@ -13,6 +13,8 @@ class Const_ extends NodeAbstract {
     /** @var Name|null Namespaced name (if using NameResolver) */
     public ?Name $namespacedName;
 
+    private const SUBNODE_NAMES = ['name', 'value'];
+
     /**
      * Constructs a const node for use in class const and const statements.
      *
@@ -26,8 +28,11 @@ class Const_ extends NodeAbstract {
         $this->value = $value;
     }
 
+    /**
+     * @return self::SUBNODE_NAMES
+     */
     public function getSubNodeNames(): array {
-        return ['name', 'value'];
+        return self::SUBNODE_NAMES;
     }
 
     public function getType(): string {

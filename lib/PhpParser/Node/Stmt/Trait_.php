@@ -5,6 +5,8 @@ namespace PhpParser\Node\Stmt;
 use PhpParser\Node;
 
 class Trait_ extends ClassLike {
+    private const SUBNODE_NAMES = ['attrGroups', 'name', 'stmts'];
+
     /**
      * Constructs a trait node.
      *
@@ -24,10 +26,12 @@ class Trait_ extends ClassLike {
         $this->attrGroups = $subNodes['attrGroups'] ?? [];
     }
 
+    /**
+     * @return self::SUBNODE_NAMES
+     */
     public function getSubNodeNames(): array {
-        return ['attrGroups', 'name', 'stmts'];
+        return self::SUBNODE_NAMES;
     }
-
     public function getType(): string {
         return 'Stmt_Trait';
     }

@@ -10,6 +10,8 @@ class AssignRef extends Expr {
     /** @var Expr Variable which is referenced */
     public Expr $expr;
 
+    private const SUBNODE_NAMES = ['var', 'expr'];
+
     /**
      * Constructs an assignment node.
      *
@@ -23,8 +25,11 @@ class AssignRef extends Expr {
         $this->expr = $expr;
     }
 
+    /**
+     * @return self::SUBNODE_NAMES
+     */
     public function getSubNodeNames(): array {
-        return ['var', 'expr'];
+        return self::SUBNODE_NAMES;
     }
 
     public function getType(): string {

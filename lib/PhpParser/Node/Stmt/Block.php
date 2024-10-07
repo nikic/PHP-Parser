@@ -8,6 +8,8 @@ class Block extends Stmt {
     /** @var Stmt[] Statements */
     public array $stmts;
 
+    private const SUBNODE_NAMES = ['stmts'];
+
     /**
      * A block of statements.
      *
@@ -23,7 +25,10 @@ class Block extends Stmt {
         return 'Stmt_Block';
     }
 
+    /**
+     * @return self::SUBNODE_NAMES
+     */
     public function getSubNodeNames(): array {
-        return ['stmts'];
+        return self::SUBNODE_NAMES;
     }
 }

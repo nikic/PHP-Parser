@@ -8,6 +8,8 @@ class Interface_ extends ClassLike {
     /** @var Node\Name[] Extended interfaces */
     public array $extends;
 
+    private const SUBNODE_NAMES = ['attrGroups', 'name', 'extends', 'stmts'];
+
     /**
      * Constructs a class node.
      *
@@ -30,8 +32,11 @@ class Interface_ extends ClassLike {
         $this->attrGroups = $subNodes['attrGroups'] ?? [];
     }
 
+    /**
+     * @return self::SUBNODE_NAMES
+     */
     public function getSubNodeNames(): array {
-        return ['attrGroups', 'name', 'extends', 'stmts'];
+        return self::SUBNODE_NAMES;
     }
 
     public function getType(): string {

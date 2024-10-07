@@ -13,6 +13,8 @@ class Array_ extends Expr {
     /** @var ArrayItem[] Items */
     public array $items;
 
+    private const SUBNODE_NAMES = ['items'];
+
     /**
      * Constructs an array node.
      *
@@ -24,8 +26,11 @@ class Array_ extends Expr {
         $this->items = $items;
     }
 
+    /**
+     * @return self::SUBNODE_NAMES
+     */
     public function getSubNodeNames(): array {
-        return ['items'];
+        return self::SUBNODE_NAMES;
     }
 
     public function getType(): string {
