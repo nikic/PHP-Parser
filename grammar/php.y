@@ -464,15 +464,16 @@ block_or_error:
     | error                                                 { $$ = []; }
 ;
 
-identifier_maybe_readonly:
+fn_identifier:
       identifier_not_reserved
     | T_READONLY                                            { $$ = Node\Identifier[$1]; }
+    | T_EXIT                                                { $$ = Node\Identifier[$1]; }
 ;
 
 function_declaration_statement:
-      T_FUNCTION optional_ref identifier_maybe_readonly '(' parameter_list ')' optional_return_type block_or_error
+      T_FUNCTION optional_ref fn_identifier '(' parameter_list ')' optional_return_type block_or_error
           { $$ = Stmt\Function_[$3, ['byRef' => $2, 'params' => $5, 'returnType' => $7, 'stmts' => $8, 'attrGroups' => []]]; }
-    | attributes T_FUNCTION optional_ref identifier_maybe_readonly '(' parameter_list ')' optional_return_type block_or_error
+    | attributes T_FUNCTION optional_ref fn_identifier '(' parameter_list ')' optional_return_type block_or_error
           { $$ = Stmt\Function_[$4, ['byRef' => $3, 'params' => $6, 'returnType' => $8, 'stmts' => $9, 'attrGroups' => $1]]; }
 ;
 

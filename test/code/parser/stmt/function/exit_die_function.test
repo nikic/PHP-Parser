@@ -1,0 +1,90 @@
+Declaring exit and die function stubs
+-----
+<?php
+
+function exit(string|int $status = 0): never {}
+
+function die(string|int $status = 0): never {}
+-----
+array(
+    0: Stmt_Function(
+        attrGroups: array(
+        )
+        byRef: false
+        name: Identifier(
+            name: exit
+        )
+        params: array(
+            0: Param(
+                attrGroups: array(
+                )
+                flags: 0
+                type: UnionType(
+                    types: array(
+                        0: Identifier(
+                            name: string
+                        )
+                        1: Identifier(
+                            name: int
+                        )
+                    )
+                )
+                byRef: false
+                variadic: false
+                var: Expr_Variable(
+                    name: status
+                )
+                default: Scalar_Int(
+                    value: 0
+                )
+                hooks: array(
+                )
+            )
+        )
+        returnType: Identifier(
+            name: never
+        )
+        stmts: array(
+        )
+    )
+    1: Stmt_Function(
+        attrGroups: array(
+        )
+        byRef: false
+        name: Identifier(
+            name: die
+        )
+        params: array(
+            0: Param(
+                attrGroups: array(
+                )
+                flags: 0
+                type: UnionType(
+                    types: array(
+                        0: Identifier(
+                            name: string
+                        )
+                        1: Identifier(
+                            name: int
+                        )
+                    )
+                )
+                byRef: false
+                variadic: false
+                var: Expr_Variable(
+                    name: status
+                )
+                default: Scalar_Int(
+                    value: 0
+                )
+                hooks: array(
+                )
+            )
+        )
+        returnType: Identifier(
+            name: never
+        )
+        stmts: array(
+        )
+    )
+)
