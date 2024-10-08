@@ -1,3 +1,10 @@
+Version 5.3.1 (2024-10-08)
+--------------------------
+
+### Added
+
+* Added support for declaring functions with name `exit` or `die`, to allow their use in stubs.
+
 Version 5.3.0 (2024-09-29)
 --------------------------
 
