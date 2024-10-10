@@ -24,6 +24,8 @@ class Param extends NodeAbstract {
     /** @var PropertyHook[] Property hooks for promoted properties */
     public array $hooks;
 
+    private const SUBNODE_NAMES = ['attrGroups', 'flags', 'type', 'byRef', 'variadic', 'var', 'default', 'hooks'];
+
     /**
      * Constructs a parameter node.
      *
@@ -56,8 +58,11 @@ class Param extends NodeAbstract {
         $this->hooks = $hooks;
     }
 
+    /**
+     * @return self::SUBNODE_NAMES
+     */
     public function getSubNodeNames(): array {
-        return ['attrGroups', 'flags', 'type', 'byRef', 'variadic', 'var', 'default', 'hooks'];
+        return self::SUBNODE_NAMES;
     }
 
     public function getType(): string {

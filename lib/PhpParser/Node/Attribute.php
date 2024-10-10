@@ -12,6 +12,8 @@ class Attribute extends NodeAbstract {
     /** @var list<Arg> Attribute arguments */
     public array $args;
 
+    private const SUBNODE_NAMES = ['name', 'args'];
+
     /**
      * @param Node\Name $name Attribute name
      * @param list<Arg> $args Attribute arguments
@@ -23,8 +25,11 @@ class Attribute extends NodeAbstract {
         $this->args = $args;
     }
 
+    /**
+     * @return self::SUBNODE_NAMES
+     */
     public function getSubNodeNames(): array {
-        return ['name', 'args'];
+        return self::SUBNODE_NAMES;
     }
 
     public function getType(): string {

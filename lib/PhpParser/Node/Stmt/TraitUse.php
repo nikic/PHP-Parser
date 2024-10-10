@@ -10,6 +10,8 @@ class TraitUse extends Node\Stmt {
     /** @var TraitUseAdaptation[] Adaptations */
     public array $adaptations;
 
+    private const SUBNODE_NAMES = ['traits', 'adaptations'];
+
     /**
      * Constructs a trait use node.
      *
@@ -23,10 +25,12 @@ class TraitUse extends Node\Stmt {
         $this->adaptations = $adaptations;
     }
 
+    /**
+     * @return self::SUBNODE_NAMES
+     */
     public function getSubNodeNames(): array {
-        return ['traits', 'adaptations'];
+        return self::SUBNODE_NAMES;
     }
-
     public function getType(): string {
         return 'Stmt_TraitUse';
     }

@@ -8,6 +8,8 @@ class Else_ extends Node\Stmt {
     /** @var Node\Stmt[] Statements */
     public array $stmts;
 
+    private const SUBNODE_NAMES = ['stmts'];
+
     /**
      * Constructs an else node.
      *
@@ -19,8 +21,11 @@ class Else_ extends Node\Stmt {
         $this->stmts = $stmts;
     }
 
+    /**
+     * @return self::SUBNODE_NAMES
+     */
     public function getSubNodeNames(): array {
-        return ['stmts'];
+        return self::SUBNODE_NAMES;
     }
 
     public function getType(): string {

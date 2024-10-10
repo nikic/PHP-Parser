@@ -14,6 +14,8 @@ class ArrayItem extends NodeAbstract {
     /** @var bool Whether to unpack the argument */
     public bool $unpack;
 
+    private const SUBNODE_NAMES = ['key', 'value', 'byRef', 'unpack'];
+
     /**
      * Constructs an array item node.
      *
@@ -30,8 +32,11 @@ class ArrayItem extends NodeAbstract {
         $this->unpack = $unpack;
     }
 
+    /**
+     * @return self::SUBNODE_NAMES
+     */
     public function getSubNodeNames(): array {
-        return ['key', 'value', 'byRef', 'unpack'];
+        return self::SUBNODE_NAMES;
     }
 
     public function getType(): string {

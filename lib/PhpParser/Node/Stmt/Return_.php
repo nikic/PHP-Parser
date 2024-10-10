@@ -8,6 +8,8 @@ class Return_ extends Node\Stmt {
     /** @var null|Node\Expr Expression */
     public ?Node\Expr $expr;
 
+    private const SUBNODE_NAMES = ['expr'];
+
     /**
      * Constructs a return node.
      *
@@ -19,8 +21,11 @@ class Return_ extends Node\Stmt {
         $this->expr = $expr;
     }
 
+    /**
+     * @return self::SUBNODE_NAMES
+     */
     public function getSubNodeNames(): array {
-        return ['expr'];
+        return self::SUBNODE_NAMES;
     }
 
     public function getType(): string {
