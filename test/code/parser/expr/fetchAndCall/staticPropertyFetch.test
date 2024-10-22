@@ -9,7 +9,6 @@ A::${'b'};
 
 // array access
 A::$b['c'];
-A::$b{'c'};
 
 // class name variations can be found in staticCall.test
 -----
@@ -65,22 +64,7 @@ array(
             0: // array access
         )
     )
-    4: Stmt_Expression(
-        expr: Expr_ArrayDimFetch(
-            var: Expr_StaticPropertyFetch(
-                class: Name(
-                    name: A
-                )
-                name: VarLikeIdentifier(
-                    name: b
-                )
-            )
-            dim: Scalar_String(
-                value: c
-            )
-        )
-    )
-    5: Stmt_Nop(
+    4: Stmt_Nop(
         comments: array(
             0: // class name variations can be found in staticCall.test
         )

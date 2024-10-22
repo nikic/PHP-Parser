@@ -5,15 +5,13 @@ namespace PhpParser\Lexer;
 use PhpParser\Error;
 use PhpParser\ErrorHandler;
 use PhpParser\Lexer;
+use PhpParser\Lexer\TokenEmulator\AsymmetricVisibilityTokenEmulator;
 use PhpParser\Lexer\TokenEmulator\AttributeEmulator;
 use PhpParser\Lexer\TokenEmulator\EnumTokenEmulator;
-use PhpParser\Lexer\TokenEmulator\CoaleseEqualTokenEmulator;
 use PhpParser\Lexer\TokenEmulator\ExplicitOctalEmulator;
-use PhpParser\Lexer\TokenEmulator\FlexibleDocStringEmulator;
-use PhpParser\Lexer\TokenEmulator\FnTokenEmulator;
 use PhpParser\Lexer\TokenEmulator\MatchTokenEmulator;
 use PhpParser\Lexer\TokenEmulator\NullsafeTokenEmulator;
-use PhpParser\Lexer\TokenEmulator\NumericLiteralSeparatorEmulator;
+use PhpParser\Lexer\TokenEmulator\PropertyTokenEmulator;
 use PhpParser\Lexer\TokenEmulator\ReadonlyFunctionTokenEmulator;
 use PhpParser\Lexer\TokenEmulator\ReadonlyTokenEmulator;
 use PhpParser\Lexer\TokenEmulator\ReverseEmulator;
@@ -47,6 +45,8 @@ class Emulative extends Lexer {
             new ReadonlyTokenEmulator(),
             new ExplicitOctalEmulator(),
             new ReadonlyFunctionTokenEmulator(),
+            new PropertyTokenEmulator(),
+            new AsymmetricVisibilityTokenEmulator(),
         ];
 
         // Collect emulators that are relevant for the PHP version we're running

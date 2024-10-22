@@ -37,6 +37,7 @@ integer should be printed as decimal, hexadecimal, etc). Additionally, it suppor
 * `phpVersion` (defaults to 7.4) allows opting into formatting that is not supported by older PHP
   versions.
 * `newline` (defaults to `"\n"`) can be set to `"\r\n"` in order to produce Windows newlines.
+* `indent` (defaults to four spaces `"    "`) can be set to any number of spaces or a single tab.
 * `shortArraySyntax` determines the used array syntax if the `kind` attribute is not set. This is
   a legacy option, and `phpVersion` should be used to control this behavior instead.
 

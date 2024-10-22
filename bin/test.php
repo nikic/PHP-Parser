@@ -69,7 +69,9 @@ $nodeTraverser->addVisitor(new NameResolver(null, [
 $nodeTraverser->traverse($ast);
 
 $dumper = new NodeDumper(['dumpGenerics' => true]);
-if (trim(file_get_contents(__DIR__ . '/test.output')) !== $dumper->dump($ast)) {
+$dump = $dumper->dump($ast);
+if (trim(file_get_contents(__DIR__ . '/test.output')) !== $dump) {
+    file_put_contents(__DIR__ . '/test-dump.output', $dump);
     print("Failed!\n");
     exit(1);
 }

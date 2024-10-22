@@ -1,0 +1,128 @@
+Property hooks
+-----
+<?php
+class Test {
+    public $prop
+    {
+        get => 42;
+    }
+}
+-----
+$stmts[0]->stmts[0]->hooks[] = new Node\PropertyHook('set', new Scalar\Int_(123));
+-----
+<?php
+class Test {
+    public $prop
+    {
+        get => 42;
+        set => 123;
+    }
+}
+-----
+<?php
+class Test {
+    public function __construct(
+        public $prop
+        { get => 42; }
+    ) {}
+}
+-----
+$stmts[0]->stmts[0]->params[0]->hooks[] = new Node\PropertyHook('set', new Scalar\Int_(123));
+-----
+<?php
+class Test {
+    public function __construct(
+        public $prop
+        { get => 42;
+        set => 123; }
+    ) {}
+}
+-----
+<?php
+class Test {
+    public $prop {
+        set
+        {
+            $a;
+        }
+    }
+}
+-----
+$stmts[0]->stmts[0]->hooks[0]->body[] = new Stmt\Expression(new Expr\Variable('b'));
+-----
+<?php
+class Test {
+    public $prop {
+        set
+        {
+            $a;
+            $b;
+        }
+    }
+}
+-----
+<?php
+class Test {
+    public $prop {
+        get
+        => 42;
+    }
+}
+-----
+$stmts[0]->stmts[0]->hooks[0]->flags = Modifiers::FINAL;
+-----
+<?php
+class Test {
+    public $prop {
+        final get
+        => 42;
+    }
+}
+-----
+<?php
+// For now, just make sure this works.
+class Test {
+    public $prop {
+        get
+        => 42;
+    }
+}
+-----
+$stmts[0]->stmts[0]->hooks[0]->body = [new Stmt\Return_(new Scalar\Int_(24))];
+-----
+<?php
+// For now, just make sure this works.
+class Test {
+    public $prop {
+        get {
+            return 24;
+        }
+    }
+}
+-----
+<?php
+// For now, just make sure this works.
+class Test {
+    public $prop1 {
+        & get;
+    }
+    public $prop2 {
+        & get;
+    }
+}
+-----
+$stmts[0]->stmts[0]->hooks[0]->body = new Scalar\Int_(24);
+$stmts[0]->stmts[1]->hooks[0]->body = [new Stmt\Return_(new Scalar\Int_(24))];
+-----
+<?php
+// For now, just make sure this works.
+class Test {
+    public $prop1 {
+        &get => 24;
+    }
+    public $prop2 {
+        &get {
+            return 24;
+        }
+    }
+}

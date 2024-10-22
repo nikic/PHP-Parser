@@ -1,0 +1,70 @@
+Indentation
+-----
+<?php
+$x;
+-----
+$stmts[0] = new Stmt\If_(new Expr\Variable('a'), ['stmts' => $stmts]);
+-----
+!!indent="  "
+<?php
+if ($a) {
+  $x;
+}
+-----
+<?php
+$x;
+-----
+$stmts[0] = new Stmt\If_(new Expr\Variable('a'), ['stmts' => $stmts]);
+-----
+!!indent="\t"
+<?php
+if ($a) {
+@@{"\t"}@@$x;
+}
+-----
+<?php
+if ($a) {
+@@{"\t"}@@$x;
+}
+-----
+$stmts[0]->stmts[] = new Stmt\Expression(new Expr\Variable('y'));
+-----
+!!indent="\t"
+<?php
+if ($a) {
+@@{"\t"}@@$x;
+@@{"\t"}@@$y;
+}
+-----
+<?php
+array_merge(
+    [
+$x,
+        $y,
+    ]
+);
+-----
+$call = $stmts[0]->expr;
+$stmts[0]->expr = new Expr\StaticCall(new Node\Name\FullyQualified('Compat'), $call->name, $call->args);
+-----
+<?php
+\Compat::array_merge([
+$x,
+    $y,
+]);
+-----
+<?php
+if ($a) {
+        if (
+$b
+        ) {}
+}
+-----
+$stmts[0] = new Stmt\While_($stmts[0]->cond, $stmts[0]->stmts);
+-----
+<?php
+while ($a) {
+    if (
+$b
+    ) {}
+}

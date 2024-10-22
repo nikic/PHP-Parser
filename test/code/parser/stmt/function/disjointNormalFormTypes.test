@@ -57,6 +57,8 @@ array(
                         default: null
                     )
                 )
+                hooks: array(
+                )
             )
             1: Stmt_Property(
                 attrGroups: array(
@@ -86,6 +88,8 @@ array(
                         )
                         default: null
                     )
+                )
+                hooks: array(
                 )
             )
         )
@@ -132,6 +136,8 @@ array(
                     name: a
                 )
                 default: null
+                hooks: array(
+                )
             )
         )
         returnType: UnionType(

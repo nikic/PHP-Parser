@@ -91,6 +91,26 @@ parameters:
 			path: lib/PhpParser/Lexer/Emulative.php
 
 		-
+			message: "#^Constant T_PRIVATE_SET not found\\.$#"
+			count: 2
+			path: lib/PhpParser/Lexer/TokenEmulator/AsymmetricVisibilityTokenEmulator.php
+
+		-
+			message: "#^Constant T_PROTECTED_SET not found\\.$#"
+			count: 2
+			path: lib/PhpParser/Lexer/TokenEmulator/AsymmetricVisibilityTokenEmulator.php
+
+		-
+			message: "#^Constant T_PUBLIC_SET not found\\.$#"
+			count: 2
+			path: lib/PhpParser/Lexer/TokenEmulator/AsymmetricVisibilityTokenEmulator.php
+
+		-
+			message: "#^Constant T_PROPERTY_C not found\\.$#"
+			count: 1
+			path: lib/PhpParser/Lexer/TokenEmulator/PropertyTokenEmulator.php
+
+		-
 			message: "#^Method PhpParser\\\\NodeDumper\\:\\:__construct\\(\\) has parameter \\$options with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: lib/PhpParser/NodeDumper.php
@@ -156,72 +176,7 @@ parameters:
 			path: lib/PhpParser/NodeVisitor/ParentConnectingVisitor.php
 
 		-
-			message: "#^Access to undefined constant static\\(PhpParser\\\\ParserAbstract\\)\\:\\:T_AMPERSAND_FOLLOWED_BY_VAR_OR_VARARG\\.$#"
-			count: 1
-			path: lib/PhpParser/ParserAbstract.php
-
-		-
-			message: "#^Access to undefined constant static\\(PhpParser\\\\ParserAbstract\\)\\:\\:T_AMPERSAND_NOT_FOLLOWED_BY_VAR_OR_VARARG\\.$#"
-			count: 1
-			path: lib/PhpParser/ParserAbstract.php
-
-		-
-			message: "#^Access to undefined constant static\\(PhpParser\\\\ParserAbstract\\)\\:\\:T_ATTRIBUTE\\.$#"
-			count: 1
-			path: lib/PhpParser/ParserAbstract.php
-
-		-
-			message: "#^Access to undefined constant static\\(PhpParser\\\\ParserAbstract\\)\\:\\:T_COALESCE_EQUAL\\.$#"
-			count: 1
-			path: lib/PhpParser/ParserAbstract.php
-
-		-
 			message: "#^Access to undefined constant static\\(PhpParser\\\\ParserAbstract\\)\\:\\:T_ECHO\\.$#"
-			count: 1
-			path: lib/PhpParser/ParserAbstract.php
-
-		-
-			message: "#^Access to undefined constant static\\(PhpParser\\\\ParserAbstract\\)\\:\\:T_ENUM\\.$#"
-			count: 1
-			path: lib/PhpParser/ParserAbstract.php
-
-		-
-			message: "#^Access to undefined constant static\\(PhpParser\\\\ParserAbstract\\)\\:\\:T_FN\\.$#"
-			count: 1
-			path: lib/PhpParser/ParserAbstract.php
-
-		-
-			message: "#^Access to undefined constant static\\(PhpParser\\\\ParserAbstract\\)\\:\\:T_MATCH\\.$#"
-			count: 1
-			path: lib/PhpParser/ParserAbstract.php
-
-		-
-			message: "#^Access to undefined constant static\\(PhpParser\\\\ParserAbstract\\)\\:\\:T_NAME_FULLY_QUALIFIED\\.$#"
-			count: 1
-			path: lib/PhpParser/ParserAbstract.php
-
-		-
-			message: "#^Access to undefined constant static\\(PhpParser\\\\ParserAbstract\\)\\:\\:T_NAME_QUALIFIED\\.$#"
-			count: 1
-			path: lib/PhpParser/ParserAbstract.php
-
-		-
-			message: "#^Access to undefined constant static\\(PhpParser\\\\ParserAbstract\\)\\:\\:T_NAME_RELATIVE\\.$#"
-			count: 1
-			path: lib/PhpParser/ParserAbstract.php
-
-		-
-			message: "#^Access to undefined constant static\\(PhpParser\\\\ParserAbstract\\)\\:\\:T_NULLSAFE_OBJECT_OPERATOR\\.$#"
-			count: 1
-			path: lib/PhpParser/ParserAbstract.php
-
-		-
-			message: "#^Access to undefined constant static\\(PhpParser\\\\ParserAbstract\\)\\:\\:T_PAAMAYIM_NEKUDOTAYIM\\.$#"
-			count: 1
-			path: lib/PhpParser/ParserAbstract.php
-
-		-
-			message: "#^Access to undefined constant static\\(PhpParser\\\\ParserAbstract\\)\\:\\:T_READONLY\\.$#"
 			count: 1
 			path: lib/PhpParser/ParserAbstract.php
 

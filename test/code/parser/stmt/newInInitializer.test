@@ -56,6 +56,8 @@ array(
                     args: array(
                     )
                 )
+                hooks: array(
+                )
             )
         )
         returnType: null
@@ -150,6 +152,8 @@ array(
                             )
                         )
                     )
+                )
+                hooks: array(
                 )
             )
         )

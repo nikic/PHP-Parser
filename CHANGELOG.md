@@ -1,3 +1,40 @@
+Version 5.3.0 (2024-09-29)
+--------------------------
+
+### Added
+
+* Added `indent` option to pretty printer, which can be used to specify the indentation to use
+  (defaulting to four spaces). This also allows using tab indentation.
+
+### Fixed
+
+* Resolve names in `PropertyHook`s in the `NameResolver`.
+* Include the trailing semicolon inside `Stmt\GroupUse` nodes, making them consistent with
+  `Stmt\Use_` nodes.
+* Fixed indentation sometimes becoming negative in formatting-preserving pretty printer, resulting
+  in `ValueError`s.
+
+Version 5.2.0 (2024-09-15)
+--------------------------
+
+### Added
+
+* [8.4] Added support for `__PROPERTY__` magic constant, represented using a
+  `Node\Scalar\MagicConst\Property` node.
+* [8.4] Added support for property hooks, which are represented using a new `hooks` subnode on
+  `Node\Stmt\Property` and `Node\Param`, which contains an array of `Node\PropertyHook`.
+* [8.4] Added support for asymmetric visibility modifiers. Property `flags` can now hold the
+  additional bits `Modifiers::PUBLIC_SET`, `Modifiers::PROTECTED_SET` and `Modifiers::PRIVATE_SET`.
+* [8.4] Added support for generalized exit function. For backwards compatibility, exit without
+  argument or a single plain argument continues to use a `Node\Expr\Exit_` node. Otherwise (e.g.
+  if a named argument is used) it will be represented as a plain `Node\Expr\FuncCall`.
+* Added support for passing enum values to various builder methods, like `BuilderFactory::val()`.
+
+### Removed
+
+* Removed support for alternative array syntax `$array{0}` from the PHP 8 parser. It is still
+  supported by the PHP 7 parser. This is necessary in order to support property hooks.
+
 Version 5.1.0 (2024-07-01)
 --------------------------
 

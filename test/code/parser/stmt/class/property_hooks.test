@@ -1,0 +1,525 @@
+Property hooks
+-----
+<?php
+class Test {
+    public $prop {
+        get { return 42; }
+        set { echo $value; }
+    }
+    private $prop2 {
+        get => 42;
+        set => $value;
+    }
+    abstract $prop3 {
+        &get;
+        set;
+    }
+    public $prop4 {
+        final get { return 42; }
+        set(string $value) { }
+    }
+}
+-----
+array(
+    0: Stmt_Class(
+        attrGroups: array(
+        )
+        flags: 0
+        name: Identifier(
+            name: Test
+        )
+        extends: null
+        implements: array(
+        )
+        stmts: array(
+            0: Stmt_Property(
+                attrGroups: array(
+                )
+                flags: PUBLIC (1)
+                type: null
+                props: array(
+                    0: PropertyItem(
+                        name: VarLikeIdentifier(
+                            name: prop
+                        )
+                        default: null
+                    )
+                )
+                hooks: array(
+                    0: PropertyHook(
+                        attrGroups: array(
+                        )
+                        flags: 0
+                        byRef: false
+                        name: Identifier(
+                            name: get
+                        )
+                        params: array(
+                        )
+                        body: array(
+                            0: Stmt_Return(
+                                expr: Scalar_Int(
+                                    value: 42
+                                )
+                            )
+                        )
+                    )
+                    1: PropertyHook(
+                        attrGroups: array(
+                        )
+                        flags: 0
+                        byRef: false
+                        name: Identifier(
+                            name: set
+                        )
+                        params: array(
+                        )
+                        body: array(
+                            0: Stmt_Echo(
+                                exprs: array(
+                                    0: Expr_Variable(
+                                        name: value
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+            1: Stmt_Property(
+                attrGroups: array(
+                )
+                flags: PRIVATE (4)
+                type: null
+                props: array(
+                    0: PropertyItem(
+                        name: VarLikeIdentifier(
+                            name: prop2
+                        )
+                        default: null
+                    )
+                )
+                hooks: array(
+                    0: PropertyHook(
+                        attrGroups: array(
+                        )
+                        flags: 0
+                        byRef: false
+                        name: Identifier(
+                            name: get
+                        )
+                        params: array(
+                        )
+                        body: Scalar_Int(
+                            value: 42
+                        )
+                    )
+                    1: PropertyHook(
+                        attrGroups: array(
+                        )
+                        flags: 0
+                        byRef: false
+                        name: Identifier(
+                            name: set
+                        )
+                        params: array(
+                        )
+                        body: Expr_Variable(
+                            name: value
+                        )
+                    )
+                )
+            )
+            2: Stmt_Property(
+                attrGroups: array(
+                )
+                flags: ABSTRACT (16)
+                type: null
+                props: array(
+                    0: PropertyItem(
+                        name: VarLikeIdentifier(
+                            name: prop3
+                        )
+                        default: null
+                    )
+                )
+                hooks: array(
+                    0: PropertyHook(
+                        attrGroups: array(
+                        )
+                        flags: 0
+                        byRef: true
+                        name: Identifier(
+                            name: get
+                        )
+                        params: array(
+                        )
+                        body: null
+                    )
+                    1: PropertyHook(
+                        attrGroups: array(
+                        )
+                        flags: 0
+                        byRef: false
+                        name: Identifier(
+                            name: set
+                        )
+                        params: array(
+                        )
+                        body: null
+                    )
+                )
+            )
+            3: Stmt_Property(
+                attrGroups: array(
+                )
+                flags: PUBLIC (1)
+                type: null
+                props: array(
+                    0: PropertyItem(
+                        name: VarLikeIdentifier(
+                            name: prop4
+                        )
+                        default: null
+                    )
+                )
+                hooks: array(
+                    0: PropertyHook(
+                        attrGroups: array(
+                        )
+                        flags: FINAL (32)
+                        byRef: false
+                        name: Identifier(
+                            name: get
+                        )
+                        params: array(
+                        )
+                        body: array(
+                            0: Stmt_Return(
+                                expr: Scalar_Int(
+                                    value: 42
+                                )
+                            )
+                        )
+                    )
+                    1: PropertyHook(
+                        attrGroups: array(
+                        )
+                        flags: 0
+                        byRef: false
+                        name: Identifier(
+                            name: set
+                        )
+                        params: array(
+                            0: Param(
+                                attrGroups: array(
+                                )
+                                flags: 0
+                                type: Identifier(
+                                    name: string
+                                )
+                                byRef: false
+                                variadic: false
+                                var: Expr_Variable(
+                                    name: value
+                                )
+                                default: null
+                                hooks: array(
+                                )
+                            )
+                        )
+                        body: array(
+                        )
+                    )
+                )
+            )
+        )
+    )
+)
+-----
+<?php
+class Test {
+    public $prop {}
+    public function __construct(public $prop2 {}) {}
+}
+-----
+Property hook list cannot be empty from 3:18 to 3:18
+Property hook list cannot be empty from 4:47 to 4:47
+array(
+    0: Stmt_Class(
+        attrGroups: array(
+        )
+        flags: 0
+        name: Identifier(
+            name: Test
+        )
+        extends: null
+        implements: array(
+        )
+        stmts: array(
+            0: Stmt_Property(
+                attrGroups: array(
+                )
+                flags: PUBLIC (1)
+                type: null
+                props: array(
+                    0: PropertyItem(
+                        name: VarLikeIdentifier(
+                            name: prop
+                        )
+                        default: null
+                    )
+                )
+                hooks: array(
+                )
+            )
+            1: Stmt_ClassMethod(
+                attrGroups: array(
+                )
+                flags: PUBLIC (1)
+                byRef: false
+                name: Identifier(
+                    name: __construct
+                )
+                params: array(
+                    0: Param(
+                        attrGroups: array(
+                        )
+                        flags: PUBLIC (1)
+                        type: null
+                        byRef: false
+                        variadic: false
+                        var: Expr_Variable(
+                            name: prop2
+                        )
+                        default: null
+                        hooks: array(
+                        )
+                    )
+                )
+                returnType: null
+                stmts: array(
+                )
+            )
+        )
+    )
+)
+-----
+<?php
+class Test {
+    public $prop {
+        get() => 42;
+    }
+}
+-----
+get hook must not have a parameter list from 4:12 to 4:12
+array(
+    0: Stmt_Class(
+        attrGroups: array(
+        )
+        flags: 0
+        name: Identifier(
+            name: Test
+        )
+        extends: null
+        implements: array(
+        )
+        stmts: array(
+            0: Stmt_Property(
+                attrGroups: array(
+                )
+                flags: PUBLIC (1)
+                type: null
+                props: array(
+                    0: PropertyItem(
+                        name: VarLikeIdentifier(
+                            name: prop
+                        )
+                        default: null
+                    )
+                )
+                hooks: array(
+                    0: PropertyHook(
+                        attrGroups: array(
+                        )
+                        flags: 0
+                        byRef: false
+                        name: Identifier(
+                            name: get
+                        )
+                        params: array(
+                        )
+                        body: Scalar_Int(
+                            value: 42
+                        )
+                    )
+                )
+            )
+        )
+    )
+)
+-----
+<?php
+class Test {
+    public $prop { FOO => bar; }
+}
+-----
+Unknown hook "FOO", expected "get" or "set" from 3:20 to 3:22
+array(
+    0: Stmt_Class(
+        attrGroups: array(
+        )
+        flags: 0
+        name: Identifier(
+            name: Test
+        )
+        extends: null
+        implements: array(
+        )
+        stmts: array(
+            0: Stmt_Property(
+                attrGroups: array(
+                )
+                flags: PUBLIC (1)
+                type: null
+                props: array(
+                    0: PropertyItem(
+                        name: VarLikeIdentifier(
+                            name: prop
+                        )
+                        default: null
+                    )
+                )
+                hooks: array(
+                    0: PropertyHook(
+                        attrGroups: array(
+                        )
+                        flags: 0
+                        byRef: false
+                        name: Identifier(
+                            name: FOO
+                        )
+                        params: array(
+                        )
+                        body: Expr_ConstFetch(
+                            name: Name(
+                                name: bar
+                            )
+                        )
+                    )
+                )
+            )
+        )
+    )
+)
+-----
+<?php
+class Test {
+    public $prop {
+        public public get;
+        protected get;
+        private get;
+        abstract static get;
+        readonly get;
+    }
+}
+-----
+Cannot use the public modifier on a property hook from 4:9 to 4:14
+Multiple access type modifiers are not allowed from 4:16 to 4:21
+Cannot use the public modifier on a property hook from 4:16 to 4:21
+Cannot use the protected modifier on a property hook from 5:9 to 5:17
+Cannot use the private modifier on a property hook from 6:9 to 6:15
+Cannot use the abstract modifier on a property hook from 7:9 to 7:16
+Cannot use the static modifier on a property hook from 7:18 to 7:23
+Cannot use the readonly modifier on a property hook from 8:9 to 8:16
+array(
+    0: Stmt_Class(
+        attrGroups: array(
+        )
+        flags: 0
+        name: Identifier(
+            name: Test
+        )
+        extends: null
+        implements: array(
+        )
+        stmts: array(
+            0: Stmt_Property(
+                attrGroups: array(
+                )
+                flags: PUBLIC (1)
+                type: null
+                props: array(
+                    0: PropertyItem(
+                        name: VarLikeIdentifier(
+                            name: prop
+                        )
+                        default: null
+                    )
+                )
+                hooks: array(
+                    0: PropertyHook(
+                        attrGroups: array(
+                        )
+                        flags: PUBLIC (1)
+                        byRef: false
+                        name: Identifier(
+                            name: get
+                        )
+                        params: array(
+                        )
+                        body: null
+                    )
+                    1: PropertyHook(
+                        attrGroups: array(
+                        )
+                        flags: PROTECTED (2)
+                        byRef: false
+                        name: Identifier(
+                            name: get
+                        )
+                        params: array(
+                        )
+                        body: null
+                    )
+                    2: PropertyHook(
+                        attrGroups: array(
+                        )
+                        flags: PRIVATE (4)
+                        byRef: false
+                        name: Identifier(
+                            name: get
+                        )
+                        params: array(
+                        )
+                        body: null
+                    )
+                    3: PropertyHook(
+                        attrGroups: array(
+                        )
+                        flags: ABSTRACT | STATIC (24)
+                        byRef: false
+                        name: Identifier(
+                            name: get
+                        )
+                        params: array(
+                        )
+                        body: null
+                    )
+                    4: PropertyHook(
+                        attrGroups: array(
+                        )
+                        flags: READONLY (64)
+                        byRef: false
+                        name: Identifier(
+                            name: get
+                        )
+                        params: array(
+                        )
+                        body: null
+                    )
+                )
+            )
+        )
+    )
+)

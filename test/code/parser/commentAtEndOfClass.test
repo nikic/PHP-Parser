@@ -31,6 +31,8 @@ array(
                         default: null
                     )
                 )
+                hooks: array(
+                )
             )
             1: Stmt_Nop(
                 comments: array(

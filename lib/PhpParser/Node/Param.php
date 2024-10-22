@@ -21,6 +21,8 @@ class Param extends NodeAbstract {
     public int $flags;
     /** @var AttributeGroup[] PHP attribute groups */
     public array $attrGroups;
+    /** @var PropertyHook[] Property hooks for promoted properties */
+    public array $hooks;
 
     /**
      * Constructs a parameter node.
@@ -33,13 +35,15 @@ class Param extends NodeAbstract {
      * @param array<string, mixed> $attributes Additional attributes
      * @param int $flags Optional visibility flags
      * @param list<AttributeGroup> $attrGroups PHP attribute groups
+     * @param PropertyHook[] $hooks Property hooks for promoted properties
      */
     public function __construct(
         Expr $var, ?Expr $default = null, ?Node $type = null,
         bool $byRef = false, bool $variadic = false,
         array $attributes = [],
         int $flags = 0,
-        array $attrGroups = []
+        array $attrGroups = [],
+        array $hooks = []
     ) {
         $this->attributes = $attributes;
         $this->type = $type;
@@ -49,10 +53,11 @@ class Param extends NodeAbstract {
         $this->default = $default;
         $this->flags = $flags;
         $this->attrGroups = $attrGroups;
+        $this->hooks = $hooks;
     }
 
     public function getSubNodeNames(): array {
-        return ['attrGroups', 'flags', 'type', 'byRef', 'variadic', 'var', 'default'];
+        return ['attrGroups', 'flags', 'type', 'byRef', 'variadic', 'var', 'default', 'hooks'];
     }
 
     public function getType(): string {
@@ -80,5 +85,26 @@ class Param extends NodeAbstract {
 
     public function isReadonly(): bool {
         return (bool) ($this->flags & Modifiers::READONLY);
+    }
+
+    /**
+     * Whether the promoted property has explicit public(set) visibility.
+     */
+    public function isPublicSet(): bool {
+        return (bool) ($this->flags & Modifiers::PUBLIC_SET);
+    }
+
+    /**
+     * Whether the promoted property has explicit protected(set) visibility.
+     */
+    public function isProtectedSet(): bool {
+        return (bool) ($this->flags & Modifiers::PROTECTED_SET);
+    }
+
+    /**
+     * Whether the promoted property has explicit private(set) visibility.
+     */
+    public function isPrivateSet(): bool {
+        return (bool) ($this->flags & Modifiers::PRIVATE_SET);
     }
 }

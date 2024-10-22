@@ -26,6 +26,12 @@ OUTPUT
     );
 }
 
+$allowedOptions = [
+    '--no-progress' => true,
+    '--verbose' => true,
+    '--php-version' => true,
+];
+
 $options = array();
 $arguments = array();
 
@@ -35,7 +41,11 @@ array_shift($argv);
 foreach ($argv as $arg) {
     if ('-' === $arg[0]) {
         $parts = explode('=', $arg);
-        $options[$parts[0]] = $parts[1] ?? true;
+        $name = $parts[0];
+        if (!isset($allowedOptions[$name])) {
+            showHelp("Unknown option \"$name\"");
+        }
+        $options[$name] = $parts[1] ?? true;
     } else {
         $arguments[] = $arg;
     }
@@ -109,6 +119,8 @@ switch ($testType) {
 | Zend.tests.grammar.regression_010
 # not worth emulating on old PHP versions
 | Zend.tests.type_declarations.intersection_types.parsing_comment
+# comments in property fetch syntax, not emulated on old PHP versions
+| Zend.tests.gh14961
 )\.phpt$~x', $file)) {
                 return null;
             }
@@ -127,12 +139,7 @@ switch ($testType) {
         showHelp('Test type must be one of: PHP or Symfony');
 }
 
-$lexer = new PhpParser\Lexer\Emulative(\PhpParser\PhpVersion::fromString($phpVersion));
-if (version_compare($phpVersion, '7.0', '>=')) {
-    $parser = new PhpParser\Parser\Php7($lexer);
-} else {
-    $parser = new PhpParser\Parser\Php5($lexer);
-}
+$parser = (new PhpParser\ParserFactory())->createForVersion(PhpParser\PhpVersion::fromString($phpVersion));
 $prettyPrinter = new PhpParser\PrettyPrinter\Standard;
 $nodeDumper = new PhpParser\NodeDumper;
 

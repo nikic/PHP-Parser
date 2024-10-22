@@ -83,6 +83,8 @@ array(
                         )
                     )
                 )
+                hooks: array(
+                )
             )
             2: Stmt_Property(
                 attrGroups: array(
@@ -97,6 +99,8 @@ array(
                         default: null
                     )
                 )
+                hooks: array(
+                )
             )
             3: Stmt_Property(
                 attrGroups: array(
@@ -110,6 +114,8 @@ array(
                         )
                         default: null
                     )
+                )
+                hooks: array(
                 )
             )
             4: Stmt_ClassMethod(
@@ -146,6 +152,8 @@ array(
                             name: a
                         )
                         default: null
+                        hooks: array(
+                        )
                     )
                 )
                 returnType: null

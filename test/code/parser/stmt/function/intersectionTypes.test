@@ -42,6 +42,8 @@ array(
                         default: null
                     )
                 )
+                hooks: array(
+                )
             )
         )
     )
@@ -73,6 +75,8 @@ array(
                     name: a
                 )
                 default: null
+                hooks: array(
+                )
             )
         )
         returnType: IntersectionType(

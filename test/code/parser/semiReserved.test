@@ -133,6 +133,8 @@ array(
                         default: null
                     )
                 )
+                hooks: array(
+                )
             )
             5: Stmt_Property(
                 attrGroups: array(
@@ -146,6 +148,8 @@ array(
                         )
                         default: null
                     )
+                )
+                hooks: array(
                 )
             )
             6: Stmt_ClassConst(

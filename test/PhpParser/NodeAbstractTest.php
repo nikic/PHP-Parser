@@ -261,6 +261,7 @@ PHP;
                 },
                 "flags": 0,
                 "attrGroups": [],
+                "hooks": [],
                 "attributes": {
                     "startLine": 4,
                     "startTokenPos": 9,
@@ -302,6 +303,7 @@ PHP;
                 },
                 "flags": 0,
                 "attrGroups": [],
+                "hooks": [],
                 "attributes": {
                     "startLine": 4,
                     "startTokenPos": 17,
@@ -464,7 +466,8 @@ JSON;
                     "value": 0
                 },
                 "flags": 0,
-                "attrGroups": []
+                "attrGroups": [],
+                "hooks": []
             },
             {
                 "nodeType": "Param",
@@ -505,7 +508,8 @@ JSON;
                     "value": 1
                 },
                 "flags": 0,
-                "attrGroups": []
+                "attrGroups": [],
+                "hooks": []
             }
         ],
         "returnType": null,

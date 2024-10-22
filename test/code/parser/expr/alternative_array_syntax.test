@@ -1,0 +1,335 @@
+Alternative array syntax
+-----
+<?php
+
+$a{'b'};
+$a{'b'}();
+$a->b{'c'};
+$a->b(){'c'};
+A::$b{'c'};
+A{0};
+A::B{0};
+new $array{'className'};
+new $a->b{'c'}();
+-----
+!!version=7.4
+array(
+    0: Stmt_Expression(
+        expr: Expr_ArrayDimFetch(
+            var: Expr_Variable(
+                name: a
+            )
+            dim: Scalar_String(
+                value: b
+            )
+        )
+    )
+    1: Stmt_Expression(
+        expr: Expr_FuncCall(
+            name: Expr_ArrayDimFetch(
+                var: Expr_Variable(
+                    name: a
+                )
+                dim: Scalar_String(
+                    value: b
+                )
+            )
+            args: array(
+            )
+        )
+    )
+    2: Stmt_Expression(
+        expr: Expr_ArrayDimFetch(
+            var: Expr_PropertyFetch(
+                var: Expr_Variable(
+                    name: a
+                )
+                name: Identifier(
+                    name: b
+                )
+            )
+            dim: Scalar_String(
+                value: c
+            )
+        )
+    )
+    3: Stmt_Expression(
+        expr: Expr_ArrayDimFetch(
+            var: Expr_MethodCall(
+                var: Expr_Variable(
+                    name: a
+                )
+                name: Identifier(
+                    name: b
+                )
+                args: array(
+                )
+            )
+            dim: Scalar_String(
+                value: c
+            )
+        )
+    )
+    4: Stmt_Expression(
+        expr: Expr_ArrayDimFetch(
+            var: Expr_StaticPropertyFetch(
+                class: Name(
+                    name: A
+                )
+                name: VarLikeIdentifier(
+                    name: b
+                )
+            )
+            dim: Scalar_String(
+                value: c
+            )
+        )
+    )
+    5: Stmt_Expression(
+        expr: Expr_ArrayDimFetch(
+            var: Expr_ConstFetch(
+                name: Name(
+                    name: A
+                )
+            )
+            dim: Scalar_Int(
+                value: 0
+            )
+        )
+    )
+    6: Stmt_Expression(
+        expr: Expr_ArrayDimFetch(
+            var: Expr_ClassConstFetch(
+                class: Name(
+                    name: A
+                )
+                name: Identifier(
+                    name: B
+                )
+            )
+            dim: Scalar_Int(
+                value: 0
+            )
+        )
+    )
+    7: Stmt_Expression(
+        expr: Expr_New(
+            class: Expr_ArrayDimFetch(
+                var: Expr_Variable(
+                    name: array
+                )
+                dim: Scalar_String(
+                    value: className
+                )
+            )
+            args: array(
+            )
+        )
+    )
+    8: Stmt_Expression(
+        expr: Expr_New(
+            class: Expr_ArrayDimFetch(
+                var: Expr_PropertyFetch(
+                    var: Expr_Variable(
+                        name: a
+                    )
+                    name: Identifier(
+                        name: b
+                    )
+                )
+                dim: Scalar_String(
+                    value: c
+                )
+            )
+            args: array(
+            )
+        )
+    )
+)
+-----
+<?php
+
+$a{'b'};
+$a{'b'}();
+$a->b{'c'};
+$a->b(){'c'};
+A::$b{'c'};
+A{0};
+A::B{0};
+new $array{'className'};
+new $a->b{'c'}();
+-----
+Syntax error, unexpected '{' from 3:3 to 3:3
+Syntax error, unexpected '{' from 4:3 to 4:3
+Syntax error, unexpected '{' from 5:6 to 5:6
+Syntax error, unexpected '{' from 6:8 to 6:8
+Syntax error, unexpected '{' from 7:6 to 7:6
+Syntax error, unexpected '{' from 8:2 to 8:2
+Syntax error, unexpected '{' from 9:5 to 9:5
+Syntax error, unexpected '{' from 10:11 to 10:11
+Syntax error, unexpected '{' from 11:10 to 11:10
+array(
+    0: Stmt_Expression(
+        expr: Expr_Variable(
+            name: a
+        )
+    )
+    1: Stmt_Block(
+        stmts: array(
+            0: Stmt_Expression(
+                expr: Scalar_String(
+                    value: b
+                )
+            )
+        )
+    )
+    2: Stmt_Expression(
+        expr: Expr_Variable(
+            name: a
+        )
+    )
+    3: Stmt_Block(
+        stmts: array(
+            0: Stmt_Expression(
+                expr: Scalar_String(
+                    value: b
+                )
+            )
+        )
+    )
+    4: Stmt_Expression(
+        expr: Expr_PropertyFetch(
+            var: Expr_Variable(
+                name: a
+            )
+            name: Identifier(
+                name: b
+            )
+        )
+    )
+    5: Stmt_Block(
+        stmts: array(
+            0: Stmt_Expression(
+                expr: Scalar_String(
+                    value: c
+                )
+            )
+        )
+    )
+    6: Stmt_Expression(
+        expr: Expr_MethodCall(
+            var: Expr_Variable(
+                name: a
+            )
+            name: Identifier(
+                name: b
+            )
+            args: array(
+            )
+        )
+    )
+    7: Stmt_Block(
+        stmts: array(
+            0: Stmt_Expression(
+                expr: Scalar_String(
+                    value: c
+                )
+            )
+        )
+    )
+    8: Stmt_Expression(
+        expr: Expr_StaticPropertyFetch(
+            class: Name(
+                name: A
+            )
+            name: VarLikeIdentifier(
+                name: b
+            )
+        )
+    )
+    9: Stmt_Block(
+        stmts: array(
+            0: Stmt_Expression(
+                expr: Scalar_String(
+                    value: c
+                )
+            )
+        )
+    )
+    10: Stmt_Expression(
+        expr: Expr_ConstFetch(
+            name: Name(
+                name: A
+            )
+        )
+    )
+    11: Stmt_Block(
+        stmts: array(
+            0: Stmt_Expression(
+                expr: Scalar_Int(
+                    value: 0
+                )
+            )
+        )
+    )
+    12: Stmt_Expression(
+        expr: Expr_ClassConstFetch(
+            class: Name(
+                name: A
+            )
+            name: Identifier(
+                name: B
+            )
+        )
+    )
+    13: Stmt_Block(
+        stmts: array(
+            0: Stmt_Expression(
+                expr: Scalar_Int(
+                    value: 0
+                )
+            )
+        )
+    )
+    14: Stmt_Expression(
+        expr: Expr_New(
+            class: Expr_Variable(
+                name: array
+            )
+            args: array(
+            )
+        )
+    )
+    15: Stmt_Block(
+        stmts: array(
+            0: Stmt_Expression(
+                expr: Scalar_String(
+                    value: className
+                )
+            )
+        )
+    )
+    16: Stmt_Expression(
+        expr: Expr_New(
+            class: Expr_PropertyFetch(
+                var: Expr_Variable(
+                    name: a
+                )
+                name: Identifier(
+                    name: b
+                )
+            )
+            args: array(
+            )
+        )
+    )
+    17: Stmt_Block(
+        stmts: array(
+            0: Stmt_Expression(
+                expr: Scalar_String(
+                    value: c
+                )
+            )
+        )
+    )
+)

@@ -79,7 +79,7 @@ function gen()
     yield * $a;
 }
 -----
-!!version=5.6
+!!version=5.6,parserVersion=8.0
 function gen()
 {
     yield;

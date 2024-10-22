@@ -1,0 +1,89 @@
+Property modifiers
+-----
+<?php
+class Test {
+    final public $prop;
+    abstract protected $prop;
+    readonly $prop;
+    private static $prop;
+}
+-----
+array(
+    0: Stmt_Class(
+        attrGroups: array(
+        )
+        flags: 0
+        name: Identifier(
+            name: Test
+        )
+        extends: null
+        implements: array(
+        )
+        stmts: array(
+            0: Stmt_Property(
+                attrGroups: array(
+                )
+                flags: PUBLIC | FINAL (33)
+                type: null
+                props: array(
+                    0: PropertyItem(
+                        name: VarLikeIdentifier(
+                            name: prop
+                        )
+                        default: null
+                    )
+                )
+                hooks: array(
+                )
+            )
+            1: Stmt_Property(
+                attrGroups: array(
+                )
+                flags: PROTECTED | ABSTRACT (18)
+                type: null
+                props: array(
+                    0: PropertyItem(
+                        name: VarLikeIdentifier(
+                            name: prop
+                        )
+                        default: null
+                    )
+                )
+                hooks: array(
+                )
+            )
+            2: Stmt_Property(
+                attrGroups: array(
+                )
+                flags: READONLY (64)
+                type: null
+                props: array(
+                    0: PropertyItem(
+                        name: VarLikeIdentifier(
+                            name: prop
+                        )
+                        default: null
+                    )
+                )
+                hooks: array(
+                )
+            )
+            3: Stmt_Property(
+                attrGroups: array(
+                )
+                flags: PRIVATE | STATIC (12)
+                type: null
+                props: array(
+                    0: PropertyItem(
+                        name: VarLikeIdentifier(
+                            name: prop
+                        )
+                        default: null
+                    )
+                )
+                hooks: array(
+                )
+            )
+        )
+    )
+)

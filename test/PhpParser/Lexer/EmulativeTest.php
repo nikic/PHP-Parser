@@ -91,6 +91,9 @@ class EmulativeTest extends LexerTest {
 
     public static function provideTestReplaceKeywords() {
         return [
+            // PHP 8.4
+            ['__PROPERTY__', \T_PROPERTY_C],
+
             // PHP 8.0
             ['match',         \T_MATCH],
 
@@ -390,6 +393,37 @@ class EmulativeTest extends LexerTest {
                 [\T_READONLY, 'readonly'],
                 [ord('('), '('],
             ]],
+
+            // PHP 8.4: Asymmetric visibility modifiers
+            ['private(set)', [
+                [\T_PRIVATE_SET, 'private(set)']
+            ]],
+            ['PROTECTED(SET)', [
+                [\T_PROTECTED_SET, 'PROTECTED(SET)']
+            ]],
+            ['Public(Set)', [
+                [\T_PUBLIC_SET, 'Public(Set)']
+            ]],
+            ['public (set)', [
+                [\T_PUBLIC, 'public'],
+                [\ord('('), '('],
+                [\T_STRING, 'set'],
+                [\ord(')'), ')'],
+            ]],
+            ['->public(set)', [
+                [\T_OBJECT_OPERATOR, '->'],
+                [\T_STRING, 'public'],
+                [\ord('('), '('],
+                [\T_STRING, 'set'],
+                [\ord(')'), ')'],
+            ]],
+            ['?-> public(set)', [
+                [\T_NULLSAFE_OBJECT_OPERATOR, '?->'],
+                [\T_STRING, 'public'],
+                [\ord('('), '('],
+                [\T_STRING, 'set'],
+                [\ord(')'), ')'],
+            ]],
         ];
     }
 
@@ -423,6 +457,19 @@ class EmulativeTest extends LexerTest {
                 [\T_STRING, 'bar'],
                 [\T_ENCAPSED_AND_WHITESPACE, ' baz'],
                 [ord('"'), '"'],
+            ]],
+            ['8.4', '__PROPERTY__', [[\T_PROPERTY_C, '__PROPERTY__']]],
+            ['8.3', '__PROPERTY__', [[\T_STRING, '__PROPERTY__']]],
+            ['8.4', '__property__', [[\T_PROPERTY_C, '__property__']]],
+            ['8.3', '__property__', [[\T_STRING, '__property__']]],
+            ['8.4', 'public(set)', [
+                [\T_PUBLIC_SET, 'public(set)'],
+            ]],
+            ['8.3', 'public(set)', [
+                [\T_PUBLIC, 'public'],
+                [\ord('('), '('],
+                [\T_STRING, 'set'],
+                [\ord(')'), ')']
             ]],
         ];
     }

@@ -25,6 +25,9 @@ class PropertyTest extends \PHPUnit\Framework\TestCase {
         $this->assertFalse($node->isPrivate());
         $this->assertFalse($node->isStatic());
         $this->assertFalse($node->isReadonly());
+        $this->assertFalse($node->isPublicSet());
+        $this->assertFalse($node->isProtectedSet());
+        $this->assertFalse($node->isPrivateSet());
     }
 
     public function testStaticImplicitlyPublic(): void {
@@ -44,5 +47,14 @@ class PropertyTest extends \PHPUnit\Framework\TestCase {
             ['static'],
             ['readonly'],
         ];
+    }
+
+    public function testSetVisibility() {
+        $node = new Property(Modifiers::PRIVATE_SET, []);
+        $this->assertTrue($node->isPrivateSet());
+        $node = new Property(Modifiers::PROTECTED_SET, []);
+        $this->assertTrue($node->isProtectedSet());
+        $node = new Property(Modifiers::PUBLIC_SET, []);
+        $this->assertTrue($node->isPublicSet());
     }
 }

@@ -3,6 +3,7 @@
 namespace PhpParser\Builder;
 
 use PhpParser\Comment;
+use PhpParser\Error;
 use PhpParser\Modifiers;
 use PhpParser\Node\Arg;
 use PhpParser\Node\Attribute;
@@ -10,6 +11,8 @@ use PhpParser\Node\AttributeGroup;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Name;
+use PhpParser\Node\PropertyHook;
+use PhpParser\Node\PropertyItem;
 use PhpParser\Node\Scalar;
 use PhpParser\Node\Scalar\Int_;
 use PhpParser\Node\Stmt;
@@ -29,9 +32,7 @@ class PropertyTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals(
             new Stmt\Property(
                 Modifiers::PRIVATE | Modifiers::STATIC,
-                [
-                    new \PhpParser\Node\PropertyItem('test')
-                ]
+                [new PropertyItem('test')]
             ),
             $node
         );
@@ -44,9 +45,7 @@ class PropertyTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals(
             new Stmt\Property(
                 Modifiers::PROTECTED,
-                [
-                    new \PhpParser\Node\PropertyItem('test')
-                ]
+                [new PropertyItem('test')]
             ),
             $node
         );
@@ -59,9 +58,7 @@ class PropertyTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals(
             new Stmt\Property(
                 Modifiers::PUBLIC,
-                [
-                    new \PhpParser\Node\PropertyItem('test')
-                ]
+                [new PropertyItem('test')]
             ),
             $node
         );
@@ -74,12 +71,37 @@ class PropertyTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals(
             new Stmt\Property(
                 Modifiers::READONLY,
-                [
-                    new \PhpParser\Node\PropertyItem('test')
-                ]
+                [new PropertyItem('test')]
             ),
             $node
         );
+
+        $node = $this->createPropertyBuilder('test')
+            ->makeFinal()
+            ->getNode();
+        $this->assertEquals(
+            new Stmt\Property(Modifiers::FINAL, [new PropertyItem('test')]),
+            $node);
+
+        $node = $this->createPropertyBuilder('test')
+            ->makePrivateSet()
+            ->getNode();
+        $this->assertEquals(
+            new Stmt\Property(Modifiers::PRIVATE_SET, [new PropertyItem('test')]),
+            $node);
+
+        $node = $this->createPropertyBuilder('test')
+            ->makeProtectedSet()
+            ->getNode();
+        $this->assertEquals(
+            new Stmt\Property(Modifiers::PROTECTED_SET, [new PropertyItem('test')]),
+            $node);
+    }
+
+    public function testAbstractWithoutHook() {
+        $this->expectException(Error::class);
+        $this->expectExceptionMessage('Only hooked properties may be declared abstract');
+        $this->createPropertyBuilder('test')->makeAbstract()->getNode();
     }
 
     public function testDocComment(): void {
@@ -134,6 +156,23 @@ class PropertyTest extends \PHPUnit\Framework\TestCase {
             ),
             $node
         );
+    }
+
+    public function testAddHook(): void {
+        $get = new PropertyHook('get', null);
+        $set = new PropertyHook('set', null);
+        $node = $this->createPropertyBuilder('test')
+            ->addHook($get)
+            ->addHook($set)
+            ->makeAbstract()
+            ->getNode();
+        $this->assertEquals(
+            new Stmt\Property(
+                Modifiers::ABSTRACT,
+                [new PropertyItem('test')],
+                [], null, [],
+                [$get, $set]),
+            $node);
     }
 
     public static function provideTestDefaultValues() {

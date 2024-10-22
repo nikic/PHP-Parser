@@ -81,7 +81,10 @@
 %token T_USE
 %token T_INSTEADOF
 %token T_GLOBAL
-%right T_STATIC T_ABSTRACT T_FINAL T_PRIVATE T_PROTECTED T_PUBLIC T_READONLY
+%token T_STATIC T_ABSTRACT T_FINAL T_PRIVATE T_PROTECTED T_PUBLIC T_READONLY
+%token T_PUBLIC_SET
+%token T_PROTECTED_SET
+%token T_PRIVATE_SET
 %token T_VAR
 %token T_UNSET
 %token T_ISSET
@@ -103,6 +106,7 @@
 %token T_TRAIT_C
 %token T_METHOD_C
 %token T_FUNC_C
+%token T_PROPERTY_C
 %token T_LINE
 %token T_FILE
 %token T_START_HEREDOC
@@ -252,7 +256,7 @@ top_statement:
             $this->checkNamespace($$); }
     | T_USE use_declarations semi                           { $$ = Stmt\Use_[$2, Stmt\Use_::TYPE_NORMAL]; }
     | T_USE use_type use_declarations semi                  { $$ = Stmt\Use_[$3, $2]; }
-    | group_use_declaration semi
+    | group_use_declaration
     | T_CONST constant_declaration_list semi                { $$ = Stmt\Const_[$2]; }
 ;
 
@@ -262,9 +266,9 @@ use_type:
 ;
 
 group_use_declaration:
-      T_USE use_type legacy_namespace_name T_NS_SEPARATOR '{' unprefixed_use_declarations '}'
+      T_USE use_type legacy_namespace_name T_NS_SEPARATOR '{' unprefixed_use_declarations '}' semi
           { $$ = Stmt\GroupUse[$3, $6, $2]; }
-    | T_USE legacy_namespace_name T_NS_SEPARATOR '{' inline_use_declarations '}'
+    | T_USE legacy_namespace_name T_NS_SEPARATOR '{' inline_use_declarations '}' semi
           { $$ = Stmt\GroupUse[$2, $5, Stmt\Use_::TYPE_UNKNOWN]; }
 ;
 
@@ -694,17 +698,20 @@ property_modifier:
       T_PUBLIC                  { $$ = Modifiers::PUBLIC; }
     | T_PROTECTED               { $$ = Modifiers::PROTECTED; }
     | T_PRIVATE                 { $$ = Modifiers::PRIVATE; }
+    | T_PUBLIC_SET              { $$ = Modifiers::PUBLIC_SET; }
+    | T_PROTECTED_SET           { $$ = Modifiers::PROTECTED_SET; }
+    | T_PRIVATE_SET             { $$ = Modifiers::PRIVATE_SET; }
     | T_READONLY                { $$ = Modifiers::READONLY; }
 ;
 
 parameter:
       optional_attributes optional_property_modifiers optional_type_without_static
-      optional_arg_ref optional_ellipsis plain_variable
-          { $$ = new Node\Param($6, null, $3, $4, $5, attributes(), $2, $1);
+      optional_arg_ref optional_ellipsis plain_variable optional_property_hook_list
+          { $$ = new Node\Param($6, null, $3, $4, $5, attributes(), $2, $1, $7);
             $this->checkParam($$); }
     | optional_attributes optional_property_modifiers optional_type_without_static
-      optional_arg_ref optional_ellipsis plain_variable '=' expr
-          { $$ = new Node\Param($6, $8, $3, $4, $5, attributes(), $2, $1);
+      optional_arg_ref optional_ellipsis plain_variable '=' expr optional_property_hook_list
+          { $$ = new Node\Param($6, $8, $3, $4, $5, attributes(), $2, $1, $9);
             $this->checkParam($$); }
     | optional_attributes optional_property_modifiers optional_type_without_static
       optional_arg_ref optional_ellipsis error
@@ -851,8 +858,12 @@ class_statement_list:
 
 class_statement:
       optional_attributes variable_modifiers optional_type_without_static property_declaration_list semi
-          { $$ = new Stmt\Property($2, $4, attributes(), $3, $1);
-            $this->checkProperty($$, #2); }
+          { $$ = new Stmt\Property($2, $4, attributes(), $3, $1); }
+#if PHP8
+    | optional_attributes variable_modifiers optional_type_without_static property_declaration_list '{' property_hook_list '}'
+          { $$ = new Stmt\Property($2, $4, attributes(), $3, $1, $6);
+            $this->checkPropertyHookList($6, #5); }
+#endif
     | optional_attributes method_modifiers T_CONST class_const_list semi
           { $$ = new Stmt\ClassConst($4, $2, attributes(), $1);
             $this->checkClassConst($$, #2); }
@@ -924,6 +935,9 @@ member_modifier:
       T_PUBLIC                                              { $$ = Modifiers::PUBLIC; }
     | T_PROTECTED                                           { $$ = Modifiers::PROTECTED; }
     | T_PRIVATE                                             { $$ = Modifiers::PRIVATE; }
+    | T_PUBLIC_SET                                          { $$ = Modifiers::PUBLIC_SET; }
+    | T_PROTECTED_SET                                       { $$ = Modifiers::PROTECTED_SET; }
+    | T_PRIVATE_SET                                         { $$ = Modifiers::PRIVATE_SET; }
     | T_STATIC                                              { $$ = Modifiers::STATIC; }
     | T_ABSTRACT                                            { $$ = Modifiers::ABSTRACT; }
     | T_FINAL                                               { $$ = Modifiers::FINAL; }
@@ -947,6 +961,39 @@ property_decl_name:
 property_declaration:
       property_decl_name                                    { $$ = Node\PropertyItem[$1, null]; }
     | property_decl_name '=' expr                           { $$ = Node\PropertyItem[$1, $3]; }
+;
+
+property_hook_list:
+      /* empty */                                           { $$ = []; }
+    | property_hook_list property_hook                      { push($1, $2); }
+;
+
+optional_property_hook_list:
+      /* empty */                                           { $$ = []; }
+#if PHP8
+    | '{' property_hook_list '}'                            { $$ = $2; $this->checkPropertyHookList($2, #1); }
+#endif
+;
+
+property_hook:
+      optional_attributes property_hook_modifiers optional_ref identifier_not_reserved property_hook_body
+          { $$ = Node\PropertyHook[$4, $5, ['flags' => $2, 'byRef' => $3, 'params' => [], 'attrGroups' => $1]];
+            $this->checkPropertyHook($$, null); }
+    | optional_attributes property_hook_modifiers optional_ref identifier_not_reserved '(' parameter_list ')' property_hook_body
+          { $$ = Node\PropertyHook[$4, $8, ['flags' => $2, 'byRef' => $3, 'params' => $6, 'attrGroups' => $1]];
+            $this->checkPropertyHook($$, #5); }
+;
+
+property_hook_body:
+      ';'                                                   { $$ = null; }
+    | '{' inner_statement_list '}'                          { $$ = $2; }
+    | T_DOUBLE_ARROW expr ';'                               { $$ = $2; }
+;
+
+property_hook_modifiers:
+      /* empty */                                           { $$ = 0; }
+    | property_hook_modifiers member_modifier
+          { $this->checkPropertyHookModifiers($1, $2, #2); $$ = $1 | $2; }
 ;
 
 expr_list_forbid_comma:
@@ -1053,10 +1100,8 @@ expr:
     | T_OBJECT_CAST expr                                    { $$ = Expr\Cast\Object_ [$2]; }
     | T_BOOL_CAST expr                                      { $$ = Expr\Cast\Bool_   [$2]; }
     | T_UNSET_CAST expr                                     { $$ = Expr\Cast\Unset_  [$2]; }
-    | T_EXIT exit_expr
-          { $attrs = attributes();
-            $attrs['kind'] = strtolower($1) === 'exit' ? Expr\Exit_::KIND_EXIT : Expr\Exit_::KIND_DIE;
-            $$ = new Expr\Exit_($2, $attrs); }
+    | T_EXIT ctor_arguments
+          { $$ = $this->createExitExpr($1, #1, $2, attributes()); }
     | '@' expr                                              { $$ = Expr\ErrorSuppress[$2]; }
     | scalar
     | '`' backticks_expr '`'                                { $$ = Expr\ShellExec[$2]; }
@@ -1161,11 +1206,6 @@ class_name_or_var:
     | fully_dereferenceable
 ;
 
-exit_expr:
-      /* empty */                                           { $$ = null; }
-    | '(' optional_expr ')'                                 { $$ = $2; }
-;
-
 backticks_expr:
       /* empty */                                           { $$ = array(); }
     | encaps_string_part
@@ -1188,6 +1228,7 @@ constant:
     | T_METHOD_C                                            { $$ = Scalar\MagicConst\Method[]; }
     | T_FUNC_C                                              { $$ = Scalar\MagicConst\Function_[]; }
     | T_NS_C                                                { $$ = Scalar\MagicConst\Namespace_[]; }
+    | T_PROPERTY_C                                          { $$ = Scalar\MagicConst\Property[]; }
 ;
 
 class_constant:
@@ -1263,7 +1304,9 @@ callable_expr:
 callable_variable:
       simple_variable
     | array_object_dereferenceable '[' optional_expr ']'     { $$ = Expr\ArrayDimFetch[$1, $3]; }
+#if PHP7
     | array_object_dereferenceable '{' expr '}'              { $$ = Expr\ArrayDimFetch[$1, $3]; }
+#endif
     | function_call
     | array_object_dereferenceable T_OBJECT_OPERATOR property_name argument_list
           { $$ = Expr\MethodCall[$1, $3, $4]; }
@@ -1305,7 +1348,9 @@ static_member:
 new_variable:
       simple_variable
     | new_variable '[' optional_expr ']'                    { $$ = Expr\ArrayDimFetch[$1, $3]; }
+#if PHP7
     | new_variable '{' expr '}'                             { $$ = Expr\ArrayDimFetch[$1, $3]; }
+#endif
     | new_variable T_OBJECT_OPERATOR property_name          { $$ = Expr\PropertyFetch[$1, $3]; }
     | new_variable T_NULLSAFE_OBJECT_OPERATOR property_name { $$ = Expr\NullsafePropertyFetch[$1, $3]; }
     | class_name T_PAAMAYIM_NEKUDOTAYIM static_member_prop_name

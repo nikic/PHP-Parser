@@ -100,6 +100,8 @@ array(
                                 default: null
                             )
                         )
+                        hooks: array(
+                        )
                     )
                     3: Stmt_Property(
                         attrGroups: array(
@@ -113,6 +115,8 @@ array(
                                 )
                                 default: null
                             )
+                        )
+                        hooks: array(
                         )
                     )
                     4: Stmt_Property(
@@ -153,6 +157,8 @@ array(
                                     )
                                 )
                             )
+                        )
+                        hooks: array(
                         )
                     )
                     5: Stmt_ClassMethod(
@@ -197,6 +203,8 @@ array(
                                     name: content
                                 )
                                 default: null
+                                hooks: array(
+                                )
                             )
                         )
                         returnType: UnionType(
@@ -255,6 +263,8 @@ array(
                                     name: var
                                 )
                                 default: null
+                                hooks: array(
+                                )
                             )
                         )
                         returnType: UnionType(

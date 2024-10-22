@@ -28,6 +28,8 @@ array(
                         default: null
                     )
                 )
+                hooks: array(
+                )
             )
         )
     )
@@ -61,6 +63,8 @@ array(
                         default: null
                     )
                 )
+                hooks: array(
+                )
             )
         )
     )
@@ -93,6 +97,8 @@ array(
                         )
                         default: null
                     )
+                )
+                hooks: array(
                 )
             )
         )
@@ -158,6 +164,8 @@ array(
                         )
                         default: null
                     )
+                )
+                hooks: array(
                 )
             )
         )
@@ -244,72 +252,6 @@ array(
         implements: array(
         )
         stmts: array(
-        )
-    )
-)
------
-<?php class B { abstract $b; }
------
-Properties cannot be declared abstract from 1:17 to 1:24
-array(
-    0: Stmt_Class(
-        attrGroups: array(
-        )
-        flags: 0
-        name: Identifier(
-            name: B
-        )
-        extends: null
-        implements: array(
-        )
-        stmts: array(
-            0: Stmt_Property(
-                attrGroups: array(
-                )
-                flags: ABSTRACT (16)
-                type: null
-                props: array(
-                    0: PropertyItem(
-                        name: VarLikeIdentifier(
-                            name: b
-                        )
-                        default: null
-                    )
-                )
-            )
-        )
-    )
-)
------
-<?php class A { final $a; }
------
-Properties cannot be declared final from 1:17 to 1:21
-array(
-    0: Stmt_Class(
-        attrGroups: array(
-        )
-        flags: 0
-        name: Identifier(
-            name: A
-        )
-        extends: null
-        implements: array(
-        )
-        stmts: array(
-            0: Stmt_Property(
-                attrGroups: array(
-                )
-                flags: FINAL (32)
-                type: null
-                props: array(
-                    0: PropertyItem(
-                        name: VarLikeIdentifier(
-                            name: a
-                        )
-                        default: null
-                    )
-                )
-            )
         )
     )
 )

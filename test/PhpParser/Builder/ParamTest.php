@@ -227,6 +227,16 @@ class ParamTest extends \PHPUnit\Framework\TestCase {
             new Node\Param(new Expr\Variable('test'), null, null, false, false, [], Modifiers::PROTECTED),
             $node
         );
+
+        $node = $this->createParamBuilder('test')
+            ->makeProtectedSet()
+            ->getNode()
+        ;
+
+        $this->assertEquals(
+            new Node\Param(new Expr\Variable('test'), null, null, false, false, [], Modifiers::PROTECTED_SET),
+            $node
+        );
     }
 
     public function testMakePrivate(): void {
@@ -237,6 +247,16 @@ class ParamTest extends \PHPUnit\Framework\TestCase {
 
         $this->assertEquals(
             new Node\Param(new Expr\Variable('test'), null, null, false, false, [], Modifiers::PRIVATE),
+            $node
+        );
+
+        $node = $this->createParamBuilder('test')
+            ->makePrivateSet()
+            ->getNode()
+        ;
+
+        $this->assertEquals(
+            new Node\Param(new Expr\Variable('test'), null, null, false, false, [], Modifiers::PRIVATE_SET),
             $node
         );
     }

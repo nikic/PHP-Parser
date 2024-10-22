@@ -201,6 +201,18 @@ class A extends B implements C, D {
     public const X A = X::Bar;
     public const X\Foo B = X\Foo::Bar;
     public const \X\Foo C = \X\Foo::Bar;
+
+    public Foo $foo {
+        #[X]
+        set(#[X] Bar $v) {}
+    }
+
+    public function __construct(
+        public Foo $bar {
+            #[X]
+            set(#[X] Bar $v) {}
+        }
+    ) {}
 }
 
 #[X]
@@ -269,6 +281,18 @@ class A extends \NS\B implements \NS\C, \NS\D
     public const \NS\X A = \NS\X::Bar;
     public const \NS\X\Foo B = \NS\X\Foo::Bar;
     public const \X\Foo C = \X\Foo::Bar;
+    public \NS\Foo $foo {
+        #[\NS\X]
+        set(#[\NS\X] \NS\Bar $v) {
+        }
+    }
+    public function __construct(public \NS\Foo $bar {
+        #[\NS\X]
+        set(#[\NS\X] \NS\Bar $v) {
+        }
+    })
+    {
+    }
 }
 #[\NS\X]
 interface A extends \NS\C, \NS\D
@@ -543,7 +567,7 @@ EOC;
     }
 
     private function parseAndResolve(string $code): array {
-        $parser = new PhpParser\Parser\Php7(new PhpParser\Lexer\Emulative());
+        $parser = new PhpParser\Parser\Php8(new PhpParser\Lexer\Emulative());
         $traverser = new PhpParser\NodeTraverser();
         $traverser->addVisitor(new NameResolver());
 

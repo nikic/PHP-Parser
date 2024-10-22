@@ -34,6 +34,8 @@ array(
                     name: a1
                 )
                 default: null
+                hooks: array(
+                )
             )
             1: Param(
                 attrGroups: array(
@@ -48,6 +50,8 @@ array(
                     name: a2
                 )
                 default: null
+                hooks: array(
+                )
             )
             2: Param(
                 attrGroups: array(
@@ -62,6 +66,8 @@ array(
                     name: a3
                 )
                 default: null
+                hooks: array(
+                )
             )
             3: Param(
                 attrGroups: array(
@@ -76,6 +82,8 @@ array(
                     name: a4
                 )
                 default: null
+                hooks: array(
+                )
             )
             4: Param(
                 attrGroups: array(
@@ -90,6 +98,8 @@ array(
                     name: a5
                 )
                 default: null
+                hooks: array(
+                )
                 comments: array(
                     0: // PHP 7.0
                 )
@@ -107,6 +117,8 @@ array(
                     name: a6
                 )
                 default: null
+                hooks: array(
+                )
                 comments: array(
                     0: // PHP 7.1
                 )
@@ -124,6 +136,8 @@ array(
                     name: a7
                 )
                 default: null
+                hooks: array(
+                )
                 comments: array(
                     0: // PHP 7.2
                 )
@@ -141,6 +155,8 @@ array(
                     name: a8
                 )
                 default: null
+                hooks: array(
+                )
                 comments: array(
                     0: // PHP 8.0
                 )
@@ -158,6 +174,8 @@ array(
                     name: a9
                 )
                 default: null
+                hooks: array(
+                )
                 comments: array(
                     0: // PHP 8.0
                 )
@@ -228,6 +246,8 @@ array(
                     name: a1
                 )
                 default: null
+                hooks: array(
+                )
             )
             1: Param(
                 attrGroups: array(
@@ -242,6 +262,8 @@ array(
                     name: a2
                 )
                 default: null
+                hooks: array(
+                )
             )
             2: Param(
                 attrGroups: array(
@@ -256,6 +278,8 @@ array(
                     name: a3
                 )
                 default: null
+                hooks: array(
+                )
             )
             3: Param(
                 attrGroups: array(
@@ -270,6 +294,8 @@ array(
                     name: a4
                 )
                 default: null
+                hooks: array(
+                )
             )
             4: Param(
                 attrGroups: array(
@@ -284,6 +310,8 @@ array(
                     name: a5
                 )
                 default: null
+                hooks: array(
+                )
                 comments: array(
                     0: // PHP 7.0
                 )
@@ -301,6 +329,8 @@ array(
                     name: a6
                 )
                 default: null
+                hooks: array(
+                )
                 comments: array(
                     0: // PHP 7.1
                 )
@@ -318,6 +348,8 @@ array(
                     name: a7
                 )
                 default: null
+                hooks: array(
+                )
                 comments: array(
                     0: // PHP 7.2
                 )
@@ -335,6 +367,8 @@ array(
                     name: a8
                 )
                 default: null
+                hooks: array(
+                )
                 comments: array(
                     0: // PHP 8.0
                 )
@@ -352,6 +386,8 @@ array(
                     name: a9
                 )
                 default: null
+                hooks: array(
+                )
                 comments: array(
                     0: // PHP 8.0
                 )
@@ -422,6 +458,8 @@ array(
                     name: a1
                 )
                 default: null
+                hooks: array(
+                )
             )
             1: Param(
                 attrGroups: array(
@@ -436,6 +474,8 @@ array(
                     name: a2
                 )
                 default: null
+                hooks: array(
+                )
             )
             2: Param(
                 attrGroups: array(
@@ -450,6 +490,8 @@ array(
                     name: a3
                 )
                 default: null
+                hooks: array(
+                )
             )
             3: Param(
                 attrGroups: array(
@@ -464,6 +506,8 @@ array(
                     name: a4
                 )
                 default: null
+                hooks: array(
+                )
             )
             4: Param(
                 attrGroups: array(
@@ -478,6 +522,8 @@ array(
                     name: a5
                 )
                 default: null
+                hooks: array(
+                )
                 comments: array(
                     0: // PHP 7.0
                 )
@@ -495,6 +541,8 @@ array(
                     name: a6
                 )
                 default: null
+                hooks: array(
+                )
                 comments: array(
                     0: // PHP 7.1
                 )
@@ -512,6 +560,8 @@ array(
                     name: a7
                 )
                 default: null
+                hooks: array(
+                )
                 comments: array(
                     0: // PHP 7.2
                 )
@@ -529,6 +579,8 @@ array(
                     name: a8
                 )
                 default: null
+                hooks: array(
+                )
                 comments: array(
                     0: // PHP 8.0
                 )
@@ -546,6 +598,8 @@ array(
                     name: a9
                 )
                 default: null
+                hooks: array(
+                )
                 comments: array(
                     0: // PHP 8.0
                 )
@@ -616,6 +670,8 @@ array(
                     name: a1
                 )
                 default: null
+                hooks: array(
+                )
             )
             1: Param(
                 attrGroups: array(
@@ -630,6 +686,8 @@ array(
                     name: a2
                 )
                 default: null
+                hooks: array(
+                )
             )
             2: Param(
                 attrGroups: array(
@@ -644,6 +702,8 @@ array(
                     name: a3
                 )
                 default: null
+                hooks: array(
+                )
             )
             3: Param(
                 attrGroups: array(
@@ -658,6 +718,8 @@ array(
                     name: a4
                 )
                 default: null
+                hooks: array(
+                )
             )
             4: Param(
                 attrGroups: array(
@@ -672,6 +734,8 @@ array(
                     name: a5
                 )
                 default: null
+                hooks: array(
+                )
                 comments: array(
                     0: // PHP 7.0
                 )
@@ -689,6 +753,8 @@ array(
                     name: a6
                 )
                 default: null
+                hooks: array(
+                )
                 comments: array(
                     0: // PHP 7.1
                 )
@@ -706,6 +772,8 @@ array(
                     name: a7
                 )
                 default: null
+                hooks: array(
+                )
                 comments: array(
                     0: // PHP 7.2
                 )
@@ -723,6 +791,8 @@ array(
                     name: a8
                 )
                 default: null
+                hooks: array(
+                )
                 comments: array(
                     0: // PHP 8.0
                 )
@@ -740,6 +810,8 @@ array(
                     name: a9
                 )
                 default: null
+                hooks: array(
+                )
                 comments: array(
                     0: // PHP 8.0
                 )
@@ -810,6 +882,8 @@ array(
                     name: a1
                 )
                 default: null
+                hooks: array(
+                )
             )
             1: Param(
                 attrGroups: array(
@@ -824,6 +898,8 @@ array(
                     name: a2
                 )
                 default: null
+                hooks: array(
+                )
             )
             2: Param(
                 attrGroups: array(
@@ -838,6 +914,8 @@ array(
                     name: a3
                 )
                 default: null
+                hooks: array(
+                )
             )
             3: Param(
                 attrGroups: array(
@@ -852,6 +930,8 @@ array(
                     name: a4
                 )
                 default: null
+                hooks: array(
+                )
             )
             4: Param(
                 attrGroups: array(
@@ -866,6 +946,8 @@ array(
                     name: a5
                 )
                 default: null
+                hooks: array(
+                )
                 comments: array(
                     0: // PHP 7.0
                 )
@@ -883,6 +965,8 @@ array(
                     name: a6
                 )
                 default: null
+                hooks: array(
+                )
                 comments: array(
                     0: // PHP 7.1
                 )
@@ -900,6 +984,8 @@ array(
                     name: a7
                 )
                 default: null
+                hooks: array(
+                )
                 comments: array(
                     0: // PHP 7.2
                 )
@@ -917,6 +1003,8 @@ array(
                     name: a8
                 )
                 default: null
+                hooks: array(
+                )
                 comments: array(
                     0: // PHP 8.0
                 )
@@ -934,6 +1022,8 @@ array(
                     name: a9
                 )
                 default: null
+                hooks: array(
+                )
                 comments: array(
                     0: // PHP 8.0
                 )
@@ -1004,6 +1094,8 @@ array(
                     name: a1
                 )
                 default: null
+                hooks: array(
+                )
             )
             1: Param(
                 attrGroups: array(
@@ -1018,6 +1110,8 @@ array(
                     name: a2
                 )
                 default: null
+                hooks: array(
+                )
             )
             2: Param(
                 attrGroups: array(
@@ -1032,6 +1126,8 @@ array(
                     name: a3
                 )
                 default: null
+                hooks: array(
+                )
             )
             3: Param(
                 attrGroups: array(
@@ -1046,6 +1142,8 @@ array(
                     name: a4
                 )
                 default: null
+                hooks: array(
+                )
             )
             4: Param(
                 attrGroups: array(
@@ -1060,6 +1158,8 @@ array(
                     name: a5
                 )
                 default: null
+                hooks: array(
+                )
                 comments: array(
                     0: // PHP 7.0
                 )
@@ -1077,6 +1177,8 @@ array(
                     name: a6
                 )
                 default: null
+                hooks: array(
+                )
                 comments: array(
                     0: // PHP 7.1
                 )
@@ -1094,6 +1196,8 @@ array(
                     name: a7
                 )
                 default: null
+                hooks: array(
+                )
                 comments: array(
                     0: // PHP 7.2
                 )
@@ -1111,6 +1215,8 @@ array(
                     name: a8
                 )
                 default: null
+                hooks: array(
+                )
                 comments: array(
                     0: // PHP 8.0
                 )
@@ -1128,6 +1234,8 @@ array(
                     name: a9
                 )
                 default: null
+                hooks: array(
+                )
                 comments: array(
                     0: // PHP 8.0
                 )

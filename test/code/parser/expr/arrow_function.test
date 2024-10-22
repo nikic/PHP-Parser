@@ -32,6 +32,8 @@ array(
                         name: a
                     )
                     default: null
+                    hooks: array(
+                    )
                 )
             )
             returnType: null
@@ -60,6 +62,8 @@ array(
                     default: Scalar_Int(
                         value: 42
                     )
+                    hooks: array(
+                    )
                 )
             )
             returnType: null
@@ -86,6 +90,8 @@ array(
                         name: x
                     )
                     default: null
+                    hooks: array(
+                    )
                 )
             )
             returnType: null
@@ -112,6 +118,8 @@ array(
                         name: x
                     )
                     default: null
+                    hooks: array(
+                    )
                 )
             )
             returnType: null
@@ -138,6 +146,8 @@ array(
                         name: x
                     )
                     default: null
+                    hooks: array(
+                    )
                 )
                 1: Param(
                     attrGroups: array(
@@ -150,6 +160,8 @@ array(
                         name: rest
                     )
                     default: null
+                    hooks: array(
+                    )
                 )
             )
             returnType: null
@@ -192,6 +204,8 @@ array(
                         name: a
                     )
                     default: null
+                    hooks: array(
+                    )
                 )
                 1: Param(
                     attrGroups: array(
@@ -204,6 +218,8 @@ array(
                         name: b
                     )
                     default: null
+                    hooks: array(
+                    )
                 )
             )
             returnType: null
@@ -235,6 +251,8 @@ array(
                         name: a
                     )
                     default: null
+                    hooks: array(
+                    )
                 )
                 1: Param(
                     attrGroups: array(
@@ -247,6 +265,8 @@ array(
                         name: b
                     )
                     default: null
+                    hooks: array(
+                    )
                 )
             )
             returnType: null

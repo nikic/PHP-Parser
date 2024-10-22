@@ -714,6 +714,8 @@ array(
                         default: null
                     )
                 )
+                hooks: array(
+                )
             )
         )
     )
@@ -869,6 +871,8 @@ array(
                         default: null
                     )
                 )
+                hooks: array(
+                )
             )
             1: Stmt_Property(
                 attrGroups: array(
@@ -882,6 +886,8 @@ array(
                         )
                         default: null
                     )
+                )
+                hooks: array(
                 )
             )
         )
@@ -984,6 +990,8 @@ array(
                 var: Expr_Error(
                 )
                 default: null
+                hooks: array(
+                )
             )
         )
         returnType: null
@@ -1016,6 +1024,8 @@ array(
                     name: foo
                 )
                 default: null
+                hooks: array(
+                )
             )
             1: Param(
                 attrGroups: array(
@@ -1029,6 +1039,8 @@ array(
                 var: Expr_Error(
                 )
                 default: null
+                hooks: array(
+                )
             )
         )
         returnType: null
@@ -1058,6 +1070,8 @@ array(
                 var: Expr_Error(
                 )
                 default: null
+                hooks: array(
+                )
             )
         )
         returnType: null
@@ -1087,6 +1101,8 @@ array(
                 var: Expr_Error(
                 )
                 default: null
+                hooks: array(
+                )
             )
         )
         returnType: null
@@ -1118,6 +1134,8 @@ array(
                 var: Expr_Error(
                 )
                 default: null
+                hooks: array(
+                )
             )
         )
         returnType: null
@@ -1156,6 +1174,8 @@ array(
                         var: Expr_Error(
                         )
                         default: null
+                        hooks: array(
+                        )
                     )
                 )
                 returnType: null
@@ -1183,6 +1203,8 @@ array(
                     var: Expr_Error(
                     )
                     default: null
+                    hooks: array(
+                    )
                 )
             )
             uses: array(
@@ -1352,7 +1374,7 @@ class B {
     const X = 1
 }
 -----
-Syntax error, unexpected T_PUBLIC, expecting ';' from 6:5 to 6:10
+Syntax error, unexpected T_PUBLIC, expecting ';' or '{' from 6:5 to 6:10
 Syntax error, unexpected '}', expecting ';' from 12:1 to 12:1
 array(
     0: Stmt_Class(
@@ -1378,6 +1400,8 @@ array(
                         )
                         default: null
                     )
+                )
+                hooks: array(
                 )
                 comments: array(
                     0: /** @var ?string */
@@ -1405,6 +1429,8 @@ array(
                             name: s
                         )
                         default: null
+                        hooks: array(
+                        )
                     )
                 )
                 returnType: null

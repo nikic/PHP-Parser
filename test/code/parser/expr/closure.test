@@ -28,6 +28,8 @@ array(
                         name: a
                     )
                     default: null
+                    hooks: array(
+                    )
                 )
             )
             uses: array(
@@ -60,6 +62,8 @@ array(
                         name: a
                     )
                     default: null
+                    hooks: array(
+                    )
                 )
             )
             uses: array(
@@ -120,6 +124,8 @@ array(
                         name: a
                     )
                     default: null
+                    hooks: array(
+                    )
                 )
             )
             uses: array(
@@ -162,6 +168,8 @@ array(
                         name: a
                     )
                     default: null
+                    hooks: array(
+                    )
                 )
             )
             uses: array(

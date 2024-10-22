@@ -5,7 +5,7 @@ Pretty printer generates least-parentheses output
 echo 'abc' . 'cde' . 'fgh';
 echo 'abc' . ('cde' . 'fgh');
 
-echo 'abc' . 1 + 2 . 'fgh';
+echo ('abc' . 1) + 2 . 'fgh';
 echo 'abc' . (1 + 2) . 'fgh';
 
 echo 1 * 2 + 3 / 4 % 5 . 6;

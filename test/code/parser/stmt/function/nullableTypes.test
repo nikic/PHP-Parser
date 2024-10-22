@@ -29,6 +29,8 @@ array(
                     name: bar
                 )
                 default: null
+                hooks: array(
+                )
             )
             1: Param(
                 attrGroups: array(
@@ -45,6 +47,8 @@ array(
                     name: foo
                 )
                 default: null
+                hooks: array(
+                )
             )
         )
         returnType: NullableType(

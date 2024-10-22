@@ -10,18 +10,26 @@ use PhpParser\Node\InterpolatedStringPart;
 use PhpParser\Node\Scalar\Int_;
 use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt;
-use PhpParser\Parser\Php7;
 use PhpParser\PrettyPrinter\Standard;
 
 class PrettyPrinterTest extends CodeTestAbstract {
+    /** @return array{0: Parser, 1: PrettyPrinter} */
+    private function createParserAndPrinter(array $options): array {
+        $parserVersion = $options['parserVersion'] ?? $options['version'] ?? null;
+        $printerVersion = $options['version'] ?? null;
+        $indent = isset($options['indent']) ? json_decode($options['indent']) : null;
+        $factory = new ParserFactory();
+        $parser = $factory->createForVersion($parserVersion !== null
+            ? PhpVersion::fromString($parserVersion) : PhpVersion::getNewestSupported());
+        $prettyPrinter = new Standard([
+            'phpVersion' => $printerVersion !== null ? PhpVersion::fromString($printerVersion) : null,
+            'indent' => $indent,
+        ]);
+        return [$parser, $prettyPrinter];
+    }
+
     protected function doTestPrettyPrintMethod($method, $name, $code, $expected, $modeLine) {
-        $lexer = new Lexer\Emulative();
-        $parser = new Parser\Php7($lexer);
-
-        $options = $this->parseModeLine($modeLine);
-        $version = isset($options['version']) ? PhpVersion::fromString($options['version']) : null;
-        $prettyPrinter = new Standard(['phpVersion' => $version]);
-
+        [$parser, $prettyPrinter] = $this->createParserAndPrinter($this->parseModeLine($modeLine));
         $output = canonicalize($prettyPrinter->$method($parser->parse($code)));
         $this->assertSame($expected, $output, $name);
     }
@@ -181,11 +189,8 @@ class PrettyPrinterTest extends CodeTestAbstract {
      * @dataProvider provideTestFormatPreservingPrint
      */
     public function testFormatPreservingPrint($name, $code, $modification, $expected, $modeLine): void {
-        $lexer = new Lexer\Emulative();
-        $parser = new Parser\Php7($lexer);
+        [$parser, $printer] = $this->createParserAndPrinter($this->parseModeLine($modeLine));
         $traverser = new NodeTraverser(new NodeVisitor\CloningVisitor());
-
-        $printer = new PrettyPrinter\Standard();
 
         $oldStmts = $parser->parse($code);
         $oldTokens = $parser->getTokens();
@@ -222,13 +227,8 @@ CODE
          * the pretty printer tests (i.e. returns the input if no changes occurred).
          */
 
-        $lexer = new Lexer\Emulative();
-
-        $parser = new Php7($lexer);
-
+        [$parser, $printer] = $this->createParserAndPrinter($this->parseModeLine($modeLine));
         $traverser = new NodeTraverser(new NodeVisitor\CloningVisitor());
-
-        $printer = new PrettyPrinter\Standard();
 
         try {
             $oldStmts = $parser->parse($code);
@@ -298,5 +298,11 @@ CODE
         $this->expectException(\LogicException::class);
         $this->expectExceptionMessage('Option "newline" must be one of "\n" or "\r\n"');
         new PrettyPrinter\Standard(['newline' => 'foo']);
+    }
+
+    public function testInvalidIndent(): void {
+        $this->expectException(\LogicException::class);
+        $this->expectExceptionMessage('Option "indent" must either be all spaces or a single tab');
+        new PrettyPrinter\Standard(['indent' => "\t  "]);
     }
 }

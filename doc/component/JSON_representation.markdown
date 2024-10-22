@@ -104,7 +104,7 @@ This will result in the following output (which includes attributes):
                         "nodeType": "Scalar_String",
                         "attributes": {
                             "startLine": 5,
-                            "endLine": 5
+                            "endLine": 5,
                             "kind": 2,
                             "rawValue": "\"\\n\""
                         },

@@ -33,6 +33,8 @@ array(
                         default: null
                     )
                 )
+                hooks: array(
+                )
             )
             1: Stmt_ClassMethod(
                 attrGroups: array(
