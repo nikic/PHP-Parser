@@ -3,6 +3,9 @@
 namespace PhpParser\Node\Name;
 
 class FullyQualified extends \PhpParser\Node\Name {
+
+    public bool $anchorRoot = TRUE;
+    
     /**
      * Checks whether the name is unqualified. (E.g. Name)
      *
@@ -40,7 +43,8 @@ class FullyQualified extends \PhpParser\Node\Name {
     }
 
     public function toCodeString(): string {
-        return '\\' . $this->toString();
+        $prefix = ($this->anchorRoot || count($this->parts) > 1) ? '\\' : '';
+        return $prefix . $this->toString();
     }
 
     public function getType(): string {
