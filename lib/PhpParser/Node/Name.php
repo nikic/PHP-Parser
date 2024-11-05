@@ -129,7 +129,7 @@ class Name extends NodeAbstract {
      * Returns lowercased string representation of the name, without taking the name type into
      * account (e.g., no leading backslash for fully qualified names).
      *
-     * @psalm-return non-empty-string
+     * @psalm-return non-empty-string&lowercase-string
      * @return string Lowercased string representation
      */
     public function toLowerString(): string {
