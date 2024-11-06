@@ -11,6 +11,8 @@ class Declare_ extends Node\Stmt {
     /** @var Node\Stmt[]|null Statements */
     public ?array $stmts;
 
+    private const SUBNODE_NAMES = ['declares', 'stmts'];
+
     /**
      * Constructs a declare node.
      *
@@ -24,8 +26,11 @@ class Declare_ extends Node\Stmt {
         $this->stmts = $stmts;
     }
 
+    /**
+     * @return self::SUBNODE_NAMES
+     */
     public function getSubNodeNames(): array {
-        return ['declares', 'stmts'];
+        return self::SUBNODE_NAMES;
     }
 
     public function getType(): string {

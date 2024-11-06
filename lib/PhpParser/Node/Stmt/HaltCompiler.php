@@ -8,6 +8,8 @@ class HaltCompiler extends Stmt {
     /** @var string Remaining text after halt compiler statement. */
     public string $remaining;
 
+    private const SUBNODE_NAMES = ['remaining'];
+
     /**
      * Constructs a __halt_compiler node.
      *
@@ -19,10 +21,12 @@ class HaltCompiler extends Stmt {
         $this->remaining = $remaining;
     }
 
+    /**
+     * @return self::SUBNODE_NAMES
+     */
     public function getSubNodeNames(): array {
-        return ['remaining'];
+        return self::SUBNODE_NAMES;
     }
-
     public function getType(): string {
         return 'Stmt_HaltCompiler';
     }

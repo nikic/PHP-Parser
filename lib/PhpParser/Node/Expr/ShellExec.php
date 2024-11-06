@@ -9,6 +9,8 @@ class ShellExec extends Expr {
     /** @var (Expr|InterpolatedStringPart)[] Interpolated string array */
     public array $parts;
 
+    private const SUBNODE_NAMES = ['parts'];
+
     /**
      * Constructs a shell exec (backtick) node.
      *
@@ -20,8 +22,11 @@ class ShellExec extends Expr {
         $this->parts = $parts;
     }
 
+    /**
+     * @return self::SUBNODE_NAMES
+     */
     public function getSubNodeNames(): array {
-        return ['parts'];
+        return self::SUBNODE_NAMES;
     }
 
     public function getType(): string {

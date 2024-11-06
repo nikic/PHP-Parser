@@ -8,6 +8,8 @@ class Break_ extends Node\Stmt {
     /** @var null|Node\Expr Number of loops to break */
     public ?Node\Expr $num;
 
+    private const SUBNODE_NAMES = ['num'];
+
     /**
      * Constructs a break node.
      *
@@ -19,8 +21,11 @@ class Break_ extends Node\Stmt {
         $this->num = $num;
     }
 
+    /**
+     * @return self::SUBNODE_NAMES
+     */
     public function getSubNodeNames(): array {
-        return ['num'];
+        return self::SUBNODE_NAMES;
     }
 
     public function getType(): string {

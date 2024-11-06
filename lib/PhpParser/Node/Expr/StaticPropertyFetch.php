@@ -13,6 +13,8 @@ class StaticPropertyFetch extends Expr {
     /** @var VarLikeIdentifier|Expr Property name */
     public Node $name;
 
+    private const SUBNODE_NAMES = ['class', 'name'];
+
     /**
      * Constructs a static property fetch node.
      *
@@ -26,8 +28,11 @@ class StaticPropertyFetch extends Expr {
         $this->name = \is_string($name) ? new VarLikeIdentifier($name) : $name;
     }
 
+    /**
+     * @return self::SUBNODE_NAMES
+     */
     public function getSubNodeNames(): array {
-        return ['class', 'name'];
+        return self::SUBNODE_NAMES;
     }
 
     public function getType(): string {

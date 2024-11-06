@@ -24,6 +24,8 @@ class ArrowFunction extends Expr implements FunctionLike {
     /** @var Node\AttributeGroup[] */
     public array $attrGroups;
 
+    private const SUBNODE_NAMES = ['attrGroups', 'static', 'byRef', 'params', 'returnType', 'expr'];
+
     /**
      * @param array{
      *     expr: Expr,
@@ -51,8 +53,11 @@ class ArrowFunction extends Expr implements FunctionLike {
         $this->attrGroups = $subNodes['attrGroups'] ?? [];
     }
 
+    /**
+     * @return self::SUBNODE_NAMES
+     */
     public function getSubNodeNames(): array {
-        return ['attrGroups', 'static', 'byRef', 'params', 'returnType', 'expr'];
+        return self::SUBNODE_NAMES;
     }
 
     public function returnsByRef(): bool {

@@ -16,6 +16,8 @@ class StaticCall extends CallLike {
     /** @var array<Arg|VariadicPlaceholder> Arguments */
     public array $args;
 
+    private const SUBNODE_NAMES = ['class', 'name', 'args'];
+
     /**
      * Constructs a static method call node.
      *
@@ -31,8 +33,11 @@ class StaticCall extends CallLike {
         $this->args = $args;
     }
 
+    /**
+     * @return self::SUBNODE_NAMES
+     */
     public function getSubNodeNames(): array {
-        return ['class', 'name', 'args'];
+        return self::SUBNODE_NAMES;
     }
 
     public function getType(): string {
