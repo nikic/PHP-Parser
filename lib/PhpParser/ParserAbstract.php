@@ -411,8 +411,6 @@ abstract class ParserAbstract implements Parser {
                 $rule = $state - $this->numNonLeafStates;
             }
         }
-
-        throw new \RuntimeException('Reached end of parser loop');
     }
 
     protected function emitError(Error $error): void {
