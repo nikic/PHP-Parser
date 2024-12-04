@@ -91,24 +91,54 @@ parameters:
 			path: lib/PhpParser/Lexer/Emulative.php
 
 		-
-			message: "#^Constant T_PRIVATE_SET not found\\.$#"
-			count: 2
-			path: lib/PhpParser/Lexer/TokenEmulator/AsymmetricVisibilityTokenEmulator.php
-
-		-
-			message: "#^Constant T_PROTECTED_SET not found\\.$#"
-			count: 2
-			path: lib/PhpParser/Lexer/TokenEmulator/AsymmetricVisibilityTokenEmulator.php
-
-		-
-			message: "#^Constant T_PUBLIC_SET not found\\.$#"
-			count: 2
-			path: lib/PhpParser/Lexer/TokenEmulator/AsymmetricVisibilityTokenEmulator.php
-
-		-
-			message: "#^Constant T_PROPERTY_C not found\\.$#"
+			message: "#^If condition is always false\\.$#"
 			count: 1
-			path: lib/PhpParser/Lexer/TokenEmulator/PropertyTokenEmulator.php
+			path: lib/PhpParser/Node/Expr/ArrayItem.php
+
+		-
+			message: "#^If condition is always false\\.$#"
+			count: 1
+			path: lib/PhpParser/Node/Expr/ClosureUse.php
+
+		-
+			message: "#^If condition is always false\\.$#"
+			count: 1
+			path: lib/PhpParser/Node/Scalar/DNumber.php
+
+		-
+			message: "#^If condition is always false\\.$#"
+			count: 1
+			path: lib/PhpParser/Node/Scalar/Encapsed.php
+
+		-
+			message: "#^If condition is always false\\.$#"
+			count: 1
+			path: lib/PhpParser/Node/Scalar/EncapsedStringPart.php
+
+		-
+			message: "#^If condition is always false\\.$#"
+			count: 1
+			path: lib/PhpParser/Node/Scalar/LNumber.php
+
+		-
+			message: "#^If condition is always false\\.$#"
+			count: 1
+			path: lib/PhpParser/Node/Stmt/DeclareDeclare.php
+
+		-
+			message: "#^If condition is always false\\.$#"
+			count: 1
+			path: lib/PhpParser/Node/Stmt/PropertyProperty.php
+
+		-
+			message: "#^If condition is always false\\.$#"
+			count: 1
+			path: lib/PhpParser/Node/Stmt/StaticVar.php
+
+		-
+			message: "#^If condition is always false\\.$#"
+			count: 1
+			path: lib/PhpParser/Node/Stmt/UseUse.php
 
 		-
 			message: "#^Method PhpParser\\\\NodeDumper\\:\\:__construct\\(\\) has parameter \\$options with no value type specified in iterable type array\\.$#"
