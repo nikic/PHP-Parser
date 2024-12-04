@@ -5,5 +5,7 @@ namespace PhpParser\Node\Scalar;
 require __DIR__ . '/Float_.php';
 
 if (false) {
-    class DNumber extends Float_ {}
+    // For classmap-authoritative support.
+    class DNumber extends Float_ {
+    }
 }

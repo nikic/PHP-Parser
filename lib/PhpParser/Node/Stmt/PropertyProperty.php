@@ -2,8 +2,12 @@
 
 namespace PhpParser\Node\Stmt;
 
+use PhpParser\Node\PropertyItem;
+
 require __DIR__ . '/../PropertyItem.php';
 
 if (false) {
-    class PropertyProperty extends PropertyItem {}
+    // For classmap-authoritative support.
+    class PropertyProperty extends PropertyItem {
+    }
 }

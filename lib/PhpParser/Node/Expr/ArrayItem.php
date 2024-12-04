@@ -5,5 +5,7 @@ namespace PhpParser\Node\Expr;
 require __DIR__ . '/../ArrayItem.php';
 
 if (false) {
-    class ArrayItem extends \PhpParser\Node\ArrayItem {}
+    // For classmap-authoritative support.
+    class ArrayItem extends \PhpParser\Node\ArrayItem {
+    }
 }

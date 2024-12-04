@@ -5,5 +5,7 @@ namespace PhpParser\Node\Stmt;
 require __DIR__ . '/../StaticVar.php';
 
 if (false) {
-    class StaticVar extends \PhpParser\Node\StaticVar {}
+    // For classmap-authoritative support.
+    class StaticVar extends \PhpParser\Node\StaticVar {
+    }
 }

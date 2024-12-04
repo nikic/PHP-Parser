@@ -5,5 +5,7 @@ namespace PhpParser\Node\Expr;
 require __DIR__ . '/../ClosureUse.php';
 
 if (false) {
-    class ClosureUse extends \PhpParser\Node\ClosureUse {}
+    // For classmap-authoritative support.
+    class ClosureUse extends \PhpParser\Node\ClosureUse {
+    }
 }

@@ -7,5 +7,7 @@ use PhpParser\Node\DeclareItem;
 require __DIR__ . '/../DeclareItem.php';
 
 if (false) {
-    class DeclareDeclare extends DeclareItem {}
+    // For classmap-authoritative support.
+    class DeclareDeclare extends DeclareItem {
+    }
 }

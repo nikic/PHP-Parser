@@ -5,5 +5,7 @@ namespace PhpParser\Node\Scalar;
 require __DIR__ . '/Int_.php';
 
 if (false) {
-    class LNumber extends Int_ {}
+    // For classmap-authoritative support.
+    class LNumber extends Int_ {
+    }
 }

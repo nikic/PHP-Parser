@@ -2,8 +2,12 @@
 
 namespace PhpParser\Node\Stmt;
 
+use PhpParser\Node\UseItem;
+
 require __DIR__ . '/../UseItem.php';
 
 if (false) {
-    class UseUse extends \PhpParser\Node\UseItem {}
+    // For classmap-authoritative support.
+    class UseUse extends UseItem {
+    }
 }
