@@ -39,8 +39,5 @@
     },
     "bin": [
         "bin/php-parse"
-    ],
-    "config": {
-        "classmap-authoritative": true
-    }
+    ]
 }
