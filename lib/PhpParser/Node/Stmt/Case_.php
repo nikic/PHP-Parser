@@ -10,6 +10,8 @@ class Case_ extends Node\Stmt {
     /** @var Node\Stmt[] Statements */
     public array $stmts;
 
+    private const SUBNODE_NAMES = ['cond', 'stmts'];
+
     /**
      * Constructs a case node.
      *
@@ -23,8 +25,11 @@ class Case_ extends Node\Stmt {
         $this->stmts = $stmts;
     }
 
+    /**
+     * @return self::SUBNODE_NAMES
+     */
     public function getSubNodeNames(): array {
-        return ['cond', 'stmts'];
+        return self::SUBNODE_NAMES;
     }
 
     public function getType(): string {

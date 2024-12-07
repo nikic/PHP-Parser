@@ -8,6 +8,8 @@ class YieldFrom extends Expr {
     /** @var Expr Expression to yield from */
     public Expr $expr;
 
+    private const SUBNODE_NAMES = ['expr'];
+
     /**
      * Constructs an "yield from" node.
      *
@@ -19,8 +21,11 @@ class YieldFrom extends Expr {
         $this->expr = $expr;
     }
 
+    /**
+     * @return self::SUBNODE_NAMES
+     */
     public function getSubNodeNames(): array {
-        return ['expr'];
+        return self::SUBNODE_NAMES;
     }
 
     public function getType(): string {

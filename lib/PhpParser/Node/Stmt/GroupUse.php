@@ -16,6 +16,8 @@ class GroupUse extends Stmt {
     /** @var UseItem[] Uses */
     public array $uses;
 
+    private const SUBNODE_NAMES = ['type', 'prefix', 'uses'];
+
     /**
      * Constructs a group use node.
      *
@@ -31,10 +33,12 @@ class GroupUse extends Stmt {
         $this->uses = $uses;
     }
 
+    /**
+     * @return self::SUBNODE_NAMES
+     */
     public function getSubNodeNames(): array {
-        return ['type', 'prefix', 'uses'];
+        return self::SUBNODE_NAMES;
     }
-
     public function getType(): string {
         return 'Stmt_GroupUse';
     }

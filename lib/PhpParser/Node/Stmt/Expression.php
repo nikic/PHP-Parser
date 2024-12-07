@@ -11,6 +11,8 @@ class Expression extends Node\Stmt {
     /** @var Node\Expr Expression */
     public Node\Expr $expr;
 
+    private const SUBNODE_NAMES = ['expr'];
+
     /**
      * Constructs an expression statement.
      *
@@ -22,8 +24,11 @@ class Expression extends Node\Stmt {
         $this->expr = $expr;
     }
 
+    /**
+     * @return self::SUBNODE_NAMES
+     */
     public function getSubNodeNames(): array {
-        return ['expr'];
+        return self::SUBNODE_NAMES;
     }
 
     public function getType(): string {

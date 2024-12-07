@@ -14,6 +14,8 @@ class If_ extends Node\Stmt {
     /** @var null|Else_ Else clause */
     public ?Else_ $else;
 
+    private const SUBNODE_NAMES = ['cond', 'stmts', 'elseifs', 'else'];
+
     /**
      * Constructs an if node.
      *
@@ -36,8 +38,11 @@ class If_ extends Node\Stmt {
         $this->else = $subNodes['else'] ?? null;
     }
 
+    /**
+     * @return self::SUBNODE_NAMES
+     */
     public function getSubNodeNames(): array {
-        return ['cond', 'stmts', 'elseifs', 'else'];
+        return self::SUBNODE_NAMES;
     }
 
     public function getType(): string {
