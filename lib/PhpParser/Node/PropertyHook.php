@@ -30,6 +30,7 @@ class PropertyHook extends NodeAbstract implements FunctionLike {
      *     params?: Param[],
      *     attrGroups?: AttributeGroup[],
      * } $subNodes Array of the following optional subnodes:
+     *             'flags       => 0      : Flags
      *             'byRef'      => false  : Whether hook returns by reference
      *             'params'     => array(): Parameters
      *             'attrGroups' => array(): PHP attribute groups
