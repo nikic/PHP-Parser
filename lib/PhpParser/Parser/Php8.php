@@ -1993,7 +1993,7 @@ class Php8 extends \PhpParser\ParserAbstract
             },
             348 => static function ($self, $stackPos) {
                  $self->semValue = new Stmt\Property($self->semStack[$stackPos-(7-2)], $self->semStack[$stackPos-(7-4)], $self->getAttributes($self->tokenStartStack[$stackPos-(7-1)], $self->tokenEndStack[$stackPos]), $self->semStack[$stackPos-(7-3)], $self->semStack[$stackPos-(7-1)], $self->semStack[$stackPos-(7-6)]);
-            $self->checkPropertyHookList($self->semStack[$stackPos-(7-6)], $stackPos-(7-5));
+            $self->checkEmptyPropertyHookList($self->semStack[$stackPos-(7-6)], $stackPos-(7-5));
             },
             349 => static function ($self, $stackPos) {
                  $self->semValue = new Stmt\ClassConst($self->semStack[$stackPos-(5-4)], $self->semStack[$stackPos-(5-2)], $self->getAttributes($self->tokenStartStack[$stackPos-(5-1)], $self->tokenEndStack[$stackPos]), $self->semStack[$stackPos-(5-1)]);
@@ -2122,7 +2122,7 @@ class Php8 extends \PhpParser\ParserAbstract
                  $self->semValue = [];
             },
             394 => static function ($self, $stackPos) {
-                 $self->semValue = $self->semStack[$stackPos-(3-2)]; $self->checkPropertyHookList($self->semStack[$stackPos-(3-2)], $stackPos-(3-1));
+                 $self->semValue = $self->semStack[$stackPos-(3-2)]; $self->checkEmptyPropertyHookList($self->semStack[$stackPos-(3-2)], $stackPos-(3-1));
             },
             395 => static function ($self, $stackPos) {
                  $self->semValue = new Node\PropertyHook($self->semStack[$stackPos-(5-4)], $self->semStack[$stackPos-(5-5)], ['flags' => $self->semStack[$stackPos-(5-2)], 'byRef' => $self->semStack[$stackPos-(5-3)], 'params' => [], 'attrGroups' => $self->semStack[$stackPos-(5-1)]], $self->getAttributes($self->tokenStartStack[$stackPos-(5-1)], $self->tokenEndStack[$stackPos]));

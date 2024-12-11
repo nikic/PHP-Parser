@@ -1159,7 +1159,7 @@ abstract class ParserAbstract implements Parser {
     }
 
     /** @param PropertyHook[] $hooks */
-    protected function checkPropertyHookList(array $hooks, int $hookPos): void {
+    protected function checkEmptyPropertyHookList(array $hooks, int $hookPos): void {
         if (empty($hooks)) {
             $this->emitError(new Error(
                 'Property hook list cannot be empty', $this->getAttributesAt($hookPos)));
