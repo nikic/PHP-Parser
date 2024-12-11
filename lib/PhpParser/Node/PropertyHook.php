@@ -2,6 +2,7 @@
 
 namespace PhpParser\Node;
 
+use PhpParser\Modifiers;
 use PhpParser\Node\Stmt\Return_;
 use PhpParser\NodeAbstract;
 
@@ -56,6 +57,13 @@ class PropertyHook extends NodeAbstract implements FunctionLike {
 
     public function getReturnType() {
         return null;
+    }
+
+    /**
+     * Whether the property hook is final.
+     */
+    public function isFinal(): bool {
+        return (bool) ($this->flags & Modifiers::FINAL);
     }
 
     public function getStmts(): ?array {
