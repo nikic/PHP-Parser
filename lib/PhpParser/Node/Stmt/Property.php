@@ -81,6 +81,20 @@ class Property extends Node\Stmt {
     }
 
     /**
+     * Whether the property is abstract.
+     */
+    public function isAbstract(): bool {
+        return (bool) ($this->flags & Modifiers::ABSTRACT);
+    }
+
+    /**
+     * Whether the property is final.
+     */
+    public function isFinal(): bool {
+        return (bool) ($this->flags & Modifiers::FINAL);
+    }
+
+    /**
      * Whether the property has explicit public(set) visibility.
      */
     public function isPublicSet(): bool {
