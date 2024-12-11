@@ -523,3 +523,116 @@ array(
         )
     )
 )
+-----
+<?php
+class Test
+{
+
+    public $foo, $bar { get { return 42; } }
+
+}
+-----
+Cannot use hooks when declaring multiple properties from 5:23 to 5:23
+array(
+    0: Stmt_Class(
+        attrGroups: array(
+        )
+        flags: 0
+        name: Identifier(
+            name: Test
+        )
+        extends: null
+        implements: array(
+        )
+        stmts: array(
+            0: Stmt_Property(
+                attrGroups: array(
+                )
+                flags: PUBLIC (1)
+                type: null
+                props: array(
+                    0: PropertyItem(
+                        name: VarLikeIdentifier(
+                            name: foo
+                        )
+                        default: null
+                    )
+                    1: PropertyItem(
+                        name: VarLikeIdentifier(
+                            name: bar
+                        )
+                        default: null
+                    )
+                )
+                hooks: array(
+                    0: PropertyHook(
+                        attrGroups: array(
+                        )
+                        flags: 0
+                        byRef: false
+                        name: Identifier(
+                            name: get
+                        )
+                        params: array(
+                        )
+                        body: array(
+                            0: Stmt_Return(
+                                expr: Scalar_Int(
+                                    value: 42
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        )
+    )
+)
+-----
+<?php
+class Test
+{
+
+    public $foo, $bar { }
+
+}
+-----
+Cannot use hooks when declaring multiple properties from 5:23 to 5:23
+Property hook list cannot be empty from 5:23 to 5:23
+array(
+    0: Stmt_Class(
+        attrGroups: array(
+        )
+        flags: 0
+        name: Identifier(
+            name: Test
+        )
+        extends: null
+        implements: array(
+        )
+        stmts: array(
+            0: Stmt_Property(
+                attrGroups: array(
+                )
+                flags: PUBLIC (1)
+                type: null
+                props: array(
+                    0: PropertyItem(
+                        name: VarLikeIdentifier(
+                            name: foo
+                        )
+                        default: null
+                    )
+                    1: PropertyItem(
+                        name: VarLikeIdentifier(
+                            name: bar
+                        )
+                        default: null
+                    )
+                )
+                hooks: array(
+                )
+            )
+        )
+    )
+)

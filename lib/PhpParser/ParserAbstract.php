@@ -1158,6 +1158,13 @@ abstract class ParserAbstract implements Parser {
         }
     }
 
+    protected function checkPropertyHooksForMultiProperty(Property $property, int $hookPos): void {
+        if (count($property->props) > 1) {
+            $this->emitError(new Error(
+                'Cannot use hooks when declaring multiple properties', $this->getAttributesAt($hookPos)));
+        }
+    }
+
     /** @param PropertyHook[] $hooks */
     protected function checkEmptyPropertyHookList(array $hooks, int $hookPos): void {
         if (empty($hooks)) {

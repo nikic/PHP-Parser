@@ -1993,6 +1993,7 @@ class Php8 extends \PhpParser\ParserAbstract
             },
             348 => static function ($self, $stackPos) {
                  $self->semValue = new Stmt\Property($self->semStack[$stackPos-(7-2)], $self->semStack[$stackPos-(7-4)], $self->getAttributes($self->tokenStartStack[$stackPos-(7-1)], $self->tokenEndStack[$stackPos]), $self->semStack[$stackPos-(7-3)], $self->semStack[$stackPos-(7-1)], $self->semStack[$stackPos-(7-6)]);
+            $self->checkPropertyHooksForMultiProperty($self->semValue, $stackPos-(7-5));
             $self->checkEmptyPropertyHookList($self->semStack[$stackPos-(7-6)], $stackPos-(7-5));
             },
             349 => static function ($self, $stackPos) {
