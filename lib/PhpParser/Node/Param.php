@@ -68,11 +68,20 @@ class Param extends NodeAbstract {
      * Whether this parameter uses constructor property promotion.
      */
     public function isPromoted(): bool {
-        return $this->flags !== 0;
+        return $this->flags !== 0 || $this->hooks !== [];
     }
 
     public function isPublic(): bool {
-        return (bool) ($this->flags & Modifiers::PUBLIC);
+        $public = (bool) ($this->flags & Modifiers::PUBLIC);
+        if ($public) {
+            return true;
+        }
+
+        if ($this->hooks === []) {
+            return false;
+        }
+
+        return ($this->flags & Modifiers::VISIBILITY_MASK) === 0;
     }
 
     public function isProtected(): bool {
