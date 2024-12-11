@@ -1158,6 +1158,13 @@ abstract class ParserAbstract implements Parser {
         }
     }
 
+    protected function checkPropertyHooksForMultiProperty(Property $property): void {
+        if (count($property->props) > 1) {
+            $this->emitError(new Error(
+                'Multiple properties cannot share the same hooks', $property->getAttributes()));
+        }
+    }
+
     /** @param PropertyHook[] $hooks */
     protected function checkEmptyPropertyHookList(array $hooks, int $hookPos): void {
         if (empty($hooks)) {

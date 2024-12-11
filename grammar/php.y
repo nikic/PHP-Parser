@@ -840,6 +840,7 @@ class_statement:
 #if PHP8
     | optional_attributes variable_modifiers optional_type_without_static property_declaration_list '{' property_hook_list '}'
           { $$ = new Stmt\Property($2, $4, attributes(), $3, $1, $6);
+            $this->checkPropertyHooksForMultiProperty($$);
             $this->checkEmptyPropertyHookList($6, #5); }
 #endif
     | optional_attributes method_modifiers T_CONST class_const_list semi
