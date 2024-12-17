@@ -14,6 +14,8 @@ class Namespace_ extends Node\Stmt {
     /** @var Node\Stmt[] Statements */
     public $stmts;
 
+    private const SUBNODE_NAMES = ['name', 'stmts'];
+
     /**
      * Constructs a namespace node.
      *
@@ -27,10 +29,12 @@ class Namespace_ extends Node\Stmt {
         $this->stmts = $stmts;
     }
 
+    /**
+     * @return self::SUBNODE_NAMES
+     */
     public function getSubNodeNames(): array {
-        return ['name', 'stmts'];
+        return self::SUBNODE_NAMES;
     }
-
     public function getType(): string {
         return 'Stmt_Namespace';
     }

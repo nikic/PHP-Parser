@@ -11,6 +11,8 @@ class DeclareItem extends NodeAbstract {
     /** @var Node\Expr Value */
     public Expr $value;
 
+    private const SUBNODE_NAMES = ['key', 'value'];
+
     /**
      * Constructs a declare key=>value pair node.
      *
@@ -24,8 +26,11 @@ class DeclareItem extends NodeAbstract {
         $this->value = $value;
     }
 
+    /**
+     * @return self::SUBNODE_NAMES
+     */
     public function getSubNodeNames(): array {
-        return ['key', 'value'];
+        return self::SUBNODE_NAMES;
     }
 
     public function getType(): string {

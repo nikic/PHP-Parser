@@ -22,6 +22,8 @@ class Function_ extends Node\Stmt implements FunctionLike {
     /** @var Node\Name|null Namespaced name (if using NameResolver) */
     public ?Node\Name $namespacedName;
 
+    private const SUBNODE_NAMES = ['attrGroups', 'byRef', 'name', 'params', 'returnType', 'stmts'];
+
     /**
      * Constructs a function node.
      *
@@ -50,10 +52,12 @@ class Function_ extends Node\Stmt implements FunctionLike {
         $this->attrGroups = $subNodes['attrGroups'] ?? [];
     }
 
+    /**
+     * @return self::SUBNODE_NAMES
+     */
     public function getSubNodeNames(): array {
-        return ['attrGroups', 'byRef', 'name', 'params', 'returnType', 'stmts'];
+        return self::SUBNODE_NAMES;
     }
-
     public function returnsByRef(): bool {
         return $this->byRef;
     }

@@ -11,6 +11,8 @@ class Match_ extends Node\Expr {
     /** @var MatchArm[] */
     public array $arms;
 
+    private const SUBNODE_NAMES = ['cond', 'arms'];
+
     /**
      * @param Node\Expr $cond Condition
      * @param MatchArm[] $arms
@@ -22,8 +24,11 @@ class Match_ extends Node\Expr {
         $this->arms = $arms;
     }
 
+    /**
+     * @return self::SUBNODE_NAMES
+     */
     public function getSubNodeNames(): array {
-        return ['cond', 'arms'];
+        return self::SUBNODE_NAMES;
     }
 
     public function getType(): string {
