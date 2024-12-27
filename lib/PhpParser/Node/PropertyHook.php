@@ -3,6 +3,7 @@
 namespace PhpParser\Node;
 
 use PhpParser\Modifiers;
+use PhpParser\Node\Stmt\Expression;
 use PhpParser\Node\Stmt\Return_;
 use PhpParser\NodeAbstract;
 
@@ -68,7 +69,15 @@ class PropertyHook extends NodeAbstract implements FunctionLike {
 
     public function getStmts(): ?array {
         if ($this->body instanceof Expr) {
-            return [new Return_($this->body)];
+            $name = $this->name->toLowerString();
+            if ($name === 'get') {
+                return [new Return_($this->body)];
+            }
+            if ($name === 'set') {
+                // TODO: This should generate $this->prop = $expr, but we don't know the property name.
+                return [new Expression($this->body)];
+            }
+            throw new \LogicException('Unknown property hook "' . $name . '"');
         }
         return $this->body;
     }
