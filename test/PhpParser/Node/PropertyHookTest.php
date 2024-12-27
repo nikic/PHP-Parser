@@ -45,8 +45,7 @@ class PropertyHookTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals([new Expression($expr)], $set->getStmts());
     }
 
-    public function testSetStmtsUnknownHook(): void
-    {
+    public function testSetStmtsUnknownHook(): void {
         $expr = new Variable('test');
         $get = new PropertyHook('foobar', $expr);
 
