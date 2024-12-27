@@ -686,11 +686,13 @@ parameter:
       optional_attributes optional_property_modifiers optional_type_without_static
       optional_arg_ref optional_ellipsis plain_variable optional_property_hook_list
           { $$ = new Node\Param($6, null, $3, $4, $5, attributes(), $2, $1, $7);
-            $this->checkParam($$); }
+            $this->checkParam($$);
+            $this->addPropertyNameToHooks($$); }
     | optional_attributes optional_property_modifiers optional_type_without_static
       optional_arg_ref optional_ellipsis plain_variable '=' expr optional_property_hook_list
           { $$ = new Node\Param($6, $8, $3, $4, $5, attributes(), $2, $1, $9);
-            $this->checkParam($$); }
+            $this->checkParam($$);
+            $this->addPropertyNameToHooks($$); }
     | optional_attributes optional_property_modifiers optional_type_without_static
       optional_arg_ref optional_ellipsis error
           { $$ = new Node\Param(Expr\Error[], null, $3, $4, $5, attributes(), $2, $1); }
@@ -841,7 +843,8 @@ class_statement:
     | optional_attributes variable_modifiers optional_type_without_static property_declaration_list '{' property_hook_list '}'
           { $$ = new Stmt\Property($2, $4, attributes(), $3, $1, $6);
             $this->checkPropertyHooksForMultiProperty($$, #5);
-            $this->checkEmptyPropertyHookList($6, #5); }
+            $this->checkEmptyPropertyHookList($6, #5);
+            $this->addPropertyNameToHooks($$); }
 #endif
     | optional_attributes method_modifiers T_CONST class_const_list semi
           { $$ = new Stmt\ClassConst($4, $2, attributes(), $1);

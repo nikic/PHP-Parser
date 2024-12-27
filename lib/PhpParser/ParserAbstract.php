@@ -32,6 +32,7 @@ use PhpParser\Node\Stmt\Nop;
 use PhpParser\Node\Stmt\Property;
 use PhpParser\Node\Stmt\TryCatch;
 use PhpParser\Node\UseItem;
+use PhpParser\Node\VarLikeIdentifier;
 use PhpParser\NodeVisitor\CommentAnnotatingVisitor;
 
 abstract class ParserAbstract implements Parser {
@@ -1198,6 +1199,20 @@ abstract class ParserAbstract implements Parser {
             $this->emitError(new Error(
                 'Cannot use the ' . Modifiers::toString($b) . ' modifier on a property hook',
                 $this->getAttributesAt($modifierPos)));
+        }
+    }
+
+    /**
+     * @param Property|Param $node
+     */
+    protected function addPropertyNameToHooks(Node $node): void {
+        if ($node instanceof Property) {
+            $name = $node->props[0]->name->toString();
+        } else {
+            $name = $node->var->name;
+        }
+        foreach ($node->hooks as $hook) {
+            $hook->setAttribute('propertyName', $name);
         }
     }
 

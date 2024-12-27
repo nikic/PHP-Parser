@@ -1844,10 +1844,12 @@ class Php7 extends \PhpParser\ParserAbstract
             290 => static function ($self, $stackPos) {
                  $self->semValue = new Node\Param($self->semStack[$stackPos-(7-6)], null, $self->semStack[$stackPos-(7-3)], $self->semStack[$stackPos-(7-4)], $self->semStack[$stackPos-(7-5)], $self->getAttributes($self->tokenStartStack[$stackPos-(7-1)], $self->tokenEndStack[$stackPos]), $self->semStack[$stackPos-(7-2)], $self->semStack[$stackPos-(7-1)], $self->semStack[$stackPos-(7-7)]);
             $self->checkParam($self->semValue);
+            $self->addPropertyNameToHooks($self->semValue);
             },
             291 => static function ($self, $stackPos) {
                  $self->semValue = new Node\Param($self->semStack[$stackPos-(9-6)], $self->semStack[$stackPos-(9-8)], $self->semStack[$stackPos-(9-3)], $self->semStack[$stackPos-(9-4)], $self->semStack[$stackPos-(9-5)], $self->getAttributes($self->tokenStartStack[$stackPos-(9-1)], $self->tokenEndStack[$stackPos]), $self->semStack[$stackPos-(9-2)], $self->semStack[$stackPos-(9-1)], $self->semStack[$stackPos-(9-9)]);
             $self->checkParam($self->semValue);
+            $self->addPropertyNameToHooks($self->semValue);
             },
             292 => static function ($self, $stackPos) {
                  $self->semValue = new Node\Param(new Expr\Error($self->getAttributes($self->tokenStartStack[$stackPos-(6-1)], $self->tokenEndStack[$stackPos])), null, $self->semStack[$stackPos-(6-3)], $self->semStack[$stackPos-(6-4)], $self->semStack[$stackPos-(6-5)], $self->getAttributes($self->tokenStartStack[$stackPos-(6-1)], $self->tokenEndStack[$stackPos]), $self->semStack[$stackPos-(6-2)], $self->semStack[$stackPos-(6-1)]);

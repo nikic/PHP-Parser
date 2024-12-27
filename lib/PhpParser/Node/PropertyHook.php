@@ -3,6 +3,9 @@
 namespace PhpParser\Node;
 
 use PhpParser\Modifiers;
+use PhpParser\Node\Expr\Assign;
+use PhpParser\Node\Expr\PropertyFetch;
+use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Stmt\Expression;
 use PhpParser\Node\Stmt\Return_;
 use PhpParser\NodeAbstract;
@@ -74,8 +77,14 @@ class PropertyHook extends NodeAbstract implements FunctionLike {
                 return [new Return_($this->body)];
             }
             if ($name === 'set') {
-                // TODO: This should generate $this->prop = $expr, but we don't know the property name.
-                return [new Expression($this->body)];
+                if (!$this->hasAttribute('propertyName')) {
+                    throw new \LogicException(
+                        'Can only use getStmts() on a "set" hook if the "propertyName" attribute is set');
+                }
+
+                $propName = $this->getAttribute('propertyName');
+                $prop = new PropertyFetch(new Variable('this'), (string) $propName);
+                return [new Expression(new Assign($prop, $this->body))];
             }
             throw new \LogicException('Unknown property hook "' . $name . '"');
         }
