@@ -14,6 +14,8 @@ class For_ extends Node\Stmt {
     /** @var Node\Stmt[] Statements */
     public array $stmts;
 
+    private const SUBNODE_NAMES = ['init', 'cond', 'loop', 'stmts'];
+
     /**
      * Constructs a for loop node.
      *
@@ -37,8 +39,11 @@ class For_ extends Node\Stmt {
         $this->stmts = $subNodes['stmts'] ?? [];
     }
 
+    /**
+     * @return self::SUBNODE_NAMES
+     */
     public function getSubNodeNames(): array {
-        return ['init', 'cond', 'loop', 'stmts'];
+        return self::SUBNODE_NAMES;
     }
 
     public function getType(): string {

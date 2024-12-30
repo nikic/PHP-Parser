@@ -8,6 +8,8 @@ class AttributeGroup extends NodeAbstract {
     /** @var Attribute[] Attributes */
     public array $attrs;
 
+    private const SUBNODE_NAMES = ['attrs'];
+
     /**
      * @param Attribute[] $attrs PHP attributes
      * @param array<string, mixed> $attributes Additional node attributes
@@ -17,8 +19,11 @@ class AttributeGroup extends NodeAbstract {
         $this->attrs = $attrs;
     }
 
+    /**
+     * @return self::SUBNODE_NAMES
+     */
     public function getSubNodeNames(): array {
-        return ['attrs'];
+        return self::SUBNODE_NAMES;
     }
 
     public function getType(): string {

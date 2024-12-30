@@ -29,6 +29,8 @@ class PrintableNewAnonClassNode extends Expr {
     /** @var Node\Stmt[] Statements */
     public array $stmts;
 
+    private const SUBNODE_NAMES = ['attrGroups', 'flags', 'args', 'extends', 'implements', 'stmts'];
+
     /**
      * @param Node\AttributeGroup[] $attrGroups PHP attribute groups
      * @param (Node\Arg|Node\VariadicPlaceholder)[] $args Arguments
@@ -65,7 +67,10 @@ class PrintableNewAnonClassNode extends Expr {
         return 'Expr_PrintableNewAnonClass';
     }
 
+    /**
+     * @return self::SUBNODE_NAMES
+     */
     public function getSubNodeNames(): array {
-        return ['attrGroups', 'flags', 'args', 'extends', 'implements', 'stmts'];
+        return self::SUBNODE_NAMES;
     }
 }

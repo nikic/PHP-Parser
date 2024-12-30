@@ -8,6 +8,8 @@ class Const_ extends Node\Stmt {
     /** @var Node\Const_[] Constant declarations */
     public array $consts;
 
+    private const SUBNODE_NAMES = ['consts'];
+
     /**
      * Constructs a const list node.
      *
@@ -19,8 +21,11 @@ class Const_ extends Node\Stmt {
         $this->consts = $consts;
     }
 
+    /**
+     * @return self::SUBNODE_NAMES
+     */
     public function getSubNodeNames(): array {
-        return ['consts'];
+        return self::SUBNODE_NAMES;
     }
 
     public function getType(): string {
