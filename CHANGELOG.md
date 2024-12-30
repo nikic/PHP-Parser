@@ -1,3 +1,23 @@
+Version 5.4.0 (2024-12-30)
+--------------------------
+
+### Added
+
+* Added `Property::isAbstract()` and `Property::isFinal()` methods.
+* Added `PropertyHook::isFinal()` method.
+* Emit an error if property hook is used on declaration with multiple properties.
+
+### Fixed
+
+* Make legacy class aliases compatible with classmap-authoritative autoloader.
+* `Param::isPromoted()` and `Param::isPublic()` now returns true for parameters that have property
+  hooks but no explicit visibility modifier.
+* `PropertyHook::getStmts()` now correctly desugars short `set` hooks. `set => $value` will be
+  expanded to `set { $this->propertyName = $value; }`. This requires the `propertyName` attribute
+  on the hook to be set, which is now also set by the parser. If the attribute is not set,
+  `getStmts()` will throw an error for short set hooks, as it is not possible to produce a correct
+  desugaring.
+
 Version 5.3.1 (2024-10-08)
 --------------------------
 
