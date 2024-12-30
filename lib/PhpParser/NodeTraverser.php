@@ -99,66 +99,72 @@ class NodeTraverser implements NodeTraverserInterface {
                 if ($this->stopTraversal) {
                     break;
                 }
-            } elseif ($subNode instanceof Node) {
-                $traverseChildren = true;
-                $visitorIndex = -1;
 
-                foreach ($this->visitors as $visitorIndex => $visitor) {
-                    $return = $visitor->enterNode($subNode);
-                    if (null !== $return) {
-                        if ($return instanceof Node) {
-                            $this->ensureReplacementReasonable($subNode, $return);
-                            $subNode = $node->$name = $return;
-                        } elseif (NodeVisitor::DONT_TRAVERSE_CHILDREN === $return) {
-                            $traverseChildren = false;
-                        } elseif (NodeVisitor::DONT_TRAVERSE_CURRENT_AND_CHILDREN === $return) {
-                            $traverseChildren = false;
-                            break;
-                        } elseif (NodeVisitor::STOP_TRAVERSAL === $return) {
-                            $this->stopTraversal = true;
-                            break 2;
-                        } elseif (NodeVisitor::REPLACE_WITH_NULL === $return) {
-                            $node->$name = null;
-                            continue 2;
-                        } else {
-                            throw new \LogicException(
-                                'enterNode() returned invalid value of type ' . gettype($return)
-                            );
-                        }
-                    }
-                }
+                continue;
+            }
 
-                if ($traverseChildren) {
-                    $this->traverseNode($subNode);
-                    if ($this->stopTraversal) {
+            if (!$subNode instanceof Node) {
+                continue;
+            }
+
+            $traverseChildren = true;
+            $visitorIndex = -1;
+
+            foreach ($this->visitors as $visitorIndex => $visitor) {
+                $return = $visitor->enterNode($subNode);
+                if (null !== $return) {
+                    if ($return instanceof Node) {
+                        $this->ensureReplacementReasonable($subNode, $return);
+                        $subNode = $node->$name = $return;
+                    } elseif (NodeVisitor::DONT_TRAVERSE_CHILDREN === $return) {
+                        $traverseChildren = false;
+                    } elseif (NodeVisitor::DONT_TRAVERSE_CURRENT_AND_CHILDREN === $return) {
+                        $traverseChildren = false;
                         break;
+                    } elseif (NodeVisitor::STOP_TRAVERSAL === $return) {
+                        $this->stopTraversal = true;
+                        break 2;
+                    } elseif (NodeVisitor::REPLACE_WITH_NULL === $return) {
+                        $node->$name = null;
+                        continue 2;
+                    } else {
+                        throw new \LogicException(
+                            'enterNode() returned invalid value of type ' . gettype($return)
+                        );
                     }
                 }
+            }
 
-                for (; $visitorIndex >= 0; --$visitorIndex) {
-                    $visitor = $this->visitors[$visitorIndex];
-                    $return = $visitor->leaveNode($subNode);
+            if ($traverseChildren) {
+                $this->traverseNode($subNode);
+                if ($this->stopTraversal) {
+                    break;
+                }
+            }
 
-                    if (null !== $return) {
-                        if ($return instanceof Node) {
-                            $this->ensureReplacementReasonable($subNode, $return);
-                            $subNode = $node->$name = $return;
-                        } elseif (NodeVisitor::STOP_TRAVERSAL === $return) {
-                            $this->stopTraversal = true;
-                            break 2;
-                        } elseif (NodeVisitor::REPLACE_WITH_NULL === $return) {
-                            $node->$name = null;
-                            break;
-                        } elseif (\is_array($return)) {
-                            throw new \LogicException(
-                                'leaveNode() may only return an array ' .
-                                'if the parent structure is an array'
-                            );
-                        } else {
-                            throw new \LogicException(
-                                'leaveNode() returned invalid value of type ' . gettype($return)
-                            );
-                        }
+            for (; $visitorIndex >= 0; --$visitorIndex) {
+                $visitor = $this->visitors[$visitorIndex];
+                $return = $visitor->leaveNode($subNode);
+
+                if (null !== $return) {
+                    if ($return instanceof Node) {
+                        $this->ensureReplacementReasonable($subNode, $return);
+                        $subNode = $node->$name = $return;
+                    } elseif (NodeVisitor::STOP_TRAVERSAL === $return) {
+                        $this->stopTraversal = true;
+                        break 2;
+                    } elseif (NodeVisitor::REPLACE_WITH_NULL === $return) {
+                        $node->$name = null;
+                        break;
+                    } elseif (\is_array($return)) {
+                        throw new \LogicException(
+                            'leaveNode() may only return an array ' .
+                            'if the parent structure is an array'
+                        );
+                    } else {
+                        throw new \LogicException(
+                            'leaveNode() returned invalid value of type ' . gettype($return)
+                        );
                     }
                 }
             }
