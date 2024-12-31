@@ -487,15 +487,16 @@ generic_type:
       | T_ARRAY     { $$ = Node\Name[$1]; }
       | T_CALLABLE  { $$ = Node\Name[$1]; }
 
-identifier_maybe_readonly:
+fn_identifier:
       identifier_not_reserved
     | T_READONLY                                            { $$ = Node\Identifier[$1]; }
+    | T_EXIT                                                { $$ = Node\Identifier[$1]; }
 ;
 
 function_declaration_statement:
-      T_FUNCTION optional_ref identifier_maybe_readonly '(' parameter_list ')' optional_return_type block_or_error
+      T_FUNCTION optional_ref fn_identifier '(' parameter_list ')' optional_return_type block_or_error
           { $$ = Stmt\Function_[$3, ['byRef' => $2, 'params' => $5, 'returnType' => $7, 'stmts' => $8, 'attrGroups' => []]]; }
-    | attributes T_FUNCTION optional_ref identifier_maybe_readonly '(' parameter_list ')' optional_return_type block_or_error
+    | attributes T_FUNCTION optional_ref fn_identifier '(' parameter_list ')' optional_return_type block_or_error
           { $$ = Stmt\Function_[$4, ['byRef' => $3, 'params' => $6, 'returnType' => $8, 'stmts' => $9, 'attrGroups' => $1]]; }
 ;
 
@@ -708,11 +709,13 @@ parameter:
       optional_attributes optional_property_modifiers optional_type_without_static
       optional_arg_ref optional_ellipsis plain_variable optional_property_hook_list
           { $$ = new Node\Param($6, null, $3, $4, $5, attributes(), $2, $1, $7);
-            $this->checkParam($$); }
+            $this->checkParam($$);
+            $this->addPropertyNameToHooks($$); }
     | optional_attributes optional_property_modifiers optional_type_without_static
       optional_arg_ref optional_ellipsis plain_variable '=' expr optional_property_hook_list
           { $$ = new Node\Param($6, $8, $3, $4, $5, attributes(), $2, $1, $9);
-            $this->checkParam($$); }
+            $this->checkParam($$);
+            $this->addPropertyNameToHooks($$); }
     | optional_attributes optional_property_modifiers optional_type_without_static
       optional_arg_ref optional_ellipsis error
           { $$ = new Node\Param(Expr\Error[], null, $3, $4, $5, attributes(), $2, $1); }
@@ -862,7 +865,9 @@ class_statement:
 #if PHP8
     | optional_attributes variable_modifiers optional_type_without_static property_declaration_list '{' property_hook_list '}'
           { $$ = new Stmt\Property($2, $4, attributes(), $3, $1, $6);
-            $this->checkPropertyHookList($6, #5); }
+            $this->checkPropertyHooksForMultiProperty($$, #5);
+            $this->checkEmptyPropertyHookList($6, #5);
+            $this->addPropertyNameToHooks($$); }
 #endif
     | optional_attributes method_modifiers T_CONST class_const_list semi
           { $$ = new Stmt\ClassConst($4, $2, attributes(), $1);
@@ -971,7 +976,7 @@ property_hook_list:
 optional_property_hook_list:
       /* empty */                                           { $$ = []; }
 #if PHP8
-    | '{' property_hook_list '}'                            { $$ = $2; $this->checkPropertyHookList($2, #1); }
+    | '{' property_hook_list '}'                            { $$ = $2; $this->checkEmptyPropertyHookList($2, #1); }
 #endif
 ;
 

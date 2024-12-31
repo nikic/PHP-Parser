@@ -53,7 +53,7 @@ class Identifier extends NodeAbstract {
     /**
      * Get lowercased identifier as string.
      *
-     * @psalm-return non-empty-string
+     * @psalm-return non-empty-string&lowercase-string
      * @return string Lowercased identifier as string
      */
     public function toLowerString(): string {

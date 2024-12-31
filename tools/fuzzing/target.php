@@ -104,7 +104,7 @@ $fuzzer->setTarget(function(string $input) use($lexer, $parser, $prettyPrinter, 
     $stmts = $parser->parse($input);
     $printed = $prettyPrinter->prettyPrintFile($stmts);
 
-    $visitor->setTokens($lexer->getTokens());
+    $visitor->setTokens($parser->getTokens());
     $stmts = $traverser->traverse($stmts);
     if ($visitor->hasProblematicConstruct) {
         return;
@@ -116,7 +116,7 @@ $fuzzer->setTarget(function(string $input) use($lexer, $parser, $prettyPrinter, 
         throw new Error("Failed to parse pretty printer output");
     }
 
-    $visitor->setTokens($lexer->getTokens());
+    $visitor->setTokens($parser->getTokens());
     $printedStmts = $traverser->traverse($printedStmts);
     $same = $nodeDumper->dump($stmts) == $nodeDumper->dump($printedStmts);
     if (!$same && !preg_match('/<\?php<\?php/i', $input)) {

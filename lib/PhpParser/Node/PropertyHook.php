@@ -2,6 +2,11 @@
 
 namespace PhpParser\Node;
 
+use PhpParser\Modifiers;
+use PhpParser\Node\Expr\Assign;
+use PhpParser\Node\Expr\PropertyFetch;
+use PhpParser\Node\Expr\Variable;
+use PhpParser\Node\Stmt\Expression;
 use PhpParser\Node\Stmt\Return_;
 use PhpParser\NodeAbstract;
 
@@ -30,6 +35,7 @@ class PropertyHook extends NodeAbstract implements FunctionLike {
      *     params?: Param[],
      *     attrGroups?: AttributeGroup[],
      * } $subNodes Array of the following optional subnodes:
+     *             'flags       => 0      : Flags
      *             'byRef'      => false  : Whether hook returns by reference
      *             'params'     => array(): Parameters
      *             'attrGroups' => array(): PHP attribute groups
@@ -57,9 +63,30 @@ class PropertyHook extends NodeAbstract implements FunctionLike {
         return null;
     }
 
+    /**
+     * Whether the property hook is final.
+     */
+    public function isFinal(): bool {
+        return (bool) ($this->flags & Modifiers::FINAL);
+    }
+
     public function getStmts(): ?array {
         if ($this->body instanceof Expr) {
-            return [new Return_($this->body)];
+            $name = $this->name->toLowerString();
+            if ($name === 'get') {
+                return [new Return_($this->body)];
+            }
+            if ($name === 'set') {
+                if (!$this->hasAttribute('propertyName')) {
+                    throw new \LogicException(
+                        'Can only use getStmts() on a "set" hook if the "propertyName" attribute is set');
+                }
+
+                $propName = $this->getAttribute('propertyName');
+                $prop = new PropertyFetch(new Variable('this'), (string) $propName);
+                return [new Expression(new Assign($prop, $this->body))];
+            }
+            throw new \LogicException('Unknown property hook "' . $name . '"');
         }
         return $this->body;
     }

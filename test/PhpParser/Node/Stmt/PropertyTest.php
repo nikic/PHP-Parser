@@ -57,4 +57,14 @@ class PropertyTest extends \PHPUnit\Framework\TestCase {
         $node = new Property(Modifiers::PUBLIC_SET, []);
         $this->assertTrue($node->isPublicSet());
     }
+
+    public function testIsFinal() {
+        $node = new Property(Modifiers::FINAL, []);
+        $this->assertTrue($node->isFinal());
+    }
+
+    public function testIsAbstract() {
+        $node = new Property(Modifiers::ABSTRACT, []);
+        $this->assertTrue($node->isAbstract());
+    }
 }

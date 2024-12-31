@@ -8,7 +8,7 @@ require $testDir . '/PhpParser/CodeParsingTest.php';
 $inputDirs = [$testDir . '/code/parser', $testDir . '/code/prettyPrinter'];
 
 if ($argc < 2) {
-    echo "Usage: php generateCorpus.php dir/";
+    echo "Usage: php generateCorpus.php dir/\n";
     exit(1);
 }
 

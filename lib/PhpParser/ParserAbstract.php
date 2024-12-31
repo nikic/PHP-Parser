@@ -32,6 +32,7 @@ use PhpParser\Node\Stmt\Nop;
 use PhpParser\Node\Stmt\Property;
 use PhpParser\Node\Stmt\TryCatch;
 use PhpParser\Node\UseItem;
+use PhpParser\Node\VarLikeIdentifier;
 use PhpParser\NodeVisitor\CommentAnnotatingVisitor;
 
 abstract class ParserAbstract implements Parser {
@@ -411,8 +412,6 @@ abstract class ParserAbstract implements Parser {
                 $rule = $state - $this->numNonLeafStates;
             }
         }
-
-        throw new \RuntimeException('Reached end of parser loop');
     }
 
     protected function emitError(Error $error): void {
@@ -1160,8 +1159,15 @@ abstract class ParserAbstract implements Parser {
         }
     }
 
+    protected function checkPropertyHooksForMultiProperty(Property $property, int $hookPos): void {
+        if (count($property->props) > 1) {
+            $this->emitError(new Error(
+                'Cannot use hooks when declaring multiple properties', $this->getAttributesAt($hookPos)));
+        }
+    }
+
     /** @param PropertyHook[] $hooks */
-    protected function checkPropertyHookList(array $hooks, int $hookPos): void {
+    protected function checkEmptyPropertyHookList(array $hooks, int $hookPos): void {
         if (empty($hooks)) {
             $this->emitError(new Error(
                 'Property hook list cannot be empty', $this->getAttributesAt($hookPos)));
@@ -1193,6 +1199,20 @@ abstract class ParserAbstract implements Parser {
             $this->emitError(new Error(
                 'Cannot use the ' . Modifiers::toString($b) . ' modifier on a property hook',
                 $this->getAttributesAt($modifierPos)));
+        }
+    }
+
+    /**
+     * @param Property|Param $node
+     */
+    protected function addPropertyNameToHooks(Node $node): void {
+        if ($node instanceof Property) {
+            $name = $node->props[0]->name->toString();
+        } else {
+            $name = $node->var->name;
+        }
+        foreach ($node->hooks as $hook) {
+            $hook->setAttribute('propertyName', $name);
         }
     }
 
