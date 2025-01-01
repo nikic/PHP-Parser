@@ -4,9 +4,11 @@ namespace PhpParser;
 
 class Comment implements \JsonSerializable {
     protected string $text;
+    /** @var -1|positive-int */
     protected int $startLine;
     protected int $startFilePos;
     protected int $startTokenPos;
+    /** @var -1|positive-int */
     protected int $endLine;
     protected int $endFilePos;
     protected int $endTokenPos;
@@ -15,9 +17,10 @@ class Comment implements \JsonSerializable {
      * Constructs a comment node.
      *
      * @param string $text Comment text (including comment delimiters like /*)
-     * @param int $startLine Line number the comment started on
+     * @param -1|positive-int $startLine Line number the comment started on
      * @param int $startFilePos File offset the comment started on
      * @param int $startTokenPos Token offset the comment started on
+     * @param -1|positive-int $endLine
      */
     public function __construct(
         string $text,
@@ -179,7 +182,9 @@ class Comment implements \JsonSerializable {
         $lines = explode("\n", $str);
         $shortestPrefixLen = \PHP_INT_MAX;
         foreach ($lines as $line) {
-            preg_match('(^\s*)', $line, $matches);
+            if (!preg_match('(^\s*)', $line, $matches)) {
+                continue;
+            }
             $prefixLen = strlen($matches[0]);
             if ($prefixLen < $shortestPrefixLen) {
                 $shortestPrefixLen = $prefixLen;
