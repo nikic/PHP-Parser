@@ -25,6 +25,12 @@ final class NodeConnectingVisitor extends NodeVisitorAbstract {
      */
     private $previous;
 
+    private bool $weakReferences;
+
+    public function __construct(bool $weakReferences = false) {
+        $this->weakReferences = $weakReferences;
+    }
+
     public function beforeTraverse(array $nodes) {
         $this->stack    = [];
         $this->previous = null;
@@ -32,12 +38,21 @@ final class NodeConnectingVisitor extends NodeVisitorAbstract {
 
     public function enterNode(Node $node) {
         if (!empty($this->stack)) {
-            $node->setAttribute('parent', $this->stack[count($this->stack) - 1]);
+            $parent = $this->stack[count($this->stack) - 1];
+            if ($this->weakReferences) {
+                $parent = \WeakReference::create($parent);
+            }
+            $node->setAttribute('parent', $parent);
         }
 
         if ($this->previous !== null && $this->previous->getAttribute('parent') === $node->getAttribute('parent')) {
-            $node->setAttribute('previous', $this->previous);
-            $this->previous->setAttribute('next', $node);
+            if ($this->weakReferences) {
+                $node->setAttribute('previous', \WeakReference::create($this->previous));
+                $this->previous->setAttribute('next', \WeakReference::create($node));
+            } else {
+                $node->setAttribute('previous', $this->previous);
+                $this->previous->setAttribute('next', $node);
+            }
         }
 
         $this->stack[] = $node;
