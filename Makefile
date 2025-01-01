@@ -8,3 +8,6 @@ phpstan: tools/vendor
 
 php-cs-fixer: tools/vendor
 	php tools/vendor/bin/php-cs-fixer fix
+
+tests:
+	php vendor/bin/phpunit
