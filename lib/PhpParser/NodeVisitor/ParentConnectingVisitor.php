@@ -34,9 +34,10 @@ final class ParentConnectingVisitor extends NodeVisitorAbstract {
         if (!empty($this->stack)) {
             $parent = $this->stack[count($this->stack) - 1];
             if ($this->weakReferences) {
-                $parent = \WeakReference::create($parent);
+                $node->setAttribute('weak_parent', \WeakReference::create($parent));
+            } else {
+                $node->setAttribute('parent', $parent);
             }
-            $node->setAttribute('parent', $parent);
         }
 
         $this->stack[] = $node;

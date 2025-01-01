@@ -40,16 +40,20 @@ final class NodeConnectingVisitor extends NodeVisitorAbstract {
         if (!empty($this->stack)) {
             $parent = $this->stack[count($this->stack) - 1];
             if ($this->weakReferences) {
-                $parent = \WeakReference::create($parent);
+                $node->setAttribute('weak_parent', \WeakReference::create($parent));
+            } else {
+                $node->setAttribute('parent', $parent);
             }
-            $node->setAttribute('parent', $parent);
         }
 
-        if ($this->previous !== null && $this->previous->getAttribute('parent') === $node->getAttribute('parent')) {
-            if ($this->weakReferences) {
-                $node->setAttribute('previous', \WeakReference::create($this->previous));
-                $this->previous->setAttribute('next', \WeakReference::create($node));
-            } else {
+        if ($this->previous !== null) {
+            if (
+                $this->weakReferences
+                && $this->previous->getAttribute('weak_parent') === $node->getAttribute('weak_parent')
+            ) {
+                $node->setAttribute('weak_previous', \WeakReference::create($this->previous));
+                $this->previous->setAttribute('weak_next', \WeakReference::create($node));
+            } elseif ($this->previous->getAttribute('parent') === $node->getAttribute('parent')) {
                 $node->setAttribute('previous', $this->previous);
                 $this->previous->setAttribute('next', $node);
             }
