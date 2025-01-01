@@ -37,7 +37,7 @@ final class ParentConnectingVisitorTest extends \PHPUnit\Framework\TestCase {
 
         $node = (new NodeFinder())->findFirstInstanceof($ast, ClassMethod::class);
 
-        $weakReference = $node->getAttribute('parent');
+        $weakReference = $node->getAttribute('weak_parent');
         $this->assertInstanceOf(\WeakReference::class, $weakReference);
         $this->assertSame('C', $weakReference->get()->name->toString());
     }

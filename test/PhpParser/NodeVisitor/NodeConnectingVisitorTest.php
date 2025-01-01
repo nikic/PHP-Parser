@@ -44,14 +44,14 @@ final class NodeConnectingVisitorTest extends \PHPUnit\Framework\TestCase {
 
         $node = (new NodeFinder())->findFirstInstanceof($ast, Else_::class);
 
-        $this->assertInstanceOf(\WeakReference::class, $node->getAttribute('parent'));
-        $this->assertSame(If_::class, get_class($node->getAttribute('parent')->get()));
-        $this->assertInstanceOf(\WeakReference::class, $node->getAttribute('previous'));
-        $this->assertSame(ConstFetch::class, get_class($node->getAttribute('previous')->get()));
+        $this->assertInstanceOf(\WeakReference::class, $node->getAttribute('weak_parent'));
+        $this->assertSame(If_::class, get_class($node->getAttribute('weak_parent')->get()));
+        $this->assertInstanceOf(\WeakReference::class, $node->getAttribute('weak_previous'));
+        $this->assertSame(ConstFetch::class, get_class($node->getAttribute('weak_previous')->get()));
 
         $node = (new NodeFinder())->findFirstInstanceof($ast, ConstFetch::class);
 
-        $this->assertInstanceOf(\WeakReference::class, $node->getAttribute('next'));
-        $this->assertSame(Else_::class, get_class($node->getAttribute('next')->get()));
+        $this->assertInstanceOf(\WeakReference::class, $node->getAttribute('weak_next'));
+        $this->assertSame(Else_::class, get_class($node->getAttribute('weak_next')->get()));
     }
 }
