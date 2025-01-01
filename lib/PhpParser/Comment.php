@@ -17,10 +17,9 @@ class Comment implements \JsonSerializable {
      * Constructs a comment node.
      *
      * @param string $text Comment text (including comment delimiters like /*)
-     * @param -1|positive-int $startLine Line number the comment started on
+     * @param int $startLine Line number the comment started on
      * @param int $startFilePos File offset the comment started on
      * @param int $startTokenPos Token offset the comment started on
-     * @param -1|positive-int $endLine
      */
     public function __construct(
         string $text,
