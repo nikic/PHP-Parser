@@ -24,7 +24,7 @@ class CodeTestParser {
         // multiple sections possible with always two forming a pair
         $chunks = array_chunk($parts, $chunksPerTest);
         $tests = [];
-        foreach ($chunks as $i => $chunk) {
+        foreach ($chunks as $chunk) {
             $lastPart = array_pop($chunk);
             list($lastPart, $mode) = $this->extractMode($lastPart);
             $tests[] = [$mode, array_merge($chunk, [$lastPart])];
@@ -61,7 +61,7 @@ class CodeTestParser {
             return [$expected, null];
         }
 
-        $expected = (string) substr($expected, $firstNewLine + 1);
+        $expected = substr($expected, $firstNewLine + 1);
         return [$expected, substr($firstLine, 2)];
     }
 }
