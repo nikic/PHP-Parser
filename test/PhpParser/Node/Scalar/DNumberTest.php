@@ -15,7 +15,7 @@ class DNumberTest extends \PHPUnit\Framework\TestCase {
         $this->assertInstanceOf(Echo_::class, $echo);
 
         /** @var Echo_ $echo */
-        $lLumber = $echo->exprs[0];
+        $dnumber = $echo->exprs[0];
         $this->assertInstanceOf(Float_::class, $lLumber);
 
         /** @var Float_ $lLumber */
