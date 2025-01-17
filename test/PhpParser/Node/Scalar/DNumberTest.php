@@ -16,10 +16,10 @@ class DNumberTest extends \PHPUnit\Framework\TestCase {
 
         /** @var Echo_ $echo */
         $dnumber = $echo->exprs[0];
-        $this->assertInstanceOf(Float_::class, $lLumber);
+        $this->assertInstanceOf(Float_::class, $dnumber);
 
-        /** @var Float_ $lLumber */
-        $this->assertSame(1234.56, $lLumber->value);
-        $this->assertSame('1_234.56', $lLumber->getAttribute('rawValue'));
+        /** @var Float_ $dnumber */
+        $this->assertSame(1234.56, $dnumber->value);
+        $this->assertSame('1_234.56', $dnumber->getAttribute('rawValue'));
     }
 }

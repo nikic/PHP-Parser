@@ -15,10 +15,10 @@ class NumberTest extends \PHPUnit\Framework\TestCase {
 
         /** @var Echo_ $echo */
         $lnumber = $echo->exprs[0];
-        $this->assertInstanceOf(Int_::class, $lLumber);
+        $this->assertInstanceOf(Int_::class, $lnumber);
 
-        /** @var Int_ $lLumber */
-        $this->assertSame(1234, $lLumber->value);
-        $this->assertSame('1_234', $lLumber->getAttribute('rawValue'));
+        /** @var Int_ $lnumber */
+        $this->assertSame(1234, $lnumber->value);
+        $this->assertSame('1_234', $lnumber->getAttribute('rawValue'));
     }
 }
