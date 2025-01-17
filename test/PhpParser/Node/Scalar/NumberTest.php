@@ -14,7 +14,7 @@ class NumberTest extends \PHPUnit\Framework\TestCase {
         $this->assertInstanceOf(Echo_::class, $echo);
 
         /** @var Echo_ $echo */
-        $lLumber = $echo->exprs[0];
+        $lnumber = $echo->exprs[0];
         $this->assertInstanceOf(Int_::class, $lLumber);
 
         /** @var Int_ $lLumber */
