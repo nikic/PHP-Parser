@@ -6,6 +6,8 @@ class UnionType extends ComplexType {
     /** @var (Identifier|Name|IntersectionType)[] Types */
     public array $types;
 
+    private const SUBNODE_NAMES = ['types'];
+
     /**
      * Constructs a union type.
      *
@@ -17,8 +19,11 @@ class UnionType extends ComplexType {
         $this->types = $types;
     }
 
+    /**
+     * @return self::SUBNODE_NAMES
+     */
     public function getSubNodeNames(): array {
-        return ['types'];
+        return self::SUBNODE_NAMES;
     }
 
     public function getType(): string {

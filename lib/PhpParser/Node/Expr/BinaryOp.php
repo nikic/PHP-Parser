@@ -10,6 +10,8 @@ abstract class BinaryOp extends Expr {
     /** @var Expr The right hand side expression */
     public Expr $right;
 
+    private const SUBNODE_NAMES = ['left', 'right'];
+
     /**
      * Constructs a binary operator node.
      *
@@ -23,8 +25,11 @@ abstract class BinaryOp extends Expr {
         $this->right = $right;
     }
 
+    /**
+     * @return self::SUBNODE_NAMES
+     */
     public function getSubNodeNames(): array {
-        return ['left', 'right'];
+        return self::SUBNODE_NAMES;
     }
 
     /**

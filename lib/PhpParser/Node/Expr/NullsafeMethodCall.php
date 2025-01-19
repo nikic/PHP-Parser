@@ -16,6 +16,8 @@ class NullsafeMethodCall extends CallLike {
     /** @var array<Arg|VariadicPlaceholder> Arguments */
     public array $args;
 
+    private const SUBNODE_NAMES = ['var', 'name', 'args'];
+
     /**
      * Constructs a nullsafe method call node.
      *
@@ -31,8 +33,11 @@ class NullsafeMethodCall extends CallLike {
         $this->args = $args;
     }
 
+    /**
+     * @return self::SUBNODE_NAMES
+     */
     public function getSubNodeNames(): array {
-        return ['var', 'name', 'args'];
+        return self::SUBNODE_NAMES;
     }
 
     public function getType(): string {

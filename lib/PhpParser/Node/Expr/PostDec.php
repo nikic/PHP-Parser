@@ -8,6 +8,8 @@ class PostDec extends Expr {
     /** @var Expr Variable */
     public Expr $var;
 
+    private const SUBNODE_NAMES = ['var'];
+
     /**
      * Constructs a post decrement node.
      *
@@ -19,8 +21,11 @@ class PostDec extends Expr {
         $this->var = $var;
     }
 
+    /**
+     * @return self::SUBNODE_NAMES
+     */
     public function getSubNodeNames(): array {
-        return ['var'];
+        return self::SUBNODE_NAMES;
     }
 
     public function getType(): string {

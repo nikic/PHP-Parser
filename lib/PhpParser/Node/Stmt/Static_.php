@@ -9,6 +9,8 @@ class Static_ extends Stmt {
     /** @var StaticVar[] Variable definitions */
     public array $vars;
 
+    private const SUBNODE_NAMES = ['vars'];
+
     /**
      * Constructs a static variables list node.
      *
@@ -20,10 +22,12 @@ class Static_ extends Stmt {
         $this->vars = $vars;
     }
 
+    /**
+     * @return self::SUBNODE_NAMES
+     */
     public function getSubNodeNames(): array {
-        return ['vars'];
+        return self::SUBNODE_NAMES;
     }
-
     public function getType(): string {
         return 'Stmt_Static';
     }
