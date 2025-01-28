@@ -122,13 +122,13 @@ class NameContext {
 
         if ($type !== Stmt\Use_::TYPE_NORMAL && $name->isUnqualified()) {
             if (null === $this->namespace) {
-                // outside of a namespace unaliased unqualified is same as fully qualified
                 $relativeName = $this->getNamespaceRelativeName($name->toString(), strtolower($name->toString()), $type, $name->getAttributes());
 
                 if ($relativeName instanceof Name) {
                     return $relativeName;
                 }
 
+                // outside of a namespace unaliased unqualified is same as fully qualified
                 return new FullyQualified($name, $name->getAttributes());
             }
 
