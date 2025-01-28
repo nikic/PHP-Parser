@@ -123,7 +123,7 @@ class NameContext {
         if ($type !== Stmt\Use_::TYPE_NORMAL && $name->isUnqualified()) {
             if (null === $this->namespace) {
                 // outside of a namespace unaliased unqualified is same as fully qualified
-                return new FullyQualified($name, $name->getAttributes());
+                return $this->getNamespaceRelativeName($name->toString(), strtolower($name->toString()), $type, $name->getAttributes());
             }
 
             // Cannot resolve statically
@@ -249,22 +249,22 @@ class NameContext {
         return null;
     }
 
-    private function getNamespaceRelativeName(string $name, string $lcName, int $type): ?Name {
+    private function getNamespaceRelativeName(string $name, string $lcName, int $type, array $attributes = []): ?Name {
         if (null === $this->namespace) {
-            return new Name($name);
+            return new Name($name, $attributes);
         }
 
         if ($type === Stmt\Use_::TYPE_CONSTANT) {
             // The constants true/false/null always resolve to the global symbols, even inside a
             // namespace, so they may be used without qualification
             if ($lcName === "true" || $lcName === "false" || $lcName === "null") {
-                return new Name($name);
+                return new Name($name, $attributes);
             }
         }
 
         $namespacePrefix = strtolower($this->namespace . '\\');
         if (0 === strpos($lcName, $namespacePrefix)) {
-            return new Name(substr($name, strlen($namespacePrefix)));
+            return new Name(substr($name, strlen($namespacePrefix)), $attributes);
         }
 
         return null;
