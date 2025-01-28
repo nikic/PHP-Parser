@@ -249,6 +249,9 @@ class NameContext {
         return null;
     }
 
+    /**
+     * @param array<string, mixed> $attributes
+     */
     private function getNamespaceRelativeName(string $name, string $lcName, int $type, array $attributes = []): ?Name {
         if (null === $this->namespace) {
             return new Name($name, $attributes);
