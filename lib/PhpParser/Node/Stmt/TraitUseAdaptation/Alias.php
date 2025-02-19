@@ -10,6 +10,8 @@ class Alias extends Node\Stmt\TraitUseAdaptation {
     /** @var null|Node\Identifier New name */
     public ?Node\Identifier $newName;
 
+    private const SUBNODE_NAMES = ['trait', 'method', 'newModifier', 'newName'];
+
     /**
      * Constructs a trait use precedence adaptation node.
      *
@@ -27,10 +29,12 @@ class Alias extends Node\Stmt\TraitUseAdaptation {
         $this->newName = \is_string($newName) ? new Node\Identifier($newName) : $newName;
     }
 
+    /**
+     * @return self::SUBNODE_NAMES
+     */
     public function getSubNodeNames(): array {
-        return ['trait', 'method', 'newModifier', 'newName'];
+        return self::SUBNODE_NAMES;
     }
-
     public function getType(): string {
         return 'Stmt_TraitUseAdaptation_Alias';
     }

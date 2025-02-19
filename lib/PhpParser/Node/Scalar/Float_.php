@@ -8,6 +8,8 @@ class Float_ extends Scalar {
     /** @var float Number value */
     public float $value;
 
+    private const SUBNODE_NAMES = ['value'];
+
     /**
      * Constructs a float number scalar node.
      *
@@ -19,8 +21,11 @@ class Float_ extends Scalar {
         $this->value = $value;
     }
 
+    /**
+     * @return self::SUBNODE_NAMES
+     */
     public function getSubNodeNames(): array {
-        return ['value'];
+        return self::SUBNODE_NAMES;
     }
 
     /**

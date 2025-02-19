@@ -21,6 +21,8 @@ class Identifier extends NodeAbstract {
         'static' => true,
     ];
 
+    private const SUBNODE_NAMES = ['name'];
+
     /**
      * Constructs an identifier node.
      *
@@ -36,8 +38,11 @@ class Identifier extends NodeAbstract {
         $this->name = $name;
     }
 
+    /**
+     * @return self::SUBNODE_NAMES
+     */
     public function getSubNodeNames(): array {
-        return ['name'];
+        return self::SUBNODE_NAMES;
     }
 
     /**

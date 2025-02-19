@@ -21,6 +21,8 @@ class Property extends Node\Stmt {
     /** @var Node\PropertyHook[] Property hooks */
     public array $hooks;
 
+    private const SUBNODE_NAMES = ['attrGroups', 'flags', 'type', 'props', 'hooks'];
+
     /**
      * Constructs a class property list node.
      *
@@ -40,8 +42,11 @@ class Property extends Node\Stmt {
         $this->hooks = $hooks;
     }
 
+    /**
+     * @return self::SUBNODE_NAMES
+     */
     public function getSubNodeNames(): array {
-        return ['attrGroups', 'flags', 'type', 'props', 'hooks'];
+        return self::SUBNODE_NAMES;
     }
 
     /**

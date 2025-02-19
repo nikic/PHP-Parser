@@ -27,6 +27,8 @@ class String_ extends Scalar {
         'e'  => "\x1B",
     ];
 
+    private const SUBNODE_NAMES = ['value'];
+
     /**
      * Constructs a string scalar node.
      *
@@ -38,8 +40,11 @@ class String_ extends Scalar {
         $this->value = $value;
     }
 
+    /**
+     * @return self::SUBNODE_NAMES
+     */
     public function getSubNodeNames(): array {
-        return ['value'];
+        return self::SUBNODE_NAMES;
     }
 
     /**

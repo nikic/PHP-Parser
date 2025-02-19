@@ -10,6 +10,8 @@ class Yield_ extends Expr {
     /** @var null|Expr Value expression */
     public ?Expr $value;
 
+    private const SUBNODE_NAMES = ['key', 'value'];
+
     /**
      * Constructs a yield expression node.
      *
@@ -23,8 +25,11 @@ class Yield_ extends Expr {
         $this->value = $value;
     }
 
+    /**
+     * @return self::SUBNODE_NAMES
+     */
     public function getSubNodeNames(): array {
-        return ['key', 'value'];
+        return self::SUBNODE_NAMES;
     }
 
     public function getType(): string {

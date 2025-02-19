@@ -10,6 +10,8 @@ class ArrayDimFetch extends Expr {
     /** @var null|Expr Array index / dim */
     public ?Expr $dim;
 
+    private const SUBNODE_NAMES = ['var', 'dim'];
+
     /**
      * Constructs an array index fetch node.
      *
@@ -23,8 +25,11 @@ class ArrayDimFetch extends Expr {
         $this->dim = $dim;
     }
 
+    /**
+     * @return self::SUBNODE_NAMES
+     */
     public function getSubNodeNames(): array {
-        return ['var', 'dim'];
+        return self::SUBNODE_NAMES;
     }
 
     public function getType(): string {

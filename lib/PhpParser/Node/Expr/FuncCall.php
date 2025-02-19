@@ -11,6 +11,8 @@ class FuncCall extends CallLike {
     /** @var array<Node\Arg|Node\VariadicPlaceholder> Arguments */
     public array $args;
 
+    private const SUBNODE_NAMES = ['name', 'args'];
+
     /**
      * Constructs a function call node.
      *
@@ -24,8 +26,11 @@ class FuncCall extends CallLike {
         $this->args = $args;
     }
 
+    /**
+     * @return self::SUBNODE_NAMES
+     */
     public function getSubNodeNames(): array {
-        return ['name', 'args'];
+        return self::SUBNODE_NAMES;
     }
 
     public function getType(): string {
