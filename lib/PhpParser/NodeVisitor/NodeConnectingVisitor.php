@@ -9,10 +9,12 @@ use PhpParser\NodeVisitorAbstract;
  * Visitor that connects a child node to its parent node
  * as well as its sibling nodes.
  *
- * On the child node, the parent node can be accessed through
+ * With <code>$weakReferences=false</code> on the child node, the parent node can be accessed through
  * <code>$node->getAttribute('parent')</code>, the previous
  * node can be accessed through <code>$node->getAttribute('previous')</code>,
  * and the next node can be accessed through <code>$node->getAttribute('next')</code>.
+ *
+ * With <code>$weakReferences=true</code> attribute names are prefixed by "weak_", e.g. "weak_parent".
  */
 final class NodeConnectingVisitor extends NodeVisitorAbstract {
     /**

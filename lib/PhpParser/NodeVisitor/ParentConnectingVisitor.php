@@ -11,8 +11,10 @@ use function count;
 /**
  * Visitor that connects a child node to its parent node.
  *
- * On the child node, the parent node can be accessed through
+ * With <code>$weakReferences=false</code> on the child node, the parent node can be accessed through
  * <code>$node->getAttribute('parent')</code>.
+ *
+ * With <code>$weakReferences=true</code> the attribute name is "weak_parent" instead.
  */
 final class ParentConnectingVisitor extends NodeVisitorAbstract {
     /**
