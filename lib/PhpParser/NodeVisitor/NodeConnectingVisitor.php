@@ -49,10 +49,11 @@ final class NodeConnectingVisitor extends NodeVisitorAbstract {
         if ($this->previous !== null) {
             if (
                 $this->weakReferences
-                && $this->previous->getAttribute('weak_parent') === $node->getAttribute('weak_parent')
             ) {
-                $node->setAttribute('weak_previous', \WeakReference::create($this->previous));
-                $this->previous->setAttribute('weak_next', \WeakReference::create($node));
+                if ($this->previous->getAttribute('weak_parent') === $node->getAttribute('weak_parent')) {
+                    $node->setAttribute('weak_previous', \WeakReference::create($this->previous));
+                    $this->previous->setAttribute('weak_next', \WeakReference::create($node));
+                }
             } elseif ($this->previous->getAttribute('parent') === $node->getAttribute('parent')) {
                 $node->setAttribute('previous', $this->previous);
                 $this->previous->setAttribute('next', $node);
