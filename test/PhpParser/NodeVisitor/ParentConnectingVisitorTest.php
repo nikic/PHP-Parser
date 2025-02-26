@@ -23,4 +23,22 @@ final class ParentConnectingVisitorTest extends \PHPUnit\Framework\TestCase {
 
         $this->assertSame('C', $node->getAttribute('parent')->name->toString());
     }
+
+    public function testWeakReferences(): void {
+        $ast = (new ParserFactory())->createForNewestSupportedVersion()->parse(
+            '<?php class C { public function m() {} }'
+        );
+
+        $traverser = new NodeTraverser();
+
+        $traverser->addVisitor(new ParentConnectingVisitor(true));
+
+        $ast = $traverser->traverse($ast);
+
+        $node = (new NodeFinder())->findFirstInstanceof($ast, ClassMethod::class);
+
+        $weakReference = $node->getAttribute('weak_parent');
+        $this->assertInstanceOf(\WeakReference::class, $weakReference);
+        $this->assertSame('C', $weakReference->get()->name->toString());
+    }
 }
