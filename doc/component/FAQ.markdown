@@ -56,7 +56,7 @@ includes the functionality of the former.
 How can I limit the impact of cyclic references in the AST?
 -----
 
-NodeConnectingVisitor adds a parent reference, which introduces a cycle. This means that the AST can now only be collected by cycle garbage collector.
+NodeConnectingVisitor adds a parent reference, which introduces a cycle. This means that the AST can now only be collected by the cycle garbage collector.
 This in turn can lead to performance and/or memory issues. 
 
 To break the cyclic references between AST nodes `NodeConnectingVisitor` supports a boolean `$weakReferences` constructor parameter.
