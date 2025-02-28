@@ -10,6 +10,8 @@ class Enum_ extends ClassLike {
     /** @var Node\Name[] Names of implemented interfaces */
     public array $implements;
 
+    private const SUBNODE_NAMES = ['attrGroups', 'name', 'scalarType', 'implements', 'stmts'];
+
     /**
      * @param string|Node\Identifier|null $name Name
      * @param array{
@@ -34,8 +36,11 @@ class Enum_ extends ClassLike {
         parent::__construct($attributes);
     }
 
+    /**
+     * @return self::SUBNODE_NAMES
+     */
     public function getSubNodeNames(): array {
-        return ['attrGroups', 'name', 'scalarType', 'implements', 'stmts'];
+        return self::SUBNODE_NAMES;
     }
 
     public function getType(): string {

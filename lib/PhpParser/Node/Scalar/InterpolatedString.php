@@ -10,6 +10,8 @@ class InterpolatedString extends Scalar {
     /** @var (Expr|InterpolatedStringPart)[] list of string parts */
     public array $parts;
 
+    private const SUBNODE_NAMES = ['parts'];
+
     /**
      * Constructs an interpolated string node.
      *
@@ -21,8 +23,11 @@ class InterpolatedString extends Scalar {
         $this->parts = $parts;
     }
 
+    /**
+     * @return self::SUBNODE_NAMES
+     */
     public function getSubNodeNames(): array {
-        return ['parts'];
+        return self::SUBNODE_NAMES;
     }
 
     public function getType(): string {

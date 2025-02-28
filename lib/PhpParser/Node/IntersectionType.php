@@ -6,6 +6,8 @@ class IntersectionType extends ComplexType {
     /** @var (Identifier|Name)[] Types */
     public array $types;
 
+    private const SUBNODE_NAMES = ['types'];
+
     /**
      * Constructs an intersection type.
      *
@@ -17,8 +19,11 @@ class IntersectionType extends ComplexType {
         $this->types = $types;
     }
 
+    /**
+     * @return self::SUBNODE_NAMES
+     */
     public function getSubNodeNames(): array {
-        return ['types'];
+        return self::SUBNODE_NAMES;
     }
 
     public function getType(): string {

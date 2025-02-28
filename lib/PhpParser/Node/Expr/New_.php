@@ -13,6 +13,8 @@ class New_ extends CallLike {
     /** @var array<Arg|VariadicPlaceholder> Arguments */
     public array $args;
 
+    private const SUBNODE_NAMES = ['class', 'args'];
+
     /**
      * Constructs a function call node.
      *
@@ -26,8 +28,11 @@ class New_ extends CallLike {
         $this->args = $args;
     }
 
+    /**
+     * @return self::SUBNODE_NAMES
+     */
     public function getSubNodeNames(): array {
-        return ['class', 'args'];
+        return self::SUBNODE_NAMES;
     }
 
     public function getType(): string {

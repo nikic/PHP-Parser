@@ -12,6 +12,8 @@ class TryCatch extends Node\Stmt {
     /** @var null|Finally_ Optional finally node */
     public ?Finally_ $finally;
 
+    private const SUBNODE_NAMES = ['stmts', 'catches', 'finally'];
+
     /**
      * Constructs a try catch node.
      *
@@ -27,10 +29,12 @@ class TryCatch extends Node\Stmt {
         $this->finally = $finally;
     }
 
+    /**
+     * @return self::SUBNODE_NAMES
+     */
     public function getSubNodeNames(): array {
-        return ['stmts', 'catches', 'finally'];
+        return self::SUBNODE_NAMES;
     }
-
     public function getType(): string {
         return 'Stmt_TryCatch';
     }

@@ -10,6 +10,8 @@ class ClosureUse extends NodeAbstract {
     /** @var bool Whether to use by reference */
     public bool $byRef;
 
+    private const SUBNODE_NAMES = ['var', 'byRef'];
+
     /**
      * Constructs a closure use node.
      *
@@ -23,8 +25,11 @@ class ClosureUse extends NodeAbstract {
         $this->byRef = $byRef;
     }
 
+    /**
+     * @return self::SUBNODE_NAMES
+     */
     public function getSubNodeNames(): array {
-        return ['var', 'byRef'];
+        return self::SUBNODE_NAMES;
     }
 
     public function getType(): string {

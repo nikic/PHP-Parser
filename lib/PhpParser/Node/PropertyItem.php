@@ -11,6 +11,8 @@ class PropertyItem extends NodeAbstract {
     /** @var null|Node\Expr Default */
     public ?Expr $default;
 
+    private const SUBNODE_NAMES = ['name', 'default'];
+
     /**
      * Constructs a class property item node.
      *
@@ -24,8 +26,11 @@ class PropertyItem extends NodeAbstract {
         $this->default = $default;
     }
 
+    /**
+     * @return self::SUBNODE_NAMES
+     */
     public function getSubNodeNames(): array {
-        return ['name', 'default'];
+        return self::SUBNODE_NAMES;
     }
 
     public function getType(): string {

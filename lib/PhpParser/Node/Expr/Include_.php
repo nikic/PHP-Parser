@@ -15,6 +15,8 @@ class Include_ extends Expr {
     /** @var int Type of include */
     public int $type;
 
+    private const SUBNODE_NAMES = ['expr', 'type'];
+
     /**
      * Constructs an include node.
      *
@@ -28,8 +30,11 @@ class Include_ extends Expr {
         $this->type = $type;
     }
 
+    /**
+     * @return self::SUBNODE_NAMES
+     */
     public function getSubNodeNames(): array {
-        return ['expr', 'type'];
+        return self::SUBNODE_NAMES;
     }
 
     public function getType(): string {

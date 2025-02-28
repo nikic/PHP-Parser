@@ -9,6 +9,8 @@ class Goto_ extends Stmt {
     /** @var Identifier Name of label to jump to */
     public Identifier $name;
 
+    private const SUBNODE_NAMES = ['name'];
+
     /**
      * Constructs a goto node.
      *
@@ -20,8 +22,11 @@ class Goto_ extends Stmt {
         $this->name = \is_string($name) ? new Identifier($name) : $name;
     }
 
+    /**
+     * @return self::SUBNODE_NAMES
+     */
     public function getSubNodeNames(): array {
-        return ['name'];
+        return self::SUBNODE_NAMES;
     }
 
     public function getType(): string {

@@ -10,6 +10,8 @@ class MatchArm extends NodeAbstract {
     public ?array $conds;
     public Expr $body;
 
+    private const SUBNODE_NAMES = ['conds', 'body'];
+
     /**
      * @param null|list<Node\Expr> $conds
      */
@@ -19,8 +21,11 @@ class MatchArm extends NodeAbstract {
         $this->attributes = $attributes;
     }
 
+    /**
+     * @return self::SUBNODE_NAMES
+     */
     public function getSubNodeNames(): array {
-        return ['conds', 'body'];
+        return self::SUBNODE_NAMES;
     }
 
     public function getType(): string {
