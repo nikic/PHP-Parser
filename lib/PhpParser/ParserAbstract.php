@@ -1264,6 +1264,14 @@ abstract class ParserAbstract implements Parser {
         return false;
     }
 
+    protected function isMultiline(array $attributes): bool {
+        if (!isset($attributes['startLine']) || !isset($attributes['endLine'])) {
+            return false;
+        }
+
+        return $attributes['startLine'] !== $attributes['endLine'];
+    }
+
     /**
      * @param array<Node\Arg|Node\VariadicPlaceholder> $args
      * @param array<string, mixed> $attrs
