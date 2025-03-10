@@ -15,6 +15,27 @@ $longMultiline = array(
     2,
     3
 );
+
+$mixedShort = array(
+    array(1, 2, 3),
+    array(1,
+    2, 3),
+    [4, 5, 6],
+    [1,
+    2, 3],
+    2,
+    3,
+);
+$mixedLong = [
+    array(1, 2, 3),
+    array(1,
+    2, 3),
+    [4, 5, 6],
+    [1,
+    2, 3],
+    2,
+    3
+];
 -----
 $short = [1, 2, 3];
 $shortMultiline = [
@@ -28,3 +49,35 @@ $longMultiline = array(
     2,
     3,
 );
+$mixedShort = array(
+    array(1, 2, 3),
+    array(
+        1,
+        2,
+        3,
+    ),
+    [4, 5, 6],
+    [
+        1,
+        2,
+        3,
+    ],
+    2,
+    3,
+);
+$mixedLong = [
+    array(1, 2, 3),
+    array(
+        1,
+        2,
+        3,
+    ),
+    [4, 5, 6],
+    [
+        1,
+        2,
+        3,
+    ],
+    2,
+    3,
+];
