@@ -605,7 +605,7 @@ class Standard extends PrettyPrinterAbstract {
 
         $forceMultiline = ($kind & Expr\Array_::KIND_MULTILINE) === Expr\Array_::KIND_MULTILINE;
         $syntax = $kind & ~Expr\Array_::KIND_MULTILINE;
-        
+
         if ($syntax === Expr\Array_::KIND_SHORT) {
             return '[' . $this->pMaybeMultiline($node->items, true, $forceMultiline) . ']';
         } else {
