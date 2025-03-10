@@ -17,6 +17,14 @@ $longMultiline = array(
 );
 -----
 $short = [1, 2, 3];
-$shortMultiline = [1, 2, 3];
+$shortMultiline = [
+    1,
+    2,
+    3,
+];
 $long = array(1, 2, 3);
-$longMultiline = array(1, 2, 3);
+$longMultiline = array(
+    1,
+    2,
+    3,
+);
