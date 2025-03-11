@@ -35,7 +35,10 @@ class NameResolver extends NodeVisitorAbstract {
      * @param array{preserveOriginalNames?: bool, replaceNodes?: bool, noCyclicRefs?: bool} $options Options
      */
     public function __construct(?ErrorHandler $errorHandler = null, array $options = []) {
-        $this->nameContext = new NameContext($errorHandler ?? new ErrorHandler\Throwing());
+        $this->nameContext = new NameContext(
+            $errorHandler ?? new ErrorHandler\Throwing(),
+            ['noCyclicRefs' => $options['noCyclicRefs'] ?? false],
+        );
         $this->preserveOriginalNames = $options['preserveOriginalNames'] ?? false;
         $this->replaceNodes = $options['replaceNodes'] ?? true;
     }
