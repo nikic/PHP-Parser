@@ -32,7 +32,7 @@ class NameResolver extends NodeVisitorAbstract {
      *    namespacedName attribute, as usual.)
      *
      * @param ErrorHandler|null $errorHandler Error handler
-     * @param array{preserveOriginalNames?: bool, replaceNodes?: bool} $options Options
+     * @param array{preserveOriginalNames?: bool, replaceNodes?: bool, noCyclicRefs?: bool} $options Options
      */
     public function __construct(?ErrorHandler $errorHandler = null, array $options = []) {
         $this->nameContext = new NameContext($errorHandler ?? new ErrorHandler\Throwing());
