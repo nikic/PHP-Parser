@@ -2,7 +2,7 @@
 
 namespace PhpParser\Node\Expr;
 
-require __DIR__ . '/../ArrayItem.php';
+require_once __DIR__ . '/../ArrayItem.php';
 
 if (false) {
     // For classmap-authoritative support.
