@@ -4,7 +4,7 @@ namespace PhpParser\Node\Scalar;
 
 use PhpParser\Node\InterpolatedStringPart;
 
-require __DIR__ . '/../InterpolatedStringPart.php';
+require_once __DIR__ . '/../InterpolatedStringPart.php';
 
 if (false) {
     // For classmap-authoritative support.
