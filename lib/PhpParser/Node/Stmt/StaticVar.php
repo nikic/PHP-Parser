@@ -2,7 +2,7 @@
 
 namespace PhpParser\Node\Stmt;
 
-require __DIR__ . '/../StaticVar.php';
+require_once __DIR__ . '/../StaticVar.php';
 
 if (false) {
     // For classmap-authoritative support.
