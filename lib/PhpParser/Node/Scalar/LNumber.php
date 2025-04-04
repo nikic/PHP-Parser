@@ -2,7 +2,7 @@
 
 namespace PhpParser\Node\Scalar;
 
-require __DIR__ . '/Int_.php';
+require_once __DIR__ . '/Int_.php';
 
 if (false) {
     // For classmap-authoritative support.
