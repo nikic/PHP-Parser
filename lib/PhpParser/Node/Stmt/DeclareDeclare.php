@@ -4,7 +4,7 @@ namespace PhpParser\Node\Stmt;
 
 use PhpParser\Node\DeclareItem;
 
-require __DIR__ . '/../DeclareItem.php';
+require_once __DIR__ . '/../DeclareItem.php';
 
 if (false) {
     // For classmap-authoritative support.
