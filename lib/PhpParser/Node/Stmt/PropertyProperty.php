@@ -4,7 +4,7 @@ namespace PhpParser\Node\Stmt;
 
 use PhpParser\Node\PropertyItem;
 
-require __DIR__ . '/../PropertyItem.php';
+require_once __DIR__ . '/../PropertyItem.php';
 
 if (false) {
     // For classmap-authoritative support.
