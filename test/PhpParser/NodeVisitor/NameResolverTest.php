@@ -283,12 +283,18 @@ class A extends \NS\B implements \NS\C, \NS\D
     public const \X\Foo C = \X\Foo::Bar;
     public \NS\Foo $foo {
         #[\NS\X]
-        set(#[\NS\X] \NS\Bar $v) {
+        set(
+            #[\NS\X]
+            \NS\Bar $v
+        ) {
         }
     }
     public function __construct(public \NS\Foo $bar {
         #[\NS\X]
-        set(#[\NS\X] \NS\Bar $v) {
+        set(
+            #[\NS\X]
+            \NS\Bar $v
+        ) {
         }
     })
     {
@@ -312,7 +318,10 @@ trait A
 {
 }
 #[\NS\X]
-function f(#[\NS\X] \NS\A $a): \NS\A
+function f(
+    #[\NS\X]
+    \NS\A $a
+): \NS\A
 {
 }
 function f2(array $a): array
