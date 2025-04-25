@@ -18,6 +18,8 @@ class Name extends NodeAbstract {
         'static' => true,
     ];
 
+    private const SUBNODE_NAMES = ['name'];
+
     /**
      * Constructs a name node.
      *
@@ -29,8 +31,11 @@ class Name extends NodeAbstract {
         $this->name = self::prepareName($name);
     }
 
+    /**
+     * @return self::SUBNODE_NAMES
+     */
     public function getSubNodeNames(): array {
-        return ['name'];
+        return self::SUBNODE_NAMES;
     }
 
     /**

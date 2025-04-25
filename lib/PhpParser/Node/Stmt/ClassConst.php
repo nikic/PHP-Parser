@@ -15,6 +15,8 @@ class ClassConst extends Node\Stmt {
     /** @var Node\Identifier|Node\Name|Node\ComplexType|null Type declaration */
     public ?Node $type;
 
+    private const SUBNODE_NAMES = ['attrGroups', 'flags', 'type', 'consts'];
+
     /**
      * Constructs a class const list node.
      *
@@ -38,8 +40,11 @@ class ClassConst extends Node\Stmt {
         $this->type = $type;
     }
 
+    /**
+     * @return self::SUBNODE_NAMES
+     */
     public function getSubNodeNames(): array {
-        return ['attrGroups', 'flags', 'type', 'consts'];
+        return self::SUBNODE_NAMES;
     }
 
     /**

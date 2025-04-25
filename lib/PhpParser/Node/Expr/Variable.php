@@ -8,6 +8,8 @@ class Variable extends Expr {
     /** @var string|Expr Name */
     public $name;
 
+    private const SUBNODE_NAMES = ['name'];
+
     /**
      * Constructs a variable node.
      *
@@ -19,8 +21,11 @@ class Variable extends Expr {
         $this->name = $name;
     }
 
+    /**
+     * @return self::SUBNODE_NAMES
+     */
     public function getSubNodeNames(): array {
-        return ['name'];
+        return self::SUBNODE_NAMES;
     }
 
     public function getType(): string {

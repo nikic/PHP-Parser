@@ -12,6 +12,8 @@ class PropertyFetch extends Expr {
     /** @var Identifier|Expr Property name */
     public Node $name;
 
+    private const SUBNODE_NAMES = ['var', 'name'];
+
     /**
      * Constructs a function call node.
      *
@@ -25,8 +27,11 @@ class PropertyFetch extends Expr {
         $this->name = \is_string($name) ? new Identifier($name) : $name;
     }
 
+    /**
+     * @return self::SUBNODE_NAMES
+     */
     public function getSubNodeNames(): array {
-        return ['var', 'name'];
+        return self::SUBNODE_NAMES;
     }
 
     public function getType(): string {

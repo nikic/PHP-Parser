@@ -10,6 +10,8 @@ abstract class AssignOp extends Expr {
     /** @var Expr Expression */
     public Expr $expr;
 
+    private const SUBNODE_NAMES = ['var', 'expr'];
+
     /**
      * Constructs a compound assignment operation node.
      *
@@ -23,7 +25,10 @@ abstract class AssignOp extends Expr {
         $this->expr = $expr;
     }
 
+    /**
+     * @return self::SUBNODE_NAMES
+     */
     public function getSubNodeNames(): array {
-        return ['var', 'expr'];
+        return self::SUBNODE_NAMES;
     }
 }

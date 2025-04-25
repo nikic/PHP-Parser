@@ -24,6 +24,8 @@ class Use_ extends Stmt {
     /** @var UseItem[] Aliases */
     public array $uses;
 
+    private const SUBNODE_NAMES = ['type', 'uses'];
+
     /**
      * Constructs an alias (use) list node.
      *
@@ -37,8 +39,11 @@ class Use_ extends Stmt {
         $this->uses = $uses;
     }
 
+    /**
+     * @return self::SUBNODE_NAMES
+     */
     public function getSubNodeNames(): array {
-        return ['type', 'uses'];
+        return self::SUBNODE_NAMES;
     }
 
     public function getType(): string {

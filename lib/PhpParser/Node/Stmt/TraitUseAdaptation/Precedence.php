@@ -8,6 +8,8 @@ class Precedence extends Node\Stmt\TraitUseAdaptation {
     /** @var Node\Name[] Overwritten traits */
     public array $insteadof;
 
+    private const SUBNODE_NAMES = ['trait', 'method', 'insteadof'];
+
     /**
      * Constructs a trait use precedence adaptation node.
      *
@@ -23,10 +25,12 @@ class Precedence extends Node\Stmt\TraitUseAdaptation {
         $this->insteadof = $insteadof;
     }
 
+    /**
+     * @return self::SUBNODE_NAMES
+     */
     public function getSubNodeNames(): array {
-        return ['trait', 'method', 'insteadof'];
+        return self::SUBNODE_NAMES;
     }
-
     public function getType(): string {
         return 'Stmt_TraitUseAdaptation_Precedence';
     }

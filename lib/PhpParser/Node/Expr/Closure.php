@@ -23,6 +23,8 @@ class Closure extends Expr implements FunctionLike {
     /** @var Node\AttributeGroup[] PHP attribute groups */
     public array $attrGroups;
 
+    private const SUBNODE_NAMES = ['attrGroups', 'static', 'byRef', 'params', 'uses', 'returnType', 'stmts'];
+
     /**
      * Constructs a lambda function node.
      *
@@ -55,8 +57,11 @@ class Closure extends Expr implements FunctionLike {
         $this->attrGroups = $subNodes['attrGroups'] ?? [];
     }
 
+    /**
+     * @return self::SUBNODE_NAMES
+     */
     public function getSubNodeNames(): array {
-        return ['attrGroups', 'static', 'byRef', 'params', 'uses', 'returnType', 'stmts'];
+        return self::SUBNODE_NAMES;
     }
 
     public function returnsByRef(): bool {

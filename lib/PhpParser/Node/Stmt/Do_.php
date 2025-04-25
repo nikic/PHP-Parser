@@ -10,6 +10,8 @@ class Do_ extends Node\Stmt {
     /** @var Node\Expr Condition */
     public Node\Expr $cond;
 
+    private const SUBNODE_NAMES = ['stmts', 'cond'];
+
     /**
      * Constructs a do while node.
      *
@@ -23,8 +25,11 @@ class Do_ extends Node\Stmt {
         $this->stmts = $stmts;
     }
 
+    /**
+     * @return self::SUBNODE_NAMES
+     */
     public function getSubNodeNames(): array {
-        return ['stmts', 'cond'];
+        return self::SUBNODE_NAMES;
     }
 
     public function getType(): string {

@@ -8,6 +8,8 @@ class Isset_ extends Expr {
     /** @var Expr[] Variables */
     public array $vars;
 
+    private const SUBNODE_NAMES = ['vars'];
+
     /**
      * Constructs an array node.
      *
@@ -19,8 +21,11 @@ class Isset_ extends Expr {
         $this->vars = $vars;
     }
 
+    /**
+     * @return self::SUBNODE_NAMES
+     */
     public function getSubNodeNames(): array {
-        return ['vars'];
+        return self::SUBNODE_NAMES;
     }
 
     public function getType(): string {

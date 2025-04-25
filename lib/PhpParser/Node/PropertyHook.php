@@ -24,6 +24,8 @@ class PropertyHook extends NodeAbstract implements FunctionLike {
     /** @var null|Expr|Stmt[] Hook body */
     public $body;
 
+    private const SUBNODE_NAMES = ['attrGroups', 'flags', 'byRef', 'name', 'params', 'body'];
+
     /**
      * Constructs a property hook node.
      *
@@ -99,7 +101,10 @@ class PropertyHook extends NodeAbstract implements FunctionLike {
         return 'PropertyHook';
     }
 
+    /**
+     * @return self::SUBNODE_NAMES
+     */
     public function getSubNodeNames(): array {
-        return ['attrGroups', 'flags', 'byRef', 'name', 'params', 'body'];
+        return self::SUBNODE_NAMES;
     }
 }

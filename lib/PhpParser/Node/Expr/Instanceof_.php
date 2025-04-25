@@ -12,6 +12,8 @@ class Instanceof_ extends Expr {
     /** @var Name|Expr Class name */
     public Node $class;
 
+    private const SUBNODE_NAMES = ['expr', 'class'];
+
     /**
      * Constructs an instanceof check node.
      *
@@ -25,8 +27,11 @@ class Instanceof_ extends Expr {
         $this->class = $class;
     }
 
+    /**
+     * @return self::SUBNODE_NAMES
+     */
     public function getSubNodeNames(): array {
-        return ['expr', 'class'];
+        return self::SUBNODE_NAMES;
     }
 
     public function getType(): string {

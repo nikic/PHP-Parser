@@ -8,6 +8,8 @@ class InterpolatedStringPart extends NodeAbstract {
     /** @var string String value */
     public string $value;
 
+    private const SUBNODE_NAMES = ['value'];
+
     /**
      * Constructs a node representing a string part of an interpolated string.
      *
@@ -19,8 +21,11 @@ class InterpolatedStringPart extends NodeAbstract {
         $this->value = $value;
     }
 
+    /**
+     * @return self::SUBNODE_NAMES
+     */
     public function getSubNodeNames(): array {
-        return ['value'];
+        return self::SUBNODE_NAMES;
     }
 
     public function getType(): string {

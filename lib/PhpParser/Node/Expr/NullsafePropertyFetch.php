@@ -12,6 +12,8 @@ class NullsafePropertyFetch extends Expr {
     /** @var Identifier|Expr Property name */
     public Node $name;
 
+    private const SUBNODE_NAMES = ['var', 'name'];
+
     /**
      * Constructs a nullsafe property fetch node.
      *
@@ -25,8 +27,11 @@ class NullsafePropertyFetch extends Expr {
         $this->name = \is_string($name) ? new Identifier($name) : $name;
     }
 
+    /**
+     * @return self::SUBNODE_NAMES
+     */
     public function getSubNodeNames(): array {
-        return ['var', 'name'];
+        return self::SUBNODE_NAMES;
     }
 
     public function getType(): string {
