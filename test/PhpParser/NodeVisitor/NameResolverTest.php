@@ -245,6 +245,9 @@ fn(array $a): array => $a;
 fn(A $a): A => $a;
 fn(?A $a): ?A => $a;
 
+#[X]
+const EXAMPLE = true;
+
 A::b();
 A::$b;
 A::B;
@@ -338,6 +341,8 @@ function fn4(?array $a): ?array
 #[\NS\X] fn(array $a): array => $a;
 fn(\NS\A $a): \NS\A => $a;
 fn(?\NS\A $a): ?\NS\A => $a;
+#[\NS\X]
+const EXAMPLE = true;
 \NS\A::b();
 \NS\A::$b;
 \NS\A::B;

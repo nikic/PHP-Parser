@@ -1634,6 +1634,7 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
             Stmt\Trait_::class . '->attrGroups' => [null, '', "\n"],
             Expr\ArrowFunction::class . '->attrGroups' => [null, '', ' '],
             Expr\Closure::class . '->attrGroups' => [null, '', ' '],
+            Stmt\Const_::class . '->attrGroups' => [null, '', "\n"],
             PrintableNewAnonClassNode::class . '->attrGroups' => [\T_NEW, ' ', ''],
 
             /* These cannot be empty to start with:
