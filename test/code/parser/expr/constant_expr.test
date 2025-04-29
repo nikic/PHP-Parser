@@ -42,6 +42,8 @@ const T_35 = !false;
 -----
 array(
     0: Stmt_Const(
+        attrGroups: array(
+        )
         consts: array(
             0: Const(
                 name: Identifier(
@@ -59,6 +61,8 @@ array(
         )
     )
     1: Stmt_Const(
+        attrGroups: array(
+        )
         consts: array(
             0: Const(
                 name: Identifier(
@@ -76,6 +80,8 @@ array(
         )
     )
     2: Stmt_Const(
+        attrGroups: array(
+        )
         consts: array(
             0: Const(
                 name: Identifier(
@@ -93,6 +99,8 @@ array(
         )
     )
     3: Stmt_Const(
+        attrGroups: array(
+        )
         consts: array(
             0: Const(
                 name: Identifier(
@@ -110,6 +118,8 @@ array(
         )
     )
     4: Stmt_Const(
+        attrGroups: array(
+        )
         consts: array(
             0: Const(
                 name: Identifier(
@@ -132,6 +142,8 @@ array(
         )
     )
     5: Stmt_Const(
+        attrGroups: array(
+        )
         consts: array(
             0: Const(
                 name: Identifier(
@@ -159,6 +171,8 @@ array(
         )
     )
     6: Stmt_Const(
+        attrGroups: array(
+        )
         consts: array(
             0: Const(
                 name: Identifier(
@@ -170,6 +184,8 @@ array(
         )
     )
     7: Stmt_Const(
+        attrGroups: array(
+        )
         consts: array(
             0: Const(
                 name: Identifier(
@@ -182,6 +198,8 @@ array(
         )
     )
     8: Stmt_Const(
+        attrGroups: array(
+        )
         consts: array(
             0: Const(
                 name: Identifier(
@@ -198,6 +216,8 @@ array(
         )
     )
     9: Stmt_Const(
+        attrGroups: array(
+        )
         consts: array(
             0: Const(
                 name: Identifier(
@@ -231,6 +251,8 @@ array(
         )
     )
     10: Stmt_Const(
+        attrGroups: array(
+        )
         consts: array(
             0: Const(
                 name: Identifier(
@@ -248,6 +270,8 @@ array(
         )
     )
     11: Stmt_Const(
+        attrGroups: array(
+        )
         consts: array(
             0: Const(
                 name: Identifier(
@@ -265,6 +289,8 @@ array(
         )
     )
     12: Stmt_Const(
+        attrGroups: array(
+        )
         consts: array(
             0: Const(
                 name: Identifier(
@@ -282,6 +308,8 @@ array(
         )
     )
     13: Stmt_Const(
+        attrGroups: array(
+        )
         consts: array(
             0: Const(
                 name: Identifier(
@@ -299,6 +327,8 @@ array(
         )
     )
     14: Stmt_Const(
+        attrGroups: array(
+        )
         consts: array(
             0: Const(
                 name: Identifier(
@@ -316,6 +346,8 @@ array(
         )
     )
     15: Stmt_Const(
+        attrGroups: array(
+        )
         consts: array(
             0: Const(
                 name: Identifier(
@@ -333,6 +365,8 @@ array(
         )
     )
     16: Stmt_Const(
+        attrGroups: array(
+        )
         consts: array(
             0: Const(
                 name: Identifier(
@@ -350,6 +384,8 @@ array(
         )
     )
     17: Stmt_Const(
+        attrGroups: array(
+        )
         consts: array(
             0: Const(
                 name: Identifier(
@@ -367,6 +403,8 @@ array(
         )
     )
     18: Stmt_Const(
+        attrGroups: array(
+        )
         consts: array(
             0: Const(
                 name: Identifier(
@@ -384,6 +422,8 @@ array(
         )
     )
     19: Stmt_Const(
+        attrGroups: array(
+        )
         consts: array(
             0: Const(
                 name: Identifier(
@@ -401,6 +441,8 @@ array(
         )
     )
     20: Stmt_Const(
+        attrGroups: array(
+        )
         consts: array(
             0: Const(
                 name: Identifier(
@@ -418,6 +460,8 @@ array(
         )
     )
     21: Stmt_Const(
+        attrGroups: array(
+        )
         consts: array(
             0: Const(
                 name: Identifier(
@@ -435,6 +479,8 @@ array(
         )
     )
     22: Stmt_Const(
+        attrGroups: array(
+        )
         consts: array(
             0: Const(
                 name: Identifier(
@@ -452,6 +498,8 @@ array(
         )
     )
     23: Stmt_Const(
+        attrGroups: array(
+        )
         consts: array(
             0: Const(
                 name: Identifier(
@@ -469,6 +517,8 @@ array(
         )
     )
     24: Stmt_Const(
+        attrGroups: array(
+        )
         consts: array(
             0: Const(
                 name: Identifier(
@@ -491,6 +541,8 @@ array(
         )
     )
     25: Stmt_Const(
+        attrGroups: array(
+        )
         consts: array(
             0: Const(
                 name: Identifier(
@@ -513,6 +565,8 @@ array(
         )
     )
     26: Stmt_Const(
+        attrGroups: array(
+        )
         consts: array(
             0: Const(
                 name: Identifier(
@@ -530,6 +584,8 @@ array(
         )
     )
     27: Stmt_Const(
+        attrGroups: array(
+        )
         consts: array(
             0: Const(
                 name: Identifier(
@@ -572,6 +628,8 @@ array(
         )
     )
     28: Stmt_Const(
+        attrGroups: array(
+        )
         consts: array(
             0: Const(
                 name: Identifier(
@@ -589,6 +647,8 @@ array(
         )
     )
     29: Stmt_Const(
+        attrGroups: array(
+        )
         consts: array(
             0: Const(
                 name: Identifier(
@@ -606,6 +666,8 @@ array(
         )
     )
     30: Stmt_Const(
+        attrGroups: array(
+        )
         consts: array(
             0: Const(
                 name: Identifier(
@@ -623,6 +685,8 @@ array(
         )
     )
     31: Stmt_Const(
+        attrGroups: array(
+        )
         consts: array(
             0: Const(
                 name: Identifier(
@@ -640,6 +704,8 @@ array(
         )
     )
     32: Stmt_Const(
+        attrGroups: array(
+        )
         consts: array(
             0: Const(
                 name: Identifier(
@@ -657,6 +723,8 @@ array(
         )
     )
     33: Stmt_Const(
+        attrGroups: array(
+        )
         consts: array(
             0: Const(
                 name: Identifier(
@@ -674,6 +742,8 @@ array(
         )
     )
     34: Stmt_Const(
+        attrGroups: array(
+        )
         consts: array(
             0: Const(
                 name: Identifier(

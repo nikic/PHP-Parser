@@ -3,9 +3,26 @@ Global constants
 <?php
 
 const A = 0, B = 1.0, C = 'A', D = E;
+
+#[Example]
+const WithOneAttribute = 1;
+
+#[First]
+#[Second]
+const WithUngroupedAttriutes = 2;
+
+#[First, Second]
+const WithGroupAttributes = 3;
+
+#[Example]
+const ThisIsInvalid = 4,
+    AttributesOnMultipleConstants = 5;
 -----
+Cannot use attributes on multiple constants at once from 15:1 to 17:38
 array(
     0: Stmt_Const(
+        attrGroups: array(
+        )
         consts: array(
             0: Const(
                 name: Identifier(
@@ -39,6 +56,132 @@ array(
                     name: Name(
                         name: E
                     )
+                )
+            )
+        )
+    )
+    1: Stmt_Const(
+        attrGroups: array(
+            0: AttributeGroup(
+                attrs: array(
+                    0: Attribute(
+                        name: Name(
+                            name: Example
+                        )
+                        args: array(
+                        )
+                    )
+                )
+            )
+        )
+        consts: array(
+            0: Const(
+                name: Identifier(
+                    name: WithOneAttribute
+                )
+                value: Scalar_Int(
+                    value: 1
+                )
+            )
+        )
+    )
+    2: Stmt_Const(
+        attrGroups: array(
+            0: AttributeGroup(
+                attrs: array(
+                    0: Attribute(
+                        name: Name(
+                            name: First
+                        )
+                        args: array(
+                        )
+                    )
+                )
+            )
+            1: AttributeGroup(
+                attrs: array(
+                    0: Attribute(
+                        name: Name(
+                            name: Second
+                        )
+                        args: array(
+                        )
+                    )
+                )
+            )
+        )
+        consts: array(
+            0: Const(
+                name: Identifier(
+                    name: WithUngroupedAttriutes
+                )
+                value: Scalar_Int(
+                    value: 2
+                )
+            )
+        )
+    )
+    3: Stmt_Const(
+        attrGroups: array(
+            0: AttributeGroup(
+                attrs: array(
+                    0: Attribute(
+                        name: Name(
+                            name: First
+                        )
+                        args: array(
+                        )
+                    )
+                    1: Attribute(
+                        name: Name(
+                            name: Second
+                        )
+                        args: array(
+                        )
+                    )
+                )
+            )
+        )
+        consts: array(
+            0: Const(
+                name: Identifier(
+                    name: WithGroupAttributes
+                )
+                value: Scalar_Int(
+                    value: 3
+                )
+            )
+        )
+    )
+    4: Stmt_Const(
+        attrGroups: array(
+            0: AttributeGroup(
+                attrs: array(
+                    0: Attribute(
+                        name: Name(
+                            name: Example
+                        )
+                        args: array(
+                        )
+                    )
+                )
+            )
+        )
+        consts: array(
+            0: Const(
+                name: Identifier(
+                    name: ThisIsInvalid
+                )
+                value: Scalar_Int(
+                    value: 4
+                )
+            )
+            1: Const(
+                name: Identifier(
+                    name: AttributesOnMultipleConstants
+                )
+                value: Scalar_Int(
+                    value: 5
                 )
             )
         )

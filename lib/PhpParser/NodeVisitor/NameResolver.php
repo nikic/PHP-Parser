@@ -120,6 +120,7 @@ class NameResolver extends NodeVisitorAbstract {
             foreach ($node->consts as $const) {
                 $this->addNamespacedName($const);
             }
+            $this->resolveAttrGroups($node);
         } elseif ($node instanceof Stmt\ClassConst) {
             if (null !== $node->type) {
                 $node->type = $this->resolveType($node->type);
