@@ -13,7 +13,7 @@ class StaticCall extends CallLike {
     public Node $class;
     /** @var Identifier|Expr Method name */
     public Node $name;
-    /** @var array<Arg|VariadicPlaceholder> Arguments */
+    /** @var list<Arg|VariadicPlaceholder> Arguments */
     public array $args;
 
     /**
@@ -21,7 +21,7 @@ class StaticCall extends CallLike {
      *
      * @param Node\Name|Expr $class Class name
      * @param string|Identifier|Expr $name Method name
-     * @param array<Arg|VariadicPlaceholder> $args Arguments
+     * @param list<Arg|VariadicPlaceholder> $args Arguments
      * @param array<string, mixed> $attributes Additional attributes
      */
     public function __construct(Node $class, $name, array $args = [], array $attributes = []) {
