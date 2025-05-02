@@ -4,7 +4,7 @@ namespace PhpParser\Node\Stmt;
 
 use PhpParser\Node;
 
-class ElseIf_ extends Node\Stmt {
+class ElseIf_ extends Node\Stmt implements Node\StmtsIterable {
     /** @var Node\Expr Condition */
     public Node\Expr $cond;
     /** @var Node\Stmt[] Statements */
