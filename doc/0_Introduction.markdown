@@ -1,7 +1,7 @@
 Introduction
 ============
 
-This project is a PHP 5.2 to PHP 8.0 parser **written in PHP itself**.
+This project is a PHP 5.2 to PHP 8.3 parser **written in PHP itself**.
 
 What is this for?
 -----------------
