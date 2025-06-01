@@ -19,13 +19,17 @@ class NameContext {
     /** @var ErrorHandler Error handler */
     protected ErrorHandler $errorHandler;
 
+    protected bool $noCyclicRefs;
+
     /**
      * Create a name context.
      *
      * @param ErrorHandler $errorHandler Error handling used to report errors
+     * @param array{noCyclicRefs?:bool} $options
      */
-    public function __construct(ErrorHandler $errorHandler) {
+    public function __construct(ErrorHandler $errorHandler, array $options = []) {
         $this->errorHandler = $errorHandler;
+        $this->noCyclicRefs = $options['noCyclicRefs'] ?? false;
     }
 
     /**
@@ -107,12 +111,12 @@ class NameContext {
                     $name->getAttributes()
                 ));
             }
-            return $name;
+            return $this->noCyclicRefs ? clone $name : $name;
         }
 
         // fully qualified names are already resolved
         if ($name->isFullyQualified()) {
-            return $name;
+            return $this->noCyclicRefs ? clone $name : $name;
         }
 
         // Try to resolve aliases
