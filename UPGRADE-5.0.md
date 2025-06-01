@@ -308,7 +308,7 @@ PhpParser\Node\Stmt\Class_::VISIBILITY_MODIFIER_MASK -> PhpParser\Modifiers::VIS
 
 ### Changes to node constructors
 
-Node constructor arguments accepting types now longer accept plain strings. Either an `Identifier` or `Name` (or `ComplexType`) should be passed instead. This affects the following constructor arguments:
+Node constructor arguments accepting types no longer accept plain strings. Either an `Identifier` or `Name` (or `ComplexType`) should be passed instead. This affects the following constructor arguments:
 
 * The `'returnType'` key of `$subNodes` argument of `Node\Expr\ArrowFunction`.
 * The `'returnType'` key of `$subNodes` argument of `Node\Expr\Closure`.
