@@ -37,7 +37,7 @@ The `ParserFactory::create()` method has been removed in favor of three new meth
  * `createForHostVersion()`: Use this if you're parsing code for the PHP version you're running on.
  * `createForVersion()`: Use this if you know the PHP version of the code you want to parse.
 
-The `createForNewestSupportedVersion()` and `creatForHostVersion()` are available since PHP-Parser 4.18.0, to allow libraries to support PHP-Parser 4 and 5 at the same time more easily.
+The `createForNewestSupportedVersion()` and `createForHostVersion()` are available since PHP-Parser 4.18.0, to allow libraries to support PHP-Parser 4 and 5 at the same time more easily.
 
 In all cases, the PHP version is a fairly weak hint that is only used on a best-effort basis. The parser will usually accept code for newer versions if it does not have any backwards-compatibility implications.
 
