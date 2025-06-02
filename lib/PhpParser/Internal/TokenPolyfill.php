@@ -20,9 +20,9 @@ class TokenPolyfill {
     public int $id;
     /** @var string The textual content of the token. */
     public string $text;
-    /** @var int The 1-based starting line of the token (or -1 if unknown). */
+    /** @var -1|positive-int The 1-based starting line of the token (or -1 if unknown). */
     public int $line;
-    /** @var int The 0-based starting position of the token (or -1 if unknown). */
+    /** @var int<-1, max> The 0-based starting position of the token (or -1 if unknown). */
     public int $pos;
 
     /** @var array<int, bool> Tokens ignored by the PHP parser. */
@@ -119,7 +119,7 @@ class TokenPolyfill {
      *    T_WHITESPACE token.
      *  * Namespaced names are represented using T_NAME_* tokens.
      *
-     * @return static[]
+     * @return list<static>
      */
     public static function tokenize(string $code, int $flags = 0): array {
         self::init();
