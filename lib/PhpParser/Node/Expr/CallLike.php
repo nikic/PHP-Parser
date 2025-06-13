@@ -32,4 +32,29 @@ abstract class CallLike extends Expr {
         assert(!$this->isFirstClassCallable());
         return $this->getRawArgs();
     }
+
+    /**
+     * Retrieves a specific argument from the raw arguments.
+     *
+     * Returns the named argument that matches the given `$name`, or the
+     * positional (unnamed) argument that exists at the given `$position`,
+     * otherwise, returns `null` for first-class callables or if no match is found.
+     */
+    public function getArg(string $name, int $position): ?Arg {
+        if ($this->isFirstClassCallable()) {
+            return null;
+        }
+        foreach ($this->getRawArgs() as $i => $arg) {
+            if ($arg->unpack) {
+                continue;
+            }
+            if (
+                $arg->name?->toString() === $name
+                || ($i === $position && $arg->name === null)
+            ) {
+                return $arg;
+            }
+        }
+        return null;
+    }
 }
