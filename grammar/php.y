@@ -471,6 +471,7 @@ fn_identifier:
       identifier_not_reserved
     | T_READONLY                                            { $$ = Node\Identifier[$1]; }
     | T_EXIT                                                { $$ = Node\Identifier[$1]; }
+    | T_CLONE                                               { $$ = Node\Identifier[$1]; }
 ;
 
 function_declaration_statement:
