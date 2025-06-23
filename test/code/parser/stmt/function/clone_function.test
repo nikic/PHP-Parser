@@ -1,0 +1,58 @@
+Declaring clone function stub
+-----
+<?php
+
+function clone(object $object, array $withProperties = []): object {}
+-----
+array(
+    0: Stmt_Function(
+        attrGroups: array(
+        )
+        byRef: false
+        name: Identifier(
+            name: clone
+        )
+        params: array(
+            0: Param(
+                attrGroups: array(
+                )
+                flags: 0
+                type: Identifier(
+                    name: object
+                )
+                byRef: false
+                variadic: false
+                var: Expr_Variable(
+                    name: object
+                )
+                default: null
+                hooks: array(
+                )
+            )
+            1: Param(
+                attrGroups: array(
+                )
+                flags: 0
+                type: Identifier(
+                    name: array
+                )
+                byRef: false
+                variadic: false
+                var: Expr_Variable(
+                    name: withProperties
+                )
+                default: Expr_Array(
+                    items: array(
+                    )
+                )
+                hooks: array(
+                )
+            )
+        )
+        returnType: Identifier(
+            name: object
+        )
+        stmts: array(
+        )
+    )
+)
