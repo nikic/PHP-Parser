@@ -1,3 +1,20 @@
+Version 5.5.0 (2025-05-31)
+--------------------------
+
+### Added
+
+* [8.5] Added support for attributes on constants. `Stmt\Const_` now has an `attrGroups` subnode.
+* Added `weakReferences` option to `NodeConnectingVisitor` and `ParentConnectingVisitor`. This
+  will create the parent/next/prev references as WeakReferences, to avoid making the AST cyclic
+  and thus increasing GC pressure.
+
+### Changed
+
+* Attributes on parameters are now printed on separate lines if the pretty printer target version
+  is PHP 7.4 or older (which is the default). This allows them to be interpreted as comments,
+  instead of causing a parse error. Specify a target version of PHP 8.0 or newer to restore the
+  previous behavior.
+
 Version 5.4.0 (2024-12-30)
 --------------------------
 

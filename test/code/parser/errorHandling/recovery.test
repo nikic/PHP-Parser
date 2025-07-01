@@ -476,6 +476,8 @@ array(
                 )
             )
             3: Stmt_Const(
+                attrGroups: array(
+                )
                 consts: array(
                     0: Const(
                         name: Identifier(
@@ -629,6 +631,8 @@ array(
         )
     )
     3: Stmt_Const(
+        attrGroups: array(
+        )
         consts: array(
             0: Const(
                 name: Identifier(

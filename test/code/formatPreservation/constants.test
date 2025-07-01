@@ -1,0 +1,50 @@
+Constants
+-----
+<?php
+
+const FOO = true;
+
+#[A]
+const BAR = true;
+-----
+$attrGroup = new Node\AttributeGroup([
+    new Node\Attribute(new Node\Name('B'), []),
+]);
+$stmts[0]->attrGroups[] = $attrGroup;
+$stmts[1]->attrGroups[] = $attrGroup;
+-----
+<?php
+
+#[B]
+const FOO = true;
+
+#[A]
+#[B]
+const BAR = true;
+-----
+<?php
+
+#[ A,   B]
+const FOO = true;
+
+#[
+    A,
+    B,
+]
+const BAR = true;
+-----
+$attr = new Node\Attribute(new Node\Name('C'), []);
+$stmts[0]->attrGroups[0]->attrs[] = $attr;
+$stmts[1]->attrGroups[0]->attrs[] = $attr;
+-----
+<?php
+
+#[ A,   B, C]
+const FOO = true;
+
+#[
+    A,
+    B,
+    C,
+]
+const BAR = true;

@@ -365,7 +365,10 @@ abstract class SomeClass extends SomeOtherClass implements A\Few, \Interfaces
      * @param SomeClass And takes a parameter
      */
     abstract public function someMethod(SomeClass $someParam);
-    protected function anotherMethod(#[TaggedIterator('app.handlers')] $someParam = 'test')
+    protected function anotherMethod(
+        #[TaggedIterator('app.handlers')]
+        $someParam = 'test'
+    )
     {
         print $someParam;
     }

@@ -257,7 +257,10 @@ top_statement:
     | T_USE use_declarations semi                           { $$ = Stmt\Use_[$2, Stmt\Use_::TYPE_NORMAL]; }
     | T_USE use_type use_declarations semi                  { $$ = Stmt\Use_[$3, $2]; }
     | group_use_declaration
-    | T_CONST constant_declaration_list semi                { $$ = Stmt\Const_[$2]; }
+    | T_CONST constant_declaration_list semi                { $$ = new Stmt\Const_($2, attributes(), []); }
+    | attributes T_CONST constant_declaration_list semi
+          { $$ = new Stmt\Const_($3, attributes(), $1);
+            $this->checkConstantAttributes($$); }
 ;
 
 use_type:

@@ -51,3 +51,17 @@ obtained through `$node->getAttribute('next')`.
 
 `ParentConnectingVisitor` and `NodeConnectingVisitor` should not be used at the same time. The latter
 includes the functionality of the former.
+
+
+How can I limit the impact of cyclic references in the AST?
+-----
+
+NodeConnectingVisitor adds a parent reference, which introduces a cycle. This means that the AST can now only be collected by the cycle garbage collector.
+This in turn can lead to performance and/or memory issues. 
+
+To break the cyclic references between AST nodes `NodeConnectingVisitor` supports a boolean `$weakReferences` constructor parameter.
+When set to `true`, all attributes added by `NodeConnectingVisitor` will be wrapped into a `WeakReference` object.
+
+After enabling this parameter, the parent node can be obtained through `$node->getAttribute('weak_parent')`,
+the previous node can be obtained through `$node->getAttribute('weak_previous')`, and the next node can be
+obtained through `$node->getAttribute('weak_next')`.

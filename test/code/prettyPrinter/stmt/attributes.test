@@ -38,7 +38,10 @@ function a()
 class C
 {
     #[A6]
-    public function m(#[A7] $param)
+    public function m(
+        #[A7]
+        $param
+    )
     {
     }
     #[A12]
@@ -58,3 +61,11 @@ $y = #[A11] fn() => 0;
 new #[A13] class
 {
 };
+-----
+<?php
+function test(#[A] $b) {}
+-----
+!!version=8.0
+function test(#[A] $b)
+{
+}
