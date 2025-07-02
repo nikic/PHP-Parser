@@ -785,6 +785,22 @@ argument_list:
     | '(' variadic_placeholder ')'                          { init($2); }
 ;
 
+clone_argument_list:
+      '(' ')'                                              { $$ = array(); }
+    | '(' non_empty_clone_argument_list optional_comma ')' { $$ = $2; }
+    | '(' expr ',' ')'                                     { init(Node\Arg[$2, false, false]); }
+    | '(' variadic_placeholder ')'                         { init($2); }
+;
+
+non_empty_clone_argument_list:
+		expr ',' argument
+			{ init(new Node\Arg($1, false, false, stackAttributes(#1)), $3); }
+	|	argument_no_expr
+			{ init($1); }
+	|	non_empty_clone_argument_list ',' argument
+			{ push($1, $3); }
+;
+
 variadic_placeholder:
       T_ELLIPSIS                                            { $$ = Node\VariadicPlaceholder[]; }
 ;
@@ -794,12 +810,16 @@ non_empty_argument_list:
     | non_empty_argument_list ',' argument                  { push($1, $3); }
 ;
 
-argument:
-      expr                                                  { $$ = Node\Arg[$1, false, false]; }
-    | ampersand variable                                    { $$ = Node\Arg[$2, true, false]; }
+argument_no_expr:
+      ampersand variable                                    { $$ = Node\Arg[$2, true, false]; }
     | T_ELLIPSIS expr                                       { $$ = Node\Arg[$2, false, true]; }
     | identifier_maybe_reserved ':' expr
           { $$ = new Node\Arg($3, false, false, attributes(), $1); }
+;
+
+argument:
+      expr                                                  { $$ = Node\Arg[$1, false, false]; }
+    | argument_no_expr                                      { $$ = $1; }
 ;
 
 global_var_list:
@@ -1015,6 +1035,7 @@ expr:
           }
     | new_expr
     | match
+    | T_CLONE clone_argument_list                           { $$ = Expr\FuncCall[new Node\Name($1, stackAttributes(#1)), $2]; }
     | T_CLONE expr                                          { $$ = Expr\Clone_[$2]; }
     | variable T_PLUS_EQUAL expr                            { $$ = Expr\AssignOp\Plus      [$1, $3]; }
     | variable T_MINUS_EQUAL expr                           { $$ = Expr\AssignOp\Minus     [$1, $3]; }
