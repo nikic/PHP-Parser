@@ -6,8 +6,7 @@ use PhpParser\Lexer\TokenEmulator\TokenEmulator;
 use PhpParser\PhpVersion;
 use PhpParser\Token;
 
-class PipeOperatorEmulator extends TokenEmulator
-{
+class PipeOperatorEmulator extends TokenEmulator {
     public function getPhpVersion(): PhpVersion {
         return PhpVersion::fromComponents(8, 5);
     }
@@ -16,8 +15,7 @@ class PipeOperatorEmulator extends TokenEmulator
         return \strpos($code, '|>') !== false;
     }
 
-    public function emulate(string $code, array $tokens): array
-    {
+    public function emulate(string $code, array $tokens): array {
         for ($i = 0, $c = count($tokens); $i < $c; ++$i) {
             $token = $tokens[$i];
             if ($token->text === '|' && isset($tokens[$i + 1]) && $tokens[$i + 1]->text === '>') {
@@ -30,8 +28,7 @@ class PipeOperatorEmulator extends TokenEmulator
         return $tokens;
     }
 
-    public function reverseEmulate(string $code, array $tokens): array
-    {
+    public function reverseEmulate(string $code, array $tokens): array {
         for ($i = 0, $c = count($tokens); $i < $c; ++$i) {
             $token = $tokens[$i];
             if ($token->id === \T_PIPE) {

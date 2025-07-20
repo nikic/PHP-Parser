@@ -26,6 +26,7 @@
 %left '+' '-' '.'
 #endif
 #if PHP8
+%left T_PIPE
 %left '.'
 %left T_SL T_SR
 %left '+' '-'
@@ -1085,6 +1086,9 @@ expr:
     | expr T_IS_SMALLER_OR_EQUAL expr                       { $$ = Expr\BinaryOp\SmallerOrEqual[$1, $3]; }
     | expr '>' expr                                         { $$ = Expr\BinaryOp\Greater       [$1, $3]; }
     | expr T_IS_GREATER_OR_EQUAL expr                       { $$ = Expr\BinaryOp\GreaterOrEqual[$1, $3]; }
+#if PHP8
+    | expr T_PIPE expr                                      { $$ = Expr\BinaryOp\Pipe[$1, $3]; }
+#endif
     | expr T_INSTANCEOF class_name_reference                { $$ = Expr\Instanceof_[$1, $3]; }
     | '(' expr ')'                                          { $$ = $2; }
     | expr '?' expr ':' expr                                { $$ = Expr\Ternary[$1, $3,   $5]; }

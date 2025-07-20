@@ -425,6 +425,10 @@ class Standard extends PrettyPrinterAbstract {
         return $this->pInfixOp(BinaryOp\Coalesce::class, $node->left, ' ?? ', $node->right, $precedence, $lhsPrecedence);
     }
 
+    protected function pExpr_BinaryOp_Pipe(BinaryOp\Pipe $node, int $precedence, int $lhsPrecedence): string {
+        return $this->pInfixOp(BinaryOp\Pipe::class, $node->left, ' |> ', $node->right, $precedence, $lhsPrecedence);
+    }
+
     protected function pExpr_Instanceof(Expr\Instanceof_ $node, int $precedence, int $lhsPrecedence): string {
         return $this->pPostfixOp(
             Expr\Instanceof_::class, $node->expr,
