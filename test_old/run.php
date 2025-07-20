@@ -1,6 +1,6 @@
 <?php
 
-error_reporting(E_ALL | E_STRICT);
+error_reporting(E_ALL);
 ini_set('short_open_tag', false);
 
 if ('cli' !== php_sapi_name()) {
