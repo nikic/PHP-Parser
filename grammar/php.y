@@ -1,6 +1,7 @@
 %pure_parser
 %expect 2
 
+%right T_VOID_CAST
 %right T_THROW
 %left T_INCLUDE T_INCLUDE_ONCE T_EVAL T_REQUIRE T_REQUIRE_ONCE
 %left ','
@@ -1111,6 +1112,7 @@ expr:
     | T_OBJECT_CAST expr                                    { $$ = Expr\Cast\Object_ [$2]; }
     | T_BOOL_CAST expr                                      { $$ = Expr\Cast\Bool_   [$2]; }
     | T_UNSET_CAST expr                                     { $$ = Expr\Cast\Unset_  [$2]; }
+    | T_VOID_CAST expr                                      { $$ = Expr\Cast\Void_   [$2]; }
     | T_EXIT ctor_arguments
           { $$ = $this->createExitExpr($1, #1, $2, attributes()); }
     | '@' expr                                              { $$ = Expr\ErrorSuppress[$2]; }

@@ -1,0 +1,95 @@
+Void cast
+-----
+<?php
+(void)foo();
+( VOID ) foo();
+(void)$a or $b;
+
+// This is explicitly allowed.
+for ((void)a(); $b; (void)$c) {
+}
+
+// PHP does not allow this, but the parser accepts it.
+$x = (void) $y;
+-----
+array(
+    0: Stmt_Expression(
+        expr: Expr_Cast_Void(
+            expr: Expr_FuncCall(
+                name: Name(
+                    name: foo
+                )
+                args: array(
+                )
+            )
+        )
+    )
+    1: Stmt_Expression(
+        expr: Expr_Cast_Void(
+            expr: Expr_FuncCall(
+                name: Name(
+                    name: foo
+                )
+                args: array(
+                )
+            )
+        )
+    )
+    2: Stmt_Expression(
+        expr: Expr_Cast_Void(
+            expr: Expr_BinaryOp_LogicalOr(
+                left: Expr_Variable(
+                    name: a
+                )
+                right: Expr_Variable(
+                    name: b
+                )
+            )
+        )
+    )
+    3: Stmt_For(
+        init: array(
+            0: Expr_Cast_Void(
+                expr: Expr_FuncCall(
+                    name: Name(
+                        name: a
+                    )
+                    args: array(
+                    )
+                )
+            )
+        )
+        cond: array(
+            0: Expr_Variable(
+                name: b
+            )
+        )
+        loop: array(
+            0: Expr_Cast_Void(
+                expr: Expr_Variable(
+                    name: c
+                )
+            )
+        )
+        stmts: array(
+        )
+        comments: array(
+            0: // This is explicitly allowed.
+        )
+    )
+    4: Stmt_Expression(
+        expr: Expr_Assign(
+            var: Expr_Variable(
+                name: x
+            )
+            expr: Expr_Cast_Void(
+                expr: Expr_Variable(
+                    name: y
+                )
+            )
+        )
+        comments: array(
+            0: // PHP does not allow this, but the parser accepts it.
+        )
+    )
+)

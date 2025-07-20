@@ -521,6 +521,10 @@ class Standard extends PrettyPrinterAbstract {
         return $this->pPrefixOp(Cast\Unset_::class, '(unset) ', $node->expr, $precedence, $lhsPrecedence);
     }
 
+    protected function pExpr_Cast_Void(Cast\Void_ $node, int $precedence, int $lhsPrecedence): string {
+        return $this->pPrefixOp(Cast\Void_::class, '(void) ', $node->expr, $precedence, $lhsPrecedence);
+    }
+
     // Function calls and similar constructs
 
     protected function pExpr_FuncCall(Expr\FuncCall $node): string {

@@ -104,6 +104,7 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
         Expr\Include_::class           => [220,  -1,  -1],
         Expr\ArrowFunction::class      => [230,  -1,  -1],
         Expr\Throw_::class             => [240,  -1,  -1],
+        Expr\Cast\Void_::class         => [250,  -1,  -1],
     ];
 
     /** @var int Current indentation level. */
