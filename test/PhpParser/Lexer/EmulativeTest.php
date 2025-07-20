@@ -424,6 +424,11 @@ class EmulativeTest extends LexerTest {
                 [\T_STRING, 'set'],
                 [\ord(')'), ')'],
             ]],
+
+            // PHP 8.5: Pipe operator
+            ['|>', [
+                [\T_PIPE, '|>']
+            ]],
         ];
     }
 
@@ -471,6 +476,13 @@ class EmulativeTest extends LexerTest {
                 [\T_STRING, 'set'],
                 [\ord(')'), ')']
             ]],
+            ['8.5', '|>', [
+                [\T_PIPE, '|>']
+            ]],
+            ['8.4', '|>', [
+                [\ord('|'), '|'],
+                [\ord('>'), '>'],
+            ]]
         ];
     }
 }
