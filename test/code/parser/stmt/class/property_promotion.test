@@ -10,6 +10,7 @@ class Point {
         public readonly int $a = 0,
         public $h { set => $value; },
         public $g = 1 { get => 2; },
+        final $i,
     ) {}
 }
 -----
@@ -163,6 +164,20 @@ array(
                                     value: 2
                                 )
                             )
+                        )
+                    )
+                    6: Param(
+                        attrGroups: array(
+                        )
+                        flags: FINAL (32)
+                        type: null
+                        byRef: false
+                        variadic: false
+                        var: Expr_Variable(
+                            name: i
+                        )
+                        default: null
+                        hooks: array(
                         )
                     )
                 )

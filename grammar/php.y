@@ -686,6 +686,7 @@ property_modifier:
     | T_PROTECTED_SET           { $$ = Modifiers::PROTECTED_SET; }
     | T_PRIVATE_SET             { $$ = Modifiers::PRIVATE_SET; }
     | T_READONLY                { $$ = Modifiers::READONLY; }
+    | T_FINAL                   { $$ = Modifiers::FINAL; }
 ;
 
 parameter:
