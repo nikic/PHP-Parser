@@ -17,6 +17,7 @@ use PhpParser\Lexer\TokenEmulator\ReadonlyFunctionTokenEmulator;
 use PhpParser\Lexer\TokenEmulator\ReadonlyTokenEmulator;
 use PhpParser\Lexer\TokenEmulator\ReverseEmulator;
 use PhpParser\Lexer\TokenEmulator\TokenEmulator;
+use PhpParser\Lexer\TokenEmulator\VoidCastEmulator;
 use PhpParser\PhpVersion;
 use PhpParser\Token;
 
@@ -49,6 +50,7 @@ class Emulative extends Lexer {
             new PropertyTokenEmulator(),
             new AsymmetricVisibilityTokenEmulator(),
             new PipeOperatorEmulator(),
+            new VoidCastEmulator(),
         ];
 
         // Collect emulators that are relevant for the PHP version we're running
