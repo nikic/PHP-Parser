@@ -2,6 +2,7 @@
 
 /** @var PhpFuzzer\Fuzzer $fuzzer */
 
+use PhpParser\Node;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Scalar;
 use PhpParser\Node\Stmt;
@@ -92,6 +93,13 @@ $visitor = new class extends PhpParser\NodeVisitorAbstract {
         }
         if ($node instanceof Stmt\GroupUse && $node->prefix->isUnqualified() &&
             $this->tokens[$node->prefix->getStartTokenPos()]->is(\T_NAME_FULLY_QUALIFIED)
+        ) {
+            $this->hasProblematicConstruct = true;
+        }
+
+        // clone($x, ) is not preserved precisely.
+        if ($node instanceof Expr\FuncCall && $node->name instanceof Node\Name &&
+            $node->name->toLowerString() == 'clone' && count($node->args) == 1
         ) {
             $this->hasProblematicConstruct = true;
         }
