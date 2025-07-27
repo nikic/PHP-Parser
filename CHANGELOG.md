@@ -1,3 +1,16 @@
+Version 5.6.0 (2025-07-27)
+--------------------------
+
+### Added
+
+* [8.5] Added support for `clone` with arbitrary function arguments. This will be parsed as an
+  `Expr\FuncCall` node, instead of the usual `Expr\Clone_` node.
+* [8.5] Permit declaration of `function clone` for use in stubs.
+* [8.5] Added support for the pipe operator, represented by `Expr\BinaryOp\Pipe`.
+* [8.5] Added support for the `(void)` cast, represented by `Expr\Cast\Void_`.
+* [8.5] Added support for the `final` modifier on promoted properties.
+* Added `CallLike::getArg()` to fetch an argument by position and name.
+
 Version 5.5.0 (2025-05-31)
 --------------------------
 
