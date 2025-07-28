@@ -42,10 +42,13 @@ class ParamTest extends \PHPUnit\Framework\TestCase {
         $node = new Param(new Variable('foo'));
         $node->flags = Modifiers::PRIVATE_SET;
         $this->assertTrue($node->isPrivateSet());
+        $this->assertTrue($node->isPublic());
         $node->flags = Modifiers::PROTECTED_SET;
         $this->assertTrue($node->isProtectedSet());
+        $this->assertTrue($node->isPublic());
         $node->flags = Modifiers::PUBLIC_SET;
         $this->assertTrue($node->isPublicSet());
+        $this->assertTrue($node->isPublic());
     }
 
     public function testPromotedPropertyWithoutVisibilityModifier(): void {

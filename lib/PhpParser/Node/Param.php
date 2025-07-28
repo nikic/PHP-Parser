@@ -77,7 +77,7 @@ class Param extends NodeAbstract {
             return true;
         }
 
-        if ($this->hooks === []) {
+        if (!$this->isPromoted()) {
             return false;
         }
 
