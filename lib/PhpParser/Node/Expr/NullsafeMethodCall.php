@@ -13,7 +13,7 @@ class NullsafeMethodCall extends CallLike {
     public Expr $var;
     /** @var Identifier|Expr Method name */
     public Node $name;
-    /** @var array<Arg|VariadicPlaceholder> Arguments */
+    /** @var list<Arg|VariadicPlaceholder> Arguments */
     public array $args;
 
     /**
@@ -21,7 +21,7 @@ class NullsafeMethodCall extends CallLike {
      *
      * @param Expr $var Variable holding object
      * @param string|Identifier|Expr $name Method name
-     * @param array<Arg|VariadicPlaceholder> $args Arguments
+     * @param list<Arg|VariadicPlaceholder> $args Arguments
      * @param array<string, mixed> $attributes Additional attributes
      */
     public function __construct(Expr $var, $name, array $args = [], array $attributes = []) {
