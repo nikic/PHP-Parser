@@ -424,6 +424,27 @@ class EmulativeTest extends LexerTest {
                 [\T_STRING, 'set'],
                 [\ord(')'), ')'],
             ]],
+
+            // PHP 8.5: Pipe operator
+            ['|>', [
+                [\T_PIPE, '|>']
+            ]],
+
+            // PHP 8.5: Void cast
+            ['(void)', [
+                [\T_VOID_CAST, '(void)'],
+            ]],
+            ["( \tvoid \t)", [
+                [\T_VOID_CAST, "( \tvoid \t)"],
+            ]],
+            ['( vOiD)', [
+                [\T_VOID_CAST, '( vOiD)'],
+            ]],
+            ["(void\n)", [
+                [\ord('('), '('],
+                [\T_STRING, 'void'],
+                [\ord(')'), ')'],
+            ]],
         ];
     }
 
@@ -470,6 +491,29 @@ class EmulativeTest extends LexerTest {
                 [\ord('('), '('],
                 [\T_STRING, 'set'],
                 [\ord(')'), ')']
+            ]],
+            ['8.5', '|>', [
+                [\T_PIPE, '|>']
+            ]],
+            ['8.4', '|>', [
+                [\ord('|'), '|'],
+                [\ord('>'), '>'],
+            ]],
+            ['8.5', '(void)', [
+                [\T_VOID_CAST, '(void)'],
+            ]],
+            ['8.5', "( \tvoid \t)", [
+                [\T_VOID_CAST, "( \tvoid \t)"],
+            ]],
+            ['8.4', '(void)', [
+                [\ord('('), '('],
+                [\T_STRING, 'void'],
+                [\ord(')'), ')'],
+            ]],
+            ['8.4', "( \tVOID \t)", [
+                [\ord('('), '('],
+                [\T_STRING, 'VOID'],
+                [\ord(')'), ')'],
             ]],
         ];
     }

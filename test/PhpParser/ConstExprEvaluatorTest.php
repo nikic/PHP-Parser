@@ -8,7 +8,7 @@ use PhpParser\Node\Scalar;
 class ConstExprEvaluatorTest extends \PHPUnit\Framework\TestCase {
     /** @dataProvider provideTestEvaluate */
     public function testEvaluate($exprString, $expected): void {
-        $parser = new Parser\Php7(new Lexer());
+        $parser = (new ParserFactory())->createForNewestSupportedVersion();
         $expr = $parser->parse('<?php ' . $exprString . ';')[0]->expr;
         $evaluator = new ConstExprEvaluator();
         $this->assertSame($expected, $evaluator->evaluateDirectly($expr));
@@ -71,6 +71,7 @@ class ConstExprEvaluatorTest extends \PHPUnit\Framework\TestCase {
             ['true || (1/0)', true],
             ['true or (1/0)', true],
             ['true xor false', true],
+            ['"foo" |> "strlen"', 3],
         ];
     }
 

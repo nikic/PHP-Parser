@@ -1,0 +1,75 @@
+Pipe operator
+-----
+<?php
+$a |> $b |> $c;
+$a . $b |> $c . $d;
+$a |> $b == $c;
+$c == $a |> $b;
+-----
+array(
+    0: Stmt_Expression(
+        expr: Expr_BinaryOp_Pipe(
+            left: Expr_BinaryOp_Pipe(
+                left: Expr_Variable(
+                    name: a
+                )
+                right: Expr_Variable(
+                    name: b
+                )
+            )
+            right: Expr_Variable(
+                name: c
+            )
+        )
+    )
+    1: Stmt_Expression(
+        expr: Expr_BinaryOp_Pipe(
+            left: Expr_BinaryOp_Concat(
+                left: Expr_Variable(
+                    name: a
+                )
+                right: Expr_Variable(
+                    name: b
+                )
+            )
+            right: Expr_BinaryOp_Concat(
+                left: Expr_Variable(
+                    name: c
+                )
+                right: Expr_Variable(
+                    name: d
+                )
+            )
+        )
+    )
+    2: Stmt_Expression(
+        expr: Expr_BinaryOp_Equal(
+            left: Expr_BinaryOp_Pipe(
+                left: Expr_Variable(
+                    name: a
+                )
+                right: Expr_Variable(
+                    name: b
+                )
+            )
+            right: Expr_Variable(
+                name: c
+            )
+        )
+    )
+    3: Stmt_Expression(
+        expr: Expr_BinaryOp_Equal(
+            left: Expr_Variable(
+                name: c
+            )
+            right: Expr_BinaryOp_Pipe(
+                left: Expr_Variable(
+                    name: a
+                )
+                right: Expr_Variable(
+                    name: b
+                )
+            )
+        )
+    )
+)

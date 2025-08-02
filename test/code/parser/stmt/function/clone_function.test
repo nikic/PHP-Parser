@@ -1,0 +1,448 @@
+Declaring clone function stub
+-----
+<?php
+
+function clone(object $object, array $withProperties = []): object {}
+clone $x;
+clone($x);
+clone($x, );
+clone($x, [ "foo" => $foo, "bar" => $bar ]);
+clone($x, $array);
+clone($x, $array, $extraParameter, $trailingComma, );
+clone(object: $x, withProperties: [ "foo" => $foo, "bar" => $bar ]);
+clone($x, withProperties: [ "foo" => $foo, "bar" => $bar ]);
+clone(object: $x);
+clone(object: $x, [ "foo" => $foo, "bar" => $bar ]);
+clone(...["object" => $x, "withProperties" => [ "foo" => $foo, "bar" => $bar ]]);
+clone(...);
+-----
+array(
+    0: Stmt_Function(
+        attrGroups: array(
+        )
+        byRef: false
+        name: Identifier(
+            name: clone
+        )
+        params: array(
+            0: Param(
+                attrGroups: array(
+                )
+                flags: 0
+                type: Identifier(
+                    name: object
+                )
+                byRef: false
+                variadic: false
+                var: Expr_Variable(
+                    name: object
+                )
+                default: null
+                hooks: array(
+                )
+            )
+            1: Param(
+                attrGroups: array(
+                )
+                flags: 0
+                type: Identifier(
+                    name: array
+                )
+                byRef: false
+                variadic: false
+                var: Expr_Variable(
+                    name: withProperties
+                )
+                default: Expr_Array(
+                    items: array(
+                    )
+                )
+                hooks: array(
+                )
+            )
+        )
+        returnType: Identifier(
+            name: object
+        )
+        stmts: array(
+        )
+    )
+    1: Stmt_Expression(
+        expr: Expr_Clone(
+            expr: Expr_Variable(
+                name: x
+            )
+        )
+    )
+    2: Stmt_Expression(
+        expr: Expr_Clone(
+            expr: Expr_Variable(
+                name: x
+            )
+        )
+    )
+    3: Stmt_Expression(
+        expr: Expr_FuncCall(
+            name: Name(
+                name: clone
+            )
+            args: array(
+                0: Arg(
+                    name: null
+                    value: Expr_Variable(
+                        name: x
+                    )
+                    byRef: false
+                    unpack: false
+                )
+            )
+        )
+    )
+    4: Stmt_Expression(
+        expr: Expr_FuncCall(
+            name: Name(
+                name: clone
+            )
+            args: array(
+                0: Arg(
+                    name: null
+                    value: Expr_Variable(
+                        name: x
+                    )
+                    byRef: false
+                    unpack: false
+                )
+                1: Arg(
+                    name: null
+                    value: Expr_Array(
+                        items: array(
+                            0: ArrayItem(
+                                key: Scalar_String(
+                                    value: foo
+                                )
+                                value: Expr_Variable(
+                                    name: foo
+                                )
+                                byRef: false
+                                unpack: false
+                            )
+                            1: ArrayItem(
+                                key: Scalar_String(
+                                    value: bar
+                                )
+                                value: Expr_Variable(
+                                    name: bar
+                                )
+                                byRef: false
+                                unpack: false
+                            )
+                        )
+                    )
+                    byRef: false
+                    unpack: false
+                )
+            )
+        )
+    )
+    5: Stmt_Expression(
+        expr: Expr_FuncCall(
+            name: Name(
+                name: clone
+            )
+            args: array(
+                0: Arg(
+                    name: null
+                    value: Expr_Variable(
+                        name: x
+                    )
+                    byRef: false
+                    unpack: false
+                )
+                1: Arg(
+                    name: null
+                    value: Expr_Variable(
+                        name: array
+                    )
+                    byRef: false
+                    unpack: false
+                )
+            )
+        )
+    )
+    6: Stmt_Expression(
+        expr: Expr_FuncCall(
+            name: Name(
+                name: clone
+            )
+            args: array(
+                0: Arg(
+                    name: null
+                    value: Expr_Variable(
+                        name: x
+                    )
+                    byRef: false
+                    unpack: false
+                )
+                1: Arg(
+                    name: null
+                    value: Expr_Variable(
+                        name: array
+                    )
+                    byRef: false
+                    unpack: false
+                )
+                2: Arg(
+                    name: null
+                    value: Expr_Variable(
+                        name: extraParameter
+                    )
+                    byRef: false
+                    unpack: false
+                )
+                3: Arg(
+                    name: null
+                    value: Expr_Variable(
+                        name: trailingComma
+                    )
+                    byRef: false
+                    unpack: false
+                )
+            )
+        )
+    )
+    7: Stmt_Expression(
+        expr: Expr_FuncCall(
+            name: Name(
+                name: clone
+            )
+            args: array(
+                0: Arg(
+                    name: Identifier(
+                        name: object
+                    )
+                    value: Expr_Variable(
+                        name: x
+                    )
+                    byRef: false
+                    unpack: false
+                )
+                1: Arg(
+                    name: Identifier(
+                        name: withProperties
+                    )
+                    value: Expr_Array(
+                        items: array(
+                            0: ArrayItem(
+                                key: Scalar_String(
+                                    value: foo
+                                )
+                                value: Expr_Variable(
+                                    name: foo
+                                )
+                                byRef: false
+                                unpack: false
+                            )
+                            1: ArrayItem(
+                                key: Scalar_String(
+                                    value: bar
+                                )
+                                value: Expr_Variable(
+                                    name: bar
+                                )
+                                byRef: false
+                                unpack: false
+                            )
+                        )
+                    )
+                    byRef: false
+                    unpack: false
+                )
+            )
+        )
+    )
+    8: Stmt_Expression(
+        expr: Expr_FuncCall(
+            name: Name(
+                name: clone
+            )
+            args: array(
+                0: Arg(
+                    name: null
+                    value: Expr_Variable(
+                        name: x
+                    )
+                    byRef: false
+                    unpack: false
+                )
+                1: Arg(
+                    name: Identifier(
+                        name: withProperties
+                    )
+                    value: Expr_Array(
+                        items: array(
+                            0: ArrayItem(
+                                key: Scalar_String(
+                                    value: foo
+                                )
+                                value: Expr_Variable(
+                                    name: foo
+                                )
+                                byRef: false
+                                unpack: false
+                            )
+                            1: ArrayItem(
+                                key: Scalar_String(
+                                    value: bar
+                                )
+                                value: Expr_Variable(
+                                    name: bar
+                                )
+                                byRef: false
+                                unpack: false
+                            )
+                        )
+                    )
+                    byRef: false
+                    unpack: false
+                )
+            )
+        )
+    )
+    9: Stmt_Expression(
+        expr: Expr_FuncCall(
+            name: Name(
+                name: clone
+            )
+            args: array(
+                0: Arg(
+                    name: Identifier(
+                        name: object
+                    )
+                    value: Expr_Variable(
+                        name: x
+                    )
+                    byRef: false
+                    unpack: false
+                )
+            )
+        )
+    )
+    10: Stmt_Expression(
+        expr: Expr_FuncCall(
+            name: Name(
+                name: clone
+            )
+            args: array(
+                0: Arg(
+                    name: Identifier(
+                        name: object
+                    )
+                    value: Expr_Variable(
+                        name: x
+                    )
+                    byRef: false
+                    unpack: false
+                )
+                1: Arg(
+                    name: null
+                    value: Expr_Array(
+                        items: array(
+                            0: ArrayItem(
+                                key: Scalar_String(
+                                    value: foo
+                                )
+                                value: Expr_Variable(
+                                    name: foo
+                                )
+                                byRef: false
+                                unpack: false
+                            )
+                            1: ArrayItem(
+                                key: Scalar_String(
+                                    value: bar
+                                )
+                                value: Expr_Variable(
+                                    name: bar
+                                )
+                                byRef: false
+                                unpack: false
+                            )
+                        )
+                    )
+                    byRef: false
+                    unpack: false
+                )
+            )
+        )
+    )
+    11: Stmt_Expression(
+        expr: Expr_FuncCall(
+            name: Name(
+                name: clone
+            )
+            args: array(
+                0: Arg(
+                    name: null
+                    value: Expr_Array(
+                        items: array(
+                            0: ArrayItem(
+                                key: Scalar_String(
+                                    value: object
+                                )
+                                value: Expr_Variable(
+                                    name: x
+                                )
+                                byRef: false
+                                unpack: false
+                            )
+                            1: ArrayItem(
+                                key: Scalar_String(
+                                    value: withProperties
+                                )
+                                value: Expr_Array(
+                                    items: array(
+                                        0: ArrayItem(
+                                            key: Scalar_String(
+                                                value: foo
+                                            )
+                                            value: Expr_Variable(
+                                                name: foo
+                                            )
+                                            byRef: false
+                                            unpack: false
+                                        )
+                                        1: ArrayItem(
+                                            key: Scalar_String(
+                                                value: bar
+                                            )
+                                            value: Expr_Variable(
+                                                name: bar
+                                            )
+                                            byRef: false
+                                            unpack: false
+                                        )
+                                    )
+                                )
+                                byRef: false
+                                unpack: false
+                            )
+                        )
+                    )
+                    byRef: false
+                    unpack: true
+                )
+            )
+        )
+    )
+    12: Stmt_Expression(
+        expr: Expr_FuncCall(
+            name: Name(
+                name: clone
+            )
+            args: array(
+                0: VariadicPlaceholder(
+                )
+            )
+        )
+    )
+)

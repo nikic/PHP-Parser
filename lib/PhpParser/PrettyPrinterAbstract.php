@@ -59,9 +59,11 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
         BinaryOp\Mod::class            => [ 40,  41,  40],
         BinaryOp\Plus::class           => [ 50,  51,  50],
         BinaryOp\Minus::class          => [ 50,  51,  50],
+        // FIXME: This precedence is incorrect for PHP 8.
         BinaryOp\Concat::class         => [ 50,  51,  50],
         BinaryOp\ShiftLeft::class      => [ 60,  61,  60],
         BinaryOp\ShiftRight::class     => [ 60,  61,  60],
+        BinaryOp\Pipe::class           => [ 65,  66,  65],
         BinaryOp\Smaller::class        => [ 70,  70,  70],
         BinaryOp\SmallerOrEqual::class => [ 70,  70,  70],
         BinaryOp\Greater::class        => [ 70,  70,  70],
@@ -102,6 +104,7 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
         Expr\Include_::class           => [220,  -1,  -1],
         Expr\ArrowFunction::class      => [230,  -1,  -1],
         Expr\Throw_::class             => [240,  -1,  -1],
+        Expr\Cast\Void_::class         => [250,  -1,  -1],
     ];
 
     /** @var int Current indentation level. */
@@ -1372,7 +1375,7 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
             BinaryOp\NotIdentical::class, BinaryOp\Spaceship::class, BinaryOp\BitwiseAnd::class,
             BinaryOp\BitwiseXor::class, BinaryOp\BitwiseOr::class, BinaryOp\BooleanAnd::class,
             BinaryOp\BooleanOr::class, BinaryOp\Coalesce::class, BinaryOp\LogicalAnd::class,
-            BinaryOp\LogicalXor::class, BinaryOp\LogicalOr::class,
+            BinaryOp\LogicalXor::class, BinaryOp\LogicalOr::class, BinaryOp\Pipe::class,
         ];
         foreach ($binaryOps as $binaryOp) {
             $this->fixupMap[$binaryOp] = [

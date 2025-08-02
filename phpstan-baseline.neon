@@ -103,6 +103,18 @@ parameters:
 			path: lib/PhpParser/Lexer/Emulative.php
 
 		-
+			message: '#^Constant T_PIPE not found\.$#'
+			identifier: constant.notFound
+			count: 2
+			path: lib/PhpParser/Lexer/TokenEmulator/PipeOperatorEmulator.php
+
+		-
+			message: '#^Constant T_VOID_CAST not found\.$#'
+			identifier: constant.notFound
+			count: 2
+			path: lib/PhpParser/Lexer/TokenEmulator/VoidCastEmulator.php
+
+		-
 			message: '#^If condition is always false\.$#'
 			identifier: if.alwaysFalse
 			count: 1
