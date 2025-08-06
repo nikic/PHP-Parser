@@ -1,0 +1,17 @@
+Casts
+-----
+<?php
+
+$int = (int) $int;
+$integer = (integer) $integer;
+$bool = (bool) $bool;
+$boolean = (boolean) $boolean;
+$string = (string) $string;
+$binary = (binary) $binary;
+-----
+$int = (int) $int;
+$integer = (int) $integer;
+$bool = (bool) $bool;
+$boolean = (bool) $boolean;
+$string = (string) $string;
+$binary = (string) $binary;
