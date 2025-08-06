@@ -2479,7 +2479,9 @@ class Php8 extends \PhpParser\ParserAbstract
                  $self->semValue = new Expr\Include_($self->semStack[$stackPos-(2-2)], Expr\Include_::TYPE_REQUIRE_ONCE, $self->getAttributes($self->tokenStartStack[$stackPos-(2-1)], $self->tokenEndStack[$stackPos]));
             },
             490 => static function ($self, $stackPos) {
-                 $self->semValue = new Expr\Cast\Int_($self->semStack[$stackPos-(2-2)], $self->getAttributes($self->tokenStartStack[$stackPos-(2-1)], $self->tokenEndStack[$stackPos]));
+                 $attrs = $self->getAttributes($self->tokenStartStack[$stackPos-(2-1)], $self->tokenEndStack[$stackPos]);
+            $attrs['kind'] = $self->getIntCastKind($self->semStack[$stackPos-(2-1)]);
+            $self->semValue = new Expr\Cast\Int_($self->semStack[$stackPos-(2-2)], $attrs);
             },
             491 => static function ($self, $stackPos) {
                  $attrs = $self->getAttributes($self->tokenStartStack[$stackPos-(2-1)], $self->tokenEndStack[$stackPos]);
@@ -2487,7 +2489,9 @@ class Php8 extends \PhpParser\ParserAbstract
             $self->semValue = new Expr\Cast\Double($self->semStack[$stackPos-(2-2)], $attrs);
             },
             492 => static function ($self, $stackPos) {
-                 $self->semValue = new Expr\Cast\String_($self->semStack[$stackPos-(2-2)], $self->getAttributes($self->tokenStartStack[$stackPos-(2-1)], $self->tokenEndStack[$stackPos]));
+                 $attrs = $self->getAttributes($self->tokenStartStack[$stackPos-(2-1)], $self->tokenEndStack[$stackPos]);
+            $attrs['kind'] = $self->getStringCastKind($self->semStack[$stackPos-(2-1)]);
+            $self->semValue = new Expr\Cast\String_($self->semStack[$stackPos-(2-2)], $attrs);
             },
             493 => static function ($self, $stackPos) {
                  $self->semValue = new Expr\Cast\Array_($self->semStack[$stackPos-(2-2)], $self->getAttributes($self->tokenStartStack[$stackPos-(2-1)], $self->tokenEndStack[$stackPos]));
@@ -2496,7 +2500,9 @@ class Php8 extends \PhpParser\ParserAbstract
                  $self->semValue = new Expr\Cast\Object_($self->semStack[$stackPos-(2-2)], $self->getAttributes($self->tokenStartStack[$stackPos-(2-1)], $self->tokenEndStack[$stackPos]));
             },
             495 => static function ($self, $stackPos) {
-                 $self->semValue = new Expr\Cast\Bool_($self->semStack[$stackPos-(2-2)], $self->getAttributes($self->tokenStartStack[$stackPos-(2-1)], $self->tokenEndStack[$stackPos]));
+                 $attrs = $self->getAttributes($self->tokenStartStack[$stackPos-(2-1)], $self->tokenEndStack[$stackPos]);
+            $attrs['kind'] = $self->getBoolCastKind($self->semStack[$stackPos-(2-1)]);
+            $self->semValue = new Expr\Cast\Bool_($self->semStack[$stackPos-(2-2)], $attrs);
             },
             496 => static function ($self, $stackPos) {
                  $self->semValue = new Expr\Cast\Unset_($self->semStack[$stackPos-(2-2)], $self->getAttributes($self->tokenStartStack[$stackPos-(2-1)], $self->tokenEndStack[$stackPos]));
