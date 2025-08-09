@@ -1003,7 +1003,7 @@ abstract class ParserAbstract implements Parser {
     }
 
     protected function fixupArrayDestructuring(Array_ $node): Expr\List_ {
-        $this->createdArrays->detach($node);
+        $this->createdArrays->offsetUnset($node);
         return new Expr\List_(array_map(function (Node\ArrayItem $item) {
             if ($item->value instanceof Expr\Error) {
                 // We used Error as a placeholder for empty elements, which are legal for destructuring.

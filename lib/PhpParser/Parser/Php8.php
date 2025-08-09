@@ -2693,10 +2693,10 @@ class Php8 extends \PhpParser\ParserAbstract
             564 => static function ($self, $stackPos) {
                  $attrs = $self->getAttributes($self->tokenStartStack[$stackPos-(4-1)], $self->tokenEndStack[$stackPos]); $attrs['kind'] = Expr\Array_::KIND_LONG;
             $self->semValue = new Expr\Array_($self->semStack[$stackPos-(4-3)], $attrs);
-            $self->createdArrays->attach($self->semValue);
+            $self->createdArrays->offsetSet($self->semValue);
             },
             565 => static function ($self, $stackPos) {
-                 $self->semValue = $self->semStack[$stackPos-(1-1)]; $self->createdArrays->attach($self->semValue);
+                 $self->semValue = $self->semStack[$stackPos-(1-1)]; $self->createdArrays->offsetSet($self->semValue);
             },
             566 => static function ($self, $stackPos) {
                  $self->semValue = Scalar\String_::fromString($self->semStack[$stackPos-(1-1)], $self->getAttributes($self->tokenStartStack[$stackPos-(1-1)], $self->tokenEndStack[$stackPos]), $self->phpVersion->supportsUnicodeEscapes());

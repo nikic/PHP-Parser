@@ -1275,8 +1275,9 @@ dereferenceable_scalar:
       T_ARRAY '(' array_pair_list ')'
           { $attrs = attributes(); $attrs['kind'] = Expr\Array_::KIND_LONG;
             $$ = new Expr\Array_($3, $attrs);
-            $this->createdArrays->attach($$); }
-    | array_short_syntax                                    { $$ = $1; $this->createdArrays->attach($$); }
+            $this->createdArrays->offsetSet($$); }
+    | array_short_syntax
+	      { $$ = $1; $this->createdArrays->offsetSet($$); }
     | T_CONSTANT_ENCAPSED_STRING
           { $$ = Scalar\String_::fromString($1, attributes(), $this->phpVersion->supportsUnicodeEscapes()); }
     | '"' encaps_list '"'
