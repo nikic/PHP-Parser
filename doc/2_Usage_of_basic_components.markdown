@@ -206,6 +206,12 @@ without the `PhpParser\Node\` prefix and `\` replaced with `_`. It also does not
 It is possible to associate custom metadata with a node using the `setAttribute()` method. This data
 can then be retrieved using `hasAttribute()`, `getAttribute()` and `getAttributes()`.
 
+`ClassLike` and `FunctionLike` statements can be converted between each other easily because their
+constructor `__construct($name, array $subNodes = [], array $attributes = [])` takes subnodes and
+attributes both of which are easy to retrieve, for example if `$node instanceof FunctionLike` then
+`new ClassMethod($someName, get_object_vars($node), $node->getAttributes())` will convert it into a
+`ClassMethod`.
+
 By default, the parser adds the `startLine`, `endLine`, `startTokenPos`, `endTokenPos`,
 `startFilePos`, `endFilePos` and `comments` attributes. `comments` is an array of
 `PhpParser\Comment[\Doc]` instances.
