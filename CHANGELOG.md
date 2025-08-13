@@ -1,3 +1,16 @@
+Version 5.6.1 (2025-08-13)
+--------------------------
+
+### Fixed
+
+* Fixed `Param::isPublic()` for parameters with asymmetric visibility keyword.
+* Fixed PHP 8.5 deprecation warnings for `SplObjectStorage` methods.
+
+### Added
+
+* Added cast `kind` attributes to `Cast\Int_`, `Cast\Bool_` and `Cast\String_`.
+  These allow distinguishing the deprecated versions of these casts.
+
 Version 5.6.0 (2025-07-27)
 --------------------------
 
