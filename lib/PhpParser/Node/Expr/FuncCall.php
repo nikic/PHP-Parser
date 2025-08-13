@@ -8,14 +8,14 @@ use PhpParser\Node\Expr;
 class FuncCall extends CallLike {
     /** @var Node\Name|Expr Function name */
     public Node $name;
-    /** @var array<Node\Arg|Node\VariadicPlaceholder> Arguments */
+    /** @var list<Node\Arg|Node\VariadicPlaceholder> Arguments */
     public array $args;
 
     /**
      * Constructs a function call node.
      *
      * @param Node\Name|Expr $name Function name
-     * @param array<Node\Arg|Node\VariadicPlaceholder> $args Arguments
+     * @param list<Node\Arg|Node\VariadicPlaceholder> $args Arguments
      * @param array<string, mixed> $attributes Additional attributes
      */
     public function __construct(Node $name, array $args = [], array $attributes = []) {
