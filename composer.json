@@ -20,11 +20,6 @@
         "phpunit/phpunit": "^7.0 || ^8.0 || ^9.0",
         "ircmaxell/php-yacc": "^0.0.7"
     },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "4.9-dev"
-        }
-    },
     "autoload": {
         "psr-4": {
             "PhpParser\\": "lib/PhpParser"
