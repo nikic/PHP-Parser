@@ -43,6 +43,12 @@ array();
 [];
 list($x) = $y;
 [$x] = $y;
+(int) $int;
+(integer) $integer;
+(bool) $bool;
+(boolean) $boolean;
+(string) $string;
+(binary) $binary;
 -----
 !!attributes
 array(
@@ -299,6 +305,54 @@ array(
             expr: Expr_Variable(
                 name: y
             )
+        )
+    )
+    24: Stmt_Expression(
+        expr: Expr_Cast_Int(
+            expr: Expr_Variable(
+                name: int
+            )
+            kind: 1
+        )
+    )
+    25: Stmt_Expression(
+        expr: Expr_Cast_Int(
+            expr: Expr_Variable(
+                name: integer
+            )
+            kind: 2
+        )
+    )
+    26: Stmt_Expression(
+        expr: Expr_Cast_Bool(
+            expr: Expr_Variable(
+                name: bool
+            )
+            kind: 1
+        )
+    )
+    27: Stmt_Expression(
+        expr: Expr_Cast_Bool(
+            expr: Expr_Variable(
+                name: boolean
+            )
+            kind: 2
+        )
+    )
+    28: Stmt_Expression(
+        expr: Expr_Cast_String(
+            expr: Expr_Variable(
+                name: string
+            )
+            kind: 1
+        )
+    )
+    29: Stmt_Expression(
+        expr: Expr_Cast_String(
+            expr: Expr_Variable(
+                name: binary
+            )
+            kind: 2
         )
     )
 )

@@ -2,7 +2,7 @@
 
 ```bash
 git remote add github_origin git@github.com:nikic/PHP-Parser.git
-git pull github_origin v5.6.0
+git pull github_origin v5.6.1
 ```
 
 switch to php 7.4

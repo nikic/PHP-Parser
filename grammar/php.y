@@ -1126,15 +1126,24 @@ expr:
     | T_EVAL '(' expr ')'                                   { $$ = Expr\Eval_[$3]; }
     | T_REQUIRE expr                                        { $$ = Expr\Include_[$2, Expr\Include_::TYPE_REQUIRE]; }
     | T_REQUIRE_ONCE expr                                   { $$ = Expr\Include_[$2, Expr\Include_::TYPE_REQUIRE_ONCE]; }
-    | T_INT_CAST expr                                       { $$ = Expr\Cast\Int_    [$2]; }
+    | T_INT_CAST expr
+          { $attrs = attributes();
+            $attrs['kind'] = $this->getIntCastKind($1);
+            $$ = new Expr\Cast\Int_($2, $attrs); }
     | T_DOUBLE_CAST expr
           { $attrs = attributes();
             $attrs['kind'] = $this->getFloatCastKind($1);
             $$ = new Expr\Cast\Double($2, $attrs); }
-    | T_STRING_CAST expr                                    { $$ = Expr\Cast\String_ [$2]; }
+    | T_STRING_CAST expr
+          { $attrs = attributes();
+            $attrs['kind'] = $this->getStringCastKind($1);
+            $$ = new Expr\Cast\String_($2, $attrs); }
     | T_ARRAY_CAST expr                                     { $$ = Expr\Cast\Array_  [$2]; }
     | T_OBJECT_CAST expr                                    { $$ = Expr\Cast\Object_ [$2]; }
-    | T_BOOL_CAST expr                                      { $$ = Expr\Cast\Bool_   [$2]; }
+    | T_BOOL_CAST expr
+          { $attrs = attributes();
+            $attrs['kind'] = $this->getBoolCastKind($1);
+            $$ = new Expr\Cast\Bool_($2, $attrs); }
     | T_UNSET_CAST expr                                     { $$ = Expr\Cast\Unset_  [$2]; }
     | T_VOID_CAST expr                                      { $$ = Expr\Cast\Void_   [$2]; }
     | T_EXIT ctor_arguments
@@ -1289,8 +1298,9 @@ dereferenceable_scalar:
       T_ARRAY '(' array_pair_list ')'
           { $attrs = attributes(); $attrs['kind'] = Expr\Array_::KIND_LONG;
             $$ = new Expr\Array_($3, $attrs);
-            $this->createdArrays->attach($$); }
-    | array_short_syntax                                    { $$ = $1; $this->createdArrays->attach($$); }
+            $this->createdArrays->offsetSet($$); }
+    | array_short_syntax
+	      { $$ = $1; $this->createdArrays->offsetSet($$); }
     | T_CONSTANT_ENCAPSED_STRING
           { $$ = Scalar\String_::fromString($1, attributes(), $this->phpVersion->supportsUnicodeEscapes()); }
     | '"' encaps_list '"'
