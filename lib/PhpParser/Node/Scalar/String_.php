@@ -124,7 +124,7 @@ class String_ extends Scalar {
                     // If it overflowed to float, treat as INT_MAX, it will throw an error anyway.
                     return self::codePointToUtf8(\is_int($dec) ? $dec : \PHP_INT_MAX);
                 } else {
-                    return chr(octdec($str));
+                    return chr(octdec($str) & 255);
                 }
             },
             $str
