@@ -120,7 +120,7 @@ class String_ extends Scalar
                 } elseif ('u' === $str[0]) {
                     return self::codePointToUtf8(hexdec($matches[2]));
                 } else {
-                    return chr(octdec($str));
+                    return chr(octdec($str) & 255);
                 }
             },
             $str
