@@ -112,6 +112,12 @@ parameters:
 			message: '#^If condition is always false\.$#'
 			identifier: if.alwaysFalse
 			count: 1
+			path: lib/PhpParser/Node/Expr/Cast/Double.php
+
+		-
+			message: '#^If condition is always false\.$#'
+			identifier: if.alwaysFalse
+			count: 1
 			path: lib/PhpParser/Node/Expr/ClosureUse.php
 
 		-

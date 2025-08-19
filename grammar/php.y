@@ -1110,7 +1110,7 @@ expr:
     | T_DOUBLE_CAST expr
           { $attrs = attributes();
             $attrs['kind'] = $this->getFloatCastKind($1);
-            $$ = new Expr\Cast\Double($2, $attrs); }
+            $$ = new Expr\Cast\Float_($2, $attrs); }
     | T_STRING_CAST expr
           { $attrs = attributes();
             $attrs['kind'] = $this->getStringCastKind($1);

@@ -10,7 +10,7 @@ namespace PhpParser;
 use PhpParser\Node\Arg;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\Array_;
-use PhpParser\Node\Expr\Cast\Double;
+use PhpParser\Node\Expr\Cast\Float_;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\InterpolatedStringPart;
 use PhpParser\Node\Name;
@@ -726,14 +726,14 @@ abstract class ParserAbstract implements Parser {
     protected function getFloatCastKind(string $cast): int {
         $cast = strtolower($cast);
         if (strpos($cast, 'float') !== false) {
-            return Double::KIND_FLOAT;
+            return Float_::KIND_FLOAT;
         }
 
         if (strpos($cast, 'real') !== false) {
-            return Double::KIND_REAL;
+            return Float_::KIND_REAL;
         }
 
-        return Double::KIND_DOUBLE;
+        return Float_::KIND_DOUBLE;
     }
 
     protected function getIntCastKind(string $cast): int {

@@ -2486,7 +2486,7 @@ class Php8 extends \PhpParser\ParserAbstract
             491 => static function ($self, $stackPos) {
                  $attrs = $self->getAttributes($self->tokenStartStack[$stackPos-(2-1)], $self->tokenEndStack[$stackPos]);
             $attrs['kind'] = $self->getFloatCastKind($self->semStack[$stackPos-(2-1)]);
-            $self->semValue = new Expr\Cast\Double($self->semStack[$stackPos-(2-2)], $attrs);
+            $self->semValue = new Expr\Cast\Float_($self->semStack[$stackPos-(2-2)], $attrs);
             },
             492 => static function ($self, $stackPos) {
                  $attrs = $self->getAttributes($self->tokenStartStack[$stackPos-(2-1)], $self->tokenEndStack[$stackPos]);

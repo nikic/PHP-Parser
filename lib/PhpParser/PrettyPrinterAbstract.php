@@ -46,6 +46,7 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
         Expr\UnaryMinus::class         => [ 10,  -1,  -1],
         Cast\Int_::class               => [ 10,  -1,  -1],
         Cast\Double::class             => [ 10,  -1,  -1],
+        Cast\Float_::class             => [ 10,  -1,  -1],
         Cast\String_::class            => [ 10,  -1,  -1],
         Cast\Array_::class             => [ 10,  -1,  -1],
         Cast\Object_::class            => [ 10,  -1,  -1],
@@ -1386,7 +1387,7 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
 
         $prefixOps = [
             Expr\Clone_::class, Expr\BitwiseNot::class, Expr\BooleanNot::class, Expr\UnaryPlus::class, Expr\UnaryMinus::class,
-            Cast\Int_::class, Cast\Double::class, Cast\String_::class, Cast\Array_::class,
+            Cast\Int_::class, Cast\Double::class, Cast\Float_::class, Cast\String_::class, Cast\Array_::class,
             Cast\Object_::class, Cast\Bool_::class, Cast\Unset_::class, Expr\ErrorSuppress::class,
             Expr\YieldFrom::class, Expr\Print_::class, Expr\Include_::class,
             Expr\Assign::class, Expr\AssignRef::class, AssignOp\Plus::class, AssignOp\Minus::class,

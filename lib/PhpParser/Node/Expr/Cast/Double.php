@@ -2,15 +2,17 @@
 
 namespace PhpParser\Node\Expr\Cast;
 
-use PhpParser\Node\Expr\Cast;
+require __DIR__ . '/Float_.php';
 
-class Double extends Cast {
-    // For use in "kind" attribute
-    public const KIND_DOUBLE = 1; // "double" syntax
-    public const KIND_FLOAT = 2;  // "float" syntax
-    public const KIND_REAL = 3; // "real" syntax
-
-    public function getType(): string {
-        return 'Expr_Cast_Double';
+if (false) {
+    /**
+     * For classmap-authoritative support.
+     *
+     * @deprecated use \PhpParser\Node\Expr\Cast\Float_ instead.
+     */
+    class Double extends Float_ {
+        public function getType(): string {
+            return 'Expr_Cast_Double';
+        }
     }
 }

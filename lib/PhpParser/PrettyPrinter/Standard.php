@@ -488,17 +488,21 @@ class Standard extends PrettyPrinterAbstract {
         return $this->pPrefixOp(Cast\Int_::class, '(int) ', $node->expr, $precedence, $lhsPrecedence);
     }
 
-    protected function pExpr_Cast_Double(Cast\Double $node, int $precedence, int $lhsPrecedence): string {
-        $kind = $node->getAttribute('kind', Cast\Double::KIND_DOUBLE);
-        if ($kind === Cast\Double::KIND_DOUBLE) {
+    protected function pExpr_Cast_Double(Cast\Float_ $node, int $precedence, int $lhsPrecedence): string {
+        $kind = $node->getAttribute('kind', Cast\Float_::KIND_DOUBLE);
+        if ($kind === Cast\Float_::KIND_DOUBLE) {
             $cast = '(double)';
-        } elseif ($kind === Cast\Double::KIND_FLOAT) {
+        } elseif ($kind === Cast\Float_::KIND_FLOAT) {
             $cast = '(float)';
         } else {
-            assert($kind === Cast\Double::KIND_REAL);
+            assert($kind === Cast\Float_::KIND_REAL);
             $cast = '(real)';
         }
-        return $this->pPrefixOp(Cast\Double::class, $cast . ' ', $node->expr, $precedence, $lhsPrecedence);
+        return $this->pPrefixOp(Cast\Float_::class, $cast . ' ', $node->expr, $precedence, $lhsPrecedence);
+    }
+
+    protected function pExpr_Cast_Float(Cast\Float_ $node, int $precedence, int $lhsPrecedence): string {
+        return $this->pExpr_Cast_Double($node, $precedence, $lhsPrecedence);
     }
 
     protected function pExpr_Cast_String(Cast\String_ $node, int $precedence, int $lhsPrecedence): string {

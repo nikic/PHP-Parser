@@ -36,21 +36,21 @@ array(
         )
     )
     3: Stmt_Expression(
-        expr: Expr_Cast_Double(
+        expr: Expr_Cast_Float(
             expr: Expr_Variable(
                 name: a
             )
         )
     )
     4: Stmt_Expression(
-        expr: Expr_Cast_Double(
+        expr: Expr_Cast_Float(
             expr: Expr_Variable(
                 name: a
             )
         )
     )
     5: Stmt_Expression(
-        expr: Expr_Cast_Double(
+        expr: Expr_Cast_Float(
             expr: Expr_Variable(
                 name: a
             )
