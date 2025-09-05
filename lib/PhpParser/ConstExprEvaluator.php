@@ -3,7 +3,10 @@
 namespace PhpParser;
 
 use PhpParser\Node\Expr;
+use PhpParser\Node\Identifier;
+use PhpParser\Node\Name;
 use PhpParser\Node\Scalar;
+use Exception;
 
 use function array_merge;
 
@@ -30,6 +33,12 @@ class ConstExprEvaluator {
     /** @var callable|null */
     private $fallbackEvaluator;
 
+	/** @var array $functionsWhiteList */
+    private $functionsWhiteList;
+
+	/** @var array $staticCallsWhitelist */
+	private $staticCallsWhitelist;
+
     /**
      * Create a constant expression evaluator.
      *
@@ -44,6 +53,19 @@ class ConstExprEvaluator {
                 "Expression of type {$expr->getType()} cannot be evaluated"
             );
         };
+
+		$this->functionsWhiteList = [];
+		$this->staticCallsWhitelist = [];
+    }
+
+	public function setFunctionsWhitelist(array $functionsWhiteList): void
+	{
+		$this->functionsWhiteList = $functionsWhiteList;
+	}
+
+	public function setStaticCallsWhitelist(array $staticCallsWhitelist): void
+	{
+		$this->staticCallsWhitelist = $staticCallsWhitelist;
     }
 
     /**
@@ -115,6 +137,10 @@ class ConstExprEvaluator {
             return $this->evaluateArray($expr);
         }
 
+	    if ($expr instanceof Expr\Variable) {
+		    return $this->evaluateVariable($expr);
+	    }
+
         // Unary operators
         if ($expr instanceof Expr\UnaryPlus) {
             return +$this->evaluate($expr->expr);
@@ -145,6 +171,37 @@ class ConstExprEvaluator {
             return $this->evaluateConstFetch($expr);
         }
 
+	    if ($expr instanceof Expr\Isset_) {
+		    return $this->evaluateIsset($expr);
+	    }
+
+	    if ($expr instanceof Expr\ClassConstFetch) {
+		    return $this->evaluateClassConstFetch($expr);
+	    }
+
+	    if ($expr instanceof Expr\Cast) {
+		    return $this->evaluateCast($expr);
+	    }
+
+	    if ($expr instanceof Expr\StaticPropertyFetch) {
+		    return $this->evaluateStaticPropertyFetch($expr);
+	    }
+
+	    if ($expr instanceof Expr\FuncCall) {
+		    return $this->evaluateFuncCall($expr);
+	    }
+
+	    if ($expr instanceof Expr\StaticCall) {
+		    return $this->evaluateStaticCall($expr);
+	    }
+
+	    if ($expr instanceof Expr\NullsafePropertyFetch||$expr instanceof Expr\PropertyFetch) {
+		    return $this->evaluatePropertyFetch($expr);
+	    }
+
+	    if ($expr instanceof Expr\NullsafeMethodCall||$expr instanceof Expr\MethodCall) {
+		    return $this->evaluateMethodCall($expr);
+	    }
         return ($this->fallbackEvaluator)($expr);
     }
 
@@ -175,12 +232,14 @@ class ConstExprEvaluator {
 
     /** @return mixed */
     private function evaluateBinaryOp(Expr\BinaryOp $expr) {
-        if ($expr instanceof Expr\BinaryOp\Coalesce
-            && $expr->left instanceof Expr\ArrayDimFetch
-        ) {
-            // This needs to be special cased to respect BP_VAR_IS fetch semantics
-            return $this->evaluate($expr->left->var)[$this->evaluate($expr->left->dim)]
-                ?? $this->evaluate($expr->right);
+	    if ($expr instanceof Expr\BinaryOp\Coalesce) {
+		    try {
+			    $var = $this->evaluate($expr->left);
+			    return $var ?? $this->evaluate($expr->right);
+		    } catch(\Throwable $t){
+			    //handle when isset($expr->left->var)===false
+				return $this->evaluate($expr->right);
+            }
         }
 
         // The evaluate() calls are repeated in each branch, because some of the operators are
@@ -225,13 +284,279 @@ class ConstExprEvaluator {
 
     /** @return mixed */
     private function evaluateConstFetch(Expr\ConstFetch $expr) {
-        $name = $expr->name->toLowerString();
-        switch ($name) {
-            case 'null': return null;
-            case 'false': return false;
-            case 'true': return true;
-        }
+	    try {
+			$name = $expr->name;
+			if(! is_string($name)){
+				//PHP_VERSION_ID usecase
+				$name = $name->name;
+	        }
+
+		    if (defined($name)){
+			    return constant($name);
+		    }
+		} catch(\Throwable $t){}
 
         return ($this->fallbackEvaluator)($expr);
     }
+
+	/** @return mixed */
+	private function evaluateIsset(Expr\Isset_ $expr) {
+		try {
+			foreach ($expr->vars as $var){
+				$var = $this->evaluate($var);
+				if (! isset($var)){
+					return false;
+				}
+			}
+
+			return true;
+		} catch(\Throwable $t){
+			return false;
+		}
+	}
+
+	/** @return mixed */
+	private function evaluateClassConstFetch(Expr\ClassConstFetch $expr) {
+		try {
+			$classname = $expr->class->name;
+			$property = $expr->name->name;
+
+			if ('class' === $property){
+				return $classname;
+			}
+
+			if (class_exists($classname)){
+				$class = new \ReflectionClass($classname);
+				if (array_key_exists($property, $class->getConstants())) {
+					$oReflectionConstant = $class->getReflectionConstant($property);
+					if ($oReflectionConstant->isPublic()){
+						return $class->getConstant($property);
+					}
+				}
+			}
+		} catch(\Throwable $t){}
+
+		return ($this->fallbackEvaluator)($expr);
+	}
+
+	/** @return mixed */
+	private function evaluateCast(Expr\Cast $expr) {
+		try {
+			$subexpr = $this->evaluate($expr->expr);
+			$type = get_class($expr);
+			switch ($type){
+				case Expr\Cast\Array_::class:
+					return (array) $subexpr;
+
+				case Expr\Cast\Bool_::class:
+					return (bool) $subexpr;
+
+				case Expr\Cast\Double::class:
+					switch ($expr->getAttribute("kind")){
+						case Expr\Cast\Double::KIND_DOUBLE:
+							return (double) $subexpr;
+
+						case Expr\Cast\Double::KIND_FLOAT:
+						case Expr\Cast\Double::KIND_REAL:
+							return (float) $subexpr;
+					}
+
+					break;
+
+				case Expr\Cast\Int_::class:
+					return (int) $subexpr;
+
+				case Expr\Cast\Object_::class:
+					return (object) $subexpr;
+
+				case Expr\Cast\String_::class:
+					return (string) $subexpr;
+			}
+		} catch(\Throwable $t){
+		}
+
+		return ($this->fallbackEvaluator)($expr);
+	}
+
+	/** @return mixed */
+	private function evaluateStaticPropertyFetch(Expr\StaticPropertyFetch $expr)
+	{
+		try {
+			$classname = $expr->class->name;
+			if ($expr->name instanceof Identifier){
+				$property = $expr->name->name;
+			} else {
+				$property = $this->evaluate($expr->name);
+			}
+
+			if (class_exists($classname)){
+				$class = new \ReflectionClass($classname);
+				if (array_key_exists($property, $class->getStaticProperties())) {
+					$oReflectionProperty = $class->getProperty($property);
+					if ($oReflectionProperty->isPublic()){
+						return $class->getStaticPropertyValue($property);
+					}
+				}
+			}
+		}
+		catch (\Throwable $t) {}
+
+		return ($this->fallbackEvaluator)($expr);
+	}
+
+	/** @return mixed */
+	private function evaluateFuncCall(Expr\FuncCall $expr)
+	{
+		try {
+			$name = $expr->name;
+			if ($name instanceof Name){
+				$function = $name->name;
+			} else {
+				$function = $this->evaluate($name);
+			}
+
+			if (! in_array($function, $this->functionsWhiteList)){
+				throw new Exception("FuncCall $function not supported");
+			}
+
+			$args=[];
+			foreach ($expr->args as $arg){
+				/** @var \PhpParser\Node\Arg $arg */
+				$args[]=$arg->value->value;
+			}
+
+			$reflection_function = new \ReflectionFunction($function);
+			return $reflection_function->invoke(...$args);
+		}
+		catch (\Throwable $t) {}
+
+		return ($this->fallbackEvaluator)($expr);
+	}
+
+	/** @return mixed */
+	private function evaluateVariable(Expr\Variable $expr)
+	{
+		try {
+			$name = $expr->name;
+			if (array_key_exists($name, get_defined_vars())) {
+				return $$name;
+			}
+
+			if (array_key_exists($name, $GLOBALS)) {
+				global $$name;
+				return $$name;
+			}
+		} catch (\Throwable $t) {
+		}
+
+		return ($this->fallbackEvaluator)($expr);
+	}
+
+	/** @return mixed */
+	private function evaluateStaticCall(Expr\StaticCall $expr)
+	{
+		try {
+			$class = $expr->class->name;
+			if ($expr->name instanceof Identifier){
+				$method = $expr->name->name;
+			} else {
+				$method = $this->evaluate($expr->name);
+			}
+
+			$static_call_description = "$class::$method";
+			if (! in_array($static_call_description, $this->staticCallsWhitelist)){
+				throw new Exception("StaticCall $static_call_description not supported");
+			}
+
+			$args=[];
+			foreach ($expr->args as $arg){
+				/** @var \PhpParser\Node\Arg $arg */
+				$args[]=$arg->value->value;
+			}
+
+			$class = new \ReflectionClass($class);
+			$method = $class->getMethod($method);
+			if ($method->isPublic()){
+				return $method->invokeArgs(null, $args);
+			}
+		} catch (\Throwable $t) {}
+
+		return ($this->fallbackEvaluator)($expr);
+	}
+
+	/**
+	 * @param \PhpParser\Node\Expr\NullsafePropertyFetch|\PhpParser\Node\Expr\PropertyFetch $expr
+	 *
+	 * @return mixed
+	 */
+	private function evaluatePropertyFetch($expr)
+	{
+		try {
+			$var = $this->evaluate($expr->var);
+		} catch (\Throwable $t) {
+			$var = null;
+		}
+
+		if (! is_null($var)) {
+			try {
+				if ($expr->name instanceof Identifier) {
+					$name = $expr->name->name;
+				} else {
+					$name = $this->evaluate($expr->name);
+				}
+
+				$reflectionClass = new \ReflectionClass(get_class($var));
+				$property = $reflectionClass->getProperty($name);
+				if ($property->isPublic()) {
+					return $property->getValue($var);
+				}
+			}
+			catch (\Throwable $t) {}
+		} else if ($expr instanceof Expr\NullsafePropertyFetch){
+			return null;
+		}
+
+		return ($this->fallbackEvaluator)($expr);
+	}
+
+	/**
+	 * @param \PhpParser\Node\Expr\MethodCall|\PhpParser\Node\Expr\NullsafeMethodCall $expr
+	 *
+	 * @return mixed
+	 */
+	private function evaluateMethodCall($expr)
+	{
+		try {
+			$var = $this->evaluate($expr->var);
+		} catch (\Throwable $t) {
+			$var = null;
+		}
+
+		if (! is_null($var)) {
+			try {
+				$args = [];
+				foreach ($expr->args as $arg) {
+				/** @var \PhpParser\Node\Arg $arg */
+					$args[] = $arg->value->value;
+			}
+
+			if ($expr->name instanceof Identifier) {
+				$name = $expr->name->name;
+			} else {
+				$name = $this->evaluate($expr->name);
+			}
+
+			$reflectionClass = new \ReflectionClass(get_class($var));
+			$method = $reflectionClass->getMethod($name);
+				if ($method->isPublic()) {
+					return $method->invokeArgs($var, $args);
+				}
+			}
+			catch (\Throwable $t) {}
+		} else if ($expr instanceof Expr\NullsafeMethodCall){
+			return null;
+		}
+
+		return ($this->fallbackEvaluator)($expr);
+	}
 }
