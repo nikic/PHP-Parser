@@ -35,6 +35,7 @@ class ParamTest extends \PHPUnit\Framework\TestCase {
             ['protected'],
             ['private'],
             ['readonly'],
+            ['final'],
         ];
     }
 
