@@ -58,13 +58,11 @@ class ConstExprEvaluator {
 		$this->staticCallsWhitelist = [];
     }
 
-	public function setFunctionsWhitelist(array $functionsWhiteList): void
-	{
+	public function setFunctionsWhitelist(array $functionsWhiteList): void {
 		$this->functionsWhiteList = $functionsWhiteList;
 	}
 
-	public function setStaticCallsWhitelist(array $staticCallsWhitelist): void
-	{
+	public function setStaticCallsWhitelist(array $staticCallsWhitelist): void {
 		$this->staticCallsWhitelist = $staticCallsWhitelist;
     }
 
@@ -202,6 +200,7 @@ class ConstExprEvaluator {
 	    if ($expr instanceof Expr\NullsafeMethodCall||$expr instanceof Expr\MethodCall) {
 		    return $this->evaluateMethodCall($expr);
 	    }
+
         return ($this->fallbackEvaluator)($expr);
     }
 
@@ -235,11 +234,12 @@ class ConstExprEvaluator {
 	    if ($expr instanceof Expr\BinaryOp\Coalesce) {
 		    try {
 			    $var = $this->evaluate($expr->left);
-			    return $var ?? $this->evaluate($expr->right);
-		    } catch(\Throwable $t){
-			    //handle when isset($expr->left->var)===false
+		    } catch(\Throwable $t) {
+			    //left expression cannot be evaluated (! isset for exeample)
 				return $this->evaluate($expr->right);
             }
+
+		    return $var ?? $this->evaluate($expr->right);
         }
 
         // The evaluate() calls are repeated in each branch, because some of the operators are
@@ -286,31 +286,31 @@ class ConstExprEvaluator {
     private function evaluateConstFetch(Expr\ConstFetch $expr) {
 	    try {
 			$name = $expr->name;
-			if(! is_string($name)){
+			if(! is_string($name)) {
 				//PHP_VERSION_ID usecase
 				$name = $name->name;
 	        }
 
-		    if (defined($name)){
+		    if (defined($name)) {
 			    return constant($name);
 		    }
-		} catch(\Throwable $t){}
+		} catch(\Throwable $t) {}
 
         return ($this->fallbackEvaluator)($expr);
     }
 
-	/** @return mixed */
+	/** @return bool */
 	private function evaluateIsset(Expr\Isset_ $expr) {
 		try {
-			foreach ($expr->vars as $var){
+			foreach ($expr->vars as $var) {
 				$var = $this->evaluate($var);
-				if (! isset($var)){
+				if (! isset($var)) {
 					return false;
 				}
 			}
 
 			return true;
-		} catch(\Throwable $t){
+		} catch(\Throwable $t) {
 			return false;
 		}
 	}
@@ -321,20 +321,20 @@ class ConstExprEvaluator {
 			$classname = $expr->class->name;
 			$property = $expr->name->name;
 
-			if ('class' === $property){
+			if ('class' === $property) {
 				return $classname;
 			}
 
-			if (class_exists($classname)){
+			if (class_exists($classname)) {
 				$class = new \ReflectionClass($classname);
 				if (array_key_exists($property, $class->getConstants())) {
 					$oReflectionConstant = $class->getReflectionConstant($property);
-					if ($oReflectionConstant->isPublic()){
+					if ($oReflectionConstant->isPublic()) {
 						return $class->getConstant($property);
 					}
 				}
 			}
-		} catch(\Throwable $t){}
+		} catch(\Throwable $t) {}
 
 		return ($this->fallbackEvaluator)($expr);
 	}
@@ -344,7 +344,7 @@ class ConstExprEvaluator {
 		try {
 			$subexpr = $this->evaluate($expr->expr);
 			$type = get_class($expr);
-			switch ($type){
+			switch ($type) {
 				case Expr\Cast\Array_::class:
 					return (array) $subexpr;
 
@@ -352,7 +352,7 @@ class ConstExprEvaluator {
 					return (bool) $subexpr;
 
 				case Expr\Cast\Double::class:
-					switch ($expr->getAttribute("kind")){
+					switch ($expr->getAttribute("kind")) {
 						case Expr\Cast\Double::KIND_DOUBLE:
 							return (double) $subexpr;
 
@@ -372,28 +372,26 @@ class ConstExprEvaluator {
 				case Expr\Cast\String_::class:
 					return (string) $subexpr;
 			}
-		} catch(\Throwable $t){
-		}
+		} catch(\Throwable $t) {}
 
 		return ($this->fallbackEvaluator)($expr);
 	}
 
 	/** @return mixed */
-	private function evaluateStaticPropertyFetch(Expr\StaticPropertyFetch $expr)
-	{
+	private function evaluateStaticPropertyFetch(Expr\StaticPropertyFetch $expr) {
 		try {
 			$classname = $expr->class->name;
-			if ($expr->name instanceof Identifier){
+			if ($expr->name instanceof Identifier) {
 				$property = $expr->name->name;
 			} else {
 				$property = $this->evaluate($expr->name);
 			}
 
-			if (class_exists($classname)){
+			if (class_exists($classname)) {
 				$class = new \ReflectionClass($classname);
 				if (array_key_exists($property, $class->getStaticProperties())) {
 					$oReflectionProperty = $class->getProperty($property);
-					if ($oReflectionProperty->isPublic()){
+					if ($oReflectionProperty->isPublic()) {
 						return $class->getStaticPropertyValue($property);
 					}
 				}
@@ -405,22 +403,21 @@ class ConstExprEvaluator {
 	}
 
 	/** @return mixed */
-	private function evaluateFuncCall(Expr\FuncCall $expr)
-	{
+	private function evaluateFuncCall(Expr\FuncCall $expr) {
 		try {
 			$name = $expr->name;
-			if ($name instanceof Name){
+			if ($name instanceof Name) {
 				$function = $name->name;
 			} else {
 				$function = $this->evaluate($name);
 			}
 
-			if (! in_array($function, $this->functionsWhiteList)){
+			if (! in_array($function, $this->functionsWhiteList)) {
 				throw new Exception("FuncCall $function not supported");
 			}
 
 			$args=[];
-			foreach ($expr->args as $arg){
+			foreach ($expr->args as $arg) {
 				/** @var \PhpParser\Node\Arg $arg */
 				$args[]=$arg->value->value;
 			}
@@ -434,8 +431,7 @@ class ConstExprEvaluator {
 	}
 
 	/** @return mixed */
-	private function evaluateVariable(Expr\Variable $expr)
-	{
+	private function evaluateVariable(Expr\Variable $expr) {
 		try {
 			$name = $expr->name;
 			if (array_key_exists($name, get_defined_vars())) {
@@ -453,30 +449,29 @@ class ConstExprEvaluator {
 	}
 
 	/** @return mixed */
-	private function evaluateStaticCall(Expr\StaticCall $expr)
-	{
+	private function evaluateStaticCall(Expr\StaticCall $expr) {
 		try {
 			$class = $expr->class->name;
-			if ($expr->name instanceof Identifier){
+			if ($expr->name instanceof Identifier) {
 				$method = $expr->name->name;
 			} else {
 				$method = $this->evaluate($expr->name);
 			}
 
 			$static_call_description = "$class::$method";
-			if (! in_array($static_call_description, $this->staticCallsWhitelist)){
+			if (! in_array($static_call_description, $this->staticCallsWhitelist)) {
 				throw new Exception("StaticCall $static_call_description not supported");
 			}
 
 			$args=[];
-			foreach ($expr->args as $arg){
+			foreach ($expr->args as $arg) {
 				/** @var \PhpParser\Node\Arg $arg */
 				$args[]=$arg->value->value;
 			}
 
 			$class = new \ReflectionClass($class);
 			$method = $class->getMethod($method);
-			if ($method->isPublic()){
+			if ($method->isPublic()) {
 				return $method->invokeArgs(null, $args);
 			}
 		} catch (\Throwable $t) {}
@@ -489,8 +484,7 @@ class ConstExprEvaluator {
 	 *
 	 * @return mixed
 	 */
-	private function evaluatePropertyFetch($expr)
-	{
+	private function evaluatePropertyFetch($expr) {
 		try {
 			$var = $this->evaluate($expr->var);
 		} catch (\Throwable $t) {
@@ -512,7 +506,7 @@ class ConstExprEvaluator {
 				}
 			}
 			catch (\Throwable $t) {}
-		} else if ($expr instanceof Expr\NullsafePropertyFetch){
+		} else if ($expr instanceof Expr\NullsafePropertyFetch) {
 			return null;
 		}
 
@@ -524,8 +518,7 @@ class ConstExprEvaluator {
 	 *
 	 * @return mixed
 	 */
-	private function evaluateMethodCall($expr)
-	{
+	private function evaluateMethodCall($expr) {
 		try {
 			$var = $this->evaluate($expr->var);
 		} catch (\Throwable $t) {
@@ -553,7 +546,7 @@ class ConstExprEvaluator {
 				}
 			}
 			catch (\Throwable $t) {}
-		} else if ($expr instanceof Expr\NullsafeMethodCall){
+		} else if ($expr instanceof Expr\NullsafeMethodCall) {
 			return null;
 		}
 

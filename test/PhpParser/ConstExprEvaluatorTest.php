@@ -152,7 +152,7 @@ class ConstExprEvaluatorTest extends \PHPUnit\Framework\TestCase {
 		$evaluator->evaluateDirectly($expr);
 	}
 
-	public function testEvaluateFunCallOutsideWhitelistFails(): void {
+	public function testEvaluateFuncCallOutsideWhitelistFails(): void {
 		$this->expectException(ConstExprEvaluationException::class);
 		$this->expectExceptionMessage('Expression of type Expr_FuncCall cannot be evaluated');
 
