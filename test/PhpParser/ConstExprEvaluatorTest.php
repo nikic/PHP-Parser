@@ -8,29 +8,10 @@ use PhpParser\Node\Scalar;
 class ConstExprEvaluatorTest extends \PHPUnit\Framework\TestCase {
     /** @dataProvider provideTestEvaluate */
     public function testEvaluate($exprString, $expected): void {
-	    global $globalNotDeclaredVar;
-
-	    global $globalNonNullVar;
-	    $globalNonNullVar="a";
-
-	    global $globalArray;
-	    $globalArray=["gabu" => "zomeu"];
-
-	    global $globalNullVar;
-	    $globalNullVar=null;
-
-	    global $globalEvaluationFakeClass;
-	    $globalEvaluationFakeClass = new EvaluationFakeClass();
-
-	    $oNonNullVar2="a";
-	    $oNullVar2=null;
-
-	    $parser = (new ParserFactory())->createForNewestSupportedVersion();
-	    $expr = $parser->parse('<?php ' . $exprString . ';')[0]->expr;
-	    $evaluator = new ConstExprEvaluator();
-	    $evaluator->setStaticCallsWhitelist(["PhpParser\EvaluationFakeClass::GetStaticValue"]);
-	    $evaluator->setFunctionsWhitelist(["class_exists"]);
-	    $this->assertSame($expected, $evaluator->evaluateDirectly($expr));
+        $parser = (new ParserFactory())->createForNewestSupportedVersion();
+        $expr = $parser->parse('<?php ' . $exprString . ';')[0]->expr;
+        $evaluator = new ConstExprEvaluator();
+        $this->assertSame($expected, $evaluator->evaluateDirectly($expr));
     }
 
     public static function provideTestEvaluate() {
@@ -94,43 +75,15 @@ class ConstExprEvaluatorTest extends \PHPUnit\Framework\TestCase {
             ['true xor false', true],
             ['"foo" |> "strlen"', 3],
 
-			//Variable
-	        ['$globalNonNullVar', "a"],
-	        ['$globalNotDeclaredVar', null],
-	        ['$globalArray', ["gabu" => "zomeu"]],
-	        ['$globalNullVar', null],
-	        ['$globalNonNullVar', "a"],
-	        //Isset
-	        ['isset($globalNotDeclaredVar)', false],
-	        ['isset($globalNonNullVar)', true],
-	        ['isset($globalArray)', true],
-	        ['isset($globalNullVar)', false],
-	        ['isset($globalNonNullVar)', true],
-	        ['isset($oNonNullVar)', false],
-	        ['isset($oNullVar)', false],
-	        ['isset($eee)', false],
 	        //Cast
 	        ['(int)true', 1],
 	        ['(string)1', "1"],
 	        ['(bool)1', true],
 	        ['(double)1', 1.0],
 	        ['(float)1', 1.0],
-	        ['(string) $globalEvaluationFakeClass', "toString"],
-	        ['PhpParser\EvaluationFakeClass::CONST_4TEST', 456],
+
+	        ['PhpParser\ConstEvaluationFakeClass::CONST_4TEST', 456],
 	        ['UnexistingClass::class', "UnexistingClass"],
-	        ['PhpParser\EvaluationFakeClass::$STATICPROPERTY_4TEST', 123],
-	        ['PhpParser\EvaluationFakeClass::GetStaticValue()', "shadok"],
-	        ['class_exists("PhpParser\EvaluationFakeClass")', true],
-	        ['$globalEvaluationFakeClass->iIsOk', 'IsOkValue'],
-	        ['$globalNullVar?->iIsOk', null],
-	        ['$globalEvaluationFakeClass->GetName()', 'gabuzomeu'],
-	        ['$globalNullVar?->GetName()', null],
-	        ['$globalEvaluationFakeClass->GetLongName("aa")', 'gabuzomeu_aa'],
-	        ['$globalNullVar??1', 1],
-	        ['$globalNotDeclaredVar??1', 1],
-	        ['$globalNotDeclaredVar["a"]??1', 1],
-	        ['$globalArray["gabu"]??1', "zomeu"],
-	        ['$globalNonNullVar??1', "a"],
         ];
     }
 
@@ -138,30 +91,8 @@ class ConstExprEvaluatorTest extends \PHPUnit\Framework\TestCase {
         $this->expectException(ConstExprEvaluationException::class);
         $this->expectExceptionMessage('Expression of type Expr_Variable cannot be evaluated');
         $evaluator = new ConstExprEvaluator();
-		$evaluator->evaluateDirectly(new Expr\Variable('a'));
+        $evaluator->evaluateDirectly(new Expr\Variable('a'));
     }
-
-	public function testEvaluateStaticCallOutsideWhitelistFails(): void {
-		$this->expectException(ConstExprEvaluationException::class);
-		$this->expectExceptionMessage('Expression of type Expr_StaticCall cannot be evaluated');
-
-		$parser = (new ParserFactory())->createForNewestSupportedVersion();
-		$exprString = "PhpParser\EvaluationFakeClass::GetStaticValue()";
-		$expr = $parser->parse('<?php ' . $exprString . ';')[0]->expr;
-		$evaluator = new ConstExprEvaluator();
-		$evaluator->evaluateDirectly($expr);
-	}
-
-	public function testEvaluateFuncCallOutsideWhitelistFails(): void {
-		$this->expectException(ConstExprEvaluationException::class);
-		$this->expectExceptionMessage('Expression of type Expr_FuncCall cannot be evaluated');
-
-		$parser = (new ParserFactory())->createForNewestSupportedVersion();
-		$exprString = 'class_exists("PhpParser\EvaluationFakeClass")';
-		$expr = $parser->parse('<?php ' . $exprString . ';')[0]->expr;
-		$evaluator = new ConstExprEvaluator();
-		$evaluator->evaluateDirectly($expr);
-	}
 
     public function testEvaluateFallback(): void {
         $evaluator = new ConstExprEvaluator(function (Expr $expr) {
@@ -215,25 +146,6 @@ class ConstExprEvaluatorTest extends \PHPUnit\Framework\TestCase {
     }
 }
 
-class EvaluationFakeClass {
-	public static $STATICPROPERTY_4TEST = 123;
+class ConstEvaluationFakeClass {
 	const CONST_4TEST = 456;
-
-	public string $iIsOk = "IsOkValue";
-
-	public static function GetStaticValue(){
-		return "shadok";
-	}
-
-	public function GetName() {
-		return "gabuzomeu";
-	}
-
-	public function GetLongName($suffix) {
-		return "gabuzomeu_".$suffix;
-	}
-
-	public function __toString(): string {
-		return "toString";
-	}
 }
