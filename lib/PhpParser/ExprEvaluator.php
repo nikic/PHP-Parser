@@ -21,13 +21,13 @@ use function array_merge;
  */
 class ExprEvaluator extends ConstExprEvaluator {
     /** @var callable|null */
-	protected $fallbackEvaluator;
+    protected $fallbackEvaluator;
 
-	/** @var array<string> */
+    /** @var array<string> */
     private array $functionsWhiteList = [];
 
-	/** @var array<string> */
-	private array $staticCallsWhitelist = [];
+    /** @var array<string> */
+    private array $staticCallsWhitelist = [];
 
     /**
      * Create a constant expression evaluator.
@@ -38,31 +38,27 @@ class ExprEvaluator extends ConstExprEvaluator {
      * @param callable|null $fallbackEvaluator To call if subexpression cannot be evaluated
      */
     public function __construct(?callable $fallbackEvaluator = null) {
-	    parent::__construct($fallbackEvaluator);
+        parent::__construct($fallbackEvaluator);
 
-	    $this->fallbackEvaluator = $fallbackEvaluator ?? function (Expr $expr) {
+        $this->fallbackEvaluator = $fallbackEvaluator ?? function (Expr $expr) {
             throw new ExprEvaluationException(
                 "Expression of type {$expr->getType()} cannot be evaluated"
             );
         };
     }
 
-	/**
-	 * @param array<string> $functionsWhiteList
-	 *
-	 * @return void
-	 */
-	public function setFunctionsWhitelist(array $functionsWhiteList): void {
-		$this->functionsWhiteList = $functionsWhiteList;
-	}
+    /**
+     * @param array<string> $functionsWhiteList
+     */
+    public function setFunctionsWhitelist(array $functionsWhiteList): void {
+        $this->functionsWhiteList = $functionsWhiteList;
+    }
 
-	/**
-	 * @param array<string> $staticCallsWhitelist
-	 *
-	 * @return void
-	 */
-	public function setStaticCallsWhitelist(array $staticCallsWhitelist): void {
-		$this->staticCallsWhitelist = $staticCallsWhitelist;
+    /**
+     * @param array<string> $staticCallsWhitelist
+     */
+    public function setStaticCallsWhitelist(array $staticCallsWhitelist): void {
+        $this->staticCallsWhitelist = $staticCallsWhitelist;
     }
 
     /**
@@ -125,242 +121,243 @@ class ExprEvaluator extends ConstExprEvaluator {
 
     /** @return mixed */
     protected function evaluate(Expr $expr) {
-	    try {
-		    return parent::evaluate($expr);
-	    } catch (\Throwable $t) {
-	    }
+        try {
+            return parent::evaluate($expr);
+        } catch (\Throwable $t) {
+        }
 
-	    if ($expr instanceof Expr\Variable) {
-		    return $this->evaluateVariable($expr);
-	    }
+        if ($expr instanceof Expr\Variable) {
+            return $this->evaluateVariable($expr);
+        }
 
-	    if ($expr instanceof Expr\BinaryOp\Coalesce) {
-		    try {
-			    $var = $this->evaluate($expr->left);
-		    } catch(\Throwable $t) {
-			    //left expression cannot be evaluated (! isset for exeample)
-			    return $this->evaluate($expr->right);
-		    }
+        if ($expr instanceof Expr\BinaryOp\Coalesce) {
+            try {
+                $var = $this->evaluate($expr->left);
+            } catch (\Throwable $t) {
+                //left expression cannot be evaluated (! isset for exeample)
+                return $this->evaluate($expr->right);
+            }
 
-		    return $var ?? $this->evaluate($expr->right);
-	    }
+            return $var ?? $this->evaluate($expr->right);
+        }
 
-	    if ($expr instanceof Expr\Isset_) {
-		    return $this->evaluateIsset($expr);
-	    }
+        if ($expr instanceof Expr\Isset_) {
+            return $this->evaluateIsset($expr);
+        }
 
-	    if ($expr instanceof Expr\StaticPropertyFetch) {
-		    return $this->evaluateStaticPropertyFetch($expr);
-	    }
+        if ($expr instanceof Expr\StaticPropertyFetch) {
+            return $this->evaluateStaticPropertyFetch($expr);
+        }
 
-	    if ($expr instanceof Expr\FuncCall) {
-		    return $this->evaluateFuncCall($expr);
-	    }
+        if ($expr instanceof Expr\FuncCall) {
+            return $this->evaluateFuncCall($expr);
+        }
 
-	    if ($expr instanceof Expr\StaticCall) {
-		    return $this->evaluateStaticCall($expr);
-	    }
+        if ($expr instanceof Expr\StaticCall) {
+            return $this->evaluateStaticCall($expr);
+        }
 
-	    if ($expr instanceof Expr\NullsafePropertyFetch||$expr instanceof Expr\PropertyFetch) {
-		    return $this->evaluatePropertyFetch($expr);
-	    }
+        if ($expr instanceof Expr\NullsafePropertyFetch || $expr instanceof Expr\PropertyFetch) {
+            return $this->evaluatePropertyFetch($expr);
+        }
 
-	    if ($expr instanceof Expr\NullsafeMethodCall||$expr instanceof Expr\MethodCall) {
-		    return $this->evaluateMethodCall($expr);
-	    }
+        if ($expr instanceof Expr\NullsafeMethodCall || $expr instanceof Expr\MethodCall) {
+            return $this->evaluateMethodCall($expr);
+        }
 
         return ($this->fallbackEvaluator)($expr);
     }
 
-	/** @return bool */
-	private function evaluateIsset(Expr\Isset_ $expr) {
-		try {
-			foreach ($expr->vars as $var) {
-				$var = $this->evaluate($var);
-				if (! isset($var)) {
-					return false;
-				}
-			}
+    /** @return bool */
+    private function evaluateIsset(Expr\Isset_ $expr) {
+        try {
+            foreach ($expr->vars as $var) {
+                $var = $this->evaluate($var);
+                if (! isset($var)) {
+                    return false;
+                }
+            }
 
-			return true;
-		} catch(\Throwable $t) {
-			return false;
-		}
-	}
+            return true;
+        } catch (\Throwable $t) {
+            return false;
+        }
+    }
 
-	/** @return mixed */
-	private function evaluateStaticPropertyFetch(Expr\StaticPropertyFetch $expr) {
-		try {
-			$classname = $expr->class->name;
-			if ($expr->name instanceof Identifier) {
-				$property = $expr->name->name;
-			} else {
-				$property = $this->evaluate($expr->name);
-			}
+    /** @return mixed */
+    private function evaluateStaticPropertyFetch(Expr\StaticPropertyFetch $expr) {
+        try {
+            $classname = $expr->class->name;
+            if ($expr->name instanceof Identifier) {
+                $property = $expr->name->name;
+            } else {
+                $property = $this->evaluate($expr->name);
+            }
 
-			if (class_exists($classname)) {
-				$class = new \ReflectionClass($classname);
-				if (array_key_exists($property, $class->getStaticProperties())) {
-					$oReflectionProperty = $class->getProperty($property);
-					if ($oReflectionProperty->isPublic()) {
-						return $class->getStaticPropertyValue($property);
-					}
-				}
-			}
-		}
-		catch (\Throwable $t) {}
+            if (class_exists($classname)) {
+                $class = new \ReflectionClass($classname);
+                if (array_key_exists($property, $class->getStaticProperties())) {
+                    $oReflectionProperty = $class->getProperty($property);
+                    if ($oReflectionProperty->isPublic()) {
+                        return $class->getStaticPropertyValue($property);
+                    }
+                }
+            }
+        } catch (\Throwable $t) {
+        }
 
-		return ($this->fallbackEvaluator)($expr);
-	}
+        return ($this->fallbackEvaluator)($expr);
+    }
 
-	/** @return mixed */
-	private function evaluateFuncCall(Expr\FuncCall $expr) {
-		try {
-			$name = $expr->name;
-			if ($name instanceof Name) {
-				$function = $name->name;
-			} else {
-				$function = $this->evaluate($name);
-			}
+    /** @return mixed */
+    private function evaluateFuncCall(Expr\FuncCall $expr) {
+        try {
+            $name = $expr->name;
+            if ($name instanceof Name) {
+                $function = $name->name;
+            } else {
+                $function = $this->evaluate($name);
+            }
 
-			if (! in_array($function, $this->functionsWhiteList)) {
-				throw new Exception("FuncCall $function not supported");
-			}
+            if (! in_array($function, $this->functionsWhiteList)) {
+                throw new Exception("FuncCall $function not supported");
+            }
 
-			$args=[];
-			foreach ($expr->args as $arg) {
-				/** @var \PhpParser\Node\Arg $arg */
-				$args[]= $this->evaluate($arg->value);
-			}
+            $args = [];
+            foreach ($expr->args as $arg) {
+                /** @var \PhpParser\Node\Arg $arg */
+                $args[] = $this->evaluate($arg->value);
+            }
 
-			$reflection_function = new \ReflectionFunction($function);
-			return $reflection_function->invoke(...$args);
-		}
-		catch (\Throwable $t) {}
+            $reflection_function = new \ReflectionFunction($function);
+            return $reflection_function->invoke(...$args);
+        } catch (\Throwable $t) {
+        }
 
-		return ($this->fallbackEvaluator)($expr);
-	}
+        return ($this->fallbackEvaluator)($expr);
+    }
 
-	/** @return mixed */
-	private function evaluateVariable(Expr\Variable $expr) {
-		try {
-			$name = $expr->name;
-			if (array_key_exists($name, get_defined_vars())) {
-				return $$name;
-			}
+    /** @return mixed */
+    private function evaluateVariable(Expr\Variable $expr) {
+        try {
+            $name = $expr->name;
+            if (array_key_exists($name, get_defined_vars())) {
+                return $$name;
+            }
 
-			if (array_key_exists($name, $GLOBALS)) {
-				global $$name;
-				return $$name;
-			}
-		} catch (\Throwable $t) {
-		}
+            if (array_key_exists($name, $GLOBALS)) {
+                global $$name;
+                return $$name;
+            }
+        } catch (\Throwable $t) {
+        }
 
-		return ($this->fallbackEvaluator)($expr);
-	}
+        return ($this->fallbackEvaluator)($expr);
+    }
 
-	/** @return mixed */
-	private function evaluateStaticCall(Expr\StaticCall $expr) {
-		try {
-			$class = $expr->class->name;
-			if ($expr->name instanceof Identifier) {
-				$method = $expr->name->name;
-			} else {
-				$method = $this->evaluate($expr->name);
-			}
+    /** @return mixed */
+    private function evaluateStaticCall(Expr\StaticCall $expr) {
+        try {
+            $class = $expr->class->name;
+            if ($expr->name instanceof Identifier) {
+                $method = $expr->name->name;
+            } else {
+                $method = $this->evaluate($expr->name);
+            }
 
-			$static_call_description = "$class::$method";
-			if (! in_array($static_call_description, $this->staticCallsWhitelist)) {
-				throw new Exception("StaticCall $static_call_description not supported");
-			}
+            $static_call_description = "$class::$method";
+            if (! in_array($static_call_description, $this->staticCallsWhitelist)) {
+                throw new Exception("StaticCall $static_call_description not supported");
+            }
 
-			$args=[];
-			foreach ($expr->args as $arg) {
-				/** @var \PhpParser\Node\Arg $arg */
-				$args[]=$this->evaluate($arg->value);
-			}
+            $args = [];
+            foreach ($expr->args as $arg) {
+                /** @var \PhpParser\Node\Arg $arg */
+                $args[] = $this->evaluate($arg->value);
+            }
 
-			$class = new \ReflectionClass($class);
-			$method = $class->getMethod($method);
-			if ($method->isPublic()) {
-				return $method->invokeArgs(null, $args);
-			}
-		} catch (\Throwable $t) {}
+            $class = new \ReflectionClass($class);
+            $method = $class->getMethod($method);
+            if ($method->isPublic()) {
+                return $method->invokeArgs(null, $args);
+            }
+        } catch (\Throwable $t) {
+        }
 
-		return ($this->fallbackEvaluator)($expr);
-	}
+        return ($this->fallbackEvaluator)($expr);
+    }
 
-	/**
-	 * @param \PhpParser\Node\Expr\NullsafePropertyFetch|\PhpParser\Node\Expr\PropertyFetch $expr
-	 *
-	 * @return mixed
-	 */
-	private function evaluatePropertyFetch($expr) {
-		try {
-			$var = $this->evaluate($expr->var);
-		} catch (\Throwable $t) {
-			$var = null;
-		}
+    /**
+     * @param \PhpParser\Node\Expr\NullsafePropertyFetch|\PhpParser\Node\Expr\PropertyFetch $expr
+     *
+     * @return mixed
+     */
+    private function evaluatePropertyFetch($expr) {
+        try {
+            $var = $this->evaluate($expr->var);
+        } catch (\Throwable $t) {
+            $var = null;
+        }
 
-		if (! is_null($var)) {
-			try {
-				if ($expr->name instanceof Identifier) {
-					$name = $expr->name->name;
-				} else {
-					$name = $this->evaluate($expr->name);
-				}
+        if (! is_null($var)) {
+            try {
+                if ($expr->name instanceof Identifier) {
+                    $name = $expr->name->name;
+                } else {
+                    $name = $this->evaluate($expr->name);
+                }
 
-				$reflectionClass = new \ReflectionClass(get_class($var));
-				$property = $reflectionClass->getProperty($name);
-				if ($property->isPublic()) {
-					return $property->getValue($var);
-				}
-			}
-			catch (\Throwable $t) {}
-		} else if ($expr instanceof Expr\NullsafePropertyFetch) {
-			return null;
-		}
+                $reflectionClass = new \ReflectionClass(get_class($var));
+                $property = $reflectionClass->getProperty($name);
+                if ($property->isPublic()) {
+                    return $property->getValue($var);
+                }
+            } catch (\Throwable $t) {
+            }
+        } elseif ($expr instanceof Expr\NullsafePropertyFetch) {
+            return null;
+        }
 
-		return ($this->fallbackEvaluator)($expr);
-	}
+        return ($this->fallbackEvaluator)($expr);
+    }
 
-	/**
-	 * @param \PhpParser\Node\Expr\MethodCall|\PhpParser\Node\Expr\NullsafeMethodCall $expr
-	 *
-	 * @return mixed
-	 */
-	private function evaluateMethodCall($expr) {
-		try {
-			$var = $this->evaluate($expr->var);
-		} catch (\Throwable $t) {
-			$var = null;
-		}
+    /**
+     * @param \PhpParser\Node\Expr\MethodCall|\PhpParser\Node\Expr\NullsafeMethodCall $expr
+     *
+     * @return mixed
+     */
+    private function evaluateMethodCall($expr) {
+        try {
+            $var = $this->evaluate($expr->var);
+        } catch (\Throwable $t) {
+            $var = null;
+        }
 
-		if (! is_null($var)) {
-			try {
-				$args = [];
-				foreach ($expr->args as $arg) {
-				/** @var \PhpParser\Node\Arg $arg */
-					$args[] = $this->evaluate($arg->value);
-			}
+        if (! is_null($var)) {
+            try {
+                $args = [];
+                foreach ($expr->args as $arg) {
+                    /** @var \PhpParser\Node\Arg $arg */
+                    $args[] = $this->evaluate($arg->value);
+                }
 
-			if ($expr->name instanceof Identifier) {
-				$name = $expr->name->name;
-			} else {
-				$name = $this->evaluate($expr->name);
-			}
+                if ($expr->name instanceof Identifier) {
+                    $name = $expr->name->name;
+                } else {
+                    $name = $this->evaluate($expr->name);
+                }
 
-			$reflectionClass = new \ReflectionClass(get_class($var));
-			$method = $reflectionClass->getMethod($name);
-				if ($method->isPublic()) {
-					return $method->invokeArgs($var, $args);
-				}
-			}
-			catch (\Throwable $t) {}
-		} else if ($expr instanceof Expr\NullsafeMethodCall) {
-			return null;
-		}
+                $reflectionClass = new \ReflectionClass(get_class($var));
+                $method = $reflectionClass->getMethod($name);
+                if ($method->isPublic()) {
+                    return $method->invokeArgs($var, $args);
+                }
+            } catch (\Throwable $t) {
+            }
+        } elseif ($expr instanceof Expr\NullsafeMethodCall) {
+            return null;
+        }
 
-		return ($this->fallbackEvaluator)($expr);
-	}
+        return ($this->fallbackEvaluator)($expr);
+    }
 }
