@@ -5,7 +5,7 @@ namespace PhpParser\Node\Stmt;
 use PhpParser\Node;
 use PhpParser\Node\FunctionLike;
 
-class Function_ extends Node\Stmt implements FunctionLike {
+class Function_ extends Node\Stmt implements FunctionLike, Node\ContainsStmts {
     /** @var bool Whether function returns by reference */
     public bool $byRef;
     /** @var Node\Identifier Name */

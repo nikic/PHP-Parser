@@ -4,7 +4,7 @@ namespace PhpParser\Node\Stmt;
 
 use PhpParser\Node;
 
-class Foreach_ extends Node\Stmt {
+class Foreach_ extends Node\Stmt implements Node\ContainsStmts {
     /** @var Node\Expr Expression to iterate */
     public Node\Expr $expr;
     /** @var null|Node\Expr Variable to assign key to */
