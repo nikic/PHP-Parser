@@ -1,0 +1,77 @@
+Replace class method modifier `public` with `protected` without keeping node attributes
+-----
+<?php
+
+namespace Abc;
+
+class SourceClass
+{
+    /**
+     * @template T
+     * @param array<T> $values
+     * @return list<T>
+     */
+    public function makeAList(array $values): array
+    {
+        // some comment
+
+        $strings = ['1'];
+
+        $ints = array_map(function ($value): int {
+            return (int) $value;
+        }, $strings);
+
+        $nonEmptyArray = ['1'];
+
+        $nonEmptyArrayFromMethod = $this->returnNonEmptyArray();
+
+        $inlineNonEmpty = ['1'];
+
+        return array_values($values);
+    }
+}
+-----
+$node = $stmts[0]->stmts[0]->stmts[0];
+$stmts[0]->stmts[0]->stmts[0] = new \PhpParser\Node\Stmt\ClassMethod(
+    $node->name,
+    [
+        'flags' => ($node->flags & ~\PhpParser\Modifiers::PUBLIC) | \PhpParser\Modifiers::PROTECTED,
+        'byRef' => $node->returnsByRef(),
+        'params' => $node->getParams(),
+        'returnType' => $node->getReturnType(),
+        'stmts' => $node->getStmts(),
+        'attrGroups' => $node->getAttrGroups(),
+    ],
+    // $node->getAttributes(), <---- does not work without previous node's attributes
+);
+-----
+<?php
+
+namespace Abc;
+
+class SourceClass
+{
+    /**
+     * @template T
+     * @param array<T> $values
+     * @return list<T>
+     */
+    protected function makeAList(array $values): array
+    {
+        // some comment
+
+        $strings = ['1'];
+
+        $ints = array_map(function ($value): int {
+            return (int) $value;
+        }, $strings);
+
+        $nonEmptyArray = ['1'];
+
+        $nonEmptyArrayFromMethod = $this->returnNonEmptyArray();
+
+        $inlineNonEmpty = ['1'];
+
+        return array_values($values);
+    }
+}
