@@ -1,0 +1,17 @@
+Attributes Reproducer
+-----
+<?php
+class X {
+    #[A]
+    #[B]
+    public function m() {}
+}
+-----
+$stmts[0]->stmts[0]->flags = ($stmts[0]->stmts[0]->flags & ~\PhpParser\Modifiers::PUBLIC) | \PhpParser\Modifiers::PROTECTED;
+-----
+<?php
+class X {
+    #[A]
+    #[B]
+    protected function m() {}
+}
