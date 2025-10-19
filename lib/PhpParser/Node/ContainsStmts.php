@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace PhpParser\Node;
 
-interface ContainsStmts {
+interface ContainsStmts extends \PhpParser\Node {
     /**
      * @return Stmt[]
      */
