@@ -27,4 +27,11 @@ class Block extends Stmt implements ContainsStmts {
     public function getSubNodeNames(): array {
         return ['stmts'];
     }
+
+    /**
+     * @return Stmt[]
+     */
+    public function getStmts(): array {
+        return $this->stmts;
+    }
 }

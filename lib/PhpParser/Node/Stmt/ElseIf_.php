@@ -30,4 +30,11 @@ class ElseIf_ extends Node\Stmt implements Node\ContainsStmts {
     public function getType(): string {
         return 'Stmt_ElseIf';
     }
+
+    /**
+     * @return Node\Stmt[]
+     */
+    public function getStmts(): array {
+        return $this->stmts;
+    }
 }

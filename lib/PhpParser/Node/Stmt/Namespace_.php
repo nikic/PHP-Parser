@@ -34,4 +34,15 @@ class Namespace_ extends Node\Stmt implements Node\ContainsStmts {
     public function getType(): string {
         return 'Stmt_Namespace';
     }
+
+    /**
+     * @return Node\Stmt[]
+     */
+    public function getStmts(): array {
+        if ($this->stmts === null) {
+            return [];
+        }
+
+        return $this->stmts;
+    }
 }

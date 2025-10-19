@@ -47,4 +47,11 @@ class Foreach_ extends Node\Stmt implements Node\ContainsStmts {
     public function getType(): string {
         return 'Stmt_Foreach';
     }
+
+    /**
+     * @return Node\Stmt[]
+     */
+    public function getStmts(): array {
+        return $this->stmts;
+    }
 }
