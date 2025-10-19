@@ -678,8 +678,10 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
                 }
 
                 [$printFn, $findToken] = $this->modifierChangeMap[$key];
+                $skipWSPos = $this->origTokens->skipRightWhitespace($pos);
+                $result .= $this->origTokens->getTokenCode($pos, $skipWSPos, $indentAdjustment);
                 $result .= $this->$printFn($subNode);
-                $pos = $this->origTokens->findRight($pos, $findToken);
+                $pos = $this->origTokens->findRight($skipWSPos, $findToken);
                 continue;
             }
 

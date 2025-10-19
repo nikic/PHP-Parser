@@ -66,3 +66,22 @@ $stmts[1]->expr->class->flags = 0;
 <?php
 readonly class {};
 class {};
+-----
+<?php
+class X {
+    #[A]
+    public function m() {}
+    /** A */
+    public function m2() {}
+}
+-----
+$stmts[0]->stmts[0]->flags = Modifiers::PROTECTED;
+$stmts[0]->stmts[1]->flags = Modifiers::PROTECTED;
+-----
+<?php
+class X {
+    #[A]
+    protected function m() {}
+    /** A */
+    protected function m2() {}
+}
