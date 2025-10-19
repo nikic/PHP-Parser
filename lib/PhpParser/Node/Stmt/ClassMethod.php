@@ -6,7 +6,7 @@ use PhpParser\Modifiers;
 use PhpParser\Node;
 use PhpParser\Node\FunctionLike;
 
-class ClassMethod extends Node\Stmt implements FunctionLike {
+class ClassMethod extends Node\Stmt implements FunctionLike, Node\ContainsStmts {
     /** @var int Flags */
     public int $flags;
     /** @var bool Whether to return by reference */
@@ -90,7 +90,14 @@ class ClassMethod extends Node\Stmt implements FunctionLike {
         return $this->returnType;
     }
 
-    public function getStmts(): ?array {
+    /**
+     * @return Node\Stmt[]
+     */
+    public function getStmts(): array {
+        if ($this->stmts === null) {
+            return [];
+        }
+
         return $this->stmts;
     }
 

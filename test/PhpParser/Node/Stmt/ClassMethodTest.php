@@ -117,6 +117,6 @@ class ClassMethodTest extends \PHPUnit\Framework\TestCase {
         ]);
 
         $this->assertTrue($method->returnsByRef());
-        $this->assertNull($method->getStmts());
+        $this->assertSame([], $method->getStmts());
     }
 }

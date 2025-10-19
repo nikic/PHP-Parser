@@ -7,8 +7,7 @@ on:
 jobs:
   tests_coverage:
     runs-on: "ubuntu-latest"
-    name: "PHP 7        // TODO: Implement getStmts() method.
-.4 Unit Tests (with coverage)"
+    name: "PHP 7.4 Unit Tests (with coverage)"
     steps:
       - name: "Checkout"
         uses: "actions/checkout@v4"
