@@ -18,10 +18,10 @@ class Namespace_ extends Node\Stmt {
      * Constructs a namespace node.
      *
      * @param null|Node\Name $name Name
-     * @param null|Node\Stmt[] $stmts Statements
+     * @param Node\Stmt[] $stmts Statements
      * @param array<string, mixed> $attributes Additional attributes
      */
-    public function __construct(?Node\Name $name = null, ?array $stmts = [], array $attributes = []) {
+    public function __construct(?Node\Name $name = null, array $stmts = [], array $attributes = []) {
         $this->attributes = $attributes;
         $this->name = $name;
         $this->stmts = $stmts;
