@@ -1,3 +1,16 @@
+Version 5.6.2 (2025-10-21)
+--------------------------
+
+### Fixed
+
+* Fixed formatting-preserving pretty-printing when changing the visibility modifier on a node that
+  has attributes.
+* Fixed `chr()` deprecation warning on PHP 8.4
+
+### Added
+
+* Added `Param::isFinal()` method.
+
 Version 5.6.1 (2025-08-13)
 --------------------------
 
