@@ -271,6 +271,8 @@ class NodeTraverser implements NodeTraverserInterface {
     }
 
     /**
+     * This method give ability to customize which visitors are applied to a given node in child class.
+     *
      * @return NodeVisitor[]
      */
     protected function getVisitorsForNode(Node $node) {
