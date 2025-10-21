@@ -2686,11 +2686,17 @@ class Php7 extends \PhpParser\ParserAbstract
                  $self->semValue = new Expr\ClassConstFetch($self->semStack[$stackPos-(3-1)], new Expr\Error($self->getAttributes($self->tokenStartStack[$stackPos-(3-3)],  $self->tokenEndStack[$stackPos-(3-3)])), $self->getAttributes($self->tokenStartStack[$stackPos-(3-1)], $self->tokenEndStack[$stackPos])); $self->errorState = 2;
             },
             560 => static function ($self, $stackPos) {
-                 $attrs = $self->getAttributes($self->tokenStartStack[$stackPos-(3-1)], $self->tokenEndStack[$stackPos]); $attrs['kind'] = Expr\Array_::KIND_SHORT;
+                 $attrs = $self->getAttributes($self->tokenStartStack[$stackPos-(3-1)], $self->tokenEndStack[$stackPos]);
+            $attrs['kind'] = $self->isMultiline($attrs)
+                ? Expr\Array_::KIND_SHORT | Expr\Array_::KIND_MULTILINE
+                : Expr\Array_::KIND_SHORT;
             $self->semValue = new Expr\Array_($self->semStack[$stackPos-(3-2)], $attrs);
             },
             561 => static function ($self, $stackPos) {
-                 $attrs = $self->getAttributes($self->tokenStartStack[$stackPos-(4-1)], $self->tokenEndStack[$stackPos]); $attrs['kind'] = Expr\Array_::KIND_LONG;
+                 $attrs = $self->getAttributes($self->tokenStartStack[$stackPos-(4-1)], $self->tokenEndStack[$stackPos]);
+            $attrs['kind'] = $self->isMultiline($attrs)
+                ? Expr\Array_::KIND_LONG | Expr\Array_::KIND_MULTILINE
+                : Expr\Array_::KIND_LONG;
             $self->semValue = new Expr\Array_($self->semStack[$stackPos-(4-3)], $attrs);
             $self->createdArrays->offsetSet($self->semValue);
             },
