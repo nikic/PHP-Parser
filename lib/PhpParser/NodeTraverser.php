@@ -275,7 +275,7 @@ class NodeTraverser implements NodeTraverserInterface {
      *
      * @return NodeVisitor[]
      */
-    protected function getVisitorsForNode(Node $node) {
+    protected function getVisitorsForNode(Node $node): array {
         return $this->visitors;
     }
 
