@@ -4,7 +4,7 @@ namespace PhpParser\Node\Stmt;
 
 use PhpParser\Node;
 
-class TryCatch extends Node\Stmt {
+class TryCatch extends Node\Stmt implements Node\ContainsStmts {
     /** @var Node\Stmt[] Statements */
     public array $stmts;
     /** @var Catch_[] Catches */
@@ -33,5 +33,12 @@ class TryCatch extends Node\Stmt {
 
     public function getType(): string {
         return 'Stmt_TryCatch';
+    }
+
+    /**
+     * @return Node\Stmt[]
+     */
+    public function getStmts(): array {
+        return $this->stmts;
     }
 }

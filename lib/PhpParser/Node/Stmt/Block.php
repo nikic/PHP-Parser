@@ -2,9 +2,10 @@
 
 namespace PhpParser\Node\Stmt;
 
+use PhpParser\Node\ContainsStmts;
 use PhpParser\Node\Stmt;
 
-class Block extends Stmt {
+class Block extends Stmt implements ContainsStmts {
     /** @var Stmt[] Statements */
     public array $stmts;
 
@@ -25,5 +26,12 @@ class Block extends Stmt {
 
     public function getSubNodeNames(): array {
         return ['stmts'];
+    }
+
+    /**
+     * @return Stmt[]
+     */
+    public function getStmts(): array {
+        return $this->stmts;
     }
 }

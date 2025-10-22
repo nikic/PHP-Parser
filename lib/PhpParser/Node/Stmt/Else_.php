@@ -4,7 +4,7 @@ namespace PhpParser\Node\Stmt;
 
 use PhpParser\Node;
 
-class Else_ extends Node\Stmt {
+class Else_ extends Node\Stmt implements Node\ContainsStmts {
     /** @var Node\Stmt[] Statements */
     public array $stmts;
 
@@ -25,5 +25,12 @@ class Else_ extends Node\Stmt {
 
     public function getType(): string {
         return 'Stmt_Else';
+    }
+
+    /**
+     * @return Node\Stmt[]
+     */
+    public function getStmts(): array {
+        return $this->stmts;
     }
 }
