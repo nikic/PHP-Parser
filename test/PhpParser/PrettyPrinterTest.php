@@ -10,6 +10,7 @@ use PhpParser\Node\InterpolatedStringPart;
 use PhpParser\Node\Scalar\Int_;
 use PhpParser\Node\Scalar\String_;
 use PhpParser\Node\Stmt;
+use PhpParser\Node\VariadicPlaceholder;
 use PhpParser\PrettyPrinter\Standard;
 
 class PrettyPrinterTest extends CodeTestAbstract {
@@ -304,5 +305,30 @@ CODE
         $this->expectException(\LogicException::class);
         $this->expectExceptionMessage('Option "indent" must either be all spaces or a single tab');
         new PrettyPrinter\Standard(['indent' => "\t  "]);
+    }
+
+    public function testTrailingCommaArgToFirstClassCallable(): void {
+        $parser = (new ParserFactory())->createForNewestSupportedVersion();
+        $traverser = new NodeTraverser(new NodeVisitor\CloningVisitor());
+
+        $oldStmts = $parser->parse(<<<'CODE'
+            <?php strlen("test",);
+            CODE
+        );
+        $oldTokens = $parser->getTokens();
+        $newStmts = $traverser->traverse($oldStmts);
+
+        $funcCall = $newStmts[0]->expr;
+        $funcCall->args = [new VariadicPlaceholder()];
+
+        $prettyPrinter = new PrettyPrinter\Standard();
+        $expected = <<<'CODE'
+            <?php strlen(...);
+            CODE;
+
+        $this->assertEquals(
+            $expected,
+            $prettyPrinter->printFormatPreserving($newStmts, $oldStmts, $oldTokens)
+        );
     }
 }
