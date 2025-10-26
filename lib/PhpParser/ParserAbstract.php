@@ -132,6 +132,11 @@ abstract class ParserAbstract implements Parser {
     /** @var \SplObjectStorage<Array_, null>|null Array nodes created during parsing, for postprocessing of empty elements. */
     protected ?\SplObjectStorage $createdArrays;
 
+    /** @var \SplObjectStorage<Expr\ArrowFunction, null>|null
+     *       Arrow functions that are wrapped in parentheses, to enforce the pipe operator parentheses requirements.
+     */
+    protected ?\SplObjectStorage $parenthesizedArrowFunctions;
+
     /** @var Token[] Tokens for the current parse */
     protected array $tokens;
     /** @var int Current position in token array */
@@ -182,6 +187,7 @@ abstract class ParserAbstract implements Parser {
     public function parse(string $code, ?ErrorHandler $errorHandler = null): ?array {
         $this->errorHandler = $errorHandler ?: new ErrorHandler\Throwing();
         $this->createdArrays = new \SplObjectStorage();
+        $this->parenthesizedArrowFunctions = new \SplObjectStorage();
 
         $this->tokens = $this->lexer->tokenize($code, $this->errorHandler);
         $result = $this->doParse();
@@ -205,6 +211,7 @@ abstract class ParserAbstract implements Parser {
         $this->semStack = [];
         $this->semValue = null;
         $this->createdArrays = null;
+        $this->parenthesizedArrowFunctions = null;
 
         if ($result !== null) {
             $traverser = new NodeTraverser(new CommentAnnotatingVisitor($this->tokens));
@@ -1234,6 +1241,13 @@ abstract class ParserAbstract implements Parser {
         if ($node->attrGroups !== [] && count($node->consts) > 1) {
             $this->emitError(new Error(
                 'Cannot use attributes on multiple constants at once', $node->getAttributes()));
+        }
+    }
+
+    protected function checkPipeOperatorParentheses(Expr $node): void {
+        if ($node instanceof Expr\ArrowFunction && !$this->parenthesizedArrowFunctions->offsetExists($node)) {
+            $this->emitError(new Error(
+                'Arrow functions on the right hand side of |> must be parenthesized', $node->getAttributes()));
         }
     }
 

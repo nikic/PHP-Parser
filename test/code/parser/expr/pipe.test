@@ -5,7 +5,11 @@ $a |> $b |> $c;
 $a . $b |> $c . $d;
 $a |> $b == $c;
 $c == $a |> $b;
+$a |> (fn($x) => $x) |> (fn($y) => $y);
+$a |> fn($x) => $x |> fn($y) => $y;
 -----
+Arrow functions on the right hand side of |> must be parenthesized from 7:23 to 7:34
+Arrow functions on the right hand side of |> must be parenthesized from 7:7 to 7:34
 array(
     0: Stmt_Expression(
         expr: Expr_BinaryOp_Pipe(
@@ -68,6 +72,128 @@ array(
                 )
                 right: Expr_Variable(
                     name: b
+                )
+            )
+        )
+    )
+    4: Stmt_Expression(
+        expr: Expr_BinaryOp_Pipe(
+            left: Expr_BinaryOp_Pipe(
+                left: Expr_Variable(
+                    name: a
+                )
+                right: Expr_ArrowFunction(
+                    attrGroups: array(
+                    )
+                    static: false
+                    byRef: false
+                    params: array(
+                        0: Param(
+                            attrGroups: array(
+                            )
+                            flags: 0
+                            type: null
+                            byRef: false
+                            variadic: false
+                            var: Expr_Variable(
+                                name: x
+                            )
+                            default: null
+                            hooks: array(
+                            )
+                        )
+                    )
+                    returnType: null
+                    expr: Expr_Variable(
+                        name: x
+                    )
+                )
+            )
+            right: Expr_ArrowFunction(
+                attrGroups: array(
+                )
+                static: false
+                byRef: false
+                params: array(
+                    0: Param(
+                        attrGroups: array(
+                        )
+                        flags: 0
+                        type: null
+                        byRef: false
+                        variadic: false
+                        var: Expr_Variable(
+                            name: y
+                        )
+                        default: null
+                        hooks: array(
+                        )
+                    )
+                )
+                returnType: null
+                expr: Expr_Variable(
+                    name: y
+                )
+            )
+        )
+    )
+    5: Stmt_Expression(
+        expr: Expr_BinaryOp_Pipe(
+            left: Expr_Variable(
+                name: a
+            )
+            right: Expr_ArrowFunction(
+                attrGroups: array(
+                )
+                static: false
+                byRef: false
+                params: array(
+                    0: Param(
+                        attrGroups: array(
+                        )
+                        flags: 0
+                        type: null
+                        byRef: false
+                        variadic: false
+                        var: Expr_Variable(
+                            name: x
+                        )
+                        default: null
+                        hooks: array(
+                        )
+                    )
+                )
+                returnType: null
+                expr: Expr_BinaryOp_Pipe(
+                    left: Expr_Variable(
+                        name: x
+                    )
+                    right: Expr_ArrowFunction(
+                        attrGroups: array(
+                        )
+                        static: false
+                        byRef: false
+                        params: array(
+                            0: Param(
+                                attrGroups: array(
+                                )
+                                flags: 0
+                                type: null
+                                byRef: false
+                                variadic: false
+                                var: Expr_Variable(
+                                    name: y
+                                )
+                                default: null
+                                hooks: array(
+                                )
+                            )
+                        )
+                        returnType: null
+                        expr: Expr_Variable(
+                            name: y
+                        )
+                    )
                 )
             )
         )

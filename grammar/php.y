@@ -1089,10 +1089,18 @@ expr:
     | expr '>' expr                                         { $$ = Expr\BinaryOp\Greater       [$1, $3]; }
     | expr T_IS_GREATER_OR_EQUAL expr                       { $$ = Expr\BinaryOp\GreaterOrEqual[$1, $3]; }
 #if PHP8
-    | expr T_PIPE expr                                      { $$ = Expr\BinaryOp\Pipe[$1, $3]; }
+    | expr T_PIPE expr {
+          $$ = Expr\BinaryOp\Pipe[$1, $3];
+          $this->checkPipeOperatorParentheses($3);
+      }
 #endif
     | expr T_INSTANCEOF class_name_reference                { $$ = Expr\Instanceof_[$1, $3]; }
-    | '(' expr ')'                                          { $$ = $2; }
+    | '(' expr ')' {
+          $$ = $2;
+          if ($$ instanceof Expr\ArrowFunction) {
+              $this->parenthesizedArrowFunctions->offsetSet($$);
+          }
+      }
     | expr '?' expr ':' expr                                { $$ = Expr\Ternary[$1, $3,   $5]; }
     | expr '?' ':' expr                                     { $$ = Expr\Ternary[$1, null, $4]; }
     | expr T_COALESCE expr                                  { $$ = Expr\BinaryOp\Coalesce[$1, $3]; }

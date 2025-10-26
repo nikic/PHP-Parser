@@ -2440,13 +2440,21 @@ class Php8 extends \PhpParser\ParserAbstract
                  $self->semValue = new Expr\BinaryOp\GreaterOrEqual($self->semStack[$stackPos-(3-1)], $self->semStack[$stackPos-(3-3)], $self->getAttributes($self->tokenStartStack[$stackPos-(3-1)], $self->tokenEndStack[$stackPos]));
             },
             477 => static function ($self, $stackPos) {
-                 $self->semValue = new Expr\BinaryOp\Pipe($self->semStack[$stackPos-(3-1)], $self->semStack[$stackPos-(3-3)], $self->getAttributes($self->tokenStartStack[$stackPos-(3-1)], $self->tokenEndStack[$stackPos]));
+
+          $self->semValue = new Expr\BinaryOp\Pipe($self->semStack[$stackPos-(3-1)], $self->semStack[$stackPos-(3-3)], $self->getAttributes($self->tokenStartStack[$stackPos-(3-1)], $self->tokenEndStack[$stackPos]));
+          $self->checkPipeOperatorParentheses($self->semStack[$stackPos-(3-3)]);
+
             },
             478 => static function ($self, $stackPos) {
                  $self->semValue = new Expr\Instanceof_($self->semStack[$stackPos-(3-1)], $self->semStack[$stackPos-(3-3)], $self->getAttributes($self->tokenStartStack[$stackPos-(3-1)], $self->tokenEndStack[$stackPos]));
             },
             479 => static function ($self, $stackPos) {
-                 $self->semValue = $self->semStack[$stackPos-(3-2)];
+
+          $self->semValue = $self->semStack[$stackPos-(3-2)];
+          if ($self->semValue instanceof Expr\ArrowFunction) {
+              $self->parenthesizedArrowFunctions->offsetSet($self->semValue);
+          }
+
             },
             480 => static function ($self, $stackPos) {
                  $self->semValue = new Expr\Ternary($self->semStack[$stackPos-(5-1)], $self->semStack[$stackPos-(5-3)], $self->semStack[$stackPos-(5-5)], $self->getAttributes($self->tokenStartStack[$stackPos-(5-1)], $self->tokenEndStack[$stackPos]));
