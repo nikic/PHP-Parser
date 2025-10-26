@@ -229,6 +229,8 @@ class TokenStream {
 
             if ($removeTrailingComma && $token->text === ',') {
                 $token->text = '';
+                // don't try to remove trailing comma multiple times
+                $removeTrailingComma = false;
             }
 
             $text = $token->text;
