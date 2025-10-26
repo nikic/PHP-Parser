@@ -64,8 +64,8 @@ $stmts[0]->expr->class->flags = Modifiers::READONLY;
 $stmts[1]->expr->class->flags = 0;
 -----
 <?php
-readonly class {};
-class {};
+new readonly class {};
+new class {};
 -----
 <?php
 class X {
