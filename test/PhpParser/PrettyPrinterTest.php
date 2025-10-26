@@ -312,7 +312,10 @@ CODE
         $traverser = new NodeTraverser(new NodeVisitor\CloningVisitor());
 
         $oldStmts = $parser->parse(<<<'CODE'
-            <?php strlen("test",);
+            <?php
+            strlen(
+                "test",
+            );
             CODE
         );
         $oldTokens = $parser->getTokens();
@@ -323,7 +326,10 @@ CODE
 
         $prettyPrinter = new PrettyPrinter\Standard();
         $expected = <<<'CODE'
-            <?php strlen(...);
+            <?php
+            strlen(
+                ...
+            );
             CODE;
 
         $this->assertEquals(
