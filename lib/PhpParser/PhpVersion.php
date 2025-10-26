@@ -168,4 +168,8 @@ class PhpVersion {
     public function supportsAttributes(): bool {
         return $this->id >= 80000;
     }
+
+    public function supportsNewDereferenceWithoutParentheses(): bool {
+        return $this->id >= 80400;
+    }
 }

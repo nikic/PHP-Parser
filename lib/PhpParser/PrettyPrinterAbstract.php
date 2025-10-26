@@ -1148,6 +1148,9 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
      * @return bool Whether parentheses are required
      */
     protected function callLhsRequiresParens(Node $node): bool {
+        if ($node instanceof Expr\New_) {
+            return !$this->phpVersion->supportsNewDereferenceWithoutParentheses();
+        }
         return !($node instanceof Node\Name
             || $node instanceof Expr\Variable
             || $node instanceof Expr\ArrayDimFetch
@@ -1179,6 +1182,9 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
      * @return bool Whether parentheses are required
      */
     protected function staticDereferenceLhsRequiresParens(Node $node): bool {
+        if ($node instanceof Expr\New_) {
+            return !$this->phpVersion->supportsNewDereferenceWithoutParentheses();
+        }
         return !($node instanceof Expr\Variable
             || $node instanceof Node\Name
             || $node instanceof Expr\ArrayDimFetch
