@@ -765,7 +765,13 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
             $pos = $subEndPos + 1;
         }
 
-        $result .= $this->origTokens->getTokenCode($pos, $endPos + 1, $indentAdjustment);
+        $tokenCode = $this->origTokens->getTokenCode($pos, $endPos + 1, $indentAdjustment);
+        if ($node instanceof Expr\CallLike && $node->isFirstClassCallable()) {
+            $tokenCode = trim($tokenCode, ',');
+        }
+
+        $result .= $tokenCode;
+
         return $result;
     }
 
