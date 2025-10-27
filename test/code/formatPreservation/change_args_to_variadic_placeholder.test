@@ -1,0 +1,13 @@
+Replace args with VariadicPlaceholder should remove trailing comma
+-----
+<?php
+strlen(
+    'test',
+);
+-----
+$stmts[0]->expr->args = [new Node\VariadicPlaceholder()];
+-----
+<?php
+strlen(
+    ...
+);
