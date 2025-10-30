@@ -205,7 +205,9 @@ class Standard extends PrettyPrinterAbstract {
 
         $kind = $node->getAttribute('kind', Scalar\Int_::KIND_DEC);
         if (Scalar\Int_::KIND_DEC === $kind) {
-            return (string) $node->value;
+            return $node->getAttribute('shouldPrintRawValue')
+                ? (string) $node->getAttribute('rawValue')
+                : (string) $node->value;
         }
 
         if ($node->value < 0) {
