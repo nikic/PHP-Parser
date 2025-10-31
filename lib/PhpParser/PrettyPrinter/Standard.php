@@ -205,10 +205,6 @@ class Standard extends PrettyPrinterAbstract {
 
         $kind = $node->getAttribute('kind', Scalar\Int_::KIND_DEC);
 
-        if (Scalar\Int_::KIND_RAW_VALUE === $kind) {
-            return (string) $node->getAttribute('rawValue');
-        }
-
         if (Scalar\Int_::KIND_DEC === $kind) {
             return (string) $node->value;
         }
@@ -228,6 +224,11 @@ class Standard extends PrettyPrinterAbstract {
             case Scalar\Int_::KIND_HEX:
                 return $sign . '0x' . base_convert($str, 10, 16);
         }
+
+        if (Scalar\Int_::KIND_RAW_VALUE === $kind) {
+            return (string) $node->getAttribute('rawValue');
+        }
+        
         throw new \Exception('Invalid number kind');
     }
 
