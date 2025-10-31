@@ -12,6 +12,8 @@ class Int_ extends Scalar {
     public const KIND_DEC = 10;
     public const KIND_HEX = 16;
 
+    public const KIND_RAW = 22;
+
     /** @var int Number value */
     public int $value;
 
