@@ -305,4 +305,13 @@ CODE
         $this->expectExceptionMessage('Option "indent" must either be all spaces or a single tab');
         new PrettyPrinter\Standard(['indent' => "\t  "]);
     }
+
+    public function testPrintCustomRawValue(): void {
+        $prettyPrinter = new PrettyPrinter\Standard();
+        $rawValue = '10_00';
+        $attributes = ['rawValue' => $rawValue, 'kind' => Int_::KIND_RAW_VALUE];
+
+        $this->assertSame($rawValue, $prettyPrinter->prettyPrintExpr(new Int_(1000, $attributes)));
+        $this->assertSame($rawValue, $prettyPrinter->prettyPrintExpr(Int_::fromString('1000', $attributes)));
+    }
 }
