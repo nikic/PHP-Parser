@@ -174,9 +174,9 @@ class NodeTraverser implements NodeTraverserInterface {
     /**
      * Recursively traverse array (usually of nodes).
      *
-     * @param array $nodes Array to traverse
+     * @param Node[] $nodes Array to traverse
      *
-     * @return array Result of traversal (may be original array or changed one)
+     * @return Node[] Result of traversal (may be original array or changed one)
      */
     protected function traverseArray(array $nodes): array {
         $doNodes = [];

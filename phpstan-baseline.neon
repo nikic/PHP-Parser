@@ -175,18 +175,6 @@ parameters:
 			path: lib/PhpParser/NodeDumper.php
 
 		-
-			message: '#^Method PhpParser\\NodeTraverser\:\:traverseArray\(\) has parameter \$nodes with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: lib/PhpParser/NodeTraverser.php
-
-		-
-			message: '#^Method PhpParser\\NodeTraverser\:\:traverseArray\(\) return type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: lib/PhpParser/NodeTraverser.php
-
-		-
 			message: '#^Access to an undefined property PhpParser\\Node\:\:\$attrGroups\.$#'
 			identifier: property.notFound
 			count: 1
