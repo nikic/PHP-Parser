@@ -169,11 +169,11 @@ function parseArgs($args) {
                 $operations[] = 'var-dump';
                 break;
             case '--resolve-names':
-            case '-N';
+            case '-N':
                 $operations[] = 'resolve-names';
                 break;
             case '--with-column-info':
-            case '-c';
+            case '-c':
                 $attributes['with-column-info'] = true;
                 break;
             case '--with-positions':
@@ -185,7 +185,7 @@ function parseArgs($args) {
                 $attributes['with-recovery'] = true;
                 break;
             case '--help':
-            case '-h';
+            case '-h':
                 showHelp();
                 break;
             case '--':
