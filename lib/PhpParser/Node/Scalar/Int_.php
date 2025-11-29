@@ -12,8 +12,6 @@ class Int_ extends Scalar {
     public const KIND_DEC = 10;
     public const KIND_HEX = 16;
 
-    public const KIND_RAW_VALUE = 22;
-
     /** @var int Number value */
     public int $value;
 
@@ -42,10 +40,6 @@ class Int_ extends Scalar {
      * @return Int_ The constructed LNumber, including kind attribute
      */
     public static function fromString(string $str, array $attributes = [], bool $allowInvalidOctal = false): Int_ {
-        if(isset($attributes['kind']) && $attributes['kind'] === self::KIND_RAW_VALUE){
-            return new Int_((int) $str, $attributes);
-        }
-
         $attributes['rawValue'] = $str;
 
         $str = str_replace('_', '', $str);

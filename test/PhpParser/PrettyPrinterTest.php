@@ -308,10 +308,8 @@ CODE
 
     public function testPrintCustomRawValue(): void {
         $prettyPrinter = new PrettyPrinter\Standard();
-        $rawValue = '10_00';
-        $attributes = ['rawValue' => $rawValue, 'kind' => Int_::KIND_RAW_VALUE];
+        $node = new Int_(1000, ['rawValue' => '10_00', 'shouldPrintRawValue' => true]);
 
-        $this->assertSame($rawValue, $prettyPrinter->prettyPrintExpr(new Int_(1000, $attributes)));
-        $this->assertSame($rawValue, $prettyPrinter->prettyPrintExpr(Int_::fromString('1000', $attributes)));
+        $this->assertSame('10_00', $prettyPrinter->prettyPrintExpr($node));
     }
 }
