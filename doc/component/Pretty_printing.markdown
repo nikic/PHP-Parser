@@ -31,8 +31,19 @@ expression.
 Customizing the formatting
 --------------------------
 
-The pretty printer respects a number of `kind` attributes used by some nodes (e.g., whether an
-integer should be printed as decimal, hexadecimal, etc). Additionally, it supports three options:
+The pretty printer respects a number of attributes used by some nodes:
+
+ * `kind` on `Scalar\String_` to use single quotes (default), double quotes, heredoc or nowdoc.
+   In the latter two cases, the heredoc/nowdoc label from the `docLabel` attribute is used.
+ * `kind` on `Scalar\Int_` to use decimal (default), binary, octal or hexadecimal representation.
+ * `kind` on `Cast\Double` to use `(double)` (default), `(float)` or `(real)`.
+ * `kind` on `Expr\List_` to use `[]` or `list()` (default depends on `phpVersion` option).
+ * `kind` on `Expr\Array_` to use `[]` or `array()` (default depends on `shortArraySyntax` option).
+ * `kind` on `Expr\Exit_` to use `die` (defaul) or `exit`.
+ * `hasLeadingNewline` on `Stmt\InlineHTML` to determine whether a newline is emitted after `?>`
+   or not.
+
+Additionally, the pretty printer supports three options:
 
 * `phpVersion` (defaults to 7.4) allows opting into formatting that is not supported by older PHP
   versions.
