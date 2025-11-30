@@ -198,7 +198,7 @@ class Standard extends PrettyPrinterAbstract {
 
     protected function pScalar_Int(Scalar\Int_ $node): string {
         if ($node->getAttribute('shouldPrintRawValue') === true) {
-            return (string) $node->getAttribute('rawValue');
+            return $node->getAttribute('rawValue');
         }
 
         if ($node->value === -\PHP_INT_MAX - 1) {
