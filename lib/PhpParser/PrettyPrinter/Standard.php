@@ -223,7 +223,7 @@ class Standard extends PrettyPrinterAbstract
 
         // Try to find a short full-precision representation
         $stringValue = sprintf('%.16G', $node->value);
-        if ($node->value !== (double) $stringValue) {
+        if ($node->value !== (float) $stringValue) {
             $stringValue = sprintf('%.17G', $node->value);
         }
 
