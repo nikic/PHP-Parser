@@ -36,6 +36,10 @@ The pretty printer respects a number of attributes used by some nodes:
  * `kind` on `Scalar\String_` to use single quotes (default), double quotes, heredoc or nowdoc.
    In the latter two cases, the heredoc/nowdoc label from the `docLabel` attribute is used.
  * `kind` on `Scalar\Int_` to use decimal (default), binary, octal or hexadecimal representation.
+ * `shouldPrintRawValue` and `rawValue` on `Scalar\Int_` to preserve the original formatting of
+   integer literals (e.g., numeric separators like `1_000`). When `shouldPrintRawValue` is set to
+   `true`, the value from `rawValue` is used instead of the computed representation. This works for
+   all integer formats (decimal, binary, octal, hexadecimal).
  * `kind` on `Cast\Double` to use `(double)` (default), `(float)` or `(real)`.
  * `kind` on `Expr\List_` to use `[]` or `list()` (default depends on `phpVersion` option).
  * `kind` on `Expr\Array_` to use `[]` or `array()` (default depends on `shortArraySyntax` option).

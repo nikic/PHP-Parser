@@ -197,6 +197,10 @@ class Standard extends PrettyPrinterAbstract {
     }
 
     protected function pScalar_Int(Scalar\Int_ $node): string {
+        if ($node->getAttribute('shouldPrintRawValue') === true) {
+            return $node->getAttribute('rawValue');
+        }
+
         if ($node->value === -\PHP_INT_MAX - 1) {
             // PHP_INT_MIN cannot be represented as a literal,
             // because the sign is not part of the literal
@@ -204,6 +208,7 @@ class Standard extends PrettyPrinterAbstract {
         }
 
         $kind = $node->getAttribute('kind', Scalar\Int_::KIND_DEC);
+
         if (Scalar\Int_::KIND_DEC === $kind) {
             return (string) $node->value;
         }

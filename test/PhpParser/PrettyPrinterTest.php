@@ -165,6 +165,28 @@ class PrettyPrinterTest extends CodeTestAbstract {
         ];
     }
 
+    /** @dataProvider provideTestCustomRawValue */
+    public function printCustomRawValue($node, $expected): void {
+        $prettyPrinter = new PrettyPrinter\Standard();
+        $result = $prettyPrinter->prettyPrintExpr($node);
+        $this->assertSame($expected, $result);
+    }
+
+    public static function provideTestCustomRawValue() {
+        return [
+            // Decimal with separator
+            [new Int_(1000, ['rawValue' => '10_00', 'shouldPrintRawValue' => true]), '10_00'],
+            // Hexadecimal with separator
+            [new Int_(0xDEADBEEF, ['kind' => Int_::KIND_HEX, 'rawValue' => '0xDEAD_BEEF', 'shouldPrintRawValue' => true]), '0xDEAD_BEEF'],
+            // Binary with separator
+            [new Int_(0b11110000, ['kind' => Int_::KIND_BIN, 'rawValue' => '0b1111_0000', 'shouldPrintRawValue' => true]), '0b1111_0000'],
+            // Octal with separator
+            [new Int_(0755, ['kind' => Int_::KIND_OCT, 'rawValue' => '0755_000', 'shouldPrintRawValue' => true]), '0755_000'],
+            // Without flag set, should use default formatting
+            [new Int_(1000, ['rawValue' => '10_00', 'shouldPrintRawValue' => false]), '1000'],
+        ];
+    }
+
     public function testPrettyPrintWithError(): void {
         $this->expectException(\LogicException::class);
         $this->expectExceptionMessage('Cannot pretty-print AST with Error nodes');
