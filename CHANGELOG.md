@@ -1,3 +1,22 @@
+Version 5.7.0 (2025-12-06)
+--------------------------
+
+### Fixed
+
+* Fixed changing modifier on anonymous class with formatting preserving pretty printer.
+* Emit an error for unparenthesized arrow functions in pipe operator, and print necessary
+  parentheses in the pretty printer.
+* Fix PHP 8.5 deprecation warning in php-parse binary.
+
+### Changed
+
+* When targeting PHP 8.4 or newer, omit parentheses around immediately dereferenced new expressions.
+
+### Added
+
+* Added `shouldPrintRawValue` attribute to `Scalar\Int_`, which makes the pretty printer use the
+  `rawValue` of the node. This can be used to print integers with separators.
+
 Version 5.6.2 (2025-10-21)
 --------------------------
 
