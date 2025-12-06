@@ -108,3 +108,29 @@ Foo
 new class
 ($a, $b)
 extends Foo {};
+-----
+<?php
+new  Foo;
+new  Foo  ;
+new  Foo();
+new  Foo  ();
+new  class  {};
+new  class()  {};
+new  class  ()  {};
+-----
+$stmts[0]->expr->args[] = new Node\Expr\Variable('a');
+$stmts[1]->expr->args[] = new Node\Expr\Variable('a');
+$stmts[2]->expr->args[] = new Node\Expr\Variable('a');
+$stmts[3]->expr->args[] = new Node\Expr\Variable('a');
+$stmts[4]->expr->args[] = new Node\Expr\Variable('a');
+$stmts[5]->expr->args[] = new Node\Expr\Variable('a');
+$stmts[6]->expr->args[] = new Node\Expr\Variable('a');
+-----
+<?php
+new  Foo($a);
+new  Foo($a)  ;
+new  Foo($a);
+new  Foo  ($a);
+new  class($a)  {};
+new  class($a)  {};
+new  class  ($a)  {};
