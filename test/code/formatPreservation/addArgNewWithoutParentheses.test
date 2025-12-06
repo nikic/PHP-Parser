@@ -1,0 +1,9 @@
+Add Arg New Without Parentheses
+-----
+<?php
+new DateTime;
+-----
+$stmts[0]->expr->args = [new Node\Arg(new Scalar\String_('now'))];
+-----
+<?php
+new DateTime('now');
