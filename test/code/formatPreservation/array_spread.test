@@ -10,7 +10,8 @@ $array->items[] = new Expr\ArrayItem(new Expr\Variable('b'));
 -----
 <?php
 $items = [
-...$value, $b
+...$value,
+$b
 ];
 -----
 <?php
@@ -25,5 +26,6 @@ $array->items[] = new Expr\ArrayItem(new Expr\Variable('c'), null, false, [], tr
 <?php
 $items =
 [
-... $value, ...$c
+... $value,
+...$c
 ];
