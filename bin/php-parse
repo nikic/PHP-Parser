@@ -82,7 +82,7 @@ foreach ($files as $file) {
             echo $prettyPrinter->prettyPrintFile($stmts), "\n";
         } elseif ('json-dump' === $operation) {
             fwrite(STDERR, "==> JSON dump:\n");
-            echo json_encode($stmts, JSON_PRETTY_PRINT), "\n";
+            echo json_encode($stmts, JSON_PRETTY_PRINT | JSON_THROW_ON_ERROR | JSON_INVALID_UTF8_IGNORE), "\n";
         } elseif ('var-dump' === $operation) {
             fwrite(STDERR, "==> var_dump():\n");
             var_dump($stmts);
