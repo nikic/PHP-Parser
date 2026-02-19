@@ -1,0 +1,37 @@
+Invalid parameter with type void
+-----
+<?php
+function foo(void $foo) {}
+-----
+Parameter type cannot be void from 2:14 to 2:17
+array(
+    0: Stmt_Function(
+        attrGroups: array(
+        )
+        byRef: false
+        name: Identifier(
+            name: foo
+        )
+        params: array(
+            0: Param(
+                attrGroups: array(
+                )
+                flags: 0
+                type: Identifier(
+                    name: void
+                )
+                byRef: false
+                variadic: false
+                var: Expr_Variable(
+                    name: foo
+                )
+                default: null
+                hooks: array(
+                )
+            )
+        )
+        returnType: null
+        stmts: array(
+        )
+    )
+)
