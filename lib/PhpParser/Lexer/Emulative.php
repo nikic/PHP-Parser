@@ -9,6 +9,7 @@ use PhpParser\Lexer\TokenEmulator\AsymmetricVisibilityTokenEmulator;
 use PhpParser\Lexer\TokenEmulator\AttributeEmulator;
 use PhpParser\Lexer\TokenEmulator\EnumTokenEmulator;
 use PhpParser\Lexer\TokenEmulator\ExplicitOctalEmulator;
+use PhpParser\Lexer\TokenEmulator\FnTokenEmulator;
 use PhpParser\Lexer\TokenEmulator\MatchTokenEmulator;
 use PhpParser\Lexer\TokenEmulator\NullsafeTokenEmulator;
 use PhpParser\Lexer\TokenEmulator\PipeOperatorEmulator;
@@ -51,6 +52,7 @@ class Emulative extends Lexer {
             new AsymmetricVisibilityTokenEmulator(),
             new PipeOperatorEmulator(),
             new VoidCastEmulator(),
+            new FnTokenEmulator(),
         ];
 
         // Collect emulators that are relevant for the PHP version we're running
