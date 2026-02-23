@@ -1081,7 +1081,7 @@ abstract class ParserAbstract implements Parser {
 
         if ($node->type instanceof Identifier && $node->type->name === 'void') {
             $this->emitError(new Error(
-                'Parameter type cannot be void',
+                'void cannot be used as a parameter type',
                 $node->type->getAttributes()
             ));
         }
