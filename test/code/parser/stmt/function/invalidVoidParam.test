@@ -3,7 +3,7 @@ Invalid parameter with type void
 <?php
 function foo(void $foo) {}
 -----
-Parameter type cannot be void from 2:14 to 2:17
+void cannot be used as a parameter type from 2:14 to 2:17
 array(
     0: Stmt_Function(
         attrGroups: array(
