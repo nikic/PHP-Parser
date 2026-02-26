@@ -41,6 +41,7 @@ class Emulative extends Lexer {
         $this->hostPhpVersion = PhpVersion::getHostVersion();
 
         $emulators = [
+            new FnTokenEmulator(),
             new MatchTokenEmulator(),
             new NullsafeTokenEmulator(),
             new AttributeEmulator(),
@@ -52,7 +53,6 @@ class Emulative extends Lexer {
             new AsymmetricVisibilityTokenEmulator(),
             new PipeOperatorEmulator(),
             new VoidCastEmulator(),
-            new FnTokenEmulator(),
         ];
 
         // Collect emulators that are relevant for the PHP version we're running
