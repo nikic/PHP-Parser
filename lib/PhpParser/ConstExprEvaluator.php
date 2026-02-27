@@ -17,8 +17,6 @@ use function array_merge;
  * following node types:
  *
  *  * All Scalar\MagicConst\* nodes.
- *  * Expr\ConstFetch nodes. Only null/false/true are already handled by this class.
- *  * Expr\ClassConstFetch nodes.
  *
  * The fallback evaluator should throw ConstExprEvaluationException for nodes it cannot evaluate.
  *
@@ -28,7 +26,7 @@ use function array_merge;
  */
 class ConstExprEvaluator {
     /** @var callable|null */
-    private $fallbackEvaluator;
+    protected $fallbackEvaluator;
 
     /**
      * Create a constant expression evaluator.
@@ -103,7 +101,7 @@ class ConstExprEvaluator {
     }
 
     /** @return mixed */
-    private function evaluate(Expr $expr) {
+    protected function evaluate(Expr $expr) {
         if ($expr instanceof Scalar\Int_
             || $expr instanceof Scalar\Float_
             || $expr instanceof Scalar\String_
@@ -143,6 +141,14 @@ class ConstExprEvaluator {
 
         if ($expr instanceof Expr\ConstFetch) {
             return $this->evaluateConstFetch($expr);
+        }
+
+        if ($expr instanceof Expr\ClassConstFetch) {
+            return $this->evaluateClassConstFetch($expr);
+        }
+
+        if ($expr instanceof Expr\Cast) {
+            return $this->evaluateCast($expr);
         }
 
         return ($this->fallbackEvaluator)($expr);
@@ -225,11 +231,77 @@ class ConstExprEvaluator {
 
     /** @return mixed */
     private function evaluateConstFetch(Expr\ConstFetch $expr) {
-        $name = $expr->name->toLowerString();
-        switch ($name) {
-            case 'null': return null;
-            case 'false': return false;
-            case 'true': return true;
+        try {
+            $name = $expr->name->name;
+
+            if (defined($name)) {
+                return constant($name);
+            }
+        } catch (\Throwable $t) {
+        }
+
+        return ($this->fallbackEvaluator)($expr);
+    }
+
+    /** @return mixed */
+    private function evaluateClassConstFetch(Expr\ClassConstFetch $expr) {
+        try {
+            $classname = $expr->class->name;
+            $property = $expr->name->name;
+
+            if ('class' === $property) {
+                return $classname;
+            }
+
+            if (class_exists($classname)) {
+                $class = new \ReflectionClass($classname);
+                if (array_key_exists($property, $class->getConstants())) {
+                    $oReflectionConstant = $class->getReflectionConstant($property);
+                    if ($oReflectionConstant->isPublic()) {
+                        return $class->getConstant($property);
+                    }
+                }
+            }
+        } catch (\Throwable $t) {
+        }
+
+        return ($this->fallbackEvaluator)($expr);
+    }
+
+    /** @return mixed */
+    private function evaluateCast(Expr\Cast $expr) {
+        try {
+            $subexpr = $this->evaluate($expr->expr);
+            $type = get_class($expr);
+            switch ($type) {
+                case Expr\Cast\Array_::class:
+                    return (array) $subexpr;
+
+                case Expr\Cast\Bool_::class:
+                    return (bool) $subexpr;
+
+                case Expr\Cast\Double::class:
+                    switch ($expr->getAttribute("kind")) {
+                        case Expr\Cast\Double::KIND_DOUBLE:
+                            return (float) $subexpr;
+
+                        case Expr\Cast\Double::KIND_FLOAT:
+                        case Expr\Cast\Double::KIND_REAL:
+                            return (float) $subexpr;
+                    }
+
+                    break;
+
+                case Expr\Cast\Int_::class:
+                    return (int) $subexpr;
+
+                case Expr\Cast\Object_::class:
+                    return (object) $subexpr;
+
+                case Expr\Cast\String_::class:
+                    return (string) $subexpr;
+            }
+        } catch (\Throwable $t) {
         }
 
         return ($this->fallbackEvaluator)($expr);
