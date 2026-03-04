@@ -609,12 +609,16 @@ class Standard extends PrettyPrinterAbstract {
     }
 
     protected function pExpr_Array(Expr\Array_ $node): string {
-        $syntax = $node->getAttribute('kind',
+        $kind = $node->getAttribute('kind',
             $this->shortArraySyntax ? Expr\Array_::KIND_SHORT : Expr\Array_::KIND_LONG);
+
+        $forceMultiline = ($kind & Expr\Array_::KIND_MULTILINE) === Expr\Array_::KIND_MULTILINE;
+        $syntax = $kind & ~Expr\Array_::KIND_MULTILINE;
+
         if ($syntax === Expr\Array_::KIND_SHORT) {
-            return '[' . $this->pMaybeMultiline($node->items, true) . ']';
+            return '[' . $this->pMaybeMultiline($node->items, true, $forceMultiline) . ']';
         } else {
-            return 'array(' . $this->pMaybeMultiline($node->items, true) . ')';
+            return 'array(' . $this->pMaybeMultiline($node->items, true, $forceMultiline) . ')';
         }
     }
 
@@ -1190,12 +1194,12 @@ class Standard extends PrettyPrinterAbstract {
     }
 
     /** @param Node[] $nodes */
-    protected function pMaybeMultiline(array $nodes, bool $trailingComma = false): string {
-        if (!$this->hasNodeWithComments($nodes)) {
-            return $this->pCommaSeparated($nodes);
-        } else {
+    protected function pMaybeMultiline(array $nodes, bool $trailingComma = false, bool $forceMultiline = false): string {
+        if ($forceMultiline || $this->hasNodeWithComments($nodes)) {
             return $this->pCommaSeparatedMultiline($nodes, $trailingComma) . $this->nl;
         }
+
+        return $this->pCommaSeparated($nodes);
     }
 
     /** @param Node\Param[] $params
