@@ -6,6 +6,7 @@ use PhpParser\Internal\DiffElem;
 use PhpParser\Internal\Differ;
 use PhpParser\Internal\PrintableNewAnonClassNode;
 use PhpParser\Internal\TokenStream;
+use PhpParser\Node\ArrayItem;
 use PhpParser\Node\AttributeGroup;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\AssignOp;
@@ -1270,8 +1271,20 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
      * @return bool Whether multiline formatting is used
      */
     protected function isMultiline(array $nodes): bool {
-        if (\count($nodes) < 2) {
+        if (!$nodes) {
             return false;
+        }
+
+        if (count($nodes) === 1) {
+            $node = current($nodes);
+            $startPos = $node->getStartTokenPos() - 1;
+            $endPos = $node->getEndTokenPos() + 1;
+            $text = $this->origTokens->getTokenCode($startPos, $endPos, 0);
+            if (false === strpos($text, "\n")) {
+                return false;
+            }
+
+            return true; // Since the only element has a new line, we consider it multiline
         }
 
         $pos = -1;
