@@ -1309,7 +1309,7 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
         $this->labelCharMap = [];
         for ($i = 0; $i < 256; $i++) {
             $chr = chr($i);
-            $this->labelCharMap[$chr] = $i >= 0x80 || ctype_alnum($chr);
+            $this->labelCharMap[$chr] = (bool) preg_match('/^[a-zA-Z0-9_\x80-\xff]$/', $chr);
         }
 
         if ($this->phpVersion->allowsDelInIdentifiers()) {

@@ -188,3 +188,11 @@ echo "{$bar}bar";
 ,$b
 ,
 ,] = $b;
+-----
+<?php
+echo$a;
+-----
+$stmts[0]->exprs[0] = new Expr\ConstFetch(new Node\Name('_'));
+-----
+<?php
+echo _;
