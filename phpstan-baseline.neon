@@ -235,7 +235,7 @@ parameters:
 			path: lib/PhpParser/ParserAbstract.php
 
 		-
-			message: '#^Unary operation "\+" on string results in an error\.$#'
+			message: '#^Unary operation "\+" on non\-empty\-string results in an error\.$#'
 			identifier: unaryOp.invalid
 			count: 1
 			path: lib/PhpParser/ParserAbstract.php
