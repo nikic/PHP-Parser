@@ -26,7 +26,9 @@ class ConstExprEvaluatorTest extends \PHPUnit\Framework\TestCase {
             ['["a", "b" => "b", ...["b" => "bb", "c"]]', ["a", "b" => "bb", "c"]],
             ['NULL', null],
             ['False', false],
+            ['True', true],
             ['true', true],
+            ['PHP_VERSION_ID', PHP_VERSION_ID],
             ['+1', 1],
             ['-1', -1],
             ['~0', -1],
@@ -72,6 +74,16 @@ class ConstExprEvaluatorTest extends \PHPUnit\Framework\TestCase {
             ['true or (1/0)', true],
             ['true xor false', true],
             ['"foo" |> "strlen"', 3],
+
+            //Cast
+            ['(int)true', 1],
+            ['(string)1', "1"],
+            ['(bool)1', true],
+            ['(double)1', 1.0],
+            ['(float)1', 1.0],
+
+            ['PhpParser\ConstEvaluationFakeClass::CONST_4TEST', 456],
+            ['UnexistingClass::class', "UnexistingClass"],
         ];
     }
 
@@ -132,4 +144,8 @@ class ConstExprEvaluatorTest extends \PHPUnit\Framework\TestCase {
             ],
         ];
     }
+}
+
+class ConstEvaluationFakeClass {
+    public const CONST_4TEST = 456;
 }
