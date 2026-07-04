@@ -77,6 +77,22 @@ class EmulativeTest extends LexerTest {
     /**
      * @dataProvider provideTestReplaceKeywords
      */
+    public function testNoReplaceKeywordsAfterObjectOperatorWithComment(string $keyword): void {
+        $lexer = $this->getLexer();
+        $code = '<?php ->/* comment */' . $keyword;
+
+        $this->assertEquals([
+            new Token(\T_OPEN_TAG, '<?php ', 1, 0),
+            new Token(\T_OBJECT_OPERATOR, '->', 1, 6),
+            new Token(\T_COMMENT, '/* comment */', 1, 8),
+            new Token(\T_STRING, $keyword, 1, 21),
+            new Token(0, "\0", 1, \strlen($code)),
+        ], $lexer->tokenize($code));
+    }
+
+    /**
+     * @dataProvider provideTestReplaceKeywords
+     */
     public function testNoReplaceKeywordsAfterNullsafeObjectOperator(string $keyword): void {
         $lexer = $this->getLexer();
         $code = '<?php ?->' . $keyword;

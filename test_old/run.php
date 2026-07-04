@@ -122,6 +122,7 @@ switch ($testType) {
 | Zend.tests.type_declarations.intersection_types.parsing_comment
 # comments in property fetch syntax, not emulated on old PHP versions
 | Zend.tests.gh14961
+| Zend.tests.grammar.gh14961
 # harmless pretty print difference for clone($x, )
 | Zend.tests.clone.ast
 )\.phpt$~x', $file)) {
