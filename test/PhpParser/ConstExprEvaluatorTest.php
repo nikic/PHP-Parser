@@ -71,7 +71,6 @@ class ConstExprEvaluatorTest extends \PHPUnit\Framework\TestCase {
             ['true || (1/0)', true],
             ['true or (1/0)', true],
             ['true xor false', true],
-            ['"foo" |> "strlen"', 3],
         ];
     }
 
@@ -82,7 +81,7 @@ class ConstExprEvaluatorTest extends \PHPUnit\Framework\TestCase {
         $evaluator->evaluateDirectly(new Expr\Variable('a'));
     }
 
-    public function testEvaluateFallback(): void {
+    public function testEvaluateFallbackMagicConst(): void {
         $evaluator = new ConstExprEvaluator(function (Expr $expr) {
             if ($expr instanceof Scalar\MagicConst\Line) {
                 return 42;
@@ -94,6 +93,20 @@ class ConstExprEvaluatorTest extends \PHPUnit\Framework\TestCase {
             new Scalar\MagicConst\Line()
         );
         $this->assertSame(50, $evaluator->evaluateDirectly($expr));
+    }
+
+    public function testEvaluateFallbackPipeOperator(): void {
+        $evaluator = new ConstExprEvaluator(function (Expr $expr) use (&$evaluator) {
+            if ($expr instanceof Expr\BinaryOp\Pipe) {
+                return $evaluator->evaluateDirectly($expr->right)($evaluator->evaluateDirectly($expr->left));
+            }
+            throw new ConstExprEvaluationException();
+        });
+        $expr = new Expr\BinaryOp\Pipe(
+            new Scalar\String_('foo'),
+            new Scalar\String_('strlen')
+        );
+        $this->assertSame(3, $evaluator->evaluateDirectly($expr));
     }
 
     /**
