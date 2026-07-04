@@ -1,3 +1,18 @@
+Version 5.8.0 (2026-06-04)
+--------------------------
+
+### Fixed
+
+* Treat `_` as label character in formatting-preserving pretty printer.
+* Handle comment after object operator in keyword emulator.
+
+### Changed
+
+* Drop support for pipe operator in constant expression evaluator. It is not supported in constant
+  expressions and may pose security risks, as it allows calls to arbitrary functions.
+* `void` parameter types now generate a (recoverable) error during parsing.
+* Restored reverse emulation support for `fn` keywords when targeting PHP before 7.4.
+
 Version 5.7.0 (2025-12-06)
 --------------------------
 
