@@ -40,6 +40,7 @@ jobs:
           - "8.3"
           - "8.4"
           - "8.5"
+          - "8.6"
       fail-fast: false
     steps:
       - name: "Checkout"
@@ -57,7 +58,7 @@ jobs:
         run: "php vendor/bin/phpunit"
   test_old_73_80:
     runs-on: "ubuntu-latest"
-    name: "PHP 7.4 Code on PHP 8.4 Integration Tests"
+    name: "PHP 7.4 Code on PHP 8.5 Integration Tests"
     steps:
       - name: "Checkout"
         uses: "actions/checkout@v4"
@@ -65,7 +66,7 @@ jobs:
         uses: "shivammathur/setup-php@v2"
         with:
           coverage: "none"
-          php-version: "8.4"
+          php-version: "8.5"
           ini-file: "development"
           tools: composer:v2
       - name: "Install PHP 8 dependencies"
@@ -74,7 +75,7 @@ jobs:
         run: "test_old/run-php-src.sh 7.4.33"
   test_old_80_70:
     runs-on: "ubuntu-latest"
-    name: "PHP 8.4 Code on PHP 7.4 Integration Tests"
+    name: "PHP 8.5 Code on PHP 7.4 Integration Tests"
     steps:
       - name: "Checkout"
         uses: "actions/checkout@v4"
