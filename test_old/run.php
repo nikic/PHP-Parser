@@ -112,6 +112,7 @@ switch ($testType) {
 # pretty print difference due to nop statements
 | ext.mbstring.tests.htmlent
 | ext.standard.tests.file.fread_basic
+| Zend.tests.gh19719
 # its too hard to emulate these on old PHP versions
 | Zend.tests.flexible-heredoc-complex-test[1-4]
 # whitespace in namespaced name
