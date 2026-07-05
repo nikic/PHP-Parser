@@ -1006,9 +1006,25 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
 
             list($findToken, $extraLeft, $extraRight) = $this->emptyListInsertionMap[$mapKey];
             if (null !== $findToken) {
-                $insertPos = $this->origTokens->findRight($pos, $findToken) + 1;
-                $result .= $this->origTokens->getTokenCode($pos, $insertPos, $indentAdjustment);
-                $pos = $insertPos;
+                // For anon classes skip to the class keyword.
+                $isAnonClassArgs = $mapKey === PrintableNewAnonClassNode::class . '->args';
+                if ($isAnonClassArgs) {
+                    $insertPos = $this->origTokens->findRight($pos, \T_CLASS) + 1;
+                    $result .= $this->origTokens->getTokenCode($pos, $insertPos, $indentAdjustment);
+                    $pos = $insertPos;
+                }
+
+                // If "new Foo" was used without arguments, we need to convert to "new Foo()".
+                if (($mapKey === Expr\New_::class . '->args' || $isAnonClassArgs) &&
+                    !$this->origTokens->haveTokenImmediatelyAfter($pos - 1, '(')
+                ) {
+                    $extraLeft = '(';
+                    $extraRight = ')';
+                } else {
+                    $insertPos = $this->origTokens->findRight($pos, $findToken) + 1;
+                    $result .= $this->origTokens->getTokenCode($pos, $insertPos, $indentAdjustment);
+                    $pos = $insertPos;
+                }
             }
 
             $first = true;
@@ -1293,7 +1309,7 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
         $this->labelCharMap = [];
         for ($i = 0; $i < 256; $i++) {
             $chr = chr($i);
-            $this->labelCharMap[$chr] = $i >= 0x80 || ctype_alnum($chr);
+            $this->labelCharMap[$chr] = (bool) preg_match('/^[a-zA-Z0-9_\x80-\xff]$/', $chr);
         }
 
         if ($this->phpVersion->allowsDelInIdentifiers()) {

@@ -1,0 +1,21 @@
+Function with the name fn
+-----
+<?php
+function fn() {}
+-----
+!!version=7.3
+array(
+    0: Stmt_Function(
+        attrGroups: array(
+        )
+        byRef: false
+        name: Identifier(
+            name: fn
+        )
+        params: array(
+        )
+        returnType: null
+        stmts: array(
+        )
+    )
+)

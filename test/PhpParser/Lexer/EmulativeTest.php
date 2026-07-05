@@ -74,6 +74,22 @@ class EmulativeTest extends LexerTest {
         ], $lexer->tokenize($code));
     }
 
+    public function testNoReplaceKeywordsAfterObjectOperatorWithComment(): void {
+        // Only test this with __property__, because it's new in PHP 8.4,
+        // which had support for comments after object operators since the start.
+        $keyword = '__property__';
+        $lexer = $this->getLexer();
+        $code = '<?php ->/* comment */' . $keyword;
+
+        $this->assertEquals([
+            new Token(\T_OPEN_TAG, '<?php ', 1, 0),
+            new Token(\T_OBJECT_OPERATOR, '->', 1, 6),
+            new Token(\T_COMMENT, '/* comment */', 1, 8),
+            new Token(\T_STRING, $keyword, 1, 21),
+            new Token(0, "\0", 1, \strlen($code)),
+        ], $lexer->tokenize($code));
+    }
+
     /**
      * @dataProvider provideTestReplaceKeywords
      */

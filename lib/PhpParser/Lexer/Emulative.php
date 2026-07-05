@@ -9,6 +9,7 @@ use PhpParser\Lexer\TokenEmulator\AsymmetricVisibilityTokenEmulator;
 use PhpParser\Lexer\TokenEmulator\AttributeEmulator;
 use PhpParser\Lexer\TokenEmulator\EnumTokenEmulator;
 use PhpParser\Lexer\TokenEmulator\ExplicitOctalEmulator;
+use PhpParser\Lexer\TokenEmulator\FnTokenEmulator;
 use PhpParser\Lexer\TokenEmulator\MatchTokenEmulator;
 use PhpParser\Lexer\TokenEmulator\NullsafeTokenEmulator;
 use PhpParser\Lexer\TokenEmulator\PipeOperatorEmulator;
@@ -40,6 +41,7 @@ class Emulative extends Lexer {
         $this->hostPhpVersion = PhpVersion::getHostVersion();
 
         $emulators = [
+            new FnTokenEmulator(),
             new MatchTokenEmulator(),
             new NullsafeTokenEmulator(),
             new AttributeEmulator(),
