@@ -24,7 +24,7 @@ class VoidCastEmulator extends TokenEmulator {
             $numTokens = 1;
             $text = '(';
             $j = $i + 1;
-            if ($j < $c && $tokens[$j]->id === \T_WHITESPACE && preg_match('/[ \t]+/', $tokens[$j]->text)) {
+            if ($j < $c && $tokens[$j]->id === \T_WHITESPACE && preg_match('/\A[ \t]+\z/', $tokens[$j]->text)) {
                 $text .= $tokens[$j]->text;
                 $numTokens++;
                 $j++;
@@ -37,7 +37,7 @@ class VoidCastEmulator extends TokenEmulator {
             $text .= $tokens[$j]->text;
             $numTokens++;
             $k = $j + 1;
-            if ($k < $c && $tokens[$k]->id === \T_WHITESPACE && preg_match('/[ \t]+/', $tokens[$k]->text)) {
+            if ($k < $c && $tokens[$k]->id === \T_WHITESPACE && preg_match('/\A[ \t]+\z/', $tokens[$k]->text)) {
                 $text .= $tokens[$k]->text;
                 $numTokens++;
                 $k++;
