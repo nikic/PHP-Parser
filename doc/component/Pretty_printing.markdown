@@ -43,7 +43,7 @@ The pretty printer respects a number of attributes used by some nodes:
  * `kind` on `Cast\Double` to use `(double)` (default), `(float)` or `(real)`.
  * `kind` on `Expr\List_` to use `[]` or `list()` (default depends on `phpVersion` option).
  * `kind` on `Expr\Array_` to use `[]` or `array()` (default depends on `shortArraySyntax` option).
- * `kind` on `Expr\Exit_` to use `die` (defaul) or `exit`.
+ * `kind` on `Expr\Exit_` to use `die` (default) or `exit`.
  * `hasLeadingNewline` on `Stmt\InlineHTML` to determine whether a newline is emitted after `?>`
    or not.
 
