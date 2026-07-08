@@ -531,6 +531,29 @@ class EmulativeTest extends LexerTest {
                 [\T_STRING, 'VOID'],
                 [\ord(')'), ')'],
             ]],
+            // A void cast whose interior whitespace contains a newline is not a cast
+            // in the engine, so it must not be emulated as one -- even when a real
+            // void cast elsewhere in the file arms the emulator.
+            ['8.5', "(void)1; ( \nvoid)1;", [
+                [\T_VOID_CAST, '(void)'],
+                [\T_LNUMBER, '1'],
+                [\ord(';'), ';'],
+                [\ord('('), '('],
+                [\T_STRING, 'void'],
+                [\ord(')'), ')'],
+                [\T_LNUMBER, '1'],
+                [\ord(';'), ';'],
+            ]],
+            ['8.5', "(void)1; (void \n)1;", [
+                [\T_VOID_CAST, '(void)'],
+                [\T_LNUMBER, '1'],
+                [\ord(';'), ';'],
+                [\ord('('), '('],
+                [\T_STRING, 'void'],
+                [\ord(')'), ')'],
+                [\T_LNUMBER, '1'],
+                [\ord(';'), ';'],
+            ]],
         ];
     }
 }
