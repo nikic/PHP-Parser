@@ -81,3 +81,8 @@ array(
 "\u{FFFFFFFFFFFFFFFF}";
 -----
 Invalid UTF-8 codepoint escape sequence: Codepoint too large on line 2
+-----
+<?php
+"\u{110000}";
+-----
+Invalid UTF-8 codepoint escape sequence: Codepoint too large on line 2
