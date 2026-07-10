@@ -176,3 +176,27 @@ class X {};
     C,
 ]
 class X {};
+-----
+<?php
+enum E {
+    case A;
+    case B;
+
+    case C;
+}
+-----
+$attrGroup = new Node\AttributeGroup([
+    new Node\Attribute(new Node\Name('X'), []),
+]);
+$stmts[0]->attrGroups[] = $attrGroup;
+$stmts[0]->stmts[0]->attrGroups[] = $attrGroup;
+-----
+<?php
+#[X]
+enum E {
+    #[X]
+    case A;
+    case B;
+
+    case C;
+}

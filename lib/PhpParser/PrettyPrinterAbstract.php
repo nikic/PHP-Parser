@@ -1655,6 +1655,7 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
             Stmt\Function_::class . '->params' => ['(', '', ''],
             Stmt\Interface_::class . '->attrGroups' => [null, '', "\n"],
             Stmt\Class_::class . '->attrGroups' => [null, '', "\n"],
+            Stmt\Enum_::class . '->attrGroups' => [null, '', "\n"],
             Stmt\ClassConst::class . '->attrGroups' => [null, '', "\n"],
             Stmt\ClassMethod::class . '->attrGroups' => [null, '', "\n"],
             Stmt\Function_::class . '->attrGroups' => [null, '', "\n"],
