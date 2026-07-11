@@ -200,3 +200,21 @@ enum E {
 
     case C;
 }
+-----
+<?php
+enum E: int {
+    case AAAA = 1;
+    case B    = 2;
+}
+-----
+$attrGroup = new Node\AttributeGroup([
+    new Node\Attribute(new Node\Name('X'), []),
+]);
+$stmts[0]->stmts[1]->attrGroups[] = $attrGroup;
+-----
+<?php
+enum E: int {
+    case AAAA = 1;
+    #[X]
+    case B    = 2;
+}
