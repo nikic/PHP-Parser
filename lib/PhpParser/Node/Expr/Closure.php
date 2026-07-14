@@ -7,7 +7,7 @@ use PhpParser\Node\ClosureUse;
 use PhpParser\Node\Expr;
 use PhpParser\Node\FunctionLike;
 
-class Closure extends Expr implements FunctionLike {
+class Closure extends Expr implements FunctionLike, Node\ContainsStmts {
     /** @var bool Whether the closure is static */
     public bool $static;
     /** @var bool Whether to return by reference */

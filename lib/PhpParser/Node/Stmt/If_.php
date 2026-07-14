@@ -4,7 +4,7 @@ namespace PhpParser\Node\Stmt;
 
 use PhpParser\Node;
 
-class If_ extends Node\Stmt {
+class If_ extends Node\Stmt implements Node\ContainsStmts {
     /** @var Node\Expr Condition expression */
     public Node\Expr $cond;
     /** @var Node\Stmt[] Statements */

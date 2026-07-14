@@ -4,7 +4,7 @@ namespace PhpParser\Node\Stmt;
 
 use PhpParser\Node;
 
-class While_ extends Node\Stmt {
+class While_ extends Node\Stmt implements Node\ContainsStmts {
     /** @var Node\Expr Condition */
     public Node\Expr $cond;
     /** @var Node\Stmt[] Statements */
