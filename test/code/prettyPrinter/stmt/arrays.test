@@ -1,0 +1,83 @@
+Arrays
+-----
+<?php
+
+$short = [1, 2, 3];
+$shortMultiline = [
+    1,
+    2,
+    3
+];
+
+$long = array(1, 2, 3);
+$longMultiline = array(
+    1,
+    2,
+    3
+);
+
+$mixedShort = array(
+    array(1, 2, 3),
+    array(1,
+    2, 3),
+    [4, 5, 6],
+    [1,
+    2, 3],
+    2,
+    3,
+);
+$mixedLong = [
+    array(1, 2, 3),
+    array(1,
+    2, 3),
+    [4, 5, 6],
+    [1,
+    2, 3],
+    2,
+    3
+];
+-----
+$short = [1, 2, 3];
+$shortMultiline = [
+    1,
+    2,
+    3,
+];
+$long = array(1, 2, 3);
+$longMultiline = array(
+    1,
+    2,
+    3,
+);
+$mixedShort = array(
+    array(1, 2, 3),
+    array(
+        1,
+        2,
+        3,
+    ),
+    [4, 5, 6],
+    [
+        1,
+        2,
+        3,
+    ],
+    2,
+    3,
+);
+$mixedLong = [
+    array(1, 2, 3),
+    array(
+        1,
+        2,
+        3,
+    ),
+    [4, 5, 6],
+    [
+        1,
+        2,
+        3,
+    ],
+    2,
+    3,
+];

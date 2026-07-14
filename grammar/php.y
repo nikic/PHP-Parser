@@ -1275,13 +1275,19 @@ class_constant:
 
 array_short_syntax:
       '[' array_pair_list ']'
-          { $attrs = attributes(); $attrs['kind'] = Expr\Array_::KIND_SHORT;
+          { $attrs = attributes();
+            $attrs['kind'] = $this->isMultiline($attrs)
+                ? Expr\Array_::KIND_SHORT | Expr\Array_::KIND_MULTILINE
+                : Expr\Array_::KIND_SHORT;
             $$ = new Expr\Array_($2, $attrs); }
 ;
 
 dereferenceable_scalar:
       T_ARRAY '(' array_pair_list ')'
-          { $attrs = attributes(); $attrs['kind'] = Expr\Array_::KIND_LONG;
+          { $attrs = attributes();
+            $attrs['kind'] = $this->isMultiline($attrs)
+                ? Expr\Array_::KIND_LONG | Expr\Array_::KIND_MULTILINE
+                : Expr\Array_::KIND_LONG;
             $$ = new Expr\Array_($3, $attrs);
             $this->createdArrays->offsetSet($$); }
     | array_short_syntax
