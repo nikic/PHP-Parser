@@ -53,15 +53,16 @@ abstract class CallLike extends Expr {
      * Retrieves a specific argument from the raw arguments.
      *
      * Returns the named argument that matches the given `$name`, or the
-     * positional (unnamed) argument that exists at the given `$position`,
-     * otherwise, returns `null` for first-class callables or if no match is found.
+     * positional (unnamed) argument that exists at the given `$position`.
+     * Returns `null` if no match is found, or when a "..." placeholder is
+     * encountered, as argument positions are no longer known past that point.
      */
     public function getArg(string $name, int $position): ?Arg {
-        if ($this->isFirstClassCallable()) {
-            return null;
-        }
         foreach ($this->getRawArgs() as $i => $arg) {
-            if (!$arg instanceof Arg || $arg->unpack) {
+            if ($arg instanceof VariadicPlaceholder) {
+                return null;
+            }
+            if ($arg->unpack) {
                 continue;
             }
             if (

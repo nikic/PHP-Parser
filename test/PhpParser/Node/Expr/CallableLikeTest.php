@@ -89,8 +89,8 @@ class CallableLikeTest extends \PHPUnit\Framework\TestCase {
         $namedBar = new Arg(new Int_(2), false, false, [], new Identifier('bar'));
         $placeholder = new Arg(new Placeholder());
         return [
-            // A "..." placeholder mixed into an argument list is skipped.
-            [new FuncCall(new Name('test'), [$foo, new VariadicPlaceholder(), $namedBar]), $namedBar],
+            // Argument positions are no longer known past a "..." placeholder.
+            [new FuncCall(new Name('test'), [$foo, new VariadicPlaceholder(), $namedBar]), null],
             [new FuncCall(new Name('test'), [$foo, new VariadicPlaceholder()]), null],
             // A "?" placeholder occupies its argument position.
             [new FuncCall(new Name('test'), [$foo, $placeholder]), $placeholder],
