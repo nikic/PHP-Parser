@@ -1,0 +1,407 @@
+Partial function application
+-----
+<?php
+
+$f = strlen(?);
+$f = foo(1, ?);
+$f = foo(?, ...);
+$f = foo(name: ?);
+$f = foo(1, ?, name: ?, ...);
+$f = $obj->foo(?);
+$f = A::foo(?);
+
+// These are invalid, but accepted on the parser level.
+$f = new Foo(?);
+$f = $obj?->foo(?);
+$f = foo(..., 1);
+$f = foo(?,);
+
+#[Foo(?)]
+function foo() {}
+-----
+array(
+    0: Stmt_Expression(
+        expr: Expr_Assign(
+            var: Expr_Variable(
+                name: f
+            )
+            expr: Expr_FuncCall(
+                name: Name(
+                    name: strlen
+                )
+                args: array(
+                    0: Arg(
+                        name: null
+                        value: Expr_Placeholder(
+                        )
+                        byRef: false
+                        unpack: false
+                    )
+                )
+            )
+        )
+    )
+    1: Stmt_Expression(
+        expr: Expr_Assign(
+            var: Expr_Variable(
+                name: f
+            )
+            expr: Expr_FuncCall(
+                name: Name(
+                    name: foo
+                )
+                args: array(
+                    0: Arg(
+                        name: null
+                        value: Scalar_Int(
+                            value: 1
+                        )
+                        byRef: false
+                        unpack: false
+                    )
+                    1: Arg(
+                        name: null
+                        value: Expr_Placeholder(
+                        )
+                        byRef: false
+                        unpack: false
+                    )
+                )
+            )
+        )
+    )
+    2: Stmt_Expression(
+        expr: Expr_Assign(
+            var: Expr_Variable(
+                name: f
+            )
+            expr: Expr_FuncCall(
+                name: Name(
+                    name: foo
+                )
+                args: array(
+                    0: Arg(
+                        name: null
+                        value: Expr_Placeholder(
+                        )
+                        byRef: false
+                        unpack: false
+                    )
+                    1: VariadicPlaceholder(
+                    )
+                )
+            )
+        )
+    )
+    3: Stmt_Expression(
+        expr: Expr_Assign(
+            var: Expr_Variable(
+                name: f
+            )
+            expr: Expr_FuncCall(
+                name: Name(
+                    name: foo
+                )
+                args: array(
+                    0: Arg(
+                        name: Identifier(
+                            name: name
+                        )
+                        value: Expr_Placeholder(
+                        )
+                        byRef: false
+                        unpack: false
+                    )
+                )
+            )
+        )
+    )
+    4: Stmt_Expression(
+        expr: Expr_Assign(
+            var: Expr_Variable(
+                name: f
+            )
+            expr: Expr_FuncCall(
+                name: Name(
+                    name: foo
+                )
+                args: array(
+                    0: Arg(
+                        name: null
+                        value: Scalar_Int(
+                            value: 1
+                        )
+                        byRef: false
+                        unpack: false
+                    )
+                    1: Arg(
+                        name: null
+                        value: Expr_Placeholder(
+                        )
+                        byRef: false
+                        unpack: false
+                    )
+                    2: Arg(
+                        name: Identifier(
+                            name: name
+                        )
+                        value: Expr_Placeholder(
+                        )
+                        byRef: false
+                        unpack: false
+                    )
+                    3: VariadicPlaceholder(
+                    )
+                )
+            )
+        )
+    )
+    5: Stmt_Expression(
+        expr: Expr_Assign(
+            var: Expr_Variable(
+                name: f
+            )
+            expr: Expr_MethodCall(
+                var: Expr_Variable(
+                    name: obj
+                )
+                name: Identifier(
+                    name: foo
+                )
+                args: array(
+                    0: Arg(
+                        name: null
+                        value: Expr_Placeholder(
+                        )
+                        byRef: false
+                        unpack: false
+                    )
+                )
+            )
+        )
+    )
+    6: Stmt_Expression(
+        expr: Expr_Assign(
+            var: Expr_Variable(
+                name: f
+            )
+            expr: Expr_StaticCall(
+                class: Name(
+                    name: A
+                )
+                name: Identifier(
+                    name: foo
+                )
+                args: array(
+                    0: Arg(
+                        name: null
+                        value: Expr_Placeholder(
+                        )
+                        byRef: false
+                        unpack: false
+                    )
+                )
+            )
+        )
+    )
+    7: Stmt_Expression(
+        expr: Expr_Assign(
+            var: Expr_Variable(
+                name: f
+            )
+            expr: Expr_New(
+                class: Name(
+                    name: Foo
+                )
+                args: array(
+                    0: Arg(
+                        name: null
+                        value: Expr_Placeholder(
+                        )
+                        byRef: false
+                        unpack: false
+                    )
+                )
+            )
+        )
+        comments: array(
+            0: // These are invalid, but accepted on the parser level.
+        )
+    )
+    8: Stmt_Expression(
+        expr: Expr_Assign(
+            var: Expr_Variable(
+                name: f
+            )
+            expr: Expr_NullsafeMethodCall(
+                var: Expr_Variable(
+                    name: obj
+                )
+                name: Identifier(
+                    name: foo
+                )
+                args: array(
+                    0: Arg(
+                        name: null
+                        value: Expr_Placeholder(
+                        )
+                        byRef: false
+                        unpack: false
+                    )
+                )
+            )
+        )
+    )
+    9: Stmt_Expression(
+        expr: Expr_Assign(
+            var: Expr_Variable(
+                name: f
+            )
+            expr: Expr_FuncCall(
+                name: Name(
+                    name: foo
+                )
+                args: array(
+                    0: VariadicPlaceholder(
+                    )
+                    1: Arg(
+                        name: null
+                        value: Scalar_Int(
+                            value: 1
+                        )
+                        byRef: false
+                        unpack: false
+                    )
+                )
+            )
+        )
+    )
+    10: Stmt_Expression(
+        expr: Expr_Assign(
+            var: Expr_Variable(
+                name: f
+            )
+            expr: Expr_FuncCall(
+                name: Name(
+                    name: foo
+                )
+                args: array(
+                    0: Arg(
+                        name: null
+                        value: Expr_Placeholder(
+                        )
+                        byRef: false
+                        unpack: false
+                    )
+                )
+            )
+        )
+    )
+    11: Stmt_Function(
+        attrGroups: array(
+            0: AttributeGroup(
+                attrs: array(
+                    0: Attribute(
+                        name: Name(
+                            name: Foo
+                        )
+                        args: array(
+                            0: Arg(
+                                name: null
+                                value: Expr_Placeholder(
+                                )
+                                byRef: false
+                                unpack: false
+                            )
+                        )
+                    )
+                )
+            )
+        )
+        byRef: false
+        name: Identifier(
+            name: foo
+        )
+        params: array(
+        )
+        returnType: null
+        stmts: array(
+        )
+    )
+)
+-----
+<?php
+$f = strlen(?);
+$f = foo(?, ...);
+$f = foo(name: ?);
+-----
+!!version=7.4
+array(
+    0: Stmt_Expression(
+        expr: Expr_Assign(
+            var: Expr_Variable(
+                name: f
+            )
+            expr: Expr_FuncCall(
+                name: Name(
+                    name: strlen
+                )
+                args: array(
+                    0: Arg(
+                        name: null
+                        value: Expr_Placeholder(
+                        )
+                        byRef: false
+                        unpack: false
+                    )
+                )
+            )
+        )
+    )
+    1: Stmt_Expression(
+        expr: Expr_Assign(
+            var: Expr_Variable(
+                name: f
+            )
+            expr: Expr_FuncCall(
+                name: Name(
+                    name: foo
+                )
+                args: array(
+                    0: Arg(
+                        name: null
+                        value: Expr_Placeholder(
+                        )
+                        byRef: false
+                        unpack: false
+                    )
+                    1: VariadicPlaceholder(
+                    )
+                )
+            )
+        )
+    )
+    2: Stmt_Expression(
+        expr: Expr_Assign(
+            var: Expr_Variable(
+                name: f
+            )
+            expr: Expr_FuncCall(
+                name: Name(
+                    name: foo
+                )
+                args: array(
+                    0: Arg(
+                        name: Identifier(
+                            name: name
+                        )
+                        value: Expr_Placeholder(
+                        )
+                        byRef: false
+                        unpack: false
+                    )
+                )
+            )
+        )
+    )
+)
