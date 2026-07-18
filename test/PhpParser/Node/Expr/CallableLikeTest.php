@@ -31,7 +31,7 @@ class CallableLikeTest extends \PHPUnit\Framework\TestCase {
      */
     public function testIsPartialFunctionApplication(CallLike $node, bool $isPartialFunctionApplication): void {
         $this->assertSame($isPartialFunctionApplication, $node->isPartialFunctionApplication());
-        if (!$isPartialFunctionApplication && !$node->isFirstClassCallable()) {
+        if (!$isPartialFunctionApplication) {
             $this->assertSame($node->getRawArgs(), $node->getArgs());
         }
     }
@@ -70,8 +70,8 @@ class CallableLikeTest extends \PHPUnit\Framework\TestCase {
         return [
             [new FuncCall(new Name('test'), []), false],
             [new FuncCall(new Name('test'), $normalArgs), false],
-            // A lone "..." is a first-class callable, not a partial function application.
-            [new FuncCall(new Name('test'), $callableArgs), false],
+            // A first-class callable is a special case of partial function application.
+            [new FuncCall(new Name('test'), $callableArgs), true],
             [new FuncCall(new Name('test'), $placeholderArgs), true],
             [new FuncCall(new Name('test'), $namedPlaceholderArgs), true],
             [new FuncCall(new Name('test'), $trailingVariadicArgs), true],

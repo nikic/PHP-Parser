@@ -25,13 +25,11 @@ abstract class CallLike extends Expr {
 
     /**
      * Returns whether this call expression is a partial function application, i.e. whether its
-     * argument list contains one or more "?" placeholders, or a "..." placeholder combined with
-     * other arguments.
+     * argument list contains one or more "?" placeholders or a "..." placeholder. First-class
+     * callables are a special case of partial function application, so this also returns true
+     * for them.
      */
     public function isPartialFunctionApplication(): bool {
-        if ($this->isFirstClassCallable()) {
-            return false;
-        }
         foreach ($this->getRawArgs() as $arg) {
             if ($arg instanceof VariadicPlaceholder || $arg->value instanceof Placeholder) {
                 return true;
@@ -41,13 +39,13 @@ abstract class CallLike extends Expr {
     }
 
     /**
-     * Assert that this is not a first-class callable or partial function application and return
-     * only ordinary Args.
+     * Assert that this is not a partial function application (which includes first-class
+     * callables) and return only ordinary Args.
      *
      * @return Arg[]
      */
     public function getArgs(): array {
-        assert(!$this->isFirstClassCallable() && !$this->isPartialFunctionApplication());
+        assert(!$this->isPartialFunctionApplication());
         return $this->getRawArgs();
     }
 
