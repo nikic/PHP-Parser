@@ -5,6 +5,7 @@ namespace PhpParser\Node\Expr;
 use PhpParser\Node\Arg;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Name;
+use PhpParser\Node\Placeholder;
 use PhpParser\Node\Scalar\Int_;
 use PhpParser\Node\VariadicPlaceholder;
 
@@ -64,8 +65,8 @@ class CallableLikeTest extends \PHPUnit\Framework\TestCase {
     public static function provideTestIsPartialFunctionApplication() {
         $normalArgs = [new Arg(new Int_(1))];
         $callableArgs = [new VariadicPlaceholder()];
-        $placeholderArgs = [new Arg(new Placeholder())];
-        $namedPlaceholderArgs = [new Arg(new Placeholder(), false, false, [], new Identifier('name'))];
+        $placeholderArgs = [new Placeholder()];
+        $namedPlaceholderArgs = [new Placeholder(new Identifier('name'))];
         $trailingVariadicArgs = [new Arg(new Int_(1)), new VariadicPlaceholder()];
         return [
             [new FuncCall(new Name('test'), []), false],
@@ -86,14 +87,18 @@ class CallableLikeTest extends \PHPUnit\Framework\TestCase {
 
     public static function provideTestGetArgWithPlaceholders() {
         $foo = new Arg(new Int_(1));
+        $bar = new Arg(new Int_(2));
         $namedBar = new Arg(new Int_(2), false, false, [], new Identifier('bar'));
-        $placeholder = new Arg(new Placeholder());
+        $placeholder = new Placeholder();
         return [
             // Argument positions are no longer known past a "..." placeholder.
             [new FuncCall(new Name('test'), [$foo, new VariadicPlaceholder(), $namedBar]), null],
             [new FuncCall(new Name('test'), [$foo, new VariadicPlaceholder()]), null],
-            // A "?" placeholder occupies its argument position.
-            [new FuncCall(new Name('test'), [$foo, $placeholder]), $placeholder],
+            // A "?" placeholder occupies its argument position, but is not an actual argument.
+            [new FuncCall(new Name('test'), [$foo, $placeholder]), null],
+            // Argument positions are still known past a "?" placeholder.
+            [new FuncCall(new Name('test'), [$placeholder, $bar]), $bar],
+            [new FuncCall(new Name('test'), [$placeholder, $namedBar]), $namedBar],
         ];
     }
 

@@ -30,12 +30,8 @@ array(
                     name: strlen
                 )
                 args: array(
-                    0: Arg(
+                    0: Placeholder(
                         name: null
-                        value: Expr_Placeholder(
-                        )
-                        byRef: false
-                        unpack: false
                     )
                 )
             )
@@ -59,12 +55,8 @@ array(
                         byRef: false
                         unpack: false
                     )
-                    1: Arg(
+                    1: Placeholder(
                         name: null
-                        value: Expr_Placeholder(
-                        )
-                        byRef: false
-                        unpack: false
                     )
                 )
             )
@@ -80,12 +72,8 @@ array(
                     name: foo
                 )
                 args: array(
-                    0: Arg(
+                    0: Placeholder(
                         name: null
-                        value: Expr_Placeholder(
-                        )
-                        byRef: false
-                        unpack: false
                     )
                     1: VariadicPlaceholder(
                     )
@@ -103,14 +91,10 @@ array(
                     name: foo
                 )
                 args: array(
-                    0: Arg(
+                    0: Placeholder(
                         name: Identifier(
                             name: name
                         )
-                        value: Expr_Placeholder(
-                        )
-                        byRef: false
-                        unpack: false
                     )
                 )
             )
@@ -134,21 +118,13 @@ array(
                         byRef: false
                         unpack: false
                     )
-                    1: Arg(
+                    1: Placeholder(
                         name: null
-                        value: Expr_Placeholder(
-                        )
-                        byRef: false
-                        unpack: false
                     )
-                    2: Arg(
+                    2: Placeholder(
                         name: Identifier(
                             name: name
                         )
-                        value: Expr_Placeholder(
-                        )
-                        byRef: false
-                        unpack: false
                     )
                     3: VariadicPlaceholder(
                     )
@@ -169,12 +145,8 @@ array(
                     name: foo
                 )
                 args: array(
-                    0: Arg(
+                    0: Placeholder(
                         name: null
-                        value: Expr_Placeholder(
-                        )
-                        byRef: false
-                        unpack: false
                     )
                 )
             )
@@ -193,12 +165,8 @@ array(
                     name: foo
                 )
                 args: array(
-                    0: Arg(
+                    0: Placeholder(
                         name: null
-                        value: Expr_Placeholder(
-                        )
-                        byRef: false
-                        unpack: false
                     )
                 )
             )
@@ -214,12 +182,8 @@ array(
                     name: Foo
                 )
                 args: array(
-                    0: Arg(
+                    0: Placeholder(
                         name: null
-                        value: Expr_Placeholder(
-                        )
-                        byRef: false
-                        unpack: false
                     )
                 )
             )
@@ -241,12 +205,8 @@ array(
                     name: foo
                 )
                 args: array(
-                    0: Arg(
+                    0: Placeholder(
                         name: null
-                        value: Expr_Placeholder(
-                        )
-                        byRef: false
-                        unpack: false
                     )
                 )
             )
@@ -286,12 +246,8 @@ array(
                     name: foo
                 )
                 args: array(
-                    0: Arg(
+                    0: Placeholder(
                         name: null
-                        value: Expr_Placeholder(
-                        )
-                        byRef: false
-                        unpack: false
                     )
                 )
             )
@@ -306,12 +262,8 @@ array(
                             name: Foo
                         )
                         args: array(
-                            0: Arg(
+                            0: Placeholder(
                                 name: null
-                                value: Expr_Placeholder(
-                                )
-                                byRef: false
-                                unpack: false
                             )
                         )
                     )
@@ -347,12 +299,8 @@ array(
                     name: strlen
                 )
                 args: array(
-                    0: Arg(
+                    0: Placeholder(
                         name: null
-                        value: Expr_Placeholder(
-                        )
-                        byRef: false
-                        unpack: false
                     )
                 )
             )
@@ -368,12 +316,8 @@ array(
                     name: foo
                 )
                 args: array(
-                    0: Arg(
+                    0: Placeholder(
                         name: null
-                        value: Expr_Placeholder(
-                        )
-                        byRef: false
-                        unpack: false
                     )
                     1: VariadicPlaceholder(
                     )
@@ -391,14 +335,10 @@ array(
                     name: foo
                 )
                 args: array(
-                    0: Arg(
+                    0: Placeholder(
                         name: Identifier(
                             name: name
                         )
-                        value: Expr_Placeholder(
-                        )
-                        byRef: false
-                        unpack: false
                     )
                 )
             )
