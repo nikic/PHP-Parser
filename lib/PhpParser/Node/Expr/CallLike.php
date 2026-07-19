@@ -4,14 +4,15 @@ namespace PhpParser\Node\Expr;
 
 use PhpParser\Node\Arg;
 use PhpParser\Node\Expr;
+use PhpParser\Node\Placeholder;
 use PhpParser\Node\VariadicPlaceholder;
 
 abstract class CallLike extends Expr {
     /**
-     * Return raw arguments, which may be actual Args, or VariadicPlaceholders for first-class
-     * callables.
+     * Return raw arguments, which may be actual Args, VariadicPlaceholders for first-class
+     * callables, or Placeholders for partial function application.
      *
-     * @return array<Arg|VariadicPlaceholder>
+     * @return array<Arg|VariadicPlaceholder|Placeholder>
      */
     abstract public function getRawArgs(): array;
 
@@ -31,7 +32,7 @@ abstract class CallLike extends Expr {
      */
     public function isPartialFunctionApplication(): bool {
         foreach ($this->getRawArgs() as $arg) {
-            if ($arg instanceof VariadicPlaceholder || $arg->value instanceof Placeholder) {
+            if ($arg instanceof VariadicPlaceholder || $arg instanceof Placeholder) {
                 return true;
             }
         }
@@ -56,13 +57,15 @@ abstract class CallLike extends Expr {
      * positional (unnamed) argument that exists at the given `$position`.
      * Returns `null` if no match is found, or when a "..." placeholder is
      * encountered, as argument positions are no longer known past that point.
+     * A "?" placeholder occupies its argument position, but is never returned,
+     * as it is not an actual argument.
      */
     public function getArg(string $name, int $position): ?Arg {
         foreach ($this->getRawArgs() as $i => $arg) {
             if ($arg instanceof VariadicPlaceholder) {
                 return null;
             }
-            if ($arg->unpack) {
+            if ($arg instanceof Placeholder || $arg->unpack) {
                 continue;
             }
             if (

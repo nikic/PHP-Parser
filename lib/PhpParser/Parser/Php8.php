@@ -2085,13 +2085,13 @@ class Php8 extends \PhpParser\ParserAbstract
                  $self->semValue = new Node\VariadicPlaceholder($self->getAttributes($self->tokenStartStack[$stackPos-(1-1)], $self->tokenEndStack[$stackPos]));
             },
             341 => static function ($self, $stackPos) {
-                 $self->semValue = new Node\Arg(new Expr\Placeholder($self->getAttributes($self->tokenStartStack[$stackPos-(1-1)],  $self->tokenEndStack[$stackPos-(1-1)])), false, false, $self->getAttributes($self->tokenStartStack[$stackPos-(1-1)], $self->tokenEndStack[$stackPos]));
+                 $self->semValue = new Node\Placeholder(null, $self->getAttributes($self->tokenStartStack[$stackPos-(1-1)], $self->tokenEndStack[$stackPos]));
             },
             342 => static function ($self, $stackPos) {
                  $self->semValue = new Node\Arg($self->semStack[$stackPos-(3-3)], false, false, $self->getAttributes($self->tokenStartStack[$stackPos-(3-1)], $self->tokenEndStack[$stackPos]), $self->semStack[$stackPos-(3-1)]);
             },
             343 => static function ($self, $stackPos) {
-                 $self->semValue = new Node\Arg(new Expr\Placeholder($self->getAttributes($self->tokenStartStack[$stackPos-(3-3)],  $self->tokenEndStack[$stackPos-(3-3)])), false, false, $self->getAttributes($self->tokenStartStack[$stackPos-(3-1)], $self->tokenEndStack[$stackPos]), $self->semStack[$stackPos-(3-1)]);
+                 $self->semValue = new Node\Placeholder($self->semStack[$stackPos-(3-1)], $self->getAttributes($self->tokenStartStack[$stackPos-(3-1)], $self->tokenEndStack[$stackPos]));
             },
             344 => static function ($self, $stackPos) {
                  $self->semValue = new Node\Arg($self->semStack[$stackPos-(1-1)], false, false, $self->getAttributes($self->tokenStartStack[$stackPos-(1-1)], $self->tokenEndStack[$stackPos]));
