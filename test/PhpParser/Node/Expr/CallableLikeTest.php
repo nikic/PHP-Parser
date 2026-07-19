@@ -5,6 +5,7 @@ namespace PhpParser\Node\Expr;
 use PhpParser\Node\Arg;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Name;
+use PhpParser\Node\Placeholder;
 use PhpParser\Node\Scalar\Int_;
 use PhpParser\Node\VariadicPlaceholder;
 
@@ -26,6 +27,23 @@ class CallableLikeTest extends \PHPUnit\Framework\TestCase {
         $this->assertSame($expected, $node->getArg('bar', 1));
     }
 
+    /**
+     * @dataProvider provideTestIsPartialFunctionApplication
+     */
+    public function testIsPartialFunctionApplication(CallLike $node, bool $isPartialFunctionApplication): void {
+        $this->assertSame($isPartialFunctionApplication, $node->isPartialFunctionApplication());
+        if (!$isPartialFunctionApplication) {
+            $this->assertSame($node->getRawArgs(), $node->getArgs());
+        }
+    }
+
+    /**
+     * @dataProvider provideTestGetArgWithPlaceholders
+     */
+    public function testGetArgWithPlaceholders(CallLike $node, ?Arg $expected): void {
+        $this->assertSame($expected, $node->getArg('bar', 1));
+    }
+
     public static function provideTestIsFirstClassCallable() {
         $normalArgs = [new Arg(new Int_(1))];
         $callableArgs = [new VariadicPlaceholder()];
@@ -41,6 +59,46 @@ class CallableLikeTest extends \PHPUnit\Framework\TestCase {
             // This is not legal code, but accepted by the parser.
             [new New_(new Name('Test'), $callableArgs), true],
             [new NullsafeMethodCall(new Variable('this'), 'test', $callableArgs), true],
+        ];
+    }
+
+    public static function provideTestIsPartialFunctionApplication() {
+        $normalArgs = [new Arg(new Int_(1))];
+        $callableArgs = [new VariadicPlaceholder()];
+        $placeholderArgs = [new Placeholder()];
+        $namedPlaceholderArgs = [new Placeholder(new Identifier('name'))];
+        $trailingVariadicArgs = [new Arg(new Int_(1)), new VariadicPlaceholder()];
+        return [
+            [new FuncCall(new Name('test'), []), false],
+            [new FuncCall(new Name('test'), $normalArgs), false],
+            // A first-class callable is a special case of partial function application.
+            [new FuncCall(new Name('test'), $callableArgs), true],
+            [new FuncCall(new Name('test'), $placeholderArgs), true],
+            [new FuncCall(new Name('test'), $namedPlaceholderArgs), true],
+            [new FuncCall(new Name('test'), $trailingVariadicArgs), true],
+            [new MethodCall(new Variable('this'), 'test', $placeholderArgs), true],
+            [new MethodCall(new Variable('this'), 'test', $normalArgs), false],
+            [new StaticCall(new Name('Test'), 'test', $placeholderArgs), true],
+            [new StaticCall(new Name('Test'), 'test', $trailingVariadicArgs), true],
+            [new NullsafeMethodCall(new Variable('this'), 'test', $placeholderArgs), true],
+            [new New_(new Name('Test'), $placeholderArgs), true],
+        ];
+    }
+
+    public static function provideTestGetArgWithPlaceholders() {
+        $foo = new Arg(new Int_(1));
+        $bar = new Arg(new Int_(2));
+        $namedBar = new Arg(new Int_(2), false, false, [], new Identifier('bar'));
+        $placeholder = new Placeholder();
+        return [
+            // Argument positions are no longer known past a "..." placeholder.
+            [new FuncCall(new Name('test'), [$foo, new VariadicPlaceholder(), $namedBar]), null],
+            [new FuncCall(new Name('test'), [$foo, new VariadicPlaceholder()]), null],
+            // A "?" placeholder occupies its argument position, but is not an actual argument.
+            [new FuncCall(new Name('test'), [$foo, $placeholder]), null],
+            // Argument positions are still known past a "?" placeholder.
+            [new FuncCall(new Name('test'), [$placeholder, $bar]), $bar],
+            [new FuncCall(new Name('test'), [$placeholder, $namedBar]), $namedBar],
         ];
     }
 

@@ -4,14 +4,15 @@ namespace PhpParser\Node\Expr;
 
 use PhpParser\Node\Arg;
 use PhpParser\Node\Expr;
+use PhpParser\Node\Placeholder;
 use PhpParser\Node\VariadicPlaceholder;
 
 abstract class CallLike extends Expr {
     /**
-     * Return raw arguments, which may be actual Args, or VariadicPlaceholders for first-class
-     * callables.
+     * Return raw arguments, which may be actual Args, VariadicPlaceholders for first-class
+     * callables, or Placeholders for partial function application.
      *
-     * @return array<Arg|VariadicPlaceholder>
+     * @return array<Arg|VariadicPlaceholder|Placeholder>
      */
     abstract public function getRawArgs(): array;
 
@@ -24,12 +25,28 @@ abstract class CallLike extends Expr {
     }
 
     /**
-     * Assert that this is not a first-class callable and return only ordinary Args.
+     * Returns whether this call expression is a partial function application, i.e. whether its
+     * argument list contains one or more "?" placeholders or a "..." placeholder. First-class
+     * callables are a special case of partial function application, so this also returns true
+     * for them.
+     */
+    public function isPartialFunctionApplication(): bool {
+        foreach ($this->getRawArgs() as $arg) {
+            if ($arg instanceof VariadicPlaceholder || $arg instanceof Placeholder) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Assert that this is not a partial function application (which includes first-class
+     * callables) and return only ordinary Args.
      *
      * @return Arg[]
      */
     public function getArgs(): array {
-        assert(!$this->isFirstClassCallable());
+        assert(!$this->isPartialFunctionApplication());
         return $this->getRawArgs();
     }
 
@@ -37,15 +54,18 @@ abstract class CallLike extends Expr {
      * Retrieves a specific argument from the raw arguments.
      *
      * Returns the named argument that matches the given `$name`, or the
-     * positional (unnamed) argument that exists at the given `$position`,
-     * otherwise, returns `null` for first-class callables or if no match is found.
+     * positional (unnamed) argument that exists at the given `$position`.
+     * Returns `null` if no match is found, or when a "..." placeholder is
+     * encountered, as argument positions are no longer known past that point.
+     * A "?" placeholder occupies its argument position, but is never returned,
+     * as it is not an actual argument.
      */
     public function getArg(string $name, int $position): ?Arg {
-        if ($this->isFirstClassCallable()) {
-            return null;
-        }
         foreach ($this->getRawArgs() as $i => $arg) {
-            if ($arg->unpack) {
+            if ($arg instanceof VariadicPlaceholder) {
+                return null;
+            }
+            if ($arg instanceof Placeholder || $arg->unpack) {
                 continue;
             }
             if (
