@@ -19,7 +19,7 @@ class Lexer {
      * @param string $code The source code to tokenize.
      * @param ErrorHandler|null $errorHandler Error handler to use for lexing errors. Defaults to
      *                                        ErrorHandler\Throwing.
-     * @return Token[] Tokens
+     * @return list<Token> Tokens
      */
     public function tokenize(string $code, ?ErrorHandler $errorHandler = null): array {
         if (null === $errorHandler) {
