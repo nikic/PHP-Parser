@@ -24,12 +24,14 @@ abstract class CallLike extends Expr {
     }
 
     /**
-     * Assert that this is not a first-class callable and return only ordinary Args.
+     * Return only ordinary Args.
      *
      * @return Arg[]
      */
     public function getArgs(): array {
-        assert(!$this->isFirstClassCallable());
+        if ($this->isFirstClassCallable()) {
+            return [];
+        }
         return $this->getRawArgs();
     }
 
