@@ -6,7 +6,7 @@ $a = 42;
 /*
 $b = 24;
 -----
-Unterminated comment from 4:1 to 5:9
+Unterminated comment from 4:1 to 5:8
 array(
     0: Stmt_Expression(
         expr: Expr_Assign(
@@ -139,5 +139,5 @@ if ($b) {
     /* unterminated
 }
 -----
-Unterminated comment from 5:5 to 6:2
+Unterminated comment from 5:5 to 6:1
 Syntax error, unexpected EOF from 6:2 to 6:2
