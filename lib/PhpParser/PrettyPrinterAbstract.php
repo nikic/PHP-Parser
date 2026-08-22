@@ -495,17 +495,37 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
      * This mirrors the pPrefixOp() call sites in Standard. Operations with dynamically
      * computed or version-dependent operator strings (arrow functions, yield) are excluded,
      * they simply terminate the chain and are rendered recursively.
+     *
+     * @return array{class-string, string, Node}|null
      */
     private function getChainablePrefixOp(Node $node): ?array {
-        if ($node instanceof Expr\BooleanNot) return [Expr\BooleanNot::class, '!', $node->expr];
-        if ($node instanceof Expr\BitwiseNot) return [Expr\BitwiseNot::class, '~', $node->expr];
-        if ($node instanceof Expr\UnaryMinus) return [Expr\UnaryMinus::class, '-', $node->expr];
-        if ($node instanceof Expr\UnaryPlus) return [Expr\UnaryPlus::class, '+', $node->expr];
-        if ($node instanceof Expr\ErrorSuppress) return [Expr\ErrorSuppress::class, '@', $node->expr];
-        if ($node instanceof Expr\YieldFrom) return [Expr\YieldFrom::class, 'yield from ', $node->expr];
-        if ($node instanceof Expr\Print_) return [Expr\Print_::class, 'print ', $node->expr];
-        if ($node instanceof Expr\Clone_) return [Expr\Clone_::class, 'clone ', $node->expr];
-        if ($node instanceof Expr\Throw_) return [Expr\Throw_::class, 'throw ', $node->expr];
+        if ($node instanceof Expr\BooleanNot) {
+            return [Expr\BooleanNot::class, '!', $node->expr];
+        }
+        if ($node instanceof Expr\BitwiseNot) {
+            return [Expr\BitwiseNot::class, '~', $node->expr];
+        }
+        if ($node instanceof Expr\UnaryMinus) {
+            return [Expr\UnaryMinus::class, '-', $node->expr];
+        }
+        if ($node instanceof Expr\UnaryPlus) {
+            return [Expr\UnaryPlus::class, '+', $node->expr];
+        }
+        if ($node instanceof Expr\ErrorSuppress) {
+            return [Expr\ErrorSuppress::class, '@', $node->expr];
+        }
+        if ($node instanceof Expr\YieldFrom) {
+            return [Expr\YieldFrom::class, 'yield from ', $node->expr];
+        }
+        if ($node instanceof Expr\Print_) {
+            return [Expr\Print_::class, 'print ', $node->expr];
+        }
+        if ($node instanceof Expr\Clone_) {
+            return [Expr\Clone_::class, 'clone ', $node->expr];
+        }
+        if ($node instanceof Expr\Throw_) {
+            return [Expr\Throw_::class, 'throw ', $node->expr];
+        }
         if ($node instanceof Expr\Include_) {
             static $includeMap = [
                 Expr\Include_::TYPE_INCLUDE => 'include',
@@ -515,21 +535,39 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
             ];
             return [Expr\Include_::class, $includeMap[$node->type] . ' ', $node->expr];
         }
-        if ($node instanceof Cast\Int_) return [Cast\Int_::class, '(int) ', $node->expr];
+        if ($node instanceof Cast\Int_) {
+            return [Cast\Int_::class, '(int) ', $node->expr];
+        }
         if ($node instanceof Cast\Double) {
             $kind = $node->getAttribute('kind', Cast\Double::KIND_DOUBLE);
             $cast = $kind === Cast\Double::KIND_FLOAT ? '(float)'
                 : ($kind === Cast\Double::KIND_REAL ? '(real)' : '(double)');
             return [Cast\Double::class, $cast . ' ', $node->expr];
         }
-        if ($node instanceof Cast\String_) return [Cast\String_::class, '(string) ', $node->expr];
-        if ($node instanceof Cast\Array_) return [Cast\Array_::class, '(array) ', $node->expr];
-        if ($node instanceof Cast\Object_) return [Cast\Object_::class, '(object) ', $node->expr];
-        if ($node instanceof Cast\Bool_) return [Cast\Bool_::class, '(bool) ', $node->expr];
-        if ($node instanceof Cast\Unset_) return [Cast\Unset_::class, '(unset) ', $node->expr];
-        if ($node instanceof Cast\Void_) return [Cast\Void_::class, '(void) ', $node->expr];
-        if ($node instanceof Expr\Assign) return [Expr\Assign::class, $this->p($node->var) . ' = ', $node->expr];
-        if ($node instanceof Expr\AssignRef) return [Expr\AssignRef::class, $this->p($node->var) . ' =& ', $node->expr];
+        if ($node instanceof Cast\String_) {
+            return [Cast\String_::class, '(string) ', $node->expr];
+        }
+        if ($node instanceof Cast\Array_) {
+            return [Cast\Array_::class, '(array) ', $node->expr];
+        }
+        if ($node instanceof Cast\Object_) {
+            return [Cast\Object_::class, '(object) ', $node->expr];
+        }
+        if ($node instanceof Cast\Bool_) {
+            return [Cast\Bool_::class, '(bool) ', $node->expr];
+        }
+        if ($node instanceof Cast\Unset_) {
+            return [Cast\Unset_::class, '(unset) ', $node->expr];
+        }
+        if ($node instanceof Cast\Void_) {
+            return [Cast\Void_::class, '(void) ', $node->expr];
+        }
+        if ($node instanceof Expr\Assign) {
+            return [Expr\Assign::class, $this->p($node->var) . ' = ', $node->expr];
+        }
+        if ($node instanceof Expr\AssignRef) {
+            return [Expr\AssignRef::class, $this->p($node->var) . ' =& ', $node->expr];
+        }
         if ($node instanceof AssignOp) {
             static $assignOpSigils = [
                 AssignOp\Plus::class => '+',
@@ -546,11 +584,11 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
                 AssignOp\Pow::class => '**',
                 AssignOp\Coalesce::class => '??',
             ];
-            $sigil = $assignOpSigils[$node::class] ?? null;
+            $sigil = $assignOpSigils[get_class($node)] ?? null;
             if ($sigil === null) {
                 return null;
             }
-            return [$node::class, $this->p($node->var) . ' ' . $sigil . '= ', $node->expr];
+            return [get_class($node), $this->p($node->var) . ' ' . $sigil . '= ', $node->expr];
         }
         return null;
     }
