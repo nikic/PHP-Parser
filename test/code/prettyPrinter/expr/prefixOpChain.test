@@ -1,0 +1,23 @@
+Prefix operator chains
+-----
+<?php
+
+$a = !!!!!$b;
+$a = - - - -$c;
+$a = + + + + $d;
+$a = ~~~$e;
+$a = @(!!$f);
+$a = (int) (int) (string) $g;
+$a = clone clone $h;
+$a = + - + -$i;
+$a = !-(int)+$j;
+-----
+$a = !!!!!$b;
+$a = -(-(-(-$c)));
+$a = +(+(+(+$d)));
+$a = ~~~$e;
+$a = @!!$f;
+$a = (int) (int) (string) $g;
+$a = clone clone $h;
+$a = +-+-$i;
+$a = !-(int) +$j;

@@ -422,6 +422,61 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
             $suffix = ')';
             $lhsPrecedence = self::MAX_PRECEDENCE;
         }
+
+        // Rendering a chain of prefix operations recursively (as done below for a single
+        // level) copies the child rendering once per nesting level, which costs quadratic
+        // time and memory on deeply nested expressions like "!!!!...$a". If the operand is
+        // itself a prefix operation, walk the whole chain, render the innermost operand
+        // once and compose the operators around it in linear time instead. The result is
+        // byte-identical to the recursive rendering.
+        if ($chainLink = $this->getChainablePrefixOp($node)) {
+            $levels = [[$prefix, $operatorString, $suffix]];
+            while ($chainLink !== null) {
+                [$class, $operatorString, $node] = $chainLink;
+                $opPrecedence = $this->precedenceMap[$class][0];
+                $prefix = $suffix = '';
+                if ($opPrecedence >= $lhsPrecedence) {
+                    $prefix = '(';
+                    $suffix = ')';
+                    $lhsPrecedence = self::MAX_PRECEDENCE;
+                }
+                $levels[] = [$prefix, $operatorString, $suffix];
+                $chainLink = $this->getChainablePrefixOp($node);
+            }
+
+            // Decide which levels need parentheses around their operand to avoid
+            // printing +(+$a) as ++$a and similar. This requires the first character
+            // of each operand rendering, which is determined inner-to-outer.
+            $numLevels = \count($levels);
+            $printedArg = $this->p($node, $opPrecedence, $lhsPrecedence);
+            $firstChar = $printedArg === '' ? '' : $printedArg[0];
+            $avoid = [];
+            for ($i = $numLevels - 1; $i >= 0; $i--) {
+                [$prefix, $operatorString, $suffix] = $levels[$i];
+                $avoid[$i] = ($operatorString === '+' || $operatorString === '-') && $firstChar === $operatorString;
+                $firstChar = $prefix === '' ? $operatorString[0] : '(';
+            }
+
+            $parts = [];
+            for ($i = 0; $i < $numLevels; $i++) {
+                [$prefix, $operatorString, $suffix] = $levels[$i];
+                $parts[] = $prefix;
+                $parts[] = $operatorString;
+                if ($avoid[$i]) {
+                    $parts[] = '(';
+                }
+            }
+            $parts[] = $printedArg;
+            for ($i = $numLevels - 1; $i >= 0; $i--) {
+                [, , $suffix] = $levels[$i];
+                if ($avoid[$i]) {
+                    $parts[] = ')';
+                }
+                $parts[] = $suffix;
+            }
+            return implode('', $parts);
+        }
+
         $printedArg = $this->p($node, $opPrecedence, $lhsPrecedence);
         if (($operatorString === '+' && $printedArg[0] === '+') ||
             ($operatorString === '-' && $printedArg[0] === '-')
@@ -430,6 +485,74 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
             $printedArg = '(' . $printedArg . ')';
         }
         return $prefix . $operatorString . $printedArg . $suffix;
+    }
+
+    /**
+     * If the node is printed through pPrefixOp(), returns the arguments that pPrefixOp()
+     * will be called with for this node: an array of the operation class, the operator
+     * string and the operand node. Otherwise returns null.
+     *
+     * This mirrors the pPrefixOp() call sites in Standard. Operations with dynamically
+     * computed or version-dependent operator strings (arrow functions, yield) are excluded,
+     * they simply terminate the chain and are rendered recursively.
+     */
+    private function getChainablePrefixOp(Node $node): ?array {
+        if ($node instanceof Expr\BooleanNot) return [Expr\BooleanNot::class, '!', $node->expr];
+        if ($node instanceof Expr\BitwiseNot) return [Expr\BitwiseNot::class, '~', $node->expr];
+        if ($node instanceof Expr\UnaryMinus) return [Expr\UnaryMinus::class, '-', $node->expr];
+        if ($node instanceof Expr\UnaryPlus) return [Expr\UnaryPlus::class, '+', $node->expr];
+        if ($node instanceof Expr\ErrorSuppress) return [Expr\ErrorSuppress::class, '@', $node->expr];
+        if ($node instanceof Expr\YieldFrom) return [Expr\YieldFrom::class, 'yield from ', $node->expr];
+        if ($node instanceof Expr\Print_) return [Expr\Print_::class, 'print ', $node->expr];
+        if ($node instanceof Expr\Clone_) return [Expr\Clone_::class, 'clone ', $node->expr];
+        if ($node instanceof Expr\Throw_) return [Expr\Throw_::class, 'throw ', $node->expr];
+        if ($node instanceof Expr\Include_) {
+            static $includeMap = [
+                Expr\Include_::TYPE_INCLUDE => 'include',
+                Expr\Include_::TYPE_INCLUDE_ONCE => 'include_once',
+                Expr\Include_::TYPE_REQUIRE => 'require',
+                Expr\Include_::TYPE_REQUIRE_ONCE => 'require_once',
+            ];
+            return [Expr\Include_::class, $includeMap[$node->type] . ' ', $node->expr];
+        }
+        if ($node instanceof Cast\Int_) return [Cast\Int_::class, '(int) ', $node->expr];
+        if ($node instanceof Cast\Double) {
+            $kind = $node->getAttribute('kind', Cast\Double::KIND_DOUBLE);
+            $cast = $kind === Cast\Double::KIND_FLOAT ? '(float)'
+                : ($kind === Cast\Double::KIND_REAL ? '(real)' : '(double)');
+            return [Cast\Double::class, $cast . ' ', $node->expr];
+        }
+        if ($node instanceof Cast\String_) return [Cast\String_::class, '(string) ', $node->expr];
+        if ($node instanceof Cast\Array_) return [Cast\Array_::class, '(array) ', $node->expr];
+        if ($node instanceof Cast\Object_) return [Cast\Object_::class, '(object) ', $node->expr];
+        if ($node instanceof Cast\Bool_) return [Cast\Bool_::class, '(bool) ', $node->expr];
+        if ($node instanceof Cast\Unset_) return [Cast\Unset_::class, '(unset) ', $node->expr];
+        if ($node instanceof Cast\Void_) return [Cast\Void_::class, '(void) ', $node->expr];
+        if ($node instanceof Expr\Assign) return [Expr\Assign::class, $this->p($node->var) . ' = ', $node->expr];
+        if ($node instanceof Expr\AssignRef) return [Expr\AssignRef::class, $this->p($node->var) . ' =& ', $node->expr];
+        if ($node instanceof AssignOp) {
+            static $assignOpSigils = [
+                AssignOp\Plus::class => '+',
+                AssignOp\Minus::class => '-',
+                AssignOp\Mul::class => '*',
+                AssignOp\Div::class => '/',
+                AssignOp\Concat::class => '.',
+                AssignOp\Mod::class => '%',
+                AssignOp\BitwiseAnd::class => '&',
+                AssignOp\BitwiseOr::class => '|',
+                AssignOp\BitwiseXor::class => '^',
+                AssignOp\ShiftLeft::class => '<<',
+                AssignOp\ShiftRight::class => '>>',
+                AssignOp\Pow::class => '**',
+                AssignOp\Coalesce::class => '??',
+            ];
+            $sigil = $assignOpSigils[$node::class] ?? null;
+            if ($sigil === null) {
+                return null;
+            }
+            return [$node::class, $this->p($node->var) . ' ' . $sigil . '= ', $node->expr];
+        }
+        return null;
     }
 
     /**
