@@ -1186,8 +1186,8 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
      */
     protected function dereferenceLhsRequiresParens(Node $node): bool {
         // A constant can occur on the LHS of an array/object deref, but not a static deref.
-        return $this->staticDereferenceLhsRequiresParens($node)
-            && !$node instanceof Expr\ConstFetch;
+        return !$node instanceof Expr\ConstFetch &&
+            $this->staticDereferenceLhsRequiresParens($node);
     }
 
     /**
