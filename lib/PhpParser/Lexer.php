@@ -102,11 +102,16 @@ class Lexer {
         // Check for unterminated comment
         $lastToken = $tokens[$numTokens - 1];
         if ($this->isUnterminatedComment($lastToken)) {
+            // endFilePos is inclusive, unlike the exclusive getEndPos(). An unterminated comment
+            // is the one comment token that can end on a newline, and a range ending on a line
+            // terminator has no column, so the reported range stops at the last content
+            // character instead.
+            $text = \rtrim($lastToken->text, "\r\n");
             $errorHandler->handleError(new Error('Unterminated comment', [
                 'startLine' => $lastToken->line,
-                'endLine' => $lastToken->getEndLine(),
+                'endLine' => $lastToken->line + \substr_count($text, "\n"),
                 'startFilePos' => $lastToken->pos,
-                'endFilePos' => $lastToken->getEndPos(),
+                'endFilePos' => $lastToken->pos + \strlen($text) - 1,
             ]));
         }
 
