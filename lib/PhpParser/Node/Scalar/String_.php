@@ -74,17 +74,23 @@ class String_ extends Scalar {
             $bLength = 1;
         }
 
-        if ('\'' === $str[$bLength]) {
+        $quote = $str[$bLength];
+        $str = substr($str, $bLength + 1, -1);
+
+        if ('\'' === $quote) {
+            // Fast path: a string without any backslash contains no escape sequences.
+            if (false === strpos($str, '\\')) {
+                return $str;
+            }
+
             return str_replace(
                 ['\\\\', '\\\''],
                 ['\\', '\''],
-                substr($str, $bLength + 1, -1)
-            );
-        } else {
-            return self::parseEscapeSequences(
-                substr($str, $bLength + 1, -1), '"', $parseUnicodeEscape
+                $str
             );
         }
+
+        return self::parseEscapeSequences($str, '"', $parseUnicodeEscape);
     }
 
     /**
@@ -99,6 +105,11 @@ class String_ extends Scalar {
      * @return string String with escape sequences parsed
      */
     public static function parseEscapeSequences(string $str, ?string $quote, bool $parseUnicodeEscape = true): string {
+        // Fast path: a string without any backslash contains no escape sequences.
+        if (false === strpos($str, '\\')) {
+            return $str;
+        }
+
         if (null !== $quote) {
             $str = str_replace('\\' . $quote, $quote, $str);
         }
