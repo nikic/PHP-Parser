@@ -3,16 +3,16 @@
 namespace PhpParser\Node\Expr;
 
 use PhpParser\Node\Arg;
+use PhpParser\Node\ArgPlaceholder;
 use PhpParser\Node\Expr;
-use PhpParser\Node\Placeholder;
 use PhpParser\Node\VariadicPlaceholder;
 
 abstract class CallLike extends Expr {
     /**
      * Return raw arguments, which may be actual Args, VariadicPlaceholders for first-class
-     * callables, or Placeholders for partial function application.
+     * callables, or ArgPlaceholders for partial function application.
      *
-     * @return array<Arg|VariadicPlaceholder|Placeholder>
+     * @return array<Arg|VariadicPlaceholder|ArgPlaceholder>
      */
     abstract public function getRawArgs(): array;
 
@@ -32,7 +32,7 @@ abstract class CallLike extends Expr {
      */
     public function isPartialFunctionApplication(): bool {
         foreach ($this->getRawArgs() as $arg) {
-            if ($arg instanceof VariadicPlaceholder || $arg instanceof Placeholder) {
+            if ($arg instanceof VariadicPlaceholder || $arg instanceof ArgPlaceholder) {
                 return true;
             }
         }
@@ -65,7 +65,7 @@ abstract class CallLike extends Expr {
             if ($arg instanceof VariadicPlaceholder) {
                 return null;
             }
-            if ($arg instanceof Placeholder || $arg->unpack) {
+            if ($arg instanceof ArgPlaceholder || $arg->unpack) {
                 continue;
             }
             if (

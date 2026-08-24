@@ -9,7 +9,7 @@ use PhpParser\NodeAbstract;
  * e.g. the "?" in "foo(?)". Like VariadicPlaceholder, it occurs in the argument list
  * of a call, in place of an ordinary Arg.
  */
-class Placeholder extends NodeAbstract {
+class ArgPlaceholder extends NodeAbstract {
     /** @var Identifier|null Parameter name (for named placeholders) */
     public ?Identifier $name;
 
@@ -29,6 +29,6 @@ class Placeholder extends NodeAbstract {
     }
 
     public function getType(): string {
-        return 'Placeholder';
+        return 'ArgPlaceholder';
     }
 }

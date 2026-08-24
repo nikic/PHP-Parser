@@ -37,7 +37,7 @@ class Standard extends PrettyPrinterAbstract {
         return '...';
     }
 
-    protected function pPlaceholder(Node\Placeholder $node): string {
+    protected function pArgPlaceholder(Node\ArgPlaceholder $node): string {
         return ($node->name ? $node->name->toString() . ': ' : '') . '?';
     }
 

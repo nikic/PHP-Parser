@@ -4,9 +4,9 @@ namespace PhpParser\Node\Expr;
 
 use PhpParser\Node;
 use PhpParser\Node\Arg;
+use PhpParser\Node\ArgPlaceholder;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Identifier;
-use PhpParser\Node\Placeholder;
 use PhpParser\Node\VariadicPlaceholder;
 
 class StaticCall extends CallLike {
@@ -14,7 +14,7 @@ class StaticCall extends CallLike {
     public Node $class;
     /** @var Identifier|Expr Method name */
     public Node $name;
-    /** @var array<Arg|VariadicPlaceholder|Placeholder> Arguments */
+    /** @var array<Arg|VariadicPlaceholder|ArgPlaceholder> Arguments */
     public array $args;
 
     /**
@@ -22,7 +22,7 @@ class StaticCall extends CallLike {
      *
      * @param Node\Name|Expr $class Class name
      * @param string|Identifier|Expr $name Method name
-     * @param array<Arg|VariadicPlaceholder|Placeholder> $args Arguments
+     * @param array<Arg|VariadicPlaceholder|ArgPlaceholder> $args Arguments
      * @param array<string, mixed> $attributes Additional attributes
      */
     public function __construct(Node $class, $name, array $args = [], array $attributes = []) {

@@ -811,10 +811,10 @@ argument_no_expr:
       ampersand variable                                    { $$ = Node\Arg[$2, true, false]; }
     | T_ELLIPSIS expr                                       { $$ = Node\Arg[$2, false, true]; }
     | T_ELLIPSIS                                            { $$ = Node\VariadicPlaceholder[]; }
-    | '?'                                                   { $$ = Node\Placeholder[null]; }
+    | '?'                                                   { $$ = Node\ArgPlaceholder[null]; }
     | identifier_maybe_reserved ':' expr
           { $$ = new Node\Arg($3, false, false, attributes(), $1); }
-    | identifier_maybe_reserved ':' '?'                     { $$ = Node\Placeholder[$1]; }
+    | identifier_maybe_reserved ':' '?'                     { $$ = Node\ArgPlaceholder[$1]; }
 ;
 
 argument:
