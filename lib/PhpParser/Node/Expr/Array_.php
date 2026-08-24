@@ -9,6 +9,7 @@ class Array_ extends Expr {
     // For use in "kind" attribute
     public const KIND_LONG = 1;  // array() syntax
     public const KIND_SHORT = 2; // [] syntax
+    public const KIND_MULTILINE = 4; // force multiline formatting
 
     /** @var ArrayItem[] Items */
     public array $items;
