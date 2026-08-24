@@ -77,12 +77,12 @@ class String_ extends Scalar {
         $quote = $str[$bLength];
         $str = substr($str, $bLength + 1, -1);
 
-        // Fast path: a string without any backslash contains no escape sequences.
-        if (false === strpos($str, '\\')) {
-            return $str;
-        }
-
         if ('\'' === $quote) {
+            // Fast path: a string without any backslash contains no escape sequences.
+            if (false === strpos($str, '\\')) {
+                return $str;
+            }
+
             return str_replace(
                 ['\\\\', '\\\''],
                 ['\\', '\''],
