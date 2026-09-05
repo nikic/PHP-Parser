@@ -1,0 +1,19 @@
+Partial function application
+-----
+<?php
+
+$f = strlen(?);
+$f = foo(1, ?);
+$f = foo(?, ...);
+$f = foo(name: ?);
+$f = foo(1, ?, name: ?, ...);
+$f = $obj->foo(?);
+$f = A::foo(?);
+-----
+$f = strlen(?);
+$f = foo(1, ?);
+$f = foo(?, ...);
+$f = foo(name: ?);
+$f = foo(1, ?, name: ?, ...);
+$f = $obj->foo(?);
+$f = A::foo(?);
