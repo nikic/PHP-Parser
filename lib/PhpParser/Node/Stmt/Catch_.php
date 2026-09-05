@@ -5,7 +5,7 @@ namespace PhpParser\Node\Stmt;
 use PhpParser\Node;
 use PhpParser\Node\Expr;
 
-class Catch_ extends Node\Stmt {
+class Catch_ extends Node\Stmt implements Node\ContainsStmts {
     /** @var Node\Name[] Types of exceptions to catch */
     public array $types;
     /** @var Expr\Variable|null Variable for exception */
