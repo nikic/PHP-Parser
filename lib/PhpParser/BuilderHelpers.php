@@ -184,6 +184,7 @@ final class BuilderHelpers {
             'int',
             'float',
             'string',
+            'resource',
             'iterable',
             'void',
             'object',

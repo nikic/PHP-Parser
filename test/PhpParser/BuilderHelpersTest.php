@@ -131,6 +131,7 @@ class BuilderHelpersTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals(new Node\Identifier('mixed'), BuilderHelpers::normalizeType('mixed'));
         $this->assertEquals(new Node\Identifier('never'), BuilderHelpers::normalizeType('never'));
         $this->assertEquals(new Node\Identifier('true'), BuilderHelpers::normalizeType('true'));
+        $this->assertEquals(new Node\Identifier('resource'), BuilderHelpers::normalizeType('resource'));
 
         $intIdentifier = new Node\Identifier('int');
         $this->assertSame($intIdentifier, BuilderHelpers::normalizeType($intIdentifier));
