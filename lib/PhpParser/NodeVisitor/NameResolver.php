@@ -53,6 +53,23 @@ class NameResolver extends NodeVisitorAbstract {
     }
 
     public function enterNode(Node $node) {
+        // Dispatch by node category first, so most nodes only need a few instanceof checks
+        if ($node instanceof Stmt) {
+            $this->resolveStmt($node);
+        } elseif ($node instanceof Expr) {
+            $this->resolveExpr($node);
+        } elseif ($node instanceof Node\PropertyHook) {
+            foreach ($node->params as $param) {
+                $param->type = $this->resolveType($param->type);
+                $this->resolveAttrGroups($param);
+            }
+            $this->resolveAttrGroups($node);
+        }
+
+        return null;
+    }
+
+    private function resolveStmt(Stmt $node): void {
         if ($node instanceof Stmt\Namespace_) {
             $this->nameContext->startNamespace($node->name);
         } elseif ($node instanceof Stmt\Use_) {
@@ -99,21 +116,12 @@ class NameResolver extends NodeVisitorAbstract {
             $this->resolveSignature($node);
             $this->resolveAttrGroups($node);
             $this->addNamespacedName($node);
-        } elseif ($node instanceof Stmt\ClassMethod
-                  || $node instanceof Expr\Closure
-                  || $node instanceof Expr\ArrowFunction
-        ) {
+        } elseif ($node instanceof Stmt\ClassMethod) {
             $this->resolveSignature($node);
             $this->resolveAttrGroups($node);
         } elseif ($node instanceof Stmt\Property) {
             if (null !== $node->type) {
                 $node->type = $this->resolveType($node->type);
-            }
-            $this->resolveAttrGroups($node);
-        } elseif ($node instanceof Node\PropertyHook) {
-            foreach ($node->params as $param) {
-                $param->type = $this->resolveType($param->type);
-                $this->resolveAttrGroups($param);
             }
             $this->resolveAttrGroups($node);
         } elseif ($node instanceof Stmt\Const_) {
@@ -128,25 +136,10 @@ class NameResolver extends NodeVisitorAbstract {
             $this->resolveAttrGroups($node);
         } elseif ($node instanceof Stmt\EnumCase) {
             $this->resolveAttrGroups($node);
-        } elseif ($node instanceof Expr\StaticCall
-                  || $node instanceof Expr\StaticPropertyFetch
-                  || $node instanceof Expr\ClassConstFetch
-                  || $node instanceof Expr\New_
-                  || $node instanceof Expr\Instanceof_
-        ) {
-            if ($node->class instanceof Name) {
-                $node->class = $this->resolveClassName($node->class);
-            }
         } elseif ($node instanceof Stmt\Catch_) {
             foreach ($node->types as &$type) {
                 $type = $this->resolveClassName($type);
             }
-        } elseif ($node instanceof Expr\FuncCall) {
-            if ($node->name instanceof Name) {
-                $node->name = $this->resolveName($node->name, Stmt\Use_::TYPE_FUNCTION);
-            }
-        } elseif ($node instanceof Expr\ConstFetch) {
-            $node->name = $this->resolveName($node->name, Stmt\Use_::TYPE_CONSTANT);
         } elseif ($node instanceof Stmt\TraitUse) {
             foreach ($node->traits as &$trait) {
                 $trait = $this->resolveClassName($trait);
@@ -164,8 +157,30 @@ class NameResolver extends NodeVisitorAbstract {
                 }
             }
         }
+    }
 
-        return null;
+    private function resolveExpr(Expr $node): void {
+        if ($node instanceof Expr\Closure
+            || $node instanceof Expr\ArrowFunction
+        ) {
+            $this->resolveSignature($node);
+            $this->resolveAttrGroups($node);
+        } elseif ($node instanceof Expr\StaticCall
+                  || $node instanceof Expr\StaticPropertyFetch
+                  || $node instanceof Expr\ClassConstFetch
+                  || $node instanceof Expr\New_
+                  || $node instanceof Expr\Instanceof_
+        ) {
+            if ($node->class instanceof Name) {
+                $node->class = $this->resolveClassName($node->class);
+            }
+        } elseif ($node instanceof Expr\FuncCall) {
+            if ($node->name instanceof Name) {
+                $node->name = $this->resolveName($node->name, Stmt\Use_::TYPE_FUNCTION);
+            }
+        } elseif ($node instanceof Expr\ConstFetch) {
+            $node->name = $this->resolveName($node->name, Stmt\Use_::TYPE_CONSTANT);
+        }
     }
 
     /** @param Stmt\Use_::TYPE_* $type */
