@@ -53,134 +53,163 @@ class NameResolver extends NodeVisitorAbstract {
     }
 
     public function enterNode(Node $node) {
-        // Dispatch by node category first, so most nodes only need a few instanceof checks
-        if ($node instanceof Stmt) {
-            $this->resolveStmt($node);
-        } elseif ($node instanceof Expr) {
-            $this->resolveExpr($node);
-        } elseif ($node instanceof Node\PropertyHook) {
-            foreach ($node->params as $param) {
-                $param->type = $this->resolveType($param->type);
-                $this->resolveAttrGroups($param);
-            }
-            $this->resolveAttrGroups($node);
+        // Dispatch on the node type in a single check, rather than a chain of instanceof checks
+        switch ($node->getType()) {
+            case 'Stmt_Namespace':
+                assert($node instanceof Stmt\Namespace_);
+                $this->nameContext->startNamespace($node->name);
+                break;
+            case 'Stmt_Use':
+                assert($node instanceof Stmt\Use_);
+                foreach ($node->uses as $use) {
+                    $this->addAlias($use, $node->type, null);
+                }
+                break;
+            case 'Stmt_GroupUse':
+                assert($node instanceof Stmt\GroupUse);
+                foreach ($node->uses as $use) {
+                    $this->addAlias($use, $node->type, $node->prefix);
+                }
+                break;
+            case 'Stmt_Class':
+                assert($node instanceof Stmt\Class_);
+                if (null !== $node->extends) {
+                    $node->extends = $this->resolveClassName($node->extends);
+                }
+
+                foreach ($node->implements as &$interface) {
+                    $interface = $this->resolveClassName($interface);
+                }
+
+                $this->resolveAttrGroups($node);
+                if (null !== $node->name) {
+                    $this->addNamespacedName($node);
+                } else {
+                    $node->namespacedName = null;
+                }
+                break;
+            case 'Stmt_Interface':
+                assert($node instanceof Stmt\Interface_);
+                foreach ($node->extends as &$interface) {
+                    $interface = $this->resolveClassName($interface);
+                }
+
+                $this->resolveAttrGroups($node);
+                $this->addNamespacedName($node);
+                break;
+            case 'Stmt_Enum':
+                assert($node instanceof Stmt\Enum_);
+                foreach ($node->implements as &$interface) {
+                    $interface = $this->resolveClassName($interface);
+                }
+
+                $this->resolveAttrGroups($node);
+                $this->addNamespacedName($node);
+                break;
+            case 'Stmt_Trait':
+                assert($node instanceof Stmt\Trait_);
+                $this->resolveAttrGroups($node);
+                $this->addNamespacedName($node);
+                break;
+            case 'Stmt_Function':
+                assert($node instanceof Stmt\Function_);
+                $this->resolveSignature($node);
+                $this->resolveAttrGroups($node);
+                $this->addNamespacedName($node);
+                break;
+            case 'Stmt_ClassMethod':
+            case 'Expr_Closure':
+            case 'Expr_ArrowFunction':
+                assert($node instanceof Stmt\ClassMethod
+                       || $node instanceof Expr\Closure
+                       || $node instanceof Expr\ArrowFunction);
+                $this->resolveSignature($node);
+                $this->resolveAttrGroups($node);
+                break;
+            case 'Stmt_Property':
+                assert($node instanceof Stmt\Property);
+                if (null !== $node->type) {
+                    $node->type = $this->resolveType($node->type);
+                }
+                $this->resolveAttrGroups($node);
+                break;
+            case 'PropertyHook':
+                assert($node instanceof Node\PropertyHook);
+                foreach ($node->params as $param) {
+                    $param->type = $this->resolveType($param->type);
+                    $this->resolveAttrGroups($param);
+                }
+                $this->resolveAttrGroups($node);
+                break;
+            case 'Stmt_Const':
+                assert($node instanceof Stmt\Const_);
+                foreach ($node->consts as $const) {
+                    $this->addNamespacedName($const);
+                }
+                $this->resolveAttrGroups($node);
+                break;
+            case 'Stmt_ClassConst':
+                assert($node instanceof Stmt\ClassConst);
+                if (null !== $node->type) {
+                    $node->type = $this->resolveType($node->type);
+                }
+                $this->resolveAttrGroups($node);
+                break;
+            case 'Stmt_EnumCase':
+                assert($node instanceof Stmt\EnumCase);
+                $this->resolveAttrGroups($node);
+                break;
+            case 'Expr_StaticCall':
+            case 'Expr_StaticPropertyFetch':
+            case 'Expr_ClassConstFetch':
+            case 'Expr_New':
+            case 'Expr_Instanceof':
+                assert($node instanceof Expr\StaticCall
+                       || $node instanceof Expr\StaticPropertyFetch
+                       || $node instanceof Expr\ClassConstFetch
+                       || $node instanceof Expr\New_
+                       || $node instanceof Expr\Instanceof_);
+                if ($node->class instanceof Name) {
+                    $node->class = $this->resolveClassName($node->class);
+                }
+                break;
+            case 'Stmt_Catch':
+                assert($node instanceof Stmt\Catch_);
+                foreach ($node->types as &$type) {
+                    $type = $this->resolveClassName($type);
+                }
+                break;
+            case 'Expr_FuncCall':
+                assert($node instanceof Expr\FuncCall);
+                if ($node->name instanceof Name) {
+                    $node->name = $this->resolveName($node->name, Stmt\Use_::TYPE_FUNCTION);
+                }
+                break;
+            case 'Expr_ConstFetch':
+                assert($node instanceof Expr\ConstFetch);
+                $node->name = $this->resolveName($node->name, Stmt\Use_::TYPE_CONSTANT);
+                break;
+            case 'Stmt_TraitUse':
+                assert($node instanceof Stmt\TraitUse);
+                foreach ($node->traits as &$trait) {
+                    $trait = $this->resolveClassName($trait);
+                }
+
+                foreach ($node->adaptations as $adaptation) {
+                    if (null !== $adaptation->trait) {
+                        $adaptation->trait = $this->resolveClassName($adaptation->trait);
+                    }
+
+                    if ($adaptation instanceof Stmt\TraitUseAdaptation\Precedence) {
+                        foreach ($adaptation->insteadof as &$insteadof) {
+                            $insteadof = $this->resolveClassName($insteadof);
+                        }
+                    }
+                }
+                break;
         }
 
         return null;
-    }
-
-    private function resolveStmt(Stmt $node): void {
-        if ($node instanceof Stmt\Namespace_) {
-            $this->nameContext->startNamespace($node->name);
-        } elseif ($node instanceof Stmt\Use_) {
-            foreach ($node->uses as $use) {
-                $this->addAlias($use, $node->type, null);
-            }
-        } elseif ($node instanceof Stmt\GroupUse) {
-            foreach ($node->uses as $use) {
-                $this->addAlias($use, $node->type, $node->prefix);
-            }
-        } elseif ($node instanceof Stmt\Class_) {
-            if (null !== $node->extends) {
-                $node->extends = $this->resolveClassName($node->extends);
-            }
-
-            foreach ($node->implements as &$interface) {
-                $interface = $this->resolveClassName($interface);
-            }
-
-            $this->resolveAttrGroups($node);
-            if (null !== $node->name) {
-                $this->addNamespacedName($node);
-            } else {
-                $node->namespacedName = null;
-            }
-        } elseif ($node instanceof Stmt\Interface_) {
-            foreach ($node->extends as &$interface) {
-                $interface = $this->resolveClassName($interface);
-            }
-
-            $this->resolveAttrGroups($node);
-            $this->addNamespacedName($node);
-        } elseif ($node instanceof Stmt\Enum_) {
-            foreach ($node->implements as &$interface) {
-                $interface = $this->resolveClassName($interface);
-            }
-
-            $this->resolveAttrGroups($node);
-            $this->addNamespacedName($node);
-        } elseif ($node instanceof Stmt\Trait_) {
-            $this->resolveAttrGroups($node);
-            $this->addNamespacedName($node);
-        } elseif ($node instanceof Stmt\Function_) {
-            $this->resolveSignature($node);
-            $this->resolveAttrGroups($node);
-            $this->addNamespacedName($node);
-        } elseif ($node instanceof Stmt\ClassMethod) {
-            $this->resolveSignature($node);
-            $this->resolveAttrGroups($node);
-        } elseif ($node instanceof Stmt\Property) {
-            if (null !== $node->type) {
-                $node->type = $this->resolveType($node->type);
-            }
-            $this->resolveAttrGroups($node);
-        } elseif ($node instanceof Stmt\Const_) {
-            foreach ($node->consts as $const) {
-                $this->addNamespacedName($const);
-            }
-            $this->resolveAttrGroups($node);
-        } elseif ($node instanceof Stmt\ClassConst) {
-            if (null !== $node->type) {
-                $node->type = $this->resolveType($node->type);
-            }
-            $this->resolveAttrGroups($node);
-        } elseif ($node instanceof Stmt\EnumCase) {
-            $this->resolveAttrGroups($node);
-        } elseif ($node instanceof Stmt\Catch_) {
-            foreach ($node->types as &$type) {
-                $type = $this->resolveClassName($type);
-            }
-        } elseif ($node instanceof Stmt\TraitUse) {
-            foreach ($node->traits as &$trait) {
-                $trait = $this->resolveClassName($trait);
-            }
-
-            foreach ($node->adaptations as $adaptation) {
-                if (null !== $adaptation->trait) {
-                    $adaptation->trait = $this->resolveClassName($adaptation->trait);
-                }
-
-                if ($adaptation instanceof Stmt\TraitUseAdaptation\Precedence) {
-                    foreach ($adaptation->insteadof as &$insteadof) {
-                        $insteadof = $this->resolveClassName($insteadof);
-                    }
-                }
-            }
-        }
-    }
-
-    private function resolveExpr(Expr $node): void {
-        if ($node instanceof Expr\Closure
-            || $node instanceof Expr\ArrowFunction
-        ) {
-            $this->resolveSignature($node);
-            $this->resolveAttrGroups($node);
-        } elseif ($node instanceof Expr\StaticCall
-                  || $node instanceof Expr\StaticPropertyFetch
-                  || $node instanceof Expr\ClassConstFetch
-                  || $node instanceof Expr\New_
-                  || $node instanceof Expr\Instanceof_
-        ) {
-            if ($node->class instanceof Name) {
-                $node->class = $this->resolveClassName($node->class);
-            }
-        } elseif ($node instanceof Expr\FuncCall) {
-            if ($node->name instanceof Name) {
-                $node->name = $this->resolveName($node->name, Stmt\Use_::TYPE_FUNCTION);
-            }
-        } elseif ($node instanceof Expr\ConstFetch) {
-            $node->name = $this->resolveName($node->name, Stmt\Use_::TYPE_CONSTANT);
-        }
     }
 
     /** @param Stmt\Use_::TYPE_* $type */
