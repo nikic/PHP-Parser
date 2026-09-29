@@ -355,16 +355,39 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
         }
 
         $result = '';
+        $prevNode = null;
         foreach ($nodes as $node) {
+            // If the previous and current statement both still correspond to their original
+            // source positions (e.g. because only an unrelated ancestor node was replaced), try
+            // to preserve a blank line that separated them in the original source. Statements
+            // printed here always use a single $this->nl otherwise, even when origTokens are
+            // available, because this method does not go through the list format-preservation
+            // logic in pArray(). Only do this if the gap between them in the original source
+            // is pure whitespace: if anything else (another statement, inline HTML, a comment)
+            // used to be there, the line distance alone doesn't tell us a blank line existed.
+            if ($prevNode !== null && $this->origTokens
+                && ($prevOrigNode = $prevNode->getAttribute('origNode')) instanceof Node
+                && ($origNode = $node->getAttribute('origNode')) instanceof Node
+                && ($prevEndPos = $prevOrigNode->getEndTokenPos()) >= 0
+                && ($startPos = $origNode->getStartTokenPos()) > $prevEndPos
+            ) {
+                $gapCode = $this->origTokens->getTokenCode($prevEndPos + 1, $startPos, 0);
+                if (trim($gapCode) === '' && substr_count($gapCode, "\n") > 1) {
+                    $result .= $this->newline;
+                }
+            }
+
             $comments = $node->getComments();
             if ($comments) {
                 $result .= $this->nl . $this->pComments($comments);
                 if ($node instanceof Stmt\Nop) {
+                    $prevNode = $node;
                     continue;
                 }
             }
 
             $result .= $this->nl . $this->p($node);
+            $prevNode = $node;
         }
 
         if ($indent) {
