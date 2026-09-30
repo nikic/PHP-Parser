@@ -24,6 +24,11 @@ class ConstExprEvaluatorTest extends \PHPUnit\Framework\TestCase {
             ['[...["bar"]]', ["bar"]],
             ['[...["foo" => "bar"]]', ["foo" => "bar"]],
             ['["a", "b" => "b", ...["b" => "bb", "c"]]', ["a", "b" => "bb", "c"]],
+            ['[5 => "a", ...[1, 2]]', [5 => "a", 6 => 1, 7 => 2]],
+            ['[5 => "a", ...[]]', [5 => "a"]],
+            ['[5 => "a", 2 => "b", ...[20 => "c"], "d"]', [5 => "a", 2 => "b", 6 => "c", 7 => "d"]],
+            ['[5 => "a", ...[1], ...[2]]', [5 => "a", 6 => 1, 7 => 2]],
+            ['[5 => "a", "b" => "b", ...["b" => "bb", "c"]]', [5 => "a", "b" => "bb", 6 => "c"]],
             ['NULL', null],
             ['False', false],
             ['true', true],
@@ -79,6 +84,14 @@ class ConstExprEvaluatorTest extends \PHPUnit\Framework\TestCase {
         $this->expectExceptionMessage('Expression of type Expr_Variable cannot be evaluated');
         $evaluator = new ConstExprEvaluator();
         $evaluator->evaluateDirectly(new Expr\Variable('a'));
+    }
+
+    public function testUnpackingNonArrayFails(): void {
+        $parser = (new ParserFactory())->createForNewestSupportedVersion();
+        $expr = $parser->parse('<?php [...1];')[0]->expr;
+        $this->expectException(\Error::class);
+        $this->expectExceptionMessage('Only arrays can be unpacked in constant expression');
+        (new ConstExprEvaluator())->evaluateDirectly($expr);
     }
 
     public function testEvaluateFallbackMagicConst(): void {

@@ -5,8 +5,6 @@ namespace PhpParser;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Scalar;
 
-use function array_merge;
-
 /**
  * Evaluates constant expressions.
  *
@@ -154,7 +152,17 @@ class ConstExprEvaluator {
             if (null !== $item->key) {
                 $array[$this->evaluate($item->key)] = $this->evaluate($item->value);
             } elseif ($item->unpack) {
-                $array = array_merge($array, $this->evaluate($item->value));
+                $unpacked = $this->evaluate($item->value);
+                if (!is_array($unpacked)) {
+                    throw new \Error('Only arrays can be unpacked in constant expression');
+                }
+                foreach ($unpacked as $key => $value) {
+                    if (is_int($key)) {
+                        $array[] = $value;
+                    } else {
+                        $array[$key] = $value;
+                    }
+                }
             } else {
                 $array[] = $this->evaluate($item->value);
             }
