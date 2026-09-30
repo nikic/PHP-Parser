@@ -4,7 +4,7 @@ namespace PhpParser\Node\Stmt;
 
 use PhpParser\Node;
 
-class For_ extends Node\Stmt {
+class For_ extends Node\Stmt implements Node\ContainsStmts {
     /** @var Node\Expr[] Init expressions */
     public array $init;
     /** @var Node\Expr[] Loop conditions */
