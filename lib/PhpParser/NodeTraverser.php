@@ -110,7 +110,8 @@ class NodeTraverser implements NodeTraverserInterface {
             $traverseChildren = true;
             $visitorIndex = -1;
 
-            foreach ($this->visitors as $visitorIndex => $visitor) {
+            $visitors = $this->getVisitorsForNode($subNode);
+            foreach ($visitors as $visitorIndex => $visitor) {
                 $return = $visitor->enterNode($subNode);
                 if (null !== $return) {
                     if ($return instanceof Node) {
@@ -143,7 +144,7 @@ class NodeTraverser implements NodeTraverserInterface {
             }
 
             for (; $visitorIndex >= 0; --$visitorIndex) {
-                $visitor = $this->visitors[$visitorIndex];
+                $visitor = $visitors[$visitorIndex];
                 $return = $visitor->leaveNode($subNode);
 
                 if (null !== $return) {
@@ -192,7 +193,8 @@ class NodeTraverser implements NodeTraverserInterface {
             $traverseChildren = true;
             $visitorIndex = -1;
 
-            foreach ($this->visitors as $visitorIndex => $visitor) {
+            $visitors = $this->getVisitorsForNode($node);
+            foreach ($visitors as $visitorIndex => $visitor) {
                 $return = $visitor->enterNode($node);
                 if (null !== $return) {
                     if ($return instanceof Node) {
@@ -231,7 +233,7 @@ class NodeTraverser implements NodeTraverserInterface {
             }
 
             for (; $visitorIndex >= 0; --$visitorIndex) {
-                $visitor = $this->visitors[$visitorIndex];
+                $visitor = $visitors[$visitorIndex];
                 $return = $visitor->leaveNode($node);
 
                 if (null !== $return) {
@@ -266,6 +268,15 @@ class NodeTraverser implements NodeTraverserInterface {
         }
 
         return $nodes;
+    }
+
+    /**
+     * This method give ability to customize which visitors are applied to a given node in child class.
+     *
+     * @return NodeVisitor[]
+     */
+    protected function getVisitorsForNode(Node $node): array {
+        return $this->visitors;
     }
 
     private function ensureReplacementReasonable(Node $old, Node $new): void {
