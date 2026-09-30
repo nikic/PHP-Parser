@@ -1,0 +1,15 @@
+Test format is preserved when - is replaced with +
+-----
+<?php
+echo
+    1
+        +
+            2;
+-----
+$stmts[0]->exprs[0] = new Node\Expr\BinaryOp\Minus($stmts[0]->exprs[0]->left, $stmts[0]->exprs[0]->right);
+-----
+<?php
+echo
+    1
+        -
+            2;
