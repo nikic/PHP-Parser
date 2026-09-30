@@ -605,6 +605,13 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
         Node $node, int $precedence = self::MAX_PRECEDENCE, int $lhsPrecedence = self::MAX_PRECEDENCE,
         bool $parentFormatPreserved = false
     ): string {
+        if ($lhsPrecedence <= $this->precedenceMap[Expr\UnaryMinus::class][0]
+            && ($node instanceof Scalar\Int_ || $node instanceof Scalar\Float_)
+        ) {
+            $result = $this->p($node);
+            return strpos($result, '-') === 0 ? '(' . $result . ')' : $result;
+        }
+
         // No orig tokens means this is a normal pretty print without preservation of formatting
         if (!$this->origTokens) {
             return $this->{'p' . $node->getType()}($node, $precedence, $lhsPrecedence);
@@ -744,11 +751,11 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
                 $origIndentLevel = $this->indentLevel;
                 $this->setIndentLevel(max($this->origTokens->getIndentationBefore($subStartPos) + $indentAdjustment, 0));
 
-                // If it's the same node that was previously in this position, it certainly doesn't
-                // need fixup. It's important to check this here, because our fixup checks are more
-                // conservative than strictly necessary.
+                // Numeric scalars may change sign and need fixup even if they remain the same node.
+                // Other nodes in the same position do not need our conservative fixup checks.
                 if (isset($fixupInfo[$subNodeName])
-                    && $subNode->getAttribute('origNode') !== $origSubNode
+                    && ($subNode->getAttribute('origNode') !== $origSubNode
+                        || $subNode instanceof Scalar\Int_ || $subNode instanceof Scalar\Float_)
                 ) {
                     $fixup = $fixupInfo[$subNodeName];
                     $res = $this->pFixup($fixup, $subNode, $class, $subStartPos, $subEndPos);
