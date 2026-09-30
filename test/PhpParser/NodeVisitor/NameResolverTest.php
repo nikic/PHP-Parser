@@ -117,8 +117,8 @@ namespace {
     new \Hallo\Bar();
     new \Bar();
     new \Bar();
-    \bar();
-    \hi();
+    bar();
+    hi();
     \Hallo\bar();
     \foo\bar();
     \bar();
@@ -197,7 +197,7 @@ class A extends B implements C, D {
 
     #[X]
     const C = 1;
-    
+
     public const X A = X::Bar;
     public const X\Foo B = X\Foo::Bar;
     public const \X\Foo C = \X\Foo::Bar;
