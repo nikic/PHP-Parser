@@ -86,3 +86,35 @@ Invalid UTF-8 codepoint escape sequence: Codepoint too large on line 2
 "\u{110000}";
 -----
 Invalid UTF-8 codepoint escape sequence: Codepoint too large on line 2
+-----
+<?php
+"\u{zz}";
+-----
+Invalid UTF-8 codepoint escape sequence on line 2
+-----
+<?php
+"\u{}";
+-----
+Invalid UTF-8 codepoint escape sequence on line 2
+-----
+<?php
+"\u{4z}";
+-----
+Invalid UTF-8 codepoint escape sequence on line 2
+-----
+<?php
+"\u{41";
+-----
+Invalid UTF-8 codepoint escape sequence on line 2
+-----
+<?php
+"\u{";
+-----
+Invalid UTF-8 codepoint escape sequence on line 2
+-----
+<?php
+<<<STR
+\u{}
+STR;
+-----
+Invalid UTF-8 codepoint escape sequence on line 4
