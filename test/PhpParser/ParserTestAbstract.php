@@ -107,6 +107,33 @@ EOC;
         ], $var->getAttributes());
     }
 
+    public function testEndLineAfterTrailingNewline(): void {
+        $parser = $this->getParser(new Lexer());
+        foreach (["\n", "\r\n"] as $newline) {
+            foreach ([
+                ['<?php' . $newline . 'echo 1 ?>' . $newline . 'foo' . $newline, [[2, 2], [3, 3]]],
+                ['<?php' . $newline . 'echo 1 ?>' . $newline . 'foo' . $newline . $newline, [[2, 2], [3, 4]]],
+                ['<?php' . $newline . 'echo 1 ?>' . $newline . 'foo', [[2, 2], [3, 3]]],
+                ['<?php' . $newline . 'echo 1 ?>' . $newline, [[2, 2]]],
+            ] as [$code, $expected]) {
+                $lines = [];
+                foreach ($parser->parse($code) as $node) {
+                    $lines[] = [$node->getStartLine(), $node->getEndLine()];
+                }
+                $this->assertSame($expected, $lines);
+            }
+        }
+    }
+
+    public function testInterpolatedStringPartEndLine(): void {
+        $parser = $this->getParser(new Lexer());
+        $stmts = $parser->parse('<?php' . "\n" . '"$a' . "\n" . '$b";');
+        $part = $stmts[0]->expr->parts[1];
+        $this->assertInstanceOf(Node\InterpolatedStringPart::class, $part);
+        $this->assertSame(2, $part->getStartLine());
+        $this->assertSame(2, $part->getEndLine());
+    }
+
     public function testInvalidToken(): void {
         $this->expectException(\RangeException::class);
         $this->expectExceptionMessage('The lexer returned an invalid token (id=999, value=foobar)');
