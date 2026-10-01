@@ -12,6 +12,7 @@ class ConstExprEvaluatorTest extends \PHPUnit\Framework\TestCase {
         $expr = $parser->parse('<?php ' . $exprString . ';')[0]->expr;
         $evaluator = new ConstExprEvaluator();
         $this->assertSame($expected, $evaluator->evaluateDirectly($expr));
+        $this->assertSame($expected, $evaluator->evaluateSilently($expr));
     }
 
     public static function provideTestEvaluate() {
@@ -41,6 +42,14 @@ class ConstExprEvaluatorTest extends \PHPUnit\Framework\TestCase {
             ['null ?? 42', 42],
             ['[0][0] ?? 42', 0],
             ['[][0] ?? 42', 42],
+            ['["a" => 1]["b"]["c"] ?? 2', 2],
+            ['null["a"]["b"] ?? 3', 3],
+            ['["a" => null]["a"]["b"] ?? 3', 3],
+            ['["a" => 1]["a"]["b"] ?? 2', 2],
+            ['[][0][1][2] ?? 42', 42],
+            ['["a" => ["b" => null]]["a"]["b"] ?? 2', 2],
+            ['["a" => ["b" => 0]]["a"]["b"] ?? (1 / 0)', 0],
+            ['[["foo"]][0][0][1] ?? 42', 'o'],
             ['0b11 & 0b10', 0b10],
             ['0b11 | 0b10', 0b11],
             ['0b11 ^ 0b10', 0b01],
@@ -79,6 +88,19 @@ class ConstExprEvaluatorTest extends \PHPUnit\Framework\TestCase {
         $this->expectExceptionMessage('Expression of type Expr_Variable cannot be evaluated');
         $evaluator = new ConstExprEvaluator();
         $evaluator->evaluateDirectly(new Expr\Variable('a'));
+    }
+
+    public function testCoalesceEvaluatesOffsets(): void {
+        $parser = (new ParserFactory())->createForNewestSupportedVersion();
+        $expr = $parser->parse('<?php null["a"][1 % 0] ?? 3;')[0]->expr;
+        $evaluator = new ConstExprEvaluator();
+        try {
+            $evaluator->evaluateSilently($expr);
+            $this->fail('Expected an exception from the array offset expression');
+        } catch (ConstExprEvaluationException $e) {
+            $this->assertInstanceOf(\Error::class, $e->getPrevious());
+            $this->assertSame('Modulo by zero', $e->getPrevious()->getMessage());
+        }
     }
 
     public function testEvaluateFallbackMagicConst(): void {

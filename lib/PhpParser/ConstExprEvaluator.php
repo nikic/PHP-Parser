@@ -103,7 +103,7 @@ class ConstExprEvaluator {
     }
 
     /** @return mixed */
-    private function evaluate(Expr $expr) {
+    private function evaluate(Expr $expr, bool $issetContext = false) {
         if ($expr instanceof Scalar\Int_
             || $expr instanceof Scalar\Float_
             || $expr instanceof Scalar\String_
@@ -138,6 +138,10 @@ class ConstExprEvaluator {
         }
 
         if ($expr instanceof Expr\ArrayDimFetch && null !== $expr->dim) {
+            if ($issetContext) {
+                // This needs to be special cased to respect BP_VAR_IS fetch semantics
+                return $this->evaluate($expr->var, true)[$this->evaluate($expr->dim)] ?? null;
+            }
             return $this->evaluate($expr->var)[$this->evaluate($expr->dim)];
         }
 
@@ -175,14 +179,6 @@ class ConstExprEvaluator {
 
     /** @return mixed */
     private function evaluateBinaryOp(Expr\BinaryOp $expr) {
-        if ($expr instanceof Expr\BinaryOp\Coalesce
-            && $expr->left instanceof Expr\ArrayDimFetch
-        ) {
-            // This needs to be special cased to respect BP_VAR_IS fetch semantics
-            return $this->evaluate($expr->left->var)[$this->evaluate($expr->left->dim)]
-                ?? $this->evaluate($expr->right);
-        }
-
         // The evaluate() calls are repeated in each branch, because some of the operators are
         // short-circuiting and evaluating the RHS in advance may be illegal in that case
         $l = $expr->left;
@@ -193,7 +189,7 @@ class ConstExprEvaluator {
             case '^':   return $this->evaluate($l) ^   $this->evaluate($r);
             case '&&':  return $this->evaluate($l) &&  $this->evaluate($r);
             case '||':  return $this->evaluate($l) ||  $this->evaluate($r);
-            case '??':  return $this->evaluate($l) ??  $this->evaluate($r);
+            case '??':  return $this->evaluate($l, true) ?? $this->evaluate($r);
             case '.':   return $this->evaluate($l) .   $this->evaluate($r);
             case '/':   return $this->evaluate($l) /   $this->evaluate($r);
             case '==':  return $this->evaluate($l) ==  $this->evaluate($r);
