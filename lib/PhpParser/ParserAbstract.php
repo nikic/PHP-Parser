@@ -487,12 +487,13 @@ abstract class ParserAbstract implements Parser {
      */
     protected function getAttributes(int $tokenStartPos, int $tokenEndPos): array {
         $startToken = $this->tokens[$tokenStartPos];
+        $endToken = $this->tokens[$tokenEndPos];
         $afterEndToken = $this->tokens[$tokenEndPos + 1];
         return [
             'startLine' => $startToken->line,
             'startTokenPos' => $tokenStartPos,
             'startFilePos' => $startToken->pos,
-            'endLine' => $afterEndToken->line,
+            'endLine' => $afterEndToken->line - (substr($endToken->text, -1) === "\n" ? 1 : 0),
             'endTokenPos' => $tokenEndPos,
             'endFilePos' => $afterEndToken->pos - 1,
         ];
