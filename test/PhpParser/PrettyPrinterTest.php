@@ -165,6 +165,60 @@ class PrettyPrinterTest extends CodeTestAbstract {
         ];
     }
 
+    public function testNegativeNumbersInPow(): void {
+        $prettyPrinter = new Standard();
+        $factory = new BuilderFactory();
+        foreach ([
+            [new Int_(-5), '(-5) ** 2'],
+            [$factory->val(-5), '(-5) ** 2'],
+            [new Float_(-1.5), '(-1.5) ** 2'],
+            [$factory->val(-1.5), '(-1.5) ** 2'],
+            [new Int_(-5, ['kind' => Int_::KIND_BIN]), '(-0b101) ** 2'],
+            [new Int_(-5, ['kind' => Int_::KIND_OCT]), '(-05) ** 2'],
+            [new Int_(-5, ['kind' => Int_::KIND_HEX]), '(-0x5) ** 2'],
+            [new Int_(PHP_INT_MIN), '(-' . PHP_INT_MAX . '-1) ** 2'],
+            [new Float_(-0.0), '(-0.0) ** 2'],
+            [new Float_(-INF), '(-1.0E+1000) ** 2'],
+            [new Int_(5), '5 ** 2'],
+            [new Float_(1.5), '1.5 ** 2'],
+        ] as [$base, $expected]) {
+            $expr = new Expr\BinaryOp\Pow($base, new Int_(2));
+            $result = $prettyPrinter->prettyPrintExpr($expr);
+            $this->assertSame($expected, $result);
+            $this->assertSame($base->value ** 2, eval('return ' . $result . ';'));
+        }
+
+        $expr = new Expr\BinaryOp\Pow(new Int_(5), new Int_(-2));
+        $this->assertSame('5 ** -2', $prettyPrinter->prettyPrintExpr($expr));
+        $expr = new Expr\BinaryOp\Mul(
+            new Expr\BinaryOp\Pow(new Int_(-5), new Int_(2)), new Int_(3)
+        );
+        $this->assertSame('(-5) ** 2 * 3', $prettyPrinter->prettyPrintExpr($expr));
+    }
+
+    public function testFormatPreservingNegativeNumbersInPow(): void {
+        $parser = (new ParserFactory())->createForNewestSupportedVersion();
+        $prettyPrinter = new Standard();
+        $traverser = new NodeTraverser(new NodeVisitor\CloningVisitor());
+        foreach ([
+            ['5', new Int_(-5), '(-5)'],
+            ['1.5', new Float_(-1.5), '(-1.5)'],
+        ] as [$literal, $base, $expected]) {
+            $oldStmts = $parser->parse('<?php ' . $literal . '  **  2;');
+            $oldTokens = $parser->getTokens();
+            foreach ([true, false] as $replaceNode) {
+                $newStmts = $traverser->traverse($oldStmts);
+                if ($replaceNode) {
+                    $newStmts[0]->expr->left = $base;
+                } else {
+                    $newStmts[0]->expr->left->value = $base->value;
+                }
+                $result = $prettyPrinter->printFormatPreserving($newStmts, $oldStmts, $oldTokens);
+                $this->assertSame('<?php ' . $expected . '  **  2;', $result);
+            }
+        }
+    }
+
     /** @dataProvider provideTestCustomRawValue */
     public function printCustomRawValue($node, $expected): void {
         $prettyPrinter = new PrettyPrinter\Standard();
