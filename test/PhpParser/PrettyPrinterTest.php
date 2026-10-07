@@ -166,7 +166,7 @@ class PrettyPrinterTest extends CodeTestAbstract {
     }
 
     /** @dataProvider provideTestCustomRawValue */
-    public function printCustomRawValue($node, $expected): void {
+    public function testPrintCustomRawValue($node, $expected): void {
         $prettyPrinter = new PrettyPrinter\Standard();
         $result = $prettyPrinter->prettyPrintExpr($node);
         $this->assertSame($expected, $result);
@@ -184,6 +184,12 @@ class PrettyPrinterTest extends CodeTestAbstract {
             [new Int_(0755, ['kind' => Int_::KIND_OCT, 'rawValue' => '0755_000', 'shouldPrintRawValue' => true]), '0755_000'],
             // Without flag set, should use default formatting
             [new Int_(1000, ['rawValue' => '10_00', 'shouldPrintRawValue' => false]), '1000'],
+            // Float with separator
+            [new Float_(1000.5, ['rawValue' => '1_000.5', 'shouldPrintRawValue' => true]), '1_000.5'],
+            // Float with scientific notation
+            [new Float_(2.4578e12, ['rawValue' => '2.4578e12', 'shouldPrintRawValue' => true]), '2.4578e12'],
+            // Float without flag set, should use default formatting
+            [new Float_(1000.5, ['rawValue' => '1_000.5', 'shouldPrintRawValue' => false]), '1000.5'],
         ];
     }
 
