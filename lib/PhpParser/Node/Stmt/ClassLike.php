@@ -106,4 +106,20 @@ abstract class ClassLike extends Node\Stmt {
         }
         return null;
     }
+
+    /**
+     * Gets the line the class/interface/trait/enum declaration started in.
+     *
+     * This returns the line of the class/interface/trait/enum keyword, not the line of any
+     * preceding attributes.
+     *
+     * @return int Start line (or -1 if not available)
+     */
+    public function getStartLine(): int {
+        if ($this->name !== null && $this->name->hasAttribute('startLine')) {
+            return $this->name->getStartLine();
+        }
+
+        return parent::getStartLine();
+    }
 }
