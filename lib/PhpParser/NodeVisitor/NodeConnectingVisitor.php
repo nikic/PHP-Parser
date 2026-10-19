@@ -39,6 +39,15 @@ final class NodeConnectingVisitor extends NodeVisitorAbstract {
     }
 
     public function enterNode(Node $node) {
+        // Reconnecting a modified tree must not retain links from its old topology.
+        $attributes = $node->getAttributes();
+        if ($this->weakReferences) {
+            unset($attributes['weak_parent'], $attributes['weak_previous'], $attributes['weak_next']);
+        } else {
+            unset($attributes['parent'], $attributes['previous'], $attributes['next']);
+        }
+        $node->setAttributes($attributes);
+
         if (!empty($this->stack)) {
             $parent = $this->stack[count($this->stack) - 1];
             if ($this->weakReferences) {
