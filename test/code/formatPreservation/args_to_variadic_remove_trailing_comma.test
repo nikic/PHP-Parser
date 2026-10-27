@@ -1,0 +1,38 @@
+Replace args with VariadicPlaceholder should remove trailing comma
+-----
+<?php
+
+strlen(
+    'test',
+);
+
+strlen('another',);
+
+strlen(1, 2, 3, ) > strlen(1 , 2 , 3 ,);
+
+strlen(
+    'multiple new lines'
+
+    ,
+);
+-----
+$stmts[0]->expr->args = [new Node\VariadicPlaceholder()];
+$stmts[1]->expr->args = [new Node\VariadicPlaceholder()];
+$stmts[2]->expr->right->args = [new Node\VariadicPlaceholder()];
+$stmts[3]->expr->args = [new Node\VariadicPlaceholder()];
+-----
+<?php
+
+strlen(
+    ...
+);
+
+strlen(...);
+
+strlen(1, 2, 3, ) > strlen(...);
+
+strlen(
+    ...
+
+
+);
