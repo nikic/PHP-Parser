@@ -1,0 +1,31 @@
+Blank line between class methods is preserved when an ancestor node is replaced
+-----
+<?php
+class Foo extends Migration
+{
+    public function up()
+    {
+        //
+    }
+
+    public function down()
+    {
+        //
+    }
+}
+-----
+$stmts[0] = new Stmt\Return_(new Expr\New_($stmts[0]));
+-----
+<?php
+return new class extends Migration
+{
+    public function up()
+    {
+        //
+    }
+
+    public function down()
+    {
+        //
+    }
+};
