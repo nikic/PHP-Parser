@@ -1,0 +1,62 @@
+Precedence of nodes with preserved formatting moved into a new context
+-----
+<?php
+$x = a() && b();
+$x = $a !== null ? $a : ($b ? 'yes' : 'no');
+$x = $b - $c;
+$x = $b - $c;
+$a = $b;
+$a = $b;
+-----
+// New parent around a preserved operand
+$stmts[0]->expr->expr = new Expr\BooleanNot($stmts[0]->expr->expr);
+$stmts[1]->expr->expr = new Expr\BinaryOp\Coalesce(
+    $stmts[1]->expr->expr->if, $stmts[1]->expr->expr->else);
+$stmts[2]->expr->expr = new Expr\BinaryOp\Minus(new Expr\Variable('a'), $stmts[2]->expr->expr);
+// No parens necessary, minus is left assoc
+$stmts[3]->expr->expr = new Expr\BinaryOp\Minus($stmts[3]->expr->expr, new Expr\Variable('d'));
+// Assignment on the LHS needs parens, on the RHS it does not
+$stmts[4]->expr = new Expr\BinaryOp\BooleanAnd($stmts[4]->expr, new Expr\Variable('c'));
+$stmts[5]->expr = new Expr\BinaryOp\BooleanAnd(new Expr\Variable('c'), $stmts[5]->expr);
+-----
+<?php
+$x = !(a() && b());
+$x = $a ?? ($b ? 'yes' : 'no');
+$x = $a - ($b - $c);
+$x = $b - $c - $d;
+($a = $b) && $c;
+$c && $a = $b;
+-----
+<?php
+$a  *  $b;
+$c + $d;
+$a  *  ($b);
+$c + $d;
+-----
+// Preserved operand moved into a preserved parent
+$stmts[0]->expr->right = $stmts[1]->expr;
+// Already has parens
+$stmts[2]->expr->right = $stmts[3]->expr;
+-----
+<?php
+$a  *  ($c + $d);
+$c + $d;
+$a  *  ($c + $d);
+$c + $d;
+-----
+<?php
+$a  ||  $b;
+$c === $d = $e;
+$f >> print $g;
+$x = @$h = $i;
+-----
+// Prefix operator at the end of a preserved operand, which is now followed by an operator
+$stmts[0]->expr->left = $stmts[1]->expr;
+$stmts[2]->expr = new Expr\BinaryOp\Identical($stmts[2]->expr, new Expr\Variable('j'));
+$stmts[3]->expr->expr = new Expr\Instanceof_($stmts[3]->expr->expr, new Node\Name('Foo'));
+-----
+<?php
+$c === ($d = $e)  ||  $b;
+$c === $d = $e;
+$f >> (print $g) === $j;
+$x = @($h = $i) instanceof Foo;
