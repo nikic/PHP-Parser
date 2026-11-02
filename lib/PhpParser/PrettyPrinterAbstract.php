@@ -59,7 +59,7 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
         BinaryOp\Mod::class            => [ 40,  41,  40],
         BinaryOp\Plus::class           => [ 50,  51,  50],
         BinaryOp\Minus::class          => [ 50,  51,  50],
-        // FIXME: This precedence is incorrect for PHP 8.
+        // Precedence for PHP <= 7.4. Adjusted in constructor for PHP 8.0+.
         BinaryOp\Concat::class         => [ 50,  51,  50],
         BinaryOp\ShiftLeft::class      => [ 60,  61,  60],
         BinaryOp\ShiftRight::class     => [ 60,  61,  60],
@@ -215,6 +215,10 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
             $this->indentWidth = \strlen($indent);
         } else {
             throw new \LogicException('Option "indent" must either be all spaces or a single tab');
+        }
+
+        if ($this->phpVersion->hasLowerConcatPrecedence()) {
+            $this->precedenceMap[BinaryOp\Concat::class] = [63, 64, 63];
         }
     }
 
