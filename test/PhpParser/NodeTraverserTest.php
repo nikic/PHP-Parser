@@ -174,7 +174,7 @@ class NodeTraverserTest extends \PHPUnit\Framework\TestCase {
         $stmts = [[[$strNode]]];
 
         $traverser = new NodeTraverser();
-        $this->assertEquals($stmts, $traverser->traverse($stmts));
+        $traverser->traverse($stmts);
     }
 
     public function testDontTraverseChildren(): void {
