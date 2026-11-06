@@ -459,6 +459,63 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
     }
 
     /**
+     * Determine whether an operator node printed with preserved formatting needs parentheses.
+     *
+     * Parentheses for an operator are printed by the operator node itself (see pInfixOp(),
+     * pPrefixOp() and pPostfixOp()). If the formatting of the node is preserved, its original code
+     * is reused instead, so the same check has to be performed separately. This matters if the
+     * node has been moved into a context that binds more tightly than the original one.
+     *
+     * @param Node $node Node whose formatting is preserved
+     * @param int $precedence Precedence of parent operator
+     * @param int $lhsPrecedence Precedence for unary operator on LHS of binary operator
+     *
+     * @return bool Whether parentheses are required
+     */
+    protected function preservedOpRequiresParens(Node $node, int $precedence, int $lhsPrecedence): bool {
+        $class = \get_class($node);
+        if (!isset($this->precedenceMap[$class])) {
+            return false;
+        }
+
+        $opPrecedence = $this->precedenceMap[$class][0];
+        if ($node instanceof BinaryOp || $node instanceof Expr\Ternary || $node instanceof Expr\Instanceof_) {
+            // Infix and postfix operators
+            return $opPrecedence >= $precedence;
+        }
+
+        // Prefix operators
+        return $opPrecedence >= $lhsPrecedence;
+    }
+
+    /**
+     * Get the name of the operand at the end of an operator node.
+     *
+     * A prefix operator at the end of an expression (e.g. the assignment in `$a === $b = $c`)
+     * extends as far to the right as possible. The operand at the end of an operator therefore
+     * inherits the $lhsPrecedence of the operator (see pInfixOp() and pPrefixOp()).
+     *
+     * @param Node $node Operator node
+     *
+     * @return string|null Subnode name, or null if the node does not end with an operand
+     */
+    protected function getTrailingOperandName(Node $node): ?string {
+        if ($node instanceof BinaryOp) {
+            return 'right';
+        }
+        if ($node instanceof Expr\Ternary) {
+            return 'else';
+        }
+        if ($node instanceof Expr\Yield_) {
+            return 'value';
+        }
+        if ($node instanceof Expr\Instanceof_ || !isset($this->precedenceMap[\get_class($node)])) {
+            return null;
+        }
+        return 'expr';
+    }
+
+    /**
      * Pretty prints an array of nodes and implodes the printed values.
      *
      * @param Node[] $nodes Array of Nodes to be printed
@@ -644,6 +701,12 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
         $type = $node->getType();
         $fixupInfo = $this->fixupMap[$class] ?? null;
 
+        // The original code may have been printed in a different context, so the parentheses
+        // required by the current one have to be added here.
+        $parens = $this->preservedOpRequiresParens($node, $precedence, $lhsPrecedence);
+        $trailingOperand = !$parens && $lhsPrecedence !== self::MAX_PRECEDENCE
+            ? $this->getTrailingOperandName($node) : null;
+
         $result = '';
         $pos = $startPos;
         foreach ($node->getSubNodeNames() as $subNodeName) {
@@ -752,6 +815,10 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
                 ) {
                     $fixup = $fixupInfo[$subNodeName];
                     $res = $this->pFixup($fixup, $subNode, $class, $subStartPos, $subEndPos);
+                } elseif ($subNodeName === $trailingOperand
+                    && !$this->origTokens->haveParens($subStartPos, $subEndPos)
+                ) {
+                    $res = $this->p($subNode, self::MAX_PRECEDENCE, $lhsPrecedence, true);
                 } else {
                     $res = $this->p($subNode, self::MAX_PRECEDENCE, self::MAX_PRECEDENCE, true);
                 }
@@ -766,6 +833,9 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
         }
 
         $result .= $this->origTokens->getTokenCode($pos, $endPos + 1, $indentAdjustment);
+        if ($parens) {
+            $result = '(' . $result . ')';
+        }
         return $result;
     }
 
