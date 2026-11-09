@@ -679,6 +679,10 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
                 }
 
                 [$printFn, $skipToken, $findToken] = $this->modifierChangeMap[$key];
+                if ($skipToken === \T_NEW && $pos !== $startPos) {
+                    // Anonymous class attributes were printed, so we are already past "new".
+                    $skipToken = \T_WHITESPACE;
+                }
                 $skipWSPos = $this->origTokens->skipRight($pos, $skipToken);
                 $result .= $this->origTokens->getTokenCode($pos, $skipWSPos, $indentAdjustment);
                 $result .= $this->$printFn($subNode);
