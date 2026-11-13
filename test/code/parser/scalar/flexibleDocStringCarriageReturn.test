@@ -1,0 +1,39 @@
+Flexible doc strings with carriage returns as line endings
+-----
+<?php
+
+<<<EOT
+  a@@{ "\r" }@@  b
+  EOT;
+
+<<<'EOT'
+  a@@{ "\r" }@@  b@@{ "\r" }@@  EOT;
+
+<<<EOT
+  $a@@{ "\r" }@@  b
+  EOT;
+-----
+array(
+    0: Stmt_Expression(
+        expr: Scalar_String(
+            value: a@@{ "\r" }@@b
+        )
+    )
+    1: Stmt_Expression(
+        expr: Scalar_String(
+            value: a@@{ "\r" }@@b
+        )
+    )
+    2: Stmt_Expression(
+        expr: Scalar_InterpolatedString(
+            parts: array(
+                0: Expr_Variable(
+                    name: a
+                )
+                1: InterpolatedStringPart(
+                    value: @@{ "\r" }@@b
+                )
+            )
+        )
+    )
+)

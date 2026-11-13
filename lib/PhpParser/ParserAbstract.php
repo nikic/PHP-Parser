@@ -834,7 +834,9 @@ abstract class ParserAbstract implements Parser {
             return $string;
         }
 
-        $start = $newlineAtStart ? '(?:(?<=\n)|\A)' : '(?<=\n)';
+        // A line starts after a line feed, or after a carriage return that is not followed by a line feed
+        $lineStart = '(?:(?<=\n)|(?<=\r)(?!\n))';
+        $start = $newlineAtStart ? '(?:' . $lineStart . '|\A)' : $lineStart;
         $end = $newlineAtEnd ? '(?:(?=[\r\n])|\z)' : '(?=[\r\n])';
         $regex = '/' . $start . '([ \t]*)(' . $end . ')?/';
         return preg_replace_callback(
