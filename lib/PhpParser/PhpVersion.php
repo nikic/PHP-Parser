@@ -172,4 +172,11 @@ class PhpVersion {
     public function supportsNewDereferenceWithoutParentheses(): bool {
         return $this->id >= 80400;
     }
+
+    /**
+     * Whether this version has lower concatenation precedence (PHP 8.0+).
+     */
+    public function hasLowerConcatPrecedence(): bool {
+        return $this->id >= 80000;
+    }
 }
