@@ -1,0 +1,16 @@
+Under-indented line after a carriage return in a flexible doc string
+-----
+<?php
+
+<<<EOT
+  a@@{ "\r" }@@b
+  EOT;
+-----
+Invalid body indentation level (expecting an indentation level of at least 2) from 3:1 to 6:5
+array(
+    0: Stmt_Expression(
+        expr: Scalar_String(
+            value: a@@{ "\r" }@@b
+        )
+    )
+)
