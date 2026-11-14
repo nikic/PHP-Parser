@@ -302,7 +302,10 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
         if ($stmts[0] instanceof Stmt\InlineHTML) {
             $p = preg_replace('/^<\?php\s+\?>\r?\n?/', '', $p);
         }
-        if ($stmts[count($stmts) - 1] instanceof Stmt\InlineHTML) {
+        $lastStmt = $stmts[count($stmts) - 1];
+        // Inline HTML that ends with "<?php" would become an opening tag at the end of the file,
+        // so the opening tag that follows it is kept
+        if ($lastStmt instanceof Stmt\InlineHTML && !preg_match('/<\?php$/i', $lastStmt->value)) {
             $p = preg_replace('/<\?php$/', '', rtrim($p));
         }
 
