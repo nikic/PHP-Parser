@@ -264,7 +264,6 @@ abstract class ParserAbstract implements Parser {
         $reduceCallbacks = $this->reduceCallbacks;
         $ruleToNonTerminal = $this->ruleToNonTerminal;
         $gotoBase = $this->gotoBase;
-        $gotoTableSize = $this->gotoTableSize;
         $gotoCheck = $this->gotoCheck;
         $gotoTable = $this->goto;
         $gotoDefault = $this->gotoDefault;
@@ -297,10 +296,10 @@ abstract class ParserAbstract implements Parser {
                 }
 
                 $idx = $actionBase[$state] + $symbol;
-                if ((($idx >= 0 && $idx < $actionTableSize && $actionCheck[$idx] === $symbol)
+                // The check table is a list, so a lookup outside of it finds no entry, like the bounds checks
+                if ((($actionCheck[$idx] ?? -1) === $symbol
                      || ($state < $YY2TBLSTATE
-                         && ($idx = $actionBase[$state + $numNonLeafStates] + $symbol) >= 0
-                         && $idx < $actionTableSize && $actionCheck[$idx] === $symbol))
+                         && ($actionCheck[$idx = $actionBase[$state + $numNonLeafStates] + $symbol] ?? -1) === $symbol))
                     && ($action = $actionTable[$idx]) !== $defaultAction) {
                     /*
                      * >= numNonLeafStates: shift and reduce
@@ -353,7 +352,7 @@ abstract class ParserAbstract implements Parser {
                         $callback = $reduceCallbacks[$rule];
                         if ($callback !== null) {
                             $callback($this, $stackPos);
-                        } elseif ($ruleLength > 0) {
+                        } elseif ($ruleLength > 1) {
                             $this->semValue = $this->semStack[$stackPos - $ruleLength + 1];
                         }
                     } catch (Error $e) {
@@ -367,23 +366,33 @@ abstract class ParserAbstract implements Parser {
                     }
 
                     /* Goto - shift nonterminal */
-                    $lastTokenEnd = $this->tokenEndStack[$stackPos];
                     $stackPos -= $ruleLength;
                     $nonTerminal = $ruleToNonTerminal[$rule];
                     $idx = $gotoBase[$nonTerminal] + $stateStack[$stackPos];
-                    if ($idx >= 0 && $idx < $gotoTableSize && $gotoCheck[$idx] === $nonTerminal) {
+                    if (($gotoCheck[$idx] ?? -1) === $nonTerminal) {
                         $state = $gotoTable[$idx];
                     } else {
                         $state = $gotoDefault[$nonTerminal];
                     }
 
-                    ++$stackPos;
-                    $stateStack[$stackPos]     = $state;
-                    $this->semStack[$stackPos] = $this->semValue;
-                    $this->tokenEndStack[$stackPos] = $lastTokenEnd;
-                    if ($ruleLength === 0) {
-                        // Empty productions use the start attributes of the lookahead token.
-                        $this->tokenStartStack[$stackPos] = $this->tokenPos;
+                    if ($ruleLength === 1) {
+                        // The nonterminal replaces its only symbol, which has the same start and end,
+                        // and without an action also the same value.
+                        ++$stackPos;
+                        $stateStack[$stackPos] = $state;
+                        if ($callback !== null) {
+                            $this->semStack[$stackPos] = $this->semValue;
+                        }
+                    } else {
+                        $lastTokenEnd = $this->tokenEndStack[$stackPos + $ruleLength];
+                        ++$stackPos;
+                        $stateStack[$stackPos]     = $state;
+                        $this->semStack[$stackPos] = $this->semValue;
+                        $this->tokenEndStack[$stackPos] = $lastTokenEnd;
+                        if ($ruleLength === 0) {
+                            // Empty productions use the start attributes of the lookahead token.
+                            $this->tokenStartStack[$stackPos] = $this->tokenPos;
+                        }
                     }
                 } else {
                     /* error */
