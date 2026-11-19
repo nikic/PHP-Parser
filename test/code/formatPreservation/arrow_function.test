@@ -21,7 +21,8 @@ $stmts[0]->expr->params[] = new Node\Param(new Expr\Variable('b'));
 -----
 <?php
 fn(
-$a, $b
+$a,
+$b
 ) => $a;
 -----
 <?php
