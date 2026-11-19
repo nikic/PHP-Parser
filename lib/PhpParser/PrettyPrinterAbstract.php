@@ -10,6 +10,7 @@ use PhpParser\Node\AttributeGroup;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\AssignOp;
 use PhpParser\Node\Expr\BinaryOp;
+use PhpParser\Node\Expr\CallLike;
 use PhpParser\Node\Expr\Cast;
 use PhpParser\Node\IntersectionType;
 use PhpParser\Node\MatchArm;
@@ -765,7 +766,12 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
             $pos = $subEndPos + 1;
         }
 
-        $result .= $this->origTokens->getTokenCode($pos, $endPos + 1, $indentAdjustment);
+        if ($node instanceof CallLike && substr(trim($result), -3) === '...' && $node->isFirstClassCallable()) {
+            $result .= $this->origTokens->getTokenCode($pos, $endPos + 1, $indentAdjustment, true);
+        } else {
+            $result .= $this->origTokens->getTokenCode($pos, $endPos + 1, $indentAdjustment);
+        }
+
         return $result;
     }
 

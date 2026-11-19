@@ -220,12 +220,19 @@ class TokenStream {
      *
      * @return string Code corresponding to token range, adjusted for indentation
      */
-    public function getTokenCode(int $from, int $to, int $indent): string {
+    public function getTokenCode(int $from, int $to, int $indent, bool $removeTrailingComma = false): string {
         $tokens = $this->tokens;
         $result = '';
         for ($pos = $from; $pos < $to; $pos++) {
             $token = $tokens[$pos];
             $id = $token->id;
+
+            if ($removeTrailingComma && $token->text === ',') {
+                $token->text = '';
+                // don't try to remove trailing comma multiple times
+                $removeTrailingComma = false;
+            }
+
             $text = $token->text;
             if ($id === \T_CONSTANT_ENCAPSED_STRING || $id === \T_ENCAPSED_AND_WHITESPACE) {
                 $result .= $text;
