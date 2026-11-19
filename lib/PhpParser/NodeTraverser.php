@@ -108,6 +108,7 @@ class NodeTraverser implements NodeTraverserInterface {
             }
 
             $traverseChildren = true;
+            $nodeRemoved = false;
             $visitorIndex = -1;
 
             foreach ($this->visitors as $visitorIndex => $visitor) {
@@ -126,7 +127,8 @@ class NodeTraverser implements NodeTraverserInterface {
                         break 2;
                     } elseif (NodeVisitor::REPLACE_WITH_NULL === $return) {
                         $node->$name = null;
-                        continue 2;
+                        $nodeRemoved = true;
+                        break;
                     } else {
                         throw new \LogicException(
                             'enterNode() returned invalid value of type ' . gettype($return)
@@ -135,7 +137,7 @@ class NodeTraverser implements NodeTraverserInterface {
                 }
             }
 
-            if ($traverseChildren) {
+            if ($traverseChildren && !$nodeRemoved) {
                 $this->traverseNode($subNode);
                 if ($this->stopTraversal) {
                     break;
@@ -146,7 +148,8 @@ class NodeTraverser implements NodeTraverserInterface {
                 $visitor = $this->visitors[$visitorIndex];
                 $return = $visitor->leaveNode($subNode);
 
-                if (null !== $return) {
+                // Removed nodes may only stop traversal during leaveNode().
+                if (null !== $return && (!$nodeRemoved || NodeVisitor::STOP_TRAVERSAL === $return)) {
                     if ($return instanceof Node) {
                         $this->ensureReplacementReasonable($subNode, $return);
                         $subNode = $node->$name = $return;
@@ -190,6 +193,7 @@ class NodeTraverser implements NodeTraverserInterface {
             }
 
             $traverseChildren = true;
+            $nodeRemoved = false;
             $visitorIndex = -1;
 
             foreach ($this->visitors as $visitorIndex => $visitor) {
@@ -200,10 +204,12 @@ class NodeTraverser implements NodeTraverserInterface {
                         $nodes[$i] = $node = $return;
                     } elseif (\is_array($return)) {
                         $doNodes[] = [$i, $return];
-                        continue 2;
+                        $nodeRemoved = true;
+                        break;
                     } elseif (NodeVisitor::REMOVE_NODE === $return) {
                         $doNodes[] = [$i, []];
-                        continue 2;
+                        $nodeRemoved = true;
+                        break;
                     } elseif (NodeVisitor::DONT_TRAVERSE_CHILDREN === $return) {
                         $traverseChildren = false;
                     } elseif (NodeVisitor::DONT_TRAVERSE_CURRENT_AND_CHILDREN === $return) {
@@ -223,7 +229,7 @@ class NodeTraverser implements NodeTraverserInterface {
                 }
             }
 
-            if ($traverseChildren) {
+            if ($traverseChildren && !$nodeRemoved) {
                 $this->traverseNode($node);
                 if ($this->stopTraversal) {
                     break;
@@ -234,7 +240,8 @@ class NodeTraverser implements NodeTraverserInterface {
                 $visitor = $this->visitors[$visitorIndex];
                 $return = $visitor->leaveNode($node);
 
-                if (null !== $return) {
+                // Removed nodes may only stop traversal during leaveNode().
+                if (null !== $return && (!$nodeRemoved || NodeVisitor::STOP_TRAVERSAL === $return)) {
                     if ($return instanceof Node) {
                         $this->ensureReplacementReasonable($node, $return);
                         $nodes[$i] = $node = $return;
