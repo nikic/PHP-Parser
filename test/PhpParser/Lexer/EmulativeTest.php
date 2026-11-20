@@ -469,6 +469,11 @@ class EmulativeTest extends LexerTest {
                 [\T_PIPE, '|>'],
                 [\T_SR, '>>'],
             ]],
+            ['|>====', [
+                [\T_PIPE, '|>'],
+                [\T_IS_IDENTICAL, '==='],
+                [\ord('='), '='],
+            ]],
 
             // PHP 8.5: Void cast
             ['(void)', [
@@ -600,6 +605,16 @@ class EmulativeTest extends LexerTest {
                 [\ord('|'), '|'],
                 [\T_SR, '>>'],
                 [\ord('>'), '>'],
+            ]],
+            ['8.5', '|>====', [
+                [\T_PIPE, '|>'],
+                [\T_IS_IDENTICAL, '==='],
+                [\ord('='), '='],
+            ]],
+            ['8.4', '|>====', [
+                [\ord('|'), '|'],
+                [\T_IS_GREATER_OR_EQUAL, '>='],
+                [\T_IS_IDENTICAL, '==='],
             ]],
             ['8.4', '|> >=', [
                 [\ord('|'), '|'],

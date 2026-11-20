@@ -48,6 +48,16 @@ class PipeOperatorEmulator extends TokenEmulator {
             // Older versions lex the ">" of "|>" together with the ">" and "=" characters after it,
             // e.g. "|>=" is lexed as "|" and ">=".
             $length = $this->getGreaterOrEqualRunLength($tokens, $i + 1);
+            if ($length === 0) {
+                array_splice($tokens, $i, 1, [
+                    new Token(\ord('|'), '|', $token->line, $token->pos),
+                    new Token(\ord('>'), '>', $token->line, $token->pos + 1),
+                ]);
+                ++$i;
+                ++$c;
+                continue;
+            }
+
             $text = '>' . $this->concatTokenTexts($tokens, $i + 1, $length);
             $replacement = \array_merge(
                 [new Token(\ord('|'), '|', $token->line, $token->pos)],
