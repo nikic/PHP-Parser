@@ -445,6 +445,30 @@ class EmulativeTest extends LexerTest {
             ['|>', [
                 [\T_PIPE, '|>']
             ]],
+            ['|>=', [
+                [\T_PIPE, '|>'],
+                [\ord('='), '='],
+            ]],
+            ['|>>', [
+                [\T_PIPE, '|>'],
+                [\ord('>'), '>'],
+            ]],
+            ['|>>=', [
+                [\T_PIPE, '|>'],
+                [\T_IS_GREATER_OR_EQUAL, '>='],
+            ]],
+            ['|>==', [
+                [\T_PIPE, '|>'],
+                [\T_IS_EQUAL, '=='],
+            ]],
+            ['|>=>', [
+                [\T_PIPE, '|>'],
+                [\T_DOUBLE_ARROW, '=>'],
+            ]],
+            ['|>>>', [
+                [\T_PIPE, '|>'],
+                [\T_SR, '>>'],
+            ]],
 
             // PHP 8.5: Void cast
             ['(void)', [
@@ -470,6 +494,41 @@ class EmulativeTest extends LexerTest {
     public function testTargetVersion(string $phpVersion, string $code, array $expectedTokens): void {
         $lexer = new Emulative(PhpVersion::fromString($phpVersion));
         $this->assertSameTokens($expectedTokens, $lexer->tokenize('<?php ' . $code));
+    }
+
+    /**
+     * @dataProvider provideTestPipeOperatorTokenPositions
+     */
+    public function testPipeOperatorTokenPositions(string $phpVersion, array $expectedTokens): void {
+        $lexer = new Emulative(PhpVersion::fromString($phpVersion));
+        $this->assertEquals($expectedTokens, $lexer->tokenize("<?php\n\$a |>>= \$b;"));
+    }
+
+    public static function provideTestPipeOperatorTokenPositions() {
+        return [
+            ['8.5', [
+                new Token(\T_OPEN_TAG, "<?php\n", 1, 0),
+                new Token(\T_VARIABLE, '$a', 2, 6),
+                new Token(\T_WHITESPACE, ' ', 2, 8),
+                new Token(\T_PIPE, '|>', 2, 9),
+                new Token(\T_IS_GREATER_OR_EQUAL, '>=', 2, 11),
+                new Token(\T_WHITESPACE, ' ', 2, 13),
+                new Token(\T_VARIABLE, '$b', 2, 14),
+                new Token(\ord(';'), ';', 2, 16),
+                new Token(0, "\0", 2, 17),
+            ]],
+            ['8.4', [
+                new Token(\T_OPEN_TAG, "<?php\n", 1, 0),
+                new Token(\T_VARIABLE, '$a', 2, 6),
+                new Token(\T_WHITESPACE, ' ', 2, 8),
+                new Token(\ord('|'), '|', 2, 9),
+                new Token(\T_SR_EQUAL, '>>=', 2, 10),
+                new Token(\T_WHITESPACE, ' ', 2, 13),
+                new Token(\T_VARIABLE, '$b', 2, 14),
+                new Token(\ord(';'), ';', 2, 16),
+                new Token(0, "\0", 2, 17),
+            ]],
+        ];
     }
 
     public static function provideTestTargetVersion() {
@@ -514,6 +573,38 @@ class EmulativeTest extends LexerTest {
             ['8.4', '|>', [
                 [\ord('|'), '|'],
                 [\ord('>'), '>'],
+            ]],
+            ['8.4', '|>=', [
+                [\ord('|'), '|'],
+                [\T_IS_GREATER_OR_EQUAL, '>='],
+            ]],
+            ['8.4', '|>>', [
+                [\ord('|'), '|'],
+                [\T_SR, '>>'],
+            ]],
+            ['8.4', '|>>=', [
+                [\ord('|'), '|'],
+                [\T_SR_EQUAL, '>>='],
+            ]],
+            ['8.4', '|>==', [
+                [\ord('|'), '|'],
+                [\T_IS_GREATER_OR_EQUAL, '>='],
+                [\ord('='), '='],
+            ]],
+            ['8.4', '|>=>', [
+                [\ord('|'), '|'],
+                [\T_IS_GREATER_OR_EQUAL, '>='],
+                [\ord('>'), '>'],
+            ]],
+            ['8.4', '|>>>', [
+                [\ord('|'), '|'],
+                [\T_SR, '>>'],
+                [\ord('>'), '>'],
+            ]],
+            ['8.4', '|> >=', [
+                [\ord('|'), '|'],
+                [\ord('>'), '>'],
+                [\T_IS_GREATER_OR_EQUAL, '>='],
             ]],
             ['8.5', '(void)', [
                 [\T_VOID_CAST, '(void)'],
