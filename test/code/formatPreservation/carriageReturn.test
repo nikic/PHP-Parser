@@ -1,0 +1,64 @@
+Carriage return in whitespace
+-----
+<?php@@{ "\n\r" }@@$a = 1;
+-----
+/* Nothing */
+-----
+<?php@@{ "\n\r" }@@$a = 1;
+-----
+<?php
+if (1) {@@{ "\n  \r" }@@    $a = 1;
+}
+-----
+$stmts[0]->stmts[] = new Stmt\Expression(new Expr\Variable('b'));
+-----
+<?php
+if (1) {@@{ "\n  \r" }@@    $a = 1;
+    $b;
+}
+-----
+<?php
+if (1) {@@{ "\r" }@@    $a = 1;@@{ "\r" }@@}
+-----
+$stmts[0]->stmts[] = new Stmt\Expression(new Expr\Variable('b'));
+-----
+<?php
+if (1) {@@{ "\r" }@@    $a = 1;
+    $b;@@{ "\r" }@@}
+-----
+<?php@@{ "\r" }@@    class Example {@@{ "\r" }@@    }
+-----
+$stmts[0]->setDocComment(new Comment\Doc("/** foo */"));
+-----
+<?php@@{ "\r" }@@    /** foo */
+    class Example {@@{ "\r" }@@    }
+-----
+<?php@@{ "\n\r" }@@    class Example {
+    }
+-----
+$stmts[0]->setDocComment(new Comment\Doc("/** foo */"));
+-----
+<?php@@{ "\n\r" }@@    /** foo */
+    class Example {
+    }
+-----
+<?php@@{ "\r\r" }@@    class Example {
+    }
+-----
+$stmts[0]->setDocComment(new Comment\Doc("/** foo */"));
+-----
+<?php@@{ "\r\r" }@@    /** foo */
+    class Example {
+    }
+-----
+<?php
+if (1) {@@{ "\n  \r\t" }@@$a = 1;
+}
+-----
+$stmts[0]->stmts[] = new Stmt\Expression(new Expr\Variable('b'));
+-----
+!!indent="\t"
+<?php
+if (1) {@@{ "\n  \r\t" }@@$a = 1;
+@@{ "\t" }@@$b;
+}
