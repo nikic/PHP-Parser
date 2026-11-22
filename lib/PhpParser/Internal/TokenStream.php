@@ -256,13 +256,16 @@ class TokenStream {
 
             if ($token->id === \T_WHITESPACE) {
                 $content = $token->text;
-                $newlinePos = \strrpos($content, "\n");
+                // A carriage return that is not followed by a line feed ends a line as well.
+                $newlinePos = \strrpos(\strtr($content, "\r", "\n"), "\n");
                 if (false !== $newlinePos) {
                     $indent = $this->getIndent(\substr($content, $newlinePos + 1), $tabWidth);
-                } elseif ($i === 1 && $this->tokens[0]->id === \T_OPEN_TAG &&
-                          $this->tokens[0]->text[\strlen($this->tokens[0]->text) - 1] === "\n") {
-                    // Special case: Newline at the end of opening tag followed by whitespace.
-                    $indent = $this->getIndent($content, $tabWidth);
+                } elseif ($i === 1 && $this->tokens[0]->id === \T_OPEN_TAG) {
+                    $lastChar = $this->tokens[0]->text[\strlen($this->tokens[0]->text) - 1];
+                    if ($lastChar === "\n" || $lastChar === "\r") {
+                        // Special case: Newline at the end of opening tag followed by whitespace.
+                        $indent = $this->getIndent($content, $tabWidth);
+                    }
                 }
             }
         }
