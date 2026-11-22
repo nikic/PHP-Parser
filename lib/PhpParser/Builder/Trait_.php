@@ -21,7 +21,7 @@ class Trait_ extends Declaration {
     protected array $attributeGroups = [];
 
     /**
-     * Creates an interface builder.
+     * Creates a trait builder.
      *
      * @param string $name Name of the interface
      */
