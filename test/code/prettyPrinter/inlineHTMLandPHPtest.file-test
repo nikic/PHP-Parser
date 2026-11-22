@@ -65,3 +65,19 @@ echo 'PHP';
 
 echo 'PHP';
 ?>@@{ "\n\n" }@@Test
+-----
+<?php<?php
+-----
+<?php<?php
+-----
+HTML<?php echo 'PHP'; ?>HTML<?php<?php
+-----
+HTML<?php
+echo 'PHP';
+?>HTML<?php<?php
+-----
+HTML<?php echo 'PHP'; ?>HTML<?PHP<?php
+-----
+HTML<?php
+echo 'PHP';
+?>HTML<?PHP<?php
