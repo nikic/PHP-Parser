@@ -28,11 +28,13 @@ class Lexer {
 
         $scream = ini_set('xdebug.scream', '0');
 
-        $tokens = @Token::tokenize($code);
-        $this->postprocessTokens($tokens, $errorHandler);
-
-        if (false !== $scream) {
-            ini_set('xdebug.scream', $scream);
+        try {
+            $tokens = @Token::tokenize($code);
+            $this->postprocessTokens($tokens, $errorHandler);
+        } finally {
+            if (false !== $scream) {
+                ini_set('xdebug.scream', $scream);
+            }
         }
 
         return $tokens;
