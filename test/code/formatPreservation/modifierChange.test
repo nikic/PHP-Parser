@@ -85,3 +85,20 @@ class X {
     /** A */
     protected function m2() {}
 }
+-----
+<?php
+new #[A] class {};
+new #[A] readonly class {};
+new class {};
+-----
+$stmts[0]->expr->class->flags = Modifiers::READONLY;
+$stmts[1]->expr->class->flags = 0;
+$stmts[2]->expr->class->flags = Modifiers::READONLY;
+$stmts[2]->expr->class->attrGroups[] = new Node\AttributeGroup([
+    new Node\Attribute(new Node\Name('B'), []),
+]);
+-----
+<?php
+new #[A] readonly class {};
+new #[A] class {};
+new #[B] readonly class {};
