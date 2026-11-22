@@ -239,9 +239,3 @@ parameters:
 			identifier: unaryOp.invalid
 			count: 1
 			path: lib/PhpParser/ParserAbstract.php
-
-		-
-			message: '#^Variable \$action might not be defined\.$#'
-			identifier: variable.undefined
-			count: 1
-			path: lib/PhpParser/ParserAbstract.php
