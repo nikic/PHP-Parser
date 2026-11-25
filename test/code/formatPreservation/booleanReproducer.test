@@ -1,0 +1,12 @@
+Reproducer for a bug with boolean negations
+-----
+<?php
+
+$a = a() && b();
+-----
+$booleanAnd = $stmts[0]->expr->expr;
+$stmts[0]->expr->expr = new \PhpParser\Node\Expr\BooleanNot($booleanAnd);
+-----
+<?php
+
+$a = !(a() && b());
