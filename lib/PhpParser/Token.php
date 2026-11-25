@@ -11,7 +11,11 @@ class Token extends Internal\TokenPolyfill {
         return $this->pos + \strlen($this->text);
     }
 
-    /** Get 1-based end line number of the token. */
+    /**
+     * Get 1-based end line number of the token.
+     *
+     * @return -1|positive-int
+     */
     public function getEndLine(): int {
         return $this->line + \substr_count($this->text, "\n");
     }
