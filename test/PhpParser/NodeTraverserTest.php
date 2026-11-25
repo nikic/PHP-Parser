@@ -147,6 +147,142 @@ class NodeTraverserTest extends \PHPUnit\Framework\TestCase {
         ], $visitor2->trace);
     }
 
+    public function testLeaveNodeAfterRemovalFromEnter(): void {
+        foreach ([NodeVisitor::REMOVE_NODE, [], [new Node\Stmt\Nop()]] as $return) {
+            $node = new Node\Stmt\Expression(new Expr\FuncCall(new Node\Name('foo')));
+            $next = new Node\Stmt\Nop();
+            $stmts = [$node, $next];
+            $expectedStmts = array_merge(is_array($return) ? $return : [], [$next]);
+            $visitor1 = new NodeVisitorForTesting();
+            $visitor2 = new NodeVisitorForTesting([
+                ['enterNode', $node, $return],
+                ['leaveNode', $node, $return],
+            ]);
+            $visitor3 = new NodeVisitorForTesting();
+            $traverser = new NodeTraverser($visitor1, $visitor2, $visitor3);
+
+            $this->assertSame($expectedStmts, $traverser->traverse($stmts));
+            $expectedTrace = [
+                ['beforeTraverse', $stmts],
+                ['enterNode', $node],
+                ['leaveNode', $node],
+                ['enterNode', $next],
+                ['leaveNode', $next],
+                ['afterTraverse', $expectedStmts],
+            ];
+            $this->assertSame($expectedTrace, $visitor1->trace);
+            $this->assertSame($expectedTrace, $visitor2->trace);
+            $this->assertSame([
+                ['beforeTraverse', $stmts],
+                ['enterNode', $next],
+                ['leaveNode', $next],
+                ['afterTraverse', $expectedStmts],
+            ], $visitor3->trace);
+        }
+    }
+
+    public function testStopTraversalAfterRemovalFromEnter(): void {
+        foreach ([NodeVisitor::REMOVE_NODE, [], [new Node\Stmt\Nop()]] as $return) {
+            $node = new Node\Stmt\Expression(new Expr\FuncCall(new Node\Name('foo')));
+            $next = new Node\Stmt\Nop();
+            $stmts = [$node, $next];
+            $expectedStmts = array_merge(is_array($return) ? $return : [], [$next]);
+            $visitor = new NodeVisitorForTesting([
+                ['enterNode', $node, $return],
+                ['leaveNode', $node, NodeVisitor::STOP_TRAVERSAL],
+            ]);
+            $traverser = new NodeTraverser($visitor);
+
+            $this->assertSame($expectedStmts, $traverser->traverse($stmts));
+            $this->assertSame([
+                ['beforeTraverse', $stmts],
+                ['enterNode', $node],
+                ['leaveNode', $node],
+                ['afterTraverse', $expectedStmts],
+            ], $visitor->trace);
+        }
+    }
+
+    public function testParentAfterRemovalFromEnter(): void {
+        foreach ([NodeVisitor::REMOVE_NODE, [], [new Node\Stmt\Nop()]] as $return) {
+            $stmts = (new ParserFactory())->createForNewestSupportedVersion()->parse(
+                '<?php function a() { foo(); } function b() {}'
+            );
+            $visitor = new NodeVisitorForTesting([
+                ['enterNode', $stmts[0]->stmts[0], $return],
+            ]);
+            $traverser = new NodeTraverser(new NodeVisitor\ParentConnectingVisitor(), $visitor);
+            $stmts = $traverser->traverse($stmts);
+
+            $this->assertNull($stmts[1]->getAttribute('parent'));
+            $this->assertSame($stmts[1], $stmts[1]->name->getAttribute('parent'));
+        }
+    }
+
+    public function testLeaveNodeAfterReplaceWithNullFromEnter(): void {
+        $else = new Else_([new Node\Stmt\Nop()]);
+        $if = new If_(new Int_(1), ['else' => $else]);
+        $next = new Node\Stmt\Nop();
+        $stmts = [$if, $next];
+        $visitor1 = new class () extends NodeVisitorForTesting {
+            public function leaveNode(Node $node) {
+                parent::leaveNode($node);
+                return $node;
+            }
+        };
+        $visitor2 = new NodeVisitorForTesting([
+            ['enterNode', $else, NodeVisitor::REPLACE_WITH_NULL],
+            ['leaveNode', $else, NodeVisitor::REPLACE_WITH_NULL],
+        ]);
+        $visitor3 = new NodeVisitorForTesting();
+        $traverser = new NodeTraverser(
+            new NodeVisitor\ParentConnectingVisitor(), $visitor1, $visitor2, $visitor3
+        );
+
+        $this->assertSame($stmts, $traverser->traverse($stmts));
+        $this->assertNull($if->else);
+        $this->assertNull($next->getAttribute('parent'));
+        $expectedTrace = [
+            ['beforeTraverse', $stmts],
+            ['enterNode', $if],
+            ['enterNode', $if->cond],
+            ['leaveNode', $if->cond],
+            ['enterNode', $else],
+            ['leaveNode', $else],
+            ['leaveNode', $if],
+            ['enterNode', $next],
+            ['leaveNode', $next],
+            ['afterTraverse', $stmts],
+        ];
+        $this->assertSame($expectedTrace, $visitor1->trace);
+        $this->assertSame($expectedTrace, $visitor2->trace);
+        $this->assertNotContains(['enterNode', $else], $visitor3->trace);
+        $this->assertNotContains(['leaveNode', $else], $visitor3->trace);
+    }
+
+    public function testStopTraversalAfterReplaceWithNullFromEnter(): void {
+        $else = new Else_();
+        $if = new If_(new Int_(1), ['else' => $else]);
+        $next = new Node\Stmt\Nop();
+        $visitor = new NodeVisitorForTesting([
+            ['enterNode', $else, NodeVisitor::REPLACE_WITH_NULL],
+            ['leaveNode', $else, NodeVisitor::STOP_TRAVERSAL],
+        ]);
+        $traverser = new NodeTraverser($visitor);
+
+        $this->assertSame([$if, $next], $traverser->traverse([$if, $next]));
+        $this->assertNull($if->else);
+        $this->assertSame([
+            ['beforeTraverse', [$if, $next]],
+            ['enterNode', $if],
+            ['enterNode', $if->cond],
+            ['leaveNode', $if->cond],
+            ['enterNode', $else],
+            ['leaveNode', $else],
+            ['afterTraverse', [$if, $next]],
+        ], $visitor->trace);
+    }
+
     public function testMerge(): void {
         $strStart  = new String_('Start');
         $strMiddle = new String_('End');
