@@ -150,10 +150,10 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
      */
     protected array $removalMap;
     /**
-     * @var array<string, array{int|string|null, bool, string|null, string|null}> Map from
-     *                                                                            "{$node->getType()}->{$subNode}" to [$find, $beforeToken, $extraLeft, $extraRight].
-     *                                                                            $find is an optional token after which the insertion occurs. $extraLeft/Right
-     *                                                                            are optionally added before/after the main insertions.
+     * @var array<string, array{int|string|(int|string)[]|null, bool, string|null, string|null}> Map from
+     *                                                                                           "{$node->getType()}->{$subNode}" to [$find, $beforeToken, $extraLeft, $extraRight].
+     *                                                                                           $find is an optional token (or list of tokens) after which the insertion occurs. $extraLeft/Right
+     *                                                                                           are optionally added before/after the main insertions.
      */
     protected array $insertionMap;
     /**
@@ -1501,7 +1501,7 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
             'Expr_Ternary->if' => ['?', false, ' ', ' '],
             'Expr_Yield->key' => [\T_YIELD, false, null, ' => '],
             'Expr_Yield->value' => [\T_YIELD, false, ' ', null],
-            'Param->type' => [null, false, null, ' '],
+            'Param->type' => [[\T_AMPERSAND_FOLLOWED_BY_VAR_OR_VARARG, \T_ELLIPSIS, \T_VARIABLE], true, null, ' '],
             'Param->default' => [null, false, ' = ', null],
             'Stmt_Break->num' => [\T_BREAK, false, ' ', null],
             'Stmt_Catch->var' => [null, false, ' ', null],
