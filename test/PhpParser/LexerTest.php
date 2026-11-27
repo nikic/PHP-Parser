@@ -52,6 +52,22 @@ class LexerTest extends \PHPUnit\Framework\TestCase {
         $lexer->tokenize("<?php readonly /*");
     }
 
+    public function testRestoresXdebugScreamOnError(): void {
+        if (!extension_loaded('xdebug')) {
+            $this->markTestSkipped('Requires xdebug');
+        }
+
+        $scream = ini_set('xdebug.scream', '1');
+        try {
+            $this->getLexer()->tokenize("<?php \0");
+            $this->fail('Expected Error');
+        } catch (Error $e) {
+            $this->assertSame('1', ini_get('xdebug.scream'));
+        } finally {
+            ini_set('xdebug.scream', $scream);
+        }
+    }
+
     /**
      * @dataProvider provideTestLex
      */
