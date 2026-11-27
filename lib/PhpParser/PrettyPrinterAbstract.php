@@ -150,10 +150,11 @@ abstract class PrettyPrinterAbstract implements PrettyPrinter {
      */
     protected array $removalMap;
     /**
-     * @var array<string, array{int|string|(int|string)[]|null, bool, string|null, string|null}> Map from
-     *                                                                                           "{$node->getType()}->{$subNode}" to [$find, $beforeToken, $extraLeft, $extraRight].
-     *                                                                                           $find is an optional token (or list of tokens) after which the insertion occurs. $extraLeft/Right
-     *                                                                                           are optionally added before/after the main insertions.
+     * Map from "{$node->getType()}->{$subNode}" to [$find, $beforeToken, $extraLeft, $extraRight].
+     * $find is an optional token (or list of tokens) relative to which the insertion occurs.
+     * $extraLeft/Right are optionally added before/after the main insertions.
+     *
+     * @var array<string, array{int|string|(int|string)[]|null, bool, string|null, string|null}>
      */
     protected array $insertionMap;
     /**
