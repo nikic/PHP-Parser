@@ -1,0 +1,31 @@
+Adding parameter type
+-----
+<?php
+
+class A
+{
+    public function __construct(
+        protected $a,
+        public readonly $b,
+        #[Attr] private $c,
+        &$d,
+        ...$e
+    ) {}
+}
+-----
+foreach ($stmts[0]->stmts[0]->params as $param) {
+    $param->type = new Node\Identifier('array');
+}
+-----
+<?php
+
+class A
+{
+    public function __construct(
+        protected array $a,
+        public readonly array $b,
+        #[Attr] private array $c,
+        array &$d,
+        array ...$e
+    ) {}
+}
